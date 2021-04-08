@@ -70,6 +70,40 @@ const recordGAEventHelper = ({
     'search-typeahead-enabled': false, // consistently populate with false since there's no type ahead enabled for this search feature
   });
 
+const deriveRelatedTo = ({
+  vaFormAdministration,
+  formType,
+  benefitCategories,
+}) => {
+  let relatedTo = vaFormAdministration;
+
+  if (formType === 'employment') {
+    relatedTo = 'Employment or jobs at VA';
+  }
+  if (formType === 'non-va') {
+    relatedTo = (
+      <>
+        A non-VA form. For other government agency forms, go to the{' '}
+        <a href="https://www.gsa.gov/reference/forms">GSA forms library</a>
+      </>
+    );
+  }
+
+  if (benefitCategories?.length > 0) {
+    relatedTo = benefitCategories.map(f => f.name).join(', ');
+  }
+
+  if (relatedTo) {
+    return (
+      <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
+        <dfn className="vads-u-font-weight--bold">Related to:</dfn> {relatedTo}
+      </dd>
+    );
+  }
+
+  return null;
+};
+
 const SearchResult = ({ form, formMetaInfo }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
@@ -79,10 +113,12 @@ const SearchResult = ({ form, formMetaInfo }) => {
   const {
     attributes: {
       firstIssuedOn,
+      formType,
       formToolUrl,
       formDetailsUrl,
       lastRevisionOn,
       benefitCategories,
+      vaFormAdministration,
       title,
       url,
     },
@@ -96,6 +132,12 @@ const SearchResult = ({ form, formMetaInfo }) => {
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
+  const relatedTo = deriveRelatedTo({
+    vaFormAdministration,
+    formType,
+    benefitCategories,
+  });
+
   const recordGAEvent = (eventTitle, eventUrl, eventType) =>
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
@@ -107,19 +149,12 @@ const SearchResult = ({ form, formMetaInfo }) => {
         title={title}
         recordGAEvent={recordGAEvent}
       />
-
       <dd className="vads-u-margin-y--1 vads-u-margin-y--1 vsa-from-last-updated">
         <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
         {lastRevision}
       </dd>
 
-      {benefitCategories && benefitCategories.length > 0 ? (
-        <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
-          <dfn className="vads-u-font-weight--bold">Related to:</dfn>{' '}
-          {benefitCategories.map(f => f.name).join(', ')}
-        </dd>
-      ) : null}
-
+      {relatedTo}
       <dd className="vads-u-margin-bottom--1">
         <a
           href={url}
@@ -132,7 +167,6 @@ const SearchResult = ({ form, formMetaInfo }) => {
           Download VA form {id} {pdfLabel}
         </a>
       </dd>
-
       {formToolUrl ? (
         <dd>
           <a

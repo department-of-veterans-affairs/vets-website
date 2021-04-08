@@ -1,0 +1,2879 @@
+{
+  "entityBundle": "health_care_local_facility",
+  "entityId": "1861",
+  "entityPublished": true,
+  "title": "McCurtain County VA Clinic",
+  "vid": 374992,
+  "entityUrl": {
+    "breadcrumb": [
+      {
+        "url": {
+          "path": "/",
+          "routed": true
+        },
+        "text": "Home"
+      },
+      {
+        "url": {
+          "path": "/eastern-oklahoma-health-care",
+          "routed": true
+        },
+        "text": "VA Eastern Oklahoma health care"
+      },
+      {
+        "url": {
+          "path": "",
+          "routed": true
+        },
+        "text": "SERVICES AND LOCATIONS"
+      },
+      {
+        "url": {
+          "path": "/eastern-oklahoma-health-care/locations",
+          "routed": true
+        },
+        "text": "Locations"
+      },
+      {
+        "url": {
+          "path": "",
+          "routed": true
+        },
+        "text": "McCurtain County VA Clinic"
+      }
+    ],
+    "path": "/eastern-oklahoma-health-care/locations/mccurtain-county-va-clinic"
+  },
+  "entityMetatags": [
+    {
+      "__typename": "MetaValue",
+      "key": "title",
+      "value": "VA Eastern Oklahoma health care | McCurtain County VA Clinic"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:card",
+      "value": "summary_large_image"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:site_name",
+      "value": "Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:description",
+      "value": "Get address and hours, parking and transportation information, and health services offered at McCurtain County VA Clinic."
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "description",
+      "value": "Get address and hours, parking and transportation information, and health services offered at McCurtain County VA Clinic."
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:title",
+      "value": "McCurtain County VA Clinic | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:site",
+      "value": "@DeptVetAffairs"
+    },
+    {
+      "__typename": "MetaLink",
+      "key": "image_src",
+      "value": "/img/2020-08/Idabel-Clinic-2019.jpg"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:title",
+      "value": "McCurtain County VA Clinic | Veterans Affairs"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:description",
+      "value": "Get address and hours, parking and transportation information, and health services offered at McCurtain County VA Clinic."
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:image:alt",
+      "value": "Idabel-Clinic-2019"
+    },
+    {
+      "__typename": "MetaValue",
+      "key": "twitter:image",
+      "value": "/img/2020-08/Idabel-Clinic-2019.jpg"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:image",
+      "value": "/img/2020-08/Idabel-Clinic-2019.jpg"
+    },
+    {
+      "__typename": "MetaProperty",
+      "key": "og:image:alt",
+      "value": "Idabel-Clinic-2019"
+    }
+  ],
+  "changed": 1614781675,
+  "fieldFacilityLocatorApiId": "vha_623GC",
+  "fieldIntroText": null,
+  "fieldOperatingStatusFacility": "normal",
+  "fieldLocationServices": [
+    {
+      "entity": {
+        "entityId": "12142",
+        "entityBundle": "health_care_local_facility_servi",
+        "fieldTitle": "Parking",
+        "fieldWysiwyg": {
+          "processed": "<html><head></head><body><p><strong>Cost:</strong> Free</p>\n\n<p><strong>Wheelchair availability:</strong> McCurtain County VA Clinic&#xA0;has wheelchairs available upon arrival for patients who need them to access the building.</p></body></html>"
+        }
+      }
+    },
+    {
+      "entity": {
+        "entityId": "12143",
+        "entityBundle": "health_care_local_facility_servi",
+        "fieldTitle": "Transportation services and schedules",
+        "fieldWysiwyg": {
+          "processed": "<html><head></head><body><h4 dir=\"ltr\">Van services for Veterans</h4>\n\n<h5 dir=\"ltr\">DAV vans</h5>\n\n<p dir=\"ltr\"><strong>Hours:</strong>&#xA0;individual van schedules vary</p>\n\n<p dir=\"ltr\">We work with Disabled American Veterans and county Veterans Affairs directors to provide transportation for Veterans and authorized caregivers to get to scheduled medical appointments.</p>\n\n<h5 dir=\"ltr\">Non-DAV van services</h5>\n\n<p dir=\"ltr\">Many localities in the region provide other van services to Veterans.</p>\n\n<p dir=\"ltr\"><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"ccb52bac-c284-48a4-bf0f-30883268fec2\" href=\"/eastern-oklahoma-health-care/dav-vans-transportation-for-veterans\" title=\"DAV Vans: transportation for Veterans\">Learn more about DAV and the other van services available in your&#xA0;county</a></p>\n\n<h4 dir=\"ltr\">Local transportation services</h4>\n\n<h5 dir=\"ltr\">McCurtain County&#xA0;Area Transit</h5>\n\n<p dir=\"ltr\">Coming soon!</p>\n\n<h5 dir=\"ltr\">Other services</h5>\n\n<p dir=\"ltr\">Coming soon!</p>\n\n<h4 dir=\"ltr\">Additional travel options</h4>\n\n<p dir=\"ltr\">Coming soon!</p>\n\n<h4 dir=\"ltr\">Beneficiary travel</h4>\n\n<p dir=\"ltr\">Beneficiary travel benefits include round-trip transportation from your home to the medical center, mileage reimbursement, or special mode transport.&#xA0;</p>\n\n<p dir=\"ltr\"><a href=\"http://localhost:3001/health-care/get-reimbursed-for-travel-pay/\">Find out if you qualify for beneficiary travel benefits</a></p></body></html>"
+        }
+      }
+    },
+    {
+      "entity": {
+        "entityId": "12144",
+        "entityBundle": "health_care_local_facility_servi",
+        "fieldTitle": "Lodging for patients and families",
+        "fieldWysiwyg": {
+          "processed": "<html><head></head><body><h4>Nearby hotels</h4>\n\n<p>There is no lodging at the McCurtain County VA Clinic. If you need to travel to the clinic for multiple days, try one of these hotels. When booking, ask if there is a Veteran rate. Many hotels have shuttle vans, so check with the hotel you&#x2019;re staying at if you need help getting to the clinic.</p>\n\n<ul><li dir=\"ltr\">Hotel #1 -&#xA0;Coming soon!<br>\n\tPhone</li>\n</ul><p><em>NOTE:&#xA0;These links are provided for your convenience only. VA Eastern Oklahoma&#xA0;Healthcare System does not endorse and is not responsible for the content on the linked web sites.</em></p></body></html>"
+        }
+      }
+    }
+  ],
+  "fieldAddress": {
+    "addressLine1": "901 South East Washington Street",
+    "locality": "Idabel",
+    "administrativeArea": "OK",
+    "postalCode": "74745-3333"
+  },
+  "fieldPhoneNumber": "580-920-7200",
+  "fieldMentalHealthPhone": null,
+  "fieldFacilityHours": {
+    "value": [
+      [
+        "Mon",
+        "800AM-430PM"
+      ],
+      [
+        "Tue",
+        "800AM-430PM"
+      ],
+      [
+        "Wed",
+        "800AM-430PM"
+      ],
+      [
+        "Thu",
+        "800AM-430PM"
+      ],
+      [
+        "Fri",
+        "800AM-430PM"
+      ],
+      [
+        "Sat",
+        "Closed"
+      ],
+      [
+        "Sun",
+        "Closed"
+      ]
+    ]
+  },
+  "fieldMainLocation": false,
+  "fieldMedia": {
+    "entity": {
+      "image": {
+        "alt": "Idabel-Clinic-2019",
+        "title": "",
+        "derivative": {
+          "url": "/img/styles/3_2_medium_thumbnail/public/2020-08/Idabel-Clinic-2019.jpg",
+          "width": 480,
+          "height": 320
+        }
+      }
+    }
+  },
+  "fieldRegionPage": {
+    "entity": {
+      "entityBundle": "health_care_region_page",
+      "entityId": "6199",
+      "entityPublished": true,
+      "title": "VA Eastern Oklahoma health care",
+      "fieldRelatedLinks": {
+        "entity": {
+          "parentFieldName": "field_related_links",
+          "fieldTitle": "In the spotlight at VA Eastern Oklahoma health care",
+          "entityId": "19305",
+          "fieldVaParagraphs": [
+            {
+              "entity": {
+                "entityId": "19298",
+                "fieldLink": {
+                  "url": {
+                    "path": "/eastern-oklahoma-health-care/patient-advocates"
+                  },
+                  "title": "Get help from a patient advocate",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "entity": {
+                "entityId": "19299",
+                "fieldLink": {
+                  "url": {
+                    "path": "/eastern-oklahoma-health-care/medical-records-office"
+                  },
+                  "title": "Access your health records",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "entity": {
+                "entityId": "19300",
+                "fieldLink": {
+                  "url": {
+                    "path": "/eastern-oklahoma-health-care/contact-us"
+                  },
+                  "title": "Find a phone number",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "entity": {
+                "entityId": "19301",
+                "fieldLink": {
+                  "url": {
+                    "path": "/eastern-oklahoma-health-care/billing-and-insurance"
+                  },
+                  "title": "Check your billing, insurance, and payment options",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "entity": {
+                "entityId": "19302",
+                "fieldLink": {
+                  "url": {
+                    "path": "/eastern-oklahoma-health-care/volunteer-or-donate"
+                  },
+                  "title": "Volunteer or donate",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            },
+            {
+              "entity": {
+                "entityId": "19304",
+                "fieldLink": {
+                  "url": {
+                    "path": "/eastern-oklahoma-health-care/performance"
+                  },
+                  "title": "Compare our performance with non-VA facilities",
+                  "options": []
+                },
+                "fieldLinkSummary": null
+              }
+            }
+          ]
+        }
+      },
+      "fieldGovdeliveryIdEmerg": "453",
+      "fieldGovdeliveryIdNews": "123",
+      "fieldOperatingStatus": {
+        "url": {
+          "path": "/eastern-oklahoma-health-care/operating-status"
+        }
+      }
+    }
+  },
+  "fieldLocalHealthCareService": [
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<html><head></head><body><h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><br>\n901 South East Washington Street<br><strong>Phone:</strong> <a aria-label=\"5 8 0. 9 2 0. 7 2 0 0.\" href=\"tel:+15809207200\">580-920-7200</a><br><strong>Hours:</strong><br>\nMonday - 8:00 a.m. to 4:30 p.m. CT<br>\nTuesday - 8:00 a.m. to 4:30 p.m. CT<br>\nWednesday - 8:00 a.m. to 4:30 p.m. CT<br>\nThursday - 8:00 a.m. to 4:30 p.m. CT<br>\nFriday - 8:00 a.m. to 4:30 p.m. CT<br>\nSaturday - Closed<br>\nSunday - Closed</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you will need to contact your primary care provider first.</p>\n\n<p><strong>Referral needed? </strong> Y<br><strong>Walk-ins accepted?</strong> N<br><strong>Phone: </strong><a aria-label=\"5 8 0. 9 2 0. 7 2 0 0.\" href=\"tel:+15809207200\">580-920-7200</a></p></body></html>"
+        },
+        "fieldServiceLocation": [
+          {
+            "entity": {
+              "fieldServiceLocationAddress": {
+                "entity": {
+                  "fieldUseFacilityAddress": true,
+                  "fieldClinicName": null,
+                  "fieldBuildingNameNumber": null,
+                  "fieldWingFloorOrRoomNumber": null,
+                  "fieldAddress": {
+                    "addressLine1": "",
+                    "addressLine2": null,
+                    "additionalName": null,
+                    "administrativeArea": "",
+                    "postalCode": "",
+                    "locality": "",
+                    "organization": null,
+                    "dependentLocality": null,
+                    "countryCode": "US",
+                    "sortingCode": null
+                  }
+                }
+              },
+              "fieldEmailContacts": [],
+              "fieldFacilityServiceHours": {
+                "value": [
+                  [
+                    "Mon",
+                    ""
+                  ],
+                  [
+                    "Tue",
+                    ""
+                  ],
+                  [
+                    "Wed",
+                    ""
+                  ],
+                  [
+                    "Thu",
+                    ""
+                  ],
+                  [
+                    "Fri",
+                    ""
+                  ],
+                  [
+                    "Sat",
+                    ""
+                  ],
+                  [
+                    "Sun",
+                    ""
+                  ]
+                ],
+                "caption": null,
+                "format": "plain_text"
+              },
+              "fieldHours": "0",
+              "fieldAdditionalHoursInfo": null,
+              "fieldPhone": [],
+              "fieldUseMainFacilityPhone": true
+            }
+          }
+        ],
+        "fieldHserviceApptLeadin": null,
+        "fieldHserviceApptIntroSelect": null,
+        "fieldOnlineSchedulingAvailabl": "0",
+        "fieldReferralRequired": "1",
+        "fieldWalkInsAccepted": "0",
+        "fieldPhoneNumbersParagraph": [
+          {
+            "entity": {
+              "fieldPhoneExtension": null,
+              "fieldPhoneLabel": "Appointments",
+              "fieldPhoneNumber": "888-397-8387",
+              "fieldPhoneNumberType": "tel"
+            }
+          }
+        ],
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<html><head></head><body><h3>Care we provide at VA Eastern Oklahoma health care</h3> <p>Our laboratories provide a full range of clinical and diagnostic testing services. Our laboratory and pathology services include:</p> <ul><li>Study of blood, urine, and other bodily fluids for illness management</li><li>Testing for infectious diseases</li><li>Cytopathology (study of unusual cells) and surgical pathology (study of tissue removed during surgery)</li><li>Autopsy services </li></ul></body></html>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "88",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": "Blood draw and clinical testing",
+                "fieldCommonlyTreatedCondition": null,
+                "name": "Laboratory and pathology",
+                "description": {
+                  "processed": "<html><head></head><body><p>We offer blood tests and other advanced testing services to help you and your VA health care team monitor your health, find and understand any health problems&#xA0;and make informed treatment decisions.</p></body></html>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Specialty care"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<html><head></head><body><h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><br>\n901 South East Washington Street<br><strong>Phone:</strong> <a aria-label=\"5 8 0. 9 2 0. 7 2 0 0.\" href=\"tel:+15809207200\">580-920-7200</a><br><strong>Hours:</strong><br>\nMonday - 8:00 a.m. to 4:30 p.m. CT<br>\nTuesday - 8:00 a.m. to 4:30 p.m. CT<br>\nWednesday - 8:00 a.m. to 4:30 p.m. CT<br>\nThursday - 8:00 a.m. to 4:30 p.m. CT<br>\nFriday - 8:00 a.m. to 4:30 p.m. CT<br>\nSaturday - Closed<br>\nSunday - Closed</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you will need to contact your primary care provider first.</p>\n\n<p><strong>Referral needed? </strong> N<br><strong>Walk-ins accepted?</strong> Y<br><strong>Phone: </strong><a aria-label=\"5 8 0. 9 2 0. 7 2 0 0.\" href=\"tel:+15809207200\">580-920-7200</a></p></body></html>"
+        },
+        "fieldServiceLocation": [
+          {
+            "entity": {
+              "fieldServiceLocationAddress": {
+                "entity": {
+                  "fieldUseFacilityAddress": true,
+                  "fieldClinicName": null,
+                  "fieldBuildingNameNumber": null,
+                  "fieldWingFloorOrRoomNumber": null,
+                  "fieldAddress": {
+                    "addressLine1": "",
+                    "addressLine2": null,
+                    "additionalName": null,
+                    "administrativeArea": "",
+                    "postalCode": "",
+                    "locality": "",
+                    "organization": null,
+                    "dependentLocality": null,
+                    "countryCode": "US",
+                    "sortingCode": null
+                  }
+                }
+              },
+              "fieldEmailContacts": [],
+              "fieldFacilityServiceHours": {
+                "value": [
+                  [
+                    "Mon",
+                    ""
+                  ],
+                  [
+                    "Tue",
+                    ""
+                  ],
+                  [
+                    "Wed",
+                    ""
+                  ],
+                  [
+                    "Thu",
+                    ""
+                  ],
+                  [
+                    "Fri",
+                    ""
+                  ],
+                  [
+                    "Sat",
+                    ""
+                  ],
+                  [
+                    "Sun",
+                    ""
+                  ]
+                ],
+                "caption": null,
+                "format": "plain_text"
+              },
+              "fieldHours": "0",
+              "fieldAdditionalHoursInfo": null,
+              "fieldPhone": [],
+              "fieldUseMainFacilityPhone": true
+            }
+          }
+        ],
+        "fieldHserviceApptLeadin": null,
+        "fieldHserviceApptIntroSelect": null,
+        "fieldOnlineSchedulingAvailabl": "0",
+        "fieldReferralRequired": "0",
+        "fieldWalkInsAccepted": "1",
+        "fieldPhoneNumbersParagraph": [
+          {
+            "entity": {
+              "fieldPhoneExtension": null,
+              "fieldPhoneLabel": "Appointments",
+              "fieldPhoneNumber": "888-397-8387",
+              "fieldPhoneNumberType": "tel"
+            }
+          }
+        ],
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<html><head></head><body><h3>Care we provide at VA Eastern Oklahoma health care</h3>\n\n<p>Our medical center and clinics provide consultation, evaluation, and treatment for a range of issues that may impact your mental health or emotional well-being. Our confidential outpatient services include individual and group therapy for:</p>\n\n<ul><li>Psychiatric disorders such as schizophrenia, bipolar disorder, and depression</li>\n\t<li>Marriage and relationship problems</li>\n\t<li>Posttraumatic stress disorder (PTSD)</li>\n\t<li>Anxiety, addictive behaviors, and personality disorders</li>\n\t<li>Aggressive or self-harming behaviors</li>\n</ul><p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"e562cd12-8983-4466-a2cd-30f691603f81\" href=\"/eastern-oklahoma-health-care/mental-health-care\" title=\"Mental health care\">Learn more and connect with a care coordinator</a></p></body></html>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "43",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": "Behavioral health",
+                "fieldCommonlyTreatedCondition": "addiction, depression, anxiety, trauma, PTSD, bipolar disorder, schizophrenia, OCD ",
+                "name": "Mental health care",
+                "description": {
+                  "processed": "<html><head></head><body><p>If you&#x2019;re struggling with issues like PTSD, depression, grief, anger or trauma, we offer counseling and other support. All VA health care facilities offer same-day help. You may qualify even without enrolling in VA health care.</p></body></html>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Mental health care"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": "mentalHealth"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<html><head></head><body><h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><br>\n901 South East Washington Street<br><strong>Phone:</strong> <a aria-label=\"5 8 0. 9 2 0. 7 2 0 0.\" href=\"tel:+15809207200\">580-920-7200</a><br><strong>Hours:</strong><br>\nMonday - 8:00 a.m. to 4:30 p.m. CT<br>\nTuesday - 8:00 a.m. to 4:30 p.m. CT<br>\nWednesday - 8:00 a.m. to 4:30 p.m. CT<br>\nThursday - 8:00 a.m. to 4:30 p.m. CT<br>\nFriday - 8:00 a.m. to 4:30 p.m. CT<br>\nSaturday - Closed<br>\nSunday - Closed</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you will need to contact your primary care provider first.</p>\n\n<p><strong>Referral needed? </strong> N<br><strong>Walk-ins accepted?</strong> Y<br><strong>Phone: </strong><a aria-label=\"5 8 0. 9 2 0. 7 2 0 0.\" href=\"tel:+15809207200\">580-920-7200</a></p></body></html>"
+        },
+        "fieldServiceLocation": [
+          {
+            "entity": {
+              "fieldServiceLocationAddress": {
+                "entity": {
+                  "fieldUseFacilityAddress": true,
+                  "fieldClinicName": null,
+                  "fieldBuildingNameNumber": null,
+                  "fieldWingFloorOrRoomNumber": null,
+                  "fieldAddress": {
+                    "addressLine1": "",
+                    "addressLine2": null,
+                    "additionalName": null,
+                    "administrativeArea": "",
+                    "postalCode": "",
+                    "locality": "",
+                    "organization": null,
+                    "dependentLocality": null,
+                    "countryCode": "US",
+                    "sortingCode": null
+                  }
+                }
+              },
+              "fieldEmailContacts": [],
+              "fieldFacilityServiceHours": {
+                "value": [
+                  [
+                    "Mon",
+                    ""
+                  ],
+                  [
+                    "Tue",
+                    ""
+                  ],
+                  [
+                    "Wed",
+                    ""
+                  ],
+                  [
+                    "Thu",
+                    ""
+                  ],
+                  [
+                    "Fri",
+                    ""
+                  ],
+                  [
+                    "Sat",
+                    ""
+                  ],
+                  [
+                    "Sun",
+                    ""
+                  ]
+                ],
+                "caption": null,
+                "format": "plain_text"
+              },
+              "fieldHours": "0",
+              "fieldAdditionalHoursInfo": null,
+              "fieldPhone": [],
+              "fieldUseMainFacilityPhone": true
+            }
+          }
+        ],
+        "fieldHserviceApptLeadin": null,
+        "fieldHserviceApptIntroSelect": null,
+        "fieldOnlineSchedulingAvailabl": "0",
+        "fieldReferralRequired": "0",
+        "fieldWalkInsAccepted": "1",
+        "fieldPhoneNumbersParagraph": [
+          {
+            "entity": {
+              "fieldPhoneExtension": null,
+              "fieldPhoneLabel": "Appointments",
+              "fieldPhoneNumber": "888-397-8387",
+              "fieldPhoneNumberType": "tel"
+            }
+          },
+          {
+            "entity": {
+              "fieldPhoneExtension": null,
+              "fieldPhoneLabel": "Appointments",
+              "fieldPhoneNumber": "580-920-7200",
+              "fieldPhoneNumberType": "tel"
+            }
+          }
+        ],
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<html><head></head><body><h3>Care we provide at VA Eastern Oklahoma health care</h3> <p>A strong network of family and internal medicine specialists and services can offer you the best possible care. Internal medicine doctors (internists) prevent, diagnose, and treat adult diseases. Doctors who specialize in family medicine provide primary health care to the entire family. Your primary care team can coordinate the many services you receive such as:</p> <ul><li>Labs and blood work</li><li>Mental health care</li><li>Womens health care</li><li>Radiology</li><li>Social services</li><li>Telehealth </li></ul>&apos;</body></html>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "37",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": "Family and internal medicine",
+                "fieldCommonlyTreatedCondition": null,
+                "name": "Primary care",
+                "description": {
+                  "processed": "<html><head></head><body><p>Your VA primary care provider will work closely with you to plan for all the care you need to stay healthy and well throughout your life. They will also work with&#xA0;family members or caregivers who support you.</p></body></html>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Primary care"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": "primaryCare"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldBody": {
+          "processed": "<html><head></head><body><h3>Location and contact information</h3>\n\n<p class=\"va-address-block\"><br>\n901 South East Washington Street<br><strong>Phone:</strong> <a aria-label=\"5 8 0. 9 2 0. 7 2 0 0.\" href=\"tel:+15809207200\">580-920-7200</a><br><strong>Hours:</strong><br>\nMonday - 8:00 a.m. to 4:30 p.m. CT<br>\nTuesday - 8:00 a.m. to 4:30 p.m. CT<br>\nWednesday - 8:00 a.m. to 4:30 p.m. CT<br>\nThursday - 8:00 a.m. to 4:30 p.m. CT<br>\nFriday - 8:00 a.m. to 4:30 p.m. CT<br>\nSaturday - Closed<br>\nSunday - Closed</p>\n\n<h3>Appointments</h3>\n\n<p>Contact us to schedule, reschedule, or cancel your appointment. If a referral is required, you will need to contact your primary care provider first.</p>\n\n<p><strong>Referral needed? </strong> N<br><strong>Walk-ins accepted?</strong> Y<br><strong>Phone: </strong><a aria-label=\"5 8 0. 9 2 0. 7 2 0 0.\" href=\"tel:+15809207200\">580-920-7200</a></p></body></html>"
+        },
+        "fieldServiceLocation": [
+          {
+            "entity": {
+              "fieldServiceLocationAddress": {
+                "entity": {
+                  "fieldUseFacilityAddress": true,
+                  "fieldClinicName": null,
+                  "fieldBuildingNameNumber": null,
+                  "fieldWingFloorOrRoomNumber": null,
+                  "fieldAddress": {
+                    "addressLine1": "",
+                    "addressLine2": null,
+                    "additionalName": null,
+                    "administrativeArea": "",
+                    "postalCode": "",
+                    "locality": "",
+                    "organization": null,
+                    "dependentLocality": null,
+                    "countryCode": "US",
+                    "sortingCode": null
+                  }
+                }
+              },
+              "fieldEmailContacts": [],
+              "fieldFacilityServiceHours": {
+                "value": [
+                  [
+                    "Mon",
+                    ""
+                  ],
+                  [
+                    "Tue",
+                    ""
+                  ],
+                  [
+                    "Wed",
+                    ""
+                  ],
+                  [
+                    "Thu",
+                    ""
+                  ],
+                  [
+                    "Fri",
+                    ""
+                  ],
+                  [
+                    "Sat",
+                    ""
+                  ],
+                  [
+                    "Sun",
+                    ""
+                  ]
+                ],
+                "caption": null,
+                "format": "plain_text"
+              },
+              "fieldHours": "0",
+              "fieldAdditionalHoursInfo": null,
+              "fieldPhone": [],
+              "fieldUseMainFacilityPhone": true
+            }
+          }
+        ],
+        "fieldHserviceApptLeadin": null,
+        "fieldHserviceApptIntroSelect": null,
+        "fieldOnlineSchedulingAvailabl": "0",
+        "fieldReferralRequired": "0",
+        "fieldWalkInsAccepted": "1",
+        "fieldPhoneNumbersParagraph": [
+          {
+            "entity": {
+              "fieldPhoneExtension": null,
+              "fieldPhoneLabel": "Appointments",
+              "fieldPhoneNumber": "888-397-8387",
+              "fieldPhoneNumberType": "tel"
+            }
+          },
+          {
+            "entity": {
+              "fieldPhoneExtension": null,
+              "fieldPhoneLabel": "Appointments",
+              "fieldPhoneNumber": "580-920-7200",
+              "fieldPhoneNumberType": "tel"
+            }
+          }
+        ],
+        "fieldRegionalHealthService": {
+          "entity": {
+            "entityBundle": "regional_health_care_service_des",
+            "fieldBody": {
+              "processed": "<html><head></head><body><h3>Care we provide at VA Eastern Oklahoma health care</h3>\n\n<p>Our women health program offers complete health care for women Veterans of all ages. Our primary care providers specialize in women&#x2019;s health. They work closely with specialists in gynecology, obstetrics, female urology, oncology, medicine, radiology, surgery, and breast illness. Our services for women Veterans include:</p>\n\n<ul><li>Ultrasounds, Mammograms, Pap and HPV tests</li>\n\t<li>Mental health care and counseling</li>\n\t<li>Lifestyle wellness services</li>\n\t<li>Menopause treatment, including hormonal therapy</li>\n\t<li>Family planning, contraceptive care, and infertility evaluation</li>\n</ul><p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"c6598e48-ba3c-47f7-b220-1db2c1346b91\" href=\"/eastern-oklahoma-health-care/women-veteran-care\" title=\"Women Veteran care\">Learn more and connect with a care coordinator</a></p></body></html>"
+            },
+            "fieldServiceNameAndDescripti": {
+              "entity": {
+                "entityId": "57",
+                "entityBundle": "health_care_service_taxonomy",
+                "fieldAlsoKnownAs": null,
+                "fieldCommonlyTreatedCondition": "women's primary care, mental health, obstetrics and gynecology, pap smear, mammogram",
+                "name": "Women Veteran care",
+                "description": {
+                  "processed": "<html><head></head><body><p>We offer women&#x2019;s health services to meet your specific needs&#xA0;such as&#xA0;disease screenings, mental health treatment, recovery from military sexual trauma, maternity care&#xA0;and female-specific medical equipment.</p></body></html>"
+                },
+                "parent": [
+                  {
+                    "entity": {
+                      "name": "Social programs and services"
+                    }
+                  }
+                ],
+                "fieldHealthServiceApiId": null
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "facilitySidebar": {
+    "name": "VA Eastern Oklahoma health care",
+    "description": "VISN 19 | va.gov/eastern-oklahoma-health-care",
+    "links": [
+      {
+        "label": "VA Eastern Oklahoma health care",
+        "expanded": false,
+        "description": null,
+        "url": {
+          "path": "/eastern-oklahoma-health-care"
+        },
+        "links": [
+          {
+            "label": "SERVICES AND LOCATIONS",
+            "expanded": false,
+            "description": null,
+            "url": {
+              "path": ""
+            },
+            "links": [
+              {
+                "label": "Health services",
+                "expanded": false,
+                "description": null,
+                "url": {
+                  "path": "/eastern-oklahoma-health-care/health-services"
+                },
+                "links": []
+              },
+              {
+                "label": "Locations",
+                "expanded": false,
+                "description": null,
+                "url": {
+                  "path": "/eastern-oklahoma-health-care/locations"
+                },
+                "links": [
+                  {
+                    "label": "Ernest Childers Department of Veterans Affairs Outpatient Clinic",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/locations/ernest-childers-department-of-veterans-affairs-outpatient"
+                    },
+                    "links": []
+                  },
+                  {
+                    "label": "Jack C. Montgomery Department of Veterans Affairs Medical Center",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/locations/jack-c-montgomery-department-of-veterans-affairs-medical"
+                    },
+                    "links": []
+                  },
+                  {
+                    "label": "McAlester VA Clinic",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/locations/mcalester-va-clinic"
+                    },
+                    "links": []
+                  },
+                  {
+                    "label": "McCurtain County VA Clinic",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/locations/mccurtain-county-va-clinic"
+                    },
+                    "links": []
+                  },
+                  {
+                    "label": "Muskogee East VA Clinic",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/locations/muskogee-east-va-clinic"
+                    },
+                    "links": []
+                  },
+                  {
+                    "label": "Tulsa Eleventh Street VA Clinic",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/locations/tulsa-eleventh-street-va-clinic"
+                    },
+                    "links": []
+                  },
+                  {
+                    "label": "Vinita VA Clinic",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/locations/vinita-va-clinic"
+                    },
+                    "links": []
+                  },
+                  {
+                    "label": "Yale Avenue VA Clinic",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/locations/yale-avenue-va-clinic"
+                    },
+                    "links": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "NEWS AND EVENTS",
+            "expanded": false,
+            "description": null,
+            "url": {
+              "path": ""
+            },
+            "links": [
+              {
+                "label": "Events",
+                "expanded": false,
+                "description": null,
+                "url": {
+                  "path": "/eastern-oklahoma-health-care/events"
+                },
+                "links": []
+              },
+              {
+                "label": "News Releases",
+                "expanded": false,
+                "description": null,
+                "url": {
+                  "path": "/eastern-oklahoma-health-care/news-releases"
+                },
+                "links": []
+              },
+              {
+                "label": "Stories",
+                "expanded": false,
+                "description": null,
+                "url": {
+                  "path": "/eastern-oklahoma-health-care/stories"
+                },
+                "links": []
+              }
+            ]
+          },
+          {
+            "label": "ABOUT VA EASTERN OKLAHOMA",
+            "expanded": false,
+            "description": null,
+            "url": {
+              "path": ""
+            },
+            "links": [
+              {
+                "label": "About us",
+                "expanded": false,
+                "description": null,
+                "url": {
+                  "path": "/eastern-oklahoma-health-care/about-us"
+                },
+                "links": [
+                  {
+                    "label": "Mission and vision",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/mission-and-vision"
+                    },
+                    "links": []
+                  },
+                  {
+                    "label": "History",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/history"
+                    },
+                    "links": []
+                  },
+                  {
+                    "label": "Performance",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/performance"
+                    },
+                    "links": []
+                  },
+                  {
+                    "label": "Leadership",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/leadership"
+                    },
+                    "links": []
+                  }
+                ]
+              },
+              {
+                "label": "Work with us",
+                "expanded": false,
+                "description": null,
+                "url": {
+                  "path": "/eastern-oklahoma-health-care/work-with-us"
+                },
+                "links": [
+                  {
+                    "label": "Jobs and careers",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/jobs-and-careers"
+                    },
+                    "links": []
+                  },
+                  {
+                    "label": "Internships and fellowships",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/internships-and-fellowships"
+                    },
+                    "links": []
+                  },
+                  {
+                    "label": "Volunteer or donate",
+                    "expanded": false,
+                    "description": null,
+                    "url": {
+                      "path": "/eastern-oklahoma-health-care/volunteer-or-donate"
+                    },
+                    "links": []
+                  }
+                ]
+              },
+              {
+                "label": "Policies",
+                "expanded": false,
+                "description": null,
+                "url": {
+                  "path": "/eastern-oklahoma-health-care/policies"
+                },
+                "links": []
+              },
+              {
+                "label": "Contact us",
+                "expanded": false,
+                "description": null,
+                "url": {
+                  "path": "/eastern-oklahoma-health-care/contact-us"
+                },
+                "links": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "alert": {
+    "entities": [
+      {
+        "id": 42,
+        "entityPublished": true,
+        "fieldAlertDismissable": true,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [
+          {
+            "targetId": 67
+          },
+          {
+            "targetId": 68
+          },
+          {
+            "targetId": 71
+          },
+          {
+            "targetId": 72
+          },
+          {
+            "targetId": 73
+          },
+          {
+            "targetId": 74
+          },
+          {
+            "targetId": 77
+          },
+          {
+            "targetId": 78
+          },
+          {
+            "targetId": 79
+          },
+          {
+            "targetId": 809
+          },
+          {
+            "targetId": 810
+          },
+          {
+            "targetId": 3071
+          },
+          {
+            "targetId": 2
+          },
+          {
+            "targetId": 3
+          },
+          {
+            "targetId": 4
+          },
+          {
+            "targetId": 5
+          },
+          {
+            "targetId": 6
+          },
+          {
+            "targetId": 7
+          },
+          {
+            "targetId": 8
+          },
+          {
+            "targetId": 9
+          },
+          {
+            "targetId": 10
+          },
+          {
+            "targetId": 11
+          },
+          {
+            "targetId": 12
+          },
+          {
+            "targetId": 13
+          },
+          {
+            "targetId": 14
+          },
+          {
+            "targetId": 15
+          },
+          {
+            "targetId": 16
+          },
+          {
+            "targetId": 17
+          },
+          {
+            "targetId": 18
+          },
+          {
+            "targetId": 19
+          },
+          {
+            "targetId": 20
+          },
+          {
+            "targetId": 21
+          },
+          {
+            "targetId": 22
+          },
+          {
+            "targetId": 23
+          },
+          {
+            "targetId": 24
+          },
+          {
+            "targetId": 25
+          },
+          {
+            "targetId": 26
+          },
+          {
+            "targetId": 28
+          },
+          {
+            "targetId": 29
+          },
+          {
+            "targetId": 30
+          },
+          {
+            "targetId": 31
+          },
+          {
+            "targetId": 32
+          },
+          {
+            "targetId": 33
+          },
+          {
+            "targetId": 34
+          },
+          {
+            "targetId": 35
+          },
+          {
+            "targetId": 36
+          },
+          {
+            "targetId": 38
+          },
+          {
+            "targetId": 39
+          },
+          {
+            "targetId": 40
+          },
+          {
+            "targetId": 41
+          },
+          {
+            "targetId": 297
+          },
+          {
+            "targetId": 471
+          },
+          {
+            "targetId": 472
+          },
+          {
+            "targetId": 473
+          },
+          {
+            "targetId": 474
+          },
+          {
+            "targetId": 488
+          },
+          {
+            "targetId": 491
+          },
+          {
+            "targetId": 585
+          },
+          {
+            "targetId": 588
+          },
+          {
+            "targetId": 589
+          },
+          {
+            "targetId": 591
+          },
+          {
+            "targetId": 672
+          },
+          {
+            "targetId": 705
+          },
+          {
+            "targetId": 706
+          },
+          {
+            "targetId": 708
+          },
+          {
+            "targetId": 709
+          },
+          {
+            "targetId": 710
+          },
+          {
+            "targetId": 711
+          },
+          {
+            "targetId": 712
+          },
+          {
+            "targetId": 713
+          },
+          {
+            "targetId": 714
+          },
+          {
+            "targetId": 715
+          },
+          {
+            "targetId": 716
+          },
+          {
+            "targetId": 717
+          },
+          {
+            "targetId": 718
+          },
+          {
+            "targetId": 719
+          },
+          {
+            "targetId": 720
+          },
+          {
+            "targetId": 721
+          },
+          {
+            "targetId": 722
+          },
+          {
+            "targetId": 723
+          },
+          {
+            "targetId": 724
+          },
+          {
+            "targetId": 725
+          },
+          {
+            "targetId": 726
+          },
+          {
+            "targetId": 728
+          },
+          {
+            "targetId": 729
+          },
+          {
+            "targetId": 730
+          },
+          {
+            "targetId": 731
+          },
+          {
+            "targetId": 732
+          },
+          {
+            "targetId": 733
+          },
+          {
+            "targetId": 734
+          },
+          {
+            "targetId": 747
+          },
+          {
+            "targetId": 748
+          },
+          {
+            "targetId": 749
+          },
+          {
+            "targetId": 750
+          },
+          {
+            "targetId": 751
+          },
+          {
+            "targetId": 752
+          },
+          {
+            "targetId": 753
+          },
+          {
+            "targetId": 754
+          },
+          {
+            "targetId": 755
+          },
+          {
+            "targetId": 762
+          },
+          {
+            "targetId": 763
+          },
+          {
+            "targetId": 765
+          },
+          {
+            "targetId": 766
+          },
+          {
+            "targetId": 768
+          },
+          {
+            "targetId": 770
+          },
+          {
+            "targetId": 771
+          },
+          {
+            "targetId": 854
+          },
+          {
+            "targetId": 855
+          },
+          {
+            "targetId": 856
+          },
+          {
+            "targetId": 857
+          },
+          {
+            "targetId": 858
+          },
+          {
+            "targetId": 859
+          },
+          {
+            "targetId": 860
+          },
+          {
+            "targetId": 861
+          },
+          {
+            "targetId": 862
+          },
+          {
+            "targetId": 863
+          },
+          {
+            "targetId": 864
+          },
+          {
+            "targetId": 865
+          },
+          {
+            "targetId": 866
+          },
+          {
+            "targetId": 867
+          },
+          {
+            "targetId": 868
+          },
+          {
+            "targetId": 869
+          },
+          {
+            "targetId": 870
+          },
+          {
+            "targetId": 871
+          },
+          {
+            "targetId": 872
+          },
+          {
+            "targetId": 873
+          },
+          {
+            "targetId": 874
+          },
+          {
+            "targetId": 875
+          },
+          {
+            "targetId": 876
+          },
+          {
+            "targetId": 877
+          },
+          {
+            "targetId": 878
+          },
+          {
+            "targetId": 879
+          },
+          {
+            "targetId": 880
+          },
+          {
+            "targetId": 881
+          },
+          {
+            "targetId": 882
+          },
+          {
+            "targetId": 883
+          },
+          {
+            "targetId": 884
+          },
+          {
+            "targetId": 885
+          },
+          {
+            "targetId": 886
+          },
+          {
+            "targetId": 887
+          },
+          {
+            "targetId": 888
+          },
+          {
+            "targetId": 889
+          },
+          {
+            "targetId": 890
+          },
+          {
+            "targetId": 891
+          },
+          {
+            "targetId": 892
+          },
+          {
+            "targetId": 893
+          },
+          {
+            "targetId": 894
+          },
+          {
+            "targetId": 895
+          },
+          {
+            "targetId": 896
+          },
+          {
+            "targetId": 897
+          },
+          {
+            "targetId": 898
+          },
+          {
+            "targetId": 899
+          },
+          {
+            "targetId": 900
+          },
+          {
+            "targetId": 902
+          },
+          {
+            "targetId": 912
+          },
+          {
+            "targetId": 914
+          },
+          {
+            "targetId": 915
+          },
+          {
+            "targetId": 916
+          },
+          {
+            "targetId": 917
+          },
+          {
+            "targetId": 918
+          },
+          {
+            "targetId": 919
+          },
+          {
+            "targetId": 920
+          },
+          {
+            "targetId": 921
+          },
+          {
+            "targetId": 922
+          },
+          {
+            "targetId": 923
+          },
+          {
+            "targetId": 924
+          },
+          {
+            "targetId": 925
+          },
+          {
+            "targetId": 926
+          },
+          {
+            "targetId": 927
+          },
+          {
+            "targetId": 928
+          },
+          {
+            "targetId": 929
+          },
+          {
+            "targetId": 930
+          },
+          {
+            "targetId": 931
+          },
+          {
+            "targetId": 932
+          },
+          {
+            "targetId": 933
+          },
+          {
+            "targetId": 934
+          },
+          {
+            "targetId": 935
+          },
+          {
+            "targetId": 936
+          },
+          {
+            "targetId": 937
+          },
+          {
+            "targetId": 938
+          },
+          {
+            "targetId": 939
+          },
+          {
+            "targetId": 940
+          },
+          {
+            "targetId": 941
+          },
+          {
+            "targetId": 942
+          },
+          {
+            "targetId": 943
+          },
+          {
+            "targetId": 944
+          },
+          {
+            "targetId": 945
+          },
+          {
+            "targetId": 946
+          },
+          {
+            "targetId": 947
+          },
+          {
+            "targetId": 948
+          },
+          {
+            "targetId": 950
+          },
+          {
+            "targetId": 951
+          },
+          {
+            "targetId": 952
+          },
+          {
+            "targetId": 983
+          },
+          {
+            "targetId": 984
+          },
+          {
+            "targetId": 986
+          },
+          {
+            "targetId": 989
+          },
+          {
+            "targetId": 990
+          },
+          {
+            "targetId": 991
+          },
+          {
+            "targetId": 993
+          },
+          {
+            "targetId": 1005
+          },
+          {
+            "targetId": 1013
+          },
+          {
+            "targetId": 1012
+          },
+          {
+            "targetId": 2346
+          },
+          {
+            "targetId": 2347
+          },
+          {
+            "targetId": 2352
+          },
+          {
+            "targetId": 2354
+          },
+          {
+            "targetId": 2408
+          },
+          {
+            "targetId": 2431
+          },
+          {
+            "targetId": 3007
+          },
+          {
+            "targetId": 3008
+          },
+          {
+            "targetId": 3009
+          },
+          {
+            "targetId": 3010
+          },
+          {
+            "targetId": 3013
+          },
+          {
+            "targetId": 3014
+          },
+          {
+            "targetId": 3016
+          },
+          {
+            "targetId": 3025
+          },
+          {
+            "targetId": 3102
+          },
+          {
+            "targetId": 3103
+          },
+          {
+            "targetId": 4714
+          },
+          {
+            "targetId": 736
+          },
+          {
+            "targetId": 2755
+          },
+          {
+            "targetId": 2592
+          },
+          {
+            "targetId": 2756
+          },
+          {
+            "targetId": 2594
+          },
+          {
+            "targetId": 2534
+          },
+          {
+            "targetId": 2600
+          },
+          {
+            "targetId": 2544
+          },
+          {
+            "targetId": 2477
+          },
+          {
+            "targetId": 2486
+          },
+          {
+            "targetId": 2540
+          },
+          {
+            "targetId": 2478
+          },
+          {
+            "targetId": 2461
+          },
+          {
+            "targetId": 2456
+          },
+          {
+            "targetId": 5776
+          },
+          {
+            "targetId": 5722
+          },
+          {
+            "targetId": 6148
+          },
+          {
+            "targetId": 5804
+          },
+          {
+            "targetId": 6046
+          },
+          {
+            "targetId": 6059
+          },
+          {
+            "targetId": 6107
+          },
+          {
+            "targetId": 5745
+          },
+          {
+            "targetId": 6124
+          },
+          {
+            "targetId": 6115
+          },
+          {
+            "targetId": 6110
+          },
+          {
+            "targetId": 5949
+          },
+          {
+            "targetId": 5763
+          },
+          {
+            "targetId": 5733
+          },
+          {
+            "targetId": 6074
+          },
+          {
+            "targetId": 5709
+          },
+          {
+            "targetId": 5756
+          },
+          {
+            "targetId": 5966
+          },
+          {
+            "targetId": 6119
+          },
+          {
+            "targetId": 5703
+          },
+          {
+            "targetId": 5846
+          },
+          {
+            "targetId": 6022
+          },
+          {
+            "targetId": 6088
+          },
+          {
+            "targetId": 6131
+          }
+        ],
+        "fieldIsThisAHeaderAlert": "banner_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "COVID-19 vaccines at VA",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>We're working closely with the CDC and other federal partners to provide COVID-19 vaccines to Veterans and VA health care personnel. Stay informed and help us prepare.</p>\n\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"5bc0c969-0654-4ca1-9a68-91e155ad199b\" href=\"/health-care/covid-19-vaccine\" title=\"COVID-19 vaccines at VA\">Get the latest updates on COVID-19 vaccines at VA</a></p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 41,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [
+          {
+            "targetId": 5090
+          }
+        ],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "You can choose to receive improved pension benefits",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--expandable-text paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          <div class=\"field field--name-field-text-expander field--type-string field--label-above\">\n  <div class=\"field__label\">Text Expander</div>\n                <div class=\"field__item\">\n          <span class=\"additional-info-title\">Learn more about changing your pension benefits program</span>\n        </div>\n          </div>\n\n  <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-above\">\n    <div class=\"field__label\">Full Text</div>\n              <div class=\"field__item\"><p><strong>If you're currently receiving payments from a Section 306 or old law pension,</strong> you can elect to change your benefits to begin receiving payments through the current, improved VA pension program. If you have questions about your benefits, please call us at <a href=\"tel:+18772946380\">877-294-6380</a>.</p>\n\n<p>View the current rates for improved pension programs:<br /><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"94caf7db-5c43-45ee-a98f-b0d05831328b\" href=\"/pension/veterans-pension-rates\" title=\"2021 VA pension rates for Veterans\">Veterans Pension rates</a><br /><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"aa96d639-fcea-4cb6-b3c8-1002dbec0ac5\" href=\"/pension/survivors-pension-rates\" title=\"2021 VA Survivors Pension benefit rates\">Survivors Pension rates</a></p>\n\n<p><strong>If you've lost entitlement to your Section 306 or old law pension,</strong> you can't apply again for these benefits. But you can apply for an improved <a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"17ab63a7-1b97-4587-8e54-6fae907af781\" href=\"/pension/how-to-apply\" title=\"How to apply for a VA pension as a Veteran\">Veterans Pension</a> or <a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"ef05c64c-5825-4a68-bb8b-b42475185ce0\" href=\"/pension/survivors-pension\" title=\"VA Survivors Pension\">Survivors Pension</a>.</p></div>\n          </div>\n\n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 39,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [
+          {
+            "targetId": 3071
+          }
+        ],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "Mark your calendar",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>In most situations you have <strong>one year</strong> from the date on your decision letter to request a decision review. The deadline to file may be different if you have a <a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"6639dfd9-e03d-48d9-8a07-19ec8668cd8f\" href=\"/decision-reviews/fiduciary-claims\" title=\"Fiduciary claims\">fiduciary claim</a> or a <a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"fde26236-1f13-4249-bd86-66c8ec9c86cd\" href=\"/decision-reviews/contested-claims\" title=\"Contested claims  \">contested claim</a>, or you’re filing a <a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"078b0e6c-d6f9-486d-8cbd-625410a3cced\" href=\"/decision-reviews/supplemental-claim\" title=\"Supplemental Claims\">Supplemental Claim</a>. </p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 48,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [
+          {
+            "targetId": 914
+          }
+        ],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "Claim exam updates during the coronavirus pandemic",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>Get the latest updates on claim exams. And find out what to do if your claim requires an in-person exam.<br /><a href=\"http://localhost:3001/coronavirus-veteran-frequently-asked-questions/#is-va-still-doing-claim-exams-\">Go to our coronavirus FAQs</a></p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 37,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [
+          {
+            "targetId": 912
+          }
+        ],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "Our offices are temporarily closed for in-person assistance",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>We're still open for business to help you by email. Contact us by the email listed below for your location. Benefits and services, like payments, will continue to be delivered. Check this page for future updates.</p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 49,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [
+          {
+            "targetId": 769
+          }
+        ],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "VGLI application deadline extended due to the coronavirus pandemic",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>Learn more about this Veterans’ Group Life Insurance (VGLI) extension, and how COVID-19 may affect your other VA benefits and services.</p>\n\n<p><a href=\"http://localhost:3001/coronavirus-veteran-frequently-asked-questions/#more-benefit-and-claim-questio\">Go to our coronavirus FAQs</a></p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 51,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [
+          {
+            "targetId": 759
+          }
+        ],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "We can help with your questions about debt and other financial concerns",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>Get the latest information about concerns like managing VA debt, or paying your VA copays or VA-backed home loan during this time.</p>\n\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"fda9b503-6548-46b5-985b-22aef50f063a\" href=\"/coronavirus-veteran-frequently-asked-questions\" title=\"Coronavirus FAQs: What Veterans need to know\">Go to our coronavirus FAQs</a></p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 38,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [
+          {
+            "targetId": 37
+          }
+        ],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "Due to COVID-19, we'll need to contact you to confirm your appointment",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p><br />\nYou can still use our online appointments tool to request an appointment. We'll then contact you to confirm the date, time, and location of your appointment.</p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 34,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "Visit the CDC for general coronavirus questions",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>For general questions about COVID-19, such as symptoms, prevention steps, guidance for travelers, and more, <a href=\"https://www.cdc.gov/coronavirus/2019-ncov/index.html\">visit the Centers for Disease Control and Prevention (CDC)</a>.</p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 64,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "Patient statements are on hold",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>As of today, patient statements for medical care and pharmacy are on hold. Please check back often for updates.</p>\n\n<p>To learn more about how the COVID-19 pandemic may impact your VA health care or other benefits and services, read our coronavirus frequently asked questions.</p>\n\n<p><a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"fda9b503-6548-46b5-985b-22aef50f063a\" href=\"/coronavirus-veteran-frequently-asked-questions\" title=\"Coronavirus FAQs: What Veterans need to know\">Go to our coronavirus frequently asked questions</a></p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 2,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "once",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": null,
+        "fieldAlertType": "warning",
+        "fieldAlertTitle": "How do I talk to someone right now?",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--expandable-text paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          <div class=\"field field--name-field-text-expander field--type-string field--label-above\">\n  <div class=\"field__label\">Text Expander</div>\n                <div class=\"field__item\">\n          <span class=\"additional-info-title\">Find out how to get support anytime day or night.</span>\n        </div>\n          </div>\n\n  <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-above\">\n    <div class=\"field__label\">Full Text</div>\n              <div class=\"field__item\"><p>If you're a Veteran in crisis or concerned about one, connect with our caring, qualified Veterans Crisis Line responders for confidential help. Many of them are Veterans themselves. This service is private, free, and available 24/7.</p>\n\n<p><strong>To connect with a Veterans Crisis Line responder anytime day or night:</strong></p>\n\n<ul><li>Call <a aria-label=\"8 0 0. 2 7 3. 8 2 5 5.\" href=\"tel:+18002738255\">800-273-8255</a>, then select 1.</li>\n\t<li><a href=\"https://www.veteranscrisisline.net/get-help/chat\">Start a confidential chat</a>.</li>\n\t<li>Text <a href=\"sms:838255\">838255</a>.</li>\n\t<li>If you have hearing loss, call TTY: <a href=\"tel:+18007994889\">800-799-4889</a>.</li>\n</ul><p><strong>You can also:</strong></p>\n\n<ul><li>Call <a href=\"tel:911\">911</a>.</li>\n\t<li>Go to the nearest emergency room.</li>\n\t<li>Go directly to your nearest VA medical center. It doesn't matter what your discharge status is or if you're enrolled in VA health care.<br /><a href=\"/find-locations/?facilityType=health\">Find your nearest VA medical center</a></li>\n</ul></div>\n          </div>\n\n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 3,
+        "entityPublished": true,
+        "fieldAlertDismissable": null,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "You'll need to go to eBenefits to authorize us to share your health information through the Veterans Health Information Exchange.",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--expandable-text paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          <div class=\"field field--name-field-text-expander field--type-string field--label-above\">\n  <div class=\"field__label\">Text Expander</div>\n                <div class=\"field__item\">\n          <span class=\"additional-info-title\">Learn how to sign in</span>\n        </div>\n          </div>\n\n  <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-above\">\n    <div class=\"field__label\">Full Text</div>\n              <div class=\"field__item\"><p>To use this feature, you'll need a Premium <strong>DS Logon</strong> account. Your My HealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your <strong>DS Logon</strong> account to Premium.<br /><a class=\"usa-button-primary\" href=\"https://www.ebenefits.va.gov/ebenefits/vapii\">Go to eBenefits</a></p></div>\n          </div>\n\n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 45,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "You can still file a claim and apply for benefits during the coronavirus pandemic",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>Get the latest information about in-person services, claim exams, extensions, paperwork, decision reviews and appeals, and how best to contact us during this time.<br /><a href=\"/coronavirus-veteran-frequently-asked-questions/#can-i-still-file-a-claim-or-ge\">Go to our coronavirus FAQs</a></p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 4,
+        "entityPublished": true,
+        "fieldAlertDismissable": null,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": null,
+        "fieldAlertType": "warning",
+        "fieldAlertTitle": "How do I get help if I'm homeless or at risk of becoming homeless?",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--expandable-text paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          <div class=\"field field--name-field-text-expander field--type-string field--label-above\">\n  <div class=\"field__label\">Text Expander</div>\n                <div class=\"field__item\">\n          <span class=\"additional-info-title\">We may be able to help</span>\n        </div>\n          </div>\n\n  <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-above\">\n    <div class=\"field__label\">Full Text</div>\n              <div class=\"field__item\"><p>We offer many programs and services that may help—including free health care and, in some cases, free limited dental care. We can also help you connect with resources in your community, like homeless shelters or faith-based organizations.</p>\n\n<p><strong>Find the support you need:</strong></p>\n\n<ul><li><strong>Call the National Call Center for Homeless Veterans</strong> at (<a href=\"tel:+18774243838\">877-424-3838</a>) for help 24 hours a day, 7 days a week. You’ll talk privately with a trained VA counselor for free.</li>\n\t<li><strong>Contact your nearest VA medical center</strong> and ask to talk with the VA social worker. If you're a female Veteran, ask for the Women Veterans Program Manager.<br /><a href=\"/find-locations/\">Find the nearest VA medical center</a></li>\n</ul><p><strong>Talk with someone right now:</strong></p>\n\n<p>If you're a Veteran in crisis or concerned about one, connect with our caring, qualified Veterans Crisis Line responders for confidential help. Many of them are Veterans themselves. This service is private, free, and available 24/7.<br /><a href=\"https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Homeless%20Veterans%20Chat\">Chat online with a trained VA staff member</a></p></div>\n          </div>\n\n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 46,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "We can help with your questions about debt and other financial concerns",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>Get the latest information about concerns like managing VA debt, or paying your VA copays or VA-backed home loan during this time.<br /><a href=\"http://localhost:3001/coronavirus-veteran-frequently-asked-questions/#debt-copays-appeals-and-other-\">Go to our coronavirus FAQs</a></p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 5,
+        "entityPublished": true,
+        "fieldAlertDismissable": null,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "You’ll need to sign in to eBenefits to order hearing aid batteries or prosthetic socks online.",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>To use this feature, you'll need a Premium <strong>DS Logon</strong> account. Your My HealtheVet or ID.me credentials won’t work on the eBenefits website. Go to eBenefits to sign in, register, or upgrade your <strong>DS Logon</strong> account to Premium.<br /><a class=\"usa-button-primary\" href=\"https://www.ebenefits.va.gov/ebenefits/about/feature?feature=hearing-aid-batteries-and-prosthetic-socks\">Go to eBenefits to order items online</a></p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 17,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": null,
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "Get connected with mental health care—no matter your discharge status, service history, or eligibility for VA health care.",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--expandable-text paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          <div class=\"field field--name-field-text-expander field--type-string field--label-above\">\n  <div class=\"field__label\">Text Expander</div>\n                <div class=\"field__item\">\n          <span class=\"additional-info-title\">Get care now</span>\n        </div>\n          </div>\n\n  <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-above\">\n    <div class=\"field__label\">Full Text</div>\n              <div class=\"field__item\"><p>If you need support for a specific mental health problem—or if you’re having problems sleeping, controlling your anger, or readjusting to civilian life—you are not alone. And we can help.</p>\n\n<p><strong>To access free VA mental health services right away:</strong></p>\n\n<ul><li><strong>Call or walk in to any VA medical center</strong>—anytime, day or night.<br /><a href=\"http://localhost:3001/find-locations/?zoomLevel=4&amp;page=1&amp;address=&amp;facilityType=health&amp;serviceType\">Find your nearest VA health facility</a></li>\n\t<li><strong>Call or walk in to any Vet Center</strong> during clinic hours.<br /><a href=\"http://localhost:3001/find-locations/?facilityType=vet_center\">Find your nearest Vet Center</a></li>\n\t<li><strong>Call us at <a href=\"tel:+18772228387\">877-222-8387</a>.</strong> We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have hearing loss, call TTY: <a aria-label=\"TTY. 8 0 0. 8 7 7. 8 3 3 9.\" href=\"tel:18008778339\">800-877-8339</a>.</li>\n</ul><p>You don’t need to be enrolled in VA health care to get care.<br /><a href=\"http://localhost:3001/health-care/health-needs-conditions/mental-health/\">Learn more about accessing VA mental health services</a></p>\n\n<p><strong>To connect with other resources for Veterans and transitioning service members:</strong></p>\n\n<ul><li><a href=\"https://www.militaryonesource.mil/\">Visit the Department of Defense (DoD) Military OneSource website</a></li>\n\t<li><a href=\"https://www.mentalhealth.va.gov/transitioning-service/programs.asp\">Visit our mental health site for transitioning service members</a></li>\n</ul></div>\n          </div>\n\n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 19,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "We’re working to give more family caregivers access to this program",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--expandable-text paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          <div class=\"field field--name-field-text-expander field--type-string field--label-above\">\n  <div class=\"field__label\">Text Expander</div>\n                <div class=\"field__item\">\n          <span class=\"additional-info-title\">Learn more about this change and how it may affect you</span>\n        </div>\n          </div>\n\n  <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-above\">\n    <div class=\"field__label\">Full Text</div>\n              <div class=\"field__item\"><p>As part of the VA MISSION Act, we’re working to give more family caregivers access to this program so we can support them as they care for Veterans of all eras. </p>\n\n<p><strong>We're expanding access in 2 phases:</strong></p>\n\n<ul><li><strong>On October 1, 2020,</strong> we expanded the program to include family caregivers of eligible Veterans who were seriously injured in the line of duty on or before May 7, 1975.</li>\n\t<li><strong>2 years from this date,</strong> we’ll further expand the program to include family caregivers of eligible Veterans from all eras who were seriously injured in the line of duty.</li>\n</ul><p>For more information about this expansion or to learn about the many support services you can access now:</p>\n\n<ul><li>Visit our <a href=\"https://www.caregiver.va.gov/\">Caregiver Support Program website</a>.</li>\n\t<li>Or call our Caregiver Support Line at <a aria-label=\"8 5 5. 2 6 0. 3 2 7 4.\" href=\"tel:+18552603274\">855-260-3274</a>. We’re here Monday through Friday, 8:00 a.m. to 10:00 p.m. ET, and Saturday, 8:00 a.m. to 5:00 p.m. ET.</li>\n</ul><p>You can also check our <a href=\"https://www.missionact.va.gov/\">MISSION Act website</a> for ongoing updates or go to the <a href=\"https://www.federalregister.gov/documents/2020/03/06/2020-04464/program-of-comprehensive-assistance-for-family-caregivers-improvements-and-amendments-under-the-va\">Federal Register</a> to read the final regulation.</p></div>\n          </div>\n\n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 50,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "Changes based on Blue Water Navy Vietnam Veterans Act of 2019",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p><strong>Blue Water Navy Veterans</strong> who served aboard ships in the open waters off the coast of Vietnam during the Vietnam War are now presumed to be exposed to Agent Orange. If we denied your claim in the past, you can file a new claim based on <a href=\"https://www.congress.gov/bill/116th-congress/house-bill/299/text\">Public Law 116-23</a>.</p>\n\n<p><strong>Children of U.S. Veterans who served in Thailand during the Vietnam War</strong> may now be eligible for benefits. If your child was diagnosed with spina bifida (except spina bifida occulta), learn more about eligibility for <a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"d7c452e4-615c-40e3-978d-1244354573d9\" href=\"/disability/eligibility/special-claims/birth-defects\" title=\"Birth defects linked to Agent Orange\">birth defects linked to Agent Orange</a>.</p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 24,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "warning",
+        "fieldAlertTitle": "How do I get help for a Veteran who's in crisis?",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--expandable-text paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          <div class=\"field field--name-field-text-expander field--type-string field--label-above\">\n  <div class=\"field__label\">Text Expander</div>\n                <div class=\"field__item\">\n          <span class=\"additional-info-title\">Find out how to get support anytime, day or night</span>\n        </div>\n          </div>\n\n  <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-above\">\n    <div class=\"field__label\">Full Text</div>\n              <div class=\"field__item\"><p>If you're concerned about a Veteran in crisis, connect with our caring, qualified Veterans Crisis Line responders for confidential help. Many of them are Veterans themselves. This service is private, free, and available 24/7.</p>\n\n<p><strong>To connect with a Veterans Crisis Line responder anytime, day or night:</strong></p>\n\n<ul><li>Call <a href=\"tel:+1-800-273-8255\">800-273-8255</a>, then press 1.</li>\n\t<li><a href=\"https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/\">Start a confidential chat</a>.</li>\n\t<li>Text <a href=\"sms:838255\">838255</a>.</li>\n\t<li>If you have hearing loss, call TTY: 800-799-4889.</li>\n</ul><p><strong>If you're concerned about a Veteran who's homeless or at risk of becoming homeless</strong></p>\n\n<p>Call the National Call Center for Homeless Veterans at <a href=\"tel:+18774243838\">877-424-3838</a> for help 24 hours a day, 7 days a week. You or the Veteran can talk privately with a trained VA counselor for free.</p></div>\n          </div>\n\n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 28,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "New information for the children of Veterans who served in Thailand",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>Children of U.S. Veterans who served in Thailand during the Vietnam War, and who've been diagnosed with spina bifida (except spina bifida occulta), may now be eligible to receive compensation and other benefits. This is a result of Public Law 116-23, the Blue Water Navy Vietnam Veterans Act of 2019. The law was signed on June 25, 2019, and takes effect on January 1, 2020.</p>\n\n<p><a href=\"/disability/eligibility/special-claims/birth-defects/\">Find out if your child may be eligible for benefits</a></p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 54,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "We’re expanding the VET TEC program",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--expandable-text paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          <div class=\"field field--name-field-text-expander field--type-string field--label-above\">\n  <div class=\"field__label\">Text Expander</div>\n                <div class=\"field__item\">\n          <span class=\"additional-info-title\">Learn more about the changes to this program</span>\n        </div>\n          </div>\n\n  <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-above\">\n    <div class=\"field__label\">Full Text</div>\n              <div class=\"field__item\"><p>As part of the Isakson and Roe Act of 2020, we’re expanding the VET TEC program to help more people get high-tech training from experts.</p>\n\n<p><strong>Here’s what’s changing:</strong></p>\n\n<ul><li><strong>We’re expanding access to include service members who are close to their separation date.</strong> If you're a service member, you can apply if you're within 180 days of separating from the military.</li>\n\t<li><strong>We’re making it easier for you to find expert instructors.</strong> You can now choose eligible training providers who have been in operation for 2 years or less. Instructors must be experts in their field to be approved for the program.</li>\n\t<li><strong>We’re increasing funding. </strong>We'll be able to offer the program to more Veterans and service members because we're increasing funding from $15 million each year to $45 million.</li>\n</ul><p>We’ll update you here to let you know when you can apply.</p>\n\n<p>If you have any questions, you can contact us at <a aria-label=\"8 8 8. 4 4 2. 4 5 5 1.\" href=\"tel:+18884424551\">888-442-4551</a>. We’re here Monday through Friday, 8:00 a.m. to 7:00 p.m. ET.</p>\n\n<p><a href=\"https://benefits.va.gov/gibill/isaksonroe.asp\">Learn more about the Isakson and Roe Act of 2020</a></p></div>\n          </div>\n\n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 29,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "Blue Water Navy Veterans and Agent Orange",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>Blue Water Navy Veterans are now entitled to a presumption of service connection for illnesses related to Agent Orange exposure. This is a result of <a href=\"https://www.congress.gov/bill/116th-congress/house-bill/299/text\">Public Law 116-23</a>, the Blue Water Navy Vietnam Veterans Act of 2019. The law was signed on June 25, 2019, and takes effect on January 1, 2020.</p>\n\n<p>Read below to learn more about eligibility requirements and how to file a claim. If we denied your claim in the past, you can file a new claim based on this change in law.</p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 55,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "Our offices are open for in-person assistance by appointment only",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>To schedule an appointment for in-person services, please contact us by the email listed below for your location. Check this page for future updates.</p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 30,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "DIC eligibility for survivors of Blue Water Navy Vietnam Veterans",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>If we denied your Blue Water Navy Veteran’s service-connected disability claim in the past, you may be eligible for DIC benefits based on the Blue Water Navy Vietnam Veterans Act of 2019.</p>\n\n<p>See<a href=\"#am-i-eligible-for-va-dic-as-a-\"> DIC eligibility information</a> and <a href=\"#how-do-i-apply-for-compensatio\">how to apply</a>.</p>\n\n<p>Veterans who served on a Blue Water Navy vessel offshore of the Republic of Vietnam, or on another U.S. Navy or Coast Guard ship operating in the coastal waterways of Vietnam between January 9, 1962, and May 7, 1975, are now entitled to a presumption of <a href=\"http://localhost:3001/disability/eligibility/hazardous-materials-exposure/agent-orange/navy-coast-guard-ships-vietnam/\">service connection for illnesses related to Agent Orange exposure</a>. This is a result of Public Law 116-23, also known as the Blue Water Navy Vietnam Veterans Act of 2019.</p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 56,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "Check back soon for an easy way to stay informed and help us prepare",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>We're creating an easy way for you to sign up to stay informed about our COVID-19 vaccine plans.</p>\n\n<p>When you sign up, we’ll also ask about your interest in getting a vaccine when one is available to you. By sharing your interest, you can help us better prepare as we work to offer vaccines to more Veterans.</p>\n\n<p><strong>Note:</strong> You don't need to sign up to get a vaccine.</p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 31,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "We're testing out the new direct deposit feature on VA.gov",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>We're in the process of bringing direct deposit to VA.gov. This feature isn't available to everyone right now. If you see the direct deposit feature in your profile, you can update your direct deposit information from there. If you don’t see this feature in your profile, please <a href=\"https://www.ebenefits.va.gov/ebenefits/PCIU\">go to eBenefits and sign in to change your direct deposit information</a>.</p></div>\n      \n      </div>\n"
+          }
+        }
+      },
+      {
+        "id": 57,
+        "entityPublished": true,
+        "fieldAlertDismissable": false,
+        "fieldAlertFrequency": "always",
+        "fieldNodeReference": [],
+        "fieldIsThisAHeaderAlert": "in_page_alert",
+        "fieldAlertType": "information",
+        "fieldAlertTitle": "Visite la página de los CDC si tiene preguntas generales sobre el coronavirus",
+        "fieldAlertContent": {
+          "entity": {
+            "entityRendered": "  <div class=\"paragraph paragraph--type--wysiwyg paragraph--view-mode--full\">\n    <div class=\"paragraph--metadata\">\n            \n    </div>\n          \n            <div class=\"clearfix text-formatted field field--name-field-wysiwyg field--type-text-long field--label-hidden field__item\"><p>Para preguntas generales sobre el COVID-19, como síntomas, medidas de prevención, guía para viajeros, y más, <a href=\"https://espanol.cdc.gov/coronavirus/2019-ncov/index.html\">visite la página de los Centros para el Control y la Prevención de Enfermedades (CDC)</a>.</p></div>\n      \n      </div>\n"
+          }
+        }
+      }
+    ]
+  },
+  "bannerAlert": {
+    "entities": [
+      {
+        "title": "Help Limit the Spread of COVID-19 and other Illnesses",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p><strong>IMPORTANT UPDATES FROM VA PITTSBURGH</strong></p>\n\n<p><strong>COVID-19 vaccines at VA Pittsburgh:</strong> For information on vaccine eligibility and availability at our medical campuses and outpatient clinics, please see <a href=\"http://localhost:3001/pittsburgh-health-care/covid-19-vaccines/\">VAPHS COVID-19 Vaccines</a>.</p>\n\n<p><strong>COVID-19 testing:</strong> COVID-19 testing is by appointment only. If you have a sore throat, dry cough, shortness of breath or fever, call 412-360-6000 and select option #3 to speak to a nurse before visiting our facilities or to schedule an appointment for drive-through testing at University Drive.</p>\n\n<p><strong>Prepare for a visit:</strong> We screen everyone who enters our facilities for COVID-19 symptoms and limit the number of visitors. We require face coverings. For more information, please see <a href=\"http://localhost:3001/pittsburgh-health-care/operating-status/\">Operating Status</a>.&#xA0;Contact us before you visit:&#xA0;For some needs, we may be able to provide care by phone or video.</p>\n\n<p><strong>For the latest coronavirus information: </strong>Visit <a href=\"https://www.cdc.gov/coronavirus/2019-ncov/\">CDC: What you Need to Know</a></p>\n\n<p><strong>For VA-specific information:</strong> Visit <a href=\"http://localhost:3001/health-care/covid-19-vaccine/\">COVID-19 Vaccines at VA</a>, use VA&#x2019;s <a href=\"http://localhost:3001/coronavirus-chatbot/\">Coronavirus Chatbot</a> or read <a href=\"http://localhost:3001/coronavirus-veteran-frequently-asked-questions/\">Coronavirus FAQs</a> and <a href=\"https://www.publichealth.va.gov/n-coronavirus/\">Novel Coronavirus Disease (COVID-19)</a>.&#xA0; &#xA0; &#xA0; &#xA0; &#xA0;</p></body></html>"
+        },
+        "entityId": "6922",
+        "fieldAlertType": "warning",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": true,
+        "fieldAlertEmailUpdatesButton": true,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "12"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [
+          {
+            "entity": {
+              "fieldWysiwyg": {
+                "processed": "<html><head></head><body><h2>Moving Forward Together: Safe Care is Our Mission</h2>\n\n<p>VA Pittsburgh Healthcare System (VAPHS) is continuing to provide health care during the coronavirus pandemic. As always, the safety of our patients and employees is our top priority. Thank you for your patience as we adjust our policies as necessary to allow us to continue to provide safe care.</p>\n\n<h3>COVID-19 TESTING</h3>\n\n<p><strong>Call before reporting for testing</strong></p>\n\n<p>COVID-19 testing is by appointment only. If you have a sore throat, dry cough, shortness of breath or fever, call 412-360-6000 and select option #3 to speak to a nurse before visiting our facilities or to schedule an appointment for drive-through testing at University Drive. Do not report to the Emergency Department just for a test. Do not report for testing without an appointment. If you are having a medical emergency, call 911.</p>\n\n<h3>ENTRY INFORMATION</h3>\n\n<p><strong>All entrants should know we:</strong></p>\n\n<ul><li>Screen all patients, visitors, support persons, and employees at entrances.</li>\n</ul><ul><li>Require everyone in our facilities to wear a face covering or mask when within 6 feet of another person. Bring your own or we will provide one. Please see CDC&#x2019;s recommendations for cloth face masks. We will make an exception only for Veterans who have a documented medical condition that prevents them from wearing a face covering or mask. Other entrants who do not agree to wear a face covering or mask will not be admitted to our facilities.</li>\n</ul><ul><li>Eliminated valet services at the University Drive campus. Veteran parking has been expanded and personnel are available to assist patients to appointments, as needed.</li>\n</ul><h3><strong>VISITATION RESTRICTIONS</strong></h3>\n\n<p><strong>Emergency Department</strong></p>\n\n<p>No visitors are permitted in Emergency Department waiting areas. Clinical staff or the charge nurse may grant exceptions.</p>\n\n<p><strong>Inpatient Visitation</strong></p>\n\n<ul><li>For patients who are not COVID-positive, visitation on all units except Behavioral Health and the Community Living Center (CLC) is limited to one visitor per patient daily between 10 a.m. and 8 p.m. Visitors must pass COVID-19 screening.</li>\n\t<li>COVID-19 positive patients cannot receive in-person visitors unless they are near end of life. We will arrange in-person visitation for a maximum of two visitors daily for COVID-positive patients near end of life. Visitors must follow COVID-19 safety protocols, to include wearing a provided gown, gloves, eye protection and face mask. For all other COVID-positive patients, we will arrange visits by phone and Facetime, Skype, Zoom, etc.</li>\n\t<li>Visitation on the Behavioral Health unit is by appointment only between 1 and 2 p.m. and 6 and 7:30 p.m. Call the unit to arrange a visit.</li>\n\t<li>The CLC currently offers virtual visits by phone, Facetime, Skype, Zoom etc., or contact-free, in-person visits by appointment only. We reserve the right to suspend contact-free, in-person visits when necessary for COVID-19 safety. Please ask CLC staff for assistance scheduling either virtual or contact-free, in-person visits.</li>\n</ul><h3>VETERAN OUTPATIENTS</h3>\n\n<p><strong>Outpatient appointments/procedures</strong></p>\n\n<ul><li>Please ensure you have an appointment scheduled before you come in.</li>\n\t<li>We may call you 24-72 hours before your in-person, phone or VA Video Connect appointment to preregister you. We will verify your identity before asking you to confirm your insurance information, address, emergency contact, etc. This new process is safer because it minimizes your face-to-face contact with administrative staff, once you arrive for your appointment. If you do not feel comfortable taking the call from us, you will have the option to call us back so you can be certain you are speaking with someone from VA Pittsburgh. You can even call us back after hours because we have staff in place who can preregister you. PLEASE NOTE: We will never ask you for your full Social Security number, credit card or bank information.</li>\n\t<li>You can bring one support person for an outpatient visit or to check in for procedures between 6 a.m. and 6:30 p.m. Support persons must be 18 or older, pass COVID-19 screening, and wear a face covering.</li>\n\t<li>When you arrive for your appointment, follow the directions on the posted signs to check in via VEText with your mobile phone. If you don&apos;t have a mobile phone, enter the building no sooner than 15 minutes prior to your appointment.</li>\n\t<li>\n\t<p>You should arrive 15 minutes prior to your scheduled appointment time for screening and clearance.</p>\n\t</li>\n\t<li>\n\t<p>Some surgeries or procedures may require a COVID test within 48 hours of your appointment. Your care team will work with you to arrange this.</p>\n\t</li>\n</ul><p><strong>Additional information on outpatient appointments</strong></p>\n\n<ul><li>We continue to offer telehealth, wellness checks and phone consults as much as possible.</li>\n\t<li>We prioritize face-to-face appointments based on clinical need.</li>\n\t<li>If your appointment was deferred, you won&#x2019;t have to call us to reschedule &#x2014; we&#x2019;ll call you.</li>\n\t<li>Reminder: Veterans can sign in to <a href=\"https://l.facebook.com/l.php?u=http%3A%2F%2Fwww.myhealth.va.gov%2F%3Ffbclid%3DIwAR2ic50C2VBI21Dej1FfXbK11Y6katVHQd8Es3HnIU6xGHgKE1VY2W4iGPA&amp;h=AT1iboTJXvFF7wwfxYYe1fFOOCs8oDhwEQ0QDwL8cC2MRqPbybEve8RxtHsCCZyO-WrkW0E-Q9op4_z6x3AreDQNbbX_zZl7qkcHbVKaaSkSXZ3Z-Dq2UumO8SC4jav9VTZK&amp;__tn__=-UK-R&amp;c%5b0%5d=AT2FJQzKMSRmpWL7umWYvmJBawzjoTowm6Ti4aqjB5-4AEQxNWTBIPZy9CpS8bjFWrrTWeXMUgSj7v55KZXAfXyXSAPSub-njJkoqh1dIMmnx0KcV83qXgdiQ48Zq_RVp8Ae6TFQ6kAh3QRwUzL4vKv4pjHkkL2hblJlMSSINCyuQN1QztP7yeHS_IfE2PDENY1HTCeRX597A2Mumg7yKQ\">www.myhealth.va.gov</a> anytime to send a non-urgent, secure message to your care team. Do not use secure messaging for urgent communication; staff may not be able to respond immediately.</li>\n</ul><p><strong>Outpatient radiology, H.J. Heinz III campus</strong></p>\n\n<p>If you have an outpatient radiology appointment on our H.J. Heinz III campus, you will be permitted access only through building 50. You will not be permitted to walk through the building 51/71 breezeway to get to radiology, the pharmacy, VCS Patriot Store or cafeteria. Once your radiology appointment is complete, you must exit through building 50.</p>\n\n<h3>PHARMACY</h3>\n\n<p>Pharmacy pickups are restricted to urgently needed medications. All other medications and refills are mailed. We will use overnight shipping if medically necessary.</p>\n\n<ul><li>Urgently needed prescriptions are medications that the patient cannot wait until the next day to start.</li>\n\t<li>If you are a Veteran in urgent need of a medication, please contact the pharmacy to arrange for pickup:\n\t<ul><li>Call 412-360-3389 between 7:30 a.m. and 9 p.m. on weekdays or between 7:30 a.m. and 4 p.m. on weekends.</li>\n\t\t<li>Send a secure message in My HealtheVet to &#x201C;Ask a Pharmacist.&#x201D;</li>\n\t</ul></li>\n</ul><h4>NO ADMITTANCE</h4>\n\n<ul><li>No one under the age of 18 will be admitted to any of our facilities for any reason.</li>\n\t<li>Credit union ATM use is restricted to staff and Veterans in the facilities on official business. Do not visit our campuses solely to use the ATM machines.</li>\n\t<li>No visitors are permitted at the H.J. Heinz III Veterans Recovery Center (building 69).</li>\n\t<li>On-site branch visits to the credit union at our University Drive and Heinz campuses is restricted to current staff and Veteran patients who are in the buildings on official business. Other branch visits are limited and by appointment only. Questions? UD: 412-360-1150 HZ: 412-822-3185.</li>\n</ul><h4>HELP LIMIT THE SPREAD OF COVID-19 AND OTHER ILLNESSES</h4>\n\n<ul><li>Veterans with a sore throat, dry cough, shortness of breath or fever should call 412-360-6000 and select option #3 to speak to a nurse before visiting our facilities.</li>\n\t<li>Veterans who have established care at VA Pittsburgh may be eligible for COVID-19 testing. Veterans with symptoms must call the Nurse Helpline at 412-360-6000 and select option 3 to schedule an appointment for drive-through testing at University Drive. No one should report to the Emergency Department for testing. Do not report for drive-through testing without an appointment.</li>\n</ul></body></html>"
+              }
+            }
+          }
+        ],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Pittsburgh health care",
+              "entityUrl": {
+                "path": "/pittsburgh-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Pittsburgh health care",
+                  "entityUrl": {
+                    "path": "/pittsburgh-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website coming soon - Not the official Salt Lake City health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is NOT our official website at this time, but will be soon. To continue your health care journey in the VA Salt Lake City&#xA0;Healthcare System, please return to our <a href=\"https://www.saltlakecity.va.gov/\">official Erie health care website</a>.</p></body></html>"
+        },
+        "entityId": "16613",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "12"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Salt Lake City health care",
+              "entityUrl": {
+                "path": "/salt-lake-city-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Salt Lake City health care",
+                  "entityUrl": {
+                    "path": "/salt-lake-city-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website coming soon - Not the official Western Colorado health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is NOT our official website at this time, but will be soon. To continue your health care journey in the VA Western Colorado Healthcare System, please return to our <a href=\"https://www.grandjunction.va.gov\">official VA Western Colorado&#xA0;health care website</a>.</p></body></html>"
+        },
+        "entityId": "16615",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "12"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Western Colorado health care",
+              "entityUrl": {
+                "path": "/western-colorado-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Western Colorado health care",
+                  "entityUrl": {
+                    "path": "/western-colorado-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website coming soon - Not the official Sheridan health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is NOT our official website at this time, but will be soon. To continue your health care journey in the VA Sheridan&#xA0;Healthcare System, please return to our <a href=\"https://www.sheridan.va.gov\">official VA Sheridan&#xA0;health care website</a>.</p></body></html>"
+        },
+        "entityId": "16616",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "12"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Sheridan health care",
+              "entityUrl": {
+                "path": "/sheridan-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Sheridan health care",
+                  "entityUrl": {
+                    "path": "/sheridan-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website coming soon - Not the official Erie health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is NOT our official website at this time, but will be soon. To continue your health care journey in the Erie Healthcare System, please return to our <a href=\"https://www.erie.va.gov/\">official Erie health care website</a>.</p></body></html>"
+        },
+        "entityId": "15641",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "183"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Erie health care",
+              "entityUrl": {
+                "path": "/erie-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Erie health care",
+                  "entityUrl": {
+                    "path": "/erie-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website Coming Soon - Not the official Butler health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is NOT our official website at this time, but will be soon. To continue your health care journey in the Butler Healthcare System, please return to our <a href=\"https://www.butler.va.gov\">official website VA Butler health care website</a>.&#xA0;</p></body></html>"
+        },
+        "entityId": "16181",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "185"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Butler health care",
+              "entityUrl": {
+                "path": "/butler-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Butler health care",
+                  "entityUrl": {
+                    "path": "/butler-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website Coming Soon - Not the official VA Altoona health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is NOT our official website at this time, but will be soon. To continue your health care journey in the VA Altoona Healthcare System, please return to our <a href=\"https://www.altoona.va.gov\">official VA Altoona health care website</a>.</p></body></html>"
+        },
+        "entityId": "16353",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "182"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Altoona health care",
+              "entityUrl": {
+                "path": "/altoona-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Altoona health care",
+                  "entityUrl": {
+                    "path": "/altoona-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website Coming Soon - Not the official Wilkes-Barre health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is NOT our official website at this time, but will be soon. To continue your health care journey in the Wilkes-Barre Healthcare System, please return to our <a href=\"https://www.wilkes-barre.va.gov/\">official VA Wilkes-Barre health care website</a>.</p></body></html>"
+        },
+        "entityId": "16085",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "186"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Wilkes-Barre health care",
+              "entityUrl": {
+                "path": "/wilkes-barre-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Wilkes-Barre health care",
+                  "entityUrl": {
+                    "path": "/wilkes-barre-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website Coming Soon- Not the official VA Wilmington health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is NOT our official website at this time, but will be soon. To continue your health care journey in the VA Wilmington Healthcare System, please return to our <a href=\"https://www.wilmington.va.gov\">official VA Wilmington health care website</a>.</p></body></html>"
+        },
+        "entityId": "16354",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "188"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Wilmington health care",
+              "entityUrl": {
+                "path": "/wilmington-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Wilmington health care",
+                  "entityUrl": {
+                    "path": "/wilmington-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website Coming Soon - Not the official VA Philadelphia health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is NOT our official website at this time, but will be soon. To continue your health care journey in the&#xA0; VA Philadelphia&#xA0;Healthcare System, please return to our <a href=\"https://www.philadelphia.va.gov\">official VA Philadelphia health care website</a>.</p></body></html>"
+        },
+        "entityId": "16418",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "181"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Philadelphia health care",
+              "entityUrl": {
+                "path": "/philadelphia-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Philadelphia health care",
+                  "entityUrl": {
+                    "path": "/philadelphia-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website Coming Soon - Not the official VA Coatesville health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is not our official website at this time, but will be soon. To continue your health care journey in the VA Coatesville Healthcare System, please return to the&#xA0;official <a href=\"https://www.coatesville.va.gov/\">VA Coatesville Healthcare website</a>.</p></body></html>"
+        },
+        "entityId": "16417",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "12"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Coatesville health care",
+              "entityUrl": {
+                "path": "/coatesville-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Coatesville health care",
+                  "entityUrl": {
+                    "path": "/coatesville-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website Coming Soon - Not the official VA Eastern Oklahoma health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is not&#xA0;our official website at this time, but will be soon. To continue your health care journey in the VA Eastern Oklahoma Healthcare System, please return to our official <a href=\"https://www.muskogee.va.gov/\">VA Eastern Oklahoma Healthcare website</a>.</p></body></html>"
+        },
+        "entityId": "16470",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "200"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Eastern Oklahoma health care",
+              "entityUrl": {
+                "path": "/eastern-oklahoma-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Eastern Oklahoma health care",
+                  "entityUrl": {
+                    "path": "/eastern-oklahoma-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website Coming Soon - Not the official VA Cheyenne health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is not&#xA0;our official website at this time, but will be soon. To continue your health care journey in the VA Montana Healthcare System, please return to our official <a href=\"https://www.cheyenne.va.gov/\">VA Cheyenne Healthcare website</a>.</p></body></html>"
+        },
+        "entityId": "16864",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "12"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Cheyenne health care",
+              "entityUrl": {
+                "path": "/cheyenne-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Cheyenne health care",
+                  "entityUrl": {
+                    "path": "/cheyenne-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website Coming Soon - Not the official VA Montana health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is not our official website at this time, but will be soon. To continue your health care journey in the VA Montana&#xA0;Healthcare System, please return to our official <a href=\"https://www.montana.va.gov\">VA Montana Healthcare System website</a>.</p></body></html>"
+        },
+        "entityId": "16922",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "12"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Montana health care",
+              "entityUrl": {
+                "path": "/montana-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Montana health care",
+                  "entityUrl": {
+                    "path": "/montana-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "title": "Website Coming Soon - Not the official VA Lebanon health care website",
+        "fieldBody": {
+          "processed": "<html><head></head><body><p>We hope you enjoy your look at our new website. This is not our official website at this time, but will be soon. To continue your health care journey in the Lebanon Healthcare System, please return to our <a href=\"https://www.lebanon.va.gov/\">official VA Lebanon health care website</a>.</p></body></html>"
+        },
+        "entityId": "16084",
+        "fieldAlertType": "information",
+        "fieldAlertDismissable": false,
+        "fieldAlertFindFacilitiesCta": false,
+        "fieldAlertOperatingStatusCta": false,
+        "fieldAlertEmailUpdatesButton": false,
+        "fieldAlertInheritanceSubpages": false,
+        "fieldAdministration": {
+          "entity": {
+            "entityId": "180"
+          }
+        },
+        "fieldOperatingStatusSendemail": false,
+        "fieldBannerAlertSituationinfo": null,
+        "fieldSituationUpdates": [],
+        "fieldBannerAlertVamcs": [
+          {
+            "entity": {
+              "title": "Operating status - VA Lebanon health care",
+              "entityUrl": {
+                "path": "/lebanon-health-care/operating-status"
+              },
+              "fieldOffice": {
+                "entity": {
+                  "title": "VA Lebanon health care",
+                  "entityUrl": {
+                    "path": "/lebanon-health-care"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "pid": 1861
+}

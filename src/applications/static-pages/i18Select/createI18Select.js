@@ -20,8 +20,7 @@ export default function createI18Select(store, widgetType) {
     faq: {
       en: '/coronavirus-veteran-frequently-asked-questions/',
       es: '/coronavirus-veteran-frequently-asked-questions-esp/',
-      // uncomment when this is ready
-      // tag: '/coronavirus-veteran-frequently-asked-questions-tag/',
+      tag: '/coronavirus-veteran-frequently-asked-questions-tag/',
     },
     vaccine: {
       en: '/health-care/covid-19-vaccine/',
@@ -36,21 +35,22 @@ export default function createI18Select(store, widgetType) {
     en: {
       label: 'English',
       suffix: '/',
+      lang: 'en',
     },
     es: {
       onThisPage: 'En esta página',
       label: 'Español',
       suffix: '-esp/',
+      lang: 'es',
     },
-  };
-  //  temporary, will remove this once the tagalog FAQ page is ready
-  if (!isFaq) {
-    I18_CONTENT.tag = {
+    tag: {
       suffix: '-tag/',
       label: 'Tagalog',
-      onThisPage: 'Tagalog On this page',
-    };
-  }
+      onThisPage: 'Sa pahinang ito',
+      lang: 'tl',
+    },
+  };
+
   if (root) {
     import(/* webpackChunkName: "i18Select" */
     './I18Select').then(module => {

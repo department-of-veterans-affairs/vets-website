@@ -16,6 +16,9 @@ const WebpackBar = require('webpackbar');
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
+const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
+const facilitySidebar = require('../src/site/layouts/tests/vamc/fixtures/health_care_region_page.json')
+  .facilitySidebar;
 
 const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
 
@@ -337,11 +340,14 @@ module.exports = (env = {}) => {
       appRegistry = JSON.parse(fs.readFileSync(appRegistryPath));
     }
 
+    /* eslint-disable no-nested-ternary */
     const generateLandingPage = ({
       appName,
       entryName = 'static-pages',
       rootUrl,
       template = {},
+      widgetType,
+      widgetTemplate,
     }) =>
       new HtmlPlugin({
         chunks: ['polyfills', 'vendor', 'style', entryName],
@@ -355,6 +361,9 @@ module.exports = (env = {}) => {
           inlineScripts,
           modifyScriptTags,
           modifyStyleTags,
+          widgetType,
+          widgetTemplate,
+          facilitySidebar,
 
           // Default template metadata.
           breadcrumbs_override: [], // eslint-disable-line camelcase
@@ -362,8 +371,16 @@ module.exports = (env = {}) => {
           loadingMessage: 'Please wait while we load the application for you.',
           ...template, // Unpack any template metadata from the registry entry.
         },
-        title: template.title || appName ? `${appName} | VA.gov` : 'VA.gov',
+        title:
+          typeof template !== 'undefined' && template.title
+            ? `${template.title} | Veterans Affairs`
+            : typeof appName !== 'undefined'
+              ? appName
+                ? `${appName} | Veterans Affairs`
+                : null
+              : 'VA.gov Home | Veterans Affairs',
       });
+    /* eslint-enable no-nested-ternary */
 
     baseConfig.plugins = baseConfig.plugins.concat(
       // Fall back to using app manifests if app registry no longer exists.
@@ -372,15 +389,7 @@ module.exports = (env = {}) => {
       (appRegistry || getAppManifests())
         .filter(({ rootUrl }) => rootUrl)
         .map(generateLandingPage),
-    );
-
-    // Create a placeholder home page.
-    baseConfig.plugins.push(
-      new HtmlPlugin({
-        filename: path.join(outputPath, '..', 'index.html'),
-        inject: false,
-        title: 'VA.gov',
-      }),
+      scaffoldRegistry.map(generateLandingPage),
     );
 
     // Copy over image assets to fill in the header and other content.

@@ -4,9 +4,7 @@ import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
 import { titleCase } from '../../utils/formatters';
 import { FETCH_STATUS, APPOINTMENT_STATUS } from '../../utils/constants';
 import {
-  getVideoAppointmentLocation,
   getVAAppointmentLocationId,
-  isVideoAppointment,
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
   sortByDateDescending,
@@ -19,11 +17,15 @@ import {
   sortByCreatedDateDescending,
   isValidPastAppointmentOrExpressCare,
 } from '../../services/appointment';
-import { selectFeatureExpressCareNewRequest } from '../../redux/selectors';
+import {
+  selectFeatureExpressCareNewRequest,
+  selectFeatureProjectCheetah,
+} from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
 } from '../../utils/timezone';
+import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../project-cheetah/utils';
 
 export function getCancelInfo(state) {
   const {
@@ -34,22 +36,14 @@ export function getCancelInfo(state) {
     facilityData,
   } = state.appointments;
 
-  const isVideo = appointmentToCancel
-    ? isVideoAppointment(appointmentToCancel)
-    : false;
-
   let facility = null;
-  if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
-    // Confirmed in person VA appts
+  if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked) {
+    // Confirmed in person VA and video appts
     const locationId = getVAAppointmentLocationId(appointmentToCancel);
     facility = facilityData[locationId];
   } else if (appointmentToCancel?.facility) {
     // Requests
     facility = facilityData[appointmentToCancel.facility.facilityCode];
-  } else if (isVideo) {
-    // Video visits
-    const locationId = getVideoAppointmentLocation(appointmentToCancel);
-    facility = facilityData[locationId];
   }
   let isCerner = null;
   if (appointmentToCancel) {
@@ -388,4 +382,21 @@ export function selectAppointmentById(state, id, types = null) {
     .filter(item => !!item);
 
   return allAppointments.find(p => p.id === id);
+}
+
+export function selectDirectScheduleSettingsStatus(state) {
+  return state.appointments.directScheduleSettingsStatus;
+}
+
+export function selectCanUseVaccineFlow(state) {
+  return (
+    selectFeatureProjectCheetah(state) &&
+    state.appointments.directScheduleSettings?.some(setting =>
+      setting.coreSettings.some(
+        coreSetting =>
+          coreSetting.id === VACCINE_TYPE_OF_CARE_ID &&
+          !!coreSetting.patientHistoryRequired,
+      ),
+    )
+  );
 }

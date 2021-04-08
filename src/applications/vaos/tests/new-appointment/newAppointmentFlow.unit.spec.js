@@ -156,9 +156,6 @@ describe('VAOS newAppointmentFlow', () => {
           dispatch,
         );
 
-        const dataLayer = global.window.dataLayer;
-        expect(dataLayer[0].event).to.not.equal('vaos-cc-eligible-yes');
-
         expect(nextState).to.equal('typeOfCare');
       });
 

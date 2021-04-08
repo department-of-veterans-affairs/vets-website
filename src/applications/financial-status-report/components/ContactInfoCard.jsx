@@ -3,12 +3,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const ContactInfoCard = ({
-  addressLine1,
-  addressLine2,
+  street,
+  street2,
   city,
   stateCode,
-  postalCode,
-  country,
+  zipCode,
+  countryName,
   edit,
 }) => {
   return (
@@ -17,12 +17,12 @@ const ContactInfoCard = ({
         Mailing address
       </h4>
       <div className="vads-u-padding-left--1 vads-u-border-left--7px vads-u-border-color--primary">
-        <p className="vads-u-margin--1px">{addressLine1}</p>
-        <p className="vads-u-margin--1px">{addressLine2}</p>
+        <p className="vads-u-margin--1px">{street}</p>
+        <p className="vads-u-margin--1px">{street2}</p>
         <p className="vads-u-margin--1px">
-          {city}, {stateCode} {postalCode}
+          {city}, {stateCode} {zipCode}
         </p>
-        <p className="vads-u-margin--1px">{country}</p>
+        <p className="vads-u-margin--1px">{countryName}</p>
       </div>
       <div className="vads-u-margin-top--1">
         <a onClick={() => edit()}>Edit mailing address</a>
@@ -32,21 +32,21 @@ const ContactInfoCard = ({
 };
 
 ContactInfoCard.propTypes = {
-  addressLine1: PropTypes.string,
-  addressLine2: PropTypes.string,
+  street: PropTypes.string,
+  street2: PropTypes.string,
   city: PropTypes.string,
   stateCode: PropTypes.string,
-  postalCode: PropTypes.string,
-  country: PropTypes.string,
+  zipCode: PropTypes.string,
+  countryName: PropTypes.string,
 };
 
 const mapStateToProps = ({ form }) => ({
-  addressLine1: form.data.personalData.address?.addressLine1,
-  addressLine2: form.data.personalData.address?.addressLine2,
+  street: form.data.personalData.address?.street,
+  street2: form.data.personalData.address?.street2,
   city: form.data.personalData.address?.city,
   stateCode: form.data.personalData.address?.stateCode,
-  postalCode: form.data.personalData.address?.postalCode,
-  country: form.data.personalData.address?.country,
+  zipCode: form.data.personalData.address?.zipCode,
+  countryName: form.data.personalData.address?.countryName,
 });
 
 export default connect(

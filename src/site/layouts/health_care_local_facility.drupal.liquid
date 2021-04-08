@@ -71,11 +71,13 @@
                         </strong><a
                           href="tel:{{ fieldPhoneNumber }}">{{ fieldPhoneNumber }}</a>
                       </div>
-                      <div class="mental-health-clinic-phone"><strong>Mental
-                          health clinic:
-                        </strong><a
-                          href="tel:{{ fieldMentalHealthPhone }}">{{ fieldMentalHealthPhone }}</a>
-                      </div>
+                      {% if fieldMentalHealthPhone %}
+                        <div class="mental-health-clinic-phone"><strong>Mental
+                            health clinic:
+                          </strong><a
+                            href="tel:{{ fieldMentalHealthPhone }}">{{ fieldMentalHealthPhone }}</a>
+                        </div>
+                      {% endif %}
                     </div>
                     <div class="vads-u-margin-bottom--0">
                       <div class="clinicalhours">
@@ -109,23 +111,11 @@
             </div>
 
 
-            <div
-              class="usa-width-one-third inline-table-helper vads-u-order--first small-screen:vads-u-order--initial vads-u-margin-bottom--2 vads-u-margin-left--auto facility">
-              <!-- facility image -->
-              {% if fieldMedia.entity.image != empty %}
-                {% assign image = fieldMedia.entity.image %}
-                <a href="#" rel="noopener noreferrer" target="_blank"
-                   id="google-map-link-image">
-                  <img class="facility-img" src="{{ image.derivative.url }}"
-                       alt="{{ image.alt }}" title="{{ image.title }}"
-                       width="{{ image.derivative.width }}"
-                       height="{{ image.derivative.height }}" />
-                </a>
-              {% endif %}
-              <div data-widget-type="facility-map"
-                   data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}">
-              </div>
-            </div>
+            {% include "src/site/includes/image_and_static_map.liquid" with
+              facilityMedia = fieldMedia
+              facilityId = fieldFacilityLocatorApiId
+            %}
+
           </div>
 
           <!-- Location services section -->
@@ -192,14 +182,9 @@
             </section>
           {% endif %}
 
-          <h2 id="our-patient-satisfaction-scores"
-              class="vads-u-margin-top--4 vads-u-font-size--lg small-screen:vads-u-font-size--xl">
-            Veteran satisfaction with appointment wait times at this location
-          </h2>
           <div data-widget-type="facility-patient-satisfaction-scores"
                data-facility="{{ fieldFacilityLocatorApiId | widgetFacilityDetail | escape }}">
           </div>
-
 
           <!-- Social Links -->
           {% include "src/site/facilities/facility_social_links.drupal.liquid"

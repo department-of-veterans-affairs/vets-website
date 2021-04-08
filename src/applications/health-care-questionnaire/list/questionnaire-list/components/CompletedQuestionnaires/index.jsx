@@ -7,6 +7,11 @@ import EmptyMessage from '../Messages/EmptyMessage';
 import ServiceDown from '../Messages/ServiceDown';
 import PrintButton from '../../../../shared/components/print/PrintButton';
 
+import {
+  appointmentSelector,
+  organizationSelector,
+} from '../../../../shared/utils/selectors';
+
 const index = props => {
   const { questionnaires } = props;
   return (
@@ -21,17 +26,27 @@ const index = props => {
               }
             />
           ) : (
-            <ul
+            <ol
               data-testid="questionnaire-list"
               className="questionnaire-list completed"
             >
               {questionnaires.map(data => {
-                const { questionnaire, appointment } = data;
+                const { questionnaire, appointment, organization } = data;
+                const facilityName = organizationSelector.getName(organization);
+                const appointmentTime = appointmentSelector.getStartTime(
+                  appointment,
+                );
                 return (
                   <QuestionnaireItem
                     key={appointment.id}
                     data={data}
-                    Actions={() => <PrintButton displayArrow={false} />}
+                    Actions={() => (
+                      <PrintButton
+                        displayArrow={false}
+                        facilityName={facilityName}
+                        appointmentTime={appointmentTime}
+                      />
+                    )}
                     DueDate={() => (
                       <p className="completed-date">
                         Submitted on
@@ -46,7 +61,7 @@ const index = props => {
                   />
                 );
               })}
-            </ul>
+            </ol>
           )}
         </>
       ) : (

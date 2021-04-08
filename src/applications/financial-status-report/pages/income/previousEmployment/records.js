@@ -1,5 +1,6 @@
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 
 export const uiSchema = {
   'ui:title': 'Your work history',
@@ -9,7 +10,7 @@ export const uiSchema = {
         classNames: 'vads-u-margin-top--2',
       },
       veteran: {
-        previousEmployment: {
+        vetPreviousEmployment: {
           'ui:field': ItemLoop,
           'ui:description':
             'Tell us about your other jobs in the past 2 years.',
@@ -29,20 +30,8 @@ export const uiSchema = {
                 widgetClassNames: 'input-size-3',
               },
             },
-            from: {
-              'ui:title': 'Date you started work at this job',
-              'ui:widget': 'date',
-              'ui:options': {
-                widgetClassNames: 'vads-u-margin-bottom--2',
-              },
-            },
-            to: {
-              'ui:title': 'Date you stopped work at this job',
-              'ui:widget': 'date',
-              'ui:options': {
-                widgetClassNames: 'vads-u-margin-bottom--2',
-              },
-            },
+            from: monthYearUI('Date you started work at this job'),
+            to: monthYearUI('Date you stopped work at this job'),
             employerName: {
               'ui:title': 'Employer name',
               'ui:options': {
@@ -68,7 +57,7 @@ export const schema = {
             veteran: {
               type: 'object',
               properties: {
-                previousEmployment: {
+                vetPreviousEmployment: {
                   type: 'array',
                   items: {
                     type: 'object',

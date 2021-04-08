@@ -1,7 +1,6 @@
-import { getAppointTypeFromAppointment } from '../utils';
+import { locationSelector } from '../../shared/utils/selectors';
 import recordEvent from 'platform/monitoring/record-event';
-
-const USE_MOCK_DATA = true;
+import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
 // pull from src/platform/forms-system/src/js/actions.js
 // so we can have our own custom error handling,  messages and headers
@@ -64,25 +63,30 @@ const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
   });
 };
 
-const submit = (form, formConfig) => {
+const submit = async (useMockData, form, formConfig) => {
   const body = {
     questionnaireResponse: formConfig.transformForSubmit(formConfig, form),
   };
-  if (USE_MOCK_DATA) {
-    return new Promise((resolve, _reject) => {
-      resolve(body);
-      // reject(body);
-    });
+  if (useMockData) {
+    return Promise.all([
+      await removeFormApi(form.formId),
+      new Promise((resolve, _reject) => {
+        resolve(body);
+        // reject(body);
+      }),
+    ]);
   } else {
-    // Commented out till API is working.
     const eventData = {};
 
-    return submitToUrl(
-      JSON.stringify(body),
-      formConfig.submitUrl,
-      formConfig.trackingPrefix,
-      eventData,
-    );
+    return Promise.all([
+      await submitToUrl(
+        JSON.stringify(body),
+        formConfig.submitUrl,
+        formConfig.trackingPrefix,
+        eventData,
+      ),
+      await removeFormApi(form.formId),
+    ]);
   }
 };
 
@@ -97,7 +101,8 @@ const transformForSubmit = (_formConfig, form) => {
     ? form.data['hidden:questionnaire'][0]
     : {};
   const appointment = form.data['hidden:appointment'];
-  const type = getAppointTypeFromAppointment(appointment, { titleCase: true });
+  const clinic = form.data['hidden:clinic'];
+  const type = locationSelector.getType(clinic, { titleCase: true });
   const title = `${type} questionnaire`;
   const {
     reasonForVisit,

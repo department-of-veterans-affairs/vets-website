@@ -18,7 +18,11 @@ import {
 
 import FormItem from '../components/FormItem';
 import HCAStatusAlert from '../components/HCAStatusAlert';
-import { isSIPEnabledForm, sipFormSorter } from '../helpers';
+import {
+  filterOutExpiredForms,
+  isSIPEnabledForm,
+  sipFormSorter,
+} from '../helpers';
 
 class YourApplications extends React.Component {
   componentDidMount() {
@@ -96,6 +100,7 @@ export const mapStateToProps = state => {
   const { savedForms } = profileState;
   const verifiedSavedForms = savedForms
     .filter(isSIPEnabledForm)
+    .filter(filterOutExpiredForms)
     .sort(sipFormSorter);
   const hasVerifiedSavedForms = !!verifiedSavedForms.length;
   const hcaStatusEffectiveDate =

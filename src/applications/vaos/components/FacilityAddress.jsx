@@ -9,7 +9,8 @@ export default function FacilityAddress({
   facility,
   showDirectionsLink,
   clinicName,
-  level = '4',
+  showPhone = true,
+  level = 4,
 }) {
   const address = facility?.address;
   const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
@@ -56,15 +57,13 @@ export default function FacilityAddress({
             {clinicName}
           </>
         )}
-        {!!phone && (
-          <>
-            {!!clinicName && <br />}
-            <Heading className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
-              Main phone:
-            </Heading>{' '}
-            <FacilityPhone contact={phone} />
-          </>
-        )}
+        {showPhone &&
+          !!phone && (
+            <>
+              {!!clinicName && <br />}
+              <FacilityPhone contact={phone} level={level + 1} />
+            </>
+          )}
       </div>
     </>
   );

@@ -7,18 +7,17 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import PreSubmitSignature from '../components/PreSubmitSignature';
 import * as pages from '../pages';
-import { transform } from '../utils/transform';
+import submit from '../utils/submitForm';
 import SubmissionError from '../components/SubmissionError';
 import { WIZARD_STATUS } from '../wizard/constants';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit: transform,
-  submitUrl: `${environment.API_URL}/v0/api`,
+  submit,
+  submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
-  verifyRequiredPrefill: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitSignature,
@@ -44,7 +43,7 @@ const formConfig = {
     },
   },
   title: 'Request help with VA debt (VA Form 5655)',
-  subTitle: 'Form 5655',
+  subTitle: 'Financial Status Report',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   customText: {
@@ -60,6 +59,7 @@ const formConfig = {
           title: 'Veteran information',
           uiSchema: pages.veteranInfo.uiSchema,
           schema: pages.veteranInfo.schema,
+          editModeOnReviewPage: true,
           initialData: {
             personalData: {
               veteranFullName: {
@@ -71,7 +71,7 @@ const formConfig = {
             },
             personalIdentification: {
               ssn: '1234',
-              fileNumber: 5678,
+              fileNumber: '5678',
             },
           },
         },
@@ -94,15 +94,15 @@ const formConfig = {
           initialData: {
             personalData: {
               address: {
-                country: 'United States',
+                countryName: 'United States',
+                street: '1234 W Nebraska St',
                 city: 'Tampa',
-                state: 'FL',
-                postalCode: '33614',
-                addressLine1: '1234 W Nebraska St',
+                stateCode: 'FL',
+                zipCode: '33614',
               },
-              primaryEmail: 'hector.smith@email.com',
-              confirmationEmail: '',
               telephoneNumber: '5551234567',
+              emailAddress: 'hector.smith@email.com',
+              confirmationEmail: '',
             },
           },
           path: 'contact-information',
@@ -122,18 +122,6 @@ const formConfig = {
           schema: pages.employment.schema,
         },
         employmentRecords: {
-          initialData: {
-            personalData: {
-              employmentHistory: {
-                veteran: {
-                  currentEmployment: {
-                    present: true,
-                    to: null,
-                  },
-                },
-              },
-            },
-          },
           path: 'employment-records',
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
@@ -211,18 +199,6 @@ const formConfig = {
           uiSchema: pages.spouseEmployment.uiSchema,
           schema: pages.spouseEmployment.schema,
           depends: formData => formData.questions.maritalStatus === 'Married',
-          initialData: {
-            personalData: {
-              employmentHistory: {
-                spouse: {
-                  currentEmployment: {
-                    present: true,
-                    to: null,
-                  },
-                },
-              },
-            },
-          },
         },
         spouseEmploymentRecords: {
           path: 'spouse-employment-records',

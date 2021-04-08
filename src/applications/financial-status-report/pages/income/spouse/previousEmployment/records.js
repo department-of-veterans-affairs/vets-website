@@ -1,5 +1,6 @@
 import ItemLoop from '../../../../components/ItemLoop';
 import CardDetailsView from '../../../../components/CardDetailsView';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -9,7 +10,7 @@ export const uiSchema = {
         classNames: 'vads-u-margin-top--2',
       },
       spouse: {
-        previousEmployment: {
+        spousePreviousEmployment: {
           'ui:field': ItemLoop,
           'ui:description':
             'Tell us about your spouse’s other jobs in the past 2 years.',
@@ -29,14 +30,8 @@ export const uiSchema = {
                 widgetClassNames: 'input-size-3',
               },
             },
-            from: {
-              'ui:title': 'Date your spouse started work at this job',
-              'ui:widget': 'date',
-            },
-            to: {
-              'ui:title': 'Date your spouse stopped work at this job',
-              'ui:widget': 'date',
-            },
+            from: monthYearUI('Date your spouse started work at this job'),
+            to: monthYearUI('Date your spouse stopped work at this job'),
             employerName: {
               'ui:title': 'Employer name',
               'ui:options': {
@@ -62,7 +57,7 @@ export const schema = {
             spouse: {
               type: 'object',
               properties: {
-                previousEmployment: {
+                spousePreviousEmployment: {
                   type: 'array',
                   items: {
                     type: 'object',

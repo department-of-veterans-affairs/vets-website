@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
-import manifest from '../../manifest.json';
-
-const ROOT_URL = manifest.rootUrl;
+import { ROOT_URL } from '../constants';
 
 const StartFormButton = ({ setWizardStatus, label, ariaId }) => {
+  useEffect(() => {
+    recordEvent({
+      event: 'howToWizard-cta-displayed',
+    });
+  }, []);
+
   return (
     <a
       href={`${ROOT_URL}/introduction`}
@@ -12,6 +17,11 @@ const StartFormButton = ({ setWizardStatus, label, ariaId }) => {
       onClick={event => {
         event.preventDefault();
         setWizardStatus(WIZARD_STATUS_COMPLETE);
+        recordEvent({
+          event: 'cta-button-click',
+          'button-type': 'primary',
+          'button-click-label': label,
+        });
       }}
       aria-describedby={ariaId}
     >

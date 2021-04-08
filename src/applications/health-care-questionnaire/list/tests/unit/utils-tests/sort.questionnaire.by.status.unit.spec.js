@@ -2,7 +2,21 @@ import { expect } from 'chai';
 
 import { sortQuestionnairesByStatus } from '../../../utils';
 
-import testData from './data/sort.questionnaire.data.json';
+import { AppointmentData } from '../../../../shared/test-data/appointment/factory';
+import { QuestionnaireData } from '../../../../shared/test-data/questionnaire/factory';
+import { QuestionnaireResponseData } from '../../../../shared/test-data/questionnaire-response/factory';
+
+import {
+  cancelled,
+  booked,
+} from '../../../../shared/constants/appointment.status';
+
+import {
+  inProgress,
+  completed,
+} from '../../../../shared/constants/questionnaire.response.status';
+
+import { json } from '../../../../shared/api/mock-data/fhir/full.example.data';
 
 describe('health care questionnaire -- utils -- questionnaire list -- sorting by status --', () => {
   it('undefined data', () => {
@@ -18,29 +32,111 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
     expect(result.toDo).to.exist;
   });
   it('good data', () => {
-    const { data } = testData;
+    // tests the 6 use cases to be sorted into todo(3), completed(2) and not in the list (1)
+    const data = [
+      {
+        appointment: new AppointmentData().withStatus(booked).inFuture(1),
+        questionnaire: [
+          {
+            questionnaireResponse: [new QuestionnaireResponseData()],
+          },
+        ],
+      },
+      {
+        appointment: new AppointmentData().withStatus(booked).inFuture(2),
+        questionnaire: [
+          {
+            questionnaireResponse: [
+              new QuestionnaireResponseData().withStatus(inProgress),
+            ],
+          },
+        ],
+      },
+      {
+        appointment: new AppointmentData().withStatus(booked).inFuture(3),
+        questionnaire: [
+          {
+            questionnaireResponse: [
+              new QuestionnaireResponseData().withStatus(completed),
+            ],
+          },
+        ],
+      },
+      {
+        appointment: new AppointmentData().withStatus(cancelled).inFuture(4),
+        questionnaire: [
+          {
+            questionnaireResponse: [new QuestionnaireResponseData()],
+          },
+        ],
+      },
+      {
+        appointment: new AppointmentData().withStatus(cancelled).inFuture(5),
+        questionnaire: [
+          {
+            questionnaireResponse: [
+              new QuestionnaireResponseData().withStatus(inProgress),
+            ],
+          },
+        ],
+      },
+      {
+        appointment: new AppointmentData().withStatus(cancelled),
+        questionnaire: [
+          {
+            questionnaireResponse: [
+              new QuestionnaireResponseData().withStatus(completed),
+            ],
+          },
+        ],
+      },
+    ];
+
+    const result = sortQuestionnairesByStatus(data);
+    expect(result.completed).to.exist;
+    expect(result.completed.length).to.equal(2);
+    expect(result.toDo).to.exist;
+    expect(result.toDo.length).to.equal(3);
+  });
+
+  it('mock data', () => {
+    // tests the 6 use cases to be sorted into todo(4), completed(2) and not in the list (1)
+    const { data } = json;
     const result = sortQuestionnairesByStatus(data);
     expect(result.completed).to.exist;
     expect(result.completed.length).to.equal(2);
     expect(result.toDo).to.exist;
     expect(result.toDo.length).to.equal(4);
   });
+  it('entered in error - mock data', () => {
+    const appointment = new AppointmentData().inFuture().withStatus(booked);
+    const questionnaire = new QuestionnaireData();
+    const questionnaireResponse = new QuestionnaireResponseData().withStatus(
+      'entered-in-error',
+    );
+    questionnaire.questionnaireResponse = [{ ...questionnaireResponse }];
+    const data = [
+      {
+        appointment,
+        questionnaire: [{ ...questionnaire }],
+      },
+    ];
+
+    const result = sortQuestionnairesByStatus(data);
+
+    expect(result.completed).to.exist;
+    expect(result.completed.length).to.equal(0);
+    expect(result.toDo).to.exist;
+    expect(result.toDo.length).to.equal(1);
+  });
   describe('appointment status use cases --', () => {
     it('appointment is CANCELLED and questionnaire is NOT STARTED -- should not be in the list', () => {
       const data = [
         {
-          appointment: {
-            attributes: {
-              vdsAppointments: [
-                {
-                  currentStatus: 'CANCELLED BY CLINIC',
-                },
-              ],
-            },
-          },
+          appointment: new AppointmentData().withStatus(cancelled),
           questionnaire: [
             {
-              questionnaireResponse: {},
+              questionnaireResponse: [new QuestionnaireResponseData()],
             },
           ],
         },
@@ -54,20 +150,12 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
     it('appointment is CANCELLED and questionnaire is IN PROGRESS -- should the todo list', () => {
       const data = [
         {
-          appointment: {
-            attributes: {
-              vdsAppointments: [
-                {
-                  currentStatus: 'CANCELLED BY CLINIC',
-                },
-              ],
-            },
-          },
+          appointment: new AppointmentData().withStatus(cancelled),
           questionnaire: [
             {
-              questionnaireResponse: {
-                status: 'in-progress',
-              },
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(inProgress),
+              ],
             },
           ],
         },
@@ -82,20 +170,12 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
     it('appointment is CANCELLED and questionnaire is COMPLETED -- should the completed list', () => {
       const data = [
         {
-          appointment: {
-            attributes: {
-              vdsAppointments: [
-                {
-                  currentStatus: 'CANCELLED BY CLINIC',
-                },
-              ],
-            },
-          },
+          appointment: new AppointmentData().withStatus(cancelled),
           questionnaire: [
             {
-              questionnaireResponse: {
-                status: 'completed',
-              },
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(completed),
+              ],
             },
           ],
         },
@@ -110,18 +190,10 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
     it('appointment is FUTURE and questionnaire is NOT STARTED -- should be in toDo list', () => {
       const data = [
         {
-          appointment: {
-            attributes: {
-              vdsAppointments: [
-                {
-                  currentStatus: 'FUTURE',
-                },
-              ],
-            },
-          },
+          appointment: new AppointmentData().withStatus(booked),
           questionnaire: [
             {
-              questionnaireResponse: {},
+              questionnaireResponse: [new QuestionnaireResponseData()],
             },
           ],
         },
@@ -136,20 +208,12 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
     it('appointment is FUTURE and questionnaire is IN PROGRESS -- should be in toDo list', () => {
       const data = [
         {
-          appointment: {
-            attributes: {
-              vdsAppointments: [
-                {
-                  currentStatus: 'FUTURE',
-                },
-              ],
-            },
-          },
+          appointment: new AppointmentData().withStatus(booked),
           questionnaire: [
             {
-              questionnaireResponse: {
-                status: 'in-progress',
-              },
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(inProgress),
+              ],
             },
           ],
         },
@@ -163,20 +227,12 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
     it('appointment is FUTURE and questionnaire is COMPLETED -- should be in completed list', () => {
       const data = [
         {
-          appointment: {
-            attributes: {
-              vdsAppointments: [
-                {
-                  currentStatus: 'FUTURE',
-                },
-              ],
-            },
-          },
+          appointment: new AppointmentData().withStatus(booked),
           questionnaire: [
             {
-              questionnaireResponse: {
-                status: 'completed',
-              },
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(completed),
+              ],
             },
           ],
         },

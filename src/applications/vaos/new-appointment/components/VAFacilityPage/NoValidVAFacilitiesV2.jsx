@@ -3,6 +3,7 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import State from '../../../components/State';
 import FacilityPhone from '../../../components/FacilityPhone';
 import { lowerCase } from '../../../utils/formatters';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function NoValidVAFacilities({
   facilities,
@@ -59,12 +60,13 @@ export default function NoValidVAFacilities({
                             <br />
                           </>
                         )}
-                        Main phone:{' '}
                         <FacilityPhone
                           contact={
                             facility.telecom.find(t => t.system === 'phone')
                               ?.value
                           }
+                          className="vads-u-font-weight--normal"
+                          level={4}
                         />
                       </li>
                     ))}
@@ -72,13 +74,9 @@ export default function NoValidVAFacilities({
                 </li>
               )}
               <li>
-                <a
-                  href="/find-locations"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <NewTabAnchor href="/find-locations">
                   Or, find a different VA location
-                </a>
+                </NewTabAnchor>
               </li>
             </ul>
           </>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import NewTabAnchor from '../../../components/NewTabAnchor';
+import FacilityPhone from '../../../components/FacilityPhone';
 
 export default function CancelCommunityCareAppointmentModal({
   onClose,
@@ -31,9 +32,7 @@ export default function CancelCommunityCareAppointmentModal({
       {!address && (
         <>
           Please contact your facility community care staff at{' '}
-          <a href="/find-locations" target="_blank" rel="noopener noreferrer">
-            your local VA.
-          </a>
+          <NewTabAnchor href="/find-locations">your local VA.</NewTabAnchor>
           <br />
         </>
       )}
@@ -53,10 +52,8 @@ export default function CancelCommunityCareAppointmentModal({
         <strong>{location.name}</strong>
         {!!phone && (
           <>
-            <h4 className="vaos-appts__block-label vads-u-display--inline">
-              Main phone:
-            </h4>{' '}
-            <Telephone contact={phone} />
+            <br />
+            <FacilityPhone contact={phone} level={4} />
           </>
         )}
       </div>

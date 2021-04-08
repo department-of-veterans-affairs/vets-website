@@ -10,14 +10,15 @@ import './analytics';
 import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
+import createVetCentersHours from './facilities/createVetCentersHours';
 
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
 import subscribeAccordionEvents from './subscribeAccordionEvents';
-import subscribeComponentAnalyticsEvents from './subscribeComponentAnalyticsEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
+import createDirectDepositContent from './direct-deposit-content/createDirectDepositContent';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
@@ -98,8 +99,6 @@ subscribeAdditionalInfoEvents();
 
 subscribeAccordionEvents();
 
-subscribeComponentAnalyticsEvents();
-
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_527EZ,
   applyHeading: 'How do I apply?',
@@ -148,6 +147,7 @@ createResourcesAndSupportSearchWidget(
   widgetTypes.RESOURCES_AND_SUPPORT_SEARCH,
 );
 
+createVetCentersHours(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
@@ -197,6 +197,8 @@ createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
+
+createDirectDepositContent(store, widgetTypes.DIRECT_DEPOSIT);
 
 // homepage widgets
 if (location.pathname === '/') {

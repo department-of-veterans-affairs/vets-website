@@ -1,0 +1,146 @@
+{
+  "questions": {
+    "hasBeenAdjucatedBankrupt": false,
+    "hasOtherExpenses": false,
+    "hasRepayments": false,
+    "hasUtilities": false,
+    "hasOtherAssets": false,
+    "hasRecreationalVehicle": false,
+    "hasVehicle": false,
+    "hasRealEstate": false,
+    "hasDependents": false,
+    "maritalStatus": "Single",
+    "hasAdditionalIncome": false,
+    "hasSocialSecurity": false,
+    "vetPreviouslyEmployed": false,
+    "vetIsEmployed": false
+  },
+  "additionalData": {
+    "additionalComments": "Supporting personal statement",
+    "bankruptcy": {}
+  },
+  "expenses": {
+    "rentOrMortgage": 0,
+    "food": 0
+  },
+  "assets": {
+    "cashInBank": 0,
+    "cashOnHand": 0,
+    "usSavingsBonds": 0,
+    "stocksAndOtherBonds": 0
+  },
+  "personalData": {
+    "address": {
+      "livesOnMilitaryBaseInfo": {},
+      "countryName": "United States",
+      "street": "8200 DOBY LN",
+      "street2": "APT 4D",
+      "city": "PASADENA",
+      "stateCode": "FL",
+      "zipCode": "33614",
+      "state": "MD",
+      "country": "USA",
+      "postalCode": "21122"
+    },
+    "telephoneNumber": "4445551212",
+    "emailAddress": "test2@test1.net",
+    "confirmationEmail": "test2@test1.net",
+    "veteranFullName": {
+      "first": "Mark",
+      "last": "Webb",
+      "middle": "R",
+      "suffix": "Jr."
+    },
+    "dateOfBirth": "1950-10-04",
+    "employmentHistory": {
+      "veteran": {
+        "currentEmployment": {}
+      },
+      "spouse": {
+        "currentEmployment": {}
+      }
+    },
+    "spouseFullName": {}
+  },
+  "view:components": {
+    "view:veteranInfo": {},
+    "view:vaBenefitsOnFile": {},
+    "view:vehicleInfo": {},
+    "view:recVehicleInfo": {},
+    "view:assetInfo": {}
+  },
+  "personalIdentification": {
+    "ssn": "4437",
+    "fileNumber": "4437"
+  },
+  "selectedDebts": [
+    {
+      "financialOverview": {},
+      "debtRepaymentOptions": {},
+      "resolutionOptionsTitle": {},
+      "resolution": {
+        "resolutionType": "Waiver"
+      },
+      "fileNumber": "796121200",
+      "payeeNumber": "00",
+      "personEntitled": "AJHONS",
+      "deductionCode": "30",
+      "benefitType": "Comp & Pen",
+      "diaryCode": "080",
+      "diaryCodeDescription": "Referred to the Department of the Treasury",
+      "amountOverpaid": 0,
+      "amountWithheld": 0,
+      "originalAr": 136.24,
+      "currentAr": 100,
+      "debtHistory": [
+        {
+          "date": "02/25/2009",
+          "letterCode": "914",
+          "description": "Paid In Full - Account balance cleared via offset, not including TOP."
+        },
+        {
+          "date": "02/07/2009",
+          "letterCode": "905",
+          "description": "Administrative Write Off"
+        },
+        {
+          "date": "12/03/2008",
+          "letterCode": "487",
+          "description": "Death Case Pending Action"
+        }
+      ],
+      "id": 0
+    }
+  ],
+  "debt": {
+    "currentAr": 0,
+    "debtHistory": [
+      {
+        "date": ""
+      }
+    ],
+    "deductionCode": "",
+    "originalAr": 0
+  },
+  "income": [
+    {
+      "veteranOrSpouse": "VETERAN",
+      "compensationAndPension": "3261.1",
+      "education": "50"
+    },
+    {
+      "veteranOrSpouse": "SPOUSE",
+      "compensationAndPension": "0",
+      "education": "0"
+    }
+  ],
+  "socialSecurity": {
+    "spouse": {}
+  },
+  "additionalIncome": {
+    "spouse": {}
+  },
+  "benefits": {
+    "spouseBenefits": {}
+  }
+}

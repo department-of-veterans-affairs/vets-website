@@ -32,11 +32,11 @@ function disabilityCompensationExists(exists) {
     .should(assertion);
 }
 
-// Helper to make sure that the "education benefits" info does or doesn't exist
+// Helper to make sure that the "education and training" info does or doesn't exist
 function educationBenefitExists(exists) {
   const assertion = exists ? 'exist' : 'not.exist';
   cy.findByTestId('benefits-of-interest')
-    .findByRole('heading', { name: /^education benefits$/i })
+    .findByRole('heading', { name: /^education and training$/i })
     .should(assertion);
 }
 

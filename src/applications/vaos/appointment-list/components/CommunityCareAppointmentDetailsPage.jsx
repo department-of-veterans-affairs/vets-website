@@ -43,6 +43,18 @@ function CommunityCareAppointmentDetailsPage({
     [appointment, appointmentDate],
   );
 
+  useEffect(
+    () => {
+      if (
+        appointmentDetailsStatus === FETCH_STATUS.failed ||
+        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [appointmentDetailsStatus],
+  );
+
   if (
     appointmentDetailsStatus === FETCH_STATUS.failed ||
     (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
@@ -99,7 +111,7 @@ function CommunityCareAppointmentDetailsPage({
       <FacilityAddress
         facility={location}
         showDirectionsLink={!!location.address}
-        isHomepageRefresh
+        level={2}
       />
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label">

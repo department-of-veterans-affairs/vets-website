@@ -5,7 +5,7 @@ import moment from 'moment';
 import React from 'react';
 import sinon from 'sinon';
 import ConfirmationPage, * as noConnect from '../../../../new-appointment/components/ConfirmationPage';
-import { FLOW_TYPES } from '../../../../utils/constants';
+import { FETCH_STATUS, FLOW_TYPES } from '../../../../utils/constants';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -28,6 +28,7 @@ describe('VAOS <ConfirmationPage>', () => {
     const start = moment();
     const store = createTestStore({
       newAppointment: {
+        submitStatus: FETCH_STATUS.succeeded,
         flowType: FLOW_TYPES.DIRECT,
         data: {
           typeOfCareId: '323',
@@ -137,6 +138,7 @@ describe('VAOS <ConfirmationPage>', () => {
 
     const screen = renderWithStoreAndRouter(
       <noConnect.ConfirmationPage
+        submitStatus={FETCH_STATUS.succeeded}
         facilityDetails={facilityDetails}
         flowType={flowType}
         data={data}
@@ -194,6 +196,7 @@ describe('VAOS <ConfirmationPage>', () => {
 
     const screen = renderWithStoreAndRouter(
       <noConnect.ConfirmationPage
+        submitStatus={FETCH_STATUS.succeeded}
         facilityDetails={facilityDetails}
         flowType={flowType}
         data={data}
@@ -242,6 +245,7 @@ describe('VAOS <ConfirmationPage>', () => {
 
     const screen = renderWithStoreAndRouter(
       <noConnect.ConfirmationPage
+        submitStatus={FETCH_STATUS.succeeded}
         facilityDetails={facilityDetails}
         flowType={flowType}
         data={data}
@@ -287,6 +291,7 @@ describe('VAOS <ConfirmationPage>', () => {
 
     const screen = renderWithStoreAndRouter(
       <noConnect.ConfirmationPage
+        submitStatus={FETCH_STATUS.succeeded}
         facilityDetails={facilityDetails}
         flowType={flowType}
         data={data}
@@ -326,6 +331,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
     const screen = renderWithStoreAndRouter(
       <noConnect.ConfirmationPage
+        submitStatus={FETCH_STATUS.succeeded}
         facilityDetails={facilityDetails}
         flowType={flowType}
         data={data}
@@ -360,6 +366,7 @@ describe('VAOS <ConfirmationPage>', () => {
     };
     const screen = renderWithStoreAndRouter(
       <noConnect.ConfirmationPage
+        submitStatus={FETCH_STATUS.succeeded}
         facilityDetails={facilityDetails}
         flowType={flowType}
         data={data}
@@ -388,6 +395,7 @@ describe('VAOS <ConfirmationPage>', () => {
 
     const screen = renderWithStoreAndRouter(
       <noConnect.ConfirmationPage
+        submitStatus={FETCH_STATUS.succeeded}
         fetchFacilityDetails={fetchFacilityDetails}
         startNewAppointmentFlow={startNewAppointmentFlow}
         flowType={flowType}
@@ -418,6 +426,7 @@ describe('VAOS <ConfirmationPage>', () => {
 
     const screen = renderWithStoreAndRouter(
       <noConnect.ConfirmationPage
+        submitStatus={FETCH_STATUS.succeeded}
         fetchFacilityDetails={fetchFacilityDetails}
         closeConfirmationPage={closeConfirmationPage}
         flowType={flowType}

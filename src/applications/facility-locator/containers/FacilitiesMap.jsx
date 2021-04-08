@@ -35,12 +35,7 @@ import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 
 const mbxClient = mbxGeo(mapboxClient);
 
-import {
-  setFocus,
-  buildMarker,
-  resetMapElements,
-  setSearchAreaPosition,
-} from '../utils/helpers';
+import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import { MapboxInit, MARKER_LETTERS, MAX_SEARCH_AREA } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
@@ -48,11 +43,10 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SearchResult from '../components/SearchResult';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
-import SearchAreaControl from '../utils/SearchAreaControl';
+import SearchAreaControl from '../components/SearchAreaControl';
 import recordEvent from 'platform/monitoring/record-event';
 
 let lastZoom = 3;
-let searchAreaSet = false;
 
 const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
@@ -121,28 +115,11 @@ const FacilitiesMap = props => {
 
   const renderMarkers = locations => {
     if (locations.length === 0) return;
-    const currentLocation = props.currentQuery.position;
     const markersLetters = MARKER_LETTERS.values();
-    const sortedLocations = locations
-      .map(r => {
-        const distance = currentLocation
-          ? distBetween(
-              currentLocation.latitude,
-              currentLocation.longitude,
-              r.attributes.lat,
-              r.attributes.long,
-            )
-          : null;
-        return {
-          ...r,
-          distance,
-        };
-      })
-      .sort((resultA, resultB) => resultA.distance - resultB.distance);
 
     const locationBounds = new mapboxgl.LngLatBounds();
 
-    sortedLocations.forEach(loc => {
+    locations.forEach(loc => {
       const attrs = {
         letter: markersLetters.next().value,
       };
@@ -199,10 +176,6 @@ const FacilitiesMap = props => {
   };
 
   const handleSearchArea = () => {
-    if (!props.currentQuery.isValid) {
-      return;
-    }
-
     resetMapElements();
     const { currentQuery } = props;
     lastZoom = null;
@@ -244,36 +217,6 @@ const FacilitiesMap = props => {
     });
   };
 
-  const activateSearchAreaControl = () => {
-    if (!map) {
-      return;
-    }
-
-    const searchAreaControl = document.getElementById(
-      'search-area-control-container',
-    );
-
-    if (!searchAreaControl) {
-      return;
-    }
-
-    // TODO: hide after new search
-    if (calculateSearchArea() > MAX_SEARCH_AREA) {
-      searchAreaControl.style.display = 'none';
-      return;
-    }
-
-    if (searchAreaControl.style.display === 'none') {
-      searchAreaControl.style.display = 'block';
-      setFocus('#search-area-control', false);
-    }
-
-    if (searchAreaControl && !searchAreaSet) {
-      searchAreaControl.addEventListener('click', handleSearchArea, false);
-      searchAreaSet = true;
-    }
-  };
-
   const speakZoom = currentZoom => {
     if (!environment.isProduction()) {
       const screenreaderZoomElement = document.getElementById(zoomMessageDivID);
@@ -297,7 +240,6 @@ const FacilitiesMap = props => {
     map.on('dragend', () => {
       props.mapMoved();
       recordPanEvent(map.getCenter(), props.currentQuery);
-      activateSearchAreaControl();
     });
     map.on('zoom', () => {
       const currentZoom = parseInt(map.getZoom(), 10);
@@ -306,7 +248,9 @@ const FacilitiesMap = props => {
     });
     map.on('zoomend', () => {
       // Note: DO NOT call props.mapMoved() here
-      // because zoomend is triggered by fitBounds.
+      // because zoomend is triggered by fitBounds,
+      // and we don't want to see the Search this area button
+      // after a fresh search
 
       const currentZoom = parseInt(map.getZoom(), 10);
 
@@ -315,7 +259,6 @@ const FacilitiesMap = props => {
       }
 
       lastZoom = currentZoom;
-      activateSearchAreaControl();
     });
   };
 
@@ -335,8 +278,6 @@ const FacilitiesMap = props => {
       zoom: MapboxInit.zoomInit,
     });
 
-    const searchAreaControl = new SearchAreaControl(isMobile);
-    mapInit.addControl(searchAreaControl);
     mapInit.addControl(
       new mapboxgl.NavigationControl({
         // Hide rotation control.
@@ -344,7 +285,6 @@ const FacilitiesMap = props => {
       }),
       'top-left',
     );
-    setSearchAreaPosition();
     const mapBoxLogo = document.querySelector(
       'a.mapboxgl-ctrl-logo.mapboxgl-compact',
     );
@@ -361,6 +301,12 @@ const FacilitiesMap = props => {
         }),
       );
 
+      // set up listener on the mouse wheel:
+      mapContainerElement.addEventListener(
+        'wheel',
+        vaDebounce(250, props.mapMoved),
+      );
+
       mapInit.resize();
     });
 
@@ -375,6 +321,23 @@ const FacilitiesMap = props => {
       setMap(setupMap());
     }, 10);
   };
+
+  const shouldRenderSearchArea = () => {
+    return props.currentQuery?.mapMoved;
+  };
+
+  const searchAreaButtonLabel = () => {
+    return calculateSearchArea() > MAX_SEARCH_AREA
+      ? 'Zoom in to search'
+      : 'Search this area of the map';
+  };
+
+  const searchAreaButtonEnabled = () =>
+    calculateSearchArea() < MAX_SEARCH_AREA &&
+    props.currentQuery.facilityType &&
+    (props.currentQuery.facilityType === 'provider'
+      ? props.currentQuery.serviceType
+      : true);
 
   const renderMobileView = () => {
     const {
@@ -413,14 +376,7 @@ const FacilitiesMap = props => {
         <div className="columns small-12">
           <Tabs>
             <TabList>
-              <Tab
-                onClick={() => {
-                  searchAreaSet = false;
-                }}
-                className="small-6 tab"
-              >
-                View List
-              </Tab>
+              <Tab className="small-6 tab">View List</Tab>
               <Tab
                 onClick={() => {
                   setMapResize();
@@ -451,10 +407,16 @@ const FacilitiesMap = props => {
                 aria-live="assertive"
                 className="sr-only"
               />
-              <div
-                style={{ width: '100%', maxHeight: '55vh', height: '55vh' }}
-                id={mapboxGlContainer}
-              />
+              <map id={mapboxGlContainer}>
+                {shouldRenderSearchArea() && (
+                  <SearchAreaControl
+                    isMobile
+                    isEnabled={searchAreaButtonEnabled()}
+                    handleSearchArea={handleSearchArea}
+                    buttonLabel={searchAreaButtonLabel()}
+                  />
+                )}
+              </map>
               {selectedResult && (
                 <div className="mobile-search-result">
                   <SearchResult result={selectedResult} query={currentQuery} />
@@ -520,7 +482,16 @@ const FacilitiesMap = props => {
           </div>
         </div>
         <div id={zoomMessageDivID} aria-live="assertive" className="sr-only" />
-        <div className="desktop-map-container" id={mapboxGlContainer} />
+        <map className="desktop-map-container" id={mapboxGlContainer}>
+          {shouldRenderSearchArea() && (
+            <SearchAreaControl
+              isMobile={false}
+              isEnabled={searchAreaButtonEnabled()}
+              handleSearchArea={handleSearchArea}
+              buttonLabel={searchAreaButtonLabel()}
+            />
+          )}
+        </map>
         <PaginationWrapper
           handlePageSelect={handlePageSelect}
           currentPage={currentPage}
@@ -616,8 +587,6 @@ const FacilitiesMap = props => {
     window.addEventListener('resize', debouncedResize);
     return () => {
       window.removeEventListener('resize', debouncedResize);
-      window.removeEventListener('click', handleSearchArea);
-      searchAreaSet = false;
     };
   }, []); // <-- empty array means 'run once'
 

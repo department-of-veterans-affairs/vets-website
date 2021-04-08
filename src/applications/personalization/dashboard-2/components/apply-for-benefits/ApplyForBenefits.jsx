@@ -26,65 +26,68 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
   return (
     <>
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
-        Benefits you might be interested in
+        VA benefits you might be interested in
       </h3>
-      <div
-        className="vads-l-grid-container vads-u-padding--0"
-        data-testid="benefits-of-interest"
-      >
+      <div data-testid="benefits-of-interest">
         {!showChildren && (
           <div className="vads-u-margin-y--2">
             <LoadingIndicator message="Loading benefits you might be interested in..." />
           </div>
         )}
         {showChildren && <div className="vads-l-row">{children}</div>}
-        <AdditionalInfo triggerText="What benefits does the VA offer?">
-          <p className="vads-u-font-weight--bold">
-            Explore VA.gov to learn about the benefits we offer.
-          </p>
-          <ul>
-            <li>
-              <a href="https://www.va.gov/careers-employment/">
-                Careers &amp; employment
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/pension/">Pension</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/housing-assistance/">
-                Housing assistance
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/burials-memorials/">
-                Burials &amp; memorials
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/life-insurance/">Life insurance</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/service-member-benefits/">
-                Service member benefits
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/family-member-benefits/">
-                Family member benefits
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/health-care/">Health care benefits</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/education/">Education benefits</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/disability/">Disability benefits</a>
-            </li>
-          </ul>
-        </AdditionalInfo>
+        <div className="vads-u-margin-top--2">
+          <AdditionalInfo triggerText="What benefits does VA offer?">
+            <p className="vads-u-font-weight--bold">
+              Explore VA.gov to learn about the benefits we offer.
+            </p>
+            <ul>
+              <li>
+                <a href="https://www.va.gov/health-care/">Health care</a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/education/">
+                  Education and training
+                </a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/disability/">
+                  Disability compensation
+                </a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/careers-employment/">
+                  Careers &amp; employment
+                </a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/pension/">Pension</a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/housing-assistance/">
+                  Housing assistance
+                </a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/burials-memorials/">
+                  Burials &amp; memorials
+                </a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/life-insurance/">Life insurance</a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/service-member-benefits/">
+                  Service member benefits
+                </a>
+              </li>
+              <li>
+                <a href="https://www.va.gov/family-member-benefits/">
+                  Family member benefits
+                </a>
+              </li>
+            </ul>
+          </AdditionalInfo>
+        </div>
       </div>
     </>
   );
@@ -130,8 +133,9 @@ const ApplyForBenefits = ({
           {showHealthCare && (
             <BenefitOfInterest
               title="Health care"
-              ctaButtonLabel="Apply for health care"
-              ctaUrl="https://www.va.gov/health-care/"
+              icon="health-care"
+              ctaButtonLabel="Apply for VA health care"
+              ctaUrl="https://www.va.gov/health-care/how-to-apply/"
             >
               <p>
                 With VA health care, you’ll receive coverage for services like
@@ -142,7 +146,8 @@ const ApplyForBenefits = ({
           )}
           <BenefitOfInterest
             title="Disability compensation"
-            ctaButtonLabel="File a disability claim"
+            icon="disability"
+            ctaButtonLabel="Learn how to file a claim for disability"
             ctaUrl="https://www.va.gov/disability/"
           >
             <p>
@@ -153,14 +158,15 @@ const ApplyForBenefits = ({
           </BenefitOfInterest>
           {showEducation && (
             <BenefitOfInterest
-              title="Education benefits"
-              ctaButtonLabel="Apply for education benefits"
+              title="Education and training"
+              icon="education"
+              ctaButtonLabel="Learn how to apply for education benefits"
               ctaUrl="https://www.va.gov/education/"
             >
               <p>
-                VA education benefits help Veterans, service members, and their
-                qualified family members with needs like finding the right
-                school or training program and paying tuition.
+                With VA education benefits, you and your qualified family
+                members can get help finding a college or training program and
+                paying for tuition or test fees.
               </p>
             </BenefitOfInterest>
           )}

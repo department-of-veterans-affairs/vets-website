@@ -17,9 +17,11 @@ import {
   getCCAppointmentMock,
   getExpressCareRequestCriteriaMock,
   getVAFacilityMock,
+  getDirectBookingEligibilityCriteriaMock,
 } from '../../../mocks/v0';
 import {
   mockAppointmentInfo,
+  mockDirectBookingEligibilityCriteria,
   mockFacilitiesFetch,
   mockRequestEligibilityCriteria,
 } from '../../../mocks/helpers';
@@ -35,6 +37,7 @@ const initialState = {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingRequests: true,
     vaOnlineSchedulingPast: true,
+    vaOnlineSchedulingExpressCareNew: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
   },
@@ -922,7 +925,7 @@ describe('VAOS integration: appointment list', () => {
     expect(screen.getByRole('link', { name: 'Request an appointment' }));
   });
 
-  it('should show COVID-19 vaccine button', async () => {
+  it('should render schedule radio list with COVID-19 vaccine option', async () => {
     const defaultState = {
       featureToggles: {
         ...initialState.featureToggles,
@@ -930,21 +933,78 @@ describe('VAOS integration: appointment list', () => {
       },
       user: userState,
     };
+    mockDirectBookingEligibilityCriteria(
+      ['983'],
+      [
+        getDirectBookingEligibilityCriteriaMock({
+          id: '983',
+          typeOfCareId: 'covid',
+        }),
+      ],
+    );
+
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: defaultState,
     });
-
     expect(
-      await screen.findAllByRole('heading', {
+      await screen.findByRole('heading', {
         level: 2,
-        name: /Schedule your first COVID-19 vaccine/,
+        name: /Schedule a new appointment/,
       }),
     );
 
-    expect(
-      screen.getByText(/You may be eligible to receive the COVID-19 vaccine/i),
-    ).to.be.ok;
+    expect(await screen.findAllByRole('radio')).to.have.length(2);
 
-    expect(screen.getByRole('link', { name: 'Learn more' }));
+    expect(screen.getByText(/Choose an appointment type$/)).to.be.ok;
+
+    userEvent.click(
+      await screen.findByRole('radio', { name: 'COVID-19 vaccine' }),
+    );
+
+    userEvent.click(
+      await screen.findByRole('link', { name: /Start scheduling/ }),
+    );
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/new-covid-19-vaccine-booking',
+      ),
+    );
+  });
+
+  it('should render schedule radio list without COVID-19 vaccine option', async () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingCheetah: true,
+      },
+      user: userState,
+    };
+
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState: defaultState,
+    });
+    expect(
+      await screen.findByRole('heading', {
+        level: 2,
+        name: /Schedule a new appointment/,
+      }),
+    );
+
+    expect(await screen.findByText(/start scheduling/i)).be.ok;
+
+    expect(screen.queryByRole('radio')).not.to.exist;
+    expect(screen.getByRole('heading', { name: /COVID-19 vaccines/, level: 3 }))
+      .to.be.ok;
+    expect(screen.getByText(/at this time, you can't schedule a COVID-19/i)).to
+      .be.ok;
+
+    userEvent.click(
+      await screen.findByRole('link', { name: /Start scheduling/ }),
+    );
+
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal('/new-appointment'),
+    );
   });
 });

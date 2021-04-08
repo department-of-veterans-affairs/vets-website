@@ -27,6 +27,7 @@ import {
   showLoginModalSelector,
   userSelector,
 } from 'platform/forms/selectors/review';
+import { isReactComponent } from 'platform/utilities/ui';
 
 function FormSaveErrorMessage(props) {
   const { route, formConfig, user, form, location, showLoginModal } = props;
@@ -56,7 +57,7 @@ function FormSaveErrorMessage(props) {
 
   const DefaultErrorMessage = () => {
     let InlineErrorComponent;
-    if (typeof errorText === 'function') {
+    if (isReactComponent(errorText)) {
       InlineErrorComponent = errorText;
     } else if (typeof errorText === 'string') {
       InlineErrorComponent = () => <p>{errorText}</p>;

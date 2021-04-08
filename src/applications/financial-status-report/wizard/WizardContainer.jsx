@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import GetFormHelp from '../components/GetFormHelp';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import pages from '../wizard/pages';
+import recordEvent from 'platform/monitoring/record-event';
 import Wizard, {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
@@ -16,7 +17,7 @@ const WizardContainer = ({ setWizardStatus }) => {
           subTitle={'Equal to VA Form 5655 (Financial Status Report)'}
         />
         <div className="wizard-container">
-          <h2>Is this the form I need?</h2>
+          <h2 className="wizard-heading">Is this the form I need?</h2>
           <p>
             This form is for Veterans or service members who need help with debt
             related to VA disability compensation, education, or pension
@@ -32,6 +33,9 @@ const WizardContainer = ({ setWizardStatus }) => {
               onClick={e => {
                 e.preventDefault();
                 setWizardStatus(WIZARD_STATUS_COMPLETE);
+                recordEvent({
+                  event: `howToWizard-skip`,
+                });
               }}
             >
               Request help with VA Form 5655
@@ -39,7 +43,7 @@ const WizardContainer = ({ setWizardStatus }) => {
           </p>
           <p>
             If you need help with a VA copay debt,{' '}
-            <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
+            <a href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/">
               learn how to request financial hardship assistance.
             </a>
           </p>
