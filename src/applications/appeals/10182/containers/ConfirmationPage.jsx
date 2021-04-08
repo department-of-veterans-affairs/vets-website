@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
@@ -9,7 +9,7 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { SELECTED } from '../constants';
+import { SELECTED, FORMAT_READABLE } from '../constants';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -71,7 +71,9 @@ export class ConfirmationPage extends React.Component {
               <p>
                 <strong>Date submitted</strong>
                 <br />
-                <span>{moment(response.timestamp).format('MMMM D, YYYY')}</span>
+                <span>
+                  {format(new Date(response.timestamp), FORMAT_READABLE)}
+                </span>
               </p>
               <strong>
                 Condition
