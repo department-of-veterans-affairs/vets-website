@@ -22,7 +22,7 @@ export default function RequestListItem({ appointment, facility }) {
       className="vaos-appts__card vaos-appts__card--clickable"
     >
       <div
-        className="vads-u-display--flex vads-u-align-items--center"
+        className="vaos-appts__card--clickable-content vads-u-display--flex vads-u-align-items--center"
         onClick={() => {
           if (!window.getSelection().toString()) history.push(link);
         }}
