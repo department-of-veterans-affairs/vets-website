@@ -1,4 +1,8 @@
-const onlyPublishedContent = process.env.UNPUBLISHED_CONTENT ? 'false' : 'true';
+const {
+  derivativeImage,
+} = require('./paragraph-fragments/derivativeMedia.paragraph.graphql');
+
+const draftContentOverride = process.env.UNPUBLISHED_CONTENT === 'true';
 
 const vetCenterLocationsFragment = `
 fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
@@ -21,21 +25,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
           addressLine1
         }        
         fieldPhoneNumber
-        fieldMedia {
-          entity {
-            ... on MediaImage {
-              image {
-                alt
-                title
-                derivative(style: _32MEDIUMTHUMBNAIL) {
-                  url
-                  width
-                  height
-                }
-              }
-            }
-          }
-        }                             
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}                           
       }          
       ... on NodeVetCenterOutstation {
         entityBundle
@@ -46,21 +36,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
           addressLine1
         }
         fieldPhoneNumber
-        fieldMedia {
-          entity {
-            ... on MediaImage {
-              image {
-                alt
-                title
-                derivative(style: _32MEDIUMTHUMBNAIL) {
-                  url
-                  width
-                  height
-                }
-              }
-            }
-          }
-        }              
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}             
       }
       ... on NodeVetCenterCap {
         entityBundle
@@ -70,21 +46,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
           postalCode
           addressLine1
         }        
-        fieldMedia {
-          entity {
-            ... on MediaImage {
-              image {
-                alt
-                title
-                derivative(style: _32MEDIUMTHUMBNAIL) {
-                  url
-                  width
-                  height
-                }
-              }
-            }
-          }
-        }                            
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}                           
       }
       ... on NodeVetCenterMobileVetCenter {
         entityBundle              
@@ -95,21 +57,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
           addressLine1
         }      
         fieldPhoneNumber
-        fieldMedia {
-          entity {
-            ... on MediaImage {
-              image {
-                alt
-                title
-                derivative(style: _32MEDIUMTHUMBNAIL) {
-                  url
-                  width
-                  height
-                }
-              }
-            }
-          }
-        }                              
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}                            
       }              
     } 
   }
@@ -213,10 +161,16 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
 const GetVetCenterLocations = `
   ${vetCenterLocationsFragment}
   
-  query GetVetCenterLocations {
+  query GetVetCenterLocations${
+    !draftContentOverride ? '($onlyPublishedContent: Boolean!)' : ''
+  } {
     nodeQuery(limit: 1000, filter: {
       conditions: [
-        { field: "status", value: ["1"], enabled: ${onlyPublishedContent} },
+        ${
+          !draftContentOverride
+            ? '{ field: "status", value: ["1"], enabled: $onlyPublishedContent },'
+            : ''
+        }
         { field: "type", value: ["vet_center_locations_list"] }
       ]
     }) {
