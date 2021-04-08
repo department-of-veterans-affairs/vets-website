@@ -1,7 +1,10 @@
+const {
+  derivativeImage,
+} = require('./paragraph-fragments/derivativeMedia.paragraph.graphql');
 const { generatePaginatedQueries } = require('../individual-queries-helpers');
 
 const vetCenterFragment = `
- fragment vetCenterFragment on NodeVetCenter {
+      fragment vetCenterFragment on NodeVetCenter {
         entityId
         entityUrl {
           path
@@ -11,21 +14,7 @@ const vetCenterFragment = `
         entityLabel
         fieldIntroText
         fieldFacilityLocatorApiId
-        fieldMedia {
-          entity {
-            ... on MediaImage {
-              image {
-                alt
-                title
-                derivative(style: _32MEDIUMTHUMBNAIL) {
-                  url
-                  width
-                  height
-                }
-              }
-            }
-          }
-        }
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}
         fieldPhoneNumber
         fieldAddress {
          countryCode
