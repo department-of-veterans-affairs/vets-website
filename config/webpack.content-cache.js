@@ -10,6 +10,7 @@ module.exports = {
     filename: 'exports.js',
     libraryTarget: 'commonjs',
   },
+  target: 'node',
   node: { __dirname: true },
   plugins: [
     new webpack.IgnorePlugin(/process-cms-exports$/),
