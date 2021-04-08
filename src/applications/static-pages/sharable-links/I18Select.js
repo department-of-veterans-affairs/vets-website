@@ -34,6 +34,9 @@ const I18Select = ({ baseUrls, content }) => {
     [lang, content],
   );
 
+  // template:
+  // <i class="fas fa-link vads-u-color--primary vads-u-margin-left--1 share-link aria-hidden='true'"></i>
+  // <span class="vads-u-display--none vads-u-margin-left--1 vads-u-color--primary"> Link Copied </span>
   return (
     <div className="vads-u-display--inline-block vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray">
       <span>
