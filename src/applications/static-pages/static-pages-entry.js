@@ -10,6 +10,7 @@ import './analytics';
 import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
+import createVetCentersHours from './facilities/createVetCentersHours';
 
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
@@ -146,6 +147,7 @@ createResourcesAndSupportSearchWidget(
   widgetTypes.RESOURCES_AND_SUPPORT_SEARCH,
 );
 
+createVetCentersHours(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);

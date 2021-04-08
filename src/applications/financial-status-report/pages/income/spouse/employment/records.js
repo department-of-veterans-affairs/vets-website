@@ -45,7 +45,7 @@ export const uiSchema = {
               </p>
             ),
           }),
-          deductions: {
+          spouseDeductions: {
             'ui:field': ItemLoop,
             'ui:title': 'Payroll deductions',
             'ui:description':
@@ -111,7 +111,7 @@ export const schema = {
                     monthlyGrossSalary: {
                       type: 'number',
                     },
-                    deductions: {
+                    spouseDeductions: {
                       type: 'array',
                       items: {
                         type: 'object',
