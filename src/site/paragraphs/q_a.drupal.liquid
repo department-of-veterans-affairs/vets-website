@@ -32,7 +32,7 @@
         {% assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
         {% include {{ bundleComponent }} with entity = answer.entity %}
       {% endfor %}
+      <div data-widget-type="sharable-link"></div>
     </div>
-    <div data-widget-type="sharable-link"></div>
   </div>
 </div>
