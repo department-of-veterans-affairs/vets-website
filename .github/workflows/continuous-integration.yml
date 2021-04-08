@@ -87,9 +87,9 @@ jobs:
         # run: yarn run eslint --ext .js --ext .jsx --format compact .
         continue-on-error: true
 
-        - name: Annotate ESLint
-          run: |
-              echo `cat eslint-report`
+      - name: Annotate ESLint
+        run: |
+            echo `cat eslint-report`
 
       # - name: Annotate linting results
       #   if: ${{ always() }}
