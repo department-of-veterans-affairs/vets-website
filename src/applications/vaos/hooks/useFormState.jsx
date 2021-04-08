@@ -41,7 +41,7 @@ function setupFormData(data, schema, uiSchema) {
  */
 export default function useFormState({
   initialSchema,
-  uiSchema,
+  uiSchema = null,
   initialData = {},
   dependencies = [],
   enabled = true,
@@ -72,7 +72,7 @@ export default function useFormState({
   );
 
   if (!enabled) {
-    return { schema: null, uiSchema: null, data: null };
+    return { schema: null, uiSchema, data: null };
   }
 
   function setData(newData) {

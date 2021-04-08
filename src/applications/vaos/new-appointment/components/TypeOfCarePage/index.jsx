@@ -26,23 +26,6 @@ import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 
-const initialSchema = {
-  type: 'object',
-  required: ['typeOfCareId'],
-  properties: {
-    typeOfCareId: {
-      type: 'string',
-    },
-  },
-};
-
-const uiSchema = {
-  typeOfCareId: {
-    'ui:title': 'Please choose a type of care',
-    'ui:widget': 'radio',
-  },
-};
-
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
 
@@ -74,7 +57,7 @@ function TypeOfCarePage({
     }
   }, []);
 
-  const { data, schema, setData } = useFormState({
+  const { data, schema, setData, uiSchema } = useFormState({
     initialSchema: () => {
       const sortedCare = TYPES_OF_CARE.filter(
         typeOfCare => typeOfCare.id !== PODIATRY_ID || showCommunityCare,
@@ -83,7 +66,8 @@ function TypeOfCarePage({
           careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
       );
       return {
-        ...initialSchema,
+        type: 'object',
+        required: ['typeOfCareId'],
         properties: {
           typeOfCareId: {
             type: 'string',
@@ -93,7 +77,12 @@ function TypeOfCarePage({
         },
       };
     },
-    uiSchema,
+    uiSchema: {
+      typeOfCareId: {
+        'ui:title': 'Please choose a type of care',
+        'ui:widget': 'radio',
+      },
+    },
     initialData,
   });
 
