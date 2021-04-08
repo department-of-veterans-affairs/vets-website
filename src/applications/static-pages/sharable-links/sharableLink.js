@@ -4,7 +4,8 @@ const SharableLink = ({ dataEntityId }) => {
   return (
     <div>
       <i
-        className="fas fa-link vads-u-color--primary vads-u-margin-left--1 share-link aria-hidden=true"
+        aria-hidden="true"
+        className="fas fa-link vads-u-color--primary vads-u-margin-left--1 share-link "
         onClick={event => {
           // copy link to users clipboard
           const input = document.createElement('input');
