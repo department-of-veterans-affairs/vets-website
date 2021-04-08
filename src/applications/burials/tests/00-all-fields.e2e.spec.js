@@ -44,7 +44,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeVeteranInformation(client, testData.data);
-  client.axeCheck().click('.form-panel .usa-button-primary');
+  client.axeCheck('.main').click('.form-panel .usa-button-primary');
   // This expects the url to not contain 'veteran-information', but when we
   //  navigate away properly, the new url is 'veteran-information/burial', so
   //  it fails when it shouldn't.
@@ -56,7 +56,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   PageHelpers.completeBurialInformation(client, testData.data);
-  client.axeCheck().click('.form-panel .usa-button-primary');
+  client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/burial');
 
   // Service Periods page
@@ -69,7 +69,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '.progress-bar-segmented div.progress-segment:nth-child(3)',
     'progress-segment-complete',
   );
-  client.axeCheck().click('.form-panel .usa-button-primary');
+  client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/military-history/service-periods',
@@ -81,7 +81,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     Timeouts.normal,
   );
   PageHelpers.completePreviousNames(client, testData.data);
-  client.axeCheck().click('.form-panel .usa-button-primary');
+  client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/military-history/previous-names');
 
   // Benefit Selection page
@@ -94,7 +94,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeBenefitSelection(client, testData.data);
-  client.axeCheck().click('.form-panel .usa-button-primary');
+  client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/benefits/selection');
 
   // Burial Allowance page -- conditional
@@ -145,11 +145,11 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeClaimantContactInformation(client, testData.data);
-  client.axeCheck().click('.form-panel .usa-button-primary');
+  client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/claimant-contact-information');
 
   // TODO: Test file upload
-  client.axeCheck().click('.form-panel .usa-button-primary');
+  client.axeCheck('.main').click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/documents');
 
   client.assert.cssClassPresent(
@@ -165,7 +165,7 @@ const runTest = E2eHelpers.createE2eTest(client => {
     )
     .pause(1000)
     .click('input[type="checkbox"]')
-    .axeCheck()
+    .axeCheck('.main')
     .click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
   client.expect
