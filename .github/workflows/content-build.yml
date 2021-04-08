@@ -9,19 +9,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Setup Node
         uses: actions/setup-node@v2
+
       - name: Configure AWS Credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
+
       - name: Get bot token from Parameter Store
         uses: marvinpinto/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
       - name: Configure AWS Credentials (2)
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -31,14 +35,34 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 1200
           role-session-name: vsp-frontendteam-githubaction
-      - run: yarn install --frozen-lockfile
-      - run: yarn webpack --config config/webpack.content-cache.js
-      - run: mkdir -p ./tmp
-      - run: zip -j ./tmp/function.zip build/content-cache/index.js
-      - run: aws s3 cp ./tmp/function.zip s3://vetsgov-website-builds-s3-upload/content-cache/master/function.zip --acl public-read
-      - run: >
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Generate and upload content cache function
+        run: |
+          yarn webpack --config config/webpack.content-cache.js
+          mkdir -p ./tmp
+          zip -j ./tmp/function.zip build/content-cache/index.js
+          aws s3 cp ./tmp/function.zip s3://vetsgov-website-builds-s3-upload/content-cache/master/function.zip --acl public-read
+
+      - name: Update content cache function
+        run: >
           aws lambda update-function-code
           --function-name cacheDrupalContent
           --s3-bucket vetsgov-website-builds-s3-upload
           --s3-key content-cache/master/function.zip
-      - run: aws lambda invoke --function-name cacheDrupalContent outfile.txt
+
+      - name: Invoke content cache function
+        run: aws lambda invoke --function-name cacheDrupalContent outfile.txt
