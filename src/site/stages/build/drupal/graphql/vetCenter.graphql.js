@@ -8,6 +8,29 @@ const vetCenterFragment = `
         entityBundle
         entityLabel
         fieldIntroText
+        fieldFacilityLocatorApiId
+        fieldMedia {
+          entity {
+            ... on MediaImage {
+              image {
+                alt
+                title
+                derivative(style: _32MEDIUMTHUMBNAIL) {
+                  url
+                  width
+                  height
+                }
+              }
+            }
+          }
+        }
+        fieldPhoneNumber
+        fieldAddress {
+         countryCode
+         locality
+         postalCode
+         addressLine1
+        }   
         fieldOfficeHours {
           day
           starthours
@@ -66,7 +89,7 @@ const GetVetCenters = `
   query GetVetCenters($onlyPublishedContent: Boolean!) {
     nodeQuery(limit: 1000, filter: {
       conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },      
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
         { field: "type", value: ["vet_center"] }
       ]
     }) {

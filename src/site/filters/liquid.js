@@ -301,6 +301,7 @@ module.exports = function registerFilters() {
     return JSON.stringify(facilityList);
   };
 
+  // We might not need this filter, refactor
   liquid.filters.widgetFacilityDetail = facility => {
     const facilityLocatorApiId = facility.split('_')[1].toUpperCase();
     const id = `vha_${facilityLocatorApiId}`;
