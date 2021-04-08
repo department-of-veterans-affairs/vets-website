@@ -1198,11 +1198,12 @@ export function requestAppointmentDateChoice(history) {
   };
 }
 
-export function routeToPageInFlow(flow, history, current, action) {
+export function routeToPageInFlow(flow, history, current, action, data) {
   return async (dispatch, getState) => {
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
       pageKey: current,
+      data,
     });
 
     let nextPage;
@@ -1239,10 +1240,16 @@ export function routeToPageInFlow(flow, history, current, action) {
   };
 }
 
-export function routeToNextAppointmentPage(history, current) {
-  return routeToPageInFlow(newAppointmentFlow, history, current, 'next');
+export function routeToNextAppointmentPage(history, current, data) {
+  return routeToPageInFlow(newAppointmentFlow, history, current, 'next', data);
 }
 
-export function routeToPreviousAppointmentPage(history, current) {
-  return routeToPageInFlow(newAppointmentFlow, history, current, 'previous');
+export function routeToPreviousAppointmentPage(history, current, data) {
+  return routeToPageInFlow(
+    newAppointmentFlow,
+    history,
+    current,
+    'previous',
+    data,
+  );
 }

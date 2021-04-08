@@ -192,37 +192,17 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_DATA_UPDATED: {
-      let newPages = state.pages;
-      let actionData = action.data;
-
-      if (
-        getTypeOfCare(actionData)?.id !== getTypeOfCare(state.data)?.id &&
-        (state.pages.vaFacility || state.data.vaFacility)
-      ) {
-        newPages = unset('vaFacility', newPages);
-        actionData = unset('vaFacility', actionData);
-      }
-
-      // reset community care provider if type of care changes
-      if (
-        getTypeOfCare(actionData)?.id !== getTypeOfCare(state.data)?.id &&
-        (state.pages.ccPreferences || !!state.data.communityCareProvider?.id)
-      ) {
-        newPages = unset('ccPreferences', newPages);
-        actionData = set('communityCareProvider', {}, actionData);
-      }
-
       const { data, schema } = updateSchemaAndData(
         state.pages[action.page],
         action.uiSchema,
-        actionData,
+        action.data,
       );
 
       return {
         ...state,
         data,
         pages: {
-          ...newPages,
+          ...state.pages,
           [action.page]: schema,
         },
       };
@@ -245,10 +225,32 @@ export default function formReducer(state = initialState, action) {
           [action.pageKey]: 'home',
         };
       }
+      let newPages = state.pages;
+      let newData = action.data || state.data;
+
+      if (
+        getTypeOfCare(newData)?.id !== getTypeOfCare(state.data)?.id &&
+        (state.pages.vaFacility || state.data.vaFacility)
+      ) {
+        newPages = unset('vaFacility', newPages);
+        newData = unset('vaFacility', newData);
+      }
+
+      // reset community care provider if type of care changes
+      if (
+        getTypeOfCare(newData)?.id !== getTypeOfCare(state.data)?.id &&
+        (state.pages.ccPreferences || !!state.data.communityCareProvider?.id)
+      ) {
+        newPages = unset('ccPreferences', newPages);
+        newData = set('communityCareProvider', {}, newData);
+      }
+
       return {
         ...state,
         pageChangeInProgress: true,
         previousPages: updatedPreviousPages,
+        data: newData,
+        pages: newPages,
       };
     }
     case FORM_PAGE_CHANGE_COMPLETED: {

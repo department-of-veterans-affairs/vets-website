@@ -152,40 +152,6 @@ describe('VAOS reducer: newAppointment', () => {
     expect(newState.data.prop).to.equal('testing');
   });
 
-  it('should reset facility info when type of care changes', () => {
-    const currentState = {
-      data: {
-        typeOfCareId: '323',
-        vaFacility: '123',
-      },
-      pages: {
-        test: {
-          type: 'object',
-          properties: {},
-        },
-        vaFacility: {
-          type: 'object',
-          properties: {},
-        },
-      },
-    };
-    const action = {
-      type: FORM_DATA_UPDATED,
-      page: 'test',
-      data: {
-        typeOfCareId: '504',
-        vaFacility: '123',
-      },
-      uiSchema: {},
-    };
-
-    const newState = newAppointmentReducer(currentState, action);
-
-    expect(newState.data.typeOfCareId).to.equal('504');
-    expect(newState.data.vaFacility).to.be.undefined;
-    expect(newState.pages.vaFacility).to.be.undefined;
-  });
-
   it('should mark page change as in progress', () => {
     const currentState = {
       data: {},

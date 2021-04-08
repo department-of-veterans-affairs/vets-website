@@ -140,13 +140,15 @@ describe('VAOS newAppointment actions', () => {
       const dispatch = sinon.spy();
       const state = {};
       const getState = () => state;
+      const data = {};
 
-      const thunk = routeToPageInFlow(testFlow, history, 'page2', 'next');
+      const thunk = routeToPageInFlow(testFlow, history, 'page2', 'next', data);
       await thunk(dispatch, getState);
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_STARTED,
         pageKey: 'page2',
+        data,
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_COMPLETED,
@@ -204,13 +206,21 @@ describe('VAOS newAppointment actions', () => {
         },
       };
       const getState = () => state;
+      const data = {};
 
-      const thunk = routeToPageInFlow(testFlow, history, 'page3', 'previous');
+      const thunk = routeToPageInFlow(
+        testFlow,
+        history,
+        'page3',
+        'previous',
+        data,
+      );
       await thunk(dispatch, getState);
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_STARTED,
         pageKey: 'page3',
+        data,
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: FORM_PAGE_CHANGE_COMPLETED,
