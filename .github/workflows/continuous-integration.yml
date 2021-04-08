@@ -83,31 +83,20 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Run ESLint
-        run: yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/lint-annotation-format.js .
-        continue-on-error: true
+        run: yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/eslint-annotation-format.js .
 
-      # - name: Annotate
-      #   uses: yuzutech/annotations-action@v0.1.0
-      #   with:
-      #     repo-token: "${{ secrets.GITHUB_TOKEN }}"
-      #     title: 'lint'
-      #     input: './eslint-report.json'
+      - name: Annotate ESLint results
+        if: ${{ always() }}
+        uses: ataylorme/eslint-annotate-action@1.1.2
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          report-json: "eslint-report.json"
 
-      # - name: Annotate linting results
-      #   if: ${{ always() }}
-      #   uses: ataylorme/eslint-annotate-action@1.1.2
-      #   with:
-      #     repo-token: "${{ secrets.GITHUB_TOKEN }}"
-      #     report-json: "eslint-report.json"
+      - name: Run Sass linter
+        run: yarn lint:sass:gha
 
-      # - name: Upload ESLint report
-      #   uses: actions/upload-artifact@v1
-      #   with:
-      #     name: eslint-report.json
-      #     path: eslint-report.json
-
-      # - name: Run Sass linter
-      #   run: yarn lint:sass:gha
+      - name: Annotate SassLint results
+        run: node ./script/github-actions/sasslint-annotation-format.js
 
   security-audit:
     name: Security Audit
