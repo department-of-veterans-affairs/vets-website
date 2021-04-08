@@ -4,6 +4,8 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -16,14 +18,16 @@ class IntroductionPage extends React.Component {
     }
 
     return (
-      <SaveInProgressIntro
-        prefillEnabled={this.props.route.formConfig.prefillEnabled}
-        messages={this.props.route.formConfig.savedFormMessages}
-        pageList={this.props.route.pageList}
-        startText="Sign in or create an account"
-        unauthStartText="Sign in or create an account"
-        hideUnauthedStartLink
-      />
+      <CallToActionWidget appId="vrrap">
+        <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          startText="Start the education application"
+          unauthStartText="Sign in to start your application"
+          hideUnauthedStartLink
+        />
+      </CallToActionWidget>
     );
   }
 
@@ -32,33 +36,31 @@ class IntroductionPage extends React.Component {
       <div className="schemaform-intro">
         <FormTitle title="Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)" />
         {this.loginPrompt()}
-        <h4>Follow the steps below to apply for this program</h4>
+        <h4>Follow these steps to apply</h4>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
-              <h5>Determine your eligibility</h5>
-              <h6>
+              <h5>Make sure you're eligible</h5>
+              <p>
                 To be eligible for the Veteran Rapid Retraining Assistance
-                Program (VRRAP), you must meet all the requirements below.
-              </h6>
+                Program (VRRAP), you must meet all the requirements listed here.
+              </p>
+              <h6>All of these must be true. You're:</h6>
               <ul>
-                <li>Be between ages 22-66;</li>
-                <li>Be unemployed as a result of the COVID-19 pandemic;</li>
                 <li>
-                  Not be eligible for any federal GI Bill program (if eligible
-                  for the Post-9/11 GI Bill, they must have transferred their
-                  benefits to family members -- thereby having no GI Bill
-                  eligibility for themselves);
+                  At least 22 years of age but not more than 66 years of age,
                 </li>
+                <li>Unemployed because of the COVID-19 pandemic,</li>
                 <li>
-                  Not be VA rated as totally disabled due to unemployability;
+                  Not eligible for GI Bill or VR&#38;E benefits (or, if you're
+                  eligible for the Post-9/11 GI Bill, you've transferred all of
+                  your benefits to family members),
                 </li>
+                <li>Not rated as totally disabled because you can't work,</li>
+                <li>Not enrolled in a federal or state jobs program,</li>
                 <li>
-                  Not be enrolled in any other federal or state employment
-                  programs; or
-                </li>
-                <li>
-                  Not be in receipt of any unemployment or CARES Act benefits.
+                  Not receiving unemployment benefits (including CARES Act
+                  benefits)
                 </li>
               </ul>
             </li>
@@ -90,7 +92,7 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-four">
               <h5>VA review</h5>
               <p>
-                We usually process claims within 30 days. We’ll let you know by
+                We usually make a decision within 30 days. We’ll let you know by
                 mail if we need more information.
               </p>
               <p>
@@ -105,7 +107,7 @@ class IntroductionPage extends React.Component {
                 If we approve your application, you’ll get a Certificate of
                 Eligibility (COE), or award letter, in the mail. Bring this COE
                 to the VA certifying official at your school. This person is
-                usually in the Registrar or Financial Aid office at the school.
+                usually in the registrar's or financial aid office.
               </p>
               <p>
                 If your application isn't approved, you’ll get a denial letter
@@ -121,7 +123,19 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the education application"
           unauthStartText="Sign in or create an account"
+          hideUnauthedStartLink
         />
+        <div
+          className="omb-info--container"
+          style={{ paddingLeft: '0px' }}
+          id="privacy_policy"
+        >
+          <OMBInfo
+            resBurden={'xx'}
+            ombNumber="xxxx-xxxx"
+            expDate="xx/xx/xxxx"
+          />
+        </div>
       </div>
     );
   }

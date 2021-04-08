@@ -1,5 +1,16 @@
 import { submit, transformForSubmit } from './submit-questionnaire';
-import { loadAppointment } from './load-appointments';
 import { loadQuestionnaires } from './load-questionnaires';
+import environment from 'platform/utilities/environment';
 
-export { loadAppointment, submit, transformForSubmit, loadQuestionnaires };
+const USE_MOCK_DATA =
+  window.Cypress || environment.isLocalhost || environment.isStaging;
+
+const loadQuestionnairesCurry = () => loadQuestionnaires(USE_MOCK_DATA);
+const submitCurry = (form, formConfig) =>
+  submit(USE_MOCK_DATA, form, formConfig);
+
+export {
+  submitCurry as submit,
+  transformForSubmit,
+  loadQuestionnairesCurry as loadQuestionnaires,
+};

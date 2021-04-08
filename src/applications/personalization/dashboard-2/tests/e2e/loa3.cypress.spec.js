@@ -9,7 +9,13 @@ import error401 from '@@profile/tests/fixtures/401.json';
 import error500 from '@@profile/tests/fixtures/500.json';
 import { nameTagRenders } from '@@profile/tests/e2e/helpers';
 
-import manifest from 'applications/personalization/dashboard/manifest.json';
+import manifest from '~/applications/personalization/dashboard/manifest.json';
+
+import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
+import MOCK_VA_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
+import MOCK_CC_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
+import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
+import { mockMessagesResponse } from '../../utils/mocks/messaging/messages';
 
 import { mockFeatureToggles } from './helpers';
 
@@ -60,6 +66,15 @@ describe('The My VA Dashboard', () => {
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
     cy.intercept('/v0/appeals', appealsSuccess());
+
+    cy.intercept('/v0/folders/0', mockFolderResponse);
+    cy.intercept('/v0/folders/0/messages', mockMessagesResponse);
+    cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
+    cy.intercept(
+      '/vaos/v0/appointments?start_date=*&type=va',
+      MOCK_VA_APPOINTMENTS,
+    );
+    cy.intercept('/vaos/v0/appointments?type=cc', MOCK_CC_APPOINTMENTS);
   });
   context('when it can load the total disability rating', () => {
     beforeEach(() => {

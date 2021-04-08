@@ -31,7 +31,25 @@ const BenefitCard = ({ received, total, title }) => {
   );
 };
 
-const Benefits = ({ income, debts, getDebts }) => {
+const NoBenefits = () => {
+  return (
+    <div className="usa-alert background-color-only">
+      <div className="vads-u-margin-bottom--1">
+        <h4 className="vads-u-margin--0">
+          Our records show you don't get any monthly benefit payments
+        </h4>
+      </div>
+      <p>
+        If this information isn’t right, call our VA benefits hotline at{' '}
+        <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
+        <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />) ,
+        Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      </p>
+    </div>
+  );
+};
+
+const Benefits = ({ pending, income, debts, getDebts }) => {
   useEffect(
     () => {
       getDebts();
@@ -53,8 +71,9 @@ const Benefits = ({ income, debts, getDebts }) => {
     0,
   );
 
-  return (
+  return !pending && income.length ? (
     <>
+      <p>This is the VA benefit information we have on file for you.</p>
       <BenefitCard
         total={compDebtsTotal}
         received={compReceived}
@@ -72,6 +91,8 @@ const Benefits = ({ income, debts, getDebts }) => {
         Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
+  ) : (
+    <NoBenefits />
   );
 };
 
@@ -82,6 +103,7 @@ Benefits.propTypes = {
 
 const mapStateToProps = ({ form, fsr }) => ({
   income: form.data.income,
+  pending: fsr.pending,
   debts: fsr.debts,
 });
 

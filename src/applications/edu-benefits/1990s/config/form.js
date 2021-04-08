@@ -3,9 +3,9 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import PreSubmitInfo from '../containers/PreSubmitInfo';
 import manifest from '../manifest.json';
 import fullSchema from 'vets-json-schema/dist/VRRAP-schema.json';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import * as application from '../pages/application';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { transform } from '../submit-transformer';
@@ -19,7 +19,9 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_1990S,
-  preSubmitInfo,
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+  },
   footerContent: FormFooter,
   saveInProgress: {
     messages: {
@@ -38,13 +40,13 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-  title: 'Veteran Rapid Retraining Assistance Program (VRRAP)',
+  title: 'Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)',
   defaultDefinitions: {
     ...fullSchema.definitions,
   },
   chapters: {
     form: {
-      title: 'Application',
+      title: 'VRRAP application',
       pages: {
         application,
       },

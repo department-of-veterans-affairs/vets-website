@@ -40,7 +40,7 @@ export const schema = {
             required: ['dependentAge'],
             properties: {
               dependentAge: {
-                type: 'number',
+                type: 'string',
               },
             },
           },
