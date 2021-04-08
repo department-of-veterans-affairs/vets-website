@@ -8,8 +8,8 @@ module.exports = {
   output: {
     path: path.join(root, 'build', 'content-cache'),
     filename: 'exports.js',
+    libraryTarget: 'commonjs',
   },
-  target: 'node',
   node: { __dirname: true },
   plugins: [
     new webpack.IgnorePlugin(/process-cms-exports$/),
