@@ -82,15 +82,15 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Run ESLint
-        run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json .
+      # - name: Run ESLint
+      #   run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json .
 
-      - name: Annotate ESLint results
-        if: ${{ always() }}
-        uses: ataylorme/eslint-annotate-action@1.1.2
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          report-json: "eslint-report.json"
+      # - name: Annotate ESLint results
+      #   if: ${{ always() }}
+      #   uses: ataylorme/eslint-annotate-action@1.1.2
+      #   with:
+      #     repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      #     report-json: "eslint-report.json"
 
       - name: Run ESLint (2)
         run: yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/eslint-annotation-format.js .

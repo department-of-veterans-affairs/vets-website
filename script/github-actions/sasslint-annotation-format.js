@@ -4,7 +4,7 @@ const sasslintData = require('../../sasslint-report.json'); // eslint-disable-li
 for (let i = 0; i < sasslintData.length; i++) {
   if (sasslintData[i].warningCount > 0 || sasslintData[i].errorCount > 0) {
     for (let j = 0; j < sasslintData[i].messages.length; j++) {
-      let output;
+      let output = '';
 
       if (sasslintData[i].messages[j].severity === 0) {
         output += '::error ';
