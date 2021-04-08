@@ -24,13 +24,12 @@ export const addAllOption = options => [
 ];
 
 export const createId = name => name?.toLowerCase().replace(/\s/g, '-');
-
 export const isCountryUSA = country => country.toUpperCase() === 'USA';
 export const isCountryInternational = country => !isCountryUSA(country);
 
 export const locationInfo = (city, state, country) => {
   let address = '';
-  if (isCountryUSA(country)) {
+  if (country != null && isCountryUSA(country)) {
     if (city && state) {
       address = `${city}, ${state}`;
     } else if (!state && city) {
