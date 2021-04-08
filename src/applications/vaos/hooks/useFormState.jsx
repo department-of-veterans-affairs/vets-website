@@ -81,6 +81,7 @@ export default function useFormState({
 
   return {
     ...formState,
+    uiSchema,
     setData,
   };
 }
