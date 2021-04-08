@@ -16,7 +16,32 @@ async function downloadFile(
   everythingDownloaded,
 ) {
   const asset = assetsToDownload.shift();
-  const response = await client.proxyFetch(asset.src);
+  const fileOutputPath = path.join(
+    options.cacheDirectory,
+    'drupal/downloads',
+    asset.dest,
+  );
+
+  let response;
+  let retries = 3;
+  while (retries--) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      response = await client.proxyFetch(asset.src);
+      break;
+    } catch (e) {
+      if (retries > 0) {
+        // eslint-disable-next-line no-console
+        console.error(
+          `Error while fetching ${
+            asset.src
+          }. ${e} Retries remaining: ${retries}`,
+        );
+      } else {
+        throw e;
+      }
+    }
+  }
 
   if (response.ok) {
     files[asset.dest] = {
@@ -25,10 +50,7 @@ async function downloadFile(
       contents: await response.buffer(),
     };
 
-    fs.outputFileSync(
-      path.join(options.cacheDirectory, 'drupal/downloads', asset.dest),
-      files[asset.dest].contents,
-    );
+    fs.outputFileSync(fileOutputPath, files[asset.dest].contents);
 
     downloadResults.downloadCount++;
 
