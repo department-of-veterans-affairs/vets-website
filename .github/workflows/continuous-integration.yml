@@ -95,11 +95,11 @@ jobs:
       - name: Run ESLint (2)
         run: yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/eslint-annotation-format.js .
 
-      - name: Run Sass linter
-        run: yarn run sass-lint --format json --verbose --output sasslint-report.json
+      # - name: Run Sass linter
+      #   run: yarn run sass-lint --format json --verbose --output sasslint-report.json
 
-      - name: Annotate Sass lint results
-        run: node ./script/github-actions/sasslint-annotation-format.js
+      # - name: Annotate Sass lint results
+      #   run: node ./script/github-actions/sasslint-annotation-format.js
 
   security-audit:
     name: Security Audit

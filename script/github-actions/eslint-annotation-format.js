@@ -35,7 +35,7 @@ module.exports = function(results) {
       .map(function(msg) {
         return `::${
           msg.type
-        } file=${msg.filePath},line=${msg.line},col=${msg.column}::\n${msg.filePath}:${msg.line}:${msg.column}:${msg.message}`;
+        } file=${msg.filePath},line=${msg.line},col=${msg.column}::${msg.filePath}:${msg.line}:${msg.column}:${msg.message}`;
       })
       .join('\n');
   }
