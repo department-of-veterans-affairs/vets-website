@@ -3,6 +3,8 @@ const {
 } = require('./paragraph-fragments/derivativeMedia.paragraph.graphql');
 const { generatePaginatedQueries } = require('../individual-queries-helpers');
 
+const draftContentOverride = process.env.UNPUBLISHED_CONTENT === 'true';
+
 const vetCenterFragment = `
       fragment vetCenterFragment on NodeVetCenter {
         entityId
@@ -78,13 +80,19 @@ const getVetCenterSlice = (operationName, offset, limit) => {
   return `
     ${vetCenterFragment}
     
-    query GetVetCenters($onlyPublishedContent: Boolean!) {
+    query GetVetCenters${
+      !draftContentOverride ? '($onlyPublishedContent: Boolean!)' : ''
+    } {
       nodeQuery(
         limit: ${limit}
         offset: ${offset}    
         filter: {
           conditions: [
-            { field: "status", value: ["1"], enabled: $onlyPublishedContent },      
+            ${
+              !draftContentOverride
+                ? '{ field: "status", value: ["1"], enabled: $onlyPublishedContent },'
+                : ''
+            }     
             { field: "type", value: ["vet_center"] }
           ]
         }) {
