@@ -33,7 +33,7 @@ module.exports = function(results) {
     lines = summary.errors
       .concat(summary.warnings)
       .map(function(msg) {
-        return `\n ::${
+        return `::${
           msg.type
         } file=${msg.filePath},line=${msg.line},col=${msg.column}::${msg.message}`;
       })
