@@ -24,7 +24,7 @@
 
         {% for accordionItem in questions %}
           {% assign item = accordionItem.entity %}
-          <div data-widget-type="sharable-link"></div>
+        <div data-widget-type="sharable-link"></div>
         <li id="{{ item.entityId | formatSharableLinkID: item.fieldQuestion   }}"
           data-template="paragraphs/q_a.collapsible_panel__qa"
             data-entity-id="{{ item.entityId }}"

@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 
 export default function createSharableLink(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
-  const dataEntityId = root.getAttribute('entityId');
+  const dataEntityId = root.nextSibling.getAttribute('id');
   if (root) {
     import(/* webpackChunkName: "sharableLink" */
     './sharableLink').then(module => {
