@@ -11,7 +11,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
     // .waitForElementVisible('.wizard-container', Timeouts.normal)
     .click('.wizard-button')
     .waitForElementVisible('label[for="newBenefit-0"]', Timeouts.normal)
-    .axeCheck('.main');
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    });
 
   // Create a new application
   client
