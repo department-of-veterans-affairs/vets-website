@@ -3,6 +3,8 @@ const {
 } = require('./paragraph-fragments/derivativeMedia.paragraph.graphql');
 const { generatePaginatedQueries } = require('../individual-queries-helpers');
 
+const onlyPublishedContent = process.env.UNPUBLISHED_CONTENT ? 'false' : 'true';
+
 const vetCenterFragment = `
       fragment vetCenterFragment on NodeVetCenter {
         entityId

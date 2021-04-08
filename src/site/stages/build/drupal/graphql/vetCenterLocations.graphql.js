@@ -1,3 +1,5 @@
+const onlyPublishedContent = process.env.UNPUBLISHED_CONTENT ? 'false' : 'true';
+
 const vetCenterLocationsFragment = `
 fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
   entityId
@@ -211,10 +213,10 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
 const GetVetCenterLocations = `
   ${vetCenterLocationsFragment}
   
-  query GetVetCenterLocations($onlyPublishedContent: Boolean!) {
+  query GetVetCenterLocations {
     nodeQuery(limit: 1000, filter: {
       conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+        { field: "status", value: ["1"], enabled: ${onlyPublishedContent} },
         { field: "type", value: ["vet_center_locations_list"] }
       ]
     }) {
