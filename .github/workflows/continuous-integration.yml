@@ -83,7 +83,7 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Run ESLint
-        run: yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/lint-annotation-format.js .
+        run: echo `yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/lint-annotation-format.js .`
         # run: yarn run eslint --ext .js --ext .jsx --format compact .
         continue-on-error: true
 
@@ -100,19 +100,8 @@ jobs:
       #     name: eslint-report.json
       #     path: eslint-report.json
 
-      - name: Run Sass linter
-        run: yarn lint:sass
-
-      # - name: Annotate Checks
-      #   uses: agyemanjp/ci-checks-action@2.0.3
-      #   with:
-      #     ghToken: ${{ secrets.GITHUB_TOKEN }}
-      #     checks: '[
-      #         {
-      #           "name": "sass-lint",
-      #           "fileName": "lintsass-report.json"
-      #         }
-      #       ]'
+      # - name: Run Sass linter
+      #   run: yarn lint:sass:gha
 
   security-audit:
     name: Security Audit
