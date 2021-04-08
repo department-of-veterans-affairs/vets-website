@@ -3,10 +3,6 @@ import FacilityAddress from '../../../../components/FacilityAddress';
 import NewTabAnchor from '../../../../components/NewTabAnchor';
 
 export default function ConfirmedCommunityCareLocation({ provider }) {
-  if (!provider.practiceName && !provider.address) {
-    return null;
-  }
-
   if (!provider.address) {
     return (
       <>
