@@ -1,4 +1,3 @@
-// comment to test GHA annotation
 const phoneNumberArrayToObject = require('./phoneNumberArrayToObject');
 
 const moment = require('moment-timezone');
