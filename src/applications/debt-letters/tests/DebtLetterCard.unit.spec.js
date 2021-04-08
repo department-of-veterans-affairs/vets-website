@@ -89,11 +89,13 @@ describe('DebtLetterCard', () => {
     expect(
       wrapper
         .dive()
+        .dive()
         .find('h3')
         .text(),
     ).to.equal('Chapter 35 education debt');
     expect(
       wrapper
+        .dive()
         .dive()
         .find('p')
         .at(1)

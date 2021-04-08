@@ -206,6 +206,14 @@ module.exports = function registerFilters() {
     return _.slice(arr, startIndex);
   };
 
+  liquid.filters.formatSharableLinkID = (id, description) => {
+    if (!description) return id;
+    const truncatedText = description.substring(0, 30);
+    const escaped = liquid.filters.escape(truncatedText);
+    const hyphenatedDesc = _.kebabCase(escaped);
+    return `${hyphenatedDesc}-${id}`;
+  };
+
   liquid.filters.breakTerms = data => {
     let output = '';
     if (data != null) {
@@ -293,6 +301,7 @@ module.exports = function registerFilters() {
     return JSON.stringify(facilityList);
   };
 
+  // We might not need this filter, refactor
   liquid.filters.widgetFacilityDetail = facility => {
     const facilityLocatorApiId = facility.split('_')[1].toUpperCase();
     const id = `vha_${facilityLocatorApiId}`;
@@ -601,19 +610,19 @@ module.exports = function registerFilters() {
       return url;
     }
 
+    // Not a youtube link? Return back the raw url.
     if (!_.includes(url, 'youtu')) {
       return url;
     }
 
-    if (_.includes(url, 'embed')) {
+    try {
+      // Recreate the embedded youtube.com URL so we know it's formatted correctly.
+      const urlInstance = new URL(url);
+      const pathname = urlInstance?.pathname?.replace('/embed', '');
+      return `https://www.youtube.com/embed${pathname}`;
+    } catch (error) {
       return url;
     }
-
-    if (_.includes(url, 'youtube.com/watch?v=')) {
-      return _.replace(url, '/watch?v=', '/embed/');
-    }
-
-    return _.replace(url, 'youtu.be', 'youtube.com/embed');
   };
 
   liquid.filters.deriveCLPTotalSections = (

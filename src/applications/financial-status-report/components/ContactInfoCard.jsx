@@ -3,8 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const ContactInfoCard = ({
-  addressLine1,
-  addressLine2,
+  street,
+  street2,
   city,
   stateCode,
   zipCode,
@@ -17,8 +17,8 @@ const ContactInfoCard = ({
         Mailing address
       </h4>
       <div className="vads-u-padding-left--1 vads-u-border-left--7px vads-u-border-color--primary">
-        <p className="vads-u-margin--1px">{addressLine1}</p>
-        <p className="vads-u-margin--1px">{addressLine2}</p>
+        <p className="vads-u-margin--1px">{street}</p>
+        <p className="vads-u-margin--1px">{street2}</p>
         <p className="vads-u-margin--1px">
           {city}, {stateCode} {zipCode}
         </p>
@@ -32,8 +32,8 @@ const ContactInfoCard = ({
 };
 
 ContactInfoCard.propTypes = {
-  addressLine1: PropTypes.string,
-  addressLine2: PropTypes.string,
+  street: PropTypes.string,
+  street2: PropTypes.string,
   city: PropTypes.string,
   stateCode: PropTypes.string,
   zipCode: PropTypes.string,
@@ -41,8 +41,8 @@ ContactInfoCard.propTypes = {
 };
 
 const mapStateToProps = ({ form }) => ({
-  addressLine1: form.data.personalData.address?.addressLine1,
-  addressLine2: form.data.personalData.address?.addressLine2,
+  street: form.data.personalData.address?.street,
+  street2: form.data.personalData.address?.street2,
   city: form.data.personalData.address?.city,
   stateCode: form.data.personalData.address?.stateCode,
   zipCode: form.data.personalData.address?.zipCode,

@@ -5,7 +5,10 @@ import backendServices from '~/platform/user/profile/constants/backendServices';
 import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchFolder as fetchInboxAction } from '~/applications/personalization/dashboard/actions/messaging';
 import { FOLDER } from '~/applications/personalization/dashboard-2/constants';
-import { selectUnreadMessagesCount } from '~/applications/personalization/dashboard-2/selectors';
+import {
+  selectUnreadMessagesCount,
+  selectFolder,
+} from '~/applications/personalization/dashboard-2/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
@@ -24,6 +27,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 
+import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import Appointments from './Appointments';
 import IconCTALink from '../IconCTALink';
 
@@ -39,6 +43,7 @@ const HealthCare = ({
   // TODO: possibly remove this prop in favor of mocking API calls in our unit tests
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
+  hasInboxError,
 }) => {
   const nextAppointment = appointments?.[0];
   const start = new Date(nextAppointment?.startsAt);
@@ -85,7 +90,7 @@ const HealthCare = ({
   }
 
   const messagesText =
-    typeof unreadMessagesCount === 'number'
+    shouldFetchMessages && !hasInboxError
       ? `You have ${unreadMessagesCount} new message${
           unreadMessagesCount === 1 ? '' : 's'
         }`
@@ -93,17 +98,17 @@ const HealthCare = ({
 
   return (
     <div className="health-care-wrapper vads-u-margin-y--6">
-      <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-        Health care
-      </h2>
+      <h2>Health care</h2>
 
-      <div className="vads-u-display--flex large-screen:vads-u-flex-direction--row vads-u-flex-direction--column health-care">
+      <div className="vads-l-row">
         {hasUpcomingAppointment && (
           /* Appointments */
-          <Appointments appointments={appointments} />
+          <DashboardWidgetWrapper>
+            <Appointments appointments={appointments} />
+          </DashboardWidgetWrapper>
         )}
 
-        <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1">
+        <DashboardWidgetWrapper>
           {!hasUpcomingAppointment && (
             <>
               {hasFutureAppointments && (
@@ -153,7 +158,7 @@ const HealthCare = ({
             icon="file-medical"
             text="Get your VA medical records"
           />
-        </div>
+        </DashboardWidgetWrapper>
       </div>
     </div>
   );
@@ -191,17 +196,20 @@ const mapStateToProps = state => {
 
   const fetchingAppointments = state.health?.appointments?.fetching;
   const fetchingInbox = shouldFetchMessages
-    ? state.health?.msg?.folders?.data?.currentItem?.fetching
+    ? selectFolder(state)?.fetching
     : false;
+
+  const hasInboxError = selectFolder(state)?.errors?.length > 0;
 
   return {
     appointments: state.health?.appointments?.data,
-    shouldFetchMessages,
-    isCernerPatient: selectIsCernerPatient(state),
-    facilityNames,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    unreadMessagesCount: selectUnreadMessagesCount(state),
+    facilityNames,
+    hasInboxError,
+    isCernerPatient: selectIsCernerPatient(state),
+    shouldFetchMessages,
     shouldShowLoadingIndicator: fetchingAppointments || fetchingInbox,
+    unreadMessagesCount: selectUnreadMessagesCount(state),
   };
 };
 

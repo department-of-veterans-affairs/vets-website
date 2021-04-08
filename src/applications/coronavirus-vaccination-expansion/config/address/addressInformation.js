@@ -2,6 +2,26 @@ import React from 'react';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { addressInformation } from '../schema-imports';
 
+function monkeyPatchStateNames(extraStates, addressInformationObj) {
+  for (const extra of extraStates) {
+    addressInformationObj.properties.stateCode.enum.push(extra.stateCode);
+    addressInformationObj.properties.stateCode.enumNames.push(extra.stateName);
+  }
+}
+
+const extraStates = [
+  {
+    stateCode: 'GU',
+    stateName: 'Guam',
+  },
+  {
+    stateCode: 'PR',
+    stateName: 'Puerto Rico',
+  },
+];
+
+monkeyPatchStateNames(extraStates, addressInformation);
+
 const validateZip = (errors, formData) => {
   if (formData.zipCode > 4) {
     errors.state.addError('Please enter at least 5 digits');
@@ -15,22 +35,22 @@ export const schema = {
 export const uiSchema = {
   addressInformation: {
     addressLine1: {
-      'ui:title': 'Street address where you live now',
+      'ui:title': 'U.S. street address where you live now',
     },
     addressLine2: {
-      'ui:title': 'Street address (line 2)',
+      'ui:title': 'U.S. street address (line 2)',
     },
     addressLine3: {
-      'ui:title': 'Street address (line 3)',
+      'ui:title': 'U.S. street address (line 3)',
     },
     city: {
-      'ui:title': 'City',
+      'ui:title': 'U.S. city',
     },
     stateCode: {
-      'ui:title': 'State',
+      'ui:title': 'U.S. state or territory',
     },
     zipCode: {
-      'ui:title': 'Zip code',
+      'ui:title': 'U.S. zip code',
       'ui:errorMessages': {
         pattern: 'Please enter your five digit zip code',
       },
@@ -47,11 +67,11 @@ export const uiSchema = {
       ),
     },
     phone: {
-      'ui:title': 'Phone number',
+      'ui:title': 'U.S. phone number',
       'ui:description': (
         <p>
           <strong>Note: </strong>
-          We will use this number to contact you about a vaccine. If you give us
+          We'll use this number to contact you about a vaccine. If you give us
           your mobile phone number, we may be able to schedule your vaccine
           appointment by text message.
         </p>

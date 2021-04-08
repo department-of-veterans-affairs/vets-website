@@ -27,6 +27,41 @@ describe('timezoneAbbrev', () => {
   });
 });
 
+describe('formatSharableID', () => {
+  it('formats ID correctly less than 30 chars', () => {
+    expect(
+      liquid.filters.formatSharableLinkID(123, 'How Can i protect myself'),
+    ).to.eq('how-can-i-protect-myself-123');
+  });
+
+  it('formats ID correctly more than 30 chars', () => {
+    expect(
+      liquid.filters.formatSharableLinkID(
+        13060,
+        'Why should I consider volunteering for coronavirus research at VA',
+      ),
+    ).to.eq('why-should-i-consider-voluntee-13060');
+  });
+
+  it('formats ID correctly in Spanish', () => {
+    expect(
+      liquid.filters.formatSharableLinkID(
+        27792,
+        '¿Debo usar una mascarilla cuando vaya a un hospital del VA u a otro lugar?',
+      ),
+    ).to.eq('debo-usar-una-mascarilla-cuan-27792');
+  });
+
+  it('formats ID correctly in Tagalog', () => {
+    expect(
+      liquid.filters.formatSharableLinkID(
+        30316,
+        'Kailangan ko bang magsuot ng mask kapag pumunta ako sa isang ospital ng VA o ibang lokasyon?',
+      ),
+    ).to.eq('kailangan-ko-bang-magsuot-ng-m-30316');
+  });
+});
+
 describe('dateFromUnix', () => {
   context('with default time zone', () => {
     it('returns null for null', () => {
@@ -214,7 +249,7 @@ describe('createEmbedYouTubeVideoURL', () => {
   it('returns the modified URL if it needs it', () => {
     expect(
       liquid.filters.createEmbedYouTubeVideoURL('https://youtu.be/asdf'),
-    ).to.eq('https://youtube.com/embed/asdf');
+    ).to.eq('https://www.youtube.com/embed/asdf');
     expect(
       liquid.filters.createEmbedYouTubeVideoURL('https://www.youtu.be/asdf'),
     ).to.eq('https://www.youtube.com/embed/asdf');

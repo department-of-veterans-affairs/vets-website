@@ -12,7 +12,7 @@ import {
 import { selectPendingAppointments } from '../redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import { getVAAppointmentLocationId } from '../../services/appointment';
-import RequestListItem from './AppointmentsPage/RequestListItem';
+import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
 
 function RequestedAppointmentsList({

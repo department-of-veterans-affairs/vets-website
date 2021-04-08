@@ -3,6 +3,10 @@ import { run } from 'axe-core';
 const logViolations = violations => {
   /* eslint-disable no-console */
   console.log(
+    'Please Note: An axe-core smoke test is expected to report 6 violations.',
+  );
+
+  console.log(
     `\n${violations.length} Accessibility Violation${
       violations.length === 1 ? ' Was' : 's Were'
     } Detected`,

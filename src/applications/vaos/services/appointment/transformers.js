@@ -119,11 +119,10 @@ function getRequestStatus(request, isExpressCare) {
  * @returns {String} Appointment status
  */
 function getConfirmedStatus(appointment, isPast) {
-  if (getAppointmentType(appointment) === APPOINTMENT_TYPES.ccAppointment) {
-    return APPOINTMENT_STATUS.booked;
-  }
-
-  const currentStatus = getVistaStatus(appointment);
+  const currentStatus =
+    getAppointmentType(appointment) === APPOINTMENT_TYPES.ccAppointment
+      ? appointment.vdsAppointments?.[0]?.currentStatus
+      : getVistaStatus(appointment);
 
   if (
     (isPast && PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
@@ -513,6 +512,8 @@ export function transformConfirmedAppointment(appt) {
       isCommunityCare: isCC,
       timeZone: isCC ? appt.timeZone : null,
       isPhoneAppointment: appt.phoneOnly,
+      // CDQC is the standard COVID vaccine char4 code
+      isCOVIDVaccine: appt.char4 === 'CDQC',
     },
   };
 }

@@ -21,7 +21,7 @@ export const Appointments = ({ appointments }) => {
   }
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 large-screen:vads-u-margin-right--3 small-screen:vads-u-margin-bottom--2">
+    <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 large-screen:vads-u-margin-right--3 vads-u-margin-bottom--2p5">
       <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5">
         <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
           Next appointment
@@ -35,7 +35,6 @@ export const Appointments = ({ appointments }) => {
         <p className="vads-u-margin-top--1">{locationName}</p>
         <CTALink
           text="Schedule and view your appointments"
-          icon="calendar"
           href="/health-care/schedule-view-va-appointments/appointments"
         />
       </div>
