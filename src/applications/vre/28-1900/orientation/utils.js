@@ -17,7 +17,7 @@ export const orientationSteps = [
     postText: () => (
       <p>
         Learn more about VR&E from our orientation, and decide if it’s right for
-        you.,
+        you.
       </p>
     ),
   },
@@ -147,7 +147,7 @@ export const orientationSteps = [
       'The Reemployment track provides support to you and your employer so you can return to your former job. This track is for claimants who served on active duty or in the National Guard and are now returning to their former job. If you’re in the Reemployment track, we’ll:',
     list: [
       'Work with your employer to figure out how they can best support you',
-      'Recommend changes to your physical workplace that can help you succed',
+      'Recommend changes to your physical workplace that can help you succeed',
       'Help you get VA health care services',
       'Give you advice about your reemployment rights',
       'Provide case management',
@@ -171,7 +171,7 @@ export const orientationSteps = [
     ),
     path: '4DVbOy8iJbU',
     desc:
-      'The Rapid Access to Employment track provides services that help Veterans start working right away. This track is right for you if you already have most of the skills you’ll need to be competitive in the labor market in a suitable occupation and suggest removing for the type of job you want. If you’re in the Rapid Access to Employment track, we’ll help you:',
+      'The Rapid Access to Employment track provides services that help Veterans start working right away. This track is right for you if you already have most of the skills you’ll need to be competitive in the labor market in a suitable occupation. If you’re in the Rapid Access to Employment track, we’ll help you:',
     list: [
       'Find a job that works for your individual skillset and abilities',
       'Prepare for your job by learning about time management, good communication, and other skills',
@@ -202,7 +202,7 @@ export const orientationSteps = [
     desc:
       'The Self-Employment track provides services to Veterans and service members who have the skills to start a business and who have a disability that makes traditional employment difficult. If you’re in the Self-Employment track, we’ll support you with:',
     list: [
-      'Referrals to resources and guidance to help you developm a business plan',
+      'Referrals to resources and guidance to help you develop a business plan',
       'An analysis of your business concept',
       'Training in small business operations, marketing, and finances',
       'Guidance how to find resources to implement your business plan',
@@ -235,7 +235,7 @@ export const orientationSteps = [
       'A part-time job through the work-study program',
       'College, vocational, or technical training',
       'Money to cover tuition, fees, books, and supplies',
-      'Money to use toward house and food (called subsistence allowance)',
+      'Money to use toward housing and food (called subsistence allowance)',
       'Personalized case management support',
       'A job that works for your individual skillset and abilities',
     ],
