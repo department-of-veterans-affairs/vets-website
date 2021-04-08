@@ -121,57 +121,58 @@ function Introduction({
           status={ALERT_TYPE.INFO}
           content={
             <>
-              <p>
+              <span className="vads-u-font-size--h3">
                 <strong>What you should know about signing up</strong>
-              </p>
-              <ul>
-                <li>
-                  <strong>
-                    If you're a Veteran currently receiving care through VA,
-                  </strong>{' '}
-                  we'll ask about your vaccine plans when you sign up. We
-                  continue to contact Veterans as they become eligible to get a
-                  COVID-19 vaccine. We base eligibility on VA and{' '}
-                  <a
-                    href="https://www.cdc.gov/vaccines/covid-19/phased-implementation.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="CDC COVID-19 risk criteria phased implemention (Open in a new window)"
-                  >
-                    CDC COVID-19 risk criteria
-                  </a>
-                  . Within each risk group, we may first contact Veterans who
-                  sign up here and tell us that they plan to get a vaccine. But
-                  we’ll still contact every eligible Veteran in each risk group
-                  to ask if they want to get a vaccine.
-                </li>
-                <li>
-                  <strong>
-                    If you're a Veteran who isn’t receiving care through VA or a
-                    spouse, caregiver, or CHAMPVA recipient,
-                  </strong>{' '}
-                  sign up to tell us if you want to get a vaccine through VA. If
-                  you're eligible, we'll contact you when we have a vaccine
-                  available for you. At this time, we don't know when that will
-                  be.
-                </li>
-              </ul>
+              </span>
               <p>
                 By sharing your plans for getting a vaccine, you help us better
                 plan our efforts. This helps us do the most good with our
                 limited vaccine supply.
+              </p>
+
+              <span className="vads-u-font-size--h4">
+                <strong>
+                  If you're enrolled in VA health care or currently receiving
+                  care through VA
+                </strong>
+              </span>
+              <p>
+                Sign up to tell us if you plan to get a COVID-19 vaccine. We
+                continue to contact Veterans as they become eligible to get a
+                COVID-19 vaccine. We base eligibility on VA and{' '}
+                <a
+                  href="https://www.cdc.gov/vaccines/covid-19/phased-implementation.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="CDC COVID-19 risk criteria phased implemention (Open in a new window)"
+                >
+                  CDC COVID-19 risk criteria
+                </a>
+                . Within each risk group, we may first contact Veterans who sign
+                up here and tell us that they plan to get a vaccine. But we’ll
+                still contact every eligible Veteran in each risk group to ask
+                if they want to get a vaccine.
+              </p>
+
+              <span className="vads-u-font-size--h4">
+                <strong>
+                  If you're not enrolled, but need a COVID-19 vaccine
+                </strong>
+              </span>
+              <p>
+                Sign up to tell us if you want to get a vaccine at VA. If you’re
+                a Veteran, spouse, caregiver, or CHAMPVA recipient, we'll
+                contact you when we have a vaccine for you. At this time, we
+                don't know when that will be.
               </p>
               <p>
                 <strong>Note:</strong> Your employer, pharmacy, health care
                 provider’s office, or local public health officials may offer
                 you a COVID-19 vaccine. We encourage you to take the first
                 opportunity you have to get a vaccine at the most convenient
-                location for you.
-              </p>
-              <p>
-                The Centers for Disease Control and Prevention’s (CDC) online
-                vaccine finder tool can help you find COVID-19 vaccines near
-                you.
+                location for you. The Centers for Disease Control and
+                Prevention’s (CDC) online vaccine finder tool can help you find
+                COVID-19 vaccines near you.
               </p>
               <span>
                 <a
