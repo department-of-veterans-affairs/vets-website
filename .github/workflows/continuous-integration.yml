@@ -88,7 +88,7 @@ jobs:
         continue-on-error: true
 
       - name: Annotate ESLint
-        run: echo "::warning file=/Users/oseasmoran/Projects/VA/vets-website/src/applications/caregivers/containers/IntroductionPage.jsx,line=41,col=5::React Hook"
+        run: echo "::error file=/Users/oseasmoran/Projects/VA/vets-website/src/applications/caregivers/containers/IntroductionPage.jsx,line=41,col=5::React Hook"
 
       # - name: Annotate linting results
       #   if: ${{ always() }}
