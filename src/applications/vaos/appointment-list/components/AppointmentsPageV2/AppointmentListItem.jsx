@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from '../../../lib/moment-tz';
 import {
-  getPractitionerDisplay,
   getVARFacilityId,
   isVAPhoneAppointment,
 } from '../../../services/appointment';
@@ -48,16 +47,13 @@ function VideoAppointmentDescription({ appointment }) {
 }
 
 function CommunityCareProvider({ appointment }) {
-  const practitioner = getPractitionerDisplay(appointment.participant);
-  if (practitioner) {
-    return <>{practitioner}</>;
-  }
-
-  const location = appointment.contained.find(
-    res => res.resourceType === 'Location',
+  return (
+    <>
+      {appointment.communityCareProvider.providerName ||
+        appointment.communityCareProvider.practiceName ||
+        'Community care'}
+    </>
   );
-
-  return <>{location?.name || 'Community care'}</>;
 }
 
 function VAFacilityName({ facility }) {
