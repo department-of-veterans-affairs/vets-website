@@ -14,7 +14,7 @@ const representativePage = {
     'ui:description': RepresentativeIntroContent(),
     [representativeFields.signAsRepresentativeYesNo]: {
       'ui:title':
-        "Do you have legal representative documents you'd like to share with us?",
+        "Do you have a legal representative documents you'd like to share with us?",
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
@@ -24,7 +24,7 @@ const representativePage = {
         },
       },
     },
-    'view:placeholder': {
+    'view:placeholderOne': {
       'ui:description': RepresentativeAdditionalInfo(),
     },
   },
@@ -36,7 +36,7 @@ const representativePage = {
         type: 'string',
         enum: ['yes', 'noRep', 'no'],
       },
-      'view:placeholder': {
+      'view:placeholderOne': {
         type: 'object',
         properties: {},
       },
