@@ -8,6 +8,8 @@ const getDrupalClient = require('../../site/stages/build/drupal/api');
 
 const USE_CMS_EXPORT_BUILD_ARG = 'use-cms-export';
 const CMS_EXPORT_DIR_BUILD_ARG = 'cms-export-dir';
+const DRUPAL_ADDRESS =
+  'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com';
 const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
 
 exports.handler = async function(event, context) {
@@ -15,6 +17,7 @@ exports.handler = async function(event, context) {
   console.log(`Context: ${JSON.stringify(context, null, 2)}`);
 
   const options = await getOptions({
+    'drupal-address': DRUPAL_ADDRESS,
     'no-drupal-proxy': true,
     'pull-drupal': true,
   });
