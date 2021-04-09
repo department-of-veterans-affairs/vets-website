@@ -6,11 +6,8 @@ const path = require('path');
 const getOptions = require('../../site/stages/build/options');
 const getDrupalClient = require('../../site/stages/build/drupal/api');
 
-const USE_CMS_EXPORT_BUILD_ARG = 'use-cms-export';
-const CMS_EXPORT_DIR_BUILD_ARG = 'cms-export-dir';
 const DRUPAL_ADDRESS =
   'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com';
-const DRUPAL_CACHE_FILENAME = 'drupal/pages.json';
 
 exports.handler = async function(event, context) {
   console.log(`Event: ${JSON.stringify(event, null, 2)}`);
@@ -40,10 +37,7 @@ exports.handler = async function(event, context) {
     throw new Error('Drupal query returned with errors');
   }
 
-  const drupalCache = options[USE_CMS_EXPORT_BUILD_ARG]
-    ? options[CMS_EXPORT_DIR_BUILD_ARG]
-    : path.join(options.cacheDirectory, DRUPAL_CACHE_FILENAME);
-
+  const drupalCache = path.join(options.cacheDirectory, 'drupal', 'pages.json');
   fs.outputJsonSync(drupalCache, drupalPages, { spaces: 2 });
 
   return true;
