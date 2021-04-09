@@ -20,7 +20,6 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import {
   getPatientTelecom,
   getVAAppointmentLocationId,
-  getPractitionerLocationDisplay,
 } from '../../services/appointment';
 import {
   selectFirstRequestMessage,
@@ -128,7 +127,7 @@ function RequestedAppointmentDetailsPage({
   const facility = facilityData?.[facilityId];
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const practitionerName = getPractitionerLocationDisplay(appointment);
+  const provider = appointment.preferredCommunityCareProviders?.[0];
 
   return (
     <PageLayout>
@@ -167,9 +166,8 @@ function RequestedAppointmentDetailsPage({
         )}
       </AlertBox>
       <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-        {isCC && !isCCRequest && 'Community Care'}
-        {!isCC && !!isVideoRequest && 'VA Video Connect'}
-        {!isCC && !isVideoRequest && 'VA Appointment'}
+        {!isCCRequest && isVideoRequest && 'VA Video Connect'}
+        {!isCCRequest && !isVideoRequest && 'VA Appointment'}
       </h2>
 
       {!!facility &&
@@ -182,16 +180,17 @@ function RequestedAppointmentDetailsPage({
           />
         )}
 
-      {isCC &&
-        isCCRequest && (
-          <>
-            <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
-              Preferred community care provider
-            </h2>
-            {!!practitionerName && <span>{practitionerName}</span>}
-            {!practitionerName && <span>No provider selected</span>}
-          </>
-        )}
+      {isCCRequest && (
+        <>
+          <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
+            Preferred community care provider
+          </h2>
+          {!!provider && (
+            <span>{provider.provideName || provider.practiceName}</span>
+          )}
+          {!provider && <span>No provider selected</span>}
+        </>
+      )}
 
       <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
         Preferred date and time
