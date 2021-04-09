@@ -83,19 +83,16 @@ const ClaimsAndAppeals = ({
 
   if (hasAPIError) {
     return (
-      <div>
-        <h2>Claims & appeals</h2>
-        <div className="vads-l-row">
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-            <AlertBox
-              type={ALERT_TYPE.ERROR}
-              headline="We can’t access any claims or appeals information right now"
-            >
-              We’re sorry. Something went wrong on our end. If you have any
-              claims or appeals, you won’t be able to access your claims or
-              appeals information right now. Please refresh or try again later.
-            </AlertBox>
-          </div>
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+          <AlertBox
+            status={ALERT_TYPE.ERROR}
+            headline="We can’t access any claims or appeals information right now"
+          >
+            We’re sorry. Something went wrong on our end. If you have any claims
+            or appeals, you won’t be able to access your claims or appeals
+            information right now. Please refresh or try again later.
+          </AlertBox>
         </div>
       </div>
     );

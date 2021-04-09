@@ -324,7 +324,8 @@ describe('ClaimsAndAppeals component', () => {
       });
       it('should render an error alert', () => {
         expect(view.queryByRole('progressbar')).to.not.exist;
-        view.getByRole('heading', { name: /^claims & appeals$/i });
+        expect(view.queryByRole('heading', { name: /^claims & appeals$/i })).to
+          .not.exist;
         loadingErrorAlertExists(view);
       });
       it('should not show a CTA', () => {
@@ -360,7 +361,8 @@ describe('ClaimsAndAppeals component', () => {
       });
       it('should render an error alert', () => {
         expect(view.queryByRole('progressbar')).to.not.exist;
-        view.getByRole('heading', { name: /^claims & appeals$/i });
+        expect(view.queryByRole('heading', { name: /^claims & appeals$/i })).to
+          .not.exist;
         loadingErrorAlertExists(view);
       });
       it('should not show a CTA', () => {
