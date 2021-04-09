@@ -12,27 +12,28 @@ export default function PrintButton({
   ErrorCallToAction = () => <>Please refresh this page or try again later.</>,
   facilityName,
   appointmentTime,
-  questionnaireResponseId,
+  questionnaireResponseId = '14c883c2-b660-43fe-8d9a-1e08c5645bc6',
 }) {
   const [isError, setIsError] = useState(false);
-  const [pdfLink, setPdfLink] = useState(null);
+
   const handleClick = async () => {
     try {
       const resp = await loadPdfData(questionnaireResponseId);
       const blob = await resp.blob();
-      // console.log({ blob, resp });
-      const url = URL.createObjectURL(new Blob([blob]), {
+      const url = URL.createObjectURL(blob, {
         type: 'application/pdf',
       });
-      // console.log({ url });
-      setPdfLink(url);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.target = '_blank';
+      anchor.click();
       recordEvent({
-        event: `${TRACKING_PREFIX}pdf-printed-success`,
+        event: `${TRACKING_PREFIX}pdf-generation-success`,
       });
     } catch (error) {
-      // console.log({ error });
+      console.log({ error });
       recordEvent({
-        event: `${TRACKING_PREFIX}pdf-printed-failed`,
+        event: `${TRACKING_PREFIX}pdf-generation-failed`,
       });
       setIsError(true);
     }
@@ -48,9 +49,6 @@ export default function PrintButton({
         facilityName={facilityName}
         appointmentTime={appointmentTime}
       />
-      <a href={pdfLink} className="href" download="pdfName">
-        Download now?
-      </a>
     </>
   );
 }
