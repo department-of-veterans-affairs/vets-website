@@ -15,6 +15,7 @@ export default function createSharableLink(store, widgetType) {
       for (const link of sharableLinks) {
         ReactDOM.render(
           <Provider store={store}>
+            {/* should the iteration be happening inside this container instead? */}
             <SharableLink dataEntityId={link.parentId} />
           </Provider>,
           link,

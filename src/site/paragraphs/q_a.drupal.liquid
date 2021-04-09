@@ -28,9 +28,10 @@
     <div class="vads-u-display--flex">
       <{{ headingTag }} itemprop="name">
         {{ entity.fieldQuestion }}
+        <span data-widget-type="sharable-link" parentId={{id}}>
+        </span>
       </{{ headingTag }}>
-      <{{ headingTag }} data-widget-type="sharable-link" parentId={{id}}>
-      </{{ headingTag }}>
+
     </div>
     <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer" data-entity-id="{{ entity.entityId }}">
       {% for answer in entity.fieldAnswer %}
