@@ -251,12 +251,12 @@ export const RepresentativeAdditionalInfo = () => {
         <ul>
           <li>
             Power of attorney,
-            <strong>or</strong>
+            <strong className="vads-u-margin-left--0p5">or</strong>
           </li>
 
           <li>
             Legal guardianship order,
-            <strong>or</strong>
+            <strong className="vads-u-margin-left--0p5">or</strong>
           </li>
 
           <li>
@@ -273,5 +273,32 @@ export const RepresentativeAdditionalInfo = () => {
         </p>
       </AdditionalInfo>
     </div>
+  );
+};
+
+export const RepresentativeDocumentUploadDescription = () => {
+  return (
+    <section>
+      <h3 style={{ padding: 0, marginBottom: '1.3em' }}>
+        Upload your supporting documentation
+      </h3>
+
+      <p>
+        You will first need to scan a copy of your document onto the same device
+        that you are submitting your online application (i.e. computer or mobile
+        phone). You can upload the document from there.
+      </p>
+
+      <p>Guidelines for uploading a file:</p>
+      <ul>
+        <li>File types you. can upload: .pdf, .jpeg, or .png</li>
+        <li>Maximum file size: 25MB</li>
+      </ul>
+
+      <em>
+        A 1MB file equals about 500 pages of text. A photo is usually about 6MB.
+        Large files can take longer to upload with a slow internet connection.
+      </em>
+    </section>
   );
 };

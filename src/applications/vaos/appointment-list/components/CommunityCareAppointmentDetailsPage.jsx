@@ -75,12 +75,8 @@ function CommunityCareAppointmentDetailsPage({
   }
 
   const header = 'Community care';
-  const location = appointment.contained.find(
-    res => res.resourceType === 'Location',
-  );
-  const practitionerName = appointment.participant?.find(res =>
-    res.actor.reference.startsWith('Practitioner'),
-  )?.actor.display;
+  const { providerName, practiceName } =
+    appointment.communityCareProvider || {};
 
   return (
     <PageLayout>
@@ -102,15 +98,15 @@ function CommunityCareAppointmentDetailsPage({
         </span>
       </h2>
 
-      {(!!practitionerName || !!location.name) && (
+      {(!!providerName || !!practiceName) && (
         <>
-          {practitionerName || location.name}
+          {providerName || practiceName}
           <br />
         </>
       )}
       <FacilityAddress
-        facility={location}
-        showDirectionsLink={!!location.address}
+        facility={appointment.communityCareProvider}
+        showDirectionsLink={!!appointment.communityCareProvider.address}
         level={2}
       />
 
@@ -133,7 +129,7 @@ function CommunityCareAppointmentDetailsPage({
         <AddToCalendar
           summary={header}
           description={appointment.comment}
-          location={formatFacilityAddress(location)}
+          location={formatFacilityAddress(appointment.communityCareProvider)}
           duration={appointment.minutesDuration}
           startDateTime={moment.parseZone(appointment.start)}
         />
