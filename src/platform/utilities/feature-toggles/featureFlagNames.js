@@ -29,6 +29,7 @@ export default Object.freeze({
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   vaOnlineSchedulingHomepageRefresh: 'vaOnlineSchedulingHomepageRefresh',
   vaOnlineFacilitySelectionV22: 'vaOnlineFacilitySelectionV22',
+  vaOnlineSchedulingUnenrolledVaccine: 'vaOnlineSchedulingUnenrolledVaccine',
   ssoe: 'ssoe',
   ssoeInbound: 'ssoeInbound',
   ssoeEbenefitsLinks: 'ssoeEbenefitsLinks',
