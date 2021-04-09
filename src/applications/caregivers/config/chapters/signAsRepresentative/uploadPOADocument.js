@@ -73,7 +73,7 @@ export default {
         'ui:title': 'Document name',
       },
     }),
-    'view:placeholder': {
+    'view:placeholderTwo': {
       'ui:description': RepresentativeAdditionalInfo(),
     },
   },
@@ -81,10 +81,10 @@ export default {
     type: 'object',
     properties: {
       [representativeFields.documentUpload]: attachmentsSchema,
-    },
-    'view:placeholder': {
-      type: 'object',
-      properties: {},
+      'view:placeholderTwo': {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };
