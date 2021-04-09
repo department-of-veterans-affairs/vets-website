@@ -252,15 +252,17 @@ export function mockFeatureToggles({ providerSelectionEnabled = false } = {}) {
 function mockRequestLimits(id = '983') {
   cy.route({
     method: 'GET',
-    url: `/vaos/v0/facilities/${id}/limits*`,
+    url: `/vaos/v0/facilities/limits*`,
     response: {
-      data: {
-        id,
-        attributes: {
-          requestLimit: 1,
-          numberOfRequests: 0,
+      data: [
+        {
+          id,
+          attributes: {
+            requestLimit: 1,
+            numberOfRequests: 0,
+          },
         },
-      },
+      ],
     },
   });
 }
@@ -401,13 +403,11 @@ function setupSchedulingMocks({ cernerUser = false } = {}) {
 
 function updateTimeslots(data) {
   const startDateTime = moment()
-    .add(1, 'day')
     .add(1, 'months')
     .startOf('month')
     .day(9)
     .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
   const endDateTime = moment()
-    .add(1, 'day')
     .add(1, 'months')
     .startOf('month')
     .day(9)
@@ -449,6 +449,38 @@ function mockDirectScheduleSlots() {
     method: 'GET',
     url: '/vaos/v0/facilities/983/available_appointments*',
     response: updateTimeslots(slots),
+  });
+}
+
+function mockVaccineSlots() {
+  const startDateTime = moment()
+    .add(1, 'day')
+    .add(1, 'months')
+    .startOf('month')
+    .day(9)
+    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
+  const endDateTime = moment()
+    .add(1, 'day')
+    .add(1, 'months')
+    .startOf('month')
+    .day(9)
+    .add(60, 'minutes')
+    .format('YYYY-MM-DDTHH:mm:ss[+00:00]');
+
+  const newSlot = {
+    bookingStatus: '1',
+    remainingAllowedOverBookings: '3',
+    availability: true,
+    startDateTime,
+    endDateTime,
+  };
+
+  slots.data[0].attributes.appointmentTimeSlot = [newSlot];
+
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/available_appointments*',
+    response: slots,
   });
 }
 
@@ -618,7 +650,7 @@ export function initVaccineAppointmentMock() {
     response: facilityData,
   });
   mockPrimaryCareClinics();
-  mockDirectScheduleSlots();
+  mockVaccineSlots();
   mockSubmitVAAppointment();
 }
 

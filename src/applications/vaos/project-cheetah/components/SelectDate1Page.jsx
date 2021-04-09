@@ -127,7 +127,9 @@ export function SelectDate1Page({
         scrollAndFocus();
       }
     },
-    [isInitialLoad, loadingSlots, appointmentSlotsStatus],
+    // Intentionally leaving isInitialLoad off, because it should trigger updates, it just
+    // determines which update is made
+    [loadingSlots, appointmentSlotsStatus],
   );
 
   useEffect(
@@ -159,19 +161,17 @@ export function SelectDate1Page({
             {timezone &&
               ` Appointment times are displayed in ${timezoneDescription}.`}
           </p>
-          <p>
-            When choosing a date, make sure:
-            <ul>
-              <li>
-                You won’t have had a flu shot or any other vaccine in the past{' '}
-                <strong>2 weeks</strong>.
-              </li>
-              <li>
-                You can return to {selectedFacility.name} for your second dose{' '}
-                <strong>3 to 4 weeks after the date you select</strong>.
-              </li>
-            </ul>
-          </p>
+          <p>When choosing a date, make sure:</p>
+          <ul>
+            <li>
+              You won’t have had a flu shot or any other vaccine in the past{' '}
+              <strong>2 weeks</strong>.
+            </li>
+            <li>
+              You can return to {selectedFacility.name} for your second dose{' '}
+              <strong>3 to 4 weeks after the date you select</strong>.
+            </li>
+          </ul>
           <CalendarWidget
             maxSelections={1}
             availableSlots={availableSlots}
@@ -205,6 +205,7 @@ export function SelectDate1Page({
             required
             requiredMessage="Please choose your preferred date and time for your appointment"
             showValidation={submitted && !selectedDates?.length}
+            showWeekends
           />
         </>
       )}

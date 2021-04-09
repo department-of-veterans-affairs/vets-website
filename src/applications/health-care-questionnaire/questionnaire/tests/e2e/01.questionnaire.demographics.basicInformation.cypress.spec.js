@@ -20,7 +20,7 @@ describe('health care questionnaire -- demographics -- basic information', () =>
     });
   });
 
-  it.skip('basic information', () => {
+  it('basic information', () => {
     cy.findByTestId('fullName').contains('Calvin C Fletcher', {
       matchCase: true,
     });

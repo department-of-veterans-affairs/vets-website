@@ -69,8 +69,9 @@ describe('HealthCare component', () => {
         reducers,
       });
       expect(view.queryByRole('progressbar')).not.to.exist;
-      expect(await view.findByText(new RegExp(`you have 3 new messages`, 'i')))
-        .to.exist;
+      expect(
+        await view.findByRole('link', { name: /you have 3 new messages/i }),
+      ).to.exist;
     });
 
     it('should render the unread messages count with 1 message', async () => {
@@ -79,7 +80,7 @@ describe('HealthCare component', () => {
         initialState,
         reducers,
       });
-      expect(await view.findByText(new RegExp(`you have 1 new message`, 'i')))
+      expect(await view.findByRole('link', { name: /you have 1 new message/i }))
         .to.exist;
     });
 
@@ -89,8 +90,9 @@ describe('HealthCare component', () => {
         initialState,
         reducers,
       });
-      expect(await view.findByText(new RegExp(`you have 0 new messages`, 'i')))
-        .to.exist;
+      expect(
+        await view.findByRole('link', { name: /you have 0 new messages/i }),
+      ).to.exist;
     });
   });
 
@@ -152,9 +154,9 @@ describe('HealthCare component', () => {
         reducers,
       });
       expect(
-        await view.findByText(
-          new RegExp(`Send a secure message to your health care team`, 'i'),
-        ),
+        await view.findByRole('link', {
+          name: /Send a secure message to your health care team/i,
+        }),
       ).to.exist;
     });
   });

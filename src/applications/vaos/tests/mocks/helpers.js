@@ -76,6 +76,33 @@ export function mockAppointmentInfo({
     ),
     { data: requests },
   );
+
+  // These are common requests made from appointment list tests that happen
+  // when we don't care about the results from them
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/request_eligibility_criteria?`,
+    ),
+    {
+      data: [],
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/direct_booking_eligibility_criteria?`,
+    ),
+    {
+      data: [],
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/v1/facilities/va?ids=vha_fake&per_page=1`,
+    ),
+    {
+      data: [],
+    },
+  );
 }
 
 /**
@@ -368,6 +395,47 @@ export function mockSupportedFacilities({
 }
 
 /**
+ * Mocks the api call used to check if a user is over the request limit for a facility
+ * and type of care.
+ *
+ * @export
+ * @param {Object} params
+ * @param {array} params.facilityIds The list of facility ids to check for requests
+ * @param {string} [params.typeOfCareId='CR1'] The type of care id to check
+ * @param {number} [params.requestLimit=1] The request limit to use for the facility
+ * @param {number} [params.numberOfRequests=0] The request count to return from the mock. Set this at least equal
+ *    to requestLimit to have this check fail
+ */
+export function mockRequestLimits({
+  facilityIds,
+  typeOfCareId = 'CR1',
+  requestLimit = 1,
+  numberOfRequests = 0,
+}) {
+  const data = facilityIds.map(id => ({
+    id,
+    attributes: {
+      numberOfRequests,
+      requestLimit,
+      institutionCode: id,
+    },
+  }));
+
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v0/facilities/limits?type_of_care_id=${typeOfCareId}&${facilityIds
+        .map(id => `facility_ids[]=${id}`)
+        .join('&')}`,
+    ),
+    {
+      data,
+    },
+  );
+}
+
+/**
  * Mocks the api calls for the various eligibility related fetches VAOS does in the new appointment flow
  *
  * @export
@@ -395,21 +463,13 @@ export function mockEligibilityFetches({
   clinics = [],
   pastClinics = false,
 }) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v0/facilities/${facilityId}/limits?type_of_care_id=${typeOfCareId}`,
-    ),
-    {
-      data: {
-        attributes: {
-          requestLimit: 1,
-          numberOfRequests: limit ? 0 : 1,
-        },
-      },
-    },
-  );
+  mockRequestLimits({
+    facilityIds: [facilityId],
+    typeOfCareId,
+    requestLimit: 1,
+    numberOfRequests: limit ? 0 : 1,
+  });
+
   setFetchJSONResponse(
     global.fetch.withArgs(
       `${
@@ -722,40 +782,6 @@ export function mockFacilitiesPageFetches(
 }
 
 /**
- * Mocks the api call used to check if a user is over the request limit for a facility
- * and type of care.
- *
- * @export
- * @param {Object} params
- * @param {string} params.facilityId The id of the facility to check for requests
- * @param {number} [params.requestLimit=1] The request limit to use for the facility
- * @param {number} [params.numberOfRequests=0] The request count to return from the mock. Set this at least equal
- *    to requestLimit to have this check fail
- */
-export function mockRequestLimit({
-  facilityId,
-  requestLimit = 1,
-  numberOfRequests = 0,
-}) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v0/facilities/${facilityId}/limits?type_of_care_id=CR1`,
-    ),
-    {
-      data: {
-        id: facilityId,
-        attributes: {
-          requestLimit,
-          numberOfRequests,
-        },
-      },
-    },
-  );
-}
-
-/**
  * Mocks the api call that sets or retrieves preferences in var-resources
  *
  * @export
@@ -823,8 +849,8 @@ export function setupExpressCareMocks({
     },
   ]);
   mockRequestEligibilityCriteria([facilityId], [requestCriteria]);
-  mockRequestLimit({
-    facilityId,
+  mockRequestLimits({
+    facilityIds: [facilityId],
     numberOfRequests: isUnderRequestLimit ? 0 : 1,
   });
 }

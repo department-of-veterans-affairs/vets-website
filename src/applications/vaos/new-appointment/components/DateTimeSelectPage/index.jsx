@@ -125,7 +125,9 @@ export function DateTimeSelectPage({
         scrollAndFocus();
       }
     },
-    [isInitialLoad, loadingSlots, appointmentSlotsStatus],
+    // Intentionally leaving isInitialLoad off, because it should trigger updates, it just
+    // determines which update is made
+    [loadingSlots, appointmentSlotsStatus],
   );
 
   const selectedDates = data.selectedDates;

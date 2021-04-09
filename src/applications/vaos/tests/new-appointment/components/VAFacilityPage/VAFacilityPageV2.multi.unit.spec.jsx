@@ -735,7 +735,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     expect(screen.baseElement).not.to.contain.text(
       /This facility doesn’t accept online scheduling for this care/,
     );
-    fireEvent.click(screen.getByText(/Continue/));
+    fireEvent.click(await screen.findByText(/Continue/));
     await screen.findByText(
       /This facility doesn’t accept online scheduling for this care/i,
     );

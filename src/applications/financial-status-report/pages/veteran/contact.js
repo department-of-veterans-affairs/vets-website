@@ -21,8 +21,6 @@ import {
   validateZIP,
 } from '../../utils/validations';
 
-const url = window.location.href;
-
 export const uiSchema = {
   'ui:title': 'Contact information',
   'ui:description': (
@@ -38,6 +36,13 @@ export const uiSchema = {
   },
   personalData: {
     address: {
+      'ui:field': ReviewCardField,
+      'ui:options': {
+        editTitle: 'Edit mailing address',
+        viewComponent: ContactInfoCard,
+        startInEdit: false,
+        hideOnReview: true,
+      },
       'ui:subtitle': (
         <>
           <p>
@@ -55,12 +60,6 @@ export const uiSchema = {
           </p>
         </>
       ),
-      'ui:field': url.includes('contact-information') && ReviewCardField,
-      'ui:options': {
-        editTitle: 'Edit mailing address',
-        viewComponent: ContactInfoCard,
-        startInEdit: false,
-      },
       livesOutsideUS: {
         'ui:title': 'I live on a U.S. military base outside of the U.S.',
         'ui:options': {
@@ -105,7 +104,7 @@ export const uiSchema = {
           },
         },
       },
-      addressLine1: {
+      street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {
           required: 'Please enter a street address',
@@ -114,8 +113,8 @@ export const uiSchema = {
           classNames: 'input-size-7',
         },
       },
-      addressLine2: {
-        'ui:title': 'Line 2',
+      street2: {
+        'ui:title': 'Street address line 2',
         'ui:options': {
           classNames: 'input-size-7',
         },
@@ -200,7 +199,7 @@ export const uiSchema = {
         classNames: 'input-size-7',
       },
     },
-    primaryEmail: {
+    emailAddress: {
       ...emailUI('Email address'),
       'ui:options': {
         classNames: 'input-size-7',
@@ -221,8 +220,8 @@ export const uiSchema = {
       'ui:validations': [
         {
           validator: (errors, fieldData, formData) => {
-            const { primaryEmail, confirmationEmail } = formData.personalData;
-            if (primaryEmail !== confirmationEmail) {
+            const { emailAddress, confirmationEmail } = formData.personalData;
+            if (emailAddress !== confirmationEmail) {
               errors.addError('Email does not match');
             }
           },
@@ -240,13 +239,7 @@ export const schema = {
       properties: {
         address: {
           type: 'object',
-          required: [
-            'countryName',
-            'addressLine1',
-            'city',
-            'stateCode',
-            'zipCode',
-          ],
+          required: ['countryName', 'street', 'city', 'stateCode', 'zipCode'],
           properties: {
             livesOutsideUS: {
               type: 'boolean',
@@ -258,8 +251,8 @@ export const schema = {
             countryName: {
               type: 'string',
             },
-            addressLine1: SCHEMA_DEFINITIONS.address,
-            addressLine2: SCHEMA_DEFINITIONS.address,
+            street: SCHEMA_DEFINITIONS.address,
+            street2: SCHEMA_DEFINITIONS.address,
             city: SCHEMA_DEFINITIONS.city,
             stateCode: {
               type: 'string',
@@ -268,7 +261,7 @@ export const schema = {
           },
         },
         telephoneNumber: SCHEMA_DEFINITIONS.telephoneNumber,
-        primaryEmail: SCHEMA_DEFINITIONS.emailAddress,
+        emailAddress: SCHEMA_DEFINITIONS.emailAddress,
         confirmationEmail: SCHEMA_DEFINITIONS.emailAddress,
       },
     },

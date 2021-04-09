@@ -10,7 +10,7 @@ export const uiSchema = {
         classNames: 'vads-u-margin-top--2',
       },
       veteran: {
-        previousEmployment: {
+        vetPreviousEmployment: {
           'ui:field': ItemLoop,
           'ui:description':
             'Tell us about your other jobs in the past 2 years.',
@@ -57,7 +57,7 @@ export const schema = {
             veteran: {
               type: 'object',
               properties: {
-                previousEmployment: {
+                vetPreviousEmployment: {
                   type: 'array',
                   items: {
                     type: 'object',
