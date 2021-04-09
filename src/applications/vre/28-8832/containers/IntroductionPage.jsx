@@ -53,7 +53,7 @@ const IntroductionPage = props => {
               <strong>What if I need help filling out my application?</strong>{' '}
               An accredited representative, with a Veterans Service Organization
               (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
+              <a href="/disability/how-to-file-claim/">
                 Get help filing your claim
               </a>
             </p>
