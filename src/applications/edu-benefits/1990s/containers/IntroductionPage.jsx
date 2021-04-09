@@ -131,7 +131,7 @@ class IntroductionPage extends React.Component {
           id="privacy_policy"
         >
           <OMBInfo
-            resBurden={'xx'}
+            resBurden={'10'}
             ombNumber="xxxx-xxxx"
             expDate="xx/xx/xxxx"
           />

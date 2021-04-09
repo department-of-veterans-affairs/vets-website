@@ -53,12 +53,12 @@ class OMBInfo extends React.Component {
         determine your ability to participate in the Veteran Rapid Retraining
         Assistance Program, 38 U.S.C. 3702 (d) and 38 CFR 36.4344. Title 38,
         United States Code, allows us to ask for this information. We estimate
-        that you will need an average of 10 minutes to review the instructions,
-        find the information, and complete this form. VA cannot conduct or
-        sponsor a collection of information unless a valid OMB control number is
-        displayed. You are not required to respond to a collection of
-        information if this number is not displayed. Valid OMB control numbers
-        can be located on the OMB Internet Page at{' '}
+        that you will need an average of {minutes} minutes to review the
+        instructions, find the information, and complete this form. VA cannot
+        conduct or sponsor a collection of information unless a valid OMB
+        control number is displayed. You are not required to respond to a
+        collection of information if this number is not displayed. Valid OMB
+        control numbers can be located on the OMB Internet Page at{' '}
         <a href="www.reginfo.gov/public/do/PRAMain">
           www.reginfo.gov/public/do/PRAMain
         </a>
