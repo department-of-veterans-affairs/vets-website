@@ -16,18 +16,16 @@ exports.handler = async function(event, context) {
   console.log(`Event: ${JSON.stringify(event, null, 2)}`);
   console.log(`Context: ${JSON.stringify(context, null, 2)}`);
 
-  const defautOptions = await getOptions();
-
-  const options = {
-    ...defautOptions,
+  const options = await getOptions({
     'drupal-address': DRUPAL_ADDRESS,
     'no-drupal-proxy': true,
     'pull-drupal': true,
-  };
+  });
 
   let drupalPages = {};
 
   try {
+    console.log('Initializing Drupal client...');
     const contentApi = getDrupalClient(options);
     console.log('Fetching Drupal content...');
     drupalPages = await contentApi.getAllPagesViaIndividualGraphQlQueries();
