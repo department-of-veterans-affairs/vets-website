@@ -82,9 +82,7 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
     },
 
     async proxyFetch(url, options = {}) {
-      console.log('proxyFetch');
-      if (this.usingProxy || process.env.CONTENT_CACHE_FUNCTION) {
-        console.log('adding cert');
+      if (this.usingProxy) {
         // addCAs() is here because VA uses self-signed certificates with a
         // non-globally trusted Root Certificate Authority and we need to
         // tell our code to trust it, otherwise we get self-signed certificate errors.
