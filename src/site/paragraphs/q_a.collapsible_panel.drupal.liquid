@@ -24,8 +24,8 @@
 
         {% for accordionItem in questions %}
           {% assign item = accordionItem.entity %}
-        
-        <li id="{{ item.entityId | formatSharableLinkID: item.fieldQuestion   }}"
+          {% assign id="{{ item.entityId | formatSharableLinkID: item.fieldQuestion   }}"%}
+        <li id={{id}}
             data-template="paragraphs/q_a.collapsible_panel__qa"
             data-entity-id="{{ item.entityId }}"
             data-analytics-faq-section="{{ sectionHeader | escape }}"
@@ -42,7 +42,8 @@
                   {% include {{ bundleComponent }} with entity = answer.entity %}
                 {% endfor %}
               </div>
-              <div data-widget-type="sharable-link" id="{{ item.entityId | formatSharableLinkID: item.fieldQuestion   }}" ></div>
+              
+              <div data-widget-type="sharable-link" parentId={{id}} ></div>
             </div>
           </div>
           

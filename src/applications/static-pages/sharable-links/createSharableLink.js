@@ -4,18 +4,22 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 export default function createSharableLink(store, widgetType) {
-  const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
-  const dataEntityId = root.id;
-  if (root) {
+  // creates 43 renders on the corona virus FAQ page....
+  const sharableLinks = document.querySelectorAll(
+    `[data-widget-type="${widgetType}"]`,
+  );
+  if (sharableLinks.length > 0) {
     import(/* webpackChunkName: "sharableLink" */
     './sharableLink').then(module => {
       const SharableLink = module.default;
-      ReactDOM.render(
-        <Provider store={store}>
-          <SharableLink dataEntityId={dataEntityId} />
-        </Provider>,
-        root,
-      );
+      for (const link of sharableLinks) {
+        ReactDOM.render(
+          <Provider store={store}>
+            <SharableLink dataEntityId={link.parentId} />
+          </Provider>,
+          link,
+        );
+      }
     });
   }
 }

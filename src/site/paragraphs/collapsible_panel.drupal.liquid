@@ -23,6 +23,7 @@
   }
 {% endcomment %}
 {% assign accordionClass = 'usa-accordion' %}
+{% assign id="{{ item.entityId | formatSharableLinkID: item.fieldTitle }}"%}
 {% if entity.fieldCollapsiblePanelBordered %}
     {% assign accordionClass = 'usa-accordion-bordered' %}
 {% endif %}
@@ -30,7 +31,7 @@
     <ul class="usa-unstyled-list">
         {% for accordionItem in entity.fieldVaParagraphs %}
             {% assign item = accordionItem.entity %}
-            <li id="{{ item.entityId | formatSharableLinkID: item.fieldTitle }}"
+            <li id={{id}}
               data-template="paragraphs/collapsible_panel__panel"
               data-entity-id="{{ item.entityId }}"
               data-analytics-faq-text="{{ item.fieldTitle | escape }}">
@@ -50,9 +51,7 @@
                         {%  assign bundleComponent = "src/site/paragraphs/" | append: paragraph.entity.entityBundle | append: ".drupal.liquid" %}
                         {% include {{ bundleComponent }} with entity = paragraph.entity %}
                     {%  endfor %}
-                    <div data-widget-type="sharable-link" id="{{ item.entityId | formatSharableLinkID: item.fieldTitle }}"></div>
-                </div>
-
+                    <div data-widget-type="sharable-link" parentId={{id}} ></div>                </div>
             </li>
         {% endfor %}
     </ul>
