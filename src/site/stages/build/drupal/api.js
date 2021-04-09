@@ -69,6 +69,12 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
   };
   const agent = new SocksProxyAgent('socks://127.0.0.1:2001');
 
+  /* eslint-disable no-console */
+  console.log('clientOption', clientOptions);
+  console.log('drupalUri', drupalUri);
+  console.log('user', user);
+  /* eslint-enable no-console */
+
   return {
     // We have to point to aws urls on Jenkins, so the only
     // time we'll be using cms.va.gov addresses is locally,
