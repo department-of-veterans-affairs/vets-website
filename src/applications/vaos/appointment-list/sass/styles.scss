@@ -69,6 +69,15 @@
     padding: 24px;
     margin-bottom: 24px;
   }
+
+  &.vaos-appts__card--clickable {
+    list-style: none;
+    padding: 0;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 .vaos-appts__card-link::after {
