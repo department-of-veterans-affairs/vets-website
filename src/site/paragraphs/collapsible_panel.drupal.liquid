@@ -40,7 +40,9 @@
                         aria-controls="{{ item.entityBundle }}-{{ item.entityId }}"
                         >
                     {{ item.fieldTitle }}
+                    <div data-widget-type="sharable-link"></div>
                 </button>
+                
                 <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" aria-hidden="{{ !entity.fieldCollapsiblePanelExpand }}">
                     {% include "src/site/paragraphs/wysiwyg.drupal.liquid" entity = item %}
 
@@ -49,7 +51,6 @@
                         {% include {{ bundleComponent }} with entity = paragraph.entity %}
                     {%  endfor %}
                 </div>
-                <div data-widget-type="sharable-link"></div>
 
             </li>
         {% endfor %}
