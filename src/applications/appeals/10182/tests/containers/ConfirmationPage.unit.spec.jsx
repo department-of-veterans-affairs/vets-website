@@ -22,10 +22,11 @@ const data = {
   form: {
     formId: formConfig.formId,
     submission: {
-      response: Date.now(),
+      response: {},
+      timestamp: Date.now(),
     },
     data: {
-      ...initialData,
+      ...initialData.data,
       contestedIssues: [
         {
           [SELECTED]: true,
@@ -63,7 +64,7 @@ describe('Confirmation page', () => {
   });
   it('should render the submit date', () => {
     const date = format(
-      new Date(data.form.submission.response),
+      new Date(data.form.submission.timestamp),
       FORMAT_READABLE,
     );
     const tree = mount(<ConfirmationPage store={fakeStore} />);
