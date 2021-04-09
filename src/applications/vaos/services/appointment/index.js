@@ -183,6 +183,10 @@ export async function fetchBookedAppointment(id, type) {
           .toISOString(),
       );
       appointment = data.find(appt => appt.id === id);
+
+      if (!appointment) {
+        appointment = await getConfirmedAppointment(id, 'va');
+      }
     }
 
     if (!appointment) {

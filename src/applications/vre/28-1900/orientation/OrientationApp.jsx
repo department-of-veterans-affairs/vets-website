@@ -78,7 +78,7 @@ const OrientationApp = props => {
           <p>
             <strong>Thank you for viewing the VR&E orientation.</strong> To
             apply for Veteran Readiness & Employment benefits now, click the
-            button below.
+            link below.
           </p>
           <a
             id="FormStartControl"
@@ -88,7 +88,7 @@ const OrientationApp = props => {
               wizardStateHandler(WIZARD_STATUS_COMPLETE);
             }}
           >
-            Apply for Veteran Readiness and Employment
+            Apply for Veteran Readiness and Employment with VA Form 28-1900
           </a>
         </div>
       )}
