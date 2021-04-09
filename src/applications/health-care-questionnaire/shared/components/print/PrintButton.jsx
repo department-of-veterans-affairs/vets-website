@@ -31,7 +31,6 @@ export default function PrintButton({
         event: `${TRACKING_PREFIX}pdf-generation-success`,
       });
     } catch (error) {
-      console.log({ error });
       recordEvent({
         event: `${TRACKING_PREFIX}pdf-generation-failed`,
       });
