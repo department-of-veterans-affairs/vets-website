@@ -38,7 +38,7 @@ const YesIDES = props => {
         href={CHAPTER_31_ROOT_URL}
         className="va-action-link--green vads-u-padding-left--0"
       >
-        Apply online now with VA Form 28-1900
+        Apply for Veteran Readiness and Employment with VA Form 28-1900
       </a>
     </div>
   );
