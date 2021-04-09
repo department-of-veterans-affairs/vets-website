@@ -8,7 +8,9 @@ const ENVIRONMENTS = require('../../constants/environments');
 const HOSTNAMES = require('../../constants/hostnames');
 const assetSources = require('../../constants/assetSources');
 
-const projectRoot = path.resolve(__dirname, '../../../../');
+const projectRoot = process.env.CONTENT_CACHE_FUNCTION
+  ? '/tmp' // The Lambda environment can only write to /tmp.
+  : path.resolve(__dirname, '../../../../');
 
 const defaultBuildtype = ENVIRONMENTS.LOCALHOST;
 const defaultHost = HOSTNAMES[defaultBuildtype];
