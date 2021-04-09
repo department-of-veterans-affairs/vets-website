@@ -598,6 +598,7 @@ describe('actions/paymentInformation', () => {
             event: 'profile-edit-failure',
             'profile-action': 'save-failure',
             'profile-section': 'edu-direct-deposit-information',
+            'error-key': 'unknown-save-error',
           });
         });
       });
