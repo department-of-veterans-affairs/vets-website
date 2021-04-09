@@ -21,7 +21,7 @@ import formConfig from '../config/form';
 import OrientationWizardContainer from './OrientationWizardContainer';
 import { WIZARD_STATUS, VRE_ROOT_URL } from '../constants';
 
-function App({ location, children, router, chapter31Feature }) {
+function App({ location, children, router, chapter31Feature, isLoggedIn }) {
   const [wizardState, setWizardState] = useState(WIZARD_STATUS_NOT_STARTED);
   let content;
 
@@ -87,6 +87,11 @@ function App({ location, children, router, chapter31Feature }) {
       </RoutedSavableApp>
     );
   }
+  if (!isLoggedIn) {
+    document.location.pathname.replace(
+      '/careers-employment/vocational-rehabilitation/apply',
+    );
+  }
   return (
     <>
       {content}
@@ -97,6 +102,7 @@ function App({ location, children, router, chapter31Feature }) {
 
 const mapStateToProps = store => ({
   chapter31Feature: toggleValues(store)[FEATURE_FLAG_NAMES.showChapter31],
+  isLoggedIn: store?.user?.login?.currentlyLoggedIn,
 });
 
 export default connect(mapStateToProps)(App);
