@@ -234,7 +234,10 @@ async function setUpFeatureFlags(options) {
 }
 
 async function getOptions(commandLineOptions) {
-  const options = commandLineOptions || gatherFromCommandLine();
+  const options = {
+    ...gatherFromCommandLine(),
+    ...commandLineOptions,
+  };
 
   applyDefaultOptions(options);
   applyEnvironmentOverrides(options);
