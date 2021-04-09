@@ -98,22 +98,19 @@ export function SelectDate1Page({
     appointmentSlotsStatus === FETCH_STATUS.notStarted;
   const isInitialLoad = useIsInitialLoad(loadingSlots);
 
-  useEffect(
-    () => {
-      getAppointmentSlots(
-        moment()
-          .startOf('month')
-          .format('YYYY-MM-DD'),
-        moment()
-          .add(1, 'months')
-          .endOf('month')
-          .format('YYYY-MM-DD'),
-        true,
-      );
-      document.title = `${pageTitle} | Veterans Affairs`;
-    },
-    [getAppointmentSlots],
-  );
+  useEffect(() => {
+    getAppointmentSlots(
+      moment()
+        .startOf('month')
+        .format('YYYY-MM-DD'),
+      moment()
+        .add(1, 'months')
+        .endOf('month')
+        .format('YYYY-MM-DD'),
+      true,
+    );
+    document.title = `${pageTitle} | Veterans Affairs`;
+  }, []);
 
   useEffect(
     () => {
