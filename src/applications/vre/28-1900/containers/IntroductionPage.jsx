@@ -107,7 +107,7 @@ const IntroductionPage = props => {
         startText="Start the Application"
       />
       <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-        <OMBInfo resBurden={30} ombNumber="2900-0009" expDate="12/31/2021" />
+        <OMBInfo resBurden={15} ombNumber="2900-0009" expDate="11/30/2022" />
       </div>
     </div>
   );
