@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const path = require('path');
 const fs = require('fs-extra');
 const tar = require('tar-fs');
@@ -69,13 +70,6 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
   };
   const agent = new SocksProxyAgent('socks://127.0.0.1:2001');
 
-  /* eslint-disable no-console */
-  console.log('buildOptions', buildOptions);
-  console.log('drupalConfig', drupalConfig);
-  console.log('drupalUri', drupalUri);
-  console.log('user', user);
-  /* eslint-enable no-console */
-
   return {
     // We have to point to aws urls on Jenkins, so the only
     // time we'll be using cms.va.gov addresses is locally,
@@ -88,7 +82,9 @@ function getDrupalClient(buildOptions, clientOptionsArg) {
     },
 
     async proxyFetch(url, options = {}) {
-      if (this.usingProxy) {
+      console.log('proxyFetch');
+      if (this.usingProxy || process.env.CONTENT_CACHE_FUNCTION) {
+        console.log('adding cert');
         // addCAs() is here because VA uses self-signed certificates with a
         // non-globally trusted Root Certificate Authority and we need to
         // tell our code to trust it, otherwise we get self-signed certificate errors.
