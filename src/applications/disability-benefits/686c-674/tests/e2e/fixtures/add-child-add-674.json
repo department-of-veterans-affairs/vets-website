@@ -59,7 +59,7 @@
       "fullName": { "first": "Jonathan", "last": "Yuen" },
       "ssn": "123211234",
       "birthDate": "1991-03-09",
-      "isParentOrGuardian": "N"
+      "isParent": "N"
     },
     "childrenToAdd": [
       {
