@@ -33,7 +33,7 @@
           <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <button class="usa-accordion-button usa-button-unstyled" aria-controls="{{ item.entityBundle }}-{{ item.entityId }}">
               <span itemprop="name">{{ item.fieldQuestion }}</span>
-              <div data-widget-type="sharable-link"></div>
+              
             </button>
             <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content">
               <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
@@ -42,6 +42,7 @@
                   {% include {{ bundleComponent }} with entity = answer.entity %}
                 {% endfor %}
               </div>
+              <div data-widget-type="sharable-link" id="{{ item.entityId | formatSharableLinkID: item.fieldQuestion   }}" ></div>
             </div>
           </div>
           

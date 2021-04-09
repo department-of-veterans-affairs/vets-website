@@ -28,7 +28,7 @@
       <{{ headingTag }} itemprop="name">
         {{ entity.fieldQuestion }}
       </{{ headingTag }}>
-      <div data-widget-type="sharable-link"></div>
+      <div data-widget-type="sharable-link" id="{{ entity.entityId | formatSharableLinkID: entity.fieldQuestion   }}"></div>
     </div>
     <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer" data-entity-id="{{ entity.entityId }}">
       {% for answer in entity.fieldAnswer %}

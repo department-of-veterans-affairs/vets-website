@@ -40,7 +40,7 @@
                         aria-controls="{{ item.entityBundle }}-{{ item.entityId }}"
                         >
                     {{ item.fieldTitle }}
-                    <div data-widget-type="sharable-link"></div>
+                    
                 </button>
                 
                 <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content" aria-hidden="{{ !entity.fieldCollapsiblePanelExpand }}">
@@ -50,6 +50,7 @@
                         {%  assign bundleComponent = "src/site/paragraphs/" | append: paragraph.entity.entityBundle | append: ".drupal.liquid" %}
                         {% include {{ bundleComponent }} with entity = paragraph.entity %}
                     {%  endfor %}
+                    <div data-widget-type="sharable-link" id="{{ item.entityId | formatSharableLinkID: item.fieldTitle }}"></div>
                 </div>
 
             </li>
