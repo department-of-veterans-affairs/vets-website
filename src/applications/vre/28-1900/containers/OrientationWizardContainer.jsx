@@ -69,7 +69,7 @@ const OrientationWizardContainer = props => {
               wizardStateHandler(WIZARD_STATUS_COMPLETE);
             }}
           >
-            Apply online with VA Form 28-1900
+            Apply for Veteran Readiness and Employment with VA Form 28-1900
           </a>
         </p>
         <Wizard
