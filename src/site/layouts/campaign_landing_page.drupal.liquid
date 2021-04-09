@@ -19,7 +19,7 @@
 
               {% if fieldPrimaryCallToAction %}
                 <a
-                  class="usa-button usa-button-secondary va-u-box-shadow--none vads-u-margin-top--2 vads-u-background-color--white vads-u-border--0 vads-u-font-size--sm"
+                  class="va-action-link--white vads-u-margin-top--2"
                   href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.url.path }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'hero', 'clp-section-title': '{{ title | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldPrimaryCallToAction.entity.fieldButtonLabel | escape }}' });"
                 >
@@ -43,7 +43,7 @@
             <p class="va-introtext vads-u-margin-top--0 vads-u-margin-bottom--2">{{ fieldClpWhyThisMatters }}</p>
             {% if fieldSecondaryCallToAction %}
               <a
-                class="usa-button usa-button-secondary vads-u-font-size--sm"
+                class="va-action-link--blue"
                 href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.url.path }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Why this matters to you', 'clp-section-title': '{{ fieldClpWhyThisMatters | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldSecondaryCallToAction.entity.fieldButtonLabel | escape }}' });"
               >
@@ -167,14 +167,16 @@
 
             <!-- Call to action -->
             {% if fieldClpVideoPanelMoreVideo %}
-              <a
-                class="vads-u-margin-top--4 usa-button usa-button-secondary vads-u-font-size--sm"
-                href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url.path }}"
-                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Video', 'clp-section-title': '{{ fieldClpVideoPanelHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel | escape }}' });"
-              >
-                {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
-                <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
-              </a>
+              <p>
+                <a
+                  class="va-action-link--blue"
+                  href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url.path }}"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Video', 'clp-section-title': '{{ fieldClpVideoPanelHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel | escape }}' });"
+                >
+                  {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
+                  <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
+                </a>
+              </p>
             {% endif %}
           </div>
         </div>
@@ -265,7 +267,7 @@
             <!-- Call to action -->
             {% if fieldClpStoriesCta %}
               <a
-                class="usa-button usa-button-secondary vads-u-font-size--sm"
+                class="va-action-link--blue"
                 href="{{ fieldClpStoriesCta.entity.fieldButtonLink.url }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Stories', 'clp-section-title': '{{ fieldClpStoriesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpStoriesCta.entity.fieldButtonLabel | escape }}' });"
                 rel="noreferrer noopener"
@@ -316,7 +318,7 @@
           <div class="vads-l-row">
             <div class="vads-u-col--12">
               <a
-                class="usa-button usa-button-secondary vads-u-font-size--sm"
+                class="va-action-link--blue"
                 href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url.path }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpResourcesCta.entity.fieldButtonLabel | escape }}' });"
               >
@@ -471,7 +473,7 @@
           <div class="vads-l-row">
             <div class="vads-u-col--12">
               <a
-                class="usa-button usa-button-secondary vads-u-font-size--sm"
+                class="va-action-link--blue"
                 href="{{ fieldClpFaqCta.entity.fieldButtonLink.url.path }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'FAQ', 'clp-section-title': 'Frequently asked questions', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpFaqCta.entity.fieldButtonLabel | escape }}' });"
               >
