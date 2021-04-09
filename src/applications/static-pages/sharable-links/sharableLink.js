@@ -26,7 +26,7 @@ const displayFeedback = target => {
 };
 const SharableLink = ({ dataEntityId }) => {
   return (
-    <div>
+    <span>
       <i
         aria-hidden="true"
         className="fas fa-link vads-u-color--primary vads-u-margin-left--1 share-link "
@@ -43,7 +43,7 @@ const SharableLink = ({ dataEntityId }) => {
         {' '}
         Link Copied{' '}
       </span>
-    </div>
+    </span>
   );
 };
 
