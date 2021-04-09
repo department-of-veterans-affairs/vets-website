@@ -42,7 +42,6 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
 
       - name: Generate coverage report by app
-<<<<<<< HEAD
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
       - name: Get code coverage
@@ -52,21 +51,11 @@ jobs:
       - name: Publish test results
         if: ${{ always() }}
         uses: mikepenz/action-junit-report@v2.4.0
-=======
-        run: node script/app-coverage-report.js
-
-      - name: Publish test results
-        if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2
->>>>>>> 6950dcef55 (Renamed workflow file.)
         with:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/unit-tests.xml'
-<<<<<<< HEAD
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
-=======
->>>>>>> 6950dcef55 (Renamed workflow file.)
 
   linting:
     name: Linting
@@ -98,7 +87,6 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-<<<<<<< HEAD
       - name: Annotate ESLint results
         run: yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/eslint-annotation-format.js .
 
@@ -110,29 +98,11 @@ jobs:
 
   contract-tests:
     name: Contract Tests
-=======
-      - name: Run ESLint
-        run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json .
-
-      - name: Annotate linting results
-        if: ${{ always() }}
-        uses: ataylorme/eslint-annotate-action@1.1.2
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          report-json: "eslint-report.json"
-
-      - name: Run Sass linter
-        run: yarn lint:sass
-
-  security-audit:
-    name: Security Audit
->>>>>>> 6950dcef55 (Renamed workflow file.)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-<<<<<<< HEAD
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -152,8 +122,6 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-=======
->>>>>>> 6950dcef55 (Renamed workflow file.)
       - name: Get Node version
         id: get-node-version
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
@@ -163,7 +131,6 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-<<<<<<< HEAD
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
@@ -212,13 +179,6 @@ jobs:
 
   security-audit:
     name: Security Audit
-=======
-      - name: Audit dependencies
-        run: yarn security-check
-
-  drupal-cache-test:
-    name: Drupal Cache Test
->>>>>>> 6950dcef55 (Renamed workflow file.)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -233,10 +193,7 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-<<<<<<< HEAD
-      - name: Audit dependencies
-        run: yarn security-check
-=======
+
       - name: Cache dependencies
         id: cache-dependencies
         uses: actions/cache@v2
@@ -253,4 +210,37 @@ jobs:
 
       - name: Fetch Drupal cache
         run: yarn fetch-drupal-cache
->>>>>>> 6950dcef55 (Renamed workflow file.)
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-e2e-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Build apps
+        run: yarn build:webpack --env.buildtype vagovprod --env.scaffold
+        timeout-minutes: 15
