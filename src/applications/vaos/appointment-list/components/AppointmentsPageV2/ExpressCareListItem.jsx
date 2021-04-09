@@ -15,7 +15,7 @@ export default function ExpressCareListItem({ appointment }) {
       className="vaos-appts__card vaos-appts__card--clickable"
     >
       <div
-        className="vaos-appts__card--clickable-content vads-u-display--flex vads-u-align-items--center"
+        className="vads-u-padding--2 medium-screen:vads-u-padding--3 medium-screen:vads-u-margin-bottom--3 vads-u-display--flex vads-u-align-items--center"
         onClick={() => {
           if (!window.getSelection().toString()) history.push(link);
         }}
