@@ -299,25 +299,28 @@ function setParticipant(appt) {
 
   switch (type) {
     case APPOINTMENT_TYPES.vaAppointment: {
-      const participant = [];
+      let participant = {};
       if (appt.clinicId) {
-        participant.push({
-          actor: {
-            reference: `HealthcareService/${appt.facilityId}_${appt.clinicId}`,
-            display:
+        participant = {
+          ...participant,
+          location: {
+            // reference: `HealthcareService/${appt.facilityId}_${appt.clinicId}`,
+            displayName:
               appt.clinicFriendlyName ||
               appt.vdsAppointments?.[0]?.clinic?.name ||
               appt.vvsAppointments?.[0]?.clinic?.name,
           },
-        });
+        };
       }
 
       if (appt.sta6aid) {
-        participant.push({
-          actor: {
-            reference: `Location/${appt.sta6aid}`,
+        participant = {
+          ...participant,
+          location: {
+            ...participant.location,
+            stationId: `Location/${appt.sta6aid}`,
           },
-        });
+        };
       }
 
       return participant;
@@ -382,12 +385,13 @@ function createPatientResourceFromRequest(req) {
  * Builds contained array and populates with video conference info and facility info if available
  *
  * @param {Object} appt  VAR appointment object
- * @returns {Array} Array of contained objects of FHIR appointment containing video conference info
+ * @returns {Array|Object} Returns array of contained objects of FHIR appointment containing video conference info or
+ * returns an object containing patient information.
  */
 function setContained(appt) {
   switch (getAppointmentType(appt)) {
     case APPOINTMENT_TYPES.request: {
-      return [createPatientResourceFromRequest(appt)];
+      return createPatientResourceFromRequest(appt);
     }
     case APPOINTMENT_TYPES.ccRequest: {
       const contained = [createPatientResourceFromRequest(appt)];
@@ -546,6 +550,10 @@ export function transformPendingAppointment(appt) {
   );
   const created = moment.parseZone(appt.date).format('YYYY-MM-DD');
   const isVideo = appt.visitType === 'Video Conference';
+  const contained =
+    getAppointmentType(appt) === APPOINTMENT_TYPES.request
+      ? 'patient'
+      : 'contained';
 
   return {
     resourceType: 'Appointment',
@@ -568,7 +576,7 @@ export function transformPendingAppointment(appt) {
     },
     reason: getPurposeOfVisit(appt),
     participant: setParticipant(appt),
-    contained: setContained(appt),
+    [contained]: setContained(appt),
     legacyVAR: setLegacyVAR(appt),
     comment: appt.additionalInformation,
     videoData: {

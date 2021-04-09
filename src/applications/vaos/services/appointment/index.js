@@ -269,9 +269,14 @@ export function getVAAppointmentLocationId(appointment) {
     return appointment.videoData.facilityId;
   }
 
-  const locationReference = appointment?.participant?.find(p =>
-    p.actor.reference?.startsWith('Location'),
-  )?.actor?.reference;
+  let locationReference;
+  if (appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
+    locationReference = appointment?.participant.location.stationId;
+  } else {
+    locationReference = appointment?.participant?.find(p =>
+      p.actor.reference?.startsWith('Location'),
+    )?.actor?.reference;
+  }
 
   if (locationReference) {
     return locationReference.split('/')[1];
@@ -288,6 +293,12 @@ export function getVAAppointmentLocationId(appointment) {
  * @returns {string} The patient telecome value
  */
 export function getPatientTelecom(appointment, system) {
+  if (appointment.vaos.appointmentType === APPOINTMENT_TYPES.request) {
+    return appointment?.patient.resourceType === 'Patient'
+      ? appointment.patient.telecom?.find(t => t.system === system)?.value
+      : null;
+  }
+
   return appointment?.contained
     .find(res => res.resourceType === 'Patient')
     ?.telecom?.find(t => t.system === system)?.value;
