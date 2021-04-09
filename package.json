@@ -45,7 +45,7 @@
     "mock-api": "node src/platform/testing/e2e/mockapi.js",
     "new:app": "yo @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix",
     "new:cms-content-model": "yo ./src/site/stages/build/process-cms-exports/generator/index.js && npm run lint:js:untracked:fix",
-    "nightwatch:docker": "nightwatch -c config/nightwatch.docker-compose.js --suiteRetries 3",
+    "nightwatch:docker": "nightwatch -c config/nightwatch.docker-compose.js",
     "nightwatch": "nightwatch -c config/nightwatch.js",
     "nightwatch-sauce": "nightwatch -c config/nightwatch-sauce.js",
     "nightwatch-visual": "node src/platform/testing/visual-regression/index.js",
