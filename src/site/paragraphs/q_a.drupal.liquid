@@ -17,7 +17,7 @@
 {% endcomment %}
 
 {% assign headingTag = "h3" %}
-{% assign id="{{ entity.entityId | formatSharableLinkID: entity.fieldQuestion   }}" %}
+{% assign id={{ entity.entityId | formatSharableLinkID: entity.fieldQuestion   }} %}
 
 {% if entity.parentFieldName == "field_questions" and sectionHeader == blank %}
   {% assign headingTag = "h2" %}

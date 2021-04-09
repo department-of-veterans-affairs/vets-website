@@ -13,6 +13,7 @@ export default function createSharableLink(store, widgetType) {
     './sharableLink').then(module => {
       const SharableLink = module.default;
       for (const link of sharableLinks) {
+        // console.log(link, 'THE LINK');
         ReactDOM.render(
           <Provider store={store}>
             {/* should the iteration be happening inside this container instead? */}
