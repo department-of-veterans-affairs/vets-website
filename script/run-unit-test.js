@@ -1,3 +1,5 @@
+return;
+// eslint-disable-next-line no-unreachable
 const printUnitTestHelp = require('./run-unit-test-help.js');
 const commandLineArgs = require('command-line-args');
 const { runCommand } = require('./utils');
