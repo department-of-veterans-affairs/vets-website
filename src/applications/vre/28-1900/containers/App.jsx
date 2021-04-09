@@ -87,11 +87,13 @@ function App({ location, children, router, chapter31Feature, isLoggedIn }) {
       </RoutedSavableApp>
     );
   }
-  if (!isLoggedIn) {
-    document.location.pathname.replace(
-      '/careers-employment/vocational-rehabilitation/apply',
-    );
+
+  const path =
+    '/careers-employment/vocational-rehabilitation/apply/introduction';
+  if (!isLoggedIn && window.location.pathname !== path) {
+    window.location.replace(path);
   }
+
   return (
     <>
       {content}
