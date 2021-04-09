@@ -23,7 +23,7 @@ import {
 } from '../../mocks/helpers';
 import { getExpressCareRequestCriteriaMock } from '../../mocks/v0';
 
-describe('VAOS Express Care actions', () => {
+describe.skip('VAOS Express Care actions', () => {
   beforeEach(() => {
     mockFetch();
   });
