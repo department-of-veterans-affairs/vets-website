@@ -5,6 +5,9 @@ import isEmpty from 'lodash/isEmpty';
 import '../sass/dashboard.scss';
 
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { focusElement } from '~/platform/utilities/ui';
 import {
@@ -21,6 +24,7 @@ import {
   DowntimeNotification,
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
+import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 
 import NameTag from '~/applications/personalization/components/NameTag';
 import HealthCareLoadError from '~/applications/personalization/dashboard-2/components/health-care/HealthCareLoadError';
@@ -37,6 +41,27 @@ import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderM
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
+
+const renderWidgetDowntimeNotification = (downtime, children) => {
+  if (downtime.status === externalServiceStatus.down) {
+    return (
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+          <AlertBox
+            status={ALERT_TYPE.ERROR}
+            headline="We can’t access any claims or appeals information right now"
+          >
+            We’re sorry. We’re working to fix some problems with the claims or
+            appeals tool right now and cannot display your information on this
+            page. Please check back after{' '}
+            {downtime.endTime.format('MMMM D [at] LT')}
+          </AlertBox>
+        </div>
+      </div>
+    );
+  }
+  return children;
+};
 
 const Dashboard = ({
   fetchFullName,
@@ -121,20 +146,30 @@ const Dashboard = ({
 
               {showHealthCareError ? (
                 <div className="vads-l-row">
-                  <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+                  <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
                     <HealthCareLoadError />
                   </div>
                 </div>
               ) : null}
 
-              {props.showValidateIdentityAlert && (
+              {props.showValidateIdentityAlert ? (
                 <div className="vads-l-row">
-                  <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+                  <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
                     <IdentityNotVerified alertHeadline="Verify your identity to access more VA.gov tools and features" />
                   </div>
                 </div>
+              ) : null}
+              {props.showClaimsAndAppeals && (
+                <DowntimeNotification
+                  dependencies={[
+                    externalServices.mhv,
+                    externalServices.appeals,
+                  ]}
+                  render={renderWidgetDowntimeNotification}
+                >
+                  <ClaimsAndAppeals />
+                </DowntimeNotification>
               )}
-              {props.showClaimsAndAppeals && <ClaimsAndAppeals />}
               {props.showHealthCare && !showHealthCareError && <HealthCare />}
               <ApplyForBenefits />
             </div>
