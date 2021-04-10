@@ -360,7 +360,7 @@ function setParticipant(appt) {
         participant = {
           ...participant,
           location: {
-            // reference: `HealthcareService/${appt.facilityId}_${appt.clinicId}`,
+            reference: `HealthcareService/${appt.facilityId}_${appt.clinicId}`,
             displayName:
               appt.clinicFriendlyName ||
               appt.vdsAppointments?.[0]?.clinic?.name ||

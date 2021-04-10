@@ -226,9 +226,12 @@ export function getVARFacilityId(appointment) {
       return appointment.legacyVAR.apiData.facilityId;
     }
 
-    const id = appointment.participant?.[0]?.actor?.reference
-      ?.split('/')?.[1]
-      ?.split('_')?.[0];
+    let id = appointment.participant?.location?.reference;
+    if (Array.isArray(appointment.participant)) {
+      id = appointment.participant?.[0]?.actor?.reference;
+    }
+
+    id = id?.split('/')?.[1]?.split('_')?.[0];
 
     if (id) {
       return id;
@@ -248,9 +251,12 @@ export function getVARFacilityId(appointment) {
  */
 export function getVARClinicId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    const id = appointment.participant?.[0]?.actor?.reference
-      ?.split('/')?.[1]
-      ?.split('_')?.[1];
+    // TODO: Will we always have location?
+    let id = appointment.participant?.location?.reference;
+    if (Array.isArray(appointment.participant)) {
+      id = appointment.participant?.[0]?.actor?.reference;
+    }
+    id = id?.split('/')?.[1]?.split('_')?.[1];
 
     return id || null;
   }
@@ -275,7 +281,7 @@ export function getVAAppointmentLocationId(appointment) {
 
   let locationReference;
   if (appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    locationReference = appointment?.participant.location.stationId;
+    locationReference = appointment?.participant?.location?.stationId;
   } else {
     locationReference = appointment?.participant?.find(p =>
       p.actor.reference?.startsWith('Location'),

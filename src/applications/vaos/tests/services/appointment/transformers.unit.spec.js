@@ -342,10 +342,10 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set clinic as HealthcareService', () => {
-        expect(data.participant[0].actor.reference).to.contain(
+        expect(data.participant.location.reference).to.contain(
           'HealthcareService/',
         );
-        expect(data.participant[0].actor.display).to.equal('CHY OPT VAR1');
+        expect(data.participant.location.displayName).to.equal('CHY OPT VAR1');
       });
 
       it('should return vaos.isCommunityCare', () => {
@@ -457,11 +457,7 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should not set clinic as HealthcareService', () => {
-        expect(
-          data.participant.some(p =>
-            p.actor?.reference?.includes('HealthcareService'),
-          ),
-        ).to.be.false;
+        expect(data.participant.location).to.be.undefined;
       });
 
       it('should set video url', () => {
@@ -544,14 +540,13 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set patient info in participants', () => {
-        const patientActor = data.contained.filter(
-          p => p.resourceType === 'Patient',
-        )[0];
-        const telecomPhone = patientActor.telecom.filter(
+        // const patientActor = data.patient.resourceType === 'Patient',
+        // )[0];
+        const telecomPhone = data.patient.telecom.filter(
           t => t.system === 'phone',
         )[0];
         expect(telecomPhone.value).to.equal('(999) 999-9999');
-        const telecomEmail = patientActor.telecom.filter(
+        const telecomEmail = data.patient.telecom.filter(
           t => t.system === 'email',
         )[0];
         expect(telecomEmail.value).to.equal('aarathi.poldass@va.gov');
