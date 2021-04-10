@@ -4,7 +4,6 @@
  */
 import _recordEvent from 'platform/monitoring/record-event';
 import { kebabCase } from 'lodash';
-import packageJSON from '../../../package.json';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-show' }],
@@ -15,6 +14,8 @@ const analyticsEvents = {
   AlertBox: [{ action: 'linkClick', event: 'nav-alert-box-link-click' }],
   PromoBanner: [{ action: 'linkClick', event: 'nav-promo-banner-link-click' }],
 };
+
+const COMPONENT_LIBRARY_VERSION = '2.3.1';
 
 export function subscribeComponentAnalyticsEvents(
   e,
@@ -27,19 +28,10 @@ export function subscribeComponentAnalyticsEvents(
     const action = component.find(ev => ev.action === e.detail.action);
 
     if (action) {
-      // Get component-library version from package.json
-      const dependencies = packageJSON.dependencies;
-
-      const componentLibraryVersion =
-        Object.prototype.hasOwnProperty.call(
-          dependencies,
-          '@department-of-veterans-affairs/component-library',
-        ) && dependencies['@department-of-veterans-affairs/component-library'];
-
       const dataLayer = {
         event: action.event,
         'event-source': 'component-library',
-        'component-library-version': componentLibraryVersion,
+        'component-library-version': COMPONENT_LIBRARY_VERSION,
       };
 
       // If the event included additional details / context...
