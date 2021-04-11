@@ -24,6 +24,7 @@ const displayFeedback = target => {
     target.nextSibling.classList.add('vads-u-display--none');
   }, 5000);
 };
+// TODO: default state, hover state, click state, borders, fill color
 const SharableLink = ({ dataEntityId }) => {
   return (
     <span>
