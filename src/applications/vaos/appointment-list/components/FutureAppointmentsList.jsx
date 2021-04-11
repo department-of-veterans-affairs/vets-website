@@ -48,7 +48,8 @@ function FutureAppointmentsList({
     );
   } else if (futureStatus === FETCH_STATUS.succeeded && future?.length > 0) {
     content = (
-      <ul className="usa-unstyled-list" id="appointments-list">
+      // eslint-disable-next-line jsx-a11y/no-redundant-roles
+      <ul role="list" className="usa-unstyled-list" id="appointments-list">
         {future.map((appt, index) => {
           const facilityId = getVAAppointmentLocationId(appt);
 

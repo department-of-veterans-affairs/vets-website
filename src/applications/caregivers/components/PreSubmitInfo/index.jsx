@@ -119,8 +119,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   return (
     <section className="vads-u-display--flex vads-u-flex-direction--column">
       <p className="vads-u-margin-bottom--5">
-        Please review information entered into this application. The Veteran and
-        each family caregiver applicant must sign the appropriate section.
+        Please review information entered into this application. The{' '}
+        {showRepresentativeSignatureBox ? 'Representative' : 'Veteran'} and each
+        family caregiver applicant must sign the appropriate section.
       </p>
 
       {showRepresentativeSignatureBox ? (
