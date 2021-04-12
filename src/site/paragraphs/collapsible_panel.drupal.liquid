@@ -23,7 +23,6 @@
   }
 {% endcomment %}
 {% assign accordionClass = 'usa-accordion' %}
-{% assign id= item.entityId | formatSharableLinkID: item.fieldTitle %}
 {% if entity.fieldCollapsiblePanelBordered %}
     {% assign accordionClass = 'usa-accordion-bordered' %}
 {% endif %}
@@ -31,6 +30,7 @@
     <ul class="usa-unstyled-list">
         {% for accordionItem in entity.fieldVaParagraphs %}
             {% assign item = accordionItem.entity %}
+            {% assign id= item.entityId | formatSharableLinkID: item.fieldTitle %}
             <li id={{id}}
               data-template="paragraphs/collapsible_panel__panel"
               data-entity-id="{{ item.entityId }}"
