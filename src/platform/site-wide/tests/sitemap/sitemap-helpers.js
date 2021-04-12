@@ -58,22 +58,20 @@ function runTests(client, segment, only508List) {
   segment.forEach(url => {
     console.time(url); // eslint-disable-line no-console
     const only508 = only508List.filter(path => url.endsWith(path)).length > 0;
+    const config = only508
+      ? {
+          scope: url,
+          runOnly: {
+            type: 'tag',
+            values: ['section508'],
+          },
+        }
+      : { scope: url };
     client
       .perform(() => {})
       .openUrl(url)
       .waitForElementVisible('body', Timeouts.normal)
-      .axeCheck(
-        'document',
-        only508
-          ? {
-              scope: url,
-              runOnly: {
-                type: 'tag',
-                values: ['section508'],
-              },
-            }
-          : { scope: url },
-      );
+      .axeCheck('document', config);
     console.timeEnd(url); // eslint-disable-line no-console
   });
 }
