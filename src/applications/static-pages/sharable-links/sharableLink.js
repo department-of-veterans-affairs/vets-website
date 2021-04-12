@@ -20,6 +20,28 @@ const SharableLink = props => {
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
 
+  const displayFeedback = target => {
+    const offsetThreshold = 100;
+    if (window.innerWidth - target.offsetLeft <= offsetThreshold) {
+      setLeftAligned(true);
+    }
+    target.nextSibling.classList.remove('vads-u-display--none');
+    setFeedbackActive(true);
+    setTimeout(() => {
+      target.nextSibling.classList.add('vads-u-display--none');
+      setFeedbackActive(false);
+      setLeftAligned(false);
+    }, 1000000);
+  };
+
+  const calculateLeftAlignment = () => {
+    return (
+      document.getElementsByClassName('share-link')[0]?.offsetLeft -
+      document.getElementsByClassName('link-copy-feedback ')[0]?.offsetWidth +
+      document.getElementsByClassName('share-link')[0]?.offsetWidth
+    );
+  };
+
   return (
     <span>
       <i
@@ -33,17 +55,7 @@ const SharableLink = props => {
           event.persist();
           if (!event || !event.target) return;
           copyToUsersClipBoard(props.dataEntityId);
-          event.target.nextSibling.classList.remove('vads-u-display--none');
-          const offsetThreshold = 100;
-          if (window.innerWidth - event.target.offsetLeft <= offsetThreshold) {
-            setLeftAligned(true);
-          }
-          setFeedbackActive(true);
-          setTimeout(() => {
-            event.target.nextSibling.classList.add('vads-u-display--none');
-            setFeedbackActive(false);
-            setLeftAligned(false);
-          }, 1000000);
+          displayFeedback(event.target);
         }}
       />
       <span
@@ -52,9 +64,8 @@ const SharableLink = props => {
           leftAligned
             ? {
                 position: 'absolute',
-                // TODO: calculate this more accureately
-                left: document.getElementsByClassName('share-link')[0]
-                  ?.offsetLeft,
+                marginTop: '8px',
+                left: calculateLeftAlignment(),
               }
             : {}
         }
