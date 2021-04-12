@@ -2,21 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function StepHeader({ current, steps, name, children }) {
+  const stepText = `Step ${current} of ${steps}: ${name}`;
   return (
     <div className="section-content">
-      <div
-        role="progressbar"
-        aria-valuenow={current}
-        aria-valuemin="1"
-        aria-valuetext={`Step ${current} of ${steps}: ${name}`}
-        aria-valuemax={steps}
-        className="nav-header"
-      >
-        <h4>
-          <span className="form-process-step current">{current}</span>
-          <span className="form-process-total">of {steps}</span>
-          {name}
-        </h4>
+      <div className="schemaform-chapter-progress">
+        <div
+          aria-valuenow={current}
+          aria-valuemin="1"
+          aria-valuetext={stepText}
+          aria-valuemax={steps}
+          className="nav-header nav-header-schemaform"
+        >
+          <h2 id="nav-form-header" className="vads-u-font-size--h4">
+            {stepText}
+          </h2>
+        </div>
       </div>
       {children}
     </div>

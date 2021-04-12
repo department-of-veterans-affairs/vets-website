@@ -10,12 +10,22 @@ Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
-    skip: ['chapter31-maximal'],
     dataPrefix: 'data',
     dataSets: ['chapter31-maximal'],
     fixtures: { data: path.join(__dirname, 'formDataSets') },
     setupPerTest: () => {
       window.sessionStorage.removeItem('wizardStatus31');
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            {
+              name: 'show_chapter_31',
+              value: true,
+            },
+          ],
+        },
+      });
       cy.intercept('POST', '/v0/veteran_readiness_employment_claims', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2020-11-12',
@@ -40,9 +50,12 @@ const testConfig = createTestConfig(
         cy.get('.usa-button-primary').click();
         cy.get('.usa-button-primary').click();
         cy.get('.usa-button-primary').click();
-        cy.findAllByText(/Apply online with VA Form 28-1900/i, {
-          selector: 'a',
-        })
+        cy.findAllByText(
+          /Apply for Veteran Readiness and Employment with VA Form 28-1900/i,
+          {
+            selector: 'a',
+          },
+        )
           .first()
           .click();
         cy.injectAxe();

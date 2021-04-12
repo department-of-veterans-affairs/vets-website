@@ -19,10 +19,8 @@ describe('<StepHeader>', () => {
 
   it('should format step header', () => {
     const tree = SkinDeep.shallowRender(<StepHeader {...defaultProps} />);
-    expect(tree.subTree('.form-process-step').text()).to.equal('3');
-    expect(tree.subTree('.form-process-total').text()).to.equal('of 6');
-    expect(tree.subTree('.section-content').text()).to.contain(
-      'First step of the process',
+    expect(tree.subTree('h2').text()).to.equal(
+      'Step 3 of 6: First step of the process',
     );
   });
 });

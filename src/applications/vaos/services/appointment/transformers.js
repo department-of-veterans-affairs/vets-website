@@ -287,6 +287,62 @@ function setVideoData(appt) {
   };
 }
 
+function getCommunityCareData(appt) {
+  if (!isCommunityCare(appt)) {
+    return {};
+  }
+
+  const apptType = getAppointmentType(appt);
+  return {
+    communityCareProvider:
+      apptType === APPOINTMENT_TYPES.ccAppointment
+        ? {
+            firstName: appt.name?.firstName,
+            lastName: appt.name?.lastName,
+            providerName: appt.name
+              ? `${appt.name.firstName || ''} ${appt.name.lastName || ''}`
+              : null,
+            practiceName: appt.providerPractice,
+            address: appt.address
+              ? {
+                  line: [appt.address.street],
+                  city: appt.address.city,
+                  state: appt.address.state,
+                  postalCode: appt.address.zipCode,
+                }
+              : null,
+            telecom: appt.providerPhone
+              ? [
+                  {
+                    system: 'phone',
+                    value: appt.providerPhone,
+                  },
+                ]
+              : null,
+          }
+        : null,
+    preferredCommunityCareProviders: appt.ccAppointmentRequest?.preferredProviders?.map(
+      provider => {
+        return {
+          providerName: `${provider.firstName || ''} ${provider.lastName ||
+            ''}`,
+          firstName: provider.firstName,
+          lastName: provider.lastName,
+          practiceName: provider.practiceName,
+          address: provider.address
+            ? {
+                line: [provider.address.street],
+                city: provider.address.city,
+                state: provider.address.state,
+                postalCode: provider.address.zipCode,
+              }
+            : null,
+        };
+      },
+    ),
+  };
+}
+
 /**
  * Builds participant and contained arrays for FHIR Appointment object which usually
  * contain Location (Facility) and HealthcareService (Clinic) or video conference info
@@ -505,6 +561,7 @@ export function transformConfirmedAppointment(appt) {
     contained: setContained(appt),
     legacyVAR: setLegacyVAR(appt),
     videoData,
+    ...getCommunityCareData(appt),
     vaos: {
       isVideo: videoData.isVideo,
       isPastAppointment: isPast,
@@ -574,6 +631,7 @@ export function transformPendingAppointment(appt) {
     videoData: {
       isVideo,
     },
+    ...getCommunityCareData(appt),
     vaos: {
       isVideo,
       appointmentType: getAppointmentType(appt),
