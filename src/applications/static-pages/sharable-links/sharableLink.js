@@ -17,6 +17,30 @@ const LinkClickFeedBack = styled.span`
   position: ${props => (props.leftAligned ? 'absolute' : '')};
   margin-top: ${props => (props.leftAligned ? '2px' : '')};
   left: ${props => (props.leftAligned ? props.leftPx : '')};
+  background-color: black;
+  color: white;
+  font-family: 'Source Sans Pro';
+  font-weight: 400;
+  font-size: 12px;
+  height: 26px;
+  padding: 4px;
+  border: 1px solid;
+`;
+
+const ShareButton = styled.i`
+  color: $color-primary;
+  border-radius: 5px;
+  font-size: 16px;
+  height: 26px;
+  width: 26px;
+  padding: 4px;
+  border: 1px solid;
+
+  &:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+  }
 `;
 const SharableLink = ({ dataEntityId }) => {
   const [feedbackActive, setFeedbackActive] = useState(false);
@@ -46,7 +70,7 @@ const SharableLink = ({ dataEntityId }) => {
 
   return (
     <span aria-live="polite" aria-relevant="additions">
-      <i
+      <ShareButton
         aria-label={`Copy ${dataEntityId} sharable link`}
         aria-hidden="true"
         className={`fas fa-link share-link ${
@@ -63,7 +87,7 @@ const SharableLink = ({ dataEntityId }) => {
         }}
       />
       <LinkClickFeedBack
-        className={`link-copy-feedback vads-u-display--none vads-u-margin-left--0.5`}
+        className={`vads-u-display--none vads-u-margin-left--0.5`}
         leftAligned={leftAligned}
         feedbackActive={feedbackActive}
         leftPx={leftPx}
