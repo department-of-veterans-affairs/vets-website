@@ -1,46 +1,82 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { connect } from 'react-redux';
 
-const PreSubmitSignature = ({ formData, showError }) => {
+const PreSubmitSignature = ({
+  formData,
+  showError,
+  onSectionComplete,
+  formSubmission,
+}) => {
+  const fullName = formData.personalData.veteranFullName;
+  const hasSubmit = !!formSubmission.status;
+  const firstName = fullName.first?.toLowerCase() || '';
+  const lastName = fullName.last?.toLowerCase() || '';
+  const middleName = fullName.middle?.toLowerCase() || '';
   const [checked, setChecked] = useState(false);
   const [signatureError, setSignatureError] = useState(false);
   const [checkboxError, setCheckboxError] = useState(false);
-  const [veteranName, setVeteranName] = useState({
+  const [signature, setSignature] = useState({
     value: '',
+    dirty: false,
   });
 
-  const getName = useCallback(
-    () => {
-      const { veteranFullName } = formData.personalData;
-      return Object.values(veteranFullName)
-        .filter(value => Boolean(value))
-        .join(' ');
-    },
-    [formData.personalData],
-  );
+  const firstLetterOfMiddleName =
+    middleName === undefined ? '' : middleName.charAt(0);
+
+  const removeSpaces = string =>
+    string
+      .split(' ')
+      .join('')
+      .toLocaleLowerCase();
+
+  const getName = (middle = '') =>
+    removeSpaces(`${firstName}${middle}${lastName}`);
+
+  const normalizedSignature = removeSpaces(signature.value);
+
+  // first and last
+  const firstAndLastMatches = getName() === normalizedSignature;
+
+  // middle initial
+  const middleInitialMatches =
+    getName(firstLetterOfMiddleName) === normalizedSignature;
+
+  // middle name
+  const withMiddleNameMatches = getName(middleName) === normalizedSignature;
+
+  const signatureMatches =
+    firstAndLastMatches || middleInitialMatches || withMiddleNameMatches;
 
   useEffect(
     () => {
-      if (!formData.personalData) return;
-      const nameOnFile = getName();
-      setVeteranName({
-        value: nameOnFile,
-      });
-    },
-    [getName, formData.personalData],
-  );
+      const isDirty = signature.dirty;
 
-  useEffect(
-    () => {
-      const nameOnFile = getName();
-      if (veteranName.value !== nameOnFile) {
+      /* show error if user has touched input and signature does not match
+           show error if there is a form error and has not been submitted */
+      if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
+        // setIsSigned(false);
         setSignatureError(true);
-      } else {
+      }
+
+      /* if input has been touched and signature matches allow submission
+           if input is dirty and representative is signing skip validation and make sure signature is present
+           all signature matching logic is with spaces removed
+        */
+
+      if (isDirty && signatureMatches) {
+        // setIsSigned(true);
         setSignatureError(false);
       }
     },
-    [getName, veteranName],
+    [
+      signature.dirty,
+      signatureMatches,
+      showError,
+      hasSubmit,
+      normalizedSignature,
+    ],
   );
 
   useEffect(
@@ -50,8 +86,25 @@ const PreSubmitSignature = ({ formData, showError }) => {
       } else {
         setCheckboxError(false);
       }
+
+      if (showError && !signatureMatches) {
+        setSignatureError(true);
+      } else {
+        setSignatureError(false);
+      }
     },
-    [checked, showError],
+    [checked, showError, signatureError, signatureMatches],
+  );
+
+  useEffect(
+    () => {
+      if (checked && signatureMatches) {
+        onSectionComplete(true);
+      }
+
+      return () => onSectionComplete(false);
+    },
+    [checked, signatureMatches],
   );
 
   return (
@@ -78,8 +131,8 @@ const PreSubmitSignature = ({ formData, showError }) => {
           additionalClass="signature-input"
           label={"Veteran's full name"}
           required
-          onValueChange={value => setVeteranName(value)}
-          field={{ value: veteranName.value }}
+          onValueChange={value => setSignature(value)}
+          field={{ value: signature.value, dirty: signature.dirty }}
           errorMessage={signatureError && 'Your signature must match.'}
         />
 
@@ -100,7 +153,17 @@ const PreSubmitSignature = ({ formData, showError }) => {
     </>
   );
 };
+
+const mapStateToProps = state => {
+  return {
+    formSubmission: state.form.submission,
+  };
+};
+
 export default {
   required: false,
-  CustomComponent: PreSubmitSignature,
+  CustomComponent: connect(
+    mapStateToProps,
+    null,
+  )(PreSubmitSignature),
 };
