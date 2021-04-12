@@ -82,20 +82,20 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Run ESLint
+      - name: Run ESLint (Report)
         run: yarn run eslint --ext .js --ext .jsx --output-file eslint-report.json --format json .
 
-      - name: Annotate ESLint results
+      - name: Upload ESLint Report
         if: ${{ always() }}
         uses: ataylorme/eslint-annotate-action@1.1.2
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           report-json: "eslint-report.json"
 
-      - name: Run ESLint (2)
+      - name: Run ESLint (Annotation)
         run: yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/eslint-annotation-format.js .
 
-      - name: Run Sass linter
+      - name: Run Sass lint
         run: yarn run sass-lint --format json --verbose --output sasslint-report.json
 
       - name: Annotate Sass lint results

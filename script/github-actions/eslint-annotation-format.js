@@ -33,9 +33,13 @@ module.exports = function(results) {
     output = summary.errors
       .concat(summary.warnings)
       .map(function(msg) {
+        const filePath = msg.filePath
+          .split('/')
+          .splice(6)
+          .join('/'); // removes GHA environment in the filepath to only have path from root
         return `::${
           msg.type
-        } file=${msg.filePath},line=${msg.line},col=${msg.column}::${msg.filePath}:${msg.line}:${msg.column}:${msg.message}`;
+        } file=${filePath},line=${msg.line},col=${msg.column}::${filePath}:${msg.line}:${msg.column}:${msg.message}`;
       })
       .join('\n');
   }
