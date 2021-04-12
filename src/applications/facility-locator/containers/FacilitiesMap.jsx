@@ -322,10 +322,9 @@ const FacilitiesMap = props => {
     const mapInstructionsElement = document.getElementById('map-instructions');
     if (mapInstructionsElement) {
       mapInstructionsElement.innerText =
-        'Zoom in or out using the plus and minus buttons or by pinching' +
-        'and pulling with your fingers. Use your keyboard or drag your ' +
-        'fingers to navigate up, down, left, and right in the map. You ' +
-        'can search areas of up to 500 miles or less on the map.';
+        'Search areas on the map up to a maximum of 500 miles. ' +
+        'Zoom in or out using the zoom in and zoom out buttons. ' +
+        'Use a keyboard to navigate up, down, left, and right in the map.';
     }
   };
 
