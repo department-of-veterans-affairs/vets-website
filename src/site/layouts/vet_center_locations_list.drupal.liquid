@@ -14,15 +14,53 @@
 
           {% if fieldIntroText != empty %}
             <div class="va-introtext">
-              <p>{{ fieldIntroText }}</p>
+              <p class="vads-u-font-size--lg">{{ fieldIntroText }}</p>
             </div>
           {% endif %}
 
-          <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5 medium-screen:vads-u-margin-bottom--3" id="main-location">Main location</h2>
+          <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+          medium-screen:vads-u-margin-bottom--3" id="main-location">
+              Main location
+          </h2>
             {% include "src/site/includes/vet_center_address_phone_image.liquid" with
                 vetCenter = fieldOffice.entity
                 vetCenterUrl = entityUrl.breadcrumb.1.url.path
             %}
+
+          <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+              medium-screen:vads-u-margin-bottom--3" id="satellite-locations">
+              Satellite locations
+          </h2>
+            <p class="vads-u-font-size--base"> If you can’t make it to our {{ fieldOffice.entity.title }} we offer satellite locations that may be closer to you.
+                These satellite facilities provide select services with the same community, care, and confidentiality in a non-medical setting.
+                Call us for more information about these locations.
+            </p>
+            {% for entityVetCenter in fieldOffice.entity.reverseFieldOfficeNode.entities %}
+                {% include "src/site/includes/vet_center_address_phone_image.liquid" with
+                    vetCenter = entityVetCenter
+                    mainVetCenterPhone = fieldOffice.entity.fieldPhoneNumber
+                %}
+            {% endfor %}
+
+          <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+             medium-screen:vads-u-margin-bottom--3" id="other-near-locations">
+              Other nearby Vet Centers
+          </h2>
+            {% for entityVetCenter in fieldNearbyVetCenters %}
+                {% include "src/site/includes/vet_center_address_phone_image.liquid" with vetCenter = entityVetCenter.entity %}
+            {% endfor %}
+
+           <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+              medium-screen:vads-u-margin-bottom--3" id="vet-centers-other-areas">
+                Vet Centers in other areas
+           </h2>
+            <p class="vads-u-font-size--base">You can locate a Vet Center near you by visiting
+                <a href="/find-locations"
+                   aria-label="find locations">
+                    http://www.va.gov/find-locations.
+                </a>
+            </p>
+
 
         </article>
       </div>

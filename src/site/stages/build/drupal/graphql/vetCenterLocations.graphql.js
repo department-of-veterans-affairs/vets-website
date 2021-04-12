@@ -69,6 +69,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
             ... on NodeVetCenterCap {
               title
               entityBundle
+              fieldOperatingStatusFacility
               fieldMedia {
                 entity {
                   ... on MediaImage {
