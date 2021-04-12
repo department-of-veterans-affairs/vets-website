@@ -1,13 +1,13 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 import formConfig from '../../config/form';
 import initialData from '../schema/initialData';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { SELECTED } from '../../constants';
+import { SELECTED, FORMAT_READABLE } from '../../constants';
 
 const data = {
   user: {
@@ -22,10 +22,11 @@ const data = {
   form: {
     formId: formConfig.formId,
     submission: {
-      response: Date.now(),
+      response: {},
+      timestamp: Date.now(),
     },
     data: {
-      ...initialData,
+      ...initialData.data,
       contestedIssues: [
         {
           [SELECTED]: true,
@@ -62,7 +63,10 @@ describe('Confirmation page', () => {
     tree.unmount();
   });
   it('should render the submit date', () => {
-    const date = moment(data.form.submission.response).format('MMMM D, YYYY');
+    const date = format(
+      new Date(data.form.submission.timestamp),
+      FORMAT_READABLE,
+    );
     const tree = mount(<ConfirmationPage store={fakeStore} />);
     expect(tree.text()).to.contain(date);
     tree.unmount();

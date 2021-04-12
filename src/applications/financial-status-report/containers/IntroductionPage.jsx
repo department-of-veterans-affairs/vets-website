@@ -122,10 +122,7 @@ const IntroductionPage = props => {
             <h3 className="vads-u-font-size--h4">
               Take any needed next steps to resolve the debt
             </h3>
-            <p>
-              Within 45 days of when you submit your request, we’ll send you
-              this information by mail:
-            </p>
+            <p>We’ll send you this information by mail:</p>
             <ul>
               <li>Our decision on your request</li>
               <li>Any payments you may need to make, and how to make them</li>
