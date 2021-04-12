@@ -59,7 +59,7 @@ class RatingRow extends React.Component {
                 type="number"
                 className={ratingInputClasses}
                 name="rating"
-                min="10"
+                // min="10"
                 max="99"
                 step="10"
                 ref={this.props.inputRef}
