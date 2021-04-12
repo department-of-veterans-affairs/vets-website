@@ -12,7 +12,7 @@ export default function PrintButton({
   ErrorCallToAction = () => <>Please refresh this page or try again later.</>,
   facilityName,
   appointmentTime,
-  questionnaireResponseId = '14c883c2-b660-43fe-8d9a-1e08c5645bc6',
+  questionnaireResponseId = 'cab5639d-04fe-4f3e-beb9-afefce91dba9',
 }) {
   const [isError, setIsError] = useState(false);
   const [isLoading, setisLoading] = useState(false);
@@ -48,7 +48,7 @@ export default function PrintButton({
   if (isLoading) {
     return (
       <button className="usa-button va-button view-and-print-button" disabled>
-        loading
+        Generating PDF
       </button>
     );
   }
