@@ -428,6 +428,17 @@ const FacilitiesMap = props => {
   };
 
   const renderDesktopView = () => {
+    // This block is needed to ensure that the desktop map gets re-loaded when
+    // resizing from mobile to desktop.
+    if (
+      map &&
+      (!window.document.getElementById(mapboxGlContainer) ||
+        window.document.getElementsByClassName('desktop-map-container')
+          .length === 0)
+    ) {
+      setMapResize();
+    }
+
     const {
       currentQuery,
       pagination: { currentPage, totalPages },
