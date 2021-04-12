@@ -17,7 +17,7 @@
 {% endcomment %}
 
 {% assign headingTag = "h3" %}
-{% assign id={{ entity.entityId | formatSharableLinkID: entity.fieldQuestion   }} %}
+{% assign id={{ entity.entityId | formatSharableLinkID: item.fieldQuestion   }}%}
 
 {% if entity.parentFieldName == "field_questions" and sectionHeader == blank %}
   {% assign headingTag = "h2" %}
@@ -28,7 +28,7 @@
     <div class="vads-u-display--flex">
       <{{ headingTag }} itemprop="name">
         {{ entity.fieldQuestion }}
-        <span data-widget-type="sharable-link" parentId={{id}}>
+        <span data-widget-type="sharable-link" parentId="{{id}}">
         </span>
       </{{ headingTag }}>
 
