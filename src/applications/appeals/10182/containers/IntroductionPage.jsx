@@ -24,6 +24,7 @@ class IntroductionPage extends React.Component {
     const { formConfig, pageList } = this.props.route;
     const { formId, prefillEnabled, savedFormMessages } = formConfig;
     const sipOptions = {
+      useActionLinks: true,
       hideUnauthedStartLink: true,
       formId,
       prefillEnabled,
