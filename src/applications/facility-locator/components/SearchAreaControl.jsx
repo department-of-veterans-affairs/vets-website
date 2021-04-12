@@ -14,14 +14,14 @@ const SearchAreaControl = ({
   const buttonClass = `usa-button${!isEnabled ? ' fl-disabled' : ''}`;
 
   const handleClick = e => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (isEnabled) {
       handleSearchArea();
     }
   };
 
   const buttonLabel = () => {
-    return query.currentRadius > MAX_SEARCH_AREA
+    return query?.currentRadius > MAX_SEARCH_AREA
       ? 'Zoom in to search'
       : 'Search this area of the map';
   };
