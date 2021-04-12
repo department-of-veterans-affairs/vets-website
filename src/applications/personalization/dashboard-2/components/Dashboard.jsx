@@ -11,6 +11,7 @@ import AlertBox, {
 
 import { focusElement } from '~/platform/utilities/ui';
 import {
+  createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
   isLOA1 as isLOA1Selector,
   isVAPatient as isVAPatientSelector,
@@ -180,12 +181,21 @@ const Dashboard = ({
   );
 };
 
+const isClaimsAvailableSelector = createIsServiceAvailableSelector(
+  backendServices.EVSS_CLAIMS,
+);
+const isAppealsAvailableSelector = createIsServiceAvailableSelector(
+  backendServices.APPEALS_STATUS,
+);
+
 const mapStateToProps = state => {
   const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
   const isLOA3 = isLOA3Selector(state);
   const isLOA1 = isLOA1Selector(state);
   const isVAPatient = isVAPatientSelector(state);
   const hero = state.vaProfile?.hero;
+  const hasClaimsOrAppealsService =
+    isAppealsAvailableSelector(state) || isClaimsAvailableSelector(state);
   const hasLoadedMilitaryInformation = state.vaProfile?.militaryInformation;
   const hasLoadedFullName = !!hero;
 
@@ -201,11 +211,7 @@ const mapStateToProps = state => {
   const showLoader = !hasLoadedScheduledDowntime || !hasLoadedAllData;
   const showValidateIdentityAlert = isLOA1;
   const showNameTag = isLOA3 && isEmpty(hero?.errors);
-  // TODO: expand on these flags depending on the contents of the user object.
-  // eg, we will need to show claims and appeals if they have those services
-  // available. And we will need to show the health care section if they are a
-  // patient and/or have rx or msg services available
-  const showClaimsAndAppeals = isLOA3;
+  const showClaimsAndAppeals = isLOA3 && hasClaimsOrAppealsService;
   const showHealthCare = isLOA3 && isVAPatient;
 
   return {
@@ -219,6 +225,12 @@ const mapStateToProps = state => {
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     totalDisabilityRatingError: state.totalRating?.error,
     user: state.user,
+    // TODO: possibly revise this to block both the health care and the claims
+    // and appeals content if hasMPIConnectionError() is true. If we do that, we
+    // will also have to update the error we show to be more generic.
+    //
+    // More info in this issue comment:
+    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/22568#issuecomment-817992382
     showHealthCareError: hasMPIConnectionError(state),
   };
 };
