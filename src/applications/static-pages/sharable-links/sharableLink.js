@@ -8,15 +8,15 @@ const copyToUsersClipBoard = dataEntityId => {
   input.setAttribute('value', `${copyUrl}#${dataEntityId}`);
   document.body.appendChild(input);
   input.select();
+  // eslint-disable-next-line no-unused-vars
   const result = document.execCommand('copy');
   document.body.removeChild(input);
-  // eslint-disable-next-line no-console
-  console.log('COPIED THIS TO CLIPBOARD: ', result);
 };
 const LinkClickFeedBack = styled.span`
   position: ${props => (props.leftAligned ? 'absolute' : 'relative')};
   margin-top: ${props => (props.leftAligned ? '2px' : '')};
-  left: ${props => (props.leftAligned ? `${props.leftPx}px` : '')};
+  left: ${props =>
+    props.leftAligned && props.leftPx ? `${props.leftPx}px` : ''};
   background-color: black;
   color: white;
   font-family: 'Source Sans Pro';
@@ -51,26 +51,26 @@ const SharableLink = ({ dataEntityId }) => {
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
   const [leftPx, setLeftPx] = useState(0);
+  //  a rough approximation of the px length of 'link copied'
   const offsetThreshold = 100;
-
-  const displayFeedback = target => {
-    const shareLink = target;
-
-    if (
-      window.innerWidth - (shareLink.offsetLeft + shareLink.offsetWidth) <=
-      offsetThreshold
-    ) {
-      console.log('GETTING HERE');
-      setLeftAligned(true);
-      setLeftPx(target.offsetLeft - target.offsetWidth - 1); // for the 1px border
-    }
-    target.nextSibling.classList.remove('vads-u-display--none');
-    setFeedbackActive(true);
+  const widthOffset = 40;
+  const hideFeedback = () => {
     setTimeout(() => {
-      target.nextSibling.classList.add('vads-u-display--none');
       setFeedbackActive(false);
       setLeftAligned(false);
-    }, 1000000);
+      setLeftPx(0);
+    }, 10000);
+  };
+  const displayFeedback = target => {
+    if (
+      window.innerWidth - (target.offsetLeft + target.offsetWidth) <=
+      offsetThreshold
+    ) {
+      setLeftAligned(true);
+      setLeftPx(target.offsetLeft - target.offsetWidth - widthOffset);
+    }
+    setFeedbackActive(true);
+    hideFeedback();
   };
 
   return (
@@ -82,20 +82,21 @@ const SharableLink = ({ dataEntityId }) => {
         feedbackActive={feedbackActive}
         onClick={event => {
           event.persist();
-          setLeftAligned(false);
           if (!event || !event.target) return;
           copyToUsersClipBoard(dataEntityId);
           displayFeedback(event.target);
         }}
       />
-      <LinkClickFeedBack
-        className={`vads-u-display--none vads-u-margin-left--0.5`}
-        leftAligned={leftAligned}
-        feedbackActive={feedbackActive}
-        leftPx={leftPx}
-      >
-        {copiedText}
-      </LinkClickFeedBack>
+      {feedbackActive && (
+        <LinkClickFeedBack
+          className={`vads-u-margin-left--0.5`}
+          leftAligned={leftAligned}
+          feedbackActive={feedbackActive}
+          leftPx={leftPx}
+        >
+          {copiedText}
+        </LinkClickFeedBack>
+      )}
     </span>
   );
 };
