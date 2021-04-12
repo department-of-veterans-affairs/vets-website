@@ -32,7 +32,7 @@ const profile = {
   },
 };
 
-const getData = ({ showNod = true, loggedIn = true, issues = [] } = {}) => ({
+const getData = ({ showNod = true, loggedIn = true } = {}) => ({
   props: {
     loggedIn,
     showNod,
@@ -61,10 +61,6 @@ const getData = ({ showNod = true, loggedIn = true, issues = [] } = {}) => ({
         loadedData: {
           metadata: {},
         },
-      },
-      contestableIssues: {
-        status,
-        issues,
       },
     }),
     subscribe: () => {},
