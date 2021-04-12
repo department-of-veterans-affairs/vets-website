@@ -66,6 +66,8 @@ function runTests(client, segment, only508List) {
         'document',
         only508 ? { scope: url, rules: ['section508'] } : { scope: url },
       );
+    // eslint-disable-next-line no-console
+    console.log('url: ', url);
     console.timeEnd(url); // eslint-disable-line no-console
   });
 }
