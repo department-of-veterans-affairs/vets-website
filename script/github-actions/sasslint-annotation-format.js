@@ -1,5 +1,9 @@
-// imports dynamically created file
-const sasslintData = require('../../sasslint-report.json'); // eslint-disable-line import/no-unresolved
+const fs = require('fs');
+const path = require('path');
+
+const sasslintData = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '../../sasslint-report.json')),
+);
 
 for (let i = 0; i < sasslintData.length; i++) {
   if (sasslintData[i].warningCount > 0 || sasslintData[i].errorCount > 0) {
