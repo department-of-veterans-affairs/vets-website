@@ -33,7 +33,7 @@ const SharableLink = ({ dataEntityId }) => {
       offsetThreshold
     ) {
       setLeftAligned(true);
-      setLeftPx(target.offsetLeft - target.offsetWidth - 1);
+      setLeftPx(target.offsetLeft - target.offsetWidth - 1); // for the 1px border
     }
     target.nextSibling.classList.remove('vads-u-display--none');
     setFeedbackActive(true);
@@ -58,7 +58,7 @@ const SharableLink = ({ dataEntityId }) => {
           event.persist();
           setLeftAligned(false);
           if (!event || !event.target) return;
-          copyToUsersClipBoard(props.dataEntityId);
+          copyToUsersClipBoard(dataEntityId);
           displayFeedback(event.target);
         }}
       />
