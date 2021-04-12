@@ -593,18 +593,23 @@ img[data-srcset] {
 }
 
 .share-link {
+  color: $color-primary;
   border-radius: 5px;
   font-size: 1rem;
   padding: 4px;
-  border: 1px;
+  border: 1px solid;
 
   &:hover {
-    background-color: "black";
-    color: "white";
+    background-color: black;
+    color: white;
+    cursor: pointer;
   }
 }
 
 .link-copy-feedback {
-  background-color: "black";
-  color: "white";
+  background-color: black;
+  color: white;
+  font-family: "Source Sans Pro";
+  font-weight: 400;
+  font-size: 15px;
 }

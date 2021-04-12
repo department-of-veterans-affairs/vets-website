@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const copyToUsersClipBoard = dataEntityId => {
   const input = document.createElement('input');
@@ -18,31 +18,34 @@ const copyToUsersClipBoard = dataEntityId => {
     input,
   );
 };
-const displayFeedback = target => {
-  target.nextSibling.classList.remove('vads-u-display--none');
-  setTimeout(() => {
-    target.nextSibling.classList.add('vads-u-display--none');
-  }, 5000);
-};
 
 const SharableLink = ({ dataEntityId }) => {
+  const [feedbackActive, setFeedbackActive] = useState(false);
   return (
     <span>
       <i
         aria-hidden="true"
-        className="fas fa-link vads-u-color--primary vads-u-margin-left--1 share-link"
+        className={`fas fa-link vads-u-margin-left--1 share-link ${
+          feedbackActive
+            ? `vads-u-background-color--base vads-u-color--white`
+            : ''
+        }`}
         onClick={event => {
           event.persist();
           if (!event || !event.target) return;
           copyToUsersClipBoard(dataEntityId);
-          displayFeedback(event.target);
+          event.target.nextSibling.classList.remove('vads-u-display--none');
+          setFeedbackActive(true);
+          setTimeout(() => {
+            event.target.nextSibling.classList.add('vads-u-display--none');
+            setFeedbackActive(false);
+          }, 500000);
         }}
       />
       <span
         className={`link-copy-feedback vads-u-display--none vads-u-margin-left--0.5`}
       >
-        {' '}
-        Link Copied{' '}
+        Link Copied
       </span>
     </span>
   );
