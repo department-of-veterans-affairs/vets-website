@@ -121,8 +121,8 @@ export const orientationSteps = [
     ],
     postText: () => (
       <p>
-        Learn more about our support-and-services tracks by watching a series of
-        short videos.
+        Learn more about our support-and-services tracks by reading through a
+        series of short slides.
       </p>
     ),
   },
