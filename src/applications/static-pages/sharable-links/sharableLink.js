@@ -24,13 +24,13 @@ const displayFeedback = target => {
     target.nextSibling.classList.add('vads-u-display--none');
   }, 5000);
 };
-// TODO: default state, hover state, click state, borders, fill color
+
 const SharableLink = ({ dataEntityId }) => {
   return (
     <span>
       <i
         aria-hidden="true"
-        className="fas fa-link vads-u-color--primary vads-u-margin-left--1 share-link "
+        className="fas fa-link vads-u-color--primary vads-u-margin-left--1 share-link"
         onClick={event => {
           event.persist();
           if (!event || !event.target) return;
@@ -39,7 +39,7 @@ const SharableLink = ({ dataEntityId }) => {
         }}
       />
       <span
-        className={`link-copy-feedback vads-u-display--none vads-u-margin-left--1 vads-u-color--primary`}
+        className={`link-copy-feedback vads-u-display--none vads-u-margin-left--0.5`}
       >
         {' '}
         Link Copied{' '}

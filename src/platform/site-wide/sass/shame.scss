@@ -591,3 +591,20 @@ img[data-srcset] {
     width: 100%;
   }
 }
+
+.share-link {
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 4px;
+  border: 1px;
+
+  &:hover {
+    background-color: "black";
+    color: "white";
+  }
+}
+
+.link-copy-feedback {
+  background-color: "black";
+  color: "white";
+}
