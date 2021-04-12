@@ -7,7 +7,7 @@ export const schema = {
 export const uiSchema = {
   veteranInformation: {
     'ui:description':
-      "We ask for this information so we can match you to a Veteran in our records. Please provide the Veteran's name as you believe it appears in their military discharge papers (DD214). If you're unsure, enter the Veteran's current name. If we need more information, we'll contact you.",
+      "Please provide the Veteran's name as you believe it appears in their military discharge papers (DD214). If you're unsure, enter the Veteran's current name. We'll keep this information in our records. If we need more information, we'll contact you.",
     veteranFirstName: {
       'ui:title': "Veteran's first name",
       'ui:errorMessages': {
