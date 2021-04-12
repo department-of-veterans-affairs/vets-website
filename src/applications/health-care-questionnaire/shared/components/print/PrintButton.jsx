@@ -7,6 +7,8 @@ import { TRACKING_PREFIX } from '../../constants/analytics';
 
 import { loadPdfData } from '../../api';
 
+import { openPdfInNewWindow } from './utils';
+
 export default function PrintButton({
   displayArrow = true,
   ErrorCallToAction = () => <>Please refresh this page or try again later.</>,
@@ -21,21 +23,13 @@ export default function PrintButton({
       setisLoading(true);
       const resp = await loadPdfData(questionnaireResponseId);
       const blob = await resp.blob();
-      const url = URL.createObjectURL(blob, {
-        type: 'application/pdf',
-      });
-      const anchor = document.createElement('a');
-      anchor.href = url;
-      anchor.target = '_blank';
-      document.body.appendChild(anchor);
-      anchor.click();
-      document.body.removeChild(anchor);
-
+      openPdfInNewWindow(window, blob);
       recordEvent({
         event: `${TRACKING_PREFIX}pdf-generation-success`,
       });
       setisLoading(false);
     } catch (error) {
+      // console.log({ error });
       recordEvent({
         event: `${TRACKING_PREFIX}pdf-generation-failed`,
       });
