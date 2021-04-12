@@ -26,6 +26,7 @@ const IntroductionPage = props => {
         Service-Connected Disabilities)
       </p>
       <SaveInProgressIntro
+        hideUnauthedStartLink
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
         pageList={props.route.pageList}
@@ -100,6 +101,7 @@ const IntroductionPage = props => {
         </p>
       </div>
       <SaveInProgressIntro
+        hideUnauthedStartLink
         buttonOnly
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
