@@ -111,6 +111,27 @@ const IntroductionPage = props => {
       <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
         <OMBInfo resBurden={15} ombNumber="2900-0009" expDate="11/30/2022" />
       </div>
+      <h4>To apply by mail</h4>
+      <p>
+        You must sign in to complete this application online. To apply by mail,
+        fill out an Application for Vocational Rehabilitation for Claimants With
+        Service-connected Disabilities (VA Form 28-1900) and send it to the
+        address below:
+      </p>
+      <a
+        className="vads-u-padding-bottom--2 vads-u-display--inline-block"
+        href="https://www.va.gov/find-forms/about-form-28-1900/"
+      >
+        Download VA Form 28-1900
+      </a>
+      <div className="vads-u-border-left--5px vads-u-border-color--primary vads-u-padding--0p5">
+        <p className="vads-u-margin--0p5">
+          <strong>Department of Veterans Affairs</strong>
+        </p>
+        <p className="vads-u-margin--0p5">VR&E Intake Center</p>
+        <p className="vads-u-margin--0p5">P.O. Box 5210</p>
+        <p className="vads-u-margin--0p5">Janesville, WI 53547-5210</p>
+      </div>
     </div>
   );
 };
