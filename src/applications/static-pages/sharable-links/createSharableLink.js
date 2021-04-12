@@ -17,7 +17,8 @@ export default function createSharableLink(store, widgetType) {
         ReactDOM.render(
           <Provider store={store}>
             {/* should the iteration be happening inside this container instead? */}
-            <SharableLink dataEntityId={link.parentId} />
+            {/* drupal doesn't respect camel case */}
+            <SharableLink dataEntityId={link.parentid} />
           </Provider>,
           link,
         );

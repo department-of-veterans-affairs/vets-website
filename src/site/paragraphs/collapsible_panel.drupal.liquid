@@ -23,7 +23,7 @@
   }
 {% endcomment %}
 {% assign accordionClass = 'usa-accordion' %}
-{% assign id={{ item.entityId | formatSharableLinkID: item.fieldTitle }}%}
+{% assign id=item.entityId | formatSharableLinkID: item.fieldTitle %}
 {% if entity.fieldCollapsiblePanelBordered %}
     {% assign accordionClass = 'usa-accordion-bordered' %}
 {% endif %}

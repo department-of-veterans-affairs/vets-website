@@ -7,14 +7,15 @@ const copyToUsersClipBoard = dataEntityId => {
   input.setAttribute('value', `${copyUrl}#${dataEntityId}`);
   document.body.appendChild(input);
   input.select();
-  // const result = document.execCommand('copy');
+  const result = document.execCommand('copy');
   document.body.removeChild(input);
-  // console.log('COPIED THIS TO CLIPBOARD: ', result);
+  // eslint-disable-next-line no-console
+  console.log('COPIED THIS TO CLIPBOARD: ', result);
 };
 
-const SharableLink = ({ dataEntityId }) => {
+const SharableLink = props => {
   // eslint-disable-next-line no-console
-  console.log(dataEntityId, 'THE DATA ENTITY ID');
+  console.log(props, 'THE props');
   const [feedbackActive, setFeedbackActive] = useState(false);
   const [copiedText] = useState('Link copied');
   return (
@@ -29,7 +30,7 @@ const SharableLink = ({ dataEntityId }) => {
         onClick={event => {
           event.persist();
           if (!event || !event.target) return;
-          copyToUsersClipBoard(dataEntityId);
+          copyToUsersClipBoard(props.dataEntityId);
           event.target.nextSibling.classList.remove('vads-u-display--none');
           setFeedbackActive(true);
           setTimeout(() => {
