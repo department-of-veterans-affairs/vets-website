@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 export default function createSharableLink(store, widgetType) {
-  // creates 43 renders on the corona virus FAQ page....
   const sharableLinks = document.querySelectorAll(
     `[data-widget-type="${widgetType}"]`,
   );
@@ -15,8 +14,6 @@ export default function createSharableLink(store, widgetType) {
       for (const link of sharableLinks) {
         ReactDOM.render(
           <Provider store={store}>
-            {/* should the iteration be happening inside this container instead? */}
-            {/* drupal doesn't respect camel case */}
             <SharableLink dataEntityId={link.getAttribute('parentid')} />
           </Provider>,
           link,
