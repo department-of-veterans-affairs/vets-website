@@ -594,12 +594,13 @@ describe('actions/paymentInformation', () => {
         });
 
         it('reports the correct data to Google Analytics', () => {
-          expect(recordEventSpy.firstCall.args[0]).to.deep.equal({
-            event: 'profile-edit-failure',
-            'profile-action': 'save-failure',
-            'profile-section': 'edu-direct-deposit-information',
-            'error-key': 'unknown-save-error',
-          });
+          const gaObject = recordEventSpy.firstCall.args[0];
+          expect(gaObject.event).to.equal('profile-edit-failure');
+          expect(gaObject['profile-action']).to.equal('save-failure');
+          expect(gaObject['profile-section']).to.equal(
+            'edu-direct-deposit-information',
+          );
+          expect(gaObject['error-key']).to.equal('unknown-save-error');
         });
       });
     });
