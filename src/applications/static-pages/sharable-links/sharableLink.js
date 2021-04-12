@@ -43,8 +43,9 @@ const SharableLink = props => {
   };
 
   return (
-    <span>
+    <span aria-live="polite" aria-relevant="additions">
       <i
+        aria-label={`Copy ${props.dataEntityId} sharable link`}
         aria-hidden="true"
         className={`fas fa-link vads-u-margin-left--1 share-link ${
           feedbackActive
