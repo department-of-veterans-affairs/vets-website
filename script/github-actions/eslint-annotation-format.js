@@ -14,8 +14,7 @@ module.exports = function(results) {
         if (msg.severity === 1) {
           logMessage.type = 'warning';
           seq.warnings.push(logMessage);
-        }
-        if (msg.severity === 2) {
+        } else if (msg.severity === 2) {
           logMessage.type = 'error';
           seq.errors.push(logMessage);
         }
