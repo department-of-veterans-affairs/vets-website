@@ -28,8 +28,8 @@ const {
   learningFormat,
 } = fullSchema.properties;
 
-const addressUiSchema = addressUISchema('Mailing address', false);
-const address = addressSchema(fullSchema, true);
+const addressUiSchema = addressUISchema('Mailing address', false, false);
+const address = addressSchema(fullSchema, false);
 const bankFieldIsRequired = form =>
   !form['view:directDeposit'].declineDirectDeposit;
 const hasNotSelectedProgram = form =>
