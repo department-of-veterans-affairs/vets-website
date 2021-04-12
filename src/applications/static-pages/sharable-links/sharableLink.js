@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 
 const copyToUsersClipBoard = dataEntityId => {
   const input = document.createElement('input');
@@ -12,18 +13,27 @@ const copyToUsersClipBoard = dataEntityId => {
   // eslint-disable-next-line no-console
   console.log('COPIED THIS TO CLIPBOARD: ', result);
 };
-
-const SharableLink = props => {
-  // eslint-disable-next-line no-console
-  console.log(props, 'THE props');
+const LinkClickFeedBack = styled.span`
+  position: ${props => (props.leftAligned ? 'absolute' : '')};
+  margin-top: ${props => (props.leftAligned ? '2px' : '')};
+  left: ${props => (props.leftAligned ? props.leftPx : '')};
+`;
+const SharableLink = ({ dataEntityId }) => {
   const [feedbackActive, setFeedbackActive] = useState(false);
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
+  const [leftPx, setLeftPx] = useState(0);
+  const offsetThreshold = 100;
 
   const displayFeedback = target => {
-    const offsetThreshold = 100;
-    if (window.innerWidth - target.offsetLeft <= offsetThreshold) {
+    const shareLink = target;
+
+    if (
+      window.innerWidth - (shareLink.offsetLeft + shareLink.offsetWidth) <=
+      offsetThreshold
+    ) {
       setLeftAligned(true);
+      setLeftPx(target.offsetLeft - target.offsetWidth - 1);
     }
     target.nextSibling.classList.remove('vads-u-display--none');
     setFeedbackActive(true);
@@ -34,45 +44,32 @@ const SharableLink = props => {
     }, 1000000);
   };
 
-  const calculateLeftAlignment = () => {
-    return (
-      document.getElementsByClassName('share-link')[0]?.offsetLeft -
-      document.getElementsByClassName('link-copy-feedback ')[0]?.offsetWidth +
-      document.getElementsByClassName('share-link')[0]?.offsetWidth
-    );
-  };
-
   return (
     <span aria-live="polite" aria-relevant="additions">
       <i
-        aria-label={`Copy ${props.dataEntityId} sharable link`}
+        aria-label={`Copy ${dataEntityId} sharable link`}
         aria-hidden="true"
-        className={`fas fa-link vads-u-margin-left--1 share-link ${
+        className={`fas fa-link share-link ${
           feedbackActive
             ? `vads-u-background-color--base vads-u-color--white`
             : ''
         }`}
         onClick={event => {
           event.persist();
+          setLeftAligned(false);
           if (!event || !event.target) return;
           copyToUsersClipBoard(props.dataEntityId);
           displayFeedback(event.target);
         }}
       />
-      <span
+      <LinkClickFeedBack
         className={`link-copy-feedback vads-u-display--none vads-u-margin-left--0.5`}
-        style={
-          leftAligned
-            ? {
-                position: 'absolute',
-                marginTop: '7px',
-                left: calculateLeftAlignment(),
-              }
-            : {}
-        }
+        leftAligned={leftAligned}
+        feedbackActive={feedbackActive}
+        leftPx={leftPx}
       >
         {copiedText}
-      </span>
+      </LinkClickFeedBack>
     </span>
   );
 };
