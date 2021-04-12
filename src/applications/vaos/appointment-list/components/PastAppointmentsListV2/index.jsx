@@ -205,7 +205,9 @@ function PastAppointmentsListNew({
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
             </h3>
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <ul
+              role="list"
               aria-labelledby={`appointment_list_${monthDate.format(
                 'YYYY-MM',
               )}`}

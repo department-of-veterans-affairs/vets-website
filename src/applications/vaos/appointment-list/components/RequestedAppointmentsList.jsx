@@ -68,7 +68,8 @@ function RequestedAppointmentsList({
         {hasTypeChanged && 'Showing requested appointments'}
       </div>
       {pendingAppointments?.length > 0 && (
-        <ul className="vads-u-padding-left--0">
+        // eslint-disable-next-line jsx-a11y/no-redundant-roles
+        <ul role="list" className="vads-u-padding-left--0">
           {pendingAppointments.map((appt, index) => (
             <RequestListItem
               key={index}
