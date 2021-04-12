@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+
 import ViewAndPrint from './ViewAndPrint';
 import PrintErrorMessage from './PrintErrorMessage';
 import recordEvent from 'platform/monitoring/record-event';
@@ -17,7 +19,7 @@ export default function PrintButton({
   questionnaireResponseId = 'cab5639d-04fe-4f3e-beb9-afefce91dba9',
 }) {
   const [isError, setIsError] = useState(false);
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
   const handleClick = async () => {
     try {
       setisLoading(true);
@@ -41,9 +43,11 @@ export default function PrintButton({
   }
   if (isLoading) {
     return (
-      <button className="usa-button va-button view-and-print-button" disabled>
-        Generating PDF
-      </button>
+      <LoadingButton
+        isLoading={isLoading}
+        disabled
+        loadingText="Generating PDF"
+      />
     );
   }
   return (
