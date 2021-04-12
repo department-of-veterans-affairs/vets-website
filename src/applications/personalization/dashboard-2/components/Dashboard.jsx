@@ -42,6 +42,7 @@ import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderM
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
+import CTALink from './CTALink';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
   if (downtime.status === externalServiceStatus.down) {
@@ -137,13 +138,17 @@ const Dashboard = ({
                 </span>
               </Breadcrumbs>
 
-              <h1
-                id="dashboard-title"
-                data-testid="dashboard-title"
-                tabIndex="-1"
-              >
-                My VA
-              </h1>
+              <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-align-items--center">
+                <h1
+                  id="dashboard-title"
+                  data-testid="dashboard-title"
+                  tabIndex="-1"
+                  className="vads-u-margin--0"
+                >
+                  My VA
+                </h1>
+                <CTALink href="/profile" text="Go to your profile" />
+              </div>
 
               {showHealthCareError ? (
                 <div className="vads-l-row">
