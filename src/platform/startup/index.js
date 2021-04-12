@@ -52,7 +52,10 @@ export default function startApp({
   if (createRoutesWithStore) {
     content = <Router history={history}>{createRoutesWithStore(store)}</Router>;
   } else if (routes) {
-    content = <Router history={history}>{routes}</Router>;
+    if (Array.isArray(routes)) {
+      content = <Router history={history}>{routes}</Router>;
+    }
+    content = <Router history={history}>{[routes]}</Router>;
   }
 
   startReactApp(<Provider store={store}>{content}</Provider>);
