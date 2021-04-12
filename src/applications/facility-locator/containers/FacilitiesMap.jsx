@@ -283,10 +283,14 @@ const FacilitiesMap = props => {
       }),
       'top-left',
     );
+
+    // Remove mapbox logo from tab order
     const mapBoxLogo = document.querySelector(
       'a.mapboxgl-ctrl-logo.mapboxgl-compact',
     );
+
     if (mapBoxLogo) mapBoxLogo.setAttribute('tabIndex', -1);
+
     mapInit.on('load', () => {
       mapInit.resize();
     });
@@ -313,6 +317,17 @@ const FacilitiesMap = props => {
     (props.currentQuery.facilityType === 'provider'
       ? props.currentQuery.serviceType
       : true);
+
+  const speakMapInstructions = () => {
+    const mapInstructionsElement = document.getElementById('map-instructions');
+    if (mapInstructionsElement) {
+      mapInstructionsElement.innerText =
+        'Zoom in or out using the plus and minus buttons or by pinching' +
+        'and pulling with your fingers. Use your keyboard or drag your ' +
+        'fingers to navigate up, down, left, and right in the map. You ' +
+        'can search areas of up to 500 miles or less on the map.';
+    }
+  };
 
   const renderMobileView = () => {
     const {
@@ -382,7 +397,17 @@ const FacilitiesMap = props => {
                 aria-live="polite"
                 className="sr-only"
               />
-              <map id={mapboxGlContainer}>
+              <p
+                className="sr-only"
+                id="map-instructions"
+                aria-live="assertive"
+              />
+              <map
+                id={mapboxGlContainer}
+                aria-label="Find VA locations on an interactive map"
+                aria-describedby="map-instructions"
+                onFocus={() => speakMapInstructions()}
+              >
                 {shouldRenderSearchArea() &&
                   (
                     <SearchAreaControl
@@ -457,8 +482,15 @@ const FacilitiesMap = props => {
             />
           </div>
         </div>
+        <p className="sr-only" id="map-instructions" aria-live="assertive" />
         <div id={zoomMessageDivID} aria-live="assertive" className="sr-only" />
-        <map className="desktop-map-container" id={mapboxGlContainer}>
+        <map
+          className="desktop-map-container"
+          id={mapboxGlContainer}
+          aria-label="Find VA locations on an interactive map"
+          aria-describedby="map-instructions"
+          onFocus={() => speakMapInstructions()}
+        >
           {shouldRenderSearchArea() && (
             <SearchAreaControl
               isMobile={false}
