@@ -17,7 +17,7 @@ export const uiSchema = {
       ),
       'ui:widget': 'textarea',
       'ui:required': formData =>
-        formData.selectedDebts.some(
+        formData.selectedDebts?.some(
           debt => debt.resolution?.resolutionType === 'Waiver',
         ),
       'ui:options': {

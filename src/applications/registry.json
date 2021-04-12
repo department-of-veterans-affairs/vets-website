@@ -777,9 +777,9 @@
   {
     "appName": "28-1900 Veteran Readiness",
     "entryName": "28-1900-chapter-31",
-    "rootUrl": "/careers-employment/vocational-rehabilitation/apply",
+    "rootUrl": "/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
@@ -792,7 +792,7 @@
           "name": "Veteran Readiness and Employment"
         },
         {
-          "path": "careers-employment/vocational-rehabilitation/apply",
+          "path": "/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900",
           "name": "Apply for Veteran Readiness and Employment Form 28‑1900"
         }
       ]
@@ -1051,10 +1051,10 @@
         },
         {
           "name": "Veteran Rapid Retraining Assistance Program",
-          "path": "education/other-va-education-benefits/veteran-rapid-retraining-assistance"
+          "path": "education/other-va-education-benefits/"
         },
         {
-          "name": "Apply for VRRAP VA Form 22&#8208;1990s",
+          "name": "Apply for VRRAP VA Form 22-1990s",
           "path": "education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s"
         }
       ]
