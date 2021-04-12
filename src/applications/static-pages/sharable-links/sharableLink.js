@@ -64,7 +64,7 @@ const SharableLink = props => {
           leftAligned
             ? {
                 position: 'absolute',
-                marginTop: '8px',
+                marginTop: '7px',
                 left: calculateLeftAlignment(),
               }
             : {}
