@@ -132,12 +132,24 @@ class FormStartControls extends React.Component {
         </div>
       );
     }
+    const startText = this.props.startText || 'Get Started';
 
-    return (
+    return this.props.useActionLink ? (
+      <a
+        href="#"
+        className="va-action-link--green vads-u-padding-left--0"
+        onClick={event => {
+          event.preventDefault();
+          this.handleLoadPrefill();
+        }}
+      >
+        {startText}
+      </a>
+    ) : (
       <div>
         <ProgressButton
           onButtonClick={this.handleLoadPrefill}
-          buttonText={this.props.startText || 'Get Started'}
+          buttonText={startText}
           buttonClass="usa-button-primary va-button-primary schemaform-start-button"
           afterText="»"
         />
@@ -160,6 +172,7 @@ FormStartControls.propTypes = {
   startText: PropTypes.string,
   resumeOnly: PropTypes.bool,
   gaStartEventName: PropTypes.string,
+  useActionLink: PropTypes.bool,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       startNewAppButtonText: PropTypes.string,
@@ -170,6 +183,7 @@ FormStartControls.propTypes = {
 
 FormStartControls.defaultProps = {
   gaStartEventName: 'login-successful-start-form',
+  // useActionLink: false,
   formConfig: {
     customText: {
       startNewAppButtonText: '',
