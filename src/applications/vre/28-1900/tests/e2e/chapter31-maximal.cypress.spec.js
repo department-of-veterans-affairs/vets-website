@@ -15,6 +15,7 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'formDataSets') },
     setupPerTest: () => {
       window.sessionStorage.removeItem('wizardStatus31');
+      cy.login();
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
           type: 'feature_toggles',
@@ -26,6 +27,18 @@ const testConfig = createTestConfig(
           ],
         },
       });
+      cy.intercept('GET', '/v0/backend_statuses', {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            {
+              name: 'show_chapter_31',
+              value: true,
+            },
+          ],
+        },
+      });
+
       cy.intercept('POST', '/v0/veteran_readiness_employment_claims', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2020-11-12',
@@ -60,7 +73,7 @@ const testConfig = createTestConfig(
           .click();
         cy.injectAxe();
         afterHook(() => {
-          cy.get('.va-button-link.schemaform-start-button:first').click();
+          cy.get('#1-continueButton').click();
         });
       },
       'veteran-contact-information': ({ afterHook }) => {
