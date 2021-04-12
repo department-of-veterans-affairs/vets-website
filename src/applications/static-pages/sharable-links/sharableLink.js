@@ -14,9 +14,9 @@ const copyToUsersClipBoard = dataEntityId => {
   console.log('COPIED THIS TO CLIPBOARD: ', result);
 };
 const LinkClickFeedBack = styled.span`
-  position: ${props => (props.leftAligned ? 'absolute' : '')};
+  position: ${props => (props.leftAligned ? 'absolute' : 'relative')};
   margin-top: ${props => (props.leftAligned ? '2px' : '')};
-  left: ${props => (props.leftAligned ? props.leftPx : '')};
+  left: ${props => (props.leftAligned ? `${props.leftPx}px` : '')};
   background-color: black;
   color: white;
   font-family: 'Source Sans Pro';
@@ -25,16 +25,19 @@ const LinkClickFeedBack = styled.span`
   height: 26px;
   padding: 4px;
   border: 1px solid;
+  bottom: ${props => (props.leftAligned ? '' : '1px')};
 `;
 
 const ShareButton = styled.i`
-  color: $color-primary;
   border-radius: 5px;
   font-size: 16px;
   height: 26px;
   width: 26px;
   padding: 4px;
   border: 1px solid;
+  color: #0071bb;
+  background-color: ${props => (props.feedbackActive ? 'black' : '')};
+  color: ${props => (props.feedbackActive ? 'white' : '')};
 
   &:hover {
     background-color: black;
@@ -42,6 +45,7 @@ const ShareButton = styled.i`
     cursor: pointer;
   }
 `;
+
 const SharableLink = ({ dataEntityId }) => {
   const [feedbackActive, setFeedbackActive] = useState(false);
   const [copiedText] = useState('Link copied');
@@ -56,6 +60,7 @@ const SharableLink = ({ dataEntityId }) => {
       window.innerWidth - (shareLink.offsetLeft + shareLink.offsetWidth) <=
       offsetThreshold
     ) {
+      console.log('GETTING HERE');
       setLeftAligned(true);
       setLeftPx(target.offsetLeft - target.offsetWidth - 1); // for the 1px border
     }
@@ -73,11 +78,8 @@ const SharableLink = ({ dataEntityId }) => {
       <ShareButton
         aria-label={`Copy ${dataEntityId} sharable link`}
         aria-hidden="true"
-        className={`fas fa-link share-link ${
-          feedbackActive
-            ? `vads-u-background-color--base vads-u-color--white`
-            : ''
-        }`}
+        className={`fas fa-link`}
+        feedbackActive={feedbackActive}
         onClick={event => {
           event.persist();
           setLeftAligned(false);
