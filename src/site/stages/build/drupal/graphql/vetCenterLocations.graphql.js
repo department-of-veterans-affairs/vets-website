@@ -146,6 +146,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
             }
           }
         }
+        title
         fieldAddress {
           countryCode
           locality
