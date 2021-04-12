@@ -51,7 +51,7 @@ export default function ExpressCareListItem({ appointment }) {
             }Express Care request on ${appointmentDate.format(
               'dddd, MMMM D YYYY',
             )}`}
-            to={link}
+            to={appointment.id}
           >
             Details
           </Link>
@@ -63,7 +63,7 @@ export default function ExpressCareListItem({ appointment }) {
         {/* visible to small screen breakpoint */}
         <div className="medium-screen:vads-u-display--none">
           <Link
-            to={link}
+            to={appointment.id}
             className="vaos-appts__card-link"
             aria-label={`Details for ${
               canceled ? 'canceled ' : ''

@@ -133,7 +133,7 @@ export default function AppointmentListItem({ appointment, facility }) {
             aria-label={`Details for ${
               canceled ? 'canceled ' : ''
             }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
-            to={link}
+            to={appointment.id}
           >
             Details
           </Link>
@@ -145,7 +145,7 @@ export default function AppointmentListItem({ appointment, facility }) {
         {/* visble to small screen breakpoint */}
         <div className="medium-screen:vads-u-display--none">
           <Link
-            to={link}
+            to={appointment.id}
             className="vaos-appts__card-link"
             aria-label={`Details for ${
               canceled ? 'canceled ' : ''

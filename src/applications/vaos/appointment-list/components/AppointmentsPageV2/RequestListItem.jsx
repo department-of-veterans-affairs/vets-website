@@ -46,7 +46,7 @@ export default function RequestListItem({ appointment, facility }) {
             aria-label={`Details for ${
               canceled ? 'canceled ' : ''
             }${typeOfCareText}request for ${preferredDate}`}
-            to={link}
+            to={appointment.id}
           >
             Details
           </Link>
@@ -58,7 +58,7 @@ export default function RequestListItem({ appointment, facility }) {
         {/* visible to small screen breakpoint */}
         <div className="medium-screen:vads-u-display--none">
           <Link
-            to={link}
+            to={appointment.id}
             className="vaos-appts__card-link"
             aria-label={`Details for ${
               canceled ? 'canceled ' : ''
