@@ -42,7 +42,7 @@ const {
   optionalFields: { bankName: false, declineDirectDeposit: true },
 });
 
-const path = 'form';
+const path = 'apply';
 const title = 'VRRAP application';
 const uiSchema = {
   'view:applicantInformation': {

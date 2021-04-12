@@ -1,11 +1,13 @@
 import React from 'react';
+import moment from 'moment';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { getCCAppointmentMock } from '../../mocks/v0';
+import { getCCAppointmentMock, getVAAppointmentMock } from '../../mocks/v0';
 import {
   mockAppointmentInfo,
   mockSingleCommunityCareAppointmentFetch,
+  mockSingleVistaCommunityCareAppointmentFetch,
 } from '../../mocks/helpers';
 import {
   renderWithStoreAndRouter,
@@ -298,5 +300,58 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
         name: 'We’re sorry. We’ve run into a problem',
       }),
     ).to.be.ok;
+  });
+
+  it('should show cc appointment from vista when directly opening page', async () => {
+    const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
+
+    const appointment = getVAAppointmentMock();
+    appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      clinicFriendlyName: 'COMMUNITY CARE',
+      facilityId: '983',
+      sta6aid: '983GC',
+      communityCare: true,
+      vdsAppointments: [
+        {
+          bookingNote: '',
+          appointmentLength: '60',
+          appointmentTime: '2021-12-07T16:00:00Z',
+          clinic: {
+            name: 'CHY OPT VAR1',
+            askForCheckIn: false,
+            facilityCode: '983',
+          },
+          type: 'REGULAR',
+          currentStatus: 'FUTURE',
+        },
+      ],
+      vvsAppointments: [],
+    };
+
+    mockSingleVistaCommunityCareAppointmentFetch({
+      appointment,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(/Community care/)).to.be.ok;
   });
 });
