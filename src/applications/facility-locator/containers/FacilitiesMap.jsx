@@ -328,6 +328,28 @@ const FacilitiesMap = props => {
     }
   };
 
+  const renderMap = mobile => (
+    <>
+      <div id={zoomMessageDivID} aria-live="polite" className="sr-only" />
+      <p className="sr-only" id="map-instructions" aria-live="assertive" />
+      <map
+        id={mapboxGlContainer}
+        aria-label="Find VA locations on an interactive map"
+        aria-describedby="map-instructions"
+        onFocus={() => speakMapInstructions()}
+      >
+        {shouldRenderSearchArea() && (
+          <SearchAreaControl
+            isMobile={mobile}
+            isEnabled={searchAreaButtonEnabled()}
+            handleSearchArea={handleSearchArea}
+            query={props.currentQuery}
+          />
+        )}
+      </map>
+    </>
+  );
+
   const renderMobileView = () => {
     const {
       currentQuery,
@@ -391,32 +413,7 @@ const FacilitiesMap = props => {
               />
             </TabPanel>
             <TabPanel>
-              <div
-                id={zoomMessageDivID}
-                aria-live="polite"
-                className="sr-only"
-              />
-              <p
-                className="sr-only"
-                id="map-instructions"
-                aria-live="assertive"
-              />
-              <map
-                id={mapboxGlContainer}
-                aria-label="Find VA locations on an interactive map"
-                aria-describedby="map-instructions"
-                onFocus={() => speakMapInstructions()}
-              >
-                {shouldRenderSearchArea() &&
-                  (
-                    <SearchAreaControl
-                      isMobile
-                      isEnabled={searchAreaButtonEnabled()}
-                      handleSearchArea={handleSearchArea}
-                      query={currentQuery}
-                    />
-                  )``}
-              </map>
+              {renderMap(true)}
               {selectedResult && (
                 <div className="mobile-search-result">
                   <SearchResult result={selectedResult} query={currentQuery} />
@@ -430,15 +427,6 @@ const FacilitiesMap = props => {
   };
 
   const renderDesktopView = () => {
-    if (
-      map &&
-      (!window.document.getElementById(mapboxGlContainer) ||
-        window.document.getElementsByClassName('desktop-map-container')
-          .length === 0)
-    ) {
-      setMapResize();
-    }
-
     const {
       currentQuery,
       pagination: { currentPage, totalPages },
@@ -481,24 +469,7 @@ const FacilitiesMap = props => {
             />
           </div>
         </div>
-        <p className="sr-only" id="map-instructions" aria-live="assertive" />
-        <div id={zoomMessageDivID} aria-live="assertive" className="sr-only" />
-        <map
-          className="desktop-map-container"
-          id={mapboxGlContainer}
-          aria-label="Find VA locations on an interactive map"
-          aria-describedby="map-instructions"
-          onFocus={() => speakMapInstructions()}
-        >
-          {shouldRenderSearchArea() && (
-            <SearchAreaControl
-              isMobile={false}
-              isEnabled={searchAreaButtonEnabled()}
-              handleSearchArea={handleSearchArea}
-              query={currentQuery}
-            />
-          )}
-        </map>
+        {renderMap(false)}
         <PaginationWrapper
           handlePageSelect={handlePageSelect}
           currentPage={currentPage}
