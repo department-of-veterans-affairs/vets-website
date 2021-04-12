@@ -337,6 +337,7 @@ const FacilitiesMap = props => {
         aria-label="Find VA locations on an interactive map"
         aria-describedby="map-instructions"
         onFocus={() => speakMapInstructions()}
+        className={mobile ? '' : 'desktop-map-container'}
       >
         {shouldRenderSearchArea() && (
           <SearchAreaControl
