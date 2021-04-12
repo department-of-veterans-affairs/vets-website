@@ -2,7 +2,7 @@ import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/
 import formConfig from './config/form';
 import App from './containers/App.jsx';
 
-const route = [
+const routes = [
   {
     path: '/',
     component: App,
@@ -11,4 +11,4 @@ const route = [
   },
 ];
 
-export default route;
+export default routes;
