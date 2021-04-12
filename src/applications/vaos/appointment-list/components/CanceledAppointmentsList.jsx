@@ -73,7 +73,10 @@ function CanceledAppointmentsList({
 
   return (
     <>
-      {appointmentsByMonth.map((monthBucket, monthIndex) => {
+      <div aria-live="assertive" className="sr-only">
+        {hasTypeChanged && 'Showing canceled appointments and requests'}
+      </div>
+      {appointmentsByMonth?.map((monthBucket, monthIndex) => {
         const monthDate = moment(monthBucket[0].start);
         return (
           <React.Fragment key={monthIndex}>
@@ -111,22 +114,21 @@ function CanceledAppointmentsList({
           </React.Fragment>
         );
       })}
+      {!appointmentsByMonth?.length && (
+        <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+          <NoAppointments
+            showScheduleButton={showScheduleButton}
+            isCernerOnlyPatient={isCernerOnlyPatient}
+            startNewAppointmentFlow={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+              });
+              startNewAppointmentFlow();
+            }}
+          />
+        </div>
+      )}
     </>
-  );
-
-  return (
-    <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
-      <NoAppointments
-        showScheduleButton={showScheduleButton}
-        isCernerOnlyPatient={isCernerOnlyPatient}
-        startNewAppointmentFlow={() => {
-          recordEvent({
-            event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-          });
-          startNewAppointmentFlow();
-        }}
-      />
-    </div>
   );
 }
 
