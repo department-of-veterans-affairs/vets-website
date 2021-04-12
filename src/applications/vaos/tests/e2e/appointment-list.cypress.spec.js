@@ -9,10 +9,12 @@ describe('VAOS appointment list', () => {
     initAppointmentListMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.get('.va-modal-body button').click();
+    cy.injectAxe();
   });
 
   it('should render appointments list', () => {
     cy.get('#appointments-list').should('exist');
+    cy.axeCheckBestPractice();
   });
 
   it('should allow for cancelling of appointments', () => {
@@ -25,6 +27,7 @@ describe('VAOS appointment list', () => {
       .first()
       .click();
     cy.get('#cancelAppt').should('not.exist');
+    cy.axeCheckBestPractice();
   });
 
   it('should show more info for appointments', () => {
@@ -33,6 +36,7 @@ describe('VAOS appointment list', () => {
     ).click();
     cy.get('[id="8a48912a6cab0202016cb4fcaa8b0038-vaos-info-content"]');
     cy.contains('Request 2 Message 1 Text');
+    cy.axeCheckBestPractice();
   });
 
   it('should render past appointments', () => {
@@ -47,6 +51,7 @@ describe('VAOS appointment list', () => {
     cy.findByText('Update').click();
     cy.findByText(/four month clinic name/i).should('exist');
     cy.get('#queryResultLabel').should('have.focus');
+    cy.axeCheckBestPractice();
   });
 });
 

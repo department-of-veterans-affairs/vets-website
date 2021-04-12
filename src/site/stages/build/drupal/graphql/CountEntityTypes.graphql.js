@@ -20,6 +20,17 @@ const CountEntityTypes = `
   	) {
     count
   }
+  
+  vetCenters: nodeQuery(
+    filter: {
+      conditions: [
+        # TODO: uncomment when vet_centers officially go live:
+        # {field: "status", value: ["1"]},
+        {field: "type", value: ["vet_center"]}
+      ]}
+  	) {
+    count
+  }  
 
   healthCareLocalFacility: nodeQuery(
     filter: {

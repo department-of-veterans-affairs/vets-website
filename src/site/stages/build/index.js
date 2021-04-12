@@ -237,15 +237,30 @@ function build(BUILD_OPTIONS) {
     'Generate navigation',
   );
 
-  smith.use(
-    layouts({
-      engine: 'liquid',
-      directory: BUILD_OPTIONS.layouts,
-      // Only apply layouts to markdown and html files.
-      pattern: '**/*.{md,html}',
-    }),
-    'Apply layouts',
-  );
+  // Split the layout step by letter. This avoids "too many open files" errors
+  // caused by the layouts plugin opening too many templates in parallel.
+  // Metalsmith's concurrency setting does not fix the issue.
+  const letters = 'abcdefghijklmnopqrstuvwxyz'
+    .split('')
+    .map(letter => letter.toUpperCase() + letter);
+  const nonletters = `0-9.-_~!$&'()*+,;=:@`;
+  const patterns = [...letters, nonletters];
+
+  // Only apply layouts to markdown and html files.
+  const suffix = '{md,html}';
+
+  patterns.forEach(pattern => {
+    smith.use(
+      layouts({
+        engine: 'liquid',
+        directory: BUILD_OPTIONS.layouts,
+        // At the top level, match filenames. Otherwise match the final
+        // directory name since so many files are named index.html
+        pattern: [`[${pattern}]*.${suffix}`, `**/[${pattern}]*/*.${suffix}`],
+      }),
+      `Apply layouts ${pattern.length === 2 ? pattern[0] : pattern}`,
+    );
+  });
 
   /*
   * This will replace links in static pages with a staging domain,

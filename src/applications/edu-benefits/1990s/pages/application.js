@@ -12,10 +12,6 @@ import {
 } from 'platform/forms/definitions/address';
 import _ from 'lodash';
 import { bankInfoHelpText, directDepositAlert } from '../content/directDeposit';
-import {
-  confirmEligibilityDescription,
-  confirmEligibilityNote,
-} from '../content/confirmEligibility';
 
 const {
   veteranFullName,
@@ -30,11 +26,10 @@ const {
   programCity,
   programState,
   learningFormat,
-  vrrapConfirmation,
 } = fullSchema.properties;
 
-const addressUiSchema = addressUISchema('Mailing address', false);
-const address = addressSchema(fullSchema, true);
+const addressUiSchema = addressUISchema('Mailing address', false, false);
+const address = addressSchema(fullSchema, false);
 const bankFieldIsRequired = form =>
   !form['view:directDeposit'].declineDirectDeposit;
 const hasNotSelectedProgram = form =>
@@ -47,7 +42,7 @@ const {
   optionalFields: { bankName: false, declineDirectDeposit: true },
 });
 
-const path = 'form';
+const path = 'apply';
 const title = 'VRRAP application';
 const uiSchema = {
   'view:applicantInformation': {
@@ -167,18 +162,6 @@ const uiSchema = {
       },
     },
   },
-  'view:confirmEligibility': {
-    'ui:title': "Confirm you're eligibile for VRRAP",
-    'ui:description': confirmEligibilityDescription,
-    vrrapConfirmation: {
-      'ui:title':
-        'I attest the statements above are true and accurate to the best of my knowledge and belief.',
-      'ui:widget': 'yesNo',
-    },
-    'view:confirmEligibilityNote': {
-      'ui:description': confirmEligibilityNote,
-    },
-  },
 };
 
 const schema = {
@@ -263,13 +246,6 @@ const schema = {
         programCity,
         programState,
         learningFormat,
-      },
-    },
-    'view:confirmEligibility': {
-      type: 'object',
-      required: ['vrrapConfirmation'],
-      properties: {
-        vrrapConfirmation,
       },
     },
   },
