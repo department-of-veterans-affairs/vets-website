@@ -6,7 +6,7 @@ import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/co
  * A simple React hook that returns a render method suitable for use as the
  * DowntimeNotification's `render` prop. The returned render method simply
  * displays a Modal if the soonest downtime will start within an hour. The hook
- * maintains its own  state to track if the Modal should be shown or not (which
+ * maintains its own state to track if the Modal should be shown or not (which
  * is the only reason this needs to be a hook in the first place). This render
  * prop renders its children like normal if downtime is actually active.
  */
