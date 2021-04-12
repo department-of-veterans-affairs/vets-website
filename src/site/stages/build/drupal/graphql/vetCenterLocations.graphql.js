@@ -153,6 +153,22 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
           addressLine1
         }
         fieldPhoneNumber
+        fieldOperatingStatusFacility
+        fieldMedia {
+           entity {
+                ... on MediaImage {
+                    image {
+                      alt
+                      title
+                      derivative(style: _32MEDIUMTHUMBNAIL) {
+                        url
+                        width
+                        height
+                      }
+                    }
+                  }
+              }
+          }
       }
     }
   }
