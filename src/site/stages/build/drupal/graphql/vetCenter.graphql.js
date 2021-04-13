@@ -3,6 +3,15 @@ const {
 } = require('./paragraph-fragments/derivativeMedia.paragraph.graphql');
 const { generatePaginatedQueries } = require('../individual-queries-helpers');
 
+// eslint-disable-next-line no-console
+console.log('+++++++++++++++++++VET CENTER GRAPHL+++++++++++++++Start');
+// eslint-disable-next-line no-console
+console.log(process.env.UNPUBLISHED_CONTENT);
+// eslint-disable-next-line no-console
+console.log(process.env);
+// eslint-disable-next-line no-console
+console.log('+++++++++++++++++++VET CENTER GRAPHL+++++++++++++++END');
+
 const draftContentOverride = process.env.UNPUBLISHED_CONTENT === 'true';
 
 const vetCenterFragment = `
