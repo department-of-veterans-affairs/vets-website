@@ -12,7 +12,7 @@ const copyToUsersClipBoard = dataEntityId => {
   const result = document.execCommand('copy');
   document.body.removeChild(input);
 };
-const LinkClickFeedBack = styled.span`
+const ShareIconClickFeedback = styled.span`
   position: ${props => (props.leftAligned ? 'absolute' : 'relative')};
   margin-top: ${props => (props.leftAligned ? '2px' : '')};
   left: ${props =>
@@ -28,7 +28,7 @@ const LinkClickFeedBack = styled.span`
   bottom: ${props => (props.leftAligned ? '' : '1px')};
 `;
 
-const ShareButton = styled.i`
+const ShareIcon = styled.i`
   border-radius: 5px;
   font-size: 16px;
   height: 26px;
@@ -75,7 +75,7 @@ const SharableLink = ({ dataEntityId }) => {
 
   return (
     <span aria-live="polite" aria-relevant="additions">
-      <ShareButton
+      <ShareIcon
         aria-label={`Copy ${dataEntityId} sharable link`}
         aria-hidden="true"
         className={`fas fa-link`}
@@ -88,14 +88,14 @@ const SharableLink = ({ dataEntityId }) => {
         }}
       />
       {feedbackActive && (
-        <LinkClickFeedBack
+        <ShareIconClickFeedback
           className={`vads-u-margin-left--0.5`}
           leftAligned={leftAligned}
           feedbackActive={feedbackActive}
           leftPx={leftPx}
         >
           {copiedText}
-        </LinkClickFeedBack>
+        </ShareIconClickFeedback>
       )}
     </span>
   );
