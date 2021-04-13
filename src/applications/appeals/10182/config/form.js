@@ -19,6 +19,8 @@ import ReviewDescription from '../components/ReviewDescription';
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInfo';
 import homeless from '../pages/homeless';
+import hasRep from '../pages/hasRep';
+import repInfo from '../pages/repInfo';
 
 import initialData from '../tests/schema/initialData';
 
@@ -96,6 +98,24 @@ const formConfig = {
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
+        },
+      },
+    },
+    hasRep: {
+      title: 'Representation',
+      pages: {
+        hasRep: {
+          title: 'Representative',
+          path: 'representative',
+          uiSchema: hasRep.uiSchema,
+          schema: hasRep.schema,
+        },
+        repInfo: {
+          title: 'Representative Information',
+          path: 'representative-information',
+          depends: formData => formData?.['view:hasRep'],
+          uiSchema: repInfo.uiSchema,
+          schema: repInfo.schema,
         },
       },
     },
