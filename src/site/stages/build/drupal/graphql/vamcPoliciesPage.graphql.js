@@ -6,11 +6,23 @@ const policiesPageFragment = `
     entityUrl {
       path
     }    
+    fieldCcIntroText {
+      fetched
+    }
+    fieldCcTopOfPageContent {
+      fetched
+    }
     fieldVamcVisitationPolicy {
       processed
     }
     fieldVamcOtherPolicies {
       processed
+    }
+    fieldCcGenVisitationPolicy {
+      fetched
+    }
+    fieldCcBottomOfPageContent {
+      fetched
     }
   }
 `;

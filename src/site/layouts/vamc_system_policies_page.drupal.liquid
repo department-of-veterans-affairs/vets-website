@@ -8,7 +8,7 @@
       <article aria-labelledby="article-heading" role="region" class="usa-content">
         <h1 id="article-heading">{{ title }}</h1>
         <div class="va-introtext">
-          <p>{{ fieldIntroText }}</p>
+          {{ fieldCcIntroText.fetched.field_wysiwyg.0.processed }}
         </div>
 
         <nav id="table-of-contents">
@@ -16,13 +16,16 @@
           <ul class="usa-unstyled-list"></ul>
         </nav>
 
-        <h2 id="visitation-policy">Visitation policy</h2>
-        <p>{{ fieldVamcVisitationPolicy.processed }}</p>
+        {{  fieldCcTopOfPageContent.fetched.field_wysiwyg.0.processed }}
 
-        <div class="last-updated usa-content">
-          Last updated:
-          <time datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD' }}">{{ changed | humanizeTimestamp }}</time>
-        </div>
+        {{ fieldVamcVisitationPolicy.processed }}
+
+        {{ fieldVamcOtherPolicies.processed }}
+
+        {{ fieldCcGenVisitationPolicy.fetched.field_wysiwyg.0.processed }}
+        {{ fieldCcBottomOfPageContent.fetched.field_wysiwyg.0.processed }}
+
+        {% include "src/site/includes/last-update.html" %}
     </div>
   </main>
 </div>

@@ -39,7 +39,7 @@ async function downloadFile(
         );
         // Pause to give the proxy connection a break.
         // eslint-disable-next-line no-await-in-loop
-        await new Promise(resolve => setTimeout(500, resolve));
+        await new Promise(resolve => setTimeout(resolve, 500));
       } else {
         throw e;
       }

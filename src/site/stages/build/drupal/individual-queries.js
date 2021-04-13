@@ -96,8 +96,12 @@ function getNodeQueries(entityCounts) {
 
   const featureQueries = {};
 
-  // NOTE: this flag is not yet available in prod CMS
-  if (cmsFeatureFlags.FEATURE_VAMC_SYSTEM_POLICIES_PAGE) {
+  const addPolicyPages =
+    // NOTE: this flag is not yet available in prod CMS
+    cmsFeatureFlags.FEATURE_VAMC_SYSTEM_POLICIES_PAGE ||
+    process.env.ADD_POLICY_PAGES;
+
+  if (addPolicyPages) {
     // eslint-disable-next-line no-console
     console.log('adding policy page query');
     featureQueries.GetPolicyPages = GetPolicyPages;
