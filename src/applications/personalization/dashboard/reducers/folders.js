@@ -98,6 +98,7 @@ export default function folders(state = initialState, action) {
             visible: false,
           },
           lastRequestedFolder: action.request,
+          fetching: true,
         },
         newState,
       );
