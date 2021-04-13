@@ -5,11 +5,12 @@ export const BASE_URL = `${NOD_INFO_URL}request-notice-of-disagreement-form-1018
 
 export const FORM_URL = 'https://www.va.gov/vaforms/va/pdf/VA10182.pdf';
 
+export const PROFILE_URL = '/profile';
 export const DECISION_REVIEWS_URL = '/decision-reviews/';
 export const FACILITY_LOCATOR_URL = '/find-locations';
+export const CONTESTED_CLAIMS_URL = '/decision-reviews/contested-claims';
 export const GET_HELP_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
-export const PROFILE_URL = '/profile';
 
 // key for contestedIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
