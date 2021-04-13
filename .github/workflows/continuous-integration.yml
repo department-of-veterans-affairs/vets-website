@@ -46,11 +46,11 @@ jobs:
 
       - name: Publish test results
         if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2
+        uses: EnricoMi/publish-unit-test-result-action@v1
         with:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'test-results/unit-tests.xml'
+          files: 'test-results/unit-tests.xml'
 
   linting:
     name: Linting
