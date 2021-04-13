@@ -21,6 +21,7 @@ import contactInfo from '../pages/contactInfo';
 import homeless from '../pages/homeless';
 import hasRep from '../pages/hasRep';
 import repInfo from '../pages/repInfo';
+import boardReview from '../pages/boardReview';
 
 import initialData from '../tests/schema/initialData';
 
@@ -33,7 +34,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/notice_of_disagreements`,
-  trackingPrefix: '10182-notice-of-disagreement-',
+  trackingPrefix: '10182-board-appeal-',
 
   downtime: {
     requiredForPrefill: true,
@@ -116,6 +117,17 @@ const formConfig = {
           depends: formData => formData?.['view:hasRep'],
           uiSchema: repInfo.uiSchema,
           schema: repInfo.schema,
+        },
+      },
+    },
+    boardReview: {
+      title: 'Board review option',
+      pages: {
+        boardReviewOption: {
+          title: 'Board review option',
+          path: 'board-review-option',
+          uiSchema: boardReview.uiSchema,
+          schema: boardReview.schema,
         },
       },
     },
