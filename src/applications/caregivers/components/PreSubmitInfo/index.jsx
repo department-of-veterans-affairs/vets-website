@@ -116,11 +116,6 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
     - if hasSecondary one || two, first & last name must match, and be checked to submit
    */
 
-  console.log(
-    'showRepresentativeSignatureBox: ',
-    showRepresentativeSignatureBox,
-  );
-
   return (
     <section className="vads-u-display--flex vads-u-flex-direction--column">
       <p className="vads-u-margin-bottom--5">
