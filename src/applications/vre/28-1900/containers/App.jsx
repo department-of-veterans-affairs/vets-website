@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -8,12 +8,9 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import FormFooter from 'platform/forms/components/FormFooter';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
 import {
-  WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_RESTARTED,
-  WIZARD_STATUS_COMPLETE,
   restartShouldRedirect,
 } from 'platform/site-wide/wizard';
 
@@ -21,13 +18,11 @@ import formConfig from '../config/form';
 import OrientationWizardContainer from './OrientationWizardContainer';
 import { WIZARD_STATUS, VRE_ROOT_URL } from '../constants';
 
-function App({ location, children, router, chapter31Feature, isLoggedIn }) {
-  const [wizardState, setWizardState] = useState(WIZARD_STATUS_NOT_STARTED);
+function App({ router, chapter31Feature, isLoggedIn }) {
   let content;
 
   const wizardStateHandler = status => {
     sessionStorage.setItem(WIZARD_STATUS, status);
-    setWizardState(status);
   };
 
   useEffect(() => {
@@ -76,20 +71,15 @@ function App({ location, children, router, chapter31Feature, isLoggedIn }) {
         </div>
       </div>
     );
-  } else if (wizardState !== WIZARD_STATUS_COMPLETE) {
+  } else {
     content = (
       <OrientationWizardContainer wizardStateHandler={wizardStateHandler} />
     );
-  } else {
-    content = (
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
-      </RoutedSavableApp>
-    );
   }
 
+  // this needs to move to FormApp
   const path =
-    '/careers-employment/vocational-rehabilitation/apply/introduction';
+    '/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/orientation';
   if (!isLoggedIn && window.location.pathname !== path) {
     window.location.replace(path);
   }
