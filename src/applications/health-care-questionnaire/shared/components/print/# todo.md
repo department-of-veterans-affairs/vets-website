@@ -1,8 +1,6 @@
 # todo
 
-- [ ] refactor code
 - [ ] add tests
-- [ ] mock data
-- [ ] QR id in name
+- [ ] mock data -- somehow
 
 - [ ] check timezones
