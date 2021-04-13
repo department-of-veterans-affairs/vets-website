@@ -17,6 +17,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
   fieldNearbyVetCenters {
     entity {
       ... on NodeVetCenter {
+      title
         entityBundle
         fieldAddress {
           locality
@@ -28,6 +29,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}                           
       }          
       ... on NodeVetCenterOutstation {
+      title
         entityBundle
         fieldAddress {
           locality
@@ -39,6 +41,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}             
       }
       ... on NodeVetCenterCap {
+       title
         entityBundle
         fieldAddress {
           locality
@@ -49,6 +52,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}                           
       }
       ... on NodeVetCenterMobileVetCenter {
+      title
         entityBundle              
         fieldAddress {
           locality
