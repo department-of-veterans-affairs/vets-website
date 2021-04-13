@@ -8,8 +8,7 @@ const copyToUsersClipBoard = dataEntityId => {
   input.setAttribute('value', `${copyUrl}#${dataEntityId}`);
   document.body.appendChild(input);
   input.select();
-  // eslint-disable-next-line no-unused-vars
-  const result = document.execCommand('copy');
+  document.execCommand('copy');
   document.body.removeChild(input);
 };
 const ShareIconClickFeedback = styled.span`
