@@ -27,7 +27,7 @@ done
 # Ensure all running servers are terminated on script exit.
 trap 'if [ $(jobs -p) ] ; then kill $(jobs -p); fi' EXIT
 
-BUILDTYPE=${BUILDTYPE:-vagovdev}
+BUILDTYPE=${BUILDTYPE:-vagovprod}
 
 "$(dirname "$0")"/run-mockapi.sh &
 
