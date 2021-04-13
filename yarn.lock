@@ -19597,9 +19597,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#9085e1041774b472791633d074711b9d3aed5d1b":
-  version "20.2.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9085e1041774b472791633d074711b9d3aed5d1b"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#656403af718a3fbd70326f11ab2b694b707bdd7d":
+  version "20.3.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#656403af718a3fbd70326f11ab2b694b707bdd7d"
 
 vinyl-file@^2.0.0:
   version "2.0.0"
@@ -19750,9 +19750,9 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.2.2":
-  version "0.2.2"
-  resolved "https://github.com/department-of-veterans-affairs/component-library.git#4417ca82a40d90a583383fb92083c6b47b890487"
+"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.4.0":
+  version "0.4.0"
+  resolved "https://github.com/department-of-veterans-affairs/component-library.git#23d3c19611e4ce4704b213082b2c971c85b430ef"
   dependencies:
     "@stencil/core" "^2.0.1"
     "@stencil/postcss" "^2.0.0"

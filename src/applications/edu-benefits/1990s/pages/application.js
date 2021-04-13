@@ -28,8 +28,8 @@ const {
   learningFormat,
 } = fullSchema.properties;
 
-const addressUiSchema = addressUISchema('Mailing address', false);
-const address = addressSchema(fullSchema, true);
+const addressUiSchema = addressUISchema('Mailing address', false, false);
+const address = addressSchema(fullSchema, false);
 const bankFieldIsRequired = form =>
   !form['view:directDeposit'].declineDirectDeposit;
 const hasNotSelectedProgram = form =>
@@ -120,13 +120,13 @@ const uiSchema = {
     },
   },
   'view:programSelection': {
-    'ui:title': 'Program Selection',
+    'ui:title': 'Program information',
     hasSelectedProgram: {
-      'ui:title': 'Have you picked a program you’d like to attend using VRRAP?',
+      'ui:title': "Do you know which program you'd like to enroll in?",
       'ui:widget': 'yesNo',
     },
     providerName: {
-      'ui:title': "What's the name of the program’s provider?",
+      'ui:title': "What's the name of the school or training provider?",
       'ui:options': {
         hideIf: hasNotSelectedProgram,
       },
@@ -138,26 +138,26 @@ const uiSchema = {
       },
     },
     programCity: {
-      'ui:title': 'What city is the program in?',
+      'ui:title': 'Which city is the program in?',
       'ui:options': {
         hideIf: hasNotSelectedProgram,
       },
     },
     programState: {
-      'ui:title': 'What state is the program in?',
+      'ui:title': 'Which state is the program in?',
       'ui:options': {
         hideIf: hasNotSelectedProgram,
       },
     },
     learningFormat: {
-      'ui:title': 'Is the program in-person, online or both?',
+      'ui:title': 'Is the program in-person, online, or both?',
       'ui:widget': 'radio',
       'ui:options': {
         hideIf: hasNotSelectedProgram,
         labels: {
           inPerson: 'In-person',
           online: 'Online',
-          onlineAndInPerson: "It's both online and in person",
+          onlineAndInPerson: 'Both in-person and online',
         },
       },
     },
