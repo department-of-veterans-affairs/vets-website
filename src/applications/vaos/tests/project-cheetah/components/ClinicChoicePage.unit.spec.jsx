@@ -148,7 +148,7 @@ describe('VAOS vaccine flow <ClinicChoicePage>', () => {
       store,
     });
 
-    await screen.findByText(/Choose a clinic located at/i);
+    await screen.findByText(/Chse a clinic located at/i);
 
     userEvent.click(screen.getByLabelText(/red team/i));
     await waitFor(
