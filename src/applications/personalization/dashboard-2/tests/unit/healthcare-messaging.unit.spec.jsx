@@ -70,7 +70,7 @@ describe('HealthCare component', () => {
       });
       expect(view.queryByRole('progressbar')).not.to.exist;
       expect(
-        await view.findByRole('link', { name: /you have 3 new messages/i }),
+        await view.findByRole('link', { name: /you have 3 unread messages/i }),
       ).to.exist;
     });
 
@@ -80,8 +80,9 @@ describe('HealthCare component', () => {
         initialState,
         reducers,
       });
-      expect(await view.findByRole('link', { name: /you have 1 new message/i }))
-        .to.exist;
+      expect(
+        await view.findByRole('link', { name: /you have 1 unread message/i }),
+      ).to.exist;
     });
 
     it('should render the unread messages count with 0 messages', async () => {
