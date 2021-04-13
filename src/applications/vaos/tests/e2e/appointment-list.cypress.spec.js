@@ -234,6 +234,11 @@ describe('VAOS appointment list refresh', () => {
 
   describe('past appointments', () => {
     beforeEach(() => {
+      cy.route({
+        method: 'GET',
+        url: /.*\/v0\/appointments.*type=va$/,
+        response: createPastVAAppointments(),
+      });
       cy.get('#type-dropdown')
         .select('past')
         .should('have.value', 'past');
@@ -257,69 +262,16 @@ describe('VAOS appointment list refresh', () => {
       cy.findByText(/Request detail/i).should('exist');
     });
 
-    /**
-     *  0 = Past 3 months
-     *  1 = Nov. YYYY - Jan. YYYY
-     *  2 = Aug. YYYY - Oct. YYYY
-     *  3 = May YYYY - July YYYY
-     *  4 = All of YYYY (current year)
-     *  5 = All of YYYY (previous year)
-     */
-    describe('date range selector', () => {
-      it('should select November through January', () => {
-        cy.get('select')
-          .eq(1)
-          .select('1')
-          .should('have.value', '1');
-        cy.get('button')
-          .contains(/Update/i)
-          .click();
-        cy.axeCheckBestPractice();
-      });
-
-      it('should select August through October', () => {
-        cy.get('select')
-          .eq(1)
-          .select('2')
-          .should('have.value', '2');
-        cy.get('button')
-          .contains(/Update/i)
-          .click();
-        cy.axeCheckBestPractice();
-      });
-
-      it('should select May through July', () => {
-        cy.get('select')
-          .eq(1)
-          .select('3')
-          .should('have.value', '3');
-        cy.get('button')
-          .contains(/Update/i)
-          .click();
-        cy.axeCheckBestPractice();
-      });
-
-      it('should select all of current year', () => {
-        cy.get('select')
-          .eq(1)
-          .select('4')
-          .should('have.value', '4');
-        cy.get('button')
-          .contains(/Update/i)
-          .click();
-        cy.axeCheckBestPractice();
-      });
-
-      it('should select all of previous year', () => {
-        cy.get('select')
-          .eq(1)
-          .select('5')
-          .should('have.value', '5');
-        cy.get('button')
-          .contains(/Update/i)
-          .click();
-        cy.axeCheckBestPractice();
-      });
+    it('should select an updated date range', () => {
+      cy.get('select')
+        .eq(1)
+        .select('1')
+        .should('have.value', '1');
+      cy.get('button')
+        .contains(/Update/i)
+        .click();
+      cy.get('h3').should('exist');
+      cy.axeCheckBestPractice();
     });
   });
 
