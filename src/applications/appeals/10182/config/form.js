@@ -18,6 +18,7 @@ import ReviewDescription from '../components/ReviewDescription';
 // Pages
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInfo';
+import homeless from '../pages/homeless';
 
 import initialData from '../tests/schema/initialData';
 
@@ -89,6 +90,12 @@ const formConfig = {
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+        },
+        homeless: {
+          title: 'Homeless',
+          path: 'homeless',
+          uiSchema: homeless.uiSchema,
+          schema: homeless.schema,
         },
       },
     },
