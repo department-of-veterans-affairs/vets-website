@@ -14,17 +14,27 @@ module.exports = {
       onlyTest508Rules, // eslint-disable-line no-unused-vars
     }) {
       const mark = Math.ceil(urls.length / 4);
-      console.log('...........');
-      console.log('...........');
-      console.log('...........');
-      console.log('...........');
-      console.log('...........');
-      console.log('...........');
+      console.log('--------------------');
+      console.log('--------------------');
+      console.log('--------------------');
+      console.log('--------------------');
+      console.log('--------------------');
+      console.log('--------------------');
+      console.log('MARK...........');
       console.log(mark);
+      console.log('MARK...........');
       // eslint-disable-next-line no-unused-vars
       const segment = urls.splice(0, mark);
+      console.log('segment...........');
       console.log(segment);
-      // SitemapHelpers.runTests(client, segment, onlyTest508Rules);
+      console.log('segment...........');
+      console.log('--------------------');
+      console.log('--------------------');
+      console.log('--------------------');
+      console.log('--------------------');
+      console.log('--------------------');
+      console.log('--------------------');
+      SitemapHelpers.runTests(client, segment, onlyTest508Rules);
       client.end();
     });
   },
