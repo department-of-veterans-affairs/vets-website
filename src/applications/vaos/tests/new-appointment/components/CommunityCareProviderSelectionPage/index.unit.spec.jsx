@@ -248,7 +248,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
   });
 
-  it.skip('should display choose provider when remove provider clicked', async () => {
+  it('should display choose provider when remove provider clicked', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
@@ -272,19 +272,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     );
     expect(screen.baseElement).to.contain.text('408.5 miles');
 
-    // Remove Provider Cancel
-    userEvent.click(await screen.findByRole('button', { name: /remove/i }));
-    userEvent.click(
-      await screen.findByText(
-        /Are you sure you want to remove this provider\?/i,
-      ),
-    );
-    userEvent.click(await screen.findByRole('button', { name: /Cancel/i }));
-    expect(screen.baseElement).to.contain.text(
-      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
-    );
-    expect(screen.baseElement).to.contain.text('408.5 miles');
-
     // Remove Provider
     userEvent.click(await screen.findByRole('button', { name: /remove/i }));
     userEvent.click(
@@ -295,7 +282,10 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(
       await screen.findByRole('button', { name: /Yes, remove provider/i }),
     );
-    expect(await screen.findByRole('button', { name: /Choose a provider/i }));
+    expect(await screen.findByText(/Choose a provider/i));
+    expect(screen.baseElement).not.to.contain.text(
+      'AJADI, ADEDIWURA700 CONSTITUTION AVE NEWASHINGTON, DC 20002-6599',
+    );
   });
 
   it('should display an error when choose a provider clicked and provider fetch error', async () => {
