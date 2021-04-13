@@ -410,11 +410,12 @@ export function confirmAppointment(history) {
     }
   };
 }
-export function routeToPageInFlow(flow, history, current, action) {
+export function routeToPageInFlow(flow, history, current, action, data) {
   return async (dispatch, getState) => {
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
       pageKey: current,
+      data,
     });
 
     let nextPage;
@@ -495,10 +496,10 @@ export function openContactFacilitiesPage() {
     }
   };
 }
-export function routeToNextAppointmentPage(history, current) {
-  return routeToPageInFlow(newBookingFlow, history, current, 'next');
+export function routeToNextAppointmentPage(history, current, data) {
+  return routeToPageInFlow(newBookingFlow, history, current, 'next', data);
 }
 
-export function routeToPreviousAppointmentPage(history, current) {
-  return routeToPageInFlow(newBookingFlow, history, current, 'previous');
+export function routeToPreviousAppointmentPage(history, current, data) {
+  return routeToPageInFlow(newBookingFlow, history, current, 'previous', data);
 }

@@ -58,17 +58,28 @@ export default function useFormState({
 
     return setupFormData(initialData, schema, uiSchema);
   });
+
+  useEffect(() => {
+    if (dependencies?.length && enabled) {
+      let schema = initialSchema;
+      if (typeof initialSchema === 'function') {
+        schema = initialSchema();
+      }
+      setFormState(setupFormData(formState.data, schema, uiSchema));
+    }
+  }, dependencies || []);
+
   useEffect(
     () => {
-      if (dependencies?.length && enabled) {
+      if (enabled) {
         let schema = initialSchema;
         if (typeof initialSchema === 'function') {
           schema = initialSchema();
         }
-        setFormState(setupFormData(formState.data, schema, uiSchema));
+        setFormState(setupFormData(initialData, schema, uiSchema));
       }
     },
-    [...dependencies, enabled],
+    [enabled],
   );
 
   if (!enabled) {
