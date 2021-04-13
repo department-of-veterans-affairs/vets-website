@@ -9,7 +9,6 @@ import IntroductionPage from '../../containers/IntroductionPage';
 const defaultProps = {
   user: {
     profile: {
-      // need to have a saved form or else form will redirect to v2
       savedForms: [
         {
           form: VA_FORM_IDS.FORM_10182,
