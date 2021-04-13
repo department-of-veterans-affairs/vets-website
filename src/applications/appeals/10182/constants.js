@@ -9,3 +9,11 @@ export const PROFILE_URL = '/profile';
 
 // key for contestedIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
+
+export const CONTESTABLE_ISSUES_API =
+  '/notice_of_disagreements/contestable_issues';
+
+export const FORMAT_READABLE = 'MMMM d, yyyy';
+
+// contested issue dates
+export const FORMAT_YMD = 'yyyy-MM-dd';
