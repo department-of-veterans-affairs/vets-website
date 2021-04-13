@@ -26,9 +26,9 @@ export function prefillTransformer(pages, formData, metadata) {
     },
     'view:directDeposit': {
       bankAccount: {
-        accountType: bankAccount.accountType.toLowerCase(),
-        routingNumber: bankAccount.routingNumber,
-        accountNumber: bankAccount.accountNumber,
+        accountType: bankAccount?.accountType.toLowerCase(),
+        routingNumber: bankAccount?.routingNumber,
+        accountNumber: bankAccount?.accountNumber,
       },
     },
   };
