@@ -6,7 +6,7 @@
       <a href="{{ entity.entityUrl.path }}">{{ entity.title }}</a></h3>
     {% if entity.fieldOperatingStatusFacility and entity.fieldOperatingStatusFacility != 'normal' %}
       <div class="vads-u-display--inline-block vads-u-margin-bottom--1">
-        {% include "operatingStatusFlagsLinks.drupal.liquid" with entity %}
+        {% include "src/site/includes/operatingStatusFlagsLinks.drupal.liquid" with entity %}
       </div>
     {% endif %}
     <div class="vads-u-margin-bottom--1">

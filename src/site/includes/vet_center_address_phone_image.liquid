@@ -17,6 +17,13 @@
                 Address
             {% endif %}
         </h3>
+        {% if vetCenter.fieldOperatingStatusFacility and vetCenter.fieldOperatingStatusFacility != 'normal' %}
+            <div class="vads-u-display--inline-block vads-u-margin-bottom--1">
+                {% include "src/site/includes/operation_status_information.liquid" with
+                    fieldOperatingStatusFacility = vetCenter.fieldOperatingStatusFacility
+                %}
+            </div>
+        {% endif %}
         <div class="vads-u-margin-bottom--3">
             <address class="vads-u-margin-bottom--0">
                 <div>{{ vetCenter.fieldAddress.addressLine1 }}</div>
