@@ -201,6 +201,17 @@ export function getSyncStatus(claimsAsyncResponse) {
 }
 
 export function getClaimsV2(options = {}) {
+  // Throw an error if an unsupported value is on the `options` object
+  const recognizedOptions = ['poll', 'pollingExpiration'];
+  Object.keys(options).forEach(option => {
+    if (!recognizedOptions.includes(option)) {
+      throw new TypeError(
+        `Unrecognized option "${option}" passed to "getClaimsV2"\nOnly the following options are supported:\n${recognizedOptions.join(
+          '\n',
+        )}`,
+      );
+    }
+  });
   const { poll = pollRequest, pollingExpiration } = options;
   return dispatch => {
     dispatch({ type: FETCH_CLAIMS_PENDING });
