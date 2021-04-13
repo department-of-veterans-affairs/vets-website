@@ -15,7 +15,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     Timeouts.slow,
   );
   client
-    .click('.claim-list-item-container:first-child a.usa-button-primary')
+    .click('.claim-list-item-container:first-child a.va-action-link--blue')
     .waitForElementVisible('body', Timeouts.normal)
     .waitForElementVisible('.claim-title', Timeouts.normal)
     .axeCheck('.main');
