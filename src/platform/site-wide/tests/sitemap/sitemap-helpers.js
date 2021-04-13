@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const libxmljs2 = require('libxmljs2');
 const fetch = require('node-fetch');
 const E2eHelpers = require('../../../testing/e2e/helpers');
@@ -56,6 +57,7 @@ function sitemapURLs() {
 
 function runTests(client, segment, only508List) {
   segment.forEach(function performAxeCheck(url) {
+    console.log(url);
     console.time(url); // eslint-disable-line no-console
     const only508 =
       only508List.filter(function checkIfUrlEndsWithPath(path) {
