@@ -152,7 +152,7 @@ function AppointmentsPage({
               />
             )}
           {expressCare.hasRequests && (
-            <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
+            <h2 className="vads-u-margin-y--3">
               Your upcoming, past, and Express Care appointments
             </h2>
           )}
