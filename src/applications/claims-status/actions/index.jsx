@@ -152,16 +152,17 @@ export function fetchClaimsSuccess(response) {
   };
 }
 
-export function pollRequest({
-  onError,
-  onSuccess,
-  pollingExpiration,
-  pollingInterval,
-  request = apiRequest,
-  shouldFail,
-  shouldSucceed,
-  target,
-}) {
+export function pollRequest(options) {
+  const {
+    onError,
+    onSuccess,
+    pollingExpiration,
+    pollingInterval,
+    request = apiRequest,
+    shouldFail,
+    shouldSucceed,
+    target,
+  } = options;
   return request(
     target,
     null,
@@ -181,16 +182,7 @@ export function pollRequest({
         return;
       }
 
-      setTimeout(pollRequest, pollingInterval, {
-        onError,
-        onSuccess,
-        pollingExpiration,
-        pollingInterval,
-        request,
-        shouldFail,
-        shouldSucceed,
-        target,
-      });
+      setTimeout(pollRequest, pollingInterval, options);
     },
     error => onError(error),
   );
