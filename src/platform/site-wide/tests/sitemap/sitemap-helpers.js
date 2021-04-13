@@ -55,7 +55,7 @@ function sitemapURLs() {
 }
 
 function runTests(client, segment, only508List) {
-  segment.forEach(url => {
+  segment.forEach(function performAxeCheck(url) {
     console.time(url); // eslint-disable-line no-console
     const only508 = only508List.filter(path => url.endsWith(path)).length > 0;
     client
