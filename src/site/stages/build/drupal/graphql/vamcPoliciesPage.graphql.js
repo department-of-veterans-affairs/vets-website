@@ -8,9 +8,11 @@ const policiesPageFragment = `
     }    
     fieldCcIntroText {
       fetched
+      fetchedBundle
     }
     fieldCcTopOfPageContent {
       fetched
+      fetchedBundle    
     }
     fieldVamcVisitationPolicy {
       processed
@@ -20,9 +22,11 @@ const policiesPageFragment = `
     }
     fieldCcGenVisitationPolicy {
       fetched
+      fetchedBundle        
     }
     fieldCcBottomOfPageContent {
       fetched
+      fetchedBundle        
     }
   }
 `;

@@ -5,27 +5,39 @@
 <div class="interior" id="content">
   <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
-      <article aria-labelledby="article-heading" role="region" class="usa-content">
-        <h1 id="article-heading">{{ title }}</h1>
-        <div class="va-introtext">
-          {{ fieldCcIntroText.fetched.field_wysiwyg.0.processed }}
-        </div>
+      <h1 id="article-heading">{{ title }}</h1>
+      <div class="va-introtext">
+        {% include "src/site/includes/dynamic-content.drupal.liquid" with
+          entity = fieldCcIntroText.fetched
+          contentType = fieldCcIntroText.fetchedBundle
+        %}
+      </div>
 
-        <nav id="table-of-contents">
-          <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
-          <ul class="usa-unstyled-list"></ul>
-        </nav>
+      <nav id="table-of-contents">
+        <h2 class="vads-u-margin-bottom--2 vads-u-font-size--lg">On this page</h2>
+        <ul class="usa-unstyled-list"></ul>
+      </nav>
 
-        {{  fieldCcTopOfPageContent.fetched.field_wysiwyg.0.processed }}
+      {% include "src/site/includes/dynamic-content.drupal.liquid" with
+        entity = fieldCcTopOfPageContent.fetched
+        contentType = fieldCcTopOfPageContent.fetchedBundle
+      %}
 
-        {{ fieldVamcVisitationPolicy.processed }}
+      {{ fieldVamcVisitationPolicy.processed }}
 
-        {{ fieldVamcOtherPolicies.processed }}
+      {{ fieldVamcOtherPolicies.processed }}
 
-        {{ fieldCcGenVisitationPolicy.fetched.field_wysiwyg.0.processed }}
-        {{ fieldCcBottomOfPageContent.fetched.field_wysiwyg.0.processed }}
+      {% include "src/site/includes/dynamic-content.drupal.liquid" with
+        entity = fieldCcGenVisitationPolicy.fetched
+        contentType = fieldCcGenVisitationPolicy.fetchedBundle
+      %}
 
-        {% include "src/site/includes/last-update.html" %}
+      {% include "src/site/includes/dynamic-content.drupal.liquid" with
+        entity = fieldCcBottomOfPageContent.fetched
+        contentType = fieldCcBottomOfPageContent.fetchedBundle
+      %}
+
+      {% include "src/site/includes/last-update.html" %}
     </div>
   </main>
 </div>
