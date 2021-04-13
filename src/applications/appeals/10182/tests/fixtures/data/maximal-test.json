@@ -1,0 +1,90 @@
+{
+  "data": {
+    "veteran": {
+      "ssnLastFour": "9876",
+      "vaFileLastFour": "8765",
+      "address": {
+        "addressLine1": "123 Main St",
+        "addressLine2": "Suite #1200",
+        "addressLine3": "Box 4",
+        "city": "New York",
+        "countryName": "United States",
+        "stateCode": "NY",
+        "zipCode": "30012",
+        "internationalPostalCode": "1"
+      },
+      "phone": {
+        "countryCode": "6",
+        "areaCode": "555",
+        "phoneNumber": "8001111",
+        "phoneNumberExt": "2"
+      },
+      "email": "user@example.com"
+    },
+    "homeless": false,
+    "representativesName": "Tony Danza",
+    "boardReviewOption": "hearing",
+    "hearingTypePreference": "central_office",
+    "socOptIn": true,
+
+    "contestedIssues": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "tinnitus",
+          "approxDecisionDate": "1900-01-01",
+          "decisionIssueId": 1,
+          "ratingIssueReferenceId": "2",
+          "ratingDecisionReferenceId": "3",
+          "ratingIssuePercentNumber": "10"
+        },
+        "view:selected": true
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "left knee",
+          "approxDecisionDate": "1900-01-02",
+          "decisionIssueId": 4,
+          "ratingIssueReferenceId": "5"
+        },
+        "view:selected": true
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "right knee",
+          "approxDecisionDate": "1900-01-03",
+          "ratingIssueReferenceId": "6",
+          "ratingDecisionReferenceId": "7"
+        },
+        "view:selected": false
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "PTSD",
+          "approxDecisionDate": "1900-01-04",
+          "decisionIssueId": 8,
+          "ratingDecisionReferenceId": "9"
+        },
+        "view:selected": false
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Traumatic Brain Injury",
+          "approxDecisionDate": "1900-01-05",
+          "decisionIssueId": 10
+        },
+        "view:selected": false
+      }
+    ],
+    "additionalIssues": [
+      {
+        "issue": "right shoulder",
+        "decisionDate": "1900-01-06"
+      }
+    ]
+  }
+}

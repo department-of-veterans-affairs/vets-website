@@ -1069,7 +1069,7 @@
       "heading": "Request a Board Appeal",
       "display_title": "Request a Board Appeal",
       "layout": "page-react.html",
-      "description": "Apply online to request a Notice of Disagreement.",
+      "description": "Apply online to request a Board Appeal.",
       "includeBreadcrumbs": true,
       "keywords": "notice of disagreement, board appeal, NOD",
       "vagovprod": false,
