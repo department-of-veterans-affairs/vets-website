@@ -1062,8 +1062,8 @@
   },
   {
     "appName": "Request a Board Appeal",
-    "entryName": "10182-notice-of-disagreement",
-    "rootUrl": "/decision-reviews/board-appeal/request-notice-of-disagreement-form-10182",
+    "entryName": "10182-board-appeal",
+    "rootUrl": "/decision-reviews/board-appeal/request-board-review-form-10182",
     "template": {
       "title": "Request a Board Appeal",
       "heading": "Request a Board Appeal",
@@ -1083,8 +1083,8 @@
           "path": "/decision-reviews/board-appeal"
         },
         {
-          "name": "Request a Board Appeal",
-          "path": "/decision-reviews/board-appeal/request-notice-of-disagreement-form-10182"
+          "name": "Request a Board Appeal with VA Form 10182",
+          "path": "/decision-reviews/board-appeal/request-board-review-form-10182"
         }
       ]
     }
