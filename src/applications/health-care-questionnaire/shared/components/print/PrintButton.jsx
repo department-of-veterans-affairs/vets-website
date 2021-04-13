@@ -16,10 +16,10 @@ export default function PrintButton({
   ErrorCallToAction = () => <>Please refresh this page or try again later.</>,
   facilityName,
   appointmentTime,
-  questionnaireResponseId = 'cab5639d-04fe-4f3e-beb9-afefce91dba9',
+  questionnaireResponseId,
 }) {
   const [isError, setIsError] = useState(false);
-  const [isLoading, setisLoading] = useState(true);
+  const [isLoading, setisLoading] = useState(false);
   const handleClick = async () => {
     try {
       setisLoading(true);
