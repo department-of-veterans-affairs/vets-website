@@ -15,6 +15,22 @@ export const minTransformedPrefillData = {
       last: 'Anderson',
     },
     veteranSocialSecurityNumber: '796121200',
+    dateOfBirth: undefined,
+  },
+  'view:contactInformation': {
+    address: undefined,
+    'view:phoneAndEmail': {
+      alternatePhone: undefined,
+      email: undefined,
+      mobilePhone: undefined,
+    },
+  },
+  'view:directDeposit': {
+    bankAccount: {
+      accountNumber: undefined,
+      accountType: undefined,
+      routingNumber: undefined,
+    },
   },
 };
 
