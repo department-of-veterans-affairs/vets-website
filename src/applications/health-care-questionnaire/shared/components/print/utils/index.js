@@ -1,16 +1,22 @@
 const isBrowser = window => {
-  const { userAgent } = window.navigator;
-  const iOS = !!userAgent.match(/iPad/i) || !!userAgent.match(/iPhone/i);
-  const webkit = !!userAgent.match(/WebKit/i);
-  const isMobileSafari = iOS && webkit && !userAgent.match(/CriOS/i);
-  const isIE = !!window.navigator.msSaveOrOpenBlob;
-
-  return {
-    isIOS: iOS,
-    isWebKit: webkit,
-    isMobileSafari,
-    isIE,
+  const rv = {
+    isIOS: false,
+    isWebKit: false,
+    isMobileSafari: false,
+    isIE: false,
   };
+  if (!window || !window.navigator) {
+    return rv;
+  }
+  const { userAgent, msSaveOrOpenBlob } = window.navigator;
+  rv.isIE = !!msSaveOrOpenBlob;
+  if (!userAgent) {
+    return rv;
+  }
+  rv.isIOS = !!userAgent.match(/iPad/i) || !!userAgent.match(/iPhone/i);
+  rv.isWebKit = !!userAgent.match(/WebKit/i);
+  rv.isMobileSafari = rv.isIOS && rv.isWebKit && !userAgent.match(/CriOS/i);
+  return rv;
 };
 
 const openPdfInNewWindow = (
