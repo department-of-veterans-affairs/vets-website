@@ -105,7 +105,6 @@ function ScheduleNewAppointmentRadioButtons({
       {!onlyRegularAppointmentFlow && (
         <div className="vads-u-margin-top--1p5">
           <RadioButtons
-            className="vads-u-margin-top--2"
             label={'Choose an appointment type.'}
             name={'schedule-new-appointment'}
             id={'schedule-new-appointment'}
