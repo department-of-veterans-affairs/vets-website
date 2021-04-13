@@ -126,8 +126,7 @@ function Introduction({
               </span>
               <p>
                 By sharing your plans for getting a vaccine, you help us better
-                plan our efforts. This helps us do the most good with our
-                limited vaccine supply.
+                plan our efforts.
               </p>
 
               <span className="vads-u-font-size--h4">
@@ -137,21 +136,12 @@ function Introduction({
                 </strong>
               </span>
               <p>
-                Sign up to tell us if you plan to get a COVID-19 vaccine. We
-                continue to contact Veterans as they become eligible to get a
-                COVID-19 vaccine. We base eligibility on VA and{' '}
-                <a
-                  href="https://www.cdc.gov/vaccines/covid-19/phased-implementation.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="CDC COVID-19 risk criteria phased implemention (Open in a new window)"
-                >
-                  CDC COVID-19 risk criteria
-                </a>
-                . Within each risk group, we may first contact Veterans who sign
-                up here and tell us that they plan to get a vaccine. But we’ll
-                still contact every eligible Veteran in each risk group to ask
-                if they want to get a vaccine.
+                Sign up to tell us if you plan to get a COVID-19 vaccine. Many
+                VA health facilities are now offering vaccines to all enrolled
+                Veterans. We may first contact Veterans who sign up here and
+                tell us they plan to get a vaccine. But we’ll still contact
+                every Veteran who's receiving care through VA to ask if they
+                want one.
               </p>
 
               <span className="vads-u-font-size--h4">
