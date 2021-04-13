@@ -64,6 +64,7 @@ const Claim = ({ claim }) => {
       </div>
       <CTALink
         ariaLabel={`View claim received ${dateRecd}`}
+        className="vads-u-margin-top--2"
         text="View details"
         href={`/track-claims/your-claims/${claim.id}/status`}
         onClick={handleViewClaim}
