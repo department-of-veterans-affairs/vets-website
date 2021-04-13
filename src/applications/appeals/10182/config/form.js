@@ -21,6 +21,7 @@ import contactInfo from '../pages/contactInfo';
 import homeless from '../pages/homeless';
 import hasRep from '../pages/hasRep';
 import repInfo from '../pages/repInfo';
+import contestableIssues from '../pages/contestableIssues';
 import boardReview from '../pages/boardReview';
 
 import initialData from '../tests/schema/initialData';
@@ -117,6 +118,17 @@ const formConfig = {
           depends: formData => formData?.['view:hasRep'],
           uiSchema: repInfo.uiSchema,
           schema: repInfo.schema,
+        },
+      },
+    },
+    conditions: {
+      title: 'Issues eligible for review',
+      pages: {
+        contestableIssues: {
+          title: 'Issues eligible for review',
+          path: 'eligible-issues',
+          uiSchema: contestableIssues.uiSchema,
+          schema: contestableIssues.schema,
         },
       },
     },
