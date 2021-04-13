@@ -92,7 +92,7 @@ describe('HealthCare component', () => {
         reducers,
       });
       expect(
-        await view.findByRole('link', { name: /you have 0 new messages/i }),
+        await view.findByRole('link', { name: /you have 0 unread messages/i }),
       ).to.exist;
     });
   });
