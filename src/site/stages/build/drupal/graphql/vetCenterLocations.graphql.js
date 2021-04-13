@@ -52,7 +52,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}                           
       }
       ... on NodeVetCenterMobileVetCenter {
-      title
+        title
         entityBundle              
         fieldAddress {
           locality
@@ -74,21 +74,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
               title
               entityBundle
               fieldOperatingStatusFacility
-              fieldMedia {
-                entity {
-                  ... on MediaImage {
-                    image {
-                      alt
-                      title
-                      derivative(style: _32MEDIUMTHUMBNAIL) {
-                        url
-                        width
-                        height
-                      }
-                    }
-                  }
-                }
-              }
+              ${derivativeImage('_32MEDIUMTHUMBNAIL')}
               fieldAddress {
                 locality
                 administrativeArea
@@ -100,21 +86,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
               title
               entityBundle
               fieldOperatingStatusFacility
-              fieldMedia {
-                entity {
-                  ... on MediaImage {
-                    image {
-                      alt
-                      title
-                      derivative(style: _32MEDIUMTHUMBNAIL) {
-                        url
-                        width
-                        height
-                      }
-                    }
-                  }
-                }
-              }
+              ${derivativeImage('_32MEDIUMTHUMBNAIL')}
               fieldAddress {
                 locality
                 administrativeArea
@@ -126,21 +98,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
             ... on NodeVetCenterMobileVetCenter {
               title
               entityBundle
-              fieldMedia {
-                entity {
-                  ... on MediaImage {
-                    image {
-                      alt
-                      title
-                      derivative(style: _32MEDIUMTHUMBNAIL) {
-                        url
-                        width
-                        height
-                      }
-                    }
-                  }
-                }
-              }
+              ${derivativeImage('_32MEDIUMTHUMBNAIL')}
               fieldAddress {
                 locality
                 administrativeArea
@@ -160,21 +118,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
         }
         fieldPhoneNumber
         fieldOperatingStatusFacility
-        fieldMedia {
-           entity {
-                ... on MediaImage {
-                    image {
-                      alt
-                      title
-                      derivative(style: _32MEDIUMTHUMBNAIL) {
-                        url
-                        width
-                        height
-                      }
-                    }
-                  }
-              }
-          }
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}
       }
     }
   }
