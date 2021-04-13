@@ -103,18 +103,21 @@ function ScheduleNewAppointmentRadioButtons({
         </div>
       )}
       {!onlyRegularAppointmentFlow && (
-        <RadioButtons
-          label={'Choose an appointment type.'}
-          name={'schedule-new-appointment'}
-          id={'schedule-new-appointment'}
-          options={radioOptions}
-          additionalFieldsetClass="vads-u-margin-top--0"
-          onValueChange={({ value }) => {
-            setRadioSelection(value);
-          }}
-          value={{ value: radioSelection }}
-          errorMessage=""
-        />
+        <div className="vads-u-margin-top--1p5">
+          <RadioButtons
+            className="vads-u-margin-top--2"
+            label={'Choose an appointment type.'}
+            name={'schedule-new-appointment'}
+            id={'schedule-new-appointment'}
+            options={radioOptions}
+            additionalFieldsetClass="vads-u-margin-top--0"
+            onValueChange={({ value }) => {
+              setRadioSelection(value);
+            }}
+            value={{ value: radioSelection }}
+            errorMessage=""
+          />
+        </div>
       )}
 
       {!selectedOption && (
