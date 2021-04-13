@@ -28,7 +28,6 @@ import {
 import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 
 import NameTag from '~/applications/personalization/components/NameTag';
-import HealthCareLoadError from '~/applications/personalization/dashboard-2/components/health-care/HealthCareLoadError';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 
@@ -42,6 +41,8 @@ import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderM
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
+import HealthCareLoadError from './health-care/HealthCareLoadError';
+import CTALink from './CTALink';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
   if (downtime.status === externalServiceStatus.down) {
@@ -137,13 +138,21 @@ const Dashboard = ({
                 </span>
               </Breadcrumbs>
 
-              <h1
-                id="dashboard-title"
-                data-testid="dashboard-title"
-                tabIndex="-1"
-              >
-                My VA
-              </h1>
+              <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-justify-content--space-between medium-screen:vads-u-align-items--center">
+                <h1
+                  id="dashboard-title"
+                  data-testid="dashboard-title"
+                  tabIndex="-1"
+                  className="vads-u-margin--0"
+                >
+                  My VA
+                </h1>
+                <CTALink
+                  href="/profile"
+                  text="Go to your profile"
+                  className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0"
+                />
+              </div>
 
               {showHealthCareError ? (
                 <div className="vads-l-row">

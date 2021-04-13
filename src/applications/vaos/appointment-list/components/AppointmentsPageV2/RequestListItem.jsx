@@ -23,9 +23,9 @@ export default function RequestListItem({ appointment, facility }) {
     >
       <div
         className="vads-u-padding--2 medium-screen:vads-u-padding--3 medium-screen:vads-u-margin-bottom--3 vads-u-display--flex vads-u-align-items--center"
-        onClick={() => {
-          if (!window.getSelection().toString()) history.push(link);
-        }}
+        onClick={() =>
+          !window.getSelection().toString() ? history.push(link) : null
+        }
       >
         <div className="vads-u-flex--1">
           {canceled && (
@@ -47,6 +47,7 @@ export default function RequestListItem({ appointment, facility }) {
               canceled ? 'canceled ' : ''
             }${typeOfCareText}request for ${preferredDate}`}
             to={link}
+            onClick={e => e.preventDefault()}
           >
             Details
           </Link>
@@ -59,6 +60,7 @@ export default function RequestListItem({ appointment, facility }) {
         <div className="medium-screen:vads-u-display--none">
           <Link
             to={link}
+            onClick={e => e.preventDefault()}
             className="vaos-appts__card-link"
             aria-label={`Details for ${
               canceled ? 'canceled ' : ''
