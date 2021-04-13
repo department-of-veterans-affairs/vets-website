@@ -132,7 +132,7 @@ class FormStartControls extends React.Component {
         </div>
       );
     }
-    const startText = this.props.startText || 'Get Started';
+    const startText = this.props.startText;
 
     return this.props.useActionLink ? (
       <a
@@ -182,8 +182,9 @@ FormStartControls.propTypes = {
 };
 
 FormStartControls.defaultProps = {
+  startText: 'Get Started',
   gaStartEventName: 'login-successful-start-form',
-  // useActionLink: false,
+  useActionLink: false,
   formConfig: {
     customText: {
       startNewAppButtonText: '',
