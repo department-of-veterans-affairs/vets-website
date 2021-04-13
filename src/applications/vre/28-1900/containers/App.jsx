@@ -89,7 +89,7 @@ function App({ location, children, router, chapter31Feature, isLoggedIn }) {
   }
 
   const path =
-    '/careers-employment/vocational-rehabilitation/apply/introduction';
+    '/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/introduction';
   if (!isLoggedIn && window.location.pathname !== path) {
     window.location.replace(path);
   }
