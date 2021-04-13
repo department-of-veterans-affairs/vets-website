@@ -80,7 +80,6 @@ function ScheduleNewAppointmentRadioButtons({
       <h2 className="vads-u-padding-bottom--0 vads-u-margin-y--0">
         Schedule a new appointment
       </h2>
-      <div>Choose an appointment type.</div>
       {!canUseVaccineFlow && (
         <AlertBox
           className="vads-u-margin-top--1p5"
@@ -105,11 +104,7 @@ function ScheduleNewAppointmentRadioButtons({
       )}
       {!onlyRegularAppointmentFlow && (
         <RadioButtons
-          label={
-            <span className="sr-only">
-              Choose an appointment type to begin scheduling
-            </span>
-          }
+          label={'Choose an appointment type.'}
           name={'schedule-new-appointment'}
           id={'schedule-new-appointment'}
           options={radioOptions}
@@ -126,7 +121,7 @@ function ScheduleNewAppointmentRadioButtons({
         <button
           aria-label="Choose an appointment type to start scheduling"
           id="schedule-button"
-          type="submit"
+          type="button"
           disabled
         >
           Start scheduling{' '}
@@ -138,7 +133,7 @@ function ScheduleNewAppointmentRadioButtons({
         <button
           aria-label="Start scheduling an appointment"
           id="schedule-button"
-          type="submit"
+          type="button"
           onClick={() => {
             if (selectedOption === 'new-appointment') {
               recordEvent({
