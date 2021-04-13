@@ -13,7 +13,7 @@ const copy = {
     expandedEligibilityContent: {
       veteran: {
         boldedNote: `Enrolled in VA health care or currently receiving care through VA?`,
-        body: ` Sign up to tell us if you plan to get a COVID-19 vaccine. Your local VA health facility may use this information to determine when to contact you once your risk group becomes eligible.`,
+        body: ` Sign up to tell us if you plan to get a COVID-19 vaccine. Your local VA health facility may use this information to determine when to contact you.`,
       },
       nonVeteran: {
         boldedNote: `Not enrolled, but need a COVID-19 vaccine?`,
