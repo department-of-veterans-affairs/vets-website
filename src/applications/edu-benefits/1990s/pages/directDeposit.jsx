@@ -1,9 +1,7 @@
 import directDeposit from 'platform/forms-system/src/js/definitions/directDeposit';
 import { bankInfoHelpText, directDepositAlert } from '../content/directDeposit';
+// import _ from 'lodash';
 
-// view:directDeposit comes from ./application.js
-const bankFieldIsRequired = form =>
-  !form['view:directDeposit'].declineDirectDeposit;
 const {
   uiSchema: directDepositUiSchema,
   schema: directDepositSchema,
@@ -12,6 +10,24 @@ const {
 });
 
 const bankAccountUiSchema = directDepositUiSchema.bankAccount;
+
+// view:directDeposit comes from ./application.js
+const bankFieldIsRequired = form =>
+  !form['view:directDeposit'].declineDirectDeposit;
+// &&
+//   !form['view:directDeposit'].bankAccount['view:hasPrefilledBank'];
+//
+// const hasNewBankInformation = (bankAccount = {}) => {
+//   const { accountType, accountNumber, routingNumber } = bankAccount;
+//   return (
+//     typeof accountType !== 'undefined' ||
+//     typeof accountNumber !== 'undefined' ||
+//     typeof routingNumber !== 'undefined'
+//   );
+// };
+// const startInEdit = data =>
+//   !_.get(data, 'view:hasPrefilledBank', false) && !hasNewBankInformation(data);
+
 export const uiSchema = {
   ...directDepositUiSchema,
   'ui:order': null, // have to null this out and declare properties in correct order
@@ -21,6 +37,7 @@ export const uiSchema = {
     'ui:options': {
       ...bankAccountUiSchema['ui:options'],
       hideIf: form => !bankFieldIsRequired(form),
+      startInEdit: false,
     },
     'view:paymentText': {
       'ui:description':
