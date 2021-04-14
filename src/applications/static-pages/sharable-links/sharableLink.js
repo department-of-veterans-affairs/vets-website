@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const copyToUsersClipBoard = dataEntityId => {
@@ -34,9 +34,8 @@ const ShareIcon = styled.i`
   width: 26px;
   padding: 4px;
   border: 1px solid;
-  color: #0071bb;
   background-color: ${props => (props.feedbackActive ? 'black' : '')};
-  color: ${props => (props.feedbackActive ? 'white' : '')};
+  color: ${props => (props.feedbackActive ? 'white' : '#0071bb')};
 
   &:hover {
     background-color: black;
@@ -50,75 +49,85 @@ const SharableLink = ({ dataEntityId }) => {
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
   const [leftPx, setLeftPx] = useState(0);
-  //  a rough approximation of the px length of 'link copied'
+
   const offsetThreshold = 100;
   const widthOffset = 40;
-  const hideFeedback = () => {
+  const extractId = idString => {
+    const arr = idString.split('-');
+    arr.shift();
+    return arr.join('-');
+  };
+  const hidePreviousFeedbacks = activeId => {
+    const otherActiveFeedbacks = document.getElementsByClassName(
+      'sharable-link-feedback',
+    );
+
+    for (const feedback of otherActiveFeedbacks) {
+      const parentId = feedback.getAttribute('id');
+
+      if (extractId(parentId) !== extractId(activeId)) {
+        feedback.style.display = 'none';
+        const linkIcon = feedback.previousElementSibling.childNodes[0];
+        linkIcon.style.color = '#0071bb';
+        linkIcon.style.backgroundColor = 'white';
+      } else {
+        feedback.style = {};
+        const linkIcon = feedback.previousElementSibling.childNodes[0];
+        linkIcon.style = {};
+      }
+    }
+  };
+  const hideFeedback = activeId => {
+    hidePreviousFeedbacks(activeId);
     setTimeout(() => {
       setFeedbackActive(false);
       setLeftAligned(false);
       setLeftPx(0);
-    }, 10000);
+    }, 1000000);
   };
   const displayFeedback = target => {
+    const iconParentId = extractId(target.getAttribute('id'));
+    const parentElement = document.getElementById(iconParentId);
+
     if (
-      window.innerWidth - (target.offsetLeft + target.offsetWidth) <=
+      parentElement?.offsetWidth - (target.offsetLeft + target.offsetWidth) <=
       offsetThreshold
     ) {
-      // this isn't working on desktop b/c we can't use the windows width, we have to use the content containers width.
       setLeftAligned(true);
       setLeftPx(target.offsetLeft - target.offsetWidth - widthOffset);
     }
     setFeedbackActive(true);
-    hideFeedback();
+    hideFeedback(target.getAttribute('id'));
   };
-  useEffect(
-    () => {
-      // hide all the other active feedback when you click on a new link
-      // its not working on second click ...
-      // TODO:
-      // - [ ] Theming for styled components
-      // - [ ] React transition group
-      // - [ ] Focus
-      // - [ ] Only show newest
-      // - [ ] Analytics/accessibility
 
-      if (feedbackActive) {
-        const otherActiveFeedbacks = document.getElementsByClassName(
-          'sharable-link-feedback',
-        );
-        for (const feedback of otherActiveFeedbacks) {
-          if (feedback.getAttribute('id') !== dataEntityId) {
-            feedback.style.display = 'none';
-          } else {
-            feedback.style.display = 'inline';
-          }
-        }
-      }
-    },
-    [feedbackActive, dataEntityId],
-  );
   return (
-    <span aria-live="polite" aria-relevant="additions">
-      <ShareIcon
-        aria-label={`Copy ${dataEntityId} sharable link`}
-        aria-hidden="true"
-        className={`fas fa-link`}
-        feedbackActive={feedbackActive}
-        onClick={event => {
-          event.persist();
-          if (!event || !event.target) return;
-          copyToUsersClipBoard(dataEntityId);
-          displayFeedback(event.target);
-        }}
-      />
+    <span
+      aria-live="polite"
+      aria-relevant="additions"
+      id="sharable-link-wrapper"
+    >
+      <a>
+        <ShareIcon
+          aria-label={`Copy ${dataEntityId} sharable link`}
+          aria-hidden="true"
+          className={`fas fa-link sharable-link`}
+          feedbackActive={feedbackActive}
+          onClick={event => {
+            event.persist();
+            if (!event || !event.target) return;
+            copyToUsersClipBoard(dataEntityId);
+            displayFeedback(event.target);
+          }}
+          id={`icon-${dataEntityId}`}
+        />
+      </a>
       {feedbackActive && (
         <ShareIconClickFeedback
           className={`vads-u-margin-left--0.5 sharable-link-feedback`}
           leftAligned={leftAligned}
           feedbackActive={feedbackActive}
           leftPx={leftPx}
-          id={dataEntityId}
+          id={`feedback-${dataEntityId}`}
         >
           {copiedText}
         </ShareIconClickFeedback>
