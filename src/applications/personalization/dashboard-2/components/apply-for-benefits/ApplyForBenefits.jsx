@@ -134,8 +134,8 @@ const ApplyForBenefits = ({
             <BenefitOfInterest
               title="Health care"
               icon="health-care"
-              ctaButtonLabel="Apply for VA health care"
-              ctaUrl="https://www.va.gov/health-care/how-to-apply/"
+              ctaButtonLabel="Learn how to apply for VA health care"
+              ctaUrl="/health-care/how-to-apply/"
             >
               <p>
                 With VA health care, you’ll receive coverage for services like
