@@ -111,6 +111,7 @@ export function getFacilityPageInfo(state) {
     showEligibilityModal,
     sortMethod: facilityPageSortMethod,
     supportedFacilities,
+    initialData: data,
   };
 }
 

@@ -27,7 +27,7 @@ function VAFacilityPage({
   address,
   canScheduleAtChosenFacility,
   facilitiesStatus,
-  data: initialData,
+  initialData,
   hideEligibilityModal,
   clinicsStatus,
   noValidVAFacilities,
@@ -85,7 +85,7 @@ function VAFacilityPage({
       },
     },
     initialData,
-    dependencies: [facilitiesStatus === FETCH_STATUS.succeeded, sortMethod],
+    dependencies: [supportedFacilities],
   });
 
   const loadingFacilities =

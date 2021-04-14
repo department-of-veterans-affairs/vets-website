@@ -1,7 +1,7 @@
 /**
  * @module hooks
  */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import {
@@ -44,49 +44,44 @@ export default function useFormState({
   uiSchema = null,
   initialData = {},
   dependencies = [],
-  enabled = true,
 }) {
+  const initialLoadRef = useRef(true);
+  const dataUpdatedRef = useRef(false);
   const [formState, setFormState] = useState(() => {
-    if (!enabled) {
-      return null;
-    }
-
     let schema = initialSchema;
     if (typeof initialSchema === 'function') {
       schema = initialSchema();
+    }
+
+    if (!schema) {
+      return { schema, data: initialData };
     }
 
     return setupFormData(initialData, schema, uiSchema);
   });
 
   useEffect(() => {
-    if (dependencies?.length && enabled) {
+    if (dependencies?.length && !initialLoadRef.current) {
       let schema = initialSchema;
       if (typeof initialSchema === 'function') {
         schema = initialSchema();
       }
-      setFormState(setupFormData(formState.data, schema, uiSchema));
+      setFormState(
+        setupFormData(
+          dataUpdatedRef.current ? formState.data : initialData,
+          schema,
+          uiSchema,
+        ),
+      );
     }
   }, dependencies || []);
 
-  useEffect(
-    () => {
-      if (enabled) {
-        let schema = initialSchema;
-        if (typeof initialSchema === 'function') {
-          schema = initialSchema();
-        }
-        setFormState(setupFormData(initialData, schema, uiSchema));
-      }
-    },
-    [enabled],
-  );
-
-  if (!enabled) {
-    return { schema: null, uiSchema, data: null };
-  }
+  useEffect(() => {
+    initialLoadRef.current = false;
+  }, []);
 
   function setData(newData) {
+    dataUpdatedRef.current = true;
     setFormState(updateSchemaAndData(formState.schema, uiSchema, newData));
   }
 
