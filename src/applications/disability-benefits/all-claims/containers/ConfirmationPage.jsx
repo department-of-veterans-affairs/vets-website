@@ -68,9 +68,7 @@ ConfirmationPage.propTypes = {
   claimId: PropTypes.string,
   jobId: PropTypes.string,
   submissionId: PropTypes.string,
-  areConfirmationEmailTogglesOn: PropTypes.bool.isRequired,
 };
 
 ConfirmationPage.defaultProps = {
-  areConfirmationEmailTogglesOn: false,
 };

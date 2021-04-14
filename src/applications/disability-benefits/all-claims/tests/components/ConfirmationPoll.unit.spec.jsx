@@ -275,32 +275,5 @@ describe('ConfirmationPoll', () => {
       ]);
     });
   });
-
-  describe('ConnectedConfirmationPoll', () => {
-    it('should return areConfirmationEmailTogglesOn as true when confirmationEmailFeature toggles on', () => {
-      mockApiRequest(successResponse.response);
-      const togglesOnState = {
-        featureToggles: {
-          /* eslint-disable camelcase */
-          form526_confirmation_email: true,
-          form526_confirmation_email_show_copy: true,
-        },
-      };
-      const commonStore = createStore(
-        combineReducers({ ...commonReducer, ...reducers }),
-        togglesOnState,
-      );
-      const connectedConfirmationPoll = mount(
-        <Provider store={commonStore}>
-          <ConnectedConfirmationPoll {...defaultProps} pollRate={10} />
-        </Provider>,
-      );
-
-      expect(
-        connectedConfirmationPoll.find('ConfirmationPoll').props()
-          .areConfirmationEmailTogglesOn,
-      ).to.be.true;
-      connectedConfirmationPoll.unmount();
-    });
-  });
+  
 });

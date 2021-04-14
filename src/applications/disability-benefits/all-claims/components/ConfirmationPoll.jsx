@@ -109,7 +109,6 @@ export class ConfirmationPoll extends React.Component {
       disabilities,
       submittedAt,
       jobId,
-      areConfirmationEmailTogglesOn,
     } = this.props;
 
     setTimeout(() => focusElement('h2'));
@@ -121,7 +120,6 @@ export class ConfirmationPoll extends React.Component {
         fullName={fullName}
         disabilities={disabilities}
         submittedAt={submittedAt}
-        areConfirmationEmailTogglesOn={areConfirmationEmailTogglesOn}
       />
     );
   }
@@ -143,7 +141,6 @@ function mapStateToProps(state) {
     disabilities: selectAllDisabilityNames(state),
     submittedAt: state.form.submission.timestamp,
     jobId: state.form.submission.response?.attributes?.jobId,
-    areConfirmationEmailTogglesOn: confirmationEmailFeature(state),
   };
 }
 
