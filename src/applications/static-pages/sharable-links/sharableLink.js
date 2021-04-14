@@ -106,7 +106,7 @@ const SharableLink = ({ dataEntityId }) => {
   };
 
   // TODO:
-  // - [ ] css transition?
+  // - [ ] css transition (nice to have)
   // - [ ] Analytics/accessibility
 
   return (
