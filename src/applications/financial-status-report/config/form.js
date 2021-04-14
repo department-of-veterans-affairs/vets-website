@@ -60,20 +60,6 @@ const formConfig = {
           uiSchema: pages.veteranInfo.uiSchema,
           schema: pages.veteranInfo.schema,
           editModeOnReviewPage: true,
-          initialData: {
-            personalData: {
-              veteranFullName: {
-                first: 'Hector',
-                last: 'Smith',
-                middle: 'R',
-              },
-              dateOfBirth: '01/01/1970',
-            },
-            personalIdentification: {
-              ssn: '1234',
-              fileNumber: '5678',
-            },
-          },
         },
         availableDebts: {
           path: 'available-debts',
