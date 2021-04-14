@@ -13,6 +13,7 @@ export function prefillTransformer(pages, formData, metadata) {
   } = formData;
 
   const prefillBankInfo = prefillBankInformation(bankAccount);
+
   const newFormData = {
     'view:applicantInformation': {
       veteranFullName,
@@ -27,7 +28,18 @@ export function prefillTransformer(pages, formData, metadata) {
       },
       address,
     },
-    'view:directDeposit': prefillBankInfo,
+    'view:originalBankAccount': {
+      ...prefillBankInfo['view:originalBankAccount'],
+      'view:bankName': undefined,
+      'view:accountType': prefillBankInfo['view:originalBankAccount'][
+        'view:accountType'
+      ]?.toLowerCase(),
+    },
+    'view:directDeposit': {
+      bankAccount: {
+        ...prefillBankInfo.bankAccount,
+      },
+    },
   };
 
   return {

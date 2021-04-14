@@ -7,8 +7,7 @@ export function transform(formConfig, form) {
     delete clonedData['view:directDeposit'].declineDirectDeposit;
 
     const bankAccount = clonedData['view:DirectDeposit'].bankAccount;
-    const originalBankAccount =
-      clonedData['view:DirectDeposit']['view:originalBankAccount'];
+    const originalBankAccount = clonedData['view:originalBankAccount'];
     const { accountType, accountNumber, routingNumber } = bankAccount;
     const originalAccountType = originalBankAccount['view:accountType'];
     const originalAccountNumber = originalBankAccount['view:accountNumber'];
