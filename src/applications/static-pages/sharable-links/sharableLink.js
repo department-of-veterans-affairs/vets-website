@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-// import { CSSTransition } from 'react-transition-group';
+import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 const theme = {
   main: {
@@ -88,7 +88,7 @@ const SharableLink = ({ dataEntityId }) => {
       setFeedbackActive(false);
       setLeftAligned(false);
       setLeftPx(0);
-    }, 1000000);
+    }, 10000);
   };
   const displayFeedback = target => {
     const iconParentId = extractId(target.getAttribute('id'));
@@ -106,7 +106,6 @@ const SharableLink = ({ dataEntityId }) => {
   };
 
   // TODO:
-  // - [ ] css transition (nice to have)
   // - [ ] Analytics/accessibility
 
   return (
@@ -123,24 +122,31 @@ const SharableLink = ({ dataEntityId }) => {
             if (!event || !event.target) return;
             copyToUsersClipBoard(dataEntityId);
             displayFeedback(event.target);
-            // event.target.focus();
           }}
           id={`icon-${dataEntityId}`}
         />
 
-        {feedbackActive && (
-          // <CSSTransition in={feedbackActive} timeout={300} unmountOnExit>
-          <ShareIconClickFeedback
-            className={`vads-u-margin-left--0.5 sharable-link-feedback`}
-            leftAligned={leftAligned}
-            feedbackActive={feedbackActive}
-            leftPx={leftPx}
-            id={`feedback-${dataEntityId}`}
-          >
-            {copiedText}
-          </ShareIconClickFeedback>
-          // </CSSTransition>
-        )}
+        <ReactCSSTransitionGroup
+          transitionName="link-copied-feedback"
+          transitionAppear
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          {feedbackActive && (
+            // <CSSTransition in={feedbackActive} timeout={300} unmountOnExit>
+            <ShareIconClickFeedback
+              className={`vads-u-margin-left--0.5 sharable-link-feedback`}
+              leftAligned={leftAligned}
+              feedbackActive={feedbackActive}
+              leftPx={leftPx}
+              id={`feedback-${dataEntityId}`}
+            >
+              {copiedText}
+            </ShareIconClickFeedback>
+            // </CSSTransition>
+          )}
+        </ReactCSSTransitionGroup>
       </span>
     </ThemeProvider>
   );
