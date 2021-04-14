@@ -27,16 +27,13 @@ function setupFormData(data, schema, uiSchema) {
  * @function
  * @param {Object} params Hook parameters
  * @param {Object|Function} params.initialSchema The initial schema for the form. Can also be a function, which will
- *   only be executed on startup or when enabled or dependencies changes
+ *   only be executed on startup or when dependencies changes
  * @param {Object} params.uiSchema The uiSchema for the form
- * @param {Object} params.initialData The initial data to use for the form state. This is only used the first time the
- *   hook is called
+ * @param {Object} params.initialData The initial data to use for the form state. This generally just used for the data
+ *   initially loaded into state, and any later changes are ignored. However if a dependency change causes the schema
+ *   to be re-generated, the most recent initialData passed in will be used, unless setData has been called
  * @param {Array} [params.dependencies=[]] Array of useEffect dependencies that will force the form state to be reset using the current
  *   values for initialSchema and uiSchema.
- * @param {boolean} [params.enabled=true] Indicates if the form state is enabled or not. All values will be returned as null
- *   when this is false, and when it changes to true the form state will be set up using the current schema and uiSchema
- *   values
- * }
  * @returns {{ schema: Object, uiSchema: Object, data: Object }} The form state values, to be used with SchemaForm
  */
 export default function useFormState({
