@@ -67,15 +67,10 @@ const SharableLink = ({ dataEntityId }) => {
 
     for (const feedback of otherActiveFeedbacks) {
       const parentId = feedback.getAttribute('id');
-      const linkIcon = feedback.previousElementSibling.childNodes[0];
-
       if (extractId(parentId) !== extractId(activeId)) {
         feedback.style.display = 'none';
-        linkIcon.style.color = '#0071bb';
-        linkIcon.style.backgroundColor = 'white';
       } else {
         feedback.style = {};
-        linkIcon.style = {};
       }
     }
   };
@@ -106,29 +101,25 @@ const SharableLink = ({ dataEntityId }) => {
   // - [ ] Theming for styled components
   // - [ ] React transition group
   // - [ ] Analytics/accessibility
-  // - [ ] Focus on tab
 
   return (
-    <span
-      aria-live="polite"
-      aria-relevant="additions"
-      id="sharable-link-wrapper"
-    >
-      <a>
-        <ShareIcon
-          aria-label={`Copy ${dataEntityId} sharable link`}
-          aria-hidden="true"
-          className={`fas fa-link sharable-link`}
-          feedbackActive={feedbackActive}
-          onClick={event => {
-            event.persist();
-            if (!event || !event.target) return;
-            copyToUsersClipBoard(dataEntityId);
-            displayFeedback(event.target);
-          }}
-          id={`icon-${dataEntityId}`}
-        />
-      </a>
+    <a aria-live="polite" aria-relevant="additions" id="sharable-link-wrapper">
+      <ShareIcon
+        tabIndex={0}
+        aria-label={`Copy ${dataEntityId} sharable link`}
+        aria-hidden="true"
+        className={`fas fa-link sharable-link`}
+        feedbackActive={feedbackActive}
+        onClick={event => {
+          event.persist();
+          if (!event || !event.target) return;
+          copyToUsersClipBoard(dataEntityId);
+          displayFeedback(event.target);
+          event.target.focus();
+        }}
+        id={`icon-${dataEntityId}`}
+      />
+
       {feedbackActive && (
         <ShareIconClickFeedback
           className={`vads-u-margin-left--0.5 sharable-link-feedback`}
@@ -140,7 +131,7 @@ const SharableLink = ({ dataEntityId }) => {
           {copiedText}
         </ShareIconClickFeedback>
       )}
-    </span>
+    </a>
   );
 };
 
