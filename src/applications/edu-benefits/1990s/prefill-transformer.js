@@ -1,18 +1,6 @@
 import { prefillBankInformation } from 'platform/forms-system/src/js/definitions/directDeposit';
 import _ from 'lodash';
-
-const deviewifyFields = formData => {
-  const newFormData = {};
-  Object.keys(formData).forEach(key => {
-    const nonViewKey = /^view:/.test(key) ? key.replace('view:', '') : key;
-    // Recurse if necessary
-    newFormData[nonViewKey] =
-      typeof formData[key] === 'object' && !Array.isArray(formData[key])
-        ? deviewifyFields(formData[key])
-        : formData[key];
-  });
-  return newFormData;
-};
+import { deviewifyFields } from './utils';
 
 export function prefillTransformer(pages, formData, metadata) {
   const {

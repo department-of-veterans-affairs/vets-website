@@ -1,6 +1,8 @@
 import directDeposit from 'platform/forms-system/src/js/definitions/directDeposit';
 import { bankInfoHelpText, directDepositAlert } from '../content/directDeposit';
 import _ from 'lodash';
+import PaymentReviewView from '../components/PaymentReviewView';
+import { hasNewBankInformation } from '../utils';
 
 const {
   uiSchema: directDepositUiSchema,
@@ -15,14 +17,6 @@ const bankAccountUiSchema = directDepositUiSchema.bankAccount;
 const bankFieldIsRequired = form =>
   !form['view:directDeposit'].declineDirectDeposit;
 
-const hasNewBankInformation = (bankAccount = {}) => {
-  const { accountType, accountNumber, routingNumber } = bankAccount;
-  return (
-    typeof accountType !== 'undefined' ||
-    typeof accountNumber !== 'undefined' ||
-    typeof routingNumber !== 'undefined'
-  );
-};
 const startInEdit = data =>
   !_.get(data, 'view:hasPrefilledBank', false) && !hasNewBankInformation(data);
 
@@ -44,14 +38,17 @@ export const uiSchema = {
     accountType: {
       ...bankAccountUiSchema.accountType,
       'ui:required': bankFieldIsRequired,
+      'ui:reviewWidget': PaymentReviewView,
     },
     routingNumber: {
       ...bankAccountUiSchema.routingNumber,
       'ui:required': bankFieldIsRequired,
+      'ui:reviewWidget': PaymentReviewView,
     },
     accountNumber: {
       ...bankAccountUiSchema.accountNumber,
       'ui:required': bankFieldIsRequired,
+      'ui:reviewWidget': PaymentReviewView,
     },
   },
   declineDirectDeposit: directDepositUiSchema.declineDirectDeposit,
