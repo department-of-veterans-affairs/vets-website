@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 // Relative
 import { NavItemPropTypes } from '../prop-types';
+import { detectLang } from '../helpers';
 
 const NavItemRow = ({ depth, item, trackEvents }) => {
   // Derive item properties.
@@ -67,6 +68,7 @@ const NavItemRow = ({ depth, item, trackEvents }) => {
           open: moreThanLevel2SelectedExpanded,
         })}
         href={href}
+        lang={detectLang(href)}
         onClick={handleClick}
         rel="noopener noreferrer"
         style={{
@@ -95,6 +97,7 @@ const NavItemRow = ({ depth, item, trackEvents }) => {
         open: !!(depth >= 2 && isSelected),
       })}
       href={href}
+      lang={detectLang(href)}
       onClick={handleClick}
       rel="noopener noreferrer"
       style={{
