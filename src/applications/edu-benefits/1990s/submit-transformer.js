@@ -20,7 +20,7 @@ export function transform(formConfig, form) {
         'view:directDeposit': {
           ...clonedData['view:directDeposit'],
           bankAccount: {
-            accountType: accountType || originalAccountType?.toLowerCase(),
+            accountType: accountType || originalAccountType,
             accountNumber: accountNumber || originalAccountNumber,
             routingNumber: routingNumber || originalRoutingNumber,
           },
