@@ -217,48 +217,46 @@ const FacilitiesMap = props => {
     });
   };
 
-  const speakZoom = currentZoom => {
-    if (!environment.isProduction()) {
-      const screenreaderZoomElement = document.getElementById(zoomMessageDivID);
+  const speakZoom = (searchRadius, zoomDirection) => {
+    const screenreaderZoomElement = document.getElementById(zoomMessageDivID);
 
-      if (
-        screenreaderZoomElement &&
-        screenreaderZoomElement.innerText.length === 0
-      ) {
-        if (lastZoom < currentZoom) {
-          screenreaderZoomElement.innerText = `zooming in, level ${currentZoom}`;
-        }
-
-        if (lastZoom > currentZoom) {
-          screenreaderZoomElement.innerText = `zooming out, level ${currentZoom}`;
-        }
-      }
+    if (screenreaderZoomElement) {
+      // delay to allow time for the search area button text to be read
+      setTimeout(() => {
+        screenreaderZoomElement.innerText = `zooming ${zoomDirection}, ${Math.round(
+          searchRadius,
+        )} miles`;
+      }, 750);
     }
   };
 
   const setMapEventHandlers = () => {
     map.on('dragend', () => {
-      props.mapMoved();
+      props.mapMoved(calculateSearchArea());
       recordPanEvent(map.getCenter(), props.currentQuery);
     });
-    map.on('zoom', () => {
+    map.on('zoomend', e => {
+      // Only trigger mapMoved and speakZoom for manual events,
+      // e.g. zoom in/out button click, mouse wheel, etc.
+      // which will have an originalEvent defined
+      if (!e.originalEvent) {
+        return;
+      }
+
+      const searchRadius = calculateSearchArea();
       const currentZoom = parseInt(map.getZoom(), 10);
 
-      speakZoom(currentZoom);
-    });
-    map.on('zoomend', () => {
-      // Note: DO NOT call props.mapMoved() here
-      // because zoomend is triggered by fitBounds,
-      // and we don't want to see the Search this area button
-      // after a fresh search
-
-      const currentZoom = parseInt(map.getZoom(), 10);
+      props.mapMoved(searchRadius);
 
       if (lastZoom && parseInt(lastZoom, 10) > 3) {
         recordZoomEvent(lastZoom, currentZoom);
       }
 
-      lastZoom = currentZoom;
+      if (lastZoom !== currentZoom) {
+        const zoomDirection = currentZoom > lastZoom ? 'in' : 'out';
+        speakZoom(searchRadius, zoomDirection);
+        lastZoom = currentZoom;
+      }
     });
   };
 
@@ -285,28 +283,15 @@ const FacilitiesMap = props => {
       }),
       'top-left',
     );
+
+    // Remove mapbox logo from tab order
     const mapBoxLogo = document.querySelector(
       'a.mapboxgl-ctrl-logo.mapboxgl-compact',
     );
+
     if (mapBoxLogo) mapBoxLogo.setAttribute('tabIndex', -1);
+
     mapInit.on('load', () => {
-      // set up listeners on the zoom-in and zoom-out buttons:
-      document.querySelectorAll('.mapboxgl-ctrl > button').forEach(button =>
-        button.addEventListener('click', () => {
-          const screenreaderZoomElement = document.getElementById(
-            zoomMessageDivID,
-          );
-          screenreaderZoomElement.innerText = '';
-          props.mapMoved();
-        }),
-      );
-
-      // set up listener on the mouse wheel:
-      mapContainerElement.addEventListener(
-        'wheel',
-        vaDebounce(250, props.mapMoved),
-      );
-
       mapInit.resize();
     });
 
@@ -326,18 +311,45 @@ const FacilitiesMap = props => {
     return props.currentQuery?.mapMoved;
   };
 
-  const searchAreaButtonLabel = () => {
-    return calculateSearchArea() > MAX_SEARCH_AREA
-      ? 'Zoom in to search'
-      : 'Search this area of the map';
-  };
-
   const searchAreaButtonEnabled = () =>
     calculateSearchArea() < MAX_SEARCH_AREA &&
     props.currentQuery.facilityType &&
     (props.currentQuery.facilityType === 'provider'
       ? props.currentQuery.serviceType
       : true);
+
+  const speakMapInstructions = () => {
+    const mapInstructionsElement = document.getElementById('map-instructions');
+    if (mapInstructionsElement) {
+      mapInstructionsElement.innerText =
+        'Search areas on the map up to a maximum of 500 miles. ' +
+        'Zoom in or out using the zoom in and zoom out buttons. ' +
+        'Use a keyboard to navigate up, down, left, and right in the map.';
+    }
+  };
+
+  const renderMap = mobile => (
+    <>
+      <div id={zoomMessageDivID} aria-live="polite" className="sr-only" />
+      <p className="sr-only" id="map-instructions" aria-live="assertive" />
+      <map
+        id={mapboxGlContainer}
+        aria-label="Find VA locations on an interactive map"
+        aria-describedby="map-instructions"
+        onFocus={() => speakMapInstructions()}
+        className={mobile ? '' : 'desktop-map-container'}
+      >
+        {shouldRenderSearchArea() && (
+          <SearchAreaControl
+            isMobile={mobile}
+            isEnabled={searchAreaButtonEnabled()}
+            handleSearchArea={handleSearchArea}
+            query={props.currentQuery}
+          />
+        )}
+      </map>
+    </>
+  );
 
   const renderMobileView = () => {
     const {
@@ -402,21 +414,7 @@ const FacilitiesMap = props => {
               />
             </TabPanel>
             <TabPanel>
-              <div
-                id={zoomMessageDivID}
-                aria-live="assertive"
-                className="sr-only"
-              />
-              <map id={mapboxGlContainer}>
-                {shouldRenderSearchArea() && (
-                  <SearchAreaControl
-                    isMobile
-                    isEnabled={searchAreaButtonEnabled()}
-                    handleSearchArea={handleSearchArea}
-                    buttonLabel={searchAreaButtonLabel()}
-                  />
-                )}
-              </map>
+              {renderMap(true)}
               {selectedResult && (
                 <div className="mobile-search-result">
                   <SearchResult result={selectedResult} query={currentQuery} />
@@ -430,6 +428,8 @@ const FacilitiesMap = props => {
   };
 
   const renderDesktopView = () => {
+    // This block is needed to ensure that the desktop map gets re-loaded when
+    // resizing from mobile to desktop.
     if (
       map &&
       (!window.document.getElementById(mapboxGlContainer) ||
@@ -481,17 +481,7 @@ const FacilitiesMap = props => {
             />
           </div>
         </div>
-        <div id={zoomMessageDivID} aria-live="assertive" className="sr-only" />
-        <map className="desktop-map-container" id={mapboxGlContainer}>
-          {shouldRenderSearchArea() && (
-            <SearchAreaControl
-              isMobile={false}
-              isEnabled={searchAreaButtonEnabled()}
-              handleSearchArea={handleSearchArea}
-              buttonLabel={searchAreaButtonLabel()}
-            />
-          )}
-        </map>
+        {renderMap(false)}
         <PaginationWrapper
           handlePageSelect={handlePageSelect}
           currentPage={currentPage}
