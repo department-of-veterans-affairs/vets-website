@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { CHAPTER_31_ROOT_URL, WIZARD_STATUS } from '../constants';
+import { WIZARD_STATUS } from '../constants';
 import recordEvent from 'platform/monitoring/record-event';
 
 const scroller = Scroll.scroller;
@@ -87,8 +88,8 @@ const IntroductionPage = props => {
         </ol>
         <p>
           If you’re not sure this is the right form, you can{' '}
-          <a
-            href={`${CHAPTER_31_ROOT_URL}`}
+          <Link
+            to="/orientation"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-start-over',
@@ -97,7 +98,7 @@ const IntroductionPage = props => {
             }}
           >
             go back and answer the questions again.
-          </a>
+          </Link>
         </p>
       </div>
       <SaveInProgressIntro
