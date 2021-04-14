@@ -56,7 +56,7 @@ function sitemapURLs() {
 
 function runTests(client, segment, only508List) {
   segment.forEach(function performAxeCheck(url) {
-    console.time(url); // eslint-disable-line no-console
+    console.log(url); // eslint-disable-line no-console
     const only508 = only508List.filter(path => url.endsWith(path)).length > 0;
     client
       .perform(() => {})
@@ -65,8 +65,11 @@ function runTests(client, segment, only508List) {
       .axeCheck(
         'document',
         only508 ? { scope: url, rules: ['section508'] } : { scope: url },
+        function() {
+          console.log('this is inside the function');
+        },
       );
-    console.timeEnd(url); // eslint-disable-line no-console
+    // console.timeEnd(url); // eslint-disable-line no-console
   });
 }
 
