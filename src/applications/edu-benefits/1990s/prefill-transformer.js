@@ -1,3 +1,5 @@
+import { prefillBankInformation } from 'platform/forms-system/src/js/definitions/directDeposit';
+
 export function prefillTransformer(pages, formData, metadata) {
   const {
     veteranFullName,
@@ -10,6 +12,7 @@ export function prefillTransformer(pages, formData, metadata) {
     bankAccount,
   } = formData;
 
+  const prefillBankInfo = prefillBankInformation(bankAccount);
   const newFormData = {
     'view:applicantInformation': {
       veteranFullName,
@@ -24,13 +27,7 @@ export function prefillTransformer(pages, formData, metadata) {
       },
       address,
     },
-    'view:directDeposit': {
-      bankAccount: {
-        accountType: bankAccount?.accountType.toLowerCase(),
-        routingNumber: bankAccount?.routingNumber,
-        accountNumber: bankAccount?.accountNumber,
-      },
-    },
+    'view:directDeposit': prefillBankInfo,
   };
 
   return {
