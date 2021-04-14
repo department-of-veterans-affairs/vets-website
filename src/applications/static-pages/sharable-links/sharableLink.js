@@ -105,9 +105,6 @@ const SharableLink = ({ dataEntityId }) => {
     hideFeedback(target.getAttribute('id'));
   };
 
-  // TODO:
-  // - [ ] Analytics/accessibility
-
   return (
     <ThemeProvider theme={theme.main}>
       <span aria-live="polite" aria-relevant="additions">
@@ -134,7 +131,6 @@ const SharableLink = ({ dataEntityId }) => {
           transitionLeaveTimeout={500}
         >
           {feedbackActive && (
-            // <CSSTransition in={feedbackActive} timeout={300} unmountOnExit>
             <ShareIconClickFeedback
               className={`vads-u-margin-left--0.5 sharable-link-feedback`}
               leftAligned={leftAligned}
@@ -144,7 +140,6 @@ const SharableLink = ({ dataEntityId }) => {
             >
               {copiedText}
             </ShareIconClickFeedback>
-            // </CSSTransition>
           )}
         </ReactCSSTransitionGroup>
       </span>

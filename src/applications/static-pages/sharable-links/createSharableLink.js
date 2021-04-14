@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Provider } from 'react-redux';
-
 export default function createSharableLink(store, widgetType) {
   const sharableLinks = document.querySelectorAll(
     `[data-widget-type="${widgetType}"]`,
@@ -13,10 +11,7 @@ export default function createSharableLink(store, widgetType) {
       const SharableLink = module.default;
       for (const link of sharableLinks) {
         ReactDOM.render(
-          <Provider store={store}>
-            <SharableLink dataEntityId={link.getAttribute('parentid')} />
-          </Provider>,
-          link,
+          <SharableLink dataEntityId={link.getAttribute('parentid')} />,
         );
       }
     });
