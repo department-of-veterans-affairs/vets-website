@@ -27,6 +27,16 @@ const openPdfInNewWindow = (
     openInNewWindow: true,
   },
 ) => {
+  if (!window) {
+    throw new TypeError('window is not defined');
+  }
+  if (!window.document) {
+    throw new TypeError('window.document is not defined');
+  }
+
+  if (!blob) {
+    throw new TypeError('blob is not defined');
+  }
   const { document } = window;
   const URL = window.URL || window.webkitURL;
   const currentBrowser = isBrowser(window);
@@ -37,10 +47,7 @@ const openPdfInNewWindow = (
     const url = URL.createObjectURL(blob, {
       type: 'application/pdf',
     });
-    if (currentBrowser.isMobileSafari) {
-      const downloadWindow = window.open();
-      downloadWindow.location.href = url;
-    }
+
     const anchor = document.createElement('a');
 
     if (!options.openInNewWindow && typeof anchor.download !== 'undefined') {
@@ -52,6 +59,10 @@ const openPdfInNewWindow = (
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
+    if (currentBrowser.isMobileSafari) {
+      const downloadWindow = window.open();
+      downloadWindow.location.href = url;
+    }
     URL.revokeObjectURL(url);
   }
 };
