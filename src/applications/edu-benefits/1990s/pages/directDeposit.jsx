@@ -1,6 +1,6 @@
 import directDeposit from 'platform/forms-system/src/js/definitions/directDeposit';
 import { bankInfoHelpText, directDepositAlert } from '../content/directDeposit';
-// import _ from 'lodash';
+import _ from 'lodash';
 
 const {
   uiSchema: directDepositUiSchema,
@@ -14,19 +14,17 @@ const bankAccountUiSchema = directDepositUiSchema.bankAccount;
 // view:directDeposit comes from ./application.js
 const bankFieldIsRequired = form =>
   !form['view:directDeposit'].declineDirectDeposit;
-// &&
-//   !form['view:directDeposit'].bankAccount['view:hasPrefilledBank'];
-//
-// const hasNewBankInformation = (bankAccount = {}) => {
-//   const { accountType, accountNumber, routingNumber } = bankAccount;
-//   return (
-//     typeof accountType !== 'undefined' ||
-//     typeof accountNumber !== 'undefined' ||
-//     typeof routingNumber !== 'undefined'
-//   );
-// };
-// const startInEdit = data =>
-//   !_.get(data, 'view:hasPrefilledBank', false) && !hasNewBankInformation(data);
+
+const hasNewBankInformation = (bankAccount = {}) => {
+  const { accountType, accountNumber, routingNumber } = bankAccount;
+  return (
+    typeof accountType !== 'undefined' ||
+    typeof accountNumber !== 'undefined' ||
+    typeof routingNumber !== 'undefined'
+  );
+};
+const startInEdit = data =>
+  !_.get(data, 'view:hasPrefilledBank', false) && !hasNewBankInformation(data);
 
 export const uiSchema = {
   ...directDepositUiSchema,
@@ -37,7 +35,7 @@ export const uiSchema = {
     'ui:options': {
       ...bankAccountUiSchema['ui:options'],
       hideIf: form => !bankFieldIsRequired(form),
-      startInEdit: false,
+      startInEdit: data => startInEdit(data),
     },
     'view:paymentText': {
       'ui:description':
@@ -45,15 +43,15 @@ export const uiSchema = {
     },
     accountType: {
       ...bankAccountUiSchema.accountType,
-      'ui:required': bankFieldIsRequired,
+      'ui:required': null,
     },
     routingNumber: {
       ...bankAccountUiSchema.routingNumber,
-      'ui:required': bankFieldIsRequired,
+      'ui:required': null,
     },
     accountNumber: {
       ...bankAccountUiSchema.accountNumber,
-      'ui:required': bankFieldIsRequired,
+      'ui:required': null,
     },
   },
   declineDirectDeposit: directDepositUiSchema.declineDirectDeposit,
