@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-import { isMultifactorEnabled, isVAPatient } from '~/platform/user/selectors';
+import {
+  isMultifactorEnabled,
+  isVAPatient,
+  isLOA3 as isLOA3Selector,
+} from '~/platform/user/selectors';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
 import { HCA_ENROLLMENT_STATUSES } from '~/applications/hca/constants';
@@ -166,7 +170,7 @@ const mapStateToProps = state => {
   const isPatient = isVAPatient(state);
   const esrEnrollmentStatus = selectESRStatus(state).enrollmentStatus;
 
-  const shouldGetESRStatus = !isPatient;
+  const shouldGetESRStatus = !isPatient && isLOA3Selector(state);
   const shouldGetDD4EDUStatus = isMultifactorEnabled(state);
   const hasLoadedESRData =
     !shouldGetESRStatus ||
