@@ -84,17 +84,23 @@ export function fetchConfirmedFutureAppointments() {
       .startOf('day')
       .toISOString();
 
+    // Maximum number of days you can schedule an appointment in advance in VAOS
+    const endDate = moment()
+      .add(395, 'days')
+      .startOf('day')
+      .toISOString();
+
     try {
       if (environment.isLocalhost() && !window.Cypress) {
         vaAppointments = MOCK_VA_APPOINTMENTS;
         ccAppointments = MOCK_CC_APPOINTMENTS;
       } else {
         vaAppointments = await apiRequest(
-          `/appointments?start_date=${startOfToday}&type=va`,
+          `/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
           { apiVersion: 'vaos/v0' },
         );
         ccAppointments = await apiRequest(
-          `/appointments?start_date=${startOfToday}&type=cc`,
+          `/appointments?start_date=${startOfToday}&end_date=${endDate}&type=cc`,
           { apiVersion: 'vaos/v0' },
         );
       }
