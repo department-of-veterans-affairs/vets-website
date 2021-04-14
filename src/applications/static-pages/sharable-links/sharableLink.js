@@ -5,7 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 const theme = {
   main: {
-    colorBase: '#212121',
+    colorBaseBlack: '#212121',
     colorWhite: '#ffffff',
     colorPrimary: '#0071bb',
   },
@@ -25,7 +25,7 @@ const ShareIconClickFeedback = styled.span`
   margin-top: ${props => (props.leftAligned ? '2px' : '')};
   left: ${props =>
     props.leftAligned && props.leftPx ? `${props.leftPx}px` : ''};
-  background-color: ${props => props.theme.colorBase};
+  background-color: ${props => props.theme.colorBaseBlack};
   color: ${props => props.theme.colorWhite};
   font-family: 'Source Sans Pro';
   font-weight: 400;
@@ -44,12 +44,12 @@ const ShareIcon = styled.i`
   padding: 4px;
   border: 1px solid;
   background-color: ${props =>
-    props.feedbackActive ? props.theme.colorBase : ''};
+    props.feedbackActive ? props.theme.colorBaseBlack : ''};
   color: ${props =>
     props.feedbackActive ? props.theme.colorWhite : props.theme.colorPrimary};
 
   &:hover {
-    background-color: ${props => props.theme.colorBase};
+    background-color: ${props => props.theme.colorBaseBlack};
     color: ${props => props.theme.colorWhite};
     cursor: pointer;
   }

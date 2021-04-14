@@ -12,6 +12,7 @@ export default function createSharableLink(store, widgetType) {
       for (const link of sharableLinks) {
         ReactDOM.render(
           <SharableLink dataEntityId={link.getAttribute('parentid')} />,
+          link,
         );
       }
     });
