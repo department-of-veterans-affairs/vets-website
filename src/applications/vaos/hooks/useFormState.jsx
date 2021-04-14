@@ -71,7 +71,7 @@ export default function useFormState({
         ),
       );
     }
-  }, dependencies || []);
+  }, dependencies);
 
   useEffect(() => {
     initialLoadRef.current = false;
