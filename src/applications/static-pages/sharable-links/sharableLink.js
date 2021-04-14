@@ -57,6 +57,9 @@ const SharableLink = ({ dataEntityId }) => {
     arr.shift();
     return arr.join('-');
   };
+  // redux seemed like overkill
+  //  couldn't get it working with passing down a key
+
   const hidePreviousFeedbacks = activeId => {
     const otherActiveFeedbacks = document.getElementsByClassName(
       'sharable-link-feedback',
@@ -64,15 +67,14 @@ const SharableLink = ({ dataEntityId }) => {
 
     for (const feedback of otherActiveFeedbacks) {
       const parentId = feedback.getAttribute('id');
+      const linkIcon = feedback.previousElementSibling.childNodes[0];
 
       if (extractId(parentId) !== extractId(activeId)) {
         feedback.style.display = 'none';
-        const linkIcon = feedback.previousElementSibling.childNodes[0];
         linkIcon.style.color = '#0071bb';
         linkIcon.style.backgroundColor = 'white';
       } else {
         feedback.style = {};
-        const linkIcon = feedback.previousElementSibling.childNodes[0];
         linkIcon.style = {};
       }
     }
@@ -99,6 +101,7 @@ const SharableLink = ({ dataEntityId }) => {
     setFeedbackActive(true);
     hideFeedback(target.getAttribute('id'));
   };
+
   // TODO:
   // - [ ] Theming for styled components
   // - [ ] React transition group
