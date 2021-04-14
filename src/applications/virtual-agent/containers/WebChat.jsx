@@ -61,7 +61,6 @@ export default function WebChat() {
           styleOptions={{ hideUploadButton: true }}
           directLine={directLine}
           store={store}
-          userID="12345"
         />
       </div>
     </div>

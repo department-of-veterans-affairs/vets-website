@@ -115,21 +115,19 @@ export default function AppealListItem({ appeal, name, external = false }) {
       )}
       {!external && (
         <Link
-          className="usa-button usa-button-primary"
+          className="va-action-link--blue"
           to={`appeals/${appeal.id}/status`}
         >
           View details
-          <i className="fa fa-chevron-right" />
         </Link>
       )}
       {external && (
         <Link
           aria-label={`View details of ${appealTitle} `}
-          className="usa-button usa-button-primary"
+          className="va-action-link--blue"
           href={`/track-claims/appeals/${appeal.id}/status`}
         >
           View details
-          <i className="fa fa-chevron-right" />
         </Link>
       )}
     </div>
