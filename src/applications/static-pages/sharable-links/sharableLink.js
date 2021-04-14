@@ -69,6 +69,7 @@ const SharableLink = ({ dataEntityId }) => {
       setLeftPx(target.offsetLeft - target.offsetWidth - widthOffset);
     }
     setFeedbackActive(true);
+    // use redux to set the active ID
     hideFeedback();
   };
 
@@ -86,6 +87,7 @@ const SharableLink = ({ dataEntityId }) => {
           displayFeedback(event.target);
         }}
       />
+      {/* check if this data entity ID, is the latest one in redux */}
       {feedbackActive && (
         <ShareIconClickFeedback
           className={`vads-u-margin-left--0.5`}
