@@ -5,6 +5,7 @@
 <div class="interior" id="content">
   <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
       <h1 id="article-heading">{{ title }}</h1>
       <div class="va-introtext">
         {% include "src/site/includes/dynamic-content.drupal.liquid" with
