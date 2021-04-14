@@ -57,8 +57,6 @@ const SharableLink = ({ dataEntityId }) => {
     arr.shift();
     return arr.join('-');
   };
-  // redux seemed like overkill
-  //  couldn't get it working with passing down a key
 
   const hidePreviousFeedbacks = activeId => {
     const otherActiveFeedbacks = document.getElementsByClassName(
@@ -103,7 +101,7 @@ const SharableLink = ({ dataEntityId }) => {
   // - [ ] Analytics/accessibility
 
   return (
-    <a aria-live="polite" aria-relevant="additions" id="sharable-link-wrapper">
+    <span aria-live="polite" aria-relevant="additions">
       <ShareIcon
         tabIndex={0}
         aria-label={`Copy ${dataEntityId} sharable link`}
@@ -131,7 +129,7 @@ const SharableLink = ({ dataEntityId }) => {
           {copiedText}
         </ShareIconClickFeedback>
       )}
-    </a>
+    </span>
   );
 };
 
