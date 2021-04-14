@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+import recordEvent from 'platform/monitoring/record-event';
 
 const theme = {
   main: {
@@ -119,6 +120,9 @@ const SharableLink = ({ dataEntityId }) => {
             if (!event || !event.target) return;
             copyToUsersClipBoard(dataEntityId);
             displayFeedback(event.target);
+            recordEvent({
+              event: 'nav-jumplink-click',
+            });
           }}
           id={`icon-${dataEntityId}`}
         />
