@@ -47,17 +47,15 @@ class IntroductionPage extends React.Component {
               </p>
               <h6>All of these must be true. You're:</h6>
               <ul>
-                <li>
-                  At least 22 years of age but not more than 66 years of age,
-                </li>
-                <li>Unemployed because of the COVID-19 pandemic,</li>
+                <li>Between 22 and 66 years old</li>
+                <li>Unemployed because of the COVID-19 pandemic</li>
                 <li>
                   Not eligible for GI Bill or VR&#38;E benefits (or, if you're
                   eligible for the Post-9/11 GI Bill, you've transferred all of
-                  your benefits to family members),
+                  your benefits to family members)
                 </li>
-                <li>Not rated as totally disabled because you can't work,</li>
-                <li>Not enrolled in a federal or state jobs program,</li>
+                <li>Not rated as totally disabled because you can't work</li>
+                <li>Not enrolled in a federal or state jobs program</li>
                 <li>
                   Not receiving unemployment benefits (including CARES Act
                   benefits)
