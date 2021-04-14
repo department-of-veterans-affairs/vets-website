@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 // import { CSSTransition } from 'react-transition-group';
 
+const theme = {
+  main: {
+    colorBase: '#212121',
+    colorWhite: '#ffffff',
+    colorPrimary: '#0071bb',
+  },
+};
 const copyToUsersClipBoard = dataEntityId => {
   const input = document.createElement('input');
 
@@ -17,8 +24,8 @@ const ShareIconClickFeedback = styled.span`
   margin-top: ${props => (props.leftAligned ? '2px' : '')};
   left: ${props =>
     props.leftAligned && props.leftPx ? `${props.leftPx}px` : ''};
-  background-color: black;
-  color: white;
+  background-color: ${props => props.theme.colorBase};
+  color: ${props => props.theme.colorWhite};
   font-family: 'Source Sans Pro';
   font-weight: 400;
   font-size: 12px;
@@ -35,12 +42,14 @@ const ShareIcon = styled.i`
   width: 26px;
   padding: 4px;
   border: 1px solid;
-  background-color: ${props => (props.feedbackActive ? 'black' : '')};
-  color: ${props => (props.feedbackActive ? 'white' : '#0071bb')};
+  background-color: ${props =>
+    props.feedbackActive ? props.theme.colorBase : ''};
+  color: ${props =>
+    props.feedbackActive ? props.theme.colorWhite : props.theme.colorPrimary};
 
   &:hover {
-    background-color: black;
-    color: white;
+    background-color: ${props => props.theme.colorBase};
+    color: ${props => props.theme.colorWhite};
     cursor: pointer;
   }
 `;
@@ -101,37 +110,39 @@ const SharableLink = ({ dataEntityId }) => {
   // - [ ] Analytics/accessibility
 
   return (
-    <span aria-live="polite" aria-relevant="additions">
-      <ShareIcon
-        tabIndex={0}
-        aria-label={`Copy ${dataEntityId} sharable link`}
-        aria-hidden="true"
-        className={`fas fa-link sharable-link`}
-        feedbackActive={feedbackActive}
-        onClick={event => {
-          event.persist();
-          if (!event || !event.target) return;
-          copyToUsersClipBoard(dataEntityId);
-          displayFeedback(event.target);
-          // event.target.focus();
-        }}
-        id={`icon-${dataEntityId}`}
-      />
-
-      {feedbackActive && (
-        // <CSSTransition in={feedbackActive} timeout={300} unmountOnExit>
-        <ShareIconClickFeedback
-          className={`vads-u-margin-left--0.5 sharable-link-feedback`}
-          leftAligned={leftAligned}
+    <ThemeProvider theme={theme.main}>
+      <span aria-live="polite" aria-relevant="additions">
+        <ShareIcon
+          tabIndex={0}
+          aria-label={`Copy ${dataEntityId} sharable link`}
+          aria-hidden="true"
+          className={`fas fa-link sharable-link`}
           feedbackActive={feedbackActive}
-          leftPx={leftPx}
-          id={`feedback-${dataEntityId}`}
-        >
-          {copiedText}
-        </ShareIconClickFeedback>
-        // </CSSTransition>
-      )}
-    </span>
+          onClick={event => {
+            event.persist();
+            if (!event || !event.target) return;
+            copyToUsersClipBoard(dataEntityId);
+            displayFeedback(event.target);
+            // event.target.focus();
+          }}
+          id={`icon-${dataEntityId}`}
+        />
+
+        {feedbackActive && (
+          // <CSSTransition in={feedbackActive} timeout={300} unmountOnExit>
+          <ShareIconClickFeedback
+            className={`vads-u-margin-left--0.5 sharable-link-feedback`}
+            leftAligned={leftAligned}
+            feedbackActive={feedbackActive}
+            leftPx={leftPx}
+            id={`feedback-${dataEntityId}`}
+          >
+            {copiedText}
+          </ShareIconClickFeedback>
+          // </CSSTransition>
+        )}
+      </span>
+    </ThemeProvider>
   );
 };
 
