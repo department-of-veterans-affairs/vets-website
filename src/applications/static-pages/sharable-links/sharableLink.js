@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const copyToUsersClipBoard = dataEntityId => {
@@ -65,14 +65,39 @@ const SharableLink = ({ dataEntityId }) => {
       window.innerWidth - (target.offsetLeft + target.offsetWidth) <=
       offsetThreshold
     ) {
+      // this isn't working on desktop b/c we can't use the windows width, we have to use the content containers width.
       setLeftAligned(true);
       setLeftPx(target.offsetLeft - target.offsetWidth - widthOffset);
     }
     setFeedbackActive(true);
-    // use redux to set the active ID
     hideFeedback();
   };
+  useEffect(
+    () => {
+      // hide all the other active feedback when you click on a new link
+      // its not working on second click ...
+      // TODO:
+      // - [ ] Theming for styled components
+      // - [ ] React transition group
+      // - [ ] Focus
+      // - [ ] Only show newest
+      // - [ ] Analytics/accessibility
 
+      if (feedbackActive) {
+        const otherActiveFeedbacks = document.getElementsByClassName(
+          'sharable-link-feedback',
+        );
+        for (const feedback of otherActiveFeedbacks) {
+          if (feedback.getAttribute('id') !== dataEntityId) {
+            feedback.style.display = 'none';
+          } else {
+            feedback.style.display = 'inline';
+          }
+        }
+      }
+    },
+    [feedbackActive, dataEntityId],
+  );
   return (
     <span aria-live="polite" aria-relevant="additions">
       <ShareIcon
@@ -87,13 +112,13 @@ const SharableLink = ({ dataEntityId }) => {
           displayFeedback(event.target);
         }}
       />
-      {/* check if this data entity ID, is the latest one in redux */}
       {feedbackActive && (
         <ShareIconClickFeedback
-          className={`vads-u-margin-left--0.5`}
+          className={`vads-u-margin-left--0.5 sharable-link-feedback`}
           leftAligned={leftAligned}
           feedbackActive={feedbackActive}
           leftPx={leftPx}
+          id={dataEntityId}
         >
           {copiedText}
         </ShareIconClickFeedback>
