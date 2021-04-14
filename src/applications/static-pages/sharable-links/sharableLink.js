@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { CSSTransition } from 'react-transition-group';
 
 const copyToUsersClipBoard = dataEntityId => {
   const input = document.createElement('input');
@@ -97,7 +98,6 @@ const SharableLink = ({ dataEntityId }) => {
 
   // TODO:
   // - [ ] Theming for styled components
-  // - [ ] React transition group
   // - [ ] Analytics/accessibility
 
   return (
@@ -119,15 +119,17 @@ const SharableLink = ({ dataEntityId }) => {
       />
 
       {feedbackActive && (
-        <ShareIconClickFeedback
-          className={`vads-u-margin-left--0.5 sharable-link-feedback`}
-          leftAligned={leftAligned}
-          feedbackActive={feedbackActive}
-          leftPx={leftPx}
-          id={`feedback-${dataEntityId}`}
-        >
-          {copiedText}
-        </ShareIconClickFeedback>
+        <CSSTransition in={feedbackActive} timeout={300} unmountOnExit>
+          <ShareIconClickFeedback
+            className={`vads-u-margin-left--0.5 sharable-link-feedback`}
+            leftAligned={leftAligned}
+            feedbackActive={feedbackActive}
+            leftPx={leftPx}
+            id={`feedback-${dataEntityId}`}
+          >
+            {copiedText}
+          </ShareIconClickFeedback>
+        </CSSTransition>
       )}
     </span>
   );
