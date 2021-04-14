@@ -14,7 +14,7 @@ const representativePage = {
     'ui:description': RepresentativeIntroContent(),
     [representativeFields.signAsRepresentativeYesNo]: {
       'ui:title':
-        "Do you have a legal representative documents you'd like to share with us?",
+        "Do you have a legal representative document you'd like to share with us?",
       'ui:widget': 'radio',
       'ui:options': {
         labels: {

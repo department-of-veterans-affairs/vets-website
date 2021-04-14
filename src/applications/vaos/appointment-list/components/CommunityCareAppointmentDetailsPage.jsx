@@ -92,7 +92,10 @@ function CommunityCareAppointmentDetailsPage({
         />
       </h1>
 
-      <h2 className="vads-u-font-size--sm vads-u-font-family--sans">
+      <h2
+        className="vads-u-font-size--base vads-u-font-family--sans"
+        data-cy="community-care-appointment-details-header"
+      >
         <span>
           <strong>{header}</strong>
         </span>

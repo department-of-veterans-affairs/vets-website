@@ -230,8 +230,8 @@ export const RepresentativeIntroContent = () => {
         </li>
 
         <li>
-          If you are the Veteran’s legal representative, you can you can upload
-          a document to show your legal status now. If you don't upload your
+          If you are the Veteran’s legal representative, you can upload a
+          document to show your legal status now. If you don't upload your
           document now, we'll ask you to provide it later.
         </li>
       </ul>

@@ -201,7 +201,10 @@ function PastAppointmentsListNew({
         const monthDate = moment(monthBucket[0].start);
         return (
           <React.Fragment key={monthIndex}>
-            <h3 id={`appointment_list_${monthDate.format('YYYY-MM')}`}>
+            <h3
+              id={`appointment_list_${monthDate.format('YYYY-MM')}`}
+              data-cy="past-appointment-list-header"
+            >
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
             </h3>
@@ -212,6 +215,7 @@ function PastAppointmentsListNew({
                 'YYYY-MM',
               )}`}
               className="vads-u-padding-left--0"
+              data-cy="past-appointment-list"
             >
               {monthBucket.map((appt, index) => {
                 const facilityId = getVAAppointmentLocationId(appt);

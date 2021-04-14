@@ -80,7 +80,10 @@ function CanceledAppointmentsList({
         const monthDate = moment(monthBucket[0].start);
         return (
           <React.Fragment key={monthIndex}>
-            <h3 id={`appointment_list_${monthDate.format('YYYY-MM')}`}>
+            <h3
+              id={`appointment_list_${monthDate.format('YYYY-MM')}`}
+              data-cy="canceled-appointment-list-header"
+            >
               <span className="sr-only">Appointments in </span>
               {monthDate.format('MMMM YYYY')}
             </h3>
@@ -91,6 +94,7 @@ function CanceledAppointmentsList({
                 'YYYY-MM',
               )}`}
               className="vads-u-padding-left--0"
+              data-cy="canceled-appointment-list"
             >
               {monthBucket.map((appt, index) => {
                 const facilityId = getVAAppointmentLocationId(appt);
