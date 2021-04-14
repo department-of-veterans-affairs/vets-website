@@ -43,15 +43,15 @@ export const uiSchema = {
     },
     accountType: {
       ...bankAccountUiSchema.accountType,
-      'ui:required': null,
+      'ui:required': bankFieldIsRequired,
     },
     routingNumber: {
       ...bankAccountUiSchema.routingNumber,
-      'ui:required': null,
+      'ui:required': bankFieldIsRequired,
     },
     accountNumber: {
       ...bankAccountUiSchema.accountNumber,
-      'ui:required': null,
+      'ui:required': bankFieldIsRequired,
     },
   },
   declineDirectDeposit: directDepositUiSchema.declineDirectDeposit,

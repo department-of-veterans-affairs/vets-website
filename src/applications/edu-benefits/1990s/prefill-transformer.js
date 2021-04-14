@@ -1,4 +1,18 @@
 import { prefillBankInformation } from 'platform/forms-system/src/js/definitions/directDeposit';
+import _ from 'lodash';
+
+const deviewifyFields = formData => {
+  const newFormData = {};
+  Object.keys(formData).forEach(key => {
+    const nonViewKey = /^view:/.test(key) ? key.replace('view:', '') : key;
+    // Recurse if necessary
+    newFormData[nonViewKey] =
+      typeof formData[key] === 'object' && !Array.isArray(formData[key])
+        ? deviewifyFields(formData[key])
+        : formData[key];
+  });
+  return newFormData;
+};
 
 export function prefillTransformer(pages, formData, metadata) {
   const {
@@ -13,6 +27,13 @@ export function prefillTransformer(pages, formData, metadata) {
   } = formData;
 
   const prefillBankInfo = prefillBankInformation(bankAccount);
+  const originalBankAccount = {
+    ...prefillBankInfo['view:originalBankAccount'],
+    'view:accountType': prefillBankInfo['view:originalBankAccount'][
+      'view:accountType'
+    ]?.toLowerCase(),
+    'view:bankName': undefined,
+  };
 
   const newFormData = {
     'view:applicantInformation': {
@@ -28,16 +49,11 @@ export function prefillTransformer(pages, formData, metadata) {
       },
       address,
     },
-    'view:originalBankAccount': {
-      ...prefillBankInfo['view:originalBankAccount'],
-      'view:bankName': undefined,
-      'view:accountType': prefillBankInfo['view:originalBankAccount'][
-        'view:accountType'
-      ]?.toLowerCase(),
-    },
+    'view:originalBankAccount': originalBankAccount,
     'view:directDeposit': {
       bankAccount: {
         ...prefillBankInfo.bankAccount,
+        ...deviewifyFields(_.omit(originalBankAccount, ['view:bankName'])),
       },
     },
   };
