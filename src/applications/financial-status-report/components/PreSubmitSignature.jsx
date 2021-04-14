@@ -56,7 +56,6 @@ const PreSubmitSignature = ({
       /* show error if user has touched input and signature does not match
            show error if there is a form error and has not been submitted */
       if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
-        // setIsSigned(false);
         setSignatureError(true);
       }
 
@@ -66,7 +65,6 @@ const PreSubmitSignature = ({
         */
 
       if (isDirty && signatureMatches) {
-        // setIsSigned(true);
         setSignatureError(false);
       }
     },
@@ -161,7 +159,7 @@ const mapStateToProps = state => {
 };
 
 export default {
-  required: false,
+  required: true,
   CustomComponent: connect(
     mapStateToProps,
     null,
