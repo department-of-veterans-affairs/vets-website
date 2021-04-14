@@ -175,4 +175,4 @@ jobs:
 
       - name: Build apps
         run: yarn build:webpack --env.buildtype vagovprod --env.scaffold
-        timeout-minutes: 15
+        timeout-minutes: 30
