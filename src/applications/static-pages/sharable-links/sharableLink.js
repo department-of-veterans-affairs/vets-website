@@ -99,6 +99,11 @@ const SharableLink = ({ dataEntityId }) => {
     setFeedbackActive(true);
     hideFeedback(target.getAttribute('id'));
   };
+  // TODO:
+  // - [ ] Theming for styled components
+  // - [ ] React transition group
+  // - [ ] Analytics/accessibility
+  // - [ ] Focus on tab
 
   return (
     <span
