@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-const fs = require('fs-extra');
+const fs = require('fs');
 const path = require('path');
 
 const getOptions = require('../../site/stages/build/options');
@@ -19,6 +19,7 @@ exports.handler = async function(event, context) {
     'pull-drupal': true,
   });
 
+  const { cacheDirectory } = options;
   let drupalPages = {};
 
   try {
@@ -37,8 +38,9 @@ exports.handler = async function(event, context) {
     throw new Error('Drupal query returned with errors');
   }
 
-  const drupalCache = path.join(options.cacheDirectory, 'drupal', 'pages.json');
-  fs.outputJsonSync(drupalCache, drupalPages, { spaces: 2 });
+  const pagesString = JSON.stringify(drupalPages, { spaces: 2 });
+  const pagesFile = path.join(cacheDirectory, 'drupal', 'pages.json');
+  fs.writeFileSync(pagesFile, pagesString);
 
-  return true;
+  return pagesString;
 };
