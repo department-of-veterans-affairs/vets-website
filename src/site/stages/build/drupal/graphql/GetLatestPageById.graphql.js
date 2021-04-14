@@ -46,10 +46,6 @@ const {
  * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
  */
 
-const addPolicyPages =
-  cmsFeatureFlags.FEATURE_VAMC_SYSTEM_POLICIES_PAGE ||
-  process.env.ADD_POLICY_PAGES;
-
 module.exports = `
 
   ${ALL_FRAGMENTS}
@@ -75,7 +71,7 @@ module.exports = `
   ${nodeCampaignLandingPage.fragment}
   ${vetCenters.fragment}
   ${vetCenterLocations.fragment}
-  ${addPolicyPages ? vamcPolicyPages.fragment : ''}    
+  ${vamcPolicyPages.fragment}    
 
   query GetLatestPageById($id: String!, $today: String!, $onlyPublishedContent: Boolean!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
@@ -106,7 +102,7 @@ module.exports = `
         ... nodeCampaignLandingPage
         ... vetCenterFragment
         ... vetCenterLocationsFragment
-        ${addPolicyPages ? '... policiesPageFragment' : ''}            
+        ... policiesPageFragment            
       }
     }
     ${icsFileQuery.partialQuery}
