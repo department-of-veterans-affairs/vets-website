@@ -7,7 +7,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/component-library/Ad
 import {
   isMultifactorEnabled,
   isVAPatient,
-  isLOA3 as isLOA3Selector,
+  isLOA3,
 } from '~/platform/user/selectors';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
@@ -170,7 +170,7 @@ const mapStateToProps = state => {
   const isPatient = isVAPatient(state);
   const esrEnrollmentStatus = selectESRStatus(state).enrollmentStatus;
 
-  const shouldGetESRStatus = !isPatient && isLOA3Selector(state);
+  const shouldGetESRStatus = !isPatient && isLOA3(state);
   const shouldGetDD4EDUStatus = isMultifactorEnabled(state);
   const hasLoadedESRData =
     !shouldGetESRStatus ||
