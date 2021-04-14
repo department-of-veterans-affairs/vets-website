@@ -52,6 +52,16 @@ export function subscribeComponentAnalyticsEvents(
         delete clearedDataLayer.event;
       }
 
+      // Remove gtm.uniqueEventId property
+      if (
+        Object.prototype.hasOwnProperty.call(
+          clearedDataLayer,
+          'gtm.uniqueEventId',
+        )
+      ) {
+        delete clearedDataLayer['gtm.uniqueEventId'];
+      }
+
       // Set everything else to undefined
       Object.keys(clearedDataLayer).forEach(key => {
         clearedDataLayer[key] = undefined;
