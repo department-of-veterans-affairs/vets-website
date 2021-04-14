@@ -146,9 +146,3 @@ export const normalizeSideNavData = data => {
     navItemsLookup: {},
   });
 };
-
-export const detectLang = url => {
-  if (url?.endsWith('-esp')) return 'es';
-  if (url?.endsWith('-tag')) return 'tl';
-  return 'en';
-};
