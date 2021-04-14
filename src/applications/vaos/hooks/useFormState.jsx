@@ -63,13 +63,16 @@ export default function useFormState({
       if (typeof initialSchema === 'function') {
         schema = initialSchema();
       }
-      setFormState(
-        setupFormData(
-          dataUpdatedRef.current ? formState.data : initialData,
-          schema,
-          uiSchema,
-        ),
-      );
+
+      if (schema) {
+        setFormState(
+          setupFormData(
+            dataUpdatedRef.current ? formState.data : initialData,
+            schema,
+            uiSchema,
+          ),
+        );
+      }
     }
   }, dependencies);
 
