@@ -43,8 +43,8 @@ export const bankInfoHelpText = (
       electronic payments. If you don’t want to use direct deposit, you’ll need
       to call the Department of the Treasury at{' '}
       <Telephone contact={CONTACTS.TESC} />. Ask to talk with a representative
-      who handles waiver requests. They can answer any questions or concerns you
-      may have.
+      about waiver requests. They can answer any questions or concerns you may
+      have.
     </p>
   </AdditionalInfo>
 );

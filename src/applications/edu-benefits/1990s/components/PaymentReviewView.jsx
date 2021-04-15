@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { maskBankInformation } from '../utils';
+import mask from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
 export class PaymentReviewView extends React.Component {
   constructor(props) {
@@ -23,7 +23,7 @@ export class PaymentReviewView extends React.Component {
       );
       value = _.get(bankAccount, name, '');
     } else if (name === 'accountNumber' || name === 'routingNumber') {
-      value = maskBankInformation(value, 4);
+      value = mask(value, 4);
     } else if (name === 'accountType' && value.length > 0) {
       value = value.charAt(0).toUpperCase() + value.substr(1);
     }

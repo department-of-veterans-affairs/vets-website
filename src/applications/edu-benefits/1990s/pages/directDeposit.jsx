@@ -3,6 +3,7 @@ import { bankInfoHelpText, directDepositAlert } from '../content/directDeposit';
 import _ from 'lodash';
 import PaymentReviewView from '../components/PaymentReviewView';
 import { hasNewBankInformation } from '../utils';
+import PaymentView from '../components/PaymentView';
 
 const {
   uiSchema: directDepositUiSchema,
@@ -28,6 +29,7 @@ export const uiSchema = {
     'ui:order': null, // have to null this out and declare properties in correct order
     'ui:options': {
       ...bankAccountUiSchema['ui:options'],
+      viewComponent: PaymentView,
       hideIf: form => !bankFieldIsRequired(form),
       startInEdit: data => startInEdit(data),
     },
