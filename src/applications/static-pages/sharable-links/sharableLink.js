@@ -109,23 +109,24 @@ const SharableLink = ({ dataEntityId }) => {
   return (
     <ThemeProvider theme={theme.main}>
       <span aria-live="polite" aria-relevant="additions">
-        <ShareIcon
-          tabIndex={0}
-          aria-label={`Copy ${dataEntityId} sharable link`}
-          aria-hidden="true"
-          className={`fas fa-link sharable-link`}
-          feedbackActive={feedbackActive}
-          onClick={event => {
-            event.persist();
-            if (!event || !event.target) return;
-            copyToUsersClipBoard(dataEntityId);
-            displayFeedback(event.target);
-            recordEvent({
-              event: 'nav-jumplink-click',
-            });
-          }}
-          id={`icon-${dataEntityId}`}
-        />
+        <button className="usa-button-unstyled">
+          <ShareIcon
+            aria-label={`Copy ${dataEntityId} sharable link`}
+            aria-hidden="true"
+            className={`fas fa-link sharable-link`}
+            feedbackActive={feedbackActive}
+            onClick={event => {
+              event.persist();
+              if (!event || !event.target) return;
+              copyToUsersClipBoard(dataEntityId);
+              displayFeedback(event.target);
+              recordEvent({
+                event: 'nav-jumplink-click',
+              });
+            }}
+            id={`icon-${dataEntityId}`}
+          />
+        </button>
 
         <ReactCSSTransitionGroup
           transitionName="link-copied-feedback"
