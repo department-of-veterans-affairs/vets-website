@@ -17,6 +17,8 @@ const IntroductionPage = props => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
+    document.title =
+      'Apply for Veteran Readiness and Employment Benefits | Veteran Affairs';
   }, []);
 
   return (

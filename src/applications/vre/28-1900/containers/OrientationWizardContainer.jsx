@@ -30,6 +30,8 @@ const OrientationWizardContainer = props => {
   useEffect(() => {
     focusElement('h1');
     scrollToTop();
+    document.title =
+      'Veteran Readiness and Employment Orientation | Veteran Affairs';
   }, []);
 
   return (
