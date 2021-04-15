@@ -7,7 +7,12 @@ import error401 from '@@profile/tests/fixtures/401.json';
 import error500 from '@@profile/tests/fixtures/500.json';
 
 import mockUser from '../fixtures/users/user';
-import { mockFeatureToggles, nameTagRenders } from './helpers';
+import {
+  mockFeatureToggles,
+  nameTagRendersWithDisabilityRating,
+  nameTagRendersWithFallbackLink,
+  nameTagRendersWithoutDisabilityRating,
+} from './helpers';
 import { PROFILE_PATHS } from '../../constants';
 
 describe('Profile NameTag', () => {
@@ -31,7 +36,7 @@ describe('Profile NameTag', () => {
     it('should render the name, service branch, and disability rating', () => {
       mockFeatureToggles();
       cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-      nameTagRenders({ withDisabilityRating: true });
+      nameTagRendersWithDisabilityRating();
     });
   });
   context('when there is a 401 fetching the disability rating', () => {
@@ -41,10 +46,10 @@ describe('Profile NameTag', () => {
         body: error401,
       });
     });
-    it('should render the name, service branch, and show a fallback link for disability rating', () => {
+    it('should render the name, service branch, and not show disability rating', () => {
       mockFeatureToggles();
       cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-      nameTagRenders({ withDisabilityRating: false });
+      nameTagRendersWithoutDisabilityRating();
     });
   });
   context('when there is a 500 fetching the disability rating', () => {
@@ -57,7 +62,7 @@ describe('Profile NameTag', () => {
     it('should render the name, service branch, and show a fallback link for disability rating', () => {
       mockFeatureToggles();
       cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-      nameTagRenders({ withDisabilityRating: false });
+      nameTagRendersWithFallbackLink();
     });
   });
 });
