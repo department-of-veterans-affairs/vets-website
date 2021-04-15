@@ -86,9 +86,9 @@ const ConfirmationPage = ({ form, download }) => {
       </p>
       <h3 className="confirmation-page-title">We've received your request</h3>
       <p>
-        We’ll send you a letter with our decision and any next steps within 45
-        days. If you experience changes that may affect our decision (like a job
-        loss or a new job), you’ll need to submit a new request.
+        We’ll send you a letter with our decision and any next steps. If you
+        experience changes that may affect our decision (like a job loss or a
+        new job), you’ll need to submit a new request.
       </p>
       {response && (
         <RequestDetailsCard
@@ -97,11 +97,7 @@ const ConfirmationPage = ({ form, download }) => {
           download={download}
         />
       )}
-      <h3>When will VA make a decision on my request?</h3>
-      <p>
-        You can expect our decision within 45 days. We'll send you a letter by
-        mail with our decision and any next steps to resolve your debt.
-      </p>
+      <h3>How can I check the status of my request?</h3>
       <div className="process schemaform-process">
         <ol>
           <li className="process-step list-one">
@@ -128,6 +124,11 @@ const ConfirmationPage = ({ form, download }) => {
               Once you're signed in, you can go to{' '}
               <a href="/manage-va-debt">Manage my VA debt</a> to check the
               status of your current debts.
+            </p>
+            <p>
+              If you have a question about the status of your request call us at
+              800-827-0648 (or 1-612-713-6415 from overseas). We’re here Monday
+              through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </li>
         </ol>

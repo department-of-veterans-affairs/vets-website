@@ -2,11 +2,12 @@ import React from 'react';
 
 import useLastWord from '../useLastWord';
 
-const CTALink = ({ ariaLabel, href, text, onClick, newTab }) => {
+const CTALink = ({ ariaLabel, className, href, text, onClick, newTab }) => {
   const relProp = newTab ? 'noreferrer noopener' : undefined;
   const targetProp = newTab ? '_blank' : undefined;
 
   const [lastWord, firstWords] = useLastWord(text);
+  const classNames = `vads-u-display--inline-block ${className}`;
 
   return (
     <a
@@ -15,7 +16,7 @@ const CTALink = ({ ariaLabel, href, text, onClick, newTab }) => {
       rel={relProp}
       target={targetProp}
       onClick={onClick || undefined}
-      className="vads-u-margin-top--2 vads-u-display--inline-block"
+      className={classNames}
     >
       {`${firstWords} `}
       <span style={{ whiteSpace: 'nowrap' }}>

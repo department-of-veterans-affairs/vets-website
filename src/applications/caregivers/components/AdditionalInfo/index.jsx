@@ -230,9 +230,9 @@ export const RepresentativeIntroContent = () => {
         </li>
 
         <li>
-          If you are the Veteran’s legal representative, you can upload one or
-          more documents to show your legal status. If you don't upload your
-          documents now, we'll ask you to provide them later
+          If you are the Veteran’s legal representative, you can upload a
+          document to show your legal status now. If you don't upload your
+          document now, we'll ask you to provide it later.
         </li>
       </ul>
     </section>
@@ -244,8 +244,8 @@ export const RepresentativeAdditionalInfo = () => {
     <div className="vads-u-margin-top--1">
       <AdditionalInfo triggerText="What type of document does a legal representative need?">
         <p>
-          Documentation to show your legal status as a representative could
-          include:
+          To show that you’re the Veteran’s legal representative, you’ll need to
+          upload one of these current documents:
         </p>
 
         <ul>
@@ -261,7 +261,7 @@ export const RepresentativeAdditionalInfo = () => {
 
           <li>
             Another legal document that confirms your legal status as the
-            Veteran’s representative. This document can be from by a federal,
+            Veteran’s representative. This document can be from a federal,
             state, local, or tribal court.
           </li>
         </ul>
@@ -280,7 +280,7 @@ export const RepresentativeDocumentUploadDescription = () => {
   return (
     <section>
       <h3 style={{ padding: 0, marginBottom: '1.3em' }}>
-        Upload your supporting documentation
+        Upload your legal representative documentation
       </h3>
 
       <p>
@@ -291,7 +291,7 @@ export const RepresentativeDocumentUploadDescription = () => {
 
       <p>Guidelines for uploading a file:</p>
       <ul>
-        <li>File types you. can upload: .pdf, .jpeg, or .png</li>
+        <li>File types you can upload: .pdf, .jpeg, or .png</li>
         <li>Maximum file size: 25MB</li>
       </ul>
 

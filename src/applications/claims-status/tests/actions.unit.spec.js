@@ -294,7 +294,7 @@ describe('Actions', () => {
     it('should call dispatch and pollStatus', () => {
       const dispatchSpy = sinon.spy();
       const pollStatusSpy = sinon.spy();
-      getClaimsV2(pollStatusSpy)(dispatchSpy);
+      getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
       expect(dispatchSpy.firstCall.args[0]).to.eql({
         type: 'FETCH_CLAIMS_PENDING',
@@ -306,7 +306,7 @@ describe('Actions', () => {
       it('should dispatch a FETCH_CLAIMS_ERROR action', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
-        getClaimsV2(pollStatusSpy)(dispatchSpy);
+        getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         pollStatusSpy.firstCall.args[0].onError({ errors: [] });
 
@@ -319,7 +319,7 @@ describe('Actions', () => {
       it('should dispatch a FETCH_CLAIMS_SUCCESS action', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
-        getClaimsV2(pollStatusSpy)(dispatchSpy);
+        getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         pollStatusSpy.firstCall.args[0].onSuccess({ data: [] });
 
@@ -334,7 +334,7 @@ describe('Actions', () => {
       it('should return true when response.meta.syncStatus is FAILED', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
-        getClaimsV2(pollStatusSpy)(dispatchSpy);
+        getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({
           meta: { syncStatus: 'FAILED' },
@@ -345,7 +345,7 @@ describe('Actions', () => {
       it('should return false when response.meta.syncStatus is not FAILED', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
-        getClaimsV2(pollStatusSpy)(dispatchSpy);
+        getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({});
 
@@ -356,7 +356,7 @@ describe('Actions', () => {
       it('should return true when response.meta.syncStatus is SUCCESS', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
-        getClaimsV2(pollStatusSpy)(dispatchSpy);
+        getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({
           meta: { syncStatus: 'SUCCESS' },
@@ -367,7 +367,7 @@ describe('Actions', () => {
       it('should return false when response.meta.syncStatus is not SUCCESS', () => {
         const dispatchSpy = sinon.spy();
         const pollStatusSpy = sinon.spy();
-        getClaimsV2(pollStatusSpy)(dispatchSpy);
+        getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({});
 

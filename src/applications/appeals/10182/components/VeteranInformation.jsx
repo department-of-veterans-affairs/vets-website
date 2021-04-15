@@ -10,12 +10,14 @@ import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
+import { FORMAT_READABLE } from '../constants';
+
 const VeteranInformation = ({ profile = {}, veteran = {} }) => {
   const { ssnLastFour, vaFileLastFour } = veteran;
   const { dob, gender, userFullName } = profile;
   const { first, middle, last, suffix } = userFullName;
 
-  const dateOfBirth = dob ? format(new Date(dob), 'MMMM dd, yyyy') : '';
+  const dateOfBirth = dob ? format(new Date(dob), FORMAT_READABLE) : '';
 
   // separate each number so the screenreader reads "number ending with 1 2 3 4"
   // instead of "number ending with 1,234"
