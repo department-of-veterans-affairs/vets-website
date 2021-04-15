@@ -30,7 +30,7 @@
     <ul class="usa-unstyled-list">
         {% for accordionItem in entity.fieldVaParagraphs %}
             {% assign item = accordionItem.entity %}
-            {% assign id= item.entityId | formatSharableLinkID: item.fieldTitle %}
+            {% assign id = item.entityId | formatSharableLinkID: item.fieldTitle %}
             <li id={{id}}
               data-template="paragraphs/collapsible_panel__panel"
               data-entity-id="{{ item.entityId }}"
