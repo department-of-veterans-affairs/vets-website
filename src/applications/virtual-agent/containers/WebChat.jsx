@@ -1,16 +1,24 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { apiRequest } from 'platform/utilities/api';
+import ChatbotError from './ChatbotError';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 export default function WebChat() {
   const { ReactWebChat, createDirectLine } = window.WebChat;
   const [token, setToken] = useState('');
+  const [tokenLoading, setTokenLoading] = useState(true);
 
   useEffect(() => {
     async function getToken() {
-      const res = await apiRequest('/virtual_agent_token', {
-        method: 'POST',
-      });
-      setToken(res.token);
+      try {
+        const res = await apiRequest('/virtual_agent_token', {
+          method: 'POST',
+        });
+        setTokenLoading(false);
+        setToken(res.token);
+      } catch (error) {
+        setTokenLoading(false);
+      }
     }
     getToken();
   }, []);
@@ -54,15 +62,20 @@ export default function WebChat() {
     <div className={'vads-l-grid-container'}>
       <div
         className={'vads-l-row'}
-        data-testid={'webchat'}
         style={{ height: '500px' }}
+        data-testid={'webchat-container'}
       >
-        <ReactWebChat
-          styleOptions={{ hideUploadButton: true }}
-          directLine={directLine}
-          store={store}
-          userID="12345"
-        />
+        {token && (
+          <div data-testid={'webchat'}>
+            <ReactWebChat
+              styleOptions={{ hideUploadButton: true }}
+              directLine={directLine}
+              store={store}
+            />
+          </div>
+        )}
+        {!token && !tokenLoading && <ChatbotError />}
+        {tokenLoading && <LoadingIndicator message={'Loading Chatbot'} />}
       </div>
     </div>
   );

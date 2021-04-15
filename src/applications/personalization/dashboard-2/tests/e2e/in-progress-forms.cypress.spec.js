@@ -108,7 +108,9 @@ describe('The My VA Dashboard', () => {
       cy.visit(manifest.rootUrl);
     });
     it('should show benefit applications that were saved in progress and have not expired', () => {
-      cy.findByRole('heading', { name: /apply for benefits/i }).should('exist');
+      cy.findByRole('heading', { name: /apply for VA benefits/i }).should(
+        'exist',
+      );
       cy.findByRole('heading', { name: /applications in progress/i }).should(
         'exist',
       );
@@ -152,7 +154,9 @@ describe('The My VA Dashboard', () => {
       cy.visit(manifest.rootUrl);
     });
     it('should show fallback content when there are no benefit applications saved in progress', () => {
-      cy.findByRole('heading', { name: /apply for benefits/i }).should('exist');
+      cy.findByRole('heading', { name: /apply for VA benefits/i }).should(
+        'exist',
+      );
       cy.findByRole('heading', { name: /applications in progress/i }).should(
         'exist',
       );
