@@ -30,8 +30,8 @@ const verifyPacts = async () => {
       branch: 'master',
       parameters: {
         verify_stable_pacts: true,
-        consumer_branch: process.env.CIRCLE_BRANCH,
-        consumer_version: process.env.CIRCLE_SHA1,
+        consumer_branch: process.env.GITHUB_REF,
+        consumer_version: process.env.GITHUB_SHA,
       },
     }),
   };
