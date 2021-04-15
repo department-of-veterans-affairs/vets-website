@@ -32,8 +32,18 @@ class ObjectField extends React.Component {
     super();
     this.isRequired = this.isRequired.bind(this);
     this.orderAndFilterProperties = _.flow(
-      properties =>
-        orderProperties(properties, _.get('ui:order', this.props.uiSchema)),
+      properties => {
+        const order = _.get('ui:order', this.props.uiSchema);
+        const filtered = order
+          ? // If there is no ui:order, don't bother filtering it; leave it as
+            // undefined so orderProperties doesn't get angry about missing
+            // properties
+            order.filter(prop =>
+              Object.keys(this.props.schema.properties).includes(prop),
+            )
+          : order;
+        return orderProperties(properties, filtered);
+      },
       _.groupBy(item => {
         const expandUnderField = _.get(
           [item, 'ui:options', 'expandUnder'],
