@@ -95,19 +95,19 @@ const SharableLink = ({ dataEntityId }) => {
     }, 10000);
   };
 
-  const displayFeedback = target => {
-    const iconParentId = extractId(target.getAttribute('id'));
+  const displayFeedback = element => {
+    const iconParentId = extractId(element.getAttribute('id'));
     const parentElement = document.getElementById(iconParentId);
 
     if (
-      parentElement?.offsetWidth - (target.offsetLeft + target.offsetWidth) <=
+      parentElement?.offsetWidth - (element.offsetLeft + element.offsetWidth) <=
       offsetThreshold
     ) {
       setLeftAligned(true);
-      setLeftPx(target.offsetLeft - target.offsetWidth - widthOffset);
+      setLeftPx(element.offsetLeft - element.offsetWidth - widthOffset);
     }
     setFeedbackActive(true);
-    hideFeedback(target.getAttribute('id'));
+    hideFeedback(element.getAttribute('id'));
   };
 
   return (
