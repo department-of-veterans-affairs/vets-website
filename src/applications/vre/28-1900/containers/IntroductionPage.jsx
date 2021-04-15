@@ -23,7 +23,7 @@ const IntroductionPage = props => {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Apply for Veteran Readiness and Employment" />
+      <FormTitle title="Apply for Veteran Readiness and Employment with VA Form 28-1900" />
       <p>
         Equal to VA Form 28-1900 (Vocational Rehabilitation for Claimants With
         Service-Connected Disabilities)
