@@ -88,8 +88,3 @@ export const contactInfoUpdateHelpDescription = () => (
   </div>
 );
 
-export const contactInfo = connect(mapStateToProps)(contactInfoDescription);
-
-export const contactInfoUpdateHelp = connect(mapStateToProps)(
-  contactInfoUpdateHelpDescription,
-);
