@@ -23,6 +23,8 @@ import hasRep from '../pages/hasRep';
 import repInfo from '../pages/repInfo';
 import contestableIssues from '../pages/contestableIssues';
 import boardReview from '../pages/boardReview';
+import evidenceIntro from '../pages/evidenceIntro';
+import evidenceUpload from '../pages/evidenceUpload';
 
 import initialData from '../tests/schema/initialData';
 
@@ -140,6 +142,19 @@ const formConfig = {
           path: 'board-review-option',
           uiSchema: boardReview.uiSchema,
           schema: boardReview.schema,
+        },
+        evidenceIntro: {
+          title: 'Additional evidence',
+          path: 'additional-evidence',
+          uiSchema: evidenceIntro.uiSchema,
+          schema: evidenceIntro.schema,
+        },
+        evidenceUpload: {
+          title: 'Additional evidence',
+          path: 'additional-evidence/upload',
+          depends: formData => formData?.['view:additionalEvidence'],
+          uiSchema: evidenceUpload.uiSchema,
+          schema: evidenceUpload.schema,
         },
       },
     },
