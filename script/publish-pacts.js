@@ -17,8 +17,8 @@ const pactBrokerClient = new PactBrokerClient({
 });
 
 const pactsFolder = path.resolve(__dirname, '../pacts');
-const commitHash = "test";
-const branchName = "master";
+const commitHash = process.env.GITHUB_SHA;
+const branchName = process.env.GITHUB_REF;
 
 pactBrokerClient
   .publishAndTagPacts({
