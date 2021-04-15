@@ -21,7 +21,7 @@ const App = ({ loading, location, children }) => {
         ];
         for (const checkbox of checkBoxes) {
           checkbox.onclick = e => {
-            const label = e.target.closest('fieldset').firstChild.innerText;
+            const label = e.target.closest('fieldset')?.firstChild?.innerText;
             recordEvent({
               'caregivers-check-box-label': label,
               'caregivers-check-box-clicked': e.target,
