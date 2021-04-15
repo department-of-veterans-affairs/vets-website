@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
-const fs = require('fs');
-const path = require('path');
+const S3 = require('aws-sdk/clients/s3'); // eslint-disable-line import/no-unresolved
 
 const getOptions = require('../../site/stages/build/options');
 const getDrupalClient = require('../../site/stages/build/drupal/api');
@@ -19,7 +18,6 @@ exports.handler = async function(event, context) {
     'pull-drupal': true,
   });
 
-  const { cacheDirectory } = options;
   let drupalPages = {};
 
   try {
@@ -39,8 +37,25 @@ exports.handler = async function(event, context) {
   }
 
   const pagesString = JSON.stringify(drupalPages, { spaces: 2 });
-  const pagesFile = path.join(cacheDirectory, 'drupal', 'pages.json');
-  fs.writeFileSync(pagesFile, pagesString);
 
-  return pagesString;
+  const s3 = new S3();
+  const bucket = 'vetsgov-website-builds-s3-upload';
+  const key = 'content-cache/master/pages.json';
+
+  const params = {
+    Body: pagesString,
+    Bucket: bucket,
+    Key: key,
+  };
+
+  const request = s3.putObject(params);
+  let response = null;
+
+  try {
+    response = await request.promise();
+  } catch (error) {
+    console.error(error);
+  }
+
+  return response;
 };

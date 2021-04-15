@@ -21,4 +21,7 @@ module.exports = {
     // which our current versions of Terser + Webpack don't support.
     minimize: false,
   },
+  externals: {
+    'aws-sdk/clients/s3': 'commonjs2 aws-sdk/clients/s3',
+  },
 };
