@@ -59,12 +59,14 @@ export const uiSchema = {
     ssn: {
       ...ssnUI,
       ...{
-        'ui:title': 'Social Security number (SSN)',
+        'ui:title': 'Your Social Security number (SSN)',
         'ui:description': () => (
           <p>
             <strong>Note: </strong>
-            We ask for your <abbr title="Social Security Number">SSN</abbr> to
-            add you to our records.
+            Please enter your own{' '}
+            <abbr title="Social Security Number">SSN</abbr>. We ask for your{' '}
+            <abbr title="Social Security Number">SSN</abbr> to add you to our
+            records.
           </p>
         ),
         'ui:errorMessages': {
