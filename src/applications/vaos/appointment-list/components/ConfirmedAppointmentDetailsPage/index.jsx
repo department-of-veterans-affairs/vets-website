@@ -281,14 +281,6 @@ function ConfirmedAppointmentDetailsPage({
                   </button>
                 </div>
 
-                <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-                  <i
-                    aria-hidden="true"
-                    className="fas fa-clock vads-u-margin-right--1"
-                  />
-                  <a href="#">Reschedule</a>
-                </div>
-
                 {showCancelButton && (
                   <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
                     <i
