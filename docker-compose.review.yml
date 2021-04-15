@@ -17,6 +17,6 @@ services:
       - 3002:3002
     restart: unless-stopped
     volumes:
-      - .:/vets-website
+      - .:/application
       - ../vagov-content:/vagov-content
       - ../content-build:/content-build
