@@ -52,16 +52,16 @@ export default function WebChat() {
 
   return (
     <div className={'vads-l-grid-container'}>
-      <div
-        className={'vads-l-row'}
-        data-testid={'webchat'}
-        style={{ height: '500px' }}
-      >
-        <ReactWebChat
-          styleOptions={{ hideUploadButton: true }}
-          directLine={directLine}
-          store={store}
-        />
+      <div className={'vads-l-row'} style={{ height: '500px' }}>
+        {token && (
+          <div data-testid={'webchat'}>
+            <ReactWebChat
+              styleOptions={{ hideUploadButton: true }}
+              directLine={directLine}
+              store={store}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
