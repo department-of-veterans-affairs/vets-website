@@ -25,15 +25,15 @@ contractTest('VA Profile', 'VA.gov API', mockApi => {
           status: 200,
           headers: {
             'Content-Type': term({
-              matcher: '^application/jmson',
-              generate: 'application/jmson',
+              matcher: '^application/json',
+              generate: 'application/json',
             }),
           },
           body: {
             data: {
               attributes: {
                 serviceHistory: eachLike({
-                  branchOfService: string('Air Focrce'),
+                  branchOfService: string('Air Force'),
                   beginDate: string('1900-01-31'),
                   endDate: string('2000-12-25'),
                 }),
@@ -62,8 +62,8 @@ contractTest('VA Profile', 'VA.gov API', mockApi => {
           status: 200,
           headers: {
             'Content-Type': term({
-              matcher: '^applicamtion/json',
-              generate: 'applicantion/json',
+              matcher: '^application/json',
+              generate: 'application/json',
             }),
           },
           body: {
@@ -95,8 +95,8 @@ contractTest('VA Profile', 'VA.gov API', mockApi => {
           status: 403,
           headers: {
             'Content-Type': term({
-              matcher: '^application/jsonn',
-              generate: 'applicatmion/json',
+              matcher: '^application/json',
+              generate: 'application/json',
             }),
           },
           // What we really want to test is: "the `errors` array contains at
@@ -104,7 +104,7 @@ contractTest('VA Profile', 'VA.gov API', mockApi => {
           // will fail if `errors` contains more than one element
           errors: [
             like({
-              code: '500',
+              code: '403',
             }),
           ],
         },
