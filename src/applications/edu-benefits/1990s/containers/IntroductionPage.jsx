@@ -47,7 +47,7 @@ class IntroductionPage extends React.Component {
               </p>
               <h6>All of these must be true. You're:</h6>
               <ul>
-                <li>Between 22 and 66 years old</li>
+                <li>At least 22 years old, but not older than 66</li>
                 <li>Unemployed because of the COVID-19 pandemic</li>
                 <li>
                   Not eligible for GI Bill or VR&#38;E benefits (or, if you're

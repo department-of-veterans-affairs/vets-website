@@ -20,7 +20,7 @@ export function prefillTransformer(pages, formData, metadata) {
     'view:accountType': prefillBankInfo['view:originalBankAccount'][
       'view:accountType'
     ]?.toLowerCase(),
-    'view:bankName': undefined,
+    'view:bankName': undefined, // need this so that prefill display messages will show correctly, remove if bankName is added
   };
 
   const newFormData = {
