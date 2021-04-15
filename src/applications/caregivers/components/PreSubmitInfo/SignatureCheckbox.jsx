@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 import SignatureInput from './SignatureInput';
+import recordEvent from 'platform/monitoring/record-event';
 
 const SignatureCheckbox = ({
   children,
@@ -38,7 +39,7 @@ const SignatureCheckbox = ({
 
       if (isChecked === true || hasSubmit) setError(false);
     },
-    [showError, setIsChecked, isChecked, hasSubmit],
+    [showError, isChecked, hasSubmit],
   );
 
   return (
@@ -68,7 +69,10 @@ const SignatureCheckbox = ({
       )}
 
       <Checkbox
-        onValueChange={value => setIsChecked(value)}
+        onValueChange={value => {
+          setIsChecked(value);
+          recordEvent({ 'poa-certification-checkbox-checked': value });
+        }}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
         errorMessage={hasError && 'Must certify by checking box'}
         required={isRequired}
