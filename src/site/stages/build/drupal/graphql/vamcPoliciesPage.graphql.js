@@ -28,16 +28,24 @@ const policiesPageFragment = `
       fetched
       fetchedBundle        
     }
+    fieldOffice {
+      entity {
+        ...on NodeHealthCareRegionPage {
+          entityLabel
+          title
+        }
+      }
+    }    
   }
 `;
 
 const GetPolicyPages = `
   ${policiesPageFragment}
   
-query GetPolicyPages($onlyPublishedContent: Boolean!) {
+query GetPolicyPages {
     nodeQuery(limit: 500, filter: {
       conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },      
+       # { field: "status", value: ["1"], enabled: $onlyPublishedContent },      
         { field: "type", value: ["vamc_system_policies_page"] }
       ]
     }) {
