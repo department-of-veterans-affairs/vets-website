@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import recordEvent from 'platform/monitoring/record-event';
@@ -55,12 +55,28 @@ const ShareIcon = styled.i`
   }
 `;
 
+// need this to override this global css rule coming from somewhere:
+// .usa-accordion > ul button, .usa-accordion-bordered > ul button
+
+const UnStyledButtonInAccordion = styled.button`
+  padding: 0px !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  width: auto !important;
+`;
+
 const SharableLink = ({ dataEntityId }) => {
   const [feedbackActive, setFeedbackActive] = useState(false);
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
   const [leftPx, setLeftPx] = useState(0);
-
+  useEffect(() => {
+    // override the global style being applied to the button inside an accordion :/
+    const buttons = document.getElementsByClassName('button-link-share');
+    for (const button of buttons) {
+      button.classList = ['usa-button-unstyled'];
+    }
+  }, []);
   const offsetThreshold = 100;
   const widthOffset = 40;
 
@@ -113,7 +129,7 @@ const SharableLink = ({ dataEntityId }) => {
   return (
     <ThemeProvider theme={theme.main}>
       <span aria-live="polite" aria-relevant="additions">
-        <button
+        <UnStyledButtonInAccordion
           className="usa-button-unstyled"
           aria-label={`Copy ${dataEntityId} sharable link`}
         >
@@ -132,7 +148,7 @@ const SharableLink = ({ dataEntityId }) => {
             }}
             id={`icon-${dataEntityId}`}
           />
-        </button>
+        </UnStyledButtonInAccordion>
 
         <ReactCSSTransitionGroup
           transitionName="link-copied-feedback"
