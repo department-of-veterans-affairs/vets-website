@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import recordEvent from 'platform/monitoring/record-event';
@@ -70,13 +70,6 @@ const SharableLink = ({ dataEntityId }) => {
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
   const [leftPx, setLeftPx] = useState(0);
-  useEffect(() => {
-    // override the global style being applied to the button inside an accordion :/
-    const buttons = document.getElementsByClassName('button-link-share');
-    for (const button of buttons) {
-      button.classList = ['usa-button-unstyled'];
-    }
-  }, []);
   const offsetThreshold = 100;
   const widthOffset = 40;
 
