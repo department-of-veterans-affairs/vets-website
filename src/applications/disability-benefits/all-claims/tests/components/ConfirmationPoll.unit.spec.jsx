@@ -74,7 +74,6 @@ describe('ConfirmationPoll', () => {
     fullName: { first: 'asdf', last: 'fdsa' },
     disabilities: [],
     submittedAt: Date.now(),
-    areConfirmationEmailTogglesOn: false,
   };
 
   afterEach(() => {
@@ -120,8 +119,6 @@ describe('ConfirmationPoll', () => {
         fullName: defaultProps.fullName,
         disabilities: defaultProps.disabilities,
         submittedAt: defaultProps.submittedAt,
-        areConfirmationEmailTogglesOn:
-          defaultProps.areConfirmationEmailTogglesOn,
       });
       tree.unmount();
       done();
@@ -275,5 +272,5 @@ describe('ConfirmationPoll', () => {
       ]);
     });
   });
-  
+
 });

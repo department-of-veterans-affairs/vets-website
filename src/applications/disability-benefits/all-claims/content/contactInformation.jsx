@@ -4,8 +4,6 @@ import moment from 'moment';
 
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 
-import { confirmationEmailFeature } from '../utils';
-
 const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
   const midBreakpoint = -7;
   const lastPhoneString = phoneNumber.slice(-4);
@@ -69,54 +67,26 @@ export const forwardingAddressDescription = () => (
 
 export const contactInfoDescription = ({
   formName = 'disability claim',
-  areConfirmationEmailTogglesOn,
-}) => {
-  return areConfirmationEmailTogglesOn ? (
-    <p className="contact-info-description" id="contact-info-new">
-      This is the contact information we have on file for you. Please review it
-      to make sure the information below is correct. We’ll send any important
-      information about your {formName} to your mailing address. After you
-      submit your claim, we’ll send you a confirmation email to your email
-      address.
-    </p>
-  ) : (
-    <p className="contact-info-description" id="contact-info-default">
-      This is the contact information we have on file for you. We’ll send any
-      important information about your {formName} to this address. Any updates
-      you make here to your contact information will only apply to this
-      application.
-    </p>
-  );
-};
+}) => (
+  <p className="contact-info-description" id="contact-info-new">
+    This is the contact information we have on file for you. Please review it
+    to make sure the information below is correct. We’ll send any important
+    information about your {formName} to your mailing address. After you
+    submit your claim, we’ll send you a confirmation email to your email
+    address.
+  </p>
+);
 
-export const contactInfoUpdateHelpDescription = ({
-  areConfirmationEmailTogglesOn,
-}) => {
-  return areConfirmationEmailTogglesOn ? (
-    <div className="contact-info-help-description" id="new-copy">
-      <p>
-        Any updates you make here to your contact information will only apply to
-        this application. If you want to update your contact information for all
-        of your VA accounts,{' '}
-        <a href="/profile">please go to your profile page.</a>
-      </p>
-    </div>
-  ) : (
-    <div className="contact-info-help-description" id="default-copy">
-      <p>
-        If you want to update your contact information for all your VA accounts,
-        please go to your profile page.
-      </p>
-      <p>
-        <a href="/profile">Go to my profile page</a>
-      </p>
-    </div>
-  );
-};
-
-const mapStateToProps = state => ({
-  areConfirmationEmailTogglesOn: confirmationEmailFeature(state),
-});
+export const contactInfoUpdateHelpDescription = () => (
+  <div className="contact-info-help-description" id="new-copy">
+    <p>
+      Any updates you make here to your contact information will only apply to
+      this application. If you want to update your contact information for all
+      of your VA accounts,{' '}
+      <a href="/profile">please go to your profile page.</a>
+    </p>
+  </div>
+);
 
 export const contactInfo = connect(mapStateToProps)(contactInfoDescription);
 

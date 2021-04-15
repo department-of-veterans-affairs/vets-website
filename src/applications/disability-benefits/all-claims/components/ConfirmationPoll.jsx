@@ -10,7 +10,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import { pendingMessage } from '../content/confirmation-poll';
 
 import { submissionStatuses, terminalStatuses } from '../constants';
-import { confirmationEmailFeature } from '../utils';
 
 export class ConfirmationPoll extends React.Component {
   // Using it as a prop for easy testing
