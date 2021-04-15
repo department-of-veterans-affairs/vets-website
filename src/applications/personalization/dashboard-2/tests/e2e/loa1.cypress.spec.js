@@ -50,7 +50,7 @@ function loa1DashboardTest(mobile, stubs) {
   cy.findByRole('heading', { name: 'Health care' }).should('not.exist');
 
   // make sure that the apply for benefits section is visible
-  cy.findByRole('heading', { name: /apply for benefits/i }).should('exist');
+  cy.findByRole('heading', { name: /apply for VA benefits/i }).should('exist');
 
   // make the a11y check
   cy.injectAxe();

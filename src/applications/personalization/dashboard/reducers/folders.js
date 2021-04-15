@@ -85,7 +85,10 @@ export default function folders(state = initialState, action) {
     case LOADING_FOLDER: {
       const newState = set(
         'data.currentItem',
-        initialState.data.currentItem,
+        {
+          ...initialState.data.currentItem,
+          fetching: true,
+        },
         state,
       );
 

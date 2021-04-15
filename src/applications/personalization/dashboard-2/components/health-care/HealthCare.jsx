@@ -91,7 +91,7 @@ const HealthCare = ({
 
   const messagesText =
     shouldFetchMessages && !hasInboxError
-      ? `You have ${unreadMessagesCount} new message${
+      ? `You have ${unreadMessagesCount} unread message${
           unreadMessagesCount === 1 ? '' : 's'
         }`
       : 'Send a secure message to your health care team';
