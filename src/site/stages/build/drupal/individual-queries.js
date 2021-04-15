@@ -91,21 +91,7 @@ const {
 } = require('./graphql/vetCenterLocations.graphql');
 
 function getNodeQueries(entityCounts) {
-  // Get current feature flags
-  const { cmsFeatureFlags } = global;
-
   const featureQueries = {};
-
-  const addPolicyPages =
-    // NOTE: this flag is not yet available in prod CMS
-    cmsFeatureFlags.FEATURE_VAMC_SYSTEM_POLICIES_PAGE ||
-    process.env.ADD_POLICY_PAGES;
-
-  if (addPolicyPages) {
-    // eslint-disable-next-line no-console
-    console.log('adding policy page query');
-    featureQueries.GetPolicyPages = GetPolicyPages;
-  }
 
   return {
     ...getNodePageQueries(entityCounts),
@@ -139,6 +125,7 @@ function getNodeQueries(entityCounts) {
     ...featureQueries,
     ...getVetCenterQueries(entityCounts),
     GetVetCenterLocations,
+    GetPolicyPages,
   };
 }
 
