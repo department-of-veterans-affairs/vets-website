@@ -28,6 +28,16 @@ describe('WebChat', () => {
     global.window = oldWindow;
   });
 
+  describe('on initial load', () => {
+    it('should show loading indicator', () => {
+      loadWebChat();
+      mockApiRequest({ token: 'ANOTHERFAKETOKEN' });
+      const wrapper = render(<WebChat />);
+
+      expect(wrapper.getByText('Loading Chatbot')).to.exist;
+    });
+  });
+
   describe('when token is valid', () => {
     it('should render web chat', async () => {
       loadWebChat();

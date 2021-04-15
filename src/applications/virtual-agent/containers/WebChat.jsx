@@ -1,17 +1,24 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { apiRequest } from 'platform/utilities/api';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import ChatbotError from './ChatbotError';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 export default function WebChat() {
   const { ReactWebChat, createDirectLine } = window.WebChat;
   const [token, setToken] = useState('');
+  const [tokenLoading, setTokenLoading] = useState(true);
 
   useEffect(() => {
     async function getToken() {
-      const res = await apiRequest('/virtual_agent_token', {
-        method: 'POST',
-      });
-      setToken(res.token);
+      try {
+        const res = await apiRequest('/virtual_agent_token', {
+          method: 'POST',
+        });
+        setTokenLoading(false);
+        setToken(res.token);
+      } catch (error) {
+        setTokenLoading(false);
+      }
     }
     getToken();
   }, []);
@@ -63,14 +70,8 @@ export default function WebChat() {
             />
           </div>
         )}
-        {!token && (
-          <AlertBox
-            content="We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk at 800-698-2411 (TTY: 711)."
-            headline=""
-            onCloseAlert={function noRefCheck() {}}
-            status="error"
-          />
-        )}
+        {!token && !tokenLoading && <ChatbotError />}
+        {tokenLoading && <LoadingIndicator message={'Loading Chatbot'} />}
       </div>
     </div>
   );
