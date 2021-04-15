@@ -69,6 +69,61 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
       }              
     } 
   }
+  fieldNearbyMobileVetCenters {
+    entity {
+      ... on NodeVetCenter {
+        title
+        entityBundle
+        fieldAddress {
+          locality
+          administrativeArea
+          postalCode
+          addressLine1
+          organization
+        }
+        fieldPhoneNumber
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}
+      }
+      ... on NodeVetCenterOutstation {
+        title
+        entityBundle
+        fieldAddress {
+          locality
+          administrativeArea
+          postalCode
+          addressLine1
+          organization
+        }
+        fieldPhoneNumber
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}
+      }
+      ... on NodeVetCenterCap {
+        title
+        entityBundle
+        fieldAddress {
+          locality
+          administrativeArea
+          postalCode
+          addressLine1
+          organization
+        }
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}
+      }
+      ... on NodeVetCenterMobileVetCenter {
+        title
+        entityBundle
+        fieldAddress {
+          locality
+          administrativeArea
+          postalCode
+          addressLine1
+          organization
+        }
+        fieldPhoneNumber
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}
+      }
+    }
+  }
   fieldOffice {
     entity {
       ... on NodeVetCenter {

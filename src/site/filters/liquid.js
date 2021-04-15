@@ -40,6 +40,10 @@ module.exports = function registerFilters() {
     return dt;
   };
 
+  liquid.filters.concatArrays = (arr1, arr2) => {
+    return arr1.concat(arr2);
+  };
+
   liquid.filters.formatVaParagraphs = vaParagraphs => {
     const FIRST_SECTION_HEADER = 'VA account and profile';
     const LAST_SECTION_HEADER = 'Other topics and questions';
