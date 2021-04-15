@@ -14,7 +14,7 @@ services:
       - 3002
     image: vets-website:${IMAGE_TAG:-latest}
     ports:
-      - 3002:3002
+      - 3001:3002
     restart: unless-stopped
     volumes:
       - .:/application
