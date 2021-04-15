@@ -80,14 +80,12 @@ export default function useFormState({
     initialLoadRef.current = false;
   }, []);
 
-  function setData(newData) {
-    dataUpdatedRef.current = true;
-    setFormState(updateSchemaAndData(formState.schema, uiSchema, newData));
-  }
-
   return {
     ...formState,
     uiSchema,
-    setData,
+    setData(newData) {
+      dataUpdatedRef.current = true;
+      setFormState(updateSchemaAndData(formState.schema, uiSchema, newData));
+    },
   };
 }
