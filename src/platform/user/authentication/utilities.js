@@ -16,7 +16,7 @@ export const authnSettings = {
 export const externalRedirects = {
   myvahealth: environment.isProduction()
     ? 'https://patientportal.myhealth.va.gov/'
-    : 'https://ehrm-va-test.patientportal.us.healtheintent.com/',
+    : 'https://staging-patientportal.myhealth.va.gov/',
 };
 
 export const ssoKeepAliveEndpoint = () => {
