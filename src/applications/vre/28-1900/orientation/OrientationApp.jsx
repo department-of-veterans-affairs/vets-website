@@ -83,7 +83,7 @@ const OrientationApp = props => {
           <Link
             id="FormStartControl"
             to="/"
-            className="va-action-link--green vads-u-padding-left--0"
+            className="vads-c-action-link--green vads-u-padding-left--0"
             onClick={() => {
               wizardStateHandler(WIZARD_STATUS_COMPLETE);
             }}
