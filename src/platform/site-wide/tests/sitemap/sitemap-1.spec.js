@@ -8,14 +8,14 @@ const SitemapHelpers = require('./sitemap-helpers');
 module.exports = {
   'sitemap 1/4': client => {
     client.timeoutsAsyncScript(1000);
-    SitemapHelpers.sitemapURLs().then(function runTestsOnFirstQuarterOfSitemap({
+    SitemapHelpers.sitemapURLs().then(function sitemapA11yOne({
       urls,
-      onlyTest508Rules, // eslint-disable-line no-unused-vars
+      onlyTest508Rules,
     }) {
       const mark = Math.ceil(urls.length / 4);
       // eslint-disable-next-line no-unused-vars
       const segment = urls.splice(0, mark);
-      // SitemapHelpers.runTests(client, segment, onlyTest508Rules);
+      SitemapHelpers.runTests(client, segment, onlyTest508Rules);
       client.end();
     });
   },
