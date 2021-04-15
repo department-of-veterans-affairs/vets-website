@@ -63,6 +63,7 @@ const SharableLink = ({ dataEntityId }) => {
 
   const offsetThreshold = 100;
   const widthOffset = 40;
+
   const extractId = idString => {
     const arr = idString.split('-');
     arr.shift();
@@ -83,6 +84,7 @@ const SharableLink = ({ dataEntityId }) => {
       }
     }
   };
+
   const hideFeedback = activeId => {
     hidePreviousFeedbacks(activeId);
     setTimeout(() => {
@@ -91,6 +93,7 @@ const SharableLink = ({ dataEntityId }) => {
       setLeftPx(0);
     }, 10000);
   };
+  
   const displayFeedback = target => {
     const iconParentId = extractId(target.getAttribute('id'));
     const parentElement = document.getElementById(iconParentId);
