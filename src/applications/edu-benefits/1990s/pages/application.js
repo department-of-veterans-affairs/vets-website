@@ -4,14 +4,16 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import directDeposit from 'platform/forms-system/src/js/definitions/directDeposit';
+import {
+  uiSchema as directDepositUiSchema,
+  schema as directDepositSchema,
+} from './directDeposit';
 
 import {
   uiSchema as addressUISchema,
   schema as addressSchema,
 } from 'platform/forms/definitions/address';
 import _ from 'lodash';
-import { bankInfoHelpText, directDepositAlert } from '../content/directDeposit';
 
 const {
   veteranFullName,
@@ -30,17 +32,8 @@ const {
 
 const addressUiSchema = addressUISchema('Mailing address', false, false);
 const address = addressSchema(fullSchema, false);
-const bankFieldIsRequired = form =>
-  !form['view:directDeposit'].declineDirectDeposit;
 const hasNotSelectedProgram = form =>
   !_.get(form['view:programSelection'], 'hasSelectedProgram', true);
-
-const {
-  uiSchema: directDepositUiSchema,
-  schema: directDepositSchema,
-} = directDeposit({
-  optionalFields: { bankName: false, declineDirectDeposit: true },
-});
 
 const path = 'apply';
 const title = 'VRRAP application';
@@ -82,43 +75,7 @@ const uiSchema = {
       city: addressUiSchema.city,
     },
   },
-  'view:directDeposit': {
-    ...directDepositUiSchema,
-    'ui:order': null, // have to null this out and declare properties in correct order
-    bankAccount: {
-      ...directDepositUiSchema.bankAccount,
-      'ui:order': null, // have to null this out and declare properties in correct order
-      'ui:options': {
-        ...directDepositUiSchema.bankAccount['ui:options'],
-        hideIf: form => !bankFieldIsRequired(form),
-      },
-      'view:paymentText': {
-        'ui:description':
-          "We make payments only through direct deposit, also called electronic funds transfer (EFT). Please provide your direct deposit information below. We'll pay your housing stipend to this account.",
-      },
-      accountType: {
-        ...directDepositUiSchema.bankAccount.accountType,
-        'ui:required': bankFieldIsRequired,
-      },
-      routingNumber: {
-        ...directDepositUiSchema.bankAccount.routingNumber,
-        'ui:required': bankFieldIsRequired,
-      },
-      accountNumber: {
-        ...directDepositUiSchema.bankAccount.accountNumber,
-        'ui:required': bankFieldIsRequired,
-      },
-    },
-    declineDirectDeposit: directDepositUiSchema.declineDirectDeposit,
-    'view:directDespositInfo': {
-      ...directDepositUiSchema['view:directDespositInfo'],
-      'ui:description': directDepositAlert,
-    },
-    'view:bankInfoHelpText': {
-      ...directDepositUiSchema['view:bankInfoHelpText'],
-      'ui:description': bankInfoHelpText,
-    },
-  },
+  'view:directDeposit': directDepositUiSchema,
   'view:programSelection': {
     'ui:title': 'Program information',
     hasSelectedProgram: {
@@ -203,39 +160,7 @@ const schema = {
         },
       },
     },
-    'view:directDeposit': {
-      type: 'object',
-      properties: {
-        bankAccount: {
-          type: 'object',
-          properties: {
-            'view:paymentText':
-              directDepositSchema.properties.bankAccount.properties[
-                'view:paymentText'
-              ],
-            accountType:
-              directDepositSchema.properties.bankAccount.properties.accountType,
-            'view:ddDescription':
-              directDepositSchema.properties.bankAccount.properties[
-                'view:ddDescription'
-              ],
-            routingNumber:
-              directDepositSchema.properties.bankAccount.properties
-                .routingNumber,
-            accountNumber:
-              directDepositSchema.properties.bankAccount.properties
-                .accountNumber,
-          },
-        },
-        declineDirectDeposit: {
-          type: 'boolean',
-        },
-        'view:directDespositInfo':
-          directDepositSchema.properties['view:directDespositInfo'],
-        'view:bankInfoHelpText':
-          directDepositSchema.properties['view:bankInfoHelpText'],
-      },
-    },
+    'view:directDeposit': directDepositSchema,
     'view:programSelection': {
       type: 'object',
       required: ['hasSelectedProgram'],
