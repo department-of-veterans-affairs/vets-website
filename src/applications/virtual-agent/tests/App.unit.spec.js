@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor, screen } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 
 import App from '../containers/App';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -44,10 +44,7 @@ describe('App', () => {
         },
       });
 
-      expect(wrapper.getByTestId('webchat')).to.exist;
-
-      expect(screen.findByText('So, what can I help you with today?\n\n')).to
-        .exist;
+      expect(wrapper.getByTestId('webchat-container')).to.exist;
     });
   });
 
@@ -57,7 +54,6 @@ describe('App', () => {
         setTimeout(resolve, timeout);
       });
     }
-
     it.skip('should wait until webchat is loaded', async () => {
       const wrapper = renderInReduxProvider(<App />, {
         initialState: {
@@ -67,7 +63,7 @@ describe('App', () => {
         },
       });
 
-      expect(wrapper.getByText('waiting on webchat framework . . .')).to.exist;
+      expect(wrapper.getByRole('progressbar')).to.exist;
 
       await wait(500);
 
@@ -75,7 +71,7 @@ describe('App', () => {
 
       await wait(100);
 
-      expect(wrapper.getByTestId('webchat')).to.exist;
+      expect(wrapper.getByTestId('webchat-container')).to.exist;
     });
   });
 
@@ -139,9 +135,7 @@ describe('App', () => {
 
       store.dispatch({ type: FETCH_TOGGLE_VALUES_SUCCEEDED, payload: {} });
 
-      expect(wrapper.getByTestId('webchat')).to.exist;
-
-      expect(wrapper.queryByRole('progressbar')).to.not.exist;
+      expect(wrapper.getByTestId('webchat-container')).to.exist;
 
       await waitFor(() => expect(getTokenCalled()).to.equal(true));
     });
