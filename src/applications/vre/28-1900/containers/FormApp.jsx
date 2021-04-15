@@ -20,6 +20,7 @@ const CHAPTER_NAMES = [
   'additional-information',
   'communication-preferences',
   'review-and-submit',
+  'confirmation',
 ];
 
 function FormApp(props) {
@@ -69,6 +70,7 @@ function FormApp(props) {
   // else if a user is trying to access parts of the form unauthenticated, redirect them to the intro page.
   if (!wizardStatus) {
     router.push('/orientation');
+    return <LoadingIndicator message="Loading VRE Orientation..." />;
   } else if (!loggedIn && CHAPTER_NAMES.includes(formPath)) {
     router.push('/introduction');
   }

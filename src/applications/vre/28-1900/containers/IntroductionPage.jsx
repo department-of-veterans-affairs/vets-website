@@ -86,9 +86,10 @@ const IntroductionPage = props => {
             </p>
           </li>
         </ol>
-        <p>
+        <p id="vre-orientation-return">
           If you’re not sure this is the right form, you can{' '}
           <Link
+            aria-describedby="vre-orientation-return"
             to="/orientation"
             onClick={() => {
               recordEvent({
