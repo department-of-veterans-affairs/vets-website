@@ -40,7 +40,6 @@ const openPdfInNewWindow = (
   const { document } = window;
   const URL = window.URL || window.webkitURL;
   const currentBrowser = isBrowser(window);
-
   if (currentBrowser.isIE) {
     window.navigator.msSaveOrOpenBlob(blob, `${options.fileName}.pdf`);
   } else {
@@ -57,7 +56,10 @@ const openPdfInNewWindow = (
     anchor.href = url;
     anchor.target = '_blank';
     document.body.appendChild(anchor);
-    anchor.click();
+
+    if (!window.Cypress) {
+      anchor.click();
+    }
     document.body.removeChild(anchor);
     if (currentBrowser.isMobileSafari) {
       const downloadWindow = window.open();

@@ -160,8 +160,74 @@ describe('health care questionnaire -- utils -- print pdf -- browser methods are
       expect(newWindow.location.href).to.equal('blob:http://blob.url');
     });
   });
-  describe('uses which URL', () => {
-    it('window uses URL', () => {});
-    it('window uses webkitURL', () => {});
+  describe("doesn't run click in cypress", () => {
+    it('runs click in !cypress', () => {
+      const blob = 'hello, there';
+      const createObjectURL = sinon.stub().returns('blob:http://blob.url');
+      const revokeObjectURL = sinon.spy();
+      const click = sinon.spy();
+      const appendChild = sinon.spy();
+      const removeChild = sinon.spy();
+
+      const window = {
+        Cypress: undefined,
+        document: {
+          body: {
+            appendChild,
+            removeChild,
+          },
+          createElement: () => {
+            return {
+              href: '',
+              target: '',
+              click,
+            };
+          },
+        },
+        URL: {
+          createObjectURL,
+          revokeObjectURL,
+        },
+      };
+
+      openPdfInNewWindow(window, blob);
+
+      // that the a is clicked
+      expect(click.called).to.be.true;
+    });
+    it('does not run click in cypress', () => {
+      const blob = 'hello, there';
+      const createObjectURL = sinon.stub().returns('blob:http://blob.url');
+      const revokeObjectURL = sinon.spy();
+      const click = sinon.spy();
+      const appendChild = sinon.spy();
+      const removeChild = sinon.spy();
+
+      const window = {
+        Cypress: {},
+        document: {
+          body: {
+            appendChild,
+            removeChild,
+          },
+          createElement: () => {
+            return {
+              href: '',
+              target: '',
+              click,
+            };
+          },
+        },
+        URL: {
+          createObjectURL,
+          revokeObjectURL,
+        },
+      };
+
+      openPdfInNewWindow(window, blob);
+
+      // that the a is clicked
+      expect(click.called).to.be.false;
+    });
   });
 });
