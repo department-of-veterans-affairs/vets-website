@@ -344,42 +344,26 @@ function getCommunityCareData(appt) {
 }
 
 /**
- * Builds participant and contained arrays for FHIR Appointment object which usually
- * contain Location (Facility) and HealthcareService (Clinic) or video conference info
+ * Builds the location object which usually contain Location (Facility)
+ * and HealthcareService (Clinic) or video conference info
  *
  * @param {Object} appt  VAR appointment object
  * @returns {Array} Array of participants of FHIR appointment
  */
-function setParticipant(appt) {
+function setLocation(appt) {
   const type = getAppointmentType(appt);
 
   switch (type) {
     case APPOINTMENT_TYPES.vaAppointment: {
-      let participant = {};
-      if (appt.clinicId) {
-        participant = {
-          ...participant,
-          location: {
-            reference: `HealthcareService/${appt.facilityId}_${appt.clinicId}`,
-            displayName:
-              appt.clinicFriendlyName ||
-              appt.vdsAppointments?.[0]?.clinic?.name ||
-              appt.vvsAppointments?.[0]?.clinic?.name,
-          },
-        };
-      }
-
-      if (appt.sta6aid) {
-        participant = {
-          ...participant,
-          location: {
-            ...participant.location,
-            stationId: `Location/${appt.sta6aid}`,
-          },
-        };
-      }
-
-      return participant;
+      return {
+        vistaId: appt.facilityId,
+        clinicId: appt.clinicId,
+        stationId: appt.sta6aid,
+        displayName:
+          appt.clinicFriendlyName ||
+          appt.vdsAppointments?.[0]?.clinic?.name ||
+          appt.vvsAppointments?.[0]?.clinic?.name,
+      };
     }
     case APPOINTMENT_TYPES.ccAppointment: {
       if (!!appt.name?.firstName && !!appt.name?.lastName) {
@@ -417,23 +401,24 @@ function createPatientResourceFromRequest(req) {
     (!!req.patient?.firstName && !!req.patient?.lastName);
 
   return {
-    resourceType: 'Patient',
-    name: {
-      text: hasName
-        ? req.patient?.displayName ||
-          `${req.patient?.firstName} ${req.patient?.lastName}`
-        : null,
+    patient: {
+      name: {
+        text: hasName
+          ? req.patient?.displayName ||
+            `${req.patient?.firstName} ${req.patient?.lastName}`
+          : null,
+      },
+      telecom: [
+        {
+          system: 'phone',
+          value: req.phoneNumber,
+        },
+        {
+          system: 'email',
+          value: req.email,
+        },
+      ],
     },
-    telecom: [
-      {
-        system: 'phone',
-        value: req.phoneNumber,
-      },
-      {
-        system: 'email',
-        value: req.email,
-      },
-    ],
   };
 }
 
@@ -450,7 +435,7 @@ function setContained(appt) {
       return createPatientResourceFromRequest(appt);
     }
     case APPOINTMENT_TYPES.ccRequest: {
-      const contained = [createPatientResourceFromRequest(appt)];
+      let contained = createPatientResourceFromRequest(appt);
       appt.ccAppointmentRequest.preferredProviders.forEach(
         (provider, index) => {
           const address = [];
@@ -463,31 +448,32 @@ function setContained(appt) {
             });
           }
 
-          contained.push({
-            resourceType: 'Practitioner',
-            id: `cc-practitioner-${appt.id}-${index}`,
-            name: provider.lastName
-              ? {
-                  text: `${provider.firstName} ${provider.lastName}`,
-                  family: provider.lastName,
-                  given: provider.firstName,
-                }
-              : null,
-            address: provider.address ? address : null,
-            practitionerRole: [
-              {
-                location: [
-                  {
-                    reference: `Location/cc-location-${appt.id}-${index}`,
-                    display: provider.practiceName,
-                  },
-                ],
-              },
-            ],
-          });
+          contained = {
+            ...contained,
+            practitioner: {
+              id: `cc-practitioner-${appt.id}-${index}`,
+              name: provider.lastName
+                ? {
+                    text: `${provider.firstName} ${provider.lastName}`,
+                    family: provider.lastName,
+                    given: provider.firstName,
+                  }
+                : null,
+              address: provider.address ? address : null,
+              practitionerRole: [
+                {
+                  location: [
+                    {
+                      reference: `Location/cc-location-${appt.id}-${index}`,
+                      display: provider.practiceName,
+                    },
+                  ],
+                },
+              ],
+            },
+          };
         },
       );
-
       return contained;
     }
     case APPOINTMENT_TYPES.ccAppointment: {
@@ -561,7 +547,7 @@ export function transformConfirmedAppointment(appt) {
       appt.instructionsToVeteran ||
       (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
       appt.vvsAppointments?.[0]?.instructionsTitle,
-    participant: setParticipant(appt),
+    location: setLocation(appt),
     contained: setContained(appt),
     legacyVAR: setLegacyVAR(appt),
     videoData,
@@ -607,10 +593,10 @@ export function transformPendingAppointment(appt) {
   );
   const created = moment.parseZone(appt.date).format('YYYY-MM-DD');
   const isVideo = appt.visitType === 'Video Conference';
-  const contained =
-    getAppointmentType(appt) === APPOINTMENT_TYPES.request
-      ? 'patient'
-      : 'contained';
+  // const contained =
+  //   getAppointmentType(appt) === APPOINTMENT_TYPES.request
+  //     ? 'patient'
+  //     : 'contained';
 
   return {
     resourceType: 'Appointment',
@@ -632,8 +618,8 @@ export function transformPendingAppointment(appt) {
       ],
     },
     reason: getPurposeOfVisit(appt),
-    participant: setParticipant(appt),
-    [contained]: setContained(appt),
+    location: setLocation(appt),
+    contained: setContained(appt),
     legacyVAR: setLegacyVAR(appt),
     comment: appt.additionalInformation,
     videoData: {

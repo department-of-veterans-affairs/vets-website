@@ -166,7 +166,7 @@ export default function ConfirmedAppointmentListItem({
             <VAFacilityLocation
               facility={facility}
               facilityId={getVAAppointmentLocationId(appointment)}
-              clinicName={appointment.participant.location.displayName}
+              clinicName={appointment.location?.displayName}
             />
           )}
         </div>

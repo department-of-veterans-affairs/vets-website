@@ -226,18 +226,7 @@ export function getVARFacilityId(appointment) {
       return appointment.legacyVAR.apiData.facilityId;
     }
 
-    let id = appointment.participant?.location?.reference;
-    if (Array.isArray(appointment.participant)) {
-      id = appointment.participant?.[0]?.actor?.reference;
-    }
-
-    id = id?.split('/')?.[1]?.split('_')?.[0];
-
-    if (id) {
-      return id;
-    }
-
-    return null;
+    return appointment.location?.vistaId;
   }
 
   return null;
@@ -251,14 +240,7 @@ export function getVARFacilityId(appointment) {
  */
 export function getVARClinicId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    // TODO: Will we always have location?
-    let id = appointment.participant?.location?.reference;
-    if (Array.isArray(appointment.participant)) {
-      id = appointment.participant?.[0]?.actor?.reference;
-    }
-    id = id?.split('/')?.[1]?.split('_')?.[1];
-
-    return id || null;
+    return appointment.location?.clinicId;
   }
 
   return null;
@@ -279,20 +261,18 @@ export function getVAAppointmentLocationId(appointment) {
     return appointment.videoData.facilityId;
   }
 
-  let locationReference;
   if (appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    locationReference = appointment?.participant?.location?.stationId;
+    return appointment.location?.stationId;
   } else {
-    locationReference = appointment?.participant?.find(p =>
+    const locationReference = appointment?.location?.find(p =>
       p.actor.reference?.startsWith('Location'),
     )?.actor?.reference;
-  }
 
-  if (locationReference) {
-    return locationReference.split('/')[1];
+    if (locationReference) {
+      return locationReference.split('/')[1];
+    }
+    return null;
   }
-
-  return null;
 }
 /**
  * Returns the patient telecom info in a VA appointment
@@ -303,15 +283,8 @@ export function getVAAppointmentLocationId(appointment) {
  * @returns {string} The patient telecome value
  */
 export function getPatientTelecom(appointment, system) {
-  if (appointment.vaos.appointmentType === APPOINTMENT_TYPES.request) {
-    return appointment?.patient.resourceType === 'Patient'
-      ? appointment.patient.telecom?.find(t => t.system === system)?.value
-      : null;
-  }
-
-  return appointment?.contained
-    .find(res => res.resourceType === 'Patient')
-    ?.telecom?.find(t => t.system === system)?.value;
+  return appointment?.contained.patient?.telecom?.find(t => t.system === system)
+    ?.value;
 }
 
 /**
@@ -574,9 +547,8 @@ export function getPractitionerDisplay(participants) {
  * @return {Object} Returns the appointment practitioner object.
  */
 export function getPractitionerLocationDisplay(appointment) {
-  return appointment.contained?.find(c =>
-    c.resourceType.includes('Practitioner'),
-  )?.practitionerRole?.[0]?.location?.[0]?.display;
+  return appointment.contained?.practitioner?.practitionerRole?.[0]
+    ?.location?.[0]?.display;
 }
 
 /**
