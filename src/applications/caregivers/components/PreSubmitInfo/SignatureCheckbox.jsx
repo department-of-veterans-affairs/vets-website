@@ -71,7 +71,9 @@ const SignatureCheckbox = ({
       <Checkbox
         onValueChange={value => {
           setIsChecked(value);
-          recordEvent({ 'poa-certification-checkbox-checked': value });
+          recordEvent({
+            'caregivers-poa-certification-checkbox-checked': value,
+          });
         }}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
         errorMessage={hasError && 'Must certify by checking box'}

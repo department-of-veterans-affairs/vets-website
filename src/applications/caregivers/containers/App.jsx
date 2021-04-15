@@ -22,8 +22,8 @@ const App = ({ loading, location, children }) => {
         for (const checkbox of checkBoxes) {
           checkbox.onclick = e => {
             recordEvent({
-              'check-box-clicked': e.target,
-              'check-box-value-selected': e.target.value,
+              'caregivers-check-box-clicked': e.target,
+              'caregivers-check-box-value-selected': e.target.value,
             });
           };
         }
