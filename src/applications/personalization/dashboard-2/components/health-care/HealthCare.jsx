@@ -80,12 +80,16 @@ const HealthCare = ({
     );
   }
 
-  if (isCernerPatient && facilityNames?.length) {
+  if (true) {
     return (
-      <GeneralCernerWidget
-        facilityNames={facilityNames}
-        authenticatedWithSSOe={authenticatedWithSSOe}
-      />
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+          <GeneralCernerWidget
+            facilityNames={facilityNames}
+            authenticatedWithSSOe={authenticatedWithSSOe}
+          />
+        </div>
+      </div>
     );
   }
 
