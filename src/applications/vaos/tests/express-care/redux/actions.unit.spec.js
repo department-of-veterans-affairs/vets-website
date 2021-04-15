@@ -12,15 +12,7 @@ import {
   FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
   FETCH_EXPRESS_CARE_WINDOWS_FAILED,
 } from '../../../appointment-list/redux/actions';
-import {
-  fetchRequestLimits,
-  FORM_FETCH_REQUEST_LIMITS,
-  FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
-} from '../../../express-care/redux/actions';
-import {
-  mockRequestEligibilityCriteria,
-  mockRequestLimits,
-} from '../../mocks/helpers';
+import { mockRequestEligibilityCriteria } from '../../mocks/helpers';
 import { getExpressCareRequestCriteriaMock } from '../../mocks/v0';
 
 describe('VAOS Express Care actions', () => {
@@ -95,47 +87,6 @@ describe('VAOS Express Care actions', () => {
     );
     expect(dispatchSpy.lastCall.args[0].type).to.eql(
       FETCH_EXPRESS_CARE_WINDOWS_FAILED,
-    );
-  });
-
-  it('should fetch express care limits', async () => {
-    const today = moment();
-    const getState = () => ({
-      user: userState,
-      appointments: {
-        expressCareFacilities: [
-          {
-            facilityId: '983',
-            days: [
-              {
-                day: today.format('dddd').toUpperCase(),
-                canSchedule: true,
-                startTime: today
-                  .clone()
-                  .subtract('2', 'minutes')
-                  .tz('America/Denver')
-                  .format('HH:mm'),
-                endTime: today
-                  .clone()
-                  .add('1', 'minutes')
-                  .tz('America/Denver')
-                  .format('HH:mm'),
-              },
-            ],
-          },
-        ],
-      },
-    });
-
-    mockRequestLimits({ facilityIds: ['983'] });
-    const thunk = fetchRequestLimits();
-    const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy, getState);
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(
-      FORM_FETCH_REQUEST_LIMITS,
-    );
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
-      FORM_FETCH_REQUEST_LIMITS_SUCCEEDED,
     );
   });
 });
