@@ -14,7 +14,7 @@ const NameTag = ({
   showBadgeImage,
   showUpdatedNameTag,
   totalDisabilityRating,
-  totalDisabilityRatingError,
+  totalDisabilityRatingServerError,
 }) => {
   const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
@@ -162,7 +162,7 @@ const NameTag = ({
               )}
           </dl>
           {showUpdatedNameTag &&
-            totalDisabilityRatingError && (
+            totalDisabilityRatingServerError && (
               <a
                 href="/disability/view-disability-rating/rating"
                 aria-label="view your disability rating"
@@ -217,7 +217,7 @@ NameTag.propTypes = {
   latestBranchOfService: PropTypes.string.isRequired,
   showUpdatedNameTag: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
-  totalDisabilityRatingError: PropTypes.bool,
+  totalDisabilityRatingServerError: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(NameTag);
