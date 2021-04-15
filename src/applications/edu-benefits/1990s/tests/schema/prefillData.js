@@ -25,13 +25,6 @@ export const minTransformedPrefillData = {
       mobilePhone: undefined,
     },
   },
-  'view:directDeposit': {
-    bankAccount: {
-      accountNumber: undefined,
-      accountType: undefined,
-      routingNumber: undefined,
-    },
-  },
 };
 
 export const maxPrefillData = {
@@ -85,11 +78,18 @@ export const transformedMaxPrefillData = {
       postalCode: '22312',
     },
   },
+  'view:originalBankAccount': {
+    'view:accountNumber': '88888888888',
+    'view:accountType': 'checking',
+    'view:routingNumber': '123456789',
+    'view:bankName': undefined,
+  },
   'view:directDeposit': {
     bankAccount: {
       accountNumber: '88888888888',
       accountType: 'checking',
       routingNumber: '123456789',
+      'view:hasPrefilledBank': true,
     },
   },
 };

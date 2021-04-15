@@ -115,7 +115,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
       )}
       {!external && (
         <Link
-          className="va-action-link--blue"
+          className="vads-c-action-link--blue"
           to={`appeals/${appeal.id}/status`}
         >
           View details
@@ -124,7 +124,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
       {external && (
         <Link
           aria-label={`View details of ${appealTitle} `}
-          className="va-action-link--blue"
+          className="vads-c-action-link--blue"
           href={`/track-claims/appeals/${appeal.id}/status`}
         >
           View details

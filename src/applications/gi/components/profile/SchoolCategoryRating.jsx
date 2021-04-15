@@ -1,6 +1,7 @@
 import React from 'react';
 import { convertRatingToStars } from '../../utils/helpers';
 import { renderStars } from '../../utils/render';
+import recordEvent from 'platform/monitoring/record-event';
 
 export default function SchoolCategoryRating({
   categoryRating,
@@ -37,13 +38,27 @@ export default function SchoolCategoryRating({
     );
   };
 
+  const onClick = () => {
+    const action = open ? 'collapse' : 'expand';
+
+    recordEvent({
+      event: `int-accordion-${action}`,
+      'accordion-parent-label': title,
+      'accordion-child-label': undefined,
+      'accordion-size': 'small',
+      'gibct-rating': categoryRating.averageRating,
+    });
+
+    openHandler(categoryRating.categoryName);
+  };
+
   return (
     <div className="vads-u-margin-right--0 category-rating">
       <div className="rating vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
         <button
           aria-expanded={open}
           className="usa-accordion-button-ratings"
-          onClick={() => openHandler(categoryRating.categoryName)}
+          onClick={onClick}
         >
           <div className="category-main vads-l-row medium-screen:vads-u-padding-left--1">
             <div className="vads-l-col--6 vads-u-font-size--sm">{title}</div>
