@@ -4,7 +4,8 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import OMBInfo from '../content/OMBInfo';
+import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -17,13 +18,16 @@ class IntroductionPage extends React.Component {
     }
 
     return (
-      <SaveInProgressIntro
-        prefillEnabled={this.props.route.formConfig.prefillEnabled}
-        messages={this.props.route.formConfig.savedFormMessages}
-        pageList={this.props.route.pageList}
-        startText="Start the education application"
-        unauthStartText="Sign in to start your application"
-      />
+      <CallToActionWidget appId="vrrap">
+        <SaveInProgressIntro
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          messages={this.props.route.formConfig.savedFormMessages}
+          pageList={this.props.route.pageList}
+          startText="Start the education application"
+          unauthStartText="Sign in to start your application"
+          hideUnauthedStartLink
+        />
+      </CallToActionWidget>
     );
   }
 
@@ -119,6 +123,7 @@ class IntroductionPage extends React.Component {
           pageList={this.props.route.pageList}
           startText="Start the education application"
           unauthStartText="Sign in or create an account"
+          hideUnauthedStartLink
         />
         <div
           className="omb-info--container"
@@ -126,9 +131,9 @@ class IntroductionPage extends React.Component {
           id="privacy_policy"
         >
           <OMBInfo
-            resBurden={'xx'}
-            ombNumber="xxxx-xxxx"
-            expDate="xx/xx/xxxx"
+            resBurden={'10'}
+            ombNumber="2900-0885"
+            expDate="October 31, 2021"
           />
         </div>
       </div>

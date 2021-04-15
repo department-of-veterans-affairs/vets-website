@@ -98,7 +98,7 @@ describe('VAOS direct schedule flow', () => {
 
     // Type of eye care
     cy.url().should('include', '/choose-eye-care');
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.findByLabelText(/Optometry/).click();
     cy.findByText(/Continue/).click();
 
@@ -170,7 +170,7 @@ describe('VAOS direct schedule flow', () => {
 
     // Type of sleep care
     cy.url().should('include', '/choose-sleep-care');
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.findByLabelText(/Sleep medicine/).click();
     cy.findByText(/Continue/).click();
 
@@ -316,7 +316,7 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
 
     // Type of eye care
     cy.url().should('include', '/choose-eye-care');
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.findByLabelText(/Optometry/).click();
     cy.findByText(/Continue/).click();
 
@@ -388,7 +388,7 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
 
     // Type of sleep care
     cy.url().should('include', '/choose-sleep-care');
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.findByLabelText(/Sleep medicine/).click();
     cy.findByText(/Continue/).click();
 

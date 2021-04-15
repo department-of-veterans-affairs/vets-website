@@ -89,7 +89,8 @@ function getInitialBlankCells(momentDate, showWeekends) {
     return blanks;
   }
 
-  for (let i = 0; i < firstDay; i++) {
+  const weekStart = showWeekends ? 0 : 1;
+  for (let i = weekStart; i < firstDay; i++) {
     blanks.push(null);
   }
 

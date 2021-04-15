@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import { format } from 'date-fns';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
@@ -9,7 +9,8 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { SELECTED } from '../constants';
+import { SELECTED, FORMAT_READABLE } from '../constants';
+import { isValidDate } from '../validations';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -29,7 +30,6 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { name = {}, form } = this.props;
     const { submission, formId } = form;
-    const { response } = submission;
     const issues = (form.data?.contestedIssues || [])
       .filter(el => el[SELECTED])
       .map((issue, index) => (
@@ -38,6 +38,9 @@ export class ConfirmationPage extends React.Component {
         </li>
       ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
+    const submitDate = submission?.timestamp
+      ? new Date(submission?.timestamp)
+      : new Date();
 
     return (
       <div>
@@ -66,26 +69,24 @@ export class ConfirmationPage extends React.Component {
           </h3>
           for {fullName}
           {name.suffix && `, ${name.suffix}`}
-          {response && (
-            <>
-              <p>
-                <strong>Date submitted</strong>
-                <br />
-                <span>{moment(response.timestamp).format('MMMM D, YYYY')}</span>
-              </p>
-              <strong>
-                Condition
-                {issues.length > 1 ? 's' : ''} submitted
-              </strong>
-              <ul className="vads-u-margin-top--0">{issues}</ul>
-              <button
-                className="usa-button screen-only"
-                onClick={() => window.print()}
-              >
-                Print this for your records
-              </button>
-            </>
+          {isValidDate(submitDate) && (
+            <p>
+              <strong>Date submitted</strong>
+              <br />
+              <span>{format(submitDate, FORMAT_READABLE)}</span>
+            </p>
           )}
+          <strong>
+            Condition
+            {issues?.length > 1 ? 's' : ''} submitted
+          </strong>
+          <ul className="vads-u-margin-top--0">{issues || null}</ul>
+          <button
+            className="usa-button screen-only"
+            onClick={() => window.print()}
+          >
+            Print this for your records
+          </button>
         </div>
 
         <h2 className="vads-u-font-size--h3">After you request an appeal</h2>

@@ -777,9 +777,9 @@
   {
     "appName": "28-1900 Veteran Readiness",
     "entryName": "28-1900-chapter-31",
-    "rootUrl": "/careers-employment/vocational-rehabilitation/apply",
+    "rootUrl": "/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900",
     "template": {
-      "vagovprod": false,
+      "vagovprod": true,
       "layout": "page-react.html",
       "includeBreadcrumbs": true,
       "breadcrumbs_override": [
@@ -792,7 +792,7 @@
           "name": "Veteran Readiness and Employment"
         },
         {
-          "path": "careers-employment/vocational-rehabilitation/apply",
+          "path": "/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900",
           "name": "Apply for Veteran Readiness and Employment Form 28‑1900"
         }
       ]
@@ -1051,10 +1051,10 @@
         },
         {
           "name": "Veteran Rapid Retraining Assistance Program",
-          "path": "education/other-va-education-benefits/veteran-rapid-retraining-assistance"
+          "path": "education/other-va-education-benefits/"
         },
         {
-          "name": "Apply for VRRAP VA Form 22&#8208;1990s",
+          "name": "Apply for VRRAP VA Form 22-1990s",
           "path": "education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s"
         }
       ]
@@ -1062,14 +1062,14 @@
   },
   {
     "appName": "Request a Board Appeal",
-    "entryName": "10182-notice-of-disagreement",
-    "rootUrl": "/decision-reviews/board-appeal/request-notice-of-disagreement-form-10182",
+    "entryName": "10182-board-appeal",
+    "rootUrl": "/decision-reviews/board-appeal/request-board-review-form-10182",
     "template": {
       "title": "Request a Board Appeal",
       "heading": "Request a Board Appeal",
       "display_title": "Request a Board Appeal",
       "layout": "page-react.html",
-      "description": "Apply online to request a Notice of Disagreement.",
+      "description": "Apply online to request a Board Appeal.",
       "includeBreadcrumbs": true,
       "keywords": "notice of disagreement, board appeal, NOD",
       "vagovprod": false,
@@ -1084,7 +1084,7 @@
         },
         {
           "name": "Request a Board Appeal",
-          "path": "/decision-reviews/board-appeal/request-notice-of-disagreement-form-10182"
+          "path": "/decision-reviews/board-appeal/request-board-review-form-10182"
         }
       ]
     }

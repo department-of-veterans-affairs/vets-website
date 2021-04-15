@@ -6,7 +6,7 @@
 
 {% if showDebug %}
   <script nonce="**CSP_NONCE**" data-template="includes/debug">
-    window.contentData = {{ debug }};
+    window.contentData = {{ debug | json }};
     console.info('Metalsmith template generated from content:', window.contentData);
   </script>
 {% endif %}

@@ -3,8 +3,8 @@ import Scroll from 'react-scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import Wizard from 'applications/static-pages/wizard';
-import { CHAPTER_31_ROOT_URL } from 'applications/vre/28-1900/constants';
 import pages from 'applications/vre/28-1900/wizard/pages';
+import { CHAPTER_31_ROOT_URL } from 'applications/vre/28-1900/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import OrientationApp from 'applications/vre/28-1900/orientation/OrientationApp';
 
@@ -61,14 +61,15 @@ const OrientationWizardContainer = props => {
           <a
             href={CHAPTER_31_ROOT_URL}
             aria-describedby="skip-wizard-description"
-            onClick={() => {
+            onClick={e => {
+              e.preventDefault();
               recordEvent({
                 event: 'howToWizard-skip',
               });
               wizardStateHandler(WIZARD_STATUS_COMPLETE);
             }}
           >
-            Apply online with VA Form 28-1900
+            Apply for Veteran Readiness and Employment with VA Form 28-1900
           </a>
         </p>
         <Wizard

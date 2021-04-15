@@ -238,7 +238,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
   };
 }
 
-export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
+export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
     const useVSP = selectFeatureVSPAppointmentNew(state);
@@ -256,7 +256,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     let fetchedEndMonth = false;
     let availableSlots = [];
 
-    if (!forceFetch) {
+    if (!initialFetch) {
       fetchedAppointmentSlotMonths = [
         ...newBooking.fetchedAppointmentSlotMonths,
       ];
@@ -290,6 +290,11 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           endDate: endDateString,
           useVSP,
         });
+
+        if (initialFetch) {
+          recordItemsRetrieved('covid_slots', fetchedSlots?.length);
+        }
+
         const now = moment();
 
         mappedSlots = fetchedSlots.filter(slot =>

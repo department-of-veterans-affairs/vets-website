@@ -10,7 +10,7 @@ import manifest from '~/applications/personalization/dashboard/manifest.json';
 import { mockFeatureToggles } from './helpers';
 
 function sectionHeadingsExist() {
-  cy.findByRole('heading', { name: /apply for benefits/i }).should('exist');
+  cy.findByRole('heading', { name: /apply for VA benefits/i }).should('exist');
   cy.findByRole('heading', {
     name: /benefits you might be interested in/i,
   }).should('exist');

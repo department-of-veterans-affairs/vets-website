@@ -12,10 +12,6 @@ import {
 } from 'platform/forms/definitions/address';
 import _ from 'lodash';
 import { bankInfoHelpText, directDepositAlert } from '../content/directDeposit';
-import {
-  confirmEligibilityDescription,
-  confirmEligibilityNote,
-} from '../content/confirmEligibility';
 
 const {
   veteranFullName,
@@ -30,11 +26,10 @@ const {
   programCity,
   programState,
   learningFormat,
-  vrrapConfirmation,
 } = fullSchema.properties;
 
-const addressUiSchema = addressUISchema('Mailing address', false);
-const address = addressSchema(fullSchema, true);
+const addressUiSchema = addressUISchema('Mailing address', false, false);
+const address = addressSchema(fullSchema, false);
 const bankFieldIsRequired = form =>
   !form['view:directDeposit'].declineDirectDeposit;
 const hasNotSelectedProgram = form =>
@@ -47,7 +42,7 @@ const {
   optionalFields: { bankName: false, declineDirectDeposit: true },
 });
 
-const path = 'form';
+const path = 'apply';
 const title = 'VRRAP application';
 const uiSchema = {
   'view:applicantInformation': {
@@ -125,13 +120,13 @@ const uiSchema = {
     },
   },
   'view:programSelection': {
-    'ui:title': 'Program Selection',
+    'ui:title': 'Program information',
     hasSelectedProgram: {
-      'ui:title': 'Have you picked a program you’d like to attend using VRRAP?',
+      'ui:title': "Do you know which program you'd like to enroll in?",
       'ui:widget': 'yesNo',
     },
     providerName: {
-      'ui:title': "What's the name of the program’s provider?",
+      'ui:title': "What's the name of the school or training provider?",
       'ui:options': {
         hideIf: hasNotSelectedProgram,
       },
@@ -143,40 +138,28 @@ const uiSchema = {
       },
     },
     programCity: {
-      'ui:title': 'What city is the program in?',
+      'ui:title': 'Which city is the program in?',
       'ui:options': {
         hideIf: hasNotSelectedProgram,
       },
     },
     programState: {
-      'ui:title': 'What state is the program in?',
+      'ui:title': 'Which state is the program in?',
       'ui:options': {
         hideIf: hasNotSelectedProgram,
       },
     },
     learningFormat: {
-      'ui:title': 'Is the program in-person, online or both?',
+      'ui:title': 'Is the program in-person, online, or both?',
       'ui:widget': 'radio',
       'ui:options': {
         hideIf: hasNotSelectedProgram,
         labels: {
           inPerson: 'In-person',
           online: 'Online',
-          onlineAndInPerson: "It's both online and in person",
+          onlineAndInPerson: 'Both in-person and online',
         },
       },
-    },
-  },
-  'view:confirmEligibility': {
-    'ui:title': "Confirm you're eligibile for VRRAP",
-    'ui:description': confirmEligibilityDescription,
-    vrrapConfirmation: {
-      'ui:title':
-        'I attest the statements above are true and accurate to the best of my knowledge and belief.',
-      'ui:widget': 'yesNo',
-    },
-    'view:confirmEligibilityNote': {
-      'ui:description': confirmEligibilityNote,
     },
   },
 };
@@ -263,13 +246,6 @@ const schema = {
         programCity,
         programState,
         learningFormat,
-      },
-    },
-    'view:confirmEligibility': {
-      type: 'object',
-      required: ['vrrapConfirmation'],
-      properties: {
-        vrrapConfirmation,
       },
     },
   },
