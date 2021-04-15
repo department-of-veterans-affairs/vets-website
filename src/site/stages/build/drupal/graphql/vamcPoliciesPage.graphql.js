@@ -42,10 +42,10 @@ const policiesPageFragment = `
 const GetPolicyPages = `
   ${policiesPageFragment}
   
-query GetPolicyPages {
+query GetPolicyPages($onlyPublishedContent: Boolean!) {
     nodeQuery(limit: 500, filter: {
       conditions: [
-       # { field: "status", value: ["1"], enabled: $onlyPublishedContent },      
+        { field: "status", value: ["1"], enabled: $onlyPublishedContent },      
         { field: "type", value: ["vamc_system_policies_page"] }
       ]
     }) {
