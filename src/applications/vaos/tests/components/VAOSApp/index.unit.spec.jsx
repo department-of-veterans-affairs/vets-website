@@ -44,7 +44,7 @@ describe('VAOS <VAOSApp>', () => {
     resetFetch();
   });
 
-  it('should render child content when logged in', async () => {
+  it('should render child content', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<VAOSApp>Child content</VAOSApp>, {
       store,
