@@ -1,14 +1,13 @@
-import { EvidenceUploadDescription } from '../content/EvidenceUpload';
 import { evidenceUploadUI } from '../utils/upload';
 
 export const evidenceUpload = {
   uiSchema: {
-    'ui:description': EvidenceUploadDescription,
     evidence: evidenceUploadUI,
   },
 
   schema: {
     type: 'object',
+    required: ['evidence'],
     properties: {
       evidence: {
         type: 'array',

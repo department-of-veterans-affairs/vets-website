@@ -8,9 +8,14 @@ const fileTypes = `.${SUPPORTED_UPLOAD_TYPES.slice(0, -1).join(
   ', .',
 )} or .${SUPPORTED_UPLOAD_TYPES.slice(-1)}`;
 
+export const EvidenceUploadLabel = (
+  <h3 className="vads-u-font-size--h4 vads-u-display--inline">
+    Upload your additional evidence
+  </h3>
+);
+
 export const EvidenceUploadDescription = (
   <div>
-    <h3 className="vads-u-font-size--h4">Additional evidence</h3>
     <p>
       You can upload your document in a {fileTypes} file format. You’ll first
       need to scan a copy of your document onto your computer or mobile phone.

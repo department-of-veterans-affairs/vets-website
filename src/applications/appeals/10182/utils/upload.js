@@ -4,6 +4,11 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { SUPPORTED_UPLOAD_TYPES, MAX_FILE_SIZE_BYTES } from '../constants';
 
+import {
+  EvidenceUploadLabel,
+  EvidenceUploadDescription,
+} from '../content/EvidenceUpload';
+
 const focusFileCard = name => {
   const target = [
     ...document.querySelectorAll('.schemaform-file-list li'),
@@ -13,26 +18,29 @@ const focusFileCard = name => {
   }
 };
 
-export const evidenceUploadUI = fileUiSchema(' ', {
-  fileUploadUrl: `${environment.API_URL}/v0/decision_review_evidence`,
-  addAnotherLabel: 'Add another document',
-  fileTypes: SUPPORTED_UPLOAD_TYPES,
-  maxSize: MAX_FILE_SIZE_BYTES,
-  minSize: 1,
-  createPayload: ({ name }) => {
-    const payload = new FormData();
-    payload.append('decision_review_evidence_attachment[file_data]', name);
-    return payload;
-  },
-  parseResponse: (response, { name }) => {
-    setTimeout(() => {
-      focusFileCard(name);
-    });
-    return {
-      name,
-      confirmationCode: response.data.attributes.guid,
-    };
-  },
-  classNames: '',
-  attachmentName: false,
-});
+export const evidenceUploadUI = {
+  ...fileUiSchema(EvidenceUploadLabel, {
+    fileUploadUrl: `${environment.API_URL}/v0/decision_review_evidence`,
+    addAnotherLabel: 'Add another document',
+    fileTypes: SUPPORTED_UPLOAD_TYPES,
+    maxSize: MAX_FILE_SIZE_BYTES,
+    minSize: 1024,
+    createPayload: ({ name }) => {
+      const payload = new FormData();
+      payload.append('decision_review_evidence_attachment[file_data]', name);
+      return payload;
+    },
+    parseResponse: (response, { name }) => {
+      setTimeout(() => {
+        focusFileCard(name);
+      });
+      return {
+        name,
+        confirmationCode: response.data.attributes.guid,
+      };
+    },
+    classNames: '',
+    attachmentName: false,
+  }),
+  'ui:description': EvidenceUploadDescription,
+};
