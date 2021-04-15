@@ -137,6 +137,12 @@ jobs:
         run: cat test-results/test-results.xml
         if: ${{ failure() }}
 
+      - name: Run Pact verify
+        run: yarn pact:verify
+        env:
+          PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
+          PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
+
       - name: Run Pact publish
         run: yarn pact:publish
         env:
