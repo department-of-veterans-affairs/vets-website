@@ -358,3 +358,8 @@ describe('concat', () => {
     );
   });
 });
+describe('strip', () => {
+  it('removes leading and trailing whitespace', () => {
+    expect(liquid.filters.strip('   \nhello\n    ')).to.equal('hello');
+  });
+});

@@ -47,7 +47,7 @@
                 href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.url.path }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Why this matters to you', 'clp-section-title': '{{ fieldClpWhyThisMatters | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldSecondaryCallToAction.entity.fieldButtonLabel | escape }}' });"
               >
-                {{ fieldSecondaryCallToAction.entity.fieldButtonLabel }}
+                {{ fieldSecondaryCallToAction.entity.fieldButtonLabel | strip }}
               </a>
             {% endif %}
           </div><!-- /Content -->
@@ -173,7 +173,7 @@
                   href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url.path }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Video', 'clp-section-title': '{{ fieldClpVideoPanelHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel | escape }}' });"
                 >
-                  {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
+                  {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel | strip }}
                 </a>
               </p>
             {% endif %}
@@ -320,7 +320,7 @@
                 href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url.path }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpResourcesCta.entity.fieldButtonLabel | escape }}' });"
               >
-                {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
+                {{ fieldClpResourcesCta.entity.fieldButtonLabel | strip }}
               </a>
             </div>
           </div>
@@ -474,7 +474,7 @@
                 href="{{ fieldClpFaqCta.entity.fieldButtonLink.url.path }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'FAQ', 'clp-section-title': 'Frequently asked questions', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpFaqCta.entity.fieldButtonLabel | escape }}' });"
               >
-                {{ fieldClpFaqCta.entity.fieldButtonLabel }}
+                {{ fieldClpFaqCta.entity.fieldButtonLabel | strip }}
               </a>
             </div>
           </div>
