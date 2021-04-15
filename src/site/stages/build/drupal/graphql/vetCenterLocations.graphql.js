@@ -24,6 +24,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
           administrativeArea
           postalCode
           addressLine1
+          organization
         }        
         fieldPhoneNumber
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}                           
@@ -36,6 +37,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
           administrativeArea
           postalCode
           addressLine1
+          organization
         }
         fieldPhoneNumber
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}             
@@ -48,6 +50,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
           administrativeArea
           postalCode
           addressLine1
+          organization
         }        
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}                           
       }
@@ -59,6 +62,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
           administrativeArea
           postalCode
           addressLine1
+          organization
         }      
         fieldPhoneNumber
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}                            
@@ -80,6 +84,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
                 administrativeArea
                 postalCode
                 addressLine1
+                organization
               }
             }
             ... on NodeVetCenterOutstation {
@@ -92,6 +97,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
                 administrativeArea
                 postalCode
                 addressLine1
+                organization
               }
               fieldPhoneNumber              
             }
@@ -104,6 +110,7 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
                 administrativeArea
                 postalCode
                 addressLine1
+                organization
               }
               fieldPhoneNumber              
             }
@@ -112,9 +119,11 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
         title
         fieldAddress {
           countryCode
+          administrativeArea
           locality
           postalCode
           addressLine1
+          organization
         }
         fieldPhoneNumber
         fieldOperatingStatusFacility

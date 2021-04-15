@@ -10,13 +10,6 @@
                 {% endif %}
             </h3>
         {% endif %}
-        <h3 class="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
-            {% if vetCenter.entityBundle == "vet_center_cap" %}
-                Located at
-            {% else %}
-                Address
-            {% endif %}
-        </h3>
         {% if vetCenter.fieldOperatingStatusFacility and vetCenter.fieldOperatingStatusFacility != 'normal' %}
             <div class="vads-u-display--inline-block vads-u-margin-bottom--1">
                 {% include "src/site/includes/operation_status_information.liquid" with
@@ -24,8 +17,16 @@
                 %}
             </div>
         {% endif %}
+        <h3 class="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
+            {% if vetCenter.entityBundle == "vet_center_cap" %}
+                Located at
+            {% else %}
+                Address
+            {% endif %}
+        </h3>
         <div class="vads-u-margin-bottom--3">
             <address class="vads-u-margin-bottom--0">
+                <div>{{ vetCenter.fieldAddress.organization }}</div>
                 <div>{{ vetCenter.fieldAddress.addressLine1 }}</div>
                 <div>{{ vetCenter.fieldAddress.locality }},
                     {{ vetCenter.fieldAddress.administrativeArea }}
@@ -64,5 +65,8 @@
             </a>
         {% endif %}
     </section>
+
+    <!-- Back to Top -->
+    {% include "src/site/components/up_to_top_button.html" %}
 
 </div>

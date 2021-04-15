@@ -25,11 +25,21 @@
       {% elsif crumb.url.path %}
         {% if crumb.url.path == '/' %}
           {% if hideHomeBreadcrumb != true %}
-            <li>
-              <a href="{{ crumb.url.path }}"
-                lang="{{ crumb.url.path | detectLang }}"
-                onclick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ crumb.text }}</a>
-            </li>
+            {% if customHomeCrumbText != empty %}
+              <li>
+                <a href="{{ crumb.url.path }}"
+                   lang="{{ crumb.url.path | detectLang }}"
+                   onclick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ customHomeCrumbText }}
+                </a>
+              </li>
+            {% else %}
+              <li>
+                <a href="{{ crumb.url.path }}"
+                  lang="{{ crumb.url.path | detectLang }}"
+                  onclick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ crumb.text }}
+                </a>
+              </li>
+            {% endif %}
           {% endif %}
         {% else %}
           <li><a
