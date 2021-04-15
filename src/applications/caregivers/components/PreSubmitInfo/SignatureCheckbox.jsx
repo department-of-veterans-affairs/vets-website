@@ -73,6 +73,9 @@ const SignatureCheckbox = ({
           setIsChecked(value);
           recordEvent({
             'caregivers-poa-certification-checkbox-checked': value,
+            fullName,
+            label,
+            isRepresentative,
           });
         }}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
