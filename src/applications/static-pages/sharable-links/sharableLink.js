@@ -112,9 +112,11 @@ const SharableLink = ({ dataEntityId }) => {
   return (
     <ThemeProvider theme={theme.main}>
       <span aria-live="polite" aria-relevant="additions">
-        <button className="usa-button-unstyled">
+        <button
+          className="usa-button-unstyled"
+          aria-label={`Copy ${dataEntityId} sharable link`}
+        >
           <ShareIcon
-            aria-label={`Copy ${dataEntityId} sharable link`}
             aria-hidden="true"
             className={`fas fa-link sharable-link`}
             feedbackActive={feedbackActive}
