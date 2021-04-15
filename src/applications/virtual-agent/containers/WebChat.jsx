@@ -60,7 +60,11 @@ export default function WebChat() {
 
   return (
     <div className={'vads-l-grid-container'}>
-      <div className={'vads-l-row'} style={{ height: '500px' }}>
+      <div
+        className={'vads-l-row'}
+        style={{ height: '500px' }}
+        data-testid={'webchat-container'}
+      >
         {token && (
           <div data-testid={'webchat'}>
             <ReactWebChat

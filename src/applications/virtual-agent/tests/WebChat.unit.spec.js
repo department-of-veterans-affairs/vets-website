@@ -34,7 +34,7 @@ describe('WebChat', () => {
       mockApiRequest({ token: 'ANOTHERFAKETOKEN' });
       const wrapper = render(<WebChat />);
 
-      expect(wrapper.getByText('Loading Chatbot')).to.exist;
+      expect(wrapper.getByRole('progressbar')).to.exist;
     });
   });
 
