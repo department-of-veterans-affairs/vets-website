@@ -65,6 +65,7 @@ const SharableLink = ({ dataEntityId }) => {
   const widthOffset = 40;
 
   const extractId = idString => {
+    if (!idString) return '';
     const arr = idString.split('-');
     arr.shift();
     return arr.join('-');
