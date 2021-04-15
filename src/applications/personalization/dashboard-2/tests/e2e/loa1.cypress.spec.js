@@ -44,13 +44,20 @@ function loa1DashboardTest(mobile, stubs) {
   cy.findByTestId('name-tag').should('not.exist');
 
   // make sure the claims and appeals section is hidden
-  cy.findByRole('heading', { name: 'Claims & appeals' }).should('not.exist');
+  cy.findByTestId('dashboard-section-claims-and-appeals').should('not.exist');
 
   // make sure that the health care section is hidden
-  cy.findByRole('heading', { name: 'Health care' }).should('not.exist');
+  cy.findByTestId('dashboard-section-health-care').should('not.exist');
 
   // make sure that the apply for benefits section is visible
-  cy.findByRole('heading', { name: /apply for VA benefits/i }).should('exist');
+  cy.findByTestId('dashboard-section-apply-for-benefits').should('exist');
+
+  // make sure all three benefits links are shown in the Apply For Benefits section
+  cy.findByRole('link', { name: /apply for va health care/i }).should('exist');
+  cy.findByRole('link', { name: /file a claim/i }).should('exist');
+  cy.findByRole('link', { name: /apply for education benefits/i }).should(
+    'exist',
+  );
 
   // make the a11y check
   cy.injectAxe();
@@ -58,18 +65,37 @@ function loa1DashboardTest(mobile, stubs) {
 }
 
 describe('The My VA Dashboard', () => {
+  let getAppealsStub;
+  let getClaimsStub;
   let getServiceHistoryStub;
+  let getEnrollmentStatusStub;
   let getFullNameStub;
   let getDisabilityRatingStub;
   let stubs;
   beforeEach(() => {
     disableFTUXModals();
     cy.login(loa1User);
+    getAppealsStub = cy.stub();
+    getClaimsStub = cy.stub();
     getServiceHistoryStub = cy.stub();
+    getEnrollmentStatusStub = cy.stub();
     getFullNameStub = cy.stub();
     getDisabilityRatingStub = cy.stub();
-    stubs = [getServiceHistoryStub, getFullNameStub, getDisabilityRatingStub];
+    stubs = [
+      getAppealsStub,
+      getClaimsStub,
+      getServiceHistoryStub,
+      getFullNameStub,
+      getDisabilityRatingStub,
+      getEnrollmentStatusStub,
+    ];
 
+    cy.intercept('/v0/appeals', () => {
+      getAppealsStub();
+    });
+    cy.intercept('/v0/evss_claims_async', () => {
+      getClaimsStub();
+    });
     cy.intercept('/v0/profile/service_history', () => {
       getServiceHistoryStub();
     });
@@ -78,6 +104,9 @@ describe('The My VA Dashboard', () => {
     });
     cy.intercept('/v0/disability_compensation_form/rating_info', () => {
       getDisabilityRatingStub();
+    });
+    cy.intercept('/v0/health_care_applications/enrollment_status', () => {
+      getEnrollmentStatusStub();
     });
   });
   it('should handle LOA1 users at desktop size', () => {

@@ -76,7 +76,7 @@ const ApplyForBenefits = ({
   const showEducation = !hasDD4EDU;
 
   return (
-    <>
+    <div data-testid="dashboard-section-apply-for-benefits">
       <h2>Apply for VA benefits</h2>
       <div className="vads-u-margin-top--2">
         <AdditionalInfo triggerText="What benefits does VA offer?">
@@ -162,7 +162,7 @@ const ApplyForBenefits = ({
           )}
         </>
       </BenefitsOfInterest>
-    </>
+    </div>
   );
 };
 
