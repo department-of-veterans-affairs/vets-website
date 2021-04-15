@@ -93,7 +93,7 @@ const SharableLink = ({ dataEntityId }) => {
       setLeftPx(0);
     }, 10000);
   };
-  
+
   const displayFeedback = target => {
     const iconParentId = extractId(target.getAttribute('id'));
     const parentElement = document.getElementById(iconParentId);
