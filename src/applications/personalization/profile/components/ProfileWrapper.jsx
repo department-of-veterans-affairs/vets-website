@@ -17,6 +17,8 @@ import {
   personalInformationLoadError,
 } from '@@profile/selectors';
 
+import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
+
 import NameTag from '~/applications/personalization/components/NameTag';
 import ProfileSubNav from './ProfileSubNav';
 import ProfileMobileSubNav from './ProfileMobileSubNav';
@@ -45,7 +47,7 @@ const ProfileWrapper = ({
   isInMVI,
   showNotAllDataAvailableError,
   totalDisabilityRating,
-  totalDisabilityRatingError,
+  totalDisabilityRatingServerError,
   showUpdatedNameTag,
   showNameTag,
 }) => {
@@ -74,7 +76,7 @@ const ProfileWrapper = ({
           <NameTag
             showUpdatedNameTag
             totalDisabilityRating={totalDisabilityRating}
-            totalDisabilityRatingError={totalDisabilityRatingError}
+            totalDisabilityRatingServerError={totalDisabilityRatingServerError}
           />
         )}
 
@@ -129,7 +131,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
-    totalDisabilityRatingError: state.totalRating?.error,
+    totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
       !!cnpDirectDepositLoadError(state) ||
