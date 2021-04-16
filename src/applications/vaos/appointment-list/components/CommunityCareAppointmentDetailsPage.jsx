@@ -151,11 +151,9 @@ function CommunityCareAppointmentDetailsPage({
       <AlertBox
         status={ALERT_TYPE.INFO}
         className="vads-u-display--block"
+        headline="Need to make changes?"
         backgroundOnly
       >
-        <h2 className="vads-u-font-size--h3 vads-u-font-size--base vads-u-margin-top--0">
-          Need to make changes?
-        </h2>
         Contact this facility if you need to reschedule or cancel your
         appointment.
       </AlertBox>
