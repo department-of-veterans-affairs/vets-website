@@ -7,7 +7,7 @@ module.exports = {
   entry: path.join(root, 'src', 'platform', 'lambdas', 'content-cache.js'),
   output: {
     path: path.join(root, 'build', 'content-cache'),
-    filename: 'exports.js',
+    filename: 'index.js',
     libraryTarget: 'commonjs',
   },
   target: 'node',
