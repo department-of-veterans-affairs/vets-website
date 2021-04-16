@@ -35,12 +35,6 @@
   width: 50px;
 }
 
-/* Add padding to the bottom of the Medallia form */
-/* `.ng-scope .panel-footer-web` is common to multiple Medallia forms and form pages */
-.ng-scope .panel-footer-web {
-  padding-bottom: 1rem;
-}
-
 /* CSS Overrides for the 3-question survey on /find-locations */
 
 /* An excessively specific selector is needed to override !important and inline styles */
