@@ -69,6 +69,3 @@ ConfirmationPage.propTypes = {
   jobId: PropTypes.string,
   submissionId: PropTypes.string,
 };
-
-ConfirmationPage.defaultProps = {
-};
