@@ -18,6 +18,10 @@ describe('health care questionnaire - confirmation page  -', () => {
     expect(wrapper.find('PrintButton').text()).to.equal(
       'View and print questions',
     );
+    expect(
+      wrapper.find('PrintButton').props().questionnaireResponseId,
+    ).to.equal('questionnaire-response-test-id');
+
     wrapper.unmount();
   });
 });
