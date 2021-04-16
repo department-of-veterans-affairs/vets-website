@@ -207,6 +207,11 @@ Every page-level query _must_ include the following fields:
 - **entityBundle**: used by the build system to determine which template to use when rendering the page
 - **entityUrl**: used by the build system to determine the path of generated static HTML file
 
+Other common page-level fields you may need to include:
+
+- **changed**: needed to populate the "last updated" section
+- **fieldOffice**: needed for VAMC pages that need a side nav menu
+
 Your complete query will be restructured so that your JS module exports a GraphQL fragment for use in the preview server as well as a standalone `nodeQuery` for use in the content build. It should also contain an additional `filter` - a boolean field called `status` that is used to toggle only draft vs. published content. Here is a complete example of what your module may look like. _Note - Hopefully, soon the preview server will be updated to use the same query as the content build. This doc wil be updated once that happens._
 
 ```js
