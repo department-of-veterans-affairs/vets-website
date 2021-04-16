@@ -16,7 +16,6 @@ export const ContactInfoDescription = ({ veteran }) => {
 
   return (
     <>
-      <h3 className="vads-u-margin-top--0">Contact Information</h3>
       <p>
         This is the contact information we have on file for you. We’ll send any
         important information about your Board Appeal request to this address.

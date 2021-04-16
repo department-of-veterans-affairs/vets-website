@@ -104,6 +104,13 @@ dl.review {
   margin-top: 0;
 }
 
+/* Rep info */
+article[data-location="representative-info"] {
+  .schemaform-field-container.schemaform-block {
+    margin-top: 0;
+  }
+}
+
 /* additional evidence */
 article[data-location$="/upload"] {
   #root_evidence_add_label {
@@ -117,5 +124,11 @@ article[data-location$="/upload"] {
       display: block;
       margin-bottom: 0.5em;
     }
+  }
+}
+
+article[data-location="review-and-submit"] {
+  .hide-on-review {
+    display: none;
   }
 }

@@ -1,5 +1,8 @@
-// import emailUiSchema from 'platform/forms-system/src/js/definitions/email';
-// import { errorMessages } from '../constants';
+import {
+  repLabel,
+  repErrorMessage,
+  repDescription,
+} from '../content/representative';
 
 export default {
   uiSchema: {
@@ -8,15 +11,15 @@ export default {
       forceDivWrapper: true,
     },
     representative: {
-      'ui:title': 'Please provide your representative’s contact information',
+      'ui:title': ' ',
+      'ui:description': repDescription,
       name: {
-        'ui:title': 'Representative’s name',
+        'ui:title': repLabel,
         'ui:required': formData => formData?.['view:hasRep'],
         'ui:errorMessages': {
-          required: 'Please enter your representative’s full name',
+          required: repErrorMessage,
         },
       },
-      // email: emailUiSchema('Representative’s email'),
     },
   },
   schema: {
@@ -28,9 +31,6 @@ export default {
           name: {
             type: 'string',
           },
-          // email: {
-          //   type: 'string',
-          // },
         },
       },
     },
