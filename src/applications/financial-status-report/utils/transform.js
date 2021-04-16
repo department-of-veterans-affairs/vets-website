@@ -66,7 +66,10 @@ export const transform = ({ data }) => {
       utilities: utilityRecords
         ?.map(record => record.monthlyUtilityAmount || 0)
         .reduce((acc, amount) => acc + amount, 0),
-      otherLivingExpenses: otherExpenses,
+      otherLivingExpenses: {
+        name: otherExpenses.map(expense => expense.name).join(', '),
+        amount: otherExpenses.reduce((acc, expense) => acc + expense.amount, 0),
+      },
       expensesInstallmentContractsAndOtherDebts: installmentContractsAndOtherDebts?.reduce(
         (acc, debt) => acc + debt.amountDueMonthly,
         0,
