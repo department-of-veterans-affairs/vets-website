@@ -24,19 +24,11 @@ import reducers from '../../reducers';
 
 /* eslint-disable camelcase */
 describe('Disability benefits 526EZ contact information', () => {
-  const initialState = {
-    featureToggles: {
-      form526_confirmation_email: false,
-      form526_confirmation_email_show_copy: false,
-    },
-  };
-
   const fakeStore = createStore(
     combineReducers({
       ...commonReducer,
       ...reducers,
     }),
-    initialState,
   );
 
   const {
