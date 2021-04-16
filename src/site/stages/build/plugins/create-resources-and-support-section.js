@@ -307,16 +307,6 @@ function cleanHTML(text) {
   return he.decode(strippedNewlines);
 }
 
-function deriveFAQMultipleQASearchableContent(entity) {
-  return entity.fieldQAGroups
-    .map(fieldQAGroup =>
-      fieldQAGroup.entity.fieldQAs
-        .map(fieldQA => deriveQASearchableContent(fieldQA.entity))
-        .join(' '),
-    )
-    .join(' ');
-}
-
 function deriveQASearchableContent(entity) {
   // Some QAs have react widgets, so we need to have it default to an empty string in that scenario.
   const wysiwyg = entity.fieldAnswer.entity?.fieldWysiwyg?.processed || '';
@@ -328,13 +318,23 @@ function deriveQASearchableContent(entity) {
   return `${entity.title} ${cleanedWysiwyg}`;
 }
 
+function deriveFAQMultipleQASearchableContent(entity) {
+  return entity.fieldQAGroups
+    .map(fieldQAGroup =>
+      fieldQAGroup.entity.fieldQAs
+        .map(fieldQA => deriveQASearchableContent(fieldQA.entity))
+        .join(' '),
+    )
+    .join(' ');
+}
+
 function deriveStepByStepSearchableContent(entity) {
   return entity.fieldSteps
     .map(
       fieldStep =>
         `${fieldStep.entity.fieldSectionHeader} ${cleanHTML(
           fieldStep.entity.fieldStep
-            .map(fieldStep => fieldStep.entity.fieldWysiwyg.processed)
+            .map(fieldSubStep => fieldSubStep.entity.fieldWysiwyg.processed)
             .join(' '),
         )}`,
     )
@@ -357,8 +357,8 @@ function deriveSupportResourcesDetailPageSearchableContent(entity) {
               return `${
                 vaParagraph.entity.fieldTitle
               } ${vaParagraph.entity.fieldVaParagraphs
-                .map(vaParagraph =>
-                  cleanHTML(vaParagraph.entity.fieldTable.tableValue),
+                .map(subVAParagraph =>
+                  cleanHTML(subVAParagraph.entity.fieldTable.tableValue),
                 )
                 .join(' ')}`;
             })
