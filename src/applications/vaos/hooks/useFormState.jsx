@@ -97,7 +97,7 @@ export default function useFormState({
   }, []);
 
   return {
-    ...getFormState(),
+    ...formState,
     uiSchema,
     setData(newData) {
       dataUpdatedRef.current = true;
