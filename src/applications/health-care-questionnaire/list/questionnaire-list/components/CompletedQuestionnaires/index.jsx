@@ -10,6 +10,7 @@ import PrintButton from '../../../../shared/components/print/PrintButton';
 import {
   appointmentSelector,
   organizationSelector,
+  questionnaireResponseSelector,
 } from '../../../../shared/utils/selectors';
 
 const index = props => {
@@ -36,6 +37,11 @@ const index = props => {
                 const appointmentTime = appointmentSelector.getStartTime(
                   appointment,
                 );
+
+                const qr = questionnaireResponseSelector.getQuestionnaireResponse(
+                  questionnaire[0].questionnaireResponse,
+                );
+
                 return (
                   <QuestionnaireItem
                     key={appointment.id}
@@ -45,6 +51,7 @@ const index = props => {
                         displayArrow={false}
                         facilityName={facilityName}
                         appointmentTime={appointmentTime}
+                        questionnaireResponseId={qr.id}
                       />
                     )}
                     DueDate={() => (
