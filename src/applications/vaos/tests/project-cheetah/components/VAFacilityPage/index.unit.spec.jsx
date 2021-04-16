@@ -590,7 +590,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
 
     expect(
       await screen.findByText(
-        "We found one VA location where you're registered that offer COVID-19 vaccine appointments.",
+        "We found one VA location where you're registered that offers COVID-19 vaccine appointments.",
       ),
     ).to.exist;
 
@@ -629,7 +629,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
 
     expect(
       await screen.findByText(
-        "We found one VA location where you're registered that offer COVID-19 vaccine appointments.",
+        "We found one VA location where you're registered that offers COVID-19 vaccine appointments.",
       ),
     ).to.exist;
 
