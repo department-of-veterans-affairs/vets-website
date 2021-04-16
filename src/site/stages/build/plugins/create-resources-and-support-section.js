@@ -291,29 +291,90 @@ function createArticleListingsPages(files) {
   );
 }
 
+function cleanHTML(text) {
+  // Escape early if text is falsey since there's nothing to sanitize.
+  if (!text) {
+    return text;
+  }
+
+  // Strip out the html tags.
+  const strippedHTML = liquid.filters.strip_html(text);
+
+  // Strip out newlines.
+  const strippedNewlines = liquid.filters.strip_newlines(strippedHTML);
+
+  // Strip out character references (e.g. &amp;)
+  return he.decode(strippedNewlines);
+}
+
+function deriveQASearchableContent(entity) {
+  // Some QAs have react widgets, so we need to have it default to an empty string in that scenario.
+  const wysiwyg = entity.fieldAnswer.entity?.fieldWysiwyg?.processed || '';
+
+  // Sanitize the wysiwyg of HTML markup + character references.
+  const cleanedWysiwyg = cleanHTML(wysiwyg);
+
+  // Combine the title (question) and wysiwyg (answer).
+  return `${entity.title} ${cleanedWysiwyg}`;
+}
+
+function deriveSearchableContent(article) {
+  switch (article.entityBundle) {
+    case 'faq_multiple_q_a': {
+      // Derives a string of the main content for faq_multiple_q_a.
+      return article.fieldQAGroups.reduce((searchableContent, fieldQAGroup) => {
+        const qaGroupContent = fieldQAGroup.entity.fieldQAs
+          .map(fieldQA => deriveQASearchableContent(fieldQA.entity))
+          .join(' ');
+
+        return `${searchableContent} ${qaGroupContent}`;
+      }, '');
+    }
+    case 'q_a': {
+      return deriveQASearchableContent(article);
+    }
+    case 'step_by_step': {
+      return article.fieldSteps.reduce((searchableContent, fieldStep) => {
+        return `${searchableContent} ${
+          fieldStep.entity.fieldSectionHeader
+        } ${cleanHTML(
+          fieldStep.entity.fieldStep
+            .map(fieldStep => fieldStep.entity.fieldWysiwyg.processed)
+            .join(' '),
+        )}`;
+      }, '');
+    }
+    case 'support_resources_detail_page': {
+      console.log('article', article);
+      process.exit(1);
+      return '';
+    }
+    default: {
+      return '';
+    }
+  }
+}
+
 function deriveIntroText(article) {
-  const htmlText =
+  const text =
     article.entityBundle === 'q_a'
       ? article.fieldAnswer.entity.fieldWysiwyg.processed
       : article.fieldIntroTextLimitedHtml.processed;
-  const sanitizedText = liquid.filters.strip_html(htmlText);
-  const strippedNewlines = liquid.filters.strip_newlines(sanitizedText);
-  return he.decode(strippedNewlines);
+  return cleanHTML(text);
 }
 
 function createSearchResults(files) {
   const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
-  const articleSearchData = allArticles.map(article => {
-    return {
-      entityBundle: article.entityBundle,
-      entityUrl: { path: article.entityUrl.path },
-      fieldOtherCategories: article.fieldOtherCategories,
-      fieldPrimaryCategory: article.fieldPrimaryCategory,
-      fieldTags: article.fieldTags,
-      introText: deriveIntroText(article),
-      title: article.title,
-    };
-  });
+  const articleSearchData = allArticles.map(article => ({
+    entityBundle: article.entityBundle,
+    entityUrl: { path: article.entityUrl.path },
+    fieldOtherCategories: article.fieldOtherCategories,
+    fieldPrimaryCategory: article.fieldPrimaryCategory,
+    fieldTags: article.fieldTags,
+    searchableContent: deriveSearchableContent(article),
+    introText: deriveIntroText(article),
+    title: article.title,
+  }));
 
   files['resources/search/articles.json'] = {
     contents: Buffer.from(JSON.stringify(articleSearchData)),
