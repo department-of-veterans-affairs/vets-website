@@ -27,25 +27,11 @@ export const phoneFormSchema = {
 };
 
 export const phoneUiSchema = {
-  'view:noInternationalNumbers': {
-    'ui:description': () => (
-      <AlertBox
-        isVisible
-        status="info"
-        className="vads-u-margin-bottom--3 vads-u-margin-top--1 medium-screen:vads-u-margin-top--0"
-      >
-        <p>
-          We can only support U.S. phone numbers right now. If you have an
-          international number, please check back later.
-        </p>
-      </AlertBox>
-    ),
-  },
   inputPhoneNumber: {
     'ui:widget': PhoneNumberWidget,
     'ui:title': 'Number',
     'ui:errorMessages': {
-      pattern: 'Please enter a valid phone number.',
+      pattern: 'Please enter a valid 10-digit U.S. phone number.',
     },
   },
   extension: {

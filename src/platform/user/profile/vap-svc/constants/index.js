@@ -68,11 +68,11 @@ export const FIELD_NAMES = {
 };
 
 export const FIELD_TITLES = {
-  [FIELD_NAMES.HOME_PHONE]: 'Home phone number',
-  [FIELD_NAMES.MOBILE_PHONE]: 'Mobile phone number',
-  [FIELD_NAMES.WORK_PHONE]: 'Work phone number',
-  [FIELD_NAMES.TEMP_PHONE]: 'Temporary phone number',
-  [FIELD_NAMES.FAX_NUMBER]: 'Fax number',
+  [FIELD_NAMES.HOME_PHONE]: 'Home phone number (U.S. numbers only)',
+  [FIELD_NAMES.MOBILE_PHONE]: 'Mobile phone number (U.S. numbers only)',
+  [FIELD_NAMES.WORK_PHONE]: 'Work phone number (U.S. numbers only)',
+  [FIELD_NAMES.TEMP_PHONE]: 'Temporary phone number (U.S. numbers only)',
+  [FIELD_NAMES.FAX_NUMBER]: 'Fax number (U.S. numbers only)',
   [FIELD_NAMES.EMAIL]: 'Email address',
   [FIELD_NAMES.MAILING_ADDRESS]: 'Mailing address',
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'Home address',
