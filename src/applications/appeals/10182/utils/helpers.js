@@ -9,7 +9,7 @@ import { isValidDate } from '../validations';
 // checks
 export const hasRepresentative = formData => formData['view:hasRep'];
 export const canUploadEvidence = formData =>
-  formData.boardReviewOption !== 'direct_review';
+  formData.boardReviewOption === 'evidence_submission';
 export const wantsToUploadEvidence = formData =>
   canUploadEvidence(formData) && formData['view:additionalEvidence'];
 

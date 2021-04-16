@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const OptInTitle = (
-  <strong>
+  <strong className="opt-in-title">
     I understand that if any issues I’ve selected are from the legacy appeal
     process, I’m opting them into the new decision review process.
   </strong>

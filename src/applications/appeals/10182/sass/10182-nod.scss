@@ -128,7 +128,11 @@ article[data-location$="/upload"] {
 }
 
 article[data-location="review-and-submit"] {
-  .hide-on-review {
+  /* hide when reviewing content. Shows when editing */
+  dt .hide-on-review, dd .hide-on-review {
     display: none;
+  }
+  dt strong.opt-in-title {
+    font-weight: normal;
   }
 }
