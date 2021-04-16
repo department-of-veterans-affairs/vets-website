@@ -53,7 +53,8 @@ const ClaimsAndAppeals = ({
   React.useEffect(
     () => {
       if (!dataLoadingDisabled && shouldLoadClaims) {
-        loadClaims();
+        // stop polling the claims API after 45 seconds
+        loadClaims({ pollingExpiration: Date.now() + 45 * 1000 });
       }
     },
     [dataLoadingDisabled, loadClaims, shouldLoadClaims],
@@ -78,7 +79,7 @@ const ClaimsAndAppeals = ({
   }
 
   if (shouldShowLoadingIndicator) {
-    return <LoadingIndicator />;
+    return <LoadingIndicator message="We’re loading your information." />;
   }
 
   if (hasAPIError) {
@@ -100,7 +101,7 @@ const ClaimsAndAppeals = ({
 
   if (highlightedClaimOrAppeal || openClaimsOrAppealsCount > 0) {
     return (
-      <div>
+      <div data-testid="dashboard-section-claims-and-appeals">
         <h2>Claims & appeals</h2>
         <div className="vads-l-row">
           <DashboardWidgetWrapper>

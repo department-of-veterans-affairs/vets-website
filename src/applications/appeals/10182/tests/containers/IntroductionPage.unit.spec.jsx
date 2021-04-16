@@ -67,7 +67,7 @@ describe('IntroductionPage', () => {
       .find('withRouter(Connect(SaveInProgressIntro))')
       .first();
     expect(saveInProgressIntro.props().startText).to.include(
-      'Start the Application',
+      'Start the Board Appeal request',
     );
 
     tree.unmount();
