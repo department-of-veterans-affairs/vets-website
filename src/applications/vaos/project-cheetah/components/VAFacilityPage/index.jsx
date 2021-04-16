@@ -38,7 +38,6 @@ const uiSchema = {
 };
 
 const pageKey = 'vaFacility';
-const pageTitle = 'Choose a location';
 
 function VAFacilityPage({
   address,
@@ -66,6 +65,9 @@ function VAFacilityPage({
   const loadingFacilities =
     facilitiesStatus === FETCH_STATUS.loading ||
     facilitiesStatus === FETCH_STATUS.notStarted;
+  const pageTitle = singleValidVALocation
+    ? 'Your appointment location'
+    : 'Choose a location';
 
   useEffect(
     () => {
@@ -114,7 +116,6 @@ function VAFacilityPage({
   if (loadingFacilities || (singleValidVALocation && loadingClinics)) {
     return (
       <div>
-        {title}
         <LoadingIndicator message="Finding locations" />
       </div>
     );
@@ -165,7 +166,10 @@ function VAFacilityPage({
     return (
       <div>
         {title}
-        <VAFacilityInfoMessage facility={selectedFacility} />
+        <VAFacilityInfoMessage
+          facility={selectedFacility}
+          sortMethod={sortMethod}
+        />
         <div className="vads-u-margin-top--2">
           <FormButtons
             onBack={goBack}
