@@ -40,7 +40,7 @@ const copy = {
       },
     },
   },
-  tag: {
+  tl: {
     appTitle: 'Covid 19 Vaccination Information',
     headline: `Manatiling nakikibalita tungkol sa pagpapabakuna para sa COVID-19`,
     cta: `Mag-sign up para sa madaling paraan ng pakikibalita tungkol sa pagpapabakuna para sa COVID-19 sa VA.`,
@@ -58,9 +58,9 @@ const copy = {
   },
 };
 function CovidVaccineUpdatesCTA({ lang, showLinkToOnlineForm }) {
-  // if (showLinkToOnlineForm) {
-  return <OnState copy={copy[lang]} />;
-  // }
+  if (showLinkToOnlineForm) {
+    return <OnState copy={copy[lang]} />;
+  }
 
   if (showLinkToOnlineForm === false) {
     return <OffState copy={copy[lang]} />;
