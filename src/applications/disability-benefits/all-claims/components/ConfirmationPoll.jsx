@@ -103,12 +103,7 @@ export class ConfirmationPoll extends React.Component {
       return pendingMessage(this.state.longWait);
     }
 
-    const {
-      fullName,
-      disabilities,
-      submittedAt,
-      jobId,
-    } = this.props;
+    const { fullName, disabilities, submittedAt, jobId } = this.props;
 
     setTimeout(() => focusElement('h2'));
     return (
