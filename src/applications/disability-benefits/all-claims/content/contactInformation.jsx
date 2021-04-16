@@ -65,7 +65,7 @@ export const forwardingAddressDescription = () => (
 );
 
 export const contactInfoDescription = ({ formName = 'disability claim' }) => (
-  <p className="contact-info-description" id="contact-info-new">
+  <p className="contact-info-description" id="contact-info">
     This is the contact information we have on file for you. Please review it
     make sure the information below is correct. We’ll send any important
     information about your {formName} to your mailing address. After you submit
@@ -74,7 +74,7 @@ export const contactInfoDescription = ({ formName = 'disability claim' }) => (
 );
 
 export const contactInfoUpdateHelpDescription = () => (
-  <div className="contact-info-help-description" id="new-copy">
+  <div className="contact-info-help-description" id="help-description">
     <p>
       Any updates you make here to your contact information will only apply to
       this application. If you want to update your contact information for all
