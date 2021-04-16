@@ -101,7 +101,10 @@ const HealthCare = ({
       : 'Send a secure message to your health care team';
 
   return (
-    <div className="health-care-wrapper vads-u-margin-y--6">
+    <div
+      className="health-care-wrapper vads-u-margin-y--6"
+      data-testid="dashboard-section-health-care"
+    >
       <h2>Health care</h2>
 
       <div className="vads-l-row">

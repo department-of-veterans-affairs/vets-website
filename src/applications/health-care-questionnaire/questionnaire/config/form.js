@@ -25,7 +25,7 @@ import { TRACKING_PREFIX } from '../../shared/constants/analytics';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_responses`,
+  submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_manager`,
   trackingPrefix: TRACKING_PREFIX,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
