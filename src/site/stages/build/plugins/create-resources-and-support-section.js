@@ -291,7 +291,11 @@ function createArticleListingsPages(files) {
   );
 }
 
-function deriveIntroText(htmlText) {
+function deriveIntroText(article) {
+  const htmlText =
+    article.entityBundle === 'q_a'
+      ? article.fieldAnswer.entity.fieldWysiwyg.processed
+      : article.fieldIntroTextLimitedHtml.processed;
   const sanitizedText = liquid.filters.strip_html(htmlText);
   const strippedNewlines = liquid.filters.strip_newlines(sanitizedText);
   return he.decode(strippedNewlines);
@@ -300,22 +304,13 @@ function deriveIntroText(htmlText) {
 function createSearchResults(files) {
   const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
   const articleSearchData = allArticles.map(article => {
-    let introText = '';
-
-    if (article.entityBundle === 'q_a') {
-      const answer = article.fieldAnswer.entity.fieldWysiwyg.processed;
-      introText = deriveIntroText(answer);
-    } else {
-      introText = deriveIntroText(article.fieldIntroTextLimitedHtml.processed);
-    }
-
     return {
       entityBundle: article.entityBundle,
       entityUrl: { path: article.entityUrl.path },
       fieldOtherCategories: article.fieldOtherCategories,
       fieldPrimaryCategory: article.fieldPrimaryCategory,
       fieldTags: article.fieldTags,
-      introText,
+      introText: deriveIntroText(article),
       title: article.title,
     };
   });
