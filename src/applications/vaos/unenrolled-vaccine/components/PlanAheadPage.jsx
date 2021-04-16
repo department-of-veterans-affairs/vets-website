@@ -1,22 +1,24 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import * as actions from '../redux/actions';
+import {
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+} from '../redux/actions';
 import { GA_PREFIX } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import FormButtons from '../../components/FormButtons';
+import { selectPageChangeInProgress } from '../redux/selectors';
 
 const pageKey = 'planAhead';
 const pageTitle = 'COVID-19 vaccine appointment';
 
-function PlanAheadPage({
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-  pageChangeInProgress,
-}) {
+export default function PlanAheadPage() {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const pageChangeInProgress = useSelector(selectPageChangeInProgress);
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -72,7 +74,9 @@ function PlanAheadPage({
       </p>
       <FormButtons
         pageChangeInProgress={pageChangeInProgress}
-        onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+        onBack={() =>
+          dispatch(routeToPreviousAppointmentPage(history, pageKey))
+        }
         onSubmit={() => {
           recordEvent({
             event: `${GA_PREFIX}-covid19-start-scheduling-button-clicked`,
@@ -80,19 +84,9 @@ function PlanAheadPage({
           recordEvent({
             event: `${GA_PREFIX}-covid19-path-started`,
           });
-          routeToNextAppointmentPage(history, pageKey);
+          dispatch(routeToNextAppointmentPage(history, pageKey));
         }}
       />
     </div>
   );
 }
-
-const mapDispatchToProps = {
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(PlanAheadPage);

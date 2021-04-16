@@ -3,16 +3,21 @@ import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
-import PlanAheadPage from '../../../unenrolled-vaccine/components/PlanAheadPage';
+import { UnenrolledVaccineSection } from '../../../unenrolled-vaccine';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 
-const store = createTestStore();
+const initialState = {
+  featureToggles: {
+    vaOnlineSchedulingUnenrolledVaccine: true,
+  },
+};
 
 describe('VAOS unenrolled vaccine <PlanAheadPage>', () => {
   it('should render intro text, schedule button, and link', async () => {
+    const store = createTestStore(initialState);
     const pageTitle = 'COVID-19 vaccine appointment';
 
-    const screen = renderWithStoreAndRouter(<PlanAheadPage />, {
+    const screen = renderWithStoreAndRouter(<UnenrolledVaccineSection />, {
       store,
     });
     // Verify document title
@@ -20,12 +25,6 @@ describe('VAOS unenrolled vaccine <PlanAheadPage>', () => {
       expect(global.document.title).contain(pageTitle);
     });
 
-    // Verify focus element
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    // it should display page content...
     expect(
       screen.getByRole('heading', {
         level: 1,
@@ -45,7 +44,8 @@ describe('VAOS unenrolled vaccine <PlanAheadPage>', () => {
   });
 
   it('should continue to the correct page once continue to clicked', async () => {
-    const screen = renderWithStoreAndRouter(<PlanAheadPage />, {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<UnenrolledVaccineSection />, {
       store,
     });
 
@@ -62,14 +62,14 @@ describe('VAOS unenrolled vaccine <PlanAheadPage>', () => {
   });
 
   it('should return to the correct page once back button to clicked', async () => {
-    const screen = renderWithStoreAndRouter(<PlanAheadPage />, {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<UnenrolledVaccineSection />, {
       store,
     });
 
     const button = await screen.findByText(/Back/i);
     userEvent.click(button);
 
-    expect(screen.history.push.called).to.be.true;
     // Expect router to route to screener page
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal('/'),

@@ -18,6 +18,7 @@ import reducers from '../../redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import expressCareReducer from '../../express-care/redux/reducer';
 import projectCheetahReducer from '../../project-cheetah/redux/reducer';
+import unenrolledVaccineReducer from '../../unenrolled-vaccine/redux/reducer';
 import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
@@ -62,6 +63,7 @@ export function createTestStore(initialState) {
       newAppointment: newAppointmentReducer,
       expressCare: expressCareReducer,
       projectCheetah: projectCheetahReducer,
+      unenrolledVaccine: unenrolledVaccineReducer,
     }),
     initialState,
     applyMiddleware(thunk),

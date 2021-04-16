@@ -29,7 +29,7 @@ const initialState = {
   },
 };
 
-describe('VAOS <VAOSApp>', () => {
+describe('VAOS <EnrolledRoute>', () => {
   beforeEach(() => {
     mockFetch();
   });
@@ -76,7 +76,7 @@ describe('VAOS <VAOSApp>', () => {
       },
     );
 
-    expect(await screen.findByText('Child content')).to.exist;
+    expect(await screen.findByText(/Redirecting to login/i)).to.exist;
   });
 
   it('should render can’t find any VA medical facility registrations message', async () => {
