@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import WaitForFeatureToggles from './WaitForFeatureToggles';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import ChatbotError from './ChatbotError';
 
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -20,6 +21,7 @@ loadWebChat();
 
 export default function App() {
   const [isLoaded, setLoaded] = useState(!!window.WebChat);
+  const [error, setError] = useState(false);
 
   if (!isLoaded) {
     const intervalId = setInterval(() => {
@@ -28,6 +30,13 @@ export default function App() {
         clearInterval(intervalId);
       }
     }, 300);
+    setTimeout(() => {
+      setError(true);
+      clearInterval(intervalId);
+    }, 1000);
+    if (error) {
+      return <ChatbotError />;
+    }
     return <LoadingIndicator message={'Waiting on webchat framework . . .'} />;
   }
 
