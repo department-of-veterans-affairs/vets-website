@@ -708,4 +708,8 @@ module.exports = function registerFilters() {
     const regex = new RegExp(oldVal, 'g');
     return string.replace(regex, newVal);
   };
+
+  liquid.filters.concat = (...args) => _.concat(...args);
+
+  liquid.filters.strip = (string = '') => _.trim(string);
 };

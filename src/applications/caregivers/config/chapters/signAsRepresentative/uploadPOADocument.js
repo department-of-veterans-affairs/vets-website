@@ -6,6 +6,7 @@ import {
   RepresentativeDocumentUploadDescription,
   RepresentativeAdditionalInfo,
 } from 'applications/caregivers/components/AdditionalInfo';
+import recordEvent from 'platform/monitoring/record-event';
 
 // const { representative } = fullSchema.properties;
 // const veteranProps = veteran.properties;
@@ -61,11 +62,19 @@ export default {
         payload.append('caregiver_attachment[file_data]', file);
         return payload;
       },
-      parseResponse: (response, file) => ({
-        name: file.name,
-        confirmationCode: response.data.attributes.guid,
-        size: file.size,
-      }),
+      parseResponse: (response, file) => {
+        recordEvent({
+          'caregivers-poa-document-success': file.name,
+          'caregivers-poa-document-size': file.size,
+          'caregivers-poa-document-confirmation-code':
+            response.data.attributes.guid,
+        });
+        return {
+          name: file.name,
+          confirmationCode: response.data.attributes.guid,
+          size: file.size,
+        };
+      },
       attachmentSchema: {
         'ui:title': 'Document type',
       },
