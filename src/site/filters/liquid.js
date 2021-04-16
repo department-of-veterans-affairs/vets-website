@@ -709,8 +709,5 @@ module.exports = function registerFilters() {
     return string.replace(regex, newVal);
   };
 
-  liquid.filters.concat = (...args) => {
-    console.log('arguments', args);
-    return _.concat(...args);
-  };
+  liquid.filters.concat = (...args) => _.concat(...args);
 };
