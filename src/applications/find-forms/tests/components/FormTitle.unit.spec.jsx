@@ -12,6 +12,7 @@ describe('Find VA Forms <FormTitle />', () => {
     formDetailsUrl:
       'https://www.va.gov/health-care/about-information-for-pre-complaint-processing/',
     title: 'Information for Pre-Complaint Processing',
+    language: 'en',
     recordGAEvent: sinon.stub(),
   };
 
@@ -21,6 +22,7 @@ describe('Find VA Forms <FormTitle />', () => {
         id={props.id}
         formUrl={props.formDetailsUrl}
         recordGAEvent={props.recordGAEvent}
+        lang={props.language}
         title={props.title}
       />,
     );
@@ -29,6 +31,7 @@ describe('Find VA Forms <FormTitle />', () => {
     expect(tree.props().id).to.equal(props.id);
     expect(tree.props().formUrl).to.equal(props.formDetailsUrl);
     expect(tree.props().title).to.equal(props.title);
+    expect(tree.props().lang).to.equal(props.language);
     expect(tree.props().recordGAEvent).to.equal(props.recordGAEvent);
 
     tree.unmount();
