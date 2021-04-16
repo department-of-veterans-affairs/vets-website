@@ -18,6 +18,20 @@ function setupFormData(data, schema, uiSchema) {
   );
 }
 
+function useDependenciesHaveChanged(deps) {
+  const dependenciesRef = useRef(deps);
+
+  const haveChanged =
+    deps?.length !== dependenciesRef.current?.length ||
+    deps.some(
+      (currentDep, index) => currentDep !== dependenciesRef.current[index],
+    );
+
+  dependenciesRef.current = deps;
+
+  return haveChanged;
+}
+
 /**
  * Hook for managing the state for a SchemaForm page in local component state
  * instead of redux
@@ -48,48 +62,53 @@ export default function useFormState({
 }) {
   const initialLoadRef = useRef(true);
   const dataUpdatedRef = useRef(false);
-  const [formState, setFormState] = useState(() => {
-    let schema = initialSchema;
-    if (typeof initialSchema === 'function') {
-      schema = initialSchema();
-    }
+  const formStateRef = useRef(null);
+  const depsHaveChanged = useDependenciesHaveChanged(dependencies);
 
-    if (!schema) {
-      return { schema, data: initialData };
-    }
-
-    return setupFormData(initialData, schema, uiSchema);
-  });
-
-  useEffect(() => {
-    if (dependencies?.length && !initialLoadRef.current) {
+  function getFormState() {
+    if (!formStateRef.current || depsHaveChanged) {
+      let newFormState;
       let schema = initialSchema;
       if (typeof initialSchema === 'function') {
         schema = initialSchema();
       }
 
-      if (schema) {
-        setFormState(
-          setupFormData(
-            dataUpdatedRef.current ? formState.data : initialData,
-            schema,
-            uiSchema,
-          ),
+      if (!schema) {
+        newFormState = { schema, data: initialData };
+      } else {
+        newFormState = setupFormData(
+          dataUpdatedRef.current ? formStateRef.current.data : initialData,
+          schema,
+          uiSchema,
         );
       }
+
+      formStateRef.current = newFormState;
     }
-  }, dependencies);
+
+    return formStateRef.current;
+  }
+
+  const formState = getFormState();
+  const setFormData = useState(formState.data)[1];
 
   useEffect(() => {
     initialLoadRef.current = false;
   }, []);
 
   return {
-    ...formState,
+    ...getFormState(),
     uiSchema,
     setData(newData) {
       dataUpdatedRef.current = true;
-      setFormState(updateSchemaAndData(formState.schema, uiSchema, newData));
+      const newFormState = updateSchemaAndData(
+        formStateRef.current.schema,
+        uiSchema,
+        newData,
+      );
+      formStateRef.current = newFormState;
+
+      setFormData(formStateRef.current.data);
     },
   };
 }
