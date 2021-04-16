@@ -20,7 +20,7 @@ function testStatus(client, page, url) {
     .waitForElementPresent('.usa-button-secondary', Timeouts.normal)
     .moveTo('.usa-button-secondary', 0, 200)
     .click('.usa-button-secondary')
-    .waitForElementPresent('#start-over-modal-title', Timeouts.normal)
+    .waitForElementPresent('#start-over-modal-title', Timeouts.slow)
     .expect.element('#start-over-modal-title')
     .text.equals('Starting over will delete your in-progress application.');
 
