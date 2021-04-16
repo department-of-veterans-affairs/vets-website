@@ -1050,11 +1050,11 @@
           "path": "education/other-va-education-benefits/"
         },
         {
-          "name": "Veteran Rapid Retraining Assistance Program (VRRAP)",
-          "path": "education/other-va-education-benefits/veteran-rapid-retraining-assistance"
+          "name": "Veteran Rapid Retraining Assistance Program",
+          "path": "education/other-va-education-benefits/"
         },
         {
-          "name": "Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)",
+          "name": "Apply for VRRAP VA Form 22 1990s",
           "path": "education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s"
         }
       ]
