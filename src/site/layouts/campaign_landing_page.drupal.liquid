@@ -19,7 +19,7 @@
 
               {% if fieldPrimaryCallToAction %}
                 <a
-                  class="va-action-link--white vads-u-margin-top--2"
+                  class="vads-c-action-link--white vads-u-margin-top--2"
                   href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.url.path }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'hero', 'clp-section-title': '{{ title | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldPrimaryCallToAction.entity.fieldButtonLabel | escape }}' });"
                 >
@@ -43,7 +43,7 @@
             <p class="va-introtext vads-u-margin-top--0 vads-u-margin-bottom--2">{{ fieldClpWhyThisMatters }}</p>
             {% if fieldSecondaryCallToAction %}
               <a
-                class="va-action-link--blue"
+                class="vads-c-action-link--blue"
                 href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.url.path }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Why this matters to you', 'clp-section-title': '{{ fieldClpWhyThisMatters | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldSecondaryCallToAction.entity.fieldButtonLabel | escape }}' });"
               >
@@ -169,12 +169,11 @@
             {% if fieldClpVideoPanelMoreVideo %}
               <p>
                 <a
-                  class="va-action-link--blue"
+                  class="vads-c-action-link--blue"
                   href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url.path }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Video', 'clp-section-title': '{{ fieldClpVideoPanelHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel | escape }}' });"
                 >
                   {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
-                  <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
                 </a>
               </p>
             {% endif %}
@@ -267,14 +266,13 @@
             <!-- Call to action -->
             {% if fieldClpStoriesCta %}
               <a
-                class="va-action-link--blue"
+                class="vads-c-action-link--blue"
                 href="{{ fieldClpStoriesCta.entity.fieldButtonLink.url }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Stories', 'clp-section-title': '{{ fieldClpStoriesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpStoriesCta.entity.fieldButtonLabel | escape }}' });"
                 rel="noreferrer noopener"
                 target="_blank"
               >
                 See more stories
-                <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
               </a>
             {% endif %}
           </div>
@@ -318,12 +316,11 @@
           <div class="vads-l-row">
             <div class="vads-u-col--12">
               <a
-                class="va-action-link--blue"
+                class="vads-c-action-link--blue"
                 href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url.path }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpResourcesCta.entity.fieldButtonLabel | escape }}' });"
               >
                 {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
-                <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
               </a>
             </div>
           </div>
@@ -473,12 +470,11 @@
           <div class="vads-l-row">
             <div class="vads-u-col--12">
               <a
-                class="va-action-link--blue"
+                class="vads-c-action-link--blue"
                 href="{{ fieldClpFaqCta.entity.fieldButtonLink.url.path }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'FAQ', 'clp-section-title': 'Frequently asked questions', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpFaqCta.entity.fieldButtonLabel | escape }}' });"
               >
                 {{ fieldClpFaqCta.entity.fieldButtonLabel }}
-                <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
               </a>
             </div>
           </div>

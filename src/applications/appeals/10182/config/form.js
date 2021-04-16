@@ -18,6 +18,11 @@ import ReviewDescription from '../components/ReviewDescription';
 // Pages
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInfo';
+import homeless from '../pages/homeless';
+import hasRep from '../pages/hasRep';
+import repInfo from '../pages/repInfo';
+import contestableIssues from '../pages/contestableIssues';
+import boardReview from '../pages/boardReview';
 
 import initialData from '../tests/schema/initialData';
 
@@ -30,7 +35,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/notice_of_disagreements`,
-  trackingPrefix: '10182-notice-of-disagreement-',
+  trackingPrefix: '10182-board-appeal-',
 
   downtime: {
     requiredForPrefill: true,
@@ -89,6 +94,52 @@ const formConfig = {
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+        },
+        homeless: {
+          title: 'Homeless',
+          path: 'homeless',
+          uiSchema: homeless.uiSchema,
+          schema: homeless.schema,
+        },
+      },
+    },
+    hasRep: {
+      title: 'Representation',
+      pages: {
+        hasRep: {
+          title: 'Representative',
+          path: 'representative',
+          uiSchema: hasRep.uiSchema,
+          schema: hasRep.schema,
+        },
+        repInfo: {
+          title: 'Representative Information',
+          path: 'representative-information',
+          depends: formData => formData?.['view:hasRep'],
+          uiSchema: repInfo.uiSchema,
+          schema: repInfo.schema,
+        },
+      },
+    },
+    conditions: {
+      title: 'Issues eligible for review',
+      pages: {
+        contestableIssues: {
+          title: 'Issues eligible for review',
+          path: 'eligible-issues',
+          uiSchema: contestableIssues.uiSchema,
+          schema: contestableIssues.schema,
+        },
+      },
+    },
+    boardReview: {
+      title: 'Board review option',
+      pages: {
+        boardReviewOption: {
+          title: 'Board review option',
+          path: 'board-review-option',
+          uiSchema: boardReview.uiSchema,
+          schema: boardReview.schema,
         },
       },
     },

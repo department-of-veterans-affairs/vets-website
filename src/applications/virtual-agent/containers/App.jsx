@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import WaitForFeatureToggles from './WaitForFeatureToggles';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -27,7 +28,7 @@ export default function App() {
         clearInterval(intervalId);
       }
     }, 300);
-    return 'waiting on webchat framework . . .';
+    return <LoadingIndicator message={'Waiting on webchat framework . . .'} />;
   }
 
   return <WaitForFeatureToggles />;
