@@ -24,6 +24,8 @@ const formConfig = {
   getHelp: GetFormHelp,
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
   },
   footerContent: FormFooter,
   saveInProgress: {
