@@ -709,7 +709,7 @@ module.exports = function registerFilters() {
     return string.replace(regex, newVal);
   };
 
-  liquid.filters.processEntity = (entity, contentType) => {
+  liquid.filters.processCentralizedContent = (entity, contentType) => {
     // TODO - add more cases as new centralized content types are added
     // eslint-disable-next-line sonarjs/no-small-switch
     switch (contentType) {
