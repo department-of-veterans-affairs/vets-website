@@ -54,7 +54,7 @@ jobs:
         run: |
           yarn webpack --config config/webpack.content-cache.js
           mkdir -p ./tmp
-          zip -j ./tmp/function.zip build/content-cache/exports.js
+          zip -j ./tmp/function.zip build/content-cache/index.js
           aws s3 cp ./tmp/function.zip s3://vetsgov-website-builds-s3-upload/content-cache/master/function.zip --acl public-read
 
       - name: Update content cache function
