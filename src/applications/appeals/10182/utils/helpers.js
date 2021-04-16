@@ -6,6 +6,13 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import { SELECTED } from '../constants';
 import { isValidDate } from '../validations';
 
+// checks
+export const hasRepresentative = formData => formData['view:hasRep'];
+export const canUploadEvidence = formData =>
+  formData.boardReviewOption !== 'direct_review';
+export const wantsToUploadEvidence = formData =>
+  canUploadEvidence(formData) && formData['view:additionalEvidence'];
+
 export const noticeOfDisagreementFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.form10182Nod];
 
