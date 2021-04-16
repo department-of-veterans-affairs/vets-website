@@ -26,15 +26,19 @@ function setupFormData(data, schema, uiSchema) {
  * @name useFormState
  * @function
  * @param {Object} params Hook parameters
- * @param {Object|Function} params.initialSchema The initial schema for the form. Can also be a function, which will
- *   only be executed on startup or when dependencies changes
- * @param {Object} params.uiSchema The uiSchema for the form
- * @param {Object} params.initialData The initial data to use for the form state. This generally just used for the data
+ * @param {?Object|Function} params.initialSchema The initial schema for the form.
+ *   You can also pass a function to this, if you need to generate the schema based on some other data
+ *   (like a list of facilities). This schema is only used on the first use of this hook, or when something in
+ *   the dependencies array changes (if that array is provided). If you pass null, form setup will be skipped
+ * @param {Object} [params.uiSchema=null] The uiSchema for the form. This is not held in state, so any form data update
+ *   or dependency change will use the most recent version passed in.
+ * @param {Object} [params.initialData={}] The initial data to use for the form state. This generally just used for the data
  *   initially loaded into state, and any later changes are ignored. However if a dependency change causes the schema
  *   to be re-generated, the most recent initialData passed in will be used, unless setData has been called
- * @param {Array} [params.dependencies=[]] Array of useEffect dependencies that will force the form state to be reset using the current
- *   values for initialSchema and uiSchema.
- * @returns {{ schema: Object, uiSchema: Object, data: Object }} The form state values, to be used with SchemaForm
+ * @param {Array} [params.dependencies=[]] Array of useEffect dependencies that will force the form state to be
+ *   reset using the current values for initialSchema, uiSchema, and initialData (unless setData has been called).
+ * @returns {{ schema: Object, uiSchema: Object, data: Object, settData: Function }} The form state values,
+ *   and a setData function to handle user form input, to be used with SchemaForm
  */
 export default function useFormState({
   initialSchema,

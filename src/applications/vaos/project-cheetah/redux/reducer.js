@@ -50,6 +50,7 @@ const initialState = {
     previousPages: {},
     facilities: null,
     facilitiesStatus: FETCH_STATUS.notStarted,
+    facilityPageSortMethod: null,
     clinics: {},
     clinicsStatus: FETCH_STATUS.notStarted,
     appointmentSlotsStatus: FETCH_STATUS.notStarted,
@@ -172,9 +173,12 @@ export default function projectCheetahReducer(state = initialState, action) {
       const address = action.address;
       const hasResidentialCoordinates =
         !!action.address?.latitude && !!action.address?.longitude;
-      const sortMethod = hasResidentialCoordinates
-        ? FACILITY_SORT_METHODS.distanceFromResidential
-        : FACILITY_SORT_METHODS.alphabetical;
+      let sortMethod = state.newBooking.facilityPageSortMethod;
+      if (!sortMethod) {
+        sortMethod = hasResidentialCoordinates
+          ? FACILITY_SORT_METHODS.distanceFromResidential
+          : FACILITY_SORT_METHODS.alphabetical;
+      }
 
       if (hasResidentialCoordinates && facilities.length) {
         facilities = facilities
