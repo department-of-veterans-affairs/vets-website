@@ -15,6 +15,9 @@ describe('health care questionnaire - confirmation page  -', () => {
     ).to.equal(
       'Your provider will discuss the information on your questionnaire during your appointment:',
     );
+    expect(wrapper.find('PrintButton').text()).to.equal(
+      'View and print questions',
+    );
     wrapper.unmount();
   });
 });
