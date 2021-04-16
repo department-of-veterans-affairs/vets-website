@@ -322,7 +322,15 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
       if (item.veteranOrSpouse === 'VETERAN') {
         return {
           ...item,
-          otherIncome: additionalIncome.additionalIncomeRecords,
+          otherIncome: {
+            name: additionalIncome.additionalIncomeRecords
+              .map(record => record.name)
+              .join(', '),
+            amount: additionalIncome.additionalIncomeRecords.reduce(
+              (acc, record) => acc + record.amount,
+              0,
+            ),
+          },
           totalMonthlyNetIncome: totalNetIncome,
         };
       }
@@ -348,7 +356,16 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
       if (item.veteranOrSpouse === 'SPOUSE') {
         return {
           ...item,
-          otherIncome: additionalIncome.spouse.spouseAdditionalIncomeRecords,
+          otherIncome: {
+            name: additionalIncome.spouse.spouseAdditionalIncomeRecords
+              .map(record => record.name)
+              .join(', '),
+            amount: additionalIncome.spouse.spouseAdditionalIncomeRecords.reduce(
+              (acc, record) => acc + record.amount,
+              0,
+            ),
+          },
+
           totalMonthlyNetIncome: totalNetIncome,
         };
       }
