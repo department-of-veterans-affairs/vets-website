@@ -303,7 +303,7 @@ class SaveInProgressIntro extends React.Component {
             isExpired={isExpired}
             messages={this.props.messages}
             startText={this.props.startText}
-            useActionLink={this.props.useActionLink}
+            testActionLink={this.props.testActionLink}
             startPage={startPage}
             formId={this.props.formId}
             returnUrl={this.props.returnUrl}
@@ -375,7 +375,7 @@ SaveInProgressIntro.propTypes = {
   startMessageOnly: PropTypes.bool,
   hideUnauthedStartLink: PropTypes.bool,
   unauthStartText: PropTypes.string,
-  useActionLink: PropTypes.bool,
+  testActionLink: PropTypes.bool,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       appType: PropTypes.string,
@@ -386,7 +386,7 @@ SaveInProgressIntro.propTypes = {
 SaveInProgressIntro.defaultProps = {
   retentionPeriod: '60 days',
   unauthStartText: '',
-  useActionLink: false,
+  testActionLink: false,
   formConfig: {
     customText: {
       appType: '',
