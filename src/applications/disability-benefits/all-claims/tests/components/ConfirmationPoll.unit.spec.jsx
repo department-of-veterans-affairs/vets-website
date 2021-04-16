@@ -1,18 +1,13 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
-import { combineReducers, createStore } from 'redux';
-
-import { commonReducer } from 'platform/startup/store';
-import reducers from '../../reducers';
 
 import {
   mockApiRequest,
   mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
 
-import ConnectedConfirmationPoll, {
+import {
   ConfirmationPoll,
   selectAllDisabilityNames,
 } from '../../components/ConfirmationPoll';
@@ -272,5 +267,4 @@ describe('ConfirmationPoll', () => {
       ]);
     });
   });
-
 });
