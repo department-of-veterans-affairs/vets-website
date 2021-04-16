@@ -710,4 +710,6 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.concat = (...args) => _.concat(...args);
+
+  liquid.filters.strip = (string = '') => _.trim(string);
 };
