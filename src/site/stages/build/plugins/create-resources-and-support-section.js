@@ -307,6 +307,16 @@ function cleanHTML(text) {
   return he.decode(strippedNewlines);
 }
 
+function deriveFAQMultipleQASearchableContent(entity) {
+  return entity.fieldQAGroups
+    .map(fieldQAGroup =>
+      fieldQAGroup.entity.fieldQAs
+        .map(fieldQA => deriveQASearchableContent(fieldQA.entity))
+        .join(' '),
+    )
+    .join(' ');
+}
+
 function deriveQASearchableContent(entity) {
   // Some QAs have react widgets, so we need to have it default to an empty string in that scenario.
   const wysiwyg = entity.fieldAnswer.entity?.fieldWysiwyg?.processed || '';
@@ -318,36 +328,66 @@ function deriveQASearchableContent(entity) {
   return `${entity.title} ${cleanedWysiwyg}`;
 }
 
+function deriveStepByStepSearchableContent(entity) {
+  return entity.fieldSteps
+    .map(
+      fieldStep =>
+        `${fieldStep.entity.fieldSectionHeader} ${cleanHTML(
+          fieldStep.entity.fieldStep
+            .map(fieldStep => fieldStep.entity.fieldWysiwyg.processed)
+            .join(' '),
+        )}`,
+    )
+    .join(' ');
+}
+
+function deriveSupportResourcesDetailPageSearchableContent(entity) {
+  return entity.fieldContentBlock
+    .map(contentBlock => {
+      switch (contentBlock.entity.entityBundle) {
+        case 'wysiwyg': {
+          return cleanHTML(contentBlock.entity.fieldWysiwyg.processed);
+        }
+        case 'table': {
+          return cleanHTML(contentBlock.entity.fieldTable.tableValue);
+        }
+        case 'collapsible_panel': {
+          return contentBlock.entity.fieldVaParagraphs
+            .map(vaParagraph => {
+              return `${
+                vaParagraph.entity.fieldTitle
+              } ${vaParagraph.entity.fieldVaParagraphs
+                .map(vaParagraph =>
+                  cleanHTML(vaParagraph.entity.fieldTable.tableValue),
+                )
+                .join(' ')}`;
+            })
+            .join(' ');
+        }
+        case 'react_widget': {
+          return '';
+        }
+        default: {
+          return '';
+        }
+      }
+    })
+    .join(' ');
+}
+
 function deriveSearchableContent(article) {
   switch (article.entityBundle) {
     case 'faq_multiple_q_a': {
-      // Derives a string of the main content for faq_multiple_q_a.
-      return article.fieldQAGroups.reduce((searchableContent, fieldQAGroup) => {
-        const qaGroupContent = fieldQAGroup.entity.fieldQAs
-          .map(fieldQA => deriveQASearchableContent(fieldQA.entity))
-          .join(' ');
-
-        return `${searchableContent} ${qaGroupContent}`;
-      }, '');
+      return deriveFAQMultipleQASearchableContent(article);
     }
     case 'q_a': {
       return deriveQASearchableContent(article);
     }
     case 'step_by_step': {
-      return article.fieldSteps.reduce((searchableContent, fieldStep) => {
-        return `${searchableContent} ${
-          fieldStep.entity.fieldSectionHeader
-        } ${cleanHTML(
-          fieldStep.entity.fieldStep
-            .map(fieldStep => fieldStep.entity.fieldWysiwyg.processed)
-            .join(' '),
-        )}`;
-      }, '');
+      return deriveStepByStepSearchableContent(article);
     }
     case 'support_resources_detail_page': {
-      console.log('article', article);
-      process.exit(1);
-      return '';
+      return deriveSupportResourcesDetailPageSearchableContent(article);
     }
     default: {
       return '';
