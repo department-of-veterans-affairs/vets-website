@@ -137,7 +137,7 @@ class FormStartControls extends React.Component {
     return this.props.testActionLink ? (
       <a
         href="#"
-        className="vads-c-action-link vads-u-padding-left--0"
+        className="vads-c-action-link--green vads-u-padding-left--0"
         onClick={event => {
           event.preventDefault();
           this.handleLoadPrefill();

@@ -370,7 +370,7 @@ describe('Schemaform <FormStartControls>', () => {
     );
     const formDOM = getFormDOM(tree);
 
-    expect(formDOM.className).to.contain('vads-c-action-link');
+    expect(formDOM.className).to.contain('vads-c-action-link--green');
     expect(formDOM.textContent).to.eq('Get Started');
   });
 
