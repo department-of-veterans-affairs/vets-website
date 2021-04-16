@@ -141,9 +141,6 @@ describe('health care questionnaire -- utils -- print pdf -- browser methods are
         }),
       );
 
-      // that url is revoked
-      expect(revokeObjectURL.called).to.be.true;
-
       // the a is added/removed from DOM
       expect(appendChild.called).to.be.true;
       expect(removeChild.called).to.be.true;
