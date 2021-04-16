@@ -146,7 +146,7 @@ function CommunityCareAppointmentDetailsPage({
       </div>
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vads-u-background-color--primary-alt-lightest vads-u-padding--2p5">
-        Contact this provider if you need to reschedule or cancel your
+        Contact this facility if you need to reschedule or cancel your
         appointment.
       </div>
 
