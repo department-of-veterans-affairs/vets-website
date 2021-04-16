@@ -135,6 +135,9 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
           className="vads-u-display--block"
           backgroundOnly
         >
+          <h2 className="vads-u-font-size--h3 vads-u-font-size--base vads-u-margin-top--0">
+            Need to make changes?
+          </h2>
           Contact this facility if you need to reschedule or cancel your
           appointment.
           <br />

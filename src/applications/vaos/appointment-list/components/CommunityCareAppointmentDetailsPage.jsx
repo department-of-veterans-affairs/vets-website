@@ -18,6 +18,9 @@ import ErrorMessage from '../../components/ErrorMessage';
 import { selectAppointmentById } from '../redux/selectors';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import Breadcrumbs from '../../components/Breadcrumbs';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 
 function CommunityCareAppointmentDetailsPage({
   appointment,
@@ -145,10 +148,17 @@ function CommunityCareAppointmentDetailsPage({
         </button>
       </div>
 
-      <div className="vads-u-margin-top--2 vaos-appts__block-label vads-u-background-color--primary-alt-lightest vads-u-padding--2p5">
+      <AlertBox
+        status={ALERT_TYPE.INFO}
+        className="vads-u-display--block"
+        backgroundOnly
+      >
+        <h2 className="vads-u-font-size--h3 vads-u-font-size--base vads-u-margin-top--0">
+          Need to make changes?
+        </h2>
         Contact this facility if you need to reschedule or cancel your
         appointment.
-      </div>
+      </AlertBox>
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
         <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
