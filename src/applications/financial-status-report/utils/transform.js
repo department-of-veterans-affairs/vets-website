@@ -63,33 +63,40 @@ export const transform = ({ data }) => {
     income,
     expenses: {
       ...expenses,
-      utilities: utilityRecords
-        ?.map(record => record.monthlyUtilityAmount || 0)
-        .reduce((acc, amount) => acc + amount, 0),
+      utilities: utilityRecords?.reduce(
+        (acc, record) => acc + record.monthlyUtilityAmount || 0,
+        0,
+      ),
       otherLivingExpenses: {
-        name: otherExpenses.map(expense => expense.name).join(', '),
-        amount: otherExpenses.reduce((acc, expense) => acc + expense.amount, 0),
+        name: otherExpenses?.map(expense => expense.name).join(', '),
+        amount: otherExpenses?.reduce(
+          (acc, expense) => acc + expense.amount || 0,
+          0,
+        ),
       },
       expensesInstallmentContractsAndOtherDebts: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.amountDueMonthly,
+        (acc, debt) => acc + debt.amountDueMonthly || 0,
         0,
       ),
       totalMonthlyExpenses: totalExpenses,
     },
     discretionaryIncome: {
       netMonthlyIncomeLessExpenses: totalIncome - totalExpenses,
-      amountCanBePaidTowardDebt: selectedDebts
-        ?.map(debt => debt.resolution.offerToPay || 0)
-        .reduce((acc, offer) => acc + offer, 0),
+      amountCanBePaidTowardDebt: selectedDebts?.reduce(
+        (acc, debt) => acc + debt.resolution.offerToPay || 0,
+        0,
+      ),
     },
     assets: {
       ...assets,
-      trailersBoatsCampers: assets.trailersBoatsCampers
-        ?.map(record => record.recreationalVehicleAmount || 0)
-        .reduce((acc, amount) => acc + amount, 0),
-      realEstateOwned: realEstateRecords
-        ?.map(record => record.realEstateAmount || 0)
-        .reduce((acc, amount) => acc + amount, 0),
+      trailersBoatsCampers: assets.trailersBoatsCampers?.reduce(
+        (acc, record) => acc + record.recreationalVehicleAmount || 0,
+        0,
+      ),
+      realEstateOwned: realEstateRecords?.reduce(
+        (acc, record) => acc + record.realEstateAmount || 0,
+        0,
+      ),
       totalAssets,
     },
     installmentContractsAndOtherDebts: installmentContractsAndOtherDebts?.map(

@@ -1,7 +1,7 @@
 {
   "additionalData": {
     "bankruptcy": {
-      "dateDischarged": "2000-07-XX",
+      "dateDischarged": "2004-01-XX",
       "courtLocation": "Tampa, FL",
       "docketNumber": "123456"
     },
@@ -30,12 +30,16 @@
   },
   "otherExpenses": [
     {
-      "name": "Pool service",
-      "amount": 80
+      "name": "Child care services",
+      "amount": 2000
+    },
+    {
+      "name": "Clothes",
+      "amount": 5000
     },
     {
       "name": "Lawn service",
-      "amount": 120
+      "amount": 234
     }
   ],
   "view:components": {
@@ -47,40 +51,56 @@
   },
   "installmentContractsAndOtherDebts": [
     {
-      "purpose": "Car payment/lease",
+      "purpose": "Credit card payments",
       "creditorName": "Creditor Name",
-      "originalAmount": 120000,
-      "unpaidBalance": 50000,
-      "amountDueMonthly": 800,
-      "dateStarted": "2016-06-XX",
-      "amountPastDue": 300
+      "originalAmount": 20000,
+      "unpaidBalance": 15000,
+      "amountDueMonthly": 300,
+      "dateStarted": "2016-04-XX",
+      "amountPastDue": 100
     }
   ],
   "utilityRecords": [
     {
       "utilityType": "Electricity",
-      "monthlyUtilityAmount": 350
+      "monthlyUtilityAmount": 500
+    },
+    {
+      "utilityType": "Water",
+      "monthlyUtilityAmount": 100
     },
     {
       "utilityType": "Internet",
-      "monthlyUtilityAmount": 200
+      "monthlyUtilityAmount": 75
+    },
+    {
+      "utilityType": "Cable",
+      "monthlyUtilityAmount": 150
     }
   ],
   "expenses": {
-    "rentOrMortgage": 1350,
-    "food": 800
+    "rentOrMortgage": 5000,
+    "food": 4000
   },
   "assets": {
     "otherAssets": [
       {
+        "name": "Jewelry (based on appraised value)",
+        "amount": 100000
+      },
+      {
         "name": "Bitcoin",
-        "amount": 12000
+        "amount": 250000
       }
     ],
     "trailersBoatsCampers": [
       {
         "recreationalVehicleType": "Boat",
-        "recreationalVehicleAmount": 20000
+        "recreationalVehicleAmount": 10000
+      },
+      {
+        "recreationalVehicleType": "Helicopter",
+        "recreationalVehicleAmount": 2000000
       }
     ],
     "automobiles": [
@@ -89,59 +109,69 @@
         "make": "Dodge",
         "model": "RAM",
         "year": "2020",
-        "resaleValue": 80000
+        "resaleValue": 85000
       },
       {
         "type": "Car",
         "make": "Dodge",
         "model": "Charger",
         "year": "2020",
-        "resaleValue": 45000
+        "resaleValue": 35000
       }
     ],
-    "cashInBank": 4500,
-    "cashOnHand": 1200,
-    "usSavingsBonds": 2345,
-    "stocksAndOtherBonds": 6543
+    "cashInBank": 1000,
+    "cashOnHand": 2000,
+    "usSavingsBonds": 3000,
+    "stocksAndOtherBonds": 4000
   },
   "realEstateRecords": [
     {
-      "realEstateType": "Vacation property",
-      "realEstateAmount": 120000
+      "realEstateType": "Single-family home",
+      "realEstateAmount": 150000
+    },
+    {
+      "realEstateType": "Apartment",
+      "realEstateAmount": 23456
     }
   ],
   "personalData": {
     "agesOfOtherDependents": [
       {
-        "dependentAge": "17"
+        "dependentAge": "12"
       },
       {
-        "dependentAge": "12"
+        "dependentAge": "17"
       }
     ],
     "employmentHistory": {
       "spouse": {
         "spousePreviousEmployment": [
           {
-            "type": "Full time",
-            "from": "2014-08-XX",
-            "to": "2019-11-XX",
-            "employerName": "Spouse Prev Employer"
+            "type": "Seasonal",
+            "from": "2019-08-XX",
+            "to": "2018-07-XX",
+            "employerName": "Spouse Prev Employer 1"
+          },
+          {
+            "type": "Temporary",
+            "from": "2014-06-XX",
+            "to": "2016-05-XX",
+            "employerName": "Spouse Prev Employer 2"
           }
         ],
         "currentEmployment": {
           "type": "Full time",
-          "from": "2018-01-XX",
-          "employerName": "Spouse Employer",
-          "monthlyGrossSalary": 4500,
+          "from": "2016-07-XX",
+          "employerName": "Spouse Current Employer",
+          "monthlyGrossSalary": 5000,
           "spouseDeductions": [
             {
-              "name": "State tax",
+              "name": "Federal tax",
               "amount": 200
             },
             {
-              "name": "Federal tax",
-              "amount": 400
+              "name": "State tax",
+              "amount": 100
             }
           ]
         }
@@ -150,44 +180,46 @@
         "vetPreviousEmployment": [
           {
             "type": "Full time",
-            "from": "2017-05-XX",
-            "to": "2019-08-XX",
-            "employerName": "Vet Previous Employer"
+            "from": "2015-11-XX",
+            "to": "2018-07-XX",
+            "employerName": "Vet Prev Employer 1"
+          },
+          {
+            "type": "Part time",
+            "from": "2016-05-XX",
+            "to": "2017-08-XX",
+            "employerName": "Vet Prev Employer 2"
           }
         ],
         "currentEmployment": {
           "type": "Full time",
-          "from": "2019-01-XX",
+          "from": "2018-08-XX",
           "employerName": "Vet Current Employer",
-          "monthlyGrossSalary": 5000,
+          "monthlyGrossSalary": 6000,
           "deductions": [
             {
               "name": "Federal tax",
-              "amount": 300
+              "amount": 200
             },
             {
-              "name": "Health insurance",
-              "amount": 400
+              "name": "State tax",
+              "amount": 100
             }
           ]
         }
       }
     },
     "spouseFullName": {
-      "first": "Spouse",
+      "first": "First",
       "last": "Name"
     },
     "address": {
       "livesOnMilitaryBaseInfo": {},
       "countryName": "United States",
-      "street": "8200 DOBY LN",
-      "street2": "APT 4D",
-      "city": "PASADENA",
+      "street": "55 Fake Street",
+      "city": "Tampa",
       "stateCode": "FL",
-      "zipCode": "33614",
-      "state": "MD",
-      "country": "USA",
-      "postalCode": "21122"
+      "zipCode": "33543"
     },
     "telephoneNumber": "4445551212",
     "emailAddress": "test2@test1.net",
@@ -195,7 +227,6 @@
     "veteranFullName": {
       "first": "Mark",
       "last": "Webb",
-      "middle": "R",
       "suffix": "Jr."
     },
     "dateOfBirth": "1950-10-04"
@@ -204,33 +235,37 @@
     "spouse": {
       "spouseAdditionalIncomeRecords": [
         {
+          "name": "Alimony payment",
+          "amount": 1300
+        },
+        {
           "name": "Rental property income",
-          "amount": 1100
+          "amount": 2500
         }
       ]
     },
     "additionalIncomeRecords": [
       {
         "name": "Bonus payment",
-        "amount": 1500
+        "amount": 1000
+      },
+      {
+        "name": "Freelance service",
+        "amount": 1200
       }
     ]
   },
   "socialSecurity": {
     "spouse": {
-      "socialSecurityAmount": 1245
+      "socialSecurityAmount": 850
     },
-    "socialSecurityAmount": 1200
+    "socialSecurityAmount": 1400
   },
   "benefits": {
     "spouseBenefits": {
-      "benefitAmount": 1300,
-      "educationAmount": 700
+      "benefitAmount": 1000,
+      "educationAmount": 2000
     }
-  },
-  "personalIdentification": {
-    "ssn": "4437",
-    "fileNumber": "4437"
   },
   "selectedDebts": [
     {
@@ -271,26 +306,15 @@
       "id": 0
     }
   ],
-  "debt": {
-    "currentAr": 0,
-    "debtHistory": [
-      {
-        "date": ""
-      }
-    ],
-    "deductionCode": "",
-    "originalAr": 0
+  "personalIdentification": {
+    "ssn": "4437",
+    "fileNumber": "4437"
   },
   "income": [
     {
       "veteranOrSpouse": "VETERAN",
       "compensationAndPension": "3261.1",
       "education": "50"
-    },
-    {
-      "veteranOrSpouse": "SPOUSE",
-      "compensationAndPension": "0",
-      "education": "0"
     }
   ]
 }
