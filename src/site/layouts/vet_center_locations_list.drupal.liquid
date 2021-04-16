@@ -50,8 +50,10 @@
              medium-screen:vads-u-margin-bottom--3" id="other-near-locations">
               Other nearby Vet Centers
           </h2>
-            {% assign nearByVetCenters = fieldNearbyVetCenters | concatArrays: fieldNearbyMobileVetCenters %}
-            {% for entityVetCenter in nearByVetCenters %}
+            {% for entityVetCenter in fieldNearbyVetCenters %}
+                {% include "src/site/includes/vet_center_address_phone_image.liquid" with vetCenter = entityVetCenter.entity %}
+            {% endfor %}
+            {% for entityVetCenter in fieldNearbyMobileVetCenters %}
                 {% include "src/site/includes/vet_center_address_phone_image.liquid" with vetCenter = entityVetCenter.entity %}
             {% endfor %}
 
