@@ -15,6 +15,12 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 import ReviewDescription from '../components/ReviewDescription';
 
+import {
+  hasRepresentative,
+  canUploadEvidence,
+  wantsToUploadEvidence,
+} from '../utils/helpers';
+
 // Pages
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInfo';
@@ -23,8 +29,10 @@ import hasRep from '../pages/hasRep';
 import repInfo from '../pages/repInfo';
 import contestableIssues from '../pages/contestableIssues';
 import boardReview from '../pages/boardReview';
+import evidenceIntro from '../pages/evidenceIntro';
+import evidenceUpload from '../pages/evidenceUpload';
 
-import initialData from '../tests/schema/initialData';
+// import initialData from '../tests/schema/initialData';
 
 // const { } = fullSchema.properties;
 // const { } = fullSchema.definitions;
@@ -87,7 +95,7 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
-          initialData,
+          // initialData,
         },
         confirmContactInformation: {
           title: 'Contact information',
@@ -115,7 +123,7 @@ const formConfig = {
         repInfo: {
           title: 'Representative Information',
           path: 'representative-information',
-          depends: formData => formData?.['view:hasRep'],
+          depends: hasRepresentative,
           uiSchema: repInfo.uiSchema,
           schema: repInfo.schema,
         },
@@ -140,6 +148,20 @@ const formConfig = {
           path: 'board-review-option',
           uiSchema: boardReview.uiSchema,
           schema: boardReview.schema,
+        },
+        evidenceIntro: {
+          title: 'Additional evidence',
+          path: 'additional-evidence',
+          depends: canUploadEvidence,
+          uiSchema: evidenceIntro.uiSchema,
+          schema: evidenceIntro.schema,
+        },
+        evidenceUpload: {
+          title: 'Additional evidence',
+          path: 'additional-evidence/upload',
+          depends: wantsToUploadEvidence,
+          uiSchema: evidenceUpload.uiSchema,
+          schema: evidenceUpload.schema,
         },
       },
     },
