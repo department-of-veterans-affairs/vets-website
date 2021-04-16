@@ -65,7 +65,7 @@ export default function useGetSearchResults(articles, query, page) {
         ),
 
         // Number of times a keyword is found in the article's introText.
-        keywordsCountsDescription: keywords?.reduce(
+        keywordsCountsIntroText: keywords?.reduce(
           (keywordInstances, keyword) =>
             keywordInstances +
             article.introText.toLowerCase()?.split(keyword)?.length -
@@ -73,10 +73,37 @@ export default function useGetSearchResults(articles, query, page) {
           0,
         ),
 
-        wholePhraseMatchCounts:
+        // Number of times a keyword is found in the article's searchableContent.
+        keywordsCountsContent: keywords?.reduce(
+          (keywordInstances, keyword) =>
+            keywordInstances +
+            article.searchableContent.toLowerCase()?.split(keyword)?.length -
+            1,
+          0,
+        ),
+
+        // Number of times the full query is found in the article's title.
+        wholePhraseMatchCountsTitle:
+          article.title.toLowerCase()?.split(query.toLowerCase())?.length - 1,
+
+        // Number of times the full query is found in the article's introText.
+        wholePhraseMatchCountsIntroText:
+          article.introText.toLowerCase()?.split(query.toLowerCase())?.length -
+          1,
+
+        // Number of times the full query is found in the article's searchableContent.
+        wholePhraseMatchCountsContent:
+          article.searchableContent.toLowerCase()?.split(query.toLowerCase())
+            ?.length - 1,
+
+        // Number of times the full query is found in the article's title, introText, searchableContent combined.
+        wholePhraseMatchCountsTotal:
           article.title.toLowerCase()?.split(query.toLowerCase())?.length -
           1 +
           (article.introText.toLowerCase()?.split(query.toLowerCase())?.length -
+            1) +
+          (article.searchableContent.toLowerCase()?.split(query.toLowerCase())
+            ?.length -
             1),
       }));
 
@@ -86,20 +113,20 @@ export default function useGetSearchResults(articles, query, page) {
         // Sort ties then by alphabetical descending
         orderedResults = orderBy(
           filteredArticles,
-          ['keywordsCountsTitle', 'keywordsCountsDescription', 'title'],
+          ['keywordsCountsTitle', 'keywordsCountsIntroText', 'title'],
           ['desc', 'desc', 'asc'],
         );
       } else {
         // Sort first by the number of exact query matches (ignoring casing) in the title and introText
         // Sort ties by query word instances found in title descending
-        // Sort ties then by query word instances found in introText descending
+        // Sort ties then by query word instances found in searchableContent descending
         // Sort ties then by alphabetical descending
         orderedResults = orderBy(
           filteredArticles,
           [
-            'wholePhraseMatchCounts',
+            'wholePhraseMatchCountsTotal',
             'keywordsCountsTitle',
-            'keywordsCountsDescription',
+            'keywordsCountsContent',
             'title',
           ],
           ['desc', 'desc', 'desc', 'asc'],
