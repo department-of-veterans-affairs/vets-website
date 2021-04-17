@@ -14,22 +14,6 @@ const DRUPAL_ADDRESS =
 const S3_BUCKET = 'vetsgov-website-builds-s3-upload';
 const S3_KEY = 'content-cache/master/cache.tar.gz';
 
-const uploadStream = () => {
-  const pass = new stream.PassThrough();
-  const s3 = new S3();
-
-  const request = s3.putObject({
-    Body: pass,
-    Bucket: S3_BUCKET,
-    Key: S3_KEY,
-  });
-
-  const response = request.promise();
-
-  console.log('Initialized the upload stream...');
-  return { pass, response };
-};
-
 exports.handler = async function(event, context) {
   console.log(`Event: ${JSON.stringify(event, null, 2)}`);
   console.log(`Context: ${JSON.stringify(context, null, 2)}`);
@@ -61,26 +45,30 @@ exports.handler = async function(event, context) {
   console.log('Stringifying the data...');
   const pagesString = JSON.stringify(drupalPages, null, 2);
 
-  console.log('Initializing the upload stream...');
-  const { pass, response } = uploadStream();
-
   console.log('Archiving and compressing the cache...');
+  const pass = new stream.PassThrough();
   const tarball = tar.pack();
   tarball.entry({ name: 'pages.json' }, pagesString);
   tarball.finalize();
-
-  console.log('Uploading the cache...');
   tarball.pipe(gz()).pipe(pass);
 
-  let result = null;
+  console.log('Uploading the cache...');
+  const s3 = new S3();
+  const request = s3.upload({
+    Body: pass,
+    Bucket: S3_BUCKET,
+    Key: S3_KEY,
+  });
+
+  let response = null;
 
   try {
-    result = await response;
+    response = await request.promise();
     console.log('Successfully uploaded the cache!');
   } catch (error) {
     console.error('Failed to upload the cache.');
     throw new Error(error);
   }
 
-  return result;
+  return response;
 };
