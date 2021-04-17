@@ -56,3 +56,6 @@ export const selectFeatureHomepageRefresh = state =>
 
 export const selectFeatureFacilitySelectionV22 = state =>
   toggleValues(state).vaOnlineFacilitySelectionV22;
+
+export const selectFeatureUnenrolledVaccine = state =>
+  toggleValues(state).vaOnlineSchedulingUnenrolledVaccine;

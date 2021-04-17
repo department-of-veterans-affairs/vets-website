@@ -43,6 +43,10 @@ for o in "$@"; do
             destination="${o#*=}"
             shift
             ;;
+        --force-content-build)
+            forceContentBuild=true
+            shift
+            ;;
         *)
             ;;
     esac
@@ -71,7 +75,7 @@ else
 fi
 
 # Build the content
-if [ "${buildtype}" != "vagovdev" ]
+if [ -n "${forceContentBuild}" ] || [ "${buildtype}" != "vagovdev" ]
 then
     yarn build:content $args
 fi

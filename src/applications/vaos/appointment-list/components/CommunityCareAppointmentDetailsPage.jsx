@@ -18,6 +18,9 @@ import ErrorMessage from '../../components/ErrorMessage';
 import { selectAppointmentById } from '../redux/selectors';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import Breadcrumbs from '../../components/Breadcrumbs';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 
 function CommunityCareAppointmentDetailsPage({
   appointment,
@@ -75,12 +78,8 @@ function CommunityCareAppointmentDetailsPage({
   }
 
   const header = 'Community care';
-  const location = appointment.contained.find(
-    res => res.resourceType === 'Location',
-  );
-  const practitionerName = appointment.participant?.find(res =>
-    res.actor.reference.startsWith('Practitioner'),
-  )?.actor.display;
+  const { providerName, practiceName } =
+    appointment.communityCareProvider || {};
 
   return (
     <PageLayout>
@@ -96,21 +95,24 @@ function CommunityCareAppointmentDetailsPage({
         />
       </h1>
 
-      <h2 className="vads-u-font-size--sm vads-u-font-family--sans">
+      <h2
+        className="vads-u-font-size--base vads-u-font-family--sans"
+        data-cy="community-care-appointment-details-header"
+      >
         <span>
           <strong>{header}</strong>
         </span>
       </h2>
 
-      {(!!practitionerName || !!location.name) && (
+      {(!!providerName || !!practiceName) && (
         <>
-          {practitionerName || location.name}
+          {providerName || practiceName}
           <br />
         </>
       )}
       <FacilityAddress
-        facility={location}
-        showDirectionsLink={!!location.address}
+        facility={appointment.communityCareProvider}
+        showDirectionsLink={!!appointment.communityCareProvider.address}
         level={2}
       />
 
@@ -133,7 +135,7 @@ function CommunityCareAppointmentDetailsPage({
         <AddToCalendar
           summary={header}
           description={appointment.comment}
-          location={formatFacilityAddress(location)}
+          location={formatFacilityAddress(appointment.communityCareProvider)}
           duration={appointment.minutesDuration}
           startDateTime={moment.parseZone(appointment.start)}
         />
@@ -146,10 +148,15 @@ function CommunityCareAppointmentDetailsPage({
         </button>
       </div>
 
-      <div className="vads-u-margin-top--2 vaos-appts__block-label vads-u-background-color--primary-alt-lightest vads-u-padding--2p5">
-        Contact this provider if you need to reschedule or cancel your
+      <AlertBox
+        status={ALERT_TYPE.INFO}
+        className="vads-u-display--block"
+        headline="Need to make changes?"
+        backgroundOnly
+      >
+        Contact this facility if you need to reschedule or cancel your
         appointment.
-      </div>
+      </AlertBox>
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
         <Link to="/" className="usa-button vads-u-margin-top--2" role="button">

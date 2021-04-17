@@ -27,6 +27,55 @@ describe('timezoneAbbrev', () => {
   });
 });
 
+describe('formatSharableID', () => {
+  it('formats ID correctly less than 30 chars', () => {
+    expect(
+      liquid.filters.formatSharableLinkID(123, 'How Can i protect myself'),
+    ).to.eq('how-can-i-protect-myself-123');
+  });
+
+  it('formats ID correctly more than 30 chars', () => {
+    expect(
+      liquid.filters.formatSharableLinkID(
+        13060,
+        'Why should I consider volunteering for coronavirus research at VA',
+      ),
+    ).to.eq('why-should-i-consider-voluntee-13060');
+  });
+
+  it('formats ID correctly in Spanish', () => {
+    expect(
+      liquid.filters.formatSharableLinkID(
+        27792,
+        '¿Debo usar una mascarilla cuando vaya a un hospital del VA u a otro lugar?',
+      ),
+    ).to.eq('debo-usar-una-mascarilla-cuan-27792');
+  });
+
+  it('formats ID correctly in Tagalog', () => {
+    expect(
+      liquid.filters.formatSharableLinkID(
+        30316,
+        'Kailangan ko bang magsuot ng mask kapag pumunta ako sa isang ospital ng VA o ibang lokasyon?',
+      ),
+    ).to.eq('kailangan-ko-bang-magsuot-ng-m-30316');
+  });
+});
+
+describe('detectLang', () => {
+  it('detects english', () => {
+    expect(liquid.filters.detectLang('some-url')).to.eq('en');
+  });
+
+  it('detects spanish', () => {
+    expect(liquid.filters.detectLang('some-url-esp')).to.eq('es');
+  });
+
+  it('detects taglog', () => {
+    expect(liquid.filters.detectLang('some-url-tag')).to.eq('tl');
+  });
+});
+
 describe('dateFromUnix', () => {
   context('with default time zone', () => {
     it('returns null for null', () => {
@@ -313,5 +362,18 @@ describe('replace', () => {
     expect(liquid.filters.replace('<h3>some text</h3>', 'h3', 'h4')).to.equal(
       '<h4>some text</h4>',
     );
+  });
+});
+
+describe('concat', () => {
+  it('concatenates 2 or more arrays', () => {
+    expect(JSON.stringify(liquid.filters.concat([1], 2, [3], [[4]]))).to.equal(
+      JSON.stringify([1, 2, 3, [4]]),
+    );
+  });
+});
+describe('strip', () => {
+  it('removes leading and trailing whitespace', () => {
+    expect(liquid.filters.strip('   \nhello\n    ')).to.equal('hello');
   });
 });

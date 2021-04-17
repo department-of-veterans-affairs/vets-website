@@ -206,6 +206,14 @@ module.exports = function registerFilters() {
     return _.slice(arr, startIndex);
   };
 
+  liquid.filters.formatSharableLinkID = (id, description) => {
+    if (!description) return id;
+    const truncatedText = description.substring(0, 30);
+    const escaped = liquid.filters.escape(truncatedText);
+    const hyphenatedDesc = _.kebabCase(escaped);
+    return `${hyphenatedDesc}-${id}`;
+  };
+
   liquid.filters.breakTerms = data => {
     let output = '';
     if (data != null) {
@@ -293,6 +301,7 @@ module.exports = function registerFilters() {
     return JSON.stringify(facilityList);
   };
 
+  // We might not need this filter, refactor
   liquid.filters.widgetFacilityDetail = facility => {
     const facilityLocatorApiId = facility.split('_')[1].toUpperCase();
     const id = `vha_${facilityLocatorApiId}`;
@@ -699,4 +708,8 @@ module.exports = function registerFilters() {
     const regex = new RegExp(oldVal, 'g');
     return string.replace(regex, newVal);
   };
+
+  liquid.filters.concat = (...args) => _.concat(...args);
+
+  liquid.filters.strip = (string = '') => _.trim(string);
 };

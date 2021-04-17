@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { CHAPTER_31_ROOT_URL, WIZARD_STATUS } from '../constants';
+import { WIZARD_STATUS } from '../constants';
 import recordEvent from 'platform/monitoring/record-event';
 
 const scroller = Scroll.scroller;
@@ -16,21 +17,25 @@ const IntroductionPage = props => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
+    document.title =
+      'Apply for Veteran Readiness and Employment Benefits | Veteran Affairs';
   }, []);
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Apply for Veteran Readiness and Employment" />
+      <FormTitle title="Apply for Veteran Readiness and Employment with VA Form 28-1900" />
       <p>
-        Equal to VA Form 21-1900 (28-1900 Veteran Readiness and Employment).
+        Equal to VA Form 28-1900 (Vocational Rehabilitation for Claimants With
+        Service-Connected Disabilities)
       </p>
       <SaveInProgressIntro
+        hideUnauthedStartLink
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
         pageList={props.route.pageList}
         startText="Start the Application"
       >
-        Please complete the 21-1900 form to apply for Vocational Rehabilitation.
+        Please complete the 28-1900 form to apply for Vocational Rehabilitation.
       </SaveInProgressIntro>
       <h4>
         Follow the steps below to apply for Veteran Readiness and Employment.
@@ -51,7 +56,7 @@ const IntroductionPage = props => {
               <strong>What if I need help filling out my application?</strong>{' '}
               An accredited representative, with a Veterans Service Organization
               (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
+              <a href="/disability/how-to-file-claim/">
                 Get help filing your claim
               </a>
             </p>
@@ -83,10 +88,11 @@ const IntroductionPage = props => {
             </p>
           </li>
         </ol>
-        <p>
+        <p id="vre-orientation-return">
           If you’re not sure this is the right form, you can{' '}
-          <a
-            href={`${CHAPTER_31_ROOT_URL}`}
+          <Link
+            aria-describedby="vre-orientation-return"
+            to="/orientation"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-start-over',
@@ -95,10 +101,11 @@ const IntroductionPage = props => {
             }}
           >
             go back and answer the questions again.
-          </a>
+          </Link>
         </p>
       </div>
       <SaveInProgressIntro
+        hideUnauthedStartLink
         buttonOnly
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}
@@ -106,7 +113,7 @@ const IntroductionPage = props => {
         startText="Start the Application"
       />
       <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-        <OMBInfo resBurden={30} ombNumber="21-1900" expDate="12/31/2021" />
+        <OMBInfo resBurden={15} ombNumber="2900-0009" expDate="11/30/2022" />
       </div>
     </div>
   );

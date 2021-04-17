@@ -56,17 +56,11 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     ).to.have.tagName('h1');
     expect(
       screen.getByText(
-        /You may need to return to the Cheyenne VA Medical Center/i,
+        /You’ll need to return to the Cheyenne VA Medical Center/i,
       ),
     ).to.be.ok;
     expect(screen.getByText('Moderna')).to.have.tagName('h2');
     expect(screen.getByText('Pfizer')).to.have.tagName('h2');
-    expect(screen.getByText('Johnson & Johnson')).to.have.tagName('h2');
-    expect(screen.baseElement).to.contain.text(
-      `If you receive your first dose on ${start.format(
-        'dddd, MMMM DD, YYYY',
-      )}`,
-    );
     expect(
       screen.getByText(
         new RegExp(
@@ -89,8 +83,6 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
         ),
       ),
     ).to.be.ok;
-    // Johnson & Johnson
-    expect(screen.getByText('1 dose only')).to.be.ok;
   });
 
   xit('should show additional message after user clicks the expand link', async () => {

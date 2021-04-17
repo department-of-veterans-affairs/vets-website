@@ -54,6 +54,7 @@ src/platform/site-wide @department-of-veterans-affairs/vsa-public-websites-front
 src/applications/static-pages @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/frontend-review-group
 src/applications/find-forms @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-public-websites-frontend
+src/applications/discharge-wizard @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/search @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
 src/applications/resources-and-support @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
 src/site/includes/debug.drupal.liquid @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend
@@ -75,6 +76,10 @@ src/site/components/phone-number.drupal.liquid @department-of-veterans-affairs/v
 src/applications/static-pages/sass/modules/_m-facilities.scss @department-of-veterans-affairs/vsa-facilities-frontend
 src/applications/static-pages/sass/modules/_m-facility-detail.scss @department-of-veterans-affairs/vsa-facilities-frontend
 src/applications/static-pages/sass/modules/_m-facility-events.scss @department-of-veterans-affairs/vsa-facilities-frontend
+
+# GraphQL Queries
+# TODO: group these into folders to support team ownership
+src/site/stages/build/drupal/graphql @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend
 
 
 # Liquid template filters
