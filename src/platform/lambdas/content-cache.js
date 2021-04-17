@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+const stream = require('stream');
 const S3 = require('aws-sdk/clients/s3'); // eslint-disable-line import/no-unresolved
 const tar = require('tar-stream');
 const gz = require('gunzip-maybe');
@@ -12,6 +13,30 @@ const DRUPAL_ADDRESS =
 
 const S3_BUCKET = 'vetsgov-website-builds-s3-upload';
 const S3_KEY = 'content-cache/master/cache.tar.gz';
+
+const upload = async () => {
+  const pass = new stream.PassThrough();
+  const s3 = new S3();
+
+  console.log('Uploading the cache...');
+  const request = s3.putObject({
+    Body: pass,
+    Bucket: S3_BUCKET,
+    Key: S3_KEY,
+  });
+
+  let response = null;
+
+  try {
+    response = await request.promise();
+    console.log('Successfully uploaded the cache!');
+  } catch (error) {
+    console.error('Failed to upload the cache.');
+    throw new Error(error);
+  }
+
+  return response;
+};
 
 exports.handler = async function(event, context) {
   console.log(`Event: ${JSON.stringify(event, null, 2)}`);
@@ -46,26 +71,7 @@ exports.handler = async function(event, context) {
 
   const tarball = tar.pack();
   tarball.entry({ name: 'pages.json' }, pagesString);
-  tarball.finalize();
+  tarball.pipe(gz()).pipe(upload());
 
-  const s3 = new S3();
-
-  console.log('Uploading the cache...');
-  const request = s3.putObject({
-    Body: tarball.pipe(gz()),
-    Bucket: S3_BUCKET,
-    Key: S3_KEY,
-  });
-
-  let response = null;
-
-  try {
-    response = await request.promise();
-    console.log('Successfully uploaded the cache!');
-  } catch (error) {
-    console.error('Failed to upload the cache.');
-    throw new Error(error);
-  }
-
-  return response;
+  return true;
 };
