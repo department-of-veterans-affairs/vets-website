@@ -40,7 +40,7 @@ exports.handler = async function(event, context) {
   }
 
   console.log('Stringifying the data...');
-  const pagesString = JSON.stringify(drupalPages, { spaces: 2 });
+  const pagesString = JSON.stringify(drupalPages, null, 2);
 
   const s3 = new S3();
 
@@ -57,8 +57,8 @@ exports.handler = async function(event, context) {
     response = await request.promise();
     console.log('Successfully uploaded the cache!');
   } catch (error) {
-    console.log('Failed to upload the cache.');
-    console.error(error);
+    console.error('Failed to upload the cache.');
+    throw new Error(error);
   }
 
   return response;
