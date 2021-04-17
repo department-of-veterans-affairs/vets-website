@@ -46,16 +46,19 @@ exports.handler = async function(event, context) {
   const pagesString = JSON.stringify(drupalPages, null, 2);
 
   console.log('Archiving and compressing the cache...');
-  const pass = new stream.PassThrough();
+  const passThroughStream = new stream.PassThrough();
   const tarball = tar.pack();
   tarball.entry({ name: 'pages.json' }, pagesString);
+  tarball.entry({ name: 'downloads', type: 'directory' });
+  tarball.entry({ name: 'downloads/files', type: 'directory' });
+  tarball.entry({ name: 'downloads/img', type: 'directory' });
   tarball.finalize();
-  tarball.pipe(gz()).pipe(pass);
+  tarball.pipe(gz()).pipe(passThroughStream);
 
   console.log('Uploading the cache...');
   const s3 = new S3();
   const request = s3.upload({
-    Body: pass,
+    Body: passThroughStream,
     Bucket: S3_BUCKET,
     Key: S3_KEY,
   });
