@@ -46,6 +46,7 @@ exports.handler = async function(event, context) {
 
   const tarball = tar.pack();
   tarball.entry({ name: 'pages.json' }, pagesString);
+  tarball.finalize();
 
   const s3 = new S3();
 
