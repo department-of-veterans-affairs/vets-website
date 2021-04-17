@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 
 const S3 = require('aws-sdk/clients/s3'); // eslint-disable-line import/no-unresolved
+const tar = require('tar-stream');
+const gz = require('gunzip-maybe');
 
 const getOptions = require('../../site/stages/build/options');
 const getDrupalClient = require('../../site/stages/build/drupal/api');
@@ -9,7 +11,7 @@ const DRUPAL_ADDRESS =
   'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com';
 
 const S3_BUCKET = 'vetsgov-website-builds-s3-upload';
-const S3_KEY = 'content-cache/master/pages.json';
+const S3_KEY = 'content-cache/master/cache.tar.gz';
 
 exports.handler = async function(event, context) {
   console.log(`Event: ${JSON.stringify(event, null, 2)}`);
@@ -42,11 +44,14 @@ exports.handler = async function(event, context) {
   console.log('Stringifying the data...');
   const pagesString = JSON.stringify(drupalPages, null, 2);
 
+  const tarball = tar.pack();
+  tarball.entry({ name: 'pages.json' }, pagesString);
+
   const s3 = new S3();
 
   console.log('Uploading the cache...');
   const request = s3.putObject({
-    Body: pagesString,
+    Body: tarball.pipe(gz()),
     Bucket: S3_BUCKET,
     Key: S3_KEY,
   });
