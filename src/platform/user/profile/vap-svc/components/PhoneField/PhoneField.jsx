@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import pickBy from 'lodash/pickBy';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from '@@vap-svc/constants';
 
@@ -34,27 +33,29 @@ const formSchema = {
   required: ['inputPhoneNumber'],
 };
 
-const uiSchema = {
-  inputPhoneNumber: {
-    'ui:widget': PhoneNumberWidget,
-    'ui:title': 'Number',
-    'ui:errorMessages': {
-      pattern: 'Please enter a valid 10-digit U.S. phone number.',
+const uiSchema = fieldName => {
+  return {
+    inputPhoneNumber: {
+      'ui:widget': PhoneNumberWidget,
+      'ui:title': `${fieldName} (U.S. numbers only)`,
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 10-digit U.S. phone number.',
+      },
     },
-  },
-  extension: {
-    'ui:title': 'Extension',
-    'ui:errorMessages': {
-      pattern: 'Please enter a valid extension.',
+    extension: {
+      'ui:title': 'Extension',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid extension.',
+      },
     },
-  },
-  isTextPermitted: {
-    'ui:title':
-      'Send me text message (SMS) reminders for my VA health care appointments',
-    'ui:options': {
-      hideIf: formData => !formData['view:showSMSCheckbox'],
+    isTextPermitted: {
+      'ui:title':
+        'Send me text message (SMS) reminders for my VA health care appointments',
+      'ui:options': {
+        hideIf: formData => !formData['view:showSMSCheckbox'],
+      },
     },
-  },
+  };
 };
 
 export default class PhoneField extends React.Component {
@@ -128,7 +129,7 @@ export default class PhoneField extends React.Component {
         Content={PhoneView}
         EditModal={PhoneEditModal}
         formSchema={formSchema}
-        uiSchema={uiSchema}
+        uiSchema={() => uiSchema(this.props.fieldName)}
       />
     );
   }
