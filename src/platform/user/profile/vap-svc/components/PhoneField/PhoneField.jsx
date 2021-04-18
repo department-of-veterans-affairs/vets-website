@@ -129,7 +129,7 @@ export default class PhoneField extends React.Component {
         Content={PhoneView}
         EditModal={PhoneEditModal}
         formSchema={formSchema}
-        uiSchema={() => uiSchema(this.props.fieldName)}
+        uiSchema={uiSchema(this.props.fieldName)}
       />
     );
   }
