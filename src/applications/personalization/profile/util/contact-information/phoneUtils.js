@@ -1,6 +1,4 @@
-import React from 'react';
 import { PHONE_TYPE, USA } from '@@vap-svc/constants';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 import pickBy from 'lodash/pickBy';
 
@@ -26,27 +24,29 @@ export const phoneFormSchema = {
   required: ['inputPhoneNumber'],
 };
 
-export const phoneUiSchema = {
-  inputPhoneNumber: {
-    'ui:widget': PhoneNumberWidget,
-    'ui:title': 'Number',
-    'ui:errorMessages': {
-      pattern: 'Please enter a valid 10-digit U.S. phone number.',
+export const phoneUiSchema = fieldName => {
+  return {
+    inputPhoneNumber: {
+      'ui:widget': PhoneNumberWidget,
+      'ui:title': `${fieldName} (U.S. numbers only)`,
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid 10-digit U.S. phone number.',
+      },
     },
-  },
-  extension: {
-    'ui:title': 'Extension',
-    'ui:errorMessages': {
-      pattern: 'Please enter a valid extension.',
+    extension: {
+      'ui:title': 'Extension',
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid extension.',
+      },
     },
-  },
-  isTextPermitted: {
-    'ui:title':
-      'Send me text message (SMS) reminders for my VA health care appointments',
-    'ui:options': {
-      hideIf: formData => !formData['view:showSMSCheckbox'],
+    isTextPermitted: {
+      'ui:title':
+        'Send me text message (SMS) reminders for my VA health care appointments',
+      'ui:options': {
+        hideIf: formData => !formData['view:showSMSCheckbox'],
+      },
     },
-  },
+  };
 };
 
 export const phoneConvertNextValueToCleanData = value => {
