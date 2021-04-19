@@ -39,7 +39,6 @@ import {
   getLocation,
   getSiteIdFromFacilityId,
   getLocationsByTypeOfCareAndSiteIds,
-  getCommunityProvidersByTypeOfCare,
 } from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
@@ -169,12 +168,6 @@ export const FORM_UPDATE_CC_ELIGIBILITY =
   'newAppointment/FORM_UPDATE_CC_ELIGIBILITY';
 export const CLICKED_UPDATE_ADDRESS_BUTTON =
   'newAppointment/CLICKED_UPDATE_ADDRESS_BUTTON';
-export const FORM_REQUESTED_PROVIDERS =
-  'newAppointment/FORM_REQUESTED_PROVIDERS';
-export const FORM_REQUESTED_PROVIDERS_SUCCEEDED =
-  'newAppointment/FORM_REQUESTED_PROVIDERS_SUCCEEDED';
-export const FORM_REQUESTED_PROVIDERS_FAILED =
-  'newAppointment/FORM_REQUESTED_PROVIDERS_FAILED';
 export const FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED =
   'newAppointment/FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED';
 
