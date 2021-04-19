@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 import { focusElement, getScrollOptions } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { CHAPTER_31_ROOT_URL, WIZARD_STATUS } from '../constants';
+import { WIZARD_STATUS } from '../constants';
 import recordEvent from 'platform/monitoring/record-event';
 
 const scroller = Scroll.scroller;
@@ -16,11 +17,13 @@ const IntroductionPage = props => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
+    document.title =
+      'Apply for Veteran Readiness and Employment Benefits | Veteran Affairs';
   }, []);
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Apply for Veteran Readiness and Employment" />
+      <FormTitle title="Apply for Veteran Readiness and Employment with VA Form 28-1900" />
       <p>
         Equal to VA Form 28-1900 (Vocational Rehabilitation for Claimants With
         Service-Connected Disabilities)
@@ -85,10 +88,11 @@ const IntroductionPage = props => {
             </p>
           </li>
         </ol>
-        <p>
+        <p id="vre-orientation-return">
           If you’re not sure this is the right form, you can{' '}
-          <a
-            href={`${CHAPTER_31_ROOT_URL}`}
+          <Link
+            aria-describedby="vre-orientation-return"
+            to="/orientation"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-start-over',
@@ -97,7 +101,7 @@ const IntroductionPage = props => {
             }}
           >
             go back and answer the questions again.
-          </a>
+          </Link>
         </p>
       </div>
       <SaveInProgressIntro

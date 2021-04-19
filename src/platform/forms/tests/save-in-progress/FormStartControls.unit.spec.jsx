@@ -351,6 +351,29 @@ describe('Schemaform <FormStartControls>', () => {
     ]);
   });
 
+  it('should render the action link', () => {
+    const routerSpy = {
+      push: sinon.spy(),
+    };
+    const fetchSpy = sinon.spy();
+    const tree = ReactTestUtils.renderIntoDocument(
+      <FormStartControls
+        testActionLink
+        formId="1010ez"
+        migrations={[]}
+        startPage={startPage}
+        router={routerSpy}
+        fetchInProgressForm={fetchSpy}
+        prefillAvailable
+        routes={[{}, { formConfig: { wizardStorageKey } }]}
+      />,
+    );
+    const formDOM = getFormDOM(tree);
+
+    expect(formDOM.className).to.contain('vads-c-action-link--green');
+    expect(formDOM.textContent).to.eq('Get Started');
+  });
+
   it('should display the startNewAppButtonText', () => {
     const routerSpy = {
       push: sinon.spy(),

@@ -6,7 +6,6 @@ import OnState from './On';
 import OffState from './Off';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-// TODO: follow on PR will introduce react-18-next, this is to get the word out stat
 const copy = {
   en: {
     appTitle: 'Covid 19 Vaccination Information',
@@ -41,7 +40,8 @@ const copy = {
       },
     },
   },
-  tag: {
+  tl: {
+    appTitle: 'Covid 19 Vaccination Information',
     headline: `Manatiling nakikibalita tungkol sa pagpapabakuna para sa COVID-19`,
     cta: `Mag-sign up para sa madaling paraan ng pakikibalita tungkol sa pagpapabakuna para sa COVID-19 sa VA.`,
     expandedEligibilityContent: {
