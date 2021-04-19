@@ -709,5 +709,25 @@ module.exports = function registerFilters() {
     return string.replace(regex, newVal);
   };
 
+  liquid.filters.processDynamicContent = (entity, contentType) => {
+    // TODO - add more cases as new centralized content types are added
+    // eslint-disable-next-line sonarjs/no-small-switch
+    switch (contentType) {
+      case 'wysiwyg': {
+        return {
+          fieldWysiwyg: {
+            // eslint-disable-next-line camelcase
+            processed: entity?.field_wysiwyg[0]?.processed,
+          },
+        };
+      }
+      default: {
+        return entity;
+      }
+    }
+  };
+
   liquid.filters.concat = (...args) => _.concat(...args);
+
+  liquid.filters.strip = (string = '') => _.trim(string);
 };

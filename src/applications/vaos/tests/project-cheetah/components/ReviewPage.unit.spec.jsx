@@ -13,8 +13,8 @@ import environment from 'platform/utilities/environment';
 
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 
-import ReviewPage from '../../../project-cheetah/components/ReviewPage';
-import { onCalendarChange } from '../../../project-cheetah/redux/actions';
+import ReviewPage from '../../../covid-19-vaccine/components/ReviewPage';
+import { onCalendarChange } from '../../../covid-19-vaccine/redux/actions';
 import { mockAppointmentSubmit, mockFacilityFetch } from '../../mocks/helpers';
 import { getVAFacilityMock } from '../../mocks/v0';
 
@@ -33,7 +33,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     start = moment();
     store = createTestStore({
       ...initialState,
-      projectCheetah: {
+      covid19Vaccine: {
         newBooking: {
           pages: {},
           data: {

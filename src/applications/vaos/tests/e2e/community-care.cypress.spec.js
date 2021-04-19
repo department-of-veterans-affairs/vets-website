@@ -12,7 +12,9 @@ describe('VAOS community care flow', () => {
     );
     cy.injectAxe();
     // Select primary care
-    cy.get('#root_typeOfCareId_8').click();
+    cy.get('#root_typeOfCareId_8')
+      .focus()
+      .check();
     // Verify primary care checked
     cy.get('#root_typeOfCareId_8').should('be.checked');
     // Click continue button
@@ -250,7 +252,9 @@ describe('VAOS community care flow', () => {
     );
     cy.injectAxe();
     // Select primary care
-    cy.get('#root_typeOfCareId_8').click();
+    cy.get('#root_typeOfCareId_8')
+      .focus()
+      .check();
     // Verify primary care checked
     cy.get('#root_typeOfCareId_8').should('be.checked');
     // Click continue button
