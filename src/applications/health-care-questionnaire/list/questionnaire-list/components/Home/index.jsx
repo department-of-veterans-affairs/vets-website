@@ -56,7 +56,7 @@ const Home = props => {
       loadQuestionnaires()
         .then(response => {
           recordEvent({
-            event: `${TRACKING_PREFIX}questionnaires-loaded`,
+            event: `${TRACKING_PREFIX}questionnaires-items-loaded`,
           });
           const { data } = response;
           // load data in to redux

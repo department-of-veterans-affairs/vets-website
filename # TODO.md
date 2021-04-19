@@ -3,5 +3,5 @@
 - [x] submission successful
 - [x] pdf failed event
 - [x] pdf success event
-- [ ] api calls
+- [x] api calls
 - [ ] expired questionnaires
