@@ -161,7 +161,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
-    expect(screen.getByRole('link', { name: /Reschedule/ })).to.be.ok;
 
     const button = screen.getByRole('button', {
       name: /Go back to appointments/,

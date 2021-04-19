@@ -7,7 +7,11 @@ import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import error401 from '@@profile/tests/fixtures/401.json';
 import error500 from '@@profile/tests/fixtures/500.json';
-import { nameTagRenders } from '@@profile/tests/e2e/helpers';
+import {
+  nameTagRendersWithDisabilityRating,
+  nameTagRendersWithoutDisabilityRating,
+  nameTagRendersWithFallbackLink,
+} from '@@profile/tests/e2e/helpers';
 
 import manifest from '~/applications/personalization/dashboard/manifest.json';
 
@@ -50,7 +54,7 @@ function loa3DashboardTest(mobile) {
     .should('equal', 'H1');
 
   // name tag exists with the right data
-  nameTagRenders({ withDisabilityRating: true });
+  nameTagRendersWithDisabilityRating();
 
   // make the a11y check
   cy.injectAxe();
@@ -97,10 +101,10 @@ describe('The My VA Dashboard', () => {
         body: error401,
       });
     });
-    it('should show the fallback link in the header', () => {
+    it('should totally hide the disability rating in the header', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
-      nameTagRenders({ withDisabilityRating: false });
+      nameTagRendersWithoutDisabilityRating();
     });
   });
   context('when there is a 500 fetching the total disability rating', () => {
@@ -113,7 +117,7 @@ describe('The My VA Dashboard', () => {
     it('should show the fallback link in the header', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
-      nameTagRenders({ withDisabilityRating: false });
+      nameTagRendersWithFallbackLink();
     });
   });
 });

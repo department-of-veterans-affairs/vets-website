@@ -16,13 +16,14 @@ const addAppointmentIdToFormId = (formId, appointmentId, questionnaireId) => {
     : `${formId}_${appointmentId}_${questionnaireId}`;
 };
 
-const onFormEnter = appointmentId => {
+const onFormEnter = (appointmentId, window) => {
   return (nextState, replace) => {
     if (appointmentId) {
       replace(`/introduction?id=${appointmentId}`);
     } else {
-      // replace('/error');
-      replace(`/health-care/health-questionnaires/questionnaires`);
+      window.location.replace(
+        '/health-care/health-questionnaires/questionnaires',
+      );
     }
   };
 };

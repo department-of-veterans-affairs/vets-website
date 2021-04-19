@@ -1,5 +1,6 @@
 import ItemLoop from '../../../../components/ItemLoop';
 import TableDetailsView from '../../../../components/TableDetailsView';
+import CustomReviewField from '../../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../../components/Typeahead';
 import {
@@ -30,6 +31,7 @@ export const uiSchema = {
           name: {
             'ui:title': 'Type of income',
             'ui:field': Typeahead,
+            'ui:reviewField': CustomReviewField,
             'ui:options': {
               idPrefix: 'spouse_other_income',
               classNames: 'input-size-4',
