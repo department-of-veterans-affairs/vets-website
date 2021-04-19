@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
+import CustomReviewField from '../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
 import { formatOptions, assetTypes } from '../../../constants/typeaheadOptions';
@@ -44,6 +45,7 @@ export const uiSchema = {
         name: {
           'ui:title': 'Type of asset',
           'ui:field': Typeahead,
+          'ui:reviewField': CustomReviewField,
           'ui:options': {
             idPrefix: 'other_assets',
             classNames: 'input-size-3',
