@@ -1,28 +1,24 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 
 import ContactInfoPage from '../../../new-appointment/components/ContactInfoPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { FETCH_STATUS } from '../../../utils/constants';
-import { cleanup } from 'axe-core';
+import { cleanup } from '@testing-library/react';
 
 describe('VAOS <ContactInfoPage>', () => {
   it('should submit with valid data', async () => {
     const store = createTestStore({
-      newAppointment: {
-        pages: [],
-        previousPages: [],
+      user: {
+        profile: {
+          vapContactInfo: {},
+        },
       },
     });
 
-    let screen = renderWithStoreAndRouter(
-      <Route component={ContactInfoPage} />,
-      {
-        store,
-      },
-    );
+    let screen = renderWithStoreAndRouter(<ContactInfoPage />, {
+      store,
+    });
 
     let input = await screen.findByLabelText(/^Your phone number/);
     userEvent.type(input, '5555555555');
@@ -42,7 +38,7 @@ describe('VAOS <ContactInfoPage>', () => {
 
     // Expect the previously entered form data is still there if you unmount and remount the page with the same store,
     await cleanup();
-    screen = renderWithStoreAndRouter(<Route component={ContactInfoPage} />, {
+    screen = renderWithStoreAndRouter(<ContactInfoPage />, {
       store,
     });
 
@@ -57,22 +53,11 @@ describe('VAOS <ContactInfoPage>', () => {
   });
 
   it('should not submit empty form', async () => {
-    const store = createTestStore({
-      newAppointment: {
-        data: {},
-        eligibility: [],
-        pages: [],
-        previousPages: [],
-        appointmentSlotsStatus: FETCH_STATUS.succeeded,
-      },
-    });
+    const store = createTestStore();
 
-    const screen = renderWithStoreAndRouter(
-      <Route component={ContactInfoPage} />,
-      {
-        store,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ContactInfoPage />, {
+      store,
+    });
 
     const button = await screen.findByText(/^Continue/);
     userEvent.click(button);
@@ -80,11 +65,37 @@ describe('VAOS <ContactInfoPage>', () => {
     // it should display page heading
     expect(screen.getByText('Your contact information')).to.be.ok;
 
-    expect(await screen.findByText(/^Please enter a phone number/)).to.be.ok;
-    expect(screen.getByText(/^Please choose at least one option/)).to.be.ok;
-    expect(screen.getByText(/^Please provide a response/)).to.be.ok;
+    expect(await screen.getByText(/^Please choose at least one option/)).to.be
+      .ok;
 
     userEvent.click(button);
     expect(screen.history.push.called).to.be.false;
+  });
+
+  it('should prepopulate VA Profile info', async () => {
+    const store = createTestStore({
+      user: {
+        profile: {
+          vapContactInfo: {
+            email: {
+              emailAddress: 'test@va.gov',
+            },
+            mobilePhone: {
+              areaCode: '555',
+              countryCode: '1',
+              phoneNumber: '5555559',
+            },
+          },
+        },
+      },
+    });
+
+    const screen = renderWithStoreAndRouter(<ContactInfoPage />, {
+      store,
+    });
+
+    await screen.findByText(/^Continue/);
+    expect(screen.getByLabelText(/phone number/i).value).to.equal('5555555559');
+    expect(screen.getByLabelText(/email/i).value).to.equal('test@va.gov');
   });
 });
