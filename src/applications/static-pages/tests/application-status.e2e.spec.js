@@ -6,7 +6,7 @@ const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
 function testStatus(client, page, url) {
   client
     .openUrl(`${E2eHelpers.baseUrl}${page}`)
-    .waitForElementVisible('.sip-application-status', Timeouts.verySlow)
+    .waitForElementVisible('.sip-application-status', Timeouts.slow)
     .axeCheck('.main');
 
   E2eHelpers.overrideScrolling(client);
@@ -17,12 +17,12 @@ function testStatus(client, page, url) {
     .contains(url);
 
   client
-    .waitForElementPresent('.usa-button-secondary', Timeouts.verySlow)
+    .waitForElementPresent('.usa-button-secondary', Timeouts.normal)
     .moveTo('.usa-button-secondary', 0, 200)
-    .click('.usa-button-secondary');
-  // .waitForElementPresent('#start-over-modal-title', Timeouts.verySlow)
-  // .expect.element('#start-over-modal-title')
-  // .text.equals('Starting over will delete your in-progress application.');
+    .click('.usa-button-secondary')
+    .waitForElementPresent('#start-over-modal-title', Timeouts.normal)
+    .expect.element('#start-over-modal-title')
+    .text.equals('Starting over will delete your in-progress application.');
 
   client.axeCheck('.main');
 }
