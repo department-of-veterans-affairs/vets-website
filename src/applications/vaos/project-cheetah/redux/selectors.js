@@ -6,6 +6,7 @@ import {
 } from '../../utils/timezone';
 import { getSiteIdFromFacilityId } from '../../services/location';
 import { selectCanUseVaccineFlow } from '../../appointment-list/redux/selectors';
+import { TYPE_OF_CARE_ID } from '../utils';
 
 export function selectProjectCheetah(state) {
   return state.projectCheetah;
@@ -81,6 +82,7 @@ export function getFacilityPageInfo(state) {
   const newBooking = selectProjectCheetahNewBooking(state);
 
   const {
+    facilities,
     facilitiesStatus,
     facilityPageSortMethod,
     requestLocationStatus,
@@ -89,7 +91,9 @@ export function getFacilityPageInfo(state) {
     clinicsStatus,
   } = newBooking;
 
-  const validFacilities = formInfo.schema?.properties.vaFacility.enum;
+  const supportedFacilities = facilities?.filter(
+    facility => facility.legacyVAR.directSchedulingSupported[TYPE_OF_CARE_ID],
+  );
 
   return {
     ...formInfo,
@@ -98,12 +102,16 @@ export function getFacilityPageInfo(state) {
     facilitiesStatus,
     clinicsStatus,
     noValidVAFacilities:
-      facilitiesStatus === FETCH_STATUS.succeeded && !validFacilities?.length,
+      facilitiesStatus === FETCH_STATUS.succeeded &&
+      !supportedFacilities?.length,
     requestLocationStatus,
     selectedFacility: getChosenFacilityInfo(state),
-    singleValidVALocation: validFacilities?.length === 1 && !!data.vaFacility,
+    singleValidVALocation:
+      supportedFacilities?.length === 1 && !!data.vaFacility,
     showEligibilityModal,
     sortMethod: facilityPageSortMethod,
+    supportedFacilities,
+    initialData: data,
   };
 }
 

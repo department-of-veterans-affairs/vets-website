@@ -410,6 +410,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     await screen.findAllByRole('radio');
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
+    fireEvent.click(await screen.findByRole('button', { name: /Continue/i }));
 
     await cleanup();
 
