@@ -62,6 +62,20 @@ describe('formatSharableID', () => {
   });
 });
 
+describe('detectLang', () => {
+  it('detects english', () => {
+    expect(liquid.filters.detectLang('some-url')).to.eq('en');
+  });
+
+  it('detects spanish', () => {
+    expect(liquid.filters.detectLang('some-url-esp')).to.eq('es');
+  });
+
+  it('detects taglog', () => {
+    expect(liquid.filters.detectLang('some-url-tag')).to.eq('tl');
+  });
+});
+
 describe('dateFromUnix', () => {
   context('with default time zone', () => {
     it('returns null for null', () => {
@@ -356,5 +370,10 @@ describe('concat', () => {
     expect(JSON.stringify(liquid.filters.concat([1], 2, [3], [[4]]))).to.equal(
       JSON.stringify([1, 2, 3, [4]]),
     );
+  });
+});
+describe('strip', () => {
+  it('removes leading and trailing whitespace', () => {
+    expect(liquid.filters.strip('   \nhello\n    ')).to.equal('hello');
   });
 });

@@ -44,7 +44,7 @@ export const PaymentView = ({ formData = {}, originalData = {} }) => {
           </strong>
         </p>
         <p data-testid="account-number">
-          Account number: {mask(accountNumber, 4)}
+          Bank account number: {mask(accountNumber, 4)}
         </p>
         <p data-testid="routing-number">
           Bank routing number: {mask(routingNumber, 4)}
