@@ -41,7 +41,7 @@ export default function App() {
     return error ? (
       <ChatbotError />
     ) : (
-      <LoadingIndicator message={'Waiting on webchat framework . . .'} />
+      <LoadingIndicator message={'Loading Virtual Agent'} />
     );
   }
 
