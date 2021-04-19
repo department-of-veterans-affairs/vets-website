@@ -19,10 +19,10 @@ function testStatus(client, page, url) {
   client
     .waitForElementPresent('.usa-button-secondary', Timeouts.normal)
     .moveTo('.usa-button-secondary', 0, 200)
-    .click('.usa-button-secondary')
-    .waitForElementPresent('#start-over-modal-title', Timeouts.normal)
-    .expect.element('#start-over-modal-title')
-    .text.equals('Starting over will delete your in-progress application.');
+    .click('.usa-button-secondary');
+  // .waitForElementPresent('#start-over-modal-title', Timeouts.normal)
+  // .expect.element('#start-over-modal-title')
+  // .text.equals('Starting over will delete your in-progress application.');
 
   client.axeCheck('.main');
 }
