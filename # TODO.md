@@ -1,7 +1,7 @@
 # TODO
 
 - [x] submission successful
-- [ ] pdf failed event
-- [ ] pdf success event
+- [x] pdf failed event
+- [x] pdf success event
 - [ ] api calls
 - [ ] expired questionnaires
