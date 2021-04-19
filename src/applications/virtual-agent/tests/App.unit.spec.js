@@ -8,6 +8,9 @@ import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { createTestStore } from '../../vaos/tests/mocks/setup';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 
+export const CHATBOT_ERROR_MESSAGE =
+  'We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk at 800-698-2411 (TTY: 711).';
+
 describe('App', () => {
   let oldWindow;
 
@@ -88,11 +91,7 @@ describe('App', () => {
 
       await wait(3000);
 
-      expect(
-        wrapper.getByText(
-          'We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk at 800-698-2411 (TTY: 711).',
-        ),
-      ).to.exist;
+      expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist;
 
       expect(wrapper.queryByRole('progressbar')).to.not.exist;
     });
@@ -108,17 +107,13 @@ describe('App', () => {
 
       expect(wrapper.getByRole('progressbar')).to.exist;
 
-      await wait(3000);
+      await wait(3500);
 
       loadWebChat();
 
       await wait(300);
 
-      expect(
-        wrapper.getByText(
-          'We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk at 800-698-2411 (TTY: 711).',
-        ),
-      ).to.exist;
+      expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist;
 
       expect(wrapper.queryByRole('progressbar')).to.not.exist;
     });
