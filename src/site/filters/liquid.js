@@ -1,9 +1,11 @@
-const phoneNumberArrayToObject = require('./phoneNumberArrayToObject');
-
-const moment = require('moment-timezone');
-const converter = require('number-to-words');
-const liquid = require('tinyliquid');
+// Node modules.
 const _ = require('lodash');
+const converter = require('number-to-words');
+const he = require('he');
+const liquid = require('tinyliquid');
+const moment = require('moment-timezone');
+// Relative imports.
+const phoneNumberArrayToObject = require('./phoneNumberArrayToObject');
 
 function getPath(obj) {
   return obj.path;
@@ -730,4 +732,7 @@ module.exports = function registerFilters() {
   liquid.filters.concat = (...args) => _.concat(...args);
 
   liquid.filters.strip = (string = '') => _.trim(string);
+
+  liquid.filters.encode = (string = '') =>
+    he.encode(string, { useNamedReferences: true });
 };
