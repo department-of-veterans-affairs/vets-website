@@ -43,7 +43,7 @@ const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
       recordEvent({
         event: `${trackingPrefix}-submission-failed`,
         ...eventData,
-        error,
+        'error-key': error.statusText,
       });
       reject(error);
     });
@@ -54,7 +54,7 @@ const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
       recordEvent({
         event: `${trackingPrefix}-submission-failed`,
         ...eventData,
-        error,
+        'error-key': error.statusText,
       });
       reject(error);
     });
@@ -65,7 +65,7 @@ const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
       recordEvent({
         event: `${trackingPrefix}-submission-failed`,
         ...eventData,
-        error,
+        'error-key': error.statusText,
       });
       reject(error);
     });
