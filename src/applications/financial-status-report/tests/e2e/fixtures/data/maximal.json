@@ -1,7 +1,7 @@
 {
   "additionalData": {
     "bankruptcy": {
-      "dateDischarged": "2004-01-XX",
+      "dateDischarged": "2004-06-XX",
       "courtLocation": "Tampa, FL",
       "docketNumber": "123456"
     },
@@ -30,16 +30,16 @@
   },
   "otherExpenses": [
     {
-      "name": "Child care services",
-      "amount": 2000
-    },
-    {
-      "name": "Clothes",
-      "amount": 5000
-    },
-    {
       "name": "Lawn service",
-      "amount": 234
+      "amount": 120
+    },
+    {
+      "name": "Prescriptions/medications",
+      "amount": 340
+    },
+    {
+      "name": "Home repair",
+      "amount": 250
     }
   ],
   "view:components": {
@@ -52,55 +52,72 @@
   "installmentContractsAndOtherDebts": [
     {
       "purpose": "Credit card payments",
-      "creditorName": "Creditor Name",
-      "originalAmount": 20000,
-      "unpaidBalance": 15000,
-      "amountDueMonthly": 300,
-      "dateStarted": "2016-04-XX",
+      "creditorName": "Creditor 1",
+      "originalAmount": 200000,
+      "unpaidBalance": 75000,
+      "amountDueMonthly": 700,
+      "dateStarted": "2017-06-XX",
+      "amountPastDue": 200
+    },
+    {
+      "purpose": "Hangar rental",
+      "creditorName": "Creditor 2",
+      "originalAmount": 200000,
+      "unpaidBalance": 50000,
+      "amountDueMonthly": 450,
+      "dateStarted": "2016-05-XX",
       "amountPastDue": 100
     }
   ],
   "utilityRecords": [
     {
       "utilityType": "Electricity",
-      "monthlyUtilityAmount": 500
+      "monthlyUtilityAmount": 450
     },
     {
-      "utilityType": "Water",
-      "monthlyUtilityAmount": 100
+      "utilityType": "Cable",
+      "monthlyUtilityAmount": 150
     },
     {
       "utilityType": "Internet",
       "monthlyUtilityAmount": 75
     },
     {
-      "utilityType": "Cable",
-      "monthlyUtilityAmount": 150
+      "utilityType": "Cell phone",
+      "monthlyUtilityAmount": 430
     }
   ],
   "expenses": {
-    "rentOrMortgage": 5000,
-    "food": 4000
+    "rentOrMortgage": 4050,
+    "food": 2400
   },
   "assets": {
     "otherAssets": [
       {
-        "name": "Jewelry (based on appraised value)",
-        "amount": 100000
+        "name": "Bitcoin",
+        "amount": 20300
       },
       {
-        "name": "Bitcoin",
-        "amount": 250000
+        "name": "Investment funds",
+        "amount": 42500
+      },
+      {
+        "name": "Gambling earning",
+        "amount": 1300
       }
     ],
     "trailersBoatsCampers": [
+      {
+        "recreationalVehicleType": "Boat",
+        "recreationalVehicleAmount": 30000
+      },
       {
         "recreationalVehicleType": "Boat",
         "recreationalVehicleAmount": 10000
       },
       {
         "recreationalVehicleType": "Helicopter",
-        "recreationalVehicleAmount": 2000000
+        "recreationalVehicleAmount": 1500000
       }
     ],
     "automobiles": [
@@ -119,19 +136,19 @@
         "resaleValue": 35000
       }
     ],
-    "cashInBank": 1000,
-    "cashOnHand": 2000,
-    "usSavingsBonds": 3000,
-    "stocksAndOtherBonds": 4000
+    "cashInBank": 570,
+    "cashOnHand": 3500,
+    "usSavingsBonds": 10000,
+    "stocksAndOtherBonds": 15000
   },
   "realEstateRecords": [
     {
       "realEstateType": "Single-family home",
-      "realEstateAmount": 150000
+      "realEstateAmount": 425000
     },
     {
-      "realEstateType": "Apartment",
-      "realEstateAmount": 23456
+      "realEstateType": "Business property",
+      "realEstateAmount": 500000
     }
   ],
   "personalData": {
@@ -147,31 +164,37 @@
       "spouse": {
         "spousePreviousEmployment": [
           {
-            "type": "Seasonal",
-            "from": "2019-08-XX",
-            "to": "2018-07-XX",
+            "type": "Full time",
+            "from": "2017-08-XX",
+            "to": "2018-05-XX",
             "employerName": "Spouse Prev Employer 1"
           },
           {
-            "type": "Temporary",
-            "from": "2014-06-XX",
-            "to": "2016-05-XX",
+            "type": "Part time",
+            "from": "2016-06-XX",
+            "to": "2017-06-XX",
             "employerName": "Spouse Prev Employer 2"
+          },
+          {
+            "type": "Seasonal",
+            "from": "2012-08-XX",
+            "to": "2015-06-XX",
+            "employerName": "Spouse Prev Employer 3"
           }
         ],
         "currentEmployment": {
           "type": "Full time",
-          "from": "2016-07-XX",
+          "from": "2018-02-XX",
           "employerName": "Spouse Current Employer",
-          "monthlyGrossSalary": 5000,
+          "monthlyGrossSalary": 6500,
           "spouseDeductions": [
             {
-              "name": "Federal tax",
-              "amount": 200
+              "name": "401K",
+              "amount": 450
             },
             {
-              "name": "State tax",
-              "amount": 100
+              "name": "Federal tax",
+              "amount": 325
             }
           ]
         }
@@ -180,29 +203,39 @@
         "vetPreviousEmployment": [
           {
             "type": "Full time",
-            "from": "2015-11-XX",
-            "to": "2018-07-XX",
-            "employerName": "Vet Prev Employer 1"
+            "from": "2018-03-XX",
+            "to": "2020-04-XX",
+            "employerName": "Veteran Prev Employer 1"
           },
           {
-            "type": "Part time",
-            "from": "2016-05-XX",
-            "to": "2017-08-XX",
-            "employerName": "Vet Prev Employer 2"
+            "type": "Full time",
+            "from": "2017-06-XX",
+            "to": "2017-04-XX",
+            "employerName": "Veteran Prev Employer 2"
+          },
+          {
+            "type": "Full time",
+            "from": "2016-03-XX",
+            "to": "2017-06-XX",
+            "employerName": "Veteran Prev Employer 3"
           }
         ],
         "currentEmployment": {
           "type": "Full time",
-          "from": "2018-08-XX",
-          "employerName": "Vet Current Employer",
-          "monthlyGrossSalary": 6000,
+          "from": "2020-04-XX",
+          "employerName": "Veteran Current Employer",
+          "monthlyGrossSalary": 5495,
           "deductions": [
             {
               "name": "Federal tax",
-              "amount": 200
+              "amount": 350
             },
             {
-              "name": "State tax",
+              "name": "Health insurance",
+              "amount": 425
+            },
+            {
+              "name": "401K",
               "amount": 100
             }
           ]
@@ -210,16 +243,17 @@
       }
     },
     "spouseFullName": {
-      "first": "First",
-      "last": "Name"
+      "first": "ANDREA",
+      "last": "FLETCHER"
     },
     "address": {
       "livesOnMilitaryBaseInfo": {},
       "countryName": "United States",
-      "street": "55 Fake Street",
-      "city": "Tampa",
-      "stateCode": "FL",
-      "zipCode": "33543"
+      "street": "8200 DOBY LN",
+      "street2": "APT 4D",
+      "city": "PASADENA",
+      "stateCode": "MD",
+      "zipCode": "21122"
     },
     "telephoneNumber": "4445551212",
     "emailAddress": "test2@test1.net",
@@ -235,36 +269,40 @@
     "spouse": {
       "spouseAdditionalIncomeRecords": [
         {
-          "name": "Alimony payment",
-          "amount": 1300
+          "name": "Child care income",
+          "amount": 760
         },
         {
-          "name": "Rental property income",
-          "amount": 2500
+          "name": "Substitute teaching",
+          "amount": 1236
         }
       ]
     },
     "additionalIncomeRecords": [
       {
-        "name": "Bonus payment",
-        "amount": 1000
+        "name": "Rental property income",
+        "amount": 1100
       },
       {
         "name": "Freelance service",
-        "amount": 1200
+        "amount": 500
+      },
+      {
+        "name": "Child support payment",
+        "amount": 800
       }
     ]
   },
   "socialSecurity": {
     "spouse": {
-      "socialSecurityAmount": 850
+      "socialSecurityAmount": 1540
     },
-    "socialSecurityAmount": 1400
+    "socialSecurityAmount": 1200
   },
   "benefits": {
     "spouseBenefits": {
-      "benefitAmount": 1000,
-      "educationAmount": 2000
+      "benefitAmount": 1100,
+      "educationAmount": 240
     }
   },
   "selectedDebts": [
@@ -304,6 +342,59 @@
         }
       ],
       "id": 0
+    },
+    {
+      "financialOverview": {},
+      "debtRepaymentOptions": {},
+      "resolutionOptionsTitle": {},
+      "resolution": {
+        "resolutionType": "Extended monthly payments",
+        "affordToPay": 1000
+      },
+      "fileNumber": "796121200",
+      "payeeNumber": "00",
+      "personEntitled": "STUB_M",
+      "deductionCode": "44",
+      "benefitType": "CH35 EDU",
+      "diaryCode": "100",
+      "diaryCodeDescription": "Pending payment",
+      "amountOverpaid": 26000,
+      "amountWithheld": 0,
+      "originalAr": 100,
+      "currentAr": 80,
+      "debtHistory": [
+        {
+          "date": "12/19/2014",
+          "letterCode": "681",
+          "description": "Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available."
+        },
+        {
+          "date": "04/11/2013",
+          "letterCode": "080",
+          "description": "Debt referred to Treasury for Cross servicing"
+        },
+        {
+          "date": "12/11/2012",
+          "letterCode": "510",
+          "description": "Demand letters returned.  Unable to verify address with third party.  Account forced to TOP and/or CS."
+        },
+        {
+          "date": "10/17/2012",
+          "letterCode": "212",
+          "description": "Bad Address - Locator Request Sent"
+        },
+        {
+          "date": "09/28/2012",
+          "letterCode": "117",
+          "description": "Second Demand Letter"
+        },
+        {
+          "date": "09/18/2012",
+          "letterCode": "100",
+          "description": "First Demand Letter - Inactive Benefits - Due Process"
+        }
+      ],
+      "id": 1
     }
   ],
   "personalIdentification": {
