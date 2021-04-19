@@ -30,32 +30,36 @@
                 vetCenterUrl = entityUrl.breadcrumb.1.url.path
             %}
 
-          <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
-              medium-screen:vads-u-margin-bottom--4" id="satellite-locations">
-              Satellite locations
-          </h2>
-            <p class="vads-u-font-size--base vads-u-margin-bottom--2p5
-              medium-screen:vads-u-margin-bottom--4"> If you can’t make it to our {{ fieldOffice.entity.title }} we offer satellite locations that may be closer to you.
-                These satellite facilities provide select services with the same community, care, and confidentiality in a non-medical setting.
-                Call us for more information about these locations.
-            </p>
-            {% for entityVetCenter in fieldOffice.entity.reverseFieldOfficeNode.entities %}
-                {% include "src/site/includes/vet_center_address_phone_image.liquid" with
-                    vetCenter = entityVetCenter
-                    mainVetCenterPhone = fieldOffice.entity.fieldPhoneNumber
-                %}
-            {% endfor %}
+           {% if fieldOffice.entity.reverseFieldOfficeNode.entities.length > 0 %}
+                <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+                      medium-screen:vads-u-margin-bottom--4" id="satellite-locations">
+                      Satellite locations
+                </h2>
+                <p class="vads-u-font-size--base vads-u-margin-bottom--2p5
+                  medium-screen:vads-u-margin-bottom--4"> If you can’t make it to our {{ fieldOffice.entity.title }} we offer satellite locations that may be closer to you.
+                    These satellite facilities provide select services with the same community, care, and confidentiality in a non-medical setting.
+                    Call us for more information about these locations.
+                </p>
+                {% for entityVetCenter in fieldOffice.entity.reverseFieldOfficeNode.entities %}
+                    {% include "src/site/includes/vet_center_address_phone_image.liquid" with
+                        vetCenter = entityVetCenter
+                        mainVetCenterPhone = fieldOffice.entity.fieldPhoneNumber
+                    %}
+                {% endfor %}
+          {% endfor %}
 
-          <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
-             medium-screen:vads-u-margin-bottom--3" id="other-near-locations">
-              Other nearby Vet Centers
-          </h2>
-            {% for entityVetCenter in fieldNearbyVetCenters %}
-                {% include "src/site/includes/vet_center_address_phone_image.liquid" with vetCenter = entityVetCenter.entity %}
-            {% endfor %}
-            {% for entityVetCenter in fieldNearbyMobileVetCenters %}
-                {% include "src/site/includes/vet_center_address_phone_image.liquid" with vetCenter = entityVetCenter.entity %}
-            {% endfor %}
+          {% if fieldNearbyVetCenters.length > 0 %}
+            <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+                 medium-screen:vads-u-margin-bottom--3" id="other-near-locations">
+                  Other nearby Vet Centers
+            </h2>
+              {% for entityVetCenter in fieldNearbyVetCenters %}
+                  {% include "src/site/includes/vet_center_address_phone_image.liquid" with vetCenter = entityVetCenter.entity %}
+              {% endfor %}
+              {% for entityVetCenter in fieldNearbyMobileVetCenters %}
+                  {% include "src/site/includes/vet_center_address_phone_image.liquid" with vetCenter = entityVetCenter.entity %}
+              {% endfor %}
+          {% endfor %}
 
            <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
               medium-screen:vads-u-margin-bottom--3" id="vet-centers-other-areas">
