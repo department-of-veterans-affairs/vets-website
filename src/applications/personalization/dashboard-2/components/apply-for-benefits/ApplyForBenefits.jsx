@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-import { isMultifactorEnabled, isVAPatient } from '~/platform/user/selectors';
+import {
+  isMultifactorEnabled,
+  isVAPatient,
+  isLOA3,
+} from '~/platform/user/selectors';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
 import { HCA_ENROLLMENT_STATUSES } from '~/applications/hca/constants';
@@ -72,7 +76,7 @@ const ApplyForBenefits = ({
   const showEducation = !hasDD4EDU;
 
   return (
-    <>
+    <div data-testid="dashboard-section-apply-for-benefits">
       <h2>Apply for VA benefits</h2>
       <div className="vads-u-margin-top--2">
         <AdditionalInfo triggerText="What benefits does VA offer?">
@@ -158,7 +162,7 @@ const ApplyForBenefits = ({
           )}
         </>
       </BenefitsOfInterest>
-    </>
+    </div>
   );
 };
 
@@ -166,7 +170,7 @@ const mapStateToProps = state => {
   const isPatient = isVAPatient(state);
   const esrEnrollmentStatus = selectESRStatus(state).enrollmentStatus;
 
-  const shouldGetESRStatus = !isPatient;
+  const shouldGetESRStatus = !isPatient && isLOA3(state);
   const shouldGetDD4EDUStatus = isMultifactorEnabled(state);
   const hasLoadedESRData =
     !shouldGetESRStatus ||

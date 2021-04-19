@@ -3,7 +3,10 @@ import {
   getStartTime,
   getBookingNote,
 } from './appointment.selectors';
-import { getStatus as getQRStatus } from './questionnaire.response.selectors';
+import {
+  getStatus as getQRStatus,
+  getQuestionnaireResponse,
+} from './questionnaire.response.selectors';
 import { getType, getName, getPhoneNumber } from './location.selector';
 import {
   getId,
@@ -20,6 +23,7 @@ const appointment = {
 
 const questionnaireResponse = {
   getStatus: getQRStatus,
+  getQuestionnaireResponse,
 };
 
 const location = {

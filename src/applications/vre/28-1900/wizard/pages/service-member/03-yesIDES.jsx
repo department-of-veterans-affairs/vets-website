@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { serviceMemberPathPageNames } from '../pageList';
-import {
-  CHAPTER_31_ROOT_URL,
-  WIZARD_STATUS,
-} from 'applications/vre/28-1900/constants';
+import { WIZARD_STATUS } from 'applications/vre/28-1900/constants';
 
 const YesIDES = props => {
   const { setWizardStatus } = props;
@@ -30,16 +28,16 @@ const YesIDES = props => {
         can go directly to the online application without going through the
         orientation below.{' '}
       </p>
-      <a
+      <Link
         aria-describedby="orientation-complete-notification"
         onClick={() => {
           sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
         }}
-        href={CHAPTER_31_ROOT_URL}
+        to="/"
         className="vads-c-action-link--green vads-u-padding-left--0"
       >
         Apply for Veteran Readiness and Employment with VA Form 28-1900
-      </a>
+      </Link>
     </div>
   );
 };
