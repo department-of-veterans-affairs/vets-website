@@ -25,31 +25,20 @@ export default function App() {
 
   if (!isLoaded) {
     const intervalId = setInterval(() => {
-      if (window.WebChat && !error) {
+      if (window.WebChat) {
         setLoaded(true);
         clearInterval(intervalId);
       }
     }, 300);
     setTimeout(() => {
-      if (window.WebChat) {
-        setLoaded(true);
-      } else {
-        setError(true);
-      }
+      setError(true);
       clearInterval(intervalId);
     }, 1000);
+    if (error) {
+      return <ChatbotError />;
+    }
+    return <LoadingIndicator message={'Waiting on webchat framework . . .'} />;
   }
 
-  return (
-    <div className={'vads-l-grid-container'}>
-      <div className={'vads-l-row'} style={{ height: '500px' }}>
-        {error && <ChatbotError />}
-        {!isLoaded &&
-          !error && (
-            <LoadingIndicator message={'Waiting on webchat framework . . .'} />
-          )}
-        {isLoaded && <WaitForFeatureToggles />}
-      </div>
-    </div>
-  );
+  return <WaitForFeatureToggles />;
 }
