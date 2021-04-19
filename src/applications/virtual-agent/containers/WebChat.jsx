@@ -60,13 +60,9 @@ export default function WebChat() {
 
   return (
     <div className={'vads-l-grid-container'}>
-      <div
-        className={'vads-l-row'}
-        style={{ height: '500px' }}
-        data-testid={'webchat-container'}
-      >
+      <div className={'vads-l-row'} data-testid={'webchat-container'}>
         {token && (
-          <div data-testid={'webchat'}>
+          <div data-testid={'webchat'} style={{ height: '500px' }}>
             <ReactWebChat
               styleOptions={{ hideUploadButton: true }}
               directLine={directLine}
