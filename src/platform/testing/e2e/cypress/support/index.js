@@ -34,6 +34,7 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
 // Default responses for common endpoints called by most apps.
 // Stubbing these will save a few seconds of loading time in tests.
 beforeEach(() => {
+  if (Cypress.env('FORMS')) this.skip();
   cy.server();
 
   cy.route('GET', '/v0/maintenance_windows', {
