@@ -359,10 +359,7 @@ function setLocation(appt) {
         vistaId: appt.facilityId,
         clinicId: appt.clinicId,
         stationId: appt.sta6aid,
-        displayName:
-          appt.clinicFriendlyName ||
-          appt.vdsAppointments?.[0]?.clinic?.name ||
-          appt.vvsAppointments?.[0]?.clinic?.name,
+        displayName: appt.clinicFriendlyName,
       };
     }
     case APPOINTMENT_TYPES.ccAppointment: {
@@ -593,10 +590,6 @@ export function transformPendingAppointment(appt) {
   );
   const created = moment.parseZone(appt.date).format('YYYY-MM-DD');
   const isVideo = appt.visitType === 'Video Conference';
-  // const contained =
-  //   getAppointmentType(appt) === APPOINTMENT_TYPES.request
-  //     ? 'patient'
-  //     : 'contained';
 
   return {
     resourceType: 'Appointment',

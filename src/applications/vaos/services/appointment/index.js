@@ -222,10 +222,6 @@ export function isVAPhoneAppointment(appointment) {
  */
 export function getVARFacilityId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    if (appointment.vaos?.isVideo) {
-      return appointment.legacyVAR.apiData.facilityId;
-    }
-
     return appointment.location?.vistaId;
   }
 
@@ -283,8 +279,9 @@ export function getVAAppointmentLocationId(appointment) {
  * @returns {string} The patient telecome value
  */
 export function getPatientTelecom(appointment, system) {
-  return appointment?.contained.patient?.telecom?.find(t => t.system === system)
-    ?.value;
+  return appointment?.contained?.patient?.telecom?.find(
+    t => t.system === system,
+  )?.value;
 }
 
 /**
