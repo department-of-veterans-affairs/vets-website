@@ -21,20 +21,14 @@ node('vetsgov-general-purpose') {
   // setupStage
   dockerContainer = commonStages.setup()
 
-<<<<<<< HEAD
   stage('Main') {
     def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
     def assetSource = contentOnlyBuild ? ref : 'local'
-=======
-  stage('Lint|Security|Unit') {
-    if (params.cmsEnvBuildOverride != 'none') { return }
->>>>>>> 729f6124e2 (Fix before hook)
 
     try {
       parallel (
         failFast: true,
 
-<<<<<<< HEAD
         buildDev: {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovdev'
@@ -115,9 +109,6 @@ node('vetsgov-general-purpose') {
 
         lint: {
           if (params.cmsEnvBuildOverride != 'none') { return }
-=======
-        lint: {
->>>>>>> 729f6124e2 (Fix before hook)
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "cd /application && npm --no-color run lint"
           }
@@ -125,10 +116,7 @@ node('vetsgov-general-purpose') {
 
         // Check package.json for known vulnerabilities
         security: {
-<<<<<<< HEAD
           if (params.cmsEnvBuildOverride != 'none') { return }
-=======
->>>>>>> 729f6124e2 (Fix before hook)
           retry(3) {
             dockerContainer.inside(commonStages.DOCKER_ARGS) {
               sh "cd /application && npm run security-check"
@@ -137,10 +125,7 @@ node('vetsgov-general-purpose') {
         },
 
         unit: {
-<<<<<<< HEAD
           if (params.cmsEnvBuildOverride != 'none') { return }
-=======
->>>>>>> 729f6124e2 (Fix before hook)
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "/cc-test-reporter before-build"
             sh "cd /application && npm --no-color run test:unit -- --coverage"
@@ -158,8 +143,6 @@ node('vetsgov-general-purpose') {
       }
     }
   }
-
-  envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run E2E tests
   stage('Integration') {
@@ -188,10 +171,7 @@ node('vetsgov-general-purpose') {
               sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
             },     
             cypress: {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e FORMS=false vets-website --no-color run cy:test:docker"
-            },     
-            'cypress-forms': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypressforms up -d && docker-compose -p cypressforms run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e FORMS=true vets-website --no-color run cy:test:docker"
+              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 vets-website --no-color run cy:test:docker"
             }
           )
         }
@@ -204,7 +184,6 @@ node('vetsgov-general-purpose') {
         //   sh "docker-compose -p accessibility down --remove-orphans"
         // }
         sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
-        sh "docker-compose -p cypressforms down --remove-orphans"
         step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
       }
     }
