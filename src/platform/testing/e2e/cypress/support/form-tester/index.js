@@ -502,7 +502,7 @@ const testForm = testConfig => {
       : context(testKey, callback);
   const fullAppName = `VA Forms ${appName}`;
   testSuite(fullAppName, () => {
-    before(() => {
+    before(function() {
       if (!fixtures.data) {
         throw new Error('Required data fixture is undefined.');
       }
