@@ -5,7 +5,7 @@ else
   export CYPRESS_BASE_URL=http://vets-website:3001
   export CYPRESS_CI=$CI
   export CYPRESS_FORMS=$FORMS
-  if [ $FORMS == "true" ]; then
+  if [ "$FORMS" -eq "true" ]; then
     yarn cy:run:forms
   else
    yarn cy:run
