@@ -52,6 +52,15 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/unit-tests.xml'
 
+      - name: GHA Check Unit Test Summary
+        if: ${{ always() }}
+        with: 
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Test XYZ
+          conclusion: ${{ job.status }}
+          output: |
+            {"summary":${{ steps.test.outputs.summary }}}
+
   linting:
     name: Linting
     runs-on: ubuntu-latest
