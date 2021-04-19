@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
-import { connect } from 'react-redux';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 const PreSubmitSignature = ({
   formData,
@@ -105,6 +106,10 @@ const PreSubmitSignature = ({
     [checked, signatureMatches],
   );
 
+  if (hasSubmit) {
+    return <LoadingIndicator message="Loading your application..." />;
+  }
+
   return (
     <>
       <p>
@@ -113,6 +118,7 @@ const PreSubmitSignature = ({
         truth. The name you enter will serve as your electronic signature for
         this request.
       </p>
+
       <article className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px">
         <h3>Veteran's statement of truth</h3>
         <p>
@@ -142,6 +148,7 @@ const PreSubmitSignature = ({
           required
         />
       </article>
+
       <p>
         <strong>Note: </strong>
         It is a crime to knowingly submit false statements or information that
