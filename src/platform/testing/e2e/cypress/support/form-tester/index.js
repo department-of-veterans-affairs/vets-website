@@ -495,20 +495,17 @@ const testForm = testConfig => {
   } = testConfig;
 
   const skippedTests = Array.isArray(skip) && new Set(skip);
-  const testSuite = skip && !skippedTests ? describe.skip : describe;
+  const testSuite =
+    (skip && !skippedTests) || !Cypress.env('FORMS') ? describe.skip : describe;
   const testCase = (testKey, callback) =>
     skippedTests.has?.(testKey)
       ? context.skip(testKey, callback)
       : context(testKey, callback);
   const fullAppName = `VA Forms ${appName}`;
   testSuite(fullAppName, () => {
-    before(function() {
+    before(() => {
       if (!fixtures.data) {
         throw new Error('Required data fixture is undefined.');
-      }
-
-      if (!Cypress.env('FORMS')) {
-        this.skip();
       }
 
       cy.syncFixtures({
