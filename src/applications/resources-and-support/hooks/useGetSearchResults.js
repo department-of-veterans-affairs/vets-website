@@ -6,6 +6,9 @@ import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { SEARCH_IGNORE_LIST } from '../constants';
 
+const countInstancesFound = (searchableString = '', keyword = '') =>
+  searchableString.toLowerCase()?.split(keyword.toLowerCase())?.length - 1;
+
 export default function useGetSearchResults(articles, query, page) {
   const [results, setResults] = useState([]);
 
@@ -58,18 +61,14 @@ export default function useGetSearchResults(articles, query, page) {
         // Number of times a keyword is found in the article's title.
         keywordsCountsTitle: keywords?.reduce(
           (keywordInstances, keyword) =>
-            keywordInstances +
-            article.title.toLowerCase()?.split(keyword)?.length -
-            1,
+            keywordInstances + countInstancesFound(article.title, keyword),
           0,
         ),
 
         // Number of times a keyword is found in the article's introText.
         keywordsCountsIntroText: keywords?.reduce(
           (keywordInstances, keyword) =>
-            keywordInstances +
-            article.introText.toLowerCase()?.split(keyword)?.length -
-            1,
+            keywordInstances + countInstancesFound(article.introText, keyword),
           0,
         ),
 
@@ -77,34 +76,30 @@ export default function useGetSearchResults(articles, query, page) {
         keywordsCountsContent: keywords?.reduce(
           (keywordInstances, keyword) =>
             keywordInstances +
-            article.searchableContent.toLowerCase()?.split(keyword)?.length -
-            1,
+            countInstancesFound(article.searchableContent, keyword),
           0,
         ),
 
         // Number of times the full query is found in the article's title.
-        wholePhraseMatchCountsTitle:
-          article.title.toLowerCase()?.split(query.toLowerCase())?.length - 1,
+        wholePhraseMatchCountsTitle: countInstancesFound(article.title, query),
 
         // Number of times the full query is found in the article's introText.
-        wholePhraseMatchCountsIntroText:
-          article.introText.toLowerCase()?.split(query.toLowerCase())?.length -
-          1,
+        wholePhraseMatchCountsIntroText: countInstancesFound(
+          article.introText,
+          query,
+        ),
 
         // Number of times the full query is found in the article's searchableContent.
-        wholePhraseMatchCountsContent:
-          article.searchableContent.toLowerCase()?.split(query.toLowerCase())
-            ?.length - 1,
+        wholePhraseMatchCountsContent: countInstancesFound(
+          article.searchableContent,
+          query,
+        ),
 
         // Number of times the full query is found in the article's title, introText, searchableContent combined.
         wholePhraseMatchCountsTotal:
-          article.title.toLowerCase()?.split(query.toLowerCase())?.length -
-          1 +
-          (article.introText.toLowerCase()?.split(query.toLowerCase())?.length -
-            1) +
-          (article.searchableContent.toLowerCase()?.split(query.toLowerCase())
-            ?.length -
-            1),
+          countInstancesFound(article.title, query) +
+          countInstancesFound(article.introText, query) +
+          countInstancesFound(article.searchableContent, query),
       }));
 
       if (environment.isProduction()) {
