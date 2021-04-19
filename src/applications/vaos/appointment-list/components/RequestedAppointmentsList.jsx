@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
+import { useQuery } from 'react-query';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
@@ -11,26 +13,47 @@ import {
 } from '../../redux/selectors';
 import { selectPendingAppointments } from '../redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
-import { getVAAppointmentLocationId } from '../../services/appointment';
+import {
+  getAppointmentRequests,
+  getVAAppointmentLocationId,
+  sortByCreatedDateDescending,
+} from '../../services/appointment';
 import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
+import { getLocations } from '../../services/location';
 
 function RequestedAppointmentsList({
   showScheduleButton,
   isCernerOnlyPatient,
-  pendingAppointments,
-  pendingStatus,
-  facilityData,
-  fetchPendingAppointments,
   startNewAppointmentFlow,
 }) {
-  useEffect(
-    () => {
-      if (pendingStatus === FETCH_STATUS.notStarted) {
-        fetchPendingAppointments();
-      }
+  const { data: pendingAppointments, status: pendingStatus } = useQuery(
+    ['requests', 'current'],
+    () =>
+      getAppointmentRequests({
+        startDate: moment()
+          .subtract(120, 'days')
+          .format('YYYY-MM-DD'),
+        endDate: moment().format('YYYY-MM-DD'),
+      }),
+    {
+      select: pending =>
+        pending
+          .filter(a => !a.vaos.isExpressCare)
+          .sort(sortByCreatedDateDescending),
     },
-    [fetchPendingAppointments, pendingStatus],
+  );
+  const facilityIds = new Set(
+    pendingAppointments
+      ?.filter(appt => appt.vaos && !appt.vaos.isCommunityCare)
+      .map(getVAAppointmentLocationId),
+  );
+  const { data: facilityData } = useQuery(
+    ['facilities', facilityIds],
+    () => getLocations(Array.from(facilityIds)),
+    {
+      enabled: !!pendingAppointments && facilityIds.length > 0,
+    },
   );
 
   if (pendingStatus === FETCH_STATUS.loading) {
@@ -39,10 +62,7 @@ function RequestedAppointmentsList({
         <LoadingIndicator message="Loading your appointment requests..." />
       </div>
     );
-  } else if (
-    pendingStatus === FETCH_STATUS.succeeded &&
-    pendingAppointments?.length > 0
-  ) {
+  } else if (pendingStatus === 'success' && pendingAppointments?.length > 0) {
     return (
       // eslint-disable-next-line jsx-a11y/no-redundant-roles
       <ul
