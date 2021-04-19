@@ -440,7 +440,7 @@ export function updateCCProviderSortMethod(sortMethod) {
 
     if (
       sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation &&
-      Object.keys(currentLocation).length === 0
+      !currentLocation
     ) {
       dispatch({
         type: FORM_REQUEST_CURRENT_LOCATION,
@@ -1124,41 +1124,6 @@ export function submitAppointmentOrRequest(history) {
         });
         resetDataLayer();
       }
-    }
-  };
-}
-
-export function requestProvidersList(address) {
-  return async (dispatch, getState) => {
-    try {
-      const newAppointment = getState().newAppointment;
-      const communityCareProviders = newAppointment.communityCareProviders;
-      const sortMethod = newAppointment.ccProviderPageSortMethod;
-      const typeOfCare = getTypeOfCare(newAppointment.data);
-      let typeOfCareProviders =
-        communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`];
-
-      dispatch({
-        type: FORM_REQUESTED_PROVIDERS,
-      });
-
-      if (!typeOfCareProviders) {
-        typeOfCareProviders = await getCommunityProvidersByTypeOfCare({
-          address,
-          typeOfCare,
-        });
-      }
-
-      dispatch({
-        type: FORM_REQUESTED_PROVIDERS_SUCCEEDED,
-        typeOfCareProviders,
-        address,
-      });
-    } catch (e) {
-      captureError(e);
-      dispatch({
-        type: FORM_REQUESTED_PROVIDERS_FAILED,
-      });
     }
   };
 }

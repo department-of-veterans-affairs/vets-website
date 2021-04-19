@@ -116,7 +116,7 @@ const initialState = {
   requestLocationStatus: FETCH_STATUS.notStarted,
   communityCareProviders: {},
   requestStatus: FETCH_STATUS.notStarted,
-  currentLocation: {},
+  currentLocation: null,
   ccProviderPageSortMethod: FACILITY_SORT_METHODS.distanceFromResidential,
 };
 
@@ -393,21 +393,14 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED: {
-      let requestLocationStatus = state.requestLocationStatus;
-
-      requestLocationStatus = FETCH_STATUS.succeeded;
-
       if (
         action.sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
       ) {
         return {
           ...state,
-          currentLocation: {
-            latitude: action.location?.coords.latitude,
-            longitude: action.location?.coords.longitude,
-          },
+          currentLocation: action.location?.coords || state.currentLocation,
           ccProviderPageSortMethod: action.sortMethod,
-          requestLocationStatus,
+          requestLocationStatus: FETCH_STATUS.succeeded,
         };
       } else {
         return {
@@ -1082,49 +1075,6 @@ export default function formReducer(state = initialState, action) {
       return {
         ...state,
         isCCEligible: action.isEligible,
-      };
-    }
-    case FORM_REQUESTED_PROVIDERS: {
-      return {
-        ...state,
-        requestStatus: FETCH_STATUS.loading,
-      };
-    }
-    case FORM_REQUESTED_PROVIDERS_SUCCEEDED: {
-      const { address, typeOfCareProviders } = action;
-      const { ccProviderPageSortMethod: sortMethod, data } = state;
-      const cacheKey = `${sortMethod}_${getTypeOfCare(data)?.ccId}`;
-
-      const providers =
-        state.communityCareProviders[cacheKey] ||
-        typeOfCareProviders
-          .map(facility => {
-            const distance = distanceBetween(
-              address.latitude,
-              address.longitude,
-              facility.position.latitude,
-              facility.position.longitude,
-            );
-            return {
-              ...facility,
-              [sortMethod]: distance,
-            };
-          })
-          .sort((a, b) => a[sortMethod] - b[sortMethod]);
-
-      return {
-        ...state,
-        requestStatus: FETCH_STATUS.succeeded,
-        communityCareProviders: {
-          ...state.communityCareProviders,
-          [cacheKey]: providers,
-        },
-      };
-    }
-    case FORM_REQUESTED_PROVIDERS_FAILED: {
-      return {
-        ...state,
-        requestStatus: FETCH_STATUS.failed,
       };
     }
     default:

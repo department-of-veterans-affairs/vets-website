@@ -345,6 +345,7 @@
     "react-is": "^17.0.1",
     "react-leaflet": "^2.7.0",
     "react-meta-tags": "^0.7.4",
+    "react-query": "^3.13.10",
     "react-redux": "7.2.2",
     "react-router": "3",
     "react-router-dom": "^5.2.0",

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { selectUser, selectPatientFacilities } from 'platform/user/selectors';
@@ -20,6 +21,19 @@ import NoRegistrationMessage from './NoRegistrationMessage';
 import AppUnavailable from './AppUnavailable';
 import DowntimeMessage from './DowntimeMessage';
 import FullWidthLayout from '../FullWidthLayout';
+import { captureError } from '../../utils/error';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      onError: captureError,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      refetchOnMount: false,
+      staleTime: 1000 * 60 * 5,
+    },
+  },
+});
 
 function VAOSApp({
   user,
@@ -51,25 +65,27 @@ function VAOSApp({
       user={user}
       verify={!environment.isLocalhost()}
     >
-      {loadingFeatureToggles && (
-        <FullWidthLayout>
-          <LoadingIndicator />
-        </FullWidthLayout>
-      )}
-      {!loadingFeatureToggles &&
-        showApplication && (
-          <DowntimeNotification
-            appTitle="VA online scheduling tool"
-            dependencies={[externalServices.mvi, externalServices.vaos]}
-            render={(props, childContent) => (
-              <DowntimeMessage {...props}>{childContent}</DowntimeMessage>
-            )}
-          >
-            {!hasRegisteredSystems && <NoRegistrationMessage />}
-            {hasRegisteredSystems && children}
-          </DowntimeNotification>
+      <QueryClientProvider client={queryClient}>
+        {loadingFeatureToggles && (
+          <FullWidthLayout>
+            <LoadingIndicator />
+          </FullWidthLayout>
         )}
-      {!loadingFeatureToggles && !showApplication && <AppUnavailable />}
+        {!loadingFeatureToggles &&
+          showApplication && (
+            <DowntimeNotification
+              appTitle="VA online scheduling tool"
+              dependencies={[externalServices.mvi, externalServices.vaos]}
+              render={(props, childContent) => (
+                <DowntimeMessage {...props}>{childContent}</DowntimeMessage>
+              )}
+            >
+              {!hasRegisteredSystems && <NoRegistrationMessage />}
+              {hasRegisteredSystems && children}
+            </DowntimeNotification>
+          )}
+        {!loadingFeatureToggles && !showApplication && <AppUnavailable />}
+      </QueryClientProvider>
     </RequiredLoginView>
   );
 }

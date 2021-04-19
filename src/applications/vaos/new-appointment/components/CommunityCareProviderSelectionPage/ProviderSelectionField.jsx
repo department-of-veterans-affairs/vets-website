@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 import { connect } from 'react-redux';
+import { useQuery } from 'react-query';
 import * as actions from '../../redux/actions';
 import {
   FETCH_STATUS,
@@ -14,19 +15,22 @@ import RemoveProviderModal from './RemoveProviderModal';
 import recordEvent from 'platform/monitoring/record-event';
 import NoProvidersAlert from './NoProvidersAlert';
 import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
+import { getCommunityProvidersByTypeOfCare } from '../../../services/location';
+import { distanceBetween } from '../../../utils/address';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
 function ProviderSelectionField({
   typeOfCareName,
+  typeOfCare,
   address,
   formData,
   onChange,
   idSchema,
-  requestStatus,
+  // requestStatus,
   requestLocationStatus,
-  requestProvidersList,
-  communityCareProviderList,
+  // requestProvidersList,
+  // communityCareProviderList,
   updateCCProviderSortMethod,
   currentLocation,
   sortMethod,
@@ -38,21 +42,39 @@ function ProviderSelectionField({
   const [providersListLength, setProvidersListLength] = useState(
     INITIAL_PROVIDER_DISPLAY_COUNT,
   );
-  const currentlyShownProvidersList = communityCareProviderList?.slice(
-    0,
-    providersListLength,
-  );
-  const loadingProviders =
-    !communityCareProviderList && requestStatus !== FETCH_STATUS.failed;
-
-  const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
-
-  const providerSelected = 'id' in formData;
   const sortByDistanceFromResidential =
     !sortMethod || sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
 
   const sortByDistanceFromCurrentLocation =
     sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
+
+  const searchOrigin =
+    sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
+      ? currentLocation
+      : address;
+  const {
+    data: communityCareProviderList,
+    isLoading: loadingProviders,
+    isError,
+  } = useQuery(
+    ['ccProviders', searchOrigin, typeOfCare],
+    () =>
+      getCommunityProvidersByTypeOfCare({
+        address: searchOrigin,
+        typeOfCare,
+      }),
+    {
+      enabled: showProvidersList,
+    },
+  );
+  const currentlyShownProvidersList = communityCareProviderList?.slice(
+    0,
+    providersListLength,
+  );
+
+  const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
+
+  const providerSelected = 'id' in formData;
 
   useEffect(() => {
     setMounted(true);
@@ -60,12 +82,6 @@ function ProviderSelectionField({
 
   useEffect(
     () => {
-      if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
-        requestProvidersList(currentLocation);
-      } else {
-        requestProvidersList(address);
-      }
-
       if (communityCareProviderList) {
         scrollAndFocus('#providerSelectionHeader');
       }
@@ -162,7 +178,13 @@ function ProviderSelectionField({
               {formData.address?.postalCode}
             </span>
             <span className="vads-u-display--block vads-u-font-size--sm">
-              {formData[sortMethod]} miles{' '}
+              {distanceBetween(
+                searchOrigin.latitude,
+                searchOrigin.longitude,
+                formData.position.latitude,
+                formData.position.longitude,
+              )}{' '}
+              miles{' '}
               <span className="sr-only">
                 {sortMethod ===
                 FACILITY_SORT_METHODS.distanceFromCurrentLocation
@@ -285,7 +307,7 @@ function ProviderSelectionField({
           <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
         </div>
       )}
-      {requestStatus === FETCH_STATUS.failed && (
+      {isError && (
         <div className="vads-u-padding-bottom--2">
           <LoadProvidersErrorAlert />
         </div>
@@ -356,7 +378,13 @@ function ProviderSelectionField({
                           {provider.address.postalCode}
                         </span>
                         <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-                          {provider[sortMethod]} miles
+                          {distanceBetween(
+                            searchOrigin.latitude,
+                            searchOrigin.longitude,
+                            provider.position.latitude,
+                            provider.position.longitude,
+                          )}{' '}
+                          miles{' '}
                           <span className="sr-only">
                             {' '}
                             {sortByDistanceFromCurrentLocation
