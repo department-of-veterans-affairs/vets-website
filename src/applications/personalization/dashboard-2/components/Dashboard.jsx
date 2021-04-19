@@ -131,7 +131,7 @@ const Dashboard = ({
                 }
               />
             )}
-            <div className="vads-l-grid-container vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4 small-desktop-screen:vads-u-padding-x--0">
+            <div className="vads-l-grid-container vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
                 <a href="/" key="home">
                   Home
