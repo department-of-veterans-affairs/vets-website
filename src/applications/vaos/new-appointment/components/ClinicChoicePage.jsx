@@ -86,7 +86,12 @@ export function ClinicChoicePage({
   );
 
   if (!schemaAndFacilityReady) {
-    return <LoadingIndicator message="Loading your facility and clinic info" />;
+    return (
+      <LoadingIndicator
+        message="Loading your facility and clinic info"
+        disableAnalytics
+      />
+    );
   }
 
   return (
