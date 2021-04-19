@@ -40,18 +40,33 @@ const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
     req.addEventListener('error', () => {
       const error = new Error('vets_client_error: Network request failed');
       error.statusText = req.statusText;
+      recordEvent({
+        event: `${trackingPrefix}-submission-failed`,
+        ...eventData,
+        error,
+      });
       reject(error);
     });
 
     req.addEventListener('abort', () => {
       const error = new Error('vets_client_error: Request aborted');
       error.statusText = req.statusText;
+      recordEvent({
+        event: `${trackingPrefix}-submission-failed`,
+        ...eventData,
+        error,
+      });
       reject(error);
     });
 
     req.addEventListener('timeout', () => {
       const error = new Error('vets_client_error: Request timed out');
       error.statusText = req.statusText;
+      recordEvent({
+        event: `${trackingPrefix}-submission-failed`,
+        ...eventData,
+        error,
+      });
       reject(error);
     });
 
