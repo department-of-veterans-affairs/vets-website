@@ -91,8 +91,6 @@ const {
 } = require('./graphql/vetCenterLocations.graphql');
 
 function getNodeQueries(entityCounts) {
-  const featureQueries = {};
-
   return {
     ...getNodePageQueries(entityCounts),
     GetNodeLandingPages,
@@ -122,7 +120,6 @@ function getNodeQueries(entityCounts) {
     GetNodeSupportResourcesDetailPage,
     GetNodeBasicLandingPage,
     GetCampaignLandingPages,
-    ...featureQueries,
     ...getVetCenterQueries(entityCounts),
     GetVetCenterLocations,
     GetPolicyPages,
