@@ -12,7 +12,6 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
-
     // Select COVID-19 vaccine appointment type
     cy.get('#schedule-new-appointment-1').click();
 
@@ -104,5 +103,54 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.findByText('We’ve scheduled your appointment');
     cy.findByText('COVID-19 Vaccine');
     cy.axeCheckBestPractice();
+  });
+
+  it('should show facility contact page on second dose selection', () => {
+    initAppointmentListMock();
+    initVaccineAppointmentMock();
+    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.injectAxe();
+    cy.get('.va-modal-body button').click();
+    cy.findAllByRole('tab').should('exist');
+    // Select COVID-19 vaccine appointment type
+    cy.get('#schedule-new-appointment-1').click();
+
+    // Start flow
+    cy.findByText('Start scheduling').click();
+
+    // Plan ahead page
+    cy.url().should('include', '/new-covid-19-vaccine-booking');
+    cy.axeCheckBestPractice();
+    cy.contains('button', 'Continue')
+      .focus()
+      .click();
+
+    // Screener page
+    cy.url().should('include', '/received-dose');
+    cy.axeCheckBestPractice();
+    cy.get('#root_hasReceivedDoseYes')
+      .focus()
+      .click();
+    cy.findByText(/Continue/).click();
+
+    // Contact Facility Page
+    cy.url().should('include', '/contact-facilities');
+    cy.findByText(/Continue/i).should('not.exist');
+    cy.axeCheckBestPractice();
+  });
+
+  it('should show facility contact page when vaccine schedule is not available', () => {
+    initAppointmentListMock();
+    initVaccineAppointmentMock(true);
+
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments/new-covid-19-vaccine-booking',
+    );
+    cy.injectAxe();
+
+    // Contact Facility Page
+    cy.url().should('include', '/contact-facilities');
+    cy.axeCheckBestPractice();
+    cy.findByText(/Continue/i).should('not.exist');
   });
 });
