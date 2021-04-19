@@ -55,7 +55,7 @@ describe('App', () => {
       });
     }
 
-    it.skip('should wait until webchat is loaded', async () => {
+    it('should wait until webchat is loaded', async () => {
       const wrapper = renderInReduxProvider(<App />, {
         initialState: {
           featureToggles: {
@@ -75,7 +75,7 @@ describe('App', () => {
       expect(wrapper.getByTestId('webchat-container')).to.exist;
     });
 
-    it.skip('should display error if webchat does not load after x seconds', async () => {
+    it('should display error if webchat does not load after 3 seconds', async () => {
       const wrapper = renderInReduxProvider(<App />, {
         initialState: {
           featureToggles: {
@@ -86,13 +86,15 @@ describe('App', () => {
 
       expect(wrapper.getByRole('progressbar')).to.exist;
 
-      await wait(1000);
+      await wait(3000);
 
       expect(
         wrapper.getByText(
           'We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk at 800-698-2411 (TTY: 711).',
         ),
       ).to.exist;
+
+      expect(wrapper.queryByRole('progressbar')).to.not.exist;
     });
   });
 

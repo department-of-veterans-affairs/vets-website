@@ -14,7 +14,7 @@ const loadWebChat = () => {
     'https://cdn.botframework.com/botframework-webchat/4.12.0/webchat-es5.js';
   script.crossOrigin = 'anonymous';
 
-  document.body.appendChild(script);
+  // document.body.appendChild(script);
 };
 
 loadWebChat();
@@ -23,21 +23,27 @@ export default function App() {
   const [isLoaded, setLoaded] = useState(!!window.WebChat);
   const [error, setError] = useState(false);
 
+  let count = 0;
+
   if (!isLoaded) {
     const intervalId = setInterval(() => {
+      count++;
+      if (count > 6) {
+        setError(true);
+        clearInterval(intervalId);
+      }
       if (window.WebChat) {
         setLoaded(true);
         clearInterval(intervalId);
       }
     }, 300);
-    setTimeout(() => {
-      setError(true);
-      clearInterval(intervalId);
-    }, 1000);
     if (error) {
       return <ChatbotError />;
+    } else {
+      return (
+        <LoadingIndicator message={'Waiting on webchat framework . . .'} />
+      );
     }
-    return <LoadingIndicator message={'Waiting on webchat framework . . .'} />;
   }
 
   return <WaitForFeatureToggles />;
