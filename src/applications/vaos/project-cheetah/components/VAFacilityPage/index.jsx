@@ -21,7 +21,6 @@ import { usePrevious } from 'platform/utilities/react-hooks';
 import useFormState from '../../../hooks/useFormState';
 
 const pageKey = 'vaFacility';
-const pageTitle = 'Choose a location';
 
 function VAFacilityPage({
   address,
@@ -45,6 +44,10 @@ function VAFacilityPage({
 }) {
   const history = useHistory();
   const loadingClinics = clinicsStatus === FETCH_STATUS.loading;
+  const pageTitle = singleValidVALocation
+    ? 'Your appointment location'
+    : 'Choose a location';
+
   useEffect(
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
@@ -121,7 +124,6 @@ function VAFacilityPage({
   if (loadingFacilities || (singleValidVALocation && loadingClinics)) {
     return (
       <div>
-        {title}
         <LoadingIndicator message="Finding locations" />
       </div>
     );
@@ -172,7 +174,10 @@ function VAFacilityPage({
     return (
       <div>
         {title}
-        <VAFacilityInfoMessage facility={selectedFacility} />
+        <VAFacilityInfoMessage
+          facility={selectedFacility}
+          sortMethod={sortMethod}
+        />
         <div className="vads-u-margin-top--2">
           <FormButtons
             onBack={goBack}
