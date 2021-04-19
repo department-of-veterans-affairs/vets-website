@@ -22,6 +22,7 @@ const vetCenterFragment = `
          countryCode
          locality
          postalCode
+         administrativeArea
          addressLine1
         }   
         fieldOfficeHours {
