@@ -23,27 +23,26 @@ export default function App() {
   const [isLoaded, setLoaded] = useState(!!window.WebChat);
   const [error, setError] = useState(false);
 
-  let count = 0;
+  let intervalCallCount = 0;
+  const MAX_INTERVAL_CALL_COUNT = 6;
 
   if (!isLoaded) {
     const intervalId = setInterval(() => {
-      count++;
-      if (count > 6) {
+      intervalCallCount++;
+      if (window.WebChat) {
+        setLoaded(true);
+        setError(false);
+        clearInterval(intervalId);
+      } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
         setError(true);
         clearInterval(intervalId);
       }
-      if (window.WebChat) {
-        setLoaded(true);
-        clearInterval(intervalId);
-      }
     }, 300);
-    if (error) {
-      return <ChatbotError />;
-    } else {
-      return (
-        <LoadingIndicator message={'Waiting on webchat framework . . .'} />
-      );
-    }
+    return error ? (
+      <ChatbotError />
+    ) : (
+      <LoadingIndicator message={'Waiting on webchat framework . . .'} />
+    );
   }
 
   return <WaitForFeatureToggles />;

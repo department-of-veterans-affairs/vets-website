@@ -48,7 +48,7 @@ describe('App', () => {
     });
   });
 
-  describe('web chat script has not loaded', () => {
+  describe.skip('web chat script has not loaded', () => {
     async function wait(timeout) {
       return new Promise(resolve => {
         setTimeout(resolve, timeout);
@@ -75,7 +75,7 @@ describe('App', () => {
       expect(wrapper.getByTestId('webchat-container')).to.exist;
     });
 
-    it('should display error if webchat does not load after 3 seconds', async () => {
+    it('should display error if webchat never loads', async () => {
       const wrapper = renderInReduxProvider(<App />, {
         initialState: {
           featureToggles: {
@@ -87,6 +87,32 @@ describe('App', () => {
       expect(wrapper.getByRole('progressbar')).to.exist;
 
       await wait(3000);
+
+      expect(
+        wrapper.getByText(
+          'We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk at 800-698-2411 (TTY: 711).',
+        ),
+      ).to.exist;
+
+      expect(wrapper.queryByRole('progressbar')).to.not.exist;
+    });
+
+    it('should display error if webchat does not load after x milliseconds', async () => {
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      expect(wrapper.getByRole('progressbar')).to.exist;
+
+      await wait(3000);
+
+      loadWebChat();
+
+      await wait(300);
 
       expect(
         wrapper.getByText(

@@ -75,7 +75,7 @@ export default function WebChat() {
           </div>
         )}
         {!token && !tokenLoading && <ChatbotError />}
-        {tokenLoading && <LoadingIndicator message={'Loading Chatbot'} />}
+        {tokenLoading && <LoadingIndicator message={'Fetching token'} />}
       </div>
     </div>
   );
