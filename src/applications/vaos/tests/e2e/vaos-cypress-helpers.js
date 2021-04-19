@@ -644,7 +644,9 @@ export function initVAAppointmentMock({ cernerUser = false } = {}) {
   mockSubmitVAAppointment();
 }
 
-export function initVaccineAppointmentMock(unableToScheduleCovid = false) {
+export function initVaccineAppointmentMock({
+  unableToScheduleCovid = false,
+} = {}) {
   setupSchedulingMocks();
   // Modify directScheduling Response
   if (unableToScheduleCovid) {

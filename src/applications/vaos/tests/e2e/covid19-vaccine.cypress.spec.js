@@ -141,7 +141,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
 
   it('should show facility contact page when vaccine schedule is not available', () => {
     initAppointmentListMock();
-    initVaccineAppointmentMock(true);
+    initVaccineAppointmentMock({ unableToScheduleCovid: true });
 
     cy.visit(
       'health-care/schedule-view-va-appointments/appointments/new-covid-19-vaccine-booking',
