@@ -107,6 +107,7 @@ node('vetsgov-general-purpose') {
         //   sh "docker-compose -p accessibility down --remove-orphans"
         // }
         sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
+        sh "docker-compose -p cypress-2123 down --remove-orphans"
         step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
       }
     }
