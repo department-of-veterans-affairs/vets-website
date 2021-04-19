@@ -9,7 +9,7 @@ import {
 import environment from 'platform/utilities/environment';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import VAFacilityPage from '../../../../project-cheetah/components/VAFacilityPage';
+import VAFacilityPage from '../../../../covid-19-vaccine/components/VAFacilityPage';
 import {
   getVAFacilityMock,
   getDirectBookingEligibilityCriteriaMock,
@@ -26,7 +26,7 @@ import {
   mockFacilitiesFetch,
   mockGetCurrentPosition,
 } from '../../../mocks/helpers';
-import { TYPE_OF_CARE_ID } from '../../../../project-cheetah/utils';
+import { TYPE_OF_CARE_ID } from '../../../../covid-19-vaccine/utils';
 
 const initialState = {
   featureToggles: {

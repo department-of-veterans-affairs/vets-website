@@ -4,7 +4,7 @@ import {
   getChosenClinicInfo,
   getSiteIdForChosenFacility,
   getChosenSlot,
-  selectProjectCheetahFormData,
+  selectCovid19VaccineFormData,
 } from '../selectors';
 import {
   findCharacteristic,
@@ -15,7 +15,7 @@ import {
 export function transformFormToAppointment(state) {
   const clinic = getChosenClinicInfo(state);
   const siteId = getSiteIdForChosenFacility(state);
-  const data = selectProjectCheetahFormData(state);
+  const data = selectCovid19VaccineFormData(state);
   const { timezone = null } = siteId ? getTimezoneBySystemId(siteId) : {};
 
   const slot = getChosenSlot(state);

@@ -72,7 +72,7 @@ function setupFormData(data, schema, uiSchema) {
   );
 }
 
-export default function projectCheetahReducer(state = initialState, action) {
+export default function covid19VaccineReducer(state = initialState, action) {
   switch (action.type) {
     case FORM_PAGE_OPENED: {
       const newBooking = state.newBooking;

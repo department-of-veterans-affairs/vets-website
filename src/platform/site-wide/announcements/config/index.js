@@ -24,7 +24,7 @@ const config = {
       showEverytime: true,
     },
     {
-      name: 'covid-vaccine-signup',
+      name: 'covid-19-vaccine-signup',
       paths: /^(\/)$/,
       component: CovidVaccineSignUp,
     },

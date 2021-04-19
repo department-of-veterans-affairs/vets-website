@@ -21,7 +21,7 @@ import {
   selectFeatureCommunityCare,
   selectIsWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
-  selectFeatureProjectCheetah,
+  selectFeatureCovid19Vaccine,
 } from '../../../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -43,7 +43,7 @@ function AppointmentsPage({
   closeCancelAppointment,
   confirmCancelAppointment,
   expressCare,
-  featureProjectCheetah,
+  featureCovid19Vaccine,
   fetchFutureAppointments,
   fetchExpressCareWindows,
   futureStatus,
@@ -117,7 +117,7 @@ function AppointmentsPage({
 
       {showScheduleButton && (
         <>
-          {!featureProjectCheetah && (
+          {!featureCovid19Vaccine && (
             <ScheduleNewAppointment
               isCernerOnlyPatient={isCernerOnlyPatient}
               showCommunityCare={showCommunityCare}
@@ -130,7 +130,7 @@ function AppointmentsPage({
               }}
             />
           )}
-          {featureProjectCheetah && <ScheduleNewAppointmentRadioButtons />}
+          {featureCovid19Vaccine && <ScheduleNewAppointmentRadioButtons />}
         </>
       )}
 
@@ -178,7 +178,7 @@ AppointmentsPage.propTypes = {
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
-  featureProjectCheetah: PropTypes.bool.isRequired,
+  featureCovid19Vaccine: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -191,7 +191,7 @@ function mapStateToProps(state) {
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
-    featureProjectCheetah: selectFeatureProjectCheetah(state),
+    featureCovid19Vaccine: selectFeatureCovid19Vaccine(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     expressCare: selectExpressCareAvailability(state),
