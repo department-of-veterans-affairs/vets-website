@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 import { connect } from 'react-redux';
@@ -34,17 +34,11 @@ function ProviderSelectionField({
 }) {
   const [checkedProvider, setCheckedProvider] = useState(false);
   const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const isMountedRef = useRef(false);
   const [showProvidersList, setShowProvidersList] = useState(false);
   const [providersListLength, setProvidersListLength] = useState(
     INITIAL_PROVIDER_DISPLAY_COUNT,
   );
-  const sortByDistanceFromResidential =
-    !sortMethod || sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
-
-  const sortByDistanceFromCurrentLocation =
-    sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
-
   const searchOrigin =
     sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
       ? currentLocation
@@ -53,16 +47,11 @@ function ProviderSelectionField({
     data: communityCareProviderList,
     isLoading: loadingProviders,
     isError,
-  } = useQuery(
-    ['ccProviders', searchOrigin, typeOfCare],
-    () =>
-      getCommunityProvidersByTypeOfCare({
-        address: searchOrigin,
-        typeOfCare,
-      }),
-    {
-      enabled: showProvidersList,
-    },
+  } = useQuery(['ccProviders', searchOrigin, typeOfCare], () =>
+    getCommunityProvidersByTypeOfCare({
+      address: searchOrigin,
+      typeOfCare,
+    }),
   );
   const currentlyShownProvidersList = communityCareProviderList?.slice(
     0,
@@ -72,10 +61,6 @@ function ProviderSelectionField({
   const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
 
   const providerSelected = 'id' in formData;
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(
     () => {
@@ -90,9 +75,9 @@ function ProviderSelectionField({
     () => {
       if (showProvidersList) {
         scrollAndFocus('#providerSelectionHeader');
-      } else if (mounted && !providerSelected) {
+      } else if (isMountedRef.current && !providerSelected) {
         scrollAndFocus('.va-button-link');
-      } else if (mounted) {
+      } else if (isMountedRef.current) {
         scrollAndFocus('#providerPostSelectionHeader');
       }
     },
@@ -101,7 +86,7 @@ function ProviderSelectionField({
 
   useEffect(
     () => {
-      if (mounted && Object.keys(formData).length === 0) {
+      if (isMountedRef.current && Object.keys(formData).length === 0) {
         scrollAndFocus('.va-button-link');
       }
     },
@@ -140,6 +125,10 @@ function ProviderSelectionField({
     },
     [loadingProviders, loadingLocations],
   );
+
+  useEffect(() => {
+    isMountedRef.current = true;
+  }, []);
 
   if (!showProvidersList) {
     return (
@@ -239,7 +228,7 @@ function ProviderSelectionField({
         Choose a provider
       </h2>
       {!loadingLocations &&
-        sortByDistanceFromResidential && (
+        sortMethod === FACILITY_SORT_METHODS.distanceFromResidential && (
           <>
             {requestLocationStatus !== FETCH_STATUS.failed && (
               <>
@@ -313,7 +302,8 @@ function ProviderSelectionField({
         !loadingLocations &&
         !!currentlyShownProvidersList && (
           <>
-            {sortByDistanceFromCurrentLocation && (
+            {sortMethod ===
+              FACILITY_SORT_METHODS.distanceFromCurrentLocation && (
               <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
                 You can choose a provider based on your current location. Or you
                 can{' '}
@@ -384,7 +374,8 @@ function ProviderSelectionField({
                           miles{' '}
                           <span className="sr-only">
                             {' '}
-                            {sortByDistanceFromCurrentLocation
+                            {sortMethod ===
+                            FACILITY_SORT_METHODS.distanceFromCurrentLocation
                               ? 'from your current location'
                               : 'from your home address'}
                           </span>
