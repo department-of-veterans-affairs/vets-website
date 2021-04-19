@@ -14,7 +14,7 @@ const loadWebChat = () => {
     'https://cdn.botframework.com/botframework-webchat/4.12.0/webchat-es5.js';
   script.crossOrigin = 'anonymous';
 
-  // document.body.appendChild(script);
+  document.body.appendChild(script);
 };
 
 loadWebChat();
