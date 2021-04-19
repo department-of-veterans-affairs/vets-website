@@ -12,9 +12,10 @@ const PreSubmitSignature = ({
 }) => {
   const fullName = formData.personalData.veteranFullName;
   const hasSubmit = !!formSubmission.status;
-  const firstName = fullName.first?.toLowerCase() || '';
-  const lastName = fullName.last?.toLowerCase() || '';
-  const middleName = fullName.middle?.toLowerCase() || '';
+  const isSubmitPending = formSubmission.status === 'submitPending';
+  const firstName = fullName?.first.toLowerCase() || '';
+  const lastName = fullName?.last.toLowerCase() || '';
+  const middleName = fullName?.middle.toLowerCase() || '';
   const [checked, setChecked] = useState(false);
   const [signatureError, setSignatureError] = useState(false);
   const [checkboxError, setCheckboxError] = useState(false);
@@ -22,6 +23,7 @@ const PreSubmitSignature = ({
     value: '',
     dirty: false,
   });
+  const isDirty = signature.dirty;
 
   const firstLetterOfMiddleName =
     middleName === undefined ? '' : middleName.charAt(0);
@@ -35,25 +37,26 @@ const PreSubmitSignature = ({
   const getName = (middle = '') =>
     removeSpaces(`${firstName}${middle}${lastName}`);
 
+  const hasName = getName() !== '';
+
   const normalizedSignature = removeSpaces(signature.value);
 
   // first and last
-  const firstAndLastMatches = getName() === normalizedSignature;
+  const firstAndLastMatches = hasName && getName() === normalizedSignature;
 
   // middle initial
   const middleInitialMatches =
-    getName(firstLetterOfMiddleName) === normalizedSignature;
+    hasName && getName(firstLetterOfMiddleName) === normalizedSignature;
 
   // middle name
-  const withMiddleNameMatches = getName(middleName) === normalizedSignature;
+  const withMiddleNameMatches =
+    hasName && getName(middleName) === normalizedSignature;
 
   const signatureMatches =
     firstAndLastMatches || middleInitialMatches || withMiddleNameMatches;
 
   useEffect(
     () => {
-      const isDirty = signature.dirty;
-
       /* show error if user has touched input and signature does not match
            show error if there is a form error and has not been submitted */
       if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
@@ -75,6 +78,7 @@ const PreSubmitSignature = ({
       showError,
       hasSubmit,
       normalizedSignature,
+      isDirty,
     ],
   );
 
@@ -97,17 +101,21 @@ const PreSubmitSignature = ({
 
   useEffect(
     () => {
-      if (checked && signatureMatches) {
+      if (checked && isDirty && signatureMatches) {
         onSectionComplete(true);
       }
 
       return () => onSectionComplete(false);
     },
-    [checked, signatureMatches],
+    [checked, signatureMatches, isDirty],
   );
 
-  if (hasSubmit) {
-    return <LoadingIndicator message="Loading your application..." />;
+  if (isSubmitPending) {
+    return (
+      <div className="vads-u-margin-bottom--3">
+        <LoadingIndicator message="Loading your application..." />
+      </div>
+    );
   }
 
   return (
