@@ -9,6 +9,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
   openFormPage,
   routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
   updateFormData,
 } from '../redux/actions';
 
@@ -36,13 +37,11 @@ const pageKey = 'visitType';
 const pageTitle = 'Choose a type of appointment';
 
 export default function TypeOfVisitPage() {
-  const {
-    schema,
-    data,
-    routeToPreviousAppointmentPage,
-    pageChangeInProgress,
-  } = useSelector(state => getFormPageInfo(state, pageKey), shallowEqual);
-  const dispatch = useDispatch;
+  const { schema, data, pageChangeInProgress } = useSelector(
+    state => getFormPageInfo(state, pageKey),
+    shallowEqual,
+  );
+  const dispatch = useDispatch();
   const history = useHistory();
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));
