@@ -1,10 +1,9 @@
 {
   "additionalData": {
     "bankruptcy": {
-      "dateDischarged": "2004-06-XX",
+      "dateDischarged": "2004-05-XX",
       "courtLocation": "Tampa, FL",
-      "docketNumber": "123456",
-      "hasBeenAdjudicatedBankrupt": true
+      "docketNumber": "123456"
     },
     "additionalComments": "Supporting personal statement"
   },
@@ -32,15 +31,15 @@
   "otherExpenses": [
     {
       "name": "Lawn service",
+      "amount": 300
+    },
+    {
+      "name": "Animal/pet care",
+      "amount": 1000
+    },
+    {
+      "name": "Pool service",
       "amount": 120
-    },
-    {
-      "name": "Prescriptions/medications",
-      "amount": 340
-    },
-    {
-      "name": "Home repair",
-      "amount": 250
     }
   ],
   "view:components": {
@@ -52,73 +51,74 @@
   },
   "installmentContractsAndOtherDebts": [
     {
-      "purpose": "Credit card payments",
+      "purpose": "Helicopter payment",
       "creditorName": "Creditor 1",
-      "originalAmount": 200000,
+      "originalAmount": 1000000,
       "unpaidBalance": 75000,
-      "amountDueMonthly": 700,
-      "dateStarted": "2017-06-XX",
-      "amountPastDue": 200
+      "amountDueMonthly": 2000,
+      "dateStarted": "2017-04-XX",
+      "amountPastDue": 100
     },
     {
       "purpose": "Hangar rental",
       "creditorName": "Creditor 2",
-      "originalAmount": 200000,
-      "unpaidBalance": 50000,
-      "amountDueMonthly": 450,
-      "dateStarted": "2016-05-XX",
-      "amountPastDue": 100
+      "originalAmount": 24000,
+      "unpaidBalance": 10000,
+      "amountDueMonthly": 800,
+      "dateStarted": "2017-03-XX",
+      "amountPastDue": 200
+    },
+    {
+      "purpose": "Boat payment",
+      "creditorName": "Creditor 3",
+      "originalAmount": 20000,
+      "unpaidBalance": 10000,
+      "amountDueMonthly": 200,
+      "dateStarted": "2017-06-XX",
+      "amountPastDue": 0
     }
   ],
   "utilityRecords": [
     {
       "utilityType": "Electricity",
-      "monthlyUtilityAmount": 450
+      "monthlyUtilityAmount": 350
     },
     {
       "utilityType": "Cable",
-      "monthlyUtilityAmount": 150
+      "monthlyUtilityAmount": 300
     },
     {
       "utilityType": "Internet",
       "monthlyUtilityAmount": 75
-    },
-    {
-      "utilityType": "Cell phone",
-      "monthlyUtilityAmount": 430
     }
   ],
   "expenses": {
-    "rentOrMortgage": 4050,
-    "food": 2400
+    "rentOrMortgage": 4500,
+    "food": 3000
   },
   "assets": {
     "otherAssets": [
       {
         "name": "Bitcoin",
-        "amount": 20300
+        "amount": 250000
       },
       {
         "name": "Investment funds",
-        "amount": 42500
+        "amount": 13000
       },
       {
         "name": "Gambling earning",
-        "amount": 1300
+        "amount": 125000
       }
     ],
     "trailersBoatsCampers": [
       {
+        "recreationalVehicleType": "Helicopter",
+        "recreationalVehicleAmount": 1000000
+      },
+      {
         "recreationalVehicleType": "Boat",
         "recreationalVehicleAmount": 30000
-      },
-      {
-        "recreationalVehicleType": "Boat",
-        "recreationalVehicleAmount": 10000
-      },
-      {
-        "recreationalVehicleType": "Helicopter",
-        "recreationalVehicleAmount": 1500000
       }
     ],
     "automobiles": [
@@ -137,19 +137,19 @@
         "resaleValue": 35000
       }
     ],
-    "cashInBank": 570,
-    "cashOnHand": 3500,
-    "usSavingsBonds": 10000,
-    "stocksAndOtherBonds": 15000
+    "cashInBank": 2500,
+    "cashOnHand": 1000,
+    "usSavingsBonds": 25000,
+    "stocksAndOtherBonds": 100000
   },
   "realEstateRecords": [
     {
       "realEstateType": "Single-family home",
-      "realEstateAmount": 425000
+      "realEstateAmount": 450000
     },
     {
       "realEstateType": "Business property",
-      "realEstateAmount": 500000
+      "realEstateAmount": 1000000
     }
   ],
   "personalData": {
@@ -166,36 +166,36 @@
         "spousePreviousEmployment": [
           {
             "type": "Full time",
-            "from": "2017-08-XX",
-            "to": "2018-05-XX",
+            "from": "2018-07-XX",
+            "to": "2019-11-XX",
             "employerName": "Spouse Prev Employer 1"
           },
           {
-            "type": "Part time",
-            "from": "2016-06-XX",
-            "to": "2017-06-XX",
+            "type": "Seasonal",
+            "from": "2019-10-XX",
+            "to": "2019-12-XX",
             "employerName": "Spouse Prev Employer 2"
           },
           {
-            "type": "Seasonal",
-            "from": "2012-08-XX",
-            "to": "2015-06-XX",
+            "type": "Temporary",
+            "from": "2016-07-XX",
+            "to": "2016-09-XX",
             "employerName": "Spouse Prev Employer 3"
           }
         ],
         "currentEmployment": {
           "type": "Full time",
-          "from": "2018-02-XX",
+          "from": "2019-03-XX",
           "employerName": "Spouse Current Employer",
-          "monthlyGrossSalary": 6500,
+          "monthlyGrossSalary": 5000,
           "spouseDeductions": [
             {
-              "name": "401K",
-              "amount": 450
+              "name": "Federal tax",
+              "amount": 320
             },
             {
-              "name": "Federal tax",
-              "amount": 325
+              "name": "401K",
+              "amount": 100
             }
           ]
         }
@@ -205,35 +205,29 @@
           {
             "type": "Full time",
             "from": "2018-03-XX",
-            "to": "2020-04-XX",
+            "to": "2019-04-XX",
             "employerName": "Veteran Prev Employer 1"
           },
           {
             "type": "Full time",
             "from": "2017-06-XX",
-            "to": "2017-04-XX",
+            "to": "2018-02-XX",
             "employerName": "Veteran Prev Employer 2"
-          },
-          {
-            "type": "Full time",
-            "from": "2016-03-XX",
-            "to": "2017-06-XX",
-            "employerName": "Veteran Prev Employer 3"
           }
         ],
         "currentEmployment": {
           "type": "Full time",
-          "from": "2020-04-XX",
+          "from": "2019-04-XX",
           "employerName": "Veteran Current Employer",
-          "monthlyGrossSalary": 5495,
+          "monthlyGrossSalary": 5300,
           "deductions": [
             {
               "name": "Federal tax",
-              "amount": 350
+              "amount": 250
             },
             {
               "name": "Health insurance",
-              "amount": 425
+              "amount": 430
             },
             {
               "name": "401K",
@@ -244,7 +238,7 @@
       }
     },
     "spouseFullName": {
-      "first": "Andrea",
+      "first": "Angela",
       "last": "Mitchell"
     },
     "address": {
@@ -270,40 +264,36 @@
     "spouse": {
       "spouseAdditionalIncomeRecords": [
         {
-          "name": "Child care income",
-          "amount": 760
+          "name": "Freelance service",
+          "amount": 2000
         },
         {
-          "name": "Substitute teaching",
-          "amount": 1236
+          "name": "Bonus payment",
+          "amount": 200
         }
       ]
     },
     "additionalIncomeRecords": [
       {
-        "name": "Rental property income",
-        "amount": 1100
-      },
-      {
         "name": "Freelance service",
-        "amount": 500
+        "amount": 1000
       },
       {
-        "name": "Child support payment",
-        "amount": 800
+        "name": "Leased acreage or land income",
+        "amount": 1100
       }
     ]
   },
   "socialSecurity": {
     "spouse": {
-      "socialSecurityAmount": 1540
+      "socialSecurityAmount": 1750
     },
-    "socialSecurityAmount": 1200
+    "socialSecurityAmount": 1240
   },
   "benefits": {
     "spouseBenefits": {
-      "benefitAmount": 1100,
-      "educationAmount": 240
+      "benefitAmount": 800,
+      "educationAmount": 200
     }
   },
   "selectedDebts": [
@@ -343,59 +333,6 @@
         }
       ],
       "id": 0
-    },
-    {
-      "financialOverview": {},
-      "debtRepaymentOptions": {},
-      "resolutionOptionsTitle": {},
-      "resolution": {
-        "resolutionType": "Extended monthly payments",
-        "affordToPay": 1000
-      },
-      "fileNumber": "796121200",
-      "payeeNumber": "00",
-      "personEntitled": "STUB_M",
-      "deductionCode": "44",
-      "benefitType": "CH35 EDU",
-      "diaryCode": "100",
-      "diaryCodeDescription": "Pending payment",
-      "amountOverpaid": 26000,
-      "amountWithheld": 0,
-      "originalAr": 100,
-      "currentAr": 80,
-      "debtHistory": [
-        {
-          "date": "12/19/2014",
-          "letterCode": "681",
-          "description": "Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available."
-        },
-        {
-          "date": "04/11/2013",
-          "letterCode": "080",
-          "description": "Debt referred to Treasury for Cross servicing"
-        },
-        {
-          "date": "12/11/2012",
-          "letterCode": "510",
-          "description": "Demand letters returned.  Unable to verify address with third party.  Account forced to TOP and/or CS."
-        },
-        {
-          "date": "10/17/2012",
-          "letterCode": "212",
-          "description": "Bad Address - Locator Request Sent"
-        },
-        {
-          "date": "09/28/2012",
-          "letterCode": "117",
-          "description": "Second Demand Letter"
-        },
-        {
-          "date": "09/18/2012",
-          "letterCode": "100",
-          "description": "First Demand Letter - Inactive Benefits - Due Process"
-        }
-      ],
-      "id": 1
     }
   ],
   "personalIdentification": {
