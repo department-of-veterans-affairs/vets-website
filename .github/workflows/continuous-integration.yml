@@ -1,6 +1,9 @@
 name: Continuous Integration
 
-on: [push]
+on:
+  push:
+  check_run:
+    types: [created]
 
 jobs:
   unit-tests:
