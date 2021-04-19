@@ -4,7 +4,7 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import FormButtons from '../../components/FormButtons';
 
-import { getProjectCheetahFormPageInfo } from '../redux/selectors';
+import { getCovid19VaccineFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { useHistory } from 'react-router-dom';
 import * as actions from '../redux/actions';
@@ -93,7 +93,7 @@ export function ContactInfoPage({
 }
 
 function mapStateToProps(state) {
-  return getProjectCheetahFormPageInfo(state, pageKey);
+  return getCovid19VaccineFormPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {

@@ -9,11 +9,11 @@ import {
 } from '../../mocks/setup';
 import userEvent from '@testing-library/user-event';
 
-import ClinicChoicePage from '../../../project-cheetah/components/ClinicChoicePage';
+import ClinicChoicePage from '../../../covid-19-vaccine/components/ClinicChoicePage';
 import { mockEligibilityFetches } from '../../mocks/helpers';
 import { getClinicMock } from '../../mocks/v0';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { TYPE_OF_CARE_ID } from '../../../project-cheetah/utils';
+import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 
 const initialState = {
   featureToggles: {

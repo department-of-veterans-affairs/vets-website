@@ -24,8 +24,8 @@ import {
 import newBookingFlow from '../flow';
 import { TYPE_OF_CARE_ID } from '../utils';
 import {
-  selectProjectCheetahNewBooking,
-  selectProjectCheetahFormData,
+  selectCovid19VaccineNewBooking,
+  selectCovid19VaccineFormData,
 } from './selectors';
 import moment from 'moment';
 import { getSlots } from '../../services/slot';
@@ -34,54 +34,54 @@ import { transformFormToAppointment } from './helpers/formSubmitTransformers';
 import { submitAppointment } from '../../services/var';
 import { VACCINE_FORM_SUBMIT_SUCCEEDED } from '../../redux/sitewide';
 
-export const FORM_PAGE_OPENED = 'projectCheetah/FORM_PAGE_OPENED';
-export const FORM_DATA_UPDATED = 'projectCheetah/FORM_DATA_UPDATED';
+export const FORM_PAGE_OPENED = 'covid19Vaccine/FORM_PAGE_OPENED';
+export const FORM_DATA_UPDATED = 'covid19Vaccine/FORM_DATA_UPDATED';
 export const FORM_PAGE_CHANGE_STARTED =
-  'projectCheetah/FORM_PAGE_CHANGE_STARTED';
-export const START_APPOINTMENT_FLOW = 'projectCheetah/START_APPOINTMENT_FLOW';
+  'covid19Vaccine/FORM_PAGE_CHANGE_STARTED';
+export const START_APPOINTMENT_FLOW = 'covid19Vaccine/START_APPOINTMENT_FLOW';
 export const FORM_PAGE_CHANGE_COMPLETED =
-  'projectCheetah/FORM_PAGE_CHANGE_COMPLETED';
+  'covid19Vaccine/FORM_PAGE_CHANGE_COMPLETED';
 export const FORM_CALENDAR_FETCH_SLOTS =
-  'projectCheetah/FORM_CALENDAR_FETCH_SLOTS';
+  'covid19Vaccine/FORM_CALENDAR_FETCH_SLOTS';
 export const FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED =
-  'projectCheetah/FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED';
+  'covid19Vaccine/FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED';
 export const FORM_CALENDAR_FETCH_SLOTS_FAILED =
-  'projectCheetah/FORM_CALENDAR_FETCH_SLOTS_FAILED';
+  'covid19Vaccine/FORM_CALENDAR_FETCH_SLOTS_FAILED';
 export const FORM_CALENDAR_DATA_CHANGED =
-  'projectCheetah/FORM_CALENDAR_DATA_CHANGED';
-export const FORM_RESET = 'projectCheetah/FORM_RESET';
-export const FORM_SUBMIT = 'projectCheetah/FORM_SUBMIT';
-export const FORM_PAGE_FACILITY_OPEN = 'projectCheetah/FORM_PAGE_FACILITY_OPEN';
+  'covid19Vaccine/FORM_CALENDAR_DATA_CHANGED';
+export const FORM_RESET = 'covid19Vaccine/FORM_RESET';
+export const FORM_SUBMIT = 'covid19Vaccine/FORM_SUBMIT';
+export const FORM_PAGE_FACILITY_OPEN = 'covid19Vaccine/FORM_PAGE_FACILITY_OPEN';
 export const FORM_PAGE_FACILITY_OPEN_SUCCEEDED =
-  'projectCheetah/FORM_PAGE_FACILITY_OPEN_SUCCEEDED';
+  'covid19Vaccine/FORM_PAGE_FACILITY_OPEN_SUCCEEDED';
 export const FORM_PAGE_FACILITY_OPEN_FAILED =
-  'projectCheetah/FORM_PAGE_FACILITY_OPEN_FAILED';
-export const FORM_FETCH_CLINICS = 'projectCheetah/FORM_PAGE_FETCH_CLINICS';
+  'covid19Vaccine/FORM_PAGE_FACILITY_OPEN_FAILED';
+export const FORM_FETCH_CLINICS = 'covid19Vaccine/FORM_PAGE_FETCH_CLINICS';
 export const FORM_FETCH_CLINICS_SUCCEEDED =
-  'projectCheetah/FORM_PAGE_FETCH_CLINICS_SUCCEEDED';
+  'covid19Vaccine/FORM_PAGE_FETCH_CLINICS_SUCCEEDED';
 export const FORM_FETCH_CLINICS_FAILED =
-  'projectCheetah/FORM_PAGE_FETCH_CLINICS_FAILED';
+  'covid19Vaccine/FORM_PAGE_FETCH_CLINICS_FAILED';
 export const FORM_SHOW_ELIGIBILITY_MODAL =
-  'projectCheetah/FORM_SHOW_ELIGIBILITY_MODAL';
+  'covid19Vaccine/FORM_SHOW_ELIGIBILITY_MODAL';
 export const FORM_HIDE_ELIGIBILITY_MODAL =
-  'projectCheetah/FORM_HIDE_ELIGIBILITY_MODAL';
+  'covid19Vaccine/FORM_HIDE_ELIGIBILITY_MODAL';
 export const FORM_REQUEST_CURRENT_LOCATION =
-  'projectCheetah/FORM_REQUEST_CURRENT_LOCATION';
+  'covid19Vaccine/FORM_REQUEST_CURRENT_LOCATION';
 export const FORM_REQUEST_CURRENT_LOCATION_FAILED =
-  'projectCheetah/FORM_REQUEST_CURRENT_LOCATION_FAILED';
+  'covid19Vaccine/FORM_REQUEST_CURRENT_LOCATION_FAILED';
 export const FORM_PAGE_FACILITY_SORT_METHOD_UPDATED =
-  'projectCheetah/FORM_PAGE_FACILITY_SORT_METHOD_UPDATED';
-export const FORM_SUBMIT_FAILED = 'projectCheetah/FORM_SUBMIT_FAILED';
+  'covid19Vaccine/FORM_PAGE_FACILITY_SORT_METHOD_UPDATED';
+export const FORM_SUBMIT_FAILED = 'covid19Vaccine/FORM_SUBMIT_FAILED';
 export const FORM_CLINIC_PAGE_OPENED_SUCCEEDED =
-  'projectCheetah/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
+  'covid19Vaccine/FORM_CLINIC_PAGE_OPENED_SUCCEEDED';
 export const FORM_PREFILL_CONTACT_INFO =
-  'projectCheetah/FORM_PREFILL_CONTACT_INFO';
+  'covid19Vaccine/FORM_PREFILL_CONTACT_INFO';
 export const FORM_PAGE_CONTACT_FACILITIES_OPEN =
-  'projectCheetah/FORM_CONTACT_FACILITIES_OPEN';
+  'covid19Vaccine/FORM_CONTACT_FACILITIES_OPEN';
 export const FORM_PAGE_CONTACT_FACILITIES_OPEN_SUCCEEDED =
-  'projectCheetah/FORM_CONTACT_FACILITIES_OPEN_SUCCEEDED';
+  'covid19Vaccine/FORM_CONTACT_FACILITIES_OPEN_SUCCEEDED';
 export const FORM_PAGE_CONTACT_FACILITIES_OPEN_FAILED =
-  'projectCheetah/FORM_CONTACT_FACILITIES_OPEN_FAILED';
+  'covid19Vaccine/FORM_CONTACT_FACILITIES_OPEN_FAILED';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -136,7 +136,7 @@ export function openFacilityPage() {
   return async (dispatch, getState) => {
     try {
       const initialState = getState();
-      const newBooking = selectProjectCheetahNewBooking(initialState);
+      const newBooking = selectCovid19VaccineNewBooking(initialState);
       const siteIds = selectSystemIds(initialState);
       let facilities = newBooking.facilities;
       let facilityId = newBooking.data.vaFacility;
@@ -193,7 +193,7 @@ export function openFacilityPage() {
 export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
     let location = null;
-    const facilities = selectProjectCheetahNewBooking(getState()).facilities;
+    const facilities = selectCovid19VaccineNewBooking(getState()).facilities;
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
@@ -243,9 +243,9 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
     const state = getState();
     const useVSP = selectFeatureVSPAppointmentNew(state);
     const siteId = getSiteIdFromFacilityId(
-      selectProjectCheetahFormData(state).vaFacility,
+      selectCovid19VaccineFormData(state).vaFacility,
     );
-    const newBooking = selectProjectCheetahNewBooking(state);
+    const newBooking = selectCovid19VaccineNewBooking(state);
     const { data } = newBooking;
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
@@ -436,7 +436,7 @@ export function routeToPageInFlow(flow, history, current, action, data) {
     } else {
       const state = getState();
       const previousPage =
-        state.projectCheetah.newBooking.previousPages[current];
+        state.covid19Vaccine.newBooking.previousPages[current];
       nextPage = flow[previousPage];
     }
 
@@ -468,7 +468,7 @@ export function openContactFacilitiesPage() {
   return async (dispatch, getState) => {
     try {
       const initialState = getState();
-      const newBooking = selectProjectCheetahNewBooking(initialState);
+      const newBooking = selectCovid19VaccineNewBooking(initialState);
       const siteIds = selectSystemIds(initialState);
       let facilities = newBooking.facilities;
 
