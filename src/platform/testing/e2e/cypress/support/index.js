@@ -41,6 +41,6 @@ beforeEach(() => {
   });
 });
 
-before(() => {
+before(function() {
   if (Cypress.env('FORMS')) this.skip();
 });
