@@ -59,8 +59,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: Test XYZ
           conclusion: ${{ job.status }}
-          output: |
-            {"summary":${{ steps.test.outputs.summary }}}
 
   linting:
     name: Linting
