@@ -18,33 +18,15 @@ import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
 import LoadingOverlay from '../../../components/LoadingOverlay';
 import { usePrevious } from 'platform/utilities/react-hooks';
-
-const initialSchema = {
-  type: 'object',
-  required: ['vaFacility'],
-  properties: {
-    vaFacility: {
-      type: 'string',
-      enum: [],
-    },
-  },
-};
-
-const uiSchema = {
-  vaFacility: {
-    'ui:title': 'Please select where you’d like to have your appointment.',
-    'ui:widget': FacilitiesRadioWidget,
-  },
-};
+import useFormState from '../../../hooks/useFormState';
 
 const pageKey = 'vaFacility';
-const pageTitle = 'Choose a location';
 
 function VAFacilityPage({
   address,
   canScheduleAtChosenFacility,
   facilitiesStatus,
-  data,
+  initialData,
   hideEligibilityModal,
   clinicsStatus,
   noValidVAFacilities,
@@ -53,34 +35,26 @@ function VAFacilityPage({
   requestLocationStatus,
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
-  schema,
   selectedFacility,
   showEligibilityModal,
   singleValidVALocation,
   sortMethod,
   updateFacilitySortMethod,
-  updateFormData,
+  supportedFacilities,
 }) {
   const history = useHistory();
   const loadingClinics = clinicsStatus === FETCH_STATUS.loading;
-  const loadingFacilities =
-    facilitiesStatus === FETCH_STATUS.loading ||
-    facilitiesStatus === FETCH_STATUS.notStarted;
+  const pageTitle = singleValidVALocation
+    ? 'Your appointment location'
+    : 'Choose a location';
 
   useEffect(
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
       scrollAndFocus();
-      openFacilityPage(uiSchema, initialSchema);
+      openFacilityPage();
     },
     [openFacilityPage],
-  );
-
-  useEffect(
-    () => {
-      scrollAndFocus();
-    },
-    [loadingFacilities],
   );
 
   const previouslyShowingModal = usePrevious(showEligibilityModal);
@@ -93,9 +67,45 @@ function VAFacilityPage({
     [showEligibilityModal, previouslyShowingModal],
   );
 
-  const goBack = () => routeToPreviousAppointmentPage(history, pageKey);
+  const { data, schema, setData, uiSchema } = useFormState({
+    initialSchema: () => {
+      return {
+        type: 'object',
+        required: ['vaFacility'],
+        properties: {
+          vaFacility: {
+            type: 'string',
+            enum: supportedFacilities?.map(facility => facility.id) || [],
+            enumNames: supportedFacilities || [],
+          },
+        },
+      };
+    },
+    uiSchema: {
+      vaFacility: {
+        'ui:title': 'Please select where you’d like to have your appointment.',
+        'ui:widget': FacilitiesRadioWidget,
+      },
+    },
+    initialData,
+    dependencies: [supportedFacilities],
+  });
 
-  const goForward = () => routeToNextAppointmentPage(history, pageKey);
+  const loadingFacilities =
+    !schema ||
+    facilitiesStatus === FETCH_STATUS.loading ||
+    facilitiesStatus === FETCH_STATUS.notStarted;
+
+  useEffect(
+    () => {
+      scrollAndFocus();
+    },
+    [loadingFacilities],
+  );
+
+  const goBack = () => routeToPreviousAppointmentPage(history, pageKey, data);
+
+  const goForward = () => routeToNextAppointmentPage(history, pageKey, data);
 
   const title = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
 
@@ -114,7 +124,6 @@ function VAFacilityPage({
   if (loadingFacilities || (singleValidVALocation && loadingClinics)) {
     return (
       <div>
-        {title}
         <LoadingIndicator message="Finding locations" />
       </div>
     );
@@ -165,7 +174,10 @@ function VAFacilityPage({
     return (
       <div>
         {title}
-        <VAFacilityInfoMessage facility={selectedFacility} />
+        <VAFacilityInfoMessage
+          facility={selectedFacility}
+          sortMethod={sortMethod}
+        />
         <div className="vads-u-margin-top--2">
           <FormButtons
             onBack={goBack}
@@ -261,7 +273,7 @@ function VAFacilityPage({
             title="VA Facility"
             schema={schema}
             uiSchema={uiSchema}
-            onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+            onChange={newData => setData(newData)}
             onSubmit={goForward}
             formContext={{ loadingEligibility: loadingClinics, sortMethod }}
             data={data}
@@ -273,7 +285,7 @@ function VAFacilityPage({
               disabled={
                 loadingFacilities ||
                 loadingClinics ||
-                (schema.properties.vaFacility.enum?.length === 1 &&
+                (supportedFacilities?.length === 1 &&
                   !canScheduleAtChosenFacility)
               }
             />

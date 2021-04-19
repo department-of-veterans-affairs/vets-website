@@ -9,6 +9,7 @@ const newTabDomains = [
   'mobile.va.gov',
   'www.accesstocare.va.gov',
   'www.oit.va.gov',
+  'ethics.va.gov',
 ];
 
 function isVADomainThatOpensInNewTab(href) {
