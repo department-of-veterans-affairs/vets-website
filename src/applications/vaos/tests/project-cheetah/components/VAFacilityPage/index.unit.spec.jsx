@@ -410,6 +410,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     await screen.findAllByRole('radio');
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
+    fireEvent.click(await screen.findByRole('button', { name: /Continue/i }));
 
     await cleanup();
 
@@ -588,12 +589,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       store,
     });
 
-    // it should verify alert heading
     expect(
-      await screen.findByRole('heading', {
-        level: 2,
-        name: 'We found one VA location for you',
-      }),
+      await screen.findByText(
+        "We found one VA location where you're registered that offers COVID-19 vaccine appointments.",
+      ),
     ).to.exist;
 
     expect(screen.baseElement).to.contain.text('Fake facility name 1');
@@ -629,12 +628,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       store,
     });
 
-    // it should verify alert heading
     expect(
-      await screen.findByRole('heading', {
-        level: 2,
-        name: 'We found one VA location for you',
-      }),
+      await screen.findByText(
+        "We found one VA location where you're registered that offers COVID-19 vaccine appointments.",
+      ),
     ).to.exist;
 
     expect(screen.baseElement).to.contain.text('Fake facility name 1');

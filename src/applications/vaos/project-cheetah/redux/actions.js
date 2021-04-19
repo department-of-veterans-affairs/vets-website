@@ -132,7 +132,7 @@ export function getClinics({ facilityId, showModal = false }) {
   };
 }
 
-export function openFacilityPage(uiSchema, schema) {
+export function openFacilityPage() {
   return async (dispatch, getState) => {
     try {
       const initialState = getState();
@@ -158,8 +158,6 @@ export function openFacilityPage(uiSchema, schema) {
       dispatch({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
         facilities: facilities || [],
-        schema,
-        uiSchema,
         address: selectVAPResidentialAddress(initialState),
       });
 
@@ -415,11 +413,12 @@ export function confirmAppointment(history) {
     }
   };
 }
-export function routeToPageInFlow(flow, history, current, action) {
+export function routeToPageInFlow(flow, history, current, action, data) {
   return async (dispatch, getState) => {
     dispatch({
       type: FORM_PAGE_CHANGE_STARTED,
       pageKey: current,
+      data,
     });
 
     let nextPage;
@@ -500,10 +499,10 @@ export function openContactFacilitiesPage() {
     }
   };
 }
-export function routeToNextAppointmentPage(history, current) {
-  return routeToPageInFlow(newBookingFlow, history, current, 'next');
+export function routeToNextAppointmentPage(history, current, data) {
+  return routeToPageInFlow(newBookingFlow, history, current, 'next', data);
 }
 
-export function routeToPreviousAppointmentPage(history, current) {
-  return routeToPageInFlow(newBookingFlow, history, current, 'previous');
+export function routeToPreviousAppointmentPage(history, current, data) {
+  return routeToPageInFlow(newBookingFlow, history, current, 'previous', data);
 }

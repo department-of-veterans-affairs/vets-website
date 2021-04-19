@@ -34,6 +34,10 @@ export function getFormData(state) {
   return getNewAppointment(state).data;
 }
 
+export function selectPageChangeInProgress(state) {
+  return getNewAppointment(state).pageChangeInProgress;
+}
+
 export function getFlowType(state) {
   return getNewAppointment(state).flowType;
 }
