@@ -136,6 +136,7 @@ export const transform = ({ data }) => {
       ...additionalData,
       bankruptcy: {
         ...additionalData.bankruptcy,
+        hasBeenAdjudicatedBankrupt: questions.hasBeenAdjudicatedBankrupt,
         dateDischarged: dateFormatter(additionalData.bankruptcy.dateDischarged),
       },
     },

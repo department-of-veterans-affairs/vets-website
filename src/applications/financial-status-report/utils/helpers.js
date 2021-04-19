@@ -13,6 +13,7 @@ export const fsrFeatureToggle = state => {
 };
 
 export const dateFormatter = date => {
+  if (!date) return undefined;
   const formatDate = date?.slice(0, -3);
   return moment(formatDate).format('MM/YYYY');
 };

@@ -379,7 +379,7 @@ const formConfig = {
           title: 'Bankruptcy history',
           uiSchema: pages.bankruptcyHistoryRecords.uiSchema,
           schema: pages.bankruptcyHistoryRecords.schema,
-          depends: formData => formData.questions.hasBeenAdjucatedBankrupt,
+          depends: formData => formData.questions.hasBeenAdjudicatedBankrupt,
         },
       },
     },

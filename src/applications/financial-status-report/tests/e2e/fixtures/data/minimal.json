@@ -1,6 +1,6 @@
 {
   "questions": {
-    "hasBeenAdjucatedBankrupt": false,
+    "hasBeenAdjudicatedBankrupt": false,
     "hasOtherExpenses": false,
     "hasRepayments": false,
     "hasUtilities": false,

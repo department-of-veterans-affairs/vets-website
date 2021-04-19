@@ -3,12 +3,13 @@
     "bankruptcy": {
       "dateDischarged": "2004-06-XX",
       "courtLocation": "Tampa, FL",
-      "docketNumber": "123456"
+      "docketNumber": "123456",
+      "hasBeenAdjudicatedBankrupt": true
     },
     "additionalComments": "Supporting personal statement"
   },
   "questions": {
-    "hasBeenAdjucatedBankrupt": true,
+    "hasBeenAdjudicatedBankrupt": true,
     "hasOtherExpenses": true,
     "hasRepayments": true,
     "hasUtilities": true,
@@ -243,8 +244,8 @@
       }
     },
     "spouseFullName": {
-      "first": "ANDREA",
-      "last": "FLETCHER"
+      "first": "Andrea",
+      "last": "Mitchell"
     },
     "address": {
       "livesOnMilitaryBaseInfo": {},
