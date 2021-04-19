@@ -15,12 +15,12 @@ import NewTabAnchor from '../../components/NewTabAnchor';
 
 /**
  * React component used to conditionally render radio call-to-action buttons and start applicable workflow.
- * @property {boolean} [showCheetahScheduleButton=false] - A boolean value to determine Whether or not to show COVID-19 vaccine option.
+ * @property {boolean} [canUseVaccineFlow] - A boolean value to determine Whether or not to show COVID-19 vaccine option.
  * @property {function} startNewAppointmentFlow - A function that’s called when the user starts the new appointment flow.
  * @property {function} startNewVaccineFlow - A function that’s called when the user starts the vaccine flow.
  * @example
  * <ScheduleNewAppointmentRadioButtons
- *  showCheetahScheduleButton={valueFromProp}
+ *  canUseVaccineFlow={valueFromProp}
  *  startNewAppointmentFlow={givenFlowFromProp}
  *  startNewVaccineFlow={givenFlowFromProp}
  * />

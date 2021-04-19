@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FormTitle = ({ id, formUrl, title, recordGAEvent }) => (
+const FormTitle = ({ id, formUrl, title, lang, recordGAEvent }) => (
   <dt
     className="vads-u-padding-top--3 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-font-weight--bold"
     data-e2e-id="result-title"
@@ -18,7 +18,7 @@ const FormTitle = ({ id, formUrl, title, recordGAEvent }) => (
           </span>
           {id}{' '}
         </dfn>
-        {title}
+        <span lang={lang}>{title}</span>
         <i
           aria-hidden="true"
           role="presentation"
@@ -32,7 +32,7 @@ const FormTitle = ({ id, formUrl, title, recordGAEvent }) => (
           <span className="vads-u-visibility--screen-reader">Form number</span>{' '}
           {id}{' '}
         </dfn>
-        {title}
+        <span lang={lang}>{title}</span>
       </>
     )}
   </dt>
