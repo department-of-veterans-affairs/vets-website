@@ -55,52 +55,67 @@ export default function useGetSearchResults(articles, query, page) {
       // =====
       let orderedResults = [];
 
-      filteredArticles = filteredArticles?.map(article => ({
-        ...article,
-
-        // Number of times a keyword is found in the article's title.
-        keywordsCountsTitle: keywords?.reduce(
+      filteredArticles = filteredArticles?.map(article => {
+        // Derive keywords counts.
+        const keywordsCountsTitle = keywords?.reduce(
           (keywordInstances, keyword) =>
             keywordInstances + countInstancesFound(article.title, keyword),
           0,
-        ),
-
-        // Number of times a keyword is found in the article's introText.
-        keywordsCountsIntroText: keywords?.reduce(
+        );
+        const keywordsCountsIntroText = keywords?.reduce(
           (keywordInstances, keyword) =>
             keywordInstances + countInstancesFound(article.introText, keyword),
           0,
-        ),
-
-        // Number of times a keyword is found in the article's searchableContent.
-        keywordsCountsContent: keywords?.reduce(
+        );
+        const keywordsCountsContent = keywords?.reduce(
           (keywordInstances, keyword) =>
             keywordInstances +
             countInstancesFound(article.searchableContent, keyword),
           0,
-        ),
+        );
 
-        // Number of times the full query is found in the article's title.
-        wholePhraseMatchCountsTitle: countInstancesFound(article.title, query),
-
-        // Number of times the full query is found in the article's introText.
-        wholePhraseMatchCountsIntroText: countInstancesFound(
+        // Derive whole phrase match counts.
+        const wholePhraseMatchCountsTitle = countInstancesFound(
+          article.title,
+          query,
+        );
+        const wholePhraseMatchCountsIntroText = countInstancesFound(
           article.introText,
           query,
-        ),
-
-        // Number of times the full query is found in the article's searchableContent.
-        wholePhraseMatchCountsContent: countInstancesFound(
+        );
+        const wholePhraseMatchCountsContent = countInstancesFound(
           article.searchableContent,
           query,
-        ),
+        );
 
-        // Number of times the full query is found in the article's title, introText, searchableContent combined.
-        wholePhraseMatchCountsTotal:
-          countInstancesFound(article.title, query) +
-          countInstancesFound(article.introText, query) +
-          countInstancesFound(article.searchableContent, query),
-      }));
+        return {
+          ...article,
+
+          // Number of times a keyword is found in the article's title.
+          keywordsCountsTitle,
+
+          // Number of times a keyword is found in the article's introText.
+          keywordsCountsIntroText,
+
+          // Number of times a keyword is found in the article's searchableContent.
+          keywordsCountsContent,
+
+          // Number of times the full query is found in the article's title.
+          wholePhraseMatchCountsTitle,
+
+          // Number of times the full query is found in the article's introText.
+          wholePhraseMatchCountsIntroText,
+
+          // Number of times the full query is found in the article's searchableContent.
+          wholePhraseMatchCountsContent,
+
+          // Number of times the full query is found in the article's title, introText, searchableContent combined.
+          wholePhraseMatchCountsTotal:
+            wholePhraseMatchCountsTitle +
+            wholePhraseMatchCountsIntroText +
+            wholePhraseMatchCountsContent,
+        };
+      });
 
       if (environment.isProduction()) {
         // Sort first by query word instances found in title descending
