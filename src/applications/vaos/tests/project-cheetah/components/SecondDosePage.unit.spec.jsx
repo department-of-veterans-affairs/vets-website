@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 
-import SecondDosePage from '../../../project-cheetah/components/SecondDosePage';
+import SecondDosePage from '../../../covid-19-vaccine/components/SecondDosePage';
 import { waitFor } from '@testing-library/dom';
 
 const initialState = {
@@ -18,7 +18,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
   const start = moment();
   const store = createTestStore({
     ...initialState,
-    projectCheetah: {
+    covid19Vaccine: {
       newBooking: {
         previousPages: {},
         data: {
