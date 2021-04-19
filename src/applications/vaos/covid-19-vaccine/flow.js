@@ -2,8 +2,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from '../utils/constants';
 import { getClinics, showEligibilityModal } from './redux/actions';
 import {
-  selectProjectCheetahFormData,
-  selectProjectCheetahNewBooking,
+  selectCovid19VaccineFormData,
+  selectCovid19VaccineNewBooking,
 } from './redux/selectors';
 
 export default {
@@ -17,7 +17,7 @@ export default {
   receivedDoseScreener: {
     url: '/new-covid-19-vaccine-booking/received-dose',
     next(state) {
-      const formData = selectProjectCheetahFormData(state);
+      const formData = selectCovid19VaccineFormData(state);
       if (formData.hasReceivedDose) {
         recordEvent({
           event: `${GA_PREFIX}-covid19-screener-yes`,
@@ -36,8 +36,8 @@ export default {
   vaFacility: {
     url: '/new-covid-19-vaccine-booking/facility',
     async next(state, dispatch) {
-      const formData = selectProjectCheetahFormData(state);
-      let clinics = selectProjectCheetahNewBooking(state).clinics?.[
+      const formData = selectCovid19VaccineFormData(state);
+      let clinics = selectCovid19VaccineNewBooking(state).clinics?.[
         formData.vaFacility
       ];
       if (!clinics) {

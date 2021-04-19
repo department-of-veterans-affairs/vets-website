@@ -9,7 +9,7 @@ import {
 import environment from 'platform/utilities/environment';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
-import VAFacilityPage from '../../../../project-cheetah/components/VAFacilityPage';
+import VAFacilityPage from '../../../../covid-19-vaccine/components/VAFacilityPage';
 import {
   getVAFacilityMock,
   getDirectBookingEligibilityCriteriaMock,
@@ -26,7 +26,7 @@ import {
   mockFacilitiesFetch,
   mockGetCurrentPosition,
 } from '../../../mocks/helpers';
-import { TYPE_OF_CARE_ID } from '../../../../project-cheetah/utils';
+import { TYPE_OF_CARE_ID } from '../../../../covid-19-vaccine/utils';
 
 const initialState = {
   featureToggles: {
@@ -589,12 +589,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       store,
     });
 
-    // it should verify alert heading
     expect(
-      await screen.findByRole('heading', {
-        level: 2,
-        name: 'We found one VA location for you',
-      }),
+      await screen.findByText(
+        "We found one VA location where you're registered that offers COVID-19 vaccine appointments.",
+      ),
     ).to.exist;
 
     expect(screen.baseElement).to.contain.text('Fake facility name 1');
@@ -630,12 +628,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       store,
     });
 
-    // it should verify alert heading
     expect(
-      await screen.findByRole('heading', {
-        level: 2,
-        name: 'We found one VA location for you',
-      }),
+      await screen.findByText(
+        "We found one VA location where you're registered that offers COVID-19 vaccine appointments.",
+      ),
     ).to.exist;
 
     expect(screen.baseElement).to.contain.text('Fake facility name 1');
