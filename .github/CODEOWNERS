@@ -24,7 +24,6 @@ src/platform/testing/contract/ @department-of-veterans-affairs/vsp-testing
 src/platform/testing/e2e/ @department-of-veterans-affairs/vsp-testing
 config/cypress.json @department-of-veterans-affairs/vsp-testing
 
-
 # VSA ----
 
 # Authenticated Experience
