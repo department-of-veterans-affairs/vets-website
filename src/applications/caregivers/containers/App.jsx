@@ -15,9 +15,9 @@ const App = ({ loading, location, children }) => {
   useEffect(
     () => {
       if (!loading) {
-        const checkBoxes = document.querySelectorAll('input[type="radio"]');
-        for (const checkbox of checkBoxes) {
-          checkbox.onclick = e => {
+        const radios = document.querySelectorAll('input[type="radio"]');
+        for (const radio of radios) {
+          radio.onclick = e => {
             const label = e.target.nextElementSibling.innerText;
             // eslint-disable-next-line no-console
             console.log(
@@ -26,9 +26,9 @@ const App = ({ loading, location, children }) => {
               'LABEL AND VALUE SENT TO RECORD EVENT',
             );
             recordEvent({
-              'caregivers-check-box-label': label,
-              'caregivers-check-box-clicked': e.target,
-              'caregivers-check-box-value-selected': e.target.value,
+              'caregivers-radio-label': label,
+              'caregivers-radio-clicked': e.target,
+              'caregivers-radio-value-selected': e.target.value,
             });
           };
         }
