@@ -1,10 +1,9 @@
 import React from 'react';
 
-// import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 
 import { SELECTED } from '../constants';
-import IssueCards from './IssueCards';
+import { IssueCard } from './IssueCard';
 
 /**
  * EligibleIssuesWidget
@@ -37,23 +36,41 @@ const EligibleIssuesWidget = props => {
   // inReviewMode = false (in edit mode)
   const onReviewPage = formContext?.onReviewPage || false;
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
-  const checkboxVisible = !onReviewPage || (onReviewPage && !inReviewMode);
+  const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
 
   const items = value.map(item => ({
     ...item.attributes,
     [SELECTED]: item[SELECTED],
   }));
 
-  const content = (
-    <IssueCards
-      id={id}
-      items={items}
-      options={options}
-      onReviewPage={onReviewPage}
-      inReviewMode={inReviewMode}
-      checkboxVisible={checkboxVisible}
-      onChange={onChange}
-    />
+  const itemsLength = items.length;
+
+  const content = itemsLength ? (
+    items.map((item, index) => {
+      const itemIsSelected = !!item[SELECTED];
+      const isLastItem = index === itemsLength - 1;
+
+      // Don't show un-selected ratings in review mode
+      return inReviewMode && !itemIsSelected ? null : (
+        <IssueCard
+          key={index}
+          id={id}
+          index={index}
+          isLastItem={isLastItem}
+          item={item}
+          options={options}
+          onChange={onChange}
+          showCheckbox={showCheckbox}
+        />
+      );
+    })
+  ) : (
+    <>
+      <dt>
+        {onReviewPage ? 'No issues selected' : <strong>No issues found</strong>}
+      </dt>
+      <dd />
+    </>
   );
 
   return inReviewMode ? (
