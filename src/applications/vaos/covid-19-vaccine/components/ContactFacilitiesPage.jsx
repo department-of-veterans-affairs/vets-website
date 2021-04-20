@@ -96,13 +96,15 @@ function ContactFacilitiesPage({
       {!canUseVaccineFlow && (
         <>
           <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-          <p id="vaos-facilities-label">
+          <p>
             Contact one of your registered VA facilities to schedule your
             vaccine appointment.
           </p>
         </>
       )}
-      <h2 className="vads-u-font-size--h3">Your facilities</h2>
+      <h2 className="vads-u-font-size--h3" id="vaos-facilities-label">
+        Your facilities
+      </h2>
       <ul className="usa-unstyled-list" aria-labelledby="vaos-facilities-label">
         {facilities.slice(0, facilitiesToShow).map(facility => (
           <li key={facility.id} className="vads-u-margin-top--2">

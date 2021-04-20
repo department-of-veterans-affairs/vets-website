@@ -4,7 +4,7 @@ import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 
-import ReceivedDoseScreenerPage from '../../../project-cheetah/components/ReceivedDoseScreenerPage';
+import ReceivedDoseScreenerPage from '../../../covid-19-vaccine/components/ReceivedDoseScreenerPage';
 
 const initialState = {
   featureToggles: {
