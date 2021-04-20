@@ -48,11 +48,14 @@ function editPhoneNumber(numberName) {
   const editButton = getEditButton(numberName);
   editButton.click();
 
-  const phoneNumberInput = view.getByLabelText(/Number/);
+  const phoneNumberInput = view.getByLabelText(
+    `${numberName} (U.S. numbers only)`,
+    { exact: false },
+  );
   const extensionInput = view.getByLabelText(/Extension/);
   expect(phoneNumberInput).to.exist;
 
-  // enter a new email address in the form
+  // enter a new phone number in the form
   user.clear(phoneNumberInput);
   user.type(phoneNumberInput, `${newAreaCode} ${newPhoneNumber}`);
   user.clear(extensionInput);

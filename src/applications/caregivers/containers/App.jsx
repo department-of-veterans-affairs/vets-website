@@ -15,23 +15,20 @@ const App = ({ loading, location, children }) => {
   useEffect(
     () => {
       if (!loading) {
-        const checkBoxes = [
-          ...document.querySelectorAll('[value="Y"]'),
-          ...document.querySelectorAll('[value="N"]'),
-        ];
-        for (const checkbox of checkBoxes) {
-          checkbox.onclick = e => {
-            const label = e.target.closest('fieldset')?.firstChild?.innerText;
+        const radios = document.querySelectorAll('input[type="radio"]');
+        for (const radio of radios) {
+          radio.onclick = e => {
+            const label = e.target.nextElementSibling.innerText;
             recordEvent({
-              'caregivers-check-box-label': label,
-              'caregivers-check-box-clicked': e.target,
-              'caregivers-check-box-value-selected': e.target.value,
+              'caregivers-radio-label': label,
+              'caregivers-radio-clicked': e.target,
+              'caregivers-radio-value-selected': e.target.value,
             });
           };
         }
       }
     },
-    [loading],
+    [loading, location],
   );
   if (loading) {
     return <LoadingIndicator />;

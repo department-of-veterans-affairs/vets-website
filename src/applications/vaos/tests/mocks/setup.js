@@ -17,7 +17,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import reducers from '../../redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
 import expressCareReducer from '../../express-care/redux/reducer';
-import projectCheetahReducer from '../../project-cheetah/redux/reducer';
+import covid19VaccineReducer from '../../covid-19-vaccine/redux/reducer';
 import unenrolledVaccineReducer from '../../unenrolled-vaccine/redux/reducer';
 import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
@@ -26,7 +26,7 @@ import ExpressCareInfoPage from '../../express-care/components/ExpressCareInfoPa
 import ExpressCareReasonPage from '../../express-care/components/ExpressCareReasonPage';
 import { cleanup } from '@testing-library/react';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
-import VaccineClinicChoicePage from '../../project-cheetah/components/ClinicChoicePage';
+import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
 import {
   getDirectBookingEligibilityCriteriaMock,
@@ -45,8 +45,8 @@ import createRoutesWithStore from '../../routes';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
-import VaccineFacilityPage from '../../project-cheetah/components/VAFacilityPage';
-import { TYPE_OF_CARE_ID } from '../../project-cheetah/utils';
+import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPage';
+import { TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -62,7 +62,7 @@ export function createTestStore(initialState) {
       ...reducers,
       newAppointment: newAppointmentReducer,
       expressCare: expressCareReducer,
-      projectCheetah: projectCheetahReducer,
+      covid19Vaccine: covid19VaccineReducer,
       unenrolledVaccine: unenrolledVaccineReducer,
     }),
     initialState,

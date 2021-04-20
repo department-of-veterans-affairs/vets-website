@@ -363,14 +363,14 @@ function mockSubmitVAAppointment() {
 }
 
 function setupSchedulingMocks({ cernerUser = false } = {}) {
-  Cypress.Commands.add('axeCheckBestPractice', (context = 'main') =>
+  Cypress.Commands.add('axeCheckBestPractice', (context = 'main') => {
     cy.axeCheck(context, {
       runOnly: {
         type: 'tag',
         values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
       },
-    }),
-  );
+    });
+  });
   cy.server();
   mockFeatureToggles();
 
@@ -644,8 +644,22 @@ export function initVAAppointmentMock({ cernerUser = false } = {}) {
   mockSubmitVAAppointment();
 }
 
-export function initVaccineAppointmentMock() {
+export function initVaccineAppointmentMock({
+  unableToScheduleCovid = false,
+} = {}) {
   setupSchedulingMocks();
+  // Modify directScheduling Response
+  if (unableToScheduleCovid) {
+    cy.route({
+      method: 'GET',
+      url: '/vaos/v0/direct_booking_eligibility_criteria*',
+      response: {
+        data: directEligibilityCriteria.data.filter(
+          facility => facility.id === 'covid',
+        ),
+      },
+    });
+  }
   cy.route({
     method: 'GET',
     url: '/v1/facilities/va/vha_442',
