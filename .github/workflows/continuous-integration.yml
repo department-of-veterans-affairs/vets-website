@@ -42,22 +42,16 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
 
       - name: Generate coverage report by app
-        run: node script/app-coverage-report.js
+        run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
       - name: Publish test results
-        uses: zgosalvez/github-actions-report-lcov@v1
+        if: ${{ always() }}
+        uses: oseasmoran73/action-junit-report@v3
         with:
-          coverage-files: coverage/lcov.info
-          artifact-name: code-coverage-report
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Publish test results
-      #   if: ${{ always() }}
-      #   uses: mikepenz/action-junit-report@v2
-      #   with:
-      #     check_name: 'Unit Tests Summary'
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     report_paths: 'test-results/unit-tests.xml'
+          check_name: 'Unit Tests Summary'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'test-results/unit-tests.xml'
+          summary_output: 'test-results/coverage_report.txt'
 
   linting:
     name: Linting
