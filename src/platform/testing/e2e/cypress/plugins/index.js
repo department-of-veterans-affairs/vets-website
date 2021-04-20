@@ -2,7 +2,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 
-module.exports = (on, config) => {
+module.exports = on => {
   const ENV = 'localhost';
 
   const options = {

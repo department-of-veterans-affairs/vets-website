@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ "$(find src -name '*.cypress.spec.js' | wc -l)" -eq 0 ]; then
   echo "No Cypress tests found."
   exit 0
