@@ -8,20 +8,20 @@ import { getSiteIdFromFacilityId } from '../../services/location';
 import { selectCanUseVaccineFlow } from '../../appointment-list/redux/selectors';
 import { TYPE_OF_CARE_ID } from '../utils';
 
-export function selectProjectCheetah(state) {
-  return state.projectCheetah;
+export function selectCovid19Vaccine(state) {
+  return state.covid19Vaccine;
 }
 
-export function selectProjectCheetahNewBooking(state) {
-  return selectProjectCheetah(state).newBooking;
+export function selectCovid19VaccineNewBooking(state) {
+  return selectCovid19Vaccine(state).newBooking;
 }
 
-export function selectProjectCheetahFormData(state) {
-  return selectProjectCheetahNewBooking(state).data;
+export function selectCovid19VaccineFormData(state) {
+  return selectCovid19VaccineNewBooking(state).data;
 }
 
-export function getProjectCheetahFormPageInfo(state, pageKey) {
-  const newBooking = selectProjectCheetahNewBooking(state);
+export function getCovid19VaccineFormPageInfo(state, pageKey) {
+  const newBooking = selectCovid19VaccineNewBooking(state);
   return {
     schema: newBooking.pages[pageKey],
     data: newBooking.data,
@@ -31,31 +31,31 @@ export function getProjectCheetahFormPageInfo(state, pageKey) {
 
 export function getSiteIdForChosenFacility(state) {
   return getSiteIdFromFacilityId(
-    selectProjectCheetahFormData(state).vaFacility,
+    selectCovid19VaccineFormData(state).vaFacility,
   );
 }
 
 export function getChosenSlot(state) {
-  const availableSlots = selectProjectCheetahNewBooking(state).availableSlots;
-  const selectedTime = selectProjectCheetahFormData(state).date1[0];
+  const availableSlots = selectCovid19VaccineNewBooking(state).availableSlots;
+  const selectedTime = selectCovid19VaccineFormData(state).date1[0];
 
   return availableSlots?.find(slot => slot.start === selectedTime);
 }
 
 export function getChosenFacilityInfo(state) {
   return (
-    selectProjectCheetahNewBooking(state).facilities?.find(
+    selectCovid19VaccineNewBooking(state).facilities?.find(
       facility =>
-        facility.id === selectProjectCheetahFormData(state).vaFacility,
+        facility.id === selectCovid19VaccineFormData(state).vaFacility,
     ) || null
   );
 }
 
 export function getDateTimeSelect(state, pageKey) {
-  const newBooking = selectProjectCheetahNewBooking(state);
+  const newBooking = selectCovid19VaccineNewBooking(state);
   const appointmentSlotsStatus = newBooking.appointmentSlotsStatus;
-  const data = selectProjectCheetahFormData(state);
-  const formInfo = getProjectCheetahFormPageInfo(state, pageKey);
+  const data = selectCovid19VaccineFormData(state);
+  const formInfo = getCovid19VaccineFormPageInfo(state, pageKey);
   const availableSlots = newBooking.availableSlots;
   const systemId = getSiteIdForChosenFacility(state);
 
@@ -77,9 +77,9 @@ export function getDateTimeSelect(state, pageKey) {
 }
 
 export function getFacilityPageInfo(state) {
-  const formInfo = getProjectCheetahFormPageInfo(state, 'vaFacility');
-  const data = selectProjectCheetahFormData(state);
-  const newBooking = selectProjectCheetahNewBooking(state);
+  const formInfo = getCovid19VaccineFormPageInfo(state, 'vaFacility');
+  const data = selectCovid19VaccineFormData(state);
+  const newBooking = selectCovid19VaccineNewBooking(state);
 
   const {
     facilities,
@@ -116,8 +116,8 @@ export function getFacilityPageInfo(state) {
 }
 
 export function getClinicPageInfo(state, pageKey) {
-  const formPageInfo = getProjectCheetahFormPageInfo(state, pageKey);
-  const newBooking = selectProjectCheetahNewBooking(state);
+  const formPageInfo = getCovid19VaccineFormPageInfo(state, pageKey);
+  const newBooking = selectCovid19VaccineNewBooking(state);
   const facilities = newBooking.facilities;
 
   return {
@@ -129,8 +129,8 @@ export function getClinicPageInfo(state, pageKey) {
 }
 
 export function getChosenClinicInfo(state) {
-  const data = selectProjectCheetahFormData(state);
-  const clinics = selectProjectCheetahNewBooking(state).clinics;
+  const data = selectCovid19VaccineFormData(state);
+  const clinics = selectCovid19VaccineNewBooking(state).clinics;
 
   return (
     clinics[data.vaFacility]?.find(clinic => clinic.id === data.clinicId) ||
@@ -140,27 +140,27 @@ export function getChosenClinicInfo(state) {
 
 export function getReviewPage(state) {
   return {
-    data: selectProjectCheetahFormData(state),
+    data: selectCovid19VaccineFormData(state),
     facility: getChosenFacilityInfo(state),
     facilityDetails: getChosenFacilityInfo(state),
     clinic: getChosenClinicInfo(state),
-    submitStatus: selectProjectCheetah(state).submitStatus,
-    submitStatusVaos400: selectProjectCheetah(state).submitStatusVaos400,
+    submitStatus: selectCovid19Vaccine(state).submitStatus,
+    submitStatusVaos400: selectCovid19Vaccine(state).submitStatusVaos400,
     systemId: getSiteIdForChosenFacility(state),
   };
 }
 
 export function selectConfirmationPage(state) {
   return {
-    data: selectProjectCheetahFormData(state),
+    data: selectCovid19VaccineFormData(state),
     facilityDetails: getChosenFacilityInfo(state),
     systemId: getSiteIdForChosenFacility(state),
-    submitStatus: selectProjectCheetah(state).submitStatus,
+    submitStatus: selectCovid19Vaccine(state).submitStatus,
   };
 }
 
 export function selectContactFacilitiesPageInfo(state) {
-  const newBooking = selectProjectCheetahNewBooking(state);
+  const newBooking = selectCovid19VaccineNewBooking(state);
 
   const { facilities, facilitiesStatus } = newBooking;
 
