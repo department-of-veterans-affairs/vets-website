@@ -45,10 +45,11 @@ jobs:
         run: node script/app-coverage-report.js
 
       - name: Publish test results
-        uses: romeovs/lcov-reporter-action@v0.2.16
+        uses: zgosalvez/github-actions-report-lcov@v1
         with:
+          coverage-files: coverage/lcov.*.info
+          artifact-name: code-coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          lcov-file: ./coverage/lcov.info
 
       # - name: Publish test results
       #   if: ${{ always() }}
