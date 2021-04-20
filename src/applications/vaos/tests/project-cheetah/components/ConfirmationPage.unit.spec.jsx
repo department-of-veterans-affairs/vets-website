@@ -3,7 +3,7 @@ import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import moment from 'moment';
 import React from 'react';
-import ConfirmationPage from '../../../project-cheetah/components/ConfirmationPage';
+import ConfirmationPage from '../../../covid-19-vaccine/components/ConfirmationPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { FETCH_STATUS } from '../../../utils/constants';
 
@@ -18,7 +18,7 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
   it('should show confirmation details', async () => {
     const start = moment();
     const store = createTestStore({
-      projectCheetah: {
+      covid19Vaccine: {
         submitStatus: FETCH_STATUS.succeeded,
         newBooking: {
           data: {

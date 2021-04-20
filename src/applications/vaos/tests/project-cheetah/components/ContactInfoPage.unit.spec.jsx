@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 
-import ContactInfoPage from '../../../project-cheetah/components/ContactInfoPage';
+import ContactInfoPage from '../../../covid-19-vaccine/components/ContactInfoPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { cleanup } from 'axe-core';
 
@@ -63,7 +63,7 @@ describe('VAOS <ContactInfoPage>', () => {
 
   it('should prefill email and phone, and reenter the form data if user changed it and remounted the page', async () => {
     const initialState = {
-      projectCheetah: {
+      covid19Vaccine: {
         newBooking: {
           data: {},
           pages: [],

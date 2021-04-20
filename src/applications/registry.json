@@ -1050,11 +1050,11 @@
           "path": "education/other-va-education-benefits/"
         },
         {
-          "name": "Veteran Rapid Retraining Assistance Program",
-          "path": "education/other-va-education-benefits/"
+          "name": "Veteran Rapid Retraining Assistance Program (VRRAP)",
+          "path": "education/other-va-education-benefits/veteran-rapid-retraining-assistance"
         },
         {
-          "name": "Apply for VRRAP VA Form 22-1990s",
+          "name": "Apply for VRRAP VA Form 22 1990s",
           "path": "education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s"
         }
       ]
@@ -1062,8 +1062,8 @@
   },
   {
     "appName": "Request a Board Appeal",
-    "entryName": "10182-notice-of-disagreement",
-    "rootUrl": "/decision-reviews/board-appeal/request-notice-of-disagreement-form-10182",
+    "entryName": "10182-board-appeal",
+    "rootUrl": "/decision-reviews/board-appeal/request-board-review-form-10182",
     "template": {
       "title": "Request a Board Appeal",
       "heading": "Request a Board Appeal",
@@ -1084,7 +1084,7 @@
         },
         {
           "name": "Request a Board Appeal",
-          "path": "/decision-reviews/board-appeal/request-notice-of-disagreement-form-10182"
+          "path": "/decision-reviews/board-appeal/request-board-review-form-10182"
         }
       ]
     }

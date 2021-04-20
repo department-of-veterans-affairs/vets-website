@@ -15,11 +15,24 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 import ReviewDescription from '../components/ReviewDescription';
 
+import {
+  hasRepresentative,
+  canUploadEvidence,
+  wantsToUploadEvidence,
+} from '../utils/helpers';
+
 // Pages
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInfo';
+import homeless from '../pages/homeless';
+import hasRep from '../pages/hasRep';
+import repInfo from '../pages/repInfo';
+import contestableIssues from '../pages/contestableIssues';
+import boardReview from '../pages/boardReview';
+import evidenceIntro from '../pages/evidenceIntro';
+import evidenceUpload from '../pages/evidenceUpload';
 
-import initialData from '../tests/schema/initialData';
+// import initialData from '../tests/schema/initialData';
 
 // const { } = fullSchema.properties;
 // const { } = fullSchema.definitions;
@@ -30,7 +43,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/notice_of_disagreements`,
-  trackingPrefix: '10182-notice-of-disagreement-',
+  trackingPrefix: '10182-board-appeal-',
 
   downtime: {
     requiredForPrefill: true,
@@ -82,13 +95,73 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
-          initialData,
+          // initialData,
         },
         confirmContactInformation: {
           title: 'Contact information',
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+        },
+        homeless: {
+          title: 'Homeless',
+          path: 'homeless',
+          uiSchema: homeless.uiSchema,
+          schema: homeless.schema,
+        },
+      },
+    },
+    hasRep: {
+      title: 'Representation',
+      pages: {
+        hasRep: {
+          title: 'Representative',
+          path: 'representative',
+          uiSchema: hasRep.uiSchema,
+          schema: hasRep.schema,
+        },
+        repInfo: {
+          title: 'Representative Information',
+          path: 'representative-information',
+          depends: hasRepresentative,
+          uiSchema: repInfo.uiSchema,
+          schema: repInfo.schema,
+        },
+      },
+    },
+    conditions: {
+      title: 'Issues eligible for review',
+      pages: {
+        contestableIssues: {
+          title: 'Issues eligible for review',
+          path: 'eligible-issues',
+          uiSchema: contestableIssues.uiSchema,
+          schema: contestableIssues.schema,
+        },
+      },
+    },
+    boardReview: {
+      title: 'Board review option',
+      pages: {
+        boardReviewOption: {
+          title: 'Board review option',
+          path: 'board-review-option',
+          uiSchema: boardReview.uiSchema,
+          schema: boardReview.schema,
+        },
+        evidenceIntro: {
+          title: 'Additional evidence',
+          path: 'additional-evidence',
+          depends: canUploadEvidence,
+          uiSchema: evidenceIntro.uiSchema,
+          schema: evidenceIntro.schema,
+        },
+        evidenceUpload: {
+          title: 'Additional evidence',
+          path: 'additional-evidence/upload',
+          depends: wantsToUploadEvidence,
+          uiSchema: evidenceUpload.uiSchema,
+          schema: evidenceUpload.schema,
         },
       },
     },

@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-import { isMultifactorEnabled, isVAPatient } from '~/platform/user/selectors';
+import {
+  isMultifactorEnabled,
+  isVAPatient,
+  isLOA3,
+} from '~/platform/user/selectors';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
 import { HCA_ENROLLMENT_STATUSES } from '~/applications/hca/constants';
@@ -29,65 +33,13 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
         VA benefits you might be interested in
       </h3>
       <div data-testid="benefits-of-interest">
-        {!showChildren && (
+        {showChildren ? (
+          <div className="vads-l-row">{children}</div>
+        ) : (
           <div className="vads-u-margin-y--2">
             <LoadingIndicator message="Loading benefits you might be interested in..." />
           </div>
         )}
-        {showChildren && <div className="vads-l-row">{children}</div>}
-        <div className="vads-u-margin-top--2">
-          <AdditionalInfo triggerText="What benefits does VA offer?">
-            <p className="vads-u-font-weight--bold">
-              Explore VA.gov to learn about the benefits we offer.
-            </p>
-            <ul>
-              <li>
-                <a href="https://www.va.gov/health-care/">Health care</a>
-              </li>
-              <li>
-                <a href="https://www.va.gov/education/">
-                  Education and training
-                </a>
-              </li>
-              <li>
-                <a href="https://www.va.gov/disability/">
-                  Disability compensation
-                </a>
-              </li>
-              <li>
-                <a href="https://www.va.gov/careers-employment/">
-                  Careers &amp; employment
-                </a>
-              </li>
-              <li>
-                <a href="https://www.va.gov/pension/">Pension</a>
-              </li>
-              <li>
-                <a href="https://www.va.gov/housing-assistance/">
-                  Housing assistance
-                </a>
-              </li>
-              <li>
-                <a href="https://www.va.gov/burials-memorials/">
-                  Burials &amp; memorials
-                </a>
-              </li>
-              <li>
-                <a href="https://www.va.gov/life-insurance/">Life insurance</a>
-              </li>
-              <li>
-                <a href="https://www.va.gov/service-member-benefits/">
-                  Service member benefits
-                </a>
-              </li>
-              <li>
-                <a href="https://www.va.gov/family-member-benefits/">
-                  Family member benefits
-                </a>
-              </li>
-            </ul>
-          </AdditionalInfo>
-        </div>
       </div>
     </>
   );
@@ -125,8 +77,47 @@ const ApplyForBenefits = ({
   const showEducation = !hasDD4EDU;
 
   return (
-    <>
-      <h2>Apply for benefits</h2>
+    <div data-testid="dashboard-section-apply-for-benefits">
+      <h2>Apply for VA benefits</h2>
+      <div className="vads-u-margin-top--2">
+        <AdditionalInfo triggerText="What benefits does VA offer?">
+          <p className="vads-u-font-weight--bold">
+            Explore VA.gov to learn about the benefits we offer.
+          </p>
+          <ul>
+            <li>
+              <a href="/health-care/">Health care</a>
+            </li>
+            <li>
+              <a href="/education/">Education and training</a>
+            </li>
+            <li>
+              <a href="/disability/">Disability compensation</a>
+            </li>
+            <li>
+              <a href="/careers-employment/">Careers &amp; employment</a>
+            </li>
+            <li>
+              <a href="/pension/">Pension</a>
+            </li>
+            <li>
+              <a href="/housing-assistance/">Housing assistance</a>
+            </li>
+            <li>
+              <a href="/burials-memorials/">Burials &amp; memorials</a>
+            </li>
+            <li>
+              <a href="/life-insurance/">Life insurance</a>
+            </li>
+            <li>
+              <a href="/service-member-benefits/">Service member benefits</a>
+            </li>
+            <li>
+              <a href="/family-member-benefits/">Family member benefits</a>
+            </li>
+          </ul>
+        </AdditionalInfo>
+      </div>
       <ApplicationsInProgress />
       <BenefitsOfInterest showChildren={hasLoadedAllData}>
         <>
@@ -134,8 +125,8 @@ const ApplyForBenefits = ({
             <BenefitOfInterest
               title="Health care"
               icon="health-care"
-              ctaButtonLabel="Apply for VA health care"
-              ctaUrl="https://www.va.gov/health-care/how-to-apply/"
+              ctaButtonLabel="Learn how to apply for VA health care"
+              ctaUrl="/health-care/how-to-apply/"
             >
               <p>
                 With VA health care, you’ll receive coverage for services like
@@ -148,7 +139,7 @@ const ApplyForBenefits = ({
             title="Disability compensation"
             icon="disability"
             ctaButtonLabel="Learn how to file a claim for disability"
-            ctaUrl="https://www.va.gov/disability/"
+            ctaUrl="/disability/"
           >
             <p>
               With VA disability benefits, you can get disability compensation
@@ -161,7 +152,7 @@ const ApplyForBenefits = ({
               title="Education and training"
               icon="education"
               ctaButtonLabel="Learn how to apply for education benefits"
-              ctaUrl="https://www.va.gov/education/"
+              ctaUrl="/education/how-to-apply/"
             >
               <p>
                 With VA education benefits, you and your qualified family
@@ -172,7 +163,7 @@ const ApplyForBenefits = ({
           )}
         </>
       </BenefitsOfInterest>
-    </>
+    </div>
   );
 };
 
@@ -180,7 +171,7 @@ const mapStateToProps = state => {
   const isPatient = isVAPatient(state);
   const esrEnrollmentStatus = selectESRStatus(state).enrollmentStatus;
 
-  const shouldGetESRStatus = !isPatient;
+  const shouldGetESRStatus = !isPatient && isLOA3(state);
   const shouldGetDD4EDUStatus = isMultifactorEnabled(state);
   const hasLoadedESRData =
     !shouldGetESRStatus ||

@@ -133,6 +133,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
         <AlertBox
           status={ALERT_TYPE.INFO}
           className="vads-u-display--block"
+          headline=" Need to make changes?"
           backgroundOnly
         >
           Contact this facility if you need to reschedule or cancel your

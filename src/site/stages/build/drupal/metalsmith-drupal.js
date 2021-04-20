@@ -65,6 +65,7 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
         addGetUpdatesFields(pageCompiled, pages);
         break;
       case 'health_care_region_detail_page':
+      case 'vamc_system_policies_page':
         addGetUpdatesFields(pageCompiled, pages);
         break;
       case 'event_listing':
