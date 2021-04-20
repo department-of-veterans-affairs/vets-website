@@ -19,6 +19,12 @@ src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-a
 src/platform/user/authentication @department-of-veterans-affairs/vsp-identity
 src/platform/utilities/sso @department-of-veterans-affairs/vsp-identity
 
+# VSP Testing Tools
+src/platform/testing/contract/ @department-of-veterans-affairs/vsp-testing
+src/platform/testing/e2e/ @department-of-veterans-affairs/vsp-testing
+config/cypress.json @department-of-veterans-affairs/vsp-testing
+
+
 # VSA ----
 
 # Authenticated Experience
