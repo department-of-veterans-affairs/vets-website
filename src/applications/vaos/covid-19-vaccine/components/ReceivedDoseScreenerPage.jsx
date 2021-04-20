@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import * as actions from '../redux/actions';
-import { getProjectCheetahFormPageInfo } from '../redux/selectors';
+import { getCovid19VaccineFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 const initialSchema = {
@@ -77,7 +77,7 @@ function ReceivedDoseScreenerPage({
 }
 
 function mapStateToProps(state) {
-  return getProjectCheetahFormPageInfo(state, pageKey);
+  return getCovid19VaccineFormPageInfo(state, pageKey);
 }
 
 const mapDispatchToProps = {

@@ -21,11 +21,13 @@ import {
 import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
 import { getLocations } from '../../services/location';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 function RequestedAppointmentsList({
   showScheduleButton,
   isCernerOnlyPatient,
   startNewAppointmentFlow,
+  hasTypeChanged,
 }) {
   const { data: pendingAppointments, status: pendingStatus } = useQuery(
     ['requests', 'current'],
@@ -56,30 +58,32 @@ function RequestedAppointmentsList({
     },
   );
 
-  if (pendingStatus === FETCH_STATUS.loading) {
+  useEffect(
+    () => {
+      if (hasTypeChanged && pendingStatus === 'success') {
+        scrollAndFocus('#type-dropdown');
+      } else if (hasTypeChanged && pendingStatus === 'error') {
+        scrollAndFocus('h3');
+      }
+    },
+    [pendingStatus, hasTypeChanged],
+  );
+
+  if (
+    pendingStatus === FETCH_STATUS.loading ||
+    pendingStatus === FETCH_STATUS.notStarted
+  ) {
     return (
       <div className="vads-u-margin-y--8">
-        <LoadingIndicator message="Loading your appointment requests..." />
+        <LoadingIndicator
+          setFocus={hasTypeChanged}
+          message="Loading your appointment requests..."
+        />
       </div>
     );
-  } else if (pendingStatus === 'success' && pendingAppointments?.length > 0) {
-    return (
-      // eslint-disable-next-line jsx-a11y/no-redundant-roles
-      <ul
-        role="list"
-        className="vads-u-padding-left--0"
-        data-cy="requested-appointment-list"
-      >
-        {pendingAppointments.map((appt, index) => (
-          <RequestListItem
-            key={index}
-            appointment={appt}
-            facility={facilityData[getVAAppointmentLocationId(appt)]}
-          />
-        ))}
-      </ul>
-    );
-  } else if (pendingStatus === FETCH_STATUS.failed) {
+  }
+
+  if (pendingStatus === FETCH_STATUS.failed) {
     return (
       <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
         We’re having trouble getting your appointment requests. Please try again
@@ -89,18 +93,41 @@ function RequestedAppointmentsList({
   }
 
   return (
-    <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
-      <NoAppointments
-        showScheduleButton={showScheduleButton}
-        isCernerOnlyPatient={isCernerOnlyPatient}
-        startNewAppointmentFlow={() => {
-          recordEvent({
-            event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-          });
-          startNewAppointmentFlow();
-        }}
-      />
-    </div>
+    <>
+      <div aria-live="assertive" className="sr-only">
+        {hasTypeChanged && 'Showing requested appointments'}
+      </div>
+      {pendingAppointments?.length > 0 && (
+        // eslint-disable-next-line jsx-a11y/no-redundant-roles
+        <ul
+          role="list"
+          className="vads-u-padding-left--0"
+          data-cy="requested-appointment-list"
+        >
+          {pendingAppointments.map((appt, index) => (
+            <RequestListItem
+              key={index}
+              appointment={appt}
+              facility={facilityData[getVAAppointmentLocationId(appt)]}
+            />
+          ))}
+        </ul>
+      )}
+      {pendingAppointments?.length === 0 && (
+        <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+          <NoAppointments
+            showScheduleButton={showScheduleButton}
+            isCernerOnlyPatient={isCernerOnlyPatient}
+            startNewAppointmentFlow={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+              });
+              startNewAppointmentFlow();
+            }}
+          />
+        </div>
+      )}
+    </>
   );
 }
 

@@ -60,13 +60,12 @@ export default function WebChat() {
 
   return (
     <div className={'vads-l-grid-container'}>
-      <div
-        className={'vads-l-row'}
-        style={{ height: '500px' }}
-        data-testid={'webchat-container'}
-      >
+      <div className={'vads-l-row'} data-testid={'webchat-container'}>
         {token && (
-          <div data-testid={'webchat'}>
+          <div
+            data-testid={'webchat'}
+            style={{ height: '500px', width: '100%' }}
+          >
             <ReactWebChat
               styleOptions={{ hideUploadButton: true }}
               directLine={directLine}
@@ -75,7 +74,7 @@ export default function WebChat() {
           </div>
         )}
         {!token && !tokenLoading && <ChatbotError />}
-        {tokenLoading && <LoadingIndicator message={'Loading Chatbot'} />}
+        {tokenLoading && <LoadingIndicator message={'Loading Virtual Agent'} />}
       </div>
     </div>
   );

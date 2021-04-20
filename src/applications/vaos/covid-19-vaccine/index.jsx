@@ -9,7 +9,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 import * as listActions from '../appointment-list/redux/actions';
-import projectCheetahReducer from './redux/reducer';
+import covid19VaccineReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import PlanAheadPage from './components/PlanAheadPage';
 import VAFacilityPage from './components/VAFacilityPage';
@@ -17,7 +17,7 @@ import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
-import { selectFeatureProjectCheetah } from '../redux/selectors';
+import { selectFeatureCovid19Vaccine } from '../redux/selectors';
 import SecondDosePage from './components/SecondDosePage';
 import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
@@ -36,7 +36,7 @@ import {
 
 export function NewBookingSection({
   canUseVaccineFlow,
-  featureProjectCheetah,
+  featureCovid19Vaccine,
   directScheduleSettingsStatus,
   fetchDirectScheduleSettings,
 }) {
@@ -52,11 +52,11 @@ export function NewBookingSection({
 
   useEffect(
     () => {
-      if (!featureProjectCheetah) {
+      if (!featureCovid19Vaccine) {
         history.push('/');
       }
     },
-    [featureProjectCheetah, history],
+    [featureCovid19Vaccine, history],
   );
 
   useEffect(
@@ -148,10 +148,10 @@ export function NewBookingSection({
 
 function mapStateToProps(state) {
   return {
-    featureProjectCheetah: selectFeatureProjectCheetah(state),
+    featureCovid19Vaccine: selectFeatureCovid19Vaccine(state),
     directScheduleSettingsStatus: selectDirectScheduleSettingsStatus(state),
     canUseVaccineFlow: selectCanUseVaccineFlow(state),
-    pageChangeInProgress: state.projectCheetah.newBooking.pageChangeInProgress,
+    pageChangeInProgress: state.covid19Vaccine.newBooking.pageChangeInProgress,
   };
 }
 const mapDispatchToProps = {
@@ -163,4 +163,4 @@ export const NewBooking = connect(
   mapDispatchToProps,
 )(NewBookingSection);
 
-export const reducer = projectCheetahReducer;
+export const reducer = covid19VaccineReducer;
