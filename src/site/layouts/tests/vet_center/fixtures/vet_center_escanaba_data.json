@@ -1,0 +1,395 @@
+{
+  "entityId": "3756",
+  "entityUrl": {
+    "breadcrumb": [
+      {
+        "url": {
+          "path": "/",
+          "routed": true
+        },
+        "text": "Home"
+      },
+      {
+        "url": {
+          "path": "/escanaba-vet-center",
+          "routed": true
+        },
+        "text": "Escanaba vet-center"
+      }
+    ],
+    "path": "/escanaba-vet-center"
+  },
+  "entityBundle": "vet_center",
+  "entityLabel": "Escanaba Vet Center",
+  "fieldIntroText": "We offer confidential help for Veterans, service members, and their families at no cost in a non-medical setting. Our services include counseling for needs such as depression, posttraumatic stress disorder (PTSD), and the psychological effects of military sexual trauma (MST). We can also connect you with more support in VA and your community.",
+  "fieldFacilityLocatorApiId": "vc_0434V",
+  "fieldMedia": {
+    "entity": {
+      "image": {
+        "alt": "The entrance to the Escanaba Vet Center",
+        "title": "",
+        "derivative": {
+          "url": "https://prod.cms.va.gov/sites/default/files/styles/3_2_medium_thumbnail/public/2021-04/Vet%20Center.jpg",
+          "width": 480,
+          "height": 320
+        }
+      }
+    }
+  },
+  "fieldPhoneNumber": "906-233-0244",
+  "fieldAddress": {
+    "countryCode": "US",
+    "locality": "Escanaba",
+    "postalCode": "49829",
+    "administrativeArea": "MI",
+    "addressLine1": "3500 Ludington Street"
+  },
+  "fieldOfficeHours": [
+    {
+      "day": 0,
+      "starthours": -1,
+      "endhours": -1,
+      "comment": "Closed"
+    },
+    {
+      "day": 1,
+      "starthours": 700,
+      "endhours": 1730,
+      "comment": ""
+    },
+    {
+      "day": 2,
+      "starthours": 700,
+      "endhours": 1730,
+      "comment": ""
+    },
+    {
+      "day": 3,
+      "starthours": 700,
+      "endhours": 1730,
+      "comment": ""
+    },
+    {
+      "day": 4,
+      "starthours": 700,
+      "endhours": 1730,
+      "comment": ""
+    },
+    {
+      "day": 5,
+      "starthours": 700,
+      "endhours": 1630,
+      "comment": ""
+    },
+    {
+      "day": 6,
+      "starthours": -1,
+      "endhours": -1,
+      "comment": "Closed"
+    }
+  ],
+  "reverseFieldOfficeNode": {
+    "entities": [
+      {
+        "entityUrl": {
+          "path": "/escanaba-vet-center/locations",
+          "routed": true
+        }
+      }
+    ]
+  },
+  "fieldPrepareForVisit": [
+    {
+      "entity": {
+        "entityBundle": "basic_accordion",
+        "entityId": "30509",
+        "fieldHeader": "Appointments",
+        "fieldRichWysiwyg": {
+          "processed": "<p>Something goes here like</p>\n<ul>\n<li>First time visitor? Stop by during our office hours and let's discuss how we can help.</li>\n<li>Many of our services are available on a walk-in basis.</li>\n<li>Please call  906-233-0244 to schedule an appointment with one of our clinicians. </li>\n<li>Non-traditional hours are available. </li>\n</ul>\n<p> </p>\n<p> </p>\n<p> </p>\n"
+        }
+      }
+    },
+    {
+      "entity": {
+        "entityBundle": "basic_accordion",
+        "entityId": "30507",
+        "fieldHeader": "Parking",
+        "fieldRichWysiwyg": {
+          "processed": "<p>Cost: Free</p>\n<p>We have a large well lit parking area. Please feel free to park in any available space. </p>\n"
+        }
+      }
+    },
+    {
+      "entity": {
+        "entityBundle": "basic_accordion",
+        "entityId": "30508",
+        "fieldHeader": "Transportation services and schedule",
+        "fieldRichWysiwyg": {
+          "processed": "<p>Transportation is available through the <a href=\"https://databus.org/\">Delta Area Transit Authority (DATA)</a>. </p>\n"
+        }
+      }
+    },
+    {
+      "entity": {
+        "entityBundle": "basic_accordion",
+        "entityId": "30510",
+        "fieldHeader": "What to bring",
+        "fieldRichWysiwyg": {
+          "processed": "<p>You do not need to be registered for care at VA. On your first visit, we will look for one or more of the following:</p>\n<p>First time visitor? Stop by during our office hours and let's discuss how we can help.</p>\n<ul>\n<li>discharge documents (such as a DD214) </li>\n<li>receipt of certain awards</li>\n<li>pay stubs</li>\n</ul>\n<p>If these documents are not readily available before you visit, someone will help you obtain these when you come in. You may also <a data-entity-substitution=\"canonical\" data-entity-type=\"node\" data-entity-uuid=\"bdffc107-44ae-4170-8b24-54daf5931cb0\" href=\"/records/get-military-service-records\" title=\"Request your military service records (including DD214)\">request your military record (DD214) here</a>.</p>\n"
+        }
+      }
+    }
+  ],
+  "fieldHealthServices": [
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "Addiction and substance abuse care",
+            "fieldVetCenterTypeOfCare": "referral",
+            "fieldServiceTypeOfCare": "Mental health care",
+            "fieldVetCenterFriendlyName": null,
+            "fieldAlsoKnownAs": "Drug and alcohol treatment and rehabilitation",
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": null,
+            "fieldVetCenterServiceDescrip": "We can help you overcome substance use problems, from unhealthy alcohol use to life-threatening addiction. We’ll connect you to services for your specific needs.",
+            "description": {
+              "processed": "<p>We can help you overcome substance use problems from unhealthy alcohol use to life-threatening addiction. We match our services—like counseling, group therapy or medication—to your specific needs.</p>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "Homeless Veteran care",
+            "fieldVetCenterTypeOfCare": "referral",
+            "fieldServiceTypeOfCare": "Social programs and services",
+            "fieldVetCenterFriendlyName": null,
+            "fieldAlsoKnownAs": "Transitional and supportive housing, HUD-VASH",
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": null,
+            "fieldVetCenterServiceDescrip": "If you’re homeless or at risk of becoming homeless, we can help you connect with resources in your community.",
+            "description": {
+              "processed": "<p>If you’re homeless or at risk of becoming homeless, we can help. We offer many programs and services, including free health care. And we can help you connect with resources in your community.</p>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "Intimate partner violence support",
+            "fieldVetCenterTypeOfCare": "counselling",
+            "fieldServiceTypeOfCare": "Social programs and services",
+            "fieldVetCenterFriendlyName": "domestic violence, abuse",
+            "fieldAlsoKnownAs": "domestic violence, abuse",
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": null,
+            "fieldVetCenterServiceDescrip": "If you or a loved one are in—or may be in—a potentially abusive or violent relationship, we can help.",
+            "description": {
+              "processed": "<p>If you feel that you or a loved one are in or may be in a potentially abusive or violent relationship, we can help.</p>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "LGBT Veteran care",
+            "fieldVetCenterTypeOfCare": "counselling",
+            "fieldServiceTypeOfCare": "Social programs and services",
+            "fieldVetCenterFriendlyName": "Lesbian, gay, bisexual and transgender",
+            "fieldAlsoKnownAs": "Lesbian, gay, bisexual and transgender",
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": null,
+            "fieldVetCenterServiceDescrip": "If you're a Veteran who identifies as lesbian, gay, bisexual, transgender, or a related identity, we can help you find counseling, support, and referral services to meet your specific needs.",
+            "description": {
+              "processed": "<p>If you're a Veteran who identifies as lesbian, gay, bisexual, transgender or a related identity, we’re committed to serving your needs. The LGBT Veteran care coordinator at your VA health care facility can help you get the care you need in a safe, sensitive environment.</p>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "Mental health care",
+            "fieldVetCenterTypeOfCare": "counselling",
+            "fieldServiceTypeOfCare": "Mental health care",
+            "fieldVetCenterFriendlyName": null,
+            "fieldAlsoKnownAs": "Behavioral health",
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": "addiction, depression, anxiety, trauma, PTSD, bipolar disorder, schizophrenia, OCD ",
+            "fieldVetCenterServiceDescrip": "If you’re struggling with issues like PTSD, depression, grief, anger, or trauma, we offer counseling and other support. We’ll work with you to help you achieve your personal goals.",
+            "description": {
+              "processed": "<p>If you’re struggling with issues like PTSD, depression, grief, anger or trauma, we offer counseling and other support. All VA health care facilities offer same-day help. You may qualify even without enrolling in VA health care.</p>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "Military sexual trauma care",
+            "fieldVetCenterTypeOfCare": "counselling",
+            "fieldServiceTypeOfCare": "Mental health care",
+            "fieldVetCenterFriendlyName": null,
+            "fieldAlsoKnownAs": null,
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": null,
+            "fieldVetCenterServiceDescrip": "If you experienced sexual assault or harassment during military service, we can help you get the counseling you need. Any Veteran or service member, including members of the National Guard and Reserve forces, who experienced military sexual trauma is eligible to receive counseling. This applies to both men and women from any service era.",
+            "description": {
+              "processed": "<p>Military sexual trauma can happen to both men and women. If you experienced sexual assault or harassment during military service—no matter when you served—we provide counseling and treatment.</p>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "Minority Veteran care",
+            "fieldVetCenterTypeOfCare": "counselling",
+            "fieldServiceTypeOfCare": "Social programs and services",
+            "fieldVetCenterFriendlyName": null,
+            "fieldAlsoKnownAs": null,
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": null,
+            "fieldVetCenterServiceDescrip": "If you’re a Veteran from a minority community, we can help you find counseling, support, and referral services to meet your specific needs.",
+            "description": {
+              "processed": "<p>We offer resources and support for minority Veterans to help address your specific needs with benefits and services at VA.</p>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "PTSD care",
+            "fieldVetCenterTypeOfCare": "counselling",
+            "fieldServiceTypeOfCare": "Mental health care",
+            "fieldVetCenterFriendlyName": null,
+            "fieldAlsoKnownAs": null,
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": null,
+            "fieldVetCenterServiceDescrip": "If you have symptoms of PTSD after a traumatic event, we can help. We offer assessment and support through private counseling and group therapy. We can also refer you to VA or community counseling for treatment and therapy resources. ",
+            "description": {
+              "processed": "<p>If you have symptoms of PTSD after a traumatic event, we can help. We offer assessment and treatment support such as private counseling, group therapy and medication. It’s never too late to get help.</p>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "Returning service member care",
+            "fieldVetCenterTypeOfCare": "counselling",
+            "fieldServiceTypeOfCare": "Social programs and services",
+            "fieldVetCenterFriendlyName": "Transition counseling",
+            "fieldAlsoKnownAs": "Post-9/11 Veterans (OEF, OIF, OND) transition and care management services",
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": null,
+            "fieldVetCenterServiceDescrip": "If you’re returning from military service, we’ll help you transition to civilian life. We can connect you with educational and career counseling, mental health services, and other programs and benefits that will support your transition.",
+            "description": {
+              "processed": "<p>If you’re returning from military service, we can help you readjust to civilian life and get started with VA health care. We can also help connect you with programs like mental health services and education and career counseling.</p>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "Suicide prevention",
+            "fieldVetCenterTypeOfCare": "referral",
+            "fieldServiceTypeOfCare": "Mental health care",
+            "fieldVetCenterFriendlyName": null,
+            "fieldAlsoKnownAs": "Veterans Crisis Line",
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": null,
+            "fieldVetCenterServiceDescrip": "Call our Veterans Crisis Line at 800-273-8255 (select 1) to get support anytime day or night. This service is private, free, and available 24/7. Our Vet Center can also connect you with ongoing counseling and services.",
+            "description": {
+              "processed": "<p>Call our Veterans Crisis Line at 800-273-8255 (select 1) for free, private help anytime 24/7. Our local suicide prevention coordinators can also connect you with ongoing counseling and services.</p>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "Telehealth",
+            "fieldVetCenterTypeOfCare": "counselling",
+            "fieldServiceTypeOfCare": "Other services",
+            "fieldVetCenterFriendlyName": "Video visits, remote care, care by telephone",
+            "fieldAlsoKnownAs": "Video visits, remote care, care by telephone",
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": null,
+            "fieldVetCenterServiceDescrip": "We offer secure and confidential individual and group counseling through telehealth. You can schedule a phone or video appointment for Vet Center services.",
+            "description": {
+              "processed": "<p>With VA telehealth, you can get care from your health providers without having to travel. Get checkups and treatment, talk about your care and more—from home or elsewhere.</p>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "Whole health",
+            "fieldVetCenterTypeOfCare": "counselling",
+            "fieldServiceTypeOfCare": "Specialty care",
+            "fieldVetCenterFriendlyName": null,
+            "fieldAlsoKnownAs": "Patient-centered care",
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": null,
+            "fieldVetCenterServiceDescrip": "Whole health puts you—instead of your illnesses or conditions—at the center of care. We’ll work with you to develop a personalized health plan based on your values, needs, and goals.",
+            "description": {
+              "processed": "<p>Whole health puts you at the center of care, rather than your illnesses or conditions. We work with you to develop a personalized health plan based on your values, needs and goals. </p>"
+            }
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldServiceNameAndDescripti": {
+          "entity": {
+            "name": "Women Veteran care",
+            "fieldVetCenterTypeOfCare": "counselling",
+            "fieldServiceTypeOfCare": "Social programs and services",
+            "fieldVetCenterFriendlyName": null,
+            "fieldAlsoKnownAs": null,
+            "fieldVetCenterComConditions": null,
+            "fieldCommonlyTreatedCondition": "women's primary care, mental health, obstetrics and gynecology, pap smear, mammogram",
+            "fieldVetCenterServiceDescrip": "If you’re a woman Veteran transitioning to civilian life, we can help you find counseling, support, and referral services to meet your specific needs.",
+            "description": {
+              "processed": "<p>We offer women’s health services to meet your specific needs such as disease screenings, mental health treatment, recovery from military sexual trauma, maternity care and female-specific medical equipment.</p>"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "sidebar": {},
+  "outreachSidebar": {},
+  "pid": 3756
+}
