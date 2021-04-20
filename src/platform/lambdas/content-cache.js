@@ -1,12 +1,19 @@
 /* eslint-disable no-console */
 
+const path = require('path');
 const stream = require('stream');
+
 const S3 = require('aws-sdk/clients/s3'); // eslint-disable-line import/no-unresolved
-const tar = require('tar-stream');
+const fetch = require('node-fetch');
 const gz = require('gunzip-maybe');
+const tar = require('tar-stream');
 
 const getOptions = require('../../site/stages/build/options');
 const getDrupalClient = require('../../site/stages/build/drupal/api');
+
+const ASSET_REGEX = /"[^"]+(?:\.amazonaws\.com|\.cms\.va\.gov)\/(sites\/[^"]+\/files\/([^"]+))"/g;
+
+const IMG_SUFFIXES = ['png', 'jpg', 'jpeg', 'gif', 'svg'];
 
 const DRUPAL_ADDRESS =
   'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com';
@@ -45,13 +52,58 @@ exports.handler = async function(event, context) {
   console.log('Stringifying the data...');
   const pagesString = JSON.stringify(drupalPages, null, 2);
 
-  console.log('Archiving and compressing the cache...');
+  console.log('Creating tar file in memory...');
   const passThroughStream = new stream.PassThrough();
   const tarball = tar.pack();
-  tarball.entry({ name: 'pages.json' }, pagesString);
-  tarball.entry({ name: 'downloads', type: 'directory' });
-  tarball.entry({ name: 'downloads/files', type: 'directory' });
-  tarball.entry({ name: 'downloads/img', type: 'directory' });
+  tarball.entry({ name: 'cache', type: 'directory' });
+  tarball.entry({ name: 'cache/pages.json' }, pagesString);
+  tarball.entry({ name: 'cache/downloads/files', type: 'directory' });
+  tarball.entry({ name: 'cache/downloads/img', type: 'directory' });
+
+  console.log('Downloading assets...');
+  const assetIterator = drupalPages.matchAll(ASSET_REGEX);
+  const assetPaths = new Set();
+  const assetDownloads = [];
+
+  for (const [, relativePath, filePath] of assetIterator) {
+    if (!assetPaths.has(relativePath)) {
+      assetPaths.add(relativePath);
+      const assetUrl = new URL(relativePath, DRUPAL_ADDRESS).toString();
+
+      assetDownloads.push(
+        fetch(assetUrl)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(
+                `Failed to fetch asset ${assetUrl}: ${response.statusText}`,
+              );
+            }
+
+            return response.buffer();
+          })
+          .then(data => {
+            const isImg = IMG_SUFFIXES.some(ext =>
+              assetUrl.toLowerCase().endsWith(ext),
+            );
+
+            const archivePath = path.join(
+              'cache/downloads',
+              isImg ? 'img' : 'files',
+              filePath,
+            );
+
+            tarball.entry({ name: archivePath }, data);
+            console.log('Archived asset at', archivePath);
+          })
+          .catch(console.error),
+      );
+    }
+  }
+
+  await Promise.all(assetDownloads);
+  console.log('Done downloading assets.');
+
+  console.log('Archiving and compressing the cache...');
   tarball.finalize();
   tarball.pipe(gz()).pipe(passThroughStream);
 
