@@ -71,7 +71,7 @@ export default function TypeOfVisitPage() {
               dispatch(routeToPreviousAppointmentPage(history, pageKey))
             }
             pageChangeInProgress={pageChangeInProgress}
-            loadingText="Page change progress"
+            loadingText="Page change in progress"
           />
         </SchemaForm>
       )}
