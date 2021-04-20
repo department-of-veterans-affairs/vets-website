@@ -660,18 +660,16 @@
     // We have a find and replace in the build for `www.va.gov`, so this is us getting creative 😂 😂 😂
     const prodURL = ['https://', 'www.', 'va', '.gov'].join('')
 
-    // Escape early if we are not on staging or prod.
-    if (window.location.origin !== 'https://staging.va.gov' && window.location.origin !== prodURL) {
-      return;
-    }
+    // Only show CLP auth on staging or prod.
+    if (window.location.origin === 'https://staging.va.gov' || window.location.origin === prodURL) {
+      // Prompt the user for the passphrase.
+      var clpPassphrase = prompt('This page is in BETA. Please enter the passphrase to access it:');
 
-    // Prompt the user for the passphrase.
-    var clpPassphrase = prompt('This page is in BETA. Please enter the passphrase to access it:');
-
-    // Redirect to homepage if the passphrase is incorrect.
-    if (clpPassphrase !== 'clptest123') {
-      window.location.href = '/';
-      return;
+      // Redirect to homepage if the passphrase is incorrect.
+      if (clpPassphrase !== 'clptest123') {
+        window.location.href = '/';
+        return;
+      }
     }
 
     // Derive the content element.
