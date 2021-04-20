@@ -47,7 +47,7 @@ jobs:
       - name: Publish test results
         uses: zgosalvez/github-actions-report-lcov@v1
         with:
-          coverage-files: coverage/lcov.*.info
+          coverage-files: coverage/lcov.info
           artifact-name: code-coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
