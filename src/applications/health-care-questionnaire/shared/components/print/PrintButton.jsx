@@ -30,13 +30,14 @@ export default function PrintButton({
       const blob = await resp.blob();
       openPdfInNewWindow(window, blob);
       recordEvent({
-        event: `${TRACKING_PREFIX}pdf-generation-success`,
+        event: `${TRACKING_PREFIX}-pdf-generation-success`,
       });
       setisLoading(false);
     } catch (error) {
       // console.log({ error });
       recordEvent({
-        event: `${TRACKING_PREFIX}pdf-generation-failed`,
+        event: `${TRACKING_PREFIX}-pdf-generation-failed`,
+        'error-key': error.message,
       });
       setIsError(true);
     }
