@@ -30,7 +30,7 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { name = {}, form } = this.props;
     const { submission, formId } = form;
-    const issues = (form.data?.contestedIssues || [])
+    const issues = (form.data?.contestableIssues || [])
       .filter(el => el[SELECTED])
       .map((issue, index) => (
         <li key={index} className="vads-u-margin-bottom--0">

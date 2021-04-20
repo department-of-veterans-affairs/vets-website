@@ -8,7 +8,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/component-library/Ad
 // prevent the user from navigating past the intro page; but it's here just in
 // case we end up filtering out deferred and expired issues
 export const EligibleIssuesTitle = props =>
-  props?.formData?.contestedIssues?.length === 0 ? (
+  props?.formData?.contestableIssues?.length === 0 ? (
     <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
       Sorry, we couldn’t find any eligible conditions
     </h2>

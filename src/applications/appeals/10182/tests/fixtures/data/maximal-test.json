@@ -27,7 +27,7 @@
     "hearingTypePreference": "central_office",
     "socOptIn": true,
 
-    "contestedIssues": [
+    "contestableIssues": [
       {
         "type": "contestableIssue",
         "attributes": {

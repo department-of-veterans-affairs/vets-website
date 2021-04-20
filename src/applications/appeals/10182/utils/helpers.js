@@ -119,8 +119,8 @@ export const getIssueName = ({ attributes } = {}) => {
  * @param {ContestableIssues}
  * @returns {ContestableIssue~Submittable}
  */
-export const getContestedIssues = ({ contestedIssues }) =>
-  contestedIssues.filter(issue => issue[SELECTED]).map(issue => {
+export const getContestableIssues = ({ contestableIssues }) =>
+  contestableIssues.filter(issue => issue[SELECTED]).map(issue => {
     const attr = issue.attributes;
     const attributes = [
       'decisionIssueId',
@@ -177,7 +177,7 @@ export const getContestedIssues = ({ contestedIssues }) =>
  * @returns {ContestableIssue~Submittable}
  */
 export const addIncludedIssues = formData =>
-  getContestedIssues(formData).concat(
+  getContestableIssues(formData).concat(
     (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
       if (issue.issue && issue.decisionDate) {
         // match contested issue pattern

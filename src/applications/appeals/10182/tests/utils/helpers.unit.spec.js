@@ -4,7 +4,7 @@ import { add, format } from 'date-fns';
 import {
   getEligibleContestableIssues,
   getIssueName,
-  getContestedIssues,
+  getContestableIssues,
   addIncludedIssues,
   removeEmptyEntries,
   getAddress,
@@ -98,27 +98,27 @@ describe('getIssueName', () => {
   });
 });
 
-describe('getContestedIssues', () => {
+describe('getContestableIssues', () => {
   it('should return all issues', () => {
     const formData = {
-      contestedIssues: [
+      contestableIssues: [
         { ...issue1.raw, 'view:selected': true },
         { ...issue2.raw, 'view:selected': true },
       ],
     };
-    expect(getContestedIssues(formData)).to.deep.equal([
+    expect(getContestableIssues(formData)).to.deep.equal([
       issue1.result,
       issue2.result,
     ]);
   });
   it('should return second issue', () => {
     const formData = {
-      contestedIssues: [
+      contestableIssues: [
         { ...issue1.raw, 'view:selected': false },
         { ...issue2.raw, 'view:selected': true },
       ],
     };
-    expect(getContestedIssues(formData)).to.deep.equal([issue2.result]);
+    expect(getContestableIssues(formData)).to.deep.equal([issue2.result]);
   });
 });
 
@@ -129,7 +129,7 @@ describe('addIncludedIssues', () => {
       attributes: { issue: 'test', decisionDate: '2000-01-01' },
     };
     const formData = {
-      contestedIssues: [
+      contestableIssues: [
         { ...issue1.raw, 'view:selected': false },
         { ...issue2.raw, 'view:selected': true },
       ],
