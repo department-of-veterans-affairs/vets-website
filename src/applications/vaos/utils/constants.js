@@ -5,6 +5,13 @@ export const FETCH_STATUS = {
   failed: 'failed',
 };
 
+export const QUERY_STATUS = {
+  loading: 'loading',
+  idle: 'idle',
+  success: 'success',
+  error: 'error',
+};
+
 export const APPOINTMENT_TYPES = {
   vaAppointment: 'vaAppointment',
   ccAppointment: 'ccAppointment',

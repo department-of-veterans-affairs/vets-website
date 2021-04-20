@@ -1,18 +1,16 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useQuery } from 'react-query';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
-import * as actions from '../redux/actions';
+import { startNewAppointmentFlow } from '../redux/actions';
 import {
   selectFeatureRequests,
   selectIsCernerOnlyPatient,
 } from '../../redux/selectors';
-import { selectPendingAppointments } from '../redux/selectors';
-import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
+import { QUERY_STATUS, GA_PREFIX } from '../../utils/constants';
 import {
   getAppointmentRequests,
   getVAAppointmentLocationId,
@@ -20,17 +18,16 @@ import {
 } from '../../services/appointment';
 import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
-import { getLocations } from '../../services/location';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import useFacilitiesQuery from '../../hooks/useFacilitiesQuery';
 
-function RequestedAppointmentsList({
-  showScheduleButton,
-  isCernerOnlyPatient,
-  startNewAppointmentFlow,
-  hasTypeChanged,
-}) {
+export default function RequestedAppointmentsList({ hasTypeChanged }) {
+  const dispatch = useDispatch();
+  const isCernerOnlyPatient = useSelector(selectIsCernerOnlyPatient);
+  const showScheduleButton = useSelector(selectFeatureRequests);
+
   const { data: pendingAppointments, status: pendingStatus } = useQuery(
-    ['requests', 'current'],
+    ['pending'],
     () =>
       getAppointmentRequests({
         startDate: moment()
@@ -45,34 +42,25 @@ function RequestedAppointmentsList({
           .sort(sortByCreatedDateDescending),
     },
   );
-  const facilityIds = new Set(
+
+  const { facilityData } = useFacilitiesQuery(
     pendingAppointments
       ?.filter(appt => appt.vaos && !appt.vaos.isCommunityCare)
       .map(getVAAppointmentLocationId),
   );
-  const { data: facilityData } = useQuery(
-    ['facilities', facilityIds],
-    () => getLocations(Array.from(facilityIds)),
-    {
-      enabled: !!pendingAppointments && facilityIds.length > 0,
-    },
-  );
 
   useEffect(
     () => {
-      if (hasTypeChanged && pendingStatus === 'success') {
+      if (hasTypeChanged && pendingStatus === QUERY_STATUS.success) {
         scrollAndFocus('#type-dropdown');
-      } else if (hasTypeChanged && pendingStatus === 'error') {
+      } else if (hasTypeChanged && pendingStatus === QUERY_STATUS.error) {
         scrollAndFocus('h3');
       }
     },
     [pendingStatus, hasTypeChanged],
   );
 
-  if (
-    pendingStatus === FETCH_STATUS.loading ||
-    pendingStatus === FETCH_STATUS.notStarted
-  ) {
+  if (pendingStatus === QUERY_STATUS.loading) {
     return (
       <div className="vads-u-margin-y--8">
         <LoadingIndicator
@@ -83,7 +71,7 @@ function RequestedAppointmentsList({
     );
   }
 
-  if (pendingStatus === FETCH_STATUS.failed) {
+  if (pendingStatus === QUERY_STATUS.error) {
     return (
       <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
         We’re having trouble getting your appointment requests. Please try again
@@ -108,7 +96,7 @@ function RequestedAppointmentsList({
             <RequestListItem
               key={index}
               appointment={appt}
-              facility={facilityData[getVAAppointmentLocationId(appt)]}
+              facility={facilityData?.[getVAAppointmentLocationId(appt)]}
             />
           ))}
         </ul>
@@ -122,7 +110,7 @@ function RequestedAppointmentsList({
               recordEvent({
                 event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
               });
-              startNewAppointmentFlow();
+              dispatch(startNewAppointmentFlow());
             }}
           />
         </div>
@@ -130,30 +118,3 @@ function RequestedAppointmentsList({
     </>
   );
 }
-
-RequestedAppointmentsList.propTypes = {
-  isCernerOnlyPatient: PropTypes.bool,
-  fetchFutureAppointments: PropTypes.func,
-  showScheduleButton: PropTypes.bool,
-  startNewAppointmentFlow: PropTypes.func,
-};
-
-function mapStateToProps(state) {
-  return {
-    facilityData: state.appointments.facilityData,
-    pendingStatus: state.appointments.pendingStatus,
-    pendingAppointments: selectPendingAppointments(state),
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showScheduleButton: selectFeatureRequests(state),
-  };
-}
-
-const mapDispatchToProps = {
-  fetchPendingAppointments: actions.fetchPendingAppointments,
-  startNewAppointmentFlow: actions.startNewAppointmentFlow,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequestedAppointmentsList);

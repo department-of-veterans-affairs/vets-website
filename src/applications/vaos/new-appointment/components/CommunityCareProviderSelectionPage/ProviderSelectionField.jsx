@@ -454,7 +454,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  requestProvidersList: actions.requestProvidersList,
   updateCCProviderSortMethod: actions.updateCCProviderSortMethod,
 };
 
