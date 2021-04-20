@@ -33,12 +33,13 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
         VA benefits you might be interested in
       </h3>
       <div data-testid="benefits-of-interest">
-        {!showChildren && (
+        {showChildren ? (
+          <div className="vads-l-row">{children}</div>
+        ) : (
           <div className="vads-u-margin-y--2">
             <LoadingIndicator message="Loading benefits you might be interested in..." />
           </div>
         )}
-        {showChildren && <div className="vads-l-row">{children}</div>}
       </div>
     </>
   );

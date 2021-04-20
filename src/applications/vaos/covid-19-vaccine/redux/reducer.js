@@ -3,7 +3,6 @@ import {
   updateSchemaAndData,
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
-import set from 'platform/utilities/data/set';
 
 import {
   FORM_CLINIC_PAGE_OPENED_SUCCEEDED,
@@ -51,6 +50,7 @@ const initialState = {
     previousPages: {},
     facilities: null,
     facilitiesStatus: FETCH_STATUS.notStarted,
+    facilityPageSortMethod: null,
     clinics: {},
     clinicsStatus: FETCH_STATUS.notStarted,
     appointmentSlotsStatus: FETCH_STATUS.notStarted,
@@ -72,7 +72,7 @@ function setupFormData(data, schema, uiSchema) {
   );
 }
 
-export default function projectCheetahReducer(state = initialState, action) {
+export default function covid19VaccineReducer(state = initialState, action) {
   switch (action.type) {
     case FORM_PAGE_OPENED: {
       const newBooking = state.newBooking;
@@ -126,6 +126,7 @@ export default function projectCheetahReducer(state = initialState, action) {
         ...state,
         newBooking: {
           ...state.newBooking,
+          data: action.data || state.newBooking.data,
           pageChangeInProgress: true,
           previousPages: updatedPreviousPages,
         },
@@ -168,15 +169,16 @@ export default function projectCheetahReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
-      let newSchema = action.schema;
-      let newData = state.newBooking.data;
       let facilities = action.facilities;
       const address = action.address;
       const hasResidentialCoordinates =
         !!action.address?.latitude && !!action.address?.longitude;
-      const sortMethod = hasResidentialCoordinates
-        ? FACILITY_SORT_METHODS.distanceFromResidential
-        : FACILITY_SORT_METHODS.alphabetical;
+      let sortMethod = state.newBooking.facilityPageSortMethod;
+      if (!sortMethod) {
+        sortMethod = hasResidentialCoordinates
+          ? FACILITY_SORT_METHODS.distanceFromResidential
+          : FACILITY_SORT_METHODS.alphabetical;
+      }
 
       if (hasResidentialCoordinates && facilities.length) {
         facilities = facilities
@@ -204,38 +206,19 @@ export default function projectCheetahReducer(state = initialState, action) {
           facility.legacyVAR.directSchedulingSupported[TYPE_OF_CARE_ID],
       );
 
+      let data = state.newBooking.data;
       if (typeOfCareFacilities.length === 1) {
-        newData = {
-          ...newData,
+        data = {
+          ...data,
           vaFacility: typeOfCareFacilities[0]?.id,
         };
       }
-
-      newSchema = set(
-        'properties.vaFacility',
-        {
-          type: 'string',
-          enum: typeOfCareFacilities.map(facility => facility.id),
-          enumNames: typeOfCareFacilities,
-        },
-        newSchema,
-      );
-
-      const { data, schema } = setupFormData(
-        newData,
-        newSchema,
-        action.uiSchema,
-      );
 
       return {
         ...state,
         newBooking: {
           ...state.newBooking,
           data,
-          pages: {
-            ...state.newBooking.pages,
-            vaFacility: schema,
-          },
           facilities,
           facilitiesStatus: FETCH_STATUS.succeeded,
           facilityPageSortMethod: sortMethod,
@@ -317,11 +300,9 @@ export default function projectCheetahReducer(state = initialState, action) {
       };
     }
     case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
-      const formData = state.data;
       const sortMethod = action.sortMethod;
       const location = action.location;
       let facilities = state.newBooking.facilities;
-      let newSchema = state.newBooking.pages.vaFacility;
       let requestLocationStatus = state.newBooking.requestLocationStatus;
 
       if (location && facilities?.length) {
@@ -358,34 +339,10 @@ export default function projectCheetahReducer(state = initialState, action) {
         );
       }
 
-      const typeOfCareFacilities = facilities.filter(
-        facility =>
-          facility.legacyVAR.directSchedulingSupported[TYPE_OF_CARE_ID],
-      );
-      newSchema = set(
-        'properties.vaFacility',
-        {
-          type: 'string',
-          enum: typeOfCareFacilities.map(facility => facility.id),
-          enumNames: typeOfCareFacilities,
-        },
-        newSchema,
-      );
-
-      const { schema } = updateSchemaAndData(
-        newSchema,
-        action.uiSchema,
-        formData,
-      );
-
       return {
         ...state,
         newBooking: {
           ...state.newBooking,
-          pages: {
-            ...state.pages,
-            vaFacility: schema,
-          },
           facilities,
           facilitiesStatus: FETCH_STATUS.succeeded,
           facilityPageSortMethod: sortMethod,
