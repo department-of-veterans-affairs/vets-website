@@ -61,7 +61,7 @@ exports.handler = async function(event, context) {
   tarball.entry({ name: 'cache/downloads/img', type: 'directory' });
 
   console.log('Downloading assets...');
-  const assetIterator = drupalPages.matchAll(ASSET_REGEX);
+  const assetIterator = pagesString.matchAll(ASSET_REGEX);
   const assetPaths = new Set();
   const assetDownloads = [];
 
