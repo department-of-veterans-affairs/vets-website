@@ -24,7 +24,7 @@
                 {% endif %}
               </div>
 
-              {% if entityUrl.breadcrumb.1.text != "Outreach and events" %}
+              {% if pastEvents.entities.length > 0 %}
                 {% include "src/site/facilities/facilities_events_toggle.drupal.liquid" with url = entityUrl.path %}
               {% endif %}
 
