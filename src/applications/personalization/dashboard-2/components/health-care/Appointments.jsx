@@ -29,8 +29,8 @@ export const Appointments = ({ appointments, hasError = true }) => {
       : 'large-screen:vads-l-col--8'
   }`;
 
-  if (
-    hasError && (
+  if (hasError) {
+    return (
       <div className="vads-l-row">
         <div className={wrapperClasses}>
           <AlertBox
@@ -54,8 +54,9 @@ export const Appointments = ({ appointments, hasError = true }) => {
           />
         </div>
       </div>
-    )
-  )
+    );
+  }
+  if (!hasError) {
     return (
       <div className={wrapperClasses}>
         <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5">
@@ -76,6 +77,9 @@ export const Appointments = ({ appointments, hasError = true }) => {
         </div>
       </div>
     );
+  }
+
+  return null;
 };
 
 Appointments.propTypes = {
