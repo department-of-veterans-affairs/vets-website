@@ -235,7 +235,7 @@ function ConfirmedAppointmentDetailsPage({
               facilityName={facility?.name}
               facilityId={facilityId}
               isHomepageRefresh
-              clinicFriendlyName={appointment.participant[0].actor.display}
+              clinicFriendlyName={appointment.location?.displayName}
             />
 
             {showInstructions &&
