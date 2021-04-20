@@ -12,6 +12,8 @@ import {
   selectProfile,
 } from '~/platform/user/selectors';
 
+import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
+
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
 import { HCA_ENROLLMENT_STATUSES } from '~/applications/hca/constants';
 import {
@@ -172,9 +174,9 @@ const ApplyForBenefits = ({
 
 const mapStateToProps = state => {
   const hasHCAInProgress =
-    selectProfile(state).savedForms?.some(
-      savedForm => savedForm.form === VA_FORM_IDS.FORM_10_10EZ,
-    ) ?? false;
+    selectProfile(state)
+      .savedForms?.filter(filterOutExpiredForms)
+      .some(savedForm => savedForm.form === VA_FORM_IDS.FORM_10_10EZ) ?? false;
 
   const isPatient = isVAPatient(state);
   const esrEnrollmentStatus = selectESRStatus(state).enrollmentStatus;

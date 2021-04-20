@@ -420,7 +420,7 @@ describe('ApplyForBenefits component', () => {
     );
 
     context(
-      'when user is not a VA patient, is not in ESR, but has a health care application in progress',
+      'when user is not a VA patient, is not in ESR, but has a non-expired health care application in progress',
       () => {
         it('should not show info about health care benefits', () => {
           const initialState = {
@@ -465,16 +465,68 @@ describe('ApplyForBenefits component', () => {
           });
           // this assertion is to make sure that a loading spinner is not
           // rendered
-          expect(
-            view.getByRole('link', {
-              name: /learn how to apply for education benefits/i,
-            }),
-          ).to.exist;
+          view.getByRole('link', {
+            name: /learn how to apply for education benefits/i,
+          });
           expect(
             view.queryByRole('link', {
               name: /apply for VA health care/i,
             }),
           ).not.to.exist;
+        });
+      },
+    );
+
+    context(
+      'when user is not a VA patient, is not in ESR, and has an expired health care application in progress',
+      () => {
+        it('should show info about health care benefits', () => {
+          const initialState = {
+            user: {
+              profile: {
+                vaPatient: false,
+                multifactor: false,
+                loa: {
+                  current: 1,
+                  highest: 3,
+                },
+                savedForms: [
+                  {
+                    form: '1010ez',
+                    metadata: {
+                      version: 1,
+                      returnUrl: '/net-worth',
+                      savedAt: oneDayAgo(),
+                      submission: {
+                        status: false,
+                        errorMessage: false,
+                        id: false,
+                        timestamp: false,
+                        hasAttemptedSubmit: false,
+                      },
+                      expiresAt: oneDayAgo() / 1000,
+                      lastUpdated: oneDayAgo() / 1000,
+                      inProgressFormId: 5179,
+                    },
+                    lastUpdated: oneDayAgo() / 1000,
+                  },
+                ],
+              },
+            },
+            hcaEnrollmentStatus: {
+              noESRRecordFound: true,
+            },
+          };
+          view = renderInReduxProvider(<ApplyForBenefits />, {
+            initialState,
+            reducers,
+          });
+          view.getByRole('link', {
+            name: /learn how to apply for education benefits/i,
+          });
+          view.getByRole('link', {
+            name: /apply for VA health care/i,
+          });
         });
       },
     );
