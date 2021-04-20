@@ -53,7 +53,7 @@
     "pact:can-i-deploy": "node ./script/can-i-deploy.js",
     "pact:publish": "node ./script/publish-pacts.js",
     "pact:verify": "node ./script/verify-pacts.js",
-    "postinstall": "npm rebuild node-sass && node ./script/check-node-version.js && cd node_modules/web-components && yarn install --production && npm run-script build",
+    "postinstall": "npm rebuild node-sass && node ./script/check-node-version.js && cd node_modules/web-components && yarn install --production && yarn build",
     "proxy-rewrite:verify-targets": "node src/applications/proxy-rewrite/scripts/verify-injection-targets.js",
     "pr-check": "node script/pr-check.js",
     "reset:env": "./script/reset-environment.sh",
