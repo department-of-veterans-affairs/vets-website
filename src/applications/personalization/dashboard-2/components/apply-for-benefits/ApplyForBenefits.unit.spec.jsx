@@ -332,6 +332,10 @@ describe('ApplyForBenefits component', () => {
         const initialState = {
           user: {
             profile: {
+              loa: {
+                current: 3,
+                highest: 3,
+              },
               vaPatient: true,
               multifactor: false,
             },
@@ -416,6 +420,66 @@ describe('ApplyForBenefits component', () => {
     );
 
     context(
+      'when user is not a VA patient, is not in ESR, but has a health care application in progress',
+      () => {
+        it('should not show info about health care benefits', () => {
+          const initialState = {
+            user: {
+              profile: {
+                vaPatient: false,
+                multifactor: false,
+                loa: {
+                  current: 1,
+                  highest: 3,
+                },
+                savedForms: [
+                  {
+                    form: '1010ez',
+                    metadata: {
+                      version: 1,
+                      returnUrl: '/net-worth',
+                      savedAt: oneDayAgo(),
+                      submission: {
+                        status: false,
+                        errorMessage: false,
+                        id: false,
+                        timestamp: false,
+                        hasAttemptedSubmit: false,
+                      },
+                      expiresAt: oneYearFromNow() / 1000,
+                      lastUpdated: oneDayAgo() / 1000,
+                      inProgressFormId: 5179,
+                    },
+                    lastUpdated: oneDayAgo() / 1000,
+                  },
+                ],
+              },
+            },
+            hcaEnrollmentStatus: {
+              noESRRecordFound: true,
+            },
+          };
+          view = renderInReduxProvider(<ApplyForBenefits />, {
+            initialState,
+            reducers,
+          });
+          // this assertion is to make sure that a loading spinner is not
+          // rendered
+          expect(
+            view.getByRole('link', {
+              name: /learn how to apply for education benefits/i,
+            }),
+          ).to.exist;
+          expect(
+            view.queryByRole('link', {
+              name: /apply for VA health care/i,
+            }),
+          ).not.to.exist;
+        });
+      },
+    );
+
+    context(
       'when user is a VA patient, but is in ESR, and is not enrolled in DD4edu',
       () => {
         it('should show the correct benefits', () => {
@@ -465,6 +529,10 @@ describe('ApplyForBenefits component', () => {
           user: {
             profile: {
               vaPatient: true,
+              loa: {
+                current: 3,
+                highest: 3,
+              },
               multifactor: true,
             },
           },
@@ -542,6 +610,10 @@ describe('ApplyForBenefits component', () => {
         const initialState = {
           user: {
             profile: {
+              loa: {
+                current: 3,
+                highest: 3,
+              },
               vaPatient: true,
               multifactor: true,
             },

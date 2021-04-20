@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
+import { VA_FORM_IDS } from '~/platform/forms/constants';
 import {
   isMultifactorEnabled,
   isVAPatient,
   isLOA3,
+  selectProfile,
 } from '~/platform/user/selectors';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
@@ -49,6 +51,7 @@ const ApplyForBenefits = ({
   getDD4EDUStatus,
   getESREnrollmentStatus,
   hasDD4EDU,
+  hasHCAInProgress,
   hasLoadedAllData,
   isInESR,
   isPatient,
@@ -73,8 +76,8 @@ const ApplyForBenefits = ({
     [shouldGetDD4EDUStatus, getDD4EDUStatus],
   );
 
-  const showHealthCare = !isPatient && !isInESR;
-  const showEducation = !hasDD4EDU;
+  const hideHealthCareBenefitInfo = hasHCAInProgress || isPatient || isInESR;
+  const hideEducationBenefitInfo = hasDD4EDU;
 
   return (
     <div data-testid="dashboard-section-apply-for-benefits">
@@ -121,7 +124,7 @@ const ApplyForBenefits = ({
       <ApplicationsInProgress />
       <BenefitsOfInterest showChildren={hasLoadedAllData}>
         <>
-          {showHealthCare && (
+          {hideHealthCareBenefitInfo ? null : (
             <BenefitOfInterest
               title="Health care"
               icon="health-care"
@@ -147,7 +150,7 @@ const ApplyForBenefits = ({
               military service.
             </p>
           </BenefitOfInterest>
-          {showEducation && (
+          {hideEducationBenefitInfo ? null : (
             <BenefitOfInterest
               title="Education and training"
               icon="education"
@@ -168,11 +171,16 @@ const ApplyForBenefits = ({
 };
 
 const mapStateToProps = state => {
+  const hasHCAInProgress =
+    selectProfile(state).savedForms?.some(
+      savedForm => savedForm.form === VA_FORM_IDS.FORM_10_10EZ,
+    ) ?? false;
+
   const isPatient = isVAPatient(state);
   const esrEnrollmentStatus = selectESRStatus(state).enrollmentStatus;
 
-  const shouldGetESRStatus = !isPatient && isLOA3(state);
-  const shouldGetDD4EDUStatus = isMultifactorEnabled(state);
+  const shouldGetESRStatus = !hasHCAInProgress && !isPatient && isLOA3(state);
+  const shouldGetDD4EDUStatus = isLOA3(state) && isMultifactorEnabled(state);
   const hasLoadedESRData =
     !shouldGetESRStatus ||
     hasESRServerError(state) ||
@@ -184,6 +192,7 @@ const mapStateToProps = state => {
 
   return {
     hasDD4EDU: eduDirectDepositIsSetUp(state),
+    hasHCAInProgress,
     hasLoadedAllData,
     isInESR:
       !!esrEnrollmentStatus &&
