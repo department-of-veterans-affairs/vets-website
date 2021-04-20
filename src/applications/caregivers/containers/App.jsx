@@ -19,12 +19,6 @@ const App = ({ loading, location, children }) => {
         for (const radio of radios) {
           radio.onclick = e => {
             const label = e.target.nextElementSibling.innerText;
-            // eslint-disable-next-line no-console
-            console.log(
-              label,
-              e.target.value,
-              'LABEL AND VALUE SENT TO RECORD EVENT',
-            );
             recordEvent({
               'caregivers-radio-label': label,
               'caregivers-radio-clicked': e.target,
