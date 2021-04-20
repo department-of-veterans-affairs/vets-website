@@ -4,7 +4,7 @@ const path = require('path');
 const stream = require('stream');
 
 const S3 = require('aws-sdk/clients/s3'); // eslint-disable-line import/no-unresolved
-const fetch = require('node-fetch');
+const fetch = require('node-fetch').default;
 const gz = require('gunzip-maybe');
 const tar = require('tar-stream');
 
