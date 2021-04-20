@@ -657,8 +657,11 @@
 <!-- =============== -->
 <script>
   function checkCLPAuth() {
+    // We have a find and replace in the build for `www.va.gov`, so this is us getting creative 😂 😂 😂
+    const prodURL = ['https://', 'www.', 'va', '.gov'].join('')
+
     // Escape early if we are not on staging or prod.
-    if (window.location.origin !== 'https://staging.va.gov' && window.location.origin !== 'https://www.va.gov') {
+    if (window.location.origin !== 'https://staging.va.gov' && window.location.origin !== prodURL) {
       return;
     }
 
