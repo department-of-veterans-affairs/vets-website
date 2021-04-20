@@ -501,8 +501,7 @@ const testForm = testConfig => {
     skippedTests.has?.(testKey)
       ? context.skip(testKey, callback)
       : context(testKey, callback);
-  const fullAppName = `VA Forms ${appName}`;
-  testSuite(fullAppName, () => {
+  testSuite(appName, () => {
     before(() => {
       if (!fixtures.data) {
         throw new Error('Required data fixture is undefined.');

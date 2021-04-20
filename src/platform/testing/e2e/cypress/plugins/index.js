@@ -1,7 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
-const selectTestsWithGrep = require('cypress-select-tests/grep');
 
 module.exports = (on, config) => {
   const ENV = 'localhost';
@@ -18,8 +17,6 @@ module.exports = (on, config) => {
       },
     },
   };
-
-  on('file:preprocessor', selectTestsWithGrep(config));
 
   on('file:preprocessor', webpackPreprocessor(options));
 
