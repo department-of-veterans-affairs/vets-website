@@ -8,7 +8,10 @@ const SitemapHelpers = require('./sitemap-helpers');
 module.exports = {
   'sitemap 1/4': client => {
     client.timeoutsAsyncScript(1000);
-    SitemapHelpers.sitemapURLs().then(({ urls, onlyTest508Rules }) => {
+    SitemapHelpers.sitemapURLs().then(function runTestsOnFirstQuarterOfSitemap({
+      urls,
+      onlyTest508Rules,
+    }) {
       const mark = Math.ceil(urls.length / 4);
       const segment = urls.splice(0, mark);
       SitemapHelpers.runTests(client, segment, onlyTest508Rules);

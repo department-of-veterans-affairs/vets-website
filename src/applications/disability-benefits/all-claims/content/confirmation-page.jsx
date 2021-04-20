@@ -71,18 +71,12 @@ const template = (props, title, content, submissionMessage, messageType) => {
         level="2"
       />
 
-      {props.areConfirmationEmailTogglesOn ? (
-        <h2 className="vads-u-font-size--h5" id="note-email">
-          We'll send you an email to confirm that we received your claim.{' '}
-          <span className="screen-only">
-            You can also print this page for your records.
-          </span>
-        </h2>
-      ) : (
-        <h2 className="vads-u-font-size--h5 screen-only" id="note-print">
-          Please print this page for your records.
-        </h2>
-      )}
+      <h2 className="vads-u-font-size--h5" id="note-email">
+        We'll send you an email to confirm that we received your claim.{' '}
+        <span className="screen-only">
+          You can also print this page for your records.
+        </span>
+      </h2>
 
       <div className="inset">
         <h2 className="vads-u-font-size--h4">

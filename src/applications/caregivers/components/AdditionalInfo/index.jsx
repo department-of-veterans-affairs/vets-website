@@ -230,9 +230,9 @@ export const RepresentativeIntroContent = () => {
         </li>
 
         <li>
-          If you are the Veteran’s legal representative, you can upload one or
-          more documents to show your legal status. If you don't upload your
-          documents now, we'll ask you to provide them later
+          If you are the Veteran’s legal representative, you can upload a
+          document to show your legal status now. If you don't upload your
+          document now, we'll ask you to provide it later.
         </li>
       </ul>
     </section>
@@ -244,24 +244,24 @@ export const RepresentativeAdditionalInfo = () => {
     <div className="vads-u-margin-top--1">
       <AdditionalInfo triggerText="What type of document does a legal representative need?">
         <p>
-          Documentation to show your legal status as a representative could
-          include:
+          To show that you’re the Veteran’s legal representative, you’ll need to
+          upload one of these current documents:
         </p>
 
         <ul>
           <li>
             Power of attorney,
-            <strong>or</strong>
+            <strong className="vads-u-margin-left--0p5">or</strong>
           </li>
 
           <li>
             Legal guardianship order,
-            <strong>or</strong>
+            <strong className="vads-u-margin-left--0p5">or</strong>
           </li>
 
           <li>
             Another legal document that confirms your legal status as the
-            Veteran’s representative. This document can be from by a federal,
+            Veteran’s representative. This document can be from a federal,
             state, local, or tribal court.
           </li>
         </ul>
@@ -273,5 +273,32 @@ export const RepresentativeAdditionalInfo = () => {
         </p>
       </AdditionalInfo>
     </div>
+  );
+};
+
+export const RepresentativeDocumentUploadDescription = () => {
+  return (
+    <section>
+      <h3 style={{ padding: 0, marginBottom: '1.3em' }}>
+        Upload your legal representative documentation
+      </h3>
+
+      <p>
+        You will first need to scan a copy of your document onto the same device
+        that you are submitting your online application (i.e. computer or mobile
+        phone). You can upload the document from there.
+      </p>
+
+      <p>Guidelines for uploading a file:</p>
+      <ul>
+        <li>File types you can upload: .pdf, .jpeg, or .png</li>
+        <li>Maximum file size: 25MB</li>
+      </ul>
+
+      <em>
+        A 1MB file equals about 500 pages of text. A photo is usually about 6MB.
+        Large files can take longer to upload with a slow internet connection.
+      </em>
+    </section>
   );
 };

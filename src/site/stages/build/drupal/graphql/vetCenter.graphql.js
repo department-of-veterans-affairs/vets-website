@@ -1,5 +1,12 @@
+const {
+  derivativeImage,
+} = require('./paragraph-fragments/derivativeMedia.paragraph.graphql');
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
+
+const draftContentOverride = process.env.UNPUBLISHED_CONTENT === 'true';
+
 const vetCenterFragment = `
- fragment vetCenterFragment on NodeVetCenter {
+      fragment vetCenterFragment on NodeVetCenter {
         entityId
         entityUrl {
           path
@@ -9,26 +16,13 @@ const vetCenterFragment = `
         entityLabel
         fieldIntroText
         fieldFacilityLocatorApiId
-        fieldMedia {
-          entity {
-            ... on MediaImage {
-              image {
-                alt
-                title
-                derivative(style: _32MEDIUMTHUMBNAIL) {
-                  url
-                  width
-                  height
-                }
-              }
-            }
-          }
-        }
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}
         fieldPhoneNumber
         fieldAddress {
          countryCode
          locality
          postalCode
+         administrativeArea
          addressLine1
         }   
         fieldOfficeHours {
@@ -83,24 +77,44 @@ const vetCenterFragment = `
         }
       }`;
 
-const GetVetCenters = `
-  ${vetCenterFragment}
-  
-  query GetVetCenters($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["vet_center"] }
-      ]
-    }) {
-      entities {
-        ... vetCenterFragment
+const getVetCenterSlice = (operationName, offset, limit) => {
+  return `
+    ${vetCenterFragment}
+    
+    query GetVetCenters${
+      !draftContentOverride ? '($onlyPublishedContent: Boolean!)' : ''
+    } {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}    
+        filter: {
+          conditions: [
+            ${
+              !draftContentOverride
+                ? '{ field: "status", value: ["1"], enabled: $onlyPublishedContent },'
+                : ''
+            }     
+            { field: "type", value: ["vet_center"] }
+          ]
+        }) {
+        entities {
+          ... vetCenterFragment
+        }
       }
     }
-  }
 `;
+};
+
+const getVetCenterQueries = entityCounts => {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetVetCenter',
+    entitiesPerSlice: 25,
+    totalEntities: entityCounts.data.vetCenters.count,
+    getSlice: getVetCenterSlice,
+  });
+};
 
 module.exports = {
   fragment: vetCenterFragment,
-  GetVetCenters,
+  getVetCenterQueries,
 };

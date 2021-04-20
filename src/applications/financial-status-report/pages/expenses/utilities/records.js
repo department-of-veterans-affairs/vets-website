@@ -1,5 +1,6 @@
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
+import CustomReviewField from '../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
 import {
@@ -28,6 +29,7 @@ export const uiSchema = {
       utilityType: {
         'ui:title': 'Type of utility',
         'ui:field': Typeahead,
+        'ui:reviewField': CustomReviewField,
         'ui:options': {
           idPrefix: 'utilites',
           classNames: 'input-size-3',

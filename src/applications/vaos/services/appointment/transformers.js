@@ -287,40 +287,80 @@ function setVideoData(appt) {
   };
 }
 
+function getCommunityCareData(appt) {
+  if (!isCommunityCare(appt)) {
+    return {};
+  }
+
+  const apptType = getAppointmentType(appt);
+  return {
+    communityCareProvider:
+      apptType === APPOINTMENT_TYPES.ccAppointment
+        ? {
+            firstName: appt.name?.firstName,
+            lastName: appt.name?.lastName,
+            providerName: appt.name
+              ? `${appt.name.firstName || ''} ${appt.name.lastName || ''}`
+              : null,
+            practiceName: appt.providerPractice,
+            address: appt.address
+              ? {
+                  line: [appt.address.street],
+                  city: appt.address.city,
+                  state: appt.address.state,
+                  postalCode: appt.address.zipCode,
+                }
+              : null,
+            telecom: appt.providerPhone
+              ? [
+                  {
+                    system: 'phone',
+                    value: appt.providerPhone,
+                  },
+                ]
+              : null,
+          }
+        : null,
+    preferredCommunityCareProviders: appt.ccAppointmentRequest?.preferredProviders?.map(
+      provider => {
+        return {
+          providerName: `${provider.firstName || ''} ${provider.lastName ||
+            ''}`,
+          firstName: provider.firstName,
+          lastName: provider.lastName,
+          practiceName: provider.practiceName,
+          address: provider.address
+            ? {
+                line: [provider.address.street],
+                city: provider.address.city,
+                state: provider.address.state,
+                postalCode: provider.address.zipCode,
+              }
+            : null,
+        };
+      },
+    ),
+  };
+}
+
 /**
- * Builds participant and contained arrays for FHIR Appointment object which usually
- * contain Location (Facility) and HealthcareService (Clinic) or video conference info
+ * Builds the location object which usually contain Location (Facility)
+ * and HealthcareService (Clinic) or video conference info
  *
  * @param {Object} appt  VAR appointment object
  * @returns {Array} Array of participants of FHIR appointment
  */
-function setParticipant(appt) {
+function setLocation(appt) {
   const type = getAppointmentType(appt);
 
   switch (type) {
     case APPOINTMENT_TYPES.vaAppointment: {
-      const participant = [];
-      if (appt.clinicId) {
-        participant.push({
-          actor: {
-            reference: `HealthcareService/${appt.facilityId}_${appt.clinicId}`,
-            display:
-              appt.clinicFriendlyName ||
-              appt.vdsAppointments?.[0]?.clinic?.name ||
-              appt.vvsAppointments?.[0]?.clinic?.name,
-          },
-        });
-      }
-
-      if (appt.sta6aid) {
-        participant.push({
-          actor: {
-            reference: `Location/${appt.sta6aid}`,
-          },
-        });
-      }
-
-      return participant;
+      return {
+        vistaId: appt.facilityId,
+        clinicId: appt.clinicId,
+        stationId: appt.sta6aid,
+        displayName: appt.clinicFriendlyName,
+      };
     }
     case APPOINTMENT_TYPES.ccAppointment: {
       if (!!appt.name?.firstName && !!appt.name?.lastName) {
@@ -358,23 +398,24 @@ function createPatientResourceFromRequest(req) {
     (!!req.patient?.firstName && !!req.patient?.lastName);
 
   return {
-    resourceType: 'Patient',
-    name: {
-      text: hasName
-        ? req.patient?.displayName ||
-          `${req.patient?.firstName} ${req.patient?.lastName}`
-        : null,
+    patient: {
+      name: {
+        text: hasName
+          ? req.patient?.displayName ||
+            `${req.patient?.firstName} ${req.patient?.lastName}`
+          : null,
+      },
+      telecom: [
+        {
+          system: 'phone',
+          value: req.phoneNumber,
+        },
+        {
+          system: 'email',
+          value: req.email,
+        },
+      ],
     },
-    telecom: [
-      {
-        system: 'phone',
-        value: req.phoneNumber,
-      },
-      {
-        system: 'email',
-        value: req.email,
-      },
-    ],
   };
 }
 
@@ -382,15 +423,16 @@ function createPatientResourceFromRequest(req) {
  * Builds contained array and populates with video conference info and facility info if available
  *
  * @param {Object} appt  VAR appointment object
- * @returns {Array} Array of contained objects of FHIR appointment containing video conference info
+ * @returns {Array|Object} Returns array of contained objects of FHIR appointment containing video conference info or
+ * returns an object containing patient information.
  */
 function setContained(appt) {
   switch (getAppointmentType(appt)) {
     case APPOINTMENT_TYPES.request: {
-      return [createPatientResourceFromRequest(appt)];
+      return createPatientResourceFromRequest(appt);
     }
     case APPOINTMENT_TYPES.ccRequest: {
-      const contained = [createPatientResourceFromRequest(appt)];
+      let contained = createPatientResourceFromRequest(appt);
       appt.ccAppointmentRequest.preferredProviders.forEach(
         (provider, index) => {
           const address = [];
@@ -403,31 +445,32 @@ function setContained(appt) {
             });
           }
 
-          contained.push({
-            resourceType: 'Practitioner',
-            id: `cc-practitioner-${appt.id}-${index}`,
-            name: provider.lastName
-              ? {
-                  text: `${provider.firstName} ${provider.lastName}`,
-                  family: provider.lastName,
-                  given: provider.firstName,
-                }
-              : null,
-            address: provider.address ? address : null,
-            practitionerRole: [
-              {
-                location: [
-                  {
-                    reference: `Location/cc-location-${appt.id}-${index}`,
-                    display: provider.practiceName,
-                  },
-                ],
-              },
-            ],
-          });
+          contained = {
+            ...contained,
+            practitioner: {
+              id: `cc-practitioner-${appt.id}-${index}`,
+              name: provider.lastName
+                ? {
+                    text: `${provider.firstName} ${provider.lastName}`,
+                    family: provider.lastName,
+                    given: provider.firstName,
+                  }
+                : null,
+              address: provider.address ? address : null,
+              practitionerRole: [
+                {
+                  location: [
+                    {
+                      reference: `Location/cc-location-${appt.id}-${index}`,
+                      display: provider.practiceName,
+                    },
+                  ],
+                },
+              ],
+            },
+          };
         },
       );
-
       return contained;
     }
     case APPOINTMENT_TYPES.ccAppointment: {
@@ -501,10 +544,11 @@ export function transformConfirmedAppointment(appt) {
       appt.instructionsToVeteran ||
       (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
       appt.vvsAppointments?.[0]?.instructionsTitle,
-    participant: setParticipant(appt),
+    location: setLocation(appt),
     contained: setContained(appt),
     legacyVAR: setLegacyVAR(appt),
     videoData,
+    ...getCommunityCareData(appt),
     vaos: {
       isVideo: videoData.isVideo,
       isPastAppointment: isPast,
@@ -567,13 +611,14 @@ export function transformPendingAppointment(appt) {
       ],
     },
     reason: getPurposeOfVisit(appt),
-    participant: setParticipant(appt),
+    location: setLocation(appt),
     contained: setContained(appt),
     legacyVAR: setLegacyVAR(appt),
     comment: appt.additionalInformation,
     videoData: {
       isVideo,
     },
+    ...getCommunityCareData(appt),
     vaos: {
       isVideo,
       appointmentType: getAppointmentType(appt),

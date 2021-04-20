@@ -1,45 +1,16 @@
-import React from 'react';
 // import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { representativeFields } from 'applications/caregivers/definitions/constants';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import environment from 'platform/utilities/environment';
+import { representativeFields } from 'applications/caregivers/definitions/constants';
+import {
+  RepresentativeDocumentUploadDescription,
+  RepresentativeAdditionalInfo,
+} from 'applications/caregivers/components/AdditionalInfo';
+import recordEvent from 'platform/monitoring/record-event';
 
 // const { representative } = fullSchema.properties;
 // const veteranProps = veteran.properties;
 // const { address, phone } = fullSchema.definitions;
-
-const DocumentUploadDescription = () => {
-  return (
-    <section>
-      <p>
-        If you’re signing as a legal representative, you can upload supporting
-        documents showing your authority to complete this application on behalf
-        of the Veteran.
-      </p>
-
-      <h3 style={{ padding: 0, marginBottom: '1.3em' }}>
-        Upload your supporting documentation
-      </h3>
-
-      <p>
-        You can upload document in a .pdf, .jpeg, or .png file format. You’ll
-        first need to scan a copy of your document onto your computer or mobile
-        phone. You can upload the document from there.
-      </p>
-
-      <p>Guidelines for uploading a file:</p>
-      <ul>
-        <li>File types you. can upload: .pdf, .jpeg, or .png</li>
-        <li>Maximum file size: 25MB</li>
-      </ul>
-
-      <em>
-        A 1MB file equals about 500 pages of text. A photo is usually about 6MB.
-        Large files can take longer to upload with a slow internet connection.
-      </em>
-    </section>
-  );
-};
 
 const attachmentsSchema = {
   type: 'array',
@@ -77,7 +48,7 @@ const attachmentsSchema = {
 export default {
   uiSchema: {
     'ui:title': '',
-    'ui:description': DocumentUploadDescription(),
+    'ui:description': RepresentativeDocumentUploadDescription(),
     [representativeFields.documentUpload]: fileUploadUI('', {
       buttonText: 'Upload',
       classNames: 'poa-document-upload',
@@ -91,11 +62,19 @@ export default {
         payload.append('caregiver_attachment[file_data]', file);
         return payload;
       },
-      parseResponse: (response, file) => ({
-        name: file.name,
-        confirmationCode: response.data.attributes.guid,
-        size: file.size,
-      }),
+      parseResponse: (response, file) => {
+        recordEvent({
+          'caregivers-poa-document-success': file.name,
+          'caregivers-poa-document-size': file.size,
+          'caregivers-poa-document-confirmation-code':
+            response.data.attributes.guid,
+        });
+        return {
+          name: file.name,
+          confirmationCode: response.data.attributes.guid,
+          size: file.size,
+        };
+      },
       attachmentSchema: {
         'ui:title': 'Document type',
       },
@@ -103,11 +82,18 @@ export default {
         'ui:title': 'Document name',
       },
     }),
+    'view:placeholderTwo': {
+      'ui:description': RepresentativeAdditionalInfo(),
+    },
   },
   schema: {
     type: 'object',
     properties: {
       [representativeFields.documentUpload]: attachmentsSchema,
+      'view:placeholderTwo': {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };

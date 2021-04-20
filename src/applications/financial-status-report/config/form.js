@@ -60,51 +60,14 @@ const formConfig = {
           uiSchema: pages.veteranInfo.uiSchema,
           schema: pages.veteranInfo.schema,
           editModeOnReviewPage: true,
-          initialData: {
-            personalData: {
-              veteranFullName: {
-                first: 'Hector',
-                last: 'Smith',
-                middle: 'R',
-              },
-              dateOfBirth: '01/01/1970',
-            },
-            personalIdentification: {
-              ssn: '1234',
-              fileNumber: '5678',
-            },
-          },
         },
         availableDebts: {
-          initialData: {
-            selectedDebts: [],
-            debt: {
-              currentAr: 0,
-              debtHistory: [{ date: '' }],
-              deductionCode: '',
-              originalAr: 0,
-            },
-          },
           path: 'available-debts',
           title: 'Available Debts',
           uiSchema: pages.availableDebts.uiSchema,
           schema: pages.availableDebts.schema,
         },
         contactInfo: {
-          initialData: {
-            personalData: {
-              address: {
-                countryName: 'United States',
-                street: '1234 W Nebraska St',
-                city: 'Tampa',
-                stateCode: 'FL',
-                zipCode: '33614',
-              },
-              telephoneNumber: '5551234567',
-              emailAddress: 'hector.smith@email.com',
-              confirmationEmail: '',
-            },
-          },
           path: 'contact-information',
           title: 'Contact Information',
           uiSchema: pages.contactInfo.uiSchema,
@@ -146,20 +109,6 @@ const formConfig = {
           title: 'Benefits',
           uiSchema: pages.benefits.uiSchema,
           schema: pages.benefits.schema,
-          initialData: {
-            income: [
-              {
-                veteranOrSpouse: 'VETERAN',
-                compensationAndPension: '75',
-                education: '1400.40',
-              },
-              {
-                veteranOrSpouse: 'SPOUSE',
-                compensationAndPension: '0',
-                education: '0',
-              },
-            ],
-          },
         },
         socialSecurity: {
           path: 'social-security',
@@ -430,7 +379,7 @@ const formConfig = {
           title: 'Bankruptcy history',
           uiSchema: pages.bankruptcyHistoryRecords.uiSchema,
           schema: pages.bankruptcyHistoryRecords.schema,
-          depends: formData => formData.questions.hasBeenAdjucatedBankrupt,
+          depends: formData => formData.questions.hasBeenAdjudicatedBankrupt,
         },
       },
     },

@@ -82,22 +82,29 @@ const HealthCare = ({
 
   if (isCernerPatient && facilityNames?.length) {
     return (
-      <GeneralCernerWidget
-        facilityNames={facilityNames}
-        authenticatedWithSSOe={authenticatedWithSSOe}
-      />
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+          <GeneralCernerWidget
+            facilityNames={facilityNames}
+            authenticatedWithSSOe={authenticatedWithSSOe}
+          />
+        </div>
+      </div>
     );
   }
 
   const messagesText =
     shouldFetchMessages && !hasInboxError
-      ? `You have ${unreadMessagesCount} new message${
+      ? `You have ${unreadMessagesCount} unread message${
           unreadMessagesCount === 1 ? '' : 's'
         }`
       : 'Send a secure message to your health care team';
 
   return (
-    <div className="health-care-wrapper vads-u-margin-y--6">
+    <div
+      className="health-care-wrapper vads-u-margin-y--6"
+      data-testid="dashboard-section-health-care"
+    >
       <h2>Health care</h2>
 
       <div className="vads-l-row">
@@ -154,7 +161,7 @@ const HealthCare = ({
 
           {/* VA Medical records */}
           <IconCTALink
-            href="/health-care/get-medical-records/"
+            href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
             icon="file-medical"
             text="Get your VA medical records"
           />

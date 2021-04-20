@@ -1,12 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor, screen } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 
 import App from '../containers/App';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { createTestStore } from '../../vaos/tests/mocks/setup';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
+
+export const CHATBOT_ERROR_MESSAGE =
+  'We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk at 800-698-2411 (TTY: 711).';
 
 describe('App', () => {
   let oldWindow;
@@ -44,21 +47,18 @@ describe('App', () => {
         },
       });
 
-      expect(wrapper.getByTestId('webchat')).to.exist;
-
-      expect(screen.findByText('So, what can I help you with today?\n\n')).to
-        .exist;
+      expect(wrapper.getByTestId('webchat-container')).to.exist;
     });
   });
 
-  describe('web chat script has not loaded', () => {
+  describe.skip('web chat script has not loaded', () => {
     async function wait(timeout) {
       return new Promise(resolve => {
         setTimeout(resolve, timeout);
       });
     }
 
-    it.skip('should wait until webchat is loaded', async () => {
+    it('should wait until webchat is loaded', async () => {
       const wrapper = renderInReduxProvider(<App />, {
         initialState: {
           featureToggles: {
@@ -67,15 +67,37 @@ describe('App', () => {
         },
       });
 
-      expect(wrapper.getByText('waiting on webchat framework . . .')).to.exist;
+      expect(wrapper.getByRole('progressbar')).to.exist;
 
       await wait(500);
 
       loadWebChat();
 
-      await wait(100);
+      await wait(300);
 
-      expect(wrapper.getByTestId('webchat')).to.exist;
+      expect(wrapper.getByTestId('webchat-container')).to.exist;
+    });
+
+    it('should display error if webchat does not load after x milliseconds', async () => {
+      const wrapper = renderInReduxProvider(<App webchatTimeout={1500} />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      expect(wrapper.getByRole('progressbar')).to.exist;
+
+      await wait(2000);
+
+      loadWebChat();
+
+      await wait(300);
+
+      expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist;
+
+      expect(wrapper.queryByRole('progressbar')).to.not.exist;
     });
   });
 
@@ -139,9 +161,7 @@ describe('App', () => {
 
       store.dispatch({ type: FETCH_TOGGLE_VALUES_SUCCEEDED, payload: {} });
 
-      expect(wrapper.getByTestId('webchat')).to.exist;
-
-      expect(wrapper.queryByRole('progressbar')).to.not.exist;
+      expect(wrapper.getByTestId('webchat-container')).to.exist;
 
       await waitFor(() => expect(getTokenCalled()).to.equal(true));
     });
