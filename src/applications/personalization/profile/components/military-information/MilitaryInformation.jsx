@@ -20,6 +20,7 @@ import LoadFail from '../alerts/LoadFail';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import facilityLocator from 'applications/facility-locator/manifest.json';
 
+import Headline from '../ProfileSectionHeadline';
 import ProfileInfoTable from '../ProfileInfoTable';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
 
@@ -199,13 +200,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
 
   return (
     <>
-      <h2
-        tabIndex="-1"
-        className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
-        data-focus-target
-      >
-        Military information
-      </h2>
+      <Headline>Military information</Headline>
       <DowntimeNotification
         appTitle="Military Information"
         render={handleDowntimeForSection('military service')}
