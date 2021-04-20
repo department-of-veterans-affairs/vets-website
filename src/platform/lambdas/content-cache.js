@@ -11,7 +11,7 @@ const tar = require('tar-stream');
 const getOptions = require('../../site/stages/build/options');
 const getDrupalClient = require('../../site/stages/build/drupal/api');
 
-const ASSET_REGEX = /"[^"]+(?:\.amazonaws\.com|\.cms\.va\.gov)\/(sites\/[^"]+\/files\/([^"]+))"/g;
+const ASSET_REGEX = /"https?:\/\/[^"]+(?:\.amazonaws\.com|\.cms\.va\.gov)\/(sites\/[^"]+\/files\/([^"\\]+))\\?"/g;
 
 const IMG_SUFFIXES = ['png', 'jpg', 'jpeg', 'gif', 'svg'];
 
@@ -73,27 +73,23 @@ exports.handler = async function(event, context) {
       assetDownloads.push(
         fetch(assetUrl)
           .then(response => {
-            if (!response.ok) {
-              throw new Error(
-                `Failed to fetch asset ${assetUrl}: ${response.statusText}`,
-              );
-            }
-
-            return response.buffer();
+            if (response.ok) return response.buffer();
+            throw new Error(`Failed to fetch asset at ${assetUrl}.`);
           })
           .then(data => {
+            const downloadPath = filePath.split('?', 2)[0];
+
             const isImg = IMG_SUFFIXES.some(ext =>
-              assetUrl.toLowerCase().endsWith(ext),
+              downloadPath.toLowerCase().endsWith(ext),
             );
 
             const archivePath = path.join(
               'cache/downloads',
               isImg ? 'img' : 'files',
-              filePath,
+              downloadPath,
             );
 
             tarball.entry({ name: archivePath }, data);
-            console.log('Archived asset at', archivePath);
           })
           .catch(console.error),
       );
