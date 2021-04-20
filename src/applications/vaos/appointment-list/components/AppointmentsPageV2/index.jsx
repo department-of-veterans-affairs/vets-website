@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
@@ -62,6 +62,7 @@ function AppointmentsPageV2({
   startNewExpressCareFlow,
 }) {
   const location = useLocation();
+  const [hasTypeChanged, setHasTypeChanged] = useState(false);
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -84,15 +85,6 @@ function AppointmentsPageV2({
   );
   const history = useHistory();
 
-  const routes = (
-    <Switch>
-      <Route exact path="/" component={UpcomingAppointmentsList} />
-      <Route path="/requested" component={RequestedAppointmentsList} />
-      <Route path="/past" component={PastAppointmentsListV2} />
-      <Route path="/canceled" component={CanceledAppointmentsList} />
-    </Switch>
-  );
-
   function onDropdownChange(e) {
     const value = e.target.value;
     if (value === DROPDOWN_VALUES.upcoming) {
@@ -104,7 +96,10 @@ function AppointmentsPageV2({
     } else if (value === DROPDOWN_VALUES.canceled) {
       history.push('/canceled');
     }
+    setHasTypeChanged(true);
   }
+
+  const dropdownValue = getDropdownValueFromLocation(location.pathname);
 
   return (
     <>
@@ -143,9 +138,22 @@ function AppointmentsPageV2({
         options={options}
         onChange={onDropdownChange}
         id="type-dropdown"
-        value={getDropdownValueFromLocation(location.pathname)}
+        value={dropdownValue}
       />
-      {routes}
+      <Switch>
+        <Route exact path="/">
+          <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
+        </Route>
+        <Route path="/requested">
+          <RequestedAppointmentsList hasTypeChanged={hasTypeChanged} />
+        </Route>
+        <Route path="/past">
+          <PastAppointmentsListV2 hasTypeChanged={hasTypeChanged} />
+        </Route>
+        <Route path="/canceled">
+          <CanceledAppointmentsList hasTypeChanged={hasTypeChanged} />
+        </Route>
+      </Switch>
     </>
   );
 }
