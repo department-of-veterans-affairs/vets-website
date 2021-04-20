@@ -19,31 +19,47 @@ const loadWebChat = () => {
 
 loadWebChat();
 
-export default function App() {
-  const [isLoaded, setLoaded] = useState(!!window.WebChat);
+function checkForWebchat(
+  setLoading,
+  setError,
+  MAX_INTERVAL_CALL_COUNT,
+  timeout,
+) {
+  let intervalCallCount = 0;
+  const intervalId = setInterval(() => {
+    intervalCallCount++;
+    if (window.WebChat) {
+      setLoading(false);
+      setError(false);
+      clearInterval(intervalId);
+    } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
+      setError(true);
+      setLoading(false);
+      clearInterval(intervalId);
+    }
+  }, timeout);
+}
+
+export default function App(props) {
+  const [isLoading, setLoading] = useState(!window.WebChat);
   const [error, setError] = useState(false);
 
-  let intervalCallCount = 0;
-  const MAX_INTERVAL_CALL_COUNT = 6;
+  const TIMEOUT_DURATION_MS = 250;
+  const DEFAULT_WEBCHAT_TIMEOUT = 1 * 60 * 1000;
 
-  if (!isLoaded) {
-    const intervalId = setInterval(() => {
-      intervalCallCount++;
-      if (window.WebChat) {
-        setLoaded(true);
-        setError(false);
-        clearInterval(intervalId);
-      } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
-        setError(true);
-        clearInterval(intervalId);
-      }
-    }, 300);
-    return error ? (
-      <ChatbotError />
-    ) : (
-      <LoadingIndicator message={'Loading Virtual Agent'} />
+  const webchatTimeout = props.webchatTimeout
+    ? props.webchatTimeout
+    : DEFAULT_WEBCHAT_TIMEOUT;
+  const MAX_INTERVAL_CALL_COUNT = webchatTimeout / TIMEOUT_DURATION_MS;
+
+  if (isLoading) {
+    checkForWebchat(
+      setLoading,
+      setError,
+      MAX_INTERVAL_CALL_COUNT,
+      TIMEOUT_DURATION_MS,
     );
+    return <LoadingIndicator message={'Loading Virtual Agent'} />;
   }
-
-  return <WaitForFeatureToggles />;
+  return error ? <ChatbotError /> : <WaitForFeatureToggles />;
 }

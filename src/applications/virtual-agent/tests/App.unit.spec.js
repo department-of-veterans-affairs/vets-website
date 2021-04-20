@@ -73,31 +73,13 @@ describe('App', () => {
 
       loadWebChat();
 
-      await wait(100);
+      await wait(300);
 
       expect(wrapper.getByTestId('webchat-container')).to.exist;
     });
 
-    it('should display error if webchat never loads', async () => {
-      const wrapper = renderInReduxProvider(<App />, {
-        initialState: {
-          featureToggles: {
-            loading: false,
-          },
-        },
-      });
-
-      expect(wrapper.getByRole('progressbar')).to.exist;
-
-      await wait(3000);
-
-      expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist;
-
-      expect(wrapper.queryByRole('progressbar')).to.not.exist;
-    });
-
     it('should display error if webchat does not load after x milliseconds', async () => {
-      const wrapper = renderInReduxProvider(<App />, {
+      const wrapper = renderInReduxProvider(<App webchatTimeout={1500} />, {
         initialState: {
           featureToggles: {
             loading: false,
@@ -107,7 +89,7 @@ describe('App', () => {
 
       expect(wrapper.getByRole('progressbar')).to.exist;
 
-      await wait(3500);
+      await wait(2000);
 
       loadWebChat();
 
