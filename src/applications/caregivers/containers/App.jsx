@@ -15,13 +15,16 @@ const App = ({ loading, location, children }) => {
   useEffect(
     () => {
       if (!loading) {
-        const checkBoxes = [
-          ...document.querySelectorAll('[value="Y"]'),
-          ...document.querySelectorAll('[value="N"]'),
-        ];
+        const checkBoxes = document.querySelectorAll('input[type="radio"]');
         for (const checkbox of checkBoxes) {
           checkbox.onclick = e => {
-            const label = e.target.closest('fieldset')?.firstChild?.innerText;
+            const label = e.target.nextElementSibling.innerText;
+            // eslint-disable-next-line no-console
+            console.log(
+              label,
+              e.target.value,
+              'LABEL AND VALUE SENT TO RECORD EVENT',
+            );
             recordEvent({
               'caregivers-check-box-label': label,
               'caregivers-check-box-clicked': e.target,
