@@ -24,5 +24,5 @@ export default function useFacilitiesQuery(facilityIdOrArray = []) {
 
   queryClient.setQueryData('facilities', facilityData);
 
-  return { facilityData, status };
+  return { facilityData: facilityData || currentFacilities, status };
 }

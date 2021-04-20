@@ -10,6 +10,7 @@ import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
   FETCH_STATUS,
+  QUERY_STATUS,
 } from '../../utils/constants';
 import { lowerCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -18,6 +19,7 @@ import VAFacilityLocation from '../../components/VAFacilityLocation';
 import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import {
+  fetchRequestById,
   getPatientTelecom,
   getVAAppointmentLocationId,
 } from '../../services/appointment';
@@ -29,6 +31,8 @@ import {
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './AppointmentsPage/PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
+import useFacilitiesQuery from '../../hooks/useFacilitiesQuery';
+import { useQuery, useQueryClient } from 'react-query';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -37,21 +41,26 @@ const TIME_TEXT = {
 };
 
 function RequestedAppointmentDetailsPage({
-  appointment,
-  appointmentDetailsStatus,
   cancelAppointment,
   cancelInfo,
   closeCancelAppointment,
   confirmCancelAppointment,
-  facilityData,
-  fetchRequestDetails,
   message,
 }) {
   const { id } = useParams();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    fetchRequestDetails(id);
-  }, []);
+  const { data: appointment, status: appointmentDetailsStatus } = useQuery(
+    ['pending', id],
+    () => fetchRequestById(id),
+    {
+      initialData: () =>
+        queryClient.getQueryData('pending')?.find(appt => appt.id === id),
+    },
+  );
+
+  const facilityId = getVAAppointmentLocationId(appointment);
+  const { facilityData } = useFacilitiesQuery(facilityId);
 
   useEffect(
     () => {
@@ -88,8 +97,8 @@ function RequestedAppointmentDetailsPage({
   useEffect(
     () => {
       if (
-        appointmentDetailsStatus === FETCH_STATUS.failed ||
-        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+        appointmentDetailsStatus === QUERY_STATUS.error ||
+        (appointmentDetailsStatus === QUERY_STATUS.success && !appointment)
       ) {
         scrollAndFocus();
       }
@@ -98,8 +107,8 @@ function RequestedAppointmentDetailsPage({
   );
 
   if (
-    appointmentDetailsStatus === FETCH_STATUS.failed ||
-    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+    appointmentDetailsStatus === QUERY_STATUS.error ||
+    (appointmentDetailsStatus === QUERY_STATUS.success && !appointment)
   ) {
     return (
       <FullWidthLayout>
@@ -108,7 +117,7 @@ function RequestedAppointmentDetailsPage({
     );
   }
 
-  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
+  if (!appointment || appointmentDetailsStatus === QUERY_STATUS.loading) {
     return (
       <FullWidthLayout>
         <LoadingIndicator
@@ -123,7 +132,6 @@ function RequestedAppointmentDetailsPage({
   const isCC = appointment.vaos.isCommunityCare;
   const isVideoRequest = appointment.vaos.isVideo;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
-  const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;

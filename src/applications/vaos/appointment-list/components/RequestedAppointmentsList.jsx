@@ -45,7 +45,7 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
 
   const { facilityData } = useFacilitiesQuery(
     pendingAppointments
-      ?.filter(appt => appt.vaos && !appt.vaos.isCommunityCare)
+      ?.filter(appt => !appt.vaos.isCommunityCare)
       .map(getVAAppointmentLocationId),
   );
 
