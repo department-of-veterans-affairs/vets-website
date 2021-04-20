@@ -29,14 +29,14 @@
               <li>
                 <a href="{{ crumb.url.path }}"
                    lang="{{ crumb.url.path | detectLang }}"
-                   onclick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ customHomeCrumbText }}
+                   onclick="recordEvent({ event: 'nav-breadcrumb-link-click', 'breadcrumbs-clickLabel': 'home' });">{{ customHomeCrumbText }}
                 </a>
               </li>
             {% else %}
               <li>
                 <a href="{{ crumb.url.path }}"
                   lang="{{ crumb.url.path | detectLang }}"
-                  onclick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ crumb.text }}
+                  onclick="recordEvent({ event: 'nav-breadcrumb-link-click', 'breadcrumbs-clickLabel': 'home' });">{{ crumb.text }}
                 </a>
               </li>
             {% endif %}
