@@ -73,7 +73,7 @@ describe('App', () => {
 
       loadWebChat();
 
-      await wait(100);
+      await wait(300);
 
       expect(wrapper.getByTestId('webchat-container')).to.exist;
     });

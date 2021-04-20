@@ -19,31 +19,42 @@ const loadWebChat = () => {
 
 loadWebChat();
 
+function checkForWebchat(
+  setLoading,
+  setError,
+  MAX_INTERVAL_CALL_COUNT,
+  timeout,
+) {
+  let intervalCallCount = 0;
+  const intervalId = setInterval(() => {
+    intervalCallCount++;
+    if (window.WebChat) {
+      setLoading(false);
+      setError(false);
+      clearInterval(intervalId);
+    } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
+      setError(true);
+      setLoading(false);
+      clearInterval(intervalId);
+    }
+  }, timeout);
+}
+
 export default function App() {
-  const [isLoaded, setLoaded] = useState(!!window.WebChat);
+  const [isLoading, setLoading] = useState(!window.WebChat);
   const [error, setError] = useState(false);
 
-  let intervalCallCount = 0;
   const MAX_INTERVAL_CALL_COUNT = 6;
+  const TIMEOUT_DURATION_MS = 250;
 
-  if (!isLoaded) {
-    const intervalId = setInterval(() => {
-      intervalCallCount++;
-      if (window.WebChat) {
-        setLoaded(true);
-        setError(false);
-        clearInterval(intervalId);
-      } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
-        setError(true);
-        clearInterval(intervalId);
-      }
-    }, 300);
-    return error ? (
-      <ChatbotError />
-    ) : (
-      <LoadingIndicator message={'Loading Virtual Agent'} />
+  if (isLoading) {
+    checkForWebchat(
+      setLoading,
+      setError,
+      MAX_INTERVAL_CALL_COUNT,
+      TIMEOUT_DURATION_MS,
     );
+    return <LoadingIndicator message={'Loading Virtual Agent'} />;
   }
-
-  return <WaitForFeatureToggles />;
+  return error ? <ChatbotError /> : <WaitForFeatureToggles />;
 }
