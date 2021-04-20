@@ -34,7 +34,7 @@ const App = ({ loading, location, children }) => {
         }
       }
     },
-    [loading],
+    [loading, location],
   );
   if (loading) {
     return <LoadingIndicator />;
