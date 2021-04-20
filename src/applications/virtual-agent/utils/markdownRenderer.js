@@ -3,6 +3,7 @@ import markdownitLinkAttributes from 'markdown-it-link-attributes';
 
 const markdownRenderer = MarkdownIt({
   html: true,
+  linkify: true,
 }).use(markdownitLinkAttributes, {
   attrs: {
     target: '_blank',
