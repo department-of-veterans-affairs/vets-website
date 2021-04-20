@@ -68,7 +68,8 @@ exports.handler = async function(event, context) {
   for (const [, relativePath, filePath] of assetIterator) {
     if (!assetPaths.has(relativePath)) {
       assetPaths.add(relativePath);
-      const assetUrl = new URL(relativePath, DRUPAL_ADDRESS).toString();
+      const assetUrl = new URL(relativePath, DRUPAL_ADDRESS);
+      assetUrl.search = '';
 
       assetDownloads.push(
         fetch(assetUrl)
