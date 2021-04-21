@@ -211,21 +211,17 @@ export async function fetchBookedAppointment(id, type) {
  * @returns {Boolean} Whether or not the appointment is by phone
  */
 export function isVAPhoneAppointment(appointment) {
-  return appointment.vaos.isPhoneAppointment;
+  return appointment?.vaos.isPhoneAppointment;
 }
 
 /**
- * Gets legacy VAR facility id from HealthcareService reference
+ * Gets the VistA site id for an appointment
  *
  * @param {Appointment} appointment VAR Appointment in FHIR schema
  * @returns {string} Legacy VAR facility id
  */
-export function getVARFacilityId(appointment) {
-  if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    return appointment.location?.vistaId;
-  }
-
-  return null;
+export function getVistaSiteId(appointment) {
+  return appointment?.location.vistaId;
 }
 
 /**
@@ -235,11 +231,7 @@ export function getVARFacilityId(appointment) {
  * @returns {string} Legacy VAR clinic id
  */
 export function getVARClinicId(appointment) {
-  if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    return appointment.location?.clinicId;
-  }
-
-  return null;
+  return appointment?.location.clinicId;
 }
 
 /**
@@ -250,14 +242,7 @@ export function getVARClinicId(appointment) {
  * @returns {string} The location id where the VA appointment is located
  */
 export function getVAAppointmentLocationId(appointment) {
-  if (
-    appointment?.vaos.isVideo &&
-    appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment
-  ) {
-    return appointment.videoData.facilityId;
-  }
-
-  return appointment?.location?.stationId;
+  return appointment?.location.stationId;
 }
 /**
  * Returns the patient telecom info in a VA appointment
@@ -265,12 +250,10 @@ export function getVAAppointmentLocationId(appointment) {
  * @export
  * @param {Appointment} appointment A FHIR appointment resource
  * @param {string} system A FHIR telecom system id
- * @returns {string} The patient telecome value
+ * @returns {string} The patient telecom value
  */
 export function getPatientTelecom(appointment, system) {
-  return appointment?.contained?.patient?.telecom?.find(
-    t => t.system === system,
-  )?.value;
+  return appointment?.contact?.telecom.find(t => t.system === system)?.value;
 }
 
 /**
@@ -507,34 +490,19 @@ export function isVideoHome(appointment) {
 }
 
 /**
- * Method to check for the existence of a practitioner
- * @param {Appointment} appointment An appointment resource
- * @return {boolean} Returns whether or not the appointment has a practitioner.
+ * Get the name of the first preferred community care provider, or generic text
+ *
+ * @param {Appointment} appointment An appointment object
+ * @return {String} Returns the community care provider name
  */
-export function hasPractitioner(appointment) {
-  return !!appointment?.participant?.some(item =>
-    item.actor?.reference?.includes('Practitioner'),
-  );
-}
+export function getPreferredCommunityCareProviderName(appointment) {
+  const provider = appointment?.preferredCommunityCareProviders?.[0];
 
-/**
- * Method to parse out the appointment practitioner of participants array
- * @param {Array} participants An array of appointment participants
- * @return {string} Returns the appointment practitioner display value.
- */
-export function getPractitionerDisplay(participants) {
-  return participants?.find(p => p.actor.reference.includes('Practitioner'))
-    .actor.display;
-}
+  if (provider) {
+    return provider.practicName || provider.providerName;
+  }
 
-/**
- * Method to parse out the appointment practitioner location display in contained array
- * @param {Array} participants An array of appointment participants
- * @return {Object} Returns the appointment practitioner object.
- */
-export function getPractitionerLocationDisplay(appointment) {
-  return appointment.contained?.practitioner?.practitionerRole?.[0]
-    ?.location?.[0]?.display;
+  return 'Community care';
 }
 
 /**

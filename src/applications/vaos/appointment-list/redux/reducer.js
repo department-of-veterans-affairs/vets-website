@@ -310,7 +310,7 @@ export default function appointmentsReducer(state = initialState, action) {
         }
 
         const newAppt = set(
-          'legacyVAR.apiData.vdsAppointments[0].currentStatus',
+          'vaos.apiData.vdsAppointments[0].currentStatus',
           'CANCELLED BY PATIENT',
           appt,
         );
@@ -326,8 +326,8 @@ export default function appointmentsReducer(state = initialState, action) {
 
         const newAppt = {
           ...appt,
-          legacyVAR: {
-            ...appt.legacyVAR,
+          vaos: {
+            ...appt.vaos,
             apiData: action.apiData,
           },
         };
@@ -343,8 +343,8 @@ export default function appointmentsReducer(state = initialState, action) {
           [appointmentToCancel.id]: {
             ...appointmentDetails[appointmentToCancel.id],
             status: APPOINTMENT_STATUS.cancelled,
-            legacyVAR: {
-              ...appointmentDetails[appointmentToCancel.id].legacyVAR,
+            vaos: {
+              ...appointmentDetails[appointmentToCancel.id].vaos,
               apiData: action.apiData,
             },
           },

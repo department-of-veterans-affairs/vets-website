@@ -9,7 +9,7 @@ import { APPOINTMENT_TYPES, FETCH_STATUS } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import * as actions from '../redux/actions';
 import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
-import { getVARFacilityId } from '../../services/appointment';
+import { getVistaSiteId } from '../../services/appointment';
 import AddToCalendar from '../../components/AddToCalendar';
 import FacilityAddress from '../../components/FacilityAddress';
 import { formatFacilityAddress } from '../../services/location';
@@ -91,7 +91,7 @@ function CommunityCareAppointmentDetailsPage({
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
-          facilityId={getVARFacilityId(appointment)}
+          facilityId={getVistaSiteId(appointment)}
         />
       </h1>
 

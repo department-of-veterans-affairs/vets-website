@@ -14,8 +14,7 @@
  * @property {'Appointment'} resourceType Static resource type string
  * @property {string} id Mapped from appointment.id, request.id, or ccAppointment.id
  * @property {?string} created Mapped from request.createdDate, timezone is unclear
- * @property {?Object} cancelationReason Cancellation reason for a requestion, mapped from request.appointmentRequestDetailCode
- * @property {string} cancelationReason.text veteranMessage field mapped only for requests, used for Express Care only
+ * @property {?string} cancelationReason veteranMessage field mapped only for requests, used for Express Care only
  * @property {AppointmentStatus} status Status for an appointment, from first requested to completed
  * - Mapped from appointment.vdsAppointments[0].currentStatus or appointment.vvsAppointments[0].status.code for appointments.
  * - Mapped from request.status for requests
@@ -44,11 +43,7 @@
  * - Empty for other appointment types
  * @property {VistaAppointmentParticipants | VARequestParticipants} participant
  *   Array of resources participating in this appointment, used to store information like clinic and location
- * @property {VARequestContainedResources} contained
- *   Array of fully defined resources for this appointment
- * @property {Object} legacyVAR Object containing untransformed data that we don't have a place for
- * @property {Object} legacyVAR.apiData This is the full appointment/request object. Generally, we shouldn't be pulling data from here
- * @property {?Object} legacyVAR.bestTimeToCall Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
+ * @property {?Array<string>} preferredTimesForPhoneCall Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
  * @property {?Array<RequestedPeriod>} requestedPeriods Mapped from request.optionDate and request.optionTime fields 1 through 3
  * @property {VideoData} videoData Information associated with video visits from Video Visit Service (via MAS)
  * @property {CommunityCareProvider} communityCareProvider The community provider for the appointment, if this is a CC appointment
@@ -137,6 +132,7 @@
  * @property {?boolean} isCOVIDVaccine Set to true if appointment is for a COVID vaccine, denoted by appt.char4 equaling CDQC
  * @property {boolean} isVideo Set to true for video appointments or requests. Will be true if request.visitType is set to
  *   video conference, or appointment.vvsAppointments has an item
+ * @property {Object} apiData This is the full appointment/request object. Generally, we shouldn't be pulling data from here
  */
 
 /**

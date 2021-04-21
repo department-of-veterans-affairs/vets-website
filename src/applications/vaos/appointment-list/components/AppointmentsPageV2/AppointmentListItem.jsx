@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from '../../../lib/moment-tz';
 import {
-  getVARFacilityId,
+  getVistaSiteId,
   isVAPhoneAppointment,
 } from '../../../services/appointment';
 import {
@@ -67,7 +67,7 @@ function VAFacilityName({ facility }) {
 export default function AppointmentListItem({ appointment, facility }) {
   const history = useHistory();
   const appointmentDate = moment.parseZone(appointment.start);
-  const facilityId = getVARFacilityId(appointment);
+  const facilityId = getVistaSiteId(appointment);
   const isCommunityCare = appointment.vaos.isCommunityCare;
   const isVideo = appointment.vaos.isVideo;
   const isPhone = isVAPhoneAppointment(appointment);

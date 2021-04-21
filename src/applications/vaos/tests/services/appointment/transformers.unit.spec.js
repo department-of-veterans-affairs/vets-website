@@ -829,57 +829,6 @@ describe('VAOS Appointment transformer', () => {
       expect(data.reason).to.equal('Follow-up/Routine');
     });
 
-    describe('Appointment contained resources', () => {
-      const practitionerData = data.contained.practitioner;
-      const patientData = data.contained.patient;
-
-      describe('should set provider location', () => {
-        it('should set location reference', () => {
-          expect(
-            practitionerData.practitionerRole[0].location[0].reference,
-          ).to.equal('Location/cc-location-8a4886886e4c8e22016e6613216d001f-0');
-        });
-
-        it('should set the display', () => {
-          expect(
-            practitionerData.practitionerRole[0].location[0].display,
-          ).to.contain('Some practice');
-        });
-
-        it('should set provider contact info', () => {
-          expect(practitionerData.name.given).to.equal('Test');
-          expect(practitionerData.name.family).to.equal('User');
-          expect(practitionerData.name.text).to.equal('Test User');
-        });
-      });
-
-      describe('should set patient info in participants', () => {
-        it('should set phone', () => {
-          const telecomPhone = patientData.telecom.filter(
-            t => t.system === 'phone',
-          )[0];
-          expect(telecomPhone.value).to.equal('(555) 555-5555');
-        });
-
-        it('should set email', () => {
-          const telecomEmail = patientData.telecom.filter(
-            t => t.system === 'email',
-          )[0];
-          expect(telecomEmail.value).to.equal('Vilasini.reddy@va.gov');
-        });
-      });
-    });
-
-    describe('Legacy VAR attributes', () => {
-      it('should set bestTimeToCall', () => {
-        expect(data.legacyVAR.apiData.bestTimetoCall).to.deep.equal([
-          'Afternoon',
-          'Evening',
-          'Morning',
-        ]);
-      });
-    });
-
     describe('VAOS attributes', () => {
       it('should set appointmentType', () => {
         expect(data.vaos.appointmentType).to.equal('ccRequest');
