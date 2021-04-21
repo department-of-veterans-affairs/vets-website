@@ -4,10 +4,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import moment from 'moment';
-import {
-  getCovid19VaccineFormPageInfo,
-  selectPageChangeInProgress,
-} from '../redux/selectors';
+import { getReviewPage, selectPageChangeInProgress } from '../redux/selectors';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -18,7 +15,7 @@ const pageTitle = 'When to expect a second dose';
 
 export default function SecondDosePage() {
   const { data, facility } = useSelector(
-    state => getCovid19VaccineFormPageInfo(state, pageKey),
+    state => getReviewPage(state, pageKey),
     shallowEqual,
   );
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
