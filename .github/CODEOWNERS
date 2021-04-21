@@ -49,6 +49,7 @@ src/applications/disability-benefits/686c-674 @department-of-veterans-affairs/vs
 src/applications/personalization/rated-disabilities @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/personalization/view-dependents @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/vre @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
+src/applications/lgy @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
 # Shared templates
 src/site/includes @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
