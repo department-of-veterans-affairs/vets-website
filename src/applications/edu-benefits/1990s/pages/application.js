@@ -15,6 +15,7 @@ import {
   schema as addressSchema,
 } from 'platform/forms/definitions/address';
 import _ from 'lodash';
+import environment from 'platform/utilities/environment';
 
 const {
   veteranFullName,
@@ -61,11 +62,19 @@ const uiSchema = {
       mobilePhone: phoneUI('Mobile phone number'),
       alternatePhone: phoneUI('Home phone number'),
       email: emailUI(),
-      'view:confirmEmail': _.merge(emailUI('Confirm email address'), {
-        'ui:options': {
-          hideOnReview: true,
+      'view:confirmEmail': _.merge(
+        // Prod Flag bah-23496
+        emailUI(
+          environment.isProduction()
+            ? 'Re-enter email address'
+            : 'Confirm email address',
+        ),
+        {
+          'ui:options': {
+            hideOnReview: true,
+          },
         },
-      }),
+      ),
     },
     address: {
       ...addressUiSchema,
@@ -77,10 +86,6 @@ const uiSchema = {
         'ui:title': 'Street address',
       },
       city: addressUiSchema.city,
-      state: {
-        ...addressUiSchema.state,
-        'ui:title': 'State / Province / Region',
-      },
     },
   },
   'view:directDeposit': directDepositUiSchema,

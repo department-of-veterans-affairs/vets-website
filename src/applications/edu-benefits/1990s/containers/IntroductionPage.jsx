@@ -6,12 +6,12 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { connect } from 'react-redux';
 import OMBInfo from '../content/OMBInfo';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
+import environment from 'platform/utilities/environment';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
-
   loginPrompt() {
     if (this.props.isLoggedIn) {
       return null;
@@ -32,6 +32,11 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
+    // Prod Flag bah-23496
+    const classNameProdFlag = environment.isProduction()
+      ? 'omb-info--container'
+      : 'omb-info--container vads-u-margin-top--2';
+
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)" />
@@ -124,7 +129,7 @@ class IntroductionPage extends React.Component {
           hideUnauthedStartLink
         />
         <div
-          className="omb-info--container vads-u-margin-top--2"
+          className={classNameProdFlag}
           style={{ paddingLeft: '0px' }}
           id="privacy_policy"
         >

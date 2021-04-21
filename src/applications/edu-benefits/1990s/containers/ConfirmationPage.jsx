@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
-
+import environment from 'platform/utilities/environment';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
 const scroller = Scroll.scroller;
@@ -17,7 +17,12 @@ const scrollToTop = () => {
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('.confirmation-page-title');
+    // Prod Flag bah-23496
+    focusElement(
+      environment.isProduction()
+        ? '.schemaform-title > h1'
+        : '.confirmation-page-title',
+    );
     scrollToTop();
   }
   render() {

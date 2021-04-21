@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import moment from 'moment';
+import environment from 'platform/utilities/environment';
 
 export function ConfirmationPageContent({
   additionalGuidance,
@@ -37,6 +38,9 @@ export function ConfirmationPageContent({
   const [isExpanded, setIsExpanded] = useState(false);
   const response = submission.response ? submission.response.attributes : {};
   const displayFormId = formId[0] === '2' ? `Form ${formId}` : formId;
+  // Prod Flag bah-23496
+  const prodFlag1990s =
+    formId === 'VRRAP' && environment.isProduction() ? 'line-height' : '';
 
   const claimList = () => {
     return [
@@ -50,7 +54,7 @@ export function ConfirmationPageContent({
         <br />
         <span>{moment(submission.submittedAt).format('MMM D, YYYY')}</span>
       </li>,
-      <li key={'regional-office'}>
+      <li className={prodFlag1990s} key={'regional-office'}>
         <strong>Your claim was sent to</strong>
         <br />
         <address className="schemaform-address-view">
