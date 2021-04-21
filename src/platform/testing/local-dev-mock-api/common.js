@@ -78,6 +78,7 @@ const responses = {
         { name: 'vaOnlineSchedulingProviderSelection', value: true },
         { name: 'vaOnlineSchedulingCheetah', value: true },
         { name: 'vaOnlineSchedulingHomepageRefresh', value: true },
+        { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
