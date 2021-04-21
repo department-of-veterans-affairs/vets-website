@@ -49,6 +49,12 @@ export default function ToDoQuestionnaireItem({ data }) {
         )
       }
       DueDate={() => {
+        if (!appointmentTime)
+          return (
+            <section className="due-date" data-testid="due-date">
+              <p />
+            </section>
+          );
         const dueDate = moment(appointmentTime);
         const guess = moment.tz.guess();
         const formattedTimezone = moment.tz(guess).format('z');
