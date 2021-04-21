@@ -257,18 +257,7 @@ export function getVAAppointmentLocationId(appointment) {
     return appointment.videoData.facilityId;
   }
 
-  if (appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    return appointment.location?.stationId;
-  } else {
-    const locationReference = appointment?.location?.find(p =>
-      p.actor.reference?.startsWith('Location'),
-    )?.actor?.reference;
-
-    if (locationReference) {
-      return locationReference.split('/')[1];
-    }
-    return null;
-  }
+  return appointment?.location?.stationId;
 }
 /**
  * Returns the patient telecom info in a VA appointment
