@@ -1,18 +1,13 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
-import { combineReducers, createStore } from 'redux';
-
-import { commonReducer } from 'platform/startup/store';
-import reducers from '../../reducers';
 
 import {
   mockApiRequest,
   mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
 
-import ConnectedConfirmationPoll, {
+import {
   ConfirmationPoll,
   selectAllDisabilityNames,
 } from '../../components/ConfirmationPoll';
@@ -74,7 +69,6 @@ describe('ConfirmationPoll', () => {
     fullName: { first: 'asdf', last: 'fdsa' },
     disabilities: [],
     submittedAt: Date.now(),
-    areConfirmationEmailTogglesOn: false,
   };
 
   afterEach(() => {
@@ -120,8 +114,6 @@ describe('ConfirmationPoll', () => {
         fullName: defaultProps.fullName,
         disabilities: defaultProps.disabilities,
         submittedAt: defaultProps.submittedAt,
-        areConfirmationEmailTogglesOn:
-          defaultProps.areConfirmationEmailTogglesOn,
       });
       tree.unmount();
       done();
@@ -273,34 +265,6 @@ describe('ConfirmationPoll', () => {
         newDisabilities[0].condition,
         newDisabilities[1].condition,
       ]);
-    });
-  });
-
-  describe('ConnectedConfirmationPoll', () => {
-    it('should return areConfirmationEmailTogglesOn as true when confirmationEmailFeature toggles on', () => {
-      mockApiRequest(successResponse.response);
-      const togglesOnState = {
-        featureToggles: {
-          /* eslint-disable camelcase */
-          form526_confirmation_email: true,
-          form526_confirmation_email_show_copy: true,
-        },
-      };
-      const commonStore = createStore(
-        combineReducers({ ...commonReducer, ...reducers }),
-        togglesOnState,
-      );
-      const connectedConfirmationPoll = mount(
-        <Provider store={commonStore}>
-          <ConnectedConfirmationPoll {...defaultProps} pollRate={10} />
-        </Provider>,
-      );
-
-      expect(
-        connectedConfirmationPoll.find('ConfirmationPoll').props()
-          .areConfirmationEmailTogglesOn,
-      ).to.be.true;
-      connectedConfirmationPoll.unmount();
     });
   });
 });

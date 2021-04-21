@@ -83,7 +83,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     expect(screen.getAllByRole('combobox').length).to.equal(2);
     expect(
       screen.getByRole('link', { name: /facility locator/i }),
-    ).to.have.attribute('href', '/find-locations/?facilityType=cc_provider');
+    ).to.have.attribute('href', '/find-locations/?facilityType=provider');
     expect(screen.baseElement).to.contain.text(
       'We’ll try to schedule your appointment',
     );

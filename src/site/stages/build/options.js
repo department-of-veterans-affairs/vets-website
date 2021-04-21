@@ -67,6 +67,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
   { name: 'lint-plain-language', type: Boolean, defaultValue: false },
   { name: 'verbose', alias: 'v', type: Boolean, defaultValue: false },
   { name: 'omitdebug', type: Boolean, defaultValue: false },
+  { name: 'force-content-build', type: Boolean, defaultValue: false },
 ];
 
 function gatherFromCommandLine() {

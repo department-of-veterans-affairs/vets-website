@@ -19,13 +19,15 @@ import {
 } from '../../services/appointment';
 import {
   selectFeatureExpressCareNewRequest,
-  selectFeatureProjectCheetah,
+  selectFeatureCovid19Vaccine,
+  selectFeatureRequests,
+  selectIsCernerOnlyPatient,
 } from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
 } from '../../utils/timezone';
-import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../project-cheetah/utils';
+import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 
 export function getCancelInfo(state) {
   const {
@@ -390,7 +392,7 @@ export function selectDirectScheduleSettingsStatus(state) {
 
 export function selectCanUseVaccineFlow(state) {
   return (
-    selectFeatureProjectCheetah(state) &&
+    selectFeatureCovid19Vaccine(state) &&
     state.appointments.directScheduleSettings?.some(setting =>
       setting.coreSettings.some(
         coreSetting =>
@@ -399,4 +401,14 @@ export function selectCanUseVaccineFlow(state) {
       ),
     )
   );
+}
+
+export function getCanceledAppointmentListInfo(state) {
+  return {
+    appointmentsByMonth: selectCanceledAppointments(state),
+    facilityData: state.appointments.facilityData,
+    futureStatus: selectFutureStatus(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
 }

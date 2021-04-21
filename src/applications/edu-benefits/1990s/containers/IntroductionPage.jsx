@@ -4,7 +4,7 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
+import OMBInfo from '../content/OMBInfo';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
 
 class IntroductionPage extends React.Component {
@@ -47,17 +47,15 @@ class IntroductionPage extends React.Component {
               </p>
               <h6>All of these must be true. You're:</h6>
               <ul>
-                <li>
-                  At least 22 years of age but not more than 66 years of age,
-                </li>
-                <li>Unemployed because of the COVID-19 pandemic,</li>
+                <li>At least 22 years old, but not older than 66</li>
+                <li>Unemployed because of the COVID-19 pandemic</li>
                 <li>
                   Not eligible for GI Bill or VR&#38;E benefits (or, if you're
                   eligible for the Post-9/11 GI Bill, you've transferred all of
-                  your benefits to family members),
+                  your benefits to family members)
                 </li>
-                <li>Not rated as totally disabled because you can't work,</li>
-                <li>Not enrolled in a federal or state jobs program,</li>
+                <li>Not rated as totally disabled because you can't work</li>
+                <li>Not enrolled in a federal or state jobs program</li>
                 <li>
                   Not receiving unemployment benefits (including CARES Act
                   benefits)
@@ -131,9 +129,9 @@ class IntroductionPage extends React.Component {
           id="privacy_policy"
         >
           <OMBInfo
-            resBurden={'xx'}
-            ombNumber="xxxx-xxxx"
-            expDate="xx/xx/xxxx"
+            resBurden={10}
+            ombNumber="2900-0885"
+            expDate="October 31, 2021"
           />
         </div>
       </div>

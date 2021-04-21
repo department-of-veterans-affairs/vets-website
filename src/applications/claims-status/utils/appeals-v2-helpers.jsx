@@ -2119,9 +2119,7 @@ export const getErrorStatus = response => {
       Sentry.captureException(response);
     });
   }
-  return response.errors && response.errors.length
-    ? response.errors[0].status
-    : UNKNOWN_STATUS;
+  return response?.errors?.[0]?.status ?? UNKNOWN_STATUS;
 };
 
 // Series of utility functions to sort claims and appeals by last updated date

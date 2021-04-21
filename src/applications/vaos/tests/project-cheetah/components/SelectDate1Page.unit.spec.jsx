@@ -12,14 +12,14 @@ import {
 } from '../../mocks/setup';
 import userEvent from '@testing-library/user-event';
 
-import SelectDate1Page from '../../../project-cheetah/components/SelectDate1Page';
+import SelectDate1Page from '../../../covid-19-vaccine/components/SelectDate1Page';
 import {
   mockEligibilityFetches,
   mockAppointmentSlotFetch,
 } from '../../mocks/helpers';
 import { getClinicMock, getAppointmentSlotMock } from '../../mocks/v0';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { TYPE_OF_CARE_ID } from '../../../project-cheetah/utils';
+import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 
 const initialState = {
   featureToggles: {
