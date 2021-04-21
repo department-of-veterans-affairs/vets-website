@@ -11,8 +11,10 @@ import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 
 import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import { cnpDirectDepositIsBlocked } from '@@profile/selectors';
+
+import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
+import Headline from '../ProfileSectionHeadline';
 
 import PersonalInformationContent from './PersonalInformationContent';
 
@@ -62,13 +64,7 @@ const PersonalInformation = ({
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
-      <h2
-        tabIndex="-1"
-        className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
-        data-focus-target
-      >
-        Personal and contact information
-      </h2>
+      <Headline>Personal and contact information</Headline>
       <DowntimeNotification
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}

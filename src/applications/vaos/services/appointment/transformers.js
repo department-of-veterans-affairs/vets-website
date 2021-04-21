@@ -364,26 +364,17 @@ function setLocation(appt) {
     }
     case APPOINTMENT_TYPES.ccAppointment: {
       if (!!appt.name?.firstName && !!appt.name?.lastName) {
-        return [
-          {
-            actor: {
-              reference: 'Practitioner/PRACTITIONER_ID',
-              display: `${appt.name.firstName} ${appt.name.lastName}`,
-            },
-          },
-        ];
+        return {
+          displayName: `${appt.name.firstName} ${appt.name.lastName}`,
+        };
       }
       return null;
     }
     case APPOINTMENT_TYPES.request: {
       if (appt.facility) {
-        return [
-          {
-            actor: {
-              reference: `Location/${appt.facility.facilityCode}`,
-            },
-          },
-        ];
+        return {
+          stationId: appt.facility.facilityCode,
+        };
       }
       return null;
     }
@@ -484,8 +475,8 @@ function setContained(appt) {
         };
       }
 
-      return [
-        {
+      return {
+        practitioner: {
           resourceType: 'Location',
           id: `cc-location-id`,
           name: appt.providerPractice,
@@ -499,7 +490,7 @@ function setContained(appt) {
               ]
             : null,
         },
-      ];
+      };
     }
     case APPOINTMENT_TYPES.vaAppointment:
     default:

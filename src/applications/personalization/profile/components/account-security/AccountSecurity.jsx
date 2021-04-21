@@ -5,6 +5,7 @@ import DowntimeNotification, {
 import { focusElement } from 'platform/utilities/ui';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
+import Headline from '../ProfileSectionHeadline';
 
 import AccountSecurityContent from './AccountSecurityContent';
 
@@ -22,13 +23,7 @@ class AccountSecurity extends Component {
   render() {
     return (
       <>
-        <h2
-          tabIndex="-1"
-          className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
-          data-focus-target
-        >
-          Account security
-        </h2>
+        <Headline>Account security</Headline>
         <DowntimeNotification
           render={handleDowntimeForSection('account security')}
           dependencies={[externalServices.emis, externalServices.mvi]}
