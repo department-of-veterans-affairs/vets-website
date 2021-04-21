@@ -69,6 +69,7 @@ const testSecondaryTwo = createTestConfig(
     },
 
     setupPerTest: () => {
+      cy.server();
       cy.route('GET', '/v0/feature_toggles?*', 'fx:mocks/feature-toggles');
     },
     pageHooks: {
