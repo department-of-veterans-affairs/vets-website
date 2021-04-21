@@ -44,6 +44,9 @@ jobs:
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
+      - name: Format codecoverage
+        run: node ./script/github-actions/codecoverage-format-report.js
+
       - name: Publish test results
         if: ${{ always() }}
         uses: oseasmoran73/action-junit-report@v3
@@ -51,7 +54,7 @@ jobs:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/unit-tests.xml'
-          summary_output: 'test-results/coverage_report.txt'
+          summary_output: 'test-results/formatted_coverage_report.md'
 
   linting:
     name: Linting
