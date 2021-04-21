@@ -47,6 +47,7 @@ import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityP
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPage';
 import { TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
+import { captureError } from '../../utils/error';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -114,6 +115,7 @@ export function renderWithStoreAndRouter(
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
+        onError: e => captureError(e),
         staleTime: Infinity,
         cacheTime: Infinity,
         retry: false,

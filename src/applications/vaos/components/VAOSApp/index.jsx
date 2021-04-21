@@ -26,7 +26,7 @@ import { captureError } from '../../utils/error';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      onError: captureError,
+      onError: e => captureError(e),
       staleTime: Infinity,
       retry: false,
     },
