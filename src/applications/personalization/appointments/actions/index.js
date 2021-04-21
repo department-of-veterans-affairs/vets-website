@@ -95,15 +95,19 @@ export function fetchConfirmedFutureAppointments() {
         vaAppointments = MOCK_VA_APPOINTMENTS;
         ccAppointments = MOCK_CC_APPOINTMENTS;
       } else {
-        vaAppointments = await apiRequest(
+        const vaAppointmentsReponse = await apiRequest(
           `/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
           { apiVersion: 'vaos/v0' },
         );
-        ccAppointments = await apiRequest(
+        const ccAppointmentsResponse = await apiRequest(
           `/appointments?start_date=${startOfToday}&end_date=${endDate}&type=cc`,
           { apiVersion: 'vaos/v0' },
         );
+
+        vaAppointments = vaAppointmentsReponse?.data;
+        ccAppointments = ccAppointmentsResponse?.data;
       }
+
       const facilityIDs = uniq(
         vaAppointments.map(
           appointment =>
