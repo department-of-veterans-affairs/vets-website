@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { add, format } from 'date-fns';
+import { SELECTED } from '../../constants';
 
 import {
   getEligibleContestableIssues,
@@ -9,7 +10,7 @@ import {
   removeEmptyEntries,
   getAddress,
   getPhone,
-} from '../../utils/helpers';
+} from '../../utils/submit';
 
 const issue1 = {
   raw: {
@@ -102,8 +103,8 @@ describe('getContestableIssues', () => {
   it('should return all issues', () => {
     const formData = {
       contestableIssues: [
-        { ...issue1.raw, 'view:selected': true },
-        { ...issue2.raw, 'view:selected': true },
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
       ],
     };
     expect(getContestableIssues(formData)).to.deep.equal([
@@ -114,8 +115,8 @@ describe('getContestableIssues', () => {
   it('should return second issue', () => {
     const formData = {
       contestableIssues: [
-        { ...issue1.raw, 'view:selected': false },
-        { ...issue2.raw, 'view:selected': true },
+        { ...issue1.raw, [SELECTED]: false },
+        { ...issue2.raw, [SELECTED]: true },
       ],
     };
     expect(getContestableIssues(formData)).to.deep.equal([issue2.result]);
@@ -130,10 +131,13 @@ describe('addIncludedIssues', () => {
     };
     const formData = {
       contestableIssues: [
-        { ...issue1.raw, 'view:selected': false },
-        { ...issue2.raw, 'view:selected': true },
+        { ...issue1.raw, [SELECTED]: false },
+        { ...issue2.raw, [SELECTED]: true },
       ],
-      additionalIssues: [issue.attributes],
+      additionalIssues: [
+        { issue: 'not-added', decisionDate: '2000-01-02', [SELECTED]: false },
+        { ...issue.attributes, [SELECTED]: true },
+      ],
     };
     expect(addIncludedIssues(formData)).to.deep.equal([issue2.result, issue]);
     expect(
