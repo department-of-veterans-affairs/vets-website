@@ -21,14 +21,14 @@ node('vetsgov-general-purpose') {
 
   def commonStages = load "vets-website/jenkins/common.groovy"
 
-  // setupStage
-  dockerContainer = commonStages.setup()
-
   stage('Cancel Build if started by MBPJ') {
     if (params.cancelBuild) {
       error("Aborting due to cancelBuild param being true, bye")
     }
   }
+  
+  // setupStage
+  dockerContainer = commonStages.setup()
   
   stage('Lint|Security|Unit') {
     if (params.cmsEnvBuildOverride != 'none') { return }
