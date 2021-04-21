@@ -2,6 +2,7 @@
 
 import React from 'react';
 import moment from '../../lib/moment-tz';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Route, Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history-v4';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
@@ -110,6 +111,22 @@ export function renderWithStoreAndRouter(
   ui,
   { initialState, store = null, path = '/', history = null },
 ) {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        retry: false,
+        refetchInterval: false,
+        refetchOnReconnect: false,
+        refetchOnWindowFocus: false,
+        retryOnMount: false,
+      },
+      mutations: {
+        retry: false,
+      },
+    },
+  });
   const testStore =
     store ||
     createStore(
@@ -120,11 +137,14 @@ export function renderWithStoreAndRouter(
 
   const historyObject = history || createTestHistory(path);
   const screen = renderInReduxProvider(
-    <Router history={historyObject}>{ui}</Router>,
+    <Router history={historyObject}>
+      <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>
+    </Router>,
     {
       store: testStore,
       initialState,
       reducers,
+      queryClient,
     },
   );
 

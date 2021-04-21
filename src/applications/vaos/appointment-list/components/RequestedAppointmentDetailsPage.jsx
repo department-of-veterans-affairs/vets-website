@@ -39,9 +39,9 @@ const TIME_TEXT = {
 
 export default function RequestedAppointmentDetailsPage() {
   const { id } = useParams();
-  const queryClient = useQueryClient();
   const [showCancelModal, setShowCancelModal] = useState(false);
 
+  const queryClient = useQueryClient();
   const { data: appointment, status: appointmentDetailsStatus } = useQuery(
     ['pending', id],
     () => fetchRequestById(id),
@@ -60,11 +60,6 @@ export default function RequestedAppointmentDetailsPage() {
   const facilityId = getVAAppointmentLocationId(appointment);
   const { facilityData } = useFacilitiesQuery(facilityId);
 
-  const cernerFacilities = useSelector(selectCernerAppointmentsFacilities);
-  const isCerner = cernerFacilities?.some(cernerSite =>
-    facilityId?.startsWith(cernerSite.facilityId),
-  );
-
   const cancelMutation = useMutation(cancelPendingAppointment, {
     onSuccess(canceledRequest) {
       queryClient.setQueryData(['pending', id], canceledRequest);
@@ -77,6 +72,11 @@ export default function RequestedAppointmentDetailsPage() {
       }
     },
   });
+
+  const cernerFacilities = useSelector(selectCernerAppointmentsFacilities);
+  const isCerner = cernerFacilities?.some(cernerSite =>
+    facilityId?.startsWith(cernerSite.facilityId),
+  );
 
   useEffect(
     () => {

@@ -10,7 +10,7 @@ import {
   mockAppointmentInfo,
   mockRequestCancelFetch,
   mockSingleRequestFetch,
-  mockFacilityFetch,
+  mockFacilitiesFetch,
 } from '../../mocks/helpers';
 
 import { AppointmentList } from '../../../appointment-list';
@@ -125,7 +125,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
   it('should render VA request details', async () => {
     mockSingleRequestFetch({ request: appointment });
-    mockFacilityFetch('vha_442GC', facility);
+    mockFacilitiesFetch('vha_442GC', [facility]);
     const message = getMessageMock();
     message.attributes = {
       ...message.attributes,
@@ -342,16 +342,13 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       type: 'va',
       error: true,
     });
-
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: `/requests/${appointment.id}`,
     });
-
     await waitFor(() => {
       expect(document.activeElement).to.have.tagName('h1');
     });
-
     expect(
       screen.getByRole('heading', {
         level: 1,

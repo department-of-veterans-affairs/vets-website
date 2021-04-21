@@ -28,6 +28,10 @@ const queryClient = new QueryClient({
     queries: {
       onError: captureError,
       staleTime: Infinity,
+      retry: false,
+    },
+    mutations: {
+      retry: false,
     },
   },
 });
