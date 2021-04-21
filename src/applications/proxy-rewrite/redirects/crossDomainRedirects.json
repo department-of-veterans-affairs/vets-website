@@ -1093,5 +1093,10 @@
     "domain": "www.benefits.va.gov",
     "src": "/insurance/dividends_options.asp",
     "dest": "/resources/life-insurance-dividend-payment-options/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/gibill/vrrap.asp",
+    "dest": "/education/other-va-education-benefits/veteran-rapid-retraining-assistance"
   }
 ]
