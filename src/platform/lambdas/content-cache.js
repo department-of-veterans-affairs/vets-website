@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+const fs = require('fs');
 const path = require('path');
 const stream = require('stream');
 
@@ -70,6 +71,12 @@ exports.handler = async function(event, context) {
   const tarball = tar.pack();
   tarball.entry({ name: 'cache', type: 'directory' });
   tarball.entry({ name: 'cache/pages.json' }, pagesString);
+
+  const featureFlags = fs.readFileSync(
+    '/tmp/.cache/localhost/drupal/feature-flags.json',
+  );
+
+  tarball.entry({ name: 'cache/feature-flags.json' }, featureFlags);
   tarball.entry({ name: 'cache/downloads/files', type: 'directory' });
   tarball.entry({ name: 'cache/downloads/img', type: 'directory' });
 
