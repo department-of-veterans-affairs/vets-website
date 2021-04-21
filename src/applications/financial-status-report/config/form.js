@@ -396,10 +396,8 @@ const formConfig = {
       title: 'Repayment or relief options',
       pages: {
         resolutionOptions: {
-          path: 'resolution-options/:index',
+          path: 'resolution-options',
           title: 'Resolution options',
-          showPagePerItem: true,
-          arrayPath: 'selectedDebts',
           uiSchema: pages.resolutionOptions.uiSchema,
           schema: pages.resolutionOptions.schema,
         },

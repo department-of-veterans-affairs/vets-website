@@ -152,12 +152,14 @@
   }
 }
 
-.resolution-inputs label {
-  margin-top: 0;
-}
-
-.resolution-inputs .schemaform-currency-input label {
-  white-space: nowrap;
+.resolution-card {
+  padding: 0 24px 24px 24px;
+  label {
+    margin-top: 0;
+  }
+  .schemaform-currency-input label {
+    white-space: nowrap;
+  }
 }
 
 .resolution-comments {

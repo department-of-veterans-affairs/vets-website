@@ -6,7 +6,7 @@ const ResolutionOptionsTitle = ({ formData }) => {
   const index = window.location.href.slice(-1);
   const { selectedDebts } = formData;
   const debt = selectedDebts[index];
-  const type = deductionCodes[debt.deductionCode] || debt.benefitType;
+  const type = deductionCodes[(debt?.deductionCode)] || debt?.benefitType;
 
   return (
     <div className="no-wrap">What type of help do you want for your {type}</div>

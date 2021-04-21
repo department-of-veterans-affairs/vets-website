@@ -17,24 +17,26 @@ const FinancialOverview = ({ formData }) => {
 
   return (
     <>
-      <h4>Your financial overview</h4>
-      <div className="usa-alert usa-alert-info background-color-only vads-u-margin-bottom--5">
+      <div className="usa-alert usa-alert-info background-color-only">
+        <h4 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Your financial overview
+        </h4>
         <div className="vads-u-margin-bottom--1 overview-container">
           <div>Total monthly income:</div>
           <div>
-            {debt.currentAr && formatter.format(parseFloat(monthlyIncome))}
+            {debt?.currentAr && formatter.format(parseFloat(monthlyIncome))}
           </div>
         </div>
         <div className="vads-u-margin-bottom--1 overview-container">
           <div>Total monthly taxes and expenses:</div>
           <div>
-            {debt.currentAr && formatter.format(parseFloat(monthlyExpenses))}
+            {debt?.currentAr && formatter.format(parseFloat(monthlyExpenses))}
           </div>
         </div>
         <div className="vads-u-margin-bottom--0 overview-container">
           <div>Income after taxes and expenses:</div>
           <div>
-            {debt.currentAr && formatter.format(parseFloat(totalIncome))}
+            {debt?.currentAr && formatter.format(parseFloat(totalIncome))}
           </div>
         </div>
       </div>
