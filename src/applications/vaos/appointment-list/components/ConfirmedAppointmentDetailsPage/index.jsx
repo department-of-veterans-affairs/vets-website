@@ -159,7 +159,7 @@ function ConfirmedAppointmentDetailsPage({
   const isInPersonVAAppointment = !isVideo;
   const canceler = appointment.description?.includes('CANCELLED BY PATIENT')
     ? 'You'
-    : facility?.name;
+    : facility?.name || 'Facility';
 
   const header = formatHeader(appointment);
   const instructions = formatInstructions(appointment.comment);
