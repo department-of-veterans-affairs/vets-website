@@ -33,9 +33,9 @@ class IntroductionPage extends React.Component {
 
   render() {
     // Prod Flag bah-23496
-    const classNameProdFlag = environment.isProduction()
-      ? 'omb-info--container'
-      : 'omb-info--container vads-u-margin-top--2';
+    // const classNameProdFlag = environment.isProduction()
+    //   ? 'omb-info--container'
+    //   : 'omb-info--container vads-u-margin-top--2';
 
     return (
       <div className="schemaform-intro">
@@ -119,17 +119,25 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro
-          buttonOnly={!this.props.isLoggedIn}
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the education application"
-          unauthStartText="Sign in or create an account"
-          hideUnauthedStartLink
-        />
         <div
-          className={classNameProdFlag}
+          className={
+            !this.props.isLoggedIn && !environment.isProduction()
+              ? 'vads-u-padding-bottom--1p5'
+              : ''
+          }
+        >
+          <SaveInProgressIntro
+            buttonOnly={!this.props.isLoggedIn}
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            startText="Start the education application"
+            unauthStartText="Sign in or create an account"
+            hideUnauthedStartLink
+          />
+        </div>
+        <div
+          className="omb-info--container"
           style={{ paddingLeft: '0px' }}
           id="privacy_policy"
         >
