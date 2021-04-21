@@ -30,11 +30,11 @@ const NotAVeteranAlert = () => {
     <AlertBox
       isVisible
       status="warning"
-      headline="We don't seem to have your military records"
+      headline="We don’t seem to have your military records"
       content={
         <>
           <p>
-            We're sorry. We can't match your information to our records. If you
+            We’re sorry. We can’t match your information to our records. If you
             think this is an error, please call the VA.gov help desk at{' '}
             <Telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
             <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
