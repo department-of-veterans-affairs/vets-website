@@ -36,9 +36,9 @@ export const transform = ({ data }) => {
     },
     personalData: {
       veteranFullName: {
-        first: personalData.veteranFullName?.first || '',
-        middle: personalData.veteranFullName?.middle || '',
-        last: personalData.veteranFullName?.last || '',
+        first: personalData.veteranFullName.first || '',
+        middle: personalData.veteranFullName.middle || '',
+        last: personalData.veteranFullName.last || '',
       },
       agesOfOtherDependents: personalData.agesOfOtherDependents
         ? personalData.agesOfOtherDependents.map(
@@ -56,9 +56,9 @@ export const transform = ({ data }) => {
       },
       married: questions.maritalStatus === 'Married',
       spouseFullName: {
-        first: personalData.spouseFullName?.first || '',
+        first: personalData.spouseFullName.first || '',
         middle: '',
-        last: personalData.spouseFullName?.last || '',
+        last: personalData.spouseFullName.last || '',
       },
       employmentHistory,
       telephoneNumber: personalData.telephoneNumber,
