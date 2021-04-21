@@ -58,10 +58,10 @@ const testSecondaryTwo = createTestConfig(
   {
     dataPrefix: 'data',
     dataSets: [
-      'requiredOnly',
-      'secondaryOneOnly',
       'twoSecondaryCaregivers',
       'oneSecondaryCaregivers',
+      'requiredOnly',
+      'secondaryOneOnly',
     ],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
