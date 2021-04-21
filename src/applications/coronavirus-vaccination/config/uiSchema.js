@@ -210,7 +210,7 @@ export default {
       'ui:title': 'Zip code',
       'ui:description': () => (
         <span>
-          <b>If you currently live in the Philippines:</b>
+          <b>If you currently live in the Philippines: </b>
           Enter <strong>96517</strong> for your zip code. This will help us
           understand which Veterans in the Philippines want to get a vaccine, so
           we can serve you better.
