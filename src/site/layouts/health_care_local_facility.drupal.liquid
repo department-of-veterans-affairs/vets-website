@@ -123,7 +123,7 @@
             {{ fieldLocationServices | size | minus: 1 }}
           {% endcapture %}
           {% unless difference contains '-' %}
-            <div class="vads-u-margin-bottom--4">
+            <section class="vads-u-margin-bottom--4" data-label="Prepare for your visit">
               <h2 id="prepare-for-your-visit"
                   class="vads-u-margin-top--0 vads-u-font-size--lg small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">
                 Prepare for your visit</h2>
@@ -134,9 +134,14 @@
                     {% assign item = accordionItem.entity %}
                     <li class="vads-u-margin-bottom--1">
                       <h3 class="vads-u-margin--0">
-                        <button class="usa-accordion-button usa-button-unstyled vads-u-padding-y--2 vads-u-padding-left--2p5 vads-u-line-height--4
-" aria-expanded="false"
-                                aria-controls="{{ item.entityBundle }}-{{ item.entityId }}">
+                        {% comment %}
+                          See Google Analytics datalayer handling in src/applications/static-pages/subscribeAccordionEvents.js
+                        {% endcomment %}
+                        <button class="usa-accordion-button usa-button-unstyled vads-u-padding-y--2 vads-u-padding-left--2p5 vads-u-line-height--4"
+                          aria-expanded="false"
+                          aria-controls="{{ item.entityBundle }}-{{ item.entityId }}"
+                          data-label="{{ item.fieldTitle }}"
+                        >
                           {{ item.fieldTitle }}
                         </button>
                       </h3>
@@ -148,7 +153,7 @@
                   {% endfor %}
                 </ul>
               </div>
-            </div>
+            </section>
           {% endunless %}
 
           <!-- List of links section -->
@@ -162,7 +167,7 @@
                 class="vads-u-font-size--xl vads-u-margin-top--5">Health services offered here</h2>
             <p>Click on a service for more details like location, contact, and appointment
               information.</p>
-            <section class="local-health-services" id="local-health-services">
+            <section class="local-health-services" id="local-health-services" data-label="Health services">
 
               {% assign localHealthServices = fieldLocalHealthCareService | sortObjectsBy: 'entity.fieldRegionalHealthService.entity.fieldServiceNameAndDescripti.entity.name' %}
               {% for localService in localHealthServices %}

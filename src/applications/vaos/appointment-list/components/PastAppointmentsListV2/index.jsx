@@ -5,7 +5,6 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../../redux/actions';
-import { focusElement } from 'platform/utilities/ui';
 import { selectPastAppointmentsV2 } from '../../redux/selectors';
 import {
   FETCH_STATUS,
@@ -18,6 +17,7 @@ import ExpressCareListItem from '../AppointmentsPageV2/ExpressCareListItem';
 import NoAppointments from '../NoAppointments';
 import moment from 'moment';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
@@ -96,6 +96,7 @@ function PastAppointmentsListNew({
   fetchPastAppointments,
   startNewAppointmentFlow,
   pastSelectedIndex,
+  hasTypeChanged,
 }) {
   const [isInitialMount, setInitialMount] = useState(true);
   useEffect(() => {
@@ -111,10 +112,14 @@ function PastAppointmentsListNew({
   useEffect(
     () => {
       if (pastStatus === FETCH_STATUS.succeeded && !isInitialMount) {
-        focusElement('h3');
+        scrollAndFocus('h3');
+      } else if (hasTypeChanged && pastStatus === FETCH_STATUS.succeeded) {
+        scrollAndFocus('#type-dropdown');
+      } else if (hasTypeChanged && pastStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('h3');
       }
     },
-    [isInitialMount, pastStatus],
+    [isInitialMount, pastStatus, hasTypeChanged],
   );
 
   const onDateRangeChange = index => {
@@ -127,96 +132,126 @@ function PastAppointmentsListNew({
       index,
     );
   };
+  const dropdown = (
+    <PastAppointmentsDateDropdown
+      currentRange={pastSelectedIndex}
+      onChange={onDateRangeChange}
+      options={dateRangeOptions}
+    />
+  );
 
-  let content;
-
-  if (pastStatus === FETCH_STATUS.loading) {
-    content = (
-      <div className="vads-u-margin-y--8">
-        <LoadingIndicator message="Loading your upcoming appointments..." />
-      </div>
-    );
-  } else if (
-    pastStatus === FETCH_STATUS.succeeded &&
-    pastAppointmentsByMonth?.length > 0
+  if (
+    pastStatus === FETCH_STATUS.loading ||
+    pastStatus === FETCH_STATUS.notStarted
   ) {
-    content = (
+    return (
       <>
-        {pastAppointmentsByMonth.map((monthBucket, monthIndex) => {
-          const monthDate = moment(monthBucket[0].start);
-          return (
-            <React.Fragment key={monthIndex}>
-              <h3
-                id={`appointment_list_${monthDate.format('YYYY-MM')}`}
-                data-cy="past-appointment-list-header"
-              >
-                <span className="sr-only">Appointments in </span>
-                {monthDate.format('MMMM YYYY')}
-              </h3>
-              <ul
-                aria-labelledby={`appointment_list_${monthDate.format(
-                  'YYYY-MM',
-                )}`}
-                className="vads-u-padding-left--0"
-                data-cy="past-appointment-list"
-              >
-                {monthBucket.map((appt, index) => {
-                  const facilityId = getVAAppointmentLocationId(appt);
-
-                  if (
-                    appt.vaos.appointmentType ===
-                      APPOINTMENT_TYPES.vaAppointment ||
-                    appt.vaos.appointmentType ===
-                      APPOINTMENT_TYPES.ccAppointment
-                  ) {
-                    return (
-                      <AppointmentListItem
-                        key={index}
-                        appointment={appt}
-                        facility={facilityData[facilityId]}
-                      />
-                    );
-                  } else if (appt.vaos.isExpressCare) {
-                    return (
-                      <ExpressCareListItem key={index} appointment={appt} />
-                    );
-                  }
-                  return null;
-                })}
-              </ul>
-            </React.Fragment>
-          );
-        })}
+        {dropdown}
+        <div className="vads-u-margin-y--8">
+          <LoadingIndicator
+            setFocus={hasTypeChanged || !isInitialMount}
+            message="Loading your past appointments..."
+          />
+        </div>
       </>
     );
-  } else if (pastStatus === FETCH_STATUS.failed) {
-    content = (
-      <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
-        We’re having trouble getting your past appointments. Please try later.
-      </AlertBox>
+  }
+
+  if (
+    pastStatus === FETCH_STATUS.loading ||
+    pastStatus === FETCH_STATUS.notStarted
+  ) {
+    return (
+      <>
+        {dropdown}
+        <div className="vads-u-margin-y--8">
+          <LoadingIndicator
+            setFocus={hasTypeChanged || !isInitialMount}
+            message="Loading your past appointments..."
+          />
+        </div>
+      </>
     );
-  } else {
-    content = (
-      <NoAppointments
-        showScheduleButton={showScheduleButton}
-        startNewAppointmentFlow={() => {
-          recordEvent({
-            event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-          });
-          startNewAppointmentFlow();
-        }}
-      />
+  }
+
+  if (pastStatus === FETCH_STATUS.failed) {
+    return (
+      <>
+        {dropdown}
+        <AlertBox
+          status="error"
+          headline="We’re sorry. We’ve run into a problem"
+        >
+          We’re having trouble getting your past appointments. Please try later.
+        </AlertBox>
+      </>
     );
   }
 
   return (
     <>
-      <PastAppointmentsDateDropdown
-        currentRange={pastSelectedIndex}
-        onChange={onDateRangeChange}
-        options={dateRangeOptions}
-      />
-      {content}
+      {dropdown}
+      <div aria-live="assertive" className="sr-only">
+        {(hasTypeChanged || !isInitialMount) &&
+          `Showing appointments for ${
+            dateRangeOptions[pastSelectedIndex]?.label
+          }`}
+      </div>
+      {pastAppointmentsByMonth?.map((monthBucket, monthIndex) => {
+        const monthDate = moment(monthBucket[0].start);
+        return (
+          <React.Fragment key={monthIndex}>
+            <h3
+              id={`appointment_list_${monthDate.format('YYYY-MM')}`}
+              data-cy="past-appointment-list-header"
+            >
+              <span className="sr-only">Appointments in </span>
+              {monthDate.format('MMMM YYYY')}
+            </h3>
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+            <ul
+              role="list"
+              aria-labelledby={`appointment_list_${monthDate.format(
+                'YYYY-MM',
+              )}`}
+              className="vads-u-padding-left--0"
+              data-cy="past-appointment-list"
+            >
+              {monthBucket.map((appt, index) => {
+                const facilityId = getVAAppointmentLocationId(appt);
+
+                if (
+                  appt.vaos.appointmentType ===
+                    APPOINTMENT_TYPES.vaAppointment ||
+                  appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment
+                ) {
+                  return (
+                    <AppointmentListItem
+                      key={index}
+                      appointment={appt}
+                      facility={facilityData[facilityId]}
+                    />
+                  );
+                } else if (appt.vaos.isExpressCare) {
+                  return <ExpressCareListItem key={index} appointment={appt} />;
+                }
+                return null;
+              })}
+            </ul>
+          </React.Fragment>
+        );
+      })}
+      {!pastAppointmentsByMonth?.length && (
+        <NoAppointments
+          showScheduleButton={showScheduleButton}
+          startNewAppointmentFlow={() => {
+            recordEvent({
+              event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+            });
+            startNewAppointmentFlow();
+          }}
+        />
+      )}
     </>
   );
 }

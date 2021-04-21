@@ -222,19 +222,7 @@ export function isVAPhoneAppointment(appointment) {
  */
 export function getVARFacilityId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    if (appointment.vaos?.isVideo) {
-      return appointment.legacyVAR.apiData.facilityId;
-    }
-
-    const id = appointment.participant?.[0]?.actor?.reference
-      ?.split('/')?.[1]
-      ?.split('_')?.[0];
-
-    if (id) {
-      return id;
-    }
-
-    return null;
+    return appointment.location?.vistaId;
   }
 
   return null;
@@ -248,11 +236,7 @@ export function getVARFacilityId(appointment) {
  */
 export function getVARClinicId(appointment) {
   if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    const id = appointment.participant?.[0]?.actor?.reference
-      ?.split('/')?.[1]
-      ?.split('_')?.[1];
-
-    return id || null;
+    return appointment.location?.clinicId;
   }
 
   return null;
@@ -273,15 +257,7 @@ export function getVAAppointmentLocationId(appointment) {
     return appointment.videoData.facilityId;
   }
 
-  const locationReference = appointment?.participant?.find(p =>
-    p.actor.reference?.startsWith('Location'),
-  )?.actor?.reference;
-
-  if (locationReference) {
-    return locationReference.split('/')[1];
-  }
-
-  return null;
+  return appointment?.location?.stationId;
 }
 /**
  * Returns the patient telecom info in a VA appointment
@@ -292,9 +268,9 @@ export function getVAAppointmentLocationId(appointment) {
  * @returns {string} The patient telecome value
  */
 export function getPatientTelecom(appointment, system) {
-  return appointment?.contained
-    .find(res => res.resourceType === 'Patient')
-    ?.telecom?.find(t => t.system === system)?.value;
+  return appointment?.contained?.patient?.telecom?.find(
+    t => t.system === system,
+  )?.value;
 }
 
 /**
@@ -557,9 +533,8 @@ export function getPractitionerDisplay(participants) {
  * @return {Object} Returns the appointment practitioner object.
  */
 export function getPractitionerLocationDisplay(appointment) {
-  return appointment.contained?.find(c =>
-    c.resourceType.includes('Practitioner'),
-  )?.practitionerRole?.[0]?.location?.[0]?.display;
+  return appointment.contained?.practitioner?.practitionerRole?.[0]
+    ?.location?.[0]?.display;
 }
 
 /**

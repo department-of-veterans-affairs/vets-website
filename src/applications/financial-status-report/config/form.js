@@ -60,14 +60,51 @@ const formConfig = {
           uiSchema: pages.veteranInfo.uiSchema,
           schema: pages.veteranInfo.schema,
           editModeOnReviewPage: true,
+          initialData: {
+            personalData: {
+              veteranFullName: {
+                first: '',
+                last: '',
+                middle: '',
+              },
+              dateOfBirth: '',
+            },
+            personalIdentification: {
+              ssn: '',
+              fileNumber: '',
+            },
+          },
         },
         availableDebts: {
+          initialData: {
+            selectedDebts: [],
+            debt: {
+              currentAr: 0,
+              debtHistory: [{ date: '' }],
+              deductionCode: '',
+              originalAr: 0,
+            },
+          },
           path: 'available-debts',
           title: 'Available Debts',
           uiSchema: pages.availableDebts.uiSchema,
           schema: pages.availableDebts.schema,
         },
         contactInfo: {
+          initialData: {
+            personalData: {
+              address: {
+                countryName: '',
+                street: '',
+                city: '',
+                stateCode: '',
+                zipCode: '',
+              },
+              telephoneNumber: '',
+              emailAddress: '',
+              confirmationEmail: '',
+            },
+          },
           path: 'contact-information',
           title: 'Contact Information',
           uiSchema: pages.contactInfo.uiSchema,
@@ -109,6 +146,15 @@ const formConfig = {
           title: 'Benefits',
           uiSchema: pages.benefits.uiSchema,
           schema: pages.benefits.schema,
+          initialData: {
+            income: [
+              {
+                veteranOrSpouse: 'VETERAN',
+                compensationAndPension: '',
+                education: '',
+              },
+            ],
+          },
         },
         socialSecurity: {
           path: 'social-security',

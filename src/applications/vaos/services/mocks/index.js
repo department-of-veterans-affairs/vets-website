@@ -116,10 +116,12 @@ export default [
   {
     path: /vaos\/v0\/appointments.*type=cc.*/,
     response: confirmedCC,
+    delay: 3000,
   },
   {
     path: /vaos\/v0\/appointments\?.*type=va.*/,
     response: confirmedVA,
+    delay: 3000,
   },
   {
     path: /vaos\/v0\/appointments\/va\/.*/,
@@ -130,10 +132,12 @@ export default [
         data: confirmedVA.data.find(appt => appt.id === id),
       };
     },
+    delay: 3000,
   },
   {
     path: /vaos\/v0\/appointment_requests\?/,
     response: requests,
+    delay: 3000,
   },
   {
     path: /vaos\/v0\/appointment_requests\//,
@@ -144,6 +148,7 @@ export default [
         data: requests.data.find(req => req.id === id),
       };
     },
+    delay: 3000,
   },
   {
     path: /vaos\/v0\/appointment_requests\/.*\/messages/,
