@@ -249,7 +249,9 @@ export function selectCernerOrgIds(state) {
 
 export function selectProviderSelectionInfo(state) {
   const {
+    communityCareProviders,
     data,
+    requestStatus,
     requestLocationStatus,
     currentLocation,
     ccProviderPageSortMethod: sortMethod,
@@ -260,10 +262,12 @@ export function selectProviderSelectionInfo(state) {
   return {
     address: selectVAPResidentialAddress(state),
     typeOfCareName: typeOfCare.name,
+    communityCareProviderList:
+      communityCareProviders[`${sortMethod}_${typeOfCare.ccId}`],
+    requestStatus,
     requestLocationStatus,
     currentLocation,
     sortMethod,
-    typeOfCare,
   };
 }
 

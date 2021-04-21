@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { selectProviderSelectionInfo } from '../../redux/selectors';
 import ResidentialAddress from '../../../components/ResidentialAddress';
 import { connect } from 'react-redux';
-import { useQuery } from 'react-query';
 import * as actions from '../../redux/actions';
 import {
   FETCH_STATUS,
@@ -15,55 +14,58 @@ import RemoveProviderModal from './RemoveProviderModal';
 import recordEvent from 'platform/monitoring/record-event';
 import NoProvidersAlert from './NoProvidersAlert';
 import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
-import { getCommunityProvidersByTypeOfCare } from '../../../services/location';
-import { distanceBetween } from '../../../utils/address';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
 function ProviderSelectionField({
   typeOfCareName,
-  typeOfCare,
   address,
   formData,
   onChange,
   idSchema,
+  requestStatus,
   requestLocationStatus,
+  requestProvidersList,
+  communityCareProviderList,
   updateCCProviderSortMethod,
   currentLocation,
   sortMethod,
 }) {
   const [checkedProvider, setCheckedProvider] = useState(false);
   const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
-  const isMountedRef = useRef(false);
+  const [mounted, setMounted] = useState(false);
   const [showProvidersList, setShowProvidersList] = useState(false);
   const [providersListLength, setProvidersListLength] = useState(
     INITIAL_PROVIDER_DISPLAY_COUNT,
-  );
-  const searchOrigin =
-    sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
-      ? currentLocation
-      : address;
-  const {
-    data: communityCareProviderList,
-    isLoading: loadingProviders,
-    isError,
-  } = useQuery(['ccProviders', searchOrigin, typeOfCare], () =>
-    getCommunityProvidersByTypeOfCare({
-      address: searchOrigin,
-      typeOfCare,
-    }),
   );
   const currentlyShownProvidersList = communityCareProviderList?.slice(
     0,
     providersListLength,
   );
+  const loadingProviders =
+    !communityCareProviderList && requestStatus !== FETCH_STATUS.failed;
 
   const loadingLocations = requestLocationStatus === FETCH_STATUS.loading;
 
   const providerSelected = 'id' in formData;
+  const sortByDistanceFromResidential =
+    !sortMethod || sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
+
+  const sortByDistanceFromCurrentLocation =
+    sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(
     () => {
+      if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+        requestProvidersList(currentLocation);
+      } else {
+        requestProvidersList(address);
+      }
+
       if (communityCareProviderList) {
         scrollAndFocus('#providerSelectionHeader');
       }
@@ -75,9 +77,9 @@ function ProviderSelectionField({
     () => {
       if (showProvidersList) {
         scrollAndFocus('#providerSelectionHeader');
-      } else if (isMountedRef.current && !providerSelected) {
+      } else if (mounted && !providerSelected) {
         scrollAndFocus('.va-button-link');
-      } else if (isMountedRef.current) {
+      } else if (mounted) {
         scrollAndFocus('#providerPostSelectionHeader');
       }
     },
@@ -86,7 +88,7 @@ function ProviderSelectionField({
 
   useEffect(
     () => {
-      if (isMountedRef.current && Object.keys(formData).length === 0) {
+      if (mounted && Object.keys(formData).length === 0) {
         scrollAndFocus('.va-button-link');
       }
     },
@@ -126,10 +128,6 @@ function ProviderSelectionField({
     [loadingProviders, loadingLocations],
   );
 
-  useEffect(() => {
-    isMountedRef.current = true;
-  }, []);
-
   if (!showProvidersList) {
     return (
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2 medium-screen:vads-u-padding--3">
@@ -164,13 +162,7 @@ function ProviderSelectionField({
               {formData.address?.postalCode}
             </span>
             <span className="vads-u-display--block vads-u-font-size--sm">
-              {distanceBetween(
-                searchOrigin.latitude,
-                searchOrigin.longitude,
-                formData.position.latitude,
-                formData.position.longitude,
-              )}{' '}
-              miles{' '}
+              {formData[sortMethod]} miles{' '}
               <span className="sr-only">
                 {sortMethod ===
                 FACILITY_SORT_METHODS.distanceFromCurrentLocation
@@ -228,7 +220,7 @@ function ProviderSelectionField({
         Choose a provider
       </h2>
       {!loadingLocations &&
-        sortMethod === FACILITY_SORT_METHODS.distanceFromResidential && (
+        sortByDistanceFromResidential && (
           <>
             {requestLocationStatus !== FETCH_STATUS.failed && (
               <>
@@ -293,7 +285,7 @@ function ProviderSelectionField({
           <LoadingIndicator message="Finding your location. Be sure to allow your browser to find your current location." />
         </div>
       )}
-      {isError && (
+      {requestStatus === FETCH_STATUS.failed && (
         <div className="vads-u-padding-bottom--2">
           <LoadProvidersErrorAlert />
         </div>
@@ -302,8 +294,7 @@ function ProviderSelectionField({
         !loadingLocations &&
         !!currentlyShownProvidersList && (
           <>
-            {sortMethod ===
-              FACILITY_SORT_METHODS.distanceFromCurrentLocation && (
+            {sortByDistanceFromCurrentLocation && (
               <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
                 You can choose a provider based on your current location. Or you
                 can{' '}
@@ -365,17 +356,10 @@ function ProviderSelectionField({
                           {provider.address.postalCode}
                         </span>
                         <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
-                          {distanceBetween(
-                            searchOrigin.latitude,
-                            searchOrigin.longitude,
-                            provider.position.latitude,
-                            provider.position.longitude,
-                          )}{' '}
-                          miles{' '}
+                          {provider[sortMethod]} miles
                           <span className="sr-only">
                             {' '}
-                            {sortMethod ===
-                            FACILITY_SORT_METHODS.distanceFromCurrentLocation
+                            {sortByDistanceFromCurrentLocation
                               ? 'from your current location'
                               : 'from your home address'}
                           </span>
@@ -454,6 +438,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
+  requestProvidersList: actions.requestProvidersList,
   updateCCProviderSortMethod: actions.updateCCProviderSortMethod,
 };
 
