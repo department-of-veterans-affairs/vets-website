@@ -210,10 +210,10 @@ export default {
       'ui:title': 'Zip code',
       'ui:description': () => (
         <span>
-          <b>Note for Veterans residing in the Philippines: </b>
-          Please enter <strong>96517</strong> for your zip code. This will allow
-          us to more easily understand which Veterans in the Philippines are
-          interested in getting a vaccine from VA.
+          <b>If you currently live in the Philippines:</b>
+          Enter <strong>96517</strong> for your zip code. This will help us
+          understand which Veterans in the Philippines want to get a vaccine, so
+          we can serve you better.
         </span>
       ),
       'ui:errorMessages': {
