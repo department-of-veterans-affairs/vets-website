@@ -23,6 +23,7 @@ node('vetsgov-general-purpose') {
 
   stage('Cancel Build if started by MBPJ') {
     if (params.cancelBuild) {
+      currentBuild.result = 'ABORTED'
       error("Aborting due to cancelBuild param being true, bye")
     }
   }
