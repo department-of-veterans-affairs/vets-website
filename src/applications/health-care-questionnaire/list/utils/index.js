@@ -3,7 +3,11 @@ import {
   questionnaireResponseSelector,
 } from '../../shared/utils/selectors';
 
-import { cancelled, booked } from '../../shared/constants/appointment.status';
+import {
+  cancelled,
+  booked,
+  arrived,
+} from '../../shared/constants/appointment.status';
 import {
   completed as completedQuestionnaireResponseStatus,
   inProgress,
@@ -19,17 +23,7 @@ const sortQuestionnairesByStatus = questionnaires => {
     data = [];
   }
 
-  // remove entered in errored
-  // data = data.filter(f => {
-  //   console.log({ f });
-  //   return (
-  //     questionnaireResponseSelector.getStatus(
-  //       f.questionnaire[0]?.questionnaireResponse,
-  //     ) !== 'entered-in-error'
-  //   );
-  // });
-
-  // NEED TEST CASE FOR: remove items where the appointment is cancelled, and there is not questionnaire status
+  // TEST CASE: remove items where the appointment is cancelled, and there is not questionnaire status
   data = data.filter(f => {
     return !(
       !questionnaireResponseSelector.getStatus(
@@ -56,21 +50,26 @@ const sortQuestionnairesByStatus = questionnaires => {
     );
   });
 
-  // find appointments that have questionnaires
-  const toDo = data.filter(f => {
-    const questionnaireStatus = questionnaireResponseSelector.getStatus(
-      f.questionnaire[0]?.questionnaireResponse,
-    );
-    const appointmentStatus = appointmentSelector.getStatus(f.appointment);
-    return (
-      (appointmentStatus === booked && !questionnaireStatus) ||
-      (appointmentStatus === booked &&
-        questionnaireStatus === enteredInError) ||
-      (appointmentStatus === booked && questionnaireStatus === inProgress) ||
-      (isAppointmentCancelled(appointmentStatus) &&
-        questionnaireStatus === inProgress)
-    );
-  });
+  // // find appointments that have questionnaires
+  const toDo = data
+    .filter(f => {
+      const appointmentStatus = appointmentSelector.getStatus(f.appointment);
+      return (
+        appointmentStatus === booked ||
+        appointmentStatus === arrived ||
+        isAppointmentCancelled(appointmentStatus)
+      );
+    })
+    .filter(f => {
+      const questionnaireStatus = questionnaireResponseSelector.getStatus(
+        f.questionnaire[0]?.questionnaireResponse,
+      );
+      return (
+        !questionnaireStatus ||
+        questionnaireStatus === enteredInError ||
+        questionnaireStatus === inProgress
+      );
+    });
 
   return {
     completed,
