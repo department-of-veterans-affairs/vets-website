@@ -34,7 +34,7 @@ import {
 } from '../appointment-list/redux/selectors';
 import { fetchDirectScheduleSettings } from '../appointment-list/redux/actions';
 
-export default function NewBookingSection() {
+export function NewBookingSection() {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
