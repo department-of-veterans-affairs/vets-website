@@ -549,7 +549,9 @@ const testForm = testConfig => {
         });
 
         it('fills the form', () => {
-          cy.visit(rootUrl).injectAxe();
+          cy.visit(rootUrl)
+            .reload(true)
+            .injectAxe();
 
           cy.get(LOADING_SELECTOR, { timeout: 8000 })
             .should('not.exist')
