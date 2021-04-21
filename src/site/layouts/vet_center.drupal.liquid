@@ -91,9 +91,22 @@
 
           <h2 id="counseling-services" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Counseling services</h2>
+            {% assign counselingServices = fieldHealthServices | filterByTypeOfCare: "counselling" %}
+            <div class="vads-u-margin-bottom--3">
+                {% for entity in counselingServices %}
+                    <va-accordion bordered >
+                        <va-accordion-item
+                                header="{{ entity.fieldServiceNameAndDescripti.entity.name }}"
+                                subheader="{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterFriendlyName }}"
+                                level="3">
+                        </va-accordion-item>
+                    </va-accordion>
+                {% endfor %}
+            </div>
 
           <h2 id="referral-services" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Referral Services</h2>
+            {% assign counselingServices = fieldHealthServices | filterByTypeOfCare: "referral" %}
 
           <h2 id="other-services" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Other services</h2>

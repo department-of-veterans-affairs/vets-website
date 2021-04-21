@@ -709,6 +709,16 @@ module.exports = function registerFilters() {
     return string.replace(regex, newVal);
   };
 
+  liquid.filters.filterByTypeOfCare = (data, typeOfCarePage) => {
+    return data
+      .filter(
+        e =>
+          e.entity?.fieldServiceNameAndDescripti?.entity
+            ?.fieldVetCenterTypeOfCare === typeOfCarePage,
+      )
+      .map(e => e.entity);
+  };
+
   liquid.filters.processDynamicContent = (entity, contentType) => {
     // TODO - add more cases as new centralized content types are added
     // eslint-disable-next-line sonarjs/no-small-switch
