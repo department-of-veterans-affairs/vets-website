@@ -11,6 +11,7 @@ import {
   APPOINTMENT_TYPES,
   FETCH_STATUS,
   QUERY_STATUS,
+  QUERY_TO_FETCH_STATUS,
 } from '../../utils/constants';
 import { lowerCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -22,17 +23,15 @@ import {
   fetchRequestById,
   getPatientTelecom,
   getVAAppointmentLocationId,
+  cancelPendingAppointment,
 } from '../../services/appointment';
-import {
-  selectFirstRequestMessage,
-  getCancelInfo,
-  selectAppointmentById,
-} from '../redux/selectors';
+import { selectFirstRequestMessage, getCancelInfo } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './AppointmentsPage/PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import useFacilitiesQuery from '../../hooks/useFacilitiesQuery';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient, useMutation } from 'react-query';
+import { getRequestMessages } from '../../services/var';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -44,8 +43,6 @@ function RequestedAppointmentDetailsPage({
   cancelAppointment,
   cancelInfo,
   closeCancelAppointment,
-  confirmCancelAppointment,
-  message,
 }) {
   const { id } = useParams();
   const queryClient = useQueryClient();
@@ -58,9 +55,28 @@ function RequestedAppointmentDetailsPage({
         queryClient.getQueryData('pending')?.find(appt => appt.id === id),
     },
   );
-
+  const { data: message } = useQuery(
+    ['pending', id, 'message'],
+    () => getRequestMessages(id),
+    {
+      select: messages => messages?.[0]?.attributes?.messageText,
+    },
+  );
   const facilityId = getVAAppointmentLocationId(appointment);
   const { facilityData } = useFacilitiesQuery(facilityId);
+
+  const cancelMutation = useMutation(cancelPendingAppointment, {
+    onSuccess(canceledRequest) {
+      queryClient.setQueryData(['pending', id], canceledRequest);
+      if (queryClient.getQueryState('pending')) {
+        queryClient.setQueryData('pending', pending =>
+          pending?.map(
+            current => (current.id === id ? canceledRequest : current),
+          ),
+        );
+      }
+    },
+  });
 
   useEffect(
     () => {
@@ -238,22 +254,17 @@ function RequestedAppointmentDetailsPage({
       </Link>
       <CancelAppointmentModal
         {...cancelInfo}
-        onConfirm={confirmCancelAppointment}
+        appointmentToCancel={appointment}
+        cancelAppointmentStatus={QUERY_TO_FETCH_STATUS[cancelMutation.status]}
+        cancelAppointmentStatusVaos400={false}
+        onConfirm={() => cancelMutation.mutate(appointment)}
         onClose={closeCancelAppointment}
       />
     </PageLayout>
   );
 }
 function mapStateToProps(state, ownProps) {
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
-
   return {
-    appointment: selectAppointmentById(state, ownProps.match.params.id, [
-      APPOINTMENT_TYPES.request,
-      APPOINTMENT_TYPES.ccRequest,
-    ]),
-    appointmentDetailsStatus,
-    facilityData,
     message: selectFirstRequestMessage(state, ownProps.match.params.id),
     cancelInfo: getCancelInfo(state),
   };

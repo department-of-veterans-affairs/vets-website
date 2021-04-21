@@ -8,6 +8,7 @@ import {
   getConfirmedAppointments,
   getPendingAppointment,
   getPendingAppointments,
+  updateRequest,
 } from '../var';
 import {
   transformConfirmedAppointment,
@@ -16,11 +17,15 @@ import {
   transformPendingAppointments,
 } from './transformers';
 import { mapToFHIRErrors } from '../utils';
+import { captureError } from '../../utils/error';
 import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
   VIDEO_TYPES,
+  GA_PREFIX,
 } from '../../utils/constants';
+import recordEvent from 'platform/monitoring/record-event';
+import { resetDataLayer } from '../../utils/events';
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
@@ -591,4 +596,47 @@ export function groupAppointmentsByMonth(appointments) {
   });
 
   return appointmentsByMonth;
+}
+
+const CANCELLED_REQUEST = 'Cancelled';
+export async function cancelPendingAppointment(appointment) {
+  const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
+  const additionalEventdata = {
+    appointmentType: 'pending',
+    facilityType:
+      appointment.vaos?.isCommunityCare || appointment.isCommunityCare
+        ? 'cc'
+        : 'va',
+  };
+
+  try {
+    recordEvent({
+      event: eventPrefix,
+      ...additionalEventdata,
+    });
+
+    const request = await updateRequest({
+      ...appointment.legacyVAR.apiData,
+      status: CANCELLED_REQUEST,
+      appointmentRequestDetailCode: ['DETCODE8'],
+    });
+
+    recordEvent({
+      event: `${eventPrefix}-successful`,
+      ...additionalEventdata,
+    });
+    resetDataLayer();
+
+    return transformPendingAppointment(request);
+  } catch (e) {
+    captureError(e, true);
+
+    recordEvent({
+      event: `${eventPrefix}-failed`,
+      ...additionalEventdata,
+    });
+    resetDataLayer();
+
+    throw e;
+  }
 }

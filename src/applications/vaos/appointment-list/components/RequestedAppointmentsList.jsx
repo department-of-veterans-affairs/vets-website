@@ -27,7 +27,7 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
   const showScheduleButton = useSelector(selectFeatureRequests);
 
   const { data: pendingAppointments, status: pendingStatus } = useQuery(
-    ['pending'],
+    'pending',
     () =>
       getAppointmentRequests({
         startDate: moment()

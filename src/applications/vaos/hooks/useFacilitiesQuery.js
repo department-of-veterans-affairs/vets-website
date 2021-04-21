@@ -8,7 +8,9 @@ export default function useFacilitiesQuery(facilityIdOrArray = []) {
     : [facilityIdOrArray];
   const currentFacilities = queryClient.getQueryData('facilities') || {};
 
-  const missingFacilities = facilityIds.filter(id => !currentFacilities[id]);
+  const missingFacilities = facilityIds.filter(
+    id => id && !currentFacilities[id],
+  );
   const { data: facilityData, status } = useQuery(
     ['facilitiesQuery', ...missingFacilities],
     () => getLocations({ facilityIds: missingFacilities }),
@@ -22,7 +24,9 @@ export default function useFacilitiesQuery(facilityIdOrArray = []) {
     },
   );
 
-  queryClient.setQueryData('facilities', facilityData);
+  if (facilityData) {
+    queryClient.setQueryData('facilities', facilityData);
+  }
 
   return { facilityData: facilityData || currentFacilities, status };
 }

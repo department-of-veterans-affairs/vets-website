@@ -12,6 +12,13 @@ export const QUERY_STATUS = {
   error: 'error',
 };
 
+export const QUERY_TO_FETCH_STATUS = {
+  [QUERY_STATUS.error]: FETCH_STATUS.failed,
+  [QUERY_STATUS.loading]: FETCH_STATUS.loading,
+  [QUERY_STATUS.success]: FETCH_STATUS.succeeded,
+  [QUERY_STATUS.idle]: FETCH_STATUS.notStarted,
+};
+
 export const APPOINTMENT_TYPES = {
   vaAppointment: 'vaAppointment',
   ccAppointment: 'ccAppointment',

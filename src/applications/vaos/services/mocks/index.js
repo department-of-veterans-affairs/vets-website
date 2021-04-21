@@ -140,20 +140,9 @@ export default [
     delay: 3000,
   },
   {
-    path: /vaos\/v0\/appointment_requests\//,
-    response: url => {
-      const segments = url.split('/');
-      const id = segments[segments.length - 1];
-      return {
-        data: requests.data.find(req => req.id === id),
-      };
-    },
-    delay: 3000,
-  },
-  {
     path: /vaos\/v0\/appointment_requests\/.*\/messages/,
     response: url => {
-      if (url.includes('8a48912a6c2409b9016c525a4d490190')) {
+      if (url.includes('8a4886886e4c8e22016e6613216d001g')) {
         return messages0190;
       }
 
@@ -163,6 +152,17 @@ export default [
 
       return { data: [] };
     },
+  },
+  {
+    path: /vaos\/v0\/appointment_requests\//,
+    response: url => {
+      const segments = url.split('/');
+      const id = segments[segments.length - 1];
+      return {
+        data: requests.data.find(req => req.id === id),
+      };
+    },
+    delay: 3000,
   },
   {
     path: /vaos\/v0\/facilities\?/,
