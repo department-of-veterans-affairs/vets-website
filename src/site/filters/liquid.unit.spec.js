@@ -384,4 +384,8 @@ describe('encode', () => {
       'foo &copy; bar &ne; baz &#x1D306; qux&apos;&apos;',
     );
   });
+
+  it('returns a string when passed null', () => {
+    expect(liquid.filters.encode(null)).to.equal('');
+  });
 });

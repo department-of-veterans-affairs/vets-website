@@ -733,6 +733,12 @@ module.exports = function registerFilters() {
 
   liquid.filters.strip = (string = '') => _.trim(string);
 
-  liquid.filters.encode = (string = '') =>
-    he.encode(string, { useNamedReferences: true });
+  liquid.filters.encode = (string = '') => {
+    // Escape early in case of string being `null`.
+    if (!string) {
+      return '';
+    }
+
+    return he.encode(string, { useNamedReferences: true });
+  };
 };
