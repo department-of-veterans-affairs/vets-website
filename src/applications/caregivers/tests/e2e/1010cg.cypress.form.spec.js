@@ -9,6 +9,7 @@ import {
   primaryCaregiverContent,
   secondaryCaregiverContent,
 } from 'applications/caregivers/definitions/content';
+import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 
 const veteranLabel = `Veteran\u2019s`;
 const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
@@ -57,16 +58,20 @@ const signAsParty = (partyLabel, signature) => {
 const testSecondaryTwo = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['requiredOnly', 'secondaryOneOnly'],
+    dataSets: [
+      'twoSecondaryCaregivers',
+      'oneSecondaryCaregivers',
+      'requiredOnly',
+      'secondaryOneOnly',
+    ],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
 
     setupPerTest: () => {
-      cy.server();
-      cy.route('GET', '/v0/feature_toggles?*', 'fx:mocks/feature-toggles');
       cy.login();
+      cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
     },
     pageHooks: {
       introduction: () => {
