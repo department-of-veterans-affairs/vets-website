@@ -57,7 +57,7 @@ const signAsParty = (partyLabel, signature) => {
 const testSecondaryTwo = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['requiredOnly', 'secondaryOneOnly'],
+    dataSets: ['twoSecondaryCaregivers', 'oneSecondaryCaregivers'],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
