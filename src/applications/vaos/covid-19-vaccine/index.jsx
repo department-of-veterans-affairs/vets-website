@@ -47,7 +47,7 @@ export default function NewBookingSection() {
 
   useEffect(() => {
     if (directScheduleSettingsStatus === FETCH_STATUS.notStarted) {
-      dispatch(fetchDirectScheduleSettings);
+      dispatch(fetchDirectScheduleSettings());
     }
   }, []);
 
