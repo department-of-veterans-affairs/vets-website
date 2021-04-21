@@ -32,11 +32,6 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
-    // Prod Flag bah-23496
-    // const classNameProdFlag = environment.isProduction()
-    //   ? 'omb-info--container'
-    //   : 'omb-info--container vads-u-margin-top--2';
-
     return (
       <div className="schemaform-intro">
         <FormTitle title="Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)" />
@@ -120,6 +115,7 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <div
+          // Prod Flag bah-23496
           className={
             !this.props.isLoggedIn && !environment.isProduction()
               ? 'vads-u-padding-bottom--1p5'
