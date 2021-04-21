@@ -92,7 +92,7 @@ exports.handler = async function(event, context) {
       const assetUrl = new URL(relativePath, DRUPAL_ADDRESS);
       assetUrl.search = '';
 
-      const downloadPath = filePath.split('?', 2)[0];
+      const downloadPath = decodeURIComponent(filePath.split('?', 2)[0]);
 
       const isImg = IMG_SUFFIXES.some(ext =>
         downloadPath.toLowerCase().endsWith(ext),
