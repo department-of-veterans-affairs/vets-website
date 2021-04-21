@@ -20,6 +20,7 @@ import LoadFail from '../alerts/LoadFail';
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import facilityLocator from 'applications/facility-locator/manifest.json';
 
+import Headline from '../ProfileSectionHeadline';
 import ProfileInfoTable from '../ProfileInfoTable';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
 
@@ -29,11 +30,11 @@ const NotAVeteranAlert = () => {
     <AlertBox
       isVisible
       status="warning"
-      headline="We don't seem to have your military records"
+      headline="We don’t seem to have your military records"
       content={
         <>
           <p>
-            We're sorry. We can't match your information to our records. If you
+            We’re sorry. We can’t match your information to our records. If you
             think this is an error, please call the VA.gov help desk at{' '}
             <Telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
             <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
@@ -199,13 +200,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
 
   return (
     <>
-      <h2
-        tabIndex="-1"
-        className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
-        data-focus-target
-      >
-        Military information
-      </h2>
+      <Headline>Military information</Headline>
       <DowntimeNotification
         appTitle="Military Information"
         render={handleDowntimeForSection('military service')}
