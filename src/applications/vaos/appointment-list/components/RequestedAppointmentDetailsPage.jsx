@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
-import * as actions from '../redux/actions';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
-  FETCH_STATUS,
   QUERY_STATUS,
   QUERY_TO_FETCH_STATUS,
 } from '../../utils/constants';
@@ -25,13 +23,13 @@ import {
   getVAAppointmentLocationId,
   cancelPendingAppointment,
 } from '../../services/appointment';
-import { selectFirstRequestMessage, getCancelInfo } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './AppointmentsPage/PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import useFacilitiesQuery from '../../hooks/useFacilitiesQuery';
 import { useQuery, useQueryClient, useMutation } from 'react-query';
 import { getRequestMessages } from '../../services/var';
+import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -39,13 +37,10 @@ const TIME_TEXT = {
   'No Time Selected': '',
 };
 
-function RequestedAppointmentDetailsPage({
-  cancelAppointment,
-  cancelInfo,
-  closeCancelAppointment,
-}) {
+export default function RequestedAppointmentDetailsPage() {
   const { id } = useParams();
   const queryClient = useQueryClient();
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   const { data: appointment, status: appointmentDetailsStatus } = useQuery(
     ['pending', id],
@@ -64,6 +59,11 @@ function RequestedAppointmentDetailsPage({
   );
   const facilityId = getVAAppointmentLocationId(appointment);
   const { facilityData } = useFacilitiesQuery(facilityId);
+
+  const cernerFacilities = useSelector(selectCernerAppointmentsFacilities);
+  const isCerner = cernerFacilities?.some(cernerSite =>
+    facilityId?.startsWith(cernerSite.facilityId),
+  );
 
   const cancelMutation = useMutation(cancelPendingAppointment, {
     onSuccess(canceledRequest) {
@@ -100,14 +100,11 @@ function RequestedAppointmentDetailsPage({
 
   useEffect(
     () => {
-      if (
-        !cancelInfo.showCancelModal &&
-        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
-      ) {
+      if (!showCancelModal && cancelMutation.status === QUERY_STATUS.success) {
         scrollAndFocus();
       }
     },
-    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
+    [showCancelModal, cancelMutation.status],
   );
 
   useEffect(
@@ -181,7 +178,7 @@ function RequestedAppointmentDetailsPage({
               <button
                 aria-label="Cancel request"
                 className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
-                onClick={() => cancelAppointment(appointment)}
+                onClick={() => setShowCancelModal(true)}
               >
                 Cancel Request
               </button>
@@ -253,29 +250,14 @@ function RequestedAppointmentDetailsPage({
         </button>
       </Link>
       <CancelAppointmentModal
-        {...cancelInfo}
+        showCancelModal={showCancelModal}
+        facilityData={facilityData}
+        isCerner={isCerner}
         appointmentToCancel={appointment}
         cancelAppointmentStatus={QUERY_TO_FETCH_STATUS[cancelMutation.status]}
-        cancelAppointmentStatusVaos400={false}
         onConfirm={() => cancelMutation.mutate(appointment)}
-        onClose={closeCancelAppointment}
+        onClose={() => setShowCancelModal(false)}
       />
     </PageLayout>
   );
 }
-function mapStateToProps(state, ownProps) {
-  return {
-    message: selectFirstRequestMessage(state, ownProps.match.params.id),
-    cancelInfo: getCancelInfo(state),
-  };
-}
-const mapDispatchToProps = {
-  cancelAppointment: actions.cancelAppointment,
-  closeCancelAppointment: actions.closeCancelAppointment,
-  confirmCancelAppointment: actions.confirmCancelAppointment,
-  fetchRequestDetails: actions.fetchRequestDetails,
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequestedAppointmentDetailsPage);
