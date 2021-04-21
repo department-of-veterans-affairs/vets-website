@@ -499,7 +499,7 @@ export function getPreferredCommunityCareProviderName(appointment) {
   const provider = appointment?.preferredCommunityCareProviders?.[0];
 
   if (provider) {
-    return provider.practicName || provider.providerName;
+    return provider.practiceName || provider.providerName;
   }
 
   return 'Community care';

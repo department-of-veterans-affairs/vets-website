@@ -389,25 +389,6 @@ describe('VAOS Appointment transformer', () => {
         );
       });
 
-      it('should set provider contact info', () => {
-        expect(data.contained.practitioner.name).to.equal(
-          'Audiologists of Dayton',
-        );
-        expect(data.contained.practitioner.address.line[0]).to.equal(
-          '123 Main St',
-        );
-        expect(data.contained.practitioner.address.city).to.equal('dayton');
-        expect(data.contained.practitioner.address.state).to.equal('OH');
-        expect(data.contained.practitioner.address.postalCode).to.equal(
-          '45405',
-        );
-        expect(data.contained.practitioner.telecom[0].system).to.equal('phone');
-        expect(data.contained.practitioner.telecom[0].value).to.equal(
-          '(703) 345-2400',
-        );
-        expect(data.location.displayName).to.equal('Bob Belcher');
-      });
-
       it('should return vaos.isPastAppointment', () => {
         expect(data.vaos.isPastAppointment).to.equal(
           moment(data.start).isBefore(moment()),
@@ -534,11 +515,11 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set patient info in participants', () => {
-        const telecomPhone = data.contained.patient.telecom.filter(
+        const telecomPhone = data.contact.telecom.filter(
           t => t.system === 'phone',
         )[0];
         expect(telecomPhone.value).to.equal('(999) 999-9999');
-        const telecomEmail = data.contained.patient.telecom.filter(
+        const telecomEmail = data.contact.telecom.filter(
           t => t.system === 'email',
         )[0];
         expect(telecomEmail.value).to.equal('aarathi.poldass@va.gov');
@@ -579,7 +560,7 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set bestTimeToCall', () => {
-        expect(data.legacyVAR.bestTimeToCall).to.deep.equal(['Morning']);
+        expect(data.preferredTimesForPhoneCall).to.deep.equal(['Morning']);
       });
 
       it('should set isExpressCare to false', () => {
