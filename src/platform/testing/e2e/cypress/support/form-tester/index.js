@@ -540,7 +540,7 @@ const testForm = testConfig => {
       testCase(testKey, () => {
         beforeEach(() => {
           cy.wrap(testKey).as('testKey');
-          cy.fixture(`data/${testKey}`)
+          cy.fixture(`../../../${fixtures.data}/${testKey}`)
             .then(extractTestData)
             .as('testData')
             .then(setupPerTest);
