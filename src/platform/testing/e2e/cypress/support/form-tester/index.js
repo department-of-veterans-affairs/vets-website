@@ -163,19 +163,21 @@ const performPageActions = (pathname, _13647Exception = false) => {
  * asserts that it proceeds to the next page until it gets to the confirmation.
  */
 const processPage = ({ _13647Exception }) => {
-  cy.location('pathname', NO_LOG_OPTION).then(pathname => {
-    performPageActions(pathname, _13647Exception);
+  cy.location('pathname', { ...NO_LOG_OPTION, timeout: 8000 }).then(
+    pathname => {
+      performPageActions(pathname, _13647Exception);
 
-    if (!pathname.endsWith('/confirmation')) {
-      cy.location('pathname', NO_LOG_OPTION)
-        .should(newPathname => {
-          if (pathname === newPathname) {
-            throw new Error(`Expected to navigate away from ${pathname}`);
-          }
-        })
-        .then(() => processPage({ _13647Exception }));
-    }
-  });
+      if (!pathname.endsWith('/confirmation')) {
+        cy.location('pathname', { ...NO_LOG_OPTION, timeout: 8000 })
+          .should(newPathname => {
+            if (pathname === newPathname) {
+              throw new Error(`Expected to navigate away from ${pathname}`);
+            }
+          })
+          .then(() => processPage({ _13647Exception }));
+      }
+    },
+  );
 };
 
 /**
@@ -549,7 +551,7 @@ const testForm = testConfig => {
         it('fills the form', () => {
           cy.visit(rootUrl).injectAxe();
 
-          cy.get(LOADING_SELECTOR)
+          cy.get(LOADING_SELECTOR, { timeout: 8000 })
             .should('not.exist')
             .then(() => processPage({ _13647Exception }));
         });
