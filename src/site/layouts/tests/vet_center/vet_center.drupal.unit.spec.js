@@ -28,4 +28,11 @@ describe('Vet Center Main Page', () => {
       testData.fieldIntroText,
     );
   });
+
+  it('renders prepare for your visit', () => {
+    expect(container.getElementsByTagName('va-accordion').length).to.equal(4);
+    expect(container.getElementsByTagName('va-accordion-item').length).to.equal(
+      4,
+    );
+  });
 });
