@@ -8,7 +8,10 @@ node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
               parameters([choice(name: "cmsEnvBuildOverride",
                                  description: "Choose an environment to run a content only build. Select 'none' to run the regular pipeline.",
-                                 choices: ["none", "dev", "staging"].join("\n"))])]);
+                                 choices: ["none", "dev", "staging"].join("\n")),
+                          booleanParam(name: "cancelBuild", 
+                                       defaultValue: true, 
+                                       description: "A hack to only run the job manually and not by MBPJ")])]);
 
   // Checkout vets-website code
   dir("vets-website") {
@@ -21,6 +24,12 @@ node('vetsgov-general-purpose') {
   // setupStage
   dockerContainer = commonStages.setup()
 
+  stage('Cancel Build if started by MBPJ') {
+    if (params.cancelBuild) {
+      error("Aborting due to cancelBuild param being true, bye")
+    }
+  }
+  
   stage('Lint|Security|Unit') {
     if (params.cmsEnvBuildOverride != 'none') { return }
 
