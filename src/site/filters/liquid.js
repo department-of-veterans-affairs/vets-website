@@ -739,6 +739,8 @@ module.exports = function registerFilters() {
       return '';
     }
 
+    string = string.replace("'", '&apos;');
+
     return he.encode(string, { useNamedReferences: true });
   };
 };

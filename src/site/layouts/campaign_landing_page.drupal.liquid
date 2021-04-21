@@ -194,7 +194,7 @@
               {{ fieldClpSpotlightIntroText }}
               <a
                 href="{{ fieldClpSpotlightCta.entity.fieldButtonLink.url.path }}"
-                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Spotlight', 'clp-section-title': '{{ fieldClpSpotlightHeader | encode }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpSpotlightCta.entity.fieldButtonLabel | encode }}'"
+                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Spotlight', 'clp-section-title': '{{ fieldClpSpotlightHeader | encode }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpSpotlightCta.entity.fieldButtonLabel | encode }}' });"
               >
                 {{ fieldClpSpotlightCta.entity.fieldButtonLabel }}
               </a>
@@ -209,7 +209,7 @@
                   <h3 class="vads-u-margin-top--0">
                     <a
                       href="{{ linkTeaser.entity.fieldLink.uri }}"
-                      onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Spotlight', 'clp-section-title': '{{ fieldClpSpotlightHeader | encode }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ linkTeaser.entity.fieldLink.title | encode }}'"
+                      onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Spotlight', 'clp-section-title': '{{ fieldClpSpotlightHeader | encode }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ linkTeaser.entity.fieldLink.title | encode }}' });"
                     >
                       {{ linkTeaser.entity.fieldLink.title }}
                     </a>
