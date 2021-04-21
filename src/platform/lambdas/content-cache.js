@@ -111,7 +111,7 @@ exports.handler = async function(event, context) {
     }
   }
 
-  const assetDownloaders = new Array(5)
+  const assetDownloaders = new Array(10)
     .fill(null)
     .map(() => new Promise(downloader(assetQueue, tarball)));
 
