@@ -35,7 +35,11 @@ export const transform = ({ data }) => {
         .join(', '),
     },
     personalData: {
-      veteranFullName: personalData.veteranFullName,
+      veteranFullName: {
+        first: personalData.veteranFullName.first || '',
+        middle: personalData.veteranFullName.middle || '',
+        last: personalData.veteranFullName.last || '',
+      },
       agesOfOtherDependents: personalData.agesOfOtherDependents
         ? personalData.agesOfOtherDependents.map(
             dependent => dependent.dependentAge,
@@ -43,7 +47,7 @@ export const transform = ({ data }) => {
         : [],
       address: {
         addresslineOne: personalData.address.street,
-        addresslineTwo: personalData.address.street2,
+        addresslineTwo: personalData.address.street2 || '',
         addresslineThree: '',
         city: personalData.address.city,
         stateOrProvince: personalData.address.stateCode,
@@ -52,9 +56,9 @@ export const transform = ({ data }) => {
       },
       married: questions.maritalStatus === 'Married',
       spouseFullName: {
-        first: personalData.spouseFullName.first,
+        first: personalData.spouseFullName.first || '',
         middle: '',
-        last: personalData.spouseFullName.last,
+        last: personalData.spouseFullName.last || '',
       },
       employmentHistory,
       telephoneNumber: personalData.telephoneNumber,
