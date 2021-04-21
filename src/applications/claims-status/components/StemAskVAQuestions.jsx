@@ -26,11 +26,26 @@ function StemAskVAQuestions() {
       <br />
       <p>Education Call Center:</p>
       <p>
-        <Telephone contact={CONTACTS.GI_BILL} /> (inside the U.S.)
+        <span
+          aria-describedby="inside-US-tele"
+          className="no-wrap"
+          href="tel:+18884424551"
+          aria-label="8 8 8. 4 4 2. 4 5 5 1."
+        >
+          <Telephone contact={CONTACTS.GI_BILL} />
+        </span>{' '}
+        <span id="inside-US-tele">(inside the U.S.)</span>
       </p>
       <p>
-        <Telephone contact={'19187815678'} pattern={PATTERNS.OUTSIDE_US} />{' '}
-        (outside the U.S.)
+        <span
+          aria-describedby="outside-US-tele"
+          className="no-wrap"
+          href="tel:+19187815678"
+          aria-label="9 1 8. 7 8 1. 5 6 7 8."
+        >
+          <Telephone contact={'19187815678'} pattern={PATTERNS.OUTSIDE_US} />
+        </span>{' '}
+        <span id="outside-US-tele">(outside the U.S.)</span>
       </p>
       <br />
       <p>

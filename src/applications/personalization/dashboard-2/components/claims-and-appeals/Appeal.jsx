@@ -9,12 +9,19 @@ import {
   programAreaMap,
 } from '~/applications/claims-status/utils/appeals-v2-helpers';
 
+import CTALink from '../CTALink';
+
 const capitalizeFirstLetter = input => {
   const capitalizedFirstLetter = input[0].toUpperCase();
   return `${capitalizedFirstLetter}${input.slice(1)}`;
 };
 
 const Appeal = ({ appeal, name }) => {
+  if (!appeal.attributes) {
+    throw new TypeError(
+      '`appeal` prop is malformed; it should have an `attributes` property.',
+    );
+  }
   let requestEventType;
   let isAppeal;
 
@@ -65,43 +72,40 @@ const Appeal = ({ appeal, name }) => {
   appealTitle = capitalizeFirstLetter(appealTitle);
 
   return (
-    <div className="vads-l-col--12 medium-screen:vads-l-col--6 small-desktop-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-      <div className="vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-background-color--gray-lightest">
-        <h3 className="vads-u-margin-top--0">
-          {appealTitle}
-          {/* Claim for compensation received June 7, 1999 */}
-        </h3>
-        <div className="vads-u-display--flex">
-          <i
-            aria-hidden="true"
-            className={`fas fa-fw fa-check-circle vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green`}
-          />
-          <div>
+    <div className="vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-background-color--gray-lightest">
+      <h3 className="vads-u-margin-top--0">
+        {appealTitle}
+        {/* Claim for compensation received June 7, 1999 */}
+      </h3>
+      <div className="vads-u-display--flex">
+        <i
+          aria-hidden="true"
+          className={`fas fa-fw fa-check-circle vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green`}
+        />
+        <div>
+          <p className="vads-u-margin-y--0">
+            Status: {getStatusContents(appeal, name).title}
+          </p>
+          {appeal.attributes.description && (
             <p className="vads-u-margin-y--0">
-              Status: {getStatusContents(appeal, name).title}
+              {appeal.attributes.issues.length === 1 ? 'Issue' : 'Issues'} on
+              {isAppeal ? ' appeal' : ' review'}:{' '}
+              {appeal.attributes.description}
             </p>
-            {appeal.attributes.description && (
-              <p className="vads-u-margin-y--0">
-                {appeal.attributes.issues.length === 1 ? 'Issue' : 'Issues'} on
-                {isAppeal ? ' appeal' : ' review'}:{' '}
-                {appeal.attributes.description}
-              </p>
-            )}
-            {requestEvent && (
-              <p className="vads-u-margin-y--0">
-                Submitted on: {moment(requestEvent.date).format('MMMM D, YYYY')}
-              </p>
-            )}
-          </div>
+          )}
+          {requestEvent && (
+            <p className="vads-u-margin-y--0">
+              Submitted on: {moment(requestEvent.date).format('MMMM D, YYYY')}
+            </p>
+          )}
         </div>
-        <a
-          aria-label={`View details of ${appealTitle} `}
-          className="usa-button-primary"
-          href={`/track-claims/appeals/${appeal.id}/status`}
-        >
-          View details
-        </a>
       </div>
+      <CTALink
+        ariaLabel={`View details of ${appealTitle} `}
+        className="vads-u-margin-top--2"
+        text="View details"
+        href={`/track-claims/appeals/${appeal.id}/status`}
+      />
     </div>
   );
 };

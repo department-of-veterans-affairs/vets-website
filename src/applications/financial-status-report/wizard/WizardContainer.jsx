@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import GetFormHelp from '../components/GetFormHelp';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import pages from '../wizard/pages';
+import recordEvent from 'platform/monitoring/record-event';
 import Wizard, {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
@@ -32,6 +33,9 @@ const WizardContainer = ({ setWizardStatus }) => {
               onClick={e => {
                 e.preventDefault();
                 setWizardStatus(WIZARD_STATUS_COMPLETE);
+                recordEvent({
+                  event: `howToWizard-skip`,
+                });
               }}
             >
               Request help with VA Form 5655
@@ -43,11 +47,14 @@ const WizardContainer = ({ setWizardStatus }) => {
               learn how to request financial hardship assistance.
             </a>
           </p>
-          <Wizard
-            pages={pages}
-            expander={false}
-            setWizardStatus={setWizardStatus}
-          />
+
+          <section aria-live="polite">
+            <Wizard
+              pages={pages}
+              expander={false}
+              setWizardStatus={setWizardStatus}
+            />
+          </section>
         </div>
         <div className="help-container">
           <h2 className="help-heading">Need help?</h2>

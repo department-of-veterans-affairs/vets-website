@@ -117,7 +117,7 @@ def setup() {
       dockerImage = docker.build(DOCKER_TAG)
       retry(5) {
         dockerImage.inside(DOCKER_ARGS) {
-          sh "cd /application && yarn install --production=false"
+          sh "cd /application && yarn install --frozen-lockfile --production=false"
         }
       }
       return dockerImage

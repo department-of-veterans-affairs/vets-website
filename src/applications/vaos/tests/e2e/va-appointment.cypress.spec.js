@@ -5,7 +5,7 @@ import {
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
 
-describe.skip('VAOS direct schedule flow', () => {
+describe('VAOS direct schedule flow', () => {
   it('should submit form', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
@@ -98,7 +98,7 @@ describe.skip('VAOS direct schedule flow', () => {
 
     // Type of eye care
     cy.url().should('include', '/choose-eye-care');
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.findByLabelText(/Optometry/).click();
     cy.findByText(/Continue/).click();
 
@@ -170,7 +170,7 @@ describe.skip('VAOS direct schedule flow', () => {
 
     // Type of sleep care
     cy.url().should('include', '/choose-sleep-care');
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.findByLabelText(/Sleep medicine/).click();
     cy.findByText(/Continue/).click();
 
@@ -223,7 +223,7 @@ describe.skip('VAOS direct schedule flow', () => {
     newApptTests.confirmationPageTest(additionalInfo);
   });
 });
-describe.skip('VAOS direct schedule flow with a Cerner site', () => {
+describe('VAOS direct schedule flow with a Cerner site', () => {
   it('should submit form', () => {
     initAppointmentListMock();
     initVAAppointmentMock({ cernerUser: true });
@@ -316,7 +316,7 @@ describe.skip('VAOS direct schedule flow with a Cerner site', () => {
 
     // Type of eye care
     cy.url().should('include', '/choose-eye-care');
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.findByLabelText(/Optometry/).click();
     cy.findByText(/Continue/).click();
 
@@ -388,7 +388,7 @@ describe.skip('VAOS direct schedule flow with a Cerner site', () => {
 
     // Type of sleep care
     cy.url().should('include', '/choose-sleep-care');
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.findByLabelText(/Sleep medicine/).click();
     cy.findByText(/Continue/).click();
 

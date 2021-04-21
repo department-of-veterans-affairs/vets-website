@@ -4,23 +4,17 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import { validateMatch } from 'platform/forms-system/src/js/validation';
+import {
+  uiSchema as directDepositUiSchema,
+  schema as directDepositSchema,
+} from './directDeposit';
 
 import {
   uiSchema as addressUISchema,
   schema as addressSchema,
 } from 'platform/forms/definitions/address';
 import _ from 'lodash';
-import {
-  bankInfoHelpText,
-  directDepositAlert,
-  directDepositDescription,
-} from '../content/directDeposit';
-
-import {
-  confirmEligibilityDescription,
-  confirmEligibilityNote,
-} from '../content/confirmEligibility';
 
 const {
   veteranFullName,
@@ -35,28 +29,22 @@ const {
   programCity,
   programState,
   learningFormat,
-  vrrapConfirmation,
 } = fullSchema.properties;
 
-const { bankAccount } = fullSchema.definitions;
-
-const addressUiSchema = addressUISchema('Mailing address', false);
-const address = addressSchema(fullSchema, true);
-const declineDirectDeposit = form =>
-  form['view:directDeposit']['view:declineDirectDeposit'];
-const useDirectDeposit = form => !declineDirectDeposit(form);
+const addressUiSchema = addressUISchema('Mailing address', false, false);
+const address = addressSchema(fullSchema, false);
 const hasNotSelectedProgram = form =>
   !_.get(form['view:programSelection'], 'hasSelectedProgram', true);
 
-const path = 'form';
-const title = 'Application';
+const path = 'apply';
+const title = 'VRRAP application';
 const uiSchema = {
   'view:applicantInformation': {
-    'ui:title': 'Applicant Information',
+    'ui:title': 'Applicant information',
     veteranFullName: fullNameUI,
     veteranSocialSecurityNumber: ssnUI,
     dateOfBirth: {
-      ...currentOrPastDateUI('Date of birth'),
+      ...currentOrPastDateUI('Your date of birth'),
       'ui:errorMessages': {
         required: 'Please provide a valid date',
         futureDate: 'Please provide a valid date in the past',
@@ -64,9 +52,12 @@ const uiSchema = {
     },
   },
   'view:contactInformation': {
-    'ui:title': 'Contact Information',
+    'ui:title': 'Contact information',
     'view:phoneAndEmail': {
       'ui:title': 'Phone & email',
+      'ui:validations': [
+        validateMatch('email', 'view:confirmEmail', { ignoreCase: true }),
+      ],
       mobilePhone: phoneUI('Mobile phone number'),
       alternatePhone: phoneUI('Home phone number'),
       email: emailUI(),
@@ -88,54 +79,15 @@ const uiSchema = {
       city: addressUiSchema.city,
     },
   },
-  'view:directDeposit': {
-    'ui:title': 'Direct deposit',
-    'ui:description': directDepositDescription,
-    bankAccount: {
-      'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
-      accountType: {
-        ...bankAccountUI.accountType,
-        'ui:required': useDirectDeposit,
-      },
-      routingNumber: {
-        ...bankAccountUI.routingNumber,
-        'ui:title': 'Bank routing number',
-        'ui:required': useDirectDeposit,
-      },
-      accountNumber: {
-        ...bankAccountUI.accountNumber,
-        'ui:title': 'Bank account number',
-        'ui:required': useDirectDeposit,
-      },
-      'ui:options': {
-        classNames: 'vads-u-margin-bottom--3',
-        hideIf: declineDirectDeposit,
-      },
-    },
-    'view:declineDirectDeposit': {
-      'ui:title': "I don't want to use direct deposit",
-      'ui:options': {
-        hideOnReviewIfFalse: true,
-      },
-    },
-    'view:directDespositInfo': {
-      'ui:description': directDepositAlert,
-    },
-    'view:bankInfoHelpText': {
-      'ui:description': bankInfoHelpText,
-      'ui:options': {
-        classNames: 'vads-u-margin-top--4',
-      },
-    },
-  },
+  'view:directDeposit': directDepositUiSchema,
   'view:programSelection': {
-    'ui:title': 'Program Selection',
+    'ui:title': 'Program information',
     hasSelectedProgram: {
-      'ui:title': 'Have you picked a program you’d like to attend using VRRAP?',
+      'ui:title': "Do you know which program you'd like to enroll in?",
       'ui:widget': 'yesNo',
     },
     providerName: {
-      'ui:title': "What's the name of the program’s provider?",
+      'ui:title': "What's the name of the school or training provider?",
       'ui:options': {
         hideIf: hasNotSelectedProgram,
       },
@@ -147,40 +99,28 @@ const uiSchema = {
       },
     },
     programCity: {
-      'ui:title': 'What city is the program in?',
+      'ui:title': 'Which city is the program in?',
       'ui:options': {
         hideIf: hasNotSelectedProgram,
       },
     },
     programState: {
-      'ui:title': 'What state is the program in?',
+      'ui:title': 'Which state is the program in?',
       'ui:options': {
         hideIf: hasNotSelectedProgram,
       },
     },
     learningFormat: {
-      'ui:title': 'Is it an in-person or online program?',
+      'ui:title': 'Is the program in-person, online, or both?',
       'ui:widget': 'radio',
       'ui:options': {
         hideIf: hasNotSelectedProgram,
         labels: {
           inPerson: 'In-person',
           online: 'Online',
-          onlineAndInPerson: "It's both online and in person",
+          onlineAndInPerson: 'Both in-person and online',
         },
       },
-    },
-  },
-  'view:confirmEligibility': {
-    'ui:title': "Confirm you're eligibile for VRRAP",
-    'ui:description': confirmEligibilityDescription,
-    vrrapConfirmation: {
-      'ui:title':
-        'I attest the statements above are true and accurate to the best of my knowledge and belief.',
-      'ui:widget': 'yesNo',
-    },
-    'view:confirmEligibilityNote': {
-      'ui:description': confirmEligibilityNote,
     },
   },
 };
@@ -224,23 +164,7 @@ const schema = {
         },
       },
     },
-    'view:directDeposit': {
-      type: 'object',
-      properties: {
-        bankAccount,
-        'view:declineDirectDeposit': {
-          type: 'boolean',
-        },
-        'view:directDespositInfo': {
-          type: 'object',
-          properties: {},
-        },
-        'view:bankInfoHelpText': {
-          type: 'object',
-          properties: {},
-        },
-      },
-    },
+    'view:directDeposit': directDepositSchema,
     'view:programSelection': {
       type: 'object',
       required: ['hasSelectedProgram'],
@@ -251,13 +175,6 @@ const schema = {
         programCity,
         programState,
         learningFormat,
-      },
-    },
-    'view:confirmEligibility': {
-      type: 'object',
-      required: ['vrrapConfirmation'],
-      properties: {
-        vrrapConfirmation,
       },
     },
   },

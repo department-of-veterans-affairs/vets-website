@@ -14,17 +14,17 @@ const representativePage = {
     'ui:description': RepresentativeIntroContent(),
     [representativeFields.signAsRepresentativeYesNo]: {
       'ui:title':
-        "Do you have legal representative documents you'd like to share with us?",
+        "Do you have a legal representative document you'd like to share with us?",
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
-          yes: 'Yes. I want to upload my documents now',
-          noRep: "Yes. But I'll provide my documents later",
-          no: "No. I don't have these documents.",
+          yes: 'Yes. I want to upload my document now.',
+          noRep: "Yes. But I'll provide my document later.",
+          no: "No. I don't have this document",
         },
       },
     },
-    'view:placeholder': {
+    'view:placeholderOne': {
       'ui:description': RepresentativeAdditionalInfo(),
     },
   },
@@ -36,7 +36,7 @@ const representativePage = {
         type: 'string',
         enum: ['yes', 'noRep', 'no'],
       },
-      'view:placeholder': {
+      'view:placeholderOne': {
         type: 'object',
         properties: {},
       },

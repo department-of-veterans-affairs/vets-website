@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import ContactFacilitiesPage from '../../../project-cheetah/components/ContactFacilitiesPage';
+import ContactFacilitiesPage from '../../../covid-19-vaccine/components/ContactFacilitiesPage';
 import {
   getVAFacilityMock,
   getRequestEligibilityCriteriaMock,
@@ -40,7 +40,7 @@ const initialState = {
 
 const parentSiteIds = ['983', '984'];
 
-describe('VAOS cheetah: <ContactFacilitiesPage>', () => {
+describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 
@@ -183,8 +183,10 @@ describe('VAOS cheetah: <ContactFacilitiesPage>', () => {
       [
         'Facility that is enabled',
         '555-555-5555, ext. 1234',
+        '711',
         'Facility that is also enabled',
         '555-555-5556, ext. 1234',
+        '711',
         'Search for more facilities',
       ],
     );
@@ -319,10 +321,15 @@ describe('VAOS cheetah: <ContactFacilitiesPage>', () => {
     expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
       [
         'A facility',
+        '711',
         'B facility',
+        '711',
         'C facility',
+        '711',
         'D facility',
+        '711',
         'E facility',
+        '711',
         'Search for more facilities',
       ],
     );
@@ -406,6 +413,7 @@ describe('VAOS cheetah: <ContactFacilitiesPage>', () => {
     expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
       [
         'Facility that is enabled',
+        '711',
         'Search for more facilities',
         'Learn how to stay informed about COVID-19 vaccines at VA.',
       ],

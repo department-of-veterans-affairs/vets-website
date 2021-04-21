@@ -5,8 +5,21 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
+import error401 from '@@profile/tests/fixtures/401.json';
+import error500 from '@@profile/tests/fixtures/500.json';
+import {
+  nameTagRendersWithDisabilityRating,
+  nameTagRendersWithoutDisabilityRating,
+  nameTagRendersWithFallbackLink,
+} from '@@profile/tests/e2e/helpers';
 
-import manifest from 'applications/personalization/dashboard/manifest.json';
+import manifest from '~/applications/personalization/dashboard/manifest.json';
+
+import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
+import MOCK_VA_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
+import MOCK_CC_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
+import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
+import { mockMessagesResponse } from '../../utils/mocks/messaging/messages';
 
 import { mockFeatureToggles } from './helpers';
 
@@ -36,16 +49,12 @@ function loa3DashboardTest(mobile) {
 
   // focus should be on the h1
   cy.focused()
-    .should('have.attr', 'id', 'dashboard-title')
     .contains('My VA')
     .and('have.prop', 'tagName')
     .should('equal', 'H1');
 
   // name tag exists with the right data
-  cy.findByTestId('name-tag').should('exist');
-  cy.findByText('Wesley Watson Ford').should('exist');
-  cy.findByText('United States Air Force').should('exist');
-  cy.findByText('90% Service connected').should('exist');
+  nameTagRendersWithDisabilityRating();
 
   // make the a11y check
   cy.injectAxe();
@@ -60,16 +69,55 @@ describe('The My VA Dashboard', () => {
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
     cy.intercept('/v0/appeals', appealsSuccess());
-    cy.intercept(
-      '/v0/disability_compensation_form/rating_info',
-      disabilityRating,
-    );
-  });
-  it('should handle LOA3 users at desktop size', () => {
-    loa3DashboardTest(false);
-  });
 
-  it('should handle LOA3 users at mobile phone size', () => {
-    loa3DashboardTest(true);
+    cy.intercept('/v0/folders/0', mockFolderResponse);
+    cy.intercept('/v0/folders/0/messages', mockMessagesResponse);
+    cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
+    cy.intercept(
+      '/vaos/v0/appointments?start_date=*&type=va',
+      MOCK_VA_APPOINTMENTS,
+    );
+    cy.intercept('/vaos/v0/appointments?type=cc', MOCK_CC_APPOINTMENTS);
+  });
+  context('when it can load the total disability rating', () => {
+    beforeEach(() => {
+      cy.intercept(
+        '/v0/disability_compensation_form/rating_info',
+        disabilityRating,
+      );
+    });
+    it('should handle LOA3 users at desktop size', () => {
+      loa3DashboardTest(false);
+    });
+
+    it('should handle LOA3 users at mobile phone size', () => {
+      loa3DashboardTest(true);
+    });
+  });
+  context('when there is a 401 fetching the total disability rating', () => {
+    beforeEach(() => {
+      cy.intercept('/v0/disability_compensation_form/rating_info', {
+        statusCode: 401,
+        body: error401,
+      });
+    });
+    it('should totally hide the disability rating in the header', () => {
+      mockFeatureToggles();
+      cy.visit(manifest.rootUrl);
+      nameTagRendersWithoutDisabilityRating();
+    });
+  });
+  context('when there is a 500 fetching the total disability rating', () => {
+    beforeEach(() => {
+      cy.intercept('/v0/disability_compensation_form/rating_info', {
+        statusCode: 500,
+        body: error500,
+      });
+    });
+    it('should show the fallback link in the header', () => {
+      mockFeatureToggles();
+      cy.visit(manifest.rootUrl);
+      nameTagRendersWithFallbackLink();
+    });
   });
 });

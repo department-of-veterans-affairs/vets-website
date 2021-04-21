@@ -4,7 +4,15 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-import { isMultifactorEnabled, isVAPatient } from '~/platform/user/selectors';
+import { VA_FORM_IDS } from '~/platform/forms/constants';
+import {
+  isMultifactorEnabled,
+  isVAPatient,
+  isLOA3,
+  selectProfile,
+} from '~/platform/user/selectors';
+
+import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
 import { HCA_ENROLLMENT_STATUSES } from '~/applications/hca/constants';
@@ -26,65 +34,16 @@ const BenefitsOfInterest = ({ children, showChildren }) => {
   return (
     <>
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--2p5">
-        Benefits you might be interested in
+        VA benefits you might be interested in
       </h3>
-      <div
-        className="vads-l-grid-container vads-u-padding--0"
-        data-testid="benefits-of-interest"
-      >
-        {!showChildren && (
+      <div data-testid="benefits-of-interest">
+        {showChildren ? (
+          <div className="vads-l-row">{children}</div>
+        ) : (
           <div className="vads-u-margin-y--2">
             <LoadingIndicator message="Loading benefits you might be interested in..." />
           </div>
         )}
-        {showChildren && <div className="vads-l-row">{children}</div>}
-        <AdditionalInfo triggerText="What benefits does the VA offer?">
-          <p className="vads-u-font-weight--bold">
-            Explore VA.gov to learn about the benefits we offer.
-          </p>
-          <ul>
-            <li>
-              <a href="https://www.va.gov/careers-employment/">
-                Careers &amp; employment
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/pension/">Pension</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/housing-assistance/">
-                Housing assistance
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/burials-memorials/">
-                Burials &amp; memorials
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/life-insurance/">Life insurance</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/service-member-benefits/">
-                Service member benefits
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/family-member-benefits/">
-                Family member benefits
-              </a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/health-care/">Health care benefits</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/education/">Education benefits</a>
-            </li>
-            <li>
-              <a href="https://www.va.gov/disability/">Disability benefits</a>
-            </li>
-          </ul>
-        </AdditionalInfo>
       </div>
     </>
   );
@@ -94,6 +53,7 @@ const ApplyForBenefits = ({
   getDD4EDUStatus,
   getESREnrollmentStatus,
   hasDD4EDU,
+  hasHCAInProgress,
   hasLoadedAllData,
   isInESR,
   isPatient,
@@ -118,20 +78,60 @@ const ApplyForBenefits = ({
     [shouldGetDD4EDUStatus, getDD4EDUStatus],
   );
 
-  const showHealthCare = !isPatient && !isInESR;
-  const showEducation = !hasDD4EDU;
+  const hideHealthCareBenefitInfo = hasHCAInProgress || isPatient || isInESR;
+  const hideEducationBenefitInfo = hasDD4EDU;
 
   return (
-    <>
-      <h2>Apply for benefits</h2>
+    <div data-testid="dashboard-section-apply-for-benefits">
+      <h2>Apply for VA benefits</h2>
+      <div className="vads-u-margin-top--2">
+        <AdditionalInfo triggerText="What benefits does VA offer?">
+          <p className="vads-u-font-weight--bold">
+            Explore VA.gov to learn about the benefits we offer.
+          </p>
+          <ul>
+            <li>
+              <a href="/health-care/">Health care</a>
+            </li>
+            <li>
+              <a href="/education/">Education and training</a>
+            </li>
+            <li>
+              <a href="/disability/">Disability compensation</a>
+            </li>
+            <li>
+              <a href="/careers-employment/">Careers &amp; employment</a>
+            </li>
+            <li>
+              <a href="/pension/">Pension</a>
+            </li>
+            <li>
+              <a href="/housing-assistance/">Housing assistance</a>
+            </li>
+            <li>
+              <a href="/burials-memorials/">Burials &amp; memorials</a>
+            </li>
+            <li>
+              <a href="/life-insurance/">Life insurance</a>
+            </li>
+            <li>
+              <a href="/service-member-benefits/">Service member benefits</a>
+            </li>
+            <li>
+              <a href="/family-member-benefits/">Family member benefits</a>
+            </li>
+          </ul>
+        </AdditionalInfo>
+      </div>
       <ApplicationsInProgress />
       <BenefitsOfInterest showChildren={hasLoadedAllData}>
         <>
-          {showHealthCare && (
+          {hideHealthCareBenefitInfo ? null : (
             <BenefitOfInterest
               title="Health care"
-              ctaButtonLabel="Apply for health care"
-              ctaUrl="https://www.va.gov/health-care/"
+              icon="health-care"
+              ctaButtonLabel="Learn how to apply for VA health care"
+              ctaUrl="/health-care/how-to-apply/"
             >
               <p>
                 With VA health care, you’ll receive coverage for services like
@@ -142,8 +142,9 @@ const ApplyForBenefits = ({
           )}
           <BenefitOfInterest
             title="Disability compensation"
-            ctaButtonLabel="File a disability claim"
-            ctaUrl="https://www.va.gov/disability/"
+            icon="disability"
+            ctaButtonLabel="Learn how to file a claim for disability"
+            ctaUrl="/disability/"
           >
             <p>
               With VA disability benefits, you can get disability compensation
@@ -151,31 +152,37 @@ const ApplyForBenefits = ({
               military service.
             </p>
           </BenefitOfInterest>
-          {showEducation && (
+          {hideEducationBenefitInfo ? null : (
             <BenefitOfInterest
-              title="Education benefits"
-              ctaButtonLabel="Apply for education benefits"
-              ctaUrl="https://www.va.gov/education/"
+              title="Education and training"
+              icon="education"
+              ctaButtonLabel="Learn how to apply for education benefits"
+              ctaUrl="/education/how-to-apply/"
             >
               <p>
-                VA education benefits help Veterans, service members, and their
-                qualified family members with needs like finding the right
-                school or training program and paying tuition.
+                With VA education benefits, you and your qualified family
+                members can get help finding a college or training program and
+                paying for tuition or test fees.
               </p>
             </BenefitOfInterest>
           )}
         </>
       </BenefitsOfInterest>
-    </>
+    </div>
   );
 };
 
 const mapStateToProps = state => {
+  const hasHCAInProgress =
+    selectProfile(state)
+      .savedForms?.filter(filterOutExpiredForms)
+      .some(savedForm => savedForm.form === VA_FORM_IDS.FORM_10_10EZ) ?? false;
+
   const isPatient = isVAPatient(state);
   const esrEnrollmentStatus = selectESRStatus(state).enrollmentStatus;
 
-  const shouldGetESRStatus = !isPatient;
-  const shouldGetDD4EDUStatus = isMultifactorEnabled(state);
+  const shouldGetESRStatus = !hasHCAInProgress && !isPatient && isLOA3(state);
+  const shouldGetDD4EDUStatus = isLOA3(state) && isMultifactorEnabled(state);
   const hasLoadedESRData =
     !shouldGetESRStatus ||
     hasESRServerError(state) ||
@@ -187,6 +194,7 @@ const mapStateToProps = state => {
 
   return {
     hasDD4EDU: eduDirectDepositIsSetUp(state),
+    hasHCAInProgress,
     hasLoadedAllData,
     isInESR:
       !!esrEnrollmentStatus &&

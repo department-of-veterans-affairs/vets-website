@@ -91,6 +91,15 @@ function makeClaimObject({ dateFiled, updateDate, phase = 1 }) {
   };
 }
 
+function loadingErrorAlertExists(view) {
+  view.getByRole('heading', {
+    name: /^We can’t access any claims or appeals information right now$/i,
+  });
+  view.getByText(
+    /We’re sorry. Something went wrong on our end. If you have any claims or appeals, you won’t be able to access your claims or appeals information right now. Please refresh or try again later./i,
+  );
+}
+
 describe('ClaimsAndAppeals component', () => {
   let view;
   let initialState;
@@ -291,7 +300,82 @@ describe('ClaimsAndAppeals component', () => {
     );
   });
 
-  describe('render logic', () => {
+  describe('error states', () => {
+    context('when there is an error fetching appeals data', () => {
+      beforeEach(() => {
+        initialState = {
+          user: claimsAppealsUser(),
+          disability: {
+            status: {
+              claimsV2: {
+                appealsLoading: false,
+                claimsLoading: false,
+                appeals: [],
+                claims: [],
+                v2Availability: 'ERROR',
+              },
+            },
+          },
+        };
+        view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
+          initialState,
+          reducers,
+        });
+      });
+      it('should render an error alert', () => {
+        expect(view.queryByRole('progressbar')).to.not.exist;
+        expect(view.queryByRole('heading', { name: /^claims & appeals$/i })).to
+          .not.exist;
+        loadingErrorAlertExists(view);
+      });
+      it('should not show a CTA', () => {
+        expect(
+          view.queryByRole('link', {
+            name: /manage all your claims and appeals/i,
+          }),
+        ).to.not.exist;
+      });
+    });
+
+    context('when there is an error fetching claims data', () => {
+      beforeEach(() => {
+        initialState = {
+          user: claimsAppealsUser(),
+          disability: {
+            status: {
+              claimsV2: {
+                appealsLoading: false,
+                claimsLoading: false,
+                appeals: [],
+                claims: [],
+                v2Availability: 'AVAILABLE',
+                claimsAvailability: 'UNAVAILABLE',
+              },
+            },
+          },
+        };
+        view = renderInReduxProvider(<ClaimsAndAppeals dataLoadingDisabled />, {
+          initialState,
+          reducers,
+        });
+      });
+      it('should render an error alert', () => {
+        expect(view.queryByRole('progressbar')).to.not.exist;
+        expect(view.queryByRole('heading', { name: /^claims & appeals$/i })).to
+          .not.exist;
+        loadingErrorAlertExists(view);
+      });
+      it('should not show a CTA', () => {
+        expect(
+          view.queryByRole('link', {
+            name: /manage all your claims and appeals/i,
+          }),
+        ).to.not.exist;
+      });
+    });
+  });
+
+  describe('happy path render logic', () => {
     context('when the user has no claims or appeals on file', () => {
       beforeEach(() => {
         initialState = {
@@ -350,13 +434,13 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
-        it('shows the correct number of open claims on the CTA', () => {
+        it('shows the CTA', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims & appeals$/i })).to
             .exist;
           expect(
             view.getByRole('link', {
-              name: /3 claims or appeals in progress/i,
+              name: /manage all your claims and appeals/i,
             }),
           ).to.exist;
         });
@@ -401,13 +485,13 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
-        it('shows the correct number of open claims and appeals on the CTA', () => {
+        it('shows the CTA', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims & appeals$/i })).to
             .exist;
           expect(
             view.getByRole('link', {
-              name: /2 claims or appeals in progress/i,
+              name: /manage all your claims and appeals/i,
             }),
           ).to.exist;
         });
@@ -452,13 +536,13 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
-        it('shows the correct number of open claims on the CTA', () => {
+        it('shows the CTA', () => {
           expect(view.queryByRole('progressbar')).to.not.exist;
           expect(view.getByRole('heading', { name: /^claims & appeals$/i })).to
             .exist;
           expect(
             view.getByRole('link', {
-              name: /3 claims or appeals in progress/i,
+              name: /manage all your claims and appeals/i,
             }),
           ).to.exist;
         });
@@ -501,10 +585,10 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
-        it('shows the correct text on the CTA', () => {
+        it('shows the CTA', () => {
           expect(
             view.getByRole('link', {
-              name: /go to all claims or appeals/i,
+              name: /manage all your claims and appeals/i,
             }),
           ).to.exist;
         });
@@ -540,12 +624,12 @@ describe('ClaimsAndAppeals component', () => {
             },
           );
         });
-        it('shows the correct number of open claims on the CTA', () => {
+        it('shows the CTA', () => {
           expect(view.getByRole('heading', { name: /^claims & appeals$/i })).to
             .exist;
           expect(
             view.getByRole('link', {
-              name: /1 claim or appeal in progress/i,
+              name: /manage all your claims and appeals/i,
             }),
           ).to.exist;
         });

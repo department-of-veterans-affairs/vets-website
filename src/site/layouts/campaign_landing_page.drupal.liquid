@@ -19,7 +19,7 @@
 
               {% if fieldPrimaryCallToAction %}
                 <a
-                  class="usa-button usa-button-secondary va-u-box-shadow--none vads-u-margin-top--2 vads-u-background-color--white vads-u-border--0 vads-u-font-size--sm"
+                  class="vads-c-action-link--white vads-u-margin-top--2"
                   href="{{ fieldPrimaryCallToAction.entity.fieldButtonLink.url.path }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'hero', 'clp-section-title': '{{ title | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldPrimaryCallToAction.entity.fieldButtonLabel | escape }}' });"
                 >
@@ -43,11 +43,11 @@
             <p class="va-introtext vads-u-margin-top--0 vads-u-margin-bottom--2">{{ fieldClpWhyThisMatters }}</p>
             {% if fieldSecondaryCallToAction %}
               <a
-                class="usa-button usa-button-secondary vads-u-font-size--sm"
+                class="vads-c-action-link--blue"
                 href="{{ fieldSecondaryCallToAction.entity.fieldButtonLink.url.path }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Why this matters to you', 'clp-section-title': '{{ fieldClpWhyThisMatters | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldSecondaryCallToAction.entity.fieldButtonLabel | escape }}' });"
               >
-                {{ fieldSecondaryCallToAction.entity.fieldButtonLabel }}
+                {{ fieldSecondaryCallToAction.entity.fieldButtonLabel | strip }}
               </a>
             {% endif %}
           </div><!-- /Content -->
@@ -167,14 +167,15 @@
 
             <!-- Call to action -->
             {% if fieldClpVideoPanelMoreVideo %}
-              <a
-                class="vads-u-margin-top--4 usa-button usa-button-secondary vads-u-font-size--sm"
-                href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url.path }}"
-                onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Video', 'clp-section-title': '{{ fieldClpVideoPanelHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel | escape }}' });"
-              >
-                {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel }}
-                <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
-              </a>
+              <p>
+                <a
+                  class="vads-c-action-link--blue"
+                  href="{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLink.url.path }}"
+                  onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Video', 'clp-section-title': '{{ fieldClpVideoPanelHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel | escape }}' });"
+                >
+                  {{ fieldClpVideoPanelMoreVideo.entity.fieldButtonLabel | strip }}
+                </a>
+              </p>
             {% endif %}
           </div>
         </div>
@@ -265,14 +266,13 @@
             <!-- Call to action -->
             {% if fieldClpStoriesCta %}
               <a
-                class="usa-button usa-button-secondary vads-u-font-size--sm"
+                class="vads-c-action-link--blue"
                 href="{{ fieldClpStoriesCta.entity.fieldButtonLink.url }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Stories', 'clp-section-title': '{{ fieldClpStoriesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpStoriesCta.entity.fieldButtonLabel | escape }}' });"
                 rel="noreferrer noopener"
                 target="_blank"
               >
                 See more stories
-                <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
               </a>
             {% endif %}
           </div>
@@ -316,12 +316,11 @@
           <div class="vads-l-row">
             <div class="vads-u-col--12">
               <a
-                class="usa-button usa-button-secondary vads-u-font-size--sm"
+                class="vads-c-action-link--blue"
                 href="{{ fieldClpResourcesCta.entity.fieldButtonLink.url.path }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Downloadable resources', 'clp-section-title': '{{ fieldClpResourcesHeader | escape }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpResourcesCta.entity.fieldButtonLabel | escape }}' });"
               >
-                {{ fieldClpResourcesCta.entity.fieldButtonLabel }}
-                <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
+                {{ fieldClpResourcesCta.entity.fieldButtonLabel | strip }}
               </a>
             </div>
           </div>
@@ -471,12 +470,11 @@
           <div class="vads-l-row">
             <div class="vads-u-col--12">
               <a
-                class="usa-button usa-button-secondary vads-u-font-size--sm"
+                class="vads-c-action-link--blue"
                 href="{{ fieldClpFaqCta.entity.fieldButtonLink.url.path }}"
                 onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'FAQ', 'clp-section-title': 'Frequently asked questions', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpFaqCta.entity.fieldButtonLabel | escape }}' });"
               >
-                {{ fieldClpFaqCta.entity.fieldButtonLabel }}
-                <i class="fa fa-chevron-right vads-u-margin-left--0p5" role="presentation" aria-hidden="true"></i>
+                {{ fieldClpFaqCta.entity.fieldButtonLabel | strip }}
               </a>
             </div>
           </div>
@@ -649,7 +647,9 @@
         </div>
       </div>
     </div>
-    {% include "src/site/components/up_to_top_button.html" %}
+
+    <!-- Back to Top -->
+    {% include "src/site/components/up_to_top_button.html" with isCampaignLandingPage = true %}
   </main>
 </div>
 
@@ -657,12 +657,19 @@
 <!-- =============== -->
 <script>
   function checkCLPAuth() {
-    var clpPassphrase = prompt('This page is in BETA. Please enter the passphrase to access it:');
+    // We have a find and replace in the build for `www.va.gov`, so this is us getting creative 😂 😂 😂
+    const prodURL = ['https://', 'www.', 'va', '.gov'].join('')
 
-    // Redirect to homepage if the passphrase is incorrect.
-    if (clpPassphrase !== 'clptest123') {
-      window.location.href = '/';
-      return;
+    // Only show CLP auth on staging or prod.
+    if (window.location.origin === 'https://staging.va.gov' || window.location.origin === prodURL) {
+      // Prompt the user for the passphrase.
+      var clpPassphrase = prompt('This page is in BETA. Please enter the passphrase to access it:');
+
+      // Redirect to homepage if the passphrase is incorrect.
+      if (clpPassphrase !== 'clptest123') {
+        window.location.href = '/';
+        return;
+      }
     }
 
     // Derive the content element.

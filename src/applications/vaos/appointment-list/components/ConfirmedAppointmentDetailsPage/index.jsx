@@ -207,7 +207,10 @@ function ConfirmedAppointmentDetailsPage({
 
       {isVideo && (
         <>
-          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+          <h2
+            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+            data-cy="va-video-appointment-details-header"
+          >
             {header}
           </h2>
           <VideoVisitSection
@@ -221,7 +224,10 @@ function ConfirmedAppointmentDetailsPage({
       {!!facility &&
         !isVideo && (
           <>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+              data-cy="va-appointment-details-header"
+            >
               {header}
             </h2>
             <VAFacilityLocation
@@ -229,7 +235,7 @@ function ConfirmedAppointmentDetailsPage({
               facilityName={facility?.name}
               facilityId={facilityId}
               isHomepageRefresh
-              clinicFriendlyName={appointment.participant[0].actor.display}
+              clinicFriendlyName={appointment.location?.displayName}
             />
 
             {showInstructions &&
@@ -273,14 +279,6 @@ function ConfirmedAppointmentDetailsPage({
                   >
                     Print
                   </button>
-                </div>
-
-                <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-                  <i
-                    aria-hidden="true"
-                    className="fas fa-clock vads-u-margin-right--1"
-                  />
-                  <a href="#">Reschedule</a>
                 </div>
 
                 {showCancelButton && (

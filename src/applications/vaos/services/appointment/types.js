@@ -42,16 +42,43 @@
  * - Mapped from request.reasonForVisit for Express Care requests
  * - Mapped from request.purposeForVisit for regular requests
  * - Empty for other appointment types
- * @property {VistaAppointmentParticipants | VARequestParticipants | CommunityCareParticipants} participant
+ * @property {VistaAppointmentParticipants | VARequestParticipants} participant
  *   Array of resources participating in this appointment, used to store information like clinic and location
- * @property {VARequestContainedResources | CommunityCareRequestContainedResources | CommunityCareContainedResources} contained
+ * @property {VARequestContainedResources} contained
  *   Array of fully defined resources for this appointment
  * @property {Object} legacyVAR Object containing untransformed data that we don't have a place for
  * @property {Object} legacyVAR.apiData This is the full appointment/request object. Generally, we shouldn't be pulling data from here
  * @property {?Object} legacyVAR.bestTimeToCall Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
  * @property {?Array<RequestedPeriod>} requestedPeriods Mapped from request.optionDate and request.optionTime fields 1 through 3
  * @property {VideoData} videoData Information associated with video visits from Video Visit Service (via MAS)
+ * @property {CommunityCareProvider} communityCareProvider The community provider for the appointment, if this is a CC appointment
+ * - Mapped from various ccAppointment fields
+ * @property {Array<CommunityCareProvider>} preferredCommunityCareProviders The community providers preferred for the appointment, if this is a CC request
+ * - Mapped from request.ccAppointmentRequest.preferredProviders
  * @property {DerivedAppointmentData} vaos This object contains derived data or information we need that doesn't fit in the FHIR format
+ */
+
+/**
+ * @typedef {Object} Telecom
+ *
+ * @property {'phone'|'url'|'email'} system The type of telecom value this is, normally phone
+ * @property {string} value The value of this telecom entity, normally a phone number or email
+ */
+
+/**
+ * @typedef {Object} CommunityCareProvider
+ *
+ * @property {?string} firstName The first name of the provider
+ * - Mapped from ccAppointment.name.firstName or from request.ccAppointmentRequest.preferredProviders[].firstName
+ * @property {?string} lastName The last name of the provider
+ * - Mapped from ccAppointment.name.lastName or from request.ccAppointmentRequest.preferredProviders[].lastName
+ * @property {?string} providerName The concatenated first and last name of the provider
+ * @property {?string} practiceName The name of the practice where the provider is located
+ * - Mapped from ccAppointment.providerPractice or from request.ccAppointmentRequest.preferredProviders[].practiceName
+ * @property {?Address} address The address of the provider
+ * - Mapped from ccAppointment.address or from request.ccAppointmentRequest.preferredProviders[].address
+ * @property {?Array<Telecom>} telecom The phone number of the provider, in a single item array
+ * - Mapped from ccAppointment.providerPhone
  */
 
 /**
@@ -107,6 +134,7 @@
  * @property {?string} timeZone Mapped to request.timeZone for community care requests, null or undefined otherwise
  * @property {?boolean} isPhoneAppointment Mapped from appointment.phoneOnly field for VistA appointments, undefined otherwise
  * @property {?boolean} isExpressCare Set to true if request.typeOfCareId is CR1
+ * @property {?boolean} isCOVIDVaccine Set to true if appointment is for a COVID vaccine, denoted by appt.char4 equaling CDQC
  * @property {boolean} isVideo Set to true for video appointments or requests. Will be true if request.visitType is set to
  *   video conference, or appointment.vvsAppointments has an item
  */
@@ -171,13 +199,6 @@
  */
 
 /**
- * @summary
- * Contained array contents when appointment is a community care appointment request
- *
- * @typedef {Array<RequestPatientResource|CommunityCarePractitionerResource>} CommunityCareRequestContainedResources
- */
-
-/**
  * @typedef {Object} RequestPatientResource
  * @property {'Patient'} resourceType
  * @property {Object} name Name object for patient
@@ -190,29 +211,13 @@
  * @property {'email'} telecom.1.system Email item in telecom array
  * @property {string} telecom.1.value Email address, mapped from request.email
  */
-/**
- * @summary
- * Each preferred provider will have a Practioner resource, currently will just be one provider
- *
- * @typedef {Object} CommunityCarePractitionerResource
- * @property {'Practitioner'} resourceType
- * @property {string} id Mapped to cc-practitioner-${request.id}-${request.ccAppointmentRequest.preferredProviders.index}
- * @property {?Object} name Exists if request.ccAppointmentRequest.preferredProviders[].lastName is present
- * @property {string} name.text Mapped to request.ccAppointmentRequest.preferredProviders[].firstName and request.ccAppointmentRequest.preferredProviders[].lastName
- * @property {string} name.family Mapped to request.ccAppointmentRequest.preferredProviders[].lastName
- * @property {string} name.given Mapped to request.ccAppointmentRequest.preferredProviders[].firstName
- * @property {Array} practitionerRole Array of roles, we use this for storing the practice name
- * @property {string} practitionerRole[0].location[0].reference Mapped to Location/cc-location-${request.id}-${request.ccAppointmentRequest.preferredProviders.index}
- * @property {string} practitionerRole[0].location[0].display Mapped to request.ccAppointmentRequest.preferredProviders[].practiceName
- * @property {Array<CommunityCarePractitionerAddress>} address Single item array of addresses
- */
 
 /**
- * @typedef {Object} CommunityCarePractitionerAddress
- * @property {Array<string>} line Address street lines, mapped from request.ccAppointmentRequest.preferredProviders[].address.street
- * @property {string} city Address city, mapped from request.ccAppointmentRequest.preferredProviders[].address.city
- * @property {string} state Address state, mapped from request.ccAppointmentRequest.preferredProviders[].address.state
- * @property {string} postalCode Address postal code, mapped from request.ccAppointmentRequest.preferredProviders[].address.zipCode
+ * @typedef {Object} Address
+ * @property {Array<string>} line Address street lines
+ * @property {string} city Address city
+ * @property {string} state Address state
+ * @property {string} postalCode Address postal code
  */
 
 /**

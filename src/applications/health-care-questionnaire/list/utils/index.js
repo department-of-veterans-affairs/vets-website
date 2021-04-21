@@ -7,6 +7,7 @@ import { cancelled, booked } from '../../shared/constants/appointment.status';
 import {
   completed as completedQuestionnaireResponseStatus,
   inProgress,
+  enteredInError,
 } from '../../shared/constants/questionnaire.response.status';
 
 const isAppointmentCancelled = appointmentStatus =>
@@ -63,6 +64,8 @@ const sortQuestionnairesByStatus = questionnaires => {
     const appointmentStatus = appointmentSelector.getStatus(f.appointment);
     return (
       (appointmentStatus === booked && !questionnaireStatus) ||
+      (appointmentStatus === booked &&
+        questionnaireStatus === enteredInError) ||
       (appointmentStatus === booked && questionnaireStatus === inProgress) ||
       (isAppointmentCancelled(appointmentStatus) &&
         questionnaireStatus === inProgress)

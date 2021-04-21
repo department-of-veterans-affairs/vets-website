@@ -305,3 +305,44 @@ $duo-tone-lighten: #000;
   left: 37%;
   font-size: 32px;
 }
+
+// OPERATING STATUS
+
+.operating-status-flag {
+  border-radius: 5px;
+  width: 286px;
+  height: 40px;
+}
+
+a.operating-status-link {
+  color: initial;
+  text-decoration: none;
+}
+
+.operating-status-flag .fa-chevron-right {
+  font-size: 12px;
+}
+
+.operating-status-flag-notice:hover {
+  background: rgba(155, 218, 241, .4);
+}
+
+.operating-status-flag-warning:hover {
+  background: rgba(250, 217, 128, .4);
+}
+
+.operating-status-flag-error:hover {
+  background: rgba(229, 147, 147, .4)
+}
+
+.operating-status-flag-notice:active {
+  background: rgba(155, 218, 241, 1);
+}
+
+.operating-status-flag-warning:active {
+  background: rgba(250, 217, 128, 1);
+}
+
+.operating-status-flag-error:active {
+  background: rgba(229, 147, 147, 1)
+}
