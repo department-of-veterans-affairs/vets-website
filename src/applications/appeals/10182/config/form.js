@@ -34,9 +34,6 @@ import evidenceUpload from '../pages/evidenceUpload';
 
 // import initialData from '../tests/schema/initialData';
 
-// const { } = fullSchema.properties;
-// const { } = fullSchema.definitions;
-
 import manifest from '../manifest.json';
 
 const formConfig = {
@@ -132,6 +129,13 @@ const formConfig = {
           path: 'eligible-issues',
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
+          appStateSelector: state => ({
+            // Validation functions are provided the pageData and not the
+            // formData on the review & submit page. For more details
+            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+            contestableIssues: state.form?.data?.contestableIssues || [],
+            additionalIssues: state.form?.data?.additionalIssues || [],
+          }),
         },
       },
     },

@@ -20,10 +20,8 @@ export const IssueCardContent = ({
   const showPercentNumber = (ratingIssuePercentNumber || '') !== '';
 
   return (
-    <>
-      {description && (
-        <p className="vads-u-margin-bottom--0">{description || ''}</p>
-      )}
+    <div className="widget-content-wrap">
+      {description && <p className="vads-u-margin-bottom--0">{description}</p>}
       {showPercentNumber && (
         <p className="vads-u-margin-bottom--0">
           Current rating: <strong>{ratingIssuePercentNumber}%</strong>
@@ -33,11 +31,11 @@ export const IssueCardContent = ({
         <p>
           Decision date:{' '}
           <strong>
-            {format(new Date(approxDecisionDate), 'MMMM d, yyyy')}
+            {format(new Date(`${approxDecisionDate} 00:00:00`), 'MMMM d, yyyy')}
           </strong>
         </p>
       )}
-    </>
+    </div>
   );
 };
 
@@ -75,6 +73,7 @@ export const IssueCard = ({
   options,
   onChange,
   showCheckbox,
+  onEdit,
 }) => {
   // On the review & submit page, there may be more than one
   // of these components in edit mode with the same content, e.g. 526
@@ -104,15 +103,23 @@ export const IssueCard = ({
 
   // item.condition = additional item
   // item.ratingIssuesSubjectText = eligible issue from API
-  const title = item.condition || item.ratingIssueSubjectText;
-  const titleClass = [
-    'widget-title',
-    'vads-u-font-size--md',
-    'vads-u-font-weight--bold',
-    'vads-u-line-height--1',
-  ].join(' ');
+  const title = (
+    <div className="widget-title vads-u-font-size--md vads-u-font-weight--bold vads-u-line-height--1">
+      {item.condition || item.ratingIssueSubjectText}
+    </div>
+  );
 
-  const widgetContent = 'widget-content vads-u-font-weight--normal';
+  const editButton =
+    showCheckbox && typeof onEdit === 'function' ? (
+      <button
+        type="button"
+        className="usa-button-secondary edit vads-u-flex--auto"
+        aria-label={`Edit issue`}
+        onClick={onEdit}
+      >
+        Edit
+      </button>
+    ) : null;
 
   return (
     <div className={wrapperClass} key={index}>
@@ -130,16 +137,22 @@ export const IssueCard = ({
               className={`schemaform-label ${outlineClass}`}
               htmlFor={elementId}
             >
-              <div className={titleClass}>{title}</div>
+              {title}
             </label>
           </>
         ) : (
           <div className={outlineClass} />
         )}
       </dt>
-      <dd className={widgetContent}>
-        {!showCheckbox && <div className={titleClass}>{title}</div>}
+      <dd
+        className={`${
+          editButton ? 'widget-edit vads-u-padding-bottom--1' : ''
+        } widget-content vads-u-font-weight--normal`}
+        data-index={index}
+      >
+        {!showCheckbox && title}
         <IssueCardContent {...item} />
+        {editButton}
       </dd>
     </div>
   );

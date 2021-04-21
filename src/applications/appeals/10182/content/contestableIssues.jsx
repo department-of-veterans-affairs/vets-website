@@ -2,7 +2,15 @@ import React from 'react';
 import { format } from 'date-fns';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-// import { scrollTo } from '../helpers';
+export const missingIssueErrorMessage = (
+  <span className="usa-input-error-message" role="alert">
+    <span className="sr-only">Error</span>
+    Please select one of the eligible issues or add an issue
+  </span>
+);
+
+export const missingConditionErrorMessage =
+  'Please add the name of a condition';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
@@ -80,14 +88,10 @@ export const DisabilityCard = ({ attributes }) => {
         <p>
           Decision date:{' '}
           <strong>
-            {format(new Date(approxDecisionDate), 'MMMM d, yyyy')}
+            {format(new Date(`${approxDecisionDate} 00:00:00`), 'MMMM d, yyyy')}
           </strong>
         </p>
       )}
     </div>
   );
 };
-
-export const MissingIssueExplanationAlert = (
-  <p className="vads-u-margin-top--2p5">xx</p>
-);

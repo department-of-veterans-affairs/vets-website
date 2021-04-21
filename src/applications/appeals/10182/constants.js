@@ -35,3 +35,5 @@ export const SUPPORTED_UPLOAD_TYPES = [
 
 export const MAX_FILE_SIZE_MB = 100;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
+
+export const MAX_NEW_CONDITIONS = 99;

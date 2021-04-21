@@ -1,9 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import set from 'platform/utilities/data/set';
 
-import { SELECTED } from '../constants';
 import { IssueCard } from './IssueCard';
+import { SELECTED } from '../constants';
+import { $ } from '../utils/ui';
+import { someSelected } from '../utils/helpers';
+import { missingIssueErrorMessage } from '../content/contestableIssues';
 
 /**
  * EligibleIssuesWidget
@@ -32,9 +36,9 @@ const EligibleIssuesWidget = props => {
 
   const { value = [], id, options, formContext = {} } = props;
 
+  const onReviewPage = formContext?.onReviewPage || false;
   // inReviewMode = true (review page view, not in edit mode)
   // inReviewMode = false (in edit mode)
-  const onReviewPage = formContext?.onReviewPage || false;
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
   const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
 
@@ -44,6 +48,9 @@ const EligibleIssuesWidget = props => {
   }));
 
   const itemsLength = items.length;
+  const showError =
+    formContext.submitted &&
+    !(someSelected(value) || someSelected(props.additionalIssues));
 
   const content = itemsLength ? (
     items.map((item, index) => {
@@ -73,13 +80,28 @@ const EligibleIssuesWidget = props => {
     </>
   );
 
+  // Toggle page class so NewIssueField content also includes a red border
+  $('article').classList.toggle('error', showError);
+
   return inReviewMode ? (
-    content
+    <>
+      {showError && missingIssueErrorMessage}
+      {content}
+    </>
   ) : (
-    <div>
-      <dl className="review">{content}</dl>
+    <div className={showError ? 'usa-input-error vads-u-margin-top--0' : ''}>
+      {showError && missingIssueErrorMessage}
+      <dl className="review" aria-label="Available eligible issues">
+        {content}
+      </dl>
     </div>
   );
 };
 
-export default EligibleIssuesWidget;
+const mapStateToProps = state => ({
+  additionalIssues: state.form.data.additionalIssues || [],
+});
+
+export { EligibleIssuesWidget };
+
+export default connect(mapStateToProps)(EligibleIssuesWidget);
