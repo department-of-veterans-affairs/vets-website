@@ -21,6 +21,19 @@ const DRUPAL_ADDRESS =
 const S3_BUCKET = 'vetsgov-website-builds-s3-upload';
 const S3_KEY = 'content-cache/master/cache.tar.gz';
 
+/* eslint-disable no-await-in-loop */
+const downloader = (queue, tarball) => async resolve => {
+  while (queue.length) {
+    const { src, dest } = queue.shift();
+    const response = await fetch(src);
+    if (!response.ok) console.error(`Failed to fetch asset at ${src}.`);
+    const data = await response.buffer();
+    tarball.entry({ name: dest }, data);
+  }
+  resolve();
+};
+/* eslint-enable no-await-in-loop */
+
 exports.handler = async function(event, context) {
   console.log(`Event: ${JSON.stringify(event, null, 2)}`);
   console.log(`Context: ${JSON.stringify(context, null, 2)}`);
@@ -63,41 +76,39 @@ exports.handler = async function(event, context) {
   console.log('Downloading assets...');
   const assetIterator = pagesString.matchAll(ASSET_REGEX);
   const assetPaths = new Set();
-  const assetDownloads = [];
+  const assetQueue = [];
 
   for (const [, relativePath, filePath] of assetIterator) {
     if (!assetPaths.has(relativePath)) {
       assetPaths.add(relativePath);
+
       const assetUrl = new URL(relativePath, DRUPAL_ADDRESS);
       assetUrl.search = '';
 
-      assetDownloads.push(
-        fetch(assetUrl)
-          .then(response => {
-            if (response.ok) return response.buffer();
-            throw new Error(`Failed to fetch asset at ${assetUrl}.`);
-          })
-          .then(data => {
-            const downloadPath = filePath.split('?', 2)[0];
+      const downloadPath = filePath.split('?', 2)[0];
 
-            const isImg = IMG_SUFFIXES.some(ext =>
-              downloadPath.toLowerCase().endsWith(ext),
-            );
-
-            const archivePath = path.join(
-              'cache/downloads',
-              isImg ? 'img' : 'files',
-              downloadPath,
-            );
-
-            tarball.entry({ name: archivePath }, data);
-          })
-          .catch(console.error),
+      const isImg = IMG_SUFFIXES.some(ext =>
+        downloadPath.toLowerCase().endsWith(ext),
       );
+
+      const archivePath = path.join(
+        'cache/downloads',
+        isImg ? 'img' : 'files',
+        downloadPath,
+      );
+
+      assetQueue.push({
+        src: assetUrl,
+        dest: archivePath,
+      });
     }
   }
 
-  await Promise.all(assetDownloads);
+  const assetDownloaders = new Array(5)
+    .fill(null)
+    .map(() => new Promise(downloader(assetQueue, tarball)));
+
+  await Promise.all(assetDownloaders);
   console.log('Done downloading assets.');
 
   console.log('Archiving and compressing the cache...');
