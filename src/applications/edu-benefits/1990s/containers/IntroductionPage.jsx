@@ -124,7 +124,7 @@ class IntroductionPage extends React.Component {
           hideUnauthedStartLink
         />
         <div
-          className="omb-info--container"
+          className="omb-info--container vads-u-margin-top--2"
           style={{ paddingLeft: '0px' }}
           id="privacy_policy"
         >

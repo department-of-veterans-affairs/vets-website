@@ -61,7 +61,7 @@ const uiSchema = {
       mobilePhone: phoneUI('Mobile phone number'),
       alternatePhone: phoneUI('Home phone number'),
       email: emailUI(),
-      'view:confirmEmail': _.merge(emailUI('Re-enter email address'), {
+      'view:confirmEmail': _.merge(emailUI('Confirm email address'), {
         'ui:options': {
           hideOnReview: true,
         },
@@ -77,6 +77,10 @@ const uiSchema = {
         'ui:title': 'Street address',
       },
       city: addressUiSchema.city,
+      state: {
+        ...addressUiSchema.state,
+        'ui:title': 'State / Province / Region',
+      },
     },
   },
   'view:directDeposit': directDepositUiSchema,
