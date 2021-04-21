@@ -29,7 +29,6 @@ import {
   getBookedAppointments,
   getAppointmentRequests,
   getVARClinicId,
-  getVistaSiteId,
   getVAAppointmentLocationId,
   isVideoHome,
   fetchRequestById,
@@ -564,14 +563,12 @@ export function confirmCancelAppointment() {
           appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
-        const facilityId = getVistaSiteId(appointment);
-
         const cancelData = {
           appointmentTime: moment
             .parseZone(appointment.start)
             .format('MM/DD/YYYY HH:mm:ss'),
           clinicId: getVARClinicId(appointment),
-          facilityId,
+          facilityId: appointment.location.vistaId,
           remarks: '',
           // Grabbing this from the api data because it's not clear if
           // we have to send the real name or if the friendly name is ok
@@ -579,7 +576,7 @@ export function confirmCancelAppointment() {
           cancelCode: 'PC',
         };
 
-        cancelReasons = await getCancelReasons(facilityId);
+        cancelReasons = await getCancelReasons(appointment.location.vistaId);
 
         if (
           cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)

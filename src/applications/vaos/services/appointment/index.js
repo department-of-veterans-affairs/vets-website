@@ -215,16 +215,6 @@ export function isVAPhoneAppointment(appointment) {
 }
 
 /**
- * Gets the VistA site id for an appointment
- *
- * @param {Appointment} appointment VAR Appointment in FHIR schema
- * @returns {string} Legacy VAR facility id
- */
-export function getVistaSiteId(appointment) {
-  return appointment?.location.vistaId;
-}
-
-/**
  * Gets legacy var clinic id from HealthcareService reference
  *
  * @param {Appointment} appointment VAR Appointment in FHIR schema

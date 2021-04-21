@@ -41,8 +41,6 @@
  * - Mapped from request.reasonForVisit for Express Care requests
  * - Mapped from request.purposeForVisit for regular requests
  * - Empty for other appointment types
- * @property {VistaAppointmentParticipants | VARequestParticipants} participant
- *   Array of resources participating in this appointment, used to store information like clinic and location
  * @property {?Array<string>} preferredTimesForPhoneCall Array of best times to call (Morning, Afternoon, Eventing), mapped from request.bestTimetoCall
  * @property {?Array<RequestedPeriod>} requestedPeriods Mapped from request.optionDate and request.optionTime fields 1 through 3
  * @property {VideoData} videoData Information associated with video visits from Video Visit Service (via MAS)
@@ -50,7 +48,31 @@
  * - Mapped from various ccAppointment fields
  * @property {Array<CommunityCareProvider>} preferredCommunityCareProviders The community providers preferred for the appointment, if this is a CC request
  * - Mapped from request.ccAppointmentRequest.preferredProviders
+ * @property {LocationIdentifiers} location This object contains location identifiers for the appointment, consistent across all the different types of appointments
+ * @property {?ContactInfo} contact This object contains patient contact info for requests
  * @property {DerivedAppointmentData} vaos This object contains derived data or information we need that doesn't fit in the FHIR format
+ */
+
+/**
+ * @typedef {Object} LocationIdentifiers
+ *
+ * @property {string} vistaId The VistA/site id of the appointment. Sometimes called sta3n id.
+ * - Mapped from request.facility.facilityCode (first 3 digits) for requests
+ * - Mapped from vaAppointment.facilityId for VA appointments
+ * @property {string} stationId The full identifier for the location of the appointment. Sometimes called sta6aid id.
+ * - Mapped from request.facility.facilityCode for requests
+ * - Mapped from vaAppointment.sta6aid for VA appointments, with fallback to facilityId
+ * @property {string} clinicId The VistA clinic id for the appointment. Only applies to in person VA appointments
+ * - Mapped from vaAppointment.clinicId
+ * @property {string} clinicName The VistA clinic name for the appointment. Only applies to in person VA appointments
+ * - Mapped from vaAppointment.clinicFriendlyName, with fallback to vaAppointment.vdsAppointments[0].clinic.name
+ */
+
+/**
+ * @typedef {Object} ContactInfo
+ *
+ * @property {Array<Telecom>} telecom The phone number and email that the patient provided for the request
+ * - Mapped from request.phoneNumber and request.email
  */
 
 /**

@@ -10,7 +10,6 @@ import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
-  getVistaSiteId,
   isVAPhoneAppointment,
   isVideoHome,
 } from '../../../services/appointment';
@@ -191,7 +190,7 @@ function ConfirmedAppointmentDetailsPage({
       <h1>
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
-          facilityId={getVistaSiteId(appointment)}
+          facilityId={appointment.location.vistaId}
         />
       </h1>
 
