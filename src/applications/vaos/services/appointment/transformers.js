@@ -424,44 +424,46 @@ function setContained(appt) {
     }
     case APPOINTMENT_TYPES.ccRequest: {
       let contained = createPatientResourceFromRequest(appt);
-      appt.ccAppointmentRequest.preferredProviders.forEach(
-        (provider, index) => {
-          const address = [];
-          if (provider.address) {
-            address.push({
-              line: [provider.address?.street],
-              city: provider.address?.city,
-              state: provider.address?.state,
-              postalCode: provider.address?.zipCode,
-            });
-          }
+      if (appt.ccAppointmentRequest?.preferredProviders) {
+        appt.ccAppointmentRequest.preferredProviders.forEach(
+          (provider, index) => {
+            const address = [];
+            if (provider.address) {
+              address.push({
+                line: [provider.address?.street],
+                city: provider.address?.city,
+                state: provider.address?.state,
+                postalCode: provider.address?.zipCode,
+              });
+            }
 
-          contained = {
-            ...contained,
-            practitioner: {
-              id: `cc-practitioner-${appt.id}-${index}`,
-              name: provider.lastName
-                ? {
-                    text: `${provider.firstName} ${provider.lastName}`,
-                    family: provider.lastName,
-                    given: provider.firstName,
-                  }
-                : null,
-              address: provider.address ? address : null,
-              practitionerRole: [
-                {
-                  location: [
-                    {
-                      reference: `Location/cc-location-${appt.id}-${index}`,
-                      display: provider.practiceName,
-                    },
-                  ],
-                },
-              ],
-            },
-          };
-        },
-      );
+            contained = {
+              ...contained,
+              practitioner: {
+                id: `cc-practitioner-${appt.id}-${index}`,
+                name: provider.lastName
+                  ? {
+                      text: `${provider.firstName} ${provider.lastName}`,
+                      family: provider.lastName,
+                      given: provider.firstName,
+                    }
+                  : null,
+                address: provider.address ? address : null,
+                practitionerRole: [
+                  {
+                    location: [
+                      {
+                        reference: `Location/cc-location-${appt.id}-${index}`,
+                        display: provider.practiceName,
+                      },
+                    ],
+                  },
+                ],
+              },
+            };
+          },
+        );
+      }
       return contained;
     }
     case APPOINTMENT_TYPES.ccAppointment: {
