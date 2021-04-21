@@ -298,9 +298,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
 
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(screen.baseElement).to.contain.text(
-      'Fort Collins VA Clinic canceled this appointment.',
-    );
+    expect(
+      await screen.findByText(
+        /Fort Collins VA Clinic canceled this appointment./i,
+      ),
+    ).to.exist;
   });
 
   it('should fire a print request when print button clicked', async () => {
