@@ -6,7 +6,7 @@ import { focusElement } from 'platform/utilities/ui';
 import ProfileSubNavItems from './ProfileSubNavItems';
 
 const ProfileSubNav = ({ isInMVI, isLOA3, routes }) => {
-  // on first render, set the focus to the h1
+  // on first render, set the focus to the h4
   useEffect(() => {
     focusElement('#subnav-header');
   }, []);
@@ -14,9 +14,7 @@ const ProfileSubNav = ({ isInMVI, isLOA3, routes }) => {
   return (
     <nav className="va-subnav" aria-label="Secondary">
       <div>
-        <h1 id="subnav-header" className="vads-u-font-size--h4">
-          Profile
-        </h1>
+        <h4 id="subnav-header">Profile</h4>
         <ProfileSubNavItems routes={routes} isLOA3={isLOA3} isInMVI={isInMVI} />
       </div>
     </nav>

@@ -20,6 +20,8 @@ import {
 import {
   selectFeatureExpressCareNewRequest,
   selectFeatureCovid19Vaccine,
+  selectFeatureRequests,
+  selectIsCernerOnlyPatient,
 } from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
@@ -399,4 +401,14 @@ export function selectCanUseVaccineFlow(state) {
       ),
     )
   );
+}
+
+export function getCanceledAppointmentListInfo(state) {
+  return {
+    appointmentsByMonth: selectCanceledAppointments(state),
+    facilityData: state.appointments.facilityData,
+    futureStatus: selectFutureStatus(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
 }
