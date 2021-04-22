@@ -14,7 +14,7 @@
       {% if forloop.last == true %}
         <li>
           <a 
-          onclick="recordEvent({ 'event': 'nav-breadcrumb-link-click', 'breadcrumbs-clickLabel': '{{ crumb.text }}', 'breadcrumbs-clickLevel': '{{ forloop.index }}', 'breadcrumbs-totalLevels': '{{ crumbs.length }}' });" 
+          onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });" 
           aria-current="page" 
           href="/{{ path }}"
           lang="{{ path | detectLang }}"
@@ -29,21 +29,21 @@
               <li>
                 <a href="{{ crumb.url.path }}"
                    lang="{{ crumb.url.path | detectLang }}"
-                   onclick="recordEvent({ event: 'nav-breadcrumb-link-click', 'breadcrumbs-clickLabel': 'home' });">{{ customHomeCrumbText }}
+                   onclick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ customHomeCrumbText }}
                 </a>
               </li>
             {% else %}
               <li>
                 <a href="{{ crumb.url.path }}"
                   lang="{{ crumb.url.path | detectLang }}"
-                  onclick="recordEvent({ event: 'nav-breadcrumb-link-click', 'breadcrumbs-clickLabel': 'home' });">{{ crumb.text }}
+                  onclick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ crumb.text }}
                 </a>
               </li>
             {% endif %}
           {% endif %}
         {% else %}
           <li><a
-            lang="{{ crumb.url.path | detectLang }}" onclick="recordEvent({ 'event': 'nav-breadcrumb-link-click', 'breadcrumbs-clickLabel': '{{ crumb.text }}', 'breadcrumbs-clickLevel': '{{ forloop.index }}', 'breadcrumbs-totalLevels: '{{ crumbs.length }}' });"
+            lang="{{ crumb.url.path | detectLang }}" onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });"
             href="{{ crumb.url.path }}">{{ crumb.text }}</a></li>
         {% endif %}
       {% endif %}
