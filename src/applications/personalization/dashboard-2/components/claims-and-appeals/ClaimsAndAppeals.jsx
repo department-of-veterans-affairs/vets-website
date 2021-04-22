@@ -139,14 +139,23 @@ const isAppealsAvailableSelector = createIsServiceAvailableSelector(
   backendServices.APPEALS_STATUS,
 );
 
+// returns true if claimsV2.v2Availability is set to a value other than
+// appealsAvailability.AVAILABLE or appealsAvailability.RECORD_NOT_FOUND_ERROR
+const hasAppealsErrorSelector = state => {
+  const claimsV2Root = state.disability.status.claimsV2;
+  return (
+    claimsV2Root.v2Availability &&
+    claimsV2Root.v2Availability !== appealsAvailability.AVAILABLE &&
+    claimsV2Root.v2Availability !== appealsAvailability.RECORD_NOT_FOUND_ERROR
+  );
+};
+
 const mapStateToProps = state => {
   const claimsState = state.disability.status;
   const claimsV2Root = claimsState.claimsV2;
   const appealsLoading = claimsV2Root.appealsLoading;
   const claimsLoading = claimsV2Root.claimsLoading;
-  const hasAppealsError =
-    claimsV2Root.v2Availability &&
-    claimsV2Root.v2Availability !== appealsAvailability.AVAILABLE;
+  const hasAppealsError = hasAppealsErrorSelector(state);
   const hasClaimsError =
     claimsV2Root.claimsAvailability === claimsAvailability.UNAVAILABLE;
   const hasAPIError = !!hasAppealsError || !!hasClaimsError;
