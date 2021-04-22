@@ -4,9 +4,6 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import {
   CONTESTED_CLAIMS_URL,
@@ -100,15 +97,12 @@ class IntroductionPage extends React.Component {
               <h4>What if I need help filling out my application?</h4>
               <p>
                 If you need help requesting a Board Appeal, you can contact a VA
-                regional office and ask to speak to a representative. To find
-                the nearest regional office, please call{' '}
-                <Telephone contact={CONTACTS.VA_BENEFITS} /> {'or '}
-                <a href={FACILITY_LOCATOR_URL}>
-                  visit our facility locator tool
-                </a>
-                .
+                regional office near you.
               </p>
-              <p>
+              <a href={FACILITY_LOCATOR_URL}>
+                Find a VA regional office near you
+              </a>
+              <p className="vads-u-margin-top--2">
                 A Veteran Service Organization or VA-accredited representative
                 or agent can also help you request a Board Appeal.
               </p>
