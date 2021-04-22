@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { questionLabels, prevApplicationYearCutoff } from './constants';
+import { questionLabels, prevApplicationYearCutoff } from '../constants';
 import * as options from 'platform/static-data/options-for-select';
 
 export const shouldShowQuestion = (currentKey, validQuestions) => {
