@@ -9,7 +9,8 @@ export default function App({ location, children }) {
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {// Prod Flag bah-23496
       location.pathname === '/apply' &&
-        !environment.isProduction() && (
+        !environment.isProduction() &&
+        formConfig.prefillEnabled && (
           <AlertBox
             status="info"
             content="This is the personal information we have on file for you."
