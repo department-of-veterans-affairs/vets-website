@@ -156,6 +156,9 @@ function ConfirmedAppointmentDetailsPage({
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
   const isInPersonVAAppointment = !isVideo;
+  const canceler = appointment.description?.includes('CANCELLED BY PATIENT')
+    ? 'You'
+    : facility?.name || 'Facility';
 
   const header = formatHeader(appointment);
   const instructions = formatInstructions(appointment.comment);
@@ -200,7 +203,7 @@ function ConfirmedAppointmentDetailsPage({
           className="vads-u-display--block vads-u-margin-bottom--2"
           backgroundOnly
         >
-          This appointment has been canceled
+          {`${canceler} canceled this appointment.`}
         </AlertBox>
       )}
 
