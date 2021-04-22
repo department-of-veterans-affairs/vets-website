@@ -100,21 +100,24 @@ export default function SelectDate1Page() {
   const isInitialLoad = useIsInitialLoad(loadingSlots);
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
 
-  useEffect(() => {
-    dispatch(
-      getAppointmentSlots(
-        moment()
-          .startOf('month')
-          .format('YYYY-MM-DD'),
-        moment()
-          .add(1, 'months')
-          .endOf('month')
-          .format('YYYY-MM-DD'),
-        true,
-      ),
-    );
-    document.title = `${pageTitle} | Veterans Affairs`;
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        getAppointmentSlots(
+          moment()
+            .startOf('month')
+            .format('YYYY-MM-DD'),
+          moment()
+            .add(1, 'months')
+            .endOf('month')
+            .format('YYYY-MM-DD'),
+          true,
+        ),
+      );
+      document.title = `${pageTitle} | Veterans Affairs`;
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -197,8 +200,10 @@ export default function SelectDate1Page() {
               validate({ dates, setValidationError });
               dispatch(onCalendarChange(dates, pageKey));
             }}
-            onNextMonth={getAppointmentSlots}
-            onPreviousMonth={getAppointmentSlots}
+            onNextMonth={(...args) => dispatch(getAppointmentSlots(...args))}
+            onPreviousMonth={(...args) =>
+              dispatch(getAppointmentSlots(...args))
+            }
             minDate={moment()
               .add(1, 'days')
               .format('YYYY-MM-DD')}
