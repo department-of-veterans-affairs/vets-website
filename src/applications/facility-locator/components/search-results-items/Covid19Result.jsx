@@ -17,8 +17,9 @@ const Covid19Result = ({ location, index }) => {
     operatingStatus,
     detailedServices,
   } = location.attributes;
-  const appointmentPhone = detailedServices[0].appointmentPhones[0];
-  const infoURL = detailedServices[0].path;
+  const appointmentPhone = detailedServices[0]?.appointmentPhones[0];
+  const infoURL = detailedServices[0]?.path;
+
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
