@@ -358,7 +358,7 @@ function setLocation(appt) {
       return {
         vistaId: appt.facilityId,
         clinicId: appt.clinicId,
-        stationId: appt.sta6aid || appt.facilityId,
+        stationId: appt.sta6aid,
         clinicName:
           appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
       };
