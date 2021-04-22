@@ -6,10 +6,7 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
 import moment from 'moment';
 import { FETCH_STATUS } from '../../utils/constants';
-import {
-  getDateTimeSelect,
-  selectPageChangeInProgress,
-} from '../redux/selectors';
+import { getDateTimeSelect } from '../redux/selectors';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { getRealFacilityId } from '../../utils/appointment';
 import NewTabAnchor from '../../components/NewTabAnchor';
@@ -88,6 +85,7 @@ export default function SelectDate1Page() {
     selectedFacility,
     timezone,
     timezoneDescription,
+    pageChangeInProgress,
   } = useSelector(state => getDateTimeSelect(state, pageKey), shallowEqual);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -98,26 +96,22 @@ export default function SelectDate1Page() {
     appointmentSlotsStatus === FETCH_STATUS.loading ||
     appointmentSlotsStatus === FETCH_STATUS.notStarted;
   const isInitialLoad = useIsInitialLoad(loadingSlots);
-  const pageChangeInProgress = useSelector(selectPageChangeInProgress);
 
-  useEffect(
-    () => {
-      dispatch(
-        getAppointmentSlots(
-          moment()
-            .startOf('month')
-            .format('YYYY-MM-DD'),
-          moment()
-            .add(1, 'months')
-            .endOf('month')
-            .format('YYYY-MM-DD'),
-          true,
-        ),
-      );
-      document.title = `${pageTitle} | Veterans Affairs`;
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      getAppointmentSlots(
+        moment()
+          .startOf('month')
+          .format('YYYY-MM-DD'),
+        moment()
+          .add(1, 'months')
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+        true,
+      ),
+    );
+    document.title = `${pageTitle} | Veterans Affairs`;
+  }, []);
 
   useEffect(
     () => {
