@@ -222,6 +222,13 @@ export function isVAPhoneAppointment(appointment) {
  * @returns {string} The location id where the VA appointment is located
  */
 export function getVAAppointmentLocationId(appointment) {
+  if (
+    appointment?.vaos.isVideo &&
+    appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment
+  ) {
+    return appointment?.location.vistaId;
+  }
+
   return appointment?.location.stationId;
 }
 /**

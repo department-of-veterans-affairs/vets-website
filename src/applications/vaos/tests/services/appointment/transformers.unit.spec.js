@@ -341,8 +341,8 @@ describe('VAOS Appointment transformer', () => {
         expect(data.comment).to.equal('RP test');
       });
 
-      xit('should set clinic as HealthcareService', () => {
-        expect(data.location.displayName).to.equal('CHY OPT VAR1');
+      it('should set clinic as clinic name', () => {
+        expect(data.location.clinicName).to.equal('CHY OPT VAR1');
       });
 
       it('should return vaos.isCommunityCare', () => {
