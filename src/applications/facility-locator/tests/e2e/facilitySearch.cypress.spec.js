@@ -36,15 +36,14 @@ describe('Facility VA search', () => {
   });
 
   beforeEach(() => {
-    cy.server();
-    cy.route('GET', '/v0/feature_toggles?*', []);
-    cy.route('GET', '/v0/maintenance_windows', []);
-    cy.route(
+    cy.intercept('GET', '/v0/feature_toggles?*', []);
+    cy.intercept('GET', '/v0/maintenance_windows', []);
+    cy.intercept(
       'GET',
       '/v1/facilities/va?*',
       'fx:constants/mock-facility-data-v1',
     ).as('searchFacilities');
-    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
+    cy.intercept('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
   it('does a simple search and finds a result on the list', () => {
@@ -84,7 +83,7 @@ describe('Facility VA search', () => {
         cy.axeCheck();
 
         cy.get('.facility-result a').should('exist');
-        cy.route(
+        cy.intercept(
           'GET',
           '/v1/facilities/va/vha_674BY',
           'fx:constants/mock-facility-v1',
@@ -136,7 +135,7 @@ describe('Facility VA search', () => {
   });
 
   it('finds va benefits facility in Los Angeles and views its page', () => {
-    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-la-location').as(
+    cy.intercept('GET', '/geocoding/**/*', 'fx:constants/mock-la-location').as(
       'caLocation',
     );
 
