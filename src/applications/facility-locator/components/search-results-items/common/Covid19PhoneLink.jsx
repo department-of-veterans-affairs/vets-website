@@ -9,9 +9,7 @@ const Covid19PhoneLink = ({ phone }) => {
     return null;
   }
 
-  const { formattedPhoneNumber, parsedExtension, contact } = parsePhoneNumber(
-    number,
-  );
+  const { extension: parsedExtension, contact } = parsePhoneNumber(number);
 
   return (
     <div>
@@ -20,9 +18,7 @@ const Covid19PhoneLink = ({ phone }) => {
         className="vads-u-margin-left--0p25"
         contact={contact}
         extension={extension || parsedExtension}
-      >
-        {formattedPhoneNumber}
-      </Telephone>
+      />
     </div>
   );
 };
