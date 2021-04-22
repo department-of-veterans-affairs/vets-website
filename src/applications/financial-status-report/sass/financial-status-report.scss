@@ -154,6 +154,13 @@
 
 .resolution-card {
   padding: 0 24px 24px 24px;
+  .form-expanding-group-active-radio {
+    margin-left: 10px;
+  }
+  .fieldset-input {
+    max-width: 350px;
+    margin-top: 0;
+  }
   label {
     margin-top: 0;
   }

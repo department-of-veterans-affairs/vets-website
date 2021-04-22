@@ -2,6 +2,7 @@ import React from 'react';
 import FinancialOverview from '../../components/FinancialOverview';
 // import ResolutionOptionsTitle from '../../components/ResolutionOptionsTitle';
 // import DebtRepayment from '../../components/DebtRepayment';
+import ResolutionDebtCard from '../../components/ResolutionDebtCard';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import _ from 'lodash/fp';
 
@@ -67,9 +68,18 @@ export const uiSchema = {
     },
   },
   resolution: {
-    'ui:options': {
-      classNames: 'resolution-card vads-u-background-color--gray-lightest',
-    },
+    // 'ui:field': props => {
+    //   // const { ObjectField } = props.registry.fields;
+    //   // console.log('props: ', props);
+    //   return <ResolutionDebtCard {...props} />;
+    // },
+    // 'ui:field': ResolutionDebtCard,
+
+    'ui:field': ResolutionDebtCard,
+    // 'ui:options': {
+    //   viewComponent: ResolutionDebtCard,
+    // },
+
     debtType: {
       'ui:title': 'Post-9/11 GI Bill debt for tuition and fees',
       'ui:description': 'Amount owed: $9,525.00',
@@ -84,11 +94,11 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'edu-waiver-checkbox',
         expandUnder: 'resolutionType',
-        expandUnderCondition: (selectedOption, formData) => {
-          const index = window.location.href.slice(-1);
-          const type = formData.selectedDebts[index]?.deductionCode;
-          return selectedOption === 'Waiver' && type !== '30';
-        },
+        // expandUnderCondition: (selectedOption, formData) => {
+        //   const index = window.location.href.slice(-1);
+        //   const type = formData.selectedDebts[index]?.deductionCode;
+        //   return selectedOption === 'Waiver' && type !== '30';
+        // },
       },
       waiver: {
         'ui:title':
