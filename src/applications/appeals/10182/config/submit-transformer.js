@@ -3,7 +3,7 @@ import {
   getAddress,
   getPhone,
   getTimeZone,
-} from '../utils/helpers';
+} from '../utils/submit';
 
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current

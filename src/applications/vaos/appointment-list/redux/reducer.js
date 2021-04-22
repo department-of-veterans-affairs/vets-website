@@ -342,6 +342,7 @@ export default function appointmentsReducer(state = initialState, action) {
           ...appointmentDetails,
           [appointmentToCancel.id]: {
             ...appointmentDetails[appointmentToCancel.id],
+            description: 'CANCELLED BY PATIENT',
             status: APPOINTMENT_STATUS.cancelled,
             legacyVAR: {
               ...appointmentDetails[appointmentToCancel.id].legacyVAR,
