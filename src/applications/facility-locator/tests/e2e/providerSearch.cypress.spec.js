@@ -17,10 +17,10 @@ describe('Provider search', () => {
       'fx:constants/mock-facility-data-v1',
     ).as('searchFacilities');
     cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
-    cy.visit('/find-locations');
   });
 
   it('finds community dentists', () => {
+    cy.visit('/find-locations');
     cy.injectAxe();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
@@ -44,6 +44,7 @@ describe('Provider search', () => {
   });
 
   it('finds community urgent care - Clinic/Center', () => {
+    cy.visit('/find-locations');
     cy.injectAxe();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
@@ -66,6 +67,8 @@ describe('Provider search', () => {
   });
 
   it('finds community urgent care - Community urgent care providers (in VA’s network)', () => {
+    cy.visit('/find-locations');
+
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select('Urgent care');
     cy.get('#service-type-dropdown').select(

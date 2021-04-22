@@ -167,7 +167,7 @@ const processPage = ({ _13647Exception }) => {
     performPageActions(pathname, _13647Exception);
 
     if (!pathname.endsWith('/confirmation')) {
-      cy.location('pathname', { ...NO_LOG_OPTION, timeout: 8000 })
+      cy.location('pathname', NO_LOG_OPTION)
         .should(newPathname => {
           if (pathname === newPathname) {
             throw new Error(`Expected to navigate away from ${pathname}`);
