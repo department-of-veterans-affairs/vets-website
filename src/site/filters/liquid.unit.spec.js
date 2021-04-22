@@ -381,7 +381,7 @@ describe('strip', () => {
 describe('encode', () => {
   it('encodes strings', () => {
     expect(liquid.filters.encode("foo © bar ≠ baz 𝌆 qux''")).to.equal(
-      'foo &copy; bar &ne; baz &#x1D306; qux&apos;&apos;',
+      'foo &copy; bar &ne; baz &#x1D306; qux&amp;apos;&apos;',
     );
   });
 
