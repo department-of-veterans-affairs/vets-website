@@ -15,6 +15,12 @@ import {
   GET_HELP_REQUEST_URL,
 } from '../constants';
 
+import {
+  startText,
+  unauthStartText,
+  customText,
+} from '../content/saveInProgress';
+
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -22,7 +28,7 @@ class IntroductionPage extends React.Component {
 
   render() {
     const { formConfig, pageList } = this.props.route;
-    const { formId, prefillEnabled, savedFormMessages } = formConfig;
+    const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
     const sipOptions = {
       useActionLinks: true,
       hideUnauthedStartLink: true,
@@ -30,7 +36,14 @@ class IntroductionPage extends React.Component {
       prefillEnabled,
       pageList,
       messages: savedFormMessages,
-      startText: 'Start the Board Appeal request',
+      startText,
+      unauthStartText,
+      downtime,
+      formConfig: {
+        // needed to update messages within the SaveInProgressIntro, but we
+        // don't need to pass the entire formConfig
+        customText,
+      },
     };
 
     return (
