@@ -3,6 +3,26 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { personalInformation } from '../schema-imports';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
+const validateFirstName = (errors, formData) => {
+  const disAllowedCharacters = ['(', ')'];
+  for (const character of disAllowedCharacters) {
+    if (formData.indexOf(character) !== -1) {
+      errors.addError('Please only use letters and no parentheses');
+    }
+  }
+};
+
+const validateLastName = (errors, formData) => {
+  const disAllowedCharacters = ['(', ')'];
+  for (const character of disAllowedCharacters) {
+    if (formData.indexOf(character) !== -1) {
+      errors.addError(
+        'Please only use your current last name and no parentheses',
+      );
+    }
+  }
+};
+
 export const schema = {
   personalInformation,
 };
@@ -14,6 +34,7 @@ export const uiSchema = {
       'ui:errorMessages': {
         required: 'Please enter your first name.',
       },
+      'ui:validations': [validateFirstName],
     },
     middleName: {
       'ui:title': 'Your middle name',
@@ -23,6 +44,7 @@ export const uiSchema = {
       'ui:errorMessages': {
         required: 'Please enter your last name.',
       },
+      'ui:validations': [validateLastName],
     },
     birthDate: {
       ...currentOrPastDateUI('Your date of birth'),
