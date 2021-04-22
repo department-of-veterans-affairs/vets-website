@@ -15,7 +15,7 @@ const PreSubmitSignature = ({
   const isSubmitPending = formSubmission.status === 'submitPending';
   const firstName = fullName?.first.toLowerCase() || '';
   const lastName = fullName?.last.toLowerCase() || '';
-  const middleName = fullName?.middle.toLowerCase() || '';
+  const middleName = fullName?.middle?.toLowerCase() || '';
   const [checked, setChecked] = useState(false);
   const [signatureError, setSignatureError] = useState(false);
   const [checkboxError, setCheckboxError] = useState(false);
@@ -59,6 +59,7 @@ const PreSubmitSignature = ({
     () => {
       /* show error if user has touched input and signature does not match
            show error if there is a form error and has not been submitted */
+
       if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
         setSignatureError(true);
       }
@@ -84,19 +85,15 @@ const PreSubmitSignature = ({
 
   useEffect(
     () => {
-      if (showError && !checked) {
+      if (showError && !checked && !hasSubmit) {
         setCheckboxError(true);
-      } else {
-        setCheckboxError(false);
       }
 
-      if (showError && !signatureMatches) {
+      if (showError && !signatureMatches && !hasSubmit) {
         setSignatureError(true);
-      } else {
-        setSignatureError(false);
       }
     },
-    [checked, showError, signatureError, signatureMatches],
+    [checked, hasSubmit, showError, signatureError, signatureMatches],
   );
 
   useEffect(
@@ -105,15 +102,18 @@ const PreSubmitSignature = ({
         onSectionComplete(true);
       }
 
-      return () => onSectionComplete(false);
+      return () => {
+        onSectionComplete(false);
+        setSignatureError(false);
+      };
     },
-    [checked, signatureMatches, isDirty],
+    [checked, signatureMatches, isDirty, setSignatureError],
   );
 
   if (isSubmitPending) {
     return (
       <div className="vads-u-margin-bottom--3">
-        <LoadingIndicator message="Loading your application..." />
+        <LoadingIndicator message="We’re processing your application." />
       </div>
     );
   }
