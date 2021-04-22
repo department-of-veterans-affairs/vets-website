@@ -79,8 +79,8 @@
             <p> Click on a topic for more details. </p>
             <div class="vads-u-margin-bottom--3">
                 {% for entity in fieldPrepareForVisit %}
-                    <va-accordion bordered >
-                        <va-accordion-item header="{{ entity.entity.fieldHeader }}" level="3">
+                    <va-accordion bordered id="prepare-for-your-visit-accordion-{{ entity.entity.fieldHeader }}" >
+                        <va-accordion-item id="prepare-for-your-visit-accordion-item-{{ entity.entity.fieldHeader }}" header="{{ entity.entity.fieldHeader }}" level="3">
                             {{ entity.entity.fieldRichWysiwyg.processed | drupalToVaPath | outputLinks }}
                         </va-accordion-item>
                     </va-accordion>

@@ -30,9 +30,14 @@ describe('Vet Center Main Page', () => {
   });
 
   it('renders prepare for your visit', () => {
-    expect(container.getElementsByTagName('va-accordion').length).to.equal(4);
-    expect(container.getElementsByTagName('va-accordion-item').length).to.equal(
-      4,
-    );
+    expect(
+      container.querySelectorAll('va-accordion[id^=prepare-for-your-visit]')
+        .length,
+    ).to.equal(4);
+    expect(
+      container.querySelectorAll(
+        'va-accordion-item[id^=prepare-for-your-visit]',
+      ).length,
+    ).to.equal(4);
   });
 });
