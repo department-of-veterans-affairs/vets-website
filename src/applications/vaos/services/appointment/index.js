@@ -215,16 +215,6 @@ export function isVAPhoneAppointment(appointment) {
 }
 
 /**
- * Gets legacy var clinic id from HealthcareService reference
- *
- * @param {Appointment} appointment VAR Appointment in FHIR schema
- * @returns {string} Legacy VAR clinic id
- */
-export function getVARClinicId(appointment) {
-  return appointment?.location.clinicId;
-}
-
-/**
  * Returns the location ID of a VA appointment (in person or video)
  *
  * @export

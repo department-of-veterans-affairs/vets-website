@@ -28,7 +28,6 @@ import { getLocation, getLocations } from '../../services/location';
 import {
   getBookedAppointments,
   getAppointmentRequests,
-  getVARClinicId,
   getVAAppointmentLocationId,
   isVideoHome,
   fetchRequestById,
@@ -567,7 +566,7 @@ export function confirmCancelAppointment() {
           appointmentTime: moment
             .parseZone(appointment.start)
             .format('MM/DD/YYYY HH:mm:ss'),
-          clinicId: getVARClinicId(appointment),
+          clinicId: appointment.location.clinicId,
           facilityId: appointment.location.vistaId,
           remarks: '',
           // Grabbing this from the api data because it's not clear if
