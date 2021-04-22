@@ -254,8 +254,7 @@
     "emailAddress": "test2@test1.net",
     "confirmationEmail": "test2@test1.net",
     "veteranFullName": {
-      "first": "Marky",
-      "middle": "Mark",
+      "first": "Mark",
       "last": "Webb",
       "suffix": "Jr."
     },
