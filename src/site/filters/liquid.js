@@ -739,9 +739,10 @@ module.exports = function registerFilters() {
       return '';
     }
 
-    // eslint-disable no-param-reassign
-    string = string.replace("'", '&apos;');
+    // Replace single quotes.
+    const stringWithoutSingleQuotes = string.replace("'", '&apos;');
 
-    return he.encode(string, { useNamedReferences: true });
+    // Encode the string.
+    return he.encode(stringWithoutSingleQuotes, { useNamedReferences: true });
   };
 };
