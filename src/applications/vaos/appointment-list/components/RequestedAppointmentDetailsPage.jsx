@@ -63,13 +63,7 @@ export default function RequestedAppointmentDetailsPage() {
   const cancelMutation = useMutation(cancelPendingAppointment, {
     onSuccess(canceledRequest) {
       queryClient.setQueryData(['pending', id], canceledRequest);
-      if (queryClient.getQueryState('pending')) {
-        queryClient.setQueryData('pending', pending =>
-          pending?.map(
-            current => (current.id === id ? canceledRequest : current),
-          ),
-        );
-      }
+      queryClient.invalidateQueries('pending', { exact: true });
     },
   });
 
