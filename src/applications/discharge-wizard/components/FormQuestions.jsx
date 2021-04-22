@@ -9,12 +9,8 @@ import RadioButtons from '@department-of-veterans-affairs/component-library/Radi
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import { months } from 'platform/static-data/options-for-select.js';
 import { focusElement } from 'platform/utilities/ui';
-import {
-  questionLabels,
-  prevApplicationYearCutoff,
-  answerReview,
-} from '../config';
-import { shouldShowQuestion } from '../utils';
+import { questionLabels, prevApplicationYearCutoff } from '../constants';
+import { answerReview, shouldShowQuestion } from '../helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

@@ -6,8 +6,8 @@ import localStorage from 'platform/utilities/storage/localStorage';
 
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';
-import { branchOfService, board, formData, venueAddress } from '../utils';
-import { venueWarning, upgradeVenueWarning } from '../config';
+import { branchOfService, board, formData, venueAddress } from '../helpers';
+import { venueWarning, upgradeVenueWarning } from '../constants';
 
 class GuidancePage extends React.Component {
   constructor(props) {
