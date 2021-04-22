@@ -76,6 +76,18 @@
 
           <h2 id="prepare-for-your-visit" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Prepare for your visit</h2>
+            <div class="vads-u-margin-bottom--3">
+                {% for entity in fieldPrepareForVisit %}
+                    <va-accordion bordered >
+                        <va-accordion-item header="{{ entity.entity.fieldHeader }}" level="3">
+                            {{ entity.entity.fieldRichWysiwyg.processed | drupalToVaPath | outputLinks }}
+                        </va-accordion-item>
+                    </va-accordion>
+                {% endfor %}
+            </div>
+
+          <h2 id="in-the-spot-light" class="vads-u-margin-top--0 vads-u-font-size--lg
+          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">In the spotlight at {{ entityLabel }} </h2>
 
           <h2 id="counseling-services" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Counseling services</h2>

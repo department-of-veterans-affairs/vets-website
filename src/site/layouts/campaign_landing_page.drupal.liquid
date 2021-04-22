@@ -657,12 +657,19 @@
 <!-- =============== -->
 <script>
   function checkCLPAuth() {
-    var clpPassphrase = prompt('This page is in BETA. Please enter the passphrase to access it:');
+    // We have a find and replace in the build for `www.va.gov`, so this is us getting creative 😂 😂 😂
+    const prodURL = ['https://', 'www.', 'va', '.gov'].join('')
 
-    // Redirect to homepage if the passphrase is incorrect.
-    if (clpPassphrase !== 'clptest123') {
-      window.location.href = '/';
-      return;
+    // Only show CLP auth on staging or prod.
+    if (window.location.origin === 'https://staging.va.gov' || window.location.origin === prodURL) {
+      // Prompt the user for the passphrase.
+      var clpPassphrase = prompt('This page is in BETA. Please enter the passphrase to access it:');
+
+      // Redirect to homepage if the passphrase is incorrect.
+      if (clpPassphrase !== 'clptest123') {
+        window.location.href = '/';
+        return;
+      }
     }
 
     // Derive the content element.
