@@ -170,6 +170,33 @@ function updateFacilitiesSchemaAndData(parents, facilities, schema, data) {
   return { schema: newSchema, data: newData };
 }
 
+function resetFormDataOnTypeOfCareChange(pages, oldData, data) {
+  let newPages = pages;
+  let newData = data;
+
+  if (getTypeOfCare(newData)?.id !== getTypeOfCare(oldData)?.id) {
+    if (pages.vaFacility) {
+      newPages = unset('vaFacility', newPages);
+    }
+
+    if (pages.vaFacility2) {
+      newPages = unset('vaFacility2', newPages);
+    }
+
+    if (newData.vaFacility) {
+      newData = unset('vaFacility', newData);
+    }
+
+    // reset community care provider if type of care changes
+    if (pages.ccPreferences || !!newData.communityCareProvider?.id) {
+      newPages = unset('ccPreferences', newPages);
+      newData = set('communityCareProvider', {}, newData);
+    }
+  }
+
+  return { newPages, newData };
+}
+
 export default function formReducer(state = initialState, action) {
   switch (action.type) {
     case FORM_PAGE_OPENED: {
@@ -195,11 +222,17 @@ export default function formReducer(state = initialState, action) {
         action.data,
       );
 
+      const { newPages, newData } = resetFormDataOnTypeOfCareChange(
+        state.pages,
+        state.data,
+        data,
+      );
+
       return {
         ...state,
-        data,
+        data: newData,
         pages: {
-          ...state.pages,
+          ...newPages,
           [action.page]: schema,
         },
       };
@@ -222,25 +255,12 @@ export default function formReducer(state = initialState, action) {
           [action.pageKey]: 'home',
         };
       }
-      let newPages = state.pages;
-      let newData = action.data || state.data;
 
-      if (
-        getTypeOfCare(newData)?.id !== getTypeOfCare(state.data)?.id &&
-        (state.pages.vaFacility || state.data.vaFacility)
-      ) {
-        newPages = unset('vaFacility', newPages);
-        newData = unset('vaFacility', newData);
-      }
-
-      // reset community care provider if type of care changes
-      if (
-        getTypeOfCare(newData)?.id !== getTypeOfCare(state.data)?.id &&
-        (state.pages.ccPreferences || !!state.data.communityCareProvider?.id)
-      ) {
-        newPages = unset('ccPreferences', newPages);
-        newData = set('communityCareProvider', {}, newData);
-      }
+      const { newPages, newData } = resetFormDataOnTypeOfCareChange(
+        state.pages,
+        state.data,
+        action.data || state.data,
+      );
 
       return {
         ...state,
