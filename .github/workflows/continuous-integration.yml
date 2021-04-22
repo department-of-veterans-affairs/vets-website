@@ -45,16 +45,17 @@ jobs:
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
       - name: Format codecoverage
+        id: codecoverage
         run: node ./script/github-actions/codecoverage-format-report.js
 
       - name: Publish test results
         if: ${{ always() }}
-        uses: oseasmoran73/action-junit-report@v3
+        uses: oseasmoran73/action-junit-report@v2
         with:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/unit-tests.xml'
-          summary_output: 'test-results/formatted_coverage_report.md'
+          summary_output: ${{ steps.codecoverage.outputs }}
 
   linting:
     name: Linting

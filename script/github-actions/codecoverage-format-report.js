@@ -38,7 +38,9 @@ codecoverageData.forEach((data, index) => {
   }
 });
 
-fs.writeFileSync(
-  path.join(__dirname, '../../test-results/formatted_coverage_report.md'),
-  codecoverageMarkdown,
-);
+// fs.writeFileSync(
+//   path.join(__dirname, '../../test-results/formatted_coverage_report.md'),
+//   codecoverageMarkdown,
+// );
+
+console.log(codecoverageMarkdown); // eslint-disable-line no-console
