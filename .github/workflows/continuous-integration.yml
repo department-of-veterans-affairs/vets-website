@@ -55,7 +55,7 @@ jobs:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/unit-tests.xml'
-          summary_output: ${{ steps.codecoverage.outputs }}
+          summary: ${{ steps.codecoverage.outputs.string }}
 
   linting:
     name: Linting
