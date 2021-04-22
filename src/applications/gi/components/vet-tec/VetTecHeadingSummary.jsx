@@ -24,9 +24,9 @@ const IconWithInfo = ({ icon, iconClassName, children, present }) => {
 
 export const VetTecHeadingSummary = ({ institution, showModal }) => {
   const formattedAddress = locationInfo(
-    institution.physicalCity,
-    institution.physicalState,
-    institution.physicalCountry,
+    institution.city,
+    institution.state,
+    institution.country,
   );
 
   const firstProgram = _.get(institution, 'programs[0]', {

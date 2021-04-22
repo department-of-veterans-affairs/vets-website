@@ -20,9 +20,9 @@ function VetTecProgramSearchResult({ result, constants, id }) {
     facilityCode,
     description,
     institutionName,
-    physicalCity,
-    physicalState,
-    physicalCountry,
+    city,
+    state,
+    country,
     tuitionAmount,
     lengthInHours,
     dodBah,
@@ -53,9 +53,9 @@ function VetTecProgramSearchResult({ result, constants, id }) {
                 <Link
                   to={profileLink}
                   aria-label={`${description} ${locationInfo(
-                    physicalCity,
-                    physicalState,
-                    physicalCountry,
+                    city,
+                    state,
+                    country,
                   )}`}
                 >
                   {description}
@@ -81,7 +81,7 @@ function VetTecProgramSearchResult({ result, constants, id }) {
                   {institutionName}
                 </p>
                 <p className="institution-location">
-                  {locationInfo(physicalCity, physicalState, physicalCountry)}
+                  {locationInfo(city, state, country)}
                 </p>
               </div>
             </div>
