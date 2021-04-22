@@ -84,7 +84,10 @@ const ClaimsAndAppeals = ({
 
   if (hasAPIError) {
     return (
-      <div className="vads-l-row">
+      <div
+        className="vads-l-row"
+        data-testid="dashboard-section-claims-and-appeals"
+      >
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
           <AlertBox
             status={ALERT_TYPE.ERROR}
