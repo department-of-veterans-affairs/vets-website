@@ -8,7 +8,7 @@ import {
 } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { NewBooking } from '../../../project-cheetah';
+import { NewBooking } from '../../../covid-19-vaccine';
 import {
   getDirectBookingEligibilityCriteriaMock,
   getVAFacilityMock,
@@ -18,7 +18,7 @@ import {
   mockFacilitiesFetch,
   mockRequestEligibilityCriteria,
 } from '../../../tests/mocks/helpers';
-import { TYPE_OF_CARE_ID } from '../../../project-cheetah/utils';
+import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 
 const initialState = {
   featureToggles: {

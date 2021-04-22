@@ -23,17 +23,21 @@ export default function PrintButton({
   const handleClick = async () => {
     try {
       setisLoading(true);
-      const resp = await loadPdfData(questionnaireResponseId);
+      const qrId =
+        sessionStorage.getItem('mock-questionnaire-response-id') ||
+        questionnaireResponseId;
+      const resp = await loadPdfData(qrId);
       const blob = await resp.blob();
       openPdfInNewWindow(window, blob);
       recordEvent({
-        event: `${TRACKING_PREFIX}pdf-generation-success`,
+        event: `${TRACKING_PREFIX}-pdf-generation-success`,
       });
       setisLoading(false);
     } catch (error) {
       // console.log({ error });
       recordEvent({
-        event: `${TRACKING_PREFIX}pdf-generation-failed`,
+        event: `${TRACKING_PREFIX}-pdf-generation-failed`,
+        'error-key': error.message,
       });
       setIsError(true);
     }

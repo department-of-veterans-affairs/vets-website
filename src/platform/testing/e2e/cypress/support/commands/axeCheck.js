@@ -19,9 +19,18 @@ const processAxeCheckResults = violations => {
       nodes: nodes.length,
     }),
   );
-
   cy.task('log', violationMessage);
   cy.task('table', violationData);
+  cy.task(
+    'log',
+    `
+Nodes with violations:
+
+${violations
+      .map(v => `${v.id}:\n${v.nodes?.map(n => n.target[0]).join('\n')}`)
+      .join('\n\n')}
+`,
+  );
 };
 
 /**

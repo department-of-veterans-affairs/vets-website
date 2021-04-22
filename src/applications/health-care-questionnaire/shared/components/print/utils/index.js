@@ -65,7 +65,6 @@ const openPdfInNewWindow = (
       const downloadWindow = window.open();
       downloadWindow.location.href = url;
     }
-    URL.revokeObjectURL(url);
   }
 };
 

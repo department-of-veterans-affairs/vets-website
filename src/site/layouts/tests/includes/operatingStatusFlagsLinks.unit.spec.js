@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { parseFixture, renderHTML } from '~/site/tests/support';
 
-const layoutPath = 'src/site/includes/operatingStatusFlags.drupal.liquid';
+const layoutPath = 'src/site/includes/operatingStatusFlagsLinks.drupal.liquid';
 const data = parseFixture(
   'src/site/layouts/tests/includes/fixtures/operatingStatusFlags.json',
 );

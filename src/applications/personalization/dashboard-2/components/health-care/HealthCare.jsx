@@ -161,7 +161,7 @@ const HealthCare = ({
 
           {/* VA Medical records */}
           <IconCTALink
-            href="/health-care/get-medical-records/"
+            href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
             icon="file-medical"
             text="Get your VA medical records"
           />

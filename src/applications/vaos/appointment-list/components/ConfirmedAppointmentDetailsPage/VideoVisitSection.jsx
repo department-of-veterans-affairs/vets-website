@@ -101,7 +101,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
               <VAFacilityLocation
                 facility={facility}
                 facilityId={appointment.videoData.facilityId}
-                clinicFriendlyName={appointment.participant[0].actor.display}
+                clinicFriendlyName={appointment.location?.displayName}
                 isHomepageRefresh
               />
             </div>
