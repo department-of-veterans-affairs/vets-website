@@ -62,6 +62,20 @@ describe('formatSharableID', () => {
   });
 });
 
+describe('detectLang', () => {
+  it('detects english', () => {
+    expect(liquid.filters.detectLang('some-url')).to.eq('en');
+  });
+
+  it('detects spanish', () => {
+    expect(liquid.filters.detectLang('some-url-esp')).to.eq('es');
+  });
+
+  it('detects taglog', () => {
+    expect(liquid.filters.detectLang('some-url-tag')).to.eq('tl');
+  });
+});
+
 describe('dateFromUnix', () => {
   context('with default time zone', () => {
     it('returns null for null', () => {
@@ -348,5 +362,30 @@ describe('replace', () => {
     expect(liquid.filters.replace('<h3>some text</h3>', 'h3', 'h4')).to.equal(
       '<h4>some text</h4>',
     );
+  });
+});
+
+describe('concat', () => {
+  it('concatenates 2 or more arrays', () => {
+    expect(JSON.stringify(liquid.filters.concat([1], 2, [3], [[4]]))).to.equal(
+      JSON.stringify([1, 2, 3, [4]]),
+    );
+  });
+});
+describe('strip', () => {
+  it('removes leading and trailing whitespace', () => {
+    expect(liquid.filters.strip('   \nhello\n    ')).to.equal('hello');
+  });
+});
+
+describe('encode', () => {
+  it('encodes strings', () => {
+    expect(liquid.filters.encode("foo © bar ≠ baz 𝌆 qux''")).to.equal(
+      'foo &copy; bar &ne; baz &#x1D306; qux&amp;apos;&apos;',
+    );
+  });
+
+  it('returns a string when passed null', () => {
+    expect(liquid.filters.encode(null)).to.equal('');
   });
 });

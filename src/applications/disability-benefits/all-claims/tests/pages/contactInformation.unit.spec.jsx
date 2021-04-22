@@ -24,19 +24,11 @@ import reducers from '../../reducers';
 
 /* eslint-disable camelcase */
 describe('Disability benefits 526EZ contact information', () => {
-  const initialState = {
-    featureToggles: {
-      form526_confirmation_email: false,
-      form526_confirmation_email_show_copy: false,
-    },
-  };
-
   const fakeStore = createStore(
     combineReducers({
       ...commonReducer,
       ...reducers,
     }),
-    initialState,
   );
 
   const {
@@ -548,87 +540,5 @@ describe('Disability benefits 526EZ contact information', () => {
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
-  });
-
-  describe('Form526 Confirmation Email Feature Toggles', () => {
-    const togglesOnState = {
-      featureToggles: {
-        form526_confirmation_email: true,
-        form526_confirmation_email_show_copy: true,
-      },
-    };
-    const formWith = togglesStore =>
-      mount(
-        <Provider store={togglesStore}>
-          <DefinitionTester
-            definitions={formConfig.defaultDefinitions}
-            schema={schema}
-            data={{
-              mailingAddress: {},
-              phoneAndEmail: {},
-            }}
-            formData={{}}
-            uiSchema={uiSchema}
-          />
-        </Provider>,
-      );
-    const toggleStore = togglesState =>
-      createStore(
-        combineReducers({
-          ...commonReducer,
-          ...reducers,
-        }),
-        togglesState,
-      );
-    describe('when contactInfoDescription', () => {
-      const newCopySelector = 'p.contact-info-description#contact-info-new';
-      const defaultCopySelector =
-        'p.contact-info-description#contact-info-default';
-      it('renders new copy when both form526 confirmation email toggles are on', () => {
-        const store = toggleStore(togglesOnState);
-        const form = formWith(store);
-        expect(form.find(newCopySelector).length).to.equal(1);
-        expect(form.find(defaultCopySelector).length).to.equal(0);
-        form.unmount();
-      });
-      it('renders old copy when either form526 confirmation email toggles is off', () => {
-        const togglesState = {
-          featureToggles: {
-            ...togglesOnState.featureToggles,
-            form526_confirmation_email_show_copy: false,
-          },
-        };
-        const store = toggleStore(togglesState);
-        const form = formWith(store);
-        expect(form.find(defaultCopySelector).length).to.equal(1);
-        expect(form.find(newCopySelector).length).to.equal(0);
-        form.unmount();
-      });
-    });
-    describe('when contactInfoUpdateHelp', () => {
-      const newCopySelector = 'div.contact-info-help-description#new-copy';
-      const defaultCopySelector =
-        'div.contact-info-help-description#default-copy';
-      it('renders new copy when both form526 confirmation email toggles are on', () => {
-        const store = toggleStore(togglesOnState);
-        const form = formWith(store);
-        expect(form.find(newCopySelector).length).to.equal(1);
-        expect(form.find(defaultCopySelector).length).to.equal(0);
-        form.unmount();
-      });
-      it('renders old copy when either form526 confirmation email toggles is off', () => {
-        const togglesState = {
-          featureToggles: {
-            ...togglesOnState.featureToggles,
-            form526_confirmation_email_show_copy: false,
-          },
-        };
-        const store = toggleStore(togglesState);
-        const form = formWith(store);
-        expect(form.find(defaultCopySelector).length).to.equal(1);
-        expect(form.find(newCopySelector).length).to.equal(0);
-        form.unmount();
-      });
-    });
   });
 });

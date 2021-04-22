@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { selectFeatureHomepageRefresh } from '../redux/selectors';
 import PageLayout from './components/AppointmentsPage/PageLayout';
@@ -11,7 +11,10 @@ import CommunityCareAppointmentDetailsPage from './components/CommunityCareAppoi
 import ExpressCareDetailsPage from './components/ExpressCareDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 
-function AppointmentListSection({ featureHomepageRefresh }) {
+function AppointmentListSection() {
+  const featureHomepageRefresh = useSelector(state =>
+    selectFeatureHomepageRefresh(state),
+  );
   useManualScrollRestoration();
   return (
     <Switch>
@@ -38,10 +41,4 @@ function AppointmentListSection({ featureHomepageRefresh }) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    featureHomepageRefresh: selectFeatureHomepageRefresh(state),
-  };
-}
-
-export const AppointmentList = connect(mapStateToProps)(AppointmentListSection);
+export const AppointmentList = AppointmentListSection;

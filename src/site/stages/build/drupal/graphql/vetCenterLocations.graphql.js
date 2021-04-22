@@ -17,49 +17,112 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
   fieldNearbyVetCenters {
     entity {
       ... on NodeVetCenter {
+        title
         entityBundle
         fieldAddress {
           locality
           administrativeArea
           postalCode
           addressLine1
+          organization
         }        
         fieldPhoneNumber
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}                           
       }          
       ... on NodeVetCenterOutstation {
+        title
         entityBundle
         fieldAddress {
           locality
           administrativeArea
           postalCode
           addressLine1
+          organization
         }
         fieldPhoneNumber
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}             
       }
       ... on NodeVetCenterCap {
+        title
         entityBundle
         fieldAddress {
           locality
           administrativeArea
           postalCode
           addressLine1
+          organization
         }        
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}                           
       }
       ... on NodeVetCenterMobileVetCenter {
+        title
         entityBundle              
         fieldAddress {
           locality
           administrativeArea
           postalCode
           addressLine1
+          organization
         }      
         fieldPhoneNumber
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}                            
       }              
     } 
+  }
+  fieldNearbyMobileVetCenters {
+    entity {
+      ... on NodeVetCenter {
+        title
+        entityBundle
+        fieldAddress {
+          locality
+          administrativeArea
+          postalCode
+          addressLine1
+          organization
+        }
+        fieldPhoneNumber
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}
+      }
+      ... on NodeVetCenterOutstation {
+        title
+        entityBundle
+        fieldAddress {
+          locality
+          administrativeArea
+          postalCode
+          addressLine1
+          organization
+        }
+        fieldPhoneNumber
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}
+      }
+      ... on NodeVetCenterCap {
+        title
+        entityBundle
+        fieldAddress {
+          locality
+          administrativeArea
+          postalCode
+          addressLine1
+          organization
+        }
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}
+      }
+      ... on NodeVetCenterMobileVetCenter {
+        title
+        entityBundle
+        fieldAddress {
+          locality
+          administrativeArea
+          postalCode
+          addressLine1
+          organization
+        }
+        fieldPhoneNumber
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}
+      }
+    }
   }
   fieldOffice {
     entity {
@@ -69,90 +132,57 @@ fragment vetCenterLocationsFragment on NodeVetCenterLocationsList {
             ... on NodeVetCenterCap {
               title
               entityBundle
-              fieldMedia {
-                entity {
-                  ... on MediaImage {
-                    image {
-                      alt
-                      title
-                      derivative(style: _32MEDIUMTHUMBNAIL) {
-                        url
-                        width
-                        height
-                      }
-                    }
-                  }
-                }
-              }
+              fieldOperatingStatusFacility
+              ${derivativeImage('_32MEDIUMTHUMBNAIL')}
               fieldAddress {
                 locality
                 administrativeArea
                 postalCode
                 addressLine1
+                organization
               }
             }
             ... on NodeVetCenterOutstation {
               title
               entityBundle
               fieldOperatingStatusFacility
-              fieldMedia {
-                entity {
-                  ... on MediaImage {
-                    image {
-                      alt
-                      title
-                      derivative(style: _32MEDIUMTHUMBNAIL) {
-                        url
-                        width
-                        height
-                      }
-                    }
-                  }
-                }
-              }
+              ${derivativeImage('_32MEDIUMTHUMBNAIL')}
               fieldAddress {
                 locality
                 administrativeArea
                 postalCode
                 addressLine1
+                organization
               }
               fieldPhoneNumber              
             }
             ... on NodeVetCenterMobileVetCenter {
               title
               entityBundle
-              fieldMedia {
-                entity {
-                  ... on MediaImage {
-                    image {
-                      alt
-                      title
-                      derivative(style: _32MEDIUMTHUMBNAIL) {
-                        url
-                        width
-                        height
-                      }
-                    }
-                  }
-                }
-              }
+              ${derivativeImage('_32MEDIUMTHUMBNAIL')}
               fieldAddress {
                 locality
                 administrativeArea
                 postalCode
                 addressLine1
+                organization
               }
               fieldPhoneNumber              
             }
           }
         }
+        title
         fieldAddress {
           countryCode
+          administrativeArea
           locality
           postalCode
           addressLine1
+          organization
         }
         fieldPhoneNumber
+        fieldOperatingStatusFacility
+        ${derivativeImage('_32MEDIUMTHUMBNAIL')}
       }
     }
   }

@@ -1,5 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import backendServices from '~/platform/user/profile/constants/backendServices';
@@ -12,6 +15,10 @@ import {
   getAppealsV2 as getAppealsAction,
   getClaimsV2 as getClaimsAction,
 } from '~/applications/claims-status/actions';
+import {
+  appealsAvailability,
+  claimsAvailability,
+} from '~/applications/claims-status/utils/appeals-v2-helpers';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import ClaimsAndAppealsCTA from './ClaimsAndAppealsCTA';
@@ -26,6 +33,7 @@ const ClaimsAndAppeals = ({
   // making API calls which kicks off a chain of events that results in the
   // component always showing a loading spinner. I do not like this approach.
   dataLoadingDisabled = false,
+  hasAPIError,
   loadAppeals,
   loadClaims,
   shouldLoadAppeals,
@@ -45,7 +53,8 @@ const ClaimsAndAppeals = ({
   React.useEffect(
     () => {
       if (!dataLoadingDisabled && shouldLoadClaims) {
-        loadClaims();
+        // stop polling the claims API after 45 seconds
+        loadClaims({ pollingExpiration: Date.now() + 45 * 1000 });
       }
     },
     [dataLoadingDisabled, loadClaims, shouldLoadClaims],
@@ -70,12 +79,32 @@ const ClaimsAndAppeals = ({
   }
 
   if (shouldShowLoadingIndicator) {
-    return <LoadingIndicator />;
+    return <LoadingIndicator message="We’re loading your information." />;
+  }
+
+  if (hasAPIError) {
+    return (
+      <div
+        className="vads-l-row"
+        data-testid="dashboard-section-claims-and-appeals"
+      >
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+          <AlertBox
+            status={ALERT_TYPE.ERROR}
+            headline="We can’t access any claims or appeals information right now"
+          >
+            We’re sorry. Something went wrong on our end. If you have any claims
+            or appeals, you won’t be able to access your claims or appeals
+            information right now. Please refresh or try again later.
+          </AlertBox>
+        </div>
+      </div>
+    );
   }
 
   if (highlightedClaimOrAppeal || openClaimsOrAppealsCount > 0) {
     return (
-      <div>
+      <div data-testid="dashboard-section-claims-and-appeals">
         <h2>Claims & appeals</h2>
         <div className="vads-l-row">
           <DashboardWidgetWrapper>
@@ -110,18 +139,37 @@ const isAppealsAvailableSelector = createIsServiceAvailableSelector(
   backendServices.APPEALS_STATUS,
 );
 
+// returns true if claimsV2.v2Availability is set to a value other than
+// appealsAvailability.AVAILABLE or appealsAvailability.RECORD_NOT_FOUND_ERROR
+const hasAppealsErrorSelector = state => {
+  const claimsV2Root = state.disability.status.claimsV2;
+  return (
+    claimsV2Root.v2Availability &&
+    claimsV2Root.v2Availability !== appealsAvailability.AVAILABLE &&
+    claimsV2Root.v2Availability !== appealsAvailability.RECORD_NOT_FOUND_ERROR
+  );
+};
+
 const mapStateToProps = state => {
   const claimsState = state.disability.status;
   const claimsV2Root = claimsState.claimsV2;
   const appealsLoading = claimsV2Root.appealsLoading;
   const claimsLoading = claimsV2Root.claimsLoading;
+  const hasAppealsError = hasAppealsErrorSelector(state);
+  const hasClaimsError =
+    claimsV2Root.claimsAvailability === claimsAvailability.UNAVAILABLE;
+  const hasAPIError = !!hasAppealsError || !!hasClaimsError;
 
   return {
     appealsData: claimsV2Root.appeals,
     claimsData: claimsV2Root.claims,
+    hasAPIError,
     shouldLoadAppeals: isAppealsAvailableSelector(state),
     shouldLoadClaims: isClaimsAvailableSelector(state),
-    shouldShowLoadingIndicator: appealsLoading || claimsLoading,
+    // as soon as we realize there is an error getting either claims or appeals
+    // data, stop showing a loading spinner
+    shouldShowLoadingIndicator:
+      (appealsLoading || claimsLoading) && !hasAPIError,
     userFullName: selectProfile(state).userFullName,
   };
 };

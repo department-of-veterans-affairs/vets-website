@@ -12,7 +12,9 @@ describe('VAOS community care flow', () => {
     );
     cy.injectAxe();
     // Select primary care
-    cy.get('#root_typeOfCareId_8').click();
+    cy.get('#root_typeOfCareId_8')
+      .focus()
+      .check();
     // Verify primary care checked
     cy.get('#root_typeOfCareId_8').should('be.checked');
     // Click continue button
@@ -23,7 +25,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/choose-facility-type',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     // Select community care
     cy.get('#root_facilityType_1').click();
     // Verify community care checked
@@ -36,7 +38,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/request-date',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.contains('button', 'Next')
       .focus()
       .click();
@@ -59,7 +61,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     // Select city
     cy.get('#root_communityCareSystemId_0').click();
     cy.get('#root_communityCareSystemId_0').should('be.checked');
@@ -123,7 +125,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/reason-appointment',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     // Fill out reason input
     cy.get('#root_reasonAdditionalInfo')
       .type('This is a very good reason.')
@@ -140,7 +142,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/contact-info',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     // Verify phone number
     cy.get('#root_phoneNumber').should('have.value', '5035551234');
     // Select best times for us to call morning & evening
@@ -159,7 +161,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/review',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     // Click continue button
     cy.get('.usa-button').click();
 
@@ -238,7 +240,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/confirmation',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.get('.usa-alert').contains('We’re reviewing your request');
   });
 
@@ -250,7 +252,9 @@ describe('VAOS community care flow', () => {
     );
     cy.injectAxe();
     // Select primary care
-    cy.get('#root_typeOfCareId_8').click();
+    cy.get('#root_typeOfCareId_8')
+      .focus()
+      .check();
     // Verify primary care checked
     cy.get('#root_typeOfCareId_8').should('be.checked');
     // Click continue button
@@ -261,7 +265,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/choose-facility-type',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     // Select community care
     cy.get('#root_facilityType_1').click();
     // Verify community care checked
@@ -274,7 +278,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/request-date',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.contains('button', 'Next')
       .focus()
       .click();
@@ -297,17 +301,17 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     // Select city
     cy.get('#root_communityCareSystemId_0').click();
     cy.get('#root_communityCareSystemId_0').should('be.checked');
     cy.findByText(/Choose a provider/i).click();
 
     cy.findByLabelText(/doe, jane/i).click();
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.findByText(/Choose provider/i).click();
     cy.findByText(/remove/i).click();
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.findByText(/cancel/i).click();
     // Click continue button
     cy.get('.usa-button').click();
@@ -316,7 +320,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-language',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     // Select preferred language
     cy.get('#root_preferredLanguage').select('english');
     cy.get('#root_preferredLanguage').should('have.value', 'english');
@@ -328,7 +332,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/reason-appointment',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     // Fill out reason input
     cy.get('#root_reasonAdditionalInfo')
       .type('This is a very good reason.')
@@ -345,7 +349,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/contact-info',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     // Verify phone number
     cy.get('#root_phoneNumber').should('have.value', '5035551234');
     // Select best times for us to call morning & evening
@@ -364,7 +368,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/review',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     // Click continue button
     cy.get('.usa-button').click();
 
@@ -437,7 +441,7 @@ describe('VAOS community care flow', () => {
       'contain',
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/confirmation',
     );
-    cy.axeCheck();
+    cy.axeCheckBestPractice();
     cy.get('.usa-alert').contains('We’re reviewing your request');
   });
 });

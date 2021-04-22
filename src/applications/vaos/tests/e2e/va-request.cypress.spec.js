@@ -24,7 +24,7 @@ function fillOutForm(facilitySelection) {
 
   // Choose VA Facility
   cy.url().should('include', '/va-facility');
-  cy.axeCheck();
+  cy.axeCheckBestPractice();
   if (facilitySelection) facilitySelection();
   cy.findByText(/Continue/).click();
 
@@ -45,7 +45,7 @@ function fillOutForm(facilitySelection) {
 
   // Review
   cy.url().should('include', '/review');
-  cy.axeCheck();
+  cy.axeCheckBestPractice();
   cy.findByText('Request appointment').click();
 
   // Check form requestBody is as expected

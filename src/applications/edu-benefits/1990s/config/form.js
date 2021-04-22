@@ -7,9 +7,10 @@ import PreSubmitInfo from '../containers/PreSubmitInfo';
 import manifest from '../manifest.json';
 import fullSchema from 'vets-json-schema/dist/VRRAP-schema.json';
 import * as application from '../pages/application';
-import FormFooter from 'platform/forms/components/FormFooter';
 import { transform } from '../submit-transformer';
 import { prefillTransformer } from '../prefill-transformer';
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetFormHelp from '../../components/GetFormHelp';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -20,8 +21,11 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_1990S,
+  getHelp: GetFormHelp,
   preSubmitInfo: {
     CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
   },
   footerContent: FormFooter,
   saveInProgress: {

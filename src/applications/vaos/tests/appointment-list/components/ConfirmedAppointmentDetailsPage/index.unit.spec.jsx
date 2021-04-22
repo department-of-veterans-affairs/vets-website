@@ -161,7 +161,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
-    expect(screen.getByRole('link', { name: /Reschedule/ })).to.be.ok;
 
     const button = screen.getByRole('button', {
       name: /Go back to appointments/,
@@ -271,7 +270,39 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     userEvent.click(screen.getByText(/continue/i));
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
-    expect(screen.baseElement).to.contain.text('canceled');
+    expect(screen.baseElement).to.contain.text(
+      'You canceled this appointment.',
+    );
+  });
+
+  it('should display who canceled the appointment', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+    const canceledAppointment = JSON.parse(JSON.stringify(appointment));
+    canceledAppointment.attributes.vdsAppointments[0].currentStatus =
+      'CANCELLED BY CLINIC';
+
+    mockSingleAppointmentFetch({
+      appointment: canceledAppointment,
+      type: 'va',
+    });
+
+    mockFacilityFetch('vha_442GC', facility);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+    expect(
+      await screen.findByText(
+        /Fort Collins VA Clinic canceled this appointment./i,
+      ),
+    ).to.exist;
   });
 
   it('should fire a print request when print button clicked', async () => {
