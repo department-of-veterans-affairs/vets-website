@@ -70,7 +70,6 @@ const testSecondaryTwo = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.login();
       cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
     },
     pageHooks: {
