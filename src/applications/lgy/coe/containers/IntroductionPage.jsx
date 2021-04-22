@@ -20,6 +20,7 @@ class IntroductionPage extends React.Component {
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Application"
+          hideUnauthedStartLink
         >
           Please complete the 26-1880 form to apply for financial benefits.
         </SaveInProgressIntro>
@@ -67,6 +68,7 @@ class IntroductionPage extends React.Component {
           </ol>
         </div>
         <SaveInProgressIntro
+          hideUnauthedStartLink
           buttonOnly
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
