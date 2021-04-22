@@ -2,14 +2,14 @@ import recordEvent from 'platform/monitoring/record-event';
 
 export function getLinkType(classList) {
   if (classList.contains('vads-c-action-link--blue')) {
-    return 'secondary';
+    return { type: 'secondary', iconColor: 'blue' };
   } else if (classList.contains('vads-c-action-link--green')) {
-    return 'primary';
+    return { type: 'primary', iconColor: 'green' };
   } else if (classList.contains('vads-c-action-link--white')) {
-    return 'reverse';
+    return { type: 'reverse', iconColor: 'white' };
   }
 
-  return 'unknown';
+  return { type: 'unknown', iconColor: 'unknown' };
 }
 
 export default function addActionLinkListeners() {
@@ -23,10 +23,12 @@ export default function addActionLinkListeners() {
   actionLinks.forEach(actionLink => {
     if (!actionLink.data.disableAnalaytics) {
       actionLink.addEventListener('click', event => {
+        const { type, iconColor } = getLinkType(event.target.classList);
         recordEvent({
           event: 'cta-action-link-click',
-          'action-link-type': getLinkType(event.target.classList),
+          'action-link-type': type,
           'action-link-click-label': event.target.text,
+          'action-link-icon-color': iconColor,
         });
       });
     }
