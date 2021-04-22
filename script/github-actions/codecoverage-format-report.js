@@ -11,7 +11,7 @@ const regex = /([^A-Za-z0-9\/()%-])+\s/g; // eslint-disable-line no-useless-esca
 
 const codecoverageData = codecoverageReport.replace(regex, ',').split(',');
 
-let codecoverageMarkdown = '';
+let codecoverageMarkdown = '<table> \n <thead> \n <tr> \n'; // markdown format
 
 codecoverageData.forEach((data, index) => {
   if (data === '') {
@@ -19,28 +19,22 @@ codecoverageData.forEach((data, index) => {
     codecoverageMarkdown += '';
   } else if (index < 5) {
     // create table header
-    if ((index - 1) % 4 === 0) {
-      codecoverageMarkdown += `| ${data} | `;
-    } else if ((index - 1) % 4 === 3) {
-      codecoverageMarkdown += `${data} | \n`;
-    } else {
-      codecoverageMarkdown += `${data} | `;
-    }
+    codecoverageMarkdown += `<th> ${data} </th> \n`;
   } else if (index === 5) {
     // seperate table header from data
-    codecoverageMarkdown += `| - | - | - | - | \n`;
+    codecoverageMarkdown += `<th> ${data} </th> \n </tr> \n </thead> \n <tbody> \n`;
   } else if ((index - 1) % 5 === 0) {
-    codecoverageMarkdown += `| ${data} | `;
+    // start of row in table body
+    codecoverageMarkdown += `<tr> \n <td> ${data} </td> \n`;
   } else if ((index - 1) % 5 === 4) {
-    codecoverageMarkdown += `${data} | \n`;
+    // end of row in table body
+    codecoverageMarkdown += `<td> ${data} </td> \n </tr> \n`;
   } else {
-    codecoverageMarkdown += `${data} | `;
+    // row in table body
+    codecoverageMarkdown += `<td> ${data} </td> \n`;
   }
 });
 
-// fs.writeFileSync(
-//   path.join(__dirname, '../../test-results/formatted_coverage_report.md'),
-//   codecoverageMarkdown,
-// );
+codecoverageMarkdown += `</tbody> \n </table>`; // close markdown
 
 console.log(codecoverageMarkdown); // eslint-disable-line no-console
