@@ -77,7 +77,7 @@ const testConfig = createTestConfig(
       let postData = [];
       cy.get('@testKey').then(testKey => {
         cy.login(dataSetToUserMap[testKey]);
-        cy.route('GET', '/v0/user', dataSetToUserMap[testKey]);
+        cy.intercept('GET', '/v0/user', dataSetToUserMap[testKey]);
         if (testKey === 'noBatteries') {
           postData = [
             {
@@ -120,10 +120,10 @@ const testConfig = createTestConfig(
         }
       });
       cy.get('@testData').then(testData => {
-        cy.route('GET', '/v0/in_progress_forms/MDOT', testData);
+        cy.intercept('GET', '/v0/in_progress_forms/MDOT', testData);
       });
       cy.get('@testKey').then(() => {
-        cy.route('POST', '/v0/mdot/supplies', postData);
+        cy.intercept('POST', '/v0/mdot/supplies', postData);
       });
     },
     skip: false,
