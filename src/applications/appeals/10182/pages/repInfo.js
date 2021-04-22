@@ -7,31 +7,24 @@ import {
 export default {
   uiSchema: {
     'ui:title': ' ',
+    'ui:description': repDescription,
     'ui:options': {
       forceDivWrapper: true,
     },
-    representative: {
-      'ui:title': ' ',
-      'ui:description': repDescription,
-      name: {
-        'ui:title': repLabel,
-        'ui:required': formData => formData?.['view:hasRep'],
-        'ui:errorMessages': {
-          required: repErrorMessage,
-        },
+    representativesName: {
+      'ui:title': repLabel,
+      'ui:required': formData => formData?.['view:hasRep'],
+      'ui:errorMessages': {
+        required: repErrorMessage,
       },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      representative: {
-        type: 'object',
-        properties: {
-          name: {
-            type: 'string',
-          },
-        },
+      representativesName: {
+        type: 'string',
+        properties: {},
       },
     },
   },
