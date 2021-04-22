@@ -27,7 +27,7 @@
     "hearingTypePreference": "central_office",
     "socOptIn": true,
 
-    "contestedIssues": [
+    "contestableIssues": [
       {
         "type": "contestableIssue",
         "attributes": {
@@ -82,8 +82,14 @@
     ],
     "additionalIssues": [
       {
+        "issue": "right arm",
+        "decisionDate": "1900-01-07",
+        "view:selected": false
+      },
+      {
         "issue": "right shoulder",
-        "decisionDate": "1900-01-06"
+        "decisionDate": "1900-01-06",
+        "view:selected": true
       }
     ]
   }

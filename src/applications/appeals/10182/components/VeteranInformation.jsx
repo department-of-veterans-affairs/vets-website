@@ -17,7 +17,9 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
   const { dob, gender, userFullName } = profile;
   const { first, middle, last, suffix } = userFullName;
 
-  const dateOfBirth = dob ? format(new Date(dob), FORMAT_READABLE) : '';
+  const dateOfBirth = dob
+    ? format(new Date(`${dob} 00:00:00`), FORMAT_READABLE)
+    : '';
 
   // separate each number so the screenreader reads "number ending with 1 2 3 4"
   // instead of "number ending with 1,234"

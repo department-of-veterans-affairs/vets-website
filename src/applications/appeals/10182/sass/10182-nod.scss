@@ -22,6 +22,8 @@
 
 /* Contested issue cards (contested issue page & review/submit page) */
 dl.review {
+  border-bottom: 0;
+
   .widget-wrapper {
     position: relative;
 
@@ -81,6 +83,25 @@ dl.review {
     margin: 3rem 3.5rem 0 5rem;
   }
 
+  dd.widget-content.widget-edit {
+    margin-top: 0;
+    margin-right: 0;
+    display: flex;
+
+    .widget-content-wrap {
+      margin-top: 3rem;
+      width: 100%;
+    }
+
+    .edit {
+      margin-top: 2rem;
+      /* position the edit button above the overlapping label */
+      position: relative;
+      z-index: 1;
+      align-self: center;
+    }
+  }
+
   .checkbox-hidden {
     dt.widget-checkbox-wrap {
       width: 0;
@@ -99,9 +120,31 @@ dl.review {
   }
 }
 
+.additional-issues {
+  .schemaform-label,
+  .usa-input-error {
+    margin-top: 0;
+  }
+}
 
 .form-checkbox.usa-input-error {
   margin-top: 0;
+}
+
+/* extend red error border */
+article.error .additional-issues-wrap {
+  border-left: 4px solid #cd2026;
+  padding: 0 0 .8rem 1.5rem;
+  position: relative;
+  top: -2rem;
+  right: 1.9rem;
+}
+
+/* Rep info */
+article[data-location="representative-info"] {
+  .schemaform-field-container.schemaform-block {
+    margin-top: 0;
+  }
 }
 
 /* additional evidence */
@@ -117,5 +160,15 @@ article[data-location$="/upload"] {
       display: block;
       margin-bottom: 0.5em;
     }
+  }
+}
+
+article[data-location="review-and-submit"] {
+  /* hide when reviewing content. Shows when editing */
+  dt .hide-on-review, dd .hide-on-review {
+    display: none;
+  }
+  dt strong.opt-in-title {
+    font-weight: normal;
   }
 }
