@@ -64,6 +64,9 @@ const formConfig = {
   preSubmitInfo,
   submit: submitForm,
 
+  customText: {
+    reviewPageTitle: 'Review your request',
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for a board appeal.',
     noAuth:
