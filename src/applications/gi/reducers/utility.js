@@ -2,7 +2,6 @@
 
 const normalizeAddresses = attributes => {
   return {
-    name: attributes.name?.toUpperCase(),
     city: attributes.city?.toUpperCase(),
     state: attributes.state?.toUpperCase(),
     country: attributes.country?.toUpperCase(),
@@ -16,6 +15,7 @@ const normalizeAddresses = attributes => {
 export const normalizedInstitutionAttributes = attributes => {
   return {
     ...attributes,
+    name: attributes.name?.toUpperCase(),
     ...normalizeAddresses(attributes),
   };
 };
