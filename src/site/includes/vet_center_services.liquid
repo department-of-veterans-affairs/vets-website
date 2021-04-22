@@ -1,0 +1,18 @@
+<div class="vads-u-margin-bottom--3">
+    {% for entity in services %}
+        <va-accordion bordered >
+            <va-accordion-item
+                    header="{{ entity.fieldServiceNameAndDescripti.entity.name }}"
+                    subheader="{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterFriendlyName }}"
+                    level="3">
+                {% if entity.fieldServiceNameAndDescripti.entity.fieldVetCenterComConditions != empty %}
+                    <p>{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterComConditions }}</p>
+                {% endif %}
+                {% if entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip != empty %}
+                    <p>{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip  }}</p>
+                {% endif %}
+                {{ entity.fieldServiceNameAndDescripti.entity.description.processed | drupalToVaPath | outputLinks }}
+            </va-accordion-item>
+        </va-accordion>
+    {% endfor %}
+</div>
