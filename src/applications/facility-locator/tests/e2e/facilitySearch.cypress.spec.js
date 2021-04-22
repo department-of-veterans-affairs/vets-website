@@ -3,7 +3,6 @@ import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
 
-
 Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
   cy.get('#facility-type-dropdown').select('VA health');
