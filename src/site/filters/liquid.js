@@ -739,6 +739,7 @@ module.exports = function registerFilters() {
       return '';
     }
 
+    // eslint-disable no-param-reassign
     string = string.replace("'", '&apos;');
 
     return he.encode(string, { useNamedReferences: true });
