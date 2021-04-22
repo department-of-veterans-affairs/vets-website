@@ -121,7 +121,7 @@ const formConfig = {
       },
     },
     conditions: {
-      title: 'Issues eligible for review',
+      title: 'Issues for review',
       pages: {
         contestableIssues: {
           title: 'Issues eligible for review',
