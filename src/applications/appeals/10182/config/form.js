@@ -32,10 +32,13 @@ import boardReview from '../pages/boardReview';
 import evidenceIntro from '../pages/evidenceIntro';
 import evidenceUpload from '../pages/evidenceUpload';
 
-// import initialData from '../tests/schema/initialData';
+import {
+  customText,
+  saveInProgress,
+  savedFormMessages,
+} from '../content/saveInProgress';
 
-// const { } = fullSchema.properties;
-// const { } = fullSchema.definitions;
+// import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
 
@@ -67,19 +70,12 @@ const formConfig = {
   preSubmitInfo,
   submit: submitForm,
 
-  savedFormMessages: {
-    notFound: 'Please start over to apply for a board appeal.',
-    noAuth:
-      'Please sign in again to continue your application for a board appeal.',
-  },
-  saveInProgress: {
-    messages: {
-      inProgress: 'Your Board Appeal application (10182) is in progress.',
-      expired:
-        'Your saved Board Appeal application (10182) has expired. If you want to request a Board Appeal, please start a new application.',
-      saved: 'Your Board Appeal application has been saved.',
-    },
-  },
+  // SaveInProgress messages
+  customText,
+  savedFormMessages,
+  saveInProgress,
+  // errorText: '',
+  // submissionError: '',
 
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -87,12 +83,12 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     infoPages: {
-      title: 'Veteran information',
+      title: 'Veteran details',
       reviewDescription: ReviewDescription,
       pages: {
         veteranInformation: {
-          title: 'Veteran information',
-          path: 'veteran-information',
+          title: 'Veteran details',
+          path: 'veteran-details',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
           // initialData,
@@ -109,11 +105,6 @@ const formConfig = {
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
         },
-      },
-    },
-    hasRep: {
-      title: 'Representation',
-      pages: {
         hasRep: {
           title: 'Representative',
           path: 'representative',
@@ -121,8 +112,8 @@ const formConfig = {
           schema: hasRep.schema,
         },
         repInfo: {
-          title: 'Representative Information',
-          path: 'representative-information',
+          title: 'Representative info',
+          path: 'representative-info',
           depends: hasRepresentative,
           uiSchema: repInfo.uiSchema,
           schema: repInfo.schema,
@@ -130,13 +121,20 @@ const formConfig = {
       },
     },
     conditions: {
-      title: 'Issues eligible for review',
+      title: 'Issues for review',
       pages: {
         contestableIssues: {
           title: 'Issues eligible for review',
           path: 'eligible-issues',
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
+          appStateSelector: state => ({
+            // Validation functions are provided the pageData and not the
+            // formData on the review & submit page. For more details
+            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+            contestableIssues: state.form?.data?.contestableIssues || [],
+            additionalIssues: state.form?.data?.additionalIssues || [],
+          }),
         },
       },
     },
@@ -150,15 +148,15 @@ const formConfig = {
           schema: boardReview.schema,
         },
         evidenceIntro: {
-          title: 'Additional evidence',
-          path: 'additional-evidence',
+          title: 'Evidence submission',
+          path: 'evidence-submission',
           depends: canUploadEvidence,
           uiSchema: evidenceIntro.uiSchema,
           schema: evidenceIntro.schema,
         },
         evidenceUpload: {
-          title: 'Additional evidence',
-          path: 'additional-evidence/upload',
+          title: 'Evidence upload',
+          path: 'evidence-submission/upload',
           depends: wantsToUploadEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,

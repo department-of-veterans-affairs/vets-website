@@ -1,5 +1,6 @@
 import { add, format } from 'date-fns';
 
+import { isValidDate } from '../validations';
 import { FORMAT_YMD } from '../constants';
 /**
  * @typedef DateFns~offset
@@ -14,12 +15,17 @@ import { FORMAT_YMD } from '../constants';
 /**
  * Get dynamic date value based on starting date and an offset
  * @param {DateFns~offset} [offset={}] - date offset
- * @param {Date} [startDate=new Date()] - starting date of offset
+ * @param {Date} [date=new Date()] - starting date of offset
  * @param {String} [pattern=FORMAT_YMD]
  * @returns {String} - formatted as 'YYYY-MM-DD'
  */
 export const getDate = ({
   offset = {},
-  startDate = new Date(),
+  date = new Date(),
   pattern = FORMAT_YMD,
-} = {}) => format(add(startDate, offset), pattern);
+} = {}) => {
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  return isValidDate(dateObj)
+    ? format(add(dateObj, offset), pattern)
+    : dateObj.toString();
+};

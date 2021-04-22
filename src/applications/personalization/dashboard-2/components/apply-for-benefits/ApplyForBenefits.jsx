@@ -144,7 +144,7 @@ const ApplyForBenefits = ({
             title="Disability compensation"
             icon="disability"
             ctaButtonLabel="Learn how to file a claim for disability"
-            ctaUrl="/disability/"
+            ctaUrl="/disability/how-to-file-claim/"
           >
             <p>
               With VA disability benefits, you can get disability compensation

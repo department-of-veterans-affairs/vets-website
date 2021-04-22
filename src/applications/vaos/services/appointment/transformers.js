@@ -360,7 +360,7 @@ function setLocation(appt) {
         clinicId: appt.clinicId,
         stationId: appt.sta6aid || appt.facilityId,
         clinicName:
-          appt.clinicFriendlyName || appt.vdsAppointments[0]?.clinic?.name,
+          appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
       };
     }
     case APPOINTMENT_TYPES.request: {
