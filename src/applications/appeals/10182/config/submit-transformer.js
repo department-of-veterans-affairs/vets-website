@@ -1,5 +1,6 @@
 import {
   addIncludedIssues,
+  addUploads,
   getAddress,
   getPhone,
   getTimeZone,
@@ -26,6 +27,7 @@ export function transform(formConfig, form) {
       },
     },
     included: addIncludedIssues(formData),
+    nodUploads: addUploads(formData),
   });
 
   // Not using _.cloneDeep on form data - it appears to replace `null` values

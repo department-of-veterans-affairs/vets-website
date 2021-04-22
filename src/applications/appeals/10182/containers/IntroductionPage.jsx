@@ -4,9 +4,6 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import {
   CONTESTED_CLAIMS_URL,
@@ -15,6 +12,12 @@ import {
   GET_HELP_REQUEST_URL,
 } from '../constants';
 
+import {
+  startText,
+  unauthStartText,
+  customText,
+} from '../content/saveInProgress';
+
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
@@ -22,7 +25,7 @@ class IntroductionPage extends React.Component {
 
   render() {
     const { formConfig, pageList } = this.props.route;
-    const { formId, prefillEnabled, savedFormMessages } = formConfig;
+    const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
     const sipOptions = {
       useActionLinks: true,
       hideUnauthedStartLink: true,
@@ -30,7 +33,14 @@ class IntroductionPage extends React.Component {
       prefillEnabled,
       pageList,
       messages: savedFormMessages,
-      startText: 'Start the Board Appeal request',
+      startText,
+      unauthStartText,
+      downtime,
+      formConfig: {
+        // needed to update messages within the SaveInProgressIntro, but we
+        // don't need to pass the entire formConfig
+        customText,
+      },
     };
 
     return (
@@ -87,15 +97,12 @@ class IntroductionPage extends React.Component {
               <h4>What if I need help filling out my application?</h4>
               <p>
                 If you need help requesting a Board Appeal, you can contact a VA
-                regional office and ask to speak to a representative. To find
-                the nearest regional office, please call{' '}
-                <Telephone contact={CONTACTS.VA_BENEFITS} /> {'or '}
-                <a href={FACILITY_LOCATOR_URL}>
-                  visit our facility locator tool
-                </a>
-                .
+                regional office near you.
               </p>
-              <p>
+              <a href={FACILITY_LOCATOR_URL}>
+                Find a VA regional office near you
+              </a>
+              <p className="vads-u-margin-top--2">
                 A Veteran Service Organization or VA-accredited representative
                 or agent can also help you request a Board Appeal.
               </p>
