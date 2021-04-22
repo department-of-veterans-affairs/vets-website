@@ -25,7 +25,7 @@ const BenefitOfInterest = ({
         <div>
           <div className="vads-u-display--flex">
             <i
-              className={`icon-small icon-heading hub-icon-${icon} hub-background-${icon} white vads-u-margin-right--1`}
+              className={`icon-small icon-heading hub-icon-${icon} hub-background-${icon} white vads-u-margin-right--1 vads-u-flex--auto`}
             />
             <h4 className="vads-u-font-size--h3 vads-u-margin-y--0">{title}</h4>
           </div>

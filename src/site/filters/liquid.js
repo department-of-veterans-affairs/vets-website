@@ -1,9 +1,11 @@
-const phoneNumberArrayToObject = require('./phoneNumberArrayToObject');
-
-const moment = require('moment-timezone');
-const converter = require('number-to-words');
-const liquid = require('tinyliquid');
+// Node modules.
 const _ = require('lodash');
+const converter = require('number-to-words');
+const he = require('he');
+const liquid = require('tinyliquid');
+const moment = require('moment-timezone');
+// Relative imports.
+const phoneNumberArrayToObject = require('./phoneNumberArrayToObject');
 
 function getPath(obj) {
   return obj.path;
@@ -707,5 +709,40 @@ module.exports = function registerFilters() {
   liquid.filters.replace = (string, oldVal, newVal) => {
     const regex = new RegExp(oldVal, 'g');
     return string.replace(regex, newVal);
+  };
+
+  liquid.filters.processDynamicContent = (entity, contentType) => {
+    // TODO - add more cases as new centralized content types are added
+    // eslint-disable-next-line sonarjs/no-small-switch
+    switch (contentType) {
+      case 'wysiwyg': {
+        return {
+          fieldWysiwyg: {
+            // eslint-disable-next-line camelcase
+            processed: entity?.field_wysiwyg[0]?.processed,
+          },
+        };
+      }
+      default: {
+        return entity;
+      }
+    }
+  };
+
+  liquid.filters.concat = (...args) => _.concat(...args);
+
+  liquid.filters.strip = (string = '') => _.trim(string);
+
+  liquid.filters.encode = (string = '') => {
+    // Escape early in case of string being `null`.
+    if (!string) {
+      return '';
+    }
+
+    // Replace single quotes.
+    const stringWithoutSingleQuotes = string.replace("'", '&apos;');
+
+    // Encode the string.
+    return he.encode(stringWithoutSingleQuotes, { useNamedReferences: true });
   };
 };

@@ -50,6 +50,7 @@ export const uiSchema = {
     accountNumber: {
       ...bankAccountUiSchema.accountNumber,
       'ui:required': bankFieldIsRequired,
+      'ui:title': 'Bank account number',
       'ui:reviewWidget': PaymentReviewView,
     },
   },

@@ -4,7 +4,9 @@
 {% include "src/site/includes/breadcrumbs.drupal.liquid" %}
 
 <div itemscope itemtype="https://schema.org/FAQPage">
-  <div id="content" class="interior" lang="{{ entityUrl.path | detectLang }}">
+  {% assign lang = entityUrl.path | detectLang  %}
+
+  <div id="content" class="interior" lang={{lang}}>
     <main class="va-l-detail-page">
       <div class="usa-grid usa-grid-full">
 
@@ -73,6 +75,9 @@
         </div>
       </div>
     </main>
+    {% if lang != "en" %}
+      {% include "src/site/components/up_to_top_button.html" %}
+    {%  endif %}
   </div>
 </div>
 

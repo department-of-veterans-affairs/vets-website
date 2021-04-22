@@ -1,9 +1,14 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
-import * as actions from '../redux/actions';
+import {
+  openFormPage,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  updateFormData,
+} from '../redux/actions';
 import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { TYPES_OF_SLEEP_CARE } from '../../utils/constants';
@@ -58,18 +63,15 @@ const uiSchema = {
 const pageKey = 'typeOfSleepCare';
 const pageTitle = 'Choose the type of sleep care you need';
 
-function TypeOfSleepCarePage({
-  schema,
-  data,
-  openFormPage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-  pageChangeInProgress,
-}) {
+export default function TypeOfSleepCarePage() {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { schema, data, pageChangeInProgress } = useSelector(
+    state => getFormPageInfo(state, pageKey),
+    shallowEqual,
+  );
   useEffect(() => {
-    openFormPage(pageKey, uiSchema, initialSchema);
+    dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
@@ -83,12 +85,18 @@ function TypeOfSleepCarePage({
           title="Type of sleep care"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          onSubmit={() =>
+            dispatch(routeToNextAppointmentPage(history, pageKey))
+          }
+          onChange={newData =>
+            dispatch(updateFormData(pageKey, uiSchema, newData))
+          }
           data={data}
         >
           <FormButtons
-            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            onBack={() =>
+              dispatch(routeToPreviousAppointmentPage(history, pageKey))
+            }
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
           />
@@ -97,19 +105,3 @@ function TypeOfSleepCarePage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
-}
-
-const mapDispatchToProps = {
-  openFormPage: actions.openFormPage,
-  updateFormData: actions.updateFormData,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TypeOfSleepCarePage);

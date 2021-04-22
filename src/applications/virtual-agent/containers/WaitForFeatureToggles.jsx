@@ -5,7 +5,7 @@ import WebChat from './WebChat';
 
 function WaitForFeatureToggles({ featureTogglesLoading }) {
   if (featureTogglesLoading) {
-    return <LoadingIndicator message={'Loading Chatbot'} />;
+    return <LoadingIndicator message={'Loading Virtual Agent'} />;
   }
   return <WebChat />;
 }

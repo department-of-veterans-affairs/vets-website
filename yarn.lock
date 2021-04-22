@@ -1298,10 +1298,10 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/formation@6.16.0":
-  version "6.16.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.16.0.tgz#9f567a3cc5b16fac353773c116eb5b410c458962"
-  integrity sha512-ZaRB0jr2zJnrfcwGOKiLd+S8HGn6zKH3iuNvrqUxwwfQhGL4V1Gf7Ue72dHinUjQ11N20leutmppng6tQA+9zA==
+"@department-of-veterans-affairs/formation@6.16.1":
+  version "6.16.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.16.1.tgz#b25b0d1a64638a220c42b36f9671de58b54d48fe"
+  integrity sha512-tsivIl/nbsUFScCdduaDYxqgplPuDw8Xoo7pbq56fou7QBT83BS+5NW307YbtwO8ucsFW6RIOmyQYYB1AE2uyg==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -17867,9 +17867,9 @@ sshpk@^1.7.0:
     tweetnacl "~0.14.0"
 
 ssri@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/ssri/-/ssri-6.0.1.tgz"
-  integrity sha512-3Wge10hNcT1Kur4PDFwEieXSCMCJs/7WvSACcrMYrNp+b8kDL1/0wJch5Ni2WrtwEa2IO8OsVfeKIciKCDx/QA==
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/ssri/-/ssri-6.0.2.tgz#157939134f20464e7301ddba3e90ffa8f7728ac5"
+  integrity sha512-cepbSq/neFK7xB6A50KHN0xHDotYzq58wWCa5LeWqnPrHG8GzfEjO/4O8kpmcGW+oaxkvhEJCWgbgNk4/ZV93Q==
   dependencies:
     figgy-pudding "^3.5.1"
 
@@ -19597,9 +19597,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#656403af718a3fbd70326f11ab2b694b707bdd7d":
-  version "20.3.1"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#656403af718a3fbd70326f11ab2b694b707bdd7d"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#d95fd3fdb480cc12aeb8b8b16b8f5b84e054e31c":
+  version "20.3.2"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d95fd3fdb480cc12aeb8b8b16b8f5b84e054e31c"
 
 vinyl-file@^2.0.0:
   version "2.0.0"

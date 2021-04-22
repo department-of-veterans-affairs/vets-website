@@ -23,7 +23,7 @@
         "emailAddressText": "user@example.com",
         "representativesName": "Tony Danza"
       },
-      "boardReviewOption": "hearing",
+      "boardReviewOption": "evidence_submission",
       "hearingTypePreference": "central_office",
       "timezone": "America/Los_Angeles",
       "socOptIn": true
@@ -34,7 +34,7 @@
       "type": "contestableIssue",
       "attributes": {
         "issue": "tinnitus - 10%",
-        "decisionDate": "1900-01-01",
+        "decisionDate": "2020-01-01",
         "decisionIssueId": 1,
         "ratingIssueReferenceId": "2",
         "ratingDecisionReferenceId": "3"
@@ -44,7 +44,7 @@
       "type": "contestableIssue",
       "attributes": {
         "issue": "left knee - 0%",
-        "decisionDate": "1900-01-02",
+        "decisionDate": "2020-01-02",
         "decisionIssueId": 4,
         "ratingIssueReferenceId": "5"
       }
@@ -53,8 +53,18 @@
       "type": "contestableIssue",
       "attributes": {
         "issue": "right shoulder",
-        "decisionDate": "1900-01-06"
+        "decisionDate": "2020-01-06"
       }
+    }
+  ],
+  "nodUploads": [
+    {
+      "name": "file-1.pdf",
+      "confirmationCode": "some-UUID"
+    },
+    {
+      "name": "file-2.png",
+      "confirmationCode": "another-UUID"
     }
   ]
 }

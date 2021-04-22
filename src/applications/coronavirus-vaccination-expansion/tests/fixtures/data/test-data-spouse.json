@@ -19,7 +19,7 @@
     "applicantType": "spouse",
     "complianceAgreement": true,
     "privacyAgreementAccepted": true,
-    "veteranSsn": "666555444",
-    "veteranBirthDate": "1944-02-03"
+    "veteranFirstName": "Jane",
+    "veteranLastName": "Smith"
   }
 }

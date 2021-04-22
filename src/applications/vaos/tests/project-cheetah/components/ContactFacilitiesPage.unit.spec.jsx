@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import ContactFacilitiesPage from '../../../project-cheetah/components/ContactFacilitiesPage';
+import ContactFacilitiesPage from '../../../covid-19-vaccine/components/ContactFacilitiesPage';
 import {
   getVAFacilityMock,
   getRequestEligibilityCriteriaMock,
@@ -40,7 +40,7 @@ const initialState = {
 
 const parentSiteIds = ['983', '984'];
 
-describe('VAOS cheetah: <ContactFacilitiesPage>', () => {
+describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
   beforeEach(() => mockFetch());
   afterEach(() => resetFetch());
 

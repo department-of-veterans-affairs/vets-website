@@ -1,4 +1,4 @@
-const getStatus = questionnaireResponses => {
+const getQuestionnaireResponse = questionnaireResponses => {
   if (!questionnaireResponses) {
     return null;
   }
@@ -12,9 +12,11 @@ const getStatus = questionnaireResponses => {
     return new Date(f) - new Date(s);
   });
 
-  return (
-    questionnaireResponses[questionnaireResponses.length - 1]?.status || null
-  );
+  return questionnaireResponses[questionnaireResponses.length - 1] || null;
 };
 
-export { getStatus };
+const getStatus = questionnaireResponses => {
+  return getQuestionnaireResponse(questionnaireResponses)?.status || null;
+};
+
+export { getStatus, getQuestionnaireResponse };

@@ -30,6 +30,7 @@ import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/co
 import NameTag from '~/applications/personalization/components/NameTag';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
+import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
 
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
@@ -125,10 +126,12 @@ const Dashboard = ({
               <NameTag
                 showUpdatedNameTag
                 totalDisabilityRating={props.totalDisabilityRating}
-                totalDisabilityRatingError={props.totalDisabilityRatingError}
+                totalDisabilityRatingServerError={
+                  props.totalDisabilityRatingServerError
+                }
               />
             )}
-            <div className="vads-l-grid-container vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4 small-desktop-screen:vads-u-padding-x--0">
+            <div className="vads-l-grid-container vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
                 <a href="/" key="home">
                   Home
@@ -232,7 +235,7 @@ const mapStateToProps = state => {
     showNameTag,
     hero,
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
-    totalDisabilityRatingError: state.totalRating?.error,
+    totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     user: state.user,
     // TODO: possibly revise this to block both the health care and the claims
     // and appeals content if hasMPIConnectionError() is true. If we do that, we
