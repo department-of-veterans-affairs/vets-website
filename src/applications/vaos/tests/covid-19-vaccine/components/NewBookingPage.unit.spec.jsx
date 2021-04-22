@@ -8,7 +8,7 @@ import {
 } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { NewBooking } from '../../../covid-19-vaccine';
+import { NewBookingSection } from '../../../covid-19-vaccine';
 import {
   getDirectBookingEligibilityCriteriaMock,
   getVAFacilityMock,
@@ -59,7 +59,7 @@ describe('VAOS vaccine flow', () => {
       ],
     );
 
-    const screen = renderWithStoreAndRouter(<NewBooking />, {
+    const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
     });
 
@@ -107,7 +107,7 @@ describe('VAOS vaccine flow', () => {
       ],
     );
 
-    const screen = renderWithStoreAndRouter(<NewBooking />, {
+    const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
     });
 
@@ -144,7 +144,7 @@ describe('VAOS vaccine flow', () => {
       },
     );
     const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(<NewBooking />, {
+    const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
       basename: '/new-covid-19-vaccine-booking',
     });
@@ -162,7 +162,7 @@ describe('VAOS vaccine flow', () => {
       ...initialState,
     });
 
-    const screen = renderWithStoreAndRouter(<NewBooking />, {
+    const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
     });
 

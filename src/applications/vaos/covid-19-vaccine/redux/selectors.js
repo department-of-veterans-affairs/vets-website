@@ -20,6 +20,10 @@ export function selectCovid19VaccineFormData(state) {
   return selectCovid19VaccineNewBooking(state).data;
 }
 
+export function selectPageChangeInProgress(state) {
+  return selectCovid19VaccineNewBooking(state).pageChangeInProgress;
+}
+
 export function getCovid19VaccineFormPageInfo(state, pageKey) {
   const newBooking = selectCovid19VaccineNewBooking(state);
   return {

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Switch,
   Route,
@@ -8,7 +8,6 @@ import {
   useLocation,
   Redirect,
 } from 'react-router-dom';
-import * as listActions from '../appointment-list/redux/actions';
 import covid19VaccineReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import PlanAheadPage from './components/PlanAheadPage';
@@ -33,20 +32,22 @@ import {
   selectCanUseVaccineFlow,
   selectDirectScheduleSettingsStatus,
 } from '../appointment-list/redux/selectors';
+import { fetchDirectScheduleSettings } from '../appointment-list/redux/actions';
 
-export function NewBookingSection({
-  canUseVaccineFlow,
-  featureCovid19Vaccine,
-  directScheduleSettingsStatus,
-  fetchDirectScheduleSettings,
-}) {
+export function NewBookingSection() {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const canUseVaccineFlow = useSelector(selectCanUseVaccineFlow);
+  const featureCovid19Vaccine = useSelector(selectFeatureCovid19Vaccine);
+  const directScheduleSettingsStatus = useSelector(
+    selectDirectScheduleSettingsStatus,
+  );
 
   useEffect(() => {
     if (directScheduleSettingsStatus === FETCH_STATUS.notStarted) {
-      fetchDirectScheduleSettings();
+      dispatch(fetchDirectScheduleSettings());
     }
   }, []);
 
@@ -145,22 +146,5 @@ export function NewBookingSection({
     </FormLayout>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    featureCovid19Vaccine: selectFeatureCovid19Vaccine(state),
-    directScheduleSettingsStatus: selectDirectScheduleSettingsStatus(state),
-    canUseVaccineFlow: selectCanUseVaccineFlow(state),
-    pageChangeInProgress: state.covid19Vaccine.newBooking.pageChangeInProgress,
-  };
-}
-const mapDispatchToProps = {
-  fetchDirectScheduleSettings: listActions.fetchDirectScheduleSettings,
-};
-
-export const NewBooking = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NewBookingSection);
 
 export const reducer = covid19VaccineReducer;
