@@ -8,8 +8,8 @@ else
   export CYPRESS_CI=$CI
   export CYPRESS_FORMS=$FORMS
   if [ "$FORMS" = "true" ]; then
-    yarn cy:run:forms
+    yarn cy:run:forms --config testFiles='**/tests/**/*.cypress.form.spec.js?(x)',video=false
   else
-   yarn cy:run
+   yarn cy:run --config video=false
   fi
 fi
