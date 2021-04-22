@@ -27,7 +27,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.findAllByText(/order/i, { selector: 'button' })
             .first()
-            .click();
+            .click({ force: true });
         });
       },
       address: () => {
@@ -35,7 +35,7 @@ const testConfig = createTestConfig(
           if (testKey === 'noTempAddress') {
             cy.findByText('Add a temporary address', {
               selector: 'button',
-            }).click();
+            }).click({ force: true });
             cy.findByLabelText(/Country/i).select('Canada');
             cy.findAllByLabelText(/Street address/i)
               .first()
@@ -48,7 +48,7 @@ const testConfig = createTestConfig(
           } else {
             cy.findByText('Edit permanent address', {
               selector: 'button',
-            }).click();
+            }).click({ force: true });
             cy.findByLabelText(/Country/i).select('Canada');
             cy.findByLabelText(/Province/i).type('Alberta');
             cy.findByLabelText(/International Postal Code/i).type('T7N');
@@ -60,14 +60,14 @@ const testConfig = createTestConfig(
       supplies: () => {
         cy.get('@testKey').then(testKey => {
           if (testKey === 'noBatteries') {
-            cy.get('#3').click();
-            cy.get('#5').click();
+            cy.get('#3').click({ force: true });
+            cy.get('#5').click({ force: true });
           } else if (testKey === 'noAccessories') {
-            cy.get('#1').click();
+            cy.get('#1').click({ force: true });
           } else {
-            cy.get('#1').click();
-            cy.get('#3').click();
-            cy.get('#5').click();
+            cy.get('#1').click({ force: true });
+            cy.get('#3').click({ force: true });
+            cy.get('#5').click({ force: true });
           }
         });
       },
