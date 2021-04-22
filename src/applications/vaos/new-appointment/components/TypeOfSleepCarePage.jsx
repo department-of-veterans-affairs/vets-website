@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { shallowEquals, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
@@ -68,7 +68,7 @@ export default function TypeOfSleepCarePage() {
   const dispatch = useDispatch();
   const { schema, data, pageChangeInProgress } = useSelector(
     state => getFormPageInfo(state, pageKey),
-    shallowEqual,
+    shallowEquals,
   );
   useEffect(() => {
     dispatch(openFormPage(pageKey, uiSchema, initialSchema));

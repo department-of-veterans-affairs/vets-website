@@ -13,6 +13,7 @@ module.exports = {
   plugins: [
     'cypress',
     'fp',
+    'import',
     'jest',
     'mocha',
     'react-hooks',
@@ -24,6 +25,8 @@ module.exports = {
     'airbnb',
     'plugin:cypress/recommended',
     'plugin:prettier/recommended',
+    'plugin:import/errors',
+    'plugin:import/warnings',
   ],
   env: {
     browser: true,
