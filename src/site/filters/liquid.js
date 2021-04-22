@@ -709,12 +709,12 @@ module.exports = function registerFilters() {
     return string.replace(regex, newVal);
   };
 
-  liquid.filters.filterByTypeOfCare = (data, typeOfCarePage) => {
+  liquid.filters.filterByTypeOfCare = (data, typeOfCare) => {
     return data
       .filter(
         e =>
           e.entity?.fieldServiceNameAndDescripti?.entity
-            ?.fieldVetCenterTypeOfCare === typeOfCarePage,
+            ?.fieldVetCenterTypeOfCare === typeOfCare,
       )
       .map(e => e.entity);
   };
