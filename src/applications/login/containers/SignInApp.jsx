@@ -2,21 +2,52 @@ import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
-
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import Loadable from 'react-loadable';
 
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import environment from 'platform/utilities/environment';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
-
-import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
-import SignInButtons from '../components/SignInButtons';
-import SignInDescription from '../components/SignInDescription';
-import FedWarning from '../components/FedWarning';
-import LogoutAlert from '../components/LogoutAlert';
 import downtimeBanners from '../utilities/downtimeBanners';
+
+const AlertBox = Loadable({
+  loader: () =>
+    import('@department-of-veterans-affairs/component-library/AlertBox'),
+  loading() {
+    return <span>Loading...</span>;
+  },
+});
+const AutoSSO = Loadable({
+  loader: () => import('platform/site-wide/user-nav/containers/AutoSSO'),
+  loading() {
+    return <span />;
+  },
+});
+const SignInButtons = Loadable({
+  loader: () => import('../components/SignInButtons'),
+  loading() {
+    return <span />;
+  },
+});
+const SignInDescription = Loadable({
+  loader: () => import('../components/SignInDescription'),
+  loading() {
+    return <span />;
+  },
+});
+const FedWarning = Loadable({
+  loader: () => import('../components/FedWarning'),
+  loading() {
+    return <span />;
+  },
+});
+const LogoutAlert = Loadable({
+  loader: () => import('../components/LogoutAlert'),
+  loading() {
+    return <span />;
+  },
+});
 
 const vaGovFullDomain = environment.BASE_URL;
 

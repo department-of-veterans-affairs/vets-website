@@ -1,15 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import Loadable from 'react-loadable';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-
-import Telephone, {
+import {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
-
 // import { getCurrentGlobalDowntime } from 'platform/monitoring/DowntimeNotification/util/helpers';
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
@@ -21,6 +18,29 @@ import environment from 'platform/utilities/environment';
 
 const vaGovFullDomain = environment.BASE_URL;
 const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
+
+const AlertBox = Loadable({
+  loader: () =>
+    import('@department-of-veterans-affairs/component-library/AlertBox'),
+  loading() {
+    return <span />;
+  },
+});
+const Modal = Loadable({
+  loader: () =>
+    import('@department-of-veterans-affairs/component-library/Modal'),
+  loading() {
+    return <span />;
+  },
+});
+
+const Telephone = Loadable({
+  loader: () =>
+    import('@department-of-veterans-affairs/component-library/Telephone'),
+  loading() {
+    return <span />;
+  },
+});
 
 export class SignInModal extends React.Component {
   state = { globalDowntime: null };
