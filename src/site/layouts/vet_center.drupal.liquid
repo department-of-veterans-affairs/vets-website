@@ -76,6 +76,7 @@
 
           <h2 id="prepare-for-your-visit" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Prepare for your visit</h2>
+            <p> Click on a topic for more details. </p>
             <div class="vads-u-margin-bottom--3">
                 {% for entity in fieldPrepareForVisit %}
                     <va-accordion bordered >
@@ -91,6 +92,7 @@
 
           <h2 id="counseling-services" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Counseling services</h2>
+            <p> Click on a service for more details. </p>
             {% assign counselingServices = fieldHealthServices | filterByTypeOfCare: "counselling" %}
             <div class="vads-u-margin-bottom--3">
                 {% for entity in counselingServices %}
@@ -99,6 +101,13 @@
                                 header="{{ entity.fieldServiceNameAndDescripti.entity.name }}"
                                 subheader="{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterFriendlyName }}"
                                 level="3">
+                            {% if entity.fieldServiceNameAndDescripti.entity.fieldVetCenterComConditions != empty %}
+                                <p>{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterComConditions }}</p>
+                            {% endif %}
+                            {% if entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip != empty %}
+                                <p>{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip  }}</p>
+                            {% endif %}
+                            {{ entity.fieldServiceNameAndDescripti.entity.description.processed | drupalToVaPath | outputLinks }}
                         </va-accordion-item>
                     </va-accordion>
                 {% endfor %}
@@ -106,9 +115,29 @@
 
           <h2 id="referral-services" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Referral Services</h2>
-            {% assign counselingServices = fieldHealthServices | filterByTypeOfCare: "referral" %}
+            {% assign referralServices = fieldHealthServices | filterByTypeOfCare: "referral" %}
+            <p> Click on a service for more details. </p>
+            <div class="vads-u-margin-bottom--3">
+                {% for entity in referralServices %}
+                    <va-accordion bordered >
+                        <va-accordion-item
+                                header="{{ entity.fieldServiceNameAndDescripti.entity.name }}"
+                                subheader="{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterFriendlyName }}"
+                                level="3">
+                            {% if entity.fieldServiceNameAndDescripti.entity.fieldVetCenterComConditions != empty %}
+                                <p>{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterComConditions }}</p>
+                            {% endif %}
+                            {% if entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip != empty %}
+                                <p>{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip  }}</p>
+                            {% endif %}
+                            {{ entity.fieldServiceNameAndDescripti.entity.description.processed | drupalToVaPath | outputLinks }}
+                        </va-accordion-item>
+                    </va-accordion>
+                {% endfor %}
+            </div>
 
-          <h2 id="other-services" class="vads-u-margin-top--0 vads-u-font-size--lg
+
+            <h2 id="other-services" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Other services</h2>
 
           <h2 id="how-different-than-clinic" class="vads-u-margin-top--0 vads-u-font-size--lg
