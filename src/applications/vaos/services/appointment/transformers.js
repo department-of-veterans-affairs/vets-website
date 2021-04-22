@@ -359,7 +359,8 @@ function setLocation(appt) {
         vistaId: appt.facilityId,
         clinicId: appt.clinicId,
         stationId: appt.sta6aid,
-        displayName: appt.clinicFriendlyName,
+        displayName:
+          appt.clinicFriendlyName || appt.vdsAppointments?.[0]?.clinic?.name,
       };
     }
     case APPOINTMENT_TYPES.ccAppointment: {
