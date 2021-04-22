@@ -73,7 +73,7 @@ const formConfig = {
       },
     },
     veteranInformation: {
-      title: 'Help us match you to a Veteran',
+      title: "Provide the Veteran's name",
       pages: {
         veteranInformation: {
           //  returning false to disable this page. leaving infrastructure in place as this may be desired functionality in the near future.
