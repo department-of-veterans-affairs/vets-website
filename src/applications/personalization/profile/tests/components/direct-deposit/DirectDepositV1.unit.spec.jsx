@@ -8,6 +8,7 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
+import ProfileSectionHeadline from '@@profile/components/ProfileSectionHeadline';
 import DirectDepositV1 from '@@profile/components/direct-deposit/DirectDepositV1';
 import BankInfoCNP from '@@profile/components/direct-deposit/BankInfoCNP';
 
@@ -72,9 +73,9 @@ describe('DirectDeposit version 1', () => {
     wrapper.unmount();
   });
 
-  it('renders an h2 tag as its first child', () => {
+  it('renders a ProfileSectionHeadline component as its first child', () => {
     const firstChild = directDeposit.childAt(0);
-    expect(firstChild.type()).to.equal('h2');
+    expect(firstChild.type()).to.equal(ProfileSectionHeadline);
   });
 
   describe('the DowntimeNotification component', () => {

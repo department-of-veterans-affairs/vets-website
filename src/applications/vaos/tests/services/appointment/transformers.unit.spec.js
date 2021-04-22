@@ -390,14 +390,22 @@ describe('VAOS Appointment transformer', () => {
       });
 
       it('should set provider contact info', () => {
-        expect(data.contained[0].name).to.equal('Audiologists of Dayton');
-        expect(data.contained[0].address.line[0]).to.equal('123 Main St');
-        expect(data.contained[0].address.city).to.equal('dayton');
-        expect(data.contained[0].address.state).to.equal('OH');
-        expect(data.contained[0].address.postalCode).to.equal('45405');
-        expect(data.contained[0].telecom[0].system).to.equal('phone');
-        expect(data.contained[0].telecom[0].value).to.equal('(703) 345-2400');
-        expect(data.location[0].actor.display).to.equal('Bob Belcher');
+        expect(data.contained.practitioner.name).to.equal(
+          'Audiologists of Dayton',
+        );
+        expect(data.contained.practitioner.address.line[0]).to.equal(
+          '123 Main St',
+        );
+        expect(data.contained.practitioner.address.city).to.equal('dayton');
+        expect(data.contained.practitioner.address.state).to.equal('OH');
+        expect(data.contained.practitioner.address.postalCode).to.equal(
+          '45405',
+        );
+        expect(data.contained.practitioner.telecom[0].system).to.equal('phone');
+        expect(data.contained.practitioner.telecom[0].value).to.equal(
+          '(703) 345-2400',
+        );
+        expect(data.location.displayName).to.equal('Bob Belcher');
       });
 
       it('should return vaos.isPastAppointment', () => {
