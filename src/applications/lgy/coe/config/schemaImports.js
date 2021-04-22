@@ -1,13 +1,17 @@
 import fullSchema from '../26-1880-schema.json';
 
 const {
-  veteranInformation,
-  veteranContactInformation,
+  applicantInformation,
+  applicantContactInformation,
   communicationPreferences,
+  serviceStatus,
+  serviceHistory,
 } = fullSchema.properties;
 
 export {
-  veteranInformation,
-  veteranContactInformation,
+  applicantInformation,
+  applicantContactInformation,
   communicationPreferences,
+  serviceStatus,
+  serviceHistory,
 };

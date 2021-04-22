@@ -1,6 +1,6 @@
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
-import { veteranContactInformation } from '../../../schemaImports';
+import { applicantContactInformation } from '../../../schemaImports';
 import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 
 const checkboxTitle =
@@ -9,7 +9,7 @@ const checkboxTitle =
 export const schema = {
   type: 'object',
   properties: {
-    ...veteranContactInformation.properties,
+    ...applicantContactInformation.properties,
     'view:confirmEmail': {
       type: 'string',
     },
@@ -18,7 +18,11 @@ export const schema = {
 };
 
 export const uiSchema = {
-  veteranAddress: addressUiSchema('veteranAddress', checkboxTitle, () => true),
+  applicantAddress: addressUiSchema(
+    'applicantAddress',
+    checkboxTitle,
+    () => true,
+  ),
   phoneNumber: {
     'ui:options': {
       widgetClassNames: 'usa-input-medium',

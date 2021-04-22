@@ -4,6 +4,10 @@
   "type": "object",
   "additionalProperties": false,
   "definitions": {
+    "date": {
+      "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
+      "type": "string"
+    },
     "profileAddress": {
       "type": "object",
       "properties": {
@@ -513,17 +517,29 @@
       "type": "string",
       "maxLength": 256,
       "format": "email"
+    },
+    "dateRangeFromRequired": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "$ref": "#/definitions/date"
+        },
+        "to": {
+          "$ref": "#/definitions/date"
+        }
+      },
+      "required": ["from"]
     }
   },
   "properties": {
-    "veteranInformation": {
+    "applicantInformation": {
       "type": "object",
       "properties": {}
     },
-    "veteranContactInformation": {
+    "applicantContactInformation": {
       "type": "object",
       "properties": {
-        "veteranAddress": {
+        "applicantAddress": {
           "$ref": "#/definitions/profileAddress"
         },
         "phoneNumber": {
@@ -541,6 +557,67 @@
           "type": "string",
           "enum": ["EMAIL", "PHONE", "MAIL"],
           "enumNames": ["Email", "Phone", "U.S. Mail"]
+        }
+      }
+    },
+    "serviceStatus": {
+      "type": "object",
+      "required": ["identity"],
+      "properties": {
+        "identity": {
+          "type": "string",
+          "enum": [
+            "VETERAN",
+            "ACTIVEDUTY",
+            "NONACTIVEDUTY",
+            "NONACTIVEDUTYDISCHARGED"
+          ],
+          "enumNames": [
+            "I’m a Veteran",
+            "I’m an active-duty service member",
+            "I’m a current member of the National Guard or Reserves",
+            "I’m a discharged member of the National Guard or Reserves"
+          ]
+        }
+      }
+    },
+    "serviceHistory": {
+      "type": "object",
+      "required": ["servicePeriods"],
+      "properties": {
+        "servicePeriods": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "title": "service period",
+            "required": ["serviceBranch", "dateRange"],
+            "properties": {
+              "serviceBranch": {
+                "type": "string",
+                "enum": [
+                  "Air Force",
+                  "Air Force Reserve",
+                  "Air National Guard",
+                  "Army",
+                  "Army National Guard",
+                  "Army Reserve",
+                  "Coast Guard",
+                  "Coast Guard Reserve",
+                  "Marine Corps",
+                  "Marine Corps Reserve",
+                  "NOAA",
+                  "Navy",
+                  "Navy Reserve",
+                  "Public Health Service"
+                ]
+              },
+              "dateRange": {
+                "$ref": "#/definitions/dateRangeFromRequired"
+              }
+            }
+          }
         }
       }
     }

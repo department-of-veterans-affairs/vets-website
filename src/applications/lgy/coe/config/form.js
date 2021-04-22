@@ -7,6 +7,8 @@
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
+import fullSchema from '../26-1880-schema.json';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
@@ -14,14 +16,14 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 // const { } = fullSchema.definitions;
 
-import toursOfDutyUI from '../definitions/toursOfDuty';
-
 // chapter schema imports
 import {
-  veteranInformation,
-  veteranContactInfo,
+  applicantInformation,
+  applicantContactInfo,
   communicationPreferences,
-} from './chapters/veteran';
+} from './chapters/applicant';
+
+import { serviceStatus, serviceHistory } from './chapters/service';
 
 // TODO: WHen schema is migrated to vets-json-schema, remove common definitions from form schema and get them
 // from common definitions instead
@@ -32,34 +34,9 @@ const {
   date,
   dateRange,
   usaPhone,
-  toursOfDuty,
   profileAddress,
   email,
 } = commonDefinitions;
-
-// Define all the fields in the form to aid reuse
-const formFields = {
-  fullName: 'fullName',
-  ssn: 'ssn',
-  toursOfDuty: 'toursOfDuty',
-  viewNoDirectDeposit: 'view:noDirectDeposit',
-  viewStopWarning: 'view:stopWarning',
-  bankAccount: 'bankAccount',
-  accountType: 'accountType',
-  accountNumber: 'accountNumber',
-  routingNumber: 'routingNumber',
-  email: 'email',
-  altEmail: 'altEmail',
-  phoneNumber: 'phoneNumber',
-};
-
-// Define all the form pages to help ensure uniqueness across all form chapters
-const formPages = {
-  applicantInformation: 'applicantInformation',
-  serviceHistory: 'serviceHistory',
-  contactInformation: 'contactInformation',
-  directDeposit: 'directDeposit',
-};
 
 const formConfig = {
   urlPrefix: '/',
@@ -85,25 +62,26 @@ const formConfig = {
     usaPhone,
     profileAddress,
     email,
+    ...fullSchema.definitions,
   },
   chapters: {
-    veteranInformationChapter: {
+    applicantInformationChapter: {
       title: 'Your Information',
       pages: {
-        veteranInformationSummary: {
-          path: 'veteran-information-summary',
+        applicantInformationSummary: {
+          path: 'applicant-information-summary',
           title: 'Your personal informaton on file',
-          uiSchema: veteranInformation.uiSchema,
-          schema: veteranInformation.schema,
+          uiSchema: applicantInformation.uiSchema,
+          schema: applicantInformation.schema,
         },
-        veteranContactInformation: {
-          path: 'veteran-contact-information',
+        applicantContactInformation: {
+          path: 'applicant-contact-information',
           title: 'Your contact information',
-          uiSchema: veteranContactInfo.uiSchema,
-          schema: veteranContactInfo.schema,
+          uiSchema: applicantContactInfo.uiSchema,
+          schema: applicantContactInfo.schema,
         },
-        veteranCommunicationPreferences: {
-          path: 'veteran-communication-preference',
+        applicantCommunicationPreferences: {
+          path: 'applicant-communication-preference',
           title: 'Your communication preference',
           uiSchema: communicationPreferences.uiSchema,
           schema: communicationPreferences.schema,
@@ -111,20 +89,19 @@ const formConfig = {
       },
     },
     serviceHistoryChapter: {
-      title: 'Service History',
+      title: 'Your service History',
       pages: {
-        [formPages.serviceHistory]: {
+        serviceStatus: {
+          path: 'service-status',
+          title: 'Service status',
+          uiSchema: serviceStatus.uiSchema,
+          schema: serviceStatus.schema,
+        },
+        serviceHistory: {
           path: 'service-history',
-          title: 'Service History',
-          uiSchema: {
-            [formFields.toursOfDuty]: toursOfDutyUI,
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              [formFields.toursOfDuty]: toursOfDuty,
-            },
-          },
+          title: 'Service history',
+          uiSchema: serviceHistory.uiSchema,
+          schema: serviceHistory.schema,
         },
       },
     },
