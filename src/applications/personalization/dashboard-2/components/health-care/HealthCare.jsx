@@ -109,16 +109,15 @@ const HealthCare = ({
       <h2>Health care</h2>
 
       <div className="vads-l-row">
-        {hasUpcomingAppointment ||
-          (hasAppointmentsError && (
-            /* Appointments */
-            <DashboardWidgetWrapper>
-              <Appointments
-                appointments={appointments}
-                hasError={hasAppointmentsError}
-              />
-            </DashboardWidgetWrapper>
-          ))}
+        {(hasUpcomingAppointment || hasAppointmentsError) && (
+          /* Appointments */
+          <DashboardWidgetWrapper>
+            <Appointments
+              appointments={appointments}
+              hasError={hasAppointmentsError}
+            />
+          </DashboardWidgetWrapper>
+        )}
 
         <DashboardWidgetWrapper>
           {!hasUpcomingAppointment &&
