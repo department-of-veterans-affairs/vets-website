@@ -100,8 +100,8 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             <div className="vads-u-margin-top--2">
               <VAFacilityLocation
                 facility={facility}
-                facilityId={appointment.videoData.facilityId}
-                clinicFriendlyName={appointment.location?.displayName}
+                facilityId={appointment.location.stationId}
+                clinicFriendlyName={appointment.location.clinicName}
                 isHomepageRefresh
               />
             </div>
