@@ -6,7 +6,7 @@ import {
   RepresentativeDocumentUploadDescription,
   RepresentativeAdditionalInfo,
 } from 'applications/caregivers/components/AdditionalInfo';
-import recordEvent from 'platform/monitoring/record-event';
+// import recordEvent from 'platform/monitoring/record-event';
 
 // const { representative } = fullSchema.properties;
 // const veteranProps = veteran.properties;
@@ -57,24 +57,22 @@ export default {
       fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
       maxSize: 1024 * 1024 * 10,
       hideLabelText: true,
-      createPayload: file => {
+      createPayload: (file, formId, password) => {
         const payload = new FormData();
         payload.append('attachment', file);
+        payload.append('form_id', formId);
+        // password for encrypted PDFs
+        if (password) {
+          payload.append('password', password);
+        }
+
         return payload;
       },
-      parseResponse: (response, file) => {
-        recordEvent({
-          'caregivers-poa-document-success': file.name,
-          'caregivers-poa-document-size': file.size,
-          'caregivers-poa-document-confirmation-code':
-            response.data.attributes.guid,
-        });
-        return {
-          name: file.name,
-          confirmationCode: response.data.attributes.guid,
-          size: file.size,
-        };
-      },
+      parseResponse: fileInfo => ({
+        name: fileInfo.data.attributes.name,
+        size: fileInfo.data.attributes.size,
+        confirmationCode: fileInfo.data.attributes.confirmationCode,
+      }),
       attachmentSchema: {
         'ui:title': 'Document type',
       },
