@@ -1,3 +1,5 @@
+export const DW_UPDATE_FIELD = 'DW_UPDATE_FIELD';
+
 export const labels = {
   drb: 'Discharge Review Board',
   bcmr: 'Board for Correction of Military Records (BCMR)',

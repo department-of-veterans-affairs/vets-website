@@ -1,4 +1,4 @@
-export const DW_UPDATE_FIELD = 'DW_UPDATE_FIELD';
+import { DW_UPDATE_FIELD } from '../constants';
 
 export const updateField = (key, value) => {
   return {

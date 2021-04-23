@@ -1,4 +1,4 @@
-import { DW_UPDATE_FIELD } from '../actions';
+import { DW_UPDATE_FIELD } from '../constants';
 import _ from 'lodash';
 import moment from 'moment';
 
