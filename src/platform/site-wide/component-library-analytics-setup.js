@@ -12,7 +12,15 @@ const analyticsEvents = {
     { action: 'collapse', event: 'int-additional-info-collapse' },
   ],
   AlertBox: [{ action: 'linkClick', event: 'nav-alert-box-link-click' }],
+  Breadcrumbs: [{ action: 'linkClick', event: 'nav-breadcrumb-link-click' }],
+  LoadingIndicator: [
+    { action: 'displayed', event: 'loading-indicator-displayed' },
+  ],
+  ProgressBar: [{ action: 'change', event: 'nav-progress-bar-change' }],
   PromoBanner: [{ action: 'linkClick', event: 'nav-promo-banner-link-click' }],
+  SegmentedProgressBar: [
+    { action: 'change', event: 'nav-segmented-progress-bar-change' },
+  ],
 };
 
 export function subscribeComponentAnalyticsEvents(

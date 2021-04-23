@@ -18,12 +18,12 @@ export const ContactInfoDescription = ({ veteran }) => {
     <>
       <p>
         This is the contact information we have on file for you. We’ll send any
-        important information about your Board Appeal request to this address.
+        updates or information about your Board Appeal request to this address.
       </p>
       <p className="vads-u-margin-top--1p5">
         You can{' '}
         <a href={PROFILE_URL} target="_blank" rel="noopener noreferrer">
-          update this contact information on your profile page
+          update this contact information on your VA.gov profile
         </a>
         .
       </p>
