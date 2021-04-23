@@ -451,3 +451,12 @@ export function getUpcomingAppointmentListInfo(state) {
     showScheduleButton: selectFeatureRequests(state),
   };
 }
+
+export function getPastAppointmentListInfo(state) {
+  return {
+    pastAppointmentsByMonth: selectPastAppointmentsV2(state),
+    pastStatus: state.appointments.pastStatus,
+    pastSelectedIndex: state.appointments.pastSelectedIndex,
+    facilityData: state.appointments.facilityData,
+  };
+}
