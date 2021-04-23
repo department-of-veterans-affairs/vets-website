@@ -62,7 +62,7 @@ node('vetsgov-general-purpose') {
   // }
 
   // Perform a build for each build type
-  envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
+  // envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run E2E tests
   // stage('Integration') {
@@ -109,10 +109,10 @@ node('vetsgov-general-purpose') {
   //   }
   // }
 
-  commonStages.prearchiveAll(dockerContainer)
+  // commonStages.prearchiveAll(dockerContainer)
 
-  commonStages.archiveAll(dockerContainer, ref);
-  commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
+  // commonStages.archiveAll(dockerContainer, ref);
+  // commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
   stage('Review') {
     if (commonStages.shouldBail()) {
