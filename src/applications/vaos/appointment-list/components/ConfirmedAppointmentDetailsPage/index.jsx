@@ -35,7 +35,7 @@ import {
   confirmCancelAppointment,
   fetchConfirmedAppointmentDetails,
 } from '../../redux/actions';
-import { getConfirmedAppointmentDetailsInfo } from 'applications/vaos/appointment-list/redux/selectors';
+import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
