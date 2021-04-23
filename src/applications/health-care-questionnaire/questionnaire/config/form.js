@@ -21,7 +21,10 @@ import { submit, transformForSubmit } from '../../shared/api';
 import { updateUrls } from './migrations';
 
 import { TRACKING_PREFIX } from '../../shared/constants/analytics';
-import { getQuestionTextById } from '../../shared/constants/questionnaire.questions';
+import {
+  getQuestionTextById,
+  QUESTION_IDS,
+} from '../../shared/constants/questionnaire.questions';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -125,18 +128,28 @@ const formConfig = {
             reasonForVisitDescription: {
               'ui:widget': ReasonForVisitDescription.field,
               'ui:validations': [preventLargeFields],
-              'ui:title': <span>{getQuestionTextById('02')}</span>,
+              'ui:title': (
+                <span>
+                  {getQuestionTextById(
+                    QUESTION_IDS.REASON_FOR_VISIT_DESCRIPTION,
+                  )}
+                </span>
+              ),
             },
             lifeEvents: {
               'ui:widget': 'textarea',
-              'ui:title': <span>{getQuestionTextById('03')}</span>,
+              'ui:title': (
+                <span>{getQuestionTextById(QUESTION_IDS.LIFE_EVENTS)}</span>
+              ),
               'ui:validations': [preventLargeFields],
             },
             questions: {
               items: {
                 additionalQuestions: {
                   'ui:validations': [preventLargeFields],
-                  'ui:title': getQuestionTextById('04'),
+                  'ui:title': getQuestionTextById(
+                    QUESTION_IDS.ADDITIONAL_QUESTIONS,
+                  ),
                 },
               },
               'ui:options': {

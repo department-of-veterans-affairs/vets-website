@@ -2,7 +2,10 @@ import { locationSelector } from '../../shared/utils/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
-import { getQuestionTextById } from '../constants/questionnaire.questions';
+import {
+  getQuestionTextById,
+  QUESTION_IDS,
+} from '../constants/questionnaire.questions';
 
 // pull from src/platform/forms-system/src/js/actions.js
 // so we can have our own custom error handling,  messages and headers
@@ -133,23 +136,23 @@ const transformForSubmit = (_formConfig, form) => {
     questionnaire: { ...questionnaire, title },
     item: [
       {
-        linkId: '01',
-        text: getQuestionTextById('01'),
+        linkId: QUESTION_IDS.REASON_FOR_VISIT,
+        text: getQuestionTextById(QUESTION_IDS.REASON_FOR_VISIT),
         answer: createAnswerArray(reasonForVisit),
       },
       {
-        linkId: '02',
-        text: getQuestionTextById('02'),
+        linkId: QUESTION_IDS.REASON_FOR_VISIT_DESCRIPTION,
+        text: getQuestionTextById(QUESTION_IDS.REASON_FOR_VISIT_DESCRIPTION),
         answer: createAnswerArray(reasonForVisitDescription),
       },
       {
-        linkId: '03',
-        text: getQuestionTextById('03'),
+        linkId: QUESTION_IDS.LIFE_EVENTS,
+        text: getQuestionTextById(QUESTION_IDS.LIFE_EVENTS),
         answer: createAnswerArray(lifeEvents),
       },
       {
-        linkId: '04',
-        text: getQuestionTextById('04'),
+        linkId: QUESTION_IDS.ADDITIONAL_QUESTIONS,
+        text: getQuestionTextById(QUESTION_IDS.ADDITIONAL_QUESTIONS),
         answer: [
           ...additionalQuestions
             .filter(answer => answer.additionalQuestions)
