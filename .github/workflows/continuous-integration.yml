@@ -44,9 +44,9 @@ jobs:
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
-      - name: Get codecoverage
-        id: codecoverage
-        run: echo ::set-output name=MARKDOWN::$(node ./script/github-actions/codecoverage-format-report.js)
+      - name: Get code coverage
+        id: code-coverage
+        run: echo ::set-output name=MARKDOWN::$(node ./script/github-actions/code-coverage-format-report.js)
 
       - name: Publish test results
         if: ${{ always() }}
@@ -55,7 +55,7 @@ jobs:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/unit-tests.xml'
-          summary: ${{ steps.codecoverage.outputs.MARKDOWN }}
+          summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
 
   linting:
     name: Linting
