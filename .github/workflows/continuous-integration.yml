@@ -22,6 +22,10 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+        # TODO: Remove once issue resolved (https://github.com/actions/setup-node/issues/182)
+      - name: Install Yarn
+        run: npm install -g yarn
+
       - name: Cache dependencies
         id: cache-dependencies
         uses: actions/cache@v2
@@ -60,6 +64,11 @@ jobs:
           report_paths: 'test-results/unit-tests.xml'
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
 
+      # TODO: Remove once issue resolved
+      - name: Uninstall Yarn
+        if: always()
+        run: npm uninstall -g yarn
+
   linting:
     name: Linting
     runs-on: self-hosted
@@ -75,6 +84,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      # TODO: Remove once issue resolved
+      - name: Install Yarn
+        run: npm install -g yarn
 
       - name: Cache dependencies
         id: cache-dependencies
@@ -99,6 +112,11 @@ jobs:
       - name: Annotate Sass lint results
         run: node ./script/github-actions/sasslint-annotation-format.js
 
+      # TODO: Follow https://github.com/actions/setup-node/issues/182
+      - name: Uninstall Yarn
+        if: always()
+        run: npm uninstall -g yarn
+
   security-audit:
     name: Security Audit
     runs-on: self-hosted
@@ -115,8 +133,17 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+      # TODO: Remove once issue resolved
+      - name: Install Yarn
+        run: npm install -g yarn
+
       - name: Audit dependencies
         run: yarn security-check
+
+      # TODO: Remove once issue resolved
+      - name: Uninstall Yarn
+        if: always()
+        run: npm uninstall -g yarn
 
   drupal-cache-test:
     name: Drupal Cache Test
@@ -133,6 +160,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      # TODO: Remove once issue resolved
+      - name: Install Yarn
+        run: npm install -g yarn
 
       - name: Cache dependencies
         id: cache-dependencies
@@ -151,6 +182,11 @@ jobs:
       - name: Fetch Drupal cache
         run: yarn fetch-drupal-cache
 
+      # TODO: Remove once issue resolved
+      - name: Uninstall Yarn
+        if: always()
+        run: npm uninstall -g yarn
+
   build:
     name: Build
     runs-on: self-hosted
@@ -166,6 +202,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      # TODO: Remove once issue resolved
+      - name: Install Yarn
+        run: npm install -g yarn
 
       - name: Cache dependencies
         id: cache-dependencies
@@ -184,3 +224,8 @@ jobs:
       - name: Build apps
         run: yarn build:webpack --env.buildtype vagovprod --env.scaffold
         timeout-minutes: 30
+
+      # TODO: Remove once issue resolved
+      - name: Uninstall Yarn
+        if: always()
+        run: npm uninstall -g yarn
