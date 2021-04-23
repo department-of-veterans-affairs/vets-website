@@ -26,7 +26,7 @@
     "cy:run": "cypress run --config-file config/cypress.json",
     "cy:run:forms": "CYPRESS_FORMS=true cypress run --config-file config/cypress.json --config testFiles='**/tests/**/*.cypress.form.spec.js?(x)'",
     "cy:test:circle": "./script/run-cypress-tests-circle.sh",
-    "cy:test:docker": "./script/run-cypress-tests-docker.sh",
+    "cy:test:docker": "node script/run-cypress-tests-docker.js",
     "cy:testrail-run": "cypress run --config-file config/cypress-testrail.json --reporter-options host=https://dsvavsp.testrail.io/,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=$TR_RUN_NAME,includeAllInTestRun=$TR_INCLUDE_ALL,groupId=$TR_GROUPID,filter=$TR_FILTER",
     "fetch-drupal-cache": "node script/drupal-aws-cache.js --fetch",
     "heroku-serve": "http-server",
