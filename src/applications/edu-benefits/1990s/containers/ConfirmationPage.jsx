@@ -32,7 +32,6 @@ export class ConfirmationPage extends React.Component {
     const response = submission.response ? submission.response.attributes : {};
     // Prod Flag bah-23496
     const prodFlagClassName = environment.isProduction() ? 'line-height' : '';
-
     const claimList = () => {
       return [
         <li key={'confirmation-number'}>
