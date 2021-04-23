@@ -125,9 +125,10 @@ node('vetsgov-general-purpose') {
         return
       }
       build job: 'deploys/vets-review-instance-deploy', parameters: [
-        stringParam(name: 'devops_branch', value: 'master'),
+        stringParam(name: 'devops_branch', value: 'modify-review-instances'),
         stringParam(name: 'api_branch', value: 'master'),
         stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+        stringParam(name: 'content_branch', value: env.BRANCH_NAME),
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {
