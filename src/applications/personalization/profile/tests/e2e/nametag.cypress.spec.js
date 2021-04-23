@@ -6,7 +6,7 @@ import disabilityRating from '@@profile/tests/fixtures/disability-rating-success
 import error401 from '@@profile/tests/fixtures/401.json';
 import error500 from '@@profile/tests/fixtures/500.json';
 
-import mockUser from '../fixtures/users/user';
+import makeMockUser from '../fixtures/users/user';
 import {
   mockFeatureToggles,
   nameTagRendersWithDisabilityRating,
@@ -18,7 +18,7 @@ import { PROFILE_PATHS } from '../../constants';
 describe('Profile NameTag', () => {
   beforeEach(() => {
     disableFTUXModals();
-    cy.login(mockUser);
+    cy.login(makeMockUser);
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     // Explicitly mocking these APIs as failures, causes the tests to run MUCH
