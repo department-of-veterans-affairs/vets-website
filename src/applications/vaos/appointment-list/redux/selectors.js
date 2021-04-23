@@ -2,7 +2,11 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
 import { titleCase } from '../../utils/formatters';
-import { FETCH_STATUS, APPOINTMENT_STATUS } from '../../utils/constants';
+import {
+  FETCH_STATUS,
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+} from '../../utils/constants';
 import {
   getVAAppointmentLocationId,
   isUpcomingAppointmentOrRequest,
@@ -20,6 +24,8 @@ import {
 import {
   selectFeatureExpressCareNewRequest,
   selectFeatureCovid19Vaccine,
+  selectFeatureRequests,
+  selectIsCernerOnlyPatient,
 } from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
@@ -399,4 +405,49 @@ export function selectCanUseVaccineFlow(state) {
       ),
     )
   );
+}
+
+export function selectRequestedAppointmentDetails(state, id) {
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
+
+  return {
+    appointment: selectAppointmentById(state, id, [
+      APPOINTMENT_TYPES.request,
+      APPOINTMENT_TYPES.ccRequest,
+    ]),
+    appointmentDetailsStatus,
+    facilityData,
+    message: selectFirstRequestMessage(state, id),
+    cancelInfo: getCancelInfo(state),
+  };
+}
+
+export function getCanceledAppointmentListInfo(state) {
+  return {
+    appointmentsByMonth: selectCanceledAppointments(state),
+    facilityData: state.appointments.facilityData,
+    futureStatus: selectFutureStatus(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
+}
+
+export function getRequestedAppointmentListInfo(state) {
+  return {
+    facilityData: state.appointments.facilityData,
+    pendingStatus: state.appointments.pendingStatus,
+    pendingAppointments: selectPendingAppointments(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
+}
+
+export function getUpcomingAppointmentListInfo(state) {
+  return {
+    facilityData: state.appointments.facilityData,
+    futureStatus: selectFutureStatus(state),
+    appointmentsByMonth: selectUpcomingAppointments(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
 }

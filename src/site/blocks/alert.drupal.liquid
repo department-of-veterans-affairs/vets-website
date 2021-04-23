@@ -28,7 +28,7 @@
   {% assign alertType = "info" %}
 {% endif %}
 
-{% if alert.entityPublished %}
+{% if isPreview or alert.entityPublished %}
   <div data-template="blocks/alert" data-entity-id="{{ alert.entityId }}" class="usa-alert usa-alert-{{ alertType }}" role="alert">
     <div class="usa-alert-body">
       <h2 class="usa-alert-heading vads-u-font-size--h3">
