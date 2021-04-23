@@ -10,7 +10,6 @@ import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
-  getVARFacilityId,
   isVAPhoneAppointment,
   isVideoHome,
 } from '../../../services/appointment';
@@ -194,7 +193,7 @@ function ConfirmedAppointmentDetailsPage({
       <h1>
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
-          facilityId={getVARFacilityId(appointment)}
+          facilityId={appointment.location.vistaId}
         />
       </h1>
 
@@ -238,7 +237,7 @@ function ConfirmedAppointmentDetailsPage({
               facilityName={facility?.name}
               facilityId={facilityId}
               isHomepageRefresh
-              clinicFriendlyName={appointment.location?.displayName}
+              clinicFriendlyName={appointment.location?.clinicName}
             />
 
             {showInstructions &&
