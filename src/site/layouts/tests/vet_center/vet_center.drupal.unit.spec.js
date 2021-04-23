@@ -40,4 +40,33 @@ describe('Vet Center Main Page', () => {
       ).length,
     ).to.equal(4);
   });
+
+  it('renders counselling services', () => {
+    expect(
+      container.querySelectorAll('va-accordion[id^=counselling-accordion]')
+        .length,
+    ).to.equal(9);
+    expect(
+      container.querySelectorAll('va-accordion-item[id^=counselling-item]')
+        .length,
+    ).to.equal(9);
+  });
+
+  it('renders referral services', () => {
+    expect(
+      container.querySelectorAll('va-accordion[id^=referral-accordion]').length,
+    ).to.equal(3);
+    expect(
+      container.querySelectorAll('va-accordion-item[id^=referral-item]').length,
+    ).to.equal(3);
+  });
+
+  it('renders other services', () => {
+    expect(
+      container.querySelectorAll('va-accordion[id^=other-accordion]').length,
+    ).to.equal(1);
+    expect(
+      container.querySelectorAll('va-accordion-item[id^=other-item]').length,
+    ).to.equal(1);
+  });
 });

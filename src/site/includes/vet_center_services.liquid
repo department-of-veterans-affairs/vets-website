@@ -1,7 +1,9 @@
 <div class="vads-u-margin-bottom--3">
     {% for entity in services %}
-        <va-accordion bordered >
+        {% assign idService = entity.fieldServiceNameAndDescripti.entity.fieldVetCenterTypeOfCare %}
+        <va-accordion bordered id="{{ idService }}-accordion-{{ entity.fieldServiceNameAndDescripti.entity.name }}">
             <va-accordion-item
+                    id="{{ idService }}-item-{{ entity.fieldServiceNameAndDescripti.entity.name}}"
                     header="{{ entity.fieldServiceNameAndDescripti.entity.name }}"
                     subheader="{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterFriendlyName }}"
                     level="3">
