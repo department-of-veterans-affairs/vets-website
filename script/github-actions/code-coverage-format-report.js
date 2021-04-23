@@ -35,6 +35,6 @@ codeCoverageData.forEach((data, index) => {
   }
 });
 
-codeCoverageMarkdown += `</tbody> \n </table>`; // close htmk
+codeCoverageMarkdown += `</tbody> \n </table>`; // close html
 
 console.log(codeCoverageMarkdown); // eslint-disable-line no-console
