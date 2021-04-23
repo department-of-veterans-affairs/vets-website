@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 
 import { SELECTED } from '../constants';
@@ -9,7 +10,7 @@ import { SELECTED } from '../constants';
  * @param {String} ratingIssuePercentNumber - rating %, number with no %
  * @param {String} approxDecisionDate - contestable issue date formatted as
  *   "YYYY-MM-DD"
- * @param {String} approxDecisionDate - additional issue date formatted as
+ * @param {String} decisionDate - additional issue date formatted as
  *   "YYYY-MM-DD"
  * @return {React Component}
  */
@@ -44,6 +45,13 @@ export const IssueCardContent = ({
   );
 };
 
+IssueCardContent.propTypes = {
+  decisionDate: PropTypes.string,
+  description: PropTypes.string,
+  ratingIssuePercentNumber: PropTypes.string,
+  approxDecisionDate: PropTypes.string,
+};
+
 /**
  * ContestableIssue
  * @typedef {Object}
@@ -75,7 +83,7 @@ export const IssueCard = ({
   index,
   isLastItem = false,
   item = {},
-  options,
+  options = {},
   onChange,
   showCheckbox,
   onEdit,
@@ -161,4 +169,26 @@ export const IssueCard = ({
       </dd>
     </div>
   );
+};
+
+IssueCard.propTypes = {
+  id: PropTypes.string,
+  index: PropTypes.number,
+  isLastItem: PropTypes.bool,
+  showCheckbox: PropTypes.bool,
+  item: PropTypes.shape({
+    // not using oneOf because there is a lot of extra props in here
+    issue: PropTypes.string,
+    decisionDate: PropTypes.string,
+    ratingIssueSubjectText: PropTypes.string,
+    description: PropTypes.string,
+    ratingIssuePercentNumber: PropTypes.string,
+    approxDecisionDate: PropTypes.string,
+    [SELECTED]: PropTypes.bool,
+  }),
+  options: PropTypes.shape({
+    appendId: PropTypes.string,
+  }),
+  onChange: PropTypes.func,
+  onEdit: PropTypes.func,
 };
