@@ -6,7 +6,7 @@ import environment from 'platform/utilities/environment';
 // platform - form-system actions
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
-function PreSubmitNotice({
+function PreSubmitInfo({
   formData,
   showError,
   onSectionComplete,
@@ -106,4 +106,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps,
-)(PreSubmitNotice);
+)(PreSubmitInfo);
