@@ -23,8 +23,6 @@ const analyticsEvents = {
   ],
 };
 
-const COMPONENT_LIBRARY_VERSION = '2.3.1';
-
 export function subscribeComponentAnalyticsEvents(
   e,
   recordEvent = _recordEvent,
@@ -34,12 +32,13 @@ export function subscribeComponentAnalyticsEvents(
 
   if (component) {
     const action = component.find(ev => ev.action === e.detail.action);
+    const version = e.detail.version;
 
     if (action) {
       const dataLayer = {
         event: action.event,
         'event-source': 'component-library',
-        'component-library-version': COMPONENT_LIBRARY_VERSION,
+        'component-library-version': version,
       };
 
       // If the event included additional details / context...
