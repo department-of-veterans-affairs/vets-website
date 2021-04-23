@@ -16,18 +16,18 @@ export default function addActionLinkListeners() {
   const ignoreReactWidgets = ':not([data-template="paragraphs/react_widget"])';
   const actionLinks = [
     ...document.querySelectorAll(
-      `${ignoreReactWidgets} a[class=vads-c-action-link--blue]"]`,
+      `${ignoreReactWidgets} a[class^="vads-c-action-link"]`,
     ),
   ];
 
   actionLinks.forEach(actionLink => {
-    if (!actionLink.data.disableAnalaytics) {
+    if (!actionLink.dataset.disableAnalaytics) {
       actionLink.addEventListener('click', event => {
         const { type, iconColor } = getLinkType(event.target.classList);
         recordEvent({
           event: 'cta-action-link-click',
           'action-link-type': type,
-          'action-link-click-label': event.target.text,
+          'action-link-click-label': event.target.text.trim(),
           'action-link-icon-color': iconColor,
         });
       });
