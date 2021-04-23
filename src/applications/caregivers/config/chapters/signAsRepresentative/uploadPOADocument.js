@@ -53,13 +53,13 @@ export default {
       buttonText: 'Upload',
       classNames: 'poa-document-upload',
       multiple: false,
-      fileUploadUrl: `${environment.API_URL}/v0/caregiver_attachments`,
+      fileUploadUrl: `${environment.API_URL}/v0/form1010cg/attachments`,
       fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
       maxSize: 1024 * 1024 * 10,
       hideLabelText: true,
       createPayload: file => {
         const payload = new FormData();
-        payload.append('caregiver_attachment[file_data]', file);
+        payload.append('attachment', file);
         return payload;
       },
       parseResponse: (response, file) => {
