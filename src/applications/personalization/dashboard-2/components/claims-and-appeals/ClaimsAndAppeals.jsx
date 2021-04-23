@@ -124,8 +124,9 @@ const ClaimsAndAppeals = ({
           </DashboardWidgetWrapper>
           {highlightedClaimOrAppeal ? (
             <DashboardWidgetWrapper>
-              <div className="vads-u-margin-top--2p5 small-desktop-screen:vads-u-margin-top--0" />
-              <ClaimsAndAppealsCTA />
+              <div className="vads-u-margin-top--2p5 small-desktop-screen:vads-u-margin-top--0">
+                <ClaimsAndAppealsCTA />
+              </div>
             </DashboardWidgetWrapper>
           ) : null}
         </div>

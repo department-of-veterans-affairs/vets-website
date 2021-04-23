@@ -14,7 +14,6 @@ import {
   sortByDateDescending,
   sortByDateAscending,
   sortUpcoming,
-  getVARFacilityId,
   groupAppointmentsByMonth,
   isCanceledConfirmedOrExpressCare,
   isUpcomingAppointmentOrExpressCare,
@@ -54,9 +53,8 @@ export function getCancelInfo(state) {
   }
   let isCerner = null;
   if (appointmentToCancel) {
-    const facilityId = getVARFacilityId(appointmentToCancel);
     isCerner = selectCernerAppointmentsFacilities(state)?.some(cernerSite =>
-      facilityId?.startsWith(cernerSite.facilityId),
+      appointmentToCancel.location.vistaId?.startsWith(cernerSite.facilityId),
     );
   }
 

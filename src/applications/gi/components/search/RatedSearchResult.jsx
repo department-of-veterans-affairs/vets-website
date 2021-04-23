@@ -24,9 +24,9 @@ export function RatedSearchResult({
   estimated,
   facilityCode,
   name,
-  city,
-  state,
-  country,
+  physicalCity,
+  physicalState,
+  physicalCountry,
   studentCount,
   cautionFlags,
   menOnly,
@@ -74,13 +74,17 @@ export function RatedSearchResult({
                 {' '}
                 <Link
                   to={profileLink}
-                  aria-label={`${name} ${locationInfo(city, state, country)}`}
+                  aria-label={`${name} ${locationInfo(
+                    physicalCity,
+                    physicalState,
+                    physicalCountry,
+                  )}`}
                 >
                   {name}
                 </Link>
               </h2>
               <p id={`location-${facilityCode}`}>
-                {locationInfo(city, state, country)}
+                {locationInfo(physicalCity, physicalState, physicalCountry)}
               </p>
             </div>
           </div>
