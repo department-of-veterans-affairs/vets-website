@@ -79,7 +79,11 @@ const ClaimsAndAppeals = ({
   }
 
   if (shouldShowLoadingIndicator) {
-    return <LoadingIndicator message="We’re loading your information." />;
+    return (
+      <div data-testid="dashboard-section-claims-and-appeals">
+        <LoadingIndicator message="We’re loading your information." />
+      </div>
+    );
   }
 
   if (hasAPIError) {
