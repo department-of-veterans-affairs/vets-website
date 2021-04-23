@@ -1,15 +1,16 @@
 import { expect } from 'chai';
 import { add, format } from 'date-fns';
+import { SELECTED } from '../../constants';
 
 import {
   getEligibleContestableIssues,
   getIssueName,
-  getContestedIssues,
+  getContestableIssues,
   addIncludedIssues,
   removeEmptyEntries,
   getAddress,
   getPhone,
-} from '../../utils/helpers';
+} from '../../utils/submit';
 
 const issue1 = {
   raw: {
@@ -98,27 +99,27 @@ describe('getIssueName', () => {
   });
 });
 
-describe('getContestedIssues', () => {
+describe('getContestableIssues', () => {
   it('should return all issues', () => {
     const formData = {
-      contestedIssues: [
-        { ...issue1.raw, 'view:selected': true },
-        { ...issue2.raw, 'view:selected': true },
+      contestableIssues: [
+        { ...issue1.raw, [SELECTED]: true },
+        { ...issue2.raw, [SELECTED]: true },
       ],
     };
-    expect(getContestedIssues(formData)).to.deep.equal([
+    expect(getContestableIssues(formData)).to.deep.equal([
       issue1.result,
       issue2.result,
     ]);
   });
   it('should return second issue', () => {
     const formData = {
-      contestedIssues: [
-        { ...issue1.raw, 'view:selected': false },
-        { ...issue2.raw, 'view:selected': true },
+      contestableIssues: [
+        { ...issue1.raw, [SELECTED]: false },
+        { ...issue2.raw, [SELECTED]: true },
       ],
     };
-    expect(getContestedIssues(formData)).to.deep.equal([issue2.result]);
+    expect(getContestableIssues(formData)).to.deep.equal([issue2.result]);
   });
 });
 
@@ -129,11 +130,14 @@ describe('addIncludedIssues', () => {
       attributes: { issue: 'test', decisionDate: '2000-01-01' },
     };
     const formData = {
-      contestedIssues: [
-        { ...issue1.raw, 'view:selected': false },
-        { ...issue2.raw, 'view:selected': true },
+      contestableIssues: [
+        { ...issue1.raw, [SELECTED]: false },
+        { ...issue2.raw, [SELECTED]: true },
       ],
-      additionalIssues: [issue.attributes],
+      additionalIssues: [
+        { issue: 'not-added', decisionDate: '2000-01-02', [SELECTED]: false },
+        { ...issue.attributes, [SELECTED]: true },
+      ],
     };
     expect(addIncludedIssues(formData)).to.deep.equal([issue2.result, issue]);
     expect(

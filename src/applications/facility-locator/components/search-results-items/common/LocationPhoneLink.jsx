@@ -5,7 +5,6 @@ import {
   LocationType,
   CLINIC_URGENTCARE_SERVICE,
   PHARMACY_RETAIL_SERVICE,
-  Covid19Vaccine,
 } from '../../../constants';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 
@@ -42,12 +41,11 @@ const renderPhoneNumber = (title, subTitle = null, phone, from) => {
   );
 };
 
+// NOTE: Do not use this component to display Covid19 appointment phone numbers.
+// Use Covid19PhoneLink instead.
+
 const LocationPhoneLink = ({ location, from, query }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
-  const isCovid19Search =
-    query &&
-    query.facilityType === LocationType.HEALTH &&
-    query.serviceType === Covid19Vaccine;
   const isCCProvider =
     query &&
     query.facilityType === LocationType.CC_PROVIDER &&
@@ -74,15 +72,8 @@ const LocationPhoneLink = ({ location, from, query }) => {
   return (
     <div className="facility-phone-group vads-u-margin-top--2">
       {renderPhoneNumber('Main number', null, phone.main, from)}
-      {!isCovid19Search &&
-        phone.mentalHealthClinic && <div style={{ minHeight: '20px' }} />}
-      {!isCovid19Search &&
-        renderPhoneNumber(
-          'Mental health',
-          null,
-          phone.mentalHealthClinic,
-          from,
-        )}
+      {phone.mentalHealthClinic && <div style={{ minHeight: '20px' }} />}
+      {renderPhoneNumber('Mental health', null, phone.mentalHealthClinic, from)}
     </div>
   );
 };

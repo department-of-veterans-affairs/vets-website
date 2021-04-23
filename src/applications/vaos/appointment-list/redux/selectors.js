@@ -431,3 +431,23 @@ export function getCanceledAppointmentListInfo(state) {
     showScheduleButton: selectFeatureRequests(state),
   };
 }
+
+export function getRequestedAppointmentListInfo(state) {
+  return {
+    facilityData: state.appointments.facilityData,
+    pendingStatus: state.appointments.pendingStatus,
+    pendingAppointments: selectPendingAppointments(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
+}
+
+export function getUpcomingAppointmentListInfo(state) {
+  return {
+    facilityData: state.appointments.facilityData,
+    futureStatus: selectFutureStatus(state),
+    appointmentsByMonth: selectUpcomingAppointments(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
+}
