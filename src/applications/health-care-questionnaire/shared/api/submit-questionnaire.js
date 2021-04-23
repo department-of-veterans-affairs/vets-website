@@ -2,6 +2,8 @@ import { locationSelector } from '../../shared/utils/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
+import { getQuestionTextById } from '../constants/questionnaire.questions';
+
 // pull from src/platform/forms-system/src/js/actions.js
 // so we can have our own custom error handling,  messages and headers
 const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
@@ -132,25 +134,22 @@ const transformForSubmit = (_formConfig, form) => {
     item: [
       {
         linkId: '01',
-        text: 'What is the reason for this appointment?',
+        text: getQuestionTextById('01'),
         answer: createAnswerArray(reasonForVisit),
       },
       {
         linkId: '02',
-        text:
-          "Are there any additional details you'd like to share with your provider about this appointment?",
+        text: getQuestionTextById('02'),
         answer: createAnswerArray(reasonForVisitDescription),
       },
       {
         linkId: '03',
-        text:
-          'Are there any life events that are positively or negatively affecting your health (e.g. marriage, divorce, new job, retirement, parenthood, or finances)?',
+        text: getQuestionTextById('03'),
         answer: createAnswerArray(lifeEvents),
       },
       {
         linkId: '04',
-        text:
-          'Do you have other questions you want to ask your provider? Please enter them below with your most important question listed first.',
+        text: getQuestionTextById('04'),
         answer: [
           ...additionalQuestions
             .filter(answer => answer.additionalQuestions)

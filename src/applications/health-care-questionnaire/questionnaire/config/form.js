@@ -21,6 +21,7 @@ import { submit, transformForSubmit } from '../../shared/api';
 import { updateUrls } from './migrations';
 
 import { TRACKING_PREFIX } from '../../shared/constants/analytics';
+import { getQuestionTextById } from '../../shared/constants/questionnaire.questions';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -124,31 +125,18 @@ const formConfig = {
             reasonForVisitDescription: {
               'ui:widget': ReasonForVisitDescription.field,
               'ui:validations': [preventLargeFields],
-              'ui:title': (
-                <span>
-                  Are there any additional details you’d like to share with your
-                  provider about this appointment?
-                </span>
-              ),
+              'ui:title': <span>{getQuestionTextById('02')}</span>,
             },
             lifeEvents: {
               'ui:widget': 'textarea',
-              'ui:title': (
-                <span>
-                  Are there any other concerns or changes in your life that are
-                  affecting you or your health? (For example, a marriage,
-                  divorce, new baby, change in your job, retirement, or other
-                  medical conditions)
-                </span>
-              ),
+              'ui:title': <span>{getQuestionTextById('03')}</span>,
               'ui:validations': [preventLargeFields],
             },
             questions: {
               items: {
                 additionalQuestions: {
                   'ui:validations': [preventLargeFields],
-                  'ui:title':
-                    'Do you have a question you want to ask your provider? Please enter your most important question first.',
+                  'ui:title': getQuestionTextById('04'),
                 },
               },
               'ui:options': {
