@@ -23,7 +23,13 @@ import {
   communicationPreferences,
 } from './chapters/applicant';
 
-import { serviceStatus, serviceHistory } from './chapters/service';
+import {
+  serviceStatus,
+  serviceHistory,
+  serviceDecoration,
+} from './chapters/service';
+
+import { loanScreener, loanIntent } from './chapters/loans';
 
 // TODO: WHen schema is migrated to vets-json-schema, remove common definitions from form schema and get them
 // from common definitions instead
@@ -102,6 +108,30 @@ const formConfig = {
           title: 'Service history',
           uiSchema: serviceHistory.uiSchema,
           schema: serviceHistory.schema,
+        },
+        serviceDecoration: {
+          path: 'service-decoration',
+          title: 'Service Decoration',
+          uiSchema: serviceDecoration.uiSchema,
+          schema: serviceDecoration.schema,
+        },
+      },
+    },
+    loansChapter: {
+      title: 'Your VA loan history',
+      pages: {
+        loanScreener: {
+          path: 'exising-loan-screener',
+          title: 'Existing loans',
+          uiSchema: loanScreener.uiSchema,
+          schema: loanScreener.schema,
+        },
+        loanIntent: {
+          path: 'loan-intent',
+          title: 'Certificate of Eligibility intent',
+          uiSchema: loanIntent.uiSchema,
+          schema: loanIntent.schema,
+          depends: formData => formData?.existingLoan,
         },
       },
     },

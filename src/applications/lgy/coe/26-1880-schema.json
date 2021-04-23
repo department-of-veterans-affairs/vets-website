@@ -620,6 +620,43 @@
           }
         }
       }
+    },
+    "serviceDecoration": {
+      "type": "object",
+      "required": ["hasPurpleHeart"],
+      "properties": {
+        "hasPurpleHeart": {
+          "type": "boolean"
+        }
+      }
+    },
+    "existingLoanSummary": {
+      "type": "object",
+      "properties": {}
+    },
+    "hasExistingLoan": {
+      "type": "object",
+      "required": ["existingLoan"],
+      "properties": {
+        "existingLoan": {
+          "type": "boolean"
+        }
+      }
+    },
+    "loanIntent": {
+      "type": "object",
+      "properties": {
+        "intent": {
+          "type": "string",
+          "enum": ["ONETIMERESTORATION", "REFI", "IRRRL", "INQUIRY"],
+          "enumNames": [
+            "A one-time restoration of entitlement to buy another home",
+            "A regular cash-out refinance of a current VA home loan",
+            "An Interest Rate Reduction Refinancing Loan (IRRRL) to refinance the balance of a current VA home loan",
+            "An entitlement inquiry only"
+          ]
+        }
+      }
     }
   }
 }

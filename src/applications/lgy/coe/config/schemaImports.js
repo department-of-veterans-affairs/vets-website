@@ -6,6 +6,9 @@ const {
   communicationPreferences,
   serviceStatus,
   serviceHistory,
+  serviceDecoration,
+  hasExistingLoan,
+  loanIntent,
 } = fullSchema.properties;
 
 export {
@@ -14,4 +17,7 @@ export {
   communicationPreferences,
   serviceStatus,
   serviceHistory,
+  serviceDecoration,
+  hasExistingLoan,
+  loanIntent,
 };
