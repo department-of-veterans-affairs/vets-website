@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import set from 'platform/utilities/data/set';
 
 import { IssueCard } from './IssueCard';
 import { SELECTED } from '../constants';
 import { $ } from '../utils/ui';
-import { someSelected } from '../utils/helpers';
+import { someSelected, isEmptyObject } from '../utils/helpers';
 import { missingIssueErrorMessage } from '../content/contestableIssues';
 
 /**
@@ -58,7 +59,7 @@ const EligibleIssuesWidget = props => {
       const isLastItem = index === itemsLength - 1;
 
       // Don't show un-selected ratings in review mode
-      return inReviewMode && !itemIsSelected ? null : (
+      return (inReviewMode && !itemIsSelected) || isEmptyObject(item) ? null : (
         <IssueCard
           key={index}
           id={id}
@@ -74,14 +75,21 @@ const EligibleIssuesWidget = props => {
   ) : (
     <>
       <dt>
-        {onReviewPage ? 'No issues selected' : <strong>No issues found</strong>}
+        {onReviewPage || showError ? (
+          'No issues selected'
+        ) : (
+          <strong>No eligible issues found</strong>
+        )}
       </dt>
       <dd />
     </>
   );
 
   // Toggle page class so NewIssueField content also includes a red border
-  $('article').classList.toggle('error', showError);
+  const article = $('article'); // doesn't work in unit tests
+  if (article) {
+    article.classList.toggle('error', showError);
+  }
 
   return inReviewMode ? (
     <>
@@ -91,11 +99,20 @@ const EligibleIssuesWidget = props => {
   ) : (
     <div className={showError ? 'usa-input-error vads-u-margin-top--0' : ''}>
       {showError && missingIssueErrorMessage}
-      <dl className="review" aria-label="Available eligible issues">
-        {content}
-      </dl>
+      <dl className="review">{content}</dl>
     </div>
   );
+};
+
+EligibleIssuesWidget.propTypes = {
+  id: PropTypes.string,
+  options: PropTypes.shape({}),
+  formContext: PropTypes.shape({
+    onReviewPage: PropTypes.bool,
+    reviewMode: PropTypes.bool,
+    submitted: PropTypes.bool,
+  }),
+  value: PropTypes.array,
 };
 
 const mapStateToProps = state => ({
