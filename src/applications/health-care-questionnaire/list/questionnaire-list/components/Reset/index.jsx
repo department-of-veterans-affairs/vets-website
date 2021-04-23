@@ -24,7 +24,7 @@ export default function Reset() {
 
   return (
     <div>
-      hell, there,
+      hello, there,
       <div>
         <input
           type="text"

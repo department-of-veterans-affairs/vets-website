@@ -52,6 +52,7 @@ const sortQuestionnairesByStatus = questionnaires => {
 
   // // find appointments that have questionnaires
   const toDo = data
+    // an appointment with the statuses we are looking for
     .filter(f => {
       const appointmentStatus = appointmentSelector.getStatus(f.appointment);
       return (

@@ -1,0 +1,1013 @@
+{
+	"data": [{
+		"appointment": {
+			"id": "I2-3PYJBEU2DIBW5RZT2XI3PASYGM7YYRD5TFQCLHQXK6YBXREQK5VQ0000",
+			"status": "noshow",
+			"appointmentType": {
+				"coding": [{
+					"system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+					"display": "ROUTINE"
+				}],
+				"text": "ROUTINE"
+			},
+			"description": "Scheduled Visit",
+			"start": "2020-11-18T08:00:00Z",
+			"created": "2020-11-02",
+			"comment": "Follow-up/Routine: I am experiencing lower back pain and I can't sleep",
+			"participant": [{
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+					"display": "TEM MH PSO TRS IND93EH 2"
+				},
+				"status": "accepted"
+			}, {
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792",
+					"display": "Mrs. Sheba703 Harris789"
+				},
+				"status": "accepted"
+			}],
+			"resourceType": "Appointment"
+		},
+		"organization": {
+			"id": "I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+			"identifier": [{
+				"system": "http://hl7.org/fhir/sid/us-npi",
+				"value": "1205983228"
+			}, {
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}],
+			"active": true,
+			"name": "NEW AMSTERDAM CBOC",
+			"telecom": [{
+				"system": "fax",
+				"value": "307-778-7381"
+			}, {
+				"system": "main",
+				"value": "307-778-7550"
+			}, {
+				"system": "pharmacy",
+				"value": "866-420-6337"
+			}, {
+				"system": "afterHours",
+				"value": "307-778-7550"
+			}, {
+				"system": "patientAdvocate",
+				"value": "307-778-7550 x7517"
+			}, {
+				"system": "mentalHealthClinic",
+				"value": "307-778-7349"
+			}, {
+				"system": "enrollmentCoordinator",
+				"value": "307-778-7550 x7579"
+			}],
+			"address": [{
+				"text": "10 MONROE AVE, SUITE 6B PO BOX 4160 NEW AMSTERDAM OH 44444-4160",
+				"line": ["10 MONROE AVE, SUITE 6B", "PO BOX 4160"],
+				"city": "NEW AMSTERDAM",
+				"state": "OH",
+				"postalCode": "44444-4160"
+			}],
+			"resourceType": "Organization"
+		},
+		"location": {
+			"id": "I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+			"identifier": [{
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}, {
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier",
+				"value": "vha_442_3049"
+			}],
+			"status": "active",
+			"name": "TEM MH PSO TRS IND93EH 2",
+			"description": "BLDG 146, RM W02",
+			"mode": "instance",
+			"type": [{
+				"coding": [{
+					"display": "PSYCHIATRY CLINIC"
+				}],
+				"text": "PSYCHIATRY CLINIC"
+			}],
+			"telecom": [{
+				"system": "phone",
+				"value": "254-743-2867 x0002"
+			}],
+			"address": {
+				"text": "1901 VETERANS MEMORIAL DRIVE TEMPLE TEXAS 76504",
+				"line": ["1901 VETERANS MEMORIAL DRIVE"],
+				"city": "TEMPLE",
+				"state": "TEXAS",
+				"postalCode": "76504"
+			},
+			"physicalType": {
+				"coding": [{
+					"display": "BLDG 146, RM W02"
+				}],
+				"text": "BLDG 146, RM W02"
+			},
+			"managingOrganization": {
+				"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+				"display": "CHEYENNE VA MEDICAL"
+			},
+			"resourceType": "Location"
+		},
+		"questionnaire": [{
+			"id": "7d93011b-29de-492a-b802-f6dc863c5c6b",
+			"title": "VA GOV Pre-Visit Agenda Questionnaire",
+			"questionnaireResponse": [{
+				"id": "012fbfb6-3d81-4ff1-8cf7-d80fbc3ce1f6",
+				"status": "entered-in-error",
+				"submittedOn": "2021-03-15T17:52:28+00:00"
+			}, {
+				"id": "0d65cc87-275a-4c64-865b-809a1673965a",
+				"status": "completed",
+				"submittedOn": "2021-03-18T21:06:27+00:00"
+			}, {
+				"id": "1d6d7f26-329f-435b-aebb-33c015469368",
+				"status": "completed",
+				"submittedOn": "2021-03-29T17:26:38+00:00"
+			}, {
+				"id": "3fd5bc49-75eb-4ea2-85d2-bf04b3a6d642",
+				"status": "completed",
+				"submittedOn": "2021-03-19T00:41:22+00:00"
+			}, {
+				"id": "441a9abf-2b6b-466b-b64d-76b6ee83ea5f",
+				"status": "completed",
+				"submittedOn": "2021-03-19T00:32:19+00:00"
+			}, {
+				"id": "46f3cd5d-4731-4c61-a89d-f5c77a4c6ca1",
+				"status": "completed",
+				"submittedOn": "2021-03-13T14:37:13+00:00"
+			}, {
+				"id": "4737e7d8-9cc0-4b6c-9c6c-7857872aa787",
+				"status": "completed",
+				"submittedOn": "2021-03-19T00:37:05+00:00"
+			}, {
+				"id": "4908ed78-b6ab-4301-abc0-9b180dace2dc",
+				"status": "completed",
+				"submittedOn": "2021-03-29T17:25:59+00:00"
+			}, {
+				"id": "56e6b85c-b310-4b7b-9f4c-3375db45672b",
+				"status": "completed",
+				"submittedOn": "2021-03-18T16:38:40+00:00"
+			}]
+		}]
+	}, {
+		"appointment": {
+			"id": "I2-3PYJBEU2DIBW5RZT2XI3PASYGP46USG3EUGXL3TQEY72X3GYOSUQ0000",
+			"status": "cancelled",
+			"cancelationReason": {
+				"coding": [{
+					"system": "http://www.va.gov/Terminology/VistADefinedTerms/2.98-16",
+					"display": "SCHEDULING CONFLICT/ERROR"
+				}],
+				"text": "SCHEDULING CONFLICT/ERROR"
+			},
+			"appointmentType": {
+				"coding": [{
+					"system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+					"display": "FOLLOWUP"
+				}],
+				"text": "FOLLOWUP"
+			},
+			"description": "Scheduled Visit",
+			"start": "2020-12-18T08:00:00Z",
+			"created": "2020-12-02",
+			"comment": "Follow-up/Routine: I am experiencing lower back pain and I can't sleep",
+			"participant": [{
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+					"display": "TEM MH PSO TRS IND93EH 2"
+				},
+				"status": "accepted"
+			}, {
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792",
+					"display": "Mrs. Sheba703 Harris789"
+				},
+				"status": "accepted"
+			}],
+			"resourceType": "Appointment"
+		},
+		"organization": {
+			"id": "I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+			"identifier": [{
+				"system": "http://hl7.org/fhir/sid/us-npi",
+				"value": "1205983228"
+			}, {
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}],
+			"active": true,
+			"name": "NEW AMSTERDAM CBOC",
+			"telecom": [{
+				"system": "fax",
+				"value": "307-778-7381"
+			}, {
+				"system": "main",
+				"value": "307-778-7550"
+			}, {
+				"system": "pharmacy",
+				"value": "866-420-6337"
+			}, {
+				"system": "afterHours",
+				"value": "307-778-7550"
+			}, {
+				"system": "patientAdvocate",
+				"value": "307-778-7550 x7517"
+			}, {
+				"system": "mentalHealthClinic",
+				"value": "307-778-7349"
+			}, {
+				"system": "enrollmentCoordinator",
+				"value": "307-778-7550 x7579"
+			}],
+			"address": [{
+				"text": "10 MONROE AVE, SUITE 6B PO BOX 4160 NEW AMSTERDAM OH 44444-4160",
+				"line": ["10 MONROE AVE, SUITE 6B", "PO BOX 4160"],
+				"city": "NEW AMSTERDAM",
+				"state": "OH",
+				"postalCode": "44444-4160"
+			}],
+			"resourceType": "Organization"
+		},
+		"location": {
+			"id": "I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+			"identifier": [{
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}, {
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier",
+				"value": "vha_442_3049"
+			}],
+			"status": "active",
+			"name": "TEM MH PSO TRS IND93EH 2",
+			"description": "BLDG 146, RM W02",
+			"mode": "instance",
+			"type": [{
+				"coding": [{
+					"display": "PSYCHIATRY CLINIC"
+				}],
+				"text": "PSYCHIATRY CLINIC"
+			}],
+			"telecom": [{
+				"system": "phone",
+				"value": "254-743-2867 x0002"
+			}],
+			"address": {
+				"text": "1901 VETERANS MEMORIAL DRIVE TEMPLE TEXAS 76504",
+				"line": ["1901 VETERANS MEMORIAL DRIVE"],
+				"city": "TEMPLE",
+				"state": "TEXAS",
+				"postalCode": "76504"
+			},
+			"physicalType": {
+				"coding": [{
+					"display": "BLDG 146, RM W02"
+				}],
+				"text": "BLDG 146, RM W02"
+			},
+			"managingOrganization": {
+				"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+				"display": "CHEYENNE VA MEDICAL"
+			},
+			"resourceType": "Location"
+		},
+		"questionnaire": [{
+			"id": "7d93011b-29de-492a-b802-f6dc863c5c6b",
+			"title": "VA GOV Pre-Visit Agenda Questionnaire",
+			"questionnaireResponse": []
+		}]
+	}, {
+		"appointment": {
+			"id": "I2-3PYJBEU2DIBW5RZT2XI3PASYGNH4VVFFGLYD45FS5LAEIBNU65YQ0000",
+			"status": "cancelled",
+			"cancelationReason": {
+				"coding": [{
+					"system": "http://www.va.gov/Terminology/VistADefinedTerms/2.98-16",
+					"display": "OTHER"
+				}],
+				"text": "OTHER"
+			},
+			"appointmentType": {
+				"coding": [{
+					"system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+					"display": "FOLLOWUP"
+				}],
+				"text": "FOLLOWUP"
+			},
+			"description": "Scheduled Visit",
+			"start": "2021-07-24T08:00:00Z",
+			"created": "2021-04-14",
+			"comment": "Follow-up/Routine: I am experiencing lower back pain and I can't sleep",
+			"participant": [{
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+					"display": "TEM MH PSO TRS IND93EH 2"
+				},
+				"status": "accepted"
+			}, {
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792",
+					"display": "Mrs. Sheba703 Harris789"
+				},
+				"status": "accepted"
+			}],
+			"resourceType": "Appointment"
+		},
+		"organization": {
+			"id": "I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+			"identifier": [{
+				"system": "http://hl7.org/fhir/sid/us-npi",
+				"value": "1205983228"
+			}, {
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}],
+			"active": true,
+			"name": "NEW AMSTERDAM CBOC",
+			"telecom": [{
+				"system": "fax",
+				"value": "307-778-7381"
+			}, {
+				"system": "main",
+				"value": "307-778-7550"
+			}, {
+				"system": "pharmacy",
+				"value": "866-420-6337"
+			}, {
+				"system": "afterHours",
+				"value": "307-778-7550"
+			}, {
+				"system": "patientAdvocate",
+				"value": "307-778-7550 x7517"
+			}, {
+				"system": "mentalHealthClinic",
+				"value": "307-778-7349"
+			}, {
+				"system": "enrollmentCoordinator",
+				"value": "307-778-7550 x7579"
+			}],
+			"address": [{
+				"text": "10 MONROE AVE, SUITE 6B PO BOX 4160 NEW AMSTERDAM OH 44444-4160",
+				"line": ["10 MONROE AVE, SUITE 6B", "PO BOX 4160"],
+				"city": "NEW AMSTERDAM",
+				"state": "OH",
+				"postalCode": "44444-4160"
+			}],
+			"resourceType": "Organization"
+		},
+		"location": {
+			"id": "I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+			"identifier": [{
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}, {
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier",
+				"value": "vha_442_3049"
+			}],
+			"status": "active",
+			"name": "TEM MH PSO TRS IND93EH 2",
+			"description": "BLDG 146, RM W02",
+			"mode": "instance",
+			"type": [{
+				"coding": [{
+					"display": "PSYCHIATRY CLINIC"
+				}],
+				"text": "PSYCHIATRY CLINIC"
+			}],
+			"telecom": [{
+				"system": "phone",
+				"value": "254-743-2867 x0002"
+			}],
+			"address": {
+				"text": "1901 VETERANS MEMORIAL DRIVE TEMPLE TEXAS 76504",
+				"line": ["1901 VETERANS MEMORIAL DRIVE"],
+				"city": "TEMPLE",
+				"state": "TEXAS",
+				"postalCode": "76504"
+			},
+			"physicalType": {
+				"coding": [{
+					"display": "BLDG 146, RM W02"
+				}],
+				"text": "BLDG 146, RM W02"
+			},
+			"managingOrganization": {
+				"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+				"display": "CHEYENNE VA MEDICAL"
+			},
+			"resourceType": "Location"
+		},
+		"questionnaire": [{
+			"id": "7d93011b-29de-492a-b802-f6dc863c5c6b",
+			"title": "VA GOV Pre-Visit Agenda Questionnaire",
+			"questionnaireResponse": []
+		}]
+	}, {
+		"appointment": {
+			"id": "I2-3PYJBEU2DIBW5RZT2XI3PASYGM7M7SNKZ4GRA6AC4JFXQ4FGRQOQ0000",
+			"status": "booked",
+			"appointmentType": {
+				"coding": [{
+					"system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+					"display": "CHECKUP"
+				}],
+				"text": "CHECKUP"
+			},
+			"description": "Scheduled Visit",
+			"created": "2020-11-02",
+			"comment": "Follow-up/Routine: I am experiencing lower back pain and I can't sleep",
+			"participant": [{
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+					"display": "TEM MH PSO TRS IND93EH 2"
+				},
+				"status": "accepted"
+			}, {
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792",
+					"display": "Mrs. Sheba703 Harris789"
+				},
+				"status": "accepted"
+			}],
+			"resourceType": "Appointment"
+		},
+		"organization": {
+			"id": "I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+			"identifier": [{
+				"system": "http://hl7.org/fhir/sid/us-npi",
+				"value": "1205983228"
+			}, {
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}],
+			"active": true,
+			"name": "NEW AMSTERDAM CBOC",
+			"telecom": [{
+				"system": "fax",
+				"value": "307-778-7381"
+			}, {
+				"system": "main",
+				"value": "307-778-7550"
+			}, {
+				"system": "pharmacy",
+				"value": "866-420-6337"
+			}, {
+				"system": "afterHours",
+				"value": "307-778-7550"
+			}, {
+				"system": "patientAdvocate",
+				"value": "307-778-7550 x7517"
+			}, {
+				"system": "mentalHealthClinic",
+				"value": "307-778-7349"
+			}, {
+				"system": "enrollmentCoordinator",
+				"value": "307-778-7550 x7579"
+			}],
+			"address": [{
+				"text": "10 MONROE AVE, SUITE 6B PO BOX 4160 NEW AMSTERDAM OH 44444-4160",
+				"line": ["10 MONROE AVE, SUITE 6B", "PO BOX 4160"],
+				"city": "NEW AMSTERDAM",
+				"state": "OH",
+				"postalCode": "44444-4160"
+			}],
+			"resourceType": "Organization"
+		},
+		"location": {
+			"id": "I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+			"identifier": [{
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}, {
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier",
+				"value": "vha_442_3049"
+			}],
+			"status": "active",
+			"name": "TEM MH PSO TRS IND93EH 2",
+			"description": "BLDG 146, RM W02",
+			"mode": "instance",
+			"type": [{
+				"coding": [{
+					"display": "PSYCHIATRY CLINIC"
+				}],
+				"text": "PSYCHIATRY CLINIC"
+			}],
+			"telecom": [{
+				"system": "phone",
+				"value": "254-743-2867 x0002"
+			}],
+			"address": {
+				"text": "1901 VETERANS MEMORIAL DRIVE TEMPLE TEXAS 76504",
+				"line": ["1901 VETERANS MEMORIAL DRIVE"],
+				"city": "TEMPLE",
+				"state": "TEXAS",
+				"postalCode": "76504"
+			},
+			"physicalType": {
+				"coding": [{
+					"display": "BLDG 146, RM W02"
+				}],
+				"text": "BLDG 146, RM W02"
+			},
+			"managingOrganization": {
+				"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+				"display": "CHEYENNE VA MEDICAL"
+			},
+			"resourceType": "Location"
+		},
+		"questionnaire": [{
+			"id": "7d93011b-29de-492a-b802-f6dc863c5c6b",
+			"title": "VA GOV Pre-Visit Agenda Questionnaire",
+			"questionnaireResponse": []
+		}]
+	}, {
+		"appointment": {
+			"id": "I2-3PYJBEU2DIBW5RZT2XI3PASYGN6Q3BYXUYBP5LKE7PZGP6ZFS7RA0000",
+			"status": "arrived",
+			"appointmentType": {
+				"coding": [{
+					"system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+					"display": "CHECKUP"
+				}],
+				"text": "CHECKUP"
+			},
+			"description": "Scheduled Visit",
+			"start": "2021-01-18T08:00:00Z",
+			"created": "2021-01-02",
+			"comment": "Follow-up/Routine: I am experiencing lower back pain and I can't sleep",
+			"participant": [{
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+					"display": "TEM MH PSO TRS IND93EH 2"
+				},
+				"status": "accepted"
+			}, {
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792",
+					"display": "Mrs. Sheba703 Harris789"
+				},
+				"status": "accepted"
+			}],
+			"resourceType": "Appointment"
+		},
+		"organization": {
+			"id": "I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+			"identifier": [{
+				"system": "http://hl7.org/fhir/sid/us-npi",
+				"value": "1205983228"
+			}, {
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}],
+			"active": true,
+			"name": "NEW AMSTERDAM CBOC",
+			"telecom": [{
+				"system": "fax",
+				"value": "307-778-7381"
+			}, {
+				"system": "main",
+				"value": "307-778-7550"
+			}, {
+				"system": "pharmacy",
+				"value": "866-420-6337"
+			}, {
+				"system": "afterHours",
+				"value": "307-778-7550"
+			}, {
+				"system": "patientAdvocate",
+				"value": "307-778-7550 x7517"
+			}, {
+				"system": "mentalHealthClinic",
+				"value": "307-778-7349"
+			}, {
+				"system": "enrollmentCoordinator",
+				"value": "307-778-7550 x7579"
+			}],
+			"address": [{
+				"text": "10 MONROE AVE, SUITE 6B PO BOX 4160 NEW AMSTERDAM OH 44444-4160",
+				"line": ["10 MONROE AVE, SUITE 6B", "PO BOX 4160"],
+				"city": "NEW AMSTERDAM",
+				"state": "OH",
+				"postalCode": "44444-4160"
+			}],
+			"resourceType": "Organization"
+		},
+		"location": {
+			"id": "I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+			"identifier": [{
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}, {
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier",
+				"value": "vha_442_3049"
+			}],
+			"status": "active",
+			"name": "TEM MH PSO TRS IND93EH 2",
+			"description": "BLDG 146, RM W02",
+			"mode": "instance",
+			"type": [{
+				"coding": [{
+					"display": "PSYCHIATRY CLINIC"
+				}],
+				"text": "PSYCHIATRY CLINIC"
+			}],
+			"telecom": [{
+				"system": "phone",
+				"value": "254-743-2867 x0002"
+			}],
+			"address": {
+				"text": "1901 VETERANS MEMORIAL DRIVE TEMPLE TEXAS 76504",
+				"line": ["1901 VETERANS MEMORIAL DRIVE"],
+				"city": "TEMPLE",
+				"state": "TEXAS",
+				"postalCode": "76504"
+			},
+			"physicalType": {
+				"coding": [{
+					"display": "BLDG 146, RM W02"
+				}],
+				"text": "BLDG 146, RM W02"
+			},
+			"managingOrganization": {
+				"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+				"display": "CHEYENNE VA MEDICAL"
+			},
+			"resourceType": "Location"
+		},
+		"questionnaire": [{
+			"id": "7d93011b-29de-492a-b802-f6dc863c5c6b",
+			"title": "VA GOV Pre-Visit Agenda Questionnaire",
+			"questionnaireResponse": []
+		}]
+	}, {
+		"appointment": {
+			"id": "I2-3PYJBEU2DIBW5RZT2XI3PASYGMQFEQEGUDEHYKKFBLHSVPEO6XJA0000",
+			"status": "arrived",
+			"appointmentType": {
+				"coding": [{
+					"system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+					"display": "CHECKUP"
+				}],
+				"text": "CHECKUP"
+			},
+			"description": "Scheduled Visit",
+			"start": "2021-07-31T08:00:00Z",
+			"created": "2021-04-14",
+			"comment": "Follow-up/Routine: I am experiencing lower back pain and I can't sleep",
+			"participant": [{
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+					"display": "TEM MH PSO TRS IND93EH 2"
+				},
+				"status": "accepted"
+			}, {
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792",
+					"display": "Mrs. Sheba703 Harris789"
+				},
+				"status": "accepted"
+			}],
+			"resourceType": "Appointment"
+		},
+		"organization": {
+			"id": "I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+			"identifier": [{
+				"system": "http://hl7.org/fhir/sid/us-npi",
+				"value": "1205983228"
+			}, {
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}],
+			"active": true,
+			"name": "NEW AMSTERDAM CBOC",
+			"telecom": [{
+				"system": "fax",
+				"value": "307-778-7381"
+			}, {
+				"system": "main",
+				"value": "307-778-7550"
+			}, {
+				"system": "pharmacy",
+				"value": "866-420-6337"
+			}, {
+				"system": "afterHours",
+				"value": "307-778-7550"
+			}, {
+				"system": "patientAdvocate",
+				"value": "307-778-7550 x7517"
+			}, {
+				"system": "mentalHealthClinic",
+				"value": "307-778-7349"
+			}, {
+				"system": "enrollmentCoordinator",
+				"value": "307-778-7550 x7579"
+			}],
+			"address": [{
+				"text": "10 MONROE AVE, SUITE 6B PO BOX 4160 NEW AMSTERDAM OH 44444-4160",
+				"line": ["10 MONROE AVE, SUITE 6B", "PO BOX 4160"],
+				"city": "NEW AMSTERDAM",
+				"state": "OH",
+				"postalCode": "44444-4160"
+			}],
+			"resourceType": "Organization"
+		},
+		"location": {
+			"id": "I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+			"identifier": [{
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}, {
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier",
+				"value": "vha_442_3049"
+			}],
+			"status": "active",
+			"name": "TEM MH PSO TRS IND93EH 2",
+			"description": "BLDG 146, RM W02",
+			"mode": "instance",
+			"type": [{
+				"coding": [{
+					"display": "PSYCHIATRY CLINIC"
+				}],
+				"text": "PSYCHIATRY CLINIC"
+			}],
+			"telecom": [{
+				"system": "phone",
+				"value": "254-743-2867 x0002"
+			}],
+			"address": {
+				"text": "1901 VETERANS MEMORIAL DRIVE TEMPLE TEXAS 76504",
+				"line": ["1901 VETERANS MEMORIAL DRIVE"],
+				"city": "TEMPLE",
+				"state": "TEXAS",
+				"postalCode": "76504"
+			},
+			"physicalType": {
+				"coding": [{
+					"display": "BLDG 146, RM W02"
+				}],
+				"text": "BLDG 146, RM W02"
+			},
+			"managingOrganization": {
+				"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+				"display": "CHEYENNE VA MEDICAL"
+			},
+			"resourceType": "Location"
+		},
+		"questionnaire": [{
+			"id": "7d93011b-29de-492a-b802-f6dc863c5c6b",
+			"title": "VA GOV Pre-Visit Agenda Questionnaire",
+			"questionnaireResponse": []
+		}]
+	}, {
+		"appointment": {
+			"id": "I2-3PYJBEU2DIBW5RZT2XI3PASYGOUNB4EFAT6LGPKDQSIMDGQLTX3Q0000",
+			"status": "fulfilled",
+			"appointmentType": {
+				"coding": [{
+					"system": "http://terminology.hl7.org/CodeSystem/v2-0276",
+					"display": "CHECKUP"
+				}],
+				"text": "CHECKUP"
+			},
+			"description": "Scheduled Visit",
+			"start": "2021-02-18T08:00:00Z",
+			"end": "2021-02-18T08:30:00Z",
+			"minutesDuration": 30,
+			"created": "2021-02-02",
+			"comment": "Follow-up/Routine: I am experiencing lower back pain and I can't sleep",
+			"participant": [{
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+					"display": "TEM MH PSO TRS IND93EH 2"
+				},
+				"status": "accepted"
+			}, {
+				"actor": {
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792",
+					"display": "Mrs. Sheba703 Harris789"
+				},
+				"status": "accepted"
+			}],
+			"resourceType": "Appointment"
+		},
+		"organization": {
+			"id": "I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+			"identifier": [{
+				"system": "http://hl7.org/fhir/sid/us-npi",
+				"value": "1205983228"
+			}, {
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}],
+			"active": true,
+			"name": "NEW AMSTERDAM CBOC",
+			"telecom": [{
+				"system": "fax",
+				"value": "307-778-7381"
+			}, {
+				"system": "main",
+				"value": "307-778-7550"
+			}, {
+				"system": "pharmacy",
+				"value": "866-420-6337"
+			}, {
+				"system": "afterHours",
+				"value": "307-778-7550"
+			}, {
+				"system": "patientAdvocate",
+				"value": "307-778-7550 x7517"
+			}, {
+				"system": "mentalHealthClinic",
+				"value": "307-778-7349"
+			}, {
+				"system": "enrollmentCoordinator",
+				"value": "307-778-7550 x7579"
+			}],
+			"address": [{
+				"text": "10 MONROE AVE, SUITE 6B PO BOX 4160 NEW AMSTERDAM OH 44444-4160",
+				"line": ["10 MONROE AVE, SUITE 6B", "PO BOX 4160"],
+				"city": "NEW AMSTERDAM",
+				"state": "OH",
+				"postalCode": "44444-4160"
+			}],
+			"resourceType": "Organization"
+		},
+		"location": {
+			"id": "I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+			"identifier": [{
+				"use": "usual",
+				"type": {
+					"coding": [{
+						"system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+						"code": "FI",
+						"display": "Facility ID"
+					}],
+					"text": "Facility ID"
+				},
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"value": "vha_442"
+			}, {
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier",
+				"value": "vha_442_3049"
+			}],
+			"status": "active",
+			"name": "TEM MH PSO TRS IND93EH 2",
+			"description": "BLDG 146, RM W02",
+			"mode": "instance",
+			"type": [{
+				"coding": [{
+					"display": "PSYCHIATRY CLINIC"
+				}],
+				"text": "PSYCHIATRY CLINIC"
+			}],
+			"telecom": [{
+				"system": "phone",
+				"value": "254-743-2867 x0002"
+			}],
+			"address": {
+				"text": "1901 VETERANS MEMORIAL DRIVE TEMPLE TEXAS 76504",
+				"line": ["1901 VETERANS MEMORIAL DRIVE"],
+				"city": "TEMPLE",
+				"state": "TEXAS",
+				"postalCode": "76504"
+			},
+			"physicalType": {
+				"coding": [{
+					"display": "BLDG 146, RM W02"
+				}],
+				"text": "BLDG 146, RM W02"
+			},
+			"managingOrganization": {
+				"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+				"display": "CHEYENNE VA MEDICAL"
+			},
+			"resourceType": "Location"
+		},
+		"questionnaire": [{
+			"id": "7d93011b-29de-492a-b802-f6dc863c5c6b",
+			"title": "VA GOV Pre-Visit Agenda Questionnaire",
+			"questionnaireResponse": []
+		}]
+	}]
+}
