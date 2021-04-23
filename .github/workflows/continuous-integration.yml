@@ -42,15 +42,20 @@ jobs:
           MOCHA_FILE: test-results/unit-tests.xml
 
       - name: Generate coverage report by app
-        run: node script/app-coverage-report.js
+        run: node script/app-coverage-report.js > test-results/coverage_report.txt
+
+      - name: Get code coverage
+        id: code-coverage
+        run: echo ::set-output name=MARKDOWN::$(node ./script/github-actions/code-coverage-format-report.js)
 
       - name: Publish test results
         if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2
+        uses: mikepenz/action-junit-report@v2.4.0
         with:
           check_name: 'Unit Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/unit-tests.xml'
+          summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
 
   linting:
     name: Linting
