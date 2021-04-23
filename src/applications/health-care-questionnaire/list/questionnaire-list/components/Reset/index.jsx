@@ -4,7 +4,7 @@ import { apiRequest } from 'platform/utilities/api';
 import QuestionnaireResponse from './QuestionnaireResponse';
 
 export default function Reset() {
-  const [token, setToken] = useState('');
+  const [apiKey, setApiKey] = useState('');
   const [source, setSource] = useState('1008882029V851792');
   const [responses, setResponses] = useState([]);
 
@@ -28,26 +28,27 @@ export default function Reset() {
       <div>
         <input
           type="text"
-          placeholder="supply the token from the console"
-          value={token}
-          onChange={e => setToken(e.target.value)}
+          placeholder="supply the apikey"
+          value={apiKey}
+          onChange={e => setApiKey(e.target.value)}
         />
         <input
           type="text"
-          placeholder="supply the source from the console"
+          placeholder="patient id"
           value={source}
           onChange={e => setSource(e.target.value)}
         />
       </div>
       <div>
         <header>current questionnaires</header>
+        <p>total QR: {responses.length}</p>
         <ul>
           {responses.map((qr, i) => {
             return (
               <QuestionnaireResponse
                 key={i}
                 resource={qr.resource}
-                token={token}
+                apiKey={apiKey}
               />
             );
           })}
