@@ -150,28 +150,16 @@ yarn test:unit --help
 1. `vets-api` is **NOT** running
    - Any required APIs will be mocked by the Cypress test that needs them.
 
-To **open the Cypress test runner UI and run non-form tests within it**:
+To **open the Cypress test runner UI and run any tests within it**:
 
 ```sh
 yarn cy:open
 ```
 
-To **open the Cypress test runner UI and run Cypress form tester tests**:
-
-```sh
-yarn cy:open:forms
-```
-
-To **run non-form Cypress tests from the command line**:
+To **run Cypress tests from the command line**:
 
 ```sh
 yarn cy:run
-```
-
-To **run Cypress form tester tests from the command line**:
-
-```sh
-yarn cy:run:forms
 ```
 
 To **run specific Cypress tests from the command line**:
@@ -181,7 +169,7 @@ To **run specific Cypress tests from the command line**:
 yarn cy:run --spec "path/to/test-file.cypress.spec.js"
 
 # Running multiple specific tests.
-yarn cy:run:form --spec "path/to/test-a.cypress.spec.js,path/to/test-b.cypress.form.spec.js"
+yarn cy:run --spec "path/to/test-a.cypress.spec.js,path/to/test-b.cypress.spec.js"
 
 # Running tests that match a glob pattern.
 yarn cy:run --spec "src/applications/my-app/tests/*"
@@ -195,10 +183,10 @@ To **run Cypress tests from the command line on a specific browser**:
 
 ```sh
 yarn cy:run --headless --browser chrome
-yarn cy:run:forms --headless --browser firefox
+yarn cy:run --headless --browser firefox
 
 # Without --headless, the test runner will open and run the test.
-yarn cy:run:forms --browser chrome
+yarn cy:run --browser chrome
 yarn cy:run --browser firefox
 ```
 
