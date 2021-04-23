@@ -32,6 +32,12 @@ import boardReview from '../pages/boardReview';
 import evidenceIntro from '../pages/evidenceIntro';
 import evidenceUpload from '../pages/evidenceUpload';
 
+import {
+  customText,
+  saveInProgress,
+  savedFormMessages,
+} from '../content/saveInProgress';
+
 // import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
@@ -64,19 +70,12 @@ const formConfig = {
   preSubmitInfo,
   submit: submitForm,
 
-  savedFormMessages: {
-    notFound: 'Please start over to apply for a board appeal.',
-    noAuth:
-      'Please sign in again to continue your application for a board appeal.',
-  },
-  saveInProgress: {
-    messages: {
-      inProgress: 'Your Board Appeal application (10182) is in progress.',
-      expired:
-        'Your saved Board Appeal application (10182) has expired. If you want to request a Board Appeal, please start a new application.',
-      saved: 'Your Board Appeal application has been saved.',
-    },
-  },
+  // SaveInProgress messages
+  customText,
+  savedFormMessages,
+  saveInProgress,
+  // errorText: '',
+  // submissionError: '',
 
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -122,7 +121,7 @@ const formConfig = {
       },
     },
     conditions: {
-      title: 'Issues eligible for review',
+      title: 'Issues for review',
       pages: {
         contestableIssues: {
           title: 'Issues eligible for review',

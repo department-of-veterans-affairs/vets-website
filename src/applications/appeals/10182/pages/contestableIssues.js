@@ -46,18 +46,18 @@ export default {
         keepInPageOnReview: true,
         setInitialEditMode: formData =>
           formData.map(
-            ({ condition, approxDecisionDate } = {}, index) =>
-              index >= 0 && (!condition || !approxDecisionDate),
+            ({ issue, decisionDate } = {}, index) =>
+              index >= 0 && (!issue || !decisionDate),
           ),
       },
       items: {
-        condition: {
-          'ui:title': 'Name of condition',
+        issue: {
+          'ui:title': 'Name of issue',
           'ui:errorMessages': {
             required: missingConditionErrorMessage,
           },
         },
-        approxDecisionDate: dateUiSchema('Date of decision'),
+        decisionDate: dateUiSchema('Date of decision'),
       },
     },
     socOptIn: {
@@ -87,7 +87,6 @@ export default {
     properties: {
       contestableIssues: {
         type: 'array',
-        minItems: 1,
         maxItems: 100,
         items: {
           type: 'object',
@@ -97,16 +96,15 @@ export default {
       },
       additionalIssues: {
         type: 'array',
-        minItems: 1,
         maxItems: 100,
         items: {
           type: 'object',
-          required: ['condition', 'approxDecisionDate'],
+          required: ['issue', 'decisionDate'],
           properties: {
-            condition: {
+            issue: {
               type: 'string',
             },
-            approxDecisionDate: {
+            decisionDate: {
               type: 'string',
             },
           },

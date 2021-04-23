@@ -74,6 +74,7 @@ dl.review {
     text-overflow: ellipsis;
     overflow: hidden;
     width: calc(100% - 7rem);
+    text-transform: capitalize;
   }
 
   dd.widget-content {
