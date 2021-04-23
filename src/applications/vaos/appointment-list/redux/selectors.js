@@ -441,3 +441,13 @@ export function getRequestedAppointmentListInfo(state) {
     showScheduleButton: selectFeatureRequests(state),
   };
 }
+
+export function getUpcomingAppointmentListInfo(state) {
+  return {
+    facilityData: state.appointments.facilityData,
+    futureStatus: selectFutureStatus(state),
+    appointmentsByMonth: selectUpcomingAppointments(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
+}
