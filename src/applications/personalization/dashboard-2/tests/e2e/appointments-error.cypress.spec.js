@@ -28,69 +28,64 @@ const endDate = moment()
 
 describe('MyVA Dashboard - Appointments', () => {
   describe('when there is a 400 error fetching VA appointments', () => {
-    beforeEach(() => {
-      mockLocalStorage();
-      cy.login(mockUser);
-      cy.intercept(
-        'GET',
-        `vaos/v0/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
-        ERROR_400,
-      );
-
-      cy.intercept(
-        'GET',
-        `vaos/v0/appointments?start_date=${startOfToday}&end_date=${endDate}&type=cc`,
-        upcomingCCAppointment,
-      );
-
-      cy.intercept(
-        'GET',
-        `vaos/v1/facilities/va?ids=*`,
-        MOCK_FACILITIES,
-      );
-
-      mockFeatureToggles();
-      cy.visit('my-va/');
-    });
-
     it('should show the appointments error alert', () => {
+      mockLocalStorage();
+    cy.login(mockUser);
+    cy.intercept(
+      'GET',
+      `vaos/v0/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
+      ERROR_400,
+    );
+
+    cy.intercept(
+      'GET',
+      `vaos/v0/appointments?start_date=${startOfToday}&end_date=${endDate}&type=cc`,
+      upcomingCCAppointment,
+    );
+
+    cy.intercept(
+      'GET',
+      `vaos/v1/facilities/va?ids=*`,
+      MOCK_FACILITIES,
+    );
+
+    mockFeatureToggles();
+    cy.visit('my-va/');
       cy.findByText(alertText).should('exist');
     });
   });
 
   describe('when there is a 400 error fetching CC appointments', () => {
-    beforeEach(() => {
-      mockLocalStorage();
-      cy.login(mockUser);
-      cy.intercept(
-        'GET',
-        `vaos/v0/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
-        upcomingVAAppointment,
-      );
-
-      cy.intercept(
-        'GET',
-        `vaos/v0/appointments?start_date=${startOfToday}&end_date=${endDate}&type=cc`,
-        ERROR_400,
-      );
-
-      cy.intercept(
-        'GET',
-        `vaos/v1/facilities/va?ids=*`,
-        MOCK_FACILITIES,
-      );
-
-      mockFeatureToggles();
-      cy.visit('my-va/');
-    });
 
     it('should show the appointments error alert', () => {
+      mockLocalStorage();
+    cy.login(mockUser);
+    cy.intercept(
+      'GET',
+      `vaos/v0/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
+      upcomingVAAppointment,
+    );
+
+    cy.intercept(
+      'GET',
+      `vaos/v0/appointments?start_date=${startOfToday}&end_date=${endDate}&type=cc`,
+      ERROR_400,
+    );
+
+    cy.intercept(
+      'GET',
+      `vaos/v1/facilities/va?ids=*`,
+      MOCK_FACILITIES,
+    );
+
+    mockFeatureToggles();
+    cy.visit('my-va/');
       cy.findByText(alertText).should('exist');
     });
   });
 
   describe('when there is a partial error fetching VA appointments', () => {
-    beforeEach(() => {
+    it('should show the appointments error alert', () => {
       mockLocalStorage();
       cy.login(mockUser);
       cy.intercept(
@@ -113,15 +108,12 @@ describe('MyVA Dashboard - Appointments', () => {
 
       mockFeatureToggles();
       cy.visit('my-va/');
-    });
-
-    it('should show the appointments error alert', () => {
       cy.findByText(alertText).should('exist');
     });
   });
 
   describe('when there is an error fetching facilities', () => {
-    beforeEach(() => {
+    it('should show the appointments error alert', () => {
       mockLocalStorage();
       cy.login(mockUser);
       cy.intercept(
@@ -144,9 +136,6 @@ describe('MyVA Dashboard - Appointments', () => {
 
       mockFeatureToggles();
       cy.visit('my-va/');
-    });
-
-    it('should show the appointments error alert', () => {
       cy.findByText('We can’t access any claims or appeals information right now').should('exist');
     });
   })
