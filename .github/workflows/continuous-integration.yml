@@ -2,6 +2,9 @@ name: Continuous Integration
 
 on: [push]
 
+env:
+  NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
 jobs:
   unit-tests:
     name: Unit Tests
