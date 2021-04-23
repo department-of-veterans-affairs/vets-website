@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { selectExpressCareAvailability } from '../../redux/selectors';
@@ -59,9 +59,8 @@ export default function AppointmentsPageV2() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   const showScheduleButton = useSelector(state => selectFeatureRequests(state));
-  const isWelcomeModalDismissed = useSelector(
-    state => selectIsWelcomeModalDismissed(state),
-    shallowEqual,
+  const isWelcomeModalDismissed = useSelector(state =>
+    selectIsWelcomeModalDismissed(state),
   );
   const isCernerOnlyPatient = useSelector(state =>
     selectIsCernerOnlyPatient(state),

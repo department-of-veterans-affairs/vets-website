@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
@@ -100,7 +100,7 @@ export default function PastAppointmentsListNew() {
     facilityData,
     pastSelectedIndex,
     hasTypeChanged,
-  } = useSelector(state => getPastAppointmentListInfo(state));
+  } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
 
   useEffect(() => {
     if (pastStatus === FETCH_STATUS.notStarted) {
