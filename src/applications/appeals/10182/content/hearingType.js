@@ -31,7 +31,7 @@ export const hearingTypeContent = {
         I would like an in-person hearing at the Board in Washington, D.C.
       </strong>
       <p className="hide-on-review">
-        You'll travel to Washington, D.C., for an in-person hearing with a
+        You’ll travel to Washington, D.C., for an in-person hearing with a
         Judge. Central office hearings are open, but capacity is limited to
         ensure appropriate social distancing and sanitized hearing rooms.
       </p>
