@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, shallowEqual, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { FETCH_STATUS, GA_PREFIX } from 'applications/vaos/utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import * as actions from '../redux/actions';
+import {
+  fetchDirectScheduleSettings,
+  startNewAppointmentFlow,
+  startNewVaccineFlow,
+} from '../redux/actions';
 import {
   selectCanUseVaccineFlow,
   selectDirectScheduleSettingsStatus,
@@ -29,19 +33,17 @@ import NewTabAnchor from '../../components/NewTabAnchor';
 export default function ScheduleNewAppointmentRadioButtons() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const canUseVaccineFlow = useSelector(
-    state => selectCanUseVaccineFlow(state),
-    shallowEqual,
+  const canUseVaccineFlow = useSelector(state =>
+    selectCanUseVaccineFlow(state),
   );
-  const directScheduleSettingsStatus = useSelector(
-    state => selectDirectScheduleSettingsStatus(state),
-    shallowEqual,
+  const directScheduleSettingsStatus = useSelector(state =>
+    selectDirectScheduleSettingsStatus(state),
   );
 
   const [radioSelection, setRadioSelection] = useState();
   useEffect(() => {
     if (directScheduleSettingsStatus === FETCH_STATUS.notStarted) {
-      dispatch(actions.fetchDirectScheduleSettings());
+      dispatch(fetchDirectScheduleSettings());
     }
   }, []);
 
@@ -144,13 +146,13 @@ export default function ScheduleNewAppointmentRadioButtons() {
               recordEvent({
                 event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
               });
-              dispatch(actions.startNewAppointmentFlow());
+              dispatch(startNewAppointmentFlow());
               history.push(`/${selectedOption}`);
             } else {
               recordEvent({
                 event: `${GA_PREFIX}-schedule-covid19-button-clicked`,
               });
-              dispatch(actions.startNewVaccineFlow());
+              dispatch(startNewVaccineFlow());
               history.push(`/${selectedOption}`);
             }
           }}
