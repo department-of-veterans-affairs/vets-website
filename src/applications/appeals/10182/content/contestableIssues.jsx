@@ -1,5 +1,4 @@
 import React from 'react';
-import { format } from 'date-fns';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 export const missingIssueErrorMessage = (
@@ -52,44 +51,3 @@ export const NewIssueDescription = (
     date on your decision notice (the letter you got in the mail from us).
   </span>
 );
-
-/**
- * @typedef {Object} Disability
- * @property {String} diagnosticCode
- * @property {String} issue
- * @property {String} percentNumber
- * @param {Disability} disability
- */
-export const DisabilityCard = ({ attributes }) => {
-  const {
-    ratingIssueSubjectText,
-    description,
-    ratingIssuePercentNumber,
-    approxDecisionDate,
-  } = attributes;
-  // May need to throw an error to Sentry if any of these don't exist
-  // A valid rated disability *can* have a rating percentage of 0%
-  const showPercentNumber = (ratingIssuePercentNumber || '') !== '';
-
-  return (
-    <div className="widget-content">
-      <span className="vads-u-font-weight--bold">{ratingIssueSubjectText}</span>
-      {description && (
-        <p className="vads-u-margin-bottom--0">{description || ''}</p>
-      )}
-      {showPercentNumber && (
-        <p className="vads-u-margin-bottom--0">
-          Current rating: <strong>{ratingIssuePercentNumber}%</strong>
-        </p>
-      )}
-      {approxDecisionDate && (
-        <p>
-          Decision date:{' '}
-          <strong>
-            {format(new Date(`${approxDecisionDate} 00:00:00`), 'MMMM d, yyyy')}
-          </strong>
-        </p>
-      )}
-    </div>
-  );
-};

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
+import moment from 'moment';
 
-import { SELECTED } from '../constants';
+import { SELECTED, FORMAT_READABLE } from '../constants';
 
 /**
  * IssueCardContent
@@ -35,10 +35,7 @@ export const IssueCardContent = ({
       )}
       {date && (
         <p>
-          Decision date:{' '}
-          <strong>
-            {format(new Date(`${date} 00:00:00`), 'MMMM d, yyyy')}
-          </strong>
+          Decision date: <strong>{moment(date).format(FORMAT_READABLE)}</strong>
         </p>
       )}
     </div>

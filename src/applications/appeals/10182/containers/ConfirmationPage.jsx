@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from 'date-fns';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
@@ -10,7 +10,6 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { SELECTED, FORMAT_READABLE } from '../constants';
-import { isValidDate } from '../validations';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -38,9 +37,7 @@ export class ConfirmationPage extends React.Component {
         </li>
       ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
-    const submitDate = submission?.timestamp
-      ? new Date(submission?.timestamp)
-      : new Date();
+    const submitDate = moment(submission?.timestamp);
 
     return (
       <div>
@@ -69,11 +66,11 @@ export class ConfirmationPage extends React.Component {
           </h3>
           for {fullName}
           {name.suffix && `, ${name.suffix}`}
-          {isValidDate(submitDate) && (
+          {submitDate.isValid() && (
             <p>
               <strong>Date submitted</strong>
               <br />
-              <span>{format(submitDate, FORMAT_READABLE)}</span>
+              <span>{submitDate.format(FORMAT_READABLE)}</span>
             </p>
           )}
           <strong>
