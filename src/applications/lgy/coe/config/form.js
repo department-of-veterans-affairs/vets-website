@@ -29,7 +29,7 @@ import {
   serviceDecoration,
 } from './chapters/service';
 
-import { loanScreener, loanIntent } from './chapters/loans';
+import { loanScreener, loanIntent, loanHistory } from './chapters/loans';
 
 // TODO: WHen schema is migrated to vets-json-schema, remove common definitions from form schema and get them
 // from common definitions instead
@@ -41,6 +41,7 @@ const {
   dateRange,
   usaPhone,
   profileAddress,
+  usAddress,
   email,
 } = commonDefinitions;
 
@@ -67,6 +68,7 @@ const formConfig = {
     dateRange,
     usaPhone,
     profileAddress,
+    usAddress,
     email,
     ...fullSchema.definitions,
   },
@@ -131,6 +133,13 @@ const formConfig = {
           title: 'Certificate of Eligibility intent',
           uiSchema: loanIntent.uiSchema,
           schema: loanIntent.schema,
+          depends: formData => formData?.existingLoan,
+        },
+        loanHistory: {
+          path: 'loan-history',
+          title: 'VA-backed loan history',
+          uiSchema: loanHistory.uiSchema,
+          schema: loanHistory.schema,
           depends: formData => formData?.existingLoan,
         },
       },

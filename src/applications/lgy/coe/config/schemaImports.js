@@ -9,6 +9,7 @@ const {
   serviceDecoration,
   hasExistingLoan,
   loanIntent,
+  loanHistory,
 } = fullSchema.properties;
 
 export {
@@ -20,4 +21,5 @@ export {
   serviceDecoration,
   hasExistingLoan,
   loanIntent,
+  loanHistory,
 };
