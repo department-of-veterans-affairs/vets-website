@@ -6,7 +6,7 @@ const codecoverageReport = fs.readFileSync(
   'utf8',
 );
 
-// eliminiate unnecessary lines & spaces from coverage report
+// eliminate unnecessary lines & spaces from coverage report
 const regex = /([^A-Za-z0-9\/()%-])+\s/g; // eslint-disable-line no-useless-escape
 
 const codecoverageData = codecoverageReport.replace(regex, ',').split(',');
