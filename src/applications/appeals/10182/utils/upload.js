@@ -3,6 +3,7 @@ import fileUiSchema from 'platform/forms-system/src/js/definitions/file';
 import { focusElement } from 'platform/utilities/ui';
 
 import { SUPPORTED_UPLOAD_TYPES, MAX_FILE_SIZE_BYTES } from '../constants';
+import { $$ } from '../utils/ui';
 
 import {
   EvidenceUploadLabel,
@@ -10,9 +11,9 @@ import {
 } from '../content/EvidenceUpload';
 
 const focusFileCard = name => {
-  const target = [
-    ...document.querySelectorAll('.schemaform-file-list li'),
-  ].find(entry => entry.textContent?.trim().includes(name));
+  const target = $$('.schemaform-file-list li').find(entry =>
+    entry.textContent?.trim().includes(name),
+  );
   if (target) {
     focusElement(target);
   }

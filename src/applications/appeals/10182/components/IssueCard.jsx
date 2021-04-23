@@ -7,17 +7,22 @@ import { SELECTED } from '../constants';
  * IssueCardContent
  * @param {String} description - contestable issue description
  * @param {String} ratingIssuePercentNumber - rating %, number with no %
- * @param {String} approxDecisionDate - date formatted as "YYYY-MM-DD"
+ * @param {String} approxDecisionDate - contestable issue date formatted as
+ *   "YYYY-MM-DD"
+ * @param {String} approxDecisionDate - additional issue date formatted as
+ *   "YYYY-MM-DD"
  * @return {React Component}
  */
 export const IssueCardContent = ({
   description,
   ratingIssuePercentNumber,
   approxDecisionDate,
+  decisionDate,
 }) => {
   // May need to throw an error to Sentry if any of these don't exist
   // A valid rated disability *can* have a rating percentage of 0%
   const showPercentNumber = (ratingIssuePercentNumber || '') !== '';
+  const date = approxDecisionDate || decisionDate;
 
   return (
     <div className="widget-content-wrap">
@@ -27,11 +32,11 @@ export const IssueCardContent = ({
           Current rating: <strong>{ratingIssuePercentNumber}%</strong>
         </p>
       )}
-      {approxDecisionDate && (
+      {date && (
         <p>
           Decision date:{' '}
           <strong>
-            {format(new Date(`${approxDecisionDate} 00:00:00`), 'MMMM d, yyyy')}
+            {format(new Date(`${date} 00:00:00`), 'MMMM d, yyyy')}
           </strong>
         </p>
       )}
@@ -50,8 +55,8 @@ export const IssueCardContent = ({
 /**
  * AdditionalIssue
  * @type {Object}
- * @property {String} condition - user entered issue name
- * @property {String} approxDecisionDate - user entered decision date
+ * @property {String} issue - user entered issue name
+ * @property {String} decisionDate - user entered decision date
  */
 /**
  * IssueCard
@@ -101,11 +106,11 @@ export const IssueCard = ({
     itemIsSelected ? 'selected' : '',
   ].join(' ');
 
-  // item.condition = additional item
+  // item.issue = additional item
   // item.ratingIssuesSubjectText = eligible issue from API
   const title = (
     <div className="widget-title vads-u-font-size--md vads-u-font-weight--bold vads-u-line-height--1">
-      {item.condition || item.ratingIssueSubjectText}
+      {item.issue || item.ratingIssueSubjectText}
     </div>
   );
 

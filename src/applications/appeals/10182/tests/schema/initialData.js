@@ -6,12 +6,11 @@ export default {
   },
   homeless: false,
   'view:hasRep': true,
-  representative: {
-    name: 'George Jetson',
-  },
+  representativeName: 'George Jetson',
   boardReviewOption: '',
   hearingTypePreference: '',
   socOptIn: true,
+  'view:additionalEvidence': '',
 
   // Leave 'view:selected' set to false for unit testing
   contestableIssues: [

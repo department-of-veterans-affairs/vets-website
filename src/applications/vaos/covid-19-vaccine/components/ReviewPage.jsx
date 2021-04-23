@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { Link, useHistory, Redirect } from 'react-router-dom';
-import * as actions from '../redux/actions';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { FETCH_STATUS } from '../../utils/constants';
@@ -14,21 +13,23 @@ import { getReviewPage } from '../redux/selectors';
 import flow from '../flow';
 import State from '../../components/State';
 import NewTabAnchor from '../../components/NewTabAnchor';
+import { confirmAppointment } from '../redux/actions';
 
 const pageTitle = 'Review your appointment details';
 
-function ReviewPage({
-  data,
-  facility,
-  facilityDetails,
-  clinic,
-  confirmAppointment,
-  submitStatus,
-  submitStatusVaos400,
-  systemId,
-}) {
+export default function ReviewPage() {
+  const {
+    data,
+    facility,
+    facilityDetails,
+    clinic,
+    submitStatus,
+    submitStatusVaos400,
+    systemId,
+  } = useSelector(state => getReviewPage(state), shallowEqual);
   const history = useHistory();
   const { date1, vaFacility } = data;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -103,7 +104,7 @@ function ReviewPage({
           isLoading={submitStatus === FETCH_STATUS.loading}
           loadingText="Submission in progress"
           className="usa-button usa-button-primary"
-          onClick={() => confirmAppointment(history)}
+          onClick={() => dispatch(confirmAppointment(history))}
         >
           Confirm appointment
         </LoadingButton>
@@ -155,16 +156,3 @@ function ReviewPage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getReviewPage(state);
-}
-
-const mapDispatchToProps = {
-  confirmAppointment: actions.confirmAppointment,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReviewPage);

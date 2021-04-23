@@ -10,6 +10,10 @@ export const evidenceUpload = {
     required: ['evidence'],
     properties: {
       evidence: {
+        // FileField line 402 aria-label shows [object Object] when the
+        // uiSchema['ui:title'] is a React component; will move schema.title
+        // first in another PR => "add another document " + title below
+        title: 'to be reviewed by the Board',
         type: 'array',
         minItems: 1,
         items: {

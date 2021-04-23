@@ -27,7 +27,7 @@ export const Appointments = ({ appointments }) => {
           Next appointment
         </h4>
         <p className="vads-u-margin-bottom--1">
-          {format(start, 'EEEE, MMMM Mo, yyyy')}
+          {format(start, 'EEEE, MMMM do, yyyy')}
         </p>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
           {`Time: ${format(start, 'h:mm aaaa')} ${nextAppointment?.timeZone}`}
