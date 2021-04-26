@@ -8,6 +8,23 @@
       "pattern": "^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$",
       "type": "string"
     },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "size": {
+            "type": "integer"
+          },
+          "confirmationCode": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "profileAddress": {
       "type": "object",
       "properties": {
@@ -774,6 +791,33 @@
               }
             }
           }
+        }
+      }
+    },
+    "documentScreener": {
+      "type": "object",
+      "properties": {
+        "willUploadDocs": {
+          "type": "boolean"
+        }
+      }
+    },
+    "documentUpload": {
+      "type": "object",
+      "properties": {
+        "fileType": {
+          "type": "string",
+          "enum": [
+            "Discharge or separation papers (DD214)",
+            "Statement of service",
+            "Report of Separation and Record of Service (NGB Form 22)",
+            "Retirement Points Statement (NGB Form 23)",
+            "Proof of honorable service",
+            "Annual retirement points"
+          ]
+        },
+        "files": {
+          "$ref": "#/definitions/files"
         }
       }
     }
