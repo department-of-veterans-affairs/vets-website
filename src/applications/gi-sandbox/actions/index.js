@@ -210,3 +210,7 @@ export function calculatorInputChange({ field, value }) {
     value,
   };
 }
+
+export function updateEstimatedBenefits(estimatedBenefits) {
+  return { type: UPDATE_ESTIMATED_BENEFITS, estimatedBenefits };
+}
