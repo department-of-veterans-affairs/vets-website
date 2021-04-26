@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { setData } from 'platform/forms-system/src/js/actions';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
@@ -12,10 +13,11 @@ const formatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,
 });
 
-const ExpandedContent = ({ debt, setSelected }) => {
-  const update = data => {
-    setSelected(prevState =>
-      prevState.map(item => {
+const ExpandedContent = ({ selectedDebts, formData, debt, setDebts }) => {
+  const updateSelectedDebts = data => {
+    setDebts({
+      ...formData,
+      selectedDebts: selectedDebts.map(item => {
         if (item.id === debt.id) {
           return {
             ...item,
@@ -24,7 +26,7 @@ const ExpandedContent = ({ debt, setSelected }) => {
         }
         return item;
       }),
-    );
+    });
   };
 
   switch (debt.value) {
@@ -34,7 +36,7 @@ const ExpandedContent = ({ debt, setSelected }) => {
           additionalClass="input-size-3"
           label="How much can you afford to pay monthly on this debt?"
           field={{ value: debt.offerToPay || '' }}
-          onValueChange={data => update(data)}
+          onValueChange={updateSelectedDebts}
           //   required
         />
       );
@@ -44,7 +46,7 @@ const ExpandedContent = ({ debt, setSelected }) => {
           additionalClass="input-size-3"
           label="How much do you offer to pay for this debt with a single payment?"
           field={{ value: debt.offerToPay || '' }}
-          onValueChange={data => update(data)}
+          onValueChange={updateSelectedDebts}
           //   required
         />
       );
@@ -59,8 +61,7 @@ const ExpandedContent = ({ debt, setSelected }) => {
   }
 };
 
-const ResolutionDebtCard = ({ selectedDebts }) => {
-  const [selected, setSelected] = useState(selectedDebts);
+const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
   const radioOptions = ['Waiver', 'Extended monthly payments', 'Compromise'];
   const radioLabels =
     'Which repayment or relief option would you like for this debt?';
@@ -68,7 +69,7 @@ const ResolutionDebtCard = ({ selectedDebts }) => {
   return (
     <>
       <h4 className="vads-u-margin--0">Your selected debts</h4>
-      {selected.map(debt => {
+      {selectedDebts.map(debt => {
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
         const subTitle =
           debt.currentAr && formatter.format(parseFloat(debt.currentAr));
@@ -95,8 +96,9 @@ const ResolutionDebtCard = ({ selectedDebts }) => {
                 options={radioOptions}
                 value={{ value: debt.value }}
                 onValueChange={data => {
-                  setSelected(prevState =>
-                    prevState.map(item => {
+                  setDebts({
+                    ...formData,
+                    selectedDebts: selectedDebts.map(item => {
                       if (item.id === debt.id) {
                         return {
                           ...item,
@@ -105,11 +107,16 @@ const ResolutionDebtCard = ({ selectedDebts }) => {
                       }
                       return item;
                     }),
-                  );
+                  });
                 }}
                 // required
               />
-              <ExpandedContent debt={debt} setSelected={setSelected} />
+              <ExpandedContent
+                formData={formData}
+                debt={debt}
+                setDebts={setDebts}
+                selectedDebts={selectedDebts}
+              />
             </ExpandingGroup>
           </div>
         );
@@ -123,4 +130,11 @@ const mapStateToProps = ({ form }) => ({
   selectedDebts: form.data.selectedDebts,
 });
 
-export default connect(mapStateToProps)(ResolutionDebtCard);
+const mapDispatchToProps = {
+  setDebts: setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ResolutionDebtCard);
