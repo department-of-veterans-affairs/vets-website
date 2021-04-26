@@ -1,34 +1,8 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
+import React from 'react';
 import environment from 'platform/utilities/environment';
+import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
-// platform - form-system actions
-import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
-
-function PreSubmitInfo({
-  formData,
-  showError,
-  onSectionComplete,
-  setPreSubmit,
-}) {
-  const privacyAgreementAccepted = formData.privacyAgreementAccepted || false;
-
-  // set AGREED (onSectionComplete) to value of privacyAgreementAccepted
-  // if goes to another page (unmount), set AGREED (onSectionComplete) to false
-  useEffect(
-    () => {
-      onSectionComplete(privacyAgreementAccepted);
-
-      return () => {
-        onSectionComplete(false);
-      };
-    },
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [privacyAgreementAccepted],
-  );
-
+function PreSubmitNotice({ formData, onSectionComplete }) {
   const activeDutyNote = (
     <div className="vads-u-margin-bottom--3">
       {formData.activeDuty ? (
@@ -55,55 +29,15 @@ function PreSubmitInfo({
     </div>
   );
 
-  const privacyAgreementLabel = (
-    <span>
-      I have read and accept the{' '}
-      <a
-        aria-label="Privacy policy, will open in new tab"
-        target="_blank"
-        href="/privacy-policy/"
-      >
-        privacy policy
-      </a>
-    </span>
-  );
-
-  const privacyAgreement = (
-    <div>
-      <div>
-        <strong>Note:</strong> According to federal law, there are criminal
-        penalties, including a fine and/or imprisonment for up to 5 years, for
-        withholding information or for providing incorrect information. (See 18
-        U.S.C. 1001)
-      </div>
-      <Checkbox
-        required
-        checked={privacyAgreementAccepted}
-        onValueChange={value => setPreSubmit('privacyAgreementAccepted', value)}
-        name={'privacyAgreementAccepted'}
-        errorMessage={
-          showError && !privacyAgreementAccepted
-            ? 'You must accept the privacy policy before continuing.'
-            : undefined
-        }
-        label={privacyAgreementLabel}
-      />
-    </div>
-  );
-
   return (
     <>
       {!environment.isProduction() && activeDutyNote}
-      {privacyAgreement}
+      <PreSubmitInfo
+        formData={formData}
+        onSectionComplete={onSectionComplete}
+      />
     </>
   );
 }
 
-const mapDispatchToProps = {
-  setPreSubmit: setPreSubmitAction,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(PreSubmitInfo);
+export default PreSubmitNotice;
