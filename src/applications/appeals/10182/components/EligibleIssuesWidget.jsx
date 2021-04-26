@@ -8,7 +8,7 @@ import { IssueCard } from './IssueCard';
 import { SELECTED } from '../constants';
 import { $ } from '../utils/ui';
 import { someSelected, isEmptyObject } from '../utils/helpers';
-import { missingIssueErrorMessage } from '../content/contestableIssues';
+import { missingIssuesErrorMessage } from '../content/contestableIssues';
 
 /**
  * EligibleIssuesWidget
@@ -93,12 +93,12 @@ const EligibleIssuesWidget = props => {
 
   return inReviewMode ? (
     <>
-      {showError && missingIssueErrorMessage}
+      {showError && missingIssuesErrorMessage}
       {content}
     </>
   ) : (
     <div className={showError ? 'usa-input-error vads-u-margin-top--0' : ''}>
-      {showError && missingIssueErrorMessage}
+      {showError && missingIssuesErrorMessage}
       <dl className="review">{content}</dl>
     </div>
   );

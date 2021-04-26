@@ -18,3 +18,9 @@ export const noticeOfDisagreementFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.form10182Nod];
 
 export const isEmptyObject = obj => Object.keys(obj || {}).length === 0;
+
+export const setInitialEditMode = formData =>
+  formData.map(
+    ({ issue, decisionDate } = {}, index) =>
+      index >= 0 && (!issue || !decisionDate),
+  );

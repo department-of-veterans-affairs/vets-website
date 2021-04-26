@@ -1,6 +1,6 @@
 import { someSelected } from './utils/helpers';
 import { optInErrorMessage } from './content/OptIn';
-import { missingIssueErrorMessage } from './content/contestableIssues';
+import { missingIssuesErrorMessage } from './content/contestableIssues';
 
 // not used to show an issue on the eligible issues page, but needed when the
 // user submits and we want to show where the error is
@@ -14,7 +14,7 @@ export const requireIssue = (
   { contestableIssues, additionalIssues },
 ) => {
   if (!(someSelected(contestableIssues) || someSelected(additionalIssues))) {
-    errors.addError(missingIssueErrorMessage);
+    errors.addError(missingIssuesErrorMessage);
   }
 };
 

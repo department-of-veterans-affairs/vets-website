@@ -1,15 +1,14 @@
 import React from 'react';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-export const missingIssueErrorMessage = (
+export const missingIssuesErrorMessage = (
   <span className="usa-input-error-message" role="alert">
     <span className="sr-only">Error</span>
     Please select one of the eligible issues or add an issue
   </span>
 );
 
-export const missingConditionErrorMessage =
-  'Please add the name of a condition';
+export const missingIssueErrorMessage = 'Please add the name of an issue';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
@@ -17,7 +16,7 @@ export const missingConditionErrorMessage =
 export const EligibleIssuesTitle = props =>
   props?.formData?.contestableIssues?.length === 0 ? (
     <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
-      Sorry, we couldn’t find any eligible conditions
+      Sorry, we couldn’t find any eligible issues
     </h2>
   ) : (
     <legend name="eligibleScrollElement" className="vads-u-font-size--lg">

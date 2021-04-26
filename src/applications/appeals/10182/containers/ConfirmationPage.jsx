@@ -74,7 +74,7 @@ export class ConfirmationPage extends React.Component {
             </p>
           )}
           <strong>
-            Condition
+            Issues
             {issues?.length > 1 ? 's' : ''} submitted
           </strong>
           <ul className="vads-u-margin-top--0">{issues || null}</ul>

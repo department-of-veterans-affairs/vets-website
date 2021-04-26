@@ -7,11 +7,13 @@ import {
   EligibleIssuesTitle,
   EligibleIssuesDescription,
   NewIssueDescription,
-  missingConditionErrorMessage,
+  missingIssueErrorMessage,
+  missingIssuesErrorMessage,
 } from '../content/contestableIssues';
 
 import { requireIssue, optInValidation } from '../validations';
 import { SELECTED } from '../constants';
+import { setInitialEditMode } from '../utils/helpers';
 
 import dateUiSchema from 'platform/forms-system/src/js/definitions/date';
 
@@ -33,7 +35,7 @@ export default {
         keepInPageOnReview: true,
       },
       'ui:errorMessages': {
-        required: 'Please select one of the eligible issues or add an issue',
+        required: missingIssuesErrorMessage,
       },
       'ui:required': () => true,
       'ui:validations': [requireIssue],
@@ -44,17 +46,13 @@ export default {
       'ui:field': NewIssuesField,
       'ui:options': {
         keepInPageOnReview: true,
-        setInitialEditMode: formData =>
-          formData.map(
-            ({ issue, decisionDate } = {}, index) =>
-              index >= 0 && (!issue || !decisionDate),
-          ),
+        setInitialEditMode,
       },
       items: {
         issue: {
           'ui:title': 'Name of issue',
           'ui:errorMessages': {
-            required: missingConditionErrorMessage,
+            required: missingIssueErrorMessage,
           },
         },
         decisionDate: dateUiSchema('Date of decision'),
