@@ -68,7 +68,6 @@ IssueCardContent.propTypes = {
  * @typedef {Object}
  * @property {String} id - ID base for form elements
  * @property {Number} index - index of item in list
- * @property {Boolean} isLastItem - flag indicating the entry is last
  * @property {ContestableIssue|AdditionalIssue} item - issue values
  * @property {Object} options - ui:options
  * @property {func} onChange - onChange callback
@@ -78,7 +77,6 @@ IssueCardContent.propTypes = {
 export const IssueCard = ({
   id,
   index,
-  isLastItem = false,
   item = {},
   options = {},
   onChange,
@@ -102,7 +100,7 @@ export const IssueCard = ({
     showCheckbox ? '' : 'checkbox-hidden',
     `vads-u-padding-top--${showCheckbox ? 1 : 0}`,
     'vads-u-padding-right--3',
-    isLastItem ? '' : 'vads-u-margin-bottom--3',
+    'vads-u-margin-bottom--3',
   ].join(' ');
 
   const outlineClass = [
@@ -171,7 +169,6 @@ export const IssueCard = ({
 IssueCard.propTypes = {
   id: PropTypes.string,
   index: PropTypes.number,
-  isLastItem: PropTypes.bool,
   showCheckbox: PropTypes.bool,
   item: PropTypes.shape({
     // not using oneOf because there is a lot of extra props in here

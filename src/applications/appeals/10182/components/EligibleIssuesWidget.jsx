@@ -56,7 +56,6 @@ const EligibleIssuesWidget = props => {
   const content = itemsLength ? (
     items.map((item, index) => {
       const itemIsSelected = !!item[SELECTED];
-      const isLastItem = index === itemsLength - 1;
 
       // Don't show un-selected ratings in review mode
       return (inReviewMode && !itemIsSelected) || isEmptyObject(item) ? null : (
@@ -64,7 +63,6 @@ const EligibleIssuesWidget = props => {
           key={index}
           id={id}
           index={index}
-          isLastItem={isLastItem}
           item={item}
           options={options}
           onChange={onChange}

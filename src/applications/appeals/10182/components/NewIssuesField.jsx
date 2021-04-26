@@ -12,6 +12,7 @@ import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import { scrollAndFocus } from '../utils/ui';
+import { isEmptyObject } from '../utils/helpers';
 import { SELECTED, MAX_NEW_CONDITIONS } from '../constants';
 import { IssueCard } from './IssueCard';
 
@@ -33,7 +34,7 @@ const NewIssuesField = props => {
   const uiOptions = uiSchema['ui:options'] || {};
 
   const initialEditingState =
-    uiOptions.setInitialEditMode(formData) || formData.map(() => false);
+    uiOptions.setInitialEditMode?.(formData) || formData.map(() => false);
   const [editing, setEditing] = useState(initialEditingState);
 
   const toggleSelection = (indexToChange, checked) => {
@@ -166,7 +167,6 @@ const NewIssuesField = props => {
         <dl className="va-growable review">
           <Element name={`topOfTable_${idSchema.$id}`} />
           {items.map((item, index) => {
-            // This is largely copied from the default ArrayField
             const itemSchema = getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(
@@ -176,11 +176,11 @@ const NewIssuesField = props => {
             );
             const updateText = index === 0 ? 'Save' : 'Update';
             const isEditing = editing[index];
-            const itemName = item.condition || 'issue';
+            const itemName = item.issue || 'issue';
 
             // Don't show unselected items on the review & submit page in review
             // mode
-            if (isReviewMode && !item[SELECTED]) {
+            if (isReviewMode && (!item[SELECTED] || isEmptyObject(item))) {
               return null;
             }
 
@@ -244,7 +244,6 @@ const NewIssuesField = props => {
                 id={idSchema.$id}
                 index={index}
                 item={item}
-                itemLength={items.length}
                 options={uiOptions}
                 onChange={toggleSelection}
                 showCheckbox={showCheckbox}
