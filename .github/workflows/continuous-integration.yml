@@ -187,3 +187,5 @@ jobs:
       - name: Build
         run: yarn build --buildtype vagovprod
         timeout-minutes: 30
+        env:
+          NODE_ENV: production
