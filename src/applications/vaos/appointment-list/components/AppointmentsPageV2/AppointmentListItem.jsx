@@ -1,9 +1,6 @@
 import React from 'react';
 import moment from '../../../lib/moment-tz';
-import {
-  getVARFacilityId,
-  isVAPhoneAppointment,
-} from '../../../services/appointment';
+import { isVAPhoneAppointment } from '../../../services/appointment';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneDescFromAbbr,
@@ -68,7 +65,6 @@ function VAFacilityName({ facility }) {
 export default function AppointmentListItem({ appointment, facility }) {
   const history = useHistory();
   const appointmentDate = moment.parseZone(appointment.start);
-  const facilityId = getVARFacilityId(appointment);
   const isCommunityCare = appointment.vaos.isCommunityCare;
   const isVideo = appointment.vaos.isVideo;
   const isPhone = isVAPhoneAppointment(appointment);
@@ -107,14 +103,14 @@ export default function AppointmentListItem({ appointment, facility }) {
           <span aria-hidden="true">
             {getAppointmentTimezoneAbbreviation(
               appointment.vaos.timeZone,
-              facilityId,
+              appointment.location.vistaId,
             )}
           </span>
           <span className="sr-only">
             {' '}
             {getAppointmentTimezoneDescription(
               appointment.vaos.timeZone,
-              facilityId,
+              appointment.location.vistaId,
             )}
           </span>
           <br />

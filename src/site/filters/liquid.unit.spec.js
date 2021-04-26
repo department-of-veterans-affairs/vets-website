@@ -1,5 +1,5 @@
 import liquid from 'tinyliquid';
-import { expect } from 'chai';
+import { expect, assert } from 'chai';
 
 import registerFilters from './liquid';
 
@@ -375,5 +375,51 @@ describe('concat', () => {
 describe('strip', () => {
   it('removes leading and trailing whitespace', () => {
     expect(liquid.filters.strip('   \nhello\n    ')).to.equal('hello');
+  });
+});
+
+describe('filterBy', () => {
+  it('filter array object by given path and value - 1', () => {
+    assert.deepEqual(
+      liquid.filters.filterBy(
+        [
+          { class: { abstract: { number: 3 } } },
+          { class: { abstract: { number: 5 } } },
+          { class: { abstract: { number: 4 } } },
+          { class: { abstract: { number: 1 } } },
+          { class: { abstract: { number: 1 } } },
+        ],
+        'class.abstract.number',
+        1,
+      ),
+      [
+        { class: { abstract: { number: 1 } } },
+        { class: { abstract: { number: 1 } } },
+      ],
+    );
+  });
+  it('filter array object by given path and value - 2', () => {
+    assert.deepEqual(
+      liquid.filters.filterBy([{ class: {} }], 'class.abstract.number', 2),
+      [],
+    );
+  });
+  it('filter array object by given path and value - 3', () => {
+    assert.deepEqual(
+      liquid.filters.filterBy([{}], 'class.abstract.number', 3),
+      [],
+    );
+  });
+});
+
+describe('encode', () => {
+  it('encodes strings', () => {
+    expect(liquid.filters.encode("foo © bar ≠ baz 𝌆 qux''")).to.equal(
+      'foo &copy; bar &ne; baz &#x1D306; qux&amp;apos;&apos;',
+    );
+  });
+
+  it('returns a string when passed null', () => {
+    expect(liquid.filters.encode(null)).to.equal('');
   });
 });
