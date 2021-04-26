@@ -22,6 +22,7 @@ const vetCenterFragment = `
          countryCode
          locality
          postalCode
+         administrativeArea
          addressLine1
         }   
         fieldOfficeHours {
@@ -44,6 +45,8 @@ const vetCenterFragment = `
         fieldPrepareForVisit {
           entity {
             ... on ParagraphBasicAccordion {
+              entityBundle
+              entityId
               fieldHeader
               fieldRichWysiwyg {
                 processed

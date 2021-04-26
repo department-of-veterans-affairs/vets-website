@@ -4,6 +4,7 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import { validateMatch } from 'platform/forms-system/src/js/validation';
 import {
   uiSchema as directDepositUiSchema,
   schema as directDepositSchema,
@@ -54,6 +55,9 @@ const uiSchema = {
     'ui:title': 'Contact information',
     'view:phoneAndEmail': {
       'ui:title': 'Phone & email',
+      'ui:validations': [
+        validateMatch('email', 'view:confirmEmail', { ignoreCase: true }),
+      ],
       mobilePhone: phoneUI('Mobile phone number'),
       alternatePhone: phoneUI('Home phone number'),
       email: emailUI(),

@@ -258,6 +258,7 @@ describe('VAOS appointment list refresh', () => {
       cy.get('[data-cy=appointment-list-item]')
         .first()
         .findByText(/Details/i)
+        .focus()
         .click();
       cy.findByText(/Request detail/i).should('exist');
     });

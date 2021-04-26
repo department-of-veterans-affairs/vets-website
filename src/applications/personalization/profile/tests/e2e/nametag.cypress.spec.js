@@ -6,7 +6,7 @@ import disabilityRating from '@@profile/tests/fixtures/disability-rating-success
 import error401 from '@@profile/tests/fixtures/401.json';
 import error500 from '@@profile/tests/fixtures/500.json';
 
-import mockUser from '../fixtures/users/user';
+import { mockUser } from '../fixtures/users/user';
 import {
   mockFeatureToggles,
   nameTagRendersWithDisabilityRating,

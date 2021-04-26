@@ -134,6 +134,7 @@ module.exports = (env = {}) => {
       chunkFilename: '[name].entry.js',
     },
     module: {
+      strictExportPresence: true,
       rules: [
         {
           test: /\.jsx?$/,

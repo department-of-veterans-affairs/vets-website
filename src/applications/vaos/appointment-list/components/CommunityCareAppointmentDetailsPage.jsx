@@ -9,7 +9,6 @@ import { APPOINTMENT_TYPES, FETCH_STATUS } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import * as actions from '../redux/actions';
 import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
-import { getVARFacilityId } from '../../services/appointment';
 import AddToCalendar from '../../components/AddToCalendar';
 import FacilityAddress from '../../components/FacilityAddress';
 import { formatFacilityAddress } from '../../services/location';
@@ -18,6 +17,9 @@ import ErrorMessage from '../../components/ErrorMessage';
 import { selectAppointmentById } from '../redux/selectors';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import Breadcrumbs from '../../components/Breadcrumbs';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 
 function CommunityCareAppointmentDetailsPage({
   appointment,
@@ -88,7 +90,7 @@ function CommunityCareAppointmentDetailsPage({
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
-          facilityId={getVARFacilityId(appointment)}
+          facilityId={appointment.location.vistaId}
         />
       </h1>
 
@@ -145,10 +147,15 @@ function CommunityCareAppointmentDetailsPage({
         </button>
       </div>
 
-      <div className="vads-u-margin-top--2 vaos-appts__block-label vads-u-background-color--primary-alt-lightest vads-u-padding--2p5">
-        Contact this provider if you need to reschedule or cancel your
+      <AlertBox
+        status={ALERT_TYPE.INFO}
+        className="vads-u-display--block"
+        headline="Need to make changes?"
+        backgroundOnly
+      >
+        Contact this facility if you need to reschedule or cancel your
         appointment.
-      </div>
+      </AlertBox>
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
         <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
