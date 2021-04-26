@@ -92,3 +92,18 @@ export const handleScrollOnInputFocus = fieldId => {
     field.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 };
+
+export const formatCurrency = value => {
+  if (isNaN(value)) {
+    return value;
+  }
+  return `$${formatNumber(Math.round(+value))}`;
+};
+
+export const removeNonNumberCharacters = value =>
+  value.toString().replace(/([^0-9.])+/g, '');
+
+export const formatDollarAmount = value => {
+  const output = value != null ? removeNonNumberCharacters(value) : 0;
+  return formatCurrency(output);
+};
