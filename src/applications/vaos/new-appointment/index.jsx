@@ -37,7 +37,7 @@ import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 
-function NewAppointmentSection() {
+export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(state =>
     selectIsCernerOnlyPatient(state),
   );
@@ -147,7 +147,5 @@ function NewAppointmentSection() {
     </FormLayout>
   );
 }
-
-export const NewAppointment = NewAppointmentSection;
 
 export const reducer = newAppointmentReducer;
