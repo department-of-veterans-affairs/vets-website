@@ -52,6 +52,7 @@ export default function ExpressCareListItem({ appointment }) {
         {/* visible to medium screen and larger */}
         <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0">
           <Link
+            className="vaos-appts__focus--hide-outline"
             aria-label={`Details for ${
               canceled ? 'canceled ' : ''
             }Express Care request on ${appointmentDate.format(

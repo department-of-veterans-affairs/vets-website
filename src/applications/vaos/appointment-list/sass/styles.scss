@@ -114,6 +114,10 @@
   }
 }
 
+.vaos-appts__focus--hide-outline:focus {
+  outline: none;
+}
+
 .vaos-appts__breadcrumbs {
   padding: 2em 0;
 }
