@@ -2,8 +2,6 @@ import { locationSelector } from '../../shared/utils/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
-const USE_MOCK_DATA = true;
-
 // pull from src/platform/forms-system/src/js/actions.js
 // so we can have our own custom error handling,  messages and headers
 const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
@@ -42,18 +40,33 @@ const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
     req.addEventListener('error', () => {
       const error = new Error('vets_client_error: Network request failed');
       error.statusText = req.statusText;
+      recordEvent({
+        event: `${trackingPrefix}-submission-failed`,
+        ...eventData,
+        'error-key': error.statusText,
+      });
       reject(error);
     });
 
     req.addEventListener('abort', () => {
       const error = new Error('vets_client_error: Request aborted');
       error.statusText = req.statusText;
+      recordEvent({
+        event: `${trackingPrefix}-submission-failed`,
+        ...eventData,
+        'error-key': error.statusText,
+      });
       reject(error);
     });
 
     req.addEventListener('timeout', () => {
       const error = new Error('vets_client_error: Request timed out');
       error.statusText = req.statusText;
+      recordEvent({
+        event: `${trackingPrefix}-submission-failed`,
+        ...eventData,
+        'error-key': error.statusText,
+      });
       reject(error);
     });
 
@@ -65,11 +78,11 @@ const submitToUrl = (body, submitUrl, trackingPrefix, eventData) => {
   });
 };
 
-const submit = async (form, formConfig) => {
+const submit = async (useMockData, form, formConfig) => {
   const body = {
     questionnaireResponse: formConfig.transformForSubmit(formConfig, form),
   };
-  if (USE_MOCK_DATA) {
+  if (useMockData) {
     return Promise.all([
       await removeFormApi(form.formId),
       new Promise((resolve, _reject) => {

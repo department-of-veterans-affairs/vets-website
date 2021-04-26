@@ -35,7 +35,11 @@ export const transform = ({ data }) => {
         .join(', '),
     },
     personalData: {
-      veteranFullName: personalData.veteranFullName,
+      veteranFullName: {
+        first: personalData.veteranFullName.first || '',
+        middle: personalData.veteranFullName.middle || '',
+        last: personalData.veteranFullName.last || '',
+      },
       agesOfOtherDependents: personalData.agesOfOtherDependents
         ? personalData.agesOfOtherDependents.map(
             dependent => dependent.dependentAge,
@@ -43,7 +47,7 @@ export const transform = ({ data }) => {
         : [],
       address: {
         addresslineOne: personalData.address.street,
-        addresslineTwo: personalData.address.street2,
+        addresslineTwo: personalData.address.street2 || '',
         addresslineThree: '',
         city: personalData.address.city,
         stateOrProvince: personalData.address.stateCode,
@@ -52,9 +56,9 @@ export const transform = ({ data }) => {
       },
       married: questions.maritalStatus === 'Married',
       spouseFullName: {
-        first: personalData.spouseFullName.first,
+        first: personalData.spouseFullName.first || '',
         middle: '',
-        last: personalData.spouseFullName.last,
+        last: personalData.spouseFullName.last || '',
       },
       employmentHistory,
       telephoneNumber: personalData.telephoneNumber,
@@ -63,30 +67,40 @@ export const transform = ({ data }) => {
     income,
     expenses: {
       ...expenses,
-      utilities: utilityRecords
-        ?.map(record => record.monthlyUtilityAmount || 0)
-        .reduce((acc, amount) => acc + amount, 0),
-      otherLivingExpenses: otherExpenses,
+      utilities: utilityRecords?.reduce(
+        (acc, record) => acc + record.monthlyUtilityAmount || 0,
+        0,
+      ),
+      otherLivingExpenses: {
+        name: otherExpenses?.map(expense => expense.name).join(', '),
+        amount: otherExpenses?.reduce(
+          (acc, expense) => acc + expense.amount || 0,
+          0,
+        ),
+      },
       expensesInstallmentContractsAndOtherDebts: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.amountDueMonthly,
+        (acc, debt) => acc + debt.amountDueMonthly || 0,
         0,
       ),
       totalMonthlyExpenses: totalExpenses,
     },
     discretionaryIncome: {
       netMonthlyIncomeLessExpenses: totalIncome - totalExpenses,
-      amountCanBePaidTowardDebt: selectedDebts
-        ?.map(debt => debt.resolution.offerToPay || 0)
-        .reduce((acc, offer) => acc + offer, 0),
+      amountCanBePaidTowardDebt: selectedDebts?.reduce(
+        (acc, debt) => acc + debt.resolution.offerToPay || 0,
+        0,
+      ),
     },
     assets: {
       ...assets,
-      trailersBoatsCampers: assets.trailersBoatsCampers
-        ?.map(record => record.recreationalVehicleAmount || 0)
-        .reduce((acc, amount) => acc + amount, 0),
-      realEstateOwned: realEstateRecords
-        ?.map(record => record.realEstateAmount || 0)
-        .reduce((acc, amount) => acc + amount, 0),
+      trailersBoatsCampers: assets.trailersBoatsCampers?.reduce(
+        (acc, record) => acc + record.recreationalVehicleAmount || 0,
+        0,
+      ),
+      realEstateOwned: realEstateRecords?.reduce(
+        (acc, record) => acc + record.realEstateAmount || 0,
+        0,
+      ),
       totalAssets,
     },
     installmentContractsAndOtherDebts: installmentContractsAndOtherDebts?.map(
@@ -126,6 +140,7 @@ export const transform = ({ data }) => {
       ...additionalData,
       bankruptcy: {
         ...additionalData.bankruptcy,
+        hasBeenAdjudicatedBankrupt: questions.hasBeenAdjudicatedBankrupt,
         dateDischarged: dateFormatter(additionalData.bankruptcy.dateDischarged),
       },
     },

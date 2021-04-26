@@ -100,8 +100,9 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             <div className="vads-u-margin-top--2">
               <VAFacilityLocation
                 facility={facility}
-                facilityId={appointment.videoData.facilityId}
-                clinicFriendlyName={appointment.participant[0].actor.display}
+                facilityId={appointment.location.stationId}
+                clinicFriendlyName={appointment.location.clinicName}
+                isHomepageRefresh
               />
             </div>
           )}
@@ -132,6 +133,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
         <AlertBox
           status={ALERT_TYPE.INFO}
           className="vads-u-display--block"
+          headline=" Need to make changes?"
           backgroundOnly
         >
           Contact this facility if you need to reschedule or cancel your

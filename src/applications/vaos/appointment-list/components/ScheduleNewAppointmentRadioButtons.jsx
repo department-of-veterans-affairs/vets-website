@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { FETCH_STATUS, GA_PREFIX } from 'applications/vaos/utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import * as actions from '../redux/actions';
+import {
+  fetchDirectScheduleSettings,
+  startNewAppointmentFlow,
+  startNewVaccineFlow,
+} from '../redux/actions';
 import {
   selectCanUseVaccineFlow,
   selectDirectScheduleSettingsStatus,
@@ -15,28 +19,31 @@ import NewTabAnchor from '../../components/NewTabAnchor';
 
 /**
  * React component used to conditionally render radio call-to-action buttons and start applicable workflow.
- * @property {boolean} [showCheetahScheduleButton=false] - A boolean value to determine Whether or not to show COVID-19 vaccine option.
+ * @property {boolean} [canUseVaccineFlow] - A boolean value to determine Whether or not to show COVID-19 vaccine option.
  * @property {function} startNewAppointmentFlow - A function that’s called when the user starts the new appointment flow.
  * @property {function} startNewVaccineFlow - A function that’s called when the user starts the vaccine flow.
  * @example
  * <ScheduleNewAppointmentRadioButtons
- *  showCheetahScheduleButton={valueFromProp}
+ *  canUseVaccineFlow={valueFromProp}
  *  startNewAppointmentFlow={givenFlowFromProp}
  *  startNewVaccineFlow={givenFlowFromProp}
  * />
  * @module appointment-list/components
  */
-function ScheduleNewAppointmentRadioButtons({
-  canUseVaccineFlow,
-  directScheduleSettingsStatus,
-  fetchDirectScheduleSettings,
-  startNewAppointmentFlow,
-  startNewVaccineFlow,
-}) {
+export default function ScheduleNewAppointmentRadioButtons() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const canUseVaccineFlow = useSelector(state =>
+    selectCanUseVaccineFlow(state),
+  );
+  const directScheduleSettingsStatus = useSelector(state =>
+    selectDirectScheduleSettingsStatus(state),
+  );
+
   const [radioSelection, setRadioSelection] = useState();
   useEffect(() => {
     if (directScheduleSettingsStatus === FETCH_STATUS.notStarted) {
-      fetchDirectScheduleSettings();
+      dispatch(fetchDirectScheduleSettings());
     }
   }, []);
 
@@ -75,7 +82,7 @@ function ScheduleNewAppointmentRadioButtons({
 
   return (
     <div className="vads-u-padding-y--3 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
-      <h2 className="vads-u-font-size--h3 vads-u-padding-bottom--0 vads-u-margin-y--0">
+      <h2 className="vads-u-padding-bottom--0 vads-u-margin-y--0">
         Schedule a new appointment
       </h2>
       {!canUseVaccineFlow && (
@@ -101,73 +108,59 @@ function ScheduleNewAppointmentRadioButtons({
         </div>
       )}
       {!onlyRegularAppointmentFlow && (
-        <RadioButtons
-          label={
-            <span className="sr-only">
-              Choose an appointment type to begin scheduling
-            </span>
-          }
-          name={'schedule-new-appointment'}
-          id={'schedule-new-appointment'}
-          options={radioOptions}
-          additionalFieldsetClass="vads-u-margin-top--0"
-          onValueChange={({ value }) => {
-            setRadioSelection(value);
-          }}
-          value={{ value: radioSelection }}
-          errorMessage=""
-        />
+        <div className="vads-u-margin-top--1p5">
+          <RadioButtons
+            label={'Choose an appointment type.'}
+            name={'schedule-new-appointment'}
+            id={'schedule-new-appointment'}
+            options={radioOptions}
+            additionalFieldsetClass="vads-u-margin-top--0"
+            onValueChange={({ value }) => {
+              setRadioSelection(value);
+            }}
+            value={{ value: radioSelection }}
+            errorMessage=""
+          />
+        </div>
       )}
 
       {!selectedOption && (
-        <span
-          aria-disabled="true"
-          className="vads-u-padding--0 va-action-link--disabled"
+        <button
+          aria-label="Choose an appointment type to start scheduling"
+          id="schedule-button"
+          type="button"
+          disabled
         >
-          Choose an appointment type
-        </span>
+          Start scheduling{' '}
+          <i className="fas fa-angle-double-right" aria-hidden="true" />
+        </button>
       )}
 
       {selectedOption && (
-        <Link
-          id="new-appointment-radio-link"
-          className="vads-u-padding--0 va-action-link--green"
-          to={`/${selectedOption}`}
+        <button
+          aria-label="Start scheduling an appointment"
+          id="schedule-button"
+          type="button"
           onClick={() => {
             if (selectedOption === 'new-appointment') {
               recordEvent({
                 event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
               });
-              startNewAppointmentFlow();
+              dispatch(startNewAppointmentFlow());
+              history.push(`/${selectedOption}`);
             } else {
               recordEvent({
                 event: `${GA_PREFIX}-schedule-covid19-button-clicked`,
               });
-              startNewVaccineFlow();
+              dispatch(startNewVaccineFlow());
+              history.push(`/${selectedOption}`);
             }
           }}
         >
-          Start scheduling
-        </Link>
+          Start scheduling{' '}
+          <i className="fas fa-angle-double-right" aria-hidden="true" />
+        </button>
       )}
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    canUseVaccineFlow: selectCanUseVaccineFlow(state),
-    directScheduleSettingsStatus: selectDirectScheduleSettingsStatus(state),
-  };
-}
-
-const mapDispatchToProps = {
-  fetchDirectScheduleSettings: actions.fetchDirectScheduleSettings,
-  startNewAppointmentFlow: actions.startNewAppointmentFlow,
-  startNewVaccineFlow: actions.startNewVaccineFlow,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ScheduleNewAppointmentRadioButtons);

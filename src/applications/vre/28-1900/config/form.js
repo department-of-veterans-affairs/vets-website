@@ -6,7 +6,6 @@ import PreSubmitInfo from 'applications/vre/28-1900/components/PreSubmitInfo';
 import { additionalInformation } from './chapters/additional-information';
 import { communicationPreferences } from './chapters/communication-preferences';
 import { veteranInformation, veteranAddress } from './chapters/veteran';
-import StaticInformationReviewField from '../containers/StaticInformationReviewField';
 import GetFormHelp from 'applications/vre/components/GetFormHelp';
 import { transform } from './helpers';
 import { WIZARD_STATUS } from '../constants';
@@ -17,7 +16,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/veteran_readiness_employment_claims`,
-  trackingPrefix: 'careers-employment-28-1900--',
+  trackingPrefix: 'careers-employment-28-1900-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitInfo,
@@ -49,7 +48,8 @@ const formConfig = {
   chapters: {
     veteranInformation: {
       title: 'Veteran Information',
-      reviewDescription: StaticInformationReviewField,
+      // TODO: related to the comment direcly below; add reviewDescription back in once the issues with static veteran information have been resolved.
+      // reviewDescription: StaticInformationReviewField,
       pages: {
         // TODO: possibly add this back in once issue has been investigated.
         // veteranStaticInformation: {

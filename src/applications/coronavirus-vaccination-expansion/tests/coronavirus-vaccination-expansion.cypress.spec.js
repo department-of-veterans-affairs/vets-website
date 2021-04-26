@@ -16,6 +16,7 @@ const testConfig = createTestConfig(
       'test-data-spouse',
       'test-data-caregiver',
       'test-data-champva',
+      'test-data-veteran-puerto-rico',
     ],
 
     fixtures: {
@@ -38,6 +39,11 @@ const testConfig = createTestConfig(
         cy.get('@testData').then(testData => {
           if (testData.zipCode === '00000') {
             cy.wait('@getFacilitiesError');
+          } else if (testData.zipCode === '00921') {
+            cy.wait('@getFacilitiesPuertoRico');
+            cy.get('.errorable-radio-button > input')
+              .first()
+              .check();
           } else {
             cy.wait('@getFacilities');
             cy.get('.errorable-radio-button > input')
@@ -122,7 +128,23 @@ const testConfig = createTestConfig(
           ],
         },
       }).as('getFacilities');
-
+      cy.intercept('GET', '/covid_vaccine/v0/facilities/00921', {
+        statusCode: 200,
+        body: {
+          data: [
+            {
+              id: 'vha_672',
+              type: 'vaccination_facility',
+              attributes: {
+                name: 'San Juan VA Medical Center',
+                distance: 5.1,
+                city: 'San Juan',
+                state: 'PR',
+              },
+            },
+          ],
+        },
+      }).as('getFacilitiesPuertoRico');
       cy.intercept('POST', '/covid_vaccine/v0/expanded_registration', {
         statusCode: 200,
         body: {},

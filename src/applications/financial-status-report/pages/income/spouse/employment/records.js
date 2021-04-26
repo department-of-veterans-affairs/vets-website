@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash/fp';
 import ItemLoop from '../../../../components/ItemLoop';
 import TableDetailsView from '../../../../components/TableDetailsView';
+import CustomReviewField from '../../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../../components/Typeahead';
 import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
@@ -45,7 +46,7 @@ export const uiSchema = {
               </p>
             ),
           }),
-          deductions: {
+          spouseDeductions: {
             'ui:field': ItemLoop,
             'ui:title': 'Payroll deductions',
             'ui:description':
@@ -64,6 +65,7 @@ export const uiSchema = {
               name: {
                 'ui:title': 'Type of payroll deduction',
                 'ui:field': Typeahead,
+                'ui:reviewField': CustomReviewField,
                 'ui:options': {
                   idPrefix: 'spouse_employment',
                   getOptions: () => formatOptions(deductionTypes),
@@ -111,7 +113,7 @@ export const schema = {
                     monthlyGrossSalary: {
                       type: 'number',
                     },
-                    deductions: {
+                    spouseDeductions: {
                       type: 'array',
                       items: {
                         type: 'object',

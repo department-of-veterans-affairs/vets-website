@@ -35,6 +35,9 @@ describe('VAOS selectors', () => {
               facilityCode: '123',
             },
             vaos: {},
+            location: {
+              vistaId: '123',
+            },
           },
           facilityData: {
             var123: {},
@@ -86,6 +89,9 @@ describe('VAOS selectors', () => {
                 },
               },
             ],
+            location: {
+              stationId: '123',
+            },
           },
           facilityData: {
             var123: {},
@@ -137,6 +143,9 @@ describe('VAOS selectors', () => {
                 },
               },
             ],
+            location: {
+              stationId: '123',
+            },
           },
           facilityData: {
             var123: {},

@@ -1279,10 +1279,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@2.3.1":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-2.3.1.tgz#23c2c2efe3fa7b6aa5f49c38e9b27d2a2e275c1d"
-  integrity sha512-Hh3gPGTmHx4iLtiL6pz74l/LKh0RVumsS2hE6R/j0fNzEJgOHmHX74+ckWwi4e04n7BIs47/KtKsxyniY40r1g==
+"@department-of-veterans-affairs/component-library@2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-2.4.1.tgz#d8698172da025ebc2e8213b7b3cc25b54e5d2a58"
+  integrity sha512-yL+S/r9b1pInd3dTs39oYoErGuQnN+VDY1HEyp9AeCio4YHT2jfZGJmLDOFACijbOFyW4KzboCjZ/mxgqVPgfA==
   dependencies:
     classnames "^2.2.6"
     core-js "^3.9.0"
@@ -1298,10 +1298,10 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/formation@6.14.1":
-  version "6.14.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.14.1.tgz#d4b5f4d48c004a07c06764a4db74a10fb679c868"
-  integrity sha512-4ikiMMU8d1tQdz+KVF5w7CqTKZTvmebcBp+w9c4FKan/Ixh/gs1MUeFdLJ2r97br73F/74YPh6zMNd95YrFueQ==
+"@department-of-veterans-affairs/formation@6.16.1":
+  version "6.16.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.16.1.tgz#b25b0d1a64638a220c42b36f9671de58b54d48fe"
+  integrity sha512-tsivIl/nbsUFScCdduaDYxqgplPuDw8Xoo7pbq56fou7QBT83BS+5NW307YbtwO8ucsFW6RIOmyQYYB1AE2uyg==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -7068,10 +7068,10 @@ eslint-import-resolver-babel-module@^5.1.2:
     pkg-up "^2.0.0"
     resolve "^1.10.0"
 
-eslint-import-resolver-node@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.npmjs.org/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.3.tgz"
-  integrity sha512-b8crLDo0M5RSe5YG8Pu2DYBj71tSB6OvXkfzwbJU2w7y8P4/yo0MyF8jU26IEuEuHF2K5/gcAJE3LhQGqBBbVg==
+eslint-import-resolver-node@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.4.tgz#85ffa81942c25012d8231096ddf679c03042c717"
+  integrity sha512-ogtf+5AB/O+nM6DIeBUNr2fuT7ot9Qg/1harBfBtaP13ekEWFQEEMP94BCB7zaNW3gyY+8SHYF00rnqYwXKWOA==
   dependencies:
     debug "^2.6.9"
     resolve "^1.13.1"
@@ -7107,16 +7107,16 @@ eslint-plugin-fp@^2.3.0:
     req-all "^0.1.0"
 
 eslint-plugin-import@^2.21.2:
-  version "2.21.2"
-  resolved "https://registry.npmjs.org/eslint-plugin-import/-/eslint-plugin-import-2.21.2.tgz"
-  integrity sha512-FEmxeGI6yaz+SnEB6YgNHlQK1Bs2DKLM+YF+vuTk5H8J9CLbJLtlPvRFgZZ2+sXiKAlN5dpdlrWOjK8ZoZJpQA==
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.22.1.tgz#0896c7e6a0cf44109a2d97b95903c2bb689d7702"
+  integrity sha512-8K7JjINHOpH64ozkAhpT3sd+FswIZTfMZTjdx052pnWrgRCVfp8op9tbjpAk3DdUeI/Ba4C8OjdC0r90erHEOw==
   dependencies:
     array-includes "^3.1.1"
     array.prototype.flat "^1.2.3"
     contains-path "^0.1.0"
     debug "^2.6.9"
     doctrine "1.5.0"
-    eslint-import-resolver-node "^0.3.3"
+    eslint-import-resolver-node "^0.3.4"
     eslint-module-utils "^2.6.0"
     has "^1.0.3"
     minimatch "^3.0.4"
@@ -17867,9 +17867,9 @@ sshpk@^1.7.0:
     tweetnacl "~0.14.0"
 
 ssri@^6.0.1:
-  version "6.0.1"
-  resolved "https://registry.npmjs.org/ssri/-/ssri-6.0.1.tgz"
-  integrity sha512-3Wge10hNcT1Kur4PDFwEieXSCMCJs/7WvSACcrMYrNp+b8kDL1/0wJch5Ni2WrtwEa2IO8OsVfeKIciKCDx/QA==
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/ssri/-/ssri-6.0.2.tgz#157939134f20464e7301ddba3e90ffa8f7728ac5"
+  integrity sha512-cepbSq/neFK7xB6A50KHN0xHDotYzq58wWCa5LeWqnPrHG8GzfEjO/4O8kpmcGW+oaxkvhEJCWgbgNk4/ZV93Q==
   dependencies:
     figgy-pudding "^3.5.1"
 
@@ -19597,9 +19597,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#0edf48fa11b363dd2d015ab9f76785baa01bff75":
-  version "20.0.2"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#0edf48fa11b363dd2d015ab9f76785baa01bff75"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#d95fd3fdb480cc12aeb8b8b16b8f5b84e054e31c":
+  version "20.3.2"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d95fd3fdb480cc12aeb8b8b16b8f5b84e054e31c"
 
 vinyl-file@^2.0.0:
   version "2.0.0"
@@ -19750,9 +19750,9 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   dependencies:
     minimalistic-assert "^1.0.0"
 
-"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.2.2":
-  version "0.2.2"
-  resolved "https://github.com/department-of-veterans-affairs/component-library.git#4417ca82a40d90a583383fb92083c6b47b890487"
+"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.4.0":
+  version "0.4.0"
+  resolved "https://github.com/department-of-veterans-affairs/component-library.git#23d3c19611e4ce4704b213082b2c971c85b430ef"
   dependencies:
     "@stencil/core" "^2.0.1"
     "@stencil/postcss" "^2.0.0"

@@ -20,11 +20,13 @@ import { submit, transformForSubmit } from '../../shared/api';
 
 import { updateUrls } from './migrations';
 
+import { TRACKING_PREFIX } from '../../shared/constants/analytics';
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_responses`,
-  trackingPrefix: 'hcq',
+  submitUrl: `${environment.API_URL}/health_quest/v0/questionnaire_manager`,
+  trackingPrefix: TRACKING_PREFIX,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   downtime: {
