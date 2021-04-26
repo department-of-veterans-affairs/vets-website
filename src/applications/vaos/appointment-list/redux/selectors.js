@@ -14,7 +14,6 @@ import {
   sortByDateDescending,
   sortByDateAscending,
   sortUpcoming,
-  getVARFacilityId,
   groupAppointmentsByMonth,
   isCanceledConfirmedOrExpressCare,
   isUpcomingAppointmentOrExpressCare,
@@ -53,9 +52,8 @@ export function getCancelInfo(state) {
   }
   let isCerner = null;
   if (appointmentToCancel) {
-    const facilityId = getVARFacilityId(appointmentToCancel);
     isCerner = selectCernerAppointmentsFacilities(state)?.some(cernerSite =>
-      facilityId?.startsWith(cernerSite.facilityId),
+      appointmentToCancel.location.vistaId?.startsWith(cernerSite.facilityId),
     );
   }
 
@@ -429,5 +427,34 @@ export function getCanceledAppointmentListInfo(state) {
     futureStatus: selectFutureStatus(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),
+  };
+}
+
+export function getRequestedAppointmentListInfo(state) {
+  return {
+    facilityData: state.appointments.facilityData,
+    pendingStatus: state.appointments.pendingStatus,
+    pendingAppointments: selectPendingAppointments(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
+}
+
+export function getUpcomingAppointmentListInfo(state) {
+  return {
+    facilityData: state.appointments.facilityData,
+    futureStatus: selectFutureStatus(state),
+    appointmentsByMonth: selectUpcomingAppointments(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
+}
+
+export function getPastAppointmentListInfo(state) {
+  return {
+    pastAppointmentsByMonth: selectPastAppointmentsV2(state),
+    pastStatus: state.appointments.pastStatus,
+    pastSelectedIndex: state.appointments.pastSelectedIndex,
+    facilityData: state.appointments.facilityData,
   };
 }

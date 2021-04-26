@@ -1,9 +1,10 @@
 import {
   addIncludedIssues,
+  addUploads,
   getAddress,
   getPhone,
   getTimeZone,
-} from '../utils/helpers';
+} from '../utils/submit';
 
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
@@ -26,6 +27,7 @@ export function transform(formConfig, form) {
       },
     },
     included: addIncludedIssues(formData),
+    nodUploads: addUploads(formData),
   });
 
   // Not using _.cloneDeep on form data - it appears to replace `null` values
