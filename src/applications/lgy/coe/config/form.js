@@ -99,7 +99,7 @@ const formConfig = {
       },
     },
     serviceHistoryChapter: {
-      title: 'Your service History',
+      title: 'Your service history',
       pages: {
         serviceStatus: {
           path: 'service-status',
