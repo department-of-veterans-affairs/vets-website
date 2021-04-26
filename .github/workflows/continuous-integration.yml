@@ -2,6 +2,9 @@ name: Continuous Integration
 
 on: [push]
 
+env:
+  NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
 jobs:
   unit-tests:
     name: Unit Tests
@@ -150,7 +153,7 @@ jobs:
 
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -178,6 +181,6 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Build apps
-        run: yarn build:webpack --env.buildtype vagovprod --env.scaffold
+      - name: Build
+        run: yarn build --env.buildtype vagovprod
         timeout-minutes: 30
