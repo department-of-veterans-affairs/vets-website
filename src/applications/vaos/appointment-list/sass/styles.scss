@@ -60,22 +60,38 @@
 
 .vaos-appts__card {
   position: relative;
-  border-radius: 10px;
+  border-radius: 6px;
   background-color: $color-gray-lightest;
   padding: 16px;
   margin-bottom: 16px;
 
   @include media($medium-screen) {
     padding: 24px;
-    margin-bottom: 24px;
   }
 
   &.vaos-appts__card--clickable {
     list-style: none;
-    padding: 0;
+    padding: 0px;
+    margin-bottom: 24px;
+    border: 2px solid $color-gray-lightest;
 
     &:hover {
       cursor: pointer;
+      border: 2px solid $color-primary;
+    }
+
+    &:focus {
+      outline: 2px solid $color-warning-message;
+      outline-offset: 2px;
+    }
+
+    &:focus-within {
+      outline: 2px solid $color-warning-message;
+      outline-offset: 2px;
+    }
+
+    &:active {
+      background-color: $color-gray-lighter;
     }
   }
 }
