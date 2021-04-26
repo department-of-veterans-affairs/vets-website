@@ -6,7 +6,12 @@ import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
-function PreSubmitNotice({ formData, onSectionComplete, setPreSubmit }) {
+function PreSubmitNotice({
+  formData,
+  showError,
+  onSectionComplete,
+  setPreSubmit,
+}) {
   const vrrapConfirmation = formData.vrrapConfirmation;
 
   const confirmEligibilityNote = (
@@ -58,7 +63,9 @@ function PreSubmitNotice({ formData, onSectionComplete, setPreSubmit }) {
       {confirmEligibilityNote}
       <PreSubmitInfo
         formData={formData}
+        showError={showError}
         onSectionComplete={onSectionComplete}
+        setPreSubmit={setPreSubmit}
       />
     </>
   );

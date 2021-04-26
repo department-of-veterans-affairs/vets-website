@@ -2,7 +2,12 @@ import React from 'react';
 import environment from 'platform/utilities/environment';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
-function PreSubmitNotice({ formData, onSectionComplete }) {
+function PreSubmitNotice({
+  formData,
+  showError,
+  onSectionComplete,
+  setPreSubmit,
+}) {
   const activeDutyNote = (
     <div className="vads-u-margin-bottom--3">
       {formData.activeDuty ? (
@@ -34,7 +39,9 @@ function PreSubmitNotice({ formData, onSectionComplete }) {
       {!environment.isProduction() && activeDutyNote}
       <PreSubmitInfo
         formData={formData}
+        showError={showError}
         onSectionComplete={onSectionComplete}
+        setPreSubmit={setPreSubmit}
       />
     </>
   );
