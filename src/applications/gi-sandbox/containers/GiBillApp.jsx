@@ -6,9 +6,11 @@ import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import GiBillBreadcrumbs from '../components/GiBillBreadcrumbs';
 import Modals from './Modals';
 import { useQueryParams } from '../utils/helpers';
+import ServiceError from '../components/ServiceError';
 
 export function GiBillApp({
   children,
+  constants,
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
@@ -41,6 +43,7 @@ export function GiBillApp({
       <div>
         <div>
           <GiBillBreadcrumbs />
+          {constants.error && <ServiceError />}
           {children}
           <Modals />
         </div>
