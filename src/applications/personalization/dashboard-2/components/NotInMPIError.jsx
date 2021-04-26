@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-const NotInMPIError = () => {
+const NotInMPIError = ({ level }) => {
   const content = (
     <>
       <p>
@@ -26,8 +27,13 @@ const NotInMPIError = () => {
       headline="We can’t match your information to our records"
       content={content}
       status="warning"
+      level={level}
     />
   );
+};
+
+NotInMPIError.propTypes = {
+  level: PropTypes.number.isRequired,
 };
 
 export default NotInMPIError;

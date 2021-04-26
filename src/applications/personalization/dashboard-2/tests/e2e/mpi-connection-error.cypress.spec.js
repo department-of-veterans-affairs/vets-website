@@ -33,6 +33,9 @@ describe('MyVA Dashboard', () => {
       healthCareInfoExists(true);
       disabilityCompensationExists(true);
       educationBenefitExists(true);
+
+      cy.injectAxe();
+      cy.axeCheck();
     });
   });
 });

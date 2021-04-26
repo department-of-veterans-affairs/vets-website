@@ -169,7 +169,7 @@ const Dashboard = ({
               {showMPIConnectionError ? (
                 <div className="vads-l-row">
                   <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <MPIConnectionError />
+                    <MPIConnectionError level={2} />
                   </div>
                 </div>
               ) : null}
@@ -177,7 +177,7 @@ const Dashboard = ({
               {showNotInMPIError ? (
                 <div className="vads-l-row">
                   <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <NotInMPIError />
+                    <NotInMPIError level={2} />
                   </div>
                 </div>
               ) : null}
