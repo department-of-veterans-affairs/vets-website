@@ -151,6 +151,10 @@ jobs:
   build:
     name: Build
     runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: vets-website
+
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
     steps:
@@ -158,10 +162,12 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: department-of-veterans-affairs/vagov-content
-          path: ../vagov-content
+          path: vagov-content
 
       - name: Checkout vets-website
         uses: actions/checkout@v2
+        with:
+          path: vets-website
 
       - name: Get Node version
         id: get-node-version
