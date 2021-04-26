@@ -3,6 +3,7 @@ import { apiRequest } from 'platform/utilities/api';
 import ChatbotError from './ChatbotError';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import MarkdownRenderer from '../utils/markdownRenderer';
+import retryOnce from '../utils/retryOnce';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -16,15 +17,6 @@ export default function WebChat() {
       return apiRequest('/virtual_agent_token', {
         method: 'POST',
       });
-    }
-
-    async function retryOnce(retryableFunction) {
-      try {
-        return await retryableFunction();
-      } catch (error) {
-        // eslint-disable-next-line no-return-await
-        return await retryableFunction();
-      }
     }
 
     async function getToken() {
