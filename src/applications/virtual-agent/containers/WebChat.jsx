@@ -12,7 +12,7 @@ export default function WebChat() {
   const [tokenLoading, setTokenLoading] = useState(true);
 
   useEffect(() => {
-    async function getVirtualAgentToken() {
+    async function callVirtualAgentTokenApi() {
       return apiRequest('/virtual_agent_token', {
         method: 'POST',
       });
@@ -29,7 +29,8 @@ export default function WebChat() {
 
     async function getToken() {
       try {
-        const response = await retryOnce(() => getVirtualAgentToken());
+        const response = await retryOnce(callVirtualAgentTokenApi);
+
         setToken(response.token);
       } catch (error) {
         setTokenLoading(false);
