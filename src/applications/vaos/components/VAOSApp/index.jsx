@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { selectUser, selectPatientFacilities } from 'platform/user/selectors';
@@ -67,6 +68,7 @@ function VAOSApp({
       verify={!environment.isLocalhost()}
     >
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
         {loadingFeatureToggles && (
           <FullWidthLayout>
             <LoadingIndicator />
