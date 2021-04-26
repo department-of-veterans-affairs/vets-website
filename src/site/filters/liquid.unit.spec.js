@@ -379,7 +379,7 @@ describe('strip', () => {
 });
 
 describe('filterBy', () => {
-  it('filter array object by given path and value', () => {
+  it('filter array object by given path and value - 1', () => {
     assert.deepEqual(
       liquid.filters.filterBy(
         [
@@ -396,6 +396,18 @@ describe('filterBy', () => {
         { class: { abstract: { number: 1 } } },
         { class: { abstract: { number: 1 } } },
       ],
+    );
+  });
+  it('filter array object by given path and value - 2', () => {
+    assert.deepEqual(
+      liquid.filters.filterBy([{ class: {} }], 'class.abstract.number', 2),
+      [],
+    );
+  });
+  it('filter array object by given path and value - 3', () => {
+    assert.deepEqual(
+      liquid.filters.filterBy([{}], 'class.abstract.number', 3),
+      [],
     );
   });
 });
