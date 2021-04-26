@@ -1,6 +1,6 @@
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 
-import { applicantContactInformation } from '../../../schemaImports';
+import { applicantContactInformation } from '../../schemaImports';
 import { addressUiSchema } from 'applications/vre/definitions/profileAddress';
 
 const checkboxTitle =

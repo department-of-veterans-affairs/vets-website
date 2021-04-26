@@ -1,7 +1,7 @@
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import ServicePeriodView from 'platform/forms/components/ServicePeriodView';
 
-import { serviceHistory } from '../../../schemaImports';
+import { serviceHistory } from '../../schemaImports';
 
 export const schema = serviceHistory;
 

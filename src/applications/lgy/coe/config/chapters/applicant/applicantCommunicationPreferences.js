@@ -1,4 +1,4 @@
-import { communicationPreferences } from '../../../schemaImports';
+import { communicationPreferences } from '../../schemaImports';
 
 export const schema = communicationPreferences;
 

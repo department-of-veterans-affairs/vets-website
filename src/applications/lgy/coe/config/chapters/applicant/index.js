@@ -1,5 +1,5 @@
-import * as applicantInformation from './applicant-information/applicantInformation';
-import * as applicantContactInfo from './contact-information/applicantContactInformation';
-import * as communicationPreferences from './communication-preferences/applicantCommunicationPreferences';
+import * as applicantInformation from './applicantInformation';
+import * as applicantContactInfo from './applicantContactInformation';
+import * as communicationPreferences from './applicantCommunicationPreferences';
 
 export { applicantInformation, applicantContactInfo, communicationPreferences };

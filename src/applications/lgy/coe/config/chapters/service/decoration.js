@@ -1,4 +1,4 @@
-import { serviceDecoration } from '../../../schemaImports';
+import { serviceDecoration } from '../../schemaImports';
 
 export const schema = serviceDecoration;
 

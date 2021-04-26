@@ -1,4 +1,4 @@
-import { serviceStatus } from '../../../schemaImports';
+import { serviceStatus } from '../../schemaImports';
 
 export const schema = serviceStatus;
 

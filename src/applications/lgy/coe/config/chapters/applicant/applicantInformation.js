@@ -1,4 +1,4 @@
-import { applicantInformation } from '../../../schemaImports';
+import { applicantInformation } from '../../schemaImports';
 
 import ApplicantInformationSummary from './ApplicantInformationSummary';
 
