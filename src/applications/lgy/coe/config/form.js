@@ -11,6 +11,7 @@ import fullSchema from '../26-1880-schema.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import manifest from '../manifest.json';
 
 // const { } = fullSchema.properties;
 
@@ -48,6 +49,7 @@ const {
 } = commonDefinitions;
 
 const formConfig = {
+  rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
   submit: () =>
