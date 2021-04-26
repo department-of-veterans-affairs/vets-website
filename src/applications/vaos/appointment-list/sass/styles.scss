@@ -83,15 +83,20 @@
     &:focus {
       outline: 2px solid $color-warning-message;
       outline-offset: 2px;
+      border: 2px solid $color-primary;
     }
 
     &:focus-within {
       outline: 2px solid $color-warning-message;
       outline-offset: 2px;
+      border: 2px solid $color-primary;
     }
 
     &:active {
       background-color: $color-gray-lighter;
+      outline: 2px solid $color-warning-message;
+      outline-offset: 2px;
+      border: 2px solid $color-primary;
     }
   }
 }
