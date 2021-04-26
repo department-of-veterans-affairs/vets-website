@@ -13,22 +13,8 @@ const formatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,
 });
 
-const ExpandedContent = ({ selectedDebts, formData, debt, setDebts }) => {
-  const updateSelectedDebts = data => {
-    setDebts({
-      ...formData,
-      selectedDebts: selectedDebts.map(item => {
-        if (item.id === debt.id) {
-          return {
-            ...item,
-            offerToPay: data.value,
-          };
-        }
-        return item;
-      }),
-    });
-  };
-
+const ExpandedContent = ({ debt, updateDebts }) => {
+  const objKey = 'offerToPay';
   switch (debt.value) {
     case 'Extended monthly payments':
       return (
@@ -36,7 +22,7 @@ const ExpandedContent = ({ selectedDebts, formData, debt, setDebts }) => {
           additionalClass="input-size-3"
           label="How much can you afford to pay monthly on this debt?"
           field={{ value: debt.offerToPay || '' }}
-          onValueChange={updateSelectedDebts}
+          onValueChange={input => updateDebts(objKey, input, debt)}
           //   required
         />
       );
@@ -46,7 +32,7 @@ const ExpandedContent = ({ selectedDebts, formData, debt, setDebts }) => {
           additionalClass="input-size-3"
           label="How much do you offer to pay for this debt with a single payment?"
           field={{ value: debt.offerToPay || '' }}
-          onValueChange={updateSelectedDebts}
+          onValueChange={input => updateDebts(objKey, input, debt)}
           //   required
         />
       );
@@ -66,6 +52,21 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
   const radioLabels =
     'Which repayment or relief option would you like for this debt?';
 
+  const updateDebts = (objKey, input, debt) => {
+    setDebts({
+      ...formData,
+      selectedDebts: selectedDebts.map(item => {
+        if (item.id === debt.id) {
+          return {
+            ...item,
+            [`${objKey}`]: input.value,
+          };
+        }
+        return item;
+      }),
+    });
+  };
+
   return (
     <>
       <h4 className="vads-u-margin--0">Your selected debts</h4>
@@ -73,6 +74,7 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
         const subTitle =
           debt.currentAr && formatter.format(parseFloat(debt.currentAr));
+        const objKey = 'value';
 
         return (
           <div
@@ -85,7 +87,6 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
               {subTitle}
             </p>
             <ExpandingGroup
-              key={debt.id}
               open={debt.value}
               additionalClass="form-expanding-group-active-radio"
             >
@@ -95,28 +96,10 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
                 label={radioLabels}
                 options={radioOptions}
                 value={{ value: debt.value }}
-                onValueChange={data => {
-                  setDebts({
-                    ...formData,
-                    selectedDebts: selectedDebts.map(item => {
-                      if (item.id === debt.id) {
-                        return {
-                          ...item,
-                          value: data.value,
-                        };
-                      }
-                      return item;
-                    }),
-                  });
-                }}
+                onValueChange={input => updateDebts(objKey, input, debt)}
                 // required
               />
-              <ExpandedContent
-                formData={formData}
-                debt={debt}
-                setDebts={setDebts}
-                selectedDebts={selectedDebts}
-              />
+              <ExpandedContent debt={debt} updateDebts={updateDebts} />
             </ExpandingGroup>
           </div>
         );
