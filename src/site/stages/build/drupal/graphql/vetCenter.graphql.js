@@ -45,6 +45,8 @@ const vetCenterFragment = `
         fieldPrepareForVisit {
           entity {
             ... on ParagraphBasicAccordion {
+              entityBundle
+              entityId
               fieldHeader
               fieldRichWysiwyg {
                 processed

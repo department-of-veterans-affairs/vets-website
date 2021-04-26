@@ -97,9 +97,9 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         ) : (
           <p>
             We’ll share this information with your local VA health facility.
-            They may use this information to determine when to contact you when
-            your risk group becomes eligible for a vaccine. We’ll also send you
-            updates on our vaccine plans.
+            They may use this information to determine when to contact you about
+            getting your COVID-19 vaccine. We’ll also send you updates on our
+            vaccine plans.
           </p>
         )}
 

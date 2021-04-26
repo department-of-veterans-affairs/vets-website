@@ -36,7 +36,12 @@ import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 const mbxClient = mbxGeo(mapboxClient);
 
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
-import { MapboxInit, MARKER_LETTERS, MAX_SEARCH_AREA } from '../constants';
+import {
+  Covid19Vaccine,
+  MapboxInit,
+  MARKER_LETTERS,
+  MAX_SEARCH_AREA,
+} from '../constants';
 import { distBetween } from '../utils/facilityDistance';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
@@ -45,6 +50,7 @@ import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
 import SearchAreaControl from '../components/SearchAreaControl';
 import recordEvent from 'platform/monitoring/record-event';
+import Covid19Result from '../components/search-results-items/Covid19Result';
 
 let lastZoom = 3;
 
@@ -417,7 +423,14 @@ const FacilitiesMap = props => {
               {renderMap(true)}
               {selectedResult && (
                 <div className="mobile-search-result">
-                  <SearchResult result={selectedResult} query={currentQuery} />
+                  {currentQuery.serviceType === Covid19Vaccine ? (
+                    <Covid19Result location={selectedResult} />
+                  ) : (
+                    <SearchResult
+                      result={selectedResult}
+                      query={currentQuery}
+                    />
+                  )}
                 </div>
               )}
             </TabPanel>

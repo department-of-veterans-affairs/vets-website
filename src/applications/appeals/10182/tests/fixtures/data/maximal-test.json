@@ -22,17 +22,19 @@
       "email": "user@example.com"
     },
     "homeless": false,
+    "view:hasRep": true,
     "representativesName": "Tony Danza",
-    "boardReviewOption": "hearing",
+    "boardReviewOption": "evidence_submission",
     "hearingTypePreference": "central_office",
     "socOptIn": true,
+    "view:additionalEvidence": true,
 
-    "contestedIssues": [
+    "contestableIssues": [
       {
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "tinnitus",
-          "approxDecisionDate": "1900-01-01",
+          "approxDecisionDate": "2020-01-01",
           "decisionIssueId": 1,
           "ratingIssueReferenceId": "2",
           "ratingDecisionReferenceId": "3",
@@ -44,7 +46,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "left knee",
-          "approxDecisionDate": "1900-01-02",
+          "approxDecisionDate": "2020-01-02",
           "decisionIssueId": 4,
           "ratingIssueReferenceId": "5"
         },
@@ -54,7 +56,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "right knee",
-          "approxDecisionDate": "1900-01-03",
+          "approxDecisionDate": "2020-01-03",
           "ratingIssueReferenceId": "6",
           "ratingDecisionReferenceId": "7"
         },
@@ -64,7 +66,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "PTSD",
-          "approxDecisionDate": "1900-01-04",
+          "approxDecisionDate": "2020-01-04",
           "decisionIssueId": 8,
           "ratingDecisionReferenceId": "9"
         },
@@ -74,7 +76,7 @@
         "type": "contestableIssue",
         "attributes": {
           "ratingIssueSubjectText": "Traumatic Brain Injury",
-          "approxDecisionDate": "1900-01-05",
+          "approxDecisionDate": "2020-01-05",
           "decisionIssueId": 10
         },
         "view:selected": false
@@ -82,8 +84,25 @@
     ],
     "additionalIssues": [
       {
+        "issue": "right arm",
+        "decisionDate": "2020-01-07",
+        "view:selected": false
+      },
+      {
         "issue": "right shoulder",
-        "decisionDate": "1900-01-06"
+        "decisionDate": "2020-01-06",
+        "view:selected": true
+      }
+    ],
+    "evidence": [
+      {
+        "name": "file-1.pdf",
+        "confirmationCode": "some-UUID",
+        "isEncrypted": false
+      },
+      {
+        "name": "file-2.png",
+        "confirmationCode": "another-UUID"
       }
     ]
   }

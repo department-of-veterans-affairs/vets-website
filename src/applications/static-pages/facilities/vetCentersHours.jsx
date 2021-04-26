@@ -43,7 +43,7 @@ const VetCenterHours = props => {
   };
 
   return (
-    <div className="vads-u-margin-bottom--3" id="vet-center-hours">
+    <div id="vet-center-hours">
       <h3 className="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
         Hours
       </h3>

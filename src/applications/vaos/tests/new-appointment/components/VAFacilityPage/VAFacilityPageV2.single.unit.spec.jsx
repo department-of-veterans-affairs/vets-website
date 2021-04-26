@@ -15,6 +15,7 @@ import {
   createTestStore,
   setTypeOfCare,
   renderWithStoreAndRouter,
+  setTypeOfEyeCare,
 } from '../../../mocks/setup';
 import {
   mockEligibilityFetches,
@@ -23,6 +24,7 @@ import {
   mockDirectBookingEligibilityCriteria,
   mockFacilitiesFetch,
 } from '../../../mocks/helpers';
+import { cleanup } from '@testing-library/react';
 
 const initialState = {
   featureToggles: {
@@ -268,5 +270,50 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
     expect(await screen.findByText(/Something went wrong on our end/)).to.exist;
 
     expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
+  });
+
+  it('should switch between single and multi facility views when type of eye care changes', async () => {
+    const siteIds = ['983'];
+    mockDirectBookingEligibilityCriteria(siteIds, []);
+    mockRequestEligibilityCriteria(siteIds, [
+      getRequestEligibilityCriteriaMock({ id: '983', typeOfCareId: '408' }),
+      getRequestEligibilityCriteriaMock({ id: '983GC', typeOfCareId: '407' }),
+      getRequestEligibilityCriteriaMock({ id: '983GD', typeOfCareId: '407' }),
+    ]);
+    mockFacilitiesFetch('vha_442,vha_442GC,vha_442GD', [
+      getVAFacilityMock({ id: '442', name: 'Facility 1' }),
+      getVAFacilityMock({ id: '442GC', name: 'Facility 2' }),
+      getVAFacilityMock({ id: '442GD', name: 'Facility 3' }),
+    ]);
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '408',
+      limit: true,
+      requestPastVisits: true,
+    });
+
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /eye care/i);
+    await setTypeOfEyeCare(store, /optometry/i);
+
+    let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    await screen.findByText(
+      /We found one VA facility for your optometry appointment./i,
+    );
+
+    expect(screen.baseElement).to.contain.text('Facility 1');
+
+    await cleanup();
+    await setTypeOfEyeCare(store, /Ophthalmology/i);
+    screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    expect(await screen.findByRole('radio', { name: /Facility 2/i }));
+    expect(screen.getByRole('radio', { name: /Facility 3/i }));
   });
 });

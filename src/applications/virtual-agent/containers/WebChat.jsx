@@ -2,6 +2,9 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { apiRequest } from 'platform/utilities/api';
 import ChatbotError from './ChatbotError';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import MarkdownRenderer from '../utils/markdownRenderer';
+
+const renderMarkdown = text => MarkdownRenderer.render(text);
 
 export default function WebChat() {
   const { ReactWebChat, createDirectLine } = window.WebChat;
@@ -70,6 +73,7 @@ export default function WebChat() {
               styleOptions={{ hideUploadButton: true }}
               directLine={directLine}
               store={store}
+              renderMarkdown={renderMarkdown}
             />
           </div>
         )}

@@ -1,10 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-// import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 
+import { IssueCard } from './IssueCard';
 import { SELECTED } from '../constants';
-import IssueCards from './IssueCards';
+import { $ } from '../utils/ui';
+import { someSelected } from '../utils/helpers';
+import { missingIssueErrorMessage } from '../content/contestableIssues';
 
 /**
  * EligibleIssuesWidget
@@ -33,36 +36,72 @@ const EligibleIssuesWidget = props => {
 
   const { value = [], id, options, formContext = {} } = props;
 
+  const onReviewPage = formContext?.onReviewPage || false;
   // inReviewMode = true (review page view, not in edit mode)
   // inReviewMode = false (in edit mode)
-  const onReviewPage = formContext?.onReviewPage || false;
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
-  const checkboxVisible = !onReviewPage || (onReviewPage && !inReviewMode);
+  const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
 
   const items = value.map(item => ({
     ...item.attributes,
     [SELECTED]: item[SELECTED],
   }));
 
-  const content = (
-    <IssueCards
-      id={id}
-      items={items}
-      options={options}
-      onReviewPage={onReviewPage}
-      inReviewMode={inReviewMode}
-      checkboxVisible={checkboxVisible}
-      onChange={onChange}
-    />
+  const itemsLength = items.length;
+  const showError =
+    formContext.submitted &&
+    !(someSelected(value) || someSelected(props.additionalIssues));
+
+  const content = itemsLength ? (
+    items.map((item, index) => {
+      const itemIsSelected = !!item[SELECTED];
+      const isLastItem = index === itemsLength - 1;
+
+      // Don't show un-selected ratings in review mode
+      return inReviewMode && !itemIsSelected ? null : (
+        <IssueCard
+          key={index}
+          id={id}
+          index={index}
+          isLastItem={isLastItem}
+          item={item}
+          options={options}
+          onChange={onChange}
+          showCheckbox={showCheckbox}
+        />
+      );
+    })
+  ) : (
+    <>
+      <dt>
+        {onReviewPage ? 'No issues selected' : <strong>No issues found</strong>}
+      </dt>
+      <dd />
+    </>
   );
 
+  // Toggle page class so NewIssueField content also includes a red border
+  $('article').classList.toggle('error', showError);
+
   return inReviewMode ? (
-    content
+    <>
+      {showError && missingIssueErrorMessage}
+      {content}
+    </>
   ) : (
-    <div>
-      <dl className="review">{content}</dl>
+    <div className={showError ? 'usa-input-error vads-u-margin-top--0' : ''}>
+      {showError && missingIssueErrorMessage}
+      <dl className="review" aria-label="Available eligible issues">
+        {content}
+      </dl>
     </div>
   );
 };
 
-export default EligibleIssuesWidget;
+const mapStateToProps = state => ({
+  additionalIssues: state.form.data.additionalIssues || [],
+});
+
+export { EligibleIssuesWidget };
+
+export default connect(mapStateToProps)(EligibleIssuesWidget);

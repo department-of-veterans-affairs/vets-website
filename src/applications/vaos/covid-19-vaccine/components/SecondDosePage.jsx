@@ -1,23 +1,26 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
-import * as actions from '../redux/actions';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import moment from 'moment';
-import { getReviewPage } from '../redux/selectors';
+import { getReviewPage, selectPageChangeInProgress } from '../redux/selectors';
+import {
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+} from '../redux/actions';
 
 const pageKey = 'secondDosePage';
 const pageTitle = 'When to expect a second dose';
 
-function SecondDosePage({
-  data,
-  facility,
-  pageChangeInProgress,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-}) {
+export default function SecondDosePage() {
+  const { data, facility } = useSelector(
+    state => getReviewPage(state, pageKey),
+    shallowEqual,
+  );
+  const pageChangeInProgress = useSelector(selectPageChangeInProgress);
   const history = useHistory();
+  const dispatch = useDispatch();
   const { date1 } = data;
 
   useEffect(() => {
@@ -63,25 +66,11 @@ function SecondDosePage({
       </div>
       <FormButtons
         pageChangeInProgress={pageChangeInProgress}
-        onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
-        onSubmit={() => {
-          routeToNextAppointmentPage(history, pageKey);
-        }}
+        onBack={() =>
+          dispatch(routeToPreviousAppointmentPage(history, pageKey))
+        }
+        onSubmit={() => dispatch(routeToNextAppointmentPage(history, pageKey))}
       />
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getReviewPage(state);
-}
-
-const mapDispatchToProps = {
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SecondDosePage);

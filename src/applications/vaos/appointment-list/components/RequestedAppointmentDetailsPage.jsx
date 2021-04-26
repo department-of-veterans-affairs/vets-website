@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
-import * as actions from '../redux/actions';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -21,14 +19,16 @@ import {
   getPatientTelecom,
   getVAAppointmentLocationId,
 } from '../../services/appointment';
-import {
-  selectFirstRequestMessage,
-  getCancelInfo,
-  selectAppointmentById,
-} from '../redux/selectors';
+import { selectRequestedAppointmentDetails } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './AppointmentsPage/PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
+import {
+  cancelAppointment,
+  closeCancelAppointment,
+  confirmCancelAppointment,
+  fetchRequestDetails,
+} from '../redux/actions';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -36,21 +36,22 @@ const TIME_TEXT = {
   'No Time Selected': '',
 };
 
-function RequestedAppointmentDetailsPage({
-  appointment,
-  appointmentDetailsStatus,
-  cancelAppointment,
-  cancelInfo,
-  closeCancelAppointment,
-  confirmCancelAppointment,
-  facilityData,
-  fetchRequestDetails,
-  message,
-}) {
+export default function RequestedAppointmentDetailsPage() {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const {
+    appointmentDetailsStatus,
+    facilityData,
+    cancelInfo,
+    appointment,
+    message,
+  } = useSelector(
+    state => selectRequestedAppointmentDetails(state, id),
+    shallowEqual,
+  );
 
   useEffect(() => {
-    fetchRequestDetails(id);
+    dispatch(fetchRequestDetails(id));
   }, []);
 
   useEffect(
@@ -157,7 +158,7 @@ function RequestedAppointmentDetailsPage({
               <button
                 aria-label="Cancel request"
                 className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
-                onClick={() => cancelAppointment(appointment)}
+                onClick={() => dispatch(cancelAppointment(appointment))}
               >
                 Cancel Request
               </button>
@@ -219,7 +220,7 @@ function RequestedAppointmentDetailsPage({
         <br />
         <span className="vads-u-font-style--italic">
           <ListBestTimeToCall
-            timesToCall={appointment.legacyVAR?.bestTimeToCall}
+            timesToCall={appointment.preferredTimesForPhoneCall}
           />
         </span>
       </div>
@@ -230,33 +231,9 @@ function RequestedAppointmentDetailsPage({
       </Link>
       <CancelAppointmentModal
         {...cancelInfo}
-        onConfirm={confirmCancelAppointment}
-        onClose={closeCancelAppointment}
+        onConfirm={() => dispatch(confirmCancelAppointment())}
+        onClose={() => dispatch(closeCancelAppointment())}
       />
     </PageLayout>
   );
 }
-function mapStateToProps(state, ownProps) {
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
-
-  return {
-    appointment: selectAppointmentById(state, ownProps.match.params.id, [
-      APPOINTMENT_TYPES.request,
-      APPOINTMENT_TYPES.ccRequest,
-    ]),
-    appointmentDetailsStatus,
-    facilityData,
-    message: selectFirstRequestMessage(state, ownProps.match.params.id),
-    cancelInfo: getCancelInfo(state),
-  };
-}
-const mapDispatchToProps = {
-  cancelAppointment: actions.cancelAppointment,
-  closeCancelAppointment: actions.closeCancelAppointment,
-  confirmCancelAppointment: actions.confirmCancelAppointment,
-  fetchRequestDetails: actions.fetchRequestDetails,
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequestedAppointmentDetailsPage);

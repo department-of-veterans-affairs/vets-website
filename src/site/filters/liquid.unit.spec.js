@@ -377,3 +377,15 @@ describe('strip', () => {
     expect(liquid.filters.strip('   \nhello\n    ')).to.equal('hello');
   });
 });
+
+describe('encode', () => {
+  it('encodes strings', () => {
+    expect(liquid.filters.encode("foo © bar ≠ baz 𝌆 qux''")).to.equal(
+      'foo &copy; bar &ne; baz &#x1D306; qux&amp;apos;&apos;',
+    );
+  });
+
+  it('returns a string when passed null', () => {
+    expect(liquid.filters.encode(null)).to.equal('');
+  });
+});

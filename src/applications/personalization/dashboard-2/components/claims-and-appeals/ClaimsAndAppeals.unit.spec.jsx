@@ -687,5 +687,42 @@ describe('ClaimsAndAppeals component', () => {
         });
       },
     );
+    context(
+      'the user has claims that closed over thirty days ago and got a 404 from the appeals endpoint because they have no appeals on file',
+      () => {
+        beforeEach(() => {
+          initialState = {
+            user: claimsAppealsUser(),
+            disability: {
+              status: {
+                claimsV2: {
+                  appealsLoading: false,
+                  claimsLoading: false,
+                  appeals: [],
+                  v2Availability: 'RECORD_NOT_FOUND_ERROR',
+                  claims: [
+                    makeClaimObject({ updateDate: daysAgo(100), phase: 8 }),
+                    makeClaimObject({ updateDate: daysAgo(35), phase: 8 }),
+                    makeClaimObject({ updateDate: daysAgo(60), phase: 8 }),
+                  ],
+                },
+              },
+            },
+          };
+          view = renderInReduxProvider(
+            <ClaimsAndAppeals dataLoadingDisabled />,
+            {
+              initialState,
+              reducers,
+            },
+          );
+        });
+        it('does not render anything', () => {
+          expect(view.queryByRole('progressbar')).to.not.exist;
+          expect(view.queryByTestId('dashboard-section-claims-and-appeals')).to
+            .not.exist;
+        });
+      },
+    );
   });
 });

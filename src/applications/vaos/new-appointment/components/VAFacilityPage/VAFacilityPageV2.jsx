@@ -328,6 +328,7 @@ function VAFacilityPageV2({
         message="We’re checking if we can create an appointment for you at this
                 facility. This may take up to a minute. Thank you for your
                 patience."
+        disableAnalytics
       />
 
       {showEligibilityModal && (
