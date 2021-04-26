@@ -12,8 +12,8 @@ export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
 export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
-export const INSTITUTION_SEARCH_SUCCEEDED = 'INSTITUTION_SEARCH_SUCCEEDED';
-export const PROGRAM_SEARCH_SUCCEEDED = 'PROGRAM_SEARCH_SUCCEEDED';
+export const SEARCH_BY_NAME_SUCCEEDED = 'SEARCH_BY_NAME_SUCCEEDED';
+export const SEARCH_BY_LOCATION_SUCCEEDED = 'SEARCH_BY_LOCATION_SUCCEEDED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
@@ -139,4 +139,12 @@ export function updateEligibilityAndFilters(eligibility, filters) {
     dispatch({ type: ELIGIBILITY_CHANGED, payload: eligibility });
     dispatch({ type: INSTITUTION_FILTERS_CHANGED, payload: filters });
   };
+}
+
+export function fetchSearchByNameResults(name) {
+  return { type: SEARCH_STARTED, payload: name };
+}
+
+export function fetchSearchByLocationResults(location, distance) {
+  return { type: SEARCH_STARTED, payload: { location, distance } };
 }

@@ -271,4 +271,27 @@
     }
   }
 
+
+  .search-form {
+
+    margin-top: 40px;
+
+    input:placeholder-shown {
+      font-style: italic;
+    }
+
+    input.location-search {
+      width: 490px;
+      max-width: none;
+    }
+
+    input.name-search {
+      max-width: 690px;
+    }
+
+    select {
+      width: 200px;
+    }
+  }
+
 }
