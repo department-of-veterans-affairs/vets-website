@@ -495,12 +495,12 @@ const testForm = testConfig => {
   } = testConfig;
 
   const skippedTests = Array.isArray(skip) && new Set(skip);
-  const testSuite =
-    (skip && !skippedTests) || !Cypress.env('FORMS') ? describe.skip : describe;
+  const testSuite = skip && !skippedTests ? describe.skip : describe;
   const testCase = (testKey, callback) =>
     skippedTests.has?.(testKey)
       ? context.skip(testKey, callback)
       : context(testKey, callback);
+
   testSuite(appName, () => {
     before(() => {
       if (!fixtures.data) {
