@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import recordEvent from 'platform/monitoring/record-event';
@@ -65,13 +65,25 @@ const UnStyledButtonInAccordion = styled.button`
   width: auto !important;
 `;
 
-const SharableLink = ({ dataEntityId }) => {
+const SharableLink = ({ dataEntityId, idx }) => {
   const [feedbackActive, setFeedbackActive] = useState(false);
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
   const [leftPx, setLeftPx] = useState(0);
   const offsetThreshold = 100;
   const widthOffset = 40;
+
+  useEffect(
+    () => {
+      if (idx === 0 && window.location.hash) {
+        recordEvent({
+          event: 'nav-jumplink-visit',
+          jumpLinkId: window.location.hash,
+        });
+      }
+    },
+    [idx],
+  );
 
   const extractId = idString => {
     if (!idString) return '';

@@ -9,9 +9,15 @@ export default function createSharableLink(store, widgetType) {
     import(/* webpackChunkName: "sharableLink" */
     './sharableLink').then(module => {
       const SharableLink = module.default;
+      let idx = -1;
       for (const link of sharableLinks) {
+        idx++;
         ReactDOM.render(
-          <SharableLink dataEntityId={link.getAttribute('parentid')} />,
+          <SharableLink
+            dataEntityId={link.getAttribute('parentid')}
+            idx={idx}
+            key={idx}
+          />,
           link,
         );
       }
