@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -13,8 +13,22 @@ const formatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,
 });
 
-const ExpandedContent = ({ debt, updateDebts }) => {
+const ExpandedContent = ({ debt, updateDebts, showError }) => {
+  const [checked, setChecked] = useState(false);
+  const [error, setError] = useState(false);
   const objKey = 'offerToPay';
+
+  useEffect(
+    () => {
+      if (showError && !checked) {
+        setError(true);
+      } else {
+        setError(false);
+      }
+    },
+    [checked, showError],
+  );
+
   switch (debt.value) {
     case 'Extended monthly payments':
       return (
@@ -40,7 +54,9 @@ const ExpandedContent = ({ debt, updateDebts }) => {
       return (
         <Checkbox
           label="By checking this box, I’m agreeing that I understand how a debt waiver may affect my VA education benefits. If VA grants me a waiver, this will reduce any remaining education benefit entitlement I may have."
-          onValueChange={function noRefCheck() {}}
+          checked={checked}
+          onValueChange={value => setChecked(value)}
+          errorMessage={error && 'Check the box!!'}
           //   required
         />
       );
@@ -71,10 +87,10 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
     <>
       <h4 className="vads-u-margin--0">Your selected debts</h4>
       {selectedDebts.map(debt => {
+        const objKey = 'value';
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
         const subTitle =
           debt.currentAr && formatter.format(parseFloat(debt.currentAr));
-        const objKey = 'value';
 
         return (
           <div
@@ -99,7 +115,11 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
                 onValueChange={input => updateDebts(objKey, input, debt)}
                 // required
               />
-              <ExpandedContent debt={debt} updateDebts={updateDebts} />
+              <ExpandedContent
+                debt={debt}
+                updateDebts={updateDebts}
+                // showError
+              />
             </ExpandingGroup>
           </div>
         );
