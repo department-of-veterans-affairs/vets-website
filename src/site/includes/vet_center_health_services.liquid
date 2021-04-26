@@ -1,5 +1,4 @@
-
-{% assign servicesList = fieldHealthServices | filterByTypeOfCare: typeOfCare %}
+{% assign servicesList = fieldHealthServices | filterBy: "entity.fieldServiceNameAndDescripti.entity.fieldVetCenterTypeOfCare", typeOfCare %}
 {% if servicesList.length > 0 %}
     {% if typeOfCare == "counselling" %}
         <h2 id="counseling-services" class="vads-u-margin-top--0 vads-u-font-size--lg

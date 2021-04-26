@@ -709,13 +709,9 @@ module.exports = function registerFilters() {
     return string.replace(regex, newVal);
   };
 
-  liquid.filters.filterByTypeOfCare = (data, typeOfCare) => {
+  liquid.filters.filterBy = (data, filterBy, valueFilter) => {
     return data
-      .filter(
-        e =>
-          e.entity?.fieldServiceNameAndDescripti?.entity
-            ?.fieldVetCenterTypeOfCare === typeOfCare,
-      )
+      .filter(e => _.get(e, filterBy) === valueFilter)
       .map(e => e.entity);
   };
 
