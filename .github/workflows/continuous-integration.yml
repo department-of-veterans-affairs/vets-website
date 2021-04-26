@@ -185,5 +185,5 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Build
-        run: yarn build --env.buildtype vagovprod
+        run: yarn build --buildtype vagovprod
         timeout-minutes: 30
