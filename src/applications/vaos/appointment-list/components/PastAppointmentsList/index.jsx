@@ -8,10 +8,7 @@ import { focusElement } from 'platform/utilities/ui';
 import * as actions from '../../redux/actions';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../../utils/constants';
-import {
-  selectPastAppointments,
-  selectExpressCareAvailability,
-} from '../../redux/selectors';
+import { selectPastAppointments } from '../../redux/selectors';
 import ConfirmedAppointmentListItem from '../cards/confirmed/ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 
@@ -84,7 +81,6 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
 }
 
 function PastAppointmentsList({
-  expressCare,
   dateRangeOptions = getPastAppointmentDateRangeOptions(),
   past,
   pastSelectedIndex,
@@ -178,11 +174,6 @@ function PastAppointmentsList({
 
   return (
     <div role="tabpanel" aria-labelledby="tabpast" id="tabpanelpast">
-      {!expressCare.hasRequests && (
-        <h2 tabIndex="-1" id="pastAppts" className="vads-u-font-size--h3">
-          Past appointments
-        </h2>
-      )}
       <PastAppointmentsDateDropdown
         currentRange={pastSelectedIndex}
         onChange={onDateRangeChange}
@@ -207,7 +198,6 @@ function mapStateToProps(state) {
     pastStatus: state.appointments.pastStatus,
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,
-    expressCare: selectExpressCareAvailability(state),
   };
 }
 

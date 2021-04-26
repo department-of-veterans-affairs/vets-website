@@ -53,7 +53,7 @@
     "pact:can-i-deploy": "node ./script/can-i-deploy.js",
     "pact:publish": "node ./script/publish-pacts.js",
     "pact:verify": "node ./script/verify-pacts.js",
-    "postinstall": "npm rebuild node-sass && node ./script/check-node-version.js && cd node_modules/web-components && npm install --only=prod && npm run-script build",
+    "postinstall": "npm rebuild node-sass && node ./script/check-node-version.js && cd node_modules/web-components && yarn install --production && yarn build",
     "proxy-rewrite:verify-targets": "node src/applications/proxy-rewrite/scripts/verify-injection-targets.js",
     "pr-check": "node script/pr-check.js",
     "reset:env": "./script/reset-environment.sh",
@@ -284,8 +284,8 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "2.3.1",
-    "@department-of-veterans-affairs/formation": "6.16.0",
+    "@department-of-veterans-affairs/component-library": "2.4.1",
+    "@department-of-veterans-affairs/formation": "6.16.1",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@formatjs/intl-datetimeformat": "^3.2.7",
     "@formatjs/intl-getcanonicallocales": "^1.5.3",
@@ -364,7 +364,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#656403af718a3fbd70326f11ab2b694b707bdd7d",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d95fd3fdb480cc12aeb8b8b16b8f5b84e054e31c",
     "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.4.0",
     "whatwg-fetch": "^2.0.3"
   },

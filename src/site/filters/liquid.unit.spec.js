@@ -1,5 +1,5 @@
 import liquid from 'tinyliquid';
-import { expect } from 'chai';
+import { expect, assert } from 'chai';
 
 import registerFilters from './liquid';
 
@@ -59,6 +59,20 @@ describe('formatSharableID', () => {
         'Kailangan ko bang magsuot ng mask kapag pumunta ako sa isang ospital ng VA o ibang lokasyon?',
       ),
     ).to.eq('kailangan-ko-bang-magsuot-ng-m-30316');
+  });
+});
+
+describe('detectLang', () => {
+  it('detects english', () => {
+    expect(liquid.filters.detectLang('some-url')).to.eq('en');
+  });
+
+  it('detects spanish', () => {
+    expect(liquid.filters.detectLang('some-url-esp')).to.eq('es');
+  });
+
+  it('detects taglog', () => {
+    expect(liquid.filters.detectLang('some-url-tag')).to.eq('tl');
   });
 });
 
@@ -348,5 +362,64 @@ describe('replace', () => {
     expect(liquid.filters.replace('<h3>some text</h3>', 'h3', 'h4')).to.equal(
       '<h4>some text</h4>',
     );
+  });
+});
+
+describe('concat', () => {
+  it('concatenates 2 or more arrays', () => {
+    expect(JSON.stringify(liquid.filters.concat([1], 2, [3], [[4]]))).to.equal(
+      JSON.stringify([1, 2, 3, [4]]),
+    );
+  });
+});
+describe('strip', () => {
+  it('removes leading and trailing whitespace', () => {
+    expect(liquid.filters.strip('   \nhello\n    ')).to.equal('hello');
+  });
+});
+
+describe('filterBy', () => {
+  it('filter array object by given path and value - 1', () => {
+    assert.deepEqual(
+      liquid.filters.filterBy(
+        [
+          { class: { abstract: { number: 3 } } },
+          { class: { abstract: { number: 5 } } },
+          { class: { abstract: { number: 4 } } },
+          { class: { abstract: { number: 1 } } },
+          { class: { abstract: { number: 1 } } },
+        ],
+        'class.abstract.number',
+        1,
+      ),
+      [
+        { class: { abstract: { number: 1 } } },
+        { class: { abstract: { number: 1 } } },
+      ],
+    );
+  });
+  it('filter array object by given path and value - 2', () => {
+    assert.deepEqual(
+      liquid.filters.filterBy([{ class: {} }], 'class.abstract.number', 2),
+      [],
+    );
+  });
+  it('filter array object by given path and value - 3', () => {
+    assert.deepEqual(
+      liquid.filters.filterBy([{}], 'class.abstract.number', 3),
+      [],
+    );
+  });
+});
+
+describe('encode', () => {
+  it('encodes strings', () => {
+    expect(liquid.filters.encode("foo © bar ≠ baz 𝌆 qux''")).to.equal(
+      'foo &copy; bar &ne; baz &#x1D306; qux&amp;apos;&apos;',
+    );
+  });
+
+  it('returns a string when passed null', () => {
+    expect(liquid.filters.encode(null)).to.equal('');
   });
 });

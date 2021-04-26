@@ -182,7 +182,7 @@ export const venueAddress = (formValues, noDRB) => {
 
 export const formData = formValues => {
   const boardData = board(formValues);
-  if (boardData && boardData.abbr === 'DRB') {
+  if (boardData?.abbr === 'DRB') {
     return {
       num: 293,
       link:
@@ -191,7 +191,9 @@ export const formData = formValues => {
   }
   return {
     num: 149,
-    link: 'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
+    link:
+      'https://www.dfas.mil/Portals/98/Documents/CorrectMilitaryRecords/dd0149.pdf?ver=2020-01-08-143351-750',
+    // link: 'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
   };
 };
 

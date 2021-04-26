@@ -5,17 +5,15 @@ export default {
     vaFileLastFour: '8765',
   },
   homeless: false,
-  // 'view:hasRep': true,
-  // representative: {
-  //   name: '',
-  //   email: '',
-  // },
+  'view:hasRep': true,
+  representativeName: 'George Jetson',
   boardReviewOption: '',
   hearingTypePreference: '',
   socOptIn: true,
+  'view:additionalEvidence': '',
 
   // Leave 'view:selected' set to false for unit testing
-  contestedIssues: [
+  contestableIssues: [
     {
       type: 'contestableIssue',
       attributes: {
@@ -55,5 +53,10 @@ export default {
     //   },
     // },
   ],
-  additionalIssues: [],
+  additionalIssues: [
+    {
+      condition: 'Back sprain',
+      approxDecisionDate: '2020-11-15',
+    },
+  ],
 };

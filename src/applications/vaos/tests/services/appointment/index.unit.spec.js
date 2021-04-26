@@ -11,8 +11,6 @@ import {
   isValidPastAppointment,
   getBookedAppointments,
   getAppointmentRequests,
-  hasPractitioner,
-  getPractitionerDisplay,
   FUTURE_APPOINTMENTS_HIDDEN_SET,
 } from '../../../services/appointment';
 import confirmed from '../../../services/mocks/var/confirmed_va.json';
@@ -346,37 +344,6 @@ describe('VAOS Appointment service', () => {
       const filtered = appointments.filter(isValidPastAppointment);
 
       expect(filtered.length).to.equal(3);
-    });
-  });
-
-  describe('appointment practitioner', () => {
-    it('should return boolean if appointment contains keyword practitioner', () => {
-      const appointmentTrue = {
-        participant: [
-          { actor: { reference: 'Location/test' } },
-          { actor: { reference: 'Practitioner/Tester', display: 'Tester' } },
-        ],
-      };
-
-      const appointmentFalse = {
-        participant: [{ actor: { reference: 'Location/test' } }],
-      };
-
-      const responseTrue = hasPractitioner(appointmentTrue);
-      expect(responseTrue).to.be.true;
-
-      const responseFalse = hasPractitioner(appointmentFalse);
-      expect(responseFalse).to.be.false;
-    });
-
-    it('should return string of practitioner display', () => {
-      const appointment = [
-        { actor: { reference: 'Location/test' } },
-        { actor: { reference: 'Practitioner/Tester', display: 'Tester' } },
-      ];
-
-      const response = getPractitionerDisplay(appointment);
-      expect(response).to.equal('Tester');
     });
   });
 });

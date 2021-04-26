@@ -27,7 +27,7 @@ const data = {
     },
     data: {
       ...initialData.data,
-      contestedIssues: [
+      contestableIssues: [
         {
           [SELECTED]: true,
           attributes: {

@@ -44,6 +44,7 @@ const HealthCare = ({
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
   hasInboxError,
+  hasAppointmentsError,
 }) => {
   const nextAppointment = appointments?.[0];
   const start = new Date(nextAppointment?.startsAt);
@@ -108,28 +109,32 @@ const HealthCare = ({
       <h2>Health care</h2>
 
       <div className="vads-l-row">
-        {hasUpcomingAppointment && (
+        {(hasUpcomingAppointment || hasAppointmentsError) && (
           /* Appointments */
           <DashboardWidgetWrapper>
-            <Appointments appointments={appointments} />
+            <Appointments
+              appointments={appointments}
+              hasError={hasAppointmentsError}
+            />
           </DashboardWidgetWrapper>
         )}
 
         <DashboardWidgetWrapper>
-          {!hasUpcomingAppointment && (
-            <>
-              {hasFutureAppointments && (
-                <p>You have no appointments scheduled in the next 30 days.</p>
-              )}
+          {!hasUpcomingAppointment &&
+            !hasAppointmentsError && (
+              <>
+                {hasFutureAppointments && (
+                  <p>You have no appointments scheduled in the next 30 days.</p>
+                )}
 
-              <IconCTALink
-                href="/health-care/schedule-view-va-appointments/appointments"
-                icon="calendar-check"
-                newTab
-                text="Schedule and view your appointments"
-              />
-            </>
-          )}
+                <IconCTALink
+                  href="/health-care/schedule-view-va-appointments/appointments"
+                  icon="calendar-check"
+                  newTab
+                  text="Schedule and view your appointments"
+                />
+              </>
+            )}
 
           {/* Messages */}
           <IconCTALink
@@ -161,7 +166,7 @@ const HealthCare = ({
 
           {/* VA Medical records */}
           <IconCTALink
-            href="/health-care/get-medical-records/"
+            href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
             icon="file-medical"
             text="Get your VA medical records"
           />
@@ -207,12 +212,14 @@ const mapStateToProps = state => {
     : false;
 
   const hasInboxError = selectFolder(state)?.errors?.length > 0;
+  const hasAppointmentsError = state.health?.appointments?.errors?.length > 0;
 
   return {
     appointments: state.health?.appointments?.data,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     facilityNames,
     hasInboxError,
+    hasAppointmentsError,
     isCernerPatient: selectIsCernerPatient(state),
     shouldFetchMessages,
     shouldShowLoadingIndicator: fetchingAppointments || fetchingInbox,

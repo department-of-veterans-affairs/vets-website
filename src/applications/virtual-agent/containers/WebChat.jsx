@@ -2,6 +2,9 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { apiRequest } from 'platform/utilities/api';
 import ChatbotError from './ChatbotError';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import MarkdownRenderer from '../utils/markdownRenderer';
+
+const renderMarkdown = text => MarkdownRenderer.render(text);
 
 export default function WebChat() {
   const { ReactWebChat, createDirectLine } = window.WebChat;
@@ -60,22 +63,22 @@ export default function WebChat() {
 
   return (
     <div className={'vads-l-grid-container'}>
-      <div
-        className={'vads-l-row'}
-        style={{ height: '500px' }}
-        data-testid={'webchat-container'}
-      >
+      <div className={'vads-l-row'} data-testid={'webchat-container'}>
         {token && (
-          <div data-testid={'webchat'}>
+          <div
+            data-testid={'webchat'}
+            style={{ height: '500px', width: '100%' }}
+          >
             <ReactWebChat
               styleOptions={{ hideUploadButton: true }}
               directLine={directLine}
               store={store}
+              renderMarkdown={renderMarkdown}
             />
           </div>
         )}
         {!token && !tokenLoading && <ChatbotError />}
-        {tokenLoading && <LoadingIndicator message={'Loading Chatbot'} />}
+        {tokenLoading && <LoadingIndicator message={'Loading Virtual Agent'} />}
       </div>
     </div>
   );
