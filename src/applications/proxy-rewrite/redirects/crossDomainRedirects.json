@@ -1097,6 +1097,6 @@
   {
     "domain": "www.benefits.va.gov",
     "src": "/gibill/vrrap.asp",
-    "dest": "/education/other-va-education-benefits/veteran-rapid-retraining-assistance"
+    "dest": "/education/other-va-education-benefits/veteran-rapid-retraining-assistance/"
   }
 ]
