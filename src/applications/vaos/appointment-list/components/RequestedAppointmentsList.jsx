@@ -1,35 +1,38 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
-import * as actions from '../redux/actions';
 import {
-  selectFeatureRequests,
-  selectIsCernerOnlyPatient,
-} from '../../redux/selectors';
-import { selectPendingAppointments } from '../redux/selectors';
+  fetchPendingAppointments,
+  startNewAppointmentFlow,
+} from '../redux/actions';
+import { getRequestedAppointmentListInfo } from '../redux/selectors';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import { getVAAppointmentLocationId } from '../../services/appointment';
 import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
-function RequestedAppointmentsList({
-  showScheduleButton,
-  isCernerOnlyPatient,
-  pendingAppointments,
-  pendingStatus,
-  facilityData,
-  fetchPendingAppointments,
-  startNewAppointmentFlow,
-  hasTypeChanged,
-}) {
+export default function RequestedAppointmentsList({ hasTypeChanged }) {
+  const {
+    facilityData,
+    isCernerOnlyPatient,
+    pendingAppointments,
+    pendingStatus,
+    showScheduleButton,
+  } = useSelector(
+    state => getRequestedAppointmentListInfo(state),
+    shallowEqual,
+  );
+
+  const dispatch = useDispatch();
+
   useEffect(
     () => {
       if (pendingStatus === FETCH_STATUS.notStarted) {
-        fetchPendingAppointments();
+        dispatch(fetchPendingAppointments());
       } else if (hasTypeChanged && pendingStatus === FETCH_STATUS.succeeded) {
         scrollAndFocus('#type-dropdown');
       } else if (hasTypeChanged && pendingStatus === FETCH_STATUS.failed) {
@@ -107,23 +110,3 @@ RequestedAppointmentsList.propTypes = {
   showScheduleButton: PropTypes.bool,
   startNewAppointmentFlow: PropTypes.func,
 };
-
-function mapStateToProps(state) {
-  return {
-    facilityData: state.appointments.facilityData,
-    pendingStatus: state.appointments.pendingStatus,
-    pendingAppointments: selectPendingAppointments(state),
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showScheduleButton: selectFeatureRequests(state),
-  };
-}
-
-const mapDispatchToProps = {
-  fetchPendingAppointments: actions.fetchPendingAppointments,
-  startNewAppointmentFlow: actions.startNewAppointmentFlow,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequestedAppointmentsList);

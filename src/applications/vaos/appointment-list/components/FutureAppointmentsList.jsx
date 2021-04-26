@@ -12,7 +12,6 @@ import {
 } from '../../redux/selectors';
 import {
   selectFutureAppointments,
-  selectExpressCareAvailability,
   selectFutureStatus,
 } from '../redux/selectors';
 import {
@@ -33,7 +32,6 @@ function FutureAppointmentsList({
   futureStatus,
   facilityData,
   requestMessages,
-  expressCare,
   cancelAppointment,
   fetchRequestMessages,
   startNewAppointmentFlow,
@@ -112,15 +110,8 @@ function FutureAppointmentsList({
     );
   }
 
-  const header = !expressCare.hasRequests && (
-    <h2 className="vads-u-margin-bottom--4 vads-u-font-size--h3">
-      Upcoming appointments
-    </h2>
-  );
-
   return (
     <div role="tabpanel" aria-labelledby="tabupcoming" id="tabpanelupcoming">
-      {header}
       {content}
     </div>
   );
@@ -146,7 +137,6 @@ function mapStateToProps(state) {
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showCancelButton: selectFeatureCancel(state),
     showScheduleButton: selectFeatureRequests(state),
-    expressCare: selectExpressCareAvailability(state),
   };
 }
 

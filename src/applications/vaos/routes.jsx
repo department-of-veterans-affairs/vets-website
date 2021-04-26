@@ -57,9 +57,9 @@ export default function createRoutesWithStore(store) {
             path="/new-covid-19-vaccine-booking"
             component={asyncLoader(() =>
               import(/* webpackChunkName: "covid-19-vaccine" */ './covid-19-vaccine')
-                .then(({ NewBooking, reducer }) => {
+                .then(({ NewBookingSection, reducer }) => {
                   store.injectReducer('covid19Vaccine', reducer);
-                  return NewBooking;
+                  return NewBookingSection;
                 })
                 .catch(handleLoadError),
             )}

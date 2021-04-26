@@ -2,19 +2,27 @@ import React from 'react';
 import { format } from 'date-fns';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-// import { scrollTo } from '../helpers';
+export const missingIssueErrorMessage = (
+  <span className="usa-input-error-message" role="alert">
+    <span className="sr-only">Error</span>
+    Please select one of the eligible issues or add an issue
+  </span>
+);
+
+export const missingConditionErrorMessage =
+  'Please add the name of a condition';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
 // case we end up filtering out deferred and expired issues
 export const EligibleIssuesTitle = props =>
-  props?.formData?.contestedIssues?.length === 0 ? (
+  props?.formData?.contestableIssues?.length === 0 ? (
     <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
       Sorry, we couldn’t find any eligible conditions
     </h2>
   ) : (
     <legend name="eligibleScrollElement" className="vads-u-font-size--lg">
-      Please select the condition(s) you would like to have reviewed
+      Please select the issue(s) you’d like us to review:
       <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
         (*Required)
       </span>
@@ -26,16 +34,14 @@ export const EligibleIssuesDescription = (
     <div>
       <p className="vads-u-margin-top--0">
         These issues are in your VA record. If an issue is missing from this
-        list, you can add it by clicking the <strong>Add condition</strong>{' '}
-        button (NOT YET IMPLEMENTED).
+        list, you can add it by clicking the <strong>Add issue</strong> button.
       </p>
     </div>
-    <AdditionalInfo triggerText={'Why don’t I see my issue here?'}>
-      It’s possible the issue or decision isn’t in our system yet. This can
-      happen if it’s a more recent claim decision and is still being processed
-      in another system, or if the information hasn’t been sent to va.gov as of
-      yet. If you don’t see the issue you wish to have reviewed, please click
-      the “add issue” button below to add it manually.
+    <AdditionalInfo
+      triggerText={<strong>Why aren’t all my issues listed here?</strong>}
+    >
+      The issue or decision may not be in our system yet. This can happen if
+      it’s a more recent claim decision. We may still be processing it.
     </AdditionalInfo>
   </>
 );
@@ -80,14 +86,10 @@ export const DisabilityCard = ({ attributes }) => {
         <p>
           Decision date:{' '}
           <strong>
-            {format(new Date(approxDecisionDate), 'MMMM d, yyyy')}
+            {format(new Date(`${approxDecisionDate} 00:00:00`), 'MMMM d, yyyy')}
           </strong>
         </p>
       )}
     </div>
   );
 };
-
-export const MissingIssueExplanationAlert = (
-  <p className="vads-u-margin-top--2p5">xx</p>
-);

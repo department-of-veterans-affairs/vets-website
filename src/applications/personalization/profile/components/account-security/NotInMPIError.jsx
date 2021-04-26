@@ -24,7 +24,7 @@ const NotInMPIError = () => {
   return (
     <div className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4">
       <AlertBox
-        headline="We can’t match your information to our Veteran records"
+        headline="We can’t match your information to our records"
         content={content}
         status="warning"
       />
