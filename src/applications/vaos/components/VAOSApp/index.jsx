@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import DowntimeNotification, {
@@ -16,12 +16,14 @@ import AppUnavailable from './AppUnavailable';
 import DowntimeMessage from './DowntimeMessage';
 import FullWidthLayout from '../FullWidthLayout';
 
-function VAOSApp({
-  children,
-  showApplication,
-  loadingFeatureToggles,
-  useFlatFacilityPage,
-}) {
+export default function VAOSApp({ children }) {
+  const showApplication = useSelector(state => selectFeatureApplication(state));
+  const loadingFeatureToggles = useSelector(state =>
+    selectFeatureToggleLoading(state),
+  );
+  const useFlatFacilityPage = useSelector(state =>
+    selectUseFlatFacilityPage(state),
+  );
   useEffect(
     () => {
       if (useFlatFacilityPage) {
@@ -57,13 +59,3 @@ function VAOSApp({
     </>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    showApplication: selectFeatureApplication(state),
-    loadingFeatureToggles: selectFeatureToggleLoading(state),
-    useFlatFacilityPage: selectUseFlatFacilityPage(state),
-  };
-}
-
-export default connect(mapStateToProps)(VAOSApp);
