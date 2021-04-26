@@ -12,24 +12,30 @@ export default function WebChat() {
   const [tokenLoading, setTokenLoading] = useState(true);
 
   useEffect(() => {
+    async function getVirtualAgentToken() {
+      return apiRequest('/virtual_agent_token', {
+        method: 'POST',
+      });
+    }
+
+    async function retryOnce(retryableFunction) {
+      try {
+        return await retryableFunction();
+      } catch (error) {
+        // eslint-disable-next-line no-return-await
+        return await retryableFunction();
+      }
+    }
+
     async function getToken() {
       try {
-        const res = await apiRequest('/virtual_agent_token', {
-          method: 'POST',
-        });
-        setTokenLoading(false);
-        setToken(res.token);
+        const response = await retryOnce(() => getVirtualAgentToken());
+        setToken(response.token);
       } catch (error) {
-        try {
-          const res = await apiRequest('/virtual_agent_token', {
-            method: 'POST',
-          });
-          setTokenLoading(false);
-          setToken(res.token);
-        } catch (secondError) {
-          setTokenLoading(false);
-        }
+        setTokenLoading(false);
       }
+
+      setTokenLoading(false);
     }
     getToken();
   }, []);
