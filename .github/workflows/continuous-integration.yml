@@ -155,8 +155,16 @@ jobs:
     name: Build
     runs-on: self-hosted
     steps:
-      - name: Checkout
+      - name: Checkout vagov-content
         uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/vagov-content
+          path: vagov-content
+
+      - name: Checkout vets-website
+        uses: actions/checkout@v2
+        with:
+          path: vets-website
 
       - name: Get Node version
         id: get-node-version
