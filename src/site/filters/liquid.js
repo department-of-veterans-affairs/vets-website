@@ -710,9 +710,7 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.filterBy = (data, filterBy, valueFilter) => {
-    return data
-      .filter(e => _.get(e, filterBy) === valueFilter)
-      .map(e => e.entity);
+    return data.filter(e => _.get(e, filterBy) === valueFilter);
   };
 
   liquid.filters.processDynamicContent = (entity, contentType) => {

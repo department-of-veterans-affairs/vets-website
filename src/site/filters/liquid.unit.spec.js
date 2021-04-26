@@ -1,5 +1,5 @@
 import liquid from 'tinyliquid';
-import { expect } from 'chai';
+import { expect, assert } from 'chai';
 
 import registerFilters from './liquid';
 
@@ -375,5 +375,27 @@ describe('concat', () => {
 describe('strip', () => {
   it('removes leading and trailing whitespace', () => {
     expect(liquid.filters.strip('   \nhello\n    ')).to.equal('hello');
+  });
+});
+
+describe('filterBy', () => {
+  it('filter array object by given path and value', () => {
+    assert.deepEqual(
+      liquid.filters.filterBy(
+        [
+          { class: { abstract: { number: 3 } } },
+          { class: { abstract: { number: 5 } } },
+          { class: { abstract: { number: 4 } } },
+          { class: { abstract: { number: 1 } } },
+          { class: { abstract: { number: 1 } } },
+        ],
+        'class.abstract.number',
+        1,
+      ),
+      [
+        { class: { abstract: { number: 1 } } },
+        { class: { abstract: { number: 1 } } },
+      ],
+    );
   });
 });

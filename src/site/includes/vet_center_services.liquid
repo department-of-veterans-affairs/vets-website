@@ -1,19 +1,19 @@
 <div class="vads-u-margin-bottom--3">
     {% for entity in services %}
-        {% assign idService = entity.fieldServiceNameAndDescripti.entity.fieldVetCenterTypeOfCare %}
-        <va-accordion bordered id="{{ idService }}-accordion-{{ entity.fieldServiceNameAndDescripti.entity.name }}">
+        {% assign idService = entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterTypeOfCare %}
+        <va-accordion bordered id="{{ idService }}-accordion-{{ entity.entity.fieldServiceNameAndDescripti.entity.name }}">
             <va-accordion-item
-                    id="{{ idService }}-item-{{ entity.fieldServiceNameAndDescripti.entity.name}}"
-                    header="{{ entity.fieldServiceNameAndDescripti.entity.name }}"
-                    subheader="{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterFriendlyName }}"
+                    id="{{ idService }}-item-{{ entity.entity.fieldServiceNameAndDescripti.entity.name}}"
+                    header="{{ entity.entity.fieldServiceNameAndDescripti.entity.name }}"
+                    subheader="{{ entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterFriendlyName }}"
                     level="3">
-                {% if entity.fieldServiceNameAndDescripti.entity.fieldVetCenterComConditions != empty %}
-                    <p>{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterComConditions }}</p>
+                {% if entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterComConditions != empty %}
+                    <p>{{ entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterComConditions }}</p>
                 {% endif %}
-                {% if entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip != empty %}
-                    <p>{{ entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip  }}</p>
+                {% if entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip != empty %}
+                    <p>{{ entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip  }}</p>
                 {% endif %}
-                {{ entity.fieldServiceNameAndDescripti.entity.description.processed | drupalToVaPath | outputLinks }}
+                {{ entity.entity.fieldServiceNameAndDescripti.entity.description.processed | drupalToVaPath | outputLinks }}
             </va-accordion-item>
         </va-accordion>
     {% endfor %}
