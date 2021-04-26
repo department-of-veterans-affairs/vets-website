@@ -16,6 +16,7 @@ import {
   isLOA1 as isLOA1Selector,
   isVAPatient as isVAPatientSelector,
   hasMPIConnectionError,
+  isNotInMPI,
 } from '~/platform/user/selectors';
 import RequiredLoginView, {
   RequiredLoginLoader,
@@ -43,6 +44,7 @@ import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import MPIConnectionError from './MPIConnectionError';
+import NotInMPIError from './NotInMPIError';
 import CTALink from './CTALink';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
@@ -93,6 +95,7 @@ const Dashboard = ({
   isLOA3,
   showLoader,
   showMPIConnectionError,
+  showNotInMPIError,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -171,6 +174,14 @@ const Dashboard = ({
                 </div>
               ) : null}
 
+              {showNotInMPIError ? (
+                <div className="vads-l-row">
+                  <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+                    <NotInMPIError />
+                  </div>
+                </div>
+              ) : null}
+
               {props.showValidateIdentityAlert ? (
                 <div className="vads-l-row">
                   <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
@@ -178,6 +189,7 @@ const Dashboard = ({
                   </div>
                 </div>
               ) : null}
+
               {props.showClaimsAndAppeals ? (
                 <DowntimeNotification
                   dependencies={[
@@ -189,7 +201,9 @@ const Dashboard = ({
                   <ClaimsAndAppeals />
                 </DowntimeNotification>
               ) : null}
+
               {props.showHealthCare ? <HealthCare /> : null}
+
               <ApplyForBenefits />
             </div>
           </div>
@@ -230,9 +244,14 @@ const mapStateToProps = state => {
   const showValidateIdentityAlert = isLOA1;
   const showNameTag = isLOA3 && isEmpty(hero?.errors);
   const showMPIConnectionError = hasMPIConnectionError(state);
+  const showNotInMPIError = isNotInMPI(state);
   const showClaimsAndAppeals =
-    !showMPIConnectionError && isLOA3 && hasClaimsOrAppealsService;
-  const showHealthCare = !showMPIConnectionError && isLOA3 && isVAPatient;
+    !showMPIConnectionError &&
+    !showNotInMPIError &&
+    isLOA3 &&
+    hasClaimsOrAppealsService;
+  const showHealthCare =
+    !showMPIConnectionError && !showNotInMPIError && isLOA3 && isVAPatient;
 
   return {
     isLOA3,
@@ -246,6 +265,7 @@ const mapStateToProps = state => {
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     user: state.user,
     showMPIConnectionError,
+    showNotInMPIError,
   };
 };
 
