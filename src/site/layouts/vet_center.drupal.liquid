@@ -92,35 +92,20 @@
           <h2 id="in-the-spot-light" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">In the spotlight at {{ entityLabel }} </h2>
 
-            {% assign counselingServices = fieldHealthServices | filterByTypeOfCare: "counselling" %}
-            {% if counselingServices.length > 0 %}
-                <h2 id="counseling-services" class="vads-u-margin-top--0 vads-u-font-size--lg
-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Counseling services</h2>
-                <p> Click on a service for more details. </p>
-                {% include "src/site/includes/vet_center_services.liquid" with
-                    services = counselingServices
-                %}
-            {% endif %}
+            {% include "src/site/includes/vet_center_health_services.liquid" with
+                fieldHealthServices
+                typeOfCare = "counselling"
+            %}
 
-            {% assign referralServices = fieldHealthServices | filterByTypeOfCare: "referral" %}
-            {% if referralServices.length > 0 %}
-                <h2 id="referral-services" class="vads-u-margin-top--0 vads-u-font-size--lg
-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Referral Services</h2>
-                <p> Click on a service for more details. </p>
-                {% include "src/site/includes/vet_center_services.liquid" with
-                    services = referralServices
-                %}
-            {% endif %}
+            {% include "src/site/includes/vet_center_health_services.liquid" with
+                fieldHealthServices
+                typeOfCare = "referral"
+            %}
 
-            {% assign otherServices = fieldHealthServices | filterByTypeOfCare: "other" %}
-            {% if otherServices.length > 0 %}
-                <h2 id="other-services" class="vads-u-margin-top--0 vads-u-font-size--lg
-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Other services</h2>
-                <p> Click on a service for more details. </p>
-                {% include "src/site/includes/vet_center_services.liquid" with
-                    services = otherServices
-                %}
-            {% endif %}
+            {% include "src/site/includes/vet_center_health_services.liquid" with
+                fieldHealthServices
+                typeOfCare = "other"
+            %}
 
           <h2 id="how-different-than-clinic" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">How we're different than a clinic</h2>
