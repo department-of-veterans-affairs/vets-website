@@ -20,7 +20,15 @@ export default function WebChat() {
         setTokenLoading(false);
         setToken(res.token);
       } catch (error) {
-        setTokenLoading(false);
+        try {
+          const res = await apiRequest('/virtual_agent_token', {
+            method: 'POST',
+          });
+          setTokenLoading(false);
+          setToken(res.token);
+        } catch (secondError) {
+          setTokenLoading(false);
+        }
       }
     }
     getToken();
