@@ -16,6 +16,22 @@ const vetCenterFragment = `
         entityLabel
         fieldIntroText
         fieldFacilityLocatorApiId
+        fieldCcVetCenterFeaturedCon {
+          fetched
+          fetchedBundle
+        }
+        fieldCcVetCenterFaqs {
+          fetched
+          fetchedBundle
+        }
+        fieldCcNonTraditionalHours {
+          fetched
+          fetchedBundle
+        }
+        fieldCcVetCenterCallCenter {
+          fetched
+          fetchedBundle
+        }
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}
         fieldPhoneNumber
         fieldAddress {
