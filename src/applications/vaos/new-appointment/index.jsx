@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   Switch,
   Route,
@@ -37,11 +37,16 @@ import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 
-function NewAppointmentSection({
-  flatFacilityPageEnabled,
-  isCernerOnlyPatient,
-  providerSelectionEnabled,
-}) {
+function NewAppointmentSection() {
+  const isCernerOnlyPatient = useSelector(state =>
+    selectIsCernerOnlyPatient(state),
+  );
+  const flatFacilityPageEnabled = useSelector(state =>
+    selectUseFlatFacilityPage(state),
+  );
+  const providerSelectionEnabled = useSelector(state =>
+    selectUseProviderSelection(state),
+  );
   const match = useRouteMatch();
   const location = useLocation();
 
@@ -143,14 +148,6 @@ function NewAppointmentSection({
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    flatFacilityPageEnabled: selectUseFlatFacilityPage(state),
-    providerSelectionEnabled: selectUseProviderSelection(state),
-  };
-}
-
-export const NewAppointment = connect(mapStateToProps)(NewAppointmentSection);
+export const NewAppointment = NewAppointmentSection;
 
 export const reducer = newAppointmentReducer;
