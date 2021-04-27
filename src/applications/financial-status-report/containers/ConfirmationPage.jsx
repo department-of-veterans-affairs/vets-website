@@ -103,7 +103,7 @@ const ConfirmationPage = ({ form, download }) => {
           <li className="process-step list-one">
             <h4>Sign in to VA.gov</h4>
             <p>
-              You can sign in with your DS Logon, My HealtheVet, or ID.me
+              You can sign in with your DS Logon, My HealthyVet, or ID.me
               account.
             </p>
           </li>

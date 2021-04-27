@@ -139,6 +139,19 @@ const PreSubmitSignature = ({
           <li>My bankruptcy history</li>
         </ul>
 
+        <p>
+          I have read and accept the
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="vads-u-margin-left--0p5"
+            href="https://www.va.gov/privacy-policy/"
+          >
+            privacy policy
+          </a>
+          .
+        </p>
+
         <TextInput
           additionalClass="signature-input"
           label={"Veteran's full name"}
