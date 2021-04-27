@@ -40,7 +40,7 @@ function checkForWebchat(
   }, timeout);
 }
 
-export default function App(props) {
+function useWaitForWebchatFramework(props) {
   const [isLoading, setLoading] = useState(!window.WebChat);
   const [error, setError] = useState(false);
 
@@ -59,6 +59,15 @@ export default function App(props) {
       MAX_INTERVAL_CALL_COUNT,
       TIMEOUT_DURATION_MS,
     );
+  }
+
+  return { isLoading, error };
+}
+
+export default function App(props) {
+  const { isLoading, error } = useWaitForWebchatFramework(props);
+
+  if (isLoading) {
     return <LoadingIndicator message={'Loading Virtual Agent'} />;
   }
   return error ? <ChatbotError /> : <WaitForFeatureToggles />;
