@@ -1,36 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { apiRequest } from 'platform/utilities/api';
+import React from 'react';
 import ChatbotError from './ChatbotError';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import retryOnce from '../utils/retryOnce';
 import WebChat from './WebChat';
-
-function useVirtualAgentToken() {
-  const [token, setToken] = useState('');
-  const [tokenLoading, setTokenLoading] = useState(true);
-
-  useEffect(() => {
-    async function callVirtualAgentTokenApi() {
-      return apiRequest('/virtual_agent_token', {
-        method: 'POST',
-      });
-    }
-
-    async function getToken() {
-      try {
-        const response = await retryOnce(callVirtualAgentTokenApi);
-
-        setTokenLoading(false);
-        setToken(response.token);
-      } catch (error) {
-        setTokenLoading(false);
-      }
-    }
-    getToken();
-  }, []);
-
-  return { token, tokenLoading };
-}
+import useVirtualAgentToken from './useVirtualAgentToken';
 
 export default function WaitForVirtualAgentToken() {
   const { token, tokenLoading } = useVirtualAgentToken();
