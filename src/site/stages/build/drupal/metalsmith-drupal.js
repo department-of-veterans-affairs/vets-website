@@ -135,6 +135,43 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 }
 
 /**
+ * Save the provided GraphQL query results to a JSON cache file.
+ * Stream page objects to avoid V8's 500mb string length limit.
+ *
+ * @param {String} cacheFilePath - path of cache file to create
+ * @param {Object} graphQLData - object containing query results
+ */
+function writeGraphQLCacheFile(cacheFilePath, graphQLData) {
+  const outputStream = fs.createWriteStream(cacheFilePath);
+  outputStream.write('{\n  "data": {\n');
+
+  const queries = Object.keys(graphQLData.data);
+  queries.forEach((queryName, queryIndex) => {
+    const props = graphQLData.data[queryName];
+    outputStream.write(`"${queryName}": `);
+
+    if (queryName === 'nodeQuery') {
+      // For the pages query, write each page (entity) separately
+      outputStream.write('{\n"entities": [\n');
+      props.entities.forEach((entity, entityIndex) => {
+        outputStream.write(JSON.stringify(entity, null, 2));
+        if (entityIndex < props.entities.length - 1) outputStream.write(',');
+        outputStream.write('\n');
+      });
+      outputStream.write(']\n},\n');
+    } else {
+      // The other queries are smaller, so write the whole query at once
+      outputStream.write(JSON.stringify(props, null, 2));
+      if (queryIndex < queries.length - 1) outputStream.write(',');
+      outputStream.write('\n');
+    }
+  });
+
+  outputStream.write('}\n}\n');
+  outputStream.end();
+}
+
+/**
  * Uses Drupal content via a new GraphQL query or the cached result of a
  * previous query. This is where the cache is saved.
  *
@@ -171,7 +208,7 @@ async function getContentViaGraphQL(buildOptions) {
     }
 
     // Save new cache
-    fs.outputJsonSync(drupalCache, drupalPages, { spaces: 2 });
+    writeGraphQLCacheFile(drupalCache, drupalPages);
 
     if (drupalPages.data.allSideNavMachineNamesQuery) {
       fs.outputJsonSync(
