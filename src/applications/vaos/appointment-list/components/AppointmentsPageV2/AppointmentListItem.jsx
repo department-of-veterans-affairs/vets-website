@@ -79,7 +79,7 @@ export default function AppointmentListItem({ appointment, facility }) {
     <li
       id={idClickable}
       data-request-id={appointment.id}
-      className="vaos-appts__card vaos-appts__card--clickable"
+      className="vaos-appts__card--clickable vads-u-margin-bottom--3"
       data-cy="appointment-list-item"
     >
       <div

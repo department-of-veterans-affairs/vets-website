@@ -15,7 +15,7 @@ export default function ExpressCareListItem({ appointment }) {
     <li
       id={idClickable}
       data-request-id={appointment.id}
-      className="vaos-appts__card vaos-appts__card--clickable"
+      className="vaos-appts__card--clickable vads-u-margin-bottom--3"
       data-cy="appointment-list-item"
     >
       <div
@@ -26,7 +26,7 @@ export default function ExpressCareListItem({ appointment }) {
             : null
         }
       >
-        <div className="vads-u-flex--1 vads-u-margin-y--neg0p5">
+        <div className="vads-u-flex--1 vads-u-margin-y--neg0p5 ">
           {canceled && (
             <div className="vads-u-margin-bottom--1">
               <span className="usa-label">Canceled</span>

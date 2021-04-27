@@ -68,49 +68,29 @@
   @include media($medium-screen) {
     padding: 24px;
   }
-
-  &.vaos-appts__card--clickable {
-    list-style: none;
-    padding: 0px;
-    margin-bottom: 24px;
-    border: 2px solid $color-gray-lightest;
-
-    &:hover {
-      cursor: pointer;
-      border: 2px solid $color-primary;
-    }
-
-    &:focus {
-      outline: 2px solid $color-warning-message;
-      outline-offset: 2px;
-      border: 2px solid $color-primary;
-    }
-
-    &:focus-within {
-      outline: 2px solid $color-warning-message;
-      outline-offset: 2px;
-      border: 2px solid $color-primary;
-    }
-
-    &:active {
-      background-color: $color-gray-lighter;
-      outline: 2px solid $color-warning-message;
-      outline-offset: 2px;
-      border: 2px solid $color-primary;
-    }
-  }
 }
 
-.vaos-appts__card-link::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
+.vaos-appts__card--clickable {
+  list-style: none;
+  border-radius: 6px;
+  background-color: $color-gray-lightest;
+  border: 2px solid $color-gray-lightest;
 
-  @include media($medium-screen) {
-    position: static;
+  &:hover {
+    cursor: pointer;
+    border: 2px solid $color-primary;
+  }
+
+  &:focus,
+  &:focus-within,
+  &:active {
+    outline: 2px solid $color-warning-message;
+    outline-offset: 2px;
+    border: 2px solid $color-primary;
+  }
+
+  &:active {
+    background-color: $color-gray-lighter;
   }
 }
 
@@ -135,25 +115,4 @@
     text-align: left;
     padding-left: 0;
   }
-}
-
-span.va-action-link--disabled {
-  color: $color-gray-lighter;
-  &:before {
-    font-family: "Font Awesome 5 Free";
-    color: $color-gray-lighter;
-    font-weight: 900;
-    font-size: 175%;
-    display: inline-block; // Remove the underline text decoration
-    content: "\f138";
-    padding-right: 1rem;
-    transform: translateY(5px); // "Center" the circle with the text
-    height: 0px; // So the height doesn't mess with the focus halo
-  }
-  font-weight: bold;
-  padding: 8px;
-}
-
-span.va-action-link--disabled:before {
-  color: $color-gray-lighter;
 }
