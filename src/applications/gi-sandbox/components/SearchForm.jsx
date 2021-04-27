@@ -10,18 +10,10 @@ export default function SearchForm({
   const [searchName, setSearchName] = useState();
   const [searchLocation, setSearchLocation] = useState();
   const [distance, setDistance] = useState('10');
-
-  const classes = classNames(
-    'vads-u-border-bottom--2px',
-    'vads-u-border-left--2px',
-    'vads-u-border-right--2px',
-    'vads-u-border-color--gray-light',
-    'vads-u-flex--2',
-    'vads-u-padding-left--6',
-    'vads-u-padding-right--6',
-    'vads-u-padding-bottom--3',
-    'vads-u-padding-top--4',
-  );
+  const tabSearches = {
+    name: () => fetchSearchByName(searchName),
+    location: () => fetchSearchByLocation(searchLocation, distance),
+  };
 
   const getTab = (tabName, label) => {
     const tabClasses = classNames(
@@ -35,9 +27,10 @@ export default function SearchForm({
       'vads-u-font-family--sans',
       'vads-u-flex--1',
       'vads-u-text-align--center',
-      'vads-u-font-size--lg',
       'vads-u-font-weight--bold',
       'vads-l-grid-container',
+      'vads-u-padding-bottom--1p5',
+      'search-tab',
     );
 
     return (
@@ -48,11 +41,7 @@ export default function SearchForm({
   };
 
   const doSearch = () => {
-    if (currentTab === 'name') {
-      fetchSearchByName(searchName);
-    } else {
-      fetchSearchByLocation(searchLocation, distance);
-    }
+    tabSearches[currentTab]();
   };
 
   return (
@@ -61,7 +50,7 @@ export default function SearchForm({
         {getTab('name', 'Search by name')}
         {getTab('location', 'Search by location')}
       </div>
-      <div className={classes}>
+      <div className="search-box">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--10">
             {currentTab === 'name' && (
@@ -104,11 +93,7 @@ export default function SearchForm({
           <div className="medium-screen:vads-l-col--2 vads-u-text-align--right">
             <button type="button" className="usa-button" onClick={doSearch}>
               Search
-              <i
-                style={{ paddingLeft: '16px' }}
-                aria-hidden="true"
-                className="fa fa-search"
-              />
+              <i aria-hidden="true" className="fa fa-search" />
             </button>
           </div>
         </div>

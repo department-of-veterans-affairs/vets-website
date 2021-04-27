@@ -273,8 +273,22 @@
 
 
   .search-form {
+    margin-top: 50px;
 
-    margin-top: 40px;
+    .usa-button i {
+      padding-left: 16px;
+    }
+
+    .search-box {
+      border-bottom: 2px solid $color-gray-light;
+      border-left: 2px solid $color-gray-light;
+      border-right: 2px solid $color-gray-light;
+      padding: 48px 48px 24px 48px;
+    }
+
+    .search-tab {
+      font-size: 25px;
+    }
 
     input:placeholder-shown {
       font-style: italic;
