@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import AdditionalResources from '../content/AdditionalResources';
 import { locationInfo, phoneInfo, isPresent } from '../../utils/helpers';
 import { ariaLabels } from '../../constants';
 import _ from 'lodash';
@@ -21,7 +22,7 @@ const IconWithInfo = ({ icon, iconClassName, children, present }) => {
   );
 };
 
-export const HeadingSummary = ({ institution, showModal }) => {
+export const VetTecHeadingSummary = ({ institution, showModal }) => {
   const formattedAddress = locationInfo(
     institution.city,
     institution.state,
@@ -40,22 +41,21 @@ export const HeadingSummary = ({ institution, showModal }) => {
     firstProgram.phoneNumber,
   );
 
-  const header = 'column vads-u-padding-bottom--6';
+  const preferredProvider = institution.preferredProvider
+    ? ''
+    : 'additional-resources-preferred-provider';
 
-  const icons = 'column vads-u-margin-top--neg3 vads-u-padding-bottom--2';
+  const header =
+    'usa-width-two-thirds medium-8 small-12 column vads-u-padding-bottom--6';
+
+  const icons =
+    'usa-width-two-thirds medium-8 small-12 column vads-u-margin-top--neg3 vads-u-padding-bottom--2';
 
   return (
-    <div id="heading-summary" className="heading">
+    <div className="heading">
       <div className="row">
         <div className={header}>
-          <h1 className="vads-u-margin-bottom--0" tabIndex={-1}>
-            {institution.name}
-          </h1>
-          {isPresent(formattedAddress) && (
-            <div className="vads-u-margin-top--0 vads-u-padding-bottom--2p5">
-              {formattedAddress}
-            </div>
-          )}
+          <h1 tabIndex={-1}>{institution.name}</h1>
           <div className="usa-width-one-half medium-6 small-12 column">
             <IconWithInfo
               icon="star"
@@ -81,7 +81,13 @@ export const HeadingSummary = ({ institution, showModal }) => {
 
       <div className="row">
         <div className={icons}>
-          <div className="column">
+          <div className="usa-width-one-half medium-6 small-12 column">
+            <IconWithInfo
+              icon="map-marker"
+              present={isPresent(formattedAddress)}
+            >
+              {formattedAddress}
+            </IconWithInfo>
             <IconWithInfo
               icon="globe"
               present={isPresent(firstProgram.providerWebsite)}
@@ -94,6 +100,8 @@ export const HeadingSummary = ({ institution, showModal }) => {
                 {firstProgram.providerWebsite}
               </a>
             </IconWithInfo>
+          </div>
+          <div className="usa-width-one-half medium-6 small-12 column">
             <IconWithInfo icon="phone" present={isPresent(providerPhone)}>
               <a href={`tel:+1${`${providerPhone}`}`}>{providerPhone}</a>
             </IconWithInfo>
@@ -105,14 +113,19 @@ export const HeadingSummary = ({ institution, showModal }) => {
             </IconWithInfo>
           </div>
         </div>
+        <div className={preferredProvider}>
+          <div>
+            <AdditionalResources vetTec />
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-HeadingSummary.propTypes = {
+VetTecHeadingSummary.propTypes = {
   institution: PropTypes.object,
   showModal: PropTypes.func,
 };
 
-export default HeadingSummary;
+export default VetTecHeadingSummary;
