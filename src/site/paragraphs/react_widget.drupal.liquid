@@ -40,7 +40,11 @@
       {% if entityUrl.path contains "/eligibility" %}data-widget-show-learn-more{% endif %}
       data-widget-timeout="{{entity.fieldTimeout}}">
       <div class="loading-indicator-container">
-        <div class="loading-indicator" role="progressbar" aria-valuetext="{{ entity.fieldLoadingMessage }}"></div>
+        <div
+          aria-label="{% if entity.fieldLoadingMessage %}{{ entity.fieldLoadingMessage }}{% else %}loading indicator{% endif %}"
+          class="loading-indicator"
+          role="progressbar"
+        ></div>
         <span
           class="loading-indicator-message loading-indicator-message--normal">
           {{ entity.fieldLoadingMessage }}
