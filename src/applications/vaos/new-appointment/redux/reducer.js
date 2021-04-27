@@ -362,8 +362,8 @@ export default function formReducer(state = initialState, action) {
 
       const typeOfCareFacilities = facilities.filter(
         facility =>
-          facility.legacyVAR.directSchedulingSupported[typeOfCareId] ||
-          facility.legacyVAR.requestSupported[typeOfCareId],
+          facility.legacyVAR.directSettings[typeOfCareId]?.enabled ||
+          facility.legacyVAR.requestSettings[typeOfCareId]?.enabled,
       );
 
       if (typeOfCareFacilities.length === 1) {
@@ -482,8 +482,8 @@ export default function formReducer(state = initialState, action) {
 
       const typeOfCareFacilities = facilities.filter(
         facility =>
-          facility.legacyVAR.directSchedulingSupported[typeOfCareId] ||
-          facility.legacyVAR.requestSupported[typeOfCareId],
+          facility.legacyVAR.directSettings[typeOfCareId]?.enabled ||
+          facility.legacyVAR.requestSettings[typeOfCareId]?.enabled,
       );
       newSchema = set(
         'properties.vaFacility',

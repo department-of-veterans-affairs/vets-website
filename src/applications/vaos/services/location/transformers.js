@@ -258,35 +258,10 @@ export function transformATLASLocation(tasInfo) {
  * @param {Array} params.directSupportedFacilities An array of location ids that support direct scheduling for a particular type of care
  * @returns {Array} A location resource
  */
-export function setSupportedSchedulingMethods({
-  location,
-  requestFacilities,
-  directFacilities,
-} = {}) {
+export function setSupportedSchedulingMethods({ location, settings } = {}) {
   const id = location.id;
-  const requestSupported = {};
-  const directSchedulingSupported = {};
 
-  const facilityRequestSettings = requestFacilities.find(
-    facility => facility.id === id,
-  )?.requestSettings;
-  const facilityCoreSettings = directFacilities.find(
-    facility => facility.id === id,
-  )?.coreSettings;
-
-  if (facilityRequestSettings) {
-    facilityRequestSettings.forEach(typeOfCare => {
-      requestSupported[typeOfCare.id] = !!typeOfCare.patientHistoryRequired;
-    });
-  }
-
-  if (facilityCoreSettings) {
-    facilityCoreSettings.forEach(typeOfCare => {
-      directSchedulingSupported[
-        typeOfCare.id
-      ] = !!typeOfCare.patientHistoryRequired;
-    });
-  }
+  const facilitySettings = settings.find(f => f.id === id);
 
   const identifier = location.identifier;
   const vhaIdentifier = location.identifier.find(i => i.system === VHA_FHIR_ID);
@@ -304,8 +279,8 @@ export function setSupportedSchedulingMethods({
     identifier,
     legacyVAR: {
       ...location.legacyVAR,
-      requestSupported,
-      directSchedulingSupported,
+      requestSettings: facilitySettings.request,
+      directSettings: facilitySettings.direct,
     },
     managingOrganization: {
       reference: location.managingOrganization?.reference,
@@ -353,6 +328,57 @@ export function transformCommunityProviders(providers) {
           value: provider.caresitePhone,
         },
       ],
+    };
+  });
+}
+
+export function transformSettings({ request = [], direct = [] }) {
+  const directSettings = direct.reduce(
+    (current, next) => ({ ...current, [next.id]: next }),
+    {},
+  );
+  const requestSettings = request.reduce(
+    (current, next) => ({ ...current, [next.id]: next }),
+    {},
+  );
+  const facilityIds = Array.from(
+    new Set([...direct.map(d => d.id), ...request.map(r => r.id)]),
+  );
+
+  return facilityIds.map(id => {
+    return {
+      id,
+      request:
+        requestSettings[id]?.requestSettings.reduce(
+          (settings, service) => ({
+            ...settings,
+            [service.id]: {
+              id: service.id,
+              name: service.typeOfCare,
+              enabled: !!service.patientHistoryRequired,
+              patientHistoryRequired:
+                service.patientHistoryRequired?.toLowerCase() === 'yes',
+              patientHistoryDuration: service.patientHistoryDuration,
+              submittedRequestLimit: service.submittedRequestLimit,
+            },
+          }),
+          {},
+        ) || {},
+      direct:
+        directSettings[id]?.coreSettings.reduce(
+          (settings, service) => ({
+            ...settings,
+            [service.id]: {
+              id: service.id,
+              name: service.typeOfCare,
+              enabled: !!service.patientHistoryRequired,
+              patientHistoryRequired:
+                service.patientHistoryRequired?.toLowerCase() === 'yes',
+              patientHistoryDuration: service.patientHistoryDuration,
+            },
+          }),
+          {},
+        ) || {},
     };
   });
 }

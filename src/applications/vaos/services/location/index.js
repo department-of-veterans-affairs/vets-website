@@ -23,6 +23,7 @@ import {
   transformFacility,
   setSupportedSchedulingMethods,
   transformCommunityProviders,
+  transformSettings,
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
@@ -110,6 +111,45 @@ export async function getLocation({ facilityId }) {
     throw e;
   }
 }
+
+async function promiseAllFromObject(data) {
+  const keys = Object.keys(data);
+  const values = Object.values(data);
+
+  const results = await Promise.all(values);
+
+  return keys.reduce(
+    (resultsObj, key, i) => ({
+      ...resultsObj,
+      [key]: results[i],
+    }),
+    {},
+  );
+}
+
+export async function getLocationSettings({ siteIds, type = null }) {
+  try {
+    const promises = {};
+    if (!type || type === 'request') {
+      promises.request = getRequestEligibilityCriteria(siteIds);
+    }
+
+    if (!type || type === 'direct') {
+      promises.direct = getDirectBookingEligibilityCriteria(siteIds);
+    }
+
+    const settings = await promiseAllFromObject(promises);
+
+    return transformSettings(settings);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
 /**
  * Returns facilities with current settings for both direct scheduling
  * and requests for all types of care
@@ -128,26 +168,12 @@ export async function getLocationsByTypeOfCareAndSiteIds({
   try {
     let locations = [];
 
-    const promises = [getRequestEligibilityCriteria(siteIds)];
+    const settings = await getLocationSettings({
+      siteIds,
+      type: !directSchedulingEnabled ? 'request' : null,
+    });
 
-    if (directSchedulingEnabled) {
-      promises.push(getDirectBookingEligibilityCriteria(siteIds));
-    }
-
-    const criteria = await Promise.all(promises);
-
-    // If patientHistoryRequired is blank or null, the scheduling method is
-    // disabled for that type of care.  If "No", it is enabled, but doesn't require
-    // a previous appointment.  If "Yes", it is enabled and requires a previous appt
-
-    const requestFacilityIds = criteria[0]?.map(facility => facility.id) || [];
-    const directFacilityIds = directSchedulingEnabled
-      ? criteria[1]?.map(facility => facility.id) || []
-      : [];
-
-    const uniqueIds = Array.from(
-      new Set([...directFacilityIds, ...requestFacilityIds]),
-    );
+    const uniqueIds = Array.from(new Set(settings.map(setting => setting.id)));
 
     // The above API calls only return the ids. Make an additional
     // call to getLocations so we can get additional details such
@@ -160,8 +186,7 @@ export async function getLocationsByTypeOfCareAndSiteIds({
       locations = locations?.map(location =>
         setSupportedSchedulingMethods({
           location,
-          requestFacilities: criteria[0] || [],
-          directFacilities: directSchedulingEnabled ? criteria[1] || [] : [],
+          settings,
         }),
       );
     }

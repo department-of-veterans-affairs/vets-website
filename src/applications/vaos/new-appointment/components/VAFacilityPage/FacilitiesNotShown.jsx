@@ -34,8 +34,8 @@ export default function FacilitiesNotShown({
 
   const nearbyUnsupportedFacilities = facilities?.filter(
     facility =>
-      !facility.legacyVAR.directSchedulingSupported[typeOfCareId] &&
-      !facility.legacyVAR.requestSupported[typeOfCareId] &&
+      !facility.legacyVAR.directSettings[typeOfCareId]?.enabled &&
+      !facility.legacyVAR.requestSettings[typeOfCareId]?.enabled &&
       facility.legacyVAR[sortMethod] < UNSUPPORTED_FACILITY_RANGE,
   );
 

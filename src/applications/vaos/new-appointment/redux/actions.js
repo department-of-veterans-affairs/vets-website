@@ -389,8 +389,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         // fetch eligbility data immediately
         const supportedFacilities = typeOfCareFacilities?.filter(
           facility =>
-            facility.legacyVAR.directSchedulingSupported[typeOfCareId] ||
-            facility.legacyVAR.requestSupported[typeOfCareId],
+            facility.legacyVAR.directSettings[typeOfCareId]?.enabled ||
+            facility.legacyVAR.requestSettings[typeOfCareId]?.enabled,
         );
         const eligibilityDataNeeded =
           !!facilityId || supportedFacilities?.length === 1;
