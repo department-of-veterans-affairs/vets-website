@@ -63,3 +63,17 @@ export default function App(props) {
   }
   return error ? <ChatbotError /> : <WaitForFeatureToggles />;
 }
+
+// function NewApp() {
+//   const { isLoading, isError, token } = useWebChat();
+
+//   if (isLoading) {
+//     return <LoadingIndicator message={'Loading Virtual Agent'} />;
+//   }
+
+//   if (isError) {
+//     return <ChatbotError />;
+//   }
+
+//   return <WebChat token={token} />;
+// }

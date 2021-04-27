@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import retryOnce from '../utils/retryOnce';
 import WebChat from './WebChat';
 
-export default function WaitForVirtualAgentToken() {
+function useVirtualAgentToken() {
   const [token, setToken] = useState('');
   const [tokenLoading, setTokenLoading] = useState(true);
 
@@ -28,6 +28,12 @@ export default function WaitForVirtualAgentToken() {
     }
     getToken();
   }, []);
+
+  return { token, tokenLoading };
+}
+
+export default function WaitForVirtualAgentToken() {
+  const { token, tokenLoading } = useVirtualAgentToken();
 
   return (
     <div className={'vads-l-grid-container'}>
