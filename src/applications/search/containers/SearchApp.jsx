@@ -175,9 +175,10 @@ class SearchApp extends React.Component {
     const apiRequestOptions = {
       method: 'POST',
     };
+    const moduleCode = bestBet ? 'BOOS' : 'I14Y';
 
     apiRequest(
-      `${searchClickTrackingEndpoint}?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}`,
+      `${searchClickTrackingEndpoint}?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
       apiRequestOptions,
     );
   };

@@ -13,8 +13,6 @@ import { replaceWithStagingDomain } from '../../../utilities/environment/staging
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
 
-export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
-
 const ENTER_KEY = 13;
 
 export class SearchMenu extends React.Component {
@@ -97,8 +95,11 @@ export class SearchMenu extends React.Component {
     // fetch suggestions
     try {
       const response = await fetch(
-        `${searchGovSuggestionEndpoint}?name=va&q=${encodedInput}`,
+        replaceWithStagingDomain(
+          `https://www.va.gov/search_typeahead?query=${encodedInput}`,
+        ),
       );
+      console.log(response);
       const suggestions = await response.json();
       if (suggestions.length !== 0) {
         const sortedSuggestions = suggestions.sort(function(a, b) {
