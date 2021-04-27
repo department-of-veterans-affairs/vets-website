@@ -23,7 +23,7 @@ const copyToUsersClipBoard = dataEntityId => {
   document.execCommand('copy');
   document.body.removeChild(input);
   recordEvent({
-    event: 'nav-jumplink-click',
+    event: 'int-copy-to-clipboard-click',
     'anchor-text': dataEntityId,
   });
 };
