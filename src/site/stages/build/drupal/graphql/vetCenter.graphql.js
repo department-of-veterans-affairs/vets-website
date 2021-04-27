@@ -16,6 +16,10 @@ const vetCenterFragment = `
         entityLabel
         fieldIntroText
         fieldFacilityLocatorApiId
+        fieldVetCenterFeatureContent {
+          targetId
+          targetRevisionId
+        }
         fieldCcVetCenterFeaturedCon {
           fetched
           fetchedBundle
