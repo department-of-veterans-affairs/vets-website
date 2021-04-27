@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign, no-console, no-continue */
 
 const path = require('path');
+const fs = require('fs-extra');
 
 const getBrokenLinks = require('./helpers/getBrokenLinks');
 const applyIgnoredRoutes = require('./helpers/applyIgnoredRoutes');
@@ -15,6 +16,12 @@ module.exports = {
     const fileNames = Object.keys(files);
     this.allPaths = new Set(fileNames);
     this.brokenPages = [];
+
+    this.logFile = path.join(
+      __dirname,
+      '../../../../../../../logs',
+      `${buildOptions.buildtype}-broken-links.json`,
+    );
   },
 
   modifyFile(fileName, file, files, buildOptions) {
@@ -46,6 +53,8 @@ module.exports = {
       }
 
       console.log(errorOutput);
+
+      fs.writeJSONSync(this.logFile, this.brokenPages);
     }
   },
 };
