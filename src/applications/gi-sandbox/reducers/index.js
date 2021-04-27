@@ -1,3 +1,4 @@
+import calculator from './calculator';
 import constants from './constants';
 import eligibility from './eligibility';
 import filters from './filters';
@@ -7,6 +8,7 @@ import profile from './profile';
 import search from './search';
 
 const rootReducer = {
+  calculator,
   constants,
   eligibility,
   filters,
