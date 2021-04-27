@@ -16,53 +16,77 @@ node('vetsgov-general-purpose') {
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
+  def envUsedCache = [:]
 
   // setupStage
   dockerContainer = commonStages.setup()
 
-  def envUsedCache = [:]
-
-  // http://groovy-lang.org/closures.html
-  { String envName -> 
-    def buildEnv() {
-      def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
-      def assetSource = contentOnlyBuild ? ref : 'local'
-
-      if (commonStages.shouldBail()) { return }
-      try {
-        commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-        envUsedCache[envName] = false
-      } catch (error) {
-        if (!contentOnlyBuild) {
-          dockerContainer.inside(DOCKER_ARGS) {
-            sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-          }
-          commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-          envUsedCache[envName] = true
-        } else {
-          commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-          envUsedCache[envName] = false
-        }
-      }
-    }
-  }
-
   stage('Main') {
-    
+    def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
+    def assetSource = contentOnlyBuild ? ref : 'local'
+
     try {
       parallel (
         failFast: true,
 
         buildDev: {
-          buildEnv('vagovdev')
+          if (commonStages.shouldBail()) { return }
+          envName = 'vagovdev'
+          try {
+            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            envUsedCache[envName] = false
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
+            }
+          }
         },
 
         buildStaging: {
-          buildEnv('vagovstaging')
+          if (commonStages.shouldBail()) { return }
+          envName = 'vagovstaging'
+          try {
+            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            envUsedCache[envName] = false
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
+            }
+          }
         },
 
         buildProd: {
-          buildEnv('vagovprod')
+          if (commonStages.shouldBail()) { return }
+          envName = 'vagovprod'
+          try {
+            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            envUsedCache[envName] = false
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
+            }
+          }
         },
 
         lint: {
