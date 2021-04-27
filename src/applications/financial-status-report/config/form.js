@@ -49,6 +49,7 @@ const formConfig = {
   customText: {
     finishAppLaterMessage: 'Finish this request later',
     reviewPageTitle: 'Review your request',
+    submitButtonText: 'Submit your request',
   },
   chapters: {
     veteranInformationChapter: {
