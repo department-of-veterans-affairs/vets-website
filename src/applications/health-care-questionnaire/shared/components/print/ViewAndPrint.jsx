@@ -3,7 +3,7 @@ import moment from 'moment';
 
 export default function ViewAndPrint({
   displayArrow = true,
-  useSecondary,
+  useSecondary = true,
   onClick = () => {},
   facilityName,
   appointmentTime,

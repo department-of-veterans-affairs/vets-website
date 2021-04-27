@@ -13,7 +13,6 @@ import { openPdfInNewWindow } from './utils';
 
 export default function PrintButton({
   displayArrow = true,
-  useSecondary,
   ErrorCallToAction = () => <>Please refresh this page or try again later.</>,
   facilityName,
   appointmentTime,
@@ -59,7 +58,6 @@ export default function PrintButton({
     <>
       <ViewAndPrint
         displayArrow={displayArrow}
-        useSecondary={useSecondary}
         onClick={handleClick}
         facilityName={facilityName}
         appointmentTime={appointmentTime}
