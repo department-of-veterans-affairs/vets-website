@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback } from 'react';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { connect } from 'react-redux';
 
@@ -12,11 +12,10 @@ function PreSubmitNotice({
   setPreSubmit,
 }) {
   const privacyAgreementAccepted = formData.privacyAgreementAccepted || false;
-  // const vrrapConfirmation = formData.vrrapConfirmation;
 
   // set AGREED (onSectionComplete) to value of privacyAgreementAccepted
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
-  useEffect(
+  useCallback(
     () => {
       onSectionComplete(privacyAgreementAccepted);
 
@@ -25,8 +24,7 @@ function PreSubmitNotice({
       };
     },
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [privacyAgreementAccepted],
+    [onSectionComplete, privacyAgreementAccepted],
   );
 
   const privacyAgreementLabel = (
