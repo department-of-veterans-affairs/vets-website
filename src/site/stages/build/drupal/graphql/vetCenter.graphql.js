@@ -16,7 +16,7 @@ const vetCenterFragment = `
         entityLabel
         fieldIntroText
         fieldFacilityLocatorApiId
-                fieldVetCenterFeatureContent {
+        fieldVetCenterFeatureContent {
            entity {
                 ... on ParagraphFeaturedContent {
                   fieldDescription {
