@@ -20,11 +20,12 @@ export default function ExpressCareListItem({ appointment }) {
     >
       <div
         className="vads-u-padding--2 vads-u-display--flex vads-u-align-items--left vads-u-flex-direction--column medium-screen:vads-u-padding--3 medium-screen:vads-u-flex-direction--row medium-screen:vads-u-align-items--center"
-        onClick={() =>
-          !window.getSelection().toString()
-            ? (focusElement(`#${idClickable}`), history.push(link))
-            : null
-        }
+        onClick={() => {
+          if (!window.getSelection().toString()) {
+            focusElement(`#${idClickable}`);
+            history.push(link);
+          }
+        }}
       >
         <div className="vads-u-flex--1 vads-u-margin-y--neg0p5 ">
           {canceled && (
