@@ -170,6 +170,10 @@
   .search-form {
     margin-top: 50px;
 
+    .usa-button i {
+      padding-left: 16px;
+    }
+
     .search-box {
       border-bottom: 2px solid $color-gray-light;
       border-left: 2px solid $color-gray-light;
