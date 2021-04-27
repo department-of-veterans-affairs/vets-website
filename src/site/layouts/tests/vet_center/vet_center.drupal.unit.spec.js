@@ -4,7 +4,7 @@ import axeCheck from '~/site/tests/support/axe';
 
 const layoutPath = 'src/site/layouts/vet_center.drupal.liquid';
 import testData from './fixtures/vet_center_escanaba_data';
-
+// TODO fix test cases
 describe.skip('Vet Center Main Page', () => {
   let container;
   const data = parseFixture(
