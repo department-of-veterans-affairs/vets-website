@@ -1,21 +1,23 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
-import * as actions from 'platform/monitoring/DowntimeNotification/actions';
+import { dismissDowntimeWarning } from 'platform/monitoring/DowntimeNotification/actions';
 import FullWidthLayout from '../FullWidthLayout';
 
 const appTitle = 'VA online scheduling tool';
 
-function DowntimeMessage({
+export default function DowntimeMessage({
   startTime,
   endTime,
   status,
   children,
-  isDowntimeWarningDismissed,
-  dismissDowntimeWarning,
 }) {
+  const dispatch = useDispatch();
+  const isDowntimeWarningDismissed = useSelector(state =>
+    state.scheduledDowntime.dismissedDowntimeWarnings.includes(appTitle),
+  );
   if (status === externalServiceStatus.down) {
     return (
       <FullWidthLayout>
@@ -38,7 +40,7 @@ function DowntimeMessage({
     );
   }
 
-  const close = () => dismissDowntimeWarning(appTitle);
+  const close = () => dispatch(dismissDowntimeWarning(appTitle));
   return (
     <>
       {status === externalServiceStatus.downtimeApproaching && (
@@ -69,20 +71,3 @@ function DowntimeMessage({
     </>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    isDowntimeWarningDismissed: state.scheduledDowntime.dismissedDowntimeWarnings.includes(
-      appTitle,
-    ),
-  };
-}
-
-const mapDispatchToProps = {
-  dismissDowntimeWarning: actions.dismissDowntimeWarning,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DowntimeMessage);
