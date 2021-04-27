@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import environment from 'platform/utilities/environment';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -145,7 +146,7 @@ const PreSubmitSignature = ({
             target="_blank"
             rel="noopener noreferrer"
             className="vads-u-margin-left--0p5"
-            href="https://www.va.gov/privacy-policy/"
+            href={`${environment.BASE_URL}/privacy-policy`}
           >
             privacy policy
           </a>
