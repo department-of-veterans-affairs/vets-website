@@ -1,65 +1,74 @@
 import React from 'react';
+import _ from 'lodash';
 
-import HeadingSummary from './HeadingSummary';
-import ProfileSection from '../ProfileSection';
-import ProfileNavBar from '../ProfileNavBar';
-import { createId } from '../../utils/helpers';
+import AccordionItem from '../AccordionItem';
+import VetTecAdditionalInformation from './VetTecAdditionalInformation';
+import VetTecApplicationProcess from './VetTecApplicationProcess';
+import VetTecApprovedProgramsList from './VetTecApprovedProgramsList';
+import VetTecHeadingSummary from './VetTecHeadingSummary';
+import ContactInformation from '../profile/ContactInformation';
+import { renderVetTecLogo } from '../../utils/render';
+import classNames from 'classnames';
 
-const InstitutionProfile = ({ institution, showModal }) => {
-  const loremIpsum = (
-    <div>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
-    </div>
-  );
-  const profileSections = [
-    {
-      name: 'Estimate your benefits',
-      component: loremIpsum,
-    },
-    {
-      name: 'Approved programs',
-      component: loremIpsum,
-    },
-    {
-      name: 'Veteran programs',
-      component: loremIpsum,
-    },
-    {
-      name: 'Application process',
-      component: loremIpsum,
-    },
-    {
-      name: 'Contact details',
-      component: loremIpsum,
-    },
-  ];
+import VetTecVeteranPrograms from './VetTecVeteranPrograms';
+import VetTecEstimateYourBenefits from '../../containers/VetTecEstimateYourBenefits';
 
-  const sectionNames = profileSections.map(({ name }) => name);
+const profileLogo =
+  'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
+
+const InstitutionProfile = ({
+  institution,
+  showModal,
+  preSelectedProgram,
+  selectedProgram,
+}) => {
+  const program =
+    selectedProgram ||
+    preSelectedProgram ||
+    _.get(institution, 'programs[0].description', '');
 
   return (
     <div>
-      <HeadingSummary institution={institution} showModal={showModal} />
-      <ProfileNavBar profileSections={sectionNames} />
-      <div className="row">
-        <ul>
-          {profileSections.map(({ name, component }) => {
-            return (
-              <ProfileSection
-                key={`${createId(name)}-profile-section`}
-                name={name}
-              >
-                {component}
-              </ProfileSection>
-            );
-          })}
-        </ul>
-      </div>
+      {
+        <div className={profileLogo}>
+          {renderVetTecLogo(classNames('vettec-logo-profile'))}
+        </div>
+      }
+      <VetTecHeadingSummary institution={institution} showModal={showModal} />
+      <ul className="profile-accordion-list">
+        <AccordionItem button="Estimate your benefits">
+          <VetTecEstimateYourBenefits
+            institution={institution}
+            showModal={showModal}
+            selectedProgram={program}
+            preSelectedProgram={preSelectedProgram}
+          />
+        </AccordionItem>
+        <AccordionItem button="Approved programs">
+          <VetTecApprovedProgramsList
+            programs={institution.programs}
+            selectedProgram={program}
+          />
+        </AccordionItem>
+        <AccordionItem button="Veteran programs">
+          <VetTecVeteranPrograms
+            institution={institution}
+            onShowModal={showModal}
+          />
+        </AccordionItem>
+        <AccordionItem button="Application process">
+          <VetTecApplicationProcess institution={institution} />
+        </AccordionItem>
+        <AccordionItem button="Contact details">
+          <ContactInformation institution={institution} />
+        </AccordionItem>
+        <AccordionItem button="Additional information">
+          <VetTecAdditionalInformation
+            institution={institution}
+            showModal={showModal}
+          />
+        </AccordionItem>
+      </ul>
     </div>
   );
 };

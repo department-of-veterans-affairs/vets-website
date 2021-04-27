@@ -343,24 +343,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const typeOfCareId = typeOfCare?.id;
       if (typeOfCareId) {
         const siteIds = selectSystemIds(initialState);
-        const useVSP = selectFeatureVSPAppointmentNew(initialState);
         let typeOfCareFacilities = getTypeOfCareFacilities(initialState);
         let siteId = null;
         let facilityId = newAppointment.data.vaFacility;
-        let parentFacilities = newAppointment.parentFacilities;
 
         dispatch({
           type: FORM_PAGE_FACILITY_V2_OPEN,
         });
-
-        // Fetch parent facilities if we haven't already in
-        // checkCommunityCareEligibility()
-        if (!parentFacilities) {
-          parentFacilities = await getOrganizations({
-            siteIds,
-            useVSP,
-          });
-        }
 
         // Fetch facilities that support this type of care
         if (!typeOfCareFacilities) {
@@ -378,7 +367,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         dispatch({
           type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
           facilities: typeOfCareFacilities || [],
-          parentFacilities,
           typeOfCareId,
           schema,
           uiSchema,
@@ -399,7 +387,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           recordEligibilityFailure(
             'supported-facilities',
             typeOfCare.name,
-            parentFacilities[0].id,
+            siteIds[0],
           );
         }
 
