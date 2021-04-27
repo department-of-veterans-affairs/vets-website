@@ -27,4 +27,4 @@ jobs:
       - name: curl
         uses: wei/curl@v1
         with:
-          args: -X POST -L --user va-cms-bot:${{ env.JENKINS_API_TOKEN }} https://dev.va.gov/jenkins/job/deploys/job/vets-website-vagovstaging/build --data-urlencode json='{"parameter":[{"name":"notify_slack","value":true},{"name":"ref","value":"cd587193ea7a8685d917b0a0443bb75a2a418cea"},{"name":"app","value":"vets-website"},{"name":"environment","value":"vagovstaging"},{"name":"migration_status","value":false}]}'
+          args: -X POST -L --user va-cms-bot:${{ env.JENKINS_API_TOKEN }} https://dev.va.gov/jenkins/job/test/job/vets-website/build --data-urlencode json='{"parameter":[{"name":"notify_slack","value":true},{"name":"ref","value":"cd587193ea7a8685d917b0a0443bb75a2a418cea"},{"name":"app","value":"vets-website"},{"name":"environment","value":"vagovstaging"},{"name":"migration_status","value":false}]}'
