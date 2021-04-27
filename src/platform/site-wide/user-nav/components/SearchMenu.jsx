@@ -95,11 +95,8 @@ export class SearchMenu extends React.Component {
     // fetch suggestions
     try {
       const response = await fetch(
-        replaceWithStagingDomain(
-          `https://www.va.gov/search_typeahead?query=${encodedInput}`,
-        ),
+        `https://www.va.gov/search_typeahead?query=${encodedInput}`,
       );
-      console.log(response);
       const suggestions = await response.json();
       if (suggestions.length !== 0) {
         const sortedSuggestions = suggestions.sort(function(a, b) {
