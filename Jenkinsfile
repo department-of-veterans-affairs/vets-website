@@ -16,77 +16,49 @@ node('vetsgov-general-purpose') {
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
-  def envUsedCache = [:]
 
   // setupStage
   dockerContainer = commonStages.setup()
 
-  stage('Main') {
+  def envUsedCache = [:]
+  def buildEnv(String envName) {
     def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
     def assetSource = contentOnlyBuild ? ref : 'local'
 
+    if (commonStages.shouldBail()) { return }
+    try {
+      commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+      envUsedCache[envName] = false
+    } catch (error) {
+      if (!contentOnlyBuild) {
+        dockerContainer.inside(DOCKER_ARGS) {
+          sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+        }
+        commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+        envUsedCache[envName] = true
+      } else {
+        commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+        envUsedCache[envName] = false
+      }
+    }
+  }
+
+  stage('Main') {
+    
     try {
       parallel (
         failFast: true,
 
         buildDev: {
-          if (commonStages.shouldBail()) { return }
-          envName = 'vagovdev'
-          try {
-            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
-          } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
-            } else {
-              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-              envUsedCache[envName] = false
-            }
-          }
+          buildEnv('vagovdev')
         },
 
         buildStaging: {
-          if (commonStages.shouldBail()) { return }
-          envName = 'vagovstaging'
-          try {
-            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
-          } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
-            } else {
-              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-              envUsedCache[envName] = false
-            }
-          }
+          buildEnv('vagovstaging')
         },
 
         buildProd: {
-          if (commonStages.shouldBail()) { return }
-          envName = 'vagovprod'
-          try {
-            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
-          } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
-            } else {
-              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-              envUsedCache[envName] = false
-            }
-          }
+          buildEnv('vagovprod')
         },
 
         lint: {
