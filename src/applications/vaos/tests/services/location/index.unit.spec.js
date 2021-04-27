@@ -184,8 +184,8 @@ describe('VAOS Location service', () => {
       );
       expect(data[0].resourceType).to.equal('Location');
       expect(data[0].name).to.equal('Cheyenne VA Medical Center');
-      expect('requestSupported' in data[0].legacyVAR).to.equal(true);
-      expect('directSchedulingSupported' in data[0].legacyVAR).to.equal(true);
+      expect(data[0].legacyVAR.requestSettings['323'].enabled).to.be.true;
+      expect(data[0].legacyVAR.directSettings['323'].enabled).to.be.true;
     });
 
     it('should skip direct booking fetch if direct scheduling disabled', async () => {
@@ -206,8 +206,8 @@ describe('VAOS Location service', () => {
         '/v1/facilities/va?ids=',
       );
       expect(data[0].resourceType).to.equal('Location');
-      expect('requestSupported' in data[0].legacyVAR).to.equal(true);
-      expect('directSchedulingSupported' in data[0].legacyVAR).to.equal(true);
+      expect(data[0].legacyVAR.requestSettings['323'].enabled).to.be.true;
+      expect(data[0].legacyVAR.directSettings['323']).not.to.exist;
     });
 
     it('should return OperationOutcome error', async () => {

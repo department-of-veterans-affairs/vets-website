@@ -18,7 +18,7 @@ export default function NoValidVAFacilities({
     ?.filter(
       facility =>
         !facility.legacyVAR.directSettings[typeOfCare.id]?.enabled &&
-        !facility.legacyVAR.requetSettings[typeOfCare.id]?.enabled,
+        !facility.legacyVAR.requestSettings[typeOfCare.id]?.enabled,
     )
     ?.slice(0, facilityLimit);
 

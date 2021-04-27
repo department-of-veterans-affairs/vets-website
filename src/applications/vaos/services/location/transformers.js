@@ -279,8 +279,8 @@ export function setSupportedSchedulingMethods({ location, settings } = {}) {
     identifier,
     legacyVAR: {
       ...location.legacyVAR,
-      requestSettings: facilitySettings.request,
-      directSettings: facilitySettings.direct,
+      requestSettings: facilitySettings?.request || {},
+      directSettings: facilitySettings?.direct || {},
     },
     managingOrganization: {
       reference: location.managingOrganization?.reference,
