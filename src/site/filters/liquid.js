@@ -711,6 +711,10 @@ module.exports = function registerFilters() {
     return string.replace(regex, newVal);
   };
 
+  liquid.filters.filterBy = (data, filterBy, valueFilter) => {
+    return data.filter(e => _.get(e, filterBy) === valueFilter);
+  };
+
   liquid.filters.processDynamicContent = (entity, contentType) => {
     // TODO - add more cases as new centralized content types are added
     // eslint-disable-next-line sonarjs/no-small-switch
