@@ -31,9 +31,6 @@ describe('Sitewide Search smoke test', () => {
     // navigate to page
     cy.visit('/search?query=benefits');
 
-    // Take a snapshot for visual diffing
-    cy.percySnapshot();
-
     axeTestPage();
 
     // Ensure App is present
@@ -72,9 +69,6 @@ describe('Sitewide Search smoke test', () => {
 
     // navigate to page
     cy.visit('/search/?query=X');
-
-    // Take a snapshot for visual diffing
-    cy.percySnapshot();
 
     axeTestPage();
 
@@ -118,9 +112,6 @@ describe('Sitewide Search smoke test', () => {
 
     // navigate to page
     cy.visit('/search/?query=benefits');
-
-    // Take a snapshot for visual diffing
-    cy.percySnapshot();
 
     axeTestPage();
 
