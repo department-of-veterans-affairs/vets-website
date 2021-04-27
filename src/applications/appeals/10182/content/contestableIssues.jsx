@@ -15,11 +15,17 @@ export const missingIssueErrorMessage = 'Please add the name of an issue';
 // case we end up filtering out deferred and expired issues
 export const EligibleIssuesTitle = props =>
   props?.formData?.contestableIssues?.length === 0 ? (
-    <h2 className="vads-u-font-size--h4" name="eligibleScrollElement">
+    <h2
+      className="section-title vads-u-font-size--h4 vads-u-margin-top--2"
+      name="eligibleScrollElement"
+    >
       Sorry, we couldn’t find any eligible issues
     </h2>
   ) : (
-    <legend name="eligibleScrollElement" className="vads-u-font-size--lg">
+    <legend
+      name="eligibleScrollElement"
+      className="section-title vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--2"
+    >
       Please select the issue(s) you’d like us to review:
       <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
         (*Required)
@@ -27,8 +33,11 @@ export const EligibleIssuesTitle = props =>
     </legend>
   );
 
-export const EligibleIssuesDescription = (
+// The EligibleIssuesTitle is first so screenreaders read it first, but visually
+// it is last to match the design (managed by CSS order)
+export const EligibleIssuesDescription = props => (
   <>
+    <EligibleIssuesTitle {...props} />
     <div>
       <p className="vads-u-margin-top--0">
         These issues are in your VA record. If an issue is missing from this

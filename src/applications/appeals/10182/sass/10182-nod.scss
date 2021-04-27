@@ -141,6 +141,21 @@ article.error .additional-issues-wrap {
   right: 1.9rem;
 }
 
+/* issues page */
+article[data-location="eligible-issues"] {
+  .schemaform-block-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+
+    /* ui:title doesn't render?! so moved it into the top of the description and
+      change order to move it to the bottom */
+    .section-title {
+      order: 3;
+    }
+  }
+}
+
 /* Rep info */
 article[data-location="representative-info"] {
   .schemaform-field-container.schemaform-block {

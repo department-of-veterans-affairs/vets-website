@@ -25,10 +25,10 @@ import {
 
 export default {
   uiSchema: {
-    'ui:title': '',
+    'ui:title': ' ',
     'ui:description': EligibleIssuesDescription,
     contestableIssues: {
-      'ui:title': EligibleIssuesTitle,
+      'ui:title': EligibleIssuesTitle, // not rendering?
       'ui:field': 'StringField',
       'ui:widget': EligibleIssuesWidget,
       'ui:options': {
