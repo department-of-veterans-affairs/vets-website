@@ -4,6 +4,14 @@ import { SELECTED } from '../constants';
 import { isValidDate } from '../validations';
 
 /**
+ * @typedef FormData
+ * @type {Object<Object>}
+ * @property {ContestableIssues}
+ * @property {AdditionaIssues}
+ * @property {Evidence}
+ * @property {*} Unused properties
+ */
+/**
  * @typedef ContestableIssues
  * @type {Array<Object>}
  * @property {ContestableIssue~Item}
@@ -135,13 +143,6 @@ export const getContestableIssues = ({ contestableIssues }) =>
   });
 
 /**
- * @typedef FormData
- * @type {Object<Object>}
- * @property {ContestableIssues}
- * @property {AdditionaIssues}
- * @property {*} Unused properties
- */
-/**
  * @typedef AdditionalIssues
  * @type {Array<Object>}
  * @property {AdditionalIssue~Item}
@@ -180,6 +181,37 @@ export const addIncludedIssues = formData =>
       return issuesToAdd;
     }, []),
   );
+
+/**
+ * @typedef Evidence
+ * @type {Array<Object>}
+ * @property {Evidence~File}
+ */
+/**
+ * @typedef Evidence~File - user-uploaded evidence files
+ * @type {Object}
+ * @property {String} name - uploaded file name
+ * @property {String} confirmationCode - UUID returned by upload API
+ * @property {Boolean} isEncrypted - (not currently used) flag indicating that
+ *  the file _was_ an encrypted PDF, but was unencrypted after processing it
+ *  with the user provided password (not yet implemented)
+ */
+/**
+ * @typedef Evidence~Submittable
+ * @type {Object}
+ * @property {String} name - uploaded file name
+ * @property {String} confirmationCode - UUID returned by upload API
+ */
+/**
+ * Return processed array of file uploads
+ * @param {FormData}
+ * @returns {Evidence~Submittable[]}
+ */
+export const addUploads = formData =>
+  formData.evidence.map(({ name, confirmationCode }) => ({
+    name,
+    confirmationCode,
+  }));
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`

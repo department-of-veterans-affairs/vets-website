@@ -22,7 +22,7 @@ export const EligibleIssuesTitle = props =>
     </h2>
   ) : (
     <legend name="eligibleScrollElement" className="vads-u-font-size--lg">
-      Please select the condition(s) you would like to have reviewed
+      Please select the issue(s) you’d like us to review:
       <span className="schemaform-required-span vads-u-font-weight--normal vads-u-font-size--base">
         (*Required)
       </span>
@@ -34,16 +34,14 @@ export const EligibleIssuesDescription = (
     <div>
       <p className="vads-u-margin-top--0">
         These issues are in your VA record. If an issue is missing from this
-        list, you can add it by clicking the <strong>Add condition</strong>{' '}
-        button (NOT YET IMPLEMENTED).
+        list, you can add it by clicking the <strong>Add issue</strong> button.
       </p>
     </div>
-    <AdditionalInfo triggerText={'Why don’t I see my issue here?'}>
-      It’s possible the issue or decision isn’t in our system yet. This can
-      happen if it’s a more recent claim decision and is still being processed
-      in another system, or if the information hasn’t been sent to va.gov as of
-      yet. If you don’t see the issue you wish to have reviewed, please click
-      the “add issue” button below to add it manually.
+    <AdditionalInfo
+      triggerText={<strong>Why aren’t all my issues listed here?</strong>}
+    >
+      The issue or decision may not be in our system yet. This can happen if
+      it’s a more recent claim decision. We may still be processing it.
     </AdditionalInfo>
   </>
 );

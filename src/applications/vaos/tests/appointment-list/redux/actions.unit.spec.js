@@ -172,8 +172,7 @@ describe('VAOS actions: appointments', () => {
               },
             ],
             contained: null,
-            legacyVAR: {
-              id: '17dd714287e151195b99164cc1a8e49a',
+            vaos: {
               apiData: {
                 startDate: '2020-11-07T17:00:00Z',
                 clinicId: '455',
@@ -197,13 +196,14 @@ describe('VAOS actions: appointments', () => {
                 vvsAppointments: [],
                 id: '17dd714287e151195b99164cc1a8e49a',
               },
-            },
-            vaos: {
               isPastAppointment: false,
               appointmentType: 'vaAppointment',
               isCommunityCare: false,
               timeZone: null,
               isExpressCare: false,
+            },
+            location: {
+              clinicId: '455',
             },
           },
         },
@@ -218,7 +218,7 @@ describe('VAOS actions: appointments', () => {
       );
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
-        apiData: state.appointments.appointmentToCancel.legacyVAR.apiData,
+        apiData: state.appointments.appointmentToCancel.vaos.apiData,
       });
 
       expect(global.window.dataLayer[0]).to.deep.equal({
@@ -257,8 +257,7 @@ describe('VAOS actions: appointments', () => {
               },
             ],
             contained: null,
-            legacyVAR: {
-              id: '17dd714287e151195b99164cc1a8e49a',
+            vaos: {
               apiData: {
                 startDate: '2020-11-07T17:00:00Z',
                 clinicId: '455',
@@ -282,12 +281,13 @@ describe('VAOS actions: appointments', () => {
                 vvsAppointments: [],
                 id: '17dd714287e151195b99164cc1a8e49a',
               },
-            },
-            vaos: {
               isPastAppointment: false,
               appointmentType: 'vaAppointment',
               isCommunityCare: false,
               timeZone: null,
+            },
+            location: {
+              clinicId: '455',
             },
           },
         },
@@ -302,7 +302,7 @@ describe('VAOS actions: appointments', () => {
       );
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
-        apiData: state.appointments.appointmentToCancel.legacyVAR.apiData,
+        apiData: state.appointments.appointmentToCancel.vaos.apiData,
       });
 
       expect(
@@ -320,7 +320,7 @@ describe('VAOS actions: appointments', () => {
             facilityId: '983',
             status: APPOINTMENT_STATUS.booked,
             appointmentType: APPOINTMENT_TYPES.request,
-            legacyVAR: { apiData: {} },
+            vaos: { apiData: {} },
           },
         },
       };
@@ -360,10 +360,7 @@ describe('VAOS actions: appointments', () => {
               },
             ],
             contained: null,
-            legacyVAR: {
-              id: '17dd714287e151195b99164cc1a8e49a',
-              facilityId: '983',
-              clinicId: '455',
+            vaos: {
               apiData: {
                 startDate: '2020-11-07T17:00:00Z',
                 clinicId: '455',
@@ -387,13 +384,14 @@ describe('VAOS actions: appointments', () => {
                 vvsAppointments: [],
                 id: '17dd714287e151195b99164cc1a8e49a',
               },
-            },
-            vaos: {
               isPastAppointment: false,
               appointmentType: 'vaAppointment',
               isCommunityCare: false,
               timeZone: null,
               isExpressCare: false,
+            },
+            location: {
+              clinicId: '455',
             },
           },
         },
@@ -453,10 +451,7 @@ describe('VAOS actions: appointments', () => {
               },
             ],
             contained: null,
-            legacyVAR: {
-              id: '17dd714287e151195b99164cc1a8e49a',
-              facilityId: '983',
-              clinicId: '455',
+            vaos: {
               apiData: {
                 startDate: '2020-11-07T17:00:00Z',
                 clinicId: '455',
@@ -480,12 +475,13 @@ describe('VAOS actions: appointments', () => {
                 vvsAppointments: [],
                 id: '17dd714287e151195b99164cc1a8e49a',
               },
-            },
-            vaos: {
               isPastAppointment: false,
               appointmentType: 'vaAppointment',
               isCommunityCare: false,
               timeZone: null,
+            },
+            location: {
+              clinicId: '455',
             },
           },
         },

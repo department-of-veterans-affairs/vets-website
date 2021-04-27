@@ -1,10 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import VaFacilityResult from '../../components/search-results-items/VaFacilityResult';
-import testData from '../../constants/mock-facility-data-v1.json';
-import { Covid19Vaccine, LocationType, OperatingStatus } from '../../constants';
-import LocationOperationStatus from '../../components/search-results-items/common/LocationOperationStatus';
+import VaFacilityResult from '../../../components/search-results-items/VaFacilityResult';
+import testData from '../../../constants/mock-facility-data-v1.json';
+import {
+  Covid19Vaccine,
+  LocationType,
+  OperatingStatus,
+} from '../../../constants';
+import LocationOperationStatus from '../../../components/search-results-items/common/LocationOperationStatus';
 
 describe('VaFacilityResult', () => {
   it('Should render VaFacilityResult, facility type health', () => {
