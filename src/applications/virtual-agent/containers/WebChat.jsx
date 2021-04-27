@@ -4,6 +4,7 @@ import ChatbotError from './ChatbotError';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import MarkdownRenderer from '../utils/markdownRenderer';
 import retryOnce from '../utils/retryOnce';
+import makeBotGreetUser from '../utils/webchat/makeBotGreetUser';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -45,27 +46,7 @@ export default function WebChat() {
 const ChatBox = ({ token }) => {
   const { ReactWebChat, createDirectLine, createStore } = window.WebChat;
 
-  const store = createStore({}, ({ dispatch }) => next => action => {
-    if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
-      dispatch({
-        meta: {
-          method: 'keyboard',
-        },
-        payload: {
-          activity: {
-            channelData: {
-              postBack: true,
-            },
-            // Web Chat will show the 'Greeting' System Topic message which has a trigger-phrase 'hello'
-            name: 'startConversation',
-            type: 'event',
-          },
-        },
-        type: 'DIRECT_LINE/POST_ACTIVITY',
-      });
-    }
-    return next(action);
-  });
+  const store = createStore({}, makeBotGreetUser);
 
   const directLine = useMemo(
     () =>
