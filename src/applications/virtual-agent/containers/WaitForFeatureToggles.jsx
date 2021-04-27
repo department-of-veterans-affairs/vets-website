@@ -1,13 +1,7 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import { useSelector } from 'react-redux';
 import WaitForVirtualAgentToken from './WaitForVirtualAgentToken';
-
-function useWaitForFeatureToggles() {
-  const loading = useSelector(state => state.featureToggles.loading);
-
-  return { loading };
-}
+import useWaitForFeatureToggles from './useWaitForFeatureToggles';
 
 export default function WaitForFeatureToggles() {
   const { loading } = useWaitForFeatureToggles();
