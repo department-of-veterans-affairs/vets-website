@@ -42,8 +42,8 @@ const AvailableDebts = ({ debts, getDebts }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  debts: state.fsr.debts,
+const mapStateToProps = ({ fsr }) => ({
+  debts: fsr.debts,
 });
 
 const mapDispatchToProps = {
