@@ -5,24 +5,30 @@ import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { fetchProfile, setPageTitle, showModal, hideModal } from '../actions';
-import ServiceError from '../components/ServiceError';
-import { useQueryParams } from '../utils/helpers';
 import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
-import { PAGE_TITLE } from '../constants';
+import ServiceError from '../components/ServiceError';
+import { useQueryParams } from '../utils/helpers';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
 export function ProfilePage({
+  constants,
   profile,
+  calculator,
   dispatchFetchProfile,
   dispatchSetPageTitle,
   dispatchShowModal,
   dispatchHideModal,
+  eligibility,
+  gibctEybBottomSheet,
+  gibctSchoolRatings,
   match,
 }) {
-  const { facilityCode } = match.params;
+  const { facilityCode, preSelectedProgram } = match.params;
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
   const institutionName = _.get(profile, 'attributes.name');
@@ -36,7 +42,7 @@ export function ProfilePage({
   useEffect(
     () => {
       if (institutionName) {
-        dispatchSetPageTitle(`${institutionName} - ${PAGE_TITLE}`);
+        dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
       }
     },
     [institutionName],
@@ -61,17 +67,33 @@ export function ProfilePage({
 
   if (profile.inProgress || _.isEmpty(profile.attributes)) {
     content = <LoadingIndicator message="Loading your profile..." />;
-  } else if (profile.attributes.vetTecProvider) {
-    content = (
-      <VetTecInstitutionProfile
-        institution={profile.attributes}
-        showModal={dispatchShowModal}
-      />
-    );
   } else {
-    content = (
-      <InstitutionProfile profile={profile} showModal={dispatchShowModal} />
-    );
+    const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
+
+    if (profile.attributes.vetTecProvider) {
+      content = (
+        <VetTecInstitutionProfile
+          institution={profile.attributes}
+          showModal={dispatchShowModal}
+          preSelectedProgram={preSelectedProgram}
+          selectedProgram={calculator.selectedProgram}
+        />
+      );
+    } else {
+      content = (
+        <InstitutionProfile
+          profile={profile}
+          isOJT={isOJT}
+          constants={constants}
+          showModal={dispatchShowModal}
+          calculator={calculator}
+          eligibility={eligibility}
+          version={version}
+          gibctEybBottomSheet={gibctEybBottomSheet}
+          gibctSchoolRatings={gibctSchoolRatings}
+        />
+      );
+    }
   }
 
   return (
@@ -79,7 +101,7 @@ export function ProfilePage({
       name="profilePage"
       className="profile-page vads-u-padding-top--3"
     >
-      {profile.error ? <ServiceError /> : content}
+      <div className="row">{profile.error ? <ServiceError /> : content}</div>
     </ScrollElement>
   );
 }
@@ -88,10 +110,20 @@ const mapStateToProps = state => {
   const {
     constants: { constants },
     profile,
+    calculator,
+    eligibility,
   } = state;
   return {
     constants,
     profile,
+    calculator,
+    eligibility,
+    gibctEybBottomSheet: toggleValues(state)[
+      FEATURE_FLAG_NAMES.gibctEybBottomSheet
+    ],
+    gibctSchoolRatings: toggleValues(state)[
+      FEATURE_FLAG_NAMES.gibctSchoolRatings
+    ],
   };
 };
 

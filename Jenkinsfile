@@ -128,6 +128,7 @@ node('vetsgov-general-purpose') {
         stringParam(name: 'devops_branch', value: 'master'),
         stringParam(name: 'api_branch', value: 'master'),
         stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+        stringParam(name: 'content_branch', value: env.BRANCH_NAME),
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {
