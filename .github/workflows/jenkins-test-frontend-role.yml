@@ -21,7 +21,7 @@ jobs:
       - name: Get Jenkins token from Parameter Store 
         uses: marvinpinto/action-inject-ssm-secrets@latest 
         with: 
-          ssm_parameter: /frontend-team/github-actions/paramters/JENKINS_API_TOKEN
+          ssm_parameter: /frontend-team/github-actions/parameters/JENKINS_API_TOKEN
           env_variable_name: JENKINS_API_TOKEN  
 
       - name: Trigger jenkins vets-website deploy
