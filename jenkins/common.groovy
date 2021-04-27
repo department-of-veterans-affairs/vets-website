@@ -146,7 +146,7 @@ def findMissingQueryFlags(String buildLogPath, String envName) {
 def accessibilityTests() {
 
   if (shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
-  
+
   stage("Accessibility") {
 
      slackSend(
@@ -189,57 +189,64 @@ def accessibilityTests() {
 }
 
 def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnlyBuild) {
-  // Look for broken links
-  def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
-  def csvFile = "${WORKSPACE}/vets-website/${csvFileName}" // For use outside of the docker context
 
-  // Ensure the file isn't there if we had to rebuild
-  if (fileExists(csvFile)) {
-    sh "rm /application/${csvFileName}"
-  }
-
-  // Output a csv file with the broken links
-  sh "cd /application && jenkins/glean-broken-links.sh ${buildLogPath} ${csvFileName}"
-  if (fileExists(csvFile)) {
-    echo "Found broken links."
-
-    // Only break the build if broken links are found in master
-    if (IS_PROD_BRANCH || contentOnlyBuild) {
-      echo "Notifying Slack channel."
-
-      // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
-
-      // Until slackUploadFile works...
-      def brokenLinks = readFile(csvFile)
-      def brokenLinksCount = sh(returnStdout: true, script: "wc -l /application/${csvFileName} | cut -d ' ' -f1") as Integer
-      def brokenLinksMessage = "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n@cmshelpdesk\n${env.RUN_DISPLAY_URL}\n${brokenLinks}".stripMargin()
-
-      slackSend(
-        message: brokenLinksMessage,
-        color: 'danger',
-        failOnError: true,
-        channel: 'cms-helpdesk-bot'
-        // attachments: brokenLinks
-        // TODO: errors out with ERROR: Slack notification failed with exception: net.sf.json.JSONException: Invalid JSON String
-        // needs to be formatted into JSON
-        // see also: https://stackoverflow.com/a/51556653/2043808
-      )
-
-      // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
-      // TODO: determine correct file path relative to agent's workspace
-      // see also: https://github.com/jenkinsci/slack-plugin/issues/667#issuecomment-585982716
-      // slackUploadFile(
-      //   filePath: csvFile,
-      //   channel: 'cms-team',
-      //   initialComment: brokenLinksMessage
-      // )
+  def brokenLinkJSON = "${WORKSPACE}/vets-website/logs/${envName}-broken-links.json"
+  def jsonSlurper = new JsonSlurper()
+  def object = jsonSlurper.parseText(brokenLinkJSON)
 
 
-      throw new Exception('Broken links found')
-    }
-  } else {
-    echo "Did not find broken links."
-  }
+
+  // // Look for broken links
+  // def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
+  // def csvFile = "${WORKSPACE}/vets-website/${csvFileName}" // For use outside of the docker context
+
+  // // Ensure the file isn't there if we had to rebuild
+  // if (fileExists(csvFile)) {
+  //   sh "rm /application/${csvFileName}"
+  // }
+
+  // // Output a csv file with the broken links
+  // sh "cd /application && jenkins/glean-broken-links.sh ${buildLogPath} ${csvFileName}"
+  // if (fileExists(csvFile)) {
+  //   echo "Found broken links."
+
+  //   // Only break the build if broken links are found in master
+  //   if (IS_PROD_BRANCH || contentOnlyBuild) {
+  //     echo "Notifying Slack channel."
+
+  //     // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
+
+  //     // Until slackUploadFile works...
+  //     def brokenLinks = readFile(csvFile)
+  //     def brokenLinksCount = sh(returnStdout: true, script: "wc -l /application/${csvFileName} | cut -d ' ' -f1") as Integer
+  //     def brokenLinksMessage = "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n@cmshelpdesk\n${env.RUN_DISPLAY_URL}\n${brokenLinks}".stripMargin()
+
+  //     slackSend(
+  //       message: brokenLinksMessage,
+  //       color: 'danger',
+  //       failOnError: true,
+  //       channel: 'cms-helpdesk-bot'
+  //       // attachments: brokenLinks
+  //       // TODO: errors out with ERROR: Slack notification failed with exception: net.sf.json.JSONException: Invalid JSON String
+  //       // needs to be formatted into JSON
+  //       // see also: https://stackoverflow.com/a/51556653/2043808
+  //     )
+
+  //     // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
+  //     // TODO: determine correct file path relative to agent's workspace
+  //     // see also: https://github.com/jenkinsci/slack-plugin/issues/667#issuecomment-585982716
+  //     // slackUploadFile(
+  //     //   filePath: csvFile,
+  //     //   channel: 'cms-team',
+  //     //   initialComment: brokenLinksMessage
+  //     // )
+
+
+  //     throw new Exception('Broken links found')
+  //   }
+  // } else {
+  //   echo "Did not find broken links."
+  // }
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
