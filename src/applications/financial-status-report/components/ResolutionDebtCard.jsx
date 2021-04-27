@@ -32,23 +32,27 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
   switch (debt.value) {
     case 'Extended monthly payments':
       return (
-        <TextInput
-          additionalClass="input-size-3"
-          label="How much can you afford to pay monthly on this debt?"
-          field={{ value: debt.offerToPay || '' }}
-          onValueChange={input => updateDebts(objKey, input, debt)}
-          //   required
-        />
+        <div className="currency-input">
+          <TextInput
+            additionalClass="input-size-3"
+            label="How much can you afford to pay monthly on this debt?"
+            field={{ value: debt.offerToPay || '' }}
+            onValueChange={input => updateDebts(objKey, input, debt)}
+            //   required
+          />
+        </div>
       );
     case 'Compromise':
       return (
-        <TextInput
-          additionalClass="input-size-3"
-          label="How much do you offer to pay for this debt with a single payment?"
-          field={{ value: debt.offerToPay || '' }}
-          onValueChange={input => updateDebts(objKey, input, debt)}
-          //   required
-        />
+        <div className="currency-input">
+          <TextInput
+            additionalClass="input-size-3 currency-input"
+            label="How much do you offer to pay for this debt with a single payment?"
+            field={{ value: debt.offerToPay || '' }}
+            onValueChange={input => updateDebts(objKey, input, debt)}
+            //   required
+          />
+        </div>
       );
     default:
       return (

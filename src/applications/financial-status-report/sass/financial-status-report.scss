@@ -227,6 +227,19 @@
   }
 }
 
+.currency-input {
+  position: relative;
+  &:after {
+    content: "$";
+    position: absolute;
+    top: 36px;
+    left: 10px;
+  }
+  input {
+    padding-left: 25px;
+  }
+}
+
 // input fields
 .input-size-1 {
   @include media($medium-screen) {
