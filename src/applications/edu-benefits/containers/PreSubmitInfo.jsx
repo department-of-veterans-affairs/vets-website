@@ -1,31 +1,12 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { connect } from 'react-redux';
 
 // platform - form-system actions
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
-function PreSubmitNotice({
-  formData,
-  showError,
-  onSectionComplete,
-  setPreSubmit,
-}) {
+function PreSubmitNotice({ formData, showError, setPreSubmit }) {
   const privacyAgreementAccepted = formData.privacyAgreementAccepted || false;
-
-  // set AGREED (onSectionComplete) to value of privacyAgreementAccepted
-  // if goes to another page (unmount), set AGREED (onSectionComplete) to false
-  useCallback(
-    () => {
-      onSectionComplete(privacyAgreementAccepted);
-
-      return () => {
-        onSectionComplete(false);
-      };
-    },
-
-    [onSectionComplete, privacyAgreementAccepted],
-  );
 
   const privacyAgreementLabel = (
     <span>
