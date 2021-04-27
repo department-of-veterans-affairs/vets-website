@@ -77,8 +77,8 @@ const SharableLink = ({ dataEntityId, idx }) => {
     () => {
       if (idx === 0 && window.location.hash) {
         recordEvent({
-          event: 'nav-jumplink-visit',
-          jumpLinkId: window.location.hash,
+          event: 'anchor-page-load',
+          'anchor-text': window.location.hash.replace('#', ''),
         });
       }
     },
