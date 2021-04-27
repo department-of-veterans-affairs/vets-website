@@ -41,7 +41,8 @@
       data-widget-timeout="{{entity.fieldTimeout}}">
       <div class="loading-indicator-container">
         <div
-          aria-label="{% if entity.fieldLoadingMessage %}{{ entity.fieldLoadingMessage }}{% else %}loading indicator{% endif %}"
+          aria-label="{% if entity.fieldLoadingMessage %}{{ entity.fieldLoadingMessage }}{% else %}Loading...{% endif %}"
+          aria-valuetext="Loading your application..."
           class="loading-indicator"
           role="progressbar"
         ></div>
