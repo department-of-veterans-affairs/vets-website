@@ -14,6 +14,11 @@
                     <p>{{ entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip  }}</p>
                 {% endif %}
                 {{ entity.entity.fieldServiceNameAndDescripti.entity.description.processed | drupalToVaPath | outputLinks }}
+                {% if entity.entity.fieldBody %}
+                    <div id="field-body-health-services">
+                        {{ entity.entity.fieldBody.processed | drupalToVaPath | outputLinks }}
+                    </div>
+                {% endif %}
             </va-accordion-item>
         </va-accordion>
     {% endfor %}
