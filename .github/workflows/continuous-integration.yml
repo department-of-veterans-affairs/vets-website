@@ -105,11 +105,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-gov-west-1"
 
-      - name: Get bot token from Parameter Store
+      - name: Get Pact Broker password from Parameter Store
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
         with:
           ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
           env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
+
+      - name: Get GitHub token from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Get Node version
         id: get-node-version
@@ -141,7 +147,7 @@ jobs:
         run: |
           curl --request POST \
           --url https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
-          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'authorization: Bearer $VA_VSP_BOT_GITHUB_TOKEN' \
           --header 'Accept: application/vnd.github.v3+json' \
           --data '{
             "ref": "master",
