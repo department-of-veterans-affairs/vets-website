@@ -138,10 +138,16 @@ jobs:
         if: ${{ failure() }}
 
       - name: Run Pact verify
-        run: yarn pact:verify
-        env:
-          PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
-          PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
+        run: |
+          curl --request POST \
+          --url https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
+          --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data '{
+            "ref": "master",
+            "repo": "vets-api"
+            }' \
+          --fail
 
       - name: Run Pact publish
         run: yarn pact:publish
