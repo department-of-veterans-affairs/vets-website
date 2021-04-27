@@ -12,30 +12,23 @@ const path = require('path');
 const verifyPacts = async () => {
   const url = new URL(
     path.join(
-      'https://circleci.com/api/v2',
-      'project/github',
-      'department-of-veterans-affairs/vets-api',
-      'pipeline',
+      'https://api.github.com',
+      'repos',
+      'department-of-veterans-affairs/vets-website',
+      'pact',
+      'dispatches',
     ),
   ).toString();
 
-  /* eslint-disable camelcase */
   const options = {
     method: 'POST',
     headers: {
-      'Circle-Token': process.env.CIRCLE_TOKEN,
-      'Content-Type': 'application/json',
+      Accept: 'application/vnd.github.v3+json',
     },
     body: JSON.stringify({
-      branch: 'master',
-      parameters: {
-        verify_stable_pacts: true,
-        consumer_branch: process.env.GITHUB_REF,
-        consumer_version: process.env.GITHUB_SHA,
-      },
+      ref: `${process.env.GITHUB_REF}`,
     }),
   };
-  /* eslint-enable camelcase */
 
   const response = await fetch(url, options);
 
