@@ -218,7 +218,7 @@ const NewIssuesField = props => {
                       <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-justify-content--space-between">
                         <button
                           type="button"
-                          className="vads-u-margin-right--2"
+                          className="vads-u-margin-right--2 update"
                           aria-label={`${updateText} ${itemName}`}
                           onClick={() => handleUpdate(index)}
                         >
@@ -226,7 +226,7 @@ const NewIssuesField = props => {
                         </button>
                         <button
                           type="button"
-                          className="usa-button-secondary float-right"
+                          className="usa-button-secondary float-right remove"
                           aria-label={`Remove ${itemName}`}
                           onClick={() => handleRemove(index)}
                         >
