@@ -470,7 +470,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     ).to.be.null;
   });
 
-  it('should show no facilities message with up to two unsupported facilities for users with address', async () => {
+  it.only('should show no facilities message with up to two unsupported facilities for users with address', async () => {
     mockParentSites(['983', '984'], [parentSite983, parentSite984]);
     const facilityConfig = getDirectBookingEligibilityCriteriaMock({
       id: '123',
