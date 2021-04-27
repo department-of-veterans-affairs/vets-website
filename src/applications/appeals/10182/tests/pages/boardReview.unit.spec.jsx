@@ -50,4 +50,24 @@ describe('NOD board review page', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
+
+  // board option is required
+  it('should prevent continuing', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        definitions={{}}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        formData={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error-message').length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 });
