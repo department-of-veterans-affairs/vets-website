@@ -1,0 +1,15 @@
+{% assign servicesList = fieldHealthServices | filterBy: "entity.fieldServiceNameAndDescripti.entity.fieldVetCenterTypeOfCare", typeOfCare %}
+{% if servicesList.length > 0 %}
+    {% if typeOfCare == "counselling" %}
+        <h2 id="counseling-services" class="vads-u-margin-top--0 vads-u-font-size--lg
+          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Counseling services</h2>
+    {% elseif typeOfCare == "referral" %}
+        <h2 id="referral-services" class="vads-u-margin-top--0 vads-u-font-size--lg
+          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Referral Services</h2>
+    {% elseif typeOfCare == "other"%}
+        <h2 id="other-services" class="vads-u-margin-top--0 vads-u-font-size--lg small-screen:vads-u-font-size--xl
+    vads-u-margin-bottom--2">Other services</h2>
+    {% endif %}
+    <p> Click on a service for more details. </p>
+    {% include "src/site/includes/vet_center_services.liquid" with services = servicesList %}
+{% endif %}
