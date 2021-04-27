@@ -12,7 +12,7 @@ function PreSubmitNotice({
     <div className="vads-u-margin-bottom--3">
       {formData.activeDuty ? (
         <div>
-          <strong>By submitting this form you certify that:</strong>
+          <strong>By submitting this form</strong> you certify that:
           <ul>
             <li>
               All statements in this application are true and correct to the
