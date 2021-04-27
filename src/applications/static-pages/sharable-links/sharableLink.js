@@ -89,7 +89,7 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
         });
       }
     },
-    [idx],
+    [idx, dataEntityId],
   );
 
   const extractId = idString => {
