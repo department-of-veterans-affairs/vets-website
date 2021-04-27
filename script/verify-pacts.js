@@ -7,18 +7,9 @@
  */
 
 const fetch = require('node-fetch');
-const path = require('path');
 
 const verifyPacts = async () => {
-  const url = new URL(
-    path.join(
-      'https://api.github.com',
-      'repos',
-      'department-of-veterans-affairs/vets-website',
-      'pact',
-      'dispatches',
-    ),
-  ).toString();
+  const url = `https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches`;
 
   const options = {
     method: 'POST',
@@ -26,7 +17,8 @@ const verifyPacts = async () => {
       Accept: 'application/vnd.github.v3+json',
     },
     body: JSON.stringify({
-      ref: `${process.env.GITHUB_REF}`,
+      ref: 'master',
+      repo: 'vets-api',
     }),
   };
 
