@@ -62,6 +62,15 @@
                                    </p>
                                </div>
                               {% include 'src/site/includes/vet_center_hours.liquid' with vetCenterHours = fieldOfficeHours %}
+                              {% include "src/site/includes/dynamic-content.drupal.liquid" with
+                                  entity = fieldCcNonTraditionalHours.fetched
+                                  contentType = fieldCcNonTraditionalHours.fetchedBundle
+                              %}
+
+                              {% include "src/site/includes/dynamic-content.drupal.liquid" with
+                                  entity = fieldCcVetCenterCallCenter.fetched
+                                  contentType = fieldCcVetCenterCallCenter.fetchedBundle
+                              %}
                           </section>
                       </div>
                   </div>
