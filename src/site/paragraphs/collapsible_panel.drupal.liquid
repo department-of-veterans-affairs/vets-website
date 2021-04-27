@@ -51,7 +51,9 @@
                         {%  assign bundleComponent = "src/site/paragraphs/" | append: paragraph.entity.entityBundle | append: ".drupal.liquid" %}
                         {% include {{ bundleComponent }} with entity = paragraph.entity %}
                     {%  endfor %}
-                    <div data-widget-type="sharable-link" parentId="{{id}}" ></div>                </div>
+
+                    <div data-widget-type="sharable-link" parentId="{{id}}"></div>                
+                </div>
             </li>
         {% endfor %}
     </ul>

@@ -133,9 +133,8 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
     setFeedbackActive(true);
     hideFeedback(element.getAttribute('id'));
   };
-
-  return (
-    showSharableLink && (
+  if (showSharableLink) {
+    return (
       <ThemeProvider theme={theme.main}>
         <span aria-live="polite" aria-relevant="additions">
           <UnStyledButtonInAccordion
@@ -180,8 +179,9 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
           </ReactCSSTransitionGroup>
         </span>
       </ThemeProvider>
-    )
-  );
+    );
+  }
+  return null;
 };
 
 const mapStateToProps = store => ({
