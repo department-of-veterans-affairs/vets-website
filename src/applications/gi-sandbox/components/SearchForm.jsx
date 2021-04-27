@@ -15,6 +15,45 @@ export default function SearchForm({
     location: () => fetchSearchByLocation(searchLocation, distance),
   };
 
+  const tabContent = {
+    name: (
+      <input
+        type="text"
+        name="nameSearch"
+        className="name-search"
+        placeholder="school, employer, or training provider"
+        value={searchName}
+        onChange={e => setSearchName(e.target.value)}
+      />
+    ),
+    location: (
+      <div>
+        <input
+          type="text"
+          name="locationSearch"
+          className="vads-u-display--inline-block location-search"
+          placeholder="city, state, or postal code"
+          value={searchLocation}
+          onChange={e => setSearchLocation(e.target.value)}
+        />
+        <Dropdown
+          className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-left--4"
+          selectClassName="vads-u-font-style--italic vads-u-color--gray"
+          name="distance"
+          options={[
+            { optionValue: '10', optionLabel: 'within 10 miles' },
+            { optionValue: '25', optionLabel: 'within 25 miles' },
+            { optionValue: '50', optionLabel: 'within 50 miles' },
+          ]}
+          value={distance}
+          alt="distance"
+          visible
+          onChange={e => setDistance(e.target.value)}
+        />
+      </div>
+    ),
+  };
+
   const getTab = (tabName, label) => {
     const tabClasses = classNames(
       {
@@ -53,42 +92,7 @@ export default function SearchForm({
       <div className="search-box">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--10">
-            {currentTab === 'name' && (
-              <input
-                type="text"
-                name="nameSearch"
-                className="name-search"
-                placeholder="school, employer, or training provider"
-                value={searchName}
-                onChange={e => setSearchName(e.target.value)}
-              />
-            )}
-            {currentTab === 'location' && (
-              <div>
-                <input
-                  type="text"
-                  name="locationSearch"
-                  className="vads-u-display--inline-block location-search"
-                  placeholder="city, state, or postal code"
-                  value={searchLocation}
-                  onChange={e => setSearchLocation(e.target.value)}
-                />
-                <Dropdown
-                  className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-left--4"
-                  selectClassName="vads-u-font-style--italic vads-u-color--gray"
-                  name="distance"
-                  options={[
-                    { optionValue: '10', optionLabel: 'within 10 miles' },
-                    { optionValue: '25', optionLabel: 'within 25 miles' },
-                    { optionValue: '50', optionLabel: 'within 50 miles' },
-                  ]}
-                  value={distance}
-                  alt="distance"
-                  visible
-                  onChange={e => setDistance(e.target.value)}
-                />
-              </div>
-            )}
+            {tabContent[currentTab]}
           </div>
           <div className="medium-screen:vads-l-col--2 vads-u-text-align--right">
             <button type="button" className="usa-button" onClick={doSearch}>
