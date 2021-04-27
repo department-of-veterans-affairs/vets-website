@@ -29,7 +29,6 @@ import {
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
   },
   user: {
