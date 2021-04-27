@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -9,7 +9,7 @@ import CarefulConsiderationStatement from '../components/CarefulConsiderationSta
 import { branchOfService, board, formData, venueAddress } from '../helpers';
 import { venueWarning, upgradeVenueWarning } from '../constants';
 
-class GuidancePage extends React.Component {
+export class GuidancePage extends Component {
   constructor(props) {
     super(props);
 
@@ -1004,7 +1004,7 @@ class GuidancePage extends React.Component {
           {this.renderDischargeWarning()}
           {this.renderApplicationWarning()}
           {this.renderOptionalStep()}
-          <ul className="vertical-list-group more-bottom-cushion numbered">
+          <ul className="steps-list vertical-list-group more-bottom-cushion numbered">
             {this.renderStepOne()}
             {this.renderStepTwo()}
             {this.renderStepThree()}
