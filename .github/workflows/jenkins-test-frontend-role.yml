@@ -1,0 +1,26 @@
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+  jenkins:
+    name: Jenkins Deploy Test Frontend Role
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Get Jenkins token from Parameter Store 
+      uses: marvinpinto/action-inject-ssm-secrets@latest 
+      with: 
+        ssm_parameter: /frontend-team/github-actions/paramters/JENKINS_API_TOKEN
+        env_variable_name: JENKINS_API_TOKEN  
+
+    - name: Trigger jenkins vets-website deploy
+      uses: appleboy/jenkins-action@master
+      with:
+        url: "http://dev.va.gov/jenkins"
+        user: "va-vfs-bot"
+        token: ${{ env.JENKINS_API_TOKEN }}
+        job: "job/test/job/vets-website/build"
