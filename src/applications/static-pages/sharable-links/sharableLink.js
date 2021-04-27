@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import recordEvent from 'platform/monitoring/record-event';
+import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 const theme = {
   main: {
@@ -65,7 +68,7 @@ const UnStyledButtonInAccordion = styled.button`
   width: auto !important;
 `;
 
-const SharableLink = ({ dataEntityId, idx }) => {
+const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
   const [feedbackActive, setFeedbackActive] = useState(false);
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
@@ -132,51 +135,57 @@ const SharableLink = ({ dataEntityId, idx }) => {
   };
 
   return (
-    <ThemeProvider theme={theme.main}>
-      <span aria-live="polite" aria-relevant="additions">
-        <UnStyledButtonInAccordion
-          className="usa-button-unstyled"
-          aria-label={`Copy ${dataEntityId} sharable link`}
-        >
-          <ShareIcon
-            aria-hidden="true"
-            className={`fas fa-link sharable-link`}
-            feedbackActive={feedbackActive}
-            onClick={event => {
-              event.persist();
-              if (!event || !event.target) return;
-              copyToUsersClipBoard(dataEntityId);
-              displayFeedback(event.target);
-              recordEvent({
-                event: 'nav-jumplink-click',
-              });
-            }}
-            id={`icon-${dataEntityId}`}
-          />
-        </UnStyledButtonInAccordion>
-
-        <ReactCSSTransitionGroup
-          transitionName="link-copied-feedback"
-          transitionAppear
-          transitionAppearTimeout={500}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-        >
-          {feedbackActive && (
-            <ShareIconClickFeedback
-              className={`vads-u-margin-left--0.5 sharable-link-feedback`}
-              leftAligned={leftAligned}
+    showSharableLink && (
+      <ThemeProvider theme={theme.main}>
+        <span aria-live="polite" aria-relevant="additions">
+          <UnStyledButtonInAccordion
+            className="usa-button-unstyled"
+            aria-label={`Copy ${dataEntityId} sharable link`}
+          >
+            <ShareIcon
+              aria-hidden="true"
+              className={`fas fa-link sharable-link`}
               feedbackActive={feedbackActive}
-              leftPx={leftPx}
-              id={`feedback-${dataEntityId}`}
-            >
-              {copiedText}
-            </ShareIconClickFeedback>
-          )}
-        </ReactCSSTransitionGroup>
-      </span>
-    </ThemeProvider>
+              onClick={event => {
+                event.persist();
+                if (!event || !event.target) return;
+                copyToUsersClipBoard(dataEntityId);
+                displayFeedback(event.target);
+                recordEvent({
+                  event: 'nav-jumplink-click',
+                });
+              }}
+              id={`icon-${dataEntityId}`}
+            />
+          </UnStyledButtonInAccordion>
+
+          <ReactCSSTransitionGroup
+            transitionName="link-copied-feedback"
+            transitionAppear
+            transitionAppearTimeout={500}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}
+          >
+            {feedbackActive && (
+              <ShareIconClickFeedback
+                className={`vads-u-margin-left--0.5 sharable-link-feedback`}
+                leftAligned={leftAligned}
+                feedbackActive={feedbackActive}
+                leftPx={leftPx}
+                id={`feedback-${dataEntityId}`}
+              >
+                {copiedText}
+              </ShareIconClickFeedback>
+            )}
+          </ReactCSSTransitionGroup>
+        </span>
+      </ThemeProvider>
+    )
   );
 };
 
-export default SharableLink;
+const mapStateToProps = store => ({
+  showSharableLink: toggleValues(store)[FEATURE_FLAG_NAMES.sharableLinks],
+});
+
+export default connect(mapStateToProps)(SharableLink);

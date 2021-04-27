@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
 export default function createSharableLink(store, widgetType) {
   const sharableLinks = document.querySelectorAll(
@@ -13,11 +14,13 @@ export default function createSharableLink(store, widgetType) {
       for (const link of sharableLinks) {
         idx++;
         ReactDOM.render(
-          <SharableLink
-            dataEntityId={link.getAttribute('parentid')}
-            idx={idx}
-            key={idx}
-          />,
+          <Provider store={store}>
+            <SharableLink
+              dataEntityId={link.getAttribute('parentid')}
+              idx={idx}
+              key={idx}
+            />{' '}
+          </Provider>,
           link,
         );
       }
