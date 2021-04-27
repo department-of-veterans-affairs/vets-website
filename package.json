@@ -313,7 +313,7 @@
     "history-v4": "npm:history@4.9.0",
     "ics-js": "^0.10.2",
     "js-cookie": "^2.2.1",
-    "js-yaml": "^3.13.1",
+    "js-yaml": "^3.14.0",
     "jsesc": "^3.0.2",
     "jsonschema": "^1.1.1",
     "leaflet": "^1.6.0",
@@ -335,7 +335,6 @@
     "metalsmith-sitemap": "^1.0.0",
     "moment": "^2.19.3",
     "moment-timezone": "^0.5.31",
-    "netmask": "^2.0.1",
     "number-to-words": "^1.2.4",
     "prop-types": "^15.6.1",
     "raven": "^2.6.4",
@@ -352,7 +351,7 @@
     "react-router-last-location": "^2.0.1",
     "react-scroll": "1.7.10",
     "react-tabs": "^3.1.1",
-    "react-transition-group": "^1.2.1",
+    "react-transition-group": "1",
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
@@ -368,8 +367,7 @@
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d95fd3fdb480cc12aeb8b8b16b8f5b84e054e31c",
     "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.4.0",
-    "whatwg-fetch": "^2.0.3",
-    "y18n": "^ 4.0.1"
+    "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
     "**/lodash": "4.17.19",
