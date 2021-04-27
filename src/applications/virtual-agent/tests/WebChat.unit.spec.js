@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import sinon from 'sinon';
-import WaitForVirtualAgentToken from '../containers/WaitForVirtualAgentToken';
 import {
   mockApiRequest,
   mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
-import { render, waitFor } from '@testing-library/react';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { CHATBOT_ERROR_MESSAGE } from './App.unit.spec';
+import App from '../containers/App';
 
 describe('WebChat', () => {
   let oldWindow;
@@ -40,7 +41,13 @@ describe('WebChat', () => {
     it('should show loading indicator', () => {
       loadWebChat();
       mockApiRequest({ token: 'ANOTHERFAKETOKEN' });
-      const wrapper = render(<WaitForVirtualAgentToken />);
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
 
       expect(wrapper.getByRole('progressbar')).to.exist;
     });
@@ -50,7 +57,13 @@ describe('WebChat', () => {
     it('should render web chat', async () => {
       loadWebChat();
       mockApiRequest({ token: 'FAKETOKEN' });
-      const wrapper = render(<WaitForVirtualAgentToken />);
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
     });
@@ -60,7 +73,13 @@ describe('WebChat', () => {
     it('should display error message', async () => {
       loadWebChat();
       mockApiRequest({}, false);
-      const wrapper = render(<WaitForVirtualAgentToken />);
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
 
       await waitFor(
         () => expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist,
@@ -76,7 +95,13 @@ describe('WebChat', () => {
         { response: { token: 'FAKETOKEN' }, shouldResolve: true },
       ]);
 
-      const wrapper = render(<WaitForVirtualAgentToken />);
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
     });
@@ -98,7 +123,13 @@ describe('WebChat', () => {
 
       mockApiRequest({ token: 'FAKETOKEN' });
 
-      const wrapper = render(<WaitForVirtualAgentToken />);
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
       expect(onUnmount.called).to.be.false;
