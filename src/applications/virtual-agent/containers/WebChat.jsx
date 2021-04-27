@@ -8,7 +8,6 @@ import retryOnce from '../utils/retryOnce';
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
 export default function WebChat() {
-  const { ReactWebChat, createDirectLine } = window.WebChat;
   const [token, setToken] = useState('');
   const [tokenLoading, setTokenLoading] = useState(true);
 
@@ -57,6 +56,20 @@ export default function WebChat() {
     },
   );
 
+  return (
+    <div className={'vads-l-grid-container'}>
+      <div className={'vads-l-row'} data-testid={'webchat-container'}>
+        {token && <ChatBox token={token} store={store} />}
+        {!token && !tokenLoading && <ChatbotError />}
+        {tokenLoading && <LoadingIndicator message={'Loading Virtual Agent'} />}
+      </div>
+    </div>
+  );
+}
+
+const ChatBox = ({ token, store }) => {
+  const { ReactWebChat, createDirectLine } = window.WebChat;
+
   const directLine = useMemo(
     () =>
       createDirectLine({
@@ -64,28 +77,17 @@ export default function WebChat() {
         domain:
           'https://northamerica.directline.botframework.com/v3/directline',
       }),
-    [token],
+    [token, createDirectLine],
   );
 
   return (
-    <div className={'vads-l-grid-container'}>
-      <div className={'vads-l-row'} data-testid={'webchat-container'}>
-        {token && (
-          <div
-            data-testid={'webchat'}
-            style={{ height: '500px', width: '100%' }}
-          >
-            <ReactWebChat
-              styleOptions={{ hideUploadButton: true }}
-              directLine={directLine}
-              store={store}
-              renderMarkdown={renderMarkdown}
-            />
-          </div>
-        )}
-        {!token && !tokenLoading && <ChatbotError />}
-        {tokenLoading && <LoadingIndicator message={'Loading Virtual Agent'} />}
-      </div>
+    <div data-testid={'webchat'} style={{ height: '500px', width: '100%' }}>
+      <ReactWebChat
+        styleOptions={{ hideUploadButton: true }}
+        directLine={directLine}
+        store={store}
+        renderMarkdown={renderMarkdown}
+      />
     </div>
   );
-}
+};
