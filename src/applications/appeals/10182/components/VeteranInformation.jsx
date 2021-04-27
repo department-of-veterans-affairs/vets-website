@@ -14,7 +14,7 @@ import { FORMAT_READABLE } from '../constants';
 
 const VeteranInformation = ({ profile = {}, veteran = {} }) => {
   const { ssnLastFour, vaFileLastFour } = veteran;
-  const { dob, gender, userFullName } = profile;
+  const { dob, gender, userFullName = {} } = profile;
   const { first, middle, last, suffix } = userFullName;
 
   const dateOfBirth = dob ? moment(dob).format(FORMAT_READABLE) : '';
