@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import sinon from 'sinon';
 import WebChat from '../containers/WebChat';
 import {
   mockApiRequest,
@@ -11,15 +12,18 @@ import { CHATBOT_ERROR_MESSAGE } from './App.unit.spec';
 describe('WebChat', () => {
   let oldWindow;
 
-  function loadWebChat() {
+  function loadWebChat({ ReactWebChat } = {}) {
     global.window = Object.create(global.window);
+
+    const defaultReactWebChat = () => {
+      return <div />;
+    };
+
     Object.assign(global.window, {
       WebChat: {
         createStore: () => {},
         createDirectLine: () => {},
-        ReactWebChat: () => {
-          return <div />;
-        },
+        ReactWebChat: ReactWebChat || defaultReactWebChat,
       },
     });
   }
@@ -75,6 +79,29 @@ describe('WebChat', () => {
       const wrapper = render(<WebChat />);
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+    });
+  });
+
+  describe('weird unmounting behavior of webchat framework', () => {
+    it('should not unmount, otherwise the directLine is closed and the conversation can`t start', async () => {
+      const onUnmount = sinon.spy();
+
+      const ReactWebChat = () => {
+        useEffect(() => {
+          return onUnmount;
+        });
+
+        return <div />;
+      };
+
+      loadWebChat({ ReactWebChat });
+
+      mockApiRequest({ token: 'FAKETOKEN' });
+
+      const wrapper = render(<WebChat />);
+
+      await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+      expect(onUnmount.called).to.be.false;
     });
   });
 });

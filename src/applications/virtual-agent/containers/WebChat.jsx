@@ -23,12 +23,11 @@ export default function WebChat() {
       try {
         const response = await retryOnce(callVirtualAgentTokenApi);
 
+        setTokenLoading(false);
         setToken(response.token);
       } catch (error) {
         setTokenLoading(false);
       }
-
-      setTokenLoading(false);
     }
     getToken();
   }, []);
