@@ -27,6 +27,8 @@ import {
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
+import { promiseAllFromObject } from '../../utils/promise';
+import { dedupeArray } from '../../utils/data';
 
 /**
  * Fetch facility information for the facilities in the given site, based on type of care
@@ -112,21 +114,6 @@ export async function getLocation({ facilityId }) {
   }
 }
 
-async function promiseAllFromObject(data) {
-  const keys = Object.keys(data);
-  const values = Object.values(data);
-
-  const results = await Promise.all(values);
-
-  return keys.reduce(
-    (resultsObj, key, i) => ({
-      ...resultsObj,
-      [key]: results[i],
-    }),
-    {},
-  );
-}
-
 export async function getLocationSettings({ siteIds, type = null }) {
   try {
     const promises = {};
@@ -173,7 +160,7 @@ export async function getLocationsByTypeOfCareAndSiteIds({
       type: !directSchedulingEnabled ? 'request' : null,
     });
 
-    const uniqueIds = Array.from(new Set(settings.map(setting => setting.id)));
+    const uniqueIds = dedupeArray(settings.map(setting => setting.id));
 
     // The above API calls only return the ids. Make an additional
     // call to getLocations so we can get additional details such

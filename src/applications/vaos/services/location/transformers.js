@@ -5,6 +5,7 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { VHA_FHIR_ID } from '../../utils/constants';
+import { arrayToObject, dedupeArray } from '../../utils/data';
 
 /**
  * Transforms /vaos/systems/983/direct_scheduling_facilities?type_of_care_id=323&parent_code=983GB to
@@ -333,52 +334,40 @@ export function transformCommunityProviders(providers) {
 }
 
 export function transformSettings({ request = [], direct = [] }) {
-  const directSettings = direct.reduce(
-    (current, next) => ({ ...current, [next.id]: next }),
-    {},
-  );
-  const requestSettings = request.reduce(
-    (current, next) => ({ ...current, [next.id]: next }),
-    {},
-  );
-  const facilityIds = Array.from(
-    new Set([...direct.map(d => d.id), ...request.map(r => r.id)]),
-  );
+  const directSettings = arrayToObject(direct);
+  const requestSettings = arrayToObject(request);
+  const facilityIds = dedupeArray([
+    ...direct.map(d => d.id),
+    ...request.map(r => r.id),
+  ]);
 
   return facilityIds.map(id => {
+    const transformedRequestSettings = requestSettings[id]?.requestSettings.map(
+      service => ({
+        id: service.id,
+        name: service.typeOfCare,
+        enabled: !!service.patientHistoryRequired,
+        patientHistoryRequired:
+          service.patientHistoryRequired?.toLowerCase() === 'yes',
+        patientHistoryDuration: service.patientHistoryDuration,
+        submittedRequestLimit: service.submittedRequestLimit,
+      }),
+    );
+    const transformedDirectSettings = directSettings[id]?.coreSettings.map(
+      service => ({
+        id: service.id,
+        name: service.typeOfCare,
+        enabled: !!service.patientHistoryRequired,
+        patientHistoryRequired:
+          service.patientHistoryRequired?.toLowerCase() === 'yes',
+        patientHistoryDuration: service.patientHistoryDuration,
+      }),
+    );
+
     return {
       id,
-      request:
-        requestSettings[id]?.requestSettings.reduce(
-          (settings, service) => ({
-            ...settings,
-            [service.id]: {
-              id: service.id,
-              name: service.typeOfCare,
-              enabled: !!service.patientHistoryRequired,
-              patientHistoryRequired:
-                service.patientHistoryRequired?.toLowerCase() === 'yes',
-              patientHistoryDuration: service.patientHistoryDuration,
-              submittedRequestLimit: service.submittedRequestLimit,
-            },
-          }),
-          {},
-        ) || {},
-      direct:
-        directSettings[id]?.coreSettings.reduce(
-          (settings, service) => ({
-            ...settings,
-            [service.id]: {
-              id: service.id,
-              name: service.typeOfCare,
-              enabled: !!service.patientHistoryRequired,
-              patientHistoryRequired:
-                service.patientHistoryRequired?.toLowerCase() === 'yes',
-              patientHistoryDuration: service.patientHistoryDuration,
-            },
-          }),
-          {},
-        ) || {},
+      request: arrayToObject(transformedRequestSettings),
+      direct: arrayToObject(transformedDirectSettings),
     };
   });
 }
