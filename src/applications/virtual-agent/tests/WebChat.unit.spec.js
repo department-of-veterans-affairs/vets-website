@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import sinon from 'sinon';
-import WebChat from '../containers/WebChat';
+import WaitForVirtualAgentToken from '../containers/WaitForVirtualAgentToken';
 import {
   mockApiRequest,
   mockMultipleApiRequests,
@@ -40,7 +40,7 @@ describe('WebChat', () => {
     it('should show loading indicator', () => {
       loadWebChat();
       mockApiRequest({ token: 'ANOTHERFAKETOKEN' });
-      const wrapper = render(<WebChat />);
+      const wrapper = render(<WaitForVirtualAgentToken />);
 
       expect(wrapper.getByRole('progressbar')).to.exist;
     });
@@ -50,7 +50,7 @@ describe('WebChat', () => {
     it('should render web chat', async () => {
       loadWebChat();
       mockApiRequest({ token: 'FAKETOKEN' });
-      const wrapper = render(<WebChat />);
+      const wrapper = render(<WaitForVirtualAgentToken />);
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
     });
@@ -60,7 +60,7 @@ describe('WebChat', () => {
     it('should display error message', async () => {
       loadWebChat();
       mockApiRequest({}, false);
-      const wrapper = render(<WebChat />);
+      const wrapper = render(<WaitForVirtualAgentToken />);
 
       await waitFor(
         () => expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist,
@@ -76,7 +76,7 @@ describe('WebChat', () => {
         { response: { token: 'FAKETOKEN' }, shouldResolve: true },
       ]);
 
-      const wrapper = render(<WebChat />);
+      const wrapper = render(<WaitForVirtualAgentToken />);
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
     });
@@ -98,7 +98,7 @@ describe('WebChat', () => {
 
       mockApiRequest({ token: 'FAKETOKEN' });
 
-      const wrapper = render(<WebChat />);
+      const wrapper = render(<WaitForVirtualAgentToken />);
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
       expect(onUnmount.called).to.be.false;
