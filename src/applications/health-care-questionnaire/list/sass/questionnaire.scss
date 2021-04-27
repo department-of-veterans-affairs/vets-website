@@ -162,6 +162,13 @@ ol.questionnaire-list {
         line-height: 1.5;
       }
     }
+    .action-link-container{
+      display: flex;
+      justify-content: left;
+      span{
+        display: initial;
+      }
+    }
   }
 }
 

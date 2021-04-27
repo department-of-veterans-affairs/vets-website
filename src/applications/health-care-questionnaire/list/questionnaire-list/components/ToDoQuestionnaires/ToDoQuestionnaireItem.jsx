@@ -37,6 +37,7 @@ export default function ToDoQuestionnaireItem({ data }) {
             facilityName={facilityName}
             appointmentTime={appointmentTime}
             questionnaireResponseId={questionnaireResponse?.id}
+            useSecondary
           />
         ) : (
           <AnswerQuestions
@@ -45,6 +46,7 @@ export default function ToDoQuestionnaireItem({ data }) {
             facilityName={facilityName}
             appointmentTime={appointmentTime}
             status={questionnaireResponseStatus}
+            useActionLink
           />
         )
       }
