@@ -94,39 +94,31 @@ describe('HCA Enrollment Status Reducer', () => {
   });
 
   describe('FETCH_ENROLLMENT_STATUS_FAILED', () => {
-    describe('regardless of the error codes', () => {
-      it('sets the state correctly', () => {
-        action = {
-          type: actions.FETCH_ENROLLMENT_STATUS_FAILED,
-          errors: [{ code: '400' }],
-        };
-        reducedState = reducer(state, action);
-        expect(reducedState.hasServerError).to.be.false;
-        expect(reducedState.isLoadingApplicationStatus).to.be.false;
-        expect(reducedState.loginRequired).to.be.false;
-        expect(reducedState.noESRRecordFound).to.be.false;
-      });
-    });
-
     describe('if the error code if 404', () => {
-      it('sets `noESRRecordFound` to `true`', () => {
+      it('sets `noESRRecordFound` to `true` and `hasServerError` to `false`', () => {
         action = {
           type: actions.FETCH_ENROLLMENT_STATUS_FAILED,
           errors: [{ code: '404' }],
         };
         reducedState = reducer(state, action);
         expect(reducedState.noESRRecordFound).to.be.true;
+        expect(reducedState.hasServerError).to.be.false;
+        expect(reducedState.loginRequired).to.be.false;
+        expect(reducedState.isLoadingApplicationStatus).to.be.false;
       });
     });
 
     describe('if the error code is 429', () => {
-      it('sets `loginRequired` to `true`', () => {
+      it('sets `loginRequired` to `true` and `hasServerError` to `false`', () => {
         action = {
           type: actions.FETCH_ENROLLMENT_STATUS_FAILED,
           errors: [{ code: '429' }],
         };
         reducedState = reducer(state, action);
         expect(reducedState.loginRequired).to.be.true;
+        expect(reducedState.noESRRecordFound).to.be.false;
+        expect(reducedState.hasServerError).to.be.false;
+        expect(reducedState.isLoadingApplicationStatus).to.be.false;
       });
     });
 
@@ -138,6 +130,21 @@ describe('HCA Enrollment Status Reducer', () => {
         };
         reducedState = reducer(state, action);
         expect(reducedState.hasServerError).to.be.true;
+        expect(reducedState.loginRequired).to.be.false;
+        expect(reducedState.noESRRecordFound).to.be.false;
+        expect(reducedState.isLoadingApplicationStatus).to.be.false;
+      });
+    });
+
+    describe('if the error code cannot be determined', () => {
+      it('sets `hasServerError` to `true`', () => {
+        action = {
+          type: actions.FETCH_ENROLLMENT_STATUS_FAILED,
+          errors: null,
+        };
+        reducedState = reducer(state, action);
+        expect(reducedState.hasServerError).to.be.true;
+        expect(reducedState.isLoadingApplicationStatus).to.be.false;
       });
     });
   });

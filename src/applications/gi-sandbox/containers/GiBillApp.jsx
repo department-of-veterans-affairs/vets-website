@@ -54,9 +54,8 @@ GiBillApp.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { constants, preview } = state;
+  const { preview } = state;
   return {
-    constants,
     preview,
   };
 };
