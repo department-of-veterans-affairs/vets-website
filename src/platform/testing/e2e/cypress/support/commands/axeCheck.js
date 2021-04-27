@@ -65,6 +65,8 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
    */
   axeBuilder = Object.assign(axeBuilder, tempOptions);
 
+  console.log(axeBuilder);
+
   const axeConfig = _13647Exception
     ? { includedImpacts: ['critical'] }
     : axeBuilder;
