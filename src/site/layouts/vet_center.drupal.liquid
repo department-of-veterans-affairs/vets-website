@@ -107,6 +107,15 @@
           <h2 id="in-the-spot-light" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">In the spotlight at {{ entityLabel }} </h2>
 
+            <ul class="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
+                {% for entity in fieldVetCenterFeatureContent %}
+                    {% include "src/site/includes/vet_center_featured_content.liquid" with
+                        entity = entity.entity
+                    %}
+                {% endfor %}
+            </ul>
+
+
             {% include "src/site/includes/vet_center_health_services.liquid" with
                 fieldHealthServices
                 typeOfCare = "counselling"
