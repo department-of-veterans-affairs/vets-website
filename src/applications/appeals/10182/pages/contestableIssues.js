@@ -1,7 +1,5 @@
 import EligibleIssuesWidget from '../components/EligibleIssuesWidget';
 import NewIssuesField from '../components/NewIssuesField';
-// import CheckBoxWidget from 'platform/forms-system/src/js/widgets';
-// import CheckboxReviewWidget from '../components/CheckboxReviewWidget';
 
 import {
   EligibleIssuesTitle,
@@ -60,9 +58,7 @@ export default {
     },
     socOptIn: {
       'ui:title': OptInTitle,
-      'ui:description': optInDescription,
-      // 'ui:widget': CheckBoxWidget,
-      // 'ui:reviewWidget': CheckboxReviewWidget,
+      // 'ui:description': optInDescription,
       'ui:required': () => true,
       'ui:validations': [optInValidation],
       'ui:errorMessages': {
@@ -70,8 +66,7 @@ export default {
         required: optInErrorMessage,
       },
       'ui:options': {
-        showFieldLabel: false,
-        forceNoWrapper: true, // TO DO: FieldTemplate line 78 bypass boolean
+        showFieldLabel: 'label',
         keepInPageOnReview: false,
       },
     },

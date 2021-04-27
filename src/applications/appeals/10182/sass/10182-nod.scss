@@ -141,6 +141,11 @@ article.error .additional-issues-wrap {
   right: 1.9rem;
 }
 
+/* hide duplicate opt-in checkbox label */
+#root_socOptIn-label {
+  display: none;
+}
+
 /* issues page */
 article[data-location="eligible-issues"] {
   .schemaform-block-header {
