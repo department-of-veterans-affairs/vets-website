@@ -19,7 +19,7 @@ export default function createSharableLink(store, widgetType) {
               dataEntityId={link.getAttribute('parentid')}
               idx={idx}
               key={idx}
-            />{' '}
+            />
           </Provider>,
           link,
         );
