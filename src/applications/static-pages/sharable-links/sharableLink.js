@@ -22,6 +22,10 @@ const copyToUsersClipBoard = dataEntityId => {
   input.select();
   document.execCommand('copy');
   document.body.removeChild(input);
+  recordEvent({
+    event: 'nav-jumplink-click',
+    'anchor-text': dataEntityId,
+  });
 };
 const ShareIconClickFeedback = styled.span`
   position: ${props => (props.leftAligned ? 'absolute' : 'relative')};
@@ -81,7 +85,7 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
       if (idx === 0 && window.location.hash) {
         recordEvent({
           event: 'anchor-page-load',
-          'anchor-text': window.location.hash.replace('#', ''),
+          'anchor-text': dataEntityId,
         });
       }
     },
@@ -150,9 +154,6 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
                 if (!event || !event.target) return;
                 copyToUsersClipBoard(dataEntityId);
                 displayFeedback(event.target);
-                recordEvent({
-                  event: 'nav-jumplink-click',
-                });
               }}
               id={`icon-${dataEntityId}`}
             />
