@@ -21,24 +21,28 @@ node('vetsgov-general-purpose') {
   dockerContainer = commonStages.setup()
 
   def envUsedCache = [:]
-  def buildEnv(String envName) {
-    def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
-    def assetSource = contentOnlyBuild ? ref : 'local'
 
-    if (commonStages.shouldBail()) { return }
-    try {
-      commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-      envUsedCache[envName] = false
-    } catch (error) {
-      if (!contentOnlyBuild) {
-        dockerContainer.inside(DOCKER_ARGS) {
-          sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-        }
-        commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-        envUsedCache[envName] = true
-      } else {
+  // http://groovy-lang.org/closures.html
+  { String envName -> 
+    def buildEnv() {
+      def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
+      def assetSource = contentOnlyBuild ? ref : 'local'
+
+      if (commonStages.shouldBail()) { return }
+      try {
         commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
         envUsedCache[envName] = false
+      } catch (error) {
+        if (!contentOnlyBuild) {
+          dockerContainer.inside(DOCKER_ARGS) {
+            sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+          }
+          commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+          envUsedCache[envName] = true
+        } else {
+          commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+          envUsedCache[envName] = false
+        }
       }
     }
   }
