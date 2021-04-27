@@ -17,8 +17,30 @@ const vetCenterFragment = `
         fieldIntroText
         fieldFacilityLocatorApiId
         fieldVetCenterFeatureContent {
-          targetId
-          targetRevisionId
+           entity {
+                ... on ParagraphFeaturedContent {
+                  fieldDescription {
+                      value
+                      format
+                      processed
+                  }
+                  fieldSectionHeader
+                  fieldCta {
+                  targetId
+                  targetRevisionId
+                  entity {
+                     ... on ParagraphButton {
+                        fieldButtonLink {
+                            uri
+                            title
+                            options
+                        }
+                        fieldButtonLabel
+                       }
+                     }
+                }
+              }
+           }
         }
         fieldCcVetCenterFeaturedCon {
           fetched
