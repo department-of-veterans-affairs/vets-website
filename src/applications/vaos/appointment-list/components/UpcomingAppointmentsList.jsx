@@ -1,18 +1,9 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
-import * as actions from '../redux/actions';
-import {
-  selectFeatureRequests,
-  selectIsCernerOnlyPatient,
-} from '../../redux/selectors';
-import {
-  selectFutureStatus,
-  selectUpcomingAppointments,
-} from '../redux/selectors';
+import { getUpcomingAppointmentListInfo } from '../redux/selectors';
 import {
   FETCH_STATUS,
   GA_PREFIX,
@@ -24,21 +15,26 @@ import ExpressCareListItem from './AppointmentsPageV2/ExpressCareListItem';
 import NoAppointments from './NoAppointments';
 import moment from 'moment';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-
-function UpcomingAppointmentsList({
-  showScheduleButton,
-  isCernerOnlyPatient,
-  appointmentsByMonth,
-  futureStatus,
-  facilityData,
+import {
   fetchFutureAppointments,
   startNewAppointmentFlow,
-  hasTypeChanged,
-}) {
+} from '../redux/actions';
+
+export default function UpcomingAppointmentsList() {
+  const dispatch = useDispatch();
+  const {
+    showScheduleButton,
+    isCernerOnlyPatient,
+    appointmentsByMonth,
+    futureStatus,
+    facilityData,
+    hasTypeChanged,
+  } = useSelector(state => getUpcomingAppointmentListInfo(state), shallowEqual);
+
   useEffect(
     () => {
       if (futureStatus === FETCH_STATUS.notStarted) {
-        fetchFutureAppointments();
+        dispatch(fetchFutureAppointments());
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.succeeded) {
         scrollAndFocus('#type-dropdown');
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.failed) {
@@ -129,7 +125,7 @@ function UpcomingAppointmentsList({
               recordEvent({
                 event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
               });
-              startNewAppointmentFlow();
+              dispatch(startNewAppointmentFlow());
             }}
           />
         </div>
@@ -137,30 +133,3 @@ function UpcomingAppointmentsList({
     </>
   );
 }
-
-UpcomingAppointmentsList.propTypes = {
-  isCernerOnlyPatient: PropTypes.bool,
-  fetchFutureAppointments: PropTypes.func,
-  showScheduleButton: PropTypes.bool,
-  startNewAppointmentFlow: PropTypes.func,
-};
-
-function mapStateToProps(state) {
-  return {
-    facilityData: state.appointments.facilityData,
-    futureStatus: selectFutureStatus(state),
-    appointmentsByMonth: selectUpcomingAppointments(state),
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showScheduleButton: selectFeatureRequests(state),
-  };
-}
-
-const mapDispatchToProps = {
-  fetchFutureAppointments: actions.fetchFutureAppointments,
-  startNewAppointmentFlow: actions.startNewAppointmentFlow,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(UpcomingAppointmentsList);

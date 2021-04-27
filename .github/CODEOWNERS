@@ -73,6 +73,7 @@ src/site/layouts @department-of-veterans-affairs/vsa-facilities-frontend @depart
 src/platform/site-wide/sass/modules/_m-side-nav.scss @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/platform/site-wide/side-nav @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/facilities @department-of-veterans-affairs/vsa-facilities-frontend
+src/site/layouts/health*.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/navigation/facility_no_drupal_page_sidebar_nav.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/navigation/facility_sidebar_nav.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/includes/facilityListing.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
@@ -82,10 +83,9 @@ src/applications/static-pages/sass/modules/_m-facilities.scss @department-of-vet
 src/applications/static-pages/sass/modules/_m-facility-detail.scss @department-of-veterans-affairs/vsa-facilities-frontend
 src/applications/static-pages/sass/modules/_m-facility-events.scss @department-of-veterans-affairs/vsa-facilities-frontend
 
-# GraphQL Queries
+# GraphQL Queries, etc.
 # TODO: group these into folders to support team ownership
-src/site/stages/build/drupal/graphql @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend
-
+src/site/stages/build/drupal @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend
 
 # Liquid template filters
 src/site/filters @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend

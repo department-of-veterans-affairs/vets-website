@@ -33,7 +33,16 @@ class ObjectField extends React.Component {
     this.isRequired = this.isRequired.bind(this);
     this.orderAndFilterProperties = _.flow(
       properties =>
-        orderProperties(properties, _.get('ui:order', this.props.uiSchema)),
+        orderProperties(
+          properties,
+          this.props.uiSchema['ui:order']?.filter(prop =>
+            // `view:*` properties will have been removed from the schema and
+            // values by the time they reach this component. This removes them
+            // from the ui:order so we don't trigger an error in the
+            // react-json-schema library for having "extraneous properties."
+            Object.keys(this.props.schema.properties).includes(prop),
+          ),
+        ),
       _.groupBy(item => {
         const expandUnderField = _.get(
           [item, 'ui:options', 'expandUnder'],

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { sentenceCase } from '../../../utils/formatters';
-import { getPractitionerLocationDisplay } from '../../../services/appointment';
+import { getPreferredCommunityCareProviderName } from '../../../services/appointment';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import moment from 'moment';
 
@@ -9,7 +9,7 @@ export default function RequestListItem({ appointment, facility }) {
   const history = useHistory();
   const isCC = appointment.vaos.isCommunityCare;
   const typeOfCareText = sentenceCase(appointment.type?.coding?.[0]?.display);
-  const ccFacilityName = getPractitionerLocationDisplay(appointment);
+  const ccFacilityName = getPreferredCommunityCareProviderName(appointment);
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const preferredDate = moment(appointment.requestedPeriod[0].start).format(
     'MMMM D, YYYY',
@@ -38,8 +38,7 @@ export default function RequestListItem({ appointment, facility }) {
             {sentenceCase(typeOfCareText)}
           </h3>
           {!!facility && !isCC && facility.name}
-          {isCC && !!ccFacilityName && ccFacilityName}
-          {isCC && !ccFacilityName && 'Community care'}
+          {isCC && ccFacilityName}
         </div>
         {/* visible to medium screen and larger */}
         <div className="vads-u-display--none medium-screen:vads-u-display--inline">
