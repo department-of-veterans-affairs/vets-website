@@ -31,35 +31,10 @@ export default function WebChat() {
     getToken();
   }, []);
 
-  const store = window.WebChat.createStore(
-    {},
-    ({ dispatch }) => next => action => {
-      if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
-        dispatch({
-          meta: {
-            method: 'keyboard',
-          },
-          payload: {
-            activity: {
-              channelData: {
-                postBack: true,
-              },
-              // Web Chat will show the 'Greeting' System Topic message which has a trigger-phrase 'hello'
-              name: 'startConversation',
-              type: 'event',
-            },
-          },
-          type: 'DIRECT_LINE/POST_ACTIVITY',
-        });
-      }
-      return next(action);
-    },
-  );
-
   return (
     <div className={'vads-l-grid-container'}>
       <div className={'vads-l-row'} data-testid={'webchat-container'}>
-        {token && <ChatBox token={token} store={store} />}
+        {token && <ChatBox token={token} />}
         {!token && !tokenLoading && <ChatbotError />}
         {tokenLoading && <LoadingIndicator message={'Loading Virtual Agent'} />}
       </div>
@@ -67,8 +42,30 @@ export default function WebChat() {
   );
 }
 
-const ChatBox = ({ token, store }) => {
-  const { ReactWebChat, createDirectLine } = window.WebChat;
+const ChatBox = ({ token }) => {
+  const { ReactWebChat, createDirectLine, createStore } = window.WebChat;
+
+  const store = createStore({}, ({ dispatch }) => next => action => {
+    if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+      dispatch({
+        meta: {
+          method: 'keyboard',
+        },
+        payload: {
+          activity: {
+            channelData: {
+              postBack: true,
+            },
+            // Web Chat will show the 'Greeting' System Topic message which has a trigger-phrase 'hello'
+            name: 'startConversation',
+            type: 'event',
+          },
+        },
+        type: 'DIRECT_LINE/POST_ACTIVITY',
+      });
+    }
+    return next(action);
+  });
 
   const directLine = useMemo(
     () =>
