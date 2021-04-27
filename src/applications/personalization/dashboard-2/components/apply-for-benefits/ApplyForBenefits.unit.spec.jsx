@@ -251,10 +251,6 @@ describe('ApplyForBenefits component', () => {
             );
           }),
         ).to.be.true;
-        // make sure the loading spinner is shown
-        view.getByRole('progressbar', {
-          value: /benefits you might be interested in/i,
-        });
       });
     });
 

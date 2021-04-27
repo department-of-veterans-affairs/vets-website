@@ -49,6 +49,7 @@ src/applications/disability-benefits/686c-674 @department-of-veterans-affairs/vs
 src/applications/personalization/rated-disabilities @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/personalization/view-dependents @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/vre @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
+src/applications/lgy @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
 # Shared templates
 src/site/includes @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
@@ -83,10 +84,9 @@ src/applications/static-pages/sass/modules/_m-facilities.scss @department-of-vet
 src/applications/static-pages/sass/modules/_m-facility-detail.scss @department-of-veterans-affairs/vsa-facilities-frontend
 src/applications/static-pages/sass/modules/_m-facility-events.scss @department-of-veterans-affairs/vsa-facilities-frontend
 
-# GraphQL Queries
+# GraphQL Queries, etc.
 # TODO: group these into folders to support team ownership
-src/site/stages/build/drupal/graphql @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend
-
+src/site/stages/build/drupal @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend
 
 # Liquid template filters
 src/site/filters @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
