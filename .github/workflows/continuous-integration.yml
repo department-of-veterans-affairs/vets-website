@@ -145,13 +145,12 @@ jobs:
 
       - name: Run Pact verify
         run: |
-          curl --request POST \
+          curl -v --request POST \
           --url https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
           --header 'authorization: Bearer $VA_VSP_BOT_GITHUB_TOKEN' \
           --header 'Accept: application/vnd.github.v3+json' \
           --data '{
-            "ref": "master",
-            "repo": "vets-api"
+            "ref": "master"
             }' \
           --fail
 
