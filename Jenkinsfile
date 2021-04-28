@@ -24,14 +24,13 @@ node('vetsgov-general-purpose') {
   stage('Main') {
     def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
     def assetSource = contentOnlyBuild ? ref : 'local'
-    def shouldNotBuild = contentOnlyBuild && envName == params.cmsEnvBuildOverride
 
     try {
       parallel (
         failFast: true,
 
         buildDev: {
-          if (commonStages.shouldBail() || shouldNotBuild) { return }
+          if (commonStages.shouldBail()) { return }
           envName = 'vagovdev'
           try {
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
@@ -51,7 +50,7 @@ node('vetsgov-general-purpose') {
         },
 
         buildStaging: {
-          if (commonStages.shouldBail() || shouldNotBuild) { return }
+          if (commonStages.shouldBail()) { return }
           envName = 'vagovstaging'
           try {
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
@@ -71,7 +70,7 @@ node('vetsgov-general-purpose') {
         },
 
         buildProd: {
-          if (commonStages.shouldBail() || shouldNotBuild) { return }
+          if (commonStages.shouldBail()) { return }
           envName = 'vagovprod'
           try {
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
