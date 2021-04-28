@@ -19,6 +19,8 @@ export const branchOfService = key =>
   questionLabels['1_branchOfService'][key === 'marines' ? 'navy' : key];
 
 export const board = (formValues, noDRB) => {
+  if (!formValues) return null;
+
   const prevAppType =
     ['1', '4'].indexOf(formValues['10_prevApplicationType']) > -1;
   const noPrevApp = formValues['8_prevApplication'] === '2';
@@ -63,6 +65,8 @@ export const board = (formValues, noDRB) => {
 };
 
 export const venueAddress = (formValues, noDRB) => {
+  if (!formValues) return null;
+
   const boardData = board(formValues);
   if (!noDRB && boardData && boardData.abbr === 'DRB') {
     switch (formValues['1_branchOfService']) {
