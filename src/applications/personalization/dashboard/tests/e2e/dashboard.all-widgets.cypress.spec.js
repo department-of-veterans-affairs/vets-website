@@ -33,9 +33,12 @@ describe('MyVA Dashboard', () => {
         isPatient: true,
       });
       cy.login(mockUser);
-      // login() calls cy.server() so we can now mock routes
-      cy.route('GET', '/v0/user/preferences', getUserPreferencesOneSelected);
-      cy.route(
+      cy.intercept(
+        'GET',
+        '/v0/user/preferences',
+        getUserPreferencesOneSelected,
+      );
+      cy.intercept(
         'GET',
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,

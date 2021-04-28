@@ -4,8 +4,8 @@ import featureToggles from '../../../questionnaire/tests/e2e/fixtures/mocks/feat
 
 describe('Health care questionnaire list -- ', () => {
   beforeEach(() => {
-    cy.login(basicUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+    cy.login(basicUser);
     cy.window().then(win => {
       win.sessionStorage.removeItem('DISMISSED_DOWNTIME_WARNINGS');
     });

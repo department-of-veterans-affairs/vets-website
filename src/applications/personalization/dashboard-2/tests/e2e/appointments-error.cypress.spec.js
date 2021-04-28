@@ -27,7 +27,6 @@ describe('MyVA Dashboard - Appointments', () => {
   describe('when there is a 400 error fetching VA appointments', () => {
     it('should show the appointments error alert', () => {
       mockLocalStorage();
-      cy.login(mockUser);
       cy.intercept(
         'GET',
         `vaos/v0/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
@@ -41,7 +40,7 @@ describe('MyVA Dashboard - Appointments', () => {
       );
 
       cy.intercept('GET', `vaos/v1/facilities/va?ids=*`, MOCK_FACILITIES);
-
+      cy.login(mockUser);
       mockFeatureToggles();
       cy.visit('my-va/');
       cy.findByText(alertText).should('exist');
@@ -51,7 +50,6 @@ describe('MyVA Dashboard - Appointments', () => {
   describe('when there is a 400 error fetching CC appointments', () => {
     it('should show the appointments error alert', () => {
       mockLocalStorage();
-      cy.login(mockUser);
       cy.intercept(
         'GET',
         `vaos/v0/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
@@ -65,7 +63,7 @@ describe('MyVA Dashboard - Appointments', () => {
       );
 
       cy.intercept('GET', `vaos/v1/facilities/va?ids=*`, MOCK_FACILITIES);
-
+      cy.login(mockUser);
       mockFeatureToggles();
       cy.visit('my-va/');
       cy.findByText(alertText).should('exist');
@@ -75,7 +73,6 @@ describe('MyVA Dashboard - Appointments', () => {
   describe('when there is a partial error fetching VA appointments', () => {
     it('should show the appointments error alert', () => {
       mockLocalStorage();
-      cy.login(mockUser);
       cy.intercept(
         'GET',
         `vaos/v0/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
@@ -89,7 +86,7 @@ describe('MyVA Dashboard - Appointments', () => {
       );
 
       cy.intercept('GET', `vaos/v1/facilities/va?ids=*`, MOCK_FACILITIES);
-
+      cy.login(mockUser);
       mockFeatureToggles();
       cy.visit('my-va/');
       cy.findByText(alertText).should('exist');
@@ -99,7 +96,6 @@ describe('MyVA Dashboard - Appointments', () => {
   describe('when there is an error fetching facilities', () => {
     it('should show the appointments error alert', () => {
       mockLocalStorage();
-      cy.login(mockUser);
       cy.intercept(
         'GET',
         `vaos/v0/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
@@ -113,7 +109,7 @@ describe('MyVA Dashboard - Appointments', () => {
       );
 
       cy.intercept('GET', `vaos/v1/facilities/va?ids=*`, ERROR_400);
-
+      cy.login(mockUser);
       mockFeatureToggles();
       cy.visit('my-va/');
       cy.findByText(
