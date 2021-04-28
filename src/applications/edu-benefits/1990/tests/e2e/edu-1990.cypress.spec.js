@@ -16,7 +16,6 @@ const form = createTestConfig(
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
     setupPerTest: () => {
-      cy.login(mockUser);
       cy.intercept('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
       cy.intercept('POST', '/v0/education_benefits_claims/1990', {
         data: {
@@ -26,6 +25,7 @@ const form = createTestConfig(
           },
         },
       });
+      cy.login(mockUser);
       cy.get('@testData').then(testData => {
         cy.intercept('GET', '/v0/in_progress_forms/1990', testData);
       });
