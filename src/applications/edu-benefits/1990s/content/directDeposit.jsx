@@ -17,13 +17,13 @@ export const directDepositAlert = () => (
 export const bankInfoHelpText = (
   <AdditionalInfo triggerText="What if I don’t have a bank account?">
     <p>
-      The Veterans{' '}
+      The{' '}
       <a
         href="https://veteransbenefitsbanking.org/"
         target="_blank"
         rel="noreferrer"
       >
-        Benefits Banking Program (VBBP)
+        Veterans Benefits Banking Program (VBBP)
       </a>{' '}
       provides a list of Veteran-friendly banks and credit unions. They’ll work
       with you to set up an account, or help you qualify for an account, so you

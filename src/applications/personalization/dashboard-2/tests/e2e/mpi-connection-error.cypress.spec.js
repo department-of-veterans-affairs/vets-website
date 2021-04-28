@@ -1,8 +1,12 @@
-import { mockFeatureToggles } from './helpers';
-
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
-
 import mockMPIErrorUser from '~/applications/personalization/profile/tests/fixtures/users/user-mpi-error.json';
+
+import {
+  disabilityCompensationExists,
+  educationBenefitExists,
+  healthCareInfoExists,
+  mockFeatureToggles,
+} from './helpers';
 
 describe('MyVA Dashboard', () => {
   describe('when there is an error connecting to MPI', () => {
@@ -25,6 +29,13 @@ describe('MyVA Dashboard', () => {
       cy.findByTestId('dashboard-section-claims-and-appeals').should(
         'not.exist',
       );
+
+      healthCareInfoExists(true);
+      disabilityCompensationExists(true);
+      educationBenefitExists(true);
+
+      cy.injectAxe();
+      cy.axeCheck();
     });
   });
 });

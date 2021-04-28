@@ -13,6 +13,7 @@ export const selectProfile = state => selectUser(state)?.profile || {};
 export const isVAPatient = state => selectProfile(state).vaPatient === true;
 export const selectVeteranStatus = state => selectProfile(state).veteranStatus;
 export const isInMPI = state => selectProfile(state)?.status === 'OK';
+export const isNotInMPI = state => selectProfile(state)?.status === 'NOT_FOUND';
 export const hasMPIConnectionError = state =>
   selectProfile(state)?.status === 'SERVER_ERROR';
 export const isProfileLoading = state => selectProfile(state).loading;
