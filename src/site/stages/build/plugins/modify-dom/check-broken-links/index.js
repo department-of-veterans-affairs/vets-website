@@ -5,7 +5,6 @@ const fs = require('fs-extra');
 
 const getBrokenLinks = require('./helpers/getBrokenLinks');
 const applyIgnoredRoutes = require('./helpers/applyIgnoredRoutes');
-const getErrorOutput = require('./helpers/getErrorOutput');
 
 /**
  * Metalsmith middleware for verifying HREF/SRC values in HTML files are valid file references.
@@ -46,22 +45,49 @@ module.exports = {
     }
   },
 
+  deriveIsHomepageBroken(brokenPages) {
+    return brokenPages.some(page => page.path === '/');
+  },
+
+  getCountOfBrokenLinks(brokenPages) {
+    return brokenPages.reduce((sum, page) => sum + page.linkErrors.length, 0);
+  },
+
+  getMarkdownSummary(brokenPages) {
+    const markdownMessage = brokenPages.map(page => {
+      const brokenLinksForPage = page.linkErrors.map(linkError => {
+        return `\`${linkError.html}\``;
+      });
+
+      return `- \`${page.path}\`: ${brokenLinksForPage.join(', ')}`;
+    });
+
+    return markdownMessage.join('\n');
+  },
+
   conclude(buildOptions, files) {
-    this.brokenPages = applyIgnoredRoutes(this.brokenPages, files);
+    const brokenPages = applyIgnoredRoutes(this.brokenPages, files);
 
-    if (this.brokenPages.length > 0) {
-      const csvReport = getErrorOutput(this.brokenPages);
-      const brokenLinksJson = {
-        message: csvReport,
-        status: 'error',
-      };
+    if (brokenPages.length === 0) {
+      console.log('No broken links found.');
+      return;
+    }
 
-      fs.writeJSONSync(this.logFile, brokenLinksJson);
-      console.log(`Broken links found. See results in ${this.logFile}.`);
+    const isHomepageBroken = this.deriveIsHomepageBroken(brokenPages);
+    const brokenLinksCount = this.getCountOfBrokenLinks(brokenPages);
+    const markdownSummary = this.getMarkdownSummary(brokenPages);
 
-      if (buildOptions['drupal-fail-fast']) {
-        throw new Error(brokenLinksJson);
-      }
+    const brokenLinksJson = {
+      summary: markdownSummary,
+      isHomepageBroken,
+      brokenLinksCount,
+    };
+
+    fs.writeJSONSync(this.logFile, brokenLinksJson);
+    console.log(`Broken links found. See results in ${this.logFile}.`);
+
+    if (buildOptions['drupal-fail-fast']) {
+      throw new Error(brokenLinksJson);
     }
   },
 };

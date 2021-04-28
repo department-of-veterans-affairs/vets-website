@@ -197,10 +197,22 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
     def rawJsonFile = readFile(brokenLinksFile);
     def jsonSlurper = new JsonSlurper();
     def brokenLinks = jsonSlurper.parseText(rawJsonFile);
+    def color = 'warning'
 
-    echo 'here we go!!'
-    echo brokenLinks['status']
-    echo brokenLinks['message']
+    if (brokenLinks.isHomepageBroken || brokenLinks.brokenLinksCount > 10) {
+      color = 'danger'
+    }
+
+    slackSend(
+      message: brokenLinks.summary,
+      color: color,
+      failOnError: true,
+      channel: 'dev_null'
+    )
+
+    if (color == 'danger') {
+      throw new Exception('Broken links found')
+    }
   }
 
   // // Look for broken links
