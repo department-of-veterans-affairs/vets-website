@@ -70,6 +70,7 @@ const App = props => {
             'hidden:appointment': appointment,
             'hidden:questionnaire': questionnaire,
             'hidden:clinic': clinic,
+            'hidden:facility': facility,
           });
         }
         setLoadedAppointment(data);

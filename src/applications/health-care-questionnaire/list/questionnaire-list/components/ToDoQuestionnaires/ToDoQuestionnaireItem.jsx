@@ -19,9 +19,10 @@ export default function ToDoQuestionnaireItem({ data }) {
 
   const facilityName = organizationSelector.getName(organization);
   const appointmentTime = appointmentSelector.getStartTime(appointment);
-  const questionnaireResponseStatus = questionnaireResponseSelector.getStatus(
+  const questionnaireResponse = questionnaireResponseSelector.getQuestionnaireResponse(
     questionnaire[0].questionnaireResponse,
   );
+  const questionnaireResponseStatus = questionnaireResponse?.status;
   return (
     <QuestionnaireItem
       data={data}
@@ -35,6 +36,7 @@ export default function ToDoQuestionnaireItem({ data }) {
           <PrintButton
             facilityName={facilityName}
             appointmentTime={appointmentTime}
+            questionnaireResponseId={questionnaireResponse?.id}
           />
         ) : (
           <AnswerQuestions
@@ -43,6 +45,7 @@ export default function ToDoQuestionnaireItem({ data }) {
             facilityName={facilityName}
             appointmentTime={appointmentTime}
             status={questionnaireResponseStatus}
+            useActionLink
           />
         )
       }

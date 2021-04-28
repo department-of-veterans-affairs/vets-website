@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import StepComponent from './StepComponent';
 import { orientationSteps } from './utils';
-import { CHAPTER_31_ROOT_URL } from 'applications/vre/28-1900/constants';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -24,7 +24,7 @@ const OrientationApp = props => {
   useEffect(() => {
     if (formStartControl) {
       focusElement('#FormStartControl');
-    } else if (step > 0) {
+    } else {
       focusElement('#StepTitle');
       scrollToTop();
     }
@@ -80,16 +80,16 @@ const OrientationApp = props => {
             apply for Veteran Readiness & Employment benefits now, click the
             link below.
           </p>
-          <a
+          <Link
             id="FormStartControl"
-            href={CHAPTER_31_ROOT_URL}
+            to="/"
             className="vads-c-action-link--green vads-u-padding-left--0"
             onClick={() => {
               wizardStateHandler(WIZARD_STATUS_COMPLETE);
             }}
           >
             Apply for Veteran Readiness and Employment with VA Form 28-1900
-          </a>
+          </Link>
         </div>
       )}
     </>

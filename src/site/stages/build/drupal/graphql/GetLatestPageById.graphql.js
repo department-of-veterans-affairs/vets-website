@@ -30,6 +30,7 @@ const vaFormPage = require('./vaFormPage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
 const vetCenters = require('./vetCenter.graphql');
 const vetCenterLocations = require('./vetCenterLocations.graphql');
+const vamcPolicyPages = require('./vamcPoliciesPage.graphql');
 
 // Get current feature flags
 const { cmsFeatureFlags } = global;
@@ -44,6 +45,7 @@ const {
  * Queries for a page by the node id, getting the latest revision
  * To execute, run this query at http://staging.va.agile6.com/graphql/explorer.
  */
+
 module.exports = `
 
   ${ALL_FRAGMENTS}
@@ -69,6 +71,7 @@ module.exports = `
   ${nodeCampaignLandingPage.fragment}
   ${vetCenters.fragment}
   ${vetCenterLocations.fragment}
+  ${vamcPolicyPages.fragment}    
 
   query GetLatestPageById($id: String!, $today: String!, $onlyPublishedContent: Boolean!) {
     nodes: nodeQuery(revisions: LATEST, filter: {
@@ -99,6 +102,7 @@ module.exports = `
         ... nodeCampaignLandingPage
         ... vetCenterFragment
         ... vetCenterLocationsFragment
+        ... policiesPageFragment            
       }
     }
     ${icsFileQuery.partialQuery}

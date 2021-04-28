@@ -16,7 +16,6 @@ import CommunityCareInstructions from './CommunityCareInstructions';
 import AppointmentStatus from '../AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import {
-  getVARFacilityId,
   getVAAppointmentLocationId,
   isVAPhoneAppointment,
 } from '../../../../services/appointment';
@@ -144,7 +143,7 @@ export default function ConfirmedAppointmentListItem({
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
-          facilityId={getVARFacilityId(appointment)}
+          facilityId={appointment.location.vistaId}
         />
       </h3>
       <AppointmentStatus
@@ -166,7 +165,7 @@ export default function ConfirmedAppointmentListItem({
             <VAFacilityLocation
               facility={facility}
               facilityId={getVAAppointmentLocationId(appointment)}
-              clinicName={appointment.participant[0].actor.display}
+              clinicName={appointment.location?.clinicName}
             />
           )}
         </div>

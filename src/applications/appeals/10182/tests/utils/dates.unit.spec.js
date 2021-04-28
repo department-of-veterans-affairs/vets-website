@@ -1,23 +1,30 @@
 import { expect } from 'chai';
-import { format } from 'date-fns';
+import moment from 'moment';
 
 import { FORMAT_YMD, FORMAT_READABLE } from '../../constants';
 import { getDate } from '../../utils/dates';
 
 describe('getDate', () => {
-  it('should return a date string based on starting date & offset', () => {
-    expect(getDate()).to.equal(format(new Date(), FORMAT_YMD));
+  const dateString = '2021-02-10 00:00:00';
+  const date = new Date(dateString);
 
-    const startDate = new Date('2021-02-10 00:00:00');
-    expect(getDate({ startDate, offset: { years: -1 } })).to.contain(
-      '2020-02-10',
-    );
+  it('should return a date string from date object', () => {
+    expect(getDate()).to.equal(moment().format(FORMAT_YMD));
+  });
+  it('should return a date string from date string & offset', () => {
+    expect(getDate({ date, offset: { days: 3 } })).to.contain('2021-02-13');
+  });
+  it('should return a date string pattern based on date & offset', () => {
+    expect(getDate({ date, offset: { years: -1 } })).to.contain('2020-02-10');
     expect(
       getDate({
-        startDate,
+        date,
         offset: { years: -1 },
         pattern: FORMAT_READABLE,
       }),
-    ).to.contains('February 10, 2020');
+    ).to.contain('February 10, 2020');
+    expect(
+      getDate({ date: '2021-02-10 00:00:00', pattern: FORMAT_READABLE }),
+    ).to.contain('February 10, 2021');
   });
 });

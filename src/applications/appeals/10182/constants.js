@@ -12,13 +12,28 @@ export const CONTESTED_CLAIMS_URL = '/decision-reviews/contested-claims';
 export const GET_HELP_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
 
-// key for contestedIssues to indicate that the user selected the issue
+// key for contestableIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
 
 export const CONTESTABLE_ISSUES_API =
   '/notice_of_disagreements/contestable_issues';
 
-export const FORMAT_READABLE = 'MMMM d, yyyy';
+export const FORMAT_READABLE = 'LL';
 
 // contested issue dates
-export const FORMAT_YMD = 'yyyy-MM-dd';
+export const FORMAT_YMD = 'YYYY-MM-DD';
+
+export const SUPPORTED_UPLOAD_TYPES = [
+  'pdf',
+  'jpg',
+  'jpeg',
+  'png',
+  'gif',
+  'bmp',
+  'txt',
+];
+
+export const MAX_FILE_SIZE_MB = 100;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
+
+export const MAX_NEW_CONDITIONS = 99;

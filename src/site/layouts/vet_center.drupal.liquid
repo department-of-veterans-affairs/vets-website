@@ -1,8 +1,9 @@
 {% include "src/site/includes/header.html" with drupalTags = true %}
 {% include "src/site/includes/alerts.drupal.liquid" %}
 {% include "src/site/includes/preview-edit.drupal.liquid" %}
-{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = false %}
-
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with
+    customHomeCrumbText = "VA.gov home"
+%}
 <div class="interior" id="content">
   <main class="va-l-detail-page va-facility-page">
     <div class="usa-grid usa-grid-full">
@@ -73,17 +74,38 @@
 
           </div>
 
-          <h2 id="prepare-for-your-visit" class="vads-u-margin-top--0 vads-u-font-size--lg
+            {% if fieldPrepareForVisit.length > 0 %}
+                <h2 id="prepare-for-your-visit" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Prepare for your visit</h2>
+                <p> Click on a topic for more details. </p>
+                <div class="vads-u-margin-bottom--3">
+                    {% for entity in fieldPrepareForVisit %}
+                        <va-accordion bordered id="prepare-for-your-visit-accordion-{{ entity.entity.fieldHeader }}" >
+                            <va-accordion-item id="prepare-for-your-visit-accordion-item-{{ entity.entity.fieldHeader }}" header="{{ entity.entity.fieldHeader }}" level="3">
+                                {{ entity.entity.fieldRichWysiwyg.processed | drupalToVaPath | outputLinks }}
+                            </va-accordion-item>
+                        </va-accordion>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
-          <h2 id="counseling-services" class="vads-u-margin-top--0 vads-u-font-size--lg
-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Counseling services</h2>
+          <h2 id="in-the-spot-light" class="vads-u-margin-top--0 vads-u-font-size--lg
+          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">In the spotlight at {{ entityLabel }} </h2>
 
-          <h2 id="referral-services" class="vads-u-margin-top--0 vads-u-font-size--lg
-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Referral Services</h2>
+            {% include "src/site/includes/vet_center_health_services.liquid" with
+                fieldHealthServices
+                typeOfCare = "counselling"
+            %}
 
-          <h2 id="other-services" class="vads-u-margin-top--0 vads-u-font-size--lg
-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Other services</h2>
+            {% include "src/site/includes/vet_center_health_services.liquid" with
+                fieldHealthServices
+                typeOfCare = "referral"
+            %}
+
+            {% include "src/site/includes/vet_center_health_services.liquid" with
+                fieldHealthServices
+                typeOfCare = "other"
+            %}
 
           <h2 id="how-different-than-clinic" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">How we're different than a clinic</h2>
@@ -92,6 +114,8 @@
       </div>
     </div>
   </main>
+    <!-- Back to Top -->
+    {% include "src/site/components/up_to_top_button.html" %}
 </div>
 
 {% include "src/site/includes/footer.html" %}

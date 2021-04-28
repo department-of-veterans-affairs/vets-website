@@ -20,10 +20,10 @@ const {
   getNodeHealthServicesListingPageQueries,
 } = require('./graphql/healthServicesListingPage.graphql');
 
-const { GetNodeNewsStoryPages } = require('./graphql/newStoryPage.graphql');
+const { getNewsStoryQueries } = require('./graphql/newStoryPage.graphql');
 
 const {
-  GetNodePressReleasePages,
+  getPressReleaseQueries,
 } = require('./graphql/pressReleasePage.graphql');
 
 const {
@@ -83,6 +83,8 @@ const {
   GetCampaignLandingPages,
 } = require('./graphql/nodeCampaignLandingPage.graphql');
 
+const { GetPolicyPages } = require('./graphql/vamcPoliciesPage.graphql');
+
 const { getVetCenterQueries } = require('./graphql/vetCenter.graphql');
 const {
   GetVetCenterLocations,
@@ -91,35 +93,36 @@ const {
 function getNodeQueries(entityCounts) {
   return {
     ...getNodePageQueries(entityCounts),
-    // GetNodeLandingPages,
-    // ...getNodeVaFormQueries(entityCounts),
-    // ...getNodeHealthCareRegionPageQueries(entityCounts),
-    // ...getNodePersonProfileQueries(entityCounts),
-    // GetNodeOffices,
-    // ...getNodeHealthCareLocalFacilityPageQueries(entityCounts),
-    // ...getNodeHealthServicesListingPageQueries(entityCounts),
-    // GetNodeNewsStoryPages,
-    // GetNodePressReleasePages,
-    // GetNodePressReleaseListingPages,
-    // GetNodeEventListingPage,
-    // ...getNodeEventQueries(entityCounts),
-    // GetNodeStoryListingPages,
-    // GetNodeLocationsListingPages,
-    // GetNodeLeadershipListingPages,
-    // GetNodeVamcOperatingStatusAndAlerts,
-    // GetNodePublicationListingPages,
-    // ...getNodeHealthCareRegionDetailPageQueries(entityCounts),
-    // ...getNodeQaQueries(entityCounts),
-    // GetNodeMultipleQaPages,
-    // GetNodeStepByStep,
-    // GetNodeMediaListImages,
-    // GetNodeChecklist,
-    // GetNodeMediaListVideos,
-    // GetNodeSupportResourcesDetailPage,
-    // GetNodeBasicLandingPage,
-    // GetCampaignLandingPages,
-    // ...getVetCenterQueries(entityCounts),
-    // GetVetCenterLocations,
+    GetNodeLandingPages,
+    ...getNodeVaFormQueries(entityCounts),
+    ...getNodeHealthCareRegionPageQueries(entityCounts),
+    ...getNodePersonProfileQueries(entityCounts),
+    GetNodeOffices,
+    ...getNodeHealthCareLocalFacilityPageQueries(entityCounts),
+    ...getNodeHealthServicesListingPageQueries(entityCounts),
+    ...getNewsStoryQueries(entityCounts),
+    ...getPressReleaseQueries(entityCounts),
+    GetNodePressReleaseListingPages,
+    GetNodeEventListingPage,
+    ...getNodeEventQueries(entityCounts),
+    GetNodeStoryListingPages,
+    GetNodeLocationsListingPages,
+    GetNodeLeadershipListingPages,
+    GetNodeVamcOperatingStatusAndAlerts,
+    GetNodePublicationListingPages,
+    ...getNodeHealthCareRegionDetailPageQueries(entityCounts),
+    ...getNodeQaQueries(entityCounts),
+    GetNodeMultipleQaPages,
+    GetNodeStepByStep,
+    GetNodeMediaListImages,
+    GetNodeChecklist,
+    GetNodeMediaListVideos,
+    GetNodeSupportResourcesDetailPage,
+    GetNodeBasicLandingPage,
+    GetCampaignLandingPages,
+    ...getVetCenterQueries(entityCounts),
+    GetVetCenterLocations,
+    GetPolicyPages,
   };
 }
 

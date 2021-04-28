@@ -1,10 +1,7 @@
-/**
- * The top-level page for a health care region.
- * Example: /pittsburgh_health_care_system
- */
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
 
-const newsStoryPage = `
+const newsStoryFragment = `
   fragment newsStoryPage on NodeNewsStory {
     ${entityElementsFromPages}
     promote
@@ -47,24 +44,38 @@ const newsStoryPage = `
   }
 `;
 
-const GetNodeNewsStoryPages = `
-  ${newsStoryPage}
+const getNewsStorySlice = (operationName, offset, limit) => {
+  return `
+    ${newsStoryFragment}
 
-  query GetNodeNewsStoryPages($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["news_story"] }
-      ]
-    }) {
-      entities {
-        ... newsStoryPage
+    query GetNodeNewsStoryPages($onlyPublishedContent: Boolean!) {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}
+        filter: {
+        conditions: [
+          { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+          { field: "type", value: ["news_story"] }
+        ]
+      }) {
+        entities {
+          ... newsStoryPage
+        }
       }
     }
-  }
-`;
+  `;
+};
+
+const getNewsStoryQueries = entityCounts => {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetNewsStory',
+    entitiesPerSlice: 25,
+    totalEntities: entityCounts.data.newsStories.count,
+    getSlice: getNewsStorySlice,
+  });
+};
 
 module.exports = {
-  fragment: newsStoryPage,
-  GetNodeNewsStoryPages,
+  fragment: newsStoryFragment,
+  getNewsStoryQueries,
 };

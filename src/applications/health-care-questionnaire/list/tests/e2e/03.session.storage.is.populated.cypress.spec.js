@@ -13,7 +13,7 @@ describe('health care questionnaire list -- ', () => {
     cy.visit('/health-care/health-questionnaires/questionnaires/');
     cy.get('h1').contains('Your health questionnaires');
     cy.get(
-      '[data-request-id="I2-3PYJBEU2DIBW5RZT2XI3PASYGM7YYRD5TFQCLHQXK6YBXREQK5VQ0005"] > .usa-button',
+      '[data-request-id="I2-3PYJBEU2DIBW5RZT2XI3PASYGM7YYRD5TFQCLHQXK6YBXREQK5VQ0005"] > .action-link-container > .vads-c-action-link--blue > [data-testid=button-text]',
     ).click({ waitForAnimations: true });
     cy.window().then(window => {
       const data = window.sessionStorage.getItem(

@@ -16,6 +16,7 @@ import {
   isLOA1 as isLOA1Selector,
   isVAPatient as isVAPatientSelector,
   hasMPIConnectionError,
+  isNotInMPI,
 } from '~/platform/user/selectors';
 import RequiredLoginView, {
   RequiredLoginLoader,
@@ -42,7 +43,8 @@ import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderM
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
-import HealthCareLoadError from './health-care/HealthCareLoadError';
+import MPIConnectionError from './MPIConnectionError';
+import NotInMPIError from './NotInMPIError';
 import CTALink from './CTALink';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
@@ -66,13 +68,34 @@ const renderWidgetDowntimeNotification = (downtime, children) => {
   return children;
 };
 
+const DashboardHeader = () => {
+  return (
+    <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-justify-content--space-between medium-screen:vads-u-align-items--center">
+      <h1
+        id="dashboard-title"
+        data-testid="dashboard-title"
+        tabIndex="-1"
+        className="vads-u-margin--0"
+      >
+        My VA
+      </h1>
+      <CTALink
+        href="/profile"
+        text="Go to your profile"
+        className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0"
+      />
+    </div>
+  );
+};
+
 const Dashboard = ({
   fetchFullName,
   fetchMilitaryInformation,
   fetchTotalDisabilityRating,
   isLOA3,
   showLoader,
-  showHealthCareError,
+  showMPIConnectionError,
+  showNotInMPIError,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -131,7 +154,7 @@ const Dashboard = ({
                 }
               />
             )}
-            <div className="vads-l-grid-container vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4 small-desktop-screen:vads-u-padding-x--0">
+            <div className="vads-l-grid-container vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
                 <a href="/" key="home">
                   Home
@@ -141,26 +164,20 @@ const Dashboard = ({
                 </span>
               </Breadcrumbs>
 
-              <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-justify-content--space-between medium-screen:vads-u-align-items--center">
-                <h1
-                  id="dashboard-title"
-                  data-testid="dashboard-title"
-                  tabIndex="-1"
-                  className="vads-u-margin--0"
-                >
-                  My VA
-                </h1>
-                <CTALink
-                  href="/profile"
-                  text="Go to your profile"
-                  className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0"
-                />
-              </div>
+              <DashboardHeader />
 
-              {showHealthCareError ? (
+              {showMPIConnectionError ? (
                 <div className="vads-l-row">
                   <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <HealthCareLoadError />
+                    <MPIConnectionError level={2} />
+                  </div>
+                </div>
+              ) : null}
+
+              {showNotInMPIError ? (
+                <div className="vads-l-row">
+                  <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+                    <NotInMPIError level={2} />
                   </div>
                 </div>
               ) : null}
@@ -172,7 +189,8 @@ const Dashboard = ({
                   </div>
                 </div>
               ) : null}
-              {props.showClaimsAndAppeals && (
+
+              {props.showClaimsAndAppeals ? (
                 <DowntimeNotification
                   dependencies={[
                     externalServices.mhv,
@@ -182,8 +200,10 @@ const Dashboard = ({
                 >
                   <ClaimsAndAppeals />
                 </DowntimeNotification>
-              )}
-              {props.showHealthCare && !showHealthCareError && <HealthCare />}
+              ) : null}
+
+              {props.showHealthCare ? <HealthCare /> : null}
+
               <ApplyForBenefits />
             </div>
           </div>
@@ -223,8 +243,15 @@ const mapStateToProps = state => {
   const showLoader = !hasLoadedScheduledDowntime || !hasLoadedAllData;
   const showValidateIdentityAlert = isLOA1;
   const showNameTag = isLOA3 && isEmpty(hero?.errors);
-  const showClaimsAndAppeals = isLOA3 && hasClaimsOrAppealsService;
-  const showHealthCare = isLOA3 && isVAPatient;
+  const showMPIConnectionError = hasMPIConnectionError(state);
+  const showNotInMPIError = isNotInMPI(state);
+  const showClaimsAndAppeals =
+    !showMPIConnectionError &&
+    !showNotInMPIError &&
+    isLOA3 &&
+    hasClaimsOrAppealsService;
+  const showHealthCare =
+    !showMPIConnectionError && !showNotInMPIError && isLOA3 && isVAPatient;
 
   return {
     isLOA3,
@@ -237,13 +264,8 @@ const mapStateToProps = state => {
     totalDisabilityRating: state.totalRating?.totalDisabilityRating,
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     user: state.user,
-    // TODO: possibly revise this to block both the health care and the claims
-    // and appeals content if hasMPIConnectionError() is true. If we do that, we
-    // will also have to update the error we show to be more generic.
-    //
-    // More info in this issue comment:
-    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/22568#issuecomment-817992382
-    showHealthCareError: hasMPIConnectionError(state),
+    showMPIConnectionError,
+    showNotInMPIError,
   };
 };
 

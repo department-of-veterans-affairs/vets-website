@@ -1050,11 +1050,11 @@
           "path": "education/other-va-education-benefits/"
         },
         {
-          "name": "Veteran Rapid Retraining Assistance Program",
-          "path": "education/other-va-education-benefits/"
+          "name": "Veteran Rapid Retraining Assistance Program (VRRAP)",
+          "path": "education/other-va-education-benefits/veteran-rapid-retraining-assistance"
         },
         {
-          "name": "Apply for VRRAP VA Form 22-1990s",
+          "name": "Apply for VRRAP VA Form 22 1990s",
           "path": "education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s"
         }
       ]
@@ -1087,6 +1087,15 @@
           "path": "/decision-reviews/board-appeal/request-board-review-form-10182"
         }
       ]
+    }
+  },
+  {
+    "appName": "Apply for Certificate of Eligibility",
+    "entryName": "coe",
+    "rootUrl": "/housing-assistance/home-loans/apply-lgy-form-1880",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
     }
   }
 ]
