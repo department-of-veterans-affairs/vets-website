@@ -32,6 +32,10 @@ node('vetsgov-general-purpose') {
         buildDev: {
           if (commonStages.shouldBail()) { return }
           envName = 'vagovdev'
+          
+          shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          if (!shouldBuild) { return }
+
           try {
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
             envUsedCache[envName] = false
@@ -52,6 +56,10 @@ node('vetsgov-general-purpose') {
         buildStaging: {
           if (commonStages.shouldBail()) { return }
           envName = 'vagovstaging'
+
+          shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          if (!shouldBuild) { return }
+
           try {
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
             envUsedCache[envName] = false
@@ -72,6 +80,10 @@ node('vetsgov-general-purpose') {
         buildProd: {
           if (commonStages.shouldBail()) { return }
           envName = 'vagovprod'
+
+          shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          if (!shouldBuild) { return }
+                    
           try {
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
             envUsedCache[envName] = false
