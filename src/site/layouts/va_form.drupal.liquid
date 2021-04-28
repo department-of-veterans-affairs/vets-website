@@ -17,8 +17,17 @@
 
         <dl>
           <div class="vads-u-margin-bottom--4">
-            <dt class="va-introtext">
+            {% if fieldVaFormLanguage %}
+              <dt class="va-introtext" lang="{{ fieldVaFormLanguage }}">
+              {% if fieldVaFormLanguage === "es" %}
+                <dfn class="vads-u-visibility--screen-reader">Nombre del formulario:</dfn>
+              {% else %}
+                <dfn class="vads-u-visibility--screen-reader">Form name:</dfn>
+              {% endif %}
+            {% else %}
               <dfn class="vads-u-visibility--screen-reader">Form name:</dfn>
+              <dt class="va-introtext">
+            {% endif %}            
               {{ fieldVaFormName }}
             </dt>
           </div>
@@ -61,7 +70,15 @@
 
         {% if fieldVaFormUsage %}
           <h2 class="vads-u-margin-top--4">When to use this form</h3>
-          {{ fieldVaFormUsage.processed }}
+          {% if fieldVaFormLanguage %}
+            <div lang="{{ fieldVaFormLanguage }}">
+              {{ fieldVaFormUsage.processed }}
+            </div>
+          {% else %}
+            <div>
+              {{ fieldVaFormUsage.processed }}
+            </div>
+          {% endif %}
 
           <h3>Downloadable PDF</h3>
           <a

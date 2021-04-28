@@ -11,6 +11,7 @@ import {
   externalServices,
   DowntimeNotification,
 } from 'platform/monitoring/DowntimeNotification';
+import recordEvent from 'platform/monitoring/record-event';
 
 import TabNav from './TabNav';
 import ToDoQuestionnaires from '../ToDoQuestionnaires';
@@ -21,10 +22,12 @@ import {
   questionnaireListLoaded,
   questionnaireListLoadedWithError,
 } from '../../../actions';
+import { focusElement } from 'platform/utilities/ui';
 
 import { GetHelpFooter } from '../../../../shared/components/footer';
 
 import { sortQuestionnairesByStatus } from '../../../utils';
+import { TRACKING_PREFIX } from '../../../../shared/constants/analytics';
 
 import {
   clearAllSelectedAppointments,
@@ -42,6 +45,7 @@ const Home = props => {
     setQuestionnaireData,
     setApiError,
   } = props;
+
   const [apiDidError, setApiDidError] = useState(false);
   useEffect(
     () => {
@@ -51,11 +55,15 @@ const Home = props => {
       setLoading();
       loadQuestionnaires()
         .then(response => {
+          recordEvent({
+            event: `${TRACKING_PREFIX}questionnaires-items-loaded`,
+          });
           const { data } = response;
           // load data in to redux
 
           const sorted = sortQuestionnairesByStatus(data);
           setQuestionnaireData(sorted);
+          focusElement('h1');
         })
         .catch(() => {
           setApiDidError(true);
@@ -64,6 +72,7 @@ const Home = props => {
     },
     [setLoading, setQuestionnaireData, setApiError],
   );
+
   return (
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}

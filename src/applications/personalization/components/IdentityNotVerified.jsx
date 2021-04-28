@@ -29,7 +29,7 @@ const IdentityNotVerified = ({
         onClick={() => recordEvent({ event: 'verify-link-clicked' })}
       >
         <img alt="ID.me" src="/img/signin/idme-icon-white.svg" />
-        <strong>Verify my identity</strong>
+        <strong>Verify your identity</strong>
       </a>
     </>
   );

@@ -79,8 +79,16 @@ export function fetchConfirmedFutureAppointments() {
     let facilitiesResponse;
     let vaAppointments = [];
     let ccAppointments = [];
+    let vaAppointmentsResponse;
+    let ccAppointmentsResponse;
 
     const startOfToday = moment()
+      .startOf('day')
+      .toISOString();
+
+    // Maximum number of days you can schedule an appointment in advance in VAOS
+    const endDate = moment()
+      .add(395, 'days')
       .startOf('day')
       .toISOString();
 
@@ -89,15 +97,36 @@ export function fetchConfirmedFutureAppointments() {
         vaAppointments = MOCK_VA_APPOINTMENTS;
         ccAppointments = MOCK_CC_APPOINTMENTS;
       } else {
-        vaAppointments = await apiRequest(
-          `/vaos/v0/appointments?start_date=${startOfToday}&type=va`,
+        vaAppointmentsResponse = await apiRequest(
+          `/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
+          { apiVersion: 'vaos/v0' },
         );
-        ccAppointments = await apiRequest(
-          `/vaos/v0/appointments?start_date=${startOfToday}&type=cc`,
+        ccAppointmentsResponse = await apiRequest(
+          `/appointments?start_date=${startOfToday}&end_date=${endDate}&type=cc`,
+          { apiVersion: 'vaos/v0' },
         );
+
+        // This catches partial errors on the meta object
+        if (
+          vaAppointmentsResponse?.meta?.errors?.length > 0 ||
+          ccAppointmentsResponse?.meta?.errors?.length > 0
+        ) {
+          dispatch({
+            type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
+            errors: [
+              ...(vaAppointmentsResponse?.meta?.errors || []),
+              ...(ccAppointmentsResponse?.meta?.errors || []),
+            ],
+          });
+          return;
+        }
+
+        vaAppointments = vaAppointmentsResponse?.data;
+        ccAppointments = ccAppointmentsResponse?.data;
       }
+
       const facilityIDs = uniq(
-        vaAppointments.map(
+        vaAppointments?.map(
           appointment =>
             getStagingID(appointment?.attributes?.sta6aid)
               ? `vha_${getStagingID(appointment?.attributes?.sta6aid)}`
@@ -109,9 +138,8 @@ export function fetchConfirmedFutureAppointments() {
         facilitiesResponse = MOCK_FACILITIES;
       } else {
         facilitiesResponse = await apiRequest(
-          `${environment.API_URL}/v1/facilities/va?ids=${facilityIDs.join(
-            ',',
-          )}`,
+          `/facilities/va?ids=${facilityIDs.join(',')}`,
+          { apiVersion: 'v1' },
         );
       }
 
@@ -127,10 +155,15 @@ export function fetchConfirmedFutureAppointments() {
     } catch (error) {
       dispatch({
         type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
+        errors: [
+          ...(vaAppointmentsResponse?.errors || []),
+          ...(ccAppointmentsResponse?.errors || []),
+          ...(facilitiesResponse?.data?.errors || []),
+        ],
       });
     }
 
-    const formattedVAAppointments = vaAppointments.reduce(
+    const formattedVAAppointments = vaAppointments?.reduce(
       (accumulator, appointment) => {
         const startDate = moment(appointment?.attributes?.startDate);
         const now = moment();
@@ -169,7 +202,7 @@ export function fetchConfirmedFutureAppointments() {
       [],
     );
 
-    const formattedCCAppointments = ccAppointments.reduce(
+    const formattedCCAppointments = ccAppointments?.reduce(
       (accumulator, appointment) => {
         const startDate = moment(appointment?.attributes?.appointmentTime);
         const now = moment();
@@ -195,8 +228,8 @@ export function fetchConfirmedFutureAppointments() {
     );
 
     const allAppointments = [
-      ...formattedCCAppointments,
-      ...formattedVAAppointments,
+      ...(formattedCCAppointments || []),
+      ...(formattedVAAppointments || []),
     ];
 
     // Sort the appointments by which is soonest.

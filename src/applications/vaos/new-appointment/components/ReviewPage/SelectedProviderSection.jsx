@@ -21,11 +21,11 @@ export default function SelectedProviderSection({ data, vaCityState }) {
               <>
                 {provider.name}
                 <br />
-                {provider.address.line.map(line => (
-                  <>
+                {provider.address.line.map((line, index) => (
+                  <React.Fragment key={index}>
                     {line}
                     <br />
-                  </>
+                  </React.Fragment>
                 ))}
                 {provider.address.city},{' '}
                 <State state={provider.address.state} />{' '}

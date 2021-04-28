@@ -26,3 +26,48 @@ export function onlyAccountSecuritySectionIsAccessible() {
     );
   });
 }
+
+export const mockFeatureToggles = () => {
+  cy.route({
+    method: 'GET',
+    status: 200,
+    url: '/v0/feature_toggles*',
+    response: {
+      data: {
+        features: [
+          {
+            name: 'dashboard_show_dashboard_2',
+            value: true,
+          },
+        ],
+      },
+    },
+  });
+};
+
+function nameTagRenders() {
+  cy.findByTestId('name-tag').should('exist');
+  cy.findByText('Wesley Watson Ford').should('exist');
+  cy.findByText('United States Air Force').should('exist');
+}
+
+export function nameTagRendersWithDisabilityRating() {
+  nameTagRenders();
+  cy.findByText('Your disability rating:').should('exist');
+  cy.findByText('90% Service connected').should('exist');
+  cy.findByText(/View disability rating/i).should('not.exist');
+}
+
+export function nameTagRendersWithFallbackLink() {
+  nameTagRenders();
+  cy.findByText('Your disability rating:').should('not.exist');
+  cy.findByText(/View disability rating/i).should('exist');
+  cy.findByText(/service connected/i).should('not.exist');
+}
+
+export function nameTagRendersWithoutDisabilityRating() {
+  nameTagRenders();
+  cy.findByText('Your disability rating:').should('not.exist');
+  cy.findByText(/View disability rating/i).should('not.exist');
+  cy.findByText(/service connected/i).should('not.exist');
+}

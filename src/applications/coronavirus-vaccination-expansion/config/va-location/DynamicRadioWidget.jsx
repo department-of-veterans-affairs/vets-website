@@ -36,6 +36,8 @@ export function DynamicRadioWidget(props) {
     () => {
       // how sure are we that people will always enter 5 digits for their zipcode?
       if (props.zipcode && props.zipcode.length === 5) {
+        setSelected(null);
+        onChange();
         apiRequest(`${apiUrl}${props.zipcode}`, {})
           .then(resp => {
             setLocations(resp.data);
@@ -43,6 +45,8 @@ export function DynamicRadioWidget(props) {
           })
           .catch(err => {
             isLoading(false);
+            setSelected('');
+            onChange('');
             setError(true);
             return err;
           });
@@ -60,8 +64,7 @@ export function DynamicRadioWidget(props) {
       <>
         <p>
           These are the VA medical centers closest to where you live. Select the
-          medical center you'd like to go to get a COVID-19 vaccine. If you
-          don't select one, we'll match you with the first one on the list.
+          medical center you'd like to go to get a COVID-19 vaccine.
         </p>
         <p>
           <strong>Note</strong>: If you get a vaccine that requires 2 doses to
@@ -81,13 +84,14 @@ export function DynamicRadioWidget(props) {
           } ${location.attributes.state}`}</p>
         </>
       ),
-      value: location.attributes.name,
+      value: `${location.attributes.name}|${location.id}`,
     }));
 
     locationsList = (
       <RadioButtons
         options={optionsList}
         label="Select your medical center"
+        required
         value={selected}
         onValueChange={value => {
           onChange(value.value);

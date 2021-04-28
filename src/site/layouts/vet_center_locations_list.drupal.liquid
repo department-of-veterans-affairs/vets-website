@@ -1,0 +1,80 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with
+    customHomeCrumbText = "VA.gov home" %}
+
+<div class="interior" id="content">
+    <main class="va-l-detail-page va-facility-page">
+        <div class="usa-grid usa-grid-full">
+            <div class="usa-width-three-fourths">
+                <article class="usa-content va-l-facility-detail">
+                    {% if entityLabel != empty %}
+                        <h1>{{ entityLabel }}</h1>
+                    {% endif %}
+
+                    {% if fieldIntroText != empty %}
+                        <div class="va-introtext">
+                            <p class="vads-u-font-size--lg">{{ fieldIntroText }}</p>
+                        </div>
+                    {% endif %}
+
+                    <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+          medium-screen:vads-u-margin-bottom--3" id="main-location">
+                        Main location
+                    </h2>
+                    {% include "src/site/includes/vet_center_address_phone_image.liquid" with
+                        vetCenter = fieldOffice.entity
+                        vetCenterUrl = entityUrl.breadcrumb.1.url.path %}
+
+                    {% if fieldOffice.entity.reverseFieldOfficeNode.entities.length > 0 %}
+                        <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+                      medium-screen:vads-u-margin-bottom--4" id="satellite-locations">
+                            Satellite locations
+                        </h2>
+                        <p class="vads-u-font-size--base vads-u-margin-bottom--2p5
+                  medium-screen:vads-u-margin-bottom--4"> If you can’t make it to our {{ fieldOffice.entity.title }} we
+                            offer satellite locations that may be closer to you.
+                            These satellite facilities provide select services with the same community, care, and
+                            confidentiality in
+                            a non-medical setting.
+                            Call us for more information about these locations.
+                        </p>
+                        {% for entityVetCenter in fieldOffice.entity.reverseFieldOfficeNode.entities %}
+                            {% include "src/site/includes/vet_center_address_phone_image.liquid" with
+                                vetCenter = entityVetCenter
+                                mainVetCenterPhone = fieldOffice.entity.fieldPhoneNumber %}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if fieldNearbyVetCenters.length > 0 %}
+                        <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+                 medium-screen:vads-u-margin-bottom--3" id="other-near-locations">
+                            Other nearby Vet Centers
+                        </h2>
+                        {% for entityVetCenter in fieldNearbyVetCenters %}
+                            {% include "src/site/includes/vet_center_address_phone_image.liquid" with vetCenter = entityVetCenter.entity %}
+                        {% endfor %}
+                        {% for entityVetCenter in fieldNearbyMobileVetCenters %}
+                            {% include "src/site/includes/vet_center_address_phone_image.liquid" with vetCenter = entityVetCenter.entity %}
+                        {% endfor %}
+                    {% endif %}
+
+                    <h2 class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 vads-u-margin-bottom--2p5
+              medium-screen:vads-u-margin-bottom--3" id="vet-centers-other-areas">
+                        Vet Centers in other areas
+                    </h2>
+                    <p class="vads-u-font-size--base">You can locate a Vet Center near you by visiting
+                        <a href="/find-locations"
+                           aria-label="find locations">
+                            http://www.va.gov/find-locations.
+                        </a>
+                    </p>
+                </article>
+            </div>
+        </div>
+    </main>
+</div>
+
+{% include "src/site/includes/footer.html" %}
+{% include "src/site/includes/debug.drupal.liquid" %}

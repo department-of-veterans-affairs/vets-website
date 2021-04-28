@@ -18,8 +18,11 @@ export default function AnswerQuestions(props) {
   }
   return (
     <button
+      data-testid="answer-button"
       className="usa-button va-button answer-button"
-      aria-label={`Fill out your pre-appointment questionnaire for your primary care visit at ${facilityName} on ${moment(
+      aria-label={`Select to ${
+        status ? 'continue' : 'start'
+      } your pre-appointment questionnaire for your primary care visit at ${facilityName} on ${moment(
         appointmentTime,
       ).format('MMMM, D, YYYY')}`}
       onClick={onClick}

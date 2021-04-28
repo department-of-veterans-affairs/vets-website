@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import formConfig from '../config/form';
-import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import ErrorMessage from '../components/ErrorMessage';
-import { fetchFormStatus } from '../actions/index';
-import WizardContainer from '../wizard/WizardContainer';
-import { WIZARD_STATUS } from '../wizard/constants';
+import { connect } from 'react-redux';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'platform/site-wide/wizard';
+
+import formConfig from '../config/form';
+import ErrorMessage from '../components/ErrorMessage';
+import WizardContainer from '../wizard/WizardContainer';
+import { fetchFormStatus } from '../actions/index';
+import { WIZARD_STATUS } from '../wizard/constants';
+import { fsrWizardFeatureToggle, fsrFeatureToggle } from '../utils/helpers';
 
 const App = ({
   location,
@@ -19,6 +22,8 @@ const App = ({
   pending,
   isLoggedIn,
   getFormStatus,
+  showWizard,
+  showFSR,
 }) => {
   const [wizardState, setWizardState] = useState(
     sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
@@ -36,10 +41,6 @@ const App = ({
     [getFormStatus],
   );
 
-  if (wizardState !== WIZARD_STATUS_COMPLETE) {
-    return <WizardContainer setWizardStatus={setWizardStatus} />;
-  }
-
   if (pending) {
     return <LoadingIndicator setFocus message="Loading your information..." />;
   }
@@ -48,17 +49,36 @@ const App = ({
     return <ErrorMessage />;
   }
 
-  return (
+  if (showFSR === false) {
+    return window.location.replace('/manage-va-debt');
+  }
+
+  if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
+    return <WizardContainer setWizardStatus={setWizardStatus} />;
+  }
+
+  return showFSR ? (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      <MetaTags>
+        {/* TODO: used to prevent staging form being indexed remove once merged to prod */}
+        <meta name="robots" content="noindex" />
+        <meta
+          name="keywords"
+          content="repay debt, debt, debt letters, FSR, financial status report, debt forgiveness, compromise, waiver, monthly offsets, education loans repayment"
+        />
+      </MetaTags>
+
       {children}
     </RoutedSavableApp>
-  );
+  ) : null;
 };
 
 const mapStateToProps = state => ({
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.fsr.isError,
   pending: state.fsr.pending,
+  showWizard: fsrWizardFeatureToggle(state),
+  showFSR: fsrFeatureToggle(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -7,18 +7,27 @@ import {
 } from '../../../shared/utils';
 import ConfirmationPageFooter from '../../components/confirmation-page-footer/ConfirmationPageFooter';
 import AppointmentDisplay from '../../components/appointment-display/AppointmentDisplay';
-import { selectQuestionnaireContext } from '../../../shared/redux-selectors';
+import {
+  selectQuestionnaireContext,
+  selectQuestionnaireResponseFromResponse,
+} from '../../../shared/redux-selectors';
 
 import PrintButton from '../../../shared/components/print/PrintButton';
+import { focusElement } from 'platform/utilities/ui';
 
 const ConfirmationPage = props => {
-  const { context } = props;
-  const { appointment } = context;
+  const { context, response } = props;
 
-  useEffect(() => {
-    clearCurrentSession(window);
-    clearSelectedAppointmentData(window, appointment.id);
-  }, []);
+  const { appointment } = context;
+  useEffect(
+    () => {
+      clearCurrentSession(window);
+      clearSelectedAppointmentData(window, appointment.id);
+      sessionStorage.setItem('mock-questionnaire-response-id', response.id);
+      focusElement('h2.usa-alert-heading');
+    },
+    [appointment.id, response.id],
+  );
 
   return (
     <div className="healthcare-questionnaire-confirm">
@@ -38,6 +47,7 @@ const ConfirmationPage = props => {
         <AppointmentDisplay appointmentData={context} bold={false} />
         <p>We look forward to seeing you at your upcoming appointment.</p>
         <PrintButton
+          questionnaireResponseId={response.id}
           displayArrow={false}
           ErrorCallToAction={() => {
             return (
@@ -64,6 +74,7 @@ function mapStateToProps(state) {
   return {
     form: state.form,
     context: selectQuestionnaireContext(state),
+    response: selectQuestionnaireResponseFromResponse(state),
   };
 }
 

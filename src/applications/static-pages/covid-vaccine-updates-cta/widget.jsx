@@ -6,18 +6,17 @@ import OnState from './On';
 import OffState from './Off';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-// TODO: follow on PR will introduce react-18-next, this is to get the word out stat
 const copy = {
   en: {
     appTitle: 'Covid 19 Vaccination Information',
     expandedEligibilityContent: {
       veteran: {
-        boldedNote: `If you're a Veteran currently receiving care through VA,`,
-        body: ` we'll ask about your vaccine plans when you sign up. Your local VA health facility may use this information to determine when to contact you once your risk group becomes eligible.`,
+        boldedNote: `Enrolled in VA health care or currently receiving care through VA?`,
+        body: ` Sign up to tell us if you plan to get a COVID-19 vaccine. Your local VA health facility may use this information to determine when to contact you.`,
       },
       nonVeteran: {
-        boldedNote: `If you're a Veteran who isn't receiving care through VA or a spouse, caregiver, or CHAMPVA recipient,`,
-        body: ` sign up to tell us if you want to get a vaccine. If you're eligible, we'll contact you when we have a vaccine for you. At this time, we don't know when that will be.`,
+        boldedNote: `Not enrolled, but need a COVID-19 vaccine?`,
+        body: ` Sign up to tell us if you want to get a vaccine at VA. If you’re a Veteran, spouse, caregiver, or CHAMPVA recipient, we'll contact you when we have a vaccine for you. At this time, we don't know when that will be.`,
       },
     },
     headline: 'Sign up to get a COVID-19 vaccine at VA',
@@ -41,7 +40,8 @@ const copy = {
       },
     },
   },
-  tag: {
+  tl: {
+    appTitle: 'Covid 19 Vaccination Information',
     headline: `Manatiling nakikibalita tungkol sa pagpapabakuna para sa COVID-19`,
     cta: `Mag-sign up para sa madaling paraan ng pakikibalita tungkol sa pagpapabakuna para sa COVID-19 sa VA.`,
     expandedEligibilityContent: {

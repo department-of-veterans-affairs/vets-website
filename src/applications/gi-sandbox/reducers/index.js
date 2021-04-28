@@ -1,17 +1,21 @@
-import CalculatorConstantsReducer from './constants';
-import EligibilityReducer from './eligibility';
-import FilterReducer from './filters';
-import ModalDisplayReducer from './modals';
-import PreviewModeReducer from './preview';
-import ProfileReducer from './profile';
+import calculator from './calculator';
+import constants from './constants';
+import eligibility from './eligibility';
+import filters from './filters';
+import modals from './modals';
+import preview from './preview';
+import profile from './profile';
+import search from './search';
 
 const rootReducer = {
-  constants: CalculatorConstantsReducer,
-  eligibility: EligibilityReducer,
-  filters: FilterReducer,
-  modals: ModalDisplayReducer,
-  preview: PreviewModeReducer,
-  profile: ProfileReducer,
+  calculator,
+  constants,
+  eligibility,
+  filters,
+  modals,
+  preview,
+  profile,
+  search,
 };
 
 export default rootReducer;

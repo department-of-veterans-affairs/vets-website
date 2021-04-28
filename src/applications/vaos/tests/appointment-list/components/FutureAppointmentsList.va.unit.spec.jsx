@@ -288,4 +288,68 @@ describe('VAOS integration: upcoming VA appointments', () => {
       ),
     ).to.be.ok;
   });
+
+  it('should show vaccine appointments with label', async () => {
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: moment().format(),
+      facilityId: '983',
+      sta6aid: '983GC',
+      char4: 'CDQC',
+      clinicFriendlyName: null,
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].clinic = {
+      name: 'VACCINE CLINIC 1',
+    };
+    mockAppointmentInfo({ va: [appointment] });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    };
+    mockFacilitiesFetch('vha_442GC', [facility]);
+
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
+
+    await screen.findByText(
+      new RegExp(
+        moment()
+          .tz('America/Denver')
+          .format('dddd, MMMM D, YYYY'),
+        'i',
+      ),
+    );
+
+    expect(await screen.findByText(/directions/i)).to.have.attribute(
+      'href',
+      'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
+    );
+    expect(screen.baseElement).to.contain.text('VACCINE CLINIC 1');
+    expect(screen.baseElement).to.contain.text('COVID-19 Vaccine');
+    expect(screen.baseElement).not.to.contain.text('VA Appointment');
+    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+    expect(screen.baseElement).to.contain.text('2360 East Pershing Boulevard');
+    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.baseElement).to.contain.text('307-778-7550');
+    expect(screen.baseElement.querySelector('h4')).to.be.ok;
+  });
 });

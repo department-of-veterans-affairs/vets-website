@@ -34,6 +34,10 @@ export function getFormData(state) {
   return getNewAppointment(state).data;
 }
 
+export function selectPageChangeInProgress(state) {
+  return getNewAppointment(state).pageChangeInProgress;
+}
+
 export function getFlowType(state) {
   return getNewAppointment(state).flowType;
 }
@@ -276,8 +280,6 @@ export function getFacilityPageV2Info(state) {
   const {
     childFacilitiesStatus,
     facilityPageSortMethod,
-    parentFacilities,
-    parentFacilitiesStatus,
     requestLocationStatus,
     showEligibilityModal,
   } = newAppointment;
@@ -295,18 +297,12 @@ export function getFacilityPageV2Info(state) {
     eligibility: getEligibilityChecks(state),
     facilities,
     hasDataFetchingError:
-      parentFacilitiesStatus === FETCH_STATUS.failed ||
       childFacilitiesStatus === FETCH_STATUS.failed ||
       newAppointment.eligibilityStatus === FETCH_STATUS.failed,
     loadingEligibilityStatus: newAppointment.eligibilityStatus,
-    noValidVAParentFacilities:
-      parentFacilitiesStatus === FETCH_STATUS.succeeded &&
-      parentFacilities.length === 0,
     noValidVAFacilities:
       childFacilitiesStatus === FETCH_STATUS.succeeded &&
       !validFacilities?.length,
-    parentFacilities,
-    parentFacilitiesStatus,
     requestLocationStatus,
     selectedFacility: getChosenFacilityInfo(state),
     singleValidVALocation: validFacilities?.length === 1 && !!data.vaFacility,

@@ -125,7 +125,9 @@ export function DateTimeSelectPage({
         scrollAndFocus();
       }
     },
-    [isInitialLoad, loadingSlots, appointmentSlotsStatus],
+    // Intentionally leaving isInitialLoad off, because it should trigger updates, it just
+    // determines which update is made
+    [loadingSlots, appointmentSlotsStatus],
   );
 
   const selectedDates = data.selectedDates;
@@ -190,6 +192,7 @@ export function DateTimeSelectPage({
             requiredMessage="Please choose your preferred date and time for your appointment"
             startMonth={startMonth}
             showValidation={submitted && !selectedDates?.length}
+            showWeekends
           />
         </>
       )}

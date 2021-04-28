@@ -10,6 +10,7 @@ import fastLevenshtein from 'fast-levenshtein';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import _ from 'platform/utilities/data';
+import { focusElement } from 'platform/utilities/ui';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
@@ -684,6 +685,15 @@ export const ancillaryFormUploadUi = (
   } = {},
 ) => {
   const pdfSizeFeature = getPdfSizeFeature();
+  // a11y focus management. Move focus to select after upload
+  // see va.gov-team/issues/19688
+  const findAndFocusLastSelect = () => {
+    // focus on last document type select since all new uploads are appended
+    const lastSelect = [...document.querySelectorAll('select')].slice(-1);
+    if (lastSelect.length) {
+      focusElement(lastSelect[0]);
+    }
+  };
   return fileUploadUI(label, {
     itemDescription,
     hideLabelText: !label,
@@ -703,11 +713,16 @@ export const ancillaryFormUploadUi = (
       }
       return payload;
     },
-    parseResponse: (response, file) => ({
-      name: file.name,
-      confirmationCode: response.data.attributes.guid,
-      attachmentId,
-    }),
+    parseResponse: (response, file) => {
+      setTimeout(() => {
+        findAndFocusLastSelect();
+      });
+      return {
+        name: file.name,
+        confirmationCode: response.data.attributes.guid,
+        attachmentId,
+      };
+    },
     attachmentSchema: {
       'ui:title': 'Document type',
       'ui:disabled': isDisabled,
@@ -928,6 +943,14 @@ export const isBDD = formData => {
   return Boolean(result);
 };
 
+export const isUploadingSTR = formData =>
+  isBDD(formData) &&
+  _.get(
+    'view:uploadServiceTreatmentRecordsQualifier.view:hasServiceTreatmentRecordsToUpload',
+    formData,
+    false,
+  );
+
 export const DISABILITY_SHARED_CONFIG = {
   orientation: {
     path: 'disabilities/orientation',
@@ -987,19 +1010,3 @@ export const show526Wizard = state => toggleValues(state).show526Wizard;
 
 export const showSubform8940And4192 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
-
-export const confirmationEmailFeature = state => {
-  const isForm526ConfirmationEmailOn = toggleValues(state)[
-    FEATURE_FLAG_NAMES.form526ConfirmationEmail
-  ];
-  const isForm526ConfirmationEmailShowCopyOn = toggleValues(state)[
-    FEATURE_FLAG_NAMES.form526ConfirmationEmailShowCopy
-  ];
-
-  return [
-    isForm526ConfirmationEmailOn,
-    isForm526ConfirmationEmailShowCopyOn,
-  ].includes(undefined)
-    ? false
-    : isForm526ConfirmationEmailOn && isForm526ConfirmationEmailShowCopyOn;
-};

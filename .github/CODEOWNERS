@@ -19,6 +19,11 @@ src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-a
 src/platform/user/authentication @department-of-veterans-affairs/vsp-identity
 src/platform/utilities/sso @department-of-veterans-affairs/vsp-identity
 
+# VSP Testing Tools
+src/platform/testing/contract/ @department-of-veterans-affairs/vsp-testing
+src/platform/testing/e2e/ @department-of-veterans-affairs/vsp-testing
+config/cypress.json @department-of-veterans-affairs/vsp-testing
+
 # VSA ----
 
 # Authenticated Experience
@@ -30,6 +35,7 @@ src/platform/utilities/medical-centers @department-of-veterans-affairs/vsa-authd
 src/applications/letters @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/disability-benefits @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
 src/applications/claims-status @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-bam-2-frontend
+src/applications/appeals @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-bam-2-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
 
 # Benefits and Memorials 2
 src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-bam-2-frontend @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
@@ -43,6 +49,7 @@ src/applications/disability-benefits/686c-674 @department-of-veterans-affairs/vs
 src/applications/personalization/rated-disabilities @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/personalization/view-dependents @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/applications/vre @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
+src/applications/lgy @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
 # Shared templates
 src/site/includes @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
@@ -53,6 +60,7 @@ src/platform/site-wide @department-of-veterans-affairs/vsa-public-websites-front
 src/applications/static-pages @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/frontend-review-group
 src/applications/find-forms @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-public-websites-frontend
+src/applications/discharge-wizard @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/search @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
 src/applications/resources-and-support @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
 src/site/includes/debug.drupal.liquid @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend
@@ -66,11 +74,19 @@ src/site/layouts @department-of-veterans-affairs/vsa-facilities-frontend @depart
 src/platform/site-wide/sass/modules/_m-side-nav.scss @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/platform/site-wide/side-nav @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 src/site/facilities @department-of-veterans-affairs/vsa-facilities-frontend
+src/site/layouts/health*.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/navigation/facility_no_drupal_page_sidebar_nav.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/navigation/facility_sidebar_nav.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/includes/facilityListing.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/components/phone.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
 src/site/components/phone-number.drupal.liquid @department-of-veterans-affairs/vsa-facilities-frontend
+src/applications/static-pages/sass/modules/_m-facilities.scss @department-of-veterans-affairs/vsa-facilities-frontend
+src/applications/static-pages/sass/modules/_m-facility-detail.scss @department-of-veterans-affairs/vsa-facilities-frontend
+src/applications/static-pages/sass/modules/_m-facility-events.scss @department-of-veterans-affairs/vsa-facilities-frontend
+
+# GraphQL Queries, etc.
+# TODO: group these into folders to support team ownership
+src/site/stages/build/drupal @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend
 
 # Liquid template filters
 src/site/filters @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend

@@ -3,7 +3,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 const LANGS_TO_LINK_SUFFIXES = {
   es: '-esp/',
-  tag: '-tag/',
+  tl: '-tag/',
 };
 const I18Select = ({ baseUrls, content }) => {
   const [lang, setLang] = useState('en');
@@ -52,12 +52,12 @@ const I18Select = ({ baseUrls, content }) => {
                 onClick={_ => {
                   recordEvent({
                     event: 'nav-pipe-delimited-list-click',
-                    pipeDelimitedListHeader: lang,
+                    'pipe-delimited-list-header': languageConfig.lang,
                   });
                 }}
                 href={baseUrls[languageCode]}
-                hrefLang={lang}
-                lang={lang}
+                hrefLang={languageConfig.lang}
+                lang={languageConfig.lang}
               >
                 {languageConfig.label}{' '}
               </a>

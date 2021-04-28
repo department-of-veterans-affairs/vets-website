@@ -16,7 +16,6 @@ import CommunityCareInstructions from './CommunityCareInstructions';
 import AppointmentStatus from '../AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import {
-  getVARFacilityId,
   getVAAppointmentLocationId,
   isVAPhoneAppointment,
 } from '../../../../services/appointment';
@@ -109,14 +108,15 @@ export default function ConfirmedAppointmentListItem({
     location = 'Video conference';
   } else if (isCommunityCare) {
     header = 'Community Care';
-    const address = appointment.contained.find(
-      res => res.resourceType === 'Location',
-    )?.address;
+    const address = appointment.communityCareProvider.address;
     if (address) {
       location = `${address.line[0]}, ${address.city}, ${address.state} ${
         address.postalCode
       }`;
     }
+  } else if (appointment.vaos.isCOVIDVaccine) {
+    header = 'COVID-19 Vaccine';
+    location = facility ? formatFacilityAddress(facility) : null;
   } else {
     header = 'VA Appointment';
     location = facility ? formatFacilityAddress(facility) : null;
@@ -143,7 +143,7 @@ export default function ConfirmedAppointmentListItem({
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
-          facilityId={getVARFacilityId(appointment)}
+          facilityId={appointment.location.vistaId}
         />
       </h3>
       <AppointmentStatus
@@ -154,7 +154,9 @@ export default function ConfirmedAppointmentListItem({
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
           {isCommunityCare && (
-            <ConfirmedCommunityCareLocation appointment={appointment} />
+            <ConfirmedCommunityCareLocation
+              provider={appointment.communityCareProvider}
+            />
           )}
           {isVideo && (
             <VideoVisitSection facility={facility} appointment={appointment} />
@@ -163,7 +165,7 @@ export default function ConfirmedAppointmentListItem({
             <VAFacilityLocation
               facility={facility}
               facilityId={getVAAppointmentLocationId(appointment)}
-              clinicName={appointment.participant[0].actor.display}
+              clinicName={appointment.location?.clinicName}
             />
           )}
         </div>

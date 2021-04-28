@@ -1,7 +1,11 @@
 import _ from 'lodash';
 import set from 'lodash/fp/set';
 
-import { FETCH_FOLDER_SUCCESS, LOADING_FOLDER } from '../utils/constants';
+import {
+  FETCH_FOLDER_SUCCESS,
+  FETCH_FOLDER_FAILURE,
+  LOADING_FOLDER,
+} from '../utils/constants';
 
 const initialState = {
   data: {
@@ -61,15 +65,30 @@ export default function folders(state = initialState, action) {
             value: sortValue,
             order: sortOrder,
           },
+          errors: null,
         },
         newState,
+      );
+    }
+
+    case FETCH_FOLDER_FAILURE: {
+      return set(
+        'data.currentItem',
+        {
+          errors: action?.errors,
+          fetching: false,
+        },
+        state,
       );
     }
 
     case LOADING_FOLDER: {
       const newState = set(
         'data.currentItem',
-        initialState.data.currentItem,
+        {
+          ...initialState.data.currentItem,
+          fetching: true,
+        },
         state,
       );
 
@@ -82,7 +101,6 @@ export default function folders(state = initialState, action) {
             visible: false,
           },
           lastRequestedFolder: action.request,
-          fetching: true,
         },
         newState,
       );

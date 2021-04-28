@@ -36,6 +36,7 @@ describe('Edu 10203 personalInformation', () => {
         onSubmit={onSubmit}
         data={{}}
         uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
       />,
     );
     const formDOM = findDOMNode(form);

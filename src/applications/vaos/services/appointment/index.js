@@ -183,6 +183,10 @@ export async function fetchBookedAppointment(id, type) {
           .toISOString(),
       );
       appointment = data.find(appt => appt.id === id);
+
+      if (!appointment) {
+        appointment = await getConfirmedAppointment(id, 'va');
+      }
     }
 
     if (!appointment) {
@@ -207,51 +211,7 @@ export async function fetchBookedAppointment(id, type) {
  * @returns {Boolean} Whether or not the appointment is by phone
  */
 export function isVAPhoneAppointment(appointment) {
-  return appointment.vaos.isPhoneAppointment;
-}
-
-/**
- * Gets legacy VAR facility id from HealthcareService reference
- *
- * @param {Appointment} appointment VAR Appointment in FHIR schema
- * @returns {string} Legacy VAR facility id
- */
-export function getVARFacilityId(appointment) {
-  if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    if (appointment.vaos?.isVideo) {
-      return appointment.legacyVAR.apiData.facilityId;
-    }
-
-    const id = appointment.participant?.[0]?.actor?.reference
-      ?.split('/')?.[1]
-      ?.split('_')?.[0];
-
-    if (id) {
-      return id;
-    }
-
-    return null;
-  }
-
-  return null;
-}
-
-/**
- * Gets legacy var clinic id from HealthcareService reference
- *
- * @param {Appointment} appointment VAR Appointment in FHIR schema
- * @returns {string} Legacy VAR clinic id
- */
-export function getVARClinicId(appointment) {
-  if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    const id = appointment.participant?.[0]?.actor?.reference
-      ?.split('/')?.[1]
-      ?.split('_')?.[1];
-
-    return id || null;
-  }
-
-  return null;
+  return appointment?.vaos.isPhoneAppointment;
 }
 
 /**
@@ -266,18 +226,10 @@ export function getVAAppointmentLocationId(appointment) {
     appointment?.vaos.isVideo &&
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment
   ) {
-    return appointment.videoData.facilityId;
+    return appointment?.location.vistaId;
   }
 
-  const locationReference = appointment?.participant?.find(p =>
-    p.actor.reference?.startsWith('Location'),
-  )?.actor?.reference;
-
-  if (locationReference) {
-    return locationReference.split('/')[1];
-  }
-
-  return null;
+  return appointment?.location.stationId;
 }
 /**
  * Returns the patient telecom info in a VA appointment
@@ -285,12 +237,10 @@ export function getVAAppointmentLocationId(appointment) {
  * @export
  * @param {Appointment} appointment A FHIR appointment resource
  * @param {string} system A FHIR telecom system id
- * @returns {string} The patient telecome value
+ * @returns {string} The patient telecom value
  */
 export function getPatientTelecom(appointment, system) {
-  return appointment?.contained
-    .find(res => res.resourceType === 'Patient')
-    ?.telecom?.find(t => t.system === system)?.value;
+  return appointment?.contact?.telecom.find(t => t.system === system)?.value;
 }
 
 /**
@@ -527,35 +477,19 @@ export function isVideoHome(appointment) {
 }
 
 /**
- * Method to check for the existence of a practitioner
- * @param {Appointment} appointment An appointment resource
- * @return {boolean} Returns whether or not the appointment has a practitioner.
+ * Get the name of the first preferred community care provider, or generic text
+ *
+ * @param {Appointment} appointment An appointment object
+ * @return {String} Returns the community care provider name
  */
-export function hasPractitioner(appointment) {
-  return !!appointment?.participant?.some(item =>
-    item.actor?.reference?.includes('Practitioner'),
-  );
-}
+export function getPreferredCommunityCareProviderName(appointment) {
+  const provider = appointment?.preferredCommunityCareProviders?.[0];
 
-/**
- * Method to parse out the appointment practitioner of participants array
- * @param {Array} participants An array of appointment participants
- * @return {string} Returns the appointment practitioner display value.
- */
-export function getPractitionerDisplay(participants) {
-  return participants?.find(p => p.actor.reference.includes('Practitioner'))
-    .actor.display;
-}
+  if (provider) {
+    return provider.practiceName || provider.providerName;
+  }
 
-/**
- * Method to parse out the appointment practitioner location display in contained array
- * @param {Array} participants An array of appointment participants
- * @return {Object} Returns the appointment practitioner object.
- */
-export function getPractitionerLocationDisplay(appointment) {
-  return appointment.contained?.find(c =>
-    c.resourceType.includes('Practitioner'),
-  )?.practitionerRole?.[0]?.location?.[0]?.display;
+  return 'Community care';
 }
 
 /**

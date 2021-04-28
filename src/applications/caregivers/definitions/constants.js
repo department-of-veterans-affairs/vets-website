@@ -58,3 +58,8 @@ export const secondaryTwoFields = {
   verifyEmail: 'view:secondaryTwoEmail',
   vetRelationship: 'secondaryTwoVetRelationship',
 };
+
+export const representativeFields = {
+  signAsRepresentativeYesNo: 'signAsRepresentativeYesNo',
+  documentUpload: 'signAsRepresentativeDocumentUpload',
+};
