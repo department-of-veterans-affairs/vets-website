@@ -20,15 +20,10 @@ import {
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
-import loadable from '@loadable/component';
 
-const AutoSSO = loadable(() => import('./AutoSSO'));
-const SessionTimeoutModal = loadable(() =>
-  import('platform/user/authentication/components/SessionTimeoutModal'),
-);
-const SignInModal = loadable(() =>
-  import('platform/user/authentication/components/SignInModal'),
-);
+import AutoSSO from './AutoSSO';
+import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
+import SignInModal from 'platform/user/authentication/components/SignInModal';
 
 export class Main extends React.Component {
   componentDidMount() {
