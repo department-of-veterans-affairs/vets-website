@@ -209,6 +209,7 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.formatSharableLinkID = (id, description) => {
+    if (!id) return '';
     if (!description) return id;
     const truncatedText = description.substring(0, 30);
     const escaped = liquid.filters.escape(truncatedText);
@@ -709,6 +710,10 @@ module.exports = function registerFilters() {
   liquid.filters.replace = (string, oldVal, newVal) => {
     const regex = new RegExp(oldVal, 'g');
     return string.replace(regex, newVal);
+  };
+
+  liquid.filters.filterBy = (data, filterBy, valueFilter) => {
+    return data.filter(e => _.get(e, filterBy) === valueFilter);
   };
 
   liquid.filters.processDynamicContent = (entity, contentType) => {
