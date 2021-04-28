@@ -29,9 +29,10 @@ const copyToUsersClipBoard = (dataEntityId, target) => {
 };
 const ShareIconClickFeedback = styled.span`
   position: ${props => (props.leftAligned ? 'absolute' : 'relative')};
-  margin-top: ${props => (props.leftAligned ? '2px' : '')};
+  margin-top: ${props => (props.leftAligned && !props.topPx ? '2px' : '')};
   left: ${props =>
     props.leftAligned && props.leftPx ? `${props.leftPx}px` : ''};
+  top: ${props => (props.leftAligned && props.topPx ? `${props.topPx}px` : '')};
   background-color: ${props => props.theme.colorBaseBlack};
   color: ${props => props.theme.colorWhite};
   font-family: 'Source Sans Pro';
@@ -75,6 +76,7 @@ const SharableLink = ({ dataEntityId, idx }) => {
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
   const [leftPx, setLeftPx] = useState(0);
+  const [topPx, setTopPx] = useState(0);
   const offsetThreshold = 100;
   const widthOffset = 40;
 
@@ -123,6 +125,7 @@ const SharableLink = ({ dataEntityId, idx }) => {
       setFeedbackActive(false);
       setLeftAligned(false);
       setLeftPx(0);
+      setTopPx(0);
       document.activeElement.children[0].style = {};
     }, 100000);
   };
@@ -130,19 +133,21 @@ const SharableLink = ({ dataEntityId, idx }) => {
   const displayFeedback = element => {
     // this needs a bit more work
     const headingId = extractId(element.getAttribute('id'));
-    const h3Element = document.getElementById(headingId);
+    const headingMainEntity = document.querySelector(`#${headingId}`);
     console.log(element, 'ELEM');
-    console.log(h3Element, 'H333');
+    console.log(headingMainEntity, 'H333');
     if (
-      h3Element?.offsetWidth - (element.offsetLeft + widthOffset) <=
+      headingMainEntity?.offsetWidth - (element.offsetLeft + widthOffset) <=
       offsetThreshold
     ) {
       setLeftAligned(true);
       setLeftPx(element.offsetLeft - element.offsetWidth - widthOffset);
+      setTopPx(element.offsetTop);
     }
     setFeedbackActive(true);
     hideFeedback(element.getAttribute('id'));
   };
+  // TODO: add bac the feature flag
   if (true) {
     return (
       <ThemeProvider theme={theme.main}>
@@ -177,6 +182,7 @@ const SharableLink = ({ dataEntityId, idx }) => {
               leftAligned={leftAligned}
               feedbackActive={feedbackActive}
               leftPx={leftPx}
+              topPx={topPx}
               id={`feedback-${dataEntityId}`}
             >
               {copiedText}
