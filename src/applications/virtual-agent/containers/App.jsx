@@ -56,11 +56,14 @@ export default function App(props) {
     return <LoadingIndicator message={'Loading Virtual Agent'} />;
   }
 
+  if (error) {
+    return <ChatbotError />;
+  }
+
   return (
     <div className={'vads-l-grid-container'}>
       <div className={'vads-l-row'} data-testid={'webchat-container'}>
         {!loading && token && <WebChat token={token} />}
-        {error && <ChatbotError />}
       </div>
     </div>
   );

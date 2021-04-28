@@ -4,7 +4,7 @@ import { waitFor } from '@testing-library/react';
 
 import App from '../containers/App';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 import { createTestStore } from '../../vaos/tests/mocks/setup';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 
@@ -28,16 +28,19 @@ describe('App', () => {
   }
 
   beforeEach(() => {
+    resetFetch();
     oldWindow = global.window;
   });
 
   afterEach(() => {
+    resetFetch();
     global.window = oldWindow;
   });
 
   describe('web chat script is already loaded', () => {
     it('renders web chat', async () => {
       loadWebChat();
+      mockApiRequest({});
 
       const wrapper = renderInReduxProvider(<App />, {
         initialState: {
@@ -61,6 +64,8 @@ describe('App', () => {
     }
 
     it('should not render webchat until webchat framework is loaded', async () => {
+      mockApiRequest({});
+
       const wrapper = renderInReduxProvider(<App />, {
         initialState: {
           featureToggles: {
@@ -70,6 +75,7 @@ describe('App', () => {
       });
 
       expect(wrapper.getByRole('progressbar')).to.exist;
+      expect(wrapper.queryByTestId('webchat-container')).to.not.exist;
 
       await wait(500);
 
