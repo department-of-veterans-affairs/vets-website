@@ -76,8 +76,8 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       let postData = [];
       cy.get('@testKey').then(testKey => {
-        cy.login(dataSetToUserMap[testKey]);
         cy.intercept('GET', '/v0/user', dataSetToUserMap[testKey]);
+        cy.login(dataSetToUserMap[testKey]);
         if (testKey === 'noBatteries') {
           postData = [
             {
