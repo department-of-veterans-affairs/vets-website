@@ -8,12 +8,12 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 const theme = {
   main: {
-    colorBaseBlack: '#212121',
+    colorBaseBlack: '#323a45',
     colorWhite: '#ffffff',
     colorPrimary: '#0071bb',
   },
 };
-const copyToUsersClipBoard = dataEntityId => {
+const copyToUsersClipBoard = (dataEntityId, target) => {
   const input = document.createElement('input');
 
   const copyUrl = window.location.href.replace(window.location.hash, '');
@@ -21,6 +21,7 @@ const copyToUsersClipBoard = dataEntityId => {
   document.body.appendChild(input);
   input.select();
   document.execCommand('copy');
+  target.focus();
   document.body.removeChild(input);
   recordEvent({
     event: 'int-copy-to-clipboard-click',
@@ -50,10 +51,8 @@ const ShareIcon = styled.i`
   width: 26px;
   padding: 4px;
   border: 1px solid;
-  background-color: ${props =>
-    props.feedbackActive ? props.theme.colorBaseBlack : ''};
-  color: ${props =>
-    props.feedbackActive ? props.theme.colorWhite : props.theme.colorPrimary};
+
+  color: ${props => props.theme.colorPrimary};
 
   &:hover {
     background-color: ${props => props.theme.colorBaseBlack};
@@ -72,7 +71,7 @@ const UnStyledButtonInAccordion = styled.button`
   width: auto !important;
 `;
 
-const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
+const SharableLink = ({ dataEntityId, idx }) => {
   const [feedbackActive, setFeedbackActive] = useState(false);
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
@@ -108,6 +107,9 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
       const parentId = feedback.getAttribute('id');
       if (extractId(parentId) !== extractId(activeId)) {
         feedback.style.display = 'none';
+        // TODO: refactor, this is brittle if the layout changes
+        const icon = feedback.parentElement.previousElementSibling.children[0];
+        icon.style = {};
       } else {
         feedback.style = {};
       }
@@ -120,6 +122,7 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
       setFeedbackActive(false);
       setLeftAligned(false);
       setLeftPx(0);
+      document.activeElement.children[0].style = {};
     }, 10000);
   };
 
@@ -137,7 +140,7 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
     setFeedbackActive(true);
     hideFeedback(element.getAttribute('id'));
   };
-  if (showSharableLink) {
+  if (true) {
     return (
       <ThemeProvider theme={theme.main}>
         <span aria-live="polite" aria-relevant="additions">
@@ -152,8 +155,12 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
               onClick={event => {
                 event.persist();
                 if (!event || !event.target) return;
-                copyToUsersClipBoard(dataEntityId);
                 displayFeedback(event.target);
+                copyToUsersClipBoard(dataEntityId, event.target.parentElement);
+                document.activeElement.children[0].style.color =
+                  theme.main.colorWhite;
+                document.activeElement.children[0].style.backgroundColor =
+                  theme.main.colorBaseBlack;
               }}
               id={`icon-${dataEntityId}`}
             />
