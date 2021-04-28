@@ -91,7 +91,9 @@ export class Main extends React.Component {
     const triggers = Array.from(
       document.querySelectorAll('.signin-signup-modal-trigger'),
     );
-    triggers.forEach(t => t.addEventListener('click', this.openLoginModal));
+    triggers.forEach(t => {
+      if (t) t.addEventListener('click', this.openLoginModal);
+    });
   };
 
   bindNavbarLinks = () => {
