@@ -12,10 +12,10 @@ const VetCenterHours = props => {
     if (item.starthours < 0 || item.endhours < 0) {
       return (
         <div className="row">
-          <div className="small-6 columns vads-u-padding-x--0 vads-u-padding-right--0">
+          <div className="small-1 columns vads-u-padding-x--0 vads-u-padding-right--0">
             {arrayOfWeekdays[item.day]}:
           </div>
-          <div className="small-6 columns vads-u-padding-x--0 vads-u-padding-right--0">
+          <div className="small-9 columns vads-u-padding-x--0 vads-u-padding-right--0">
             {item.comment}
           </div>
         </div>
@@ -23,10 +23,10 @@ const VetCenterHours = props => {
     } else {
       return (
         <div className="row">
-          <div className="small-6 columns vads-u-padding-x--0 vads-u-padding-right--0">
+          <div className="small-1 columns vads-u-padding-x--0 vads-u-padding-right--0">
             {arrayOfWeekdays[item.day]}:
           </div>
-          <div className="small-6 columns vads-u-padding-x--0 vads-u-padding-right--0">
+          <div className="small-9 columns vads-u-padding-x--0 vads-u-padding-right--0">
             {formatHours(item.starthours)} - {formatHours(item.endhours)}
           </div>
         </div>
