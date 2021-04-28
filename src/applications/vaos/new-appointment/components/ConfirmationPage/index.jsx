@@ -40,10 +40,7 @@ export function ConfirmationPage({
   useProviderSelection,
   submitStatus,
 }) {
-  const featureHomepageRefresh = useSelector(state =>
-    selectFeatureHomepageRefresh(state),
-  );
-  // const featureHomepageRefresh = false;
+  const featureHomepageRefresh = useSelector(selectFeatureHomepageRefresh);
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
   const pageTitle = isDirectSchedule
     ? 'Your appointment has been scheduled'

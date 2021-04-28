@@ -1,36 +1,48 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import moment from '../../../lib/moment-tz.js';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import React, { useEffect } from 'react';
+import moment from '../../lib/moment-tz.js';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event.js';
-import VAFacilityLocation from '../../../components/VAFacilityLocation';
-import AddToCalendar from '../../../components/AddToCalendar';
-import { formatFacilityAddress } from '../../../services/location';
-import {
-  getTimezoneAbbrBySystemId,
-  getTimezoneBySystemId,
-} from '../../../utils/timezone';
-import { GA_PREFIX, PURPOSE_TEXT } from '../../../utils/constants';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { getTimezoneAbbrBySystemId } from '../../utils/timezone.js';
+import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
+import VAFacilityLocation from '../../components/VAFacilityLocation';
+import { selectConfirmationPage } from '../redux/selectors.js';
+import AddToCalendar from 'applications/vaos/components/AddToCalendar';
+import { formatFacilityAddress } from 'applications/vaos/services/location';
 
-export default function ConfirmationDirectScheduleInfo({
-  data,
-  facilityDetails,
+const pageTitle = 'We’ve scheduled your appointment';
+
+function ConfirmationPage({
   clinic,
-  slot,
+  data,
   systemId,
+  facilityDetails,
+  slot,
+  submitStatus,
 }) {
-  const timezone = getTimezoneBySystemId(systemId);
-  const momentDate = timezone
-    ? moment(slot.start).tz(timezone.timezone, true)
-    : moment(slot.start);
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    scrollAndFocus();
+  }, []);
+
+  if (submitStatus !== FETCH_STATUS.succeeded) {
+    return <Redirect to="/" />;
+  }
+
+  const appointmentDateString =
+    moment(data.date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
+      'dddd, MMMM D, YYYY [at] h:mm a ',
+    ) + getTimezoneAbbrBySystemId(systemId);
+
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
   return (
-    <>
-      <h1 className="vads-u-font-size--h2">
-        {momentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}
-        {` ${getTimezoneAbbrBySystemId(systemId)}`}
-      </h1>
+    <div>
+      <h1 className="vads-u-font-size--h2">{appointmentDateString}</h1>
       <AlertBox status="success" backgroundOnly>
         <strong>Your appointment has been scheduled and is confirmed.</strong>
         <br />
@@ -56,7 +68,7 @@ export default function ConfirmationDirectScheduleInfo({
             className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
             data-cy="va-appointment-details-header"
           >
-            VA Appointment
+            COVID-19 vaccine
           </h2>
           <VAFacilityLocation
             facility={facilityDetails}
@@ -65,19 +77,6 @@ export default function ConfirmationDirectScheduleInfo({
             isHomepageRefresh
             clinicFriendlyName={clinic.serviceName}
           />
-        </div>
-        <div className="vads-u-flex--1 vads-u-margin-top--2 vaos-u-word-break--break-word">
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-            Your reason for your visit
-          </h3>
-          <div>
-            {
-              PURPOSE_TEXT.find(
-                purpose => purpose.id === data.reasonForAppointment,
-              )?.short
-            }
-            : {data.reasonAdditionalInfo}
-          </div>
         </div>
       </div>
 
@@ -90,7 +89,7 @@ export default function ConfirmationDirectScheduleInfo({
           summary="VA Appointment"
           description=""
           location={formatFacilityAddress(facilityDetails)}
-          startDateTime={momentDate.format()}
+          startDateTime={appointmentDateString}
           duration={appointmentLength}
         />
       </div>
@@ -101,6 +100,17 @@ export default function ConfirmationDirectScheduleInfo({
           Print
         </button>
       </div>
-    </>
+      <AlertBox
+        status={ALERT_TYPE.INFO}
+        className="vads-u-display--block"
+        headline="Need to make changes?"
+        backgroundOnly
+      >
+        Contact this provider if you need to reschedule or cancel your
+        appointment.
+      </AlertBox>
+    </div>
   );
 }
+
+export default connect(selectConfirmationPage)(ConfirmationPage);

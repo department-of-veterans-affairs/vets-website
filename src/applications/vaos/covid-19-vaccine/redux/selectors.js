@@ -156,8 +156,10 @@ export function getReviewPage(state) {
 
 export function selectConfirmationPage(state) {
   return {
+    clinic: getChosenClinicInfo(state),
     data: selectCovid19VaccineFormData(state),
     facilityDetails: getChosenFacilityInfo(state),
+    slot: getChosenSlot(state),
     systemId: getSiteIdForChosenFacility(state),
     submitStatus: selectCovid19Vaccine(state).submitStatus,
   };
