@@ -110,7 +110,6 @@ const SharableLink = ({
   };
 
   const onFocus = id => {
-    console.log('focus triggered');
     const icon = document.querySelector(`#icon-${id}`);
     icon.style.color = theme.main.colorWhite;
     icon.style.backgroundColor = theme.main.colorBaseBlack;
