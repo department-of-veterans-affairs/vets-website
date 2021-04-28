@@ -382,7 +382,7 @@
     "**/netmask": "^2.0.1",
     "**/is-svg": "^4.2.2",
     "**/y18n": "^ 4.0.1",
-    "cypress": "^7.0.0",
+    "cypress": "^7.2.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }
