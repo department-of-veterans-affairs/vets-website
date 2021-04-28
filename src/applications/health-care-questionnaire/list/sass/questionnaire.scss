@@ -1,4 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
 
 
 .questionnaire-list-tabs-container{
@@ -160,6 +161,13 @@ ol.questionnaire-list {
       *{
         margin: 0;
         line-height: 1.5;
+      }
+    }
+    .action-link-container{
+      display: flex;
+      justify-content: left;
+      span{
+        display: initial;
       }
     }
   }
