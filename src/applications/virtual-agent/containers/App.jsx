@@ -22,20 +22,6 @@ const loadWebChat = () => {
 
 loadWebChat();
 
-export default function App(props) {
-  const { isLoading, error } = useWaitForWebchatFramework(props);
-
-  if (isLoading) {
-    return (
-      <LoadingIndicator
-        data-testid="waiting-for-framework"
-        message={'Loading Virtual Agent'}
-      />
-    );
-  }
-  return error ? <ChatbotError /> : <WaitForFeatureToggles />;
-}
-
 function useLoadWebChat() {
   const { loading: togglesLoading } = useWaitForFeatureToggles();
   const { tokenLoading, error, token } = useVirtualAgentToken({
@@ -49,30 +35,30 @@ function useLoadWebChat() {
   };
 }
 
-function WaitForFeatureToggles() {
-  const { loading, error, token } = useLoadWebChat();
+function useWebChat(props) {
+  const {
+    isLoading: frameworkLoading,
+    error: frameworkError,
+  } = useWaitForWebchatFramework(props);
+  const { loading: tokenLoading, error: tokenError, token } = useLoadWebChat();
+
+  return {
+    loading: frameworkLoading || tokenLoading,
+    error: frameworkError || tokenError,
+    token,
+  };
+}
+
+export default function App(props) {
+  const { loading, error, token } = useWebChat(props);
 
   return (
     <div className={'vads-l-grid-container'}>
       <div className={'vads-l-row'} data-testid={'webchat-container'}>
-        {token && <WebChat token={token} />}
+        {!loading && token && <WebChat token={token} />}
         {error && <ChatbotError />}
         {loading && <LoadingIndicator message={'Loading Virtual Agent'} />}
       </div>
     </div>
   );
 }
-
-// function NewApp() {
-//   const { isLoading, isError, token } = useWebChat();
-
-//   if (isLoading) {
-//     return <LoadingIndicator message={'Loading Virtual Agent'} />;
-//   }
-
-//   if (isError) {
-//     return <ChatbotError />;
-//   }
-
-//   return <WebChat token={token} />;
-// }
