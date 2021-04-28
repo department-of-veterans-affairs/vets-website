@@ -117,31 +117,20 @@ export default function useGetSearchResults(articles, query, page) {
         };
       });
 
-      if (environment.isProduction()) {
-        // Sort first by query word instances found in title descending
-        // Sort ties then by query word instances found in introText descending
-        // Sort ties then by alphabetical descending
-        orderedResults = orderBy(
-          filteredArticles,
-          ['keywordsCountsTitle', 'keywordsCountsIntroText', 'title'],
-          ['desc', 'desc', 'asc'],
-        );
-      } else {
-        // Sort first by the number of exact query matches (ignoring casing) in the title and introText
-        // Sort ties by query word instances found in title descending
-        // Sort ties then by query word instances found in searchableContent descending
-        // Sort ties then by alphabetical descending
-        orderedResults = orderBy(
-          filteredArticles,
-          [
-            'wholePhraseMatchCountsTotal',
-            'keywordsCountsTitle',
-            'keywordsCountsContent',
-            'title',
-          ],
-          ['desc', 'desc', 'desc', 'asc'],
-        );
-      }
+      // Sort first by the number of exact query matches (ignoring casing) in the title, introText, and searchableContent descending
+      // Sort ties by query word instances found in title descending
+      // Sort ties then by query word instances found in searchableContent descending
+      // Sort ties then by alphabetical descending
+      orderedResults = orderBy(
+        filteredArticles,
+        [
+          'wholePhraseMatchCountsTotal',
+          'keywordsCountsTitle',
+          'keywordsCountsContent',
+          'title',
+        ],
+        ['desc', 'desc', 'desc', 'asc'],
+      );
       // =====
       // End of ordering logic.
 
