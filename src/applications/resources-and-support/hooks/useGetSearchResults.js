@@ -3,7 +3,10 @@ import { useEffect, useState } from 'react';
 import { orderBy } from 'lodash';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
-import { SEARCH_IGNORE_LIST } from '../constants';
+import {
+  EXPERIMENTAL_SEARCH_IGNORE_LIST,
+  SEARCH_IGNORE_LIST,
+} from '../constants';
 
 const countInstancesFound = (searchableString = '', keyword = '') =>
   searchableString.toLowerCase()?.split(keyword.toLowerCase())?.length - 1;
@@ -24,7 +27,13 @@ export default function useGetSearchResults(articles, query, page) {
         .split(' ')
         .filter(word => !!word)
         .map(keyword => keyword.toLowerCase())
-        .filter(word => !SEARCH_IGNORE_LIST.includes(word))
+        .filter(word => {
+          if (environment.isProduction()) {
+            return !SEARCH_IGNORE_LIST.includes(word);
+          }
+
+          return !EXPERIMENTAL_SEARCH_IGNORE_LIST.includes(word);
+        })
         .map(keyword => {
           if (keyword.length > 6 && keyword.endsWith('ies')) {
             // Unpluralize the word, so that a search for "disabilities"
