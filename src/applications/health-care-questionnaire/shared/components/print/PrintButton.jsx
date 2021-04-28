@@ -23,9 +23,7 @@ export default function PrintButton({
   const handleClick = async () => {
     try {
       setisLoading(true);
-      const qrId =
-        sessionStorage.getItem('mock-questionnaire-response-id') ||
-        questionnaireResponseId;
+      const qrId = questionnaireResponseId;
       const resp = await loadPdfData(qrId);
       const blob = await resp.blob();
       openPdfInNewWindow(window, blob);
