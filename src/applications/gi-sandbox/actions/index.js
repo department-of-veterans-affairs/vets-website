@@ -1,40 +1,37 @@
-// import appendQuery from 'append-query';
-
-// import recordEvent from 'platform/monitoring/record-event';
 import { api } from '../config';
-// import { rubyifyKeys } from '../utils/helpers';
+
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
-export const UPDATE_ROUTE = 'UPDATE_ROUTE';
-export const BENEFICIARY_ZIP_CODE_CHANGED = 'BENEFICIARY_ZIP_CODE_CHANGED';
-export const DISPLAY_MODAL = 'DISPLAY_MODAL';
-export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
-export const ENTER_PREVIEW_MODE = 'ENTER_PREVIEW_MODE';
-export const EXIT_PREVIEW_MODE = 'EXIT_PREVIEW_MODE';
-export const SET_VERSION = 'SET_VERSION';
-export const FETCH_CONSTANTS_STARTED = 'FETCH_CONSTANTS_STARTED';
-export const FETCH_CONSTANTS_FAILED = 'FETCH_CONSTANTS_FAILED';
-export const FETCH_CONSTANTS_SUCCEEDED = 'FETCH_CONSTANTS_SUCCEEDED';
 export const AUTOCOMPLETE_STARTED = 'AUTOCOMPLETE_STARTED';
 export const AUTOCOMPLETE_FAILED = 'AUTOCOMPLETE_FAILED';
 export const AUTOCOMPLETE_SUCCEEDED = 'AUTOCOMPLETE_SUCCEEDED';
 export const AUTOCOMPLETE_CLEARED = 'AUTOCOMPLETE_CLEARED';
 export const AUTOCOMPLETE_TERM_CHANGED = 'AUTOCOMPLETE_TERM_CHANGED';
+export const BENEFICIARY_ZIP_CODE_CHANGED = 'BENEFICIARY_ZIP_CODE_CHANGED';
+export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
+export const DISPLAY_MODAL = 'DISPLAY_MODAL';
 export const ELIGIBILITY_CHANGED = 'ELIGIBILITY_CHANGED';
-export const SEARCH_STARTED = 'SEARCH_STARTED';
-export const SEARCH_FAILED = 'SEARCH_FAILED';
-export const INSTITUTION_SEARCH_SUCCEEDED = 'INSTITUTION_SEARCH_SUCCEEDED';
-export const PROGRAM_SEARCH_SUCCEEDED = 'PROGRAM_SEARCH_SUCCEEDED';
+export const ENTER_PREVIEW_MODE = 'ENTER_PREVIEW_MODE';
+export const EXIT_PREVIEW_MODE = 'EXIT_PREVIEW_MODE';
 export const FETCH_BAH_STARTED = 'FETCH_BAH_STARTED';
 export const FETCH_BAH_FAILED = 'FETCH_BAH_FAILED';
 export const FETCH_BAH_SUCCEEDED = 'FETCH_BAH_SUCCEEDED';
-export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
+export const FETCH_CONSTANTS_FAILED = 'FETCH_CONSTANTS_FAILED';
+export const FETCH_CONSTANTS_STARTED = 'FETCH_CONSTANTS_STARTED';
+export const FETCH_CONSTANTS_SUCCEEDED = 'FETCH_CONSTANTS_SUCCEEDED';
 export const FETCH_PROFILE_FAILED = 'FETCH_PROFILE_FAILED';
+export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
-export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTER_CHANGED';
-export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
+export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
+export const SEARCH_BY_NAME_SUCCEEDED = 'SEARCH_BY_NAME_SUCCEEDED';
+export const SEARCH_BY_LOCATION_SUCCEEDED = 'SEARCH_BY_LOCATION_SUCCEEDED';
+export const SEARCH_FAILED = 'SEARCH_FAILED';
+export const SEARCH_STARTED = 'SEARCH_STARTED';
+export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
+export const SET_VERSION = 'SET_VERSION';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
+export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 
 export function enterPreviewMode(version) {
   return {
@@ -213,4 +210,12 @@ export function calculatorInputChange({ field, value }) {
 
 export function updateEstimatedBenefits(estimatedBenefits) {
   return { type: UPDATE_ESTIMATED_BENEFITS, estimatedBenefits };
+}
+
+export function fetchSearchByNameResults(name) {
+  return { type: SEARCH_STARTED, payload: name };
+}
+
+export function fetchSearchByLocationResults(location, distance) {
+  return { type: SEARCH_STARTED, payload: { location, distance } };
 }
