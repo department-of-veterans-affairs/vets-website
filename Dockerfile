@@ -33,7 +33,7 @@ RUN aws --version # Verify AWS CLI installation.
 ENV AWS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 
 # Add /etc/pki/ca-trust/source/anchors/VA-Internal-S2-RCA-v1.pem to Docker Certificate Authority (CA) Store.
-COPY /etc/pki/ca-trust/source/anchors/VA-Internal-S2-RCA-v1.pem /usr/local/share/ca-certificates/VA-Internal-S2-RCA-v1.crt
+COPY /application/certs/VA-Internal-S2-RCA1-v1.pem /usr/local/share/ca-certificates/VA-Internal-S2-RCA-v1.crt
 RUN update-ca-certificates
 
 RUN mkdir -p /application
