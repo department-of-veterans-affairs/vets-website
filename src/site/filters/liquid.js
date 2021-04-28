@@ -209,6 +209,7 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.formatSharableLinkID = (id, description) => {
+    if (!id) return '';
     if (!description) return id;
     const truncatedText = description.substring(0, 30);
     const escaped = liquid.filters.escape(truncatedText);

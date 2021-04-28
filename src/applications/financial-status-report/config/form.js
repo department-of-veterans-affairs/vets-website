@@ -200,7 +200,9 @@ const formConfig = {
           title: 'Spouse employment',
           uiSchema: pages.spouseEmploymentRecords.uiSchema,
           schema: pages.spouseEmploymentRecords.schema,
-          depends: formData => formData.questions.spouseIsEmployed,
+          depends: formData =>
+            formData.questions.maritalStatus === 'Married' &&
+            formData.questions.spouseIsEmployed,
         },
         spousePreviousEmployment: {
           path: 'spouse-previous-employment',
@@ -262,7 +264,9 @@ const formConfig = {
           title: 'Spouse additional income',
           uiSchema: pages.spouseAdditionalIncomeRecords.uiSchema,
           schema: pages.spouseAdditionalIncomeRecords.schema,
-          depends: formData => formData.questions.spouseHasAdditionalIncome,
+          depends: formData =>
+            formData.questions.maritalStatus === 'Married' &&
+            formData.questions.spouseHasAdditionalIncome,
         },
         dependents: {
           path: 'dependents',
