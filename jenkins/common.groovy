@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 DRUPAL_MAPPING = [
   'dev': 'vagovdev',
   'staging': 'vagovstaging',
@@ -189,11 +191,18 @@ def accessibilityTests() {
 }
 
 def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnlyBuild) {
-
-  def brokenLinkJSON = readFile("${WORKSPACE}/vets-website/logs/${envName}-broken-links.json")
+  def brokenLinksFile = "${WORKSPACE}/vets-website/logs/${envName}-broken-links.json";
   def jsonObj = JSON.parse(brokenLinkJSON)
 
+  if (fileExists(brokenLinksFile)) {
+    def rawJsonFile = readFile(brokenLinksFile);
+    def jsonSlurper = new JsonSlurper();
+    def brokenLinks = jsonSlurper.parseText(rawJsonFile);
 
+    echo 'here we go!!'
+    echo brokenLinks['status']
+    echo brokenLinks['message']
+  }
 
   // // Look for broken links
   // def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
