@@ -143,29 +143,20 @@
 }
 
 // resolution options
-.edu-waiver-checkbox {
-  .schemaform-field-template {
-    margin-top: 0;
-  }
-  legend {
-    display: none;
-  }
-}
-
 .resolution-card {
   padding: 0 24px 24px 24px;
   .form-expanding-group-active-radio {
     margin-left: 10px;
   }
+  .legend-label {
+    max-width: 350px;
+  }
   .fieldset-input {
-    // max-width: 350px;
     margin-top: 0;
   }
-  label {
+  .form-expanding-group-active-radio label {
     margin-top: 0;
-  }
-  .schemaform-currency-input label {
-    white-space: nowrap;
+    margin-bottom: 10px;
   }
 }
 
@@ -229,10 +220,11 @@
 
 .currency-input {
   position: relative;
+  max-width: 350px;
   &:after {
     content: "$";
     position: absolute;
-    top: 36px;
+    top: 65px;
     left: 10px;
   }
   input {

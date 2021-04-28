@@ -38,7 +38,7 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
             label="How much can you afford to pay monthly on this debt?"
             field={{ value: debt.resolution.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
-            //   required
+            required
           />
         </div>
       );
@@ -46,11 +46,11 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
       return (
         <div className="currency-input">
           <TextInput
-            additionalClass="input-size-3 currency-input"
+            additionalClass="input-size-3"
             label="How much do you offer to pay for this debt with a single payment?"
             field={{ value: debt.resolution.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
-            //   required
+            required
           />
         </div>
       );
@@ -61,7 +61,7 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
           checked={checked}
           onValueChange={value => setChecked(value)}
           errorMessage={error && 'Check the box!!'}
-          //   required
+          required
         />
       );
   }
