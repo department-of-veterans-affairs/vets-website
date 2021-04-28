@@ -52,12 +52,15 @@ function useWebChat(props) {
 export default function App(props) {
   const { loading, error, token } = useWebChat(props);
 
+  if (loading) {
+    return <LoadingIndicator message={'Loading Virtual Agent'} />;
+  }
+
   return (
     <div className={'vads-l-grid-container'}>
       <div className={'vads-l-row'} data-testid={'webchat-container'}>
         {!loading && token && <WebChat token={token} />}
         {error && <ChatbotError />}
-        {loading && <LoadingIndicator message={'Loading Virtual Agent'} />}
       </div>
     </div>
   );

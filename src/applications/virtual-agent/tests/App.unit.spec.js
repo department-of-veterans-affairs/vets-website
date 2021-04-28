@@ -36,7 +36,7 @@ describe('App', () => {
   });
 
   describe('web chat script is already loaded', () => {
-    it('renders web chat', () => {
+    it('renders web chat', async () => {
       loadWebChat();
 
       const wrapper = renderInReduxProvider(<App />, {
@@ -47,7 +47,9 @@ describe('App', () => {
         },
       });
 
-      expect(wrapper.getByTestId('webchat-container')).to.exist;
+      await waitFor(
+        () => expect(wrapper.getByTestId('webchat-container')).to.exist,
+      );
     });
   });
 
