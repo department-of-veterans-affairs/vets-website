@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 
 import { setSelectedAppointmentData } from '../../../../../shared/utils';
-import ActionLink from '../../../../../shared/components/action-link';
+import { SecondaryActionLink } from '../../../../../shared/components/action-link';
 
 export default function AnswerQuestions(props) {
   const {
@@ -28,7 +28,7 @@ export default function AnswerQuestions(props) {
   if (useActionLink) {
     return (
       <section className="action-link-container">
-        <ActionLink
+        <SecondaryActionLink
           testId="answer-button"
           ariaLabel={`Select to ${
             status ? 'continue' : 'start'
@@ -40,7 +40,7 @@ export default function AnswerQuestions(props) {
           <span data-testid="button-text">
             {status ? 'Continue questions' : 'Answer questions'}
           </span>
-        </ActionLink>
+        </SecondaryActionLink>
       </section>
     );
   }
