@@ -1,7 +1,6 @@
 describe('COVID-19 Research Form', () => {
   describe('when entering valid information and submitting', () => {
     before(() => {
-      cy.server();
       cy.visit('coronavirus-research/volunteer/sign-up');
       cy.injectAxe();
     });
@@ -86,7 +85,7 @@ describe('COVID-19 Research Form', () => {
 
       cy.get('[name="consentAgreementAccepted"]').check();
 
-      cy.route('POST', '**/covid-research/volunteer/create', {
+      cy.intercept('POST', '**/covid-research/volunteer/create', {
         status: 200,
       }).as('response');
 
