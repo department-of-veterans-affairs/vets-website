@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import WaitForFeatureToggles from './WaitForFeatureToggles';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ChatbotError from './ChatbotError';
 import useWaitForWebchatFramework from './useWaitForWebchatFramework';
+import useWaitForFeatureToggles from './useWaitForFeatureToggles';
+import useVirtualAgentToken from './useVirtualAgentToken';
+import WebChat from './WebChat';
 
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -32,6 +34,33 @@ export default function App(props) {
     );
   }
   return error ? <ChatbotError /> : <WaitForFeatureToggles />;
+}
+
+function useLoadWebChat() {
+  const { loading: togglesLoading } = useWaitForFeatureToggles();
+  const { tokenLoading, error, token } = useVirtualAgentToken({
+    togglesLoading,
+  });
+
+  return {
+    loading: togglesLoading || tokenLoading,
+    error,
+    token,
+  };
+}
+
+function WaitForFeatureToggles() {
+  const { loading, error, token } = useLoadWebChat();
+
+  return (
+    <div className={'vads-l-grid-container'}>
+      <div className={'vads-l-row'} data-testid={'webchat-container'}>
+        {token && <WebChat token={token} />}
+        {error && <ChatbotError />}
+        {loading && <LoadingIndicator message={'Loading Virtual Agent'} />}
+      </div>
+    </div>
+  );
 }
 
 // function NewApp() {
