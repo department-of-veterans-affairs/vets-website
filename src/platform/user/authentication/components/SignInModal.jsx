@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import Loadable from 'react-loadable';
+import loadable from '@loadable/component';
 
 import {
   CONTACTS,
@@ -19,28 +19,16 @@ import environment from 'platform/utilities/environment';
 const vaGovFullDomain = environment.BASE_URL;
 const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
-const AlertBox = Loadable({
-  loader: () =>
-    import('@department-of-veterans-affairs/component-library/AlertBox'),
-  loading() {
-    return <span />;
-  },
-});
-const Modal = Loadable({
-  loader: () =>
-    import('@department-of-veterans-affairs/component-library/Modal'),
-  loading() {
-    return <span />;
-  },
-});
+const AlertBox = loadable(() =>
+  import(/* webpackChunkName: "signInModal" */ '@department-of-veterans-affairs/component-library/AlertBox'),
+);
+const Modal = loadable(() =>
+  import(/* webpackChunkName: "signInModal" */ '@department-of-veterans-affairs/component-library/Modal'),
+);
 
-const Telephone = Loadable({
-  loader: () =>
-    import('@department-of-veterans-affairs/component-library/Telephone'),
-  loading() {
-    return <span />;
-  },
-});
+const Telephone = loadable(() =>
+  import(/* webpackChunkName: "signInModal" */ '@department-of-veterans-affairs/component-library/Telephone'),
+);
 
 export class SignInModal extends React.Component {
   state = { globalDowntime: null };

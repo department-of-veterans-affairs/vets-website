@@ -12,7 +12,6 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const ManifestPlugin = require('webpack-manifest-plugin');
 const WebpackBar = require('webpackbar');
-const { ReactLoadablePlugin } = require('react-loadable/webpack');
 
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
@@ -272,10 +271,6 @@ module.exports = (env = {}) => {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
       new WebpackBar(),
-
-      new ReactLoadablePlugin({
-        filename: '../build/localhost/generated/react-loadable.json',
-      }),
     ],
     devServer: generateWebpackDevConfig(buildOptions),
   };

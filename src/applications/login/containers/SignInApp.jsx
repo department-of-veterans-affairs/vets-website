@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
-import Loadable from 'react-loadable';
+import loadable from '@loadable/component';
 
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
@@ -11,43 +11,24 @@ import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors'
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 import downtimeBanners from '../utilities/downtimeBanners';
 
-const AlertBox = Loadable({
-  loader: () =>
-    import('@department-of-veterans-affairs/component-library/AlertBox'),
-  loading() {
-    return <span>Loading...</span>;
-  },
-});
-const AutoSSO = Loadable({
-  loader: () => import('platform/site-wide/user-nav/containers/AutoSSO'),
-  loading() {
-    return <span />;
-  },
-});
-const SignInButtons = Loadable({
-  loader: () => import('../components/SignInButtons'),
-  loading() {
-    return <span />;
-  },
-});
-const SignInDescription = Loadable({
-  loader: () => import('../components/SignInDescription'),
-  loading() {
-    return <span />;
-  },
-});
-const FedWarning = Loadable({
-  loader: () => import('../components/FedWarning'),
-  loading() {
-    return <span />;
-  },
-});
-const LogoutAlert = Loadable({
-  loader: () => import('../components/LogoutAlert'),
-  loading() {
-    return <span />;
-  },
-});
+const AlertBox = loadable(() =>
+  import(/* webpackChunkName: "signIn" */ '@department-of-veterans-affairs/component-library/AlertBox'),
+);
+const AutoSSO = loadable(() =>
+  import(/* webpackChunkName: "signIn" */ 'platform/site-wide/user-nav/containers/AutoSSO'),
+);
+const SignInDescription = loadable(() =>
+  import(/* webpackChunkName: "signIn" */ '../components/SignInDescription'),
+);
+const SignInButtons = loadable(() =>
+  import(/* webpackChunkName: "signIn" */ '../components/SignInButtons'),
+);
+const FedWarning = loadable(() =>
+  import(/* webpackChunkName: "signIn" */ '../components/FedWarning'),
+);
+const LogoutAlert = loadable(() =>
+  import(/* webpackChunkName: "signIn" */ '../components/LogoutAlert'),
+);
 
 const vaGovFullDomain = environment.BASE_URL;
 

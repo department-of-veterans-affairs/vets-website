@@ -5,8 +5,6 @@ import URLSearchParams from 'url-search-params';
 
 import { isInProgressPath } from 'platform/forms/helpers';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
-import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
-import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { initializeProfile } from 'platform/user/profile/actions';
 import { hasSession } from 'platform/user/profile/utilities';
 import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
@@ -22,7 +20,15 @@ import {
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
-import AutoSSO from './AutoSSO';
+import loadable from '@loadable/component';
+
+const AutoSSO = loadable(() => import('./AutoSSO'));
+const SessionTimeoutModal = loadable(() =>
+  import('platform/user/authentication/components/SessionTimeoutModal'),
+);
+const SignInModal = loadable(() =>
+  import('platform/user/authentication/components/SignInModal'),
+);
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -145,7 +151,11 @@ export class Main extends React.Component {
 
   render() {
     return (
-      <div className="profile-nav-container">
+      <div
+        className="profile-nav-container"
+        onFocus={() => SignInModal.preload()}
+        onMouseOver={() => SignInModal.preload()}
+      >
         <SearchHelpSignIn
           isLOA3={this.props.isLOA3}
           isLoggedIn={this.props.currentlyLoggedIn}
