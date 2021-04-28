@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import { selectUseProviderSelection } from '../../../redux/selectors';
+import {
+  selectFeatureHomepageRefresh,
+  selectUseProviderSelection,
+} from '../../../redux/selectors';
 import {
   getAppointmentLength,
   getFormData,
@@ -22,6 +25,7 @@ import {
   FETCH_STATUS,
 } from '../../../utils/constants';
 import ConfirmationDirectScheduleInfo from './ConfirmationDirectScheduleInfo';
+import ConfirmationDirectScheduleInfoV2 from './ConfirmationDirectScheduleInfoV2';
 import ConfirmationRequestInfo from './ConfirmationRequestInfo';
 
 export function ConfirmationPage({
@@ -36,6 +40,10 @@ export function ConfirmationPage({
   useProviderSelection,
   submitStatus,
 }) {
+  const featureHomepageRefresh = useSelector(state =>
+    selectFeatureHomepageRefresh(state),
+  );
+  // const featureHomepageRefresh = false;
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
   const pageTitle = isDirectSchedule
     ? 'Your appointment has been scheduled'
@@ -59,16 +67,24 @@ export function ConfirmationPage({
 
   return (
     <div>
-      {isDirectSchedule && (
-        <ConfirmationDirectScheduleInfo
-          data={data}
-          facilityDetails={facilityDetails}
-          clinic={clinic}
-          pageTitle={pageTitle}
-          slot={slot}
-          systemId={systemId}
-        />
-      )}
+      {isDirectSchedule &&
+        (featureHomepageRefresh ? (
+          <ConfirmationDirectScheduleInfoV2
+            data={data}
+            facilityDetails={facilityDetails}
+            clinic={clinic}
+            slot={slot}
+            systemId={systemId}
+          />
+        ) : (
+          <ConfirmationDirectScheduleInfo
+            data={data}
+            facilityDetails={facilityDetails}
+            clinic={clinic}
+            slot={slot}
+            systemId={systemId}
+          />
+        ))}
       {!isDirectSchedule && (
         <ConfirmationRequestInfo
           data={data}
@@ -77,31 +93,33 @@ export function ConfirmationPage({
           useProviderSelection={useProviderSelection}
         />
       )}
-      <div className="vads-u-margin-y--2">
-        <Link
-          to="/"
-          className="usa-button vads-u-padding-right--2"
-          onClick={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
-            });
-          }}
-        >
-          View your appointments
-        </Link>
-        <Link
-          to="new-appointment"
-          className="usa-button"
-          onClick={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
-            });
-            startNewAppointmentFlow();
-          }}
-        >
-          New appointment
-        </Link>
-      </div>
+      {!featureHomepageRefresh && (
+        <div className="vads-u-margin-y--2">
+          <Link
+            to="/"
+            className="usa-button vads-u-padding-right--2"
+            onClick={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+              });
+            }}
+          >
+            View your appointments
+          </Link>
+          <Link
+            to="new-appointment"
+            className="usa-button"
+            onClick={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
+              });
+              startNewAppointmentFlow();
+            }}
+          >
+            New appointment
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
