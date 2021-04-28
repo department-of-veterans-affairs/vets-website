@@ -91,11 +91,12 @@ export class SearchMenu extends React.Component {
 
     // encode user input for query to suggestions url
     const encodedInput = encodeURIComponent(userInput);
+    console.log(`https://api.va.gov/v0/search_typeahead?query=${encodedInput}`);
 
     // fetch suggestions
     try {
       const response = await fetch(
-        `https://www.va.gov/search_typeahead?query=${encodedInput}`,
+        `https://api.va.gov/v0/search_typeahead?query=${encodedInput}`,
       );
       const suggestions = await response.json();
       if (suggestions.length !== 0) {
