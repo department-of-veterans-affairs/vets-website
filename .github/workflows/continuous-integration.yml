@@ -126,6 +126,14 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+      - name: Run Pact verify
+        run: |
+          curl -v -X POST \
+          -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+          -H 'Accept: application/vnd.github.v3+json' \
+          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches
+          -d '{"ref": "master"}'
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
@@ -143,14 +151,6 @@ jobs:
         run: cat test-results/test-results.xml
         if: ${{ failure() }}
 
-      - name: Run Pact verify
-        run: |
-          curl -v -X POST \
-          -H 'authorization: token $VA_VSP_BOT_GITHUB_TOKEN' \
-          -H 'Accept: application/vnd.github.v3+json' \
-          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches
-          -d '{"ref": "master"}'
-
       - name: Run Pact publish
         run: yarn pact:publish
         env:
@@ -163,6 +163,13 @@ jobs:
         with:
           name: contract-test-report
           path: test-results/test-results.xml
+
+      - name: Archive contract test log
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: contract-test-log
+          path: logs/pact.log
 
   security-audit:
     name: Security Audit
