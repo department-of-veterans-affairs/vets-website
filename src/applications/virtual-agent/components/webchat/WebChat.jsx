@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import MarkdownRenderer from '../utils/markdownRenderer';
-import makeBotGreetUser from '../utils/webchat/makeBotGreetUser';
+import MarkdownRenderer from './markdownRenderer';
+import makeBotGreetUser from './makeBotGreetUser';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 

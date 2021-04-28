@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import ChatbotError from './ChatbotError';
+import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
 import useVirtualAgentToken from './useVirtualAgentToken';
-import WebChat from './WebChat';
+import WebChat from '../webchat/WebChat';
 
 window.React = React;
 window.ReactDOM = ReactDOM;

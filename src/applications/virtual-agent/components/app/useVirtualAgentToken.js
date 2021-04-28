@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { apiRequest } from 'platform/utilities/api';
-import retryOnce from '../utils/retryOnce';
+import retryOnce from './retryOnce';
 import { useSelector } from 'react-redux';
 
 export default function useVirtualAgentToken() {

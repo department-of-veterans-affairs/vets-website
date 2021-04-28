@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 
-import App from '../containers/App';
+import App from '../components/app/App';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 import { createTestStore } from '../../vaos/tests/mocks/setup';

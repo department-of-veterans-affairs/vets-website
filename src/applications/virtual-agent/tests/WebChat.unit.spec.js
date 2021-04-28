@@ -7,7 +7,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { CHATBOT_ERROR_MESSAGE } from './App.unit.spec';
-import App from '../containers/App';
+import App from '../components/app/App';
 
 describe('WebChat', () => {
   let oldWindow;
