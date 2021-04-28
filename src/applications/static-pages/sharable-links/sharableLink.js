@@ -103,14 +103,19 @@ const SharableLink = ({ dataEntityId, idx }) => {
     );
 
     for (const feedback of otherActiveFeedbacks) {
-      const parentId = feedback.getAttribute('id');
-      if (extractId(parentId) !== extractId(activeId)) {
+      const id = extractId(feedback.getAttribute('id'));
+      if (extractId(id) !== extractId(activeId)) {
         feedback.style.display = 'none';
-        // TODO: refactor, this is brittle if the layout changes
-        const icon = feedback.parentElement.previousElementSibling.children[0];
-        icon.style = {};
+
+        const icon = document.querySelector(`#icon-${id}`);
+        if (icon) {
+          icon.style = {};
+        }
       } else {
         feedback.style = {};
+        const buttonOffsetTop = document.querySelector(`#button-${id}`)
+          .offsetTop;
+        feedback.offsetTop = buttonOffsetTop;
       }
     }
   };
@@ -122,17 +127,14 @@ const SharableLink = ({ dataEntityId, idx }) => {
       setLeftAligned(false);
       setLeftPx(0);
       document.activeElement.children[0].style = {};
-    }, 10000);
+    }, 100000);
   };
 
   const displayFeedback = element => {
-    const iconParentId = extractId(element.getAttribute('id'));
-    const parentElement = document.getElementById(iconParentId);
+    const headingId = extractId(element.getAttribute('id'));
+    const h3Element = document.getElementById(headingId);
 
-    if (
-      parentElement?.offsetWidth - (element.offsetLeft + element.offsetWidth) <=
-      offsetThreshold
-    ) {
+    if (h3Element?.offsetWidth - element.offsetLeft <= offsetThreshold) {
       setLeftAligned(true);
       setLeftPx(element.offsetLeft - element.offsetWidth - widthOffset);
     }
@@ -146,6 +148,7 @@ const SharableLink = ({ dataEntityId, idx }) => {
           <UnStyledButtonInAccordion
             className="usa-button-unstyled"
             aria-label={`Copy ${dataEntityId} sharable link`}
+            id={`button-${dataEntityId}`}
           >
             <ShareIcon
               aria-hidden="true"
