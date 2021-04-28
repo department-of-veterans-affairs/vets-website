@@ -126,14 +126,6 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Run Pact verify
-        run: |
-          curl -v -X POST \
-          -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
-          -H 'Accept: application/vnd.github.v3+json' \
-          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
-          -d '{"ref": "master"}'
-
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
@@ -156,6 +148,14 @@ jobs:
         env:
           PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
           PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
+
+      - name: Run Pact verify
+        run: |
+          curl -v -X POST \
+          -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
+          -H 'Accept: application/vnd.github.v3+json' \
+          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
+          -d '{"ref": "master"}'
 
       - name: Archive contract test results
         uses: actions/upload-artifact@v2
