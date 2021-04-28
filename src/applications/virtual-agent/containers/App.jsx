@@ -63,7 +63,7 @@ export default function App(props) {
   return (
     <div className={'vads-l-grid-container'}>
       <div className={'vads-l-row'} data-testid={'webchat-container'}>
-        {!loading && token && <WebChat token={token} />}
+        <WebChat token={token} />
       </div>
     </div>
   );

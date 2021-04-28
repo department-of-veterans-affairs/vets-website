@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import sinon from 'sinon';
+import React from 'react';
 import {
   mockApiRequest,
   mockMultipleApiRequests,
@@ -104,35 +103,6 @@ describe('WebChat', () => {
       });
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
-    });
-  });
-
-  describe('weird unmounting behavior of webchat framework', () => {
-    it('should not unmount, otherwise the directLine is closed and the conversation can`t start', async () => {
-      const onUnmount = sinon.spy();
-
-      const ReactWebChat = () => {
-        useEffect(() => {
-          return onUnmount;
-        });
-
-        return <div />;
-      };
-
-      loadWebChat({ ReactWebChat });
-
-      mockApiRequest({ token: 'FAKETOKEN' });
-
-      const wrapper = renderInReduxProvider(<App />, {
-        initialState: {
-          featureToggles: {
-            loading: false,
-          },
-        },
-      });
-
-      await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
-      expect(onUnmount.called).to.be.false;
     });
   });
 });
