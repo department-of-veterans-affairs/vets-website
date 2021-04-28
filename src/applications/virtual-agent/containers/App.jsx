@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ChatbotError from './ChatbotError';
-import useWaitForWebchatFramework from './useWaitForWebchatFramework';
+import useWebChatFramework from './useWebChatFramework';
 import useVirtualAgentToken from './useVirtualAgentToken';
 import WebChat from './WebChat';
 
@@ -22,7 +22,7 @@ const loadWebChat = () => {
 loadWebChat();
 
 function useWebChat(props) {
-  const webchatFramework = useWaitForWebchatFramework(props);
+  const webchatFramework = useWebChatFramework(props);
   const token = useVirtualAgentToken();
 
   return {

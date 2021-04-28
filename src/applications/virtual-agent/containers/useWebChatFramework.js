@@ -21,7 +21,7 @@ function checkForWebchat(
   }, timeout);
 }
 
-export default function useWaitForWebchatFramework(props) {
+export default function useWebChatFramework(props) {
   const [isLoading, setLoading] = useState(!window.WebChat);
   const [error, setError] = useState(false);
 
