@@ -19,28 +19,28 @@ export const setUp = type => {
     force: true,
   });
 
-  cy.route({
+  cy.intercept({
     method: 'POST',
     url: '/v0/profile/address_validation',
     status: 200,
     response: createAddressValidationResponse(type),
   }).as('validateAddress');
 
-  cy.route({
+  cy.intercept({
     method: 'PUT',
     url: '/v0/profile/addresses',
     status: 200,
     response: type === 'no-change' ? noChangesTransaction : receivedTransaction,
   }).as('saveAddress');
 
-  cy.route({
+  cy.intercept({
     method: 'GET',
     url: '/v0/profile/status/bfedd909-9dc4-4b27-abc2-a6cccaece35d',
     status: 200,
     response: finishedTransaction,
   }).as('finishedTransaction');
 
-  cy.route({
+  cy.intercept({
     method: 'GET',
     url: '/v0/user?*',
     status: 200,
