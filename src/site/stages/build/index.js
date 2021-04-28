@@ -240,7 +240,9 @@ function build(BUILD_OPTIONS) {
   // Split the layout step by letter. This avoids "too many open files" errors
   // caused by the layouts plugin opening too many templates in parallel.
   // Metalsmith's concurrency setting does not fix the issue.
-  const letters = 'a'.split('').map(letter => letter.toUpperCase() + letter);
+  const letters = 'abcdefghijklmnopqrstuvwxyz'
+    .split('')
+    .map(letter => letter.toUpperCase() + letter);
   const nonletters = `0-9.-_~!$&'()*+,;=:@`;
   const patterns = [...letters, nonletters];
 
