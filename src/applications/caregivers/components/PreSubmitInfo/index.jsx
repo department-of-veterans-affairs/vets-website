@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { cloneDeep } from 'lodash';
 
 import SignatureCheckbox from './SignatureCheckbox';
+import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 import {
   PrivacyPolicy,
   veteranSignatureContent,
@@ -10,7 +11,6 @@ import {
   signatureBoxNoteContent,
   representativeSignatureContent,
 } from 'applications/caregivers/definitions/content';
-import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 
 const SecondaryCaregiverCopy = ({ label }) => {
   const header = title => `${title} statement of truth`;
@@ -34,7 +34,7 @@ const SecondaryCaregiverCopy = ({ label }) => {
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   const veteranLabel = `Veteran\u2019s`;
   const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
-  const representativeLabel = `representative\u2019s`;
+  const representativeLabel = `Representative\u2019s`;
   const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
   const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
   const hasPrimary = formData['view:hasPrimaryCaregiver'];
@@ -134,9 +134,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           isRepresentative
           isRequired
         >
-          <h3>Representative&apos;s statement of truth</h3>
+          <h3>Veteran&apos;s statement of truth</h3>
 
-          <p>{representativeFirstParagraph}</p>
+          <h4 style={{ fontWeight: 600 }}>{representativeFirstParagraph}</h4>
 
           {/* currently this array is empty due to it only having one string
             checking for empty array then mapping it for future compatibility and consistency */}
