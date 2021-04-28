@@ -85,7 +85,7 @@ const SharableLink = ({
   const [leftAligned, setLeftAligned] = useState(false);
   const [leftPx, setLeftPx] = useState(0);
   const [topPx, setTopPx] = useState(0);
-  const offsetThreshold = 100;
+  const offsetThreshold = 66;
   const widthOffset = 40;
 
   useEffect(
@@ -142,7 +142,7 @@ const SharableLink = ({
     const headingId = extractId(element.getAttribute('id'));
     const headingMainEntity = document.querySelector(`#${headingId}`);
     if (
-      headingMainEntity?.offsetWidth - (element.offsetLeft + widthOffset) <=
+      headingMainEntity?.offsetWidth - (element.offsetLeft + widthOffset) >=
       offsetThreshold
     ) {
       setLeftAligned(true);
