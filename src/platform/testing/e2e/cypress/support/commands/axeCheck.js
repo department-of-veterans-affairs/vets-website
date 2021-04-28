@@ -36,11 +36,9 @@ ${violations
 /**
  * Checks the passed selector and children for axe violations.
  * @param {string} [context=main] - CSS/HTML selector for the container element to check with aXe.
- * @param {Object} [tempOptions={}] - Rules object to enable _13647 exception or modify aXe config.
+ * @param {Object} [tempOptions={}] - Rules object to modify aXe config.
  */
 Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
-  const { _13647Exception } = tempOptions;
-
   /**
    * Default required ruleset to meet Section 508 compliance.
    * Do not remove values[] entries. Only add new rulesets like 'best-practices'.
@@ -65,12 +63,6 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
    */
   axeBuilder = Object.assign(axeBuilder, tempOptions);
 
-  console.log(axeBuilder);
-
-  const axeConfig = _13647Exception
-    ? { includedImpacts: ['critical'] }
-    : axeBuilder;
-
   Cypress.log();
-  cy.checkA11y(context, axeConfig, processAxeCheckResults);
+  cy.checkA11y(context, axeBuilder, processAxeCheckResults);
 });

@@ -136,8 +136,8 @@ const addNewArrayItem = $form => {
  *
  * @param {string} pathname - The pathname of the page to run the page hook on.
  */
-const performPageActions = (pathname, _13647Exception = false) => {
-  cy.axeCheck('main', { _13647Exception });
+const performPageActions = pathname => {
+  cy.axeCheck();
 
   cy.execHook(pathname).then(({ hookExecuted, postHook }) => {
     const shouldAutofill = !pathname.match(
@@ -147,7 +147,7 @@ const performPageActions = (pathname, _13647Exception = false) => {
     if (!hookExecuted && shouldAutofill) cy.fillPage();
 
     cy.expandAccordions();
-    cy.axeCheck('main', { _13647Exception });
+    cy.axeCheck();
 
     const postHookPromise = new Promise(resolve => {
       postHook();
@@ -162,9 +162,9 @@ const performPageActions = (pathname, _13647Exception = false) => {
  * Top level loop that invokes all of the processing for a form page and
  * asserts that it proceeds to the next page until it gets to the confirmation.
  */
-const processPage = ({ _13647Exception }) => {
+const processPage = () => {
   cy.location('pathname', NO_LOG_OPTION).then(pathname => {
-    performPageActions(pathname, _13647Exception);
+    performPageActions(pathname);
 
     if (!pathname.endsWith('/confirmation')) {
       cy.location('pathname', NO_LOG_OPTION)
@@ -173,7 +173,7 @@ const processPage = ({ _13647Exception }) => {
             throw new Error(`Expected to navigate away from ${pathname}`);
           }
         })
-        .then(() => processPage({ _13647Exception }));
+        .then(() => processPage());
     }
   });
 };
@@ -491,7 +491,6 @@ const testForm = testConfig => {
     setup = () => {},
     setupPerTest = () => {},
     skip,
-    _13647Exception = false,
   } = testConfig;
 
   const skippedTests = Array.isArray(skip) && new Set(skip);
@@ -551,7 +550,7 @@ const testForm = testConfig => {
 
           cy.get(LOADING_SELECTOR)
             .should('not.exist')
-            .then(() => processPage({ _13647Exception }));
+            .then(() => processPage());
         });
       });
 
