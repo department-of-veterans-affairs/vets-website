@@ -20,11 +20,8 @@ const copyToUsersClipBoard = (dataEntityId, target) => {
   document.body.appendChild(input);
   input.select();
   document.execCommand('copy');
-  //  we are having to do the following 3 lines b/c of the side effect of the .select() from the copy to clipboard
+  //  we are having to do this b/c .select(), to copy to users clipboard, removes focus from our button
   target.focus();
-  document.activeElement.children[0].style.color = theme.main.colorWhite;
-  document.activeElement.children[0].style.backgroundColor =
-    theme.main.colorBaseBlack;
   document.body.removeChild(input);
   recordEvent({
     event: 'int-copy-to-clipboard-click',
@@ -113,6 +110,7 @@ const SharableLink = ({
   };
 
   const onFocus = id => {
+    console.log('focus triggered');
     const icon = document.querySelector(`#icon-${id}`);
     icon.style.color = theme.main.colorWhite;
     icon.style.backgroundColor = theme.main.colorBaseBlack;
