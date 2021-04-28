@@ -4,8 +4,8 @@ import makeBotGreetUser from '../utils/webchat/makeBotGreetUser';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
-const WebChat = ({ token }) => {
-  const { ReactWebChat, createDirectLine, createStore } = window.WebChat;
+const WebChat = ({ token, WebChatFramework }) => {
+  const { ReactWebChat, createDirectLine, createStore } = WebChatFramework;
 
   const store = createStore({}, makeBotGreetUser);
 

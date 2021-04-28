@@ -29,11 +29,12 @@ function useWebChat(props) {
     loading: webchatFramework.isLoading || token.tokenLoading,
     error: webchatFramework.error || token.error,
     token: token.token,
+    WebChatFramework: webchatFramework.WebChatFramework,
   };
 }
 
 export default function App(props) {
-  const { loading, error, token } = useWebChat(props);
+  const { loading, error, token, WebChatFramework } = useWebChat(props);
 
   if (loading) {
     return <LoadingIndicator message={'Loading Virtual Agent'} />;
@@ -46,7 +47,7 @@ export default function App(props) {
   return (
     <div className={'vads-l-grid-container'}>
       <div className={'vads-l-row'} data-testid={'webchat-container'}>
-        <WebChat token={token} />
+        <WebChat token={token} WebChatFramework={WebChatFramework} />
       </div>
     </div>
   );

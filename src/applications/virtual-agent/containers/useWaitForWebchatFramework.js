@@ -42,5 +42,5 @@ export default function useWaitForWebchatFramework(props) {
     );
   }
 
-  return { isLoading, error };
+  return { isLoading, error, WebChatFramework: window.WebChat };
 }
