@@ -9,7 +9,7 @@ describe('health_care_local_facility', () => {
   describe('PhoneNumbers', () => {
     let container;
     const data = parseFixture(
-      'src/site/layouts/tests/vamc/fixtures/health_care_local_facility_no_phone_mental.json',
+      'src/site/layouts/tests/vamc/fixtures/health_care_local_facility_null_phone.json',
     );
 
     before(async () => {
@@ -21,14 +21,8 @@ describe('health_care_local_facility', () => {
       expect(violations.length).to.equal(0);
     });
 
-    it('should render phone number', () => {
-      expect(container.querySelector('.main-phone a').textContent).to.equal(
-        data.fieldPhoneNumber,
-      );
-    });
-
-    it('should not render .mental-health-clinic-phone', () => {
-      expect(container.querySelector('.mental-health-clinic-phone')).to.be.null;
+    it('should not render .main-phone', () => {
+      expect(container.querySelector('.main-phone')).to.be.null;
     });
   });
 });
