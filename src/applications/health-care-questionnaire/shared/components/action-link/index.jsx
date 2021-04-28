@@ -1,5 +1,4 @@
 import React from 'react';
-import './style.scss';
 
 const BaseLink = ({ children, onClick, ariaLabel, usePrimary, testId }) => {
   const className = `vads-c-action-link--${usePrimary ? 'green' : 'blue'}`;

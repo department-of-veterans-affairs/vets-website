@@ -14,7 +14,7 @@ export default function AuthedWelcomeMessage(props) {
         </div>
       </div>
       <section className="action-link-container">
-        <PrimaryActionLink onClick={goToFirstPage} ariaLabe="Answer questions">
+        <PrimaryActionLink onClick={goToFirstPage} ariaLabel="Answer questions">
           Answer questions
         </PrimaryActionLink>
       </section>
