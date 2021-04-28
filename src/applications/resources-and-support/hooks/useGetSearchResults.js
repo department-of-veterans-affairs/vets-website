@@ -40,10 +40,10 @@ export default function useGetSearchResults(articles, query, page) {
         });
 
       let filteredArticles = articles.filter(article => {
-        const articleTitleKeywords = article.title.toLowerCase().split(' ');
+        const articleTitleWords = article.title.toLowerCase().split(' ');
 
         return keywords.some(keyword => {
-          return articleTitleKeywords.some(titleWord =>
+          return articleTitleWords.some(titleWord =>
             titleWord.startsWith(keyword),
           );
         });
