@@ -1,8 +1,4 @@
 .signature-box {
-  section > div {
-    max-width: 380px;
-  }
-
   .on-behalf-representative {
     display: flex;
     flex-direction: column;
@@ -10,7 +6,38 @@
     margin: 0 0 0 10px;
   }
 
+  section {
+    display: flex;
+
+    label {
+      width: 120%;
+      margin-bottom: 10px;
+    }
+
+    div {
+      max-width: 380px;
+    }
+  }
+
   label:first-child {
     display: flex;
+  }
+
+  @media (max-width: 1023px) {
+    .on-behalf-representative {
+      display: flex;
+      flex-direction: column;
+      align-self: flex-start;
+      margin: 10px 0 0 0;
+    }
+
+    section {
+      flex-direction: column;
+
+      label {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
   }
 }
