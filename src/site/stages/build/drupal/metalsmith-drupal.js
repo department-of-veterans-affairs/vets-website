@@ -3,6 +3,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const recursiveRead = require('recursive-readdir');
+const JSONStream = require('JSONStream');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const { ENABLED_ENVIRONMENTS } = require('../../../constants/drupals');
@@ -135,6 +136,23 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 }
 
 /**
+ * Read GraphQL cache file and return a promise containing cached queries.
+ * Stream data to avoid V8's 500mb string length limit.
+ *
+ * @param {String} cacheFilePath - path of cache file to read
+ * @return {Promise} - resolves with object containing cached query results
+ */
+function readGraphQLCacheFile(cacheFilePath) {
+  return new Promise(resolve => {
+    const stream = fs.createReadStream(cacheFilePath, { encoding: 'utf8' });
+    const parser = JSONStream.parse('*').on('data', data => {
+      resolve({ data });
+    });
+    stream.pipe(parser);
+  });
+}
+
+/**
  * Save the provided GraphQL query results to a JSON cache file.
  * Stream page objects to avoid V8's 500mb string length limit.
  *
@@ -221,8 +239,7 @@ async function getContentViaGraphQL(buildOptions) {
     log('Attempting to load Drupal content from cache...');
     log(`To pull latest, run with "--${PULL_DRUPAL_BUILD_ARG}" flag.`);
 
-    // eslint-disable-next-line import/no-dynamic-require
-    drupalPages = require(drupalCache);
+    drupalPages = await readGraphQLCacheFile(drupalCache);
   }
 
   return drupalPages;
