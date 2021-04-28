@@ -136,8 +136,8 @@ const addNewArrayItem = $form => {
  *
  * @param {string} pathname - The pathname of the page to run the page hook on.
  */
-const performPageActions = pathname => {
-  cy.axeCheck();
+const performPageActions = (pathname, skipHeadingOrderCheck = false) => {
+  cy.axeCheck({ skipHeadingOrderCheck });
 
   cy.execHook(pathname).then(({ hookExecuted, postHook }) => {
     const shouldAutofill = !pathname.match(
@@ -147,7 +147,7 @@ const performPageActions = pathname => {
     if (!hookExecuted && shouldAutofill) cy.fillPage();
 
     cy.expandAccordions();
-    cy.axeCheck();
+    cy.axeCheck({ skipHeadingOrderCheck });
 
     const postHookPromise = new Promise(resolve => {
       postHook();
@@ -162,9 +162,9 @@ const performPageActions = pathname => {
  * Top level loop that invokes all of the processing for a form page and
  * asserts that it proceeds to the next page until it gets to the confirmation.
  */
-const processPage = () => {
+const processPage = (skipHeadingOrderCheck = false) => {
   cy.location('pathname', NO_LOG_OPTION).then(pathname => {
-    performPageActions(pathname);
+    performPageActions(pathname, skipHeadingOrderCheck);
 
     if (!pathname.endsWith('/confirmation')) {
       cy.location('pathname', NO_LOG_OPTION)
@@ -173,7 +173,7 @@ const processPage = () => {
             throw new Error(`Expected to navigate away from ${pathname}`);
           }
         })
-        .then(() => processPage());
+        .then(() => processPage(skipHeadingOrderCheck));
     }
   });
 };
@@ -478,8 +478,9 @@ Cypress.Commands.add('fillPage', () => {
  *     if it's otherwise truthy.
  * ---
  * @param {TestConfig} testConfig
+ * @param {Object} additionalOptions
  */
-const testForm = testConfig => {
+const testForm = (testConfig, { skipHeadingOrderCheck = false } = {}) => {
   const {
     appName,
     arrayPages = [],
@@ -550,7 +551,7 @@ const testForm = testConfig => {
 
           cy.get(LOADING_SELECTOR)
             .should('not.exist')
-            .then(() => processPage());
+            .then(() => processPage(skipHeadingOrderCheck));
         });
       });
 
