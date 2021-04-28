@@ -191,7 +191,7 @@ def accessibilityTests() {
 def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnlyBuild) {
 
   def brokenLinkJSON = readFile("${WORKSPACE}/vets-website/logs/${envName}-broken-links.json")
-  def jsonObj = readJSON text: brokenLinkJSON
+  def jsonObj = JSON.parse(brokenLinkJSON)
 
 
 
