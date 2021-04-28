@@ -1,7 +1,6 @@
-import { parse, startOfDay, add, isAfter } from 'date-fns';
+import moment from 'moment';
 
 import { SELECTED } from '../constants';
-import { isValidDate } from '../validations';
 
 /**
  * @typedef FormData
@@ -62,7 +61,7 @@ import { isValidDate } from '../validations';
  *  issues
  */
 export const getEligibleContestableIssues = issues => {
-  const today = startOfDay(new Date());
+  const today = moment().startOf('day');
   return (issues || []).filter(issue => {
     const {
       approxDecisionDate = '',
@@ -73,11 +72,11 @@ export const getEligibleContestableIssues = issues => {
     const isDeferred = [ratingIssueSubjectText, description]
       .join(' ')
       .includes('deferred');
-    const date = parse(approxDecisionDate, 'yyyy-MM-dd', new Date());
-    if (isDeferred || !isValidDate(date)) {
+    const date = moment(approxDecisionDate);
+    if (isDeferred || !date.isValid()) {
       return false;
     }
-    return isAfter(add(date, { years: 1 }), today);
+    return date.add(1, 'years').isAfter(today);
   });
 };
 
