@@ -37,7 +37,7 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
             additionalClass="input-size-3"
             label="How much can you afford to pay monthly on this debt?"
             field={{ value: debt.resolution.offerToPay || '' }}
-            onValueChange={input => updateDebts(objKey, input, debt)}
+            onValueChange={({ value }) => updateDebts(objKey, value, debt)}
             //   required
           />
         </div>
@@ -49,7 +49,7 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
             additionalClass="input-size-3 currency-input"
             label="How much do you offer to pay for this debt with a single payment?"
             field={{ value: debt.resolution.offerToPay || '' }}
-            onValueChange={input => updateDebts(objKey, input, debt)}
+            onValueChange={({ value }) => updateDebts(objKey, value, debt)}
             //   required
           />
         </div>
@@ -72,24 +72,24 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
   const radioLabels =
     'Which repayment or relief option would you like for this debt?';
 
-  const updateDebts = (objKey, input, debt) => {
+  const updateDebts = (objKey, value, debt) => {
     setDebts({
       ...formData,
       selectedDebts: selectedDebts.map(item => {
-        if (item.id === debt.id && input.value === 'Waiver') {
+        if (item.id === debt.id && value === 'Waiver') {
           return {
             ...item,
             resolution: {
-              [`${objKey}`]: input.value,
+              [`${objKey}`]: value,
             },
           };
         }
-        if (item.id === debt.id && input.value !== 'Waiver') {
+        if (item.id === debt.id && value !== 'Waiver') {
           return {
             ...item,
             resolution: {
               ...item.resolution,
-              [`${objKey}`]: input.value,
+              [`${objKey}`]: value,
             },
           };
         }
@@ -127,8 +127,8 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
                 label={radioLabels}
                 options={radioOptions}
                 value={{ value: debt.resolution?.resolutionType }}
-                onValueChange={input => updateDebts(objKey, input, debt)}
-                // required
+                onValueChange={({ value }) => updateDebts(objKey, value, debt)}
+                required
               />
               <ExpandedContent
                 debt={debt}
