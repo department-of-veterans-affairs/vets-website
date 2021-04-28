@@ -24,7 +24,12 @@ export default function App(props) {
   const { isLoading, error } = useWaitForWebchatFramework(props);
 
   if (isLoading) {
-    return <LoadingIndicator message={'Loading Virtual Agent'} />;
+    return (
+      <LoadingIndicator
+        data-testid="waiting-for-framework"
+        message={'Loading Virtual Agent'}
+      />
+    );
   }
   return error ? <ChatbotError /> : <WaitForFeatureToggles />;
 }
