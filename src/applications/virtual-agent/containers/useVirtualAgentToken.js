@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { apiRequest } from 'platform/utilities/api';
 import retryOnce from '../utils/retryOnce';
+import { useSelector } from 'react-redux';
 
-export default function useVirtualAgentToken({ togglesLoading }) {
+export default function useVirtualAgentToken() {
   const [token, setToken] = useState('');
   const [tokenLoading, setTokenLoading] = useState(true);
   const [error, setError] = useState(false);
+  const togglesLoading = useSelector(state => state.featureToggles.loading);
 
   useEffect(
     () => {
