@@ -1,5 +1,5 @@
 import path from 'path';
-import mockFacilityDataV1 from './fixtures/mock-facility-data-v1';
+import mockFacilityDataV1 from './fixtures/mock-facility-data-v1.json';
 
 const phoneRegex = /\d{3}-\d{3}-\d{4}/;
 

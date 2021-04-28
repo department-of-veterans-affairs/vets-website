@@ -19,10 +19,13 @@ describe('MyVA Dashboard - Find VA Benefits', () => {
         isPatient: false,
       });
       cy.login(mockUser);
-      // login() calls cy.server() so we can now mock routes
-      cy.route('GET', '/v0/user/preferences', getUserPreferencesTwoSelected);
-      cy.route('POST', '/v0/user/preferences', removeSinglePreference);
-      cy.route(
+      cy.intercept(
+        'GET',
+        '/v0/user/preferences',
+        getUserPreferencesTwoSelected,
+      );
+      cy.intercept('POST', '/v0/user/preferences', removeSinglePreference);
+      cy.intercept(
         'DELETE',
         'v0/user/preferences/benefits/delete_all',
         deleteAllPreferences,

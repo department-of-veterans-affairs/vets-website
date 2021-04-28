@@ -31,6 +31,10 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
   return originalFn(element, text, options);
 });
 
+Cypress.on('uncaught:exception', () => {
+  return false;
+});
+
 // Default responses for common endpoints called by most apps.
 // Stubbing these will save a few seconds of loading time in tests.
 beforeEach(() => {
