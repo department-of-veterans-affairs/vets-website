@@ -22,30 +22,18 @@ const loadWebChat = () => {
 
 loadWebChat();
 
-function useLoadWebChat() {
-  const { loading: togglesLoading } = useWaitForFeatureToggles();
-  const { tokenLoading, error, token } = useVirtualAgentToken({
-    togglesLoading,
+function useWebChat(props) {
+  const webchatFramework = useWaitForWebchatFramework(props);
+  const toggles = useWaitForFeatureToggles();
+  const token = useVirtualAgentToken({
+    togglesLoading: toggles.loading,
   });
 
   return {
-    loading: togglesLoading || tokenLoading,
-    error,
-    token,
-  };
-}
-
-function useWebChat(props) {
-  const {
-    isLoading: frameworkLoading,
-    error: frameworkError,
-  } = useWaitForWebchatFramework(props);
-  const { loading: tokenLoading, error: tokenError, token } = useLoadWebChat();
-
-  return {
-    loading: frameworkLoading || tokenLoading,
-    error: frameworkError || tokenError,
-    token,
+    loading:
+      webchatFramework.isLoading || token.tokenLoading || toggles.loading,
+    error: webchatFramework.error || token.error,
+    token: token.token,
   };
 }
 
