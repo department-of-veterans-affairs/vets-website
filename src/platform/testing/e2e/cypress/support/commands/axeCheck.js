@@ -39,7 +39,11 @@ ${violations
  */
 Cypress.Commands.add(
   'axeCheck',
-  ({ additionalRules = {}, skipHeadingOrderCheck = false } = {}) => {
+  ({
+    additionalRules = {},
+    context = 'main',
+    skipHeadingOrderCheck = false,
+  } = {}) => {
     /**
      * Default required ruleset to meet Section 508 compliance.
      * Do not remove values[] entries. Only add new rulesets like 'best-practices'.
@@ -64,6 +68,6 @@ Cypress.Commands.add(
     };
 
     Cypress.log();
-    cy.checkA11y('main', axeBuilder, processAxeCheckResults);
+    cy.checkA11y(context, axeBuilder, processAxeCheckResults);
   },
 );
