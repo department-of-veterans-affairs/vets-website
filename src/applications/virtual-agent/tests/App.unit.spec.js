@@ -93,9 +93,9 @@ describe('App', () => {
 
       loadWebChat();
 
-      await wait(300);
-
-      expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist;
+      await waitFor(
+        () => expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist,
+      );
 
       expect(wrapper.queryByRole('progressbar')).to.not.exist;
     });
