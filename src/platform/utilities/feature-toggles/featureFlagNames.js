@@ -16,13 +16,6 @@ export default Object.freeze({
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
   vaOnlineSchedulingCommunityCare: 'vaOnlineSchedulingCommunityCare',
   vaOnlineSchedulingDirect: 'vaOnlineSchedulingDirect',
-  vaOnlineSchedulingVSPAppointmentList: 'vaOnlineSchedulingVspAppointmentList',
-  vaOnlineSchedulingVSPAppointmentNew: 'vaOnlineSchedulingVspAppointmentNew',
-  vaOnlineSchedulingCCSPAppointmentList:
-    'vaOnlineSchedulingCcspAppointmentList',
-  vaOnlineSchedulingCCSPRequestNew: 'vaOnlineSchedulingCcspRequestNew',
-  vaOnlineSchedulingVSPRequestList: 'vaOnlineSchedulingVspRequestList',
-  vaOnlineSchedulingVSPRequestNew: 'vaOnlineSchedulingVspRequestNew',
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
   vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
@@ -73,11 +66,10 @@ export default Object.freeze({
   showChapter36: 'show_chapter_36',
   showChapter31: 'show_chapter_31',
   requestLockedPdfPassword: 'request_locked_pdf_password',
-  form526ConfirmationEmail: 'form526_confirmation_email',
-  form526ConfirmationEmailShowCopy: 'form526_confirmation_email_show_copy',
   searchTypeaheadEnabled: 'search_typeahead_enabled',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
+  sharableLinks: 'sharable_link',
   covidVaccineUpdatesDisableAuth:
     'covid_vaccine_registration_frontend_hide_auth',
   covidVaccineUpdatesEnableExpandedEligibility:

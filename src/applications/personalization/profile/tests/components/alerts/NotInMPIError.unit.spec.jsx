@@ -12,9 +12,7 @@ describe('NotInMPI', () => {
 
   it('should render the correct text', () => {
     expect(
-      wrapper
-        .text()
-        .includes('We can’t match your information to our Veteran records'),
+      wrapper.text().includes('We can’t match your information to our records'),
     ).to.be.true;
     expect(
       wrapper

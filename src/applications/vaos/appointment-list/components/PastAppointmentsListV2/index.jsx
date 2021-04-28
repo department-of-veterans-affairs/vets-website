@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
-import * as actions from '../../redux/actions';
-import { selectPastAppointmentsV2 } from '../../redux/selectors';
+import { getPastAppointmentListInfo } from '../../redux/selectors';
 import {
   FETCH_STATUS,
   GA_PREFIX,
@@ -18,6 +16,10 @@ import NoAppointments from '../NoAppointments';
 import moment from 'moment';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import {
+  fetchPastAppointments,
+  startNewAppointmentFlow,
+} from '../../redux/actions';
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
@@ -87,25 +89,28 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
   return options;
 }
 
-function PastAppointmentsListNew({
-  showScheduleButton,
-  dateRangeOptions = getPastAppointmentDateRangeOptions(),
-  pastAppointmentsByMonth,
-  pastStatus,
-  facilityData,
-  fetchPastAppointments,
-  startNewAppointmentFlow,
-  pastSelectedIndex,
-  hasTypeChanged,
-}) {
+export default function PastAppointmentsListNew() {
+  const dispatch = useDispatch();
   const [isInitialMount, setInitialMount] = useState(true);
+  const dateRangeOptions = getPastAppointmentDateRangeOptions();
+  const {
+    showScheduleButton,
+    pastAppointmentsByMonth,
+    pastStatus,
+    facilityData,
+    pastSelectedIndex,
+    hasTypeChanged,
+  } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
+
   useEffect(() => {
     if (pastStatus === FETCH_STATUS.notStarted) {
       const selectedDateRange = dateRangeOptions[pastSelectedIndex];
-      fetchPastAppointments(
-        selectedDateRange.startDate,
-        selectedDateRange.endDate,
-        pastSelectedIndex,
+      dispatch(
+        fetchPastAppointments(
+          selectedDateRange.startDate,
+          selectedDateRange.endDate,
+          pastSelectedIndex,
+        ),
       );
     }
   }, []);
@@ -126,10 +131,12 @@ function PastAppointmentsListNew({
     const selectedDateRange = dateRangeOptions[index];
 
     setInitialMount(false);
-    fetchPastAppointments(
-      selectedDateRange.startDate,
-      selectedDateRange.endDate,
-      index,
+    dispatch(
+      fetchPastAppointments(
+        selectedDateRange.startDate,
+        selectedDateRange.endDate,
+        index,
+      ),
     );
   };
   const dropdown = (
@@ -248,36 +255,10 @@ function PastAppointmentsListNew({
             recordEvent({
               event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
             });
-            startNewAppointmentFlow();
+            dispatch(startNewAppointmentFlow());
           }}
         />
       )}
     </>
   );
 }
-
-PastAppointmentsListNew.propTypes = {
-  pastSelectedIndex: PropTypes.number,
-  fetchPastAppointments: PropTypes.func,
-  showScheduleButton: PropTypes.bool,
-  startNewAppointmentFlow: PropTypes.func,
-};
-
-function mapStateToProps(state) {
-  return {
-    pastAppointmentsByMonth: selectPastAppointmentsV2(state),
-    pastStatus: state.appointments.pastStatus,
-    pastSelectedIndex: state.appointments.pastSelectedIndex,
-    facilityData: state.appointments.facilityData,
-  };
-}
-
-const mapDispatchToProps = {
-  fetchPastAppointments: actions.fetchPastAppointments,
-  startNewAppointmentFlow: actions.startNewAppointmentFlow,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PastAppointmentsListNew);
