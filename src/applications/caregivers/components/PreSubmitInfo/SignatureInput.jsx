@@ -86,24 +86,11 @@ const SignatureInput = ({
     ],
   );
 
-  const Label = () => {
-    return (
-      <div className="vads-u-display--flex vads-u-flex-direction--column">
-        <span>{label}</span>
-        {isRepresentative && (
-          <span className="vads-u-color--gray vads-u-margin-y--0p25">
-            Enter your name to sign as the Veteran's representative
-          </span>
-        )}
-      </div>
-    );
-  };
-
   return (
     <>
       <TextInput
         additionalClass="signature-input"
-        label={Label()}
+        label={label}
         required={required}
         onValueChange={value => setSignature(value)}
         field={{ value: signature.value, dirty: signature.dirty }}

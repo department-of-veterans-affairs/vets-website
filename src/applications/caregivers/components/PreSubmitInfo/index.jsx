@@ -40,9 +40,8 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   const hasPrimary = formData['view:hasPrimaryCaregiver'];
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
-  const showRepresentativeSignatureBox =
-    formData.signAsRepresentativeYesNo === 'yes' ||
-    formData.signAsRepresentativeYesNo === 'noRep';
+  // TODO for debugging revert before merge
+  const showRepresentativeSignatureBox = true;
   // we are separating the first paragraph due to each paragraph having unique styling
   const veteranFirstParagraph = veteranSignatureContent[0];
   const veteranWithoutFirstParagraph = veteranSignatureContent.slice(1);
@@ -136,7 +135,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
         >
           <h3>Veteran&apos;s statement of truth</h3>
 
-          <h4 style={{ fontWeight: 600 }}>{representativeFirstParagraph}</h4>
+          <h4 className="vads-u-font-size--sm" style={{ fontWeight: 600 }}>
+            {representativeFirstParagraph}
+          </h4>
 
           {/* currently this array is empty due to it only having one string
             checking for empty array then mapping it for future compatibility and consistency */}

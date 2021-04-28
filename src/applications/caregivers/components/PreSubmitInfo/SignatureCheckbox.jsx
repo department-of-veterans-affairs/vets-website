@@ -21,7 +21,10 @@ const SignatureCheckbox = ({
   const [isChecked, setIsChecked] = useState(false);
   const isSignatureComplete = isSigned && isChecked;
   const hasSubmit = !!globalFormState.submission.status;
-  const createInputLabel = inputLabel => `Enter ${inputLabel} full name`;
+  const createInputLabel = inputLabel =>
+    isRepresentative
+      ? `Enter your name to sign as the Veteran's representative`
+      : `Enter ${inputLabel} full name`;
 
   useEffect(
     () => {
