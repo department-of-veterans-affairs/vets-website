@@ -128,10 +128,15 @@ const SharableLink = ({ dataEntityId, idx }) => {
   };
 
   const displayFeedback = element => {
+    // this needs a bit more work
     const headingId = extractId(element.getAttribute('id'));
     const h3Element = document.getElementById(headingId);
-
-    if (h3Element?.offsetWidth - element.offsetLeft <= offsetThreshold) {
+    console.log(element, 'ELEM');
+    console.log(h3Element, 'H333');
+    if (
+      h3Element?.offsetWidth - (element.offsetLeft + widthOffset) <=
+      offsetThreshold
+    ) {
       setLeftAligned(true);
       setLeftPx(element.offsetLeft - element.offsetWidth - widthOffset);
     }
