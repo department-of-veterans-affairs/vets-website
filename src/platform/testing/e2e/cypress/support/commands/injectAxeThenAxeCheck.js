@@ -1,16 +1,7 @@
 /**
  * Combines two common, sequentially called functions.
  */
-Cypress.Commands.add('injectAxeThenAxeCheck', (context, tempOptions) => {
+Cypress.Commands.add('injectAxeThenAxeCheck', options => {
   cy.injectAxe();
-
-  // axeCheck() context parameter defaults to 'main'
-  // axeCheck() tempOptions parameter defaults to {}
-  if (tempOptions) {
-    cy.axeCheck(context, tempOptions);
-  } else if (context) {
-    cy.axeCheck(context);
-  } else {
-    cy.axeCheck();
-  }
+  cy.axeCheck(options);
 });
