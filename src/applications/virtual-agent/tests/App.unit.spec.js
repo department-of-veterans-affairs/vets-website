@@ -140,7 +140,7 @@ describe('App', () => {
       expect(wrapper.queryByTestId('webchat')).to.not.exist;
     });
 
-    it('should render web chat after loading feature toggles', async () => {
+    it('should call token api after loading feature toggles', async () => {
       loadWebChat();
 
       mockApiRequest({});
@@ -160,8 +160,6 @@ describe('App', () => {
       expect(wrapper.getByRole('progressbar')).to.exist;
 
       store.dispatch({ type: FETCH_TOGGLE_VALUES_SUCCEEDED, payload: {} });
-
-      expect(wrapper.getByTestId('webchat-container')).to.exist;
 
       await waitFor(() => expect(getTokenCalled()).to.equal(true));
     });
