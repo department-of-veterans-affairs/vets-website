@@ -22,6 +22,10 @@ module.exports = {
       '../../../../../../../logs',
       `${buildOptions.buildtype}-broken-links.json`,
     );
+
+    if (fs.existsSync(this.logFile)) {
+      fs.removeSync(this.logFile);
+    }
   },
 
   modifyFile(fileName, file, files, buildOptions) {
@@ -46,15 +50,18 @@ module.exports = {
     this.brokenPages = applyIgnoredRoutes(this.brokenPages, files);
 
     if (this.brokenPages.length > 0) {
-      const errorOutput = getErrorOutput(this.brokenPages);
+      const csvReport = getErrorOutput(this.brokenPages);
+      const brokenLinksJson = {
+        message: csvReport,
+        status: 'error',
+      };
+
+      fs.writeJSONSync(this.logFile, brokenLinksJson);
+      console.log(`Broken links found. See results in ${this.logFile}.`);
 
       if (buildOptions['drupal-fail-fast']) {
-        throw new Error(errorOutput);
+        throw new Error(brokenLinksJson);
       }
-
-      console.log(errorOutput);
-
-      fs.writeJSONSync(this.logFile, this.brokenPages);
     }
   },
 };
