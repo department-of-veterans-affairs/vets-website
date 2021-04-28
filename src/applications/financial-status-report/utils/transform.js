@@ -30,6 +30,7 @@ export const transform = ({ data }) => {
 
   const formObj = {
     personalIdentification: {
+      fileNumber: '',
       fsrReason: selectedDebts
         .map(({ resolution }) => resolution.resolutionType)
         .join(', '),
@@ -87,7 +88,7 @@ export const transform = ({ data }) => {
     discretionaryIncome: {
       netMonthlyIncomeLessExpenses: totalIncome - totalExpenses,
       amountCanBePaidTowardDebt: selectedDebts?.reduce(
-        (acc, debt) => acc + debt.resolution.offerToPay || 0,
+        (acc, debt) => acc + debt.resolution?.offerToPay || 0,
         0,
       ),
     },

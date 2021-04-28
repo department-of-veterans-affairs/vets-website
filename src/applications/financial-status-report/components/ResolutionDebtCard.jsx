@@ -29,14 +29,14 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
     [checked, showError],
   );
 
-  switch (debt.value) {
+  switch (debt.resolution.resolutionType) {
     case 'Extended monthly payments':
       return (
         <div className="currency-input">
           <TextInput
             additionalClass="input-size-3"
             label="How much can you afford to pay monthly on this debt?"
-            field={{ value: debt.offerToPay || '' }}
+            field={{ value: debt.resolution.offerToPay || '' }}
             onValueChange={input => updateDebts(objKey, input, debt)}
             //   required
           />
@@ -48,7 +48,7 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
           <TextInput
             additionalClass="input-size-3 currency-input"
             label="How much do you offer to pay for this debt with a single payment?"
-            field={{ value: debt.offerToPay || '' }}
+            field={{ value: debt.resolution.offerToPay || '' }}
             onValueChange={input => updateDebts(objKey, input, debt)}
             //   required
           />
@@ -76,10 +76,21 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
     setDebts({
       ...formData,
       selectedDebts: selectedDebts.map(item => {
-        if (item.id === debt.id) {
+        if (item.id === debt.id && input.value === 'Waiver') {
           return {
             ...item,
-            [`${objKey}`]: input.value,
+            resolution: {
+              [`${objKey}`]: input.value,
+            },
+          };
+        }
+        if (item.id === debt.id && input.value !== 'Waiver') {
+          return {
+            ...item,
+            resolution: {
+              ...item.resolution,
+              [`${objKey}`]: input.value,
+            },
           };
         }
         return item;
@@ -91,7 +102,7 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
     <>
       <h4 className="vads-u-margin--0">Your selected debts</h4>
       {selectedDebts.map(debt => {
-        const objKey = 'value';
+        const objKey = 'resolutionType';
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
         const subTitle =
           debt.currentAr && formatter.format(parseFloat(debt.currentAr));
@@ -107,7 +118,7 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
               {subTitle}
             </p>
             <ExpandingGroup
-              open={debt.value}
+              open={debt.resolution?.resolutionType}
               additionalClass="form-expanding-group-active-radio"
             >
               <RadioButtons
@@ -115,7 +126,7 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
                 name={debt.id}
                 label={radioLabels}
                 options={radioOptions}
-                value={{ value: debt.value }}
+                value={{ value: debt.resolution?.resolutionType }}
                 onValueChange={input => updateDebts(objKey, input, debt)}
                 // required
               />
