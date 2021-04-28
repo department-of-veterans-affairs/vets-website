@@ -13,20 +13,25 @@ const formatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,
 });
 
-const ExpandedContent = ({ debt, updateDebts, showError }) => {
+const ExpandedContent = ({ debt, updateDebts }) => {
   const [checked, setChecked] = useState(false);
-  const [error, setError] = useState(false);
   const objKey = 'offerToPay';
+
+  const [errors, setErrors] = useState({
+    extended: false,
+    compromise: false,
+    checkbox: false,
+  });
 
   useEffect(
     () => {
-      if (showError && !checked) {
-        setError(true);
-      } else {
-        setError(false);
-      }
+      setErrors(prevState => ({
+        ...prevState,
+        // checkbox: !checked,
+        checkbox: false,
+      }));
     },
-    [checked, showError],
+    [checked],
   );
 
   switch (debt.resolution.resolutionType) {
@@ -38,6 +43,7 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
             label="How much can you afford to pay monthly on this debt?"
             field={{ value: debt.resolution.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
+            errorMessage={errors.extended && 'Please enter an amount'}
             required
           />
         </div>
@@ -50,6 +56,7 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
             label="How much do you offer to pay for this debt with a single payment?"
             field={{ value: debt.resolution.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
+            errorMessage={errors.compromise && 'Please enter an amount'}
             required
           />
         </div>
@@ -60,7 +67,7 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
           label="By checking this box, I’m agreeing that I understand how a debt waiver may affect my VA education benefits. If VA grants me a waiver, this will reduce any remaining education benefit entitlement I may have."
           checked={checked}
           onValueChange={value => setChecked(value)}
-          errorMessage={error && 'Check the box!!'}
+          errorMessage={errors.checkbox && 'Please provide a response'}
           required
         />
       );
@@ -68,9 +75,11 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
 };
 
 const ResolutionDebtCards = ({ formData, selectedDebts, setDebts }) => {
-  const radioOptions = ['Waiver', 'Extended monthly payments', 'Compromise'];
-  const radioLabels =
-    'Which repayment or relief option would you like for this debt?';
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setError(false);
+  }, []);
 
   const updateDebts = (objKey, value, debt) => {
     setDebts({
@@ -97,6 +106,10 @@ const ResolutionDebtCards = ({ formData, selectedDebts, setDebts }) => {
       }),
     });
   };
+
+  const radioOptions = ['Waiver', 'Extended monthly payments', 'Compromise'];
+  const radioLabels =
+    'Which repayment or relief option would you like for this debt?';
 
   return (
     <>
@@ -128,14 +141,10 @@ const ResolutionDebtCards = ({ formData, selectedDebts, setDebts }) => {
                 options={radioOptions}
                 value={{ value: debt.resolution?.resolutionType }}
                 onValueChange={({ value }) => updateDebts(objKey, value, debt)}
+                errorMessage={error && 'Please provide a response'}
                 required
-                // errorMessage="Please provide a response"
               />
-              <ExpandedContent
-                debt={debt}
-                updateDebts={updateDebts}
-                // showError
-              />
+              <ExpandedContent debt={debt} updateDebts={updateDebts} />
             </ExpandingGroup>
           </div>
         );
