@@ -52,24 +52,26 @@ const SignatureCheckbox = ({
     >
       {children && <header>{children}</header>}
 
-      <SignatureInput
-        setIsSigned={setIsSigned}
-        label={createInputLabel(label)}
-        fullName={fullName}
-        required={isRequired}
-        showError={showError}
-        hasSubmit={hasSubmit}
-        isRepresentative={isRepresentative}
-      />
+      <section className="vads-u-display--flex">
+        <SignatureInput
+          setIsSigned={setIsSigned}
+          label={createInputLabel(label)}
+          fullName={fullName}
+          required={isRequired}
+          showError={showError}
+          hasSubmit={hasSubmit}
+          isRepresentative={isRepresentative}
+        />
 
-      {isRepresentative && (
-        <p className="vads-u-display--flex vads-u-flex-direction--column">
-          On behalf of
-          <strong className="vads-u-font-size--lg">
-            {fullName.first} {fullName.middle} {fullName.last}
-          </strong>
-        </p>
-      )}
+        {isRepresentative && (
+          <p className="on-behalf-representative">
+            On behalf of
+            <strong className="vads-u-font-size--lg">
+              {fullName.first} {fullName.middle} {fullName.last}
+            </strong>
+          </p>
+        )}
+      </section>
 
       <Checkbox
         onValueChange={value => {

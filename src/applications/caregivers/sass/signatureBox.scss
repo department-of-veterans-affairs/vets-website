@@ -1,4 +1,15 @@
 .signature-box {
+  section > div {
+    max-width: 380px;
+  }
+
+  .on-behalf-representative {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    margin: 0 0 0 10px;
+  }
+
   label:first-child {
     display: flex;
   }

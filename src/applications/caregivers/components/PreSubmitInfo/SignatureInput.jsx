@@ -87,16 +87,14 @@ const SignatureInput = ({
   );
 
   return (
-    <>
-      <TextInput
-        additionalClass="signature-input"
-        label={label}
-        required={required}
-        onValueChange={value => setSignature(value)}
-        field={{ value: signature.value, dirty: signature.dirty }}
-        errorMessage={hasError && errorMessage}
-      />
-    </>
+    <TextInput
+      additionalClass="signature-input"
+      label={label}
+      required={required}
+      onValueChange={value => setSignature(value)}
+      field={{ value: signature.value, dirty: signature.dirty }}
+      errorMessage={hasError && errorMessage}
+    />
   );
 };
 
