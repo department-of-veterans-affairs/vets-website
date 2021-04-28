@@ -55,9 +55,7 @@ const ShareIcon = styled.i`
   width: 26px;
   padding: 4px;
   border: 1px solid;
-
-  color: ${props => props.theme.colorPrimary};
-
+  color: ${theme.main.colorPrimary};
   &:hover {
     background-color: ${props => props.theme.colorBaseBlack};
     color: ${props => props.theme.colorWhite};
@@ -85,7 +83,8 @@ const SharableLink = ({
   const [leftAligned, setLeftAligned] = useState(false);
   const [leftPx, setLeftPx] = useState(0);
   const [topPx, setTopPx] = useState(0);
-  const offsetThreshold = 66;
+
+  const linkCopiedTextWidth = 70;
   const widthOffset = 40;
 
   useEffect(
@@ -107,6 +106,18 @@ const SharableLink = ({
     return arr.join('-');
   };
 
+  const onBlur = id => {
+    const icon = document.querySelector(`#icon-${id}`);
+    icon.style.color = theme.main.colorPrimary;
+    icon.style.backgroundColor = 'transparent';
+  };
+
+  const onFocus = id => {
+    const icon = document.querySelector(`#icon-${id}`);
+    icon.style.color = theme.main.colorWhite;
+    icon.style.backgroundColor = theme.main.colorBaseBlack;
+  };
+
   const hidePreviousFeedbacks = activeId => {
     const otherActiveFeedbacks = document.getElementsByClassName(
       'sharable-link-feedback',
@@ -116,11 +127,6 @@ const SharableLink = ({
       const id = extractId(feedback.getAttribute('id'));
       if (id !== extractId(activeId)) {
         feedback.style.display = 'none';
-
-        const icon = document.querySelector(`#icon-${id}`);
-        if (icon) {
-          icon.style = {};
-        }
       } else {
         feedback.style = {};
       }
@@ -134,24 +140,27 @@ const SharableLink = ({
       setLeftAligned(false);
       setLeftPx(0);
       setTopPx(0);
-      document.activeElement.children[0].style = {};
-    }, 100000);
+      onBlur(extractId(activeId));
+    }, 3000);
   };
 
-  const displayFeedback = element => {
-    const headingId = extractId(element.getAttribute('id'));
+  const displayFeedback = iconElement => {
+    const headingId = extractId(iconElement.getAttribute('id'));
     const headingMainEntity = document.querySelector(`#${headingId}`);
-    if (
-      headingMainEntity?.offsetWidth - (element.offsetLeft + widthOffset) >=
-      offsetThreshold
-    ) {
+    const availableSpaceForFeedbackText =
+      headingMainEntity?.offsetWidth -
+      (iconElement.offsetLeft + iconElement.offsetWidth);
+
+    if (availableSpaceForFeedbackText <= linkCopiedTextWidth) {
       setLeftAligned(true);
-      setLeftPx(element.offsetLeft - element.offsetWidth - widthOffset);
-      setTopPx(element.offsetTop);
+      setLeftPx(iconElement.offsetLeft - iconElement.offsetWidth - widthOffset);
+      // ensure vertical alignment when toggling css position (absolute vs relative)
+      setTopPx(iconElement.offsetTop);
     }
     setFeedbackActive(true);
-    hideFeedback(element.getAttribute('id'));
+    hideFeedback(iconElement.getAttribute('id'));
   };
+
   // TODO: add bac the feature flag
   if (true) {
     return (
@@ -161,6 +170,12 @@ const SharableLink = ({
             className="usa-button-unstyled"
             aria-label={`Copy ${dataEntityId} sharable link`}
             id={`button-${dataEntityId}`}
+            onBlur={() => {
+              onBlur(dataEntityId);
+            }}
+            onFocus={() => {
+              onFocus(dataEntityId);
+            }}
           >
             <ShareIcon
               aria-hidden="true"
