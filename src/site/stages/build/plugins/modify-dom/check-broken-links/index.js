@@ -59,7 +59,7 @@ module.exports = {
         return `\`${linkError.html}\``;
       });
 
-      return `- \`${page.path}\`: ${brokenLinksForPage.join(', ')}`;
+      return `* *\`${page.path}\`*: ${brokenLinksForPage.join(', ')}`;
     });
 
     return markdownMessage.join('\n');

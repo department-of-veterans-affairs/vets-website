@@ -203,8 +203,11 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       color = 'danger'
     }
 
+    def heading = "${brokenLinks.brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n\n${env.RUN_DISPLAY_URL}\n${brokenLinks}".stripMargin()
+    def message = "${heading}\n${brokenLinks.summary}"
+
     slackSend(
-      message: brokenLinks.summary,
+      message: message,
       color: color,
       failOnError: true,
       channel: 'dev_null'
