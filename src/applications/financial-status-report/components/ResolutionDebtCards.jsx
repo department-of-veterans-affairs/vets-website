@@ -67,7 +67,7 @@ const ExpandedContent = ({ debt, updateDebts, showError }) => {
   }
 };
 
-const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
+const ResolutionDebtCards = ({ formData, selectedDebts, setDebts }) => {
   const radioOptions = ['Waiver', 'Extended monthly payments', 'Compromise'];
   const radioLabels =
     'Which repayment or relief option would you like for this debt?';
@@ -129,6 +129,7 @@ const ResolutionDebtCard = ({ formData, selectedDebts, setDebts }) => {
                 value={{ value: debt.resolution?.resolutionType }}
                 onValueChange={({ value }) => updateDebts(objKey, value, debt)}
                 required
+                // errorMessage="Please provide a response"
               />
               <ExpandedContent
                 debt={debt}
@@ -155,4 +156,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ResolutionDebtCard);
+)(ResolutionDebtCards);
