@@ -32,13 +32,13 @@ RUN aws --version # Verify AWS CLI installation.
 # Explicitly set CA cert to resolve SSL issues with AWS.
 ENV AWS_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 
-# Add /etc/pki/ca-trust/source/anchors/VA-Internal-S2-RCA-v1.pem to Docker Certificate Authority (CA) Store.
-RUN cp /application/certs/VA-Internal-S2-RCA1-v1.pem /usr/local/share/ca-certificates/VA-Internal-S2-RCA-v1.crt
-RUN update-ca-certificates
-
 RUN mkdir -p /application
 
 WORKDIR /application
+
+# Add VA Root CA to Docker Certificate Authority (CA) Store.
+ADD http://crl.pki.va.gov/PKI/AIA/VA/VA-Internal-S2-RCA1-v1.cer /usr/local/share/ca-certificates/VA-Internal-S2-RCA-v1.crt
+RUN update-ca-certificates
 
 USER vets-website
 
