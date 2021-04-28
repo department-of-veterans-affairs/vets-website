@@ -1,13 +1,7 @@
 import React from 'react';
 import './style.scss';
 
-export default function index({
-  children,
-  onClick,
-  ariaLabel,
-  usePrimary,
-  testId,
-}) {
+const BaseLink = ({ children, onClick, ariaLabel, usePrimary, testId }) => {
   const className = `vads-c-action-link--${usePrimary ? 'green' : 'blue'}`;
   return (
     <a
@@ -20,4 +14,9 @@ export default function index({
       {children}
     </a>
   );
-}
+};
+
+const PrimaryActionLink = props => <BaseLink usePrimary {...props} />;
+const SecondaryActionLink = props => <BaseLink usePrimary={false} {...props} />;
+
+export { PrimaryActionLink, SecondaryActionLink };

@@ -1,5 +1,5 @@
 import React from 'react';
-import ActionLink from '../../../shared/components/action-link';
+import { PrimaryActionLink } from '../../../shared/components/action-link';
 
 export default function AuthedWelcomeMessage(props) {
   const { goToFirstPage } = props;
@@ -14,13 +14,9 @@ export default function AuthedWelcomeMessage(props) {
         </div>
       </div>
       <section className="action-link-container">
-        <ActionLink
-          onClick={goToFirstPage}
-          ariaLabe="Answer questions"
-          usePrimary
-        >
+        <PrimaryActionLink onClick={goToFirstPage} ariaLabe="Answer questions">
           Answer questions
-        </ActionLink>
+        </PrimaryActionLink>
       </section>
     </>
   );
