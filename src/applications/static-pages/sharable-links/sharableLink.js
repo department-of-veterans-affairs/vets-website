@@ -104,7 +104,7 @@ const SharableLink = ({ dataEntityId, idx }) => {
 
     for (const feedback of otherActiveFeedbacks) {
       const id = extractId(feedback.getAttribute('id'));
-      if (extractId(id) !== extractId(activeId)) {
+      if (id !== extractId(activeId)) {
         feedback.style.display = 'none';
 
         const icon = document.querySelector(`#icon-${id}`);
@@ -113,9 +113,6 @@ const SharableLink = ({ dataEntityId, idx }) => {
         }
       } else {
         feedback.style = {};
-        const buttonOffsetTop = document.querySelector(`#button-${id}`)
-          .offsetTop;
-        feedback.offsetTop = buttonOffsetTop;
       }
     }
   };
