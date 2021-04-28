@@ -1,4 +1,4 @@
-import * as options from 'platform/static-data/options-for-select';
+export const DW_UPDATE_FIELD = 'discharge-wizard/UPDATE_FIELD';
 
 export const labels = {
   drb: 'Discharge Review Board',
@@ -99,49 +99,4 @@ export const prevApplicationYearCutoff = {
   2: 2014,
   3: 2011,
   4: 2017,
-};
-
-export const answerReview = (key, formValues) => {
-  const ans = formValues[key];
-  const dischargeYearLabel = prevApplicationYearCutoff[formValues['4_reason']];
-  const monthObj = options.months.find(
-    m => String(m.value) === formValues['3_dischargeMonth'],
-  );
-  const dischargeMonth = monthObj && monthObj.label;
-
-  switch (key) {
-    case '4_reason':
-      return questionLabels[key][ans];
-    case '5_dischargeType':
-      return questionLabels[key][ans];
-    case '6_intention':
-      return questionLabels[key][ans];
-    case '2_dischargeYear':
-      if (ans === '1991' && !formValues['3_dischargeMonth']) {
-        return 'I was discharged before 1992';
-      }
-      return `I was discharged in ${dischargeMonth || ''} ${formValues[key]}`;
-    case '7_courtMartial':
-      return questionLabels[key][ans];
-    case '1_branchOfService':
-      return `I served in the ${questionLabels[key][ans]}`;
-    case '8_prevApplication':
-      return questionLabels[key][ans];
-    case '9_prevApplicationYear':
-      return `I made my previous application ${
-        ans === '1'
-          ? `${dischargeYearLabel} or earlier`
-          : `after ${dischargeYearLabel}`
-      }`;
-    case '10_prevApplicationType':
-      if (ans === '3') {
-        if (['navy', 'marines'].includes(formValues['1_branchOfService'])) {
-          return 'I applied to the Board for Correction of Naval Records (BCNR).';
-        }
-        return 'I applied to a Board for Correction of Military Records (BCMR).';
-      }
-      return questionLabels[key][ans];
-    default:
-      return questionLabels[key][ans];
-  }
 };
