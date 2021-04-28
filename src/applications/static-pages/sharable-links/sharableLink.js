@@ -71,7 +71,7 @@ const UnStyledButtonInAccordion = styled.button`
   width: auto !important;
 `;
 
-const SharableLink = ({ dataEntityId, idx }) => {
+const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
   const [feedbackActive, setFeedbackActive] = useState(false);
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
@@ -131,11 +131,8 @@ const SharableLink = ({ dataEntityId, idx }) => {
   };
 
   const displayFeedback = element => {
-    // this needs a bit more work
     const headingId = extractId(element.getAttribute('id'));
     const headingMainEntity = document.querySelector(`#${headingId}`);
-    console.log(element, 'ELEM');
-    console.log(headingMainEntity, 'H333');
     if (
       headingMainEntity?.offsetWidth - (element.offsetLeft + widthOffset) <=
       offsetThreshold
@@ -148,7 +145,7 @@ const SharableLink = ({ dataEntityId, idx }) => {
     hideFeedback(element.getAttribute('id'));
   };
   // TODO: add bac the feature flag
-  if (true) {
+  if (showSharableLink) {
     return (
       <ThemeProvider theme={theme.main}>
         <span aria-live="polite" aria-relevant="additions">
