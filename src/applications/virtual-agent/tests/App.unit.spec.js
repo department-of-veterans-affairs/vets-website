@@ -35,7 +35,7 @@ describe('App', () => {
     global.window = oldWindow;
   });
 
-  describe('web chat script is loaded and greeting is shown', () => {
+  describe('web chat script is already loaded', () => {
     it('renders web chat', () => {
       loadWebChat();
 
@@ -58,7 +58,7 @@ describe('App', () => {
       });
     }
 
-    it('should wait until webchat is loaded', async () => {
+    it('should not render webchat until webchat framework is loaded', async () => {
       const wrapper = renderInReduxProvider(<App />, {
         initialState: {
           featureToggles: {
