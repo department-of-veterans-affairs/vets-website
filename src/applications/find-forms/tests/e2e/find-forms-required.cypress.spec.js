@@ -16,8 +16,8 @@ const SELECTORS = {
 
 function axeTestPage() {
   cy.injectAxe();
-  cy.axeCheck('main', {
-    rules: {
+  cy.axeCheck({
+    additionalRules: {
       'aria-roles': {
         enabled: false,
       },

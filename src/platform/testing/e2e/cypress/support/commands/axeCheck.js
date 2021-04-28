@@ -35,34 +35,35 @@ ${violations
 
 /**
  * Checks the passed selector and children for axe violations.
- * @param {string} [context=main] - CSS/HTML selector for the container element to check with aXe.
- * @param {Object} [tempOptions={}] - Rules object to modify aXe config.
+ * @param {Object} [additionalRules={}] - Rules object to modify aXe config.
  */
-Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
-  /**
-   * Default required ruleset to meet Section 508 compliance.
-   * Do not remove values[] entries. Only add new rulesets like 'best-practices'.
-   *
-   * See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
-   * for available rulesets.
-   */
-  let axeBuilder = {
-    runOnly: {
-      type: 'tag',
-      values: ['section508', 'wcag2a', 'wcag2aa'],
-    },
-    rules: {
-      'color-contrast': {
-        enabled: false,
+Cypress.Commands.add(
+  'axeCheck',
+  ({ additionalRules = {}, skipHeadingOrderCheck = false } = {}) => {
+    /**
+     * Default required ruleset to meet Section 508 compliance.
+     * Do not remove values[] entries. Only add new rulesets like 'best-practices'.
+     *
+     * See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
+     * for available rulesets.
+     */
+    const axeBuilder = {
+      runOnly: {
+        type: 'tag',
+        values: ['section508', 'wcag2a', 'wcag2aa'],
       },
-    },
-  };
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+        'heading-order': {
+          enabled: !skipHeadingOrderCheck,
+        },
+        ...additionalRules,
+      },
+    };
 
-  /**
-   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
-   */
-  axeBuilder = Object.assign(axeBuilder, tempOptions);
-
-  Cypress.log();
-  cy.checkA11y(context, axeBuilder, processAxeCheckResults);
-});
+    Cypress.log();
+    cy.checkA11y('main', axeBuilder, processAxeCheckResults);
+  },
+);

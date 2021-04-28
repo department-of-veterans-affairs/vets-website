@@ -35,16 +35,7 @@ describe('MyVA Dashboard', () => {
       educationBenefitExists(true);
 
       cy.injectAxe();
-      cy.axeCheck('main', {
-        rules: {
-          'color-contrast': {
-            enabled: false,
-          },
-          'heading-order': {
-            enabled: true,
-          },
-        },
-      });
+      cy.axeCheck();
     });
   });
 });
