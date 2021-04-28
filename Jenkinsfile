@@ -29,6 +29,10 @@ node('vetsgov-general-purpose') {
       parallel (
         failFast: true,
 
+        forceError: {
+          throw new Exception("Testing failFast")
+        },
+
         buildDev: {
           if (commonStages.shouldBail()) { return }
           envName = 'vagovdev'
