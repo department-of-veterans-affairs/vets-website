@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import recordEvent from 'platform/monitoring/record-event';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -157,6 +156,8 @@ const SharableLink = ({ dataEntityId, idx }) => {
                 if (!event || !event.target) return;
                 displayFeedback(event.target);
                 copyToUsersClipBoard(dataEntityId, event.target.parentElement);
+                // move this to a function
+                //  we are having to do this b/c of the side effect of the copy to clipboard
                 document.activeElement.children[0].style.color =
                   theme.main.colorWhite;
                 document.activeElement.children[0].style.backgroundColor =
@@ -165,26 +166,17 @@ const SharableLink = ({ dataEntityId, idx }) => {
               id={`icon-${dataEntityId}`}
             />
           </UnStyledButtonInAccordion>
-
-          <ReactCSSTransitionGroup
-            transitionName="link-copied-feedback"
-            transitionAppear
-            transitionAppearTimeout={500}
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={500}
-          >
-            {feedbackActive && (
-              <ShareIconClickFeedback
-                className={`vads-u-margin-left--0.5 sharable-link-feedback`}
-                leftAligned={leftAligned}
-                feedbackActive={feedbackActive}
-                leftPx={leftPx}
-                id={`feedback-${dataEntityId}`}
-              >
-                {copiedText}
-              </ShareIconClickFeedback>
-            )}
-          </ReactCSSTransitionGroup>
+          {feedbackActive && (
+            <ShareIconClickFeedback
+              className={`vads-u-margin-left--0.5 sharable-link-feedback`}
+              leftAligned={leftAligned}
+              feedbackActive={feedbackActive}
+              leftPx={leftPx}
+              id={`feedback-${dataEntityId}`}
+            >
+              {copiedText}
+            </ShareIconClickFeedback>
+          )}
         </span>
       </ThemeProvider>
     );
