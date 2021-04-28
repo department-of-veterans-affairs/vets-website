@@ -9,7 +9,7 @@ const setup = ({ authenticated, isCerner } = {}) => {
     '../../src/applications/static-pages/health-care-manage-benefits/fixtures/feature-toggles/enabled.json',
   ).then(features => {
     // Mock feature toggles route.
-    cy.route('GET', '/v0/feature_toggles*', features);
+    cy.intercept('GET', '/v0/feature_toggles*', features);
 
     // Clear announcements.
     disableFTUXModals();

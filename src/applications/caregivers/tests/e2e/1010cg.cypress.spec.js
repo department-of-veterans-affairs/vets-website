@@ -180,7 +180,7 @@ const testSecondaryTwo = createTestConfig(
         });
         // sign signature as veteran
 
-        cy.route({
+        cy.intercept({
           method: 'POST',
           url: '/v0/caregivers_assistance_claims',
           status: 200,
