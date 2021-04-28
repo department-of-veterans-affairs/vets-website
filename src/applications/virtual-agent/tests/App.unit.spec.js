@@ -4,7 +4,11 @@ import { waitFor } from '@testing-library/react';
 
 import App from '../components/app/App';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
+import {
+  mockApiRequest,
+  resetFetch,
+  mockMultipleApiRequests,
+} from 'platform/testing/unit/helpers';
 import { createTestStore } from '../../vaos/tests/mocks/setup';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 
@@ -170,6 +174,76 @@ describe('App', () => {
       store.dispatch({ type: FETCH_TOGGLE_VALUES_SUCCEEDED, payload: {} });
 
       await waitFor(() => expect(getTokenCalled()).to.equal(true));
+    });
+  });
+
+  describe('on initial load', () => {
+    it('should show loading indicator', () => {
+      loadWebChat();
+      mockApiRequest({ token: 'ANOTHERFAKETOKEN' });
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      expect(wrapper.getByRole('progressbar')).to.exist;
+    });
+  });
+
+  describe('when token is valid', () => {
+    it('should render web chat', async () => {
+      loadWebChat();
+      mockApiRequest({ token: 'FAKETOKEN' });
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+    });
+  });
+
+  describe('when api returns error', () => {
+    it('should display error message', async () => {
+      loadWebChat();
+      mockApiRequest({}, false);
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      await waitFor(
+        () => expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist,
+      );
+    });
+  });
+
+  describe('when api returns error one time, but works after a retry', () => {
+    it('should render web chat', async () => {
+      loadWebChat();
+      mockMultipleApiRequests([
+        { response: {}, shouldResolve: false },
+        { response: { token: 'FAKETOKEN' }, shouldResolve: true },
+      ]);
+
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
     });
   });
 });
