@@ -85,9 +85,9 @@ describe('App', () => {
 
       loadWebChat();
 
-      await wait(300);
-
-      expect(wrapper.getByTestId('webchat-container')).to.exist;
+      await waitFor(
+        () => expect(wrapper.getByTestId('webchat-container')).to.exist,
+      );
     });
 
     it('should display error if webchat does not load after x milliseconds', async () => {
