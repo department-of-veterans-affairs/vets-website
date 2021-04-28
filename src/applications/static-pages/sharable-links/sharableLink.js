@@ -20,7 +20,11 @@ const copyToUsersClipBoard = (dataEntityId, target) => {
   document.body.appendChild(input);
   input.select();
   document.execCommand('copy');
+  //  we are having to do the following 3 lines b/c of the side effect of the .select() from the copy to clipboard
   target.focus();
+  document.activeElement.children[0].style.color = theme.main.colorWhite;
+  document.activeElement.children[0].style.backgroundColor =
+    theme.main.colorBaseBlack;
   document.body.removeChild(input);
   recordEvent({
     event: 'int-copy-to-clipboard-click',
@@ -71,7 +75,11 @@ const UnStyledButtonInAccordion = styled.button`
   width: auto !important;
 `;
 
-const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
+const SharableLink = ({
+  dataEntityId,
+  idx,
+  // ,showSharableLink
+}) => {
   const [feedbackActive, setFeedbackActive] = useState(false);
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
@@ -145,7 +153,7 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
     hideFeedback(element.getAttribute('id'));
   };
   // TODO: add bac the feature flag
-  if (showSharableLink) {
+  if (true) {
     return (
       <ThemeProvider theme={theme.main}>
         <span aria-live="polite" aria-relevant="additions">
@@ -163,12 +171,6 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
                 if (!event || !event.target) return;
                 displayFeedback(event.target);
                 copyToUsersClipBoard(dataEntityId, event.target.parentElement);
-                // move this to a function
-                //  we are having to do this b/c of the side effect of the copy to clipboard
-                document.activeElement.children[0].style.color =
-                  theme.main.colorWhite;
-                document.activeElement.children[0].style.backgroundColor =
-                  theme.main.colorBaseBlack;
               }}
               id={`icon-${dataEntityId}`}
             />
