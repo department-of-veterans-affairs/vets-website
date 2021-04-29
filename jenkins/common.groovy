@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 DRUPAL_MAPPING = [
   'dev': 'vagovdev',
   'staging': 'vagovstaging',
@@ -8,6 +10,9 @@ DRUPAL_ADDRESSES = [
   'vagovdev'    : 'http://internal-dsva-vagov-dev-cms-812329399.us-gov-west-1.elb.amazonaws.com',
   'vagovstaging': 'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com',
   'vagovprod'   : 'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com',
+  // This is a Tugboat URL, rebuilt frequently from PROD CMS. See https://tugboat.vfs.va.gov/6042f35d6a89945fd6399dc3.
+  // If there are issues with this endpoint, please post in #cms-support Slack and tag @CMS DevOps Engineers.
+  'sandbox'     : 'https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov',
 ]
 
 DRUPAL_CREDENTIALS = [
@@ -146,7 +151,7 @@ def findMissingQueryFlags(String buildLogPath, String envName) {
 def accessibilityTests() {
 
   if (shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
-  
+
   stage("Accessibility") {
 
      slackSend(
@@ -189,75 +194,67 @@ def accessibilityTests() {
 }
 
 def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnlyBuild) {
-  // Look for broken links
-  def csvFileName = "${envName}-broken-links.csv" // For use within the docker container
-  def csvFile = "${WORKSPACE}/vets-website/${csvFileName}" // For use outside of the docker context
+  def brokenLinksFile = "${WORKSPACE}/vets-website/logs/${envName}-broken-links.json"
 
-  // Ensure the file isn't there if we had to rebuild
-  if (fileExists(csvFile)) {
-    sh "rm /application/${csvFileName}"
-  }
+  if (fileExists(brokenLinksFile)) {
+    def rawJsonFile = readFile(brokenLinksFile);
+    def jsonSlurper = new JsonSlurper();
+    def brokenLinks = jsonSlurper.parseText(rawJsonFile);
+    def maxBrokenLinks = 10
+    def color = 'warning'
 
-  // Output a csv file with the broken links
-  sh "cd /application && jenkins/glean-broken-links.sh ${buildLogPath} ${csvFileName}"
-  if (fileExists(csvFile)) {
-    echo "Found broken links."
+    if (brokenLinks.isHomepageBroken || brokenLinks.brokenLinksCount > maxBrokenLinks) {
+      color = 'danger'
+    }
 
-    // Only break the build if broken links are found in master
-    if (IS_PROD_BRANCH || contentOnlyBuild) {
-      echo "Notifying Slack channel."
+    def heading = "@cmshelpdesk ${brokenLinks.brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n\n${env.RUN_DISPLAY_URL}\n\n"
+    def message = "${heading}\n${brokenLinks.summary}".stripMargin()
 
-      // slackUploadFile(filePath: csvFile, channel: 'dev_null', failOnError: true, initialComment: "Found broken links in the ${envName} build on `${env.BRANCH_NAME}`.")
+    echo "${brokenLinks.brokenLinksCount} broken links found"
+    echo message
 
-      // Until slackUploadFile works...
-      def brokenLinks = readFile(csvFile)
-      def brokenLinksCount = sh(returnStdout: true, script: "wc -l /application/${csvFileName} | cut -d ' ' -f1") as Integer
-      def brokenLinksMessage = "${brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n@cmshelpdesk\n${env.RUN_DISPLAY_URL}\n${brokenLinks}".stripMargin()
+    if (!IS_PROD_BRANCH && !contentOnlyBuild) {
+      // Ignore the results of the broken link checker unless
+      // we are running either on the master branch or during
+      // a Content Release. This way, if there is a broken link,
+      // feature branches aren't affected, so VFS teams can
+      // continue merging.
+      return;
+    }
 
-      slackSend(
-        message: brokenLinksMessage,
-        color: 'danger',
-        failOnError: true,
-        channel: 'cms-helpdesk-bot'
-        // attachments: brokenLinks
-        // TODO: errors out with ERROR: Slack notification failed with exception: net.sf.json.JSONException: Invalid JSON String
-        // needs to be formatted into JSON
-        // see also: https://stackoverflow.com/a/51556653/2043808
-      )
+    slackSend(
+      message: message,
+      color: color,
+      failOnError: true,
+      channel: 'cms-helpdesk-bot'
+    )
 
-      // TODO: Move this slackUploadFile to cacheDrupalContent and update the echo statement above
-      // TODO: determine correct file path relative to agent's workspace
-      // see also: https://github.com/jenkinsci/slack-plugin/issues/667#issuecomment-585982716
-      // slackUploadFile(
-      //   filePath: csvFile,
-      //   channel: 'cms-team',
-      //   initialComment: brokenLinksMessage
-      // )
-
-
+    if (color == 'danger') {
       throw new Exception('Broken links found')
     }
-  } else {
-    echo "Did not find broken links."
   }
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
-  // Use Drupal prod for all environments
-  def drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
+  // Use the CMS's Sandbox (Tugboat) environment for all branches that
+  // are not configured to deploy to dev/staging/prod. Currently, this
+  // means to use the CMS Sandbox for any branch that is NOT master.
+  def drupalAddress = DRUPAL_ADDRESSES.get('sandbox')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
-  def drupalMaxParallelRequests = 5;
+  def drupalMaxParallelRequests = 15
+  def noDrupalProxy = '--no-drupal-proxy'
 
-  if (contentOnlyBuild) {
-    drupalMaxParallelRequests = 15
+  if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH) {
+    drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
+    noDrupalProxy = ''
   }
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} --drupalMaxParallelRequests ${drupalMaxParallelRequests} ${drupalMode} --buildLog ${buildLogPath} --verbose"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} --drupalMaxParallelRequests ${drupalMaxParallelRequests} ${drupalMode} ${noDrupalProxy} --buildLog ${buildLogPath} --verbose"
 
       if (envName == 'vagovprod') {
         // Find any broken links in the log

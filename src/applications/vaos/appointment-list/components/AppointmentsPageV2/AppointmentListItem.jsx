@@ -8,6 +8,7 @@ import {
 } from '../../../utils/timezone';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
 import { Link, useHistory } from 'react-router-dom';
+import { focusElement } from 'platform/utilities/ui';
 
 function getAppointmentTimezoneAbbreviation(timezone, facilityId) {
   if (facilityId) {
@@ -72,26 +73,31 @@ export default function AppointmentListItem({ appointment, facility }) {
   const link = isCommunityCare
     ? `cc/${appointment.id}`
     : `va/${appointment.id}`;
+  const idClickable = `id-${appointment.id}`;
 
   return (
     <li
+      id={idClickable}
       data-request-id={appointment.id}
-      className="vaos-appts__card vaos-appts__card--clickable"
+      className="vaos-appts__card--clickable vads-u-margin-bottom--3"
       data-cy="appointment-list-item"
     >
       <div
-        className="vads-u-padding--2 medium-screen:vads-u-padding--3 medium-screen:vads-u-margin-bottom--3 vads-u-display--flex vads-u-align-items--center"
-        onClick={() =>
-          !window.getSelection().toString() ? history.push(link) : null
-        }
+        className="vads-u-padding--2 vads-u-display--flex vads-u-align-items--left vads-u-flex-direction--column medium-screen:vads-u-padding--3 medium-screen:vads-u-flex-direction--row medium-screen:vads-u-align-items--center"
+        onClick={() => {
+          if (!window.getSelection().toString()) {
+            focusElement(`#${idClickable}`);
+            history.push(link);
+          }
+        }}
       >
-        <div className="vads-u-flex--1">
+        <div className="vads-u-flex--1 vads-u-margin-y--neg0p5">
           {canceled && (
-            <span className="vaos-u-text-transform--uppercase vads-u-font-size--base vads-u-font-weight--bold vads-u-color--secondary-dark vads-u-margin-x--0 vads-u-margin-y--0">
-              Canceled
-            </span>
+            <div className="vads-u-margin-bottom--1">
+              <span className="usa-label">Canceled</span>
+            </div>
           )}
-          <h4 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-top--0 vads-u-margin-bottom--0p25">
+          <h4 className="vads-u-margin-y--0 vads-u-margin-bottom--0p25">
             {appointmentDate.format('dddd, MMMM D')}
           </h4>
           {appointmentDate.format('h:mm a')}{' '}
@@ -124,9 +130,9 @@ export default function AppointmentListItem({ appointment, facility }) {
             </>
           )}
         </div>
-        {/* visible to medium screen and larger */}
-        <div className="vads-u-display--none medium-screen:vads-u-display--inline">
+        <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0">
           <Link
+            className="vaos-appts__focus--hide-outline"
             aria-label={`Details for ${
               canceled ? 'canceled ' : ''
             }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
@@ -139,22 +145,6 @@ export default function AppointmentListItem({ appointment, facility }) {
             aria-hidden="true"
             className="fas fa-chevron-right vads-u-margin-left--1"
           />
-        </div>
-        {/* visble to small screen breakpoint */}
-        <div className="medium-screen:vads-u-display--none">
-          <Link
-            to={link}
-            onClick={e => e.preventDefault()}
-            className="vaos-appts__card-link"
-            aria-label={`Details for ${
-              canceled ? 'canceled ' : ''
-            }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
-          >
-            <i
-              aria-hidden="true"
-              className="fas fa-chevron-right vads-u-margin-left--1"
-            />
-          </Link>
         </div>
       </div>
     </li>

@@ -45,6 +45,7 @@ export default function ToDoQuestionnaireItem({ data }) {
             facilityName={facilityName}
             appointmentTime={appointmentTime}
             status={questionnaireResponseStatus}
+            useActionLink
           />
         )
       }
