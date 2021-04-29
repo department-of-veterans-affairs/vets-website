@@ -155,7 +155,8 @@ jobs:
           -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
           -H 'Accept: application/vnd.github.v3+json' \
           https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
-          -d '{"ref": "master"}'
+          -d '{"ref": "master"}' \
+          --fail
 
       - name: Archive contract test results
         uses: actions/upload-artifact@v2
