@@ -35,7 +35,7 @@ export const uiSchema = {
       hideOnReview: true,
     },
   },
-  resolution: {
+  selectedDebts: {
     'ui:field': ResolutionDebtCards,
   },
 };
@@ -51,11 +51,26 @@ export const schema = {
       type: 'object',
       properties: {},
     },
-    resolution: {
-      type: 'object',
-      properties: {
-        resolutionType: {
-          type: 'string',
+    selectedDebts: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          resolution: {
+            type: 'object',
+            required: ['resolutionType', 'offerToPay'],
+            properties: {
+              resolutionType: {
+                type: 'string',
+              },
+              offerToPay: {
+                type: 'string',
+              },
+              agreeToWaiver: {
+                type: 'boolean',
+              },
+            },
+          },
         },
       },
     },
