@@ -4,6 +4,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user.json';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
 
 Cypress.config('waitForAnimations', true);
 
@@ -17,7 +18,7 @@ const form = createTestConfig(
     },
     setupPerTest: () => {
       cy.login(mockUser);
-      cy.intercept('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
+      cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
       cy.intercept('POST', '/v0/education_benefits_claims/1990n', {
         data: {
           attributes: {

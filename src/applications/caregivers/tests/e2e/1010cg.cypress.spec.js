@@ -80,6 +80,21 @@ const testSecondaryTwo = createTestConfig(
           .click();
       },
       'review-and-submit': () => {
+        cy.intercept('POST', '/v0/caregivers_assistance_claims*', {
+          statusCode: 200,
+          response: {
+            body: {
+              data: {
+                id: '',
+                type: 'form1010cg_submissions',
+                attributes: {
+                  confirmationNumber: 'aB935000000F3VnCAK',
+                  submittedAt: '2020-08-06T19:18:11+00:00',
+                },
+              },
+            },
+          },
+        });
         cy.get('@testKey').then(testKey => {
           switch (testKey) {
             case 'secondaryOneOnly':
@@ -177,25 +192,6 @@ const testSecondaryTwo = createTestConfig(
               signAsParty(primaryLabel, 'Mini Mouse');
               break;
           }
-        });
-        // sign signature as veteran
-
-        cy.intercept({
-          method: 'POST',
-          url: '/v0/caregivers_assistance_claims',
-          status: 200,
-          response: {
-            body: {
-              data: {
-                id: '',
-                type: 'form1010cg_submissions',
-                attributes: {
-                  confirmationNumber: 'aB935000000F3VnCAK',
-                  submittedAt: '2020-08-06T19:18:11+00:00',
-                },
-              },
-            },
-          },
         });
       },
     },
