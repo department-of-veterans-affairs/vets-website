@@ -75,9 +75,10 @@ export function ConfirmationPage({
           />
         ) : (
           <ConfirmationDirectScheduleInfo
+            clinic={clinic}
             data={data}
             facilityDetails={facilityDetails}
-            clinic={clinic}
+            pageTitle={pageTitle}
             slot={slot}
             systemId={systemId}
           />
