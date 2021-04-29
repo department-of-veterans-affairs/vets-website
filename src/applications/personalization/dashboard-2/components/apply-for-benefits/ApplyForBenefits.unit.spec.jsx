@@ -40,17 +40,30 @@ function loadingSpinnerIsHidden(view) {
   ).to.not.exist;
 }
 
-function healthCareInfoIsShown(view, shown = true) {
+function noApplicationsInProgressShown(view, shown = true) {
+  const regex = /you have no applications in progress/i;
   if (shown) {
-    view.getByRole('link', {
-      name: /apply for VA health care/i,
-    });
+    view.getByText(regex);
   } else {
-    expect(
-      view.queryByRole('link', {
-        name: /apply for VA health care/i,
-      }),
-    ).not.to.exist;
+    expect(view.queryByText(regex)).not.to.exist;
+  }
+}
+
+function noApplicationsInProgressHidden(view) {
+  noApplicationsInProgressShown(view, false);
+}
+
+function healthCareInfoIsShown(view, shown = true) {
+  const query = [
+    'link',
+    {
+      name: /apply for VA health care/i,
+    },
+  ];
+  if (shown) {
+    view.getByRole(...query);
+  } else {
+    expect(view.queryByRole(...query)).not.to.exist;
   }
 }
 
@@ -61,16 +74,16 @@ function claimsInfoIsShown(view) {
 }
 
 function educationInfoIsShown(view, shown = true) {
-  if (shown) {
-    view.getByRole('link', {
+  const query = [
+    'link',
+    {
       name: /learn how to apply for.*education benefits/i,
-    });
+    },
+  ];
+  if (shown) {
+    view.getByRole(...query);
   } else {
-    expect(
-      view.queryByRole('link', {
-        name: /learn how to apply for.*education benefits/i,
-      }),
-    ).to.not.exist;
+    expect(view.queryByRole(...query)).to.not.exist;
   }
 }
 
@@ -101,7 +114,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.getByText(/you have no applications in progress/i)).to.exist;
+      noApplicationsInProgressShown(view);
     });
 
     it('does not render unknown applications that are in progress', () => {
@@ -130,7 +143,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.getByText(/you have no applications in progress/i)).to.exist;
+      noApplicationsInProgressShown(view);
     });
 
     it('does not render applications-in-progress that have expired', () => {
@@ -170,7 +183,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.getByText(/you have no applications in progress/i)).to.exist;
+      noApplicationsInProgressShown(view);
     });
 
     it('sorts the in-progress applications, listing the soonest-to-expire applications first', () => {
@@ -247,8 +260,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.queryByText(/you have no applications in progress/i)).not.to
-        .exist;
+      noApplicationsInProgressHidden(view);
       const applicationsInProgress = view.getAllByTestId(
         'application-in-progress',
       );
