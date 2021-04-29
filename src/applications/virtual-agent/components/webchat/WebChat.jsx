@@ -19,10 +19,18 @@ const WebChat = ({ token, WebChatFramework }) => {
     [token, createDirectLine],
   );
 
+  const styleOptions = {
+    hideUploadButton: true,
+    botAvatarBackgroundColor: '#003e73', // color-primary-darker
+    botAvatarInitials: 'VA',
+    userAvatarBackgroundColor: '#003e73', // color-primary-darker
+    userAvatarInitials: 'You',
+  };
+
   return (
     <div data-testid={'webchat'} style={{ height: '500px', width: '100%' }}>
       <ReactWebChat
-        styleOptions={{ hideUploadButton: true }}
+        styleOptions={styleOptions}
         directLine={directLine}
         store={store}
         renderMarkdown={renderMarkdown}
