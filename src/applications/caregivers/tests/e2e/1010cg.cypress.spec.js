@@ -3,7 +3,7 @@ import path from 'path';
 import formConfig from 'applications/caregivers/config/form';
 import manifest from 'applications/caregivers/manifest.json';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import featureToggles from './fixtures/mocks/feature-toggles';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import {
   veteranSignatureContent,

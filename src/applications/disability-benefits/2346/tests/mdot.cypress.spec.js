@@ -74,9 +74,10 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       let postData = [];
       cy.get('@testKey').then(testKey => {
+        cy.server();
         cy.login(testKey);
         if (testKey === 'noBatteries') {
-          cy.intercept('GET', '/v0/user', noBatteries);
+          cy.route('GET', '/v0/user', noBatteries);
           postData = [
             {
               status: 'Order Processed',
@@ -90,7 +91,7 @@ const testConfig = createTestConfig(
             },
           ];
         } else if (testKey === 'noAccessories') {
-          cy.intercept('GET', '/v0/user', noAccessories);
+          cy.route('GET', '/v0/user', noAccessories);
           postData = [
             {
               status: 'Order Processed',
@@ -99,7 +100,7 @@ const testConfig = createTestConfig(
             },
           ];
         } else if (testKey === 'noTempAddress') {
-          cy.intercept('GET', '/v0/user', noTempAddress);
+          cy.route('GET', '/v0/user', noTempAddress);
           postData = [
             {
               status: 'Order Processed',
@@ -118,7 +119,7 @@ const testConfig = createTestConfig(
             },
           ];
         } else {
-          cy.intercept('GET', '/v0/user', happyPath);
+          cy.route('GET', '/v0/user', happyPath);
           postData = [
             {
               status: 'Order Processed',
@@ -139,10 +140,10 @@ const testConfig = createTestConfig(
         }
       });
       cy.get('@testData').then(testData => {
-        cy.intercept('GET', '/v0/in_progress_forms/MDOT', testData);
+        cy.route('GET', '/v0/in_progress_forms/MDOT', testData);
       });
       cy.get('@testKey').then(() => {
-        cy.intercept('POST', '/v0/mdot/supplies', postData);
+        cy.route('POST', '/v0/mdot/supplies', postData);
       });
     },
     skip: false,
