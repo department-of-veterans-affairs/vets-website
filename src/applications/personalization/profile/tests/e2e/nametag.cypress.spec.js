@@ -36,6 +36,7 @@ describe('Profile NameTag', () => {
     it('should render the name, service branch, and disability rating', () => {
       mockFeatureToggles();
       cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+      cy.percySnapshot();
       nameTagRendersWithDisabilityRating();
     });
   });
