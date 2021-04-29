@@ -8,7 +8,7 @@ describe('health_care_region_locations_page', () => {
   describe('PhoneNumbers', () => {
     let container;
     const data = parseFixture(
-      'src/site/layouts/tests/vamc/fixtures/health_care_region_locations_page.json',
+      'src/site/layouts/tests/vamc/fixtures/health_care_region_page.json',
     );
 
     before(async () => {
