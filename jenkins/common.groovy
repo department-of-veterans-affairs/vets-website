@@ -216,6 +216,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       // a Content Release. This way, if there is a broken link,
       // feature branches aren't affected, so VFS teams can
       // continue merging.
+      return;
     }
 
     slackSend(
