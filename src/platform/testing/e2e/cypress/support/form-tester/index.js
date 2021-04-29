@@ -135,6 +135,8 @@ const addNewArrayItem = $form => {
  * 5. Run the post hook.
  *
  * @param {string} pathname - The pathname of the page to run the page hook on.
+ * @param {boolean} [skipHeadingOrderCheck=false] - Flag to skip running the
+ * `heading-order` check on the page.
  */
 const performPageActions = (pathname, skipHeadingOrderCheck = false) => {
   cy.axeCheck({ skipHeadingOrderCheck });
@@ -161,6 +163,9 @@ const performPageActions = (pathname, skipHeadingOrderCheck = false) => {
 /**
  * Top level loop that invokes all of the processing for a form page and
  * asserts that it proceeds to the next page until it gets to the confirmation.
+ *
+ * @param {boolean} [skipHeadingOrderCheck=false] - Flag to skip running the
+ * `heading-order` check on the page.
  */
 const processPage = (skipHeadingOrderCheck = false) => {
   cy.location('pathname', NO_LOG_OPTION).then(pathname => {
@@ -478,7 +483,9 @@ Cypress.Commands.add('fillPage', () => {
  *     if it's otherwise truthy.
  * ---
  * @param {TestConfig} testConfig
- * @param {Object} additionalOptions
+ * @param {Object} options
+ * @param {boolean} [options.skipHeadingOrderCheck=false] - Flag to skip running
+ * the `heading-order` check on all pages of the form.
  */
 const testForm = (testConfig, { skipHeadingOrderCheck = false } = {}) => {
   const {

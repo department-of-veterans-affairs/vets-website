@@ -35,7 +35,16 @@ ${violations
 
 /**
  * Checks the passed selector and children for axe violations.
- * @param {Object} [additionalRules={}] - Rules object to modify aXe config.
+ * @param {Object} [options={}] - Options to modify how and which checks are run
+ * @param {Object} [options.additionalRules={}] - An object of additional rules
+ * to mix in with the default rules
+ * @param {string} [options.context='main'] - CSS selector to set the root of
+ * the check
+ * @param {boolean} [options.skipHeadingOrderCheck=false] - Flag to skip running
+ * the `heading-order` check. This is needed because many pages that run the
+ * `axeCheck` would currently fail this check. In a perfect world, all of those
+ * existing violations would get resolved and we could remove this option to
+ * easily skip the check.
  */
 Cypress.Commands.add(
   'axeCheck',
