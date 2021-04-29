@@ -23,7 +23,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
 
       // Form page
       // Take a snapshot for visual diffing
-      cy.percySnapshot('Empty form');
+      cy.percySnapshot('COVID-19 Vaccination Preparation Form, Empty form');
 
       cy.url().should(
         'include',
@@ -74,7 +74,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.get('#root_vaccineInterest_0').check();
 
       // Take a snapshot for visual diffing
-      cy.percySnapshot('Completed form');
+      cy.percySnapshot('COVID-19 Vaccination Preparation Form, Completed form');
 
       cy.axeCheck();
       cy.route('POST', '**/covid_vaccine/v0/registration', {
@@ -87,7 +87,9 @@ describe('COVID-19 Vaccination Preparation Form', () => {
 
       // Confirmation page
       // Take a snapshot for visual diffing
-      cy.percySnapshot('Confirmation page');
+      cy.percySnapshot(
+        'COVID-19 Vaccination Preparation Form, Confirmation page',
+      );
 
       cy.url().should(
         'include',
