@@ -56,26 +56,26 @@ jobs:
       - store_artifacts:
           path: ./test-results
 
-  contract-test:
-    executor: circleci-node
-    steps:
-      - checkout
-      - yarn-install-cache
-      - run: mkdir -p ./test-results
-      - run: mkdir -p ./pacts
-      - run:
-          command: yarn test:contract
-          environment:
-            MOCHA_FILE: ./test-results/test-results.xml
-      - run: yarn pact:publish
-      - persist_to_workspace:
-          root: .
-          paths:
-            - pacts
-      - store_test_results:
-          path: ./test-results
-      - store_artifacts:
-          path: ./test-results
+  # contract-test:
+  #   executor: circleci-node
+  #   steps:
+  #     - checkout
+  #     - yarn-install-cache
+  #     - run: mkdir -p ./test-results
+  #     - run: mkdir -p ./pacts
+  #     - run:
+  #         command: yarn test:contract
+  #         environment:
+  #           MOCHA_FILE: ./test-results/test-results.xml
+  #     - run: yarn pact:publish
+  #     - persist_to_workspace:
+  #         root: .
+  #         paths:
+  #           - pacts
+  #     - store_test_results:
+  #         path: ./test-results
+  #     - store_artifacts:
+  #         path: ./test-results
 
   # test ability to pull cache from drupal
   drupal-cache-test:
@@ -93,15 +93,15 @@ jobs:
             - ~/.cache/yarn
       - run: yarn fetch-drupal-cache
 
-  can-i-deploy:
-    executor: circleci-node
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - yarn-install-cache
-      - run: yarn pact:verify
-      - run: yarn pact:can-i-deploy
+  # can-i-deploy:
+  #   executor: circleci-node
+  #   steps:
+  #     - checkout
+  #     - attach_workspace:
+  #         at: .
+  #     - yarn-install-cache
+  #     - run: yarn pact:verify
+  #     - run: yarn pact:can-i-deploy
 
   security-audit:
     executor: circleci-node
