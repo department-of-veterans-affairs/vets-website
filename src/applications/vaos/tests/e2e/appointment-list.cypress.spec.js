@@ -9,6 +9,7 @@ describe('VAOS appointment list', () => {
     initAppointmentListMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.get('.va-modal-body button').click();
+    cy.percySnapshot();
     cy.injectAxe();
   });
 
