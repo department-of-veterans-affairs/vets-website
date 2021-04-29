@@ -12,7 +12,7 @@ import {
 } from '../../../utils/timezone';
 import { GA_PREFIX, PURPOSE_TEXT } from '../../../utils/constants';
 
-export default function ConfirmationDirectScheduleInfo({
+export default function ConfirmationDirectScheduleInfoV2({
   data,
   facilityDetails,
   clinic,

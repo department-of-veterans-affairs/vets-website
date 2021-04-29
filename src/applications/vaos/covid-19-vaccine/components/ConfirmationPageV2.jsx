@@ -16,7 +16,7 @@ import { formatFacilityAddress } from 'applications/vaos/services/location';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
-function ConfirmationPage({
+function ConfirmationPageV2({
   clinic,
   data,
   systemId,
@@ -75,7 +75,7 @@ function ConfirmationPage({
             facilityName={facilityDetails?.name}
             facilityId={facilityDetails.id}
             isHomepageRefresh
-            clinicFriendlyName={clinic.serviceName}
+            clinicFriendlyName={clinic?.serviceName}
           />
         </div>
       </div>
@@ -113,4 +113,4 @@ function ConfirmationPage({
   );
 }
 
-export default connect(selectConfirmationPage)(ConfirmationPage);
+export default connect(selectConfirmationPage)(ConfirmationPageV2);
