@@ -336,9 +336,6 @@ export default function formReducer(state = initialState, action) {
         ? FACILITY_SORT_METHODS.distanceFromResidential
         : FACILITY_SORT_METHODS.alphabetical;
 
-      const parentFacilities =
-        action.parentFacilities || state.parentFacilities;
-
       if (hasResidentialCoordinates && facilities.length) {
         facilities = facilities
           .map(facility => {
@@ -400,7 +397,6 @@ export default function formReducer(state = initialState, action) {
           ...state.facilities,
           [typeOfCareId]: facilities,
         },
-        parentFacilities,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
         showEligibilityModal: false,

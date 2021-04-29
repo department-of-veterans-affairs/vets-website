@@ -9,10 +9,10 @@ export const OptInTitle = (
 
 export const optInDescription = (
   <span className="hide-on-review">
-    By checking this box, you’re withdrawing your claim for this condition from
-    the legacy appeals process (this is the process for decisions received
-    before February 19, 2019). Instead, the Board will consider your claim for
-    this condition under the new process.
+    By checking this box, you’re withdrawing any issues you’ve selected from the
+    legacy appeals process (this is the process for decisions received before
+    February 19, 2019). Instead, the Board will consider your claim for this
+    condition under the new process.
   </span>
 );
 

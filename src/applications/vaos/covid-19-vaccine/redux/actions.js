@@ -4,10 +4,7 @@ import {
   selectVAPHomePhoneString,
   selectVAPMobilePhoneString,
 } from 'platform/user/selectors';
-import {
-  selectFeatureVSPAppointmentNew,
-  selectSystemIds,
-} from '../../redux/selectors';
+import { selectSystemIds } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
   getLocationsByTypeOfCareAndSiteIds,
@@ -240,7 +237,6 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
 export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useVSP = selectFeatureVSPAppointmentNew(state);
     const siteId = getSiteIdFromFacilityId(
       selectCovid19VaccineFormData(state).vaFacility,
     );
@@ -287,7 +283,6 @@ export function getAppointmentSlots(startDate, endDate, initialFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
-          useVSP,
         });
 
         if (initialFetch) {
