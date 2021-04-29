@@ -160,6 +160,21 @@
   }
   .usa-input-error {
     margin-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+.currency-input {
+  position: relative;
+  max-width: 350px;
+  &:after {
+    content: "$";
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+  input {
+    padding-left: 25px;
   }
 }
 
@@ -218,20 +233,6 @@
     .fieldset-input:first-child {
       margin-top: 0;
     }
-  }
-}
-
-.currency-input {
-  position: relative;
-  max-width: 350px;
-  &:after {
-    content: "$";
-    position: absolute;
-    top: 65px;
-    left: 10px;
-  }
-  input {
-    padding-left: 25px;
   }
 }
 

@@ -37,6 +37,40 @@ export const uiSchema = {
   },
   selectedDebts: {
     'ui:field': ResolutionDebtCards,
+    'ui:options': {
+      keepInPageOnReview: true,
+    },
+    items: {
+      resolution: {
+        resolutionType: {
+          'ui:title': 'Resolution Type',
+          'ui:required': (formData, index) => {
+            const { selectedDebts } = formData;
+            return !selectedDebts[index].resolution.resolutionType;
+          },
+        },
+        offerToPay: {
+          'ui:title': 'Offer to Pay',
+          'ui:required': (formData, index) => {
+            const { selectedDebts } = formData;
+            return (
+              selectedDebts[index].resolution.resolutionType !== 'Waiver' &&
+              !selectedDebts[index].resolution.offerToPay
+            );
+          },
+        },
+        agreeToWaiver: {
+          'ui:title': 'Agree to Waiver',
+          'ui:required': (formData, index) => {
+            const { selectedDebts } = formData;
+            return (
+              selectedDebts[index].resolution.resolutionType === 'Waiver' &&
+              !selectedDebts[index].resolution.agreeToWaiver
+            );
+          },
+        },
+      },
+    },
   },
 };
 
@@ -55,16 +89,19 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        title: 'Resolution Item',
         properties: {
           resolution: {
             type: 'object',
-            required: ['resolutionType', 'resolutionValue'],
             properties: {
               resolutionType: {
                 type: 'string',
               },
-              resolutionValue: {
-                type: 'string | boolean',
+              offerToPay: {
+                type: 'string',
+              },
+              agreeToWaiver: {
+                type: 'boolean',
               },
             },
           },
