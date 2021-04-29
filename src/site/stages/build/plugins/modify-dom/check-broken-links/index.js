@@ -83,6 +83,7 @@ module.exports = {
       brokenLinksCount,
     };
 
+    fs.ensureFileSync(this.logFile);
     fs.writeJSONSync(this.logFile, brokenLinksJson);
     console.log(`Broken links found. See results in ${this.logFile}.`);
 
