@@ -43,6 +43,7 @@ describe('MyVA Dashboard', () => {
     });
     it('should show all the available widgets', () => {
       cy.visit('my-va/');
+      cy.percySnapshot();
 
       // The COVID-19 alert shows up
       cy.findByText(
