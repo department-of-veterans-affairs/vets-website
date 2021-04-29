@@ -12,6 +12,7 @@ import * as Sentry from '@sentry/browser';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
+import { apiRequest } from 'platform/utilities/api';
 
 const ENTER_KEY = 13;
 
@@ -94,10 +95,14 @@ export class SearchMenu extends React.Component {
 
     // fetch suggestions
     try {
-      const response = await fetch(
-        `https://api.va.gov/v0/search_typeahead?query=${encodedInput}`,
+      const apiRequestOptions = {
+        method: 'GET',
+      };
+      const suggestions = await apiRequest(
+        `/search_typeahead?query=${encodedInput}`,
+        apiRequestOptions,
       );
-      const suggestions = await response.json();
+
       if (suggestions.length !== 0) {
         const sortedSuggestions = suggestions.sort(function(a, b) {
           return a.length - b.length;

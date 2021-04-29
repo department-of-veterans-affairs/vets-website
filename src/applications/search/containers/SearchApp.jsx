@@ -170,7 +170,6 @@ class SearchApp extends React.Component {
 
     const encodedUrl = encodeURIComponent(url);
     const userAgent = encodeURIComponent(navigator.userAgent);
-    const searchClickTrackingEndpoint = `/search_click_tracking`;
     const encodedQuery = encodeURIComponent(query);
     const apiRequestOptions = {
       method: 'POST',
@@ -178,7 +177,7 @@ class SearchApp extends React.Component {
     const moduleCode = bestBet ? 'BOOS' : 'I14Y';
 
     apiRequest(
-      `${searchClickTrackingEndpoint}?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
+      `/search_click_tracking?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
       apiRequestOptions,
     );
   };
