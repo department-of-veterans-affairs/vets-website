@@ -38,11 +38,14 @@ class SearchApp extends React.Component {
 
     const userInputFromURL = this.props.router?.location?.query?.query || '';
     const pageFromURL = this.props.router?.location?.query?.page || undefined;
+    const typeaheadUsed =
+      this.props.router?.location?.query?.t === 'true' || false;
 
     this.state = {
       userInput: userInputFromURL,
       currentResultsQuery: userInputFromURL,
       page: pageFromURL,
+      typeaheadUsed,
     };
 
     if (!userInputFromURL) {
@@ -166,6 +169,7 @@ class SearchApp extends React.Component {
       'search-result-type': 'title',
       'search-selection': 'All VA.gov',
       'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
+      'search-typeahead-used': this.state.typeaheadUsed,
     });
 
     const encodedUrl = encodeURIComponent(url);

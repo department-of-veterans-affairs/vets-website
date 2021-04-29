@@ -196,12 +196,15 @@ export class SearchMenu extends React.Component {
       'type-ahead-options-count': suggestionsList.length,
     });
 
+    const typeaheadUsed = !!suggestion;
     // unifier to let the same function be used if we are searching from a userInput or a suggestion
     const query = suggestion || userInput;
 
     // create a search url
     const searchUrl = replaceWithStagingDomain(
-      `https://www.va.gov/search/?query=${encodeURIComponent(query)}`,
+      `https://www.va.gov/search/?query=${encodeURIComponent(
+        query,
+      )}&t=${typeaheadUsed}`,
     );
 
     // relocate to search results, preserving history
