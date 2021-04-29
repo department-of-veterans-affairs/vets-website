@@ -70,11 +70,7 @@ const UnStyledButtonInAccordion = styled.button`
   width: auto !important;
 `;
 
-const SharableLink = ({
-  dataEntityId,
-  idx,
-  // ,showSharableLink
-}) => {
+const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
   const [feedbackActive, setFeedbackActive] = useState(false);
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
@@ -138,7 +134,7 @@ const SharableLink = ({
       setLeftPx(0);
       setTopPx(0);
       onBlur(extractId(activeId));
-    }, 3000);
+    }, 10000);
   };
 
   const displayFeedback = iconElement => {
@@ -158,8 +154,7 @@ const SharableLink = ({
     hideFeedback(iconElement.getAttribute('id'));
   };
 
-  // TODO: add bac the feature flag
-  if (true) {
+  if (showSharableLink) {
     return (
       <ThemeProvider theme={theme.main}>
         <span aria-live="polite" aria-relevant="additions">
