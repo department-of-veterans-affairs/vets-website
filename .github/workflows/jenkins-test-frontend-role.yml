@@ -24,11 +24,6 @@ jobs:
           ssm_parameter: /frontend-team/github-actions/parameters/JENKINS_API_TOKEN
           env_variable_name: JENKINS_API_TOKEN  
 
-      # - name: curl
-      #   uses: wei/curl@v1
-      #   with:
-      #     args: -X POST -L --user va-cms-bot:${{ env.JENKINS_API_TOKEN }} https://dev.va.gov/jenkins/job/test/job/vets-website/build --data-urlencode json='{"parameter":[{"name":"notify_slack","value":true},{"name":"ref","value":"cd587193ea7a8685d917b0a0443bb75a2a418cea"},{"name":"app","value":"vets-website"},{"name":"environment","value":"vagovstaging"},{"name":"migration_status","value":false},{"name":"cancel_build","value":false}]}'
-
       - name: curl Jenkins job
         run:  |
             curl -X POST -L --user va-cms-bot:${{ env.JENKINS_API_TOKEN }} https://dev.va.gov/jenkins/job/testing/job/vets-website/build --data-urlencode json='{"parameter": [{"name":"notify_slack","value":true},{"name":"ref","value":"cd587193ea7a8685d917b0a0443bb75a2a418cea"},{"name":"app","value":"vets-website"},{"name":"environment","value":"vagovstaging"},{"name":"migration_status","value":false},{"name":"cancelBuild","value":false}]}'
