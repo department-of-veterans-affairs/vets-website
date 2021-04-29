@@ -10,7 +10,7 @@
   "testFiles": "**/tests/**/*.cypress.spec.js?(x)",
   "waitForAnimations": false,
   "retries": {
-    "runMode": 2,
+    "runMode": 0, // Reset to 2 and delete this comment.
     "openMode": 0
   },
   "env": {
