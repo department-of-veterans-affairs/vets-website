@@ -179,7 +179,7 @@ const testSecondaryTwo = createTestConfig(
           }
         });
         // sign signature as veteran
-        
+
         cy.route({
           method: 'POST',
           url: '/v0/caregivers_assistance_claims',
