@@ -2,13 +2,31 @@
 import { useEffect, useState } from 'react';
 import { orderBy } from 'lodash';
 // Relative imports.
+import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   EXPERIMENTAL_SEARCH_IGNORE_LIST,
   SEARCH_IGNORE_LIST,
 } from '../constants';
 
-const countInstancesFound = (searchableString = '', keyword = '') =>
+const countKeywordsFound = (searchableString = '', keyword = '') => {
+  let keywordsFound = 0;
+
+  // Change the searchable string into a list of words.
+  const searchableWords = searchableString.toLowerCase()?.split(' ');
+
+  // Iterate over each word and see if we have any keywords that match it.
+  searchableWords?.forEach(word => {
+    if (keyword === word) {
+      keywordsFound += 1;
+    }
+  });
+
+  // Return the total number of keywords found.
+  return keywordsFound;
+};
+
+const countWholePhraseMatchesFound = (searchableString = '', keyword = '') =>
   searchableString.toLowerCase()?.split(keyword.toLowerCase())?.length - 1;
 
 export default function useGetSearchResults(articles, query, page) {
@@ -67,31 +85,31 @@ export default function useGetSearchResults(articles, query, page) {
         // Derive keywords counts.
         const keywordsCountsTitle = keywords?.reduce(
           (keywordInstances, keyword) =>
-            keywordInstances + countInstancesFound(article.title, keyword),
+            keywordInstances + countKeywordsFound(article.title, keyword),
           0,
         );
         const keywordsCountsIntroText = keywords?.reduce(
           (keywordInstances, keyword) =>
-            keywordInstances + countInstancesFound(article.introText, keyword),
+            keywordInstances + countKeywordsFound(article.introText, keyword),
           0,
         );
         const keywordsCountsContent = keywords?.reduce(
           (keywordInstances, keyword) =>
             keywordInstances +
-            countInstancesFound(article.searchableContent, keyword),
+            countKeywordsFound(article.searchableContent, keyword),
           0,
         );
 
         // Derive whole phrase match counts.
-        const wholePhraseMatchCountsTitle = countInstancesFound(
+        const wholePhraseMatchCountsTitle = countWholePhraseMatchesFound(
           article.title,
           query,
         );
-        const wholePhraseMatchCountsIntroText = countInstancesFound(
+        const wholePhraseMatchCountsIntroText = countWholePhraseMatchesFound(
           article.introText,
           query,
         );
-        const wholePhraseMatchCountsContent = countInstancesFound(
+        const wholePhraseMatchCountsContent = countWholePhraseMatchesFound(
           article.searchableContent,
           query,
         );
