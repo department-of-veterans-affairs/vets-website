@@ -1,10 +1,7 @@
-/**
- * The top-level page for a health care region.
- * Example: /pittsburgh_health_care_system
- */
+const { generatePaginatedQueries } = require('../individual-queries-helpers');
 const entityElementsFromPages = require('./entityElementsForPages.graphql');
 
-const pressReleasePage = `
+const pressReleaseFragment = `
   fragment pressReleasePage on NodePressRelease {
     ${entityElementsFromPages}
     fieldReleaseDate {
@@ -75,25 +72,39 @@ const pressReleasePage = `
   }
 `;
 
-const GetNodePressReleasePages = `
+const getPressReleaseSlice = (operationName, offset, limit) => {
+  return `
 
-  ${pressReleasePage}
-
-  query GetNodePressRelease($onlyPublishedContent: Boolean!) {
-    nodeQuery(limit: 1000, filter: {
-      conditions: [
-        { field: "status", value: ["1"], enabled: $onlyPublishedContent },
-        { field: "type", value: ["press_release"] }
-      ]
-    }) {
-      entities {
-        ... pressReleasePage
+    ${pressReleaseFragment}
+  
+    query GetNodePressRelease($onlyPublishedContent: Boolean!) {
+      nodeQuery(
+        limit: ${limit}
+        offset: ${offset}
+        filter: {
+        conditions: [
+          { field: "status", value: ["1"], enabled: $onlyPublishedContent },
+          { field: "type", value: ["press_release"] }
+        ]
+      }) {
+        entities {
+          ... pressReleasePage
+        }
       }
     }
-  }
-`;
+  `;
+};
+
+const getPressReleaseQueries = entityCounts => {
+  return generatePaginatedQueries({
+    operationNamePrefix: 'GetPressRelease',
+    entitiesPerSlice: 25,
+    totalEntities: entityCounts.data.pressReleases.count,
+    getSlice: getPressReleaseSlice,
+  });
+};
 
 module.exports = {
-  fragment: pressReleasePage,
-  GetNodePressReleasePages,
+  fragment: pressReleaseFragment,
+  getPressReleaseQueries,
 };

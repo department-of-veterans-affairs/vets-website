@@ -14,7 +14,6 @@ import { startDirectScheduleFlow } from '../../../new-appointment/redux/actions'
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: true,
   },

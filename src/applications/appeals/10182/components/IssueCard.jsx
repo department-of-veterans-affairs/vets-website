@@ -1,7 +1,8 @@
 import React from 'react';
-import { format } from 'date-fns';
+import PropTypes from 'prop-types';
+import moment from 'moment';
 
-import { SELECTED } from '../constants';
+import { SELECTED, FORMAT_READABLE } from '../constants';
 
 /**
  * IssueCardContent
@@ -9,7 +10,7 @@ import { SELECTED } from '../constants';
  * @param {String} ratingIssuePercentNumber - rating %, number with no %
  * @param {String} approxDecisionDate - contestable issue date formatted as
  *   "YYYY-MM-DD"
- * @param {String} approxDecisionDate - additional issue date formatted as
+ * @param {String} decisionDate - additional issue date formatted as
  *   "YYYY-MM-DD"
  * @return {React Component}
  */
@@ -34,14 +35,18 @@ export const IssueCardContent = ({
       )}
       {date && (
         <p>
-          Decision date:{' '}
-          <strong>
-            {format(new Date(`${date} 00:00:00`), 'MMMM d, yyyy')}
-          </strong>
+          Decision date: <strong>{moment(date).format(FORMAT_READABLE)}</strong>
         </p>
       )}
     </div>
   );
+};
+
+IssueCardContent.propTypes = {
+  decisionDate: PropTypes.string,
+  description: PropTypes.string,
+  ratingIssuePercentNumber: PropTypes.string,
+  approxDecisionDate: PropTypes.string,
 };
 
 /**
@@ -63,7 +68,6 @@ export const IssueCardContent = ({
  * @typedef {Object}
  * @property {String} id - ID base for form elements
  * @property {Number} index - index of item in list
- * @property {Boolean} isLastItem - flag indicating the entry is last
  * @property {ContestableIssue|AdditionalIssue} item - issue values
  * @property {Object} options - ui:options
  * @property {func} onChange - onChange callback
@@ -73,9 +77,8 @@ export const IssueCardContent = ({
 export const IssueCard = ({
   id,
   index,
-  isLastItem = false,
   item = {},
-  options,
+  options = {},
   onChange,
   showCheckbox,
   onEdit,
@@ -97,7 +100,7 @@ export const IssueCard = ({
     showCheckbox ? '' : 'checkbox-hidden',
     `vads-u-padding-top--${showCheckbox ? 1 : 0}`,
     'vads-u-padding-right--3',
-    isLastItem ? '' : 'vads-u-margin-bottom--3',
+    'vads-u-margin-bottom--3',
   ].join(' ');
 
   const outlineClass = [
@@ -161,4 +164,25 @@ export const IssueCard = ({
       </dd>
     </div>
   );
+};
+
+IssueCard.propTypes = {
+  id: PropTypes.string,
+  index: PropTypes.number,
+  showCheckbox: PropTypes.bool,
+  item: PropTypes.shape({
+    // not using oneOf because there is a lot of extra props in here
+    issue: PropTypes.string,
+    decisionDate: PropTypes.string,
+    ratingIssueSubjectText: PropTypes.string,
+    description: PropTypes.string,
+    ratingIssuePercentNumber: PropTypes.string,
+    approxDecisionDate: PropTypes.string,
+    [SELECTED]: PropTypes.bool,
+  }),
+  options: PropTypes.shape({
+    appendId: PropTypes.string,
+  }),
+  onChange: PropTypes.func,
+  onEdit: PropTypes.func,
 };
