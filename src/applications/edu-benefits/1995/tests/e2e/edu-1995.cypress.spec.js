@@ -17,8 +17,8 @@ const form = createTestConfig(
     },
     setupPerTest: () => {
       cy.login(mockUser);
-      cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
-      cy.route('POST', '/v0/education_benefits_claims/1995', {
+      cy.intercept('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
+      cy.intercept('POST', '/v0/education_benefits_claims/1995', {
         data: {
           attributes: {
             confirmationNumber: 'BB935000000F3VnCAW',
@@ -27,7 +27,7 @@ const form = createTestConfig(
         },
       });
       cy.get('@testData').then(testData => {
-        cy.route('GET', '/v0/in_progress_forms/22-1995', testData);
+        cy.intercept('GET', '/v0/in_progress_forms/22-1995', testData);
       });
     },
     pageHooks: {
