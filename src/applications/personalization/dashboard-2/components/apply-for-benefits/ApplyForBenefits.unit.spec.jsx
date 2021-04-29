@@ -308,10 +308,10 @@ describe('ApplyForBenefits component', () => {
             name: /apply for VA health care/i,
           });
           view.getByRole('link', {
-            name: /learn how to file a claim/i,
+            name: /learn how to file a.*claim/i,
           });
           view.getByRole('link', {
-            name: /learn how to apply for education benefits/i,
+            name: /learn how to apply for.*education benefits/i,
           });
         });
       },
@@ -403,12 +403,12 @@ describe('ApplyForBenefits component', () => {
           ).to.exist;
           expect(
             view.getByRole('link', {
-              name: /learn how to file a claim/i,
+              name: /learn how to file a.*claim/i,
             }),
           ).to.exist;
           expect(
             view.getByRole('link', {
-              name: /learn how to apply for education benefits/i,
+              name: /learn how to apply for.*education benefits/i,
             }),
           ).to.exist;
         });
@@ -462,7 +462,7 @@ describe('ApplyForBenefits component', () => {
           // this assertion is to make sure that a loading spinner is not
           // rendered
           view.getByRole('link', {
-            name: /learn how to apply for education benefits/i,
+            name: /learn how to apply for.*education benefits/i,
           });
           expect(
             view.queryByRole('link', {
@@ -518,7 +518,7 @@ describe('ApplyForBenefits component', () => {
             reducers,
           });
           view.getByRole('link', {
-            name: /learn how to apply for education benefits/i,
+            name: /learn how to apply for.*education benefits/i,
           });
           view.getByRole('link', {
             name: /apply for VA health care/i,
@@ -562,10 +562,10 @@ describe('ApplyForBenefits component', () => {
             }),
           ).to.not.exist;
           view.getByRole('link', {
-            name: /learn how to file a claim/i,
+            name: /learn how to file a.*claim/i,
           });
           view.getByRole('link', {
-            name: /learn how to apply for education benefits/i,
+            name: /learn how to apply for.*education benefits/i,
           });
         });
       },
@@ -600,10 +600,10 @@ describe('ApplyForBenefits component', () => {
           }),
         ).to.not.exist;
         view.getByRole('link', {
-          name: /learn how to file a claim/i,
+          name: /learn how to file a.*claim/i,
         });
         view.getByRole('link', {
-          name: /learn how to apply for education benefits/i,
+          name: /learn how to apply for.*education benefits/i,
         });
       });
     });
@@ -642,11 +642,11 @@ describe('ApplyForBenefits component', () => {
             name: /apply for VA health care/i,
           });
           view.getByRole('link', {
-            name: /learn how to file a claim/i,
+            name: /learn how to file a.*claim/i,
           });
           expect(
             view.queryByRole('link', {
-              name: /learn how to apply for education benefits/i,
+              name: /learn how to apply for.*education benefits/i,
             }),
           ).to.not.exist;
         });
@@ -684,11 +684,11 @@ describe('ApplyForBenefits component', () => {
           }),
         ).to.not.exist;
         view.getByRole('link', {
-          name: /learn how to file a claim/i,
+          name: /learn how to file a.*claim/i,
         });
         expect(
           view.queryByRole('link', {
-            name: /learn how to apply for education benefits/i,
+            name: /learn how to apply for.*education benefits/i,
           }),
         ).to.not.exist;
       });
