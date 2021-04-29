@@ -29,8 +29,8 @@ export const transform = ({ data }) => {
   const income = getIncome(data);
 
   const totalAmountCanBePaidTowardDebt = selectedDebts
-    .filter(item => item.resolution.offerToPay !== undefined)
-    .reduce((acc, debt) => acc + Number(debt.resolution.offerToPay), 0);
+    .filter(item => item.resolution.resolutionValue === 'string')
+    .reduce((acc, debt) => acc + Number(debt.resolution.resolutionValue), 0);
 
   const formObj = {
     personalIdentification: {

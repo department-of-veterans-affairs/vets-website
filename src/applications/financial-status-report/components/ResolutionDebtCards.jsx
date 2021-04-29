@@ -14,8 +14,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 const ExpandedContent = ({ debt, updateDebts }) => {
-  const objKey = 'offerToPay';
-
+  const objKey = 'resolutionValue';
   const [errors, setErrors] = useState({
     extended: false,
     compromise: false,
@@ -30,7 +29,7 @@ const ExpandedContent = ({ debt, updateDebts }) => {
         checkbox: false,
       }));
     },
-    [debt.resolution?.agreeToWaiver],
+    [debt.resolution?.resolutionValue],
   );
 
   switch (debt.resolution.resolutionType) {
@@ -40,7 +39,7 @@ const ExpandedContent = ({ debt, updateDebts }) => {
           <TextInput
             additionalClass="input-size-3"
             label="How much can you afford to pay monthly on this debt?"
-            field={{ value: debt.resolution.offerToPay || '' }}
+            field={{ value: debt.resolution?.resolutionValue || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
             errorMessage={errors.extended && 'Please enter an amount'}
             required
@@ -53,7 +52,7 @@ const ExpandedContent = ({ debt, updateDebts }) => {
           <TextInput
             additionalClass="input-size-3"
             label="How much do you offer to pay for this debt with a single payment?"
-            field={{ value: debt.resolution.offerToPay || '' }}
+            field={{ value: debt.resolution?.resolutionValue || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
             errorMessage={errors.compromise && 'Please enter an amount'}
             required
@@ -64,8 +63,8 @@ const ExpandedContent = ({ debt, updateDebts }) => {
       return (
         <Checkbox
           label="By checking this box, I’m agreeing that I understand how a debt waiver may affect my VA education benefits. If VA grants me a waiver, this will reduce any remaining education benefit entitlement I may have."
-          checked={debt.resolutionType?.agreeToWaiver}
-          onValueChange={value => updateDebts('agreeToWaiver', value, debt)}
+          checked={debt.resolutionType?.resolutionValue}
+          onValueChange={value => updateDebts(objKey, value, debt)}
           errorMessage={errors.checkbox && 'Please provide a response'}
           required
         />
@@ -84,7 +83,7 @@ const ResolutionDebtCards = ({ formData, selectedDebts, setDebts }) => {
     setDebts({
       ...formData,
       selectedDebts: selectedDebts.map(item => {
-        if (item.id === debt.id && value === 'Waiver') {
+        if (item.id === debt.id && objKey === 'resolutionType') {
           return {
             ...item,
             resolution: {
@@ -92,7 +91,7 @@ const ResolutionDebtCards = ({ formData, selectedDebts, setDebts }) => {
             },
           };
         }
-        if (item.id === debt.id && value !== 'Waiver') {
+        if (item.id === debt.id && objKey === 'resolutionValue') {
           return {
             ...item,
             resolution: {

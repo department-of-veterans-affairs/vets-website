@@ -58,16 +58,13 @@ export const schema = {
         properties: {
           resolution: {
             type: 'object',
-            required: ['resolutionType', 'offerToPay'],
+            required: ['resolutionType', 'resolutionValue'],
             properties: {
               resolutionType: {
                 type: 'string',
               },
-              offerToPay: {
-                type: 'string',
-              },
-              agreeToWaiver: {
-                type: 'boolean',
+              resolutionValue: {
+                type: 'string | boolean',
               },
             },
           },
