@@ -2,17 +2,18 @@
 import React, { Component } from 'react';
 import { range } from 'lodash';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
 // Relative Imports
 import recordEvent from 'platform/monitoring/record-event';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import Select from '@department-of-veterans-affairs/component-library/Select';
+import AnswerReview from './AnswerReview';
+import BranchOfServiceQuestion from './BranchOfServiceQuestion';
 import { months } from 'platform/static-data/options-for-select.js';
 import { focusElement } from 'platform/utilities/ui';
 import { questionLabels, prevApplicationYearCutoff } from '../constants';
-import { answerReview, shouldShowQuestion } from '../helpers';
+import { shouldShowQuestion } from '../helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -24,10 +25,10 @@ class FormQuestions extends Component {
     focusElement(el);
   }
 
-  updateField(name, value) {
+  updateField = (name, value) => {
     this.props.updateField(name, value);
     this.forceUpdate();
-  }
+  };
 
   scrollToLast = action => {
     setTimeout(() => {
@@ -85,13 +86,15 @@ class FormQuestions extends Component {
       },
     );
 
+    // this[e.target.name].querySelector('input') ||
+    // this[e.target.name].querySelector('select')
     (
-      this[e.target.name].querySelector('input') ||
-      this[e.target.name].querySelector('select')
+      document.querySelector(`input[name="${e.target.name}"]`) ||
+      document.querySelector(`select[name="${e.target.name}"]`)
     ).focus();
   };
 
-  renderQuestion(name, label, options) {
+  renderQuestion = (name, label, options) => {
     const radioButtonProps = {
       name,
       label,
@@ -119,27 +122,27 @@ class FormQuestions extends Component {
         <RadioButtons {...radioButtonProps} />
       </div>
     );
-  }
+  };
 
-  renderQuestionOne() {
-    const key = '1_branchOfService';
-    if (!shouldShowQuestion(key, this.props.formValues.questions)) {
-      return null;
-    }
+  // renderQuestionOne = () => {
+  //   const key = '1_branchOfService';
+  //   if (!shouldShowQuestion(key, this.props.formValues.questions)) {
+  //     return null;
+  //   }
 
-    const label = <h4>In which branch of service did you serve?</h4>;
-    const options = [
-      { label: 'Army', value: 'army' },
-      { label: 'Navy', value: 'navy' },
-      { label: 'Air Force', value: 'airForce' },
-      { label: 'Coast Guard', value: 'coastGuard' },
-      { label: 'Marine Corps', value: 'marines' },
-    ];
+  //   const label = <h4>In which branch of service did you serve?</h4>;
+  //   const options = [
+  //     { label: 'Army', value: 'army' },
+  //     { label: 'Navy', value: 'navy' },
+  //     { label: 'Air Force', value: 'airForce' },
+  //     { label: 'Coast Guard', value: 'coastGuard' },
+  //     { label: 'Marine Corps', value: 'marines' },
+  //   ];
 
-    return this.renderQuestion(key, label, options);
-  }
+  //   return this.renderQuestion(key, label, options);
+  // };
 
-  renderQuestionTwo() {
+  renderQuestionTwo = () => {
     const key = '2_dischargeYear';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
@@ -183,9 +186,9 @@ class FormQuestions extends Component {
         />
       </fieldset>
     );
-  }
+  };
 
-  renderQuestionTwoB() {
+  renderQuestionTwoB = () => {
     const key = '3_dischargeMonth';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
@@ -220,9 +223,9 @@ class FormQuestions extends Component {
         />
       </fieldset>
     );
-  }
+  };
 
-  renderQuestionThree() {
+  renderQuestionThree = () => {
     const key = '4_reason';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
@@ -257,9 +260,9 @@ class FormQuestions extends Component {
     );
 
     return this.renderQuestion(key, label, options);
-  }
+  };
 
-  renderQuestionThreeA() {
+  renderQuestionThreeA = () => {
     const key = '5_dischargeType';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
@@ -273,9 +276,9 @@ class FormQuestions extends Component {
       { label: questionLabels[key][2], value: '2' },
     ];
     return this.renderQuestion(key, label, options);
-  }
+  };
 
-  renderQuestionThreeB() {
+  renderQuestionThreeB = () => {
     const key = '6_intention';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
@@ -296,9 +299,9 @@ class FormQuestions extends Component {
       { label: `No, ${questionLabels[key][2]}`, value: '2' },
     ];
     return this.renderQuestion(key, label, options);
-  }
+  };
 
-  renderQuestionFour() {
+  renderQuestionFour = () => {
     const key = '7_courtMartial';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
@@ -328,9 +331,9 @@ class FormQuestions extends Component {
     ];
 
     return this.renderQuestion(key, label, options);
-  }
+  };
 
-  renderQuestionFive() {
+  renderQuestionFive = () => {
     const key = '8_prevApplication';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
@@ -350,9 +353,9 @@ class FormQuestions extends Component {
     const options = [{ label: 'Yes', value: '1' }, { label: 'No', value: '2' }];
 
     return this.renderQuestion(key, label, options);
-  }
+  };
 
-  renderQuestionFiveA() {
+  renderQuestionFiveA = () => {
     const key = '9_prevApplicationYear';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
@@ -379,9 +382,9 @@ class FormQuestions extends Component {
       prevApplicationYearLabel,
       prevApplicationYearOptions,
     );
-  }
+  };
 
-  renderQuestionFiveB() {
+  renderQuestionFiveB = () => {
     const key = '10_prevApplicationType';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
@@ -423,9 +426,9 @@ class FormQuestions extends Component {
       prevApplicationTypeLabel,
       prevApplicationTypeOptions,
     );
-  }
+  };
 
-  renderQuestionFiveC() {
+  renderQuestionFiveC = () => {
     const key = '11_failureToExhaust';
     const { formValues } = this.props;
 
@@ -462,9 +465,9 @@ class FormQuestions extends Component {
       prevApplicationTypeLabel,
       prevApplicationTypeOptions,
     );
-  }
+  };
 
-  renderQuestionSix() {
+  renderQuestionSix = () => {
     const key = '12_priorService';
 
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
@@ -500,66 +503,18 @@ class FormQuestions extends Component {
     ];
 
     return this.renderQuestion(key, questionLabel, questionOptions);
-  }
-
-  renderAnswerReview() {
-    if (this.props.formValues.questions.slice(-1)[0] !== 'END') {
-      return null;
-    }
-
-    return (
-      <div className="review-answers">
-        <Element name="END" />
-        <h4>Review your answers</h4>
-        <div className="va-introtext">
-          <p>
-            If any information below is incorrect, update your answers to get
-            the most accurate information regarding your discharge situation.
-          </p>
-        </div>
-        <table className="usa-table-borderless">
-          <tbody>
-            {Object.keys(this.props.formValues).map(k => {
-              if (k === 'questions') {
-                return null;
-              }
-
-              const reviewLabel = answerReview(k, this.props.formValues);
-
-              return (
-                reviewLabel &&
-                shouldShowQuestion(k, this.props.formValues.questions) && (
-                  <tr key={k}>
-                    <td>
-                      <p>{reviewLabel}</p>
-                    </td>
-                    <td>
-                      <a
-                        href="#"
-                        onClick={this.handleScrollTo}
-                        name={k}
-                        aria-label={reviewLabel}
-                      >
-                        Edit
-                      </a>
-                    </td>
-                  </tr>
-                )
-              );
-            })}
-          </tbody>
-        </table>
-        <Link to="/guidance" className="usa-button-primary va-button">
-          Get my results »
-        </Link>
-      </div>
-    );
-  }
+  };
 
   render() {
     return (
       <div className="dw-questions">
-        {this.renderQuestionOne()}
+        {/* {this.renderQuestionOne()} */}
+        <BranchOfServiceQuestion
+          formValues={this.props.formValues}
+          handleKeyDown={this.handleKeyDown}
+          scrollToLast={this.scrollToLast}
+          updateField={this.updateField}
+        />
         {this.renderQuestionTwo()}
         {this.renderQuestionTwoB()}
         {this.renderQuestionThree()}
@@ -571,7 +526,10 @@ class FormQuestions extends Component {
         {this.renderQuestionFiveB()}
         {this.renderQuestionFiveC()}
         {this.renderQuestionSix()}
-        {this.renderAnswerReview()}
+        <AnswerReview
+          formValues={this.props.formValues}
+          handleScrollTo={(this, this.handleScrollTo)}
+        />
       </div>
     );
   }
