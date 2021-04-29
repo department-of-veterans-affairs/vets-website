@@ -191,7 +191,11 @@ describe('VAOS Location service', () => {
     it('should skip direct booking fetch if direct scheduling disabled', async () => {
       mockFetch();
       setFetchJSONResponse(global.fetch, requestEligbilityCriteria);
-      setFetchJSONResponse(global.fetch.onCall(1), facilityDetails);
+      setFetchJSONResponse(
+        global.fetch.onCall(1),
+        directBookingEligbilityCriteria,
+      );
+      setFetchJSONResponse(global.fetch.onCall(2), facilityDetails);
 
       data = await getLocationsByTypeOfCareAndSiteIds({
         typeOfCareId: '323',
