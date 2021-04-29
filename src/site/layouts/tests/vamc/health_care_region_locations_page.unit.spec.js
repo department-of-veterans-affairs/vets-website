@@ -2,14 +2,13 @@ import { expect } from 'chai';
 import { parseFixture, renderHTML } from '~/site/tests/support';
 import axeCheck from '~/site/tests/support/axe';
 
-const layoutPath = 'src/site/layouts/health_care_local_facility.drupal.liquid';
+const layoutPath = 'src/site/layouts/health_care_region_page.drupal.liquid';
 
-describe('health_care_local_facility', () => {
-  // TODO extend tests with more suites
+describe('health_care_region_locations_page', () => {
   describe('PhoneNumbers', () => {
     let container;
     const data = parseFixture(
-      'src/site/layouts/tests/vamc/fixtures/health_care_local_facility_no_phone_mental.json',
+      'src/site/layouts/tests/vamc/fixtures/health_care_region_page.json',
     );
 
     before(async () => {
@@ -21,23 +20,29 @@ describe('health_care_local_facility', () => {
       expect(violations.length).to.equal(0);
     });
 
-    it('should not render .mental-health-clinic-phone', () => {
-      expect(container.querySelector('.mental-health-clinic-phone')).to.be.null;
-    });
-
-    // Default state, main phone number is in dataset
     it('should render main phone number', async () => {
       container = await renderHTML(layoutPath, data, 'fieldPhoneNumber');
 
       expect(container.querySelector('.main-phone a').textContent).to.equal(
-        data.fieldPhoneNumber,
+        data.mainFacilities.entities[0].fieldPhoneNumber,
       );
     });
 
     // Test return if the fieldPhoneNumber string is empty
     it('should not render .main-phone if string is empty', async () => {
-      // Clear fieldPhoneNumber to mimic an entry error
-      const testDataEmptyPhone = { ...data, fieldPhoneNumber: '' };
+      const testDataEmptyPhone = {
+        ...data,
+        mainFacilities: {
+          ...data.mainFacilities,
+          entities: [
+            {
+              ...data.mainFacilities.entities[0],
+              fieldPhoneNumber: '',
+            },
+          ],
+        },
+      };
+
       container = await renderHTML(
         layoutPath,
         testDataEmptyPhone,
@@ -50,8 +55,19 @@ describe('health_care_local_facility', () => {
 
     // Test return if the fieldPhoneNumber is null
     it('should not render .main-phone if null', async () => {
-      // Set fieldPhoneNumber to null value
-      const testDataNullPhone = { ...data, fieldPhoneNumber: null };
+      const testDataNullPhone = {
+        ...data,
+        mainFacilities: {
+          ...data.mainFacilities,
+          entities: [
+            {
+              ...data.mainFacilities.entities[0],
+              fieldPhoneNumber: null,
+            },
+          ],
+        },
+      };
+
       container = await renderHTML(
         layoutPath,
         testDataNullPhone,
