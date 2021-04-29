@@ -288,7 +288,9 @@ async function loadDrupal(buildOptions) {
   console.timeEnd(contentTimer);
 
   // Dynamic GraphQL from CMS build
-  fs.outputJsonSync(CMS_EXPORT_CACHE_FILENAME, drupalPages);
+  if (buildOptions[USE_CMS_EXPORT_BUILD_ARG]) {
+    fs.outputJsonSync(CMS_EXPORT_CACHE_FILENAME, drupalPages);
+  }
 
   log('Drupal successfully loaded!');
   return drupalPages;
