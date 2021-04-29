@@ -52,8 +52,10 @@ describe('View rated disabilities', () => {
 
   it('should display a total rating and a list of ratings', () => {
     testHappyPath();
+    cy.percySnapshot();
   });
   it('should handle response errors by displaying the correct messaging', () => {
     testErrorStates();
+    cy.percySnapshot();
   });
 });
