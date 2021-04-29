@@ -37,7 +37,7 @@ export default function Disclaimer() {
 
       <p>
         We have created a survey to help you help us build a better bot. When
-        you're ready, [please tell us about your experience] and how we can
+        you're ready, please tell us about your experience and how we can
         improve.
       </p>
 
@@ -47,21 +47,24 @@ export default function Disclaimer() {
         <va-accordion-item header="If you need immediate help">
           <p>
             If you are experiencing a crisis, please call the Veterans Crisis
-            Line at 800-273-8255 and press 1. To find additional support, go to
-            mentalhealth.va.gov.
+            Line at 800-273-8255 and press 1. To find additional support, go to{' '}
+            <a href="https://mentalhealth.va.gov">mentalhealth.va.gov</a>.
           </p>
 
           <p>
             If you are experiencing a medical emergency, please call 911. If you
             are not sure if you are experiencing a medical emergency, please
-            contact your primary care provider, or go to our [Emergency Medical
-            Care] page to learn more.
+            contact your primary care provider, or go to our{' '}
+            <a href="/COMMUNITYCARE/programs/veterans/Emergency_Care.asp">
+              Emergency Medical Care
+            </a>{' '}
+            page to learn more.
           </p>
 
           <p>
-            For other VA benefits and services questions, go to the Contact Us
-            page, where you can find phone numbers, FAQs, step-by-step guides,
-            and other resources.
+            For other VA benefits and services questions, go to the{' '}
+            <a href="/contact-us">Contact Us</a> page, where you can find phone
+            numbers, FAQs, step-by-step guides, and other resources.
           </p>
         </va-accordion-item>
       </va-accordion>
@@ -92,10 +95,10 @@ export default function Disclaimer() {
               <li>What questions did the bot not answer?</li>
               <li>Could this tool be helpful to Veterans? How?</li>
               <li>How many Veterans tried to use the bot?</li>
-              Consolidated information will be aggregated, analyzed internally,
-              and used to help us build better products. Findings will not be
-              released publicly.
             </ul>
+            Consolidated information will be aggregated, analyzed internally,
+            and used to help us build better products. Findings will not be
+            released publicly.
           </p>
           <p>
             During this learning phase, please help us protect your privacy and
@@ -108,8 +111,11 @@ export default function Disclaimer() {
             Or any other information that could be used to identify you.
           </p>
           <p>
-            For more information on how we protect your privacy, go to our
-            [Privacy, Policies, and legal information] page.
+            For more information on how we protect your privacy, go to our{' '}
+            <a href="/privacy-policy">
+              Privacy, Policies, and legal information
+            </a>{' '}
+            page.
           </p>
         </va-accordion-item>
       </va-accordion>
