@@ -81,11 +81,12 @@ describe('Direct Deposit', () => {
   beforeEach(() => {
     getPaymentInfoStub = cy.stub();
     cy.login();
-    cy.intercept('GET', '/v0/feature_toggles*', dd4eduEnabled);
+    cy.server();
+    cy.route('GET', '/v0/feature_toggles*', dd4eduEnabled);
   });
   it('should be blocked if the user is not in EVSS and they are not signed up for DD4EDU', () => {
-    cy.intercept('GET', 'v0/user', mockUserNotInEVSS);
-    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
+    cy.route('GET', 'v0/user', mockUserNotInEVSS);
+    cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
     cy.intercept('v0/ppiu/payment_information', () => {
       getPaymentInfoStub();
     });
@@ -98,8 +99,8 @@ describe('Direct Deposit', () => {
     });
   });
   it('should not be blocked if the user is not in EVSS but they are signed up for DD4EDU', () => {
-    cy.intercept('GET', 'v0/user', mockUserNotInEVSS);
-    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
+    cy.route('GET', 'v0/user', mockUserNotInEVSS);
+    cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.intercept('v0/ppiu/payment_information', () => {
       getPaymentInfoStub();
     });
@@ -112,9 +113,9 @@ describe('Direct Deposit', () => {
     });
   });
   it('should be blocked if the user is not enrolled in or eligible for DD4CNP and not signed up for DD4EDU', () => {
-    cy.intercept('GET', 'v0/user', mockUserInEVSS);
-    cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEligible);
-    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
+    cy.route('GET', 'v0/user', mockUserInEVSS);
+    cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEligible);
+    cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
@@ -123,32 +124,32 @@ describe('Direct Deposit', () => {
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/18321 explains that we _do_ want to block users
   // from the Direct Deposit section in this case, even though they have DD4EDU set up
   it('should be blocked and show an alert if the user is enrolled in DD4EDU but flagged as incompetent by DD4CNP', () => {
-    cy.intercept('GET', 'v0/user', mockUserInEVSS);
-    cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPIncompetent);
-    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
+    cy.route('GET', 'v0/user', mockUserInEVSS);
+    cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPIncompetent);
+    cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsShown();
   });
   it('should be blocked and show an alert if the user is flagged as being deceased by DD4CNP', () => {
-    cy.intercept('GET', 'v0/user', mockUserInEVSS);
-    cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPDeceased);
+    cy.route('GET', 'v0/user', mockUserInEVSS);
+    cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPDeceased);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsShown();
   });
   it('should be blocked and show an alert if the user is flagged as having a fiduciary by DD4CNP', () => {
-    cy.intercept('GET', 'v0/user', mockUserInEVSS);
-    cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPFiduciary);
+    cy.route('GET', 'v0/user', mockUserInEVSS);
+    cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPFiduciary);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsShown();
   });
   it('should be blocked if both the `GET payment_information` and `GET ch33_bank_accounts` endpoints fail', () => {
-    cy.intercept('GET', 'v0/user', mockUserInEVSS);
+    cy.route('GET', 'v0/user', mockUserInEVSS);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsBlocked();
@@ -157,9 +158,9 @@ describe('Direct Deposit', () => {
     cy.findByTestId('not-all-data-available-error').should('exist');
   });
   it('should not be blocked if `GET payment_information` fails but they have DD4EDU set up', () => {
-    cy.intercept('GET', 'v0/user', mockUserInEVSS);
-    cy.intercept('GET', 'v0/ppiu/payment_information', error500);
-    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
+    cy.route('GET', 'v0/user', mockUserInEVSS);
+    cy.route('GET', 'v0/ppiu/payment_information', error500);
+    cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsAvailable();
@@ -180,9 +181,9 @@ describe('Direct Deposit', () => {
       .should('exist');
   });
   it('should not be blocked if `GET ch33_bank_accounts` fails but they have DD4CNP set up', () => {
-    cy.intercept('GET', 'v0/user', mockUserInEVSS);
-    cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPEnrolled);
-    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', error500);
+    cy.route('GET', 'v0/user', mockUserInEVSS);
+    cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPEnrolled);
+    cy.route('GET', 'v0/profile/ch33_bank_accounts', error500);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsAvailable();
@@ -200,18 +201,18 @@ describe('Direct Deposit', () => {
       .should('exist');
   });
   it('should not be blocked if the user is eligible for DD4CNP', () => {
-    cy.intercept('GET', 'v0/user', mockUserInEVSS);
-    cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);
-    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
+    cy.route('GET', 'v0/user', mockUserInEVSS);
+    cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);
+    cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsAvailable();
     confirmDDBlockedAlertIsNotShown();
   });
   it('should not be blocked if the user is signed up for DD4CNP', () => {
-    cy.intercept('GET', 'v0/user', mockUserInEVSS);
-    cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPEnrolled);
-    cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
+    cy.route('GET', 'v0/user', mockUserInEVSS);
+    cy.route('GET', 'v0/ppiu/payment_information', mockDD4CNPEnrolled);
+    cy.route('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
     confirmDirectDepositIsAvailable();

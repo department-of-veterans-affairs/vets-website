@@ -1,5 +1,6 @@
 export const mockFeatureToggles = () => {
-  cy.intercept({
+  cy.server();
+  cy.route({
     method: 'GET',
     status: 200,
     url: '/v0/feature_toggles*',
