@@ -194,7 +194,7 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Build
-        run: yarn build --buildtype vagovprod --drupal-address="http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com"
+        run: yarn build --buildtype vagovprod --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
         timeout-minutes: 30
         env:
           NODE_ENV: production
