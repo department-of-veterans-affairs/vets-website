@@ -1,23 +1,4 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-import WaitForFeatureToggles from './WaitForFeatureToggles';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import ChatbotError from './ChatbotError';
-
-window.React = React;
-window.ReactDOM = ReactDOM;
-
-const loadWebChat = () => {
-  const script = document.createElement('script');
-
-  script.src =
-    'https://cdn.botframework.com/botframework-webchat/4.12.0/webchat-es5.js';
-  script.crossOrigin = 'anonymous';
-
-  document.body.appendChild(script);
-};
-
-loadWebChat();
+import { useState } from 'react';
 
 function checkForWebchat(
   setLoading,
@@ -40,7 +21,7 @@ function checkForWebchat(
   }, timeout);
 }
 
-export default function App(props) {
+export default function useWebChatFramework(props) {
   const [isLoading, setLoading] = useState(!window.WebChat);
   const [error, setError] = useState(false);
 
@@ -59,7 +40,7 @@ export default function App(props) {
       MAX_INTERVAL_CALL_COUNT,
       TIMEOUT_DURATION_MS,
     );
-    return <LoadingIndicator message={'Loading Virtual Agent'} />;
   }
-  return error ? <ChatbotError /> : <WaitForFeatureToggles />;
+
+  return { isLoading, error, WebChatFramework: window.WebChat };
 }

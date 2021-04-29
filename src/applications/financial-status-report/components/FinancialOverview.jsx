@@ -17,8 +17,8 @@ const FinancialOverview = ({ formData }) => {
 
   return (
     <>
-      <h4>Your financial overview</h4>
       <div className="usa-alert usa-alert-info background-color-only vads-u-margin-bottom--5">
+        <h4 className="vads-u-margin-y--1">Your financial overview</h4>
         <div className="vads-u-margin-bottom--1 overview-container">
           <div>Total monthly income:</div>
           <div>
