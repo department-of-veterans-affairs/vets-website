@@ -191,15 +191,7 @@ def accessibilityTests() {
 }
 
 def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnlyBuild) {
-  def brokenLinksFile = "${WORKSPACE}/vets-website/logs/${envName}-broken-links.json";
-
-  if (!IS_PROD_BRANCH && !contentOnlyBuild) {
-    // Ignore the results of the broken link checker unless
-    // we are running either on the master branch or during
-    // a Content Release. This way, if there is a broken link,
-    // feature branches aren't affected, so VFS teams can
-    // continue merging.
-  }
+  def brokenLinksFile = "${WORKSPACE}/vets-website/logs/${envName}-broken-links.json"
 
   if (fileExists(brokenLinksFile)) {
     def rawJsonFile = readFile(brokenLinksFile);
@@ -217,6 +209,14 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
 
     echo "${brokenLinks.brokenLinksCount} broken links found"
     echo message
+
+    if (!IS_PROD_BRANCH && !contentOnlyBuild) {
+      // Ignore the results of the broken link checker unless
+      // we are running either on the master branch or during
+      // a Content Release. This way, if there is a broken link,
+      // feature branches aren't affected, so VFS teams can
+      // continue merging.
+    }
 
     slackSend(
       message: message,
