@@ -1,1 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.chat-header {
+    background: $color-primary-darkest;
+    border-radius: 2px;
+    color: $color-white;
+}
