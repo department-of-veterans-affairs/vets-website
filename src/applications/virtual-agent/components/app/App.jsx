@@ -5,7 +5,6 @@ import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
 import useVirtualAgentToken from './useVirtualAgentToken';
 import WebChat from '../webchat/WebChat';
-import Disclaimer from '../disclaimer/Disclaimer';
 
 window.React = React;
 window.ReactDOM = ReactDOM;
@@ -34,7 +33,7 @@ function useWebChat(props) {
   };
 }
 
-function App(props) {
+export default function App(props) {
   const { loading, error, token, WebChatFramework } = useWebChat(props);
 
   if (loading) {
@@ -48,21 +47,6 @@ function App(props) {
   return (
     <div data-testid={'webchat-container'}>
       <WebChat token={token} WebChatFramework={WebChatFramework} />
-    </div>
-  );
-}
-
-export default function Page(props) {
-  return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-      <div className="vads-l-row vads-u-margin-x--neg2p5">
-        <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-          <Disclaimer />
-        </div>
-        <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
-          <App {...props} />
-        </div>
-      </div>
     </div>
   );
 }
