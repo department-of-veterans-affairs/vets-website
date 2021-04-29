@@ -28,5 +28,6 @@ describe('Detail Page', () => {
         // "naturalWidth" and "naturalHeight" are set when the image loads
         expect($img[0].naturalWidth).to.be.greaterThan(0);
       });
+    cy.percySnapshot();
   });
 });

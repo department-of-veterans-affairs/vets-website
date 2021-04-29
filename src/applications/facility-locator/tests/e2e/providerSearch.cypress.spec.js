@@ -41,6 +41,7 @@ describe('Provider search', () => {
     cy.get('.facility-result h3').contains('BADEA, LUANA');
 
     cy.get('.va-pagination').should('not.exist');
+    cy.percySnapshot();
   });
 
   it('finds community urgent care - Clinic/Center', () => {
@@ -64,6 +65,7 @@ describe('Provider search', () => {
 
     cy.get('.facility-result h3').contains('Concentra Urgent Care');
     cy.get('.va-pagination').should('not.exist');
+    cy.percySnapshot();
   });
 
   it('finds community urgent care - Community urgent care providers (in VA’s network)', () => {
@@ -85,5 +87,6 @@ describe('Provider search', () => {
 
     cy.get('.facility-result h3').contains('MinuteClinic');
     cy.get('.va-pagination').should('not.exist');
+    cy.percySnapshot();
   });
 });

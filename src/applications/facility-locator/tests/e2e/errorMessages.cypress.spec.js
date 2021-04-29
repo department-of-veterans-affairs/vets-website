@@ -25,6 +25,7 @@ describe('Facility search error messages', () => {
       'Please fill in a city, state, or postal code.',
     );
     cy.get('#street-city-state-zip').should('be.focused');
+    cy.percySnapshot();
   });
 
   it('shows error message on leaving location field empty', () => {
@@ -35,6 +36,7 @@ describe('Facility search error messages', () => {
     );
     cy.get('#street-city-state-zip').type('A');
     cy.get('.usa-input-error-message').should('not.exist');
+    cy.percySnapshot();
   });
 
   it('shows error message when leaving facility type field empty', () => {
@@ -45,6 +47,7 @@ describe('Facility search error messages', () => {
     );
     cy.get('#facility-type-dropdown').select('VA health');
     cy.get('.usa-input-error-message').should('not.exist');
+    cy.percySnapshot();
   });
 
   it('shows error message when leaving service type field epmty', () => {
@@ -59,5 +62,6 @@ describe('Facility search error messages', () => {
     cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
     cy.get('#downshift-1-item-0').click();
     cy.get('.usa-input-error-message').should('not.exist');
+    cy.percySnapshot();
   });
 });

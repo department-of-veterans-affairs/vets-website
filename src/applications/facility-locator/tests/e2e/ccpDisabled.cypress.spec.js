@@ -20,7 +20,6 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
 
   it('Does not render community care option in the dropdown, flag set to true', () => {
     cy.visit('/find-locations/');
-
     cy.injectAxe();
     cy.axeCheck();
 
@@ -30,5 +29,7 @@ describe('Facility Search - CCP (community care providers) disabled', () => {
         facilityTypesOptions[LocationType.CC_PROVIDER],
       );
     });
+
+    cy.percySnapshot();
   });
 });
