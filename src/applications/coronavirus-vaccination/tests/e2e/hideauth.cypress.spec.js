@@ -87,7 +87,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
 
       // Confirmation page
       // Take a snapshot for visual diffing
-      cy.percySnapshot('Form confirmation page');
+      cy.percySnapshot('Confirmation page');
 
       cy.url().should(
         'include',
