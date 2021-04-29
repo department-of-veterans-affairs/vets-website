@@ -7,6 +7,9 @@ describe('COVID-19 Research Form', () => {
     });
 
     it('should load form page', () => {
+      // Take a snapshot for visual diffing
+      cy.percySnapshot('COVID-19 Research Form, Empty form');
+
       cy.url().should('include', 'coronavirus-research/volunteer/sign-up');
       cy.axeCheck();
       cy.get('h1').contains(
@@ -39,6 +42,9 @@ describe('COVID-19 Research Form', () => {
           }
         });
       });
+
+      // Take a snapshot for visual diffing
+      cy.percySnapshot('COVID-19 Research Form, Completed form');
 
       cy.axeCheck();
       cy.get('.usa-button-primary').contains('Continue');
@@ -97,6 +103,9 @@ describe('COVID-19 Research Form', () => {
       // Confirmation page
       cy.url().should('include', 'coronavirus-research/volunteer/confirmation');
       cy.axeCheck();
+
+      // Take a snapshot for visual diffing
+      cy.percySnapshot('COVID-19 Research Form, Confirmation page');
 
       cy.get('.confirmation-page-title').contains(
         'Thank you for signing up for our coronavirus research volunteer list',
