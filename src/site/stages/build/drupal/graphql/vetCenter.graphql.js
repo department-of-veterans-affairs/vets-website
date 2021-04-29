@@ -100,8 +100,6 @@ const vetCenterFragment = `
           entity {
             ... on NodeVetCenterFacilityHealthServi {
              fieldBody {
-                value
-                format
                 processed
               }
               fieldServiceNameAndDescripti {
