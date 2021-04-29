@@ -25,6 +25,7 @@ const WebChat = ({ token, WebChatFramework }) => {
     botAvatarInitials: 'VA',
     userAvatarBackgroundColor: '#003e73', // color-primary-darker
     userAvatarInitials: 'You',
+    primaryFont: 'Source Sans Pro, sans-serif',
   };
 
   return (
