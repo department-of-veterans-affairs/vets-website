@@ -9,7 +9,6 @@ import {
   primaryCaregiverContent,
   secondaryCaregiverContent,
 } from 'applications/caregivers/definitions/content';
-import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 
 const veteranLabel = `Veteran\u2019s`;
 const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
@@ -70,7 +69,8 @@ const testSecondaryTwo = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+      cy.server();
+      cy.route('GET', '/v0/feature_toggles?*', 'fx:mocks/feature-toggles');
     },
     pageHooks: {
       introduction: () => {
@@ -80,21 +80,6 @@ const testSecondaryTwo = createTestConfig(
           .click();
       },
       'review-and-submit': () => {
-        cy.intercept('POST', '/v0/caregivers_assistance_claims*', {
-          statusCode: 200,
-          response: {
-            body: {
-              data: {
-                id: '',
-                type: 'form1010cg_submissions',
-                attributes: {
-                  confirmationNumber: 'aB935000000F3VnCAK',
-                  submittedAt: '2020-08-06T19:18:11+00:00',
-                },
-              },
-            },
-          },
-        });
         cy.get('@testKey').then(testKey => {
           switch (testKey) {
             case 'secondaryOneOnly':
@@ -192,6 +177,25 @@ const testSecondaryTwo = createTestConfig(
               signAsParty(primaryLabel, 'Mini Mouse');
               break;
           }
+        });
+        // sign signature as veteran
+        
+        cy.route({
+          method: 'POST',
+          url: '/v0/caregivers_assistance_claims',
+          status: 200,
+          response: {
+            body: {
+              data: {
+                id: '',
+                type: 'form1010cg_submissions',
+                attributes: {
+                  confirmationNumber: 'aB935000000F3VnCAK',
+                  submittedAt: '2020-08-06T19:18:11+00:00',
+                },
+              },
+            },
+          },
         });
       },
     },
