@@ -11,7 +11,6 @@ import {
 import { getFacilityIdFromLocation } from '../../../services/location';
 import { getAvailableHealthcareServices } from '../../../services/healthcare-service';
 import environment from 'platform/utilities/environment';
-import { promiseAllFromObject } from '../../../utils/promise';
 
 const DISABLED_LIMIT_VALUE = 0;
 
@@ -62,6 +61,21 @@ function createErrorHandler(directOrRequest, errorKey) {
     recordVaosError(`eligibility-${errorKey}`);
     return { [`${directOrRequest}Failed`]: true };
   };
+}
+
+async function promiseAllFromObject(data) {
+  const keys = Object.keys(data);
+  const values = Object.values(data);
+
+  const results = await Promise.all(values);
+
+  return keys.reduce(
+    (resultsObj, key, i) => ({
+      ...resultsObj,
+      [key]: results[i],
+    }),
+    {},
+  );
 }
 
 /*
