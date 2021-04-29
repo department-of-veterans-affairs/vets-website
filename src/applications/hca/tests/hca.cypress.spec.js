@@ -41,8 +41,10 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-        statusCode: 404,
+      cy.route({
+        method: 'GET',
+        url: '/v0/health_care_applications/enrollment_status*',
+        status: 404,
         response: {
           errors: [
             {
@@ -55,7 +57,7 @@ const testConfig = createTestConfig(
         },
       });
 
-      cy.intercept('POST', '/v0/health_care_applications', {
+      cy.route('POST', '/v0/health_care_applications', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2016-05-16',
       });
