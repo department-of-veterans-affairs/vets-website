@@ -14,7 +14,6 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 const ExpandedContent = ({ debt, updateDebts }) => {
-  const [checked, setChecked] = useState(false);
   const objKey = 'offerToPay';
 
   const [errors, setErrors] = useState({
@@ -31,7 +30,7 @@ const ExpandedContent = ({ debt, updateDebts }) => {
         checkbox: false,
       }));
     },
-    [checked],
+    [debt.resolution?.agreeToWaiver],
   );
 
   switch (debt.resolution.resolutionType) {
@@ -65,8 +64,8 @@ const ExpandedContent = ({ debt, updateDebts }) => {
       return (
         <Checkbox
           label="By checking this box, I’m agreeing that I understand how a debt waiver may affect my VA education benefits. If VA grants me a waiver, this will reduce any remaining education benefit entitlement I may have."
-          checked={checked}
-          onValueChange={value => setChecked(value)}
+          checked={debt.resolutionType?.agreeToWaiver}
+          onValueChange={value => updateDebts('agreeToWaiver', value, debt)}
           errorMessage={errors.checkbox && 'Please provide a response'}
           required
         />

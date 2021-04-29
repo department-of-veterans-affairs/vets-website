@@ -53,7 +53,11 @@ export const schema = {
     },
     resolution: {
       type: 'object',
-      properties: {},
+      properties: {
+        resolutionType: {
+          type: 'string',
+        },
+      },
     },
   },
 };
