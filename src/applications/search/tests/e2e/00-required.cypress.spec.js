@@ -30,6 +30,7 @@ describe('Sitewide Search smoke test', () => {
 
     // navigate to page
     cy.visit('/search?query=benefits');
+
     axeTestPage();
 
     // Ensure App is present
@@ -40,6 +41,9 @@ describe('Sitewide Search smoke test', () => {
 
     // Await search results
     cy.wait('@getSearchResults');
+
+    // Take a snapshot for visual diffing
+    cy.percySnapshot();
 
     // A11y check the search results.
     axeTestPage();
@@ -80,6 +84,9 @@ describe('Sitewide Search smoke test', () => {
     cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`).click();
     cy.wait('@getSearchResults');
 
+    // Take a snapshot for visual diffing
+    cy.percySnapshot();
+
     // A11y check the search results.
     axeTestPage();
 
@@ -115,6 +122,9 @@ describe('Sitewide Search smoke test', () => {
     // Fill out and submit the form.
     // cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`).click();
     cy.wait('@getSearchResults');
+
+    // Take a snapshot for visual diffing
+    cy.percySnapshot();
 
     // Ensure ERROR Alert Box exists
     cy.get(SELECTORS.SEARCH_RESULTS_EMPTY)
