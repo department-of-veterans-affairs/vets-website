@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import ReactCSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import recordEvent from 'platform/monitoring/record-event';
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -8,12 +7,12 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 const theme = {
   main: {
-    colorBaseBlack: '#212121',
+    colorBaseBlack: '#323a45',
     colorWhite: '#ffffff',
     colorPrimary: '#0071bb',
   },
 };
-const copyToUsersClipBoard = dataEntityId => {
+const copyToUsersClipBoard = (dataEntityId, target) => {
   const input = document.createElement('input');
 
   const copyUrl = window.location.href.replace(window.location.hash, '');
@@ -21,13 +20,20 @@ const copyToUsersClipBoard = dataEntityId => {
   document.body.appendChild(input);
   input.select();
   document.execCommand('copy');
+  //  we are having to do this b/c .select(), to copy to users clipboard, removes focus from our button
+  target.focus();
   document.body.removeChild(input);
+  recordEvent({
+    event: 'int-copy-to-clipboard-click',
+    'anchor-text': dataEntityId,
+  });
 };
 const ShareIconClickFeedback = styled.span`
   position: ${props => (props.leftAligned ? 'absolute' : 'relative')};
-  margin-top: ${props => (props.leftAligned ? '2px' : '')};
+  margin-top: ${props => (props.leftAligned && !props.topPx ? '2px' : '')};
   left: ${props =>
     props.leftAligned && props.leftPx ? `${props.leftPx}px` : ''};
+  top: ${props => (props.leftAligned && props.topPx ? `${props.topPx}px` : '')};
   background-color: ${props => props.theme.colorBaseBlack};
   color: ${props => props.theme.colorWhite};
   font-family: 'Source Sans Pro';
@@ -46,11 +52,7 @@ const ShareIcon = styled.i`
   width: 26px;
   padding: 4px;
   border: 1px solid;
-  background-color: ${props =>
-    props.feedbackActive ? props.theme.colorBaseBlack : ''};
-  color: ${props =>
-    props.feedbackActive ? props.theme.colorWhite : props.theme.colorPrimary};
-
+  color: ${theme.main.colorPrimary};
   &:hover {
     background-color: ${props => props.theme.colorBaseBlack};
     color: ${props => props.theme.colorWhite};
@@ -73,7 +75,9 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
   const [leftPx, setLeftPx] = useState(0);
-  const offsetThreshold = 100;
+  const [topPx, setTopPx] = useState(0);
+
+  const linkCopiedTextWidth = 70;
   const widthOffset = 40;
 
   useEffect(
@@ -81,11 +85,11 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
       if (idx === 0 && window.location.hash) {
         recordEvent({
           event: 'anchor-page-load',
-          'anchor-text': window.location.hash.replace('#', ''),
+          'anchor-text': dataEntityId,
         });
       }
     },
-    [idx],
+    [idx, dataEntityId],
   );
 
   const extractId = idString => {
@@ -95,14 +99,26 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
     return arr.join('-');
   };
 
+  const onBlur = id => {
+    const icon = document.querySelector(`#icon-${id}`);
+    icon.style.color = theme.main.colorPrimary;
+    icon.style.backgroundColor = 'transparent';
+  };
+
+  const onFocus = id => {
+    const icon = document.querySelector(`#icon-${id}`);
+    icon.style.color = theme.main.colorWhite;
+    icon.style.backgroundColor = theme.main.colorBaseBlack;
+  };
+
   const hidePreviousFeedbacks = activeId => {
     const otherActiveFeedbacks = document.getElementsByClassName(
       'sharable-link-feedback',
     );
 
     for (const feedback of otherActiveFeedbacks) {
-      const parentId = feedback.getAttribute('id');
-      if (extractId(parentId) !== extractId(activeId)) {
+      const id = extractId(feedback.getAttribute('id'));
+      if (id !== extractId(activeId)) {
         feedback.style.display = 'none';
       } else {
         feedback.style = {};
@@ -116,23 +132,28 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
       setFeedbackActive(false);
       setLeftAligned(false);
       setLeftPx(0);
+      setTopPx(0);
+      onBlur(extractId(activeId));
     }, 10000);
   };
 
-  const displayFeedback = element => {
-    const iconParentId = extractId(element.getAttribute('id'));
-    const parentElement = document.getElementById(iconParentId);
+  const displayFeedback = iconElement => {
+    const headingId = extractId(iconElement.getAttribute('id'));
+    const headingMainEntity = document.querySelector(`#${headingId}`);
+    const availableSpaceForFeedbackText =
+      headingMainEntity?.offsetWidth -
+      (iconElement.offsetLeft + iconElement.offsetWidth);
 
-    if (
-      parentElement?.offsetWidth - (element.offsetLeft + element.offsetWidth) <=
-      offsetThreshold
-    ) {
+    if (availableSpaceForFeedbackText <= linkCopiedTextWidth) {
       setLeftAligned(true);
-      setLeftPx(element.offsetLeft - element.offsetWidth - widthOffset);
+      setLeftPx(iconElement.offsetLeft - iconElement.offsetWidth - widthOffset);
+      // ensure vertical alignment when toggling css position (absolute vs relative)
+      setTopPx(iconElement.offsetTop);
     }
     setFeedbackActive(true);
-    hideFeedback(element.getAttribute('id'));
+    hideFeedback(iconElement.getAttribute('id'));
   };
+
   if (showSharableLink) {
     return (
       <ThemeProvider theme={theme.main}>
@@ -140,6 +161,13 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
           <UnStyledButtonInAccordion
             className="usa-button-unstyled"
             aria-label={`Copy ${dataEntityId} sharable link`}
+            id={`button-${dataEntityId}`}
+            onBlur={() => {
+              onBlur(dataEntityId);
+            }}
+            onFocus={() => {
+              onFocus(dataEntityId);
+            }}
           >
             <ShareIcon
               aria-hidden="true"
@@ -148,35 +176,24 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
               onClick={event => {
                 event.persist();
                 if (!event || !event.target) return;
-                copyToUsersClipBoard(dataEntityId);
                 displayFeedback(event.target);
-                recordEvent({
-                  event: 'nav-jumplink-click',
-                });
+                copyToUsersClipBoard(dataEntityId, event.target.parentElement);
               }}
               id={`icon-${dataEntityId}`}
             />
           </UnStyledButtonInAccordion>
-
-          <ReactCSSTransitionGroup
-            transitionName="link-copied-feedback"
-            transitionAppear
-            transitionAppearTimeout={500}
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={500}
-          >
-            {feedbackActive && (
-              <ShareIconClickFeedback
-                className={`vads-u-margin-left--0.5 sharable-link-feedback`}
-                leftAligned={leftAligned}
-                feedbackActive={feedbackActive}
-                leftPx={leftPx}
-                id={`feedback-${dataEntityId}`}
-              >
-                {copiedText}
-              </ShareIconClickFeedback>
-            )}
-          </ReactCSSTransitionGroup>
+          {feedbackActive && (
+            <ShareIconClickFeedback
+              className={`vads-u-margin-left--0.5 sharable-link-feedback`}
+              leftAligned={leftAligned}
+              feedbackActive={feedbackActive}
+              leftPx={leftPx}
+              topPx={topPx}
+              id={`feedback-${dataEntityId}`}
+            >
+              {copiedText}
+            </ShareIconClickFeedback>
+          )}
         </span>
       </ThemeProvider>
     );

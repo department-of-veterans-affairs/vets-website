@@ -10,7 +10,6 @@ import userEvent from '@testing-library/user-event';
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: true,
   },
