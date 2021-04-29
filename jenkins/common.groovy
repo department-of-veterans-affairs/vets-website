@@ -193,7 +193,13 @@ def accessibilityTests() {
 def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnlyBuild) {
   def brokenLinksFile = "${WORKSPACE}/vets-website/logs/${envName}-broken-links.json";
 
-  // if (IS_PROD_BRANCH || contentOnlyBuild) {
+  if (!IS_PROD_BRANCH && !contentOnlyBuild) {
+    // Ignore the results of the broken link checker unless
+    // we are running either on the master branch or during
+    // a Content Release. This way, if there is a broken link,
+    // feature branches aren't affected, so VFS teams can
+    // continue merging.
+  }
 
   if (fileExists(brokenLinksFile)) {
     def rawJsonFile = readFile(brokenLinksFile);
@@ -205,16 +211,18 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       color = 'danger'
     }
 
-    def heading = "${brokenLinks.brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n\n${env.RUN_DISPLAY_URL}"
+    // @todo Ping @cmshelpdesk
+    def heading = "${brokenLinks.brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n\n${env.RUN_DISPLAY_URL}\n\n"
     def message = "${heading}\n${brokenLinks.summary}".stripMargin()
 
+    echo "${brokenLinks.brokenLinksCount} broken links found"
     echo message
 
     slackSend(
       message: message,
       color: color,
       failOnError: true,
-      channel: 'dev_null'
+      channel: 'dev_null' // @todo change this to 'cms-helpdesk-bot'
     )
 
     if (color == 'danger') {
