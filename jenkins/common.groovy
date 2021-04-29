@@ -222,6 +222,11 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       return;
     }
 
+    // JSONObjects in Groovy are not serializable by default, which is an issue, because
+    // a Jenkinsfile has to be fully serializable for it to be able to pause state.
+    // To get around this,
+    brokenLinks = null
+
     slackSend(
       message: message,
       color: color,
