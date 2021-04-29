@@ -280,8 +280,7 @@ export function setSupportedSchedulingMethods({ location, settings } = {}) {
     identifier,
     legacyVAR: {
       ...location.legacyVAR,
-      requestSettings: facilitySettings?.request || {},
-      directSettings: facilitySettings?.direct || {},
+      settings: arrayToObject(facilitySettings.services),
     },
     managingOrganization: {
       reference: location.managingOrganization?.reference,
@@ -333,7 +332,9 @@ export function transformCommunityProviders(providers) {
   });
 }
 
-export function transformSettings({ request = [], direct = [] }) {
+export function transformSettings([request = [], direct = []]) {
+  // Trying to handle if we get different sets of facilities from each setttings list
+  // by converting the lists to objects and creating a unique list of ids
   const directSettings = arrayToObject(direct);
   const requestSettings = arrayToObject(request);
   const facilityIds = dedupeArray([
@@ -342,32 +343,46 @@ export function transformSettings({ request = [], direct = [] }) {
   ]);
 
   return facilityIds.map(id => {
-    const transformedRequestSettings = requestSettings[id]?.requestSettings.map(
-      service => ({
-        id: service.id,
-        name: service.typeOfCare,
-        enabled: !!service.patientHistoryRequired,
-        patientHistoryRequired:
-          service.patientHistoryRequired?.toLowerCase() === 'yes',
-        patientHistoryDuration: service.patientHistoryDuration,
-        submittedRequestLimit: service.submittedRequestLimit,
-      }),
+    // Similar to above, trying to handle us potentially getting different sets of
+    // types of care between the two types of settings
+    const serviceIds = dedupeArray([
+      ...(directSettings[id]?.coreSettings.map(d => d.id) || []),
+      ...(requestSettings[id]?.requestSettings.map(r => r.id) || []),
+    ]);
+    const requestServiceSettings = arrayToObject(
+      requestSettings[id]?.requestSettings,
     );
-    const transformedDirectSettings = directSettings[id]?.coreSettings.map(
-      service => ({
-        id: service.id,
-        name: service.typeOfCare,
-        enabled: !!service.patientHistoryRequired,
-        patientHistoryRequired:
-          service.patientHistoryRequired?.toLowerCase() === 'yes',
-        patientHistoryDuration: service.patientHistoryDuration,
-      }),
+    const directServiceSettings = arrayToObject(
+      directSettings[id]?.coreSettings,
     );
 
     return {
       id,
-      request: arrayToObject(transformedRequestSettings),
-      direct: arrayToObject(transformedDirectSettings),
+      services: serviceIds.map(serviceId => {
+        const directCareSettings = directServiceSettings[serviceId];
+        const requestCareSettings = requestServiceSettings[serviceId];
+
+        return {
+          id: serviceId,
+          name:
+            requestCareSettings?.typeOfCare || directCareSettings?.typeOfCare,
+          direct: {
+            enabled: !!directCareSettings?.patientHistoryRequired,
+            patientHistoryRequired:
+              directCareSettings?.patientHistoryRequired?.toLowerCase() ===
+              'yes',
+            patientHistoryDuration: directCareSettings?.patientHistoryDuration,
+          },
+          request: {
+            enabled: !!requestCareSettings?.patientHistoryRequired,
+            patientHistoryRequired:
+              requestCareSettings?.patientHistoryRequired?.toLowerCase() ===
+              'yes',
+            patientHistoryDuration: requestCareSettings?.patientHistoryDuration,
+            submittedRequestLimit: requestCareSettings?.submittedRequestLimit,
+          },
+        };
+      }),
     };
   });
 }

@@ -35,5 +35,5 @@ export function arrayToObject(items, idProp = 'id') {
  * @returns {Array} items array with duplicates removed
  */
 export function dedupeArray(items) {
-  return Array.from(new Set(items));
+  return Array.from(new Set(items)).filter(i => !!i);
 }

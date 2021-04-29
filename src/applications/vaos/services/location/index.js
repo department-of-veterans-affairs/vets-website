@@ -27,8 +27,6 @@ import {
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
-import { promiseAllFromObject } from '../../utils/promise';
-import { dedupeArray } from '../../utils/data';
 
 /**
  * Fetch facility information for the facilities in the given site, based on type of care
@@ -114,18 +112,12 @@ export async function getLocation({ facilityId }) {
   }
 }
 
-export async function getLocationSettings({ siteIds, type = null }) {
+export async function getLocationSettings({ siteIds }) {
   try {
-    const promises = {};
-    if (!type || type === 'request') {
-      promises.request = getRequestEligibilityCriteria(siteIds);
-    }
-
-    if (!type || type === 'direct') {
-      promises.direct = getDirectBookingEligibilityCriteria(siteIds);
-    }
-
-    const settings = await promiseAllFromObject(promises);
+    const settings = await Promise.all([
+      getRequestEligibilityCriteria(siteIds),
+      getDirectBookingEligibilityCriteria(siteIds),
+    ]);
 
     return transformSettings(settings);
   } catch (e) {
@@ -160,7 +152,7 @@ export async function getLocationsByTypeOfCareAndSiteIds({
       type: !directSchedulingEnabled ? 'request' : null,
     });
 
-    const uniqueIds = dedupeArray(settings.map(setting => setting.id));
+    const uniqueIds = settings.map(setting => setting.id);
 
     // The above API calls only return the ids. Make an additional
     // call to getLocations so we can get additional details such

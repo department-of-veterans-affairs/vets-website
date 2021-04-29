@@ -161,7 +161,8 @@ export function openFacilityPage() {
       // If we have an already selected location or only have a single location
       // fetch eligbility data immediately
       const supportedFacilities = facilities?.filter(
-        facility => facility.legacyVAR.directSettings[TYPE_OF_CARE_ID]?.enabled,
+        facility =>
+          facility.legacyVAR.settings[TYPE_OF_CARE_ID]?.direct.enabled,
       );
       const clinicsNeeded = !!facilityId || supportedFacilities?.length === 1;
 

@@ -202,7 +202,8 @@ export default function covid19VaccineReducer(state = initialState, action) {
       }
 
       const typeOfCareFacilities = facilities.filter(
-        facility => facility.legacyVAR.directSettings[TYPE_OF_CARE_ID]?.enabled,
+        facility =>
+          facility.legacyVAR.settings[TYPE_OF_CARE_ID]?.direct.enabled,
       );
 
       let data = state.newBooking.data;

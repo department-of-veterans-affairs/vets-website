@@ -83,9 +83,9 @@ export async function getEligibilityData(
 ) {
   const facilityId = getFacilityIdFromLocation(location);
   const directSchedulingAvailable =
-      // this check is included due to old two step facilities page
-      (location.legacyVAR.directSchedulingSupported ||
-      location.legacyVAR.directSettings?.[typeOfCareId]?.enabled) &&
+    // this check is included due to old two step facilities page
+    (location.legacyVAR.directSchedulingSupported ||
+      location.legacyVAR.settings?.[typeOfCareId]?.direct.enabled) &&
     isDirectScheduleEnabled;
 
   const eligibilityChecks = {
@@ -137,12 +137,12 @@ export async function getEligibilityData(
     directSupported:
       // this check is included due to old two step facilities page
       location.legacyVAR.directSchedulingSupported ||
-      location.legacyVAR.directSettings?.[typeOfCareId]?.enabled,
+      location.legacyVAR.settings[typeOfCareId]?.direct.enabled,
     directEnabled: isDirectScheduleEnabled,
     requestSupported:
       // this check is included due to old two step facilities page
       location.legacyVAR.requestSupported ||
-      location.legacyVAR.requestSettings?.[typeOfCareId]?.enabled,
+      location.legacyVAR.settings[typeOfCareId]?.request.enabled,
   };
 
   if (directSchedulingAvailable && eligibility.clinics?.length) {
