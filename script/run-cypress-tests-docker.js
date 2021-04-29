@@ -11,11 +11,12 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
     )
     .join(',');
 
+  // to-do: add percy token to run command
   runCommand(
     `CYPRESS_BASE_URL=http://vets-website:3001 CYPRESS_CI=${
       process.env.CI
     } PERCY_PARALLEL_NONCE=${
-      process.env.PERCY_PARALLEL_NONCE // is PERCY_PARALLEL_NONCE already set in Jenkinsfile?
+      process.env.PERCY_PARALLEL_NONCE
     } PERCY_PARALLEL_TOTAL=${
       process.env.NUM_STEPS
     } yarn cy:run --config video=false --spec '${tests}'`,
