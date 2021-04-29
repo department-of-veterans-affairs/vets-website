@@ -199,6 +199,7 @@ export function mockFeatureToggles({
   providerSelectionEnabled = false,
   homepageRefresh = false,
 } = {}) {
+  cy.server();
   cy.route({
     method: 'GET',
     url: '/v0/feature_toggles*',
@@ -257,6 +258,7 @@ export function mockFeatureToggles({
 }
 
 function mockRequestLimits(id = '983') {
+  cy.server();
   cy.route({
     method: 'GET',
     url: `/vaos/v0/facilities/limits*`,
@@ -275,6 +277,7 @@ function mockRequestLimits(id = '983') {
 }
 
 function mockSupportedSites() {
+  cy.server();
   cy.route({
     method: 'GET',
     url: '/vaos/v0/community_care/supported_sites*',
@@ -283,6 +286,7 @@ function mockSupportedSites() {
 }
 
 function mockCCPrimaryCareEligibility() {
+  cy.server();
   cy.route({
     method: 'GET',
     url: '/vaos/v0/community_care/eligibility/PrimaryCare',
@@ -297,6 +301,7 @@ function mockCCPrimaryCareEligibility() {
 }
 
 function mockRequestEligibilityCriteria() {
+  cy.server();
   cy.route({
     method: 'GET',
     url: '/vaos/v0/request_eligibility_criteria*',
@@ -305,6 +310,7 @@ function mockRequestEligibilityCriteria() {
 }
 
 function mockDirectBookingEligibilityCriteria() {
+  cy.server();
   cy.route({
     method: 'GET',
     url: '/vaos/v0/direct_booking_eligibility_criteria*',
@@ -313,6 +319,7 @@ function mockDirectBookingEligibilityCriteria() {
 }
 
 function mockFacilityDetails() {
+  cy.server();
   cy.route({
     method: 'GET',
     url: '/v1/facilities/va?ids=*',
@@ -321,6 +328,7 @@ function mockFacilityDetails() {
 }
 
 function mockFacilities() {
+  cy.server();
   cy.route({
     method: 'GET',
     url: '/vaos/v0/facilities**',
@@ -329,6 +337,7 @@ function mockFacilities() {
 }
 
 function mockDirectSchedulingFacilities() {
+  cy.server();
   cy.route({
     method: 'GET',
     url: '/vaos/v0/systems/983/direct_scheduling_facilities*',
@@ -337,6 +346,7 @@ function mockDirectSchedulingFacilities() {
 }
 
 function mockPrimaryCareClinics() {
+  cy.server();
   cy.route({
     method: 'GET',
     url: '/vaos/v0/facilities/983/clinics*',
@@ -345,6 +355,7 @@ function mockPrimaryCareClinics() {
 }
 
 function mockSubmitVAAppointment() {
+  cy.server();
   cy.route({
     method: 'POST',
     url: '/vaos/v0/appointments',
@@ -435,6 +446,7 @@ function updateTimeslots(data) {
 }
 
 function mockVisits(id = '983') {
+  cy.server();
   cy.route({
     method: 'GET',
     url: `/vaos/v0/facilities/${id}/visits/*`,
@@ -452,6 +464,7 @@ function mockVisits(id = '983') {
 }
 
 function mockDirectScheduleSlots() {
+  cy.server();
   cy.route({
     method: 'GET',
     url: '/vaos/v0/facilities/983/available_appointments*',
@@ -483,7 +496,7 @@ function mockVaccineSlots() {
   };
 
   slots.data[0].attributes.appointmentTimeSlot = [newSlot];
-
+  cy.server();
   cy.route({
     method: 'GET',
     url: '/vaos/v0/facilities/983/available_appointments*',
@@ -492,6 +505,7 @@ function mockVaccineSlots() {
 }
 
 export function initAppointmentListMock() {
+  cy.server();
   setupSchedulingMocks();
 
   const today = moment();
@@ -579,6 +593,7 @@ export function initAppointmentListMock() {
 }
 
 export function initExpressCareMocks() {
+  cy.server();
   initAppointmentListMock();
   mockRequestLimits();
 
@@ -621,6 +636,7 @@ export function initExpressCareMocks() {
 }
 
 export function initVAAppointmentMock({ cernerUser = false } = {}) {
+  cy.server();
   setupSchedulingMocks({ cernerUser });
   cy.route({
     method: 'GET',
@@ -647,9 +663,10 @@ export function initVAAppointmentMock({ cernerUser = false } = {}) {
 export function initVaccineAppointmentMock({
   unableToScheduleCovid = false,
 } = {}) {
+  cy.server()
   setupSchedulingMocks();
   // Modify directScheduling Response
-  if (unableToScheduleCovid) {
+  if (unableToScheduleCovid) {;
     cy.route({
       method: 'GET',
       url: '/vaos/v0/direct_booking_eligibility_criteria*',
@@ -676,6 +693,7 @@ export function initVaccineAppointmentMock({
 }
 
 export function initVARequestMock({ cernerUser = false } = {}) {
+  cy.server();
   setupSchedulingMocks({ cernerUser });
   cy.route({
     method: 'GET',
@@ -707,6 +725,7 @@ export function initVARequestMock({ cernerUser = false } = {}) {
 }
 
 export function initCommunityCareMock() {
+  cy.server();
   setupSchedulingMocks();
 
   cy.route({

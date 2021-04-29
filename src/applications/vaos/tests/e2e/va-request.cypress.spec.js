@@ -117,6 +117,7 @@ describe('VAOS request flow', () => {
     });
   });
   it('should submit form successfully for a single system user', () => {
+    cy.server();
     initAppointmentListMock();
     initVARequestMock();
     cy.route({
@@ -131,6 +132,7 @@ describe('VAOS request flow', () => {
     });
   });
   it('should submit form successfully for a user with multi system including a Cerner facility', () => {
+    cy.server();
     initAppointmentListMock();
     initVARequestMock({ cernerUser: true });
     cy.route({

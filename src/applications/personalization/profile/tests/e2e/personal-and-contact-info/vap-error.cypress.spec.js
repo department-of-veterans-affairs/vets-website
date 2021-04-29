@@ -8,6 +8,7 @@ import mockPaymentInfoNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-i
 
 const setup = () => {
   cy.login(mockUser);
+  cy.server();
   cy.route('GET', 'v0/profile/personal_information', mockPersonalInformation);
   cy.route('GET', 'v0/profile/service_history', mockServiceHistory);
   cy.route('GET', 'v0/profile/full_name', mockFullName);
