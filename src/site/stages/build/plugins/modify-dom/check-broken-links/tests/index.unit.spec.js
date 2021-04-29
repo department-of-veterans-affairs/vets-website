@@ -2,14 +2,15 @@ const brokenLinkChecker = require('../index');
 const { expect } = require('chai');
 
 describe('broken link checker', () => {
-  it('determines if homepage is broken', () => {
-    let brokenPages = [{ path: '/', linkErrors: new Array(1) }];
-
-    expect(brokenLinkChecker.deriveIsHomepageBroken(brokenPages)).to.be.true;
-
-    brokenPages = [{ path: '/not-homepage', linkErrors: new Array(1) }];
-
-    expect(brokenLinkChecker.deriveIsHomepageBroken(brokenPages)).to.be.false;
+  describe('deriveIsHomepageBroken', () => {
+    it('returns true when homepage is broken', () => {
+      const brokenPages = [{ path: '/', linkErrors: new Array(1) }];
+      expect(brokenLinkChecker.deriveIsHomepageBroken(brokenPages)).to.be.true;
+    });
+    it('returns false when homepage is not broken', () => {
+      const brokenPages = [{ path: '/not-homepage', linkErrors: new Array(1) }];
+      expect(brokenLinkChecker.deriveIsHomepageBroken(brokenPages)).to.be.false;
+    });
   });
 
   it('counts total broken links', () => {
