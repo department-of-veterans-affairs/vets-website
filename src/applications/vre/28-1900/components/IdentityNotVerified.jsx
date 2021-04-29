@@ -31,7 +31,7 @@ const IdentityNotVerified = () => {
 
   return (
     <AlertBox
-      headline="Verify your identity to view your VA payments"
+      headline="Verify your identity to apply for VR&E benefits"
       content={content}
       status={ALERT_TYPE.WARNING}
       className="vads-u-fontsize--h3"
