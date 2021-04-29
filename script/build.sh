@@ -75,7 +75,4 @@ else
 fi
 
 # Build the content
-if [ "${forceContentBuild}" = true ]; then
-    yarn build:content $args
-fi
-
+yarn build:content $args
