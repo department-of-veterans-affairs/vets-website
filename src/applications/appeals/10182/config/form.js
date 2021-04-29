@@ -95,7 +95,7 @@ const formConfig = {
           schema: veteranInfo.schema,
           // initialData,
         },
-        confirmContactInformation: {
+        contactInformation: {
           title: 'Contact information',
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,

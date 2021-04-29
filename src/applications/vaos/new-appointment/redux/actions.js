@@ -9,7 +9,6 @@ import {
   selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
   selectSystemIds,
-  selectFeatureVSPAppointmentNew,
   selectIsCernerOnlyPatient,
   selectUseFlatFacilityPage,
 } from '../../redux/selectors';
@@ -273,7 +272,6 @@ export function fetchFacilityDetails(facilityId) {
 export function checkEligibility({ location, siteId, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useVSP = selectFeatureVSPAppointmentNew(state);
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCareId = getTypeOfCare(getState().newAppointment.data)?.id;
 
@@ -289,7 +287,6 @@ export function checkEligibility({ location, siteId, showModal }) {
         typeOfCareId,
         siteId,
         directSchedulingEnabled,
-        useVSP,
       );
 
       if (showModal) {
@@ -539,7 +536,6 @@ export function openFacilityPage(page, uiSchema, schema) {
     const typeOfCare = getTypeOfCare(newAppointment.data)?.name;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
     const userSiteIds = selectSystemIds(initialState);
-    const useVSP = selectFeatureVSPAppointmentNew(initialState);
     const isCernerOnly = selectIsCernerOnlyPatient(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let locations = null;
@@ -554,7 +550,6 @@ export function openFacilityPage(page, uiSchema, schema) {
       if (!parentFacilities) {
         parentFacilities = await getOrganizations({
           siteIds: userSiteIds,
-          useVSP,
         });
       }
 
@@ -573,12 +568,11 @@ export function openFacilityPage(page, uiSchema, schema) {
         newAppointment.facilities[`${typeOfCareId}_${parentId}`] || null;
 
       if (canShowFacilities && !locations) {
-        ({ locations } = await getSupportedHealthcareServicesAndLocations({
+        locations = await getSupportedHealthcareServicesAndLocations({
           siteId,
           parentId,
           typeOfCareId,
-          useVSP,
-        }));
+        });
       }
 
       const eligibilityDataNeeded = !!locationId || locations?.length === 1;
@@ -600,7 +594,6 @@ export function openFacilityPage(page, uiSchema, schema) {
           typeOfCareId,
           siteId,
           directSchedulingEnabled,
-          useVSP,
         );
 
         recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
@@ -639,7 +632,6 @@ export function openFacilityPage(page, uiSchema, schema) {
 export function updateFacilityPageData(page, uiSchema, data) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useVSP = selectFeatureVSPAppointmentNew(state);
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const previousNewAppointmentState = state.newAppointment;
     const typeOfCare = getTypeOfCare(data)?.name;
@@ -658,12 +650,11 @@ export function updateFacilityPageData(page, uiSchema, data) {
       });
 
       try {
-        ({ locations } = await getSupportedHealthcareServicesAndLocations({
+        locations = await getSupportedHealthcareServicesAndLocations({
           siteId,
           parentId: data.vaParent,
           typeOfCareId,
-          useVSP,
-        }));
+        });
 
         // If no available facilities, fetch system details to display contact info
         if (!locations?.length) {
@@ -712,7 +703,6 @@ export function updateFacilityPageData(page, uiSchema, data) {
           typeOfCareId,
           siteId,
           directSchedulingEnabled,
-          useVSP,
         );
 
         recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
@@ -788,7 +778,6 @@ export function openClinicPage(page, uiSchema, schema) {
 export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   return async (dispatch, getState) => {
     const state = getState();
-    const useVSP = selectFeatureVSPAppointmentNew(state);
     const siteId = getSiteIdFromFacilityId(getFormData(state).vaFacility);
     const newAppointment = getNewAppointment(state);
     const { data } = newAppointment;
@@ -833,7 +822,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           clinicId: data.clinicId,
           startDate: startDateString,
           endDate: endDateString,
-          useVSP,
         });
         const now = moment();
 
@@ -899,7 +887,6 @@ export function checkCommunityCareEligibility() {
   return async (dispatch, getState) => {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
-    const useVSP = selectFeatureVSPAppointmentNew(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -908,7 +895,7 @@ export function checkCommunityCareEligibility() {
     try {
       // Check if user registered systems support community care...
       const siteIds = selectSystemIds(state);
-      const parentFacilities = await getOrganizations({ siteIds, useVSP });
+      const parentFacilities = await getOrganizations({ siteIds });
       const ccSites = await getSitesSupportingVAR(
         parentFacilities.map(parent => getSiteIdFromOrganization(parent)),
       );

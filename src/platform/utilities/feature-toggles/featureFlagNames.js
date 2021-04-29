@@ -16,13 +16,6 @@ export default Object.freeze({
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
   vaOnlineSchedulingCommunityCare: 'vaOnlineSchedulingCommunityCare',
   vaOnlineSchedulingDirect: 'vaOnlineSchedulingDirect',
-  vaOnlineSchedulingVSPAppointmentList: 'vaOnlineSchedulingVspAppointmentList',
-  vaOnlineSchedulingVSPAppointmentNew: 'vaOnlineSchedulingVspAppointmentNew',
-  vaOnlineSchedulingCCSPAppointmentList:
-    'vaOnlineSchedulingCcspAppointmentList',
-  vaOnlineSchedulingCCSPRequestNew: 'vaOnlineSchedulingCcspRequestNew',
-  vaOnlineSchedulingVSPRequestList: 'vaOnlineSchedulingVspRequestList',
-  vaOnlineSchedulingVSPRequestNew: 'vaOnlineSchedulingVspRequestNew',
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
   vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
