@@ -245,7 +245,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   def drupalMaxParallelRequests = 15
   def noDrupalProxy = '--no-drupal-proxy'
 
-  if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH) {
+  if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH || contentOnlyBuild) {
     drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
     noDrupalProxy = ''
   }
