@@ -45,8 +45,15 @@ export default function App(props) {
   }
 
   return (
-    <div data-testid={'webchat-container'}>
-      <div className="chat-header">VA Virtual Agent</div>
+    <div
+      data-testid={'webchat-container'}
+      className="vads-u-padding--1p5 vads-u-background-color--gray-lightest"
+    >
+      <div className="chat-header vads-u-padding--1p5">
+        <h2 className="vads-u-font-size--lg vads-u-margin--0">
+          VA Virtual Agent
+        </h2>
+      </div>
       <WebChat token={token} WebChatFramework={WebChatFramework} />
     </div>
   );

@@ -28,7 +28,7 @@ const WebChat = ({ token, WebChatFramework }) => {
   };
 
   return (
-    <div data-testid={'webchat'} style={{ height: '500px', width: '100%' }}>
+    <div data-testid={'webchat'} style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
         styleOptions={styleOptions}
         directLine={directLine}
