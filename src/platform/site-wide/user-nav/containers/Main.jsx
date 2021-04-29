@@ -146,11 +146,7 @@ export class Main extends React.Component {
 
   render() {
     return (
-      <div
-        className="profile-nav-container"
-        onFocus={() => SignInModal.preload()}
-        onMouseOver={() => SignInModal.preload()}
-      >
+      <div className="profile-nav-container">
         <SearchHelpSignIn
           isLOA3={this.props.isLOA3}
           isLoggedIn={this.props.currentlyLoggedIn}
