@@ -197,9 +197,10 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
     def rawJsonFile = readFile(brokenLinksFile);
     def jsonSlurper = new JsonSlurper();
     def brokenLinks = jsonSlurper.parseText(rawJsonFile);
+    def maxBrokenLinks = 10
     def color = 'warning'
 
-    if (brokenLinks.isHomepageBroken || brokenLinks.brokenLinksCount > 10) {
+    if (brokenLinks.isHomepageBroken || brokenLinks.brokenLinksCount > maxBrokenLinks) {
       color = 'danger'
     }
 
