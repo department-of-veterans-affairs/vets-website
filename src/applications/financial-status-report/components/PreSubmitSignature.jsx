@@ -148,7 +148,7 @@ const PreSubmitSignature = ({
             className="vads-u-margin-left--0p5"
             href={`${environment.BASE_URL}/privacy-policy`}
           >
-            privacy policy
+            privacy policy (opens in new tab)
           </a>
           .
         </p>
