@@ -45,6 +45,12 @@ const nodeCampaignLandingPage = `
         ... on TaxonomyTermAudienceTags {
           name
         }
+        ... on TaxonomyTermAudienceBeneficiaries {
+          name
+        }
+        ... on TaxonomyTermAudienceNonBeneficiaries {
+          name
+        }
       }
     }
     fieldClpConnectWithUs {
