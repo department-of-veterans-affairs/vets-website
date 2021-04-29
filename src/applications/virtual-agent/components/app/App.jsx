@@ -33,7 +33,7 @@ function useWebChat(props) {
   };
 }
 
-export default function App(props) {
+function App(props) {
   const { loading, error, token, WebChatFramework } = useWebChat(props);
 
   if (loading) {
@@ -45,9 +45,22 @@ export default function App(props) {
   }
 
   return (
-    <div className={'vads-l-grid-container'}>
-      <div className={'vads-l-row'} data-testid={'webchat-container'}>
-        <WebChat token={token} WebChatFramework={WebChatFramework} />
+    <div data-testid={'webchat-container'}>
+      <WebChat token={token} WebChatFramework={WebChatFramework} />
+    </div>
+  );
+}
+
+export default function Page(props) {
+  return (
+    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+      <div className="vads-l-row vads-u-margin-x--neg2p5">
+        <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4">
+          <App {...props} />
+        </div>
+        <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
+          <h1>About this study</h1>
+        </div>
       </div>
     </div>
   );
