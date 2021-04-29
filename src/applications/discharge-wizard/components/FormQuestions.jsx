@@ -1,16 +1,13 @@
 // Dependencies.
 import React, { Component } from 'react';
-import { range } from 'lodash';
 import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
 
 // Relative Imports
 import recordEvent from 'platform/monitoring/record-event';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import Select from '@department-of-veterans-affairs/component-library/Select';
 import AnswerReview from './AnswerReview';
-import BranchOfServiceQuestion from './BranchOfServiceQuestion';
-import { months } from 'platform/static-data/options-for-select.js';
+import Questions from './questions';
 import { focusElement } from 'platform/utilities/ui';
 import { questionLabels, prevApplicationYearCutoff } from '../constants';
 import { shouldShowQuestion } from '../helpers';
@@ -86,8 +83,6 @@ class FormQuestions extends Component {
       },
     );
 
-    // this[e.target.name].querySelector('input') ||
-    // this[e.target.name].querySelector('select')
     (
       document.querySelector(`input[name="${e.target.name}"]`) ||
       document.querySelector(`select[name="${e.target.name}"]`)
@@ -122,144 +117,6 @@ class FormQuestions extends Component {
         <RadioButtons {...radioButtonProps} />
       </div>
     );
-  };
-
-  // renderQuestionOne = () => {
-  //   const key = '1_branchOfService';
-  //   if (!shouldShowQuestion(key, this.props.formValues.questions)) {
-  //     return null;
-  //   }
-
-  //   const label = <h4>In which branch of service did you serve?</h4>;
-  //   const options = [
-  //     { label: 'Army', value: 'army' },
-  //     { label: 'Navy', value: 'navy' },
-  //     { label: 'Air Force', value: 'airForce' },
-  //     { label: 'Coast Guard', value: 'coastGuard' },
-  //     { label: 'Marine Corps', value: 'marines' },
-  //   ];
-
-  //   return this.renderQuestion(key, label, options);
-  // };
-
-  renderQuestionTwo = () => {
-    const key = '2_dischargeYear';
-    if (!shouldShowQuestion(key, this.props.formValues.questions)) {
-      return null;
-    }
-
-    const dischargeYear = this.props.formValues[key];
-    const currentYear = new Date().getFullYear();
-    const yearOptions = range(currentYear - 1992).map(i => {
-      const year = currentYear - i;
-      return { label: year.toString(), value: year.toString() };
-    });
-
-    yearOptions.push({ label: 'Before 1992', value: '1991' });
-
-    const label = (
-      <legend className="legend-label">
-        <h4>What year were you discharged from the military?</h4>
-      </legend>
-    );
-
-    return (
-      <fieldset
-        className="fieldset-input dischargeYear"
-        key="dischargeYear"
-        ref={el => {
-          this[key] = el;
-        }}
-      >
-        <Element name={key} />
-        <Select
-          autocomplete="false"
-          label={label}
-          name={key}
-          options={yearOptions}
-          onKeyDown={this.handleKeyDown}
-          value={{ value: dischargeYear }}
-          onValueChange={update => {
-            this.updateField(key, update.value);
-            this.scrollToLast();
-          }}
-        />
-      </fieldset>
-    );
-  };
-
-  renderQuestionTwoB = () => {
-    const key = '3_dischargeMonth';
-    if (!shouldShowQuestion(key, this.props.formValues.questions)) {
-      return null;
-    }
-
-    const monthLabel = (
-      <legend className="legend-label">
-        <h4>What month were you discharged?</h4>
-      </legend>
-    );
-
-    return (
-      <fieldset
-        className="fieldset-input dischargeMonth"
-        key="dischargeMonth"
-        ref={el => {
-          this[key] = el;
-        }}
-      >
-        <Element name={key} />
-        <Select
-          autocomplete="false"
-          label={monthLabel}
-          name={key}
-          onKeyDown={this.handleKeyDown}
-          options={months}
-          value={{ value: this.props.formValues[key] }}
-          onValueChange={update => {
-            this.updateField(key, update.value);
-            this.scrollToLast();
-          }}
-        />
-      </fieldset>
-    );
-  };
-
-  renderQuestionThree = () => {
-    const key = '4_reason';
-    if (!shouldShowQuestion(key, this.props.formValues.questions)) {
-      return null;
-    }
-
-    const options = [
-      { label: questionLabels[key]['1'], value: '1' },
-      { label: questionLabels[key]['2'], value: '2' },
-      { label: questionLabels[key]['3'], value: '3' },
-      { label: questionLabels[key]['4'], value: '4' },
-      { label: questionLabels[key]['5'], value: '5' },
-      // question 8 is intentionally presented out of order here
-      { label: questionLabels[key]['8'], value: '8' },
-      { label: questionLabels[key]['6'], value: '6' },
-      { label: questionLabels[key]['7'], value: '7' },
-    ];
-
-    const label = (
-      <div>
-        <h4>
-          Which of the following best describes why you want to change your
-          discharge paperwork? Choose the one that’s closest to your situation.
-        </h4>
-        <p>
-          <strong>Note:</strong> If more than one of these fits your situation,
-          choose the one that started the events leading to your discharge. For
-          example, if you experienced sexual assault and have posttraumatic
-          stress disorder (PTSD) resulting from that experience, choose sexual
-          assault.
-        </p>
-      </div>
-    );
-
-    return this.renderQuestion(key, label, options);
   };
 
   renderQuestionThreeA = () => {
@@ -508,16 +365,15 @@ class FormQuestions extends Component {
   render() {
     return (
       <div className="dw-questions">
-        {/* {this.renderQuestionOne()} */}
-        <BranchOfServiceQuestion
-          formValues={this.props.formValues}
-          handleKeyDown={this.handleKeyDown}
-          scrollToLast={this.scrollToLast}
-          updateField={this.updateField}
-        />
-        {this.renderQuestionTwo()}
-        {this.renderQuestionTwoB()}
-        {this.renderQuestionThree()}
+        {Questions.map((Question, index) => (
+          <Question
+            key={index}
+            formValues={this.props.formValues}
+            handleKeyDown={this.handleKeyDown}
+            scrollToLast={this.scrollToLast}
+            updateField={this.updateField}
+          />
+        ))}
         {this.renderQuestionThreeA()}
         {this.renderQuestionThreeB()}
         {this.renderQuestionFour()}

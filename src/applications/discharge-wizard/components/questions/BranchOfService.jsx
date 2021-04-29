@@ -4,7 +4,7 @@ import Scroll from 'react-scroll';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 // Relative Imports
-import { shouldShowQuestion } from '../helpers';
+import { shouldShowQuestion } from '../../helpers';
 
 const Element = Scroll.Element;
 
@@ -20,7 +20,7 @@ const BranchOfServiceQuestion = ({
     return null;
   }
 
-  if (!shouldShowQuestion(key, formValues?.questions)) {
+  if (!shouldShowQuestion(key, formValues.questions)) {
     return null;
   }
 
