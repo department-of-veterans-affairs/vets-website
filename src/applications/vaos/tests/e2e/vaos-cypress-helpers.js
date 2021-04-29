@@ -663,10 +663,10 @@ export function initVAAppointmentMock({ cernerUser = false } = {}) {
 export function initVaccineAppointmentMock({
   unableToScheduleCovid = false,
 } = {}) {
-  cy.server()
+  cy.server();
   setupSchedulingMocks();
   // Modify directScheduling Response
-  if (unableToScheduleCovid) {;
+  if (unableToScheduleCovid) {
     cy.route({
       method: 'GET',
       url: '/vaos/v0/direct_booking_eligibility_criteria*',
