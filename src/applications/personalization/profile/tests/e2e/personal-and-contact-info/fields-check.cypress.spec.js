@@ -7,13 +7,9 @@ import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
 
 const setup = () => {
   cy.login(mockUser);
-  cy.intercept(
-    'GET',
-    'v0/profile/personal_information',
-    mockPersonalInformation,
-  );
-  cy.intercept('GET', 'v0/profile/service_history', mockServiceHistory);
-  cy.intercept('GET', 'v0/profile/full_name', mockFullName);
+  cy.route('GET', 'v0/profile/personal_information', mockPersonalInformation);
+  cy.route('GET', 'v0/profile/service_history', mockServiceHistory);
+  cy.route('GET', 'v0/profile/full_name', mockFullName);
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
   // should show a loading indicator

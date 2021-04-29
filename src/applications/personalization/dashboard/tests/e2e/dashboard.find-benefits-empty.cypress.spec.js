@@ -19,13 +19,14 @@ describe('MyVA Dashboard - Find VA Benefits', () => {
         isPatient: false,
       });
       cy.login(mockUser);
-      cy.intercept('GET', '/v0/user/preferences', getUserPreferencesEmpty);
-      cy.intercept(
+      cy.server();
+      cy.route('GET', '/v0/user/preferences', getUserPreferencesEmpty);
+      cy.route(
         'GET',
         '/v0/user/preferences/choices/benefits',
         getPreferencesChoices,
       );
-      cy.intercept('POST', '/v0/user/preferences', addUserPreferences);
+      cy.route('POST', '/v0/user/preferences', addUserPreferences);
     });
     it('should allow them to select some benefits to learn more about', () => {
       cy.visit('my-va/');
