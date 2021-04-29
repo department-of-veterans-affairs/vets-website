@@ -22,6 +22,9 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.findByText('Sign up now', { selector: 'a' }).click();
 
       // Form page
+      // Take a snapshot for visual diffing
+      cy.percySnapshot('Empty form');
+
       cy.url().should(
         'include',
         '/health-care/covid-19-vaccine/stay-informed/form',
@@ -70,6 +73,9 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       );
       cy.get('#root_vaccineInterest_0').check();
 
+      // Take a snapshot for visual diffing
+      cy.percySnapshot('Completed form');
+
       cy.axeCheck();
       cy.route('POST', '**/covid_vaccine/v0/registration', {
         status: 200,
@@ -80,6 +86,9 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.wait('@response');
 
       // Confirmation page
+      // Take a snapshot for visual diffing
+      cy.percySnapshot('Form confirmation page');
+
       cy.url().should(
         'include',
         '/health-care/covid-19-vaccine/stay-informed/confirmation',
