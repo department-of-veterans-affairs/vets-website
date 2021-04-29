@@ -26,7 +26,9 @@ describe('health_care_local_facility', () => {
     });
 
     // Default state, main phone number is in dataset
-    it('should render main phone number', () => {
+    it('should render main phone number', async () => {
+      container = await renderHTML(layoutPath, data, 'fieldPhoneNumber');
+
       expect(container.querySelector('.main-phone a').textContent).to.equal(
         data.fieldPhoneNumber,
       );
@@ -35,8 +37,12 @@ describe('health_care_local_facility', () => {
     // Test return if the fieldPhoneNumber string is empty
     it('should not render .main-phone if string is empty', async () => {
       // Clear fieldPhoneNumber to mimic an entry error
-      data.fieldPhoneNumber = '';
-      container = await renderHTML(layoutPath, data, 'fieldPhoneNumberEmpty');
+      const testDataEmptyPhone = { ...data, fieldPhoneNumber: '' };
+      container = await renderHTML(
+        layoutPath,
+        testDataEmptyPhone,
+        'fieldPhoneNumberEmpty',
+      );
 
       // Element should not render in the DOM
       expect(container.querySelector('.main-phone')).to.be.null;
@@ -45,8 +51,12 @@ describe('health_care_local_facility', () => {
     // Test return if the fieldPhoneNumber is null
     it('should not render .main-phone if null', async () => {
       // Set fieldPhoneNumber to null value
-      data.fieldPhoneNumber = null;
-      container = await renderHTML(layoutPath, data, 'fieldPhoneNumberNull');
+      const testDataNullPhone = { ...data, fieldPhoneNumber: null };
+      container = await renderHTML(
+        layoutPath,
+        testDataNullPhone,
+        'fieldPhoneNumberNull',
+      );
 
       // Element should not render in the DOM
       expect(container.querySelector('.main-phone')).to.be.null;
