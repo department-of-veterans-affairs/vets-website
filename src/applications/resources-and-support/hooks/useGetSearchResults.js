@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { orderBy } from 'lodash';
 // Relative imports.
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { SEARCH_IGNORE_LIST } from '../constants';
 
@@ -40,10 +39,10 @@ export default function useGetSearchResults(articles, query, page) {
         });
 
       let filteredArticles = articles.filter(article => {
-        const articleTitleKeywords = article.title.toLowerCase().split(' ');
+        const articleTitleWords = article.title.toLowerCase().split(' ');
 
         return keywords.some(keyword => {
-          return articleTitleKeywords.some(titleWord =>
+          return articleTitleWords.some(titleWord =>
             titleWord.startsWith(keyword),
           );
         });
@@ -117,31 +116,20 @@ export default function useGetSearchResults(articles, query, page) {
         };
       });
 
-      if (environment.isProduction()) {
-        // Sort first by query word instances found in title descending
-        // Sort ties then by query word instances found in introText descending
-        // Sort ties then by alphabetical descending
-        orderedResults = orderBy(
-          filteredArticles,
-          ['keywordsCountsTitle', 'keywordsCountsIntroText', 'title'],
-          ['desc', 'desc', 'asc'],
-        );
-      } else {
-        // Sort first by the number of exact query matches (ignoring casing) in the title and introText
-        // Sort ties by query word instances found in title descending
-        // Sort ties then by query word instances found in searchableContent descending
-        // Sort ties then by alphabetical descending
-        orderedResults = orderBy(
-          filteredArticles,
-          [
-            'wholePhraseMatchCountsTotal',
-            'keywordsCountsTitle',
-            'keywordsCountsContent',
-            'title',
-          ],
-          ['desc', 'desc', 'desc', 'asc'],
-        );
-      }
+      // Sort first by the number of exact query matches (ignoring casing) in the title, introText, and searchableContent descending
+      // Sort ties by query word instances found in title descending
+      // Sort ties then by query word instances found in searchableContent descending
+      // Sort ties then by alphabetical descending
+      orderedResults = orderBy(
+        filteredArticles,
+        [
+          'wholePhraseMatchCountsTotal',
+          'keywordsCountsTitle',
+          'keywordsCountsContent',
+          'title',
+        ],
+        ['desc', 'desc', 'desc', 'asc'],
+      );
       // =====
       // End of ordering logic.
 
