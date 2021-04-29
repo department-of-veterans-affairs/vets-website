@@ -203,8 +203,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       color = 'danger'
     }
 
-    // @todo Ping @cmshelpdesk
-    def heading = "${brokenLinks.brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n\n${env.RUN_DISPLAY_URL}\n\n"
+    def heading = "@cmshelpdesk ${brokenLinks.brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n\n${env.RUN_DISPLAY_URL}\n\n"
     def message = "${heading}\n${brokenLinks.summary}".stripMargin()
 
     echo "${brokenLinks.brokenLinksCount} broken links found"
@@ -223,7 +222,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       message: message,
       color: color,
       failOnError: true,
-      channel: 'dev_null' // @todo change this to 'cms-helpdesk-bot'
+      channel: 'cms-helpdesk-bot'
     )
 
     if (color == 'danger') {
