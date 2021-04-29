@@ -75,4 +75,7 @@ else
 fi
 
 # Build the content
-yarn build:content $args
+if [ -n "${forceContentBuild}" ] || [ "${buildtype}" != "vagovdev" ]
+then
+    yarn build:content $args
+fi

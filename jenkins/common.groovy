@@ -397,14 +397,15 @@ def cacheDrupalContent(dockerContainer, envUsedCache) {
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
-
-        if (!envUsedCache[envName]) {
-          dockerContainer.inside(DOCKER_ARGS) {
-            sh "cd /application && node script/drupal-aws-cache.js --buildtype=${envName}"
+        if(envName != "vagovdev") {
+          if (!envUsedCache[envName]) {
+            dockerContainer.inside(DOCKER_ARGS) {
+              sh "cd /application && node script/drupal-aws-cache.js --buildtype=${envName}"
+            }
+          } else {
+            slackCachedContent(envName)
+            // TODO: Read the envName-output.log and send that into the Slack message
           }
-        } else {
-          slackCachedContent(envName)
-          // TODO: Read the envName-output.log and send that into the Slack message
         }
       }
 
