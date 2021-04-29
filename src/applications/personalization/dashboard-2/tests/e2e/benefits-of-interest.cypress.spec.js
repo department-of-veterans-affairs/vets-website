@@ -28,8 +28,8 @@ describe('The My VA Dashboard', () => {
       user.data.attributes.vaProfile.facilities = [];
       cy.intercept('/v0/health_care_applications/enrollment_status', notInESR);
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
-      mockFeatureToggles();
       cy.login(user);
+      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits, health care, and education benefits', () => {
@@ -75,8 +75,8 @@ describe('The My VA Dashboard', () => {
   describe('when user is a health care patient and is not known to get education benefits', () => {
     beforeEach(() => {
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
-      mockFeatureToggles();
       cy.login(makeMockUser());
+      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits and education benefits, but not health care', () => {
@@ -95,8 +95,8 @@ describe('The My VA Dashboard', () => {
   describe('when user is a health care patient and gets direct deposit for education benefits', () => {
     beforeEach(() => {
       cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduEnrolled);
-      mockFeatureToggles();
       cy.login(makeMockUser());
+      mockFeatureToggles();
       cy.visit(manifest.rootUrl);
     });
     it('should show info about disability benefits benefits, but not health care or education benefits', () => {

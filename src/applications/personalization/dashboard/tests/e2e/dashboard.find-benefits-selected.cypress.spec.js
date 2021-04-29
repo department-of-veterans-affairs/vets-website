@@ -18,14 +18,11 @@ describe('MyVA Dashboard - Find VA Benefits', () => {
         inProgressForms: [],
         isPatient: false,
       });
+      cy.server();
       cy.login(mockUser);
-      cy.intercept(
-        'GET',
-        '/v0/user/preferences',
-        getUserPreferencesTwoSelected,
-      );
-      cy.intercept('POST', '/v0/user/preferences', removeSinglePreference);
-      cy.intercept(
+      cy.route('GET', '/v0/user/preferences', getUserPreferencesTwoSelected);
+      cy.route('POST', '/v0/user/preferences', removeSinglePreference);
+      cy.route(
         'DELETE',
         'v0/user/preferences/benefits/delete_all',
         deleteAllPreferences,
