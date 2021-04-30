@@ -5,7 +5,7 @@
 import { getParentFacilities } from '../var';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { transformParentFacilities } from './transformers';
-import { fhirSearch, mapToFHIRErrors } from '../utils';
+import { mapToFHIRErrors } from '../utils';
 
 /**
  * Fetch details about the facilities given, typically the VistA sites
@@ -14,34 +14,27 @@ import { fhirSearch, mapToFHIRErrors } from '../utils';
  * @export
  * @async
  * @param {Array} params.siteIds A list of three digit site ids
- * @param {Boolean} params.useVSP A flag that determines whether we go to the new VSP apis
  * @returns {Array} A FHIR searchset of Organization resources
  */
-export async function getOrganizations({ siteIds, useVSP = false }) {
-  if (!useVSP) {
-    try {
-      const parentFacilities = await getParentFacilities(siteIds);
+export async function getOrganizations({ siteIds }) {
+  try {
+    const parentFacilities = await getParentFacilities(siteIds);
 
-      return transformParentFacilities(parentFacilities).sort((a, b) => {
-        // a.name comes 1st
-        if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
-        // b.name comes 1st
-        if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
-        // a.name and b.name are equal
-        return 0;
-      });
-    } catch (e) {
-      if (e.errors) {
-        throw mapToFHIRErrors(e.errors);
-      }
-
-      throw e;
+    return transformParentFacilities(parentFacilities).sort((a, b) => {
+      // a.name comes 1st
+      if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
+      // b.name comes 1st
+      if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
+      // a.name and b.name are equal
+      return 0;
+    });
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
     }
-  }
 
-  return fhirSearch({
-    query: `Organization?identifier=${siteIds.join(',')}&_sort=name`,
-  });
+    throw e;
+  }
 }
 
 /**

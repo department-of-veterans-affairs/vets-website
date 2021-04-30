@@ -1,0 +1,25 @@
+<div class="vads-u-margin-bottom--3">
+    {% for entity in services %}
+        {% assign idService = entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterTypeOfCare %}
+        <va-accordion bordered id="{{ idService }}-accordion-{{ entity.entity.fieldServiceNameAndDescripti.entity.name }}">
+            <va-accordion-item
+                    id="{{ idService }}-item-{{ entity.entity.fieldServiceNameAndDescripti.entity.name}}"
+                    header="{{ entity.entity.fieldServiceNameAndDescripti.entity.name }}"
+                    subheader="{{ entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterFriendlyName }}"
+                    level="3">
+                {% if entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterComConditions != empty %}
+                    <p>{{ entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterComConditions }}</p>
+                {% endif %}
+                {% if entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip != empty %}
+                    <p>{{ entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip  }}</p>
+                {% endif %}
+                {{ entity.entity.fieldServiceNameAndDescripti.entity.description.processed | drupalToVaPath | outputLinks }}
+                {% if entity.entity.fieldBody %}
+                    <div id="field-body-health-services-{{ idService }}-{{ entity.entity.fieldServiceNameAndDescripti.entity.name }}">
+                        {{ entity.entity.fieldBody.processed | drupalToVaPath | outputLinks }}
+                    </div>
+                {% endif %}
+            </va-accordion-item>
+        </va-accordion>
+    {% endfor %}
+</div>

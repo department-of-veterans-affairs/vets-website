@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { validateWhiteSpace } from 'platform/forms/validations';
-import * as actions from '../redux/actions';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -15,6 +14,12 @@ import TextareaWidget from '../../components/TextareaWidget';
 import { useHistory } from 'react-router-dom';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
 import NewTabAnchor from '../../components/NewTabAnchor';
+import {
+  openReasonForAppointment,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  updateReasonForAppointmentData,
+} from '../redux/actions';
 
 const initialSchema = {
   default: {
@@ -70,15 +75,12 @@ const uiSchema = {
 
 const pageKey = 'reasonForAppointment';
 
-function ReasonForAppointmentPage({
-  data,
-  openReasonForAppointment,
-  pageChangeInProgress,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-  schema,
-  updateReasonForAppointmentData,
-}) {
+export default function ReasonForAppointmentPage() {
+  const dispatch = useDispatch();
+  const { schema, data, pageChangeInProgress } = useSelector(
+    state => getFormPageInfo(state, pageKey),
+    shallowEqual,
+  );
   const history = useHistory();
   const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
   const pageUISchema = isCommunityCare ? uiSchema.cc : uiSchema.default;
@@ -91,7 +93,9 @@ function ReasonForAppointmentPage({
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema);
+    dispatch(
+      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
+    );
   }, []);
 
   return (
@@ -103,9 +107,13 @@ function ReasonForAppointmentPage({
           title="Reason for appointment"
           schema={schema}
           uiSchema={pageUISchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onSubmit={() =>
+            dispatch(routeToNextAppointmentPage(history, pageKey))
+          }
           onChange={newData =>
-            updateReasonForAppointmentData(pageKey, pageUISchema, newData)
+            dispatch(
+              updateReasonForAppointmentData(pageKey, pageUISchema, newData),
+            )
           }
           data={data}
         >
@@ -137,7 +145,9 @@ function ReasonForAppointmentPage({
             />
           </PostFormFieldContent>
           <FormButtons
-            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            onBack={() =>
+              dispatch(routeToPreviousAppointmentPage(history, pageKey))
+            }
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
           />
@@ -146,19 +156,3 @@ function ReasonForAppointmentPage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
-}
-
-const mapDispatchToProps = {
-  openReasonForAppointment: actions.openReasonForAppointment,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  updateReasonForAppointmentData: actions.updateReasonForAppointmentData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReasonForAppointmentPage);

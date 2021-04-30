@@ -79,4 +79,3 @@ if [ -n "${forceContentBuild}" ] || [ "${buildtype}" != "vagovdev" ]
 then
     yarn build:content $args
 fi
-

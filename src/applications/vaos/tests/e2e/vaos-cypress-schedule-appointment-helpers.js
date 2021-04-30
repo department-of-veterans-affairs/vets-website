@@ -132,3 +132,10 @@ export function confirmationPageTest(additionalInfo) {
   cy.findByText('Follow-up/Routine');
   cy.findByText(additionalInfo);
 }
+
+export function confirmationPageV2Test(fullReason) {
+  cy.findByText('Your appointment has been scheduled and is confirmed.');
+  cy.findByText('VA Appointment');
+  cy.findByText('Your reason for your visit');
+  cy.findByText(fullReason);
+}
