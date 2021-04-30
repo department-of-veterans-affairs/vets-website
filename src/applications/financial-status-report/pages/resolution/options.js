@@ -46,7 +46,7 @@ export const uiSchema = {
           'ui:title': 'Resolution Type',
           'ui:required': (formData, index) => {
             const { selectedDebts } = formData;
-            return !selectedDebts[index].resolution.resolutionType;
+            return !selectedDebts[index].resolution?.resolutionType;
           },
         },
         offerToPay: {
@@ -54,8 +54,8 @@ export const uiSchema = {
           'ui:required': (formData, index) => {
             const { selectedDebts } = formData;
             return (
-              selectedDebts[index].resolution.resolutionType !== 'Waiver' &&
-              !selectedDebts[index].resolution.offerToPay
+              selectedDebts[index].resolution?.resolutionType !== 'Waiver' &&
+              !selectedDebts[index].resolution?.offerToPay
             );
           },
         },
@@ -64,8 +64,8 @@ export const uiSchema = {
           'ui:required': (formData, index) => {
             const { selectedDebts } = formData;
             return (
-              selectedDebts[index].resolution.resolutionType === 'Waiver' &&
-              !selectedDebts[index].resolution.agreeToWaiver
+              selectedDebts[index].resolution?.resolutionType === 'Waiver' &&
+              !selectedDebts[index].resolution?.agreeToWaiver
             );
           },
         },
