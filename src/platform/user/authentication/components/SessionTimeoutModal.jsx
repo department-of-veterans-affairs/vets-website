@@ -1,16 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+
 import recordEvent from 'platform/monitoring/record-event';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { logout } from 'platform/user/authentication/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
-import loadable from '@loadable/component';
 
-const Modal = loadable(() =>
-  import(/* webpackChunkName: "sessionTimeout" */ '@department-of-veterans-affairs/component-library/Modal'),
-);
 const MODAL_DURATION = 30; // seconds
 
 class SessionTimeoutModal extends React.Component {

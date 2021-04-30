@@ -4,6 +4,8 @@ import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
 import loadable from '@loadable/component';
 
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+
 import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import environment from 'platform/utilities/environment';
@@ -11,9 +13,6 @@ import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors'
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 import downtimeBanners from '../utilities/downtimeBanners';
 
-const AlertBox = loadable(() =>
-  import(/* webpackChunkName: "signIn" */ '@department-of-veterans-affairs/component-library/AlertBox'),
-);
 const AutoSSO = loadable(() =>
   import(/* webpackChunkName: "signIn" */ 'platform/site-wide/user-nav/containers/AutoSSO'),
 );
