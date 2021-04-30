@@ -159,10 +159,10 @@ const priorServiceStatement = props => {
 };
 
 const CarefulConsiderationStatement = props => (
-  <div>
+  <section>
     {reasonStatement(props)}
     {priorServiceStatement(props)}
-  </div>
+  </section>
 );
 
 export default CarefulConsiderationStatement;

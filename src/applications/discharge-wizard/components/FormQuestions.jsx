@@ -87,7 +87,7 @@ class FormQuestions extends Component {
 
   render() {
     return (
-      <div className="dw-questions">
+      <section className="dw-questions">
         {Questions.map((Question, index) => (
           <Question
             key={index + 1}
@@ -101,7 +101,7 @@ class FormQuestions extends Component {
           formValues={this.props.formValues}
           handleScrollTo={(this, this.handleScrollTo)}
         />
-      </div>
+      </section>
     );
   }
 }
