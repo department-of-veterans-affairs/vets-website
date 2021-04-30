@@ -31,6 +31,7 @@ describe('Financial Status Report (Wizard)', () => {
     cy.url().should('include', rootUrl);
     cy.get('h1').should('have.text', title);
     cy.get('.wizard-heading').should('have.text', heading);
+    cy.percySnapshot();
     cy.get('[type="radio"][value="request"]').click();
     cy.get('[type="radio"][value="recipients"]').click();
     cy.get('[type="radio"][value="veteran"]').click();
