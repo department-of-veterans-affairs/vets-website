@@ -11,11 +11,10 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
     )
     .join(',');
 
-  // to-do: add percy token to run command
   runCommand(
     `CYPRESS_BASE_URL=http://vets-website:3001 CYPRESS_CI=${
       process.env.CI
-    } PERCY_PARALLEL_NONCE=${
+    } PERCY_TOKEN=${process.env.PERCY_TOKEN} PERCY_PARALLEL_NONCE=${
       process.env.PERCY_PARALLEL_NONCE
     } PERCY_PARALLEL_TOTAL=${
       process.env.NUM_STEPS
