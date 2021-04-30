@@ -22,11 +22,6 @@ describe('Chapter 31 LOA1 authentication gate', () => {
 
     cy.injectAxe();
 
-    cy.findByRole('progressbar').should('exist');
-    cy.findByText(/loading your information.../i).should('exist');
-
-    cy.findByRole('progressbar').should('not.exist');
-
     cy.findByRole('heading', {
       name: /Verify your identity to apply for VR&E benefits/i,
     }).should('exist');
