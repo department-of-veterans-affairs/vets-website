@@ -26,7 +26,7 @@ function fillOutForm(facilitySelection) {
   cy.url().should('include', '/va-facility');
   cy.axeCheckBestPractice();
   if (facilitySelection) facilitySelection();
-  cy.findByText(/Continue/).click();
+  cy.findByText(/Continue/).click({ force: true });
 
   // Choose date and slot (AM or PM)
   newApptTests.selectRequestSlotTest();
@@ -113,7 +113,7 @@ describe('VAOS request flow', () => {
     initAppointmentListMock();
     initVARequestMock();
     fillOutForm(() => {
-      cy.findByLabelText(/Sidney/).click();
+      cy.findByLabelText(/Sidney/).click({ force: true });
     });
   });
   it('should submit form successfully for a single system user', () => {
@@ -128,7 +128,7 @@ describe('VAOS request flow', () => {
       },
     });
     fillOutForm(() => {
-      cy.findByLabelText(/Sidney/).click();
+      cy.findByLabelText(/Sidney/).click({ force: true });
     });
   });
   it('should submit form successfully for a user with multi system including a Cerner facility', () => {
