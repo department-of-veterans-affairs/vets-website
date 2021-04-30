@@ -31,7 +31,7 @@ export const uiSchema = {
         'ui:field': Typeahead,
         'ui:reviewField': CustomReviewField,
         'ui:options': {
-          idPrefix: 'utilites',
+          idPrefix: 'utilities',
           classNames: 'input-size-3',
           getOptions: () => formatOptions(utilityTypes),
         },
