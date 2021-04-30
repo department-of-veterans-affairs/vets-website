@@ -23,13 +23,14 @@ import {
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
 
+const AutoSSO = loadable(() => import('./AutoSSO'));
+
 const SessionTimeoutModal = loadable(() =>
   import(/* webpackPrefetch: true, webpackChunkName: "sessionTimeout" */ 'platform/user/authentication/components/SessionTimeoutModal'),
 );
 const SignInModal = loadable(() =>
   import(/* webpackPrefetch: true, webpackChunkName: "signInModal" */ 'platform/user/authentication/components/SignInModal'),
 );
-const AutoSSO = loadable(() => import('./AutoSSO'));
 
 export class Main extends React.Component {
   componentDidMount() {
