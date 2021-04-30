@@ -222,6 +222,13 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       return;
     }
 
+    // JSONObjects in Groovy are not serializable by default, which is an issue, because
+    // a Jenkinsfile has to be fully serializable for it to be able to pause state.
+    // To get around this, we unset our reference to the brokenLinks JSON file
+    // once we're done with it. It's important that we do this before slackSend, which
+    // is likely causes this pipeline to pause while waiting for the message to complete.
+    brokenLinks = null
+
     slackSend(
       message: message,
       color: color,
@@ -245,7 +252,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   def drupalMaxParallelRequests = 15
   def noDrupalProxy = '--no-drupal-proxy'
 
-  if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH) {
+  if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH || contentOnlyBuild) {
     drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
     noDrupalProxy = ''
   }

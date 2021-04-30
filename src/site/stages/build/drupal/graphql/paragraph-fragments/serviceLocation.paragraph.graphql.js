@@ -7,6 +7,7 @@ module.exports = `
   fieldServiceLocation {
     entity {
       ... on ParagraphServiceLocation {
+        status
         fieldServiceLocationAddress {
           entity {
             ... on ParagraphServiceLocationAddress {
