@@ -18,17 +18,17 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 const ExpandedContent = ({ debt, updateDebts, error }) => {
-  const inputError = error && !debt.resolution.offerToPay;
-  const checkboxError = error && !debt.resolution.agreeToWaiver;
+  const inputError = error && !debt.resolution?.offerToPay;
+  const checkboxError = error && !debt.resolution?.agreeToWaiver;
   const objKey = 'offerToPay';
 
-  switch (debt.resolution.resolutionType) {
+  switch (debt.resolution?.resolutionType) {
     case 'Extended monthly payments':
       return (
         <div className="currency-input">
           <TextInput
             additionalClass="input-size-3"
-            label="How much can you afford to pay monthly on this debt?"
+            label="How much can you pay monthly on this debt?"
             field={{ value: debt.resolution?.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
             errorMessage={inputError && 'Please enter an amount'}
@@ -41,7 +41,7 @@ const ExpandedContent = ({ debt, updateDebts, error }) => {
         <div className="currency-input">
           <TextInput
             additionalClass="input-size-3"
-            label="How much do you offer to pay for this debt with a single payment?"
+            label="What is your offer for a one-time payment?"
             field={{ value: debt.resolution?.offerToPay || '' }}
             onValueChange={({ value }) => updateDebts(objKey, value, debt)}
             errorMessage={inputError && 'Please enter an amount'}
@@ -117,10 +117,10 @@ const ResolutionDebtCards = ({
 
   return (
     <>
-      <h4 className="vads-u-margin--0">Your selected debts</h4>
+      <h4 className="resolution-options-debt-title">Your selected debts</h4>
       {selectedDebts.map(debt => {
         const objKey = 'resolutionType';
-        const radioError = error && !debt.resolution.resolutionType;
+        const radioError = error && !debt.resolution?.resolutionType;
         const title = deductionCodes[debt.deductionCode] || debt.benefitType;
         const subTitle =
           debt.currentAr && formatter.format(parseFloat(debt.currentAr));
@@ -128,7 +128,7 @@ const ResolutionDebtCards = ({
         return (
           <div
             key={debt.id}
-            className="vads-u-background-color--gray-lightest resolution-card vads-u-padding--3 vads-u-margin-top--2"
+            className="vads-u-background-color--gray-lightest resolution-cards vads-u-padding--3 vads-u-margin-top--2"
           >
             <h4 className="vads-u-margin-top--0">{title}</h4>
             <p>
@@ -142,7 +142,7 @@ const ResolutionDebtCards = ({
               <RadioButtons
                 id={debt.id}
                 name={debt.id}
-                label="Which repayment or relief option would you like for this debt?"
+                label="Which option would you like for this debt?"
                 options={['Waiver', 'Extended monthly payments', 'Compromise']}
                 value={{ value: debt.resolution?.resolutionType }}
                 onValueChange={({ value }) => updateDebts(objKey, value, debt)}

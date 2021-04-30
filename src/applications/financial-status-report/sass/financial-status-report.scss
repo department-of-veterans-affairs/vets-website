@@ -143,30 +143,38 @@
 }
 
 // resolution options
-.resolution-card {
+.resolution-options-available .schemaform-block-title {
+  font-size: 20px;
+}
+.resolution-options-debt-title {
+  font-size: 18px;
+}
+.resolution-cards {
   padding: 0 24px 24px 24px;
-  .form-expanding-group-active-radio {
-    margin-left: 10px;
+  .form-radio-buttons {
+    position: relative;
+    left: -12px;
   }
-  .legend-label {
-    max-width: 350px;
-  }
-  .fieldset-input {
-    margin-top: 0;
-  }
-  .form-expanding-group-active-radio label {
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-  .usa-input-error {
-    margin-top: 0;
-    padding-bottom: 0;
+  .form-expanding-group {
+    .fieldset-input {
+      margin-top: 0;
+    }
+    .form-expanding-group-active-radio {
+      margin-left: 0;
+      label {
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
+      .usa-input-error {
+        margin-top: 0;
+        padding-bottom: 0;
+      }
+    }
   }
 }
 
 .currency-input {
   position: relative;
-  max-width: 350px;
   &:after {
     content: "$";
     position: absolute;

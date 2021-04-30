@@ -32,6 +32,7 @@ export const uiSchema = {
       </ul>
     ),
     'ui:options': {
+      classNames: 'resolution-options-available',
       hideOnReview: true,
     },
   },
