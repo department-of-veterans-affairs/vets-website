@@ -39,8 +39,6 @@ const sortQuestionnairesByStatus = questionnaires => {
     return new Date(f) - new Date(s);
   });
 
-  // console.log([data]);
-
   // find appointments that are completed based on questionnaire status
   const completed = data.filter(f => {
     return (
