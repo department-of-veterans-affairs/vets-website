@@ -94,12 +94,10 @@ export async function getEligibilityData(
   typeOfCareId,
   systemId,
   isDirectScheduleEnabled,
-  useVSP,
 ) {
   const facilityId = getFacilityIdFromLocation(location);
   const directSchedulingAvailable =
-    (useVSP ||
-      location.legacyVAR.directSchedulingSupported === true ||
+    (location.legacyVAR.directSchedulingSupported === true ||
       location.legacyVAR.directSchedulingSupported[typeOfCareId]) &&
     isDirectScheduleEnabled;
 
@@ -138,7 +136,6 @@ export async function getEligibilityData(
       facilityId,
       typeOfCareId,
       systemId,
-      useVSP,
     }).catch(createErrorHandler('direct', 'direct-available-clinics-error'));
     eligibilityChecks.pastAppointments = getLongTermAppointmentHistory().catch(
       createErrorHandler('direct', 'direct-no-matching-past-clinics-error'),
@@ -151,12 +148,10 @@ export async function getEligibilityData(
     ...results,
     hasMatchingClinics: !!results.clinics?.length,
     directSupported:
-      useVSP ||
       location.legacyVAR.directSchedulingSupported === true ||
       location.legacyVAR.directSchedulingSupported[typeOfCareId],
     directEnabled: isDirectScheduleEnabled,
     requestSupported:
-      useVSP ||
       location.legacyVAR.requestSupported === true ||
       location.legacyVAR.requestSupported[typeOfCareId],
   };

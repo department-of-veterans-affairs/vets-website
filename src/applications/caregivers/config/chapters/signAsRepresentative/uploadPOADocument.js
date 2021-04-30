@@ -2,10 +2,7 @@
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import environment from 'platform/utilities/environment';
 import { representativeFields } from 'applications/caregivers/definitions/constants';
-import {
-  RepresentativeDocumentUploadDescription,
-  RepresentativeAdditionalInfo,
-} from 'applications/caregivers/components/AdditionalInfo';
+import { RepresentativeDocumentUploadDescription } from 'applications/caregivers/components/AdditionalInfo';
 // import recordEvent from 'platform/monitoring/record-event';
 
 // const { representative } = fullSchema.properties;
@@ -80,18 +77,11 @@ export default {
         'ui:title': 'Document name',
       },
     }),
-    'view:placeholderTwo': {
-      'ui:description': RepresentativeAdditionalInfo(),
-    },
   },
   schema: {
     type: 'object',
     properties: {
       [representativeFields.documentUpload]: attachmentsSchema,
-      'view:placeholderTwo': {
-        type: 'object',
-        properties: {},
-      },
     },
   },
 };

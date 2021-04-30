@@ -40,7 +40,7 @@ describe('health care questionnaire list - display a questionnaire item', () => 
     expect(
       component.find('[data-testid="appointment-location"]').text(),
     ).to.equal('for your appointment at Tomorrowland, Magic Kingdom');
-    expect(component.find('button').text()).to.equal('Answer questions');
+    expect(component.find('a').text()).to.equal('Answer questions');
     expect(component.find('[data-testid="due-date"]').text()).to.contain(
       'Complete by',
     );

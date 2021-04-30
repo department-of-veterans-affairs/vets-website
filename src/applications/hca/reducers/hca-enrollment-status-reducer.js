@@ -62,9 +62,10 @@ function hcaEnrollmentStatus(state = initialState, action) {
       const { errors } = action;
       const noESRRecordFound =
         errors && errors.some(error => error.code === '404');
-      const hasServerError = errors && errors.some(error => error.code >= 500);
       const hasRateLimitError =
         errors && errors.some(error => error.code === '429');
+      // if the error is not given special handling, treat it like a server error
+      const hasServerError = !noESRRecordFound && !hasRateLimitError;
       return {
         ...state,
         hasServerError,

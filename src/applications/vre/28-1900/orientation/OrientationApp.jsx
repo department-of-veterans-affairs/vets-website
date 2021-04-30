@@ -24,7 +24,7 @@ const OrientationApp = props => {
   useEffect(() => {
     if (formStartControl) {
       focusElement('#FormStartControl');
-    } else if (step > 0) {
+    } else {
       focusElement('#StepTitle');
       scrollToTop();
     }

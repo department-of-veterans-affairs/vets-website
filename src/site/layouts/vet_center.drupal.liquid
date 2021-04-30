@@ -28,7 +28,7 @@
           small-screen:vads-u-font-size--xl" >Locations and contact information</h2>
 
           <div class="region-list usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--column
-          small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--2p5 vads-u-margin-bottom--4">
+          small-screen:vads-u-flex-direction--row facility">
               <div class="usa-width-two-thirds vads-u-display--block vads-u-width--full">
 
                   <div>
@@ -62,6 +62,13 @@
                                    </p>
                                </div>
                               {% include 'src/site/includes/vet_center_hours.liquid' with vetCenterHours = fieldOfficeHours %}
+
+                              <div class="field-cc-non-traditional-hours">
+                                  {% include "src/site/includes/dynamic-content.drupal.liquid" with
+                                      entity = fieldCcNonTraditionalHours.fetched
+                                      contentType = fieldCcNonTraditionalHours.fetchedBundle
+                                  %}
+                              </div>
                           </section>
                       </div>
                   </div>
@@ -74,32 +81,61 @@
 
           </div>
 
-          <h2 id="prepare-for-your-visit" class="vads-u-margin-top--0 vads-u-font-size--lg
+          <div class="field-cc-vet-call-center">
+              {% include "src/site/includes/dynamic-content.drupal.liquid" with
+                  entity = fieldCcVetCenterCallCenter.fetched
+                  contentType = fieldCcVetCenterCallCenter.fetchedBundle
+              %}
+          </div>
+
+
+            {% if fieldPrepareForVisit.length > 0 %}
+                <h2 id="prepare-for-your-visit" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Prepare for your visit</h2>
-            <div class="vads-u-margin-bottom--3">
-                {% for entity in fieldPrepareForVisit %}
-                    <va-accordion bordered >
-                        <va-accordion-item header="{{ entity.entity.fieldHeader }}" level="3">
-                            {{ entity.entity.fieldRichWysiwyg.processed | drupalToVaPath | outputLinks }}
-                        </va-accordion-item>
-                    </va-accordion>
-                {% endfor %}
-            </div>
+                <p> Click on a topic for more details. </p>
+                <div class="vads-u-margin-bottom--3">
+                    {% for entity in fieldPrepareForVisit %}
+                        <va-accordion bordered id="prepare-for-your-visit-accordion-{{ entity.entity.fieldHeader }}" >
+                            <va-accordion-item id="prepare-for-your-visit-accordion-item-{{ entity.entity.fieldHeader }}" header="{{ entity.entity.fieldHeader }}" level="3">
+                                {{ entity.entity.fieldRichWysiwyg.processed | drupalToVaPath | outputLinks }}
+                            </va-accordion-item>
+                        </va-accordion>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
           <h2 id="in-the-spot-light" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">In the spotlight at {{ entityLabel }} </h2>
+            <div class="field-vet-center-feature-content">
+                <ul class="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
+                    {% for entity in fieldVetCenterFeatureContent %}
+                        {% include "src/site/includes/vet_center_featured_content.liquid" with
+                            entity = entity.entity
+                        %}
+                    {% endfor %}
+                </ul>
+            </div>
 
-          <h2 id="counseling-services" class="vads-u-margin-top--0 vads-u-font-size--lg
-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Counseling services</h2>
+            {% include "src/site/includes/vet_center_health_services.liquid" with
+                fieldHealthServices
+                typeOfCare = "counselling"
+            %}
 
-          <h2 id="referral-services" class="vads-u-margin-top--0 vads-u-font-size--lg
-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Referral Services</h2>
+            {% include "src/site/includes/vet_center_health_services.liquid" with
+                fieldHealthServices
+                typeOfCare = "referral"
+            %}
 
-          <h2 id="other-services" class="vads-u-margin-top--0 vads-u-font-size--lg
-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Other services</h2>
+            {% include "src/site/includes/vet_center_health_services.liquid" with
+                fieldHealthServices
+                typeOfCare = "other"
+            %}
 
-          <h2 id="how-different-than-clinic" class="vads-u-margin-top--0 vads-u-font-size--lg
-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">How we're different than a clinic</h2>
+            {% if fieldCcVetCenterFaqs.fetched.field_section_header.0.value != empty %}
+                <h2 id="how-different-than-clinic" class="vads-u-margin-top--0 vads-u-font-size--lg
+          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2"> {{ fieldCcVetCenterFaqs.fetched.field_section_header.0.value }}</h2>
+                <p> {{ fieldCcVetCenterFaqs.fetched.field_section_intro.0.value }} </p>
+            {% endif %}
 
         </article>
       </div>

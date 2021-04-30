@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -10,22 +10,17 @@ import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
-  getVARFacilityId,
   isVAPhoneAppointment,
   isVideoHome,
 } from '../../../services/appointment';
 import {
   APPOINTMENT_STATUS,
-  APPOINTMENT_TYPES,
   FETCH_STATUS,
   PURPOSE_TEXT,
   VIDEO_TYPES,
 } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import * as actions from '../../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
-import { getCancelInfo, selectAppointmentById } from '../../redux/selectors';
-import { selectFeatureCancel } from '../../../redux/selectors';
 import VideoVisitSection from './VideoVisitSection';
 import { getVideoInstructionText } from './VideoInstructions';
 import { formatFacilityAddress } from 'applications/vaos/services/location';
@@ -33,6 +28,13 @@ import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import Breadcrumbs from '../../../components/Breadcrumbs';
+import {
+  cancelAppointment,
+  closeCancelAppointment,
+  confirmCancelAppointment,
+  fetchConfirmedAppointmentDetails,
+} from '../../redux/actions';
+import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -75,22 +77,23 @@ function formatInstructions(instructions) {
   return null;
 }
 
-function ConfirmedAppointmentDetailsPage({
-  appointment,
-  appointmentDetailsStatus,
-  cancelAppointment,
-  cancelInfo,
-  closeCancelAppointment,
-  confirmCancelAppointment,
-  facilityData,
-  fetchConfirmedAppointmentDetails,
-  showCancelButton,
-}) {
+export default function ConfirmedAppointmentDetailsPage() {
+  const dispatch = useDispatch();
   const { id } = useParams();
+  const {
+    appointment,
+    appointmentDetailsStatus,
+    cancelInfo,
+    facilityData,
+    showCancelButton,
+  } = useSelector(
+    state => getConfirmedAppointmentDetailsInfo(state, id),
+    shallowEqual,
+  );
   const appointmentDate = moment.parseZone(appointment?.start);
 
   useEffect(() => {
-    fetchConfirmedAppointmentDetails(id, 'va');
+    dispatch(fetchConfirmedAppointmentDetails(id, 'va'));
 
     scrollAndFocus();
   }, []);
@@ -194,7 +197,7 @@ function ConfirmedAppointmentDetailsPage({
       <h1>
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
-          facilityId={getVARFacilityId(appointment)}
+          facilityId={appointment.location.vistaId}
         />
       </h1>
 
@@ -238,7 +241,7 @@ function ConfirmedAppointmentDetailsPage({
               facilityName={facility?.name}
               facilityId={facilityId}
               isHomepageRefresh
-              clinicFriendlyName={appointment.location?.displayName}
+              clinicFriendlyName={appointment.location?.clinicName}
             />
 
             {showInstructions &&
@@ -291,7 +294,7 @@ function ConfirmedAppointmentDetailsPage({
                       className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
                     />
                     <button
-                      onClick={() => cancelAppointment(appointment)}
+                      onClick={() => dispatch(cancelAppointment(appointment))}
                       aria-label={`Cancel appointment on ${formatAppointmentDate(
                         moment.parseZone(appointment.start),
                       )}`}
@@ -320,35 +323,9 @@ function ConfirmedAppointmentDetailsPage({
       </div>
       <CancelAppointmentModal
         {...cancelInfo}
-        onConfirm={confirmCancelAppointment}
-        onClose={closeCancelAppointment}
+        onConfirm={() => dispatch(confirmCancelAppointment())}
+        onClose={() => dispatch(closeCancelAppointment())}
       />
     </PageLayout>
   );
 }
-
-function mapStateToProps(state, ownProps) {
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
-
-  return {
-    appointment: selectAppointmentById(state, ownProps.match.params.id, [
-      APPOINTMENT_TYPES.vaAppointment,
-    ]),
-    appointmentDetailsStatus,
-    cancelInfo: getCancelInfo(state),
-    facilityData,
-    showCancelButton: selectFeatureCancel(state),
-  };
-}
-
-const mapDispatchToProps = {
-  cancelAppointment: actions.cancelAppointment,
-  closeCancelAppointment: actions.closeCancelAppointment,
-  confirmCancelAppointment: actions.confirmCancelAppointment,
-  fetchConfirmedAppointmentDetails: actions.fetchConfirmedAppointmentDetails,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConfirmedAppointmentDetailsPage);

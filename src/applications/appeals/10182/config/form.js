@@ -19,6 +19,7 @@ import {
   hasRepresentative,
   canUploadEvidence,
   wantsToUploadEvidence,
+  needsHearingType,
 } from '../utils/helpers';
 
 // Pages
@@ -41,6 +42,7 @@ import {
 // import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
+import hearingType from '../pages/hearingType';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -93,7 +95,7 @@ const formConfig = {
           schema: veteranInfo.schema,
           // initialData,
         },
-        confirmContactInformation: {
+        contactInformation: {
           title: 'Contact information',
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
@@ -160,6 +162,13 @@ const formConfig = {
           depends: wantsToUploadEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,
+        },
+        hearingType: {
+          title: 'Hearing type',
+          path: 'hearing-type',
+          depends: needsHearingType,
+          uiSchema: hearingType.uiSchema,
+          schema: hearingType.schema,
         },
       },
     },
