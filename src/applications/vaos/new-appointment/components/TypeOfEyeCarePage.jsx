@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
-import * as actions from '../redux/actions';
 import { getFormPageInfo } from '../redux/selectors';
 import { TYPES_OF_EYE_CARE } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import {
+  openFormPage,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  updateFormData,
+} from '../redux/actions';
 
 const initialSchema = {
   type: 'object',
@@ -58,18 +63,15 @@ const uiSchema = {
 const pageKey = 'typeOfEyeCare';
 const pageTitle = 'Choose the type of eye care you need';
 
-function TypeOfEyeCarePage({
-  schema,
-  data,
-  pageChangeInProgress,
-  openFormPage,
-  updateFormData,
-  routeToPreviousAppointmentPage,
-  routeToNextAppointmentPage,
-}) {
+export default function TypeOfEyeCarePage() {
+  const dispatch = useDispatch();
+  const { schema, data, pageChangeInProgress } = useSelector(
+    state => getFormPageInfo(state, pageKey),
+    shallowEqual,
+  );
   const history = useHistory();
   useEffect(() => {
-    openFormPage(pageKey, uiSchema, initialSchema);
+    dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
@@ -83,12 +85,18 @@ function TypeOfEyeCarePage({
           title="Type of eye care"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          onSubmit={() =>
+            dispatch(routeToNextAppointmentPage(history, pageKey))
+          }
+          onChange={newData =>
+            dispatch(updateFormData(pageKey, uiSchema, newData))
+          }
           data={data}
         >
           <FormButtons
-            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            onBack={() =>
+              dispatch(routeToPreviousAppointmentPage(history, pageKey))
+            }
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
           />
@@ -97,19 +105,3 @@ function TypeOfEyeCarePage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
-}
-
-const mapDispatchToProps = {
-  openFormPage: actions.openFormPage,
-  updateFormData: actions.updateFormData,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TypeOfEyeCarePage);

@@ -394,6 +394,9 @@ def cacheDrupalContent(dockerContainer, envUsedCache) {
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
+        // Skip caching Drupal content for vagovdev since we aren't pulling and building content for that environment.
+        // vagovdev's Drupal cache is created and uploaded in the content-build repo. This prevents overwriting vagovdev's
+        // Drupal cache file with an empty file.
         if(envName != "vagovdev") {
           if (!envUsedCache[envName]) {
             dockerContainer.inside(DOCKER_ARGS) {
