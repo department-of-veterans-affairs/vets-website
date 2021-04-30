@@ -48,9 +48,8 @@ const StepComponent = props => {
     );
   } else if (step === orientationSteps.length - 1) {
     content = (
-      <div className=" vads-u-margin-bottom--3">
+      <div className="vads-u-margin-bottom--3">
         <Link
-          id="FormStartControl"
           to="/"
           className="vads-c-action-link--green vads-u-padding-left--0"
           onClick={() => {
