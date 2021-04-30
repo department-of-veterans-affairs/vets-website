@@ -152,15 +152,17 @@ export function fetchClaimsSuccess(response) {
   };
 }
 
-export function pollRequest({
-  onError,
-  onSuccess,
-  pollingInterval,
-  request = apiRequest,
-  shouldFail,
-  shouldSucceed,
-  target,
-}) {
+export function pollRequest(options) {
+  const {
+    onError,
+    onSuccess,
+    pollingExpiration,
+    pollingInterval,
+    request = apiRequest,
+    shouldFail,
+    shouldSucceed,
+    target,
+  } = options;
   return request(
     target,
     null,
@@ -175,15 +177,12 @@ export function pollRequest({
         return;
       }
 
-      setTimeout(pollRequest, pollingInterval, {
-        onError,
-        onSuccess,
-        pollingInterval,
-        request,
-        shouldFail,
-        shouldSucceed,
-        target,
-      });
+      if (pollingExpiration && Date.now() > pollingExpiration) {
+        onError(null);
+        return;
+      }
+
+      setTimeout(pollRequest, pollingInterval, options);
     },
     error => onError(error),
   );
@@ -193,7 +192,19 @@ export function getSyncStatus(claimsAsyncResponse) {
   return get('meta.syncStatus', claimsAsyncResponse, null);
 }
 
-export function getClaimsV2(poll = pollRequest) {
+export function getClaimsV2(options = {}) {
+  // Throw an error if an unsupported value is on the `options` object
+  const recognizedOptions = ['poll', 'pollingExpiration'];
+  Object.keys(options).forEach(option => {
+    if (!recognizedOptions.includes(option)) {
+      throw new TypeError(
+        `Unrecognized option "${option}" passed to "getClaimsV2"\nOnly the following options are supported:\n${recognizedOptions.join(
+          '\n',
+        )}`,
+      );
+    }
+  });
+  const { poll = pollRequest, pollingExpiration } = options;
   return dispatch => {
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
@@ -211,6 +222,7 @@ export function getClaimsV2(poll = pollRequest) {
         dispatch({ type: FETCH_CLAIMS_ERROR });
       },
       onSuccess: response => dispatch(fetchClaimsSuccess(response)),
+      pollingExpiration,
       pollingInterval: window.VetsGov.pollTimeout || 5000,
       shouldFail: response => getSyncStatus(response) === 'FAILED',
       shouldSucceed: response => getSyncStatus(response) === 'SUCCESS',

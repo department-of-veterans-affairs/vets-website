@@ -20,6 +20,36 @@ const CountEntityTypes = `
   	) {
     count
   }
+  
+  vetCenters: nodeQuery(
+    filter: {
+      conditions: [
+        {field: "status", value: ["1"]},
+        {field: "type", value: ["vet_center"]}
+      ]}
+  	) {
+    count
+  }
+  
+  newsStories: nodeQuery(
+    filter: {
+      conditions: [
+        {field: "status", value: ["1"]},
+        {field: "type", value: ["news_story"]}
+      ]}
+  	) {
+    count
+  }
+  
+  pressReleases: nodeQuery(
+    filter: {
+      conditions: [
+        {field: "status", value: ["1"]},
+        {field: "type", value: ["press_release"]}
+      ]}
+  	) {
+    count
+  }  
 
   healthCareLocalFacility: nodeQuery(
     filter: {

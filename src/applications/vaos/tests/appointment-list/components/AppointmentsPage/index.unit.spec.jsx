@@ -268,17 +268,16 @@ describe('VAOS integration: appointment list', () => {
       'Talk to VA health care staff today about a condition',
     );
     expect(header).to.have.tagName('h2');
-    expect(getAllByRole('tab').length).to.equal(3);
-    const upcomingTab = getByText('Upcoming');
+    expect(getAllByRole('tab').length).to.equal(2);
+    const upcomingTab = getByText('Upcoming appointments');
     expect(upcomingTab).to.have.attribute('role', 'tab');
     fireEvent.click(upcomingTab);
     expect(global.window.dataLayer.some(e => e.event === 'nav-tab-click')).to.be
       .true;
-    expect(getByText('Past')).to.have.attribute('role', 'tab');
-    expect(getByText('Express Care')).to.have.attribute('role', 'tab');
-    expect(
-      getByText(/Your upcoming, past, and Express Care appointments/i),
-    ).to.have.tagName('h2');
+    expect(getByText('Past appointments')).to.have.attribute('role', 'tab');
+    expect(getByText(/Your upcoming and past appointments/i)).to.have.tagName(
+      'h2',
+    );
 
     expect(
       global.window.dataLayer.find(
@@ -520,12 +519,6 @@ describe('VAOS integration: appointment list', () => {
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
-    expect(
-      screen.getByRole('tab', {
-        name: 'express care appointments',
-        selected: false,
-      }),
-    ).to.have.attribute('tabindex', '-1');
 
     userEvent.click(
       screen.getByRole('tab', {
@@ -542,12 +535,6 @@ describe('VAOS integration: appointment list', () => {
     expect(
       screen.getByRole('tab', {
         name: 'upcoming appointments',
-        selected: false,
-      }),
-    ).to.have.attribute('tabindex', '-1');
-    expect(
-      screen.getByRole('tab', {
-        name: 'express care appointments',
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
@@ -608,41 +595,11 @@ describe('VAOS integration: appointment list', () => {
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
-
-    // triggers arrow right key
-
-    fireEvent.keyDown(
-      await screen.findByRole('tab', {
-        name: 'past appointments',
-        selected: true,
-      }),
-      { key: 'ArrowRight', keyCode: 39 },
-    );
-    expect(document.activeElement.id).to.equal('tabexpress-care');
-    expect(
-      screen.getByRole('tab', {
-        name: 'express care appointments',
-        selected: true,
-      }),
-    ).to.not.have.attribute('tabindex');
-    expect(
-      screen.getByRole('tab', {
-        name: 'past appointments',
-        selected: false,
-      }),
-    ).to.have.attribute('tabindex', '-1');
   });
 
   it('should call previous tab on left right', async () => {
-    const request = getVARequestMock();
-    request.attributes = {
-      ...request.attributes,
-      status: 'Submitted',
-      typeOfCareId: 'CR1',
-      reasonForVisit: 'Back pain',
-    };
     mockAppointmentInfo({
-      requests: [request],
+      requests: [],
       va: [],
     });
     mockRequestEligibilityCriteria(['983'], []);
@@ -668,13 +625,13 @@ describe('VAOS integration: appointment list', () => {
 
     userEvent.click(
       screen.getByRole('tab', {
-        name: 'express care appointments',
+        name: 'past appointments',
       }),
     );
 
     expect(
       await screen.findByRole('tab', {
-        name: 'express care appointments',
+        name: 'past appointments',
         selected: true,
       }),
     ).to.not.have.attribute('tabindex');
@@ -683,37 +640,14 @@ describe('VAOS integration: appointment list', () => {
 
     fireEvent.keyDown(
       screen.getByRole('tab', {
-        name: 'express care appointments',
-        selected: true,
-      }),
-      { key: 'ArrowLeft', keyCode: 37 },
-    );
-
-    expect(document.activeElement.id).to.equal('tabpast');
-
-    expect(
-      screen.getByRole('tab', {
-        name: 'past appointments',
-        selected: true,
-      }),
-    ).to.not.have.attribute('tabindex');
-    expect(
-      screen.getByRole('tab', {
-        name: 'express care appointments',
-        selected: false,
-      }),
-    ).to.have.attribute('tabindex', '-1');
-
-    // triggers arrow left key
-
-    fireEvent.keyDown(
-      await screen.findByRole('tab', {
         name: 'past appointments',
         selected: true,
       }),
       { key: 'ArrowLeft', keyCode: 37 },
     );
+
     expect(document.activeElement.id).to.equal('tabupcoming');
+
     expect(
       screen.getByRole('tab', {
         name: 'upcoming appointments',
@@ -726,64 +660,6 @@ describe('VAOS integration: appointment list', () => {
         selected: false,
       }),
     ).to.have.attribute('tabindex', '-1');
-  });
-
-  it('should focus on tab panel on arrow down', async () => {
-    const request = getVARequestMock();
-    request.attributes = {
-      ...request.attributes,
-      status: 'Submitted',
-      typeOfCareId: 'CR1',
-      reasonForVisit: 'Back pain',
-    };
-    mockAppointmentInfo({
-      requests: [request],
-      va: [],
-    });
-    mockRequestEligibilityCriteria(['983'], []);
-    const initialStateWithExpressCare = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingExpressCareNew: true,
-      },
-      user: userState,
-    };
-    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState: initialStateWithExpressCare,
-    });
-
-    expect(
-      await screen.findByRole('tab', {
-        name: 'upcoming appointments',
-        selected: true,
-      }),
-    ).to.not.have.attribute('tabindex');
-
-    userEvent.click(
-      screen.getByRole('tab', {
-        name: 'express care appointments',
-      }),
-    );
-
-    expect(
-      await screen.findByRole('tab', {
-        name: 'express care appointments',
-        selected: true,
-      }),
-    ).to.not.have.attribute('tabindex');
-
-    // triggers arrow down key
-
-    fireEvent.keyDown(
-      screen.getByRole('tab', {
-        name: 'express care appointments',
-        selected: true,
-      }),
-      { key: 'ArrowDown', keyCode: 40 },
-    );
-
-    expect(document.activeElement.id).to.equal('tabpanelexpress-care');
-    expect(screen.getByText(/Back pain/i)).to.exist;
   });
 
   it('should render warning message', async () => {
@@ -953,16 +829,18 @@ describe('VAOS integration: appointment list', () => {
       }),
     );
 
-    expect(await screen.findAllByRole('radio')).to.have.length(2);
+    await waitFor(() => {
+      expect(screen.getAllByRole('radio')).to.have.length(2);
+    });
 
-    expect(screen.getByText(/Choose an appointment type$/)).to.be.ok;
+    expect(screen.getByText(/Choose an appointment type\./)).to.be.ok;
 
     userEvent.click(
       await screen.findByRole('radio', { name: 'COVID-19 vaccine' }),
     );
 
     userEvent.click(
-      await screen.findByRole('link', { name: /Start scheduling/ }),
+      await screen.findByRole('button', { name: /Start scheduling/i }),
     );
 
     await waitFor(() =>
@@ -1000,7 +878,7 @@ describe('VAOS integration: appointment list', () => {
       .be.ok;
 
     userEvent.click(
-      await screen.findByRole('link', { name: /Start scheduling/ }),
+      await screen.findByRole('button', { name: /Start scheduling/i }),
     );
 
     await waitFor(() =>

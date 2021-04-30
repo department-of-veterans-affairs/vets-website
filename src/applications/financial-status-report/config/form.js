@@ -63,15 +63,15 @@ const formConfig = {
           initialData: {
             personalData: {
               veteranFullName: {
-                first: 'Hector',
-                last: 'Smith',
-                middle: 'R',
+                first: '',
+                last: '',
+                middle: '',
               },
-              dateOfBirth: '01/01/1970',
+              dateOfBirth: '',
             },
             personalIdentification: {
-              ssn: '1234',
-              fileNumber: '5678',
+              ssn: '',
+              fileNumber: '',
             },
           },
         },
@@ -94,14 +94,14 @@ const formConfig = {
           initialData: {
             personalData: {
               address: {
-                countryName: 'United States',
-                street: '1234 W Nebraska St',
-                city: 'Tampa',
-                stateCode: 'FL',
-                zipCode: '33614',
+                countryName: '',
+                street: '',
+                city: '',
+                stateCode: '',
+                zipCode: '',
               },
-              telephoneNumber: '5551234567',
-              emailAddress: 'hector.smith@email.com',
+              telephoneNumber: '',
+              emailAddress: '',
               confirmationEmail: '',
             },
           },
@@ -150,13 +150,8 @@ const formConfig = {
             income: [
               {
                 veteranOrSpouse: 'VETERAN',
-                compensationAndPension: '75',
-                education: '1400.40',
-              },
-              {
-                veteranOrSpouse: 'SPOUSE',
-                compensationAndPension: '0',
-                education: '0',
+                compensationAndPension: '',
+                education: '',
               },
             ],
           },
@@ -205,7 +200,9 @@ const formConfig = {
           title: 'Spouse employment',
           uiSchema: pages.spouseEmploymentRecords.uiSchema,
           schema: pages.spouseEmploymentRecords.schema,
-          depends: formData => formData.questions.spouseIsEmployed,
+          depends: formData =>
+            formData.questions.maritalStatus === 'Married' &&
+            formData.questions.spouseIsEmployed,
         },
         spousePreviousEmployment: {
           path: 'spouse-previous-employment',
@@ -267,7 +264,9 @@ const formConfig = {
           title: 'Spouse additional income',
           uiSchema: pages.spouseAdditionalIncomeRecords.uiSchema,
           schema: pages.spouseAdditionalIncomeRecords.schema,
-          depends: formData => formData.questions.spouseHasAdditionalIncome,
+          depends: formData =>
+            formData.questions.maritalStatus === 'Married' &&
+            formData.questions.spouseHasAdditionalIncome,
         },
         dependents: {
           path: 'dependents',
@@ -430,7 +429,7 @@ const formConfig = {
           title: 'Bankruptcy history',
           uiSchema: pages.bankruptcyHistoryRecords.uiSchema,
           schema: pages.bankruptcyHistoryRecords.schema,
-          depends: formData => formData.questions.hasBeenAdjucatedBankrupt,
+          depends: formData => formData.questions.hasBeenAdjudicatedBankrupt,
         },
       },
     },

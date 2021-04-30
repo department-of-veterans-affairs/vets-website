@@ -11,30 +11,20 @@ import UpdateAddressAlert from './UpdateAddressAlert';
 import TypeOfCareAlert from './TypeOfCareAlert';
 import * as actions from '../../redux/actions';
 import {
+  selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectIsCernerOnlyPatient,
 } from '../../../redux/selectors';
-import { getFormPageInfo, getNewAppointment } from '../../redux/selectors';
+import {
+  getFormData,
+  getNewAppointment,
+  selectPageChangeInProgress,
+} from '../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-
-const initialSchema = {
-  type: 'object',
-  required: ['typeOfCareId'],
-  properties: {
-    typeOfCareId: {
-      type: 'string',
-    },
-  },
-};
-
-const uiSchema = {
-  typeOfCareId: {
-    'ui:title': 'Please choose a type of care',
-    'ui:widget': 'radio',
-  },
-};
+import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
+import useFormState from '../../../hooks/useFormState';
 
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
@@ -42,16 +32,14 @@ const pageTitle = 'Choose the type of care you need';
 function TypeOfCarePage({
   hideUpdateAddressAlert,
   addressLine1,
-  data,
+  initialData,
   pageChangeInProgress,
-  schema,
   showPodiatryApptUnavailableModal,
-  openTypeOfCarePage,
   clickUpdateAddressButton,
   showDirectScheduling,
+  showCommunityCare,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
-  updateFormData,
   hidePodiatryAppointmentUnavailableModal,
 }) {
   const history = useHistory();
@@ -59,7 +47,6 @@ function TypeOfCarePage({
     !hideUpdateAddressAlert && (!addressLine1 || addressLine1.match(/^PO Box/));
 
   useEffect(() => {
-    openTypeOfCarePage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
 
@@ -69,6 +56,35 @@ function TypeOfCarePage({
       });
     }
   }, []);
+
+  const { data, schema, setData, uiSchema } = useFormState({
+    initialSchema: () => {
+      const sortedCare = TYPES_OF_CARE.filter(
+        typeOfCare => typeOfCare.id !== PODIATRY_ID || showCommunityCare,
+      ).sort(
+        (careA, careB) =>
+          careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
+      );
+      return {
+        type: 'object',
+        required: ['typeOfCareId'],
+        properties: {
+          typeOfCareId: {
+            type: 'string',
+            enum: sortedCare.map(care => care.id || care.ccId),
+            enumNames: sortedCare.map(care => care.label || care.name),
+          },
+        },
+      };
+    },
+    uiSchema: {
+      typeOfCareId: {
+        'ui:title': 'Please choose a type of care',
+        'ui:widget': 'radio',
+      },
+    },
+    initialData,
+  });
 
   return (
     <div>
@@ -92,7 +108,7 @@ function TypeOfCarePage({
           title="Type of care"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onSubmit={() => routeToNextAppointmentPage(history, pageKey, data)}
           onChange={newData => {
             // When someone chooses a type of care that can be direct scheduled,
             // kick off the past appointments fetch, which takes a while
@@ -102,13 +118,15 @@ function TypeOfCarePage({
               getLongTermAppointmentHistory();
             }
 
-            updateFormData(pageKey, uiSchema, newData);
+            setData(newData);
           }}
           data={data}
         >
           <TypeOfCareAlert />
           <FormButtons
-            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            onBack={() =>
+              routeToPreviousAppointmentPage(history, pageKey, data)
+            }
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
           />
@@ -123,23 +141,22 @@ function TypeOfCarePage({
 }
 
 function mapStateToProps(state) {
-  const formInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
   const address = selectVAPResidentialAddress(state);
   return {
-    ...formInfo,
     ...address,
     showPodiatryApptUnavailableModal:
       newAppointment.showPodiatryAppointmentUnavailableModal,
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
+    showCommunityCare: selectFeatureCommunityCare(state),
     hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
+    pageChangeInProgress: selectPageChangeInProgress(state),
+    initialData: getFormData(state),
   };
 }
 
 const mapDispatchToProps = {
-  openTypeOfCarePage: actions.openTypeOfCarePage,
-  updateFormData: actions.updateFormData,
   routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
   routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
   showPodiatryAppointmentUnavailableModal:

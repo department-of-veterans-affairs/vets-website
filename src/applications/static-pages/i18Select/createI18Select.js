@@ -20,12 +20,12 @@ export default function createI18Select(store, widgetType) {
     faq: {
       en: '/coronavirus-veteran-frequently-asked-questions/',
       es: '/coronavirus-veteran-frequently-asked-questions-esp/',
-      tag: '/coronavirus-veteran-frequently-asked-questions-tag/',
+      tl: '/coronavirus-veteran-frequently-asked-questions-tag/',
     },
     vaccine: {
       en: '/health-care/covid-19-vaccine/',
       es: '/health-care/covid-19-vaccine-esp/',
-      tag: '/health-care/covid-19-vaccine-tag/',
+      tl: '/health-care/covid-19-vaccine-tag/',
     },
   };
   const isFaq = document.location.pathname.includes(
@@ -43,7 +43,7 @@ export default function createI18Select(store, widgetType) {
       suffix: '-esp/',
       lang: 'es',
     },
-    tag: {
+    tl: {
       suffix: '-tag/',
       label: 'Tagalog',
       onThisPage: 'Sa pahinang ito',

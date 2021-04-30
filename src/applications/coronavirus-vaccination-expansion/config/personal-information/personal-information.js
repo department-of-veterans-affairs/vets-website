@@ -3,6 +3,16 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import { personalInformation } from '../schema-imports';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
+function containsDisallowedCharacters(value) {
+  const disAllowedCharacters = ['(', ')'];
+  for (const character of disAllowedCharacters) {
+    if (value.indexOf(character) !== -1) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export const schema = {
   personalInformation,
 };
@@ -14,6 +24,14 @@ export const uiSchema = {
       'ui:errorMessages': {
         required: 'Please enter your first name.',
       },
+      'ui:validations': [
+        function(errors, fieldData) {
+          const setError = containsDisallowedCharacters(fieldData);
+          if (setError) {
+            errors.addError('Please only use letters and no parentheses');
+          }
+        },
+      ],
     },
     middleName: {
       'ui:title': 'Your middle name',
@@ -23,6 +41,16 @@ export const uiSchema = {
       'ui:errorMessages': {
         required: 'Please enter your last name.',
       },
+      'ui:validations': [
+        function(errors, fieldData) {
+          const setError = containsDisallowedCharacters(fieldData);
+          if (setError) {
+            errors.addError(
+              'Please only use your current last name and no parentheses',
+            );
+          }
+        },
+      ],
     },
     birthDate: {
       ...currentOrPastDateUI('Your date of birth'),
@@ -59,12 +87,14 @@ export const uiSchema = {
     ssn: {
       ...ssnUI,
       ...{
-        'ui:title': 'Social Security number (SSN)',
+        'ui:title': 'Your Social Security number (SSN)',
         'ui:description': () => (
           <p>
             <strong>Note: </strong>
-            We ask for your <abbr title="Social Security Number">SSN</abbr> to
-            add you to our records.
+            Please enter your own{' '}
+            <abbr title="Social Security Number">SSN</abbr>. We ask for your{' '}
+            <abbr title="Social Security Number">SSN</abbr> to add you to our
+            records.
           </p>
         ),
         'ui:errorMessages': {

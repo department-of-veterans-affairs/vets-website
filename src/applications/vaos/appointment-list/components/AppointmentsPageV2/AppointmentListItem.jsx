@@ -1,17 +1,14 @@
 import React from 'react';
 import moment from '../../../lib/moment-tz';
-import {
-  getPractitionerDisplay,
-  getVARFacilityId,
-  isVAPhoneAppointment,
-} from '../../../services/appointment';
+import { isVAPhoneAppointment } from '../../../services/appointment';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneDescFromAbbr,
   stripDST,
 } from '../../../utils/timezone';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { focusElement } from 'platform/utilities/ui';
 
 function getAppointmentTimezoneAbbreviation(timezone, facilityId) {
   if (facilityId) {
@@ -48,16 +45,13 @@ function VideoAppointmentDescription({ appointment }) {
 }
 
 function CommunityCareProvider({ appointment }) {
-  const practitioner = getPractitionerDisplay(appointment.participant);
-  if (practitioner) {
-    return <>{practitioner}</>;
-  }
-
-  const location = appointment.contained.find(
-    res => res.resourceType === 'Location',
+  return (
+    <>
+      {appointment.communityCareProvider.providerName ||
+        appointment.communityCareProvider.practiceName ||
+        'Community care'}
+    </>
   );
-
-  return <>{location?.name || 'Community care'}</>;
 }
 
 function VAFacilityName({ facility }) {
@@ -69,85 +63,89 @@ function VAFacilityName({ facility }) {
 }
 
 export default function AppointmentListItem({ appointment, facility }) {
+  const history = useHistory();
   const appointmentDate = moment.parseZone(appointment.start);
-  const facilityId = getVARFacilityId(appointment);
   const isCommunityCare = appointment.vaos.isCommunityCare;
   const isVideo = appointment.vaos.isVideo;
   const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+  const link = isCommunityCare
+    ? `cc/${appointment.id}`
+    : `va/${appointment.id}`;
+  const idClickable = `id-${appointment.id}`;
 
   return (
     <li
+      id={idClickable}
       data-request-id={appointment.id}
-      className="vaos-appts__card vads-u-display--flex vads-u-align-items--center"
+      className="vaos-appts__card--clickable vads-u-margin-bottom--3"
+      data-cy="appointment-list-item"
     >
-      <div className="vads-u-flex--1">
-        {canceled && (
-          <span className="vaos-u-text-transform--uppercase vads-u-font-size--base vads-u-font-weight--bold vads-u-color--secondary-dark vads-u-margin-x--0 vads-u-margin-y--0">
-            Canceled
+      <div
+        className="vads-u-padding--2 vads-u-display--flex vads-u-align-items--left vads-u-flex-direction--column medium-screen:vads-u-padding--3 medium-screen:vads-u-flex-direction--row medium-screen:vads-u-align-items--center"
+        onClick={() => {
+          if (!window.getSelection().toString()) {
+            focusElement(`#${idClickable}`);
+            history.push(link);
+          }
+        }}
+      >
+        <div className="vads-u-flex--1 vads-u-margin-y--neg0p5">
+          {canceled && (
+            <div className="vads-u-margin-bottom--1">
+              <span className="usa-label">Canceled</span>
+            </div>
+          )}
+          <h4 className="vads-u-margin-y--0 vads-u-margin-bottom--0p25">
+            {appointmentDate.format('dddd, MMMM D')}
+          </h4>
+          {appointmentDate.format('h:mm a')}{' '}
+          <span aria-hidden="true">
+            {getAppointmentTimezoneAbbreviation(
+              appointment.vaos.timeZone,
+              appointment.location.vistaId,
+            )}
           </span>
-        )}
-        <h4 className="vads-u-font-size--h4 vads-u-margin-x--0 vads-u-margin-top--0 vads-u-margin-bottom--0p25">
-          {appointmentDate.format('dddd, MMMM D')}
-        </h4>
-        {appointmentDate.format('h:mm a')}{' '}
-        <span aria-hidden="true">
-          {getAppointmentTimezoneAbbreviation(
-            appointment.vaos.timeZone,
-            facilityId,
+          <span className="sr-only">
+            {' '}
+            {getAppointmentTimezoneDescription(
+              appointment.vaos.timeZone,
+              appointment.location.vistaId,
+            )}
+          </span>
+          <br />
+          {isVideo && <VideoAppointmentDescription appointment={appointment} />}
+          {isCommunityCare && (
+            <CommunityCareProvider appointment={appointment} />
           )}
-        </span>
-        <span className="sr-only">
-          {' '}
-          {getAppointmentTimezoneDescription(
-            appointment.vaos.timeZone,
-            facilityId,
+          {isInPersonVAAppointment && <VAFacilityName facility={facility} />}
+          {isPhone && (
+            <>
+              <i
+                aria-hidden="true"
+                className="fas fa-phone vads-u-margin-right--1"
+              />
+              Phone call
+            </>
           )}
-        </span>
-        <br />
-        {isVideo && <VideoAppointmentDescription appointment={appointment} />}
-        {isCommunityCare && <CommunityCareProvider appointment={appointment} />}
-        {isInPersonVAAppointment && <VAFacilityName facility={facility} />}
-        {isPhone && (
-          <>
-            <i
-              aria-hidden="true"
-              className="fas fa-phone vads-u-margin-right--1"
-            />
-            Phone call
-          </>
-        )}
-      </div>
-      {/* visible to medium screen and larger */}
-      <div className="vads-u-display--none medium-screen:vads-u-display--inline">
-        <Link
-          aria-label={`Details for ${
-            canceled ? 'canceled ' : ''
-          }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
-          to={isCommunityCare ? `cc/${appointment.id}` : `va/${appointment.id}`}
-        >
-          Details
-        </Link>
-        <i
-          aria-hidden="true"
-          className="fas fa-chevron-right vads-u-margin-left--1"
-        />
-      </div>
-      {/* visble to small screen breakpoint */}
-      <div className="medium-screen:vads-u-display--none">
-        <Link
-          to={isCommunityCare ? `cc/${appointment.id}` : `va/${appointment.id}`}
-          className="vaos-appts__card-link"
-          aria-label={`Details for ${
-            canceled ? 'canceled ' : ''
-          }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
-        >
+        </div>
+        <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0">
+          <Link
+            className="vaos-appts__focus--hide-outline"
+            aria-label={`Details for ${
+              canceled ? 'canceled ' : ''
+            }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
+            to={link}
+            onClick={e => e.preventDefault()}
+          >
+            Details
+          </Link>
           <i
             aria-hidden="true"
             className="fas fa-chevron-right vads-u-margin-left--1"
           />
-        </Link>
+        </div>
       </div>
     </li>
   );

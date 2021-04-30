@@ -1,12 +1,19 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor, screen } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 
-import App from '../containers/App';
+import App from '../components/app/App';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import {
+  mockApiRequest,
+  resetFetch,
+  mockMultipleApiRequests,
+} from 'platform/testing/unit/helpers';
 import { createTestStore } from '../../vaos/tests/mocks/setup';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
+
+export const CHATBOT_ERROR_MESSAGE =
+  'We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk at 800-698-2411 (TTY: 711).';
 
 describe('App', () => {
   let oldWindow;
@@ -25,16 +32,19 @@ describe('App', () => {
   }
 
   beforeEach(() => {
+    resetFetch();
     oldWindow = global.window;
   });
 
   afterEach(() => {
+    resetFetch();
     global.window = oldWindow;
   });
 
-  describe('web chat script is loaded and greeting is shown', () => {
-    it('renders web chat', () => {
+  describe('web chat script is already loaded', () => {
+    it('renders web chat', async () => {
       loadWebChat();
+      mockApiRequest({});
 
       const wrapper = renderInReduxProvider(<App />, {
         initialState: {
@@ -44,10 +54,9 @@ describe('App', () => {
         },
       });
 
-      expect(wrapper.getByTestId('webchat')).to.exist;
-
-      expect(screen.findByText('So, what can I help you with today?\n\n')).to
-        .exist;
+      await waitFor(
+        () => expect(wrapper.getByTestId('webchat-container')).to.exist,
+      );
     });
   });
 
@@ -58,7 +67,9 @@ describe('App', () => {
       });
     }
 
-    it.skip('should wait until webchat is loaded', async () => {
+    it('should not render webchat until webchat framework is loaded', async () => {
+      mockApiRequest({});
+
       const wrapper = renderInReduxProvider(<App />, {
         initialState: {
           featureToggles: {
@@ -67,15 +78,38 @@ describe('App', () => {
         },
       });
 
-      expect(wrapper.getByText('waiting on webchat framework . . .')).to.exist;
+      expect(wrapper.getByRole('progressbar')).to.exist;
+      expect(wrapper.queryByTestId('webchat-container')).to.not.exist;
 
       await wait(500);
 
       loadWebChat();
 
-      await wait(100);
+      await waitFor(
+        () => expect(wrapper.getByTestId('webchat-container')).to.exist,
+      );
+    });
 
-      expect(wrapper.getByTestId('webchat')).to.exist;
+    it('should display error if webchat does not load after x milliseconds', async () => {
+      const wrapper = renderInReduxProvider(<App webchatTimeout={1500} />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      expect(wrapper.getByRole('progressbar')).to.exist;
+
+      await wait(2000);
+
+      loadWebChat();
+
+      await waitFor(
+        () => expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist,
+      );
+
+      expect(wrapper.queryByRole('progressbar')).to.not.exist;
     });
   });
 
@@ -118,7 +152,7 @@ describe('App', () => {
       expect(wrapper.queryByTestId('webchat')).to.not.exist;
     });
 
-    it('should render web chat after loading feature toggles', async () => {
+    it('should call token api after loading feature toggles', async () => {
       loadWebChat();
 
       mockApiRequest({});
@@ -139,11 +173,77 @@ describe('App', () => {
 
       store.dispatch({ type: FETCH_TOGGLE_VALUES_SUCCEEDED, payload: {} });
 
-      expect(wrapper.getByTestId('webchat')).to.exist;
-
-      expect(wrapper.queryByRole('progressbar')).to.not.exist;
-
       await waitFor(() => expect(getTokenCalled()).to.equal(true));
+    });
+  });
+
+  describe('on initial load', () => {
+    it('should show loading indicator', () => {
+      loadWebChat();
+      mockApiRequest({ token: 'ANOTHERFAKETOKEN' });
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      expect(wrapper.getByRole('progressbar')).to.exist;
+    });
+  });
+
+  describe('when token is valid', () => {
+    it('should render web chat', async () => {
+      loadWebChat();
+      mockApiRequest({ token: 'FAKETOKEN' });
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+    });
+  });
+
+  describe('when api returns error', () => {
+    it('should display error message', async () => {
+      loadWebChat();
+      mockApiRequest({}, false);
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      await waitFor(
+        () => expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist,
+      );
+    });
+  });
+
+  describe('when api returns error one time, but works after a retry', () => {
+    it('should render web chat', async () => {
+      loadWebChat();
+      mockMultipleApiRequests([
+        { response: {}, shouldResolve: false },
+        { response: { token: 'FAKETOKEN' }, shouldResolve: true },
+      ]);
+
+      const wrapper = renderInReduxProvider(<App />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
     });
   });
 });

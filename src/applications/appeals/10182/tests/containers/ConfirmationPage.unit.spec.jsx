@@ -7,7 +7,7 @@ import formConfig from '../../config/form';
 import initialData from '../schema/initialData';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import { SELECTED } from '../../constants';
+import { SELECTED, FORMAT_READABLE } from '../../constants';
 
 const data = {
   user: {
@@ -22,11 +22,12 @@ const data = {
   form: {
     formId: formConfig.formId,
     submission: {
-      response: Date.now(),
+      response: {},
+      timestamp: Date.now(),
     },
     data: {
-      ...initialData,
-      contestedIssues: [
+      ...initialData.data,
+      contestableIssues: [
         {
           [SELECTED]: true,
           attributes: {
@@ -62,7 +63,7 @@ describe('Confirmation page', () => {
     tree.unmount();
   });
   it('should render the submit date', () => {
-    const date = moment(data.form.submission.response).format('MMMM D, YYYY');
+    const date = moment(data.form.submission.timestamp).format(FORMAT_READABLE);
     const tree = mount(<ConfirmationPage store={fakeStore} />);
     expect(tree.text()).to.contain(date);
     tree.unmount();

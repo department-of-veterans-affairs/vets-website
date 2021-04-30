@@ -2,12 +2,6 @@ import React from 'react';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { addressInformation } from '../schema-imports';
 
-const validateZip = (errors, formData) => {
-  if (formData.zipCode > 4) {
-    errors.state.addError('Please enter at least 5 digits');
-  }
-};
-
 export const schema = {
   addressInformation,
 };
@@ -27,14 +21,13 @@ export const uiSchema = {
       'ui:title': 'U.S. city',
     },
     stateCode: {
-      'ui:title': 'U.S. state',
+      'ui:title': 'U.S. state or territory',
     },
     zipCode: {
       'ui:title': 'U.S. zip code',
       'ui:errorMessages': {
         pattern: 'Please enter your five digit zip code',
       },
-      'ui:validations': [validateZip],
     },
     emailAddress: {
       ...emailUI(),

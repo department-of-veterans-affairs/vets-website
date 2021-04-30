@@ -1,4 +1,4 @@
-import DischargeWizardApp from './DischargeWizardApp';
+import DischargeWizardApp from './components/DischargeWizardApp';
 import GuidancePage from './containers/GuidancePage';
 import FormPage from './containers/FormPage';
 import InstructionsPage from './components/InstructionsPage';

@@ -27,6 +27,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 
+import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import Appointments from './Appointments';
 import IconCTALink from '../IconCTALink';
 
@@ -43,6 +44,7 @@ const HealthCare = ({
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
   hasInboxError,
+  hasAppointmentsError,
 }) => {
   const nextAppointment = appointments?.[0];
   const start = new Date(nextAppointment?.startsAt);
@@ -81,51 +83,58 @@ const HealthCare = ({
 
   if (isCernerPatient && facilityNames?.length) {
     return (
-      <GeneralCernerWidget
-        facilityNames={facilityNames}
-        authenticatedWithSSOe={authenticatedWithSSOe}
-      />
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+          <GeneralCernerWidget
+            facilityNames={facilityNames}
+            authenticatedWithSSOe={authenticatedWithSSOe}
+          />
+        </div>
+      </div>
     );
   }
 
-  const wrapperClasses = `vads-u-display--flex large-screen:vads-u-flex-direction--row vads-u-flex-direction--column health-care ${
-    hasUpcomingAppointment ? '' : 'half-width'
-  }`;
-
   const messagesText =
     shouldFetchMessages && !hasInboxError
-      ? `You have ${unreadMessagesCount} new message${
+      ? `You have ${unreadMessagesCount} unread message${
           unreadMessagesCount === 1 ? '' : 's'
         }`
       : 'Send a secure message to your health care team';
 
   return (
-    <div className="health-care-wrapper vads-u-margin-y--6">
-      <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-        Health care
-      </h2>
+    <div
+      className="health-care-wrapper vads-u-margin-y--6"
+      data-testid="dashboard-section-health-care"
+    >
+      <h2>Health care</h2>
 
-      <div className={wrapperClasses}>
-        {hasUpcomingAppointment && (
+      <div className="vads-l-row">
+        {(hasUpcomingAppointment || hasAppointmentsError) && (
           /* Appointments */
-          <Appointments appointments={appointments} />
+          <DashboardWidgetWrapper>
+            <Appointments
+              appointments={appointments}
+              hasError={hasAppointmentsError}
+            />
+          </DashboardWidgetWrapper>
         )}
 
-        <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1">
-          {!hasUpcomingAppointment && (
-            <>
-              {hasFutureAppointments && (
-                <p>You have no appointments scheduled in the next 30 days.</p>
-              )}
+        <DashboardWidgetWrapper>
+          {!hasUpcomingAppointment &&
+            !hasAppointmentsError && (
+              <>
+                {hasFutureAppointments && (
+                  <p>You have no appointments scheduled in the next 30 days.</p>
+                )}
 
-              <IconCTALink
-                href="/health-care/schedule-view-va-appointments/appointments"
-                icon="calendar-check"
-                newTab
-                text="Schedule and view your appointments"
-              />
-            </>
-          )}
+                <IconCTALink
+                  href="/health-care/schedule-view-va-appointments/appointments"
+                  icon="calendar-check"
+                  newTab
+                  text="Schedule and view your appointments"
+                />
+              </>
+            )}
 
           {/* Messages */}
           <IconCTALink
@@ -157,11 +166,11 @@ const HealthCare = ({
 
           {/* VA Medical records */}
           <IconCTALink
-            href="/health-care/get-medical-records/"
+            href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
             icon="file-medical"
             text="Get your VA medical records"
           />
-        </div>
+        </DashboardWidgetWrapper>
       </div>
     </div>
   );
@@ -203,12 +212,14 @@ const mapStateToProps = state => {
     : false;
 
   const hasInboxError = selectFolder(state)?.errors?.length > 0;
+  const hasAppointmentsError = state.health?.appointments?.errors?.length > 0;
 
   return {
     appointments: state.health?.appointments?.data,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     facilityNames,
     hasInboxError,
+    hasAppointmentsError,
     isCernerPatient: selectIsCernerPatient(state),
     shouldFetchMessages,
     shouldShowLoadingIndicator: fetchingAppointments || fetchingInbox,

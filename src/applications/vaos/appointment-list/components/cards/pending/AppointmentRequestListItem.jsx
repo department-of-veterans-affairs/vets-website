@@ -146,7 +146,7 @@ export default function AppointmentRequestListItem({
                 <br />
                 <span className="vads-u-font-style--italic">
                   <ListBestTimeToCall
-                    timesToCall={appointment.legacyVAR?.bestTimeToCall}
+                    timesToCall={appointment.preferredTimesForPhoneCall}
                   />
                 </span>
               </div>

@@ -9,12 +9,20 @@ export function transform(formConfig, form) {
     return clonedData;
   };
 
+  const reviewPageTransform = formData => {
+    const clonedData = _.cloneDeep(formData);
+    delete clonedData.AGREED;
+
+    return clonedData;
+  };
+
   // This needs to be last function call in array below
   const usFormTransform = formData =>
     transformForSubmit(formConfig, { ...form, data: formData });
 
   const transformedData = [
     directDepositTransform,
+    reviewPageTransform,
     usFormTransform, // This needs to be last function call in array
   ].reduce((formData, transformer) => transformer(formData), form.data);
 

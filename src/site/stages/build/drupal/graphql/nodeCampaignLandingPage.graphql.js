@@ -14,16 +14,13 @@ const nodeCampaignLandingPage = `
     fieldAdministration {
       entity {
         ... on TaxonomyTermAdministration {
-          fieldAcronym
           fieldDescription
           fieldEmailUpdatesLinkText
           fieldEmailUpdatesUrl
-          fieldIntroText
           fieldLink {
             uri
             title
           }
-          fieldMetatags
           fieldSocialMediaLinks {
             platform
             value
@@ -48,6 +45,12 @@ const nodeCampaignLandingPage = `
         ... on TaxonomyTermAudienceTags {
           name
         }
+        ... on TaxonomyTermAudienceBeneficiaries {
+          name
+        }
+        ... on TaxonomyTermAudienceNonBeneficiaries {
+          name
+        }
       }
     }
     fieldClpConnectWithUs {
@@ -57,16 +60,13 @@ const nodeCampaignLandingPage = `
         entityId
         ... on TaxonomyTermAdministration {
           name
-          fieldAcronym
           fieldDescription
           fieldEmailUpdatesLinkText
           fieldEmailUpdatesUrl
-          fieldIntroText
           fieldLink {
             uri
             title
           }
-          fieldMetatags
           fieldSocialMediaLinks {
             platform
             value
@@ -110,16 +110,13 @@ const nodeCampaignLandingPage = `
           fieldAdministration {
             entity {
               ... on TaxonomyTermAdministration {
-                fieldAcronym
                 fieldDescription
                 fieldEmailUpdatesLinkText
                 fieldEmailUpdatesUrl
-                fieldIntroText
                 fieldLink {
                   uri
                   title
                 }
-                fieldMetatags
                 fieldSocialMediaLinks {
                   platform
                   value
@@ -174,16 +171,13 @@ const nodeCampaignLandingPage = `
                 fieldAdministration {
                   entity {
                     ... on TaxonomyTermAdministration {
-                      fieldAcronym
                       fieldDescription
                       fieldEmailUpdatesLinkText
                       fieldEmailUpdatesUrl
-                      fieldIntroText
                       fieldLink {
                         uri
                         title
                       }
-                      fieldMetatags
                       fieldSocialMediaLinks {
                         platform
                         value
@@ -207,16 +201,13 @@ const nodeCampaignLandingPage = `
                           entityBundle
                           entityId
                           ... on TaxonomyTermAdministration {
-                            fieldAcronym
                             fieldDescription
                             fieldEmailUpdatesLinkText
                             fieldEmailUpdatesUrl
-                            fieldIntroText
                             fieldLink {
                               uri
                               title
                             }
-                            fieldMetatags
                             fieldSocialMediaLinks {
                               platform
                               value
@@ -319,11 +310,9 @@ const nodeCampaignLandingPage = `
               entityBundle
               entityId
               ... on TaxonomyTermAdministration {
-                fieldAcronym
                 fieldDescription
                 fieldEmailUpdatesLinkText
                 fieldEmailUpdatesUrl
-                fieldIntroText
                 fieldLink {
                   uri
                   title
@@ -458,11 +447,9 @@ const nodeCampaignLandingPage = `
           fieldOwner {
             entity {
               ... on TaxonomyTermAdministration {
-                fieldAcronym
                 fieldDescription
                 fieldEmailUpdatesLinkText
                 fieldEmailUpdatesUrl
-                fieldIntroText
                 fieldLink {
                   uri
                   title

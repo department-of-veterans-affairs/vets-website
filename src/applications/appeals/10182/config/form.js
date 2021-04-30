@@ -15,22 +15,40 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../content/GetFormHelp';
 import ReviewDescription from '../components/ReviewDescription';
 
+import {
+  hasRepresentative,
+  canUploadEvidence,
+  wantsToUploadEvidence,
+  needsHearingType,
+} from '../utils/helpers';
+
 // Pages
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInfo';
+import homeless from '../pages/homeless';
+import hasRep from '../pages/hasRep';
+import repInfo from '../pages/repInfo';
+import contestableIssues from '../pages/contestableIssues';
+import boardReview from '../pages/boardReview';
+import evidenceIntro from '../pages/evidenceIntro';
+import evidenceUpload from '../pages/evidenceUpload';
 
-import initialData from '../tests/schema/initialData';
+import {
+  customText,
+  saveInProgress,
+  savedFormMessages,
+} from '../content/saveInProgress';
 
-// const { } = fullSchema.properties;
-// const { } = fullSchema.definitions;
+// import initialData from '../tests/schema/initialData';
 
 import manifest from '../manifest.json';
+import hearingType from '../pages/hearingType';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/notice_of_disagreements`,
-  trackingPrefix: '10182-notice-of-disagreement-',
+  trackingPrefix: '10182-board-appeal-',
 
   downtime: {
     requiredForPrefill: true,
@@ -54,19 +72,12 @@ const formConfig = {
   preSubmitInfo,
   submit: submitForm,
 
-  savedFormMessages: {
-    notFound: 'Please start over to apply for a board appeal.',
-    noAuth:
-      'Please sign in again to continue your application for a board appeal.',
-  },
-  saveInProgress: {
-    messages: {
-      inProgress: 'Your Board Appeal application (10182) is in progress.',
-      expired:
-        'Your saved Board Appeal application (10182) has expired. If you want to request a Board Appeal, please start a new application.',
-      saved: 'Your Board Appeal application has been saved.',
-    },
-  },
+  // SaveInProgress messages
+  customText,
+  savedFormMessages,
+  saveInProgress,
+  // errorText: '',
+  // submissionError: '',
 
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -74,21 +85,90 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     infoPages: {
-      title: 'Veteran information',
+      title: 'Veteran details',
       reviewDescription: ReviewDescription,
       pages: {
         veteranInformation: {
-          title: 'Veteran information',
-          path: 'veteran-information',
+          title: 'Veteran details',
+          path: 'veteran-details',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
-          initialData,
+          // initialData,
         },
-        confirmContactInformation: {
+        contactInformation: {
           title: 'Contact information',
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+        },
+        homeless: {
+          title: 'Homeless',
+          path: 'homeless',
+          uiSchema: homeless.uiSchema,
+          schema: homeless.schema,
+        },
+        hasRep: {
+          title: 'Representative',
+          path: 'representative',
+          uiSchema: hasRep.uiSchema,
+          schema: hasRep.schema,
+        },
+        repInfo: {
+          title: 'Representative info',
+          path: 'representative-info',
+          depends: hasRepresentative,
+          uiSchema: repInfo.uiSchema,
+          schema: repInfo.schema,
+        },
+      },
+    },
+    conditions: {
+      title: 'Issues for review',
+      pages: {
+        contestableIssues: {
+          title: 'Issues eligible for review',
+          path: 'eligible-issues',
+          uiSchema: contestableIssues.uiSchema,
+          schema: contestableIssues.schema,
+          appStateSelector: state => ({
+            // Validation functions are provided the pageData and not the
+            // formData on the review & submit page. For more details
+            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+            contestableIssues: state.form?.data?.contestableIssues || [],
+            additionalIssues: state.form?.data?.additionalIssues || [],
+          }),
+        },
+      },
+    },
+    boardReview: {
+      title: 'Board review option',
+      pages: {
+        boardReviewOption: {
+          title: 'Board review option',
+          path: 'board-review-option',
+          uiSchema: boardReview.uiSchema,
+          schema: boardReview.schema,
+        },
+        evidenceIntro: {
+          title: 'Evidence submission',
+          path: 'evidence-submission',
+          depends: canUploadEvidence,
+          uiSchema: evidenceIntro.uiSchema,
+          schema: evidenceIntro.schema,
+        },
+        evidenceUpload: {
+          title: 'Evidence upload',
+          path: 'evidence-submission/upload',
+          depends: wantsToUploadEvidence,
+          uiSchema: evidenceUpload.uiSchema,
+          schema: evidenceUpload.schema,
+        },
+        hearingType: {
+          title: 'Hearing type',
+          path: 'hearing-type',
+          depends: needsHearingType,
+          uiSchema: hearingType.uiSchema,
+          schema: hearingType.schema,
         },
       },
     },
