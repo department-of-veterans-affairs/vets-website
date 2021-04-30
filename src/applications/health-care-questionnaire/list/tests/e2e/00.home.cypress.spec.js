@@ -10,10 +10,11 @@ it('health care questionnaire list -- loads manager page -- feature enabled', ()
     cy.get('h1').contains('Your health questionnaires');
     cy.injectAxe();
     cy.axeCheck();
+    cy.percySnapshot();
   });
 });
 
-it('health care questionnaire  list-- can not manager page -- feature disabled', () => {
+it('health care questionnaire list -- does not load manager page -- feature disabled', () => {
   cy.fixture(
     '../../src/applications/health-care-questionnaire/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.disabled.json',
   ).then(features => {
@@ -21,5 +22,6 @@ it('health care questionnaire  list-- can not manager page -- feature disabled',
     const featureRoute = '/health-care/health-questionnaires/questionnaires/';
     cy.visit(featureRoute);
     cy.url().should('not.match', /health-care/);
+    cy.percySnapshot();
   });
 });
