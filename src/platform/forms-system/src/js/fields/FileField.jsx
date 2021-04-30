@@ -399,8 +399,8 @@ class FileField extends React.Component {
                     }
                   }}
                   tabIndex="0"
-                  aria-label={`${buttonText} ${uiSchema['ui:title'] ||
-                    schema.title}`}
+                  aria-label={`${buttonText} ${schema.title ||
+                    uiSchema['ui:title']}`}
                 >
                   {buttonText}
                 </span>
