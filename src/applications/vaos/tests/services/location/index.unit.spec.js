@@ -188,32 +188,6 @@ describe('VAOS Location service', () => {
       expect(data[0].legacyVAR.settings['323'].direct.enabled).to.be.true;
     });
 
-    it('should skip direct booking fetch if direct scheduling disabled', async () => {
-      mockFetch();
-      setFetchJSONResponse(global.fetch, requestEligbilityCriteria);
-      setFetchJSONResponse(
-        global.fetch.onCall(1),
-        directBookingEligbilityCriteria,
-      );
-      setFetchJSONResponse(global.fetch.onCall(2), facilityDetails);
-
-      data = await getLocationsByTypeOfCareAndSiteIds({
-        typeOfCareId: '323',
-        siteIds: ['983', '984'],
-        directSchedulingEnabled: false,
-      });
-
-      expect(global.fetch.firstCall.args[0]).to.contain(
-        '/request_eligibility_criteria?parent_sites[]=983&parent_sites[]=984',
-      );
-      expect(global.fetch.secondCall.args[0]).to.contain(
-        '/v1/facilities/va?ids=',
-      );
-      expect(data[0].resourceType).to.equal('Location');
-      expect(data[0].legacyVAR.settings['323'].request.enabled).to.be.true;
-      expect(data[0].legacyVAR.settings['323'].direct.enabled).not.to.exist;
-    });
-
     it('should return OperationOutcome error', async () => {
       mockFetch();
       setFetchJSONFailure(global.fetch, {

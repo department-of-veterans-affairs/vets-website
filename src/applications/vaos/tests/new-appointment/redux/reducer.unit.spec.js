@@ -95,8 +95,9 @@ const facilityDataParsed = transformFacilities(
 ).map(location => ({
   ...location,
   legacyVAR: {
-    directSettings: { 323: { enabled: true }, 504: { enabled: true } },
-    requestSettings: { 323: { enabled: true }, 504: { enabled: true } },
+    settings: {
+      323: { direct: { enabled: true }, request: { enabled: true } },
+    },
   },
 }));
 
