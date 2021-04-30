@@ -65,7 +65,7 @@ function fillOutForm(facilitySelection) {
     }
 
     expect(xhr.response.statusCode).to.eq(200);
-    expect(xhr.response.url).to.eq(/vaos\/v0\/appointment_requests?type=va/);
+    expect(xhr.response.url).to.include('vaos/v0/appointment_requests?type=va');
     const request = xhr.request.body;
     expect(request)
       .to.have.property('optionDate1')
@@ -90,7 +90,7 @@ function fillOutForm(facilitySelection) {
 
   // Check messages requestBody is as expected
   cy.wait('@requestMessages').should(xhr => {
-    const request = xhr.request.ody;
+    const request = xhr.request.body;
     expect(request).to.have.property('messageText', 'cough');
   });
 
@@ -114,7 +114,7 @@ describe('VAOS request flow', () => {
       cy.findByLabelText(/Sidney/).click({ force: true });
     });
   });
-  it.skip('should submit form successfully for a single system user', () => {
+  it('should submit form successfully for a single system user', () => {
     initAppointmentListMock();
     initVARequestMock();
     cy.intercept('GET', '/vaos/v0/facilities**', {
@@ -126,7 +126,7 @@ describe('VAOS request flow', () => {
       cy.findByLabelText(/Sidney/).click({ force: true });
     });
   });
-  it.skip('should submit form successfully for a user with multi system including a Cerner facility', () => {
+  it('should submit form successfully for a user with multi system including a Cerner facility', () => {
     initAppointmentListMock();
     initVARequestMock({ cernerUser: true });
     cy.intercept('GET', '/vaos/v0/facilities**', {
