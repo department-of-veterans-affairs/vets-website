@@ -26,6 +26,14 @@ const WebChat = ({ token, WebChatFramework }) => {
     userAvatarBackgroundColor: '#003e73', // color-primary-darker
     userAvatarInitials: 'You',
     primaryFont: 'Source Sans Pro, sans-serif',
+    bubbleBorderRadius: 5,
+    bubbleFromUserBorderRadius: 5,
+    bubbleBorderWidth: 0,
+    bubbleFromUserBorderWidth: 0,
+    bubbleBackground: '#e1f3f8',
+    bubbleFromUserBackground: '#f1f1f1',
+    bubbleNubSize: 10,
+    bubbleFromUserNubSize: 10,
   };
 
   return (
