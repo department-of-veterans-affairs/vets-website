@@ -187,9 +187,6 @@ node('vetsgov-general-purpose') {
             },
             'cypress-6': {
               sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=5 vets-website --no-color run cy:test:docker"
-            },
-            'cypress-7': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress7-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress7-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=6 vets-website --no-color run cy:test:docker"
             }
           )
         }
@@ -207,7 +204,6 @@ node('vetsgov-general-purpose') {
         sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
         sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
         sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
-        sh "docker-compose -p cypress7-${env.EXECUTOR_NUMBER} down --remove-orphans"
         step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
       }
     }
