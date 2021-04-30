@@ -146,7 +146,6 @@ export function openFacilityPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
-          directSchedulingEnabled: true,
         });
       }
 
@@ -475,7 +474,6 @@ export function openContactFacilitiesPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
-          directSchedulingEnabled: true,
         });
       }
 

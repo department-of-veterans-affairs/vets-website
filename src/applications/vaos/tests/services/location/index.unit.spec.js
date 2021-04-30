@@ -170,7 +170,6 @@ describe('VAOS Location service', () => {
       data = await getLocationsByTypeOfCareAndSiteIds({
         typeOfCareId: '323',
         siteIds: ['983', '984'],
-        directSchedulingEnabled: true,
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
@@ -199,7 +198,6 @@ describe('VAOS Location service', () => {
         data = await getLocationsByTypeOfCareAndSiteIds({
           typeOfCareId: '323',
           siteIds: ['983', '984'],
-          directSchedulingEnabled: true,
         });
       } catch (e) {
         error = e;

@@ -112,6 +112,15 @@ export async function getLocation({ facilityId }) {
   }
 }
 
+/**
+ * Returns the VAOS settings for the included sites and their children
+ *
+ * @export
+ * @async
+ * @param {Object} params
+ * @param {Array<string>} params.siteIds The vista site ids of the facilities we want to fetch
+ * @returns {Array<FacilitySettings>} An array of facility settings
+ */
 export async function getLocationSettings({ siteIds }) {
   try {
     const settings = await Promise.all([
@@ -137,19 +146,14 @@ export async function getLocationSettings({ siteIds }) {
  * @async
  * @param {Object} params
  * @param {Array<string>} siteIds A list of 3 digit site ids to retrieve the settings for
- * @param {boolean} directSchedulingEnabled If we need to fetch direct scheduling settings as well
  * @returns {Array<Location>} An array of Locations with settings included
  */
-export async function getLocationsByTypeOfCareAndSiteIds({
-  siteIds,
-  directSchedulingEnabled,
-}) {
+export async function getLocationsByTypeOfCareAndSiteIds({ siteIds }) {
   try {
     let locations = [];
 
     const settings = await getLocationSettings({
       siteIds,
-      type: !directSchedulingEnabled ? 'request' : null,
     });
 
     const uniqueIds = settings.map(setting => setting.id);
