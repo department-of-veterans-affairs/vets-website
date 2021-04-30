@@ -140,6 +140,9 @@ node('vetsgov-general-purpose') {
 
   // Run E2E tests
   stage('Integration') {
+    options {
+      timeout(time: 5, unit: 'MINUTES')
+    }
     if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
       try {
