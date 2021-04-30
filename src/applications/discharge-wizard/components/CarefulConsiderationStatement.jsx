@@ -1,11 +1,14 @@
+// Dependencies
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
+// Relative Imports
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
-const reasonStatement = props => {
-  const reason = props.formValues['4_reason'];
-  const dischargeType = props.formValues['5_dischargeType'];
+const reasonStatement = formValues => {
+  const reason = formValues['4_reason'];
+  const dischargeType = formValues['5_dischargeType'];
 
   switch (reason) {
     case '1':
@@ -82,8 +85,8 @@ const reasonStatement = props => {
   }
 };
 
-const priorServiceStatement = props => {
-  switch (props.formValues['12_priorService']) {
+const priorServiceStatement = formValues => {
+  switch (formValues['12_priorService']) {
     case '1':
       return (
         <AlertBox
@@ -158,11 +161,15 @@ const priorServiceStatement = props => {
   }
 };
 
-const CarefulConsiderationStatement = props => (
-  <section>
-    {reasonStatement(props)}
-    {priorServiceStatement(props)}
-  </section>
+const CarefulConsiderationStatement = ({ formValues }) => (
+  <div>
+    {reasonStatement(formValues)}
+    {priorServiceStatement(formValues)}
+  </div>
 );
+
+CarefulConsiderationStatement.propTypes = {
+  formValues: PropTypes.object.isRequired,
+};
 
 export default CarefulConsiderationStatement;

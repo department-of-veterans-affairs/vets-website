@@ -6,6 +6,9 @@ import sinon from 'sinon';
 
 // Relative imports.
 import CarefulConsiderationStatement from '../../components/CarefulConsiderationStatement';
+import StepOne from '../../components/gpSteps/StepOne';
+import StepTwo from '../../components/gpSteps/StepTwo';
+import StepThree from '../../components/gpSteps/StepThree';
 import { GuidancePage } from '../../containers/GuidancePage';
 
 describe('Discharge Wizard <GuidancePage />', () => {
@@ -58,7 +61,9 @@ describe('Discharge Wizard <GuidancePage />', () => {
         router={reactRouterStub}
       />,
     );
-    expect(tree.find('ul.steps-list > li')).to.have.lengthOf(3);
+    expect(tree.find(StepOne)).to.have.lengthOf(1);
+    expect(tree.find(StepTwo)).to.have.lengthOf(1);
+    expect(tree.find(StepThree)).to.have.lengthOf(1);
     tree.unmount();
   });
 
