@@ -1,0 +1,330 @@
+From f461ca22eb9f3047ac6c29ec8a535fc58a4b572e Mon Sep 17 00:00:00 2001
+From: Gibran <brangi@users.noreply.github.com>
+Date: Thu, 29 Apr 2021 16:21:22 -0500
+Subject: [PATCH] Vet center - main page cc content sections (#16973)
+
+* Vet center cc content sections
+
+* add todo comment
+
+* faqs
+
+* display fieldVetCenterFeatureContent
+
+* fixes
+
+* fix marging bottom on li feature content
+
+* minor css hours widths
+
+* fix test cases
+
+* fix for responsive IE
+
+* rm fields
+
+Co-authored-by: Gibran Rodriguez <grodriguez@governmentcio.com>
+---
+ .../facilities/vetCentersHours.jsx            | 10 ++---
+ .../sass/modules/_m-facilities.scss           | 19 ++++++++
+ .../vet_center_featured_content.liquid        | 16 +++++++
+ src/site/includes/vet_center_services.liquid  |  5 +++
+ .../fixtures/vet_center_escanaba_data.json    | 24 ++++++++++
+ .../vet_center/vet_center.drupal.unit.spec.js |  2 +-
+ src/site/layouts/vet_center.drupal.liquid     | 33 ++++++++++++--
+ .../build/drupal/graphql/vetCenter.graphql.js | 45 +++++++++++++++++++
+ 8 files changed, 145 insertions(+), 9 deletions(-)
+ create mode 100644 src/site/includes/vet_center_featured_content.liquid
+
+diff --git a/src/applications/static-pages/facilities/vetCentersHours.jsx b/src/applications/static-pages/facilities/vetCentersHours.jsx
+index ec0c329c28..1025995319 100644
+--- a/src/applications/static-pages/facilities/vetCentersHours.jsx
++++ b/src/applications/static-pages/facilities/vetCentersHours.jsx
+@@ -12,10 +12,10 @@ const VetCenterHours = props => {
+     if (item.starthours < 0 || item.endhours < 0) {
+       return (
+         <div className="row">
+-          <div className="small-6 columns vads-u-padding-x--0 vads-u-padding-right--0">
++          <div className="small-1 columns vads-u-padding-x--0 vads-u-padding-right--0">
+             {arrayOfWeekdays[item.day]}:
+           </div>
+-          <div className="small-6 columns vads-u-padding-x--0 vads-u-padding-right--0">
++          <div className="small-9 columns vads-u-padding-x--0 vads-u-padding-right--0">
+             {item.comment}
+           </div>
+         </div>
+@@ -23,10 +23,10 @@ const VetCenterHours = props => {
+     } else {
+       return (
+         <div className="row">
+-          <div className="small-6 columns vads-u-padding-x--0 vads-u-padding-right--0">
++          <div className="small-1 columns vads-u-padding-x--0 vads-u-padding-right--0">
+             {arrayOfWeekdays[item.day]}:
+           </div>
+-          <div className="small-6 columns vads-u-padding-x--0 vads-u-padding-right--0">
++          <div className="small-9 columns vads-u-padding-x--0 vads-u-padding-right--0">
+             {formatHours(item.starthours)} - {formatHours(item.endhours)}
+           </div>
+         </div>
+@@ -53,7 +53,7 @@ const VetCenterHours = props => {
+       <h3 className="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
+         Hours
+       </h3>
+-      <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row vads-u-margin-bottom--0">
++      <div className="vads-u-flex-direction--column small-screen:vads-u-flex-direction--row vads-u-margin-bottom--0">
+         {buildHoursSection(props.hours)}
+       </div>
+     </div>
+diff --git a/src/applications/static-pages/sass/modules/_m-facilities.scss b/src/applications/static-pages/sass/modules/_m-facilities.scss
+index 6e6a145861..8fa2105372 100644
+--- a/src/applications/static-pages/sass/modules/_m-facilities.scss
++++ b/src/applications/static-pages/sass/modules/_m-facilities.scss
+@@ -346,3 +346,22 @@ a.operating-status-link {
+ .operating-status-flag-error:active {
+   background: rgba(229, 147, 147, 1)
+ }
++
++div.field-cc-vet-call-center {
++  p {
++    background: #fff1d2;
++    padding: 20px
++  }
++}
++
++div.field-cc-non-traditional-hours {
++  p {
++    font-weight: bold;
++  }
++}
++
++div.field-vet-center-feature-content  {
++  li {
++    margin-bottom: 0px
++  }
++}
+\ No newline at end of file
+diff --git a/src/site/includes/vet_center_featured_content.liquid b/src/site/includes/vet_center_featured_content.liquid
+new file mode 100644
+index 0000000000..4e1ab89b4e
+--- /dev/null
++++ b/src/site/includes/vet_center_featured_content.liquid
+@@ -0,0 +1,16 @@
++<li class="featured-content-list-item vads-u-background-color--primary-alt-lightest  vads-u-padding-y--1p5 vads-u-padding-x--1p5 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-display--flex vads-u-flex-direction--column">
++    {% if entity.fieldSectionHeader != empty %}
++        <b>{{ entity.fieldSectionHeader }}</b>
++        <hr class="featured-content-hr vads-u-margin-y--1p5 vads-u-border-color--primary">
++    {% endif %}
++    {% if entity.fieldDescription %}
++        <div id="featured-content-description{{ entity.fieldSectionHeader }}}}">
++            {{ entity.fieldDescription.processed | drupalToVaPath | outputLinks }}
++        </div>
++    {% endif %}
++    {% if entity.fieldCta %}
++        <a class="vads-u-display--block vads-u-padding-top--1 vads-u-text-decoration--none" href="{{ entity.fieldCta.entity.fieldButtonLink.uri }}" >
++            <span> {{  entity.fieldCta.entity.fieldButtonLabel }} <i class="fa fa-chevron-right vads-facility-hub-cta-arrow"></i></span>
++        </a>
++    {% endif %}
++</li>
+\ No newline at end of file
+diff --git a/src/site/includes/vet_center_services.liquid b/src/site/includes/vet_center_services.liquid
+index 64db8370ec..a1d23cf8b7 100644
+--- a/src/site/includes/vet_center_services.liquid
++++ b/src/site/includes/vet_center_services.liquid
+@@ -14,6 +14,11 @@
+                     <p>{{ entity.entity.fieldServiceNameAndDescripti.entity.fieldVetCenterServiceDescrip  }}</p>
+                 {% endif %}
+                 {{ entity.entity.fieldServiceNameAndDescripti.entity.description.processed | drupalToVaPath | outputLinks }}
++                {% if entity.entity.fieldBody %}
++                    <div id="field-body-health-services-{{ idService }}-{{ entity.entity.fieldServiceNameAndDescripti.entity.name }}">
++                        {{ entity.entity.fieldBody.processed | drupalToVaPath | outputLinks }}
++                    </div>
++                {% endif %}
+             </va-accordion-item>
+         </va-accordion>
+     {% endfor %}
+diff --git a/src/site/layouts/tests/vet_center/fixtures/vet_center_escanaba_data.json b/src/site/layouts/tests/vet_center/fixtures/vet_center_escanaba_data.json
+index 9a68810b0b..060d0288e8 100644
+--- a/src/site/layouts/tests/vet_center/fixtures/vet_center_escanaba_data.json
++++ b/src/site/layouts/tests/vet_center/fixtures/vet_center_escanaba_data.json
+@@ -98,6 +98,30 @@
+       }
+     ]
+   },
++  "fieldCcNonTraditionalHours": {
++    "fetched": {
++      "field_wysiwyg": [
++        {
++          "value": "<p>We also have non-traditional hours that change periodically given our community’s needs. Please call us to find out more.&nbsp;</p>\r\n",
++          "format": "rich_text",
++          "processed": "<p>We also have non-traditional hours that change periodically given our community’s needs. Please call us to find out more. </p>"
++        }
++      ]
++    },
++    "fetchedBundle": "wysiwyg"
++  },
++  "fieldCcVetCenterCallCenter": {
++    "fetched": {
++      "field_wysiwyg": [
++        {
++          "value": "<p>If you need to talk with someone after hours, on weekends, or holidays, the Vet Center call center is available 24/7: 1-877-WAR-VETS (1-877-927-8387).</p>\r\n",
++          "format": "rich_text",
++          "processed": "<p>If you need to talk with someone after hours, on weekends, or holidays, the Vet Center call center is available 24/7: 1-877-WAR-VETS (1-877-927-8387).</p>"
++        }
++      ]
++    },
++    "fetchedBundle": "wysiwyg"
++  },
+   "fieldPrepareForVisit": [
+     {
+       "entity": {
+diff --git a/src/site/layouts/tests/vet_center/vet_center.drupal.unit.spec.js b/src/site/layouts/tests/vet_center/vet_center.drupal.unit.spec.js
+index 92794ee563..ba71148b05 100644
+--- a/src/site/layouts/tests/vet_center/vet_center.drupal.unit.spec.js
++++ b/src/site/layouts/tests/vet_center/vet_center.drupal.unit.spec.js
+@@ -4,7 +4,7 @@ import axeCheck from '~/site/tests/support/axe';
+ 
+ const layoutPath = 'src/site/layouts/vet_center.drupal.liquid';
+ import testData from './fixtures/vet_center_escanaba_data';
+-
++// TODO fix test cases
+ describe('Vet Center Main Page', () => {
+   let container;
+   const data = parseFixture(
+diff --git a/src/site/layouts/vet_center.drupal.liquid b/src/site/layouts/vet_center.drupal.liquid
+index f80eb645a6..7dd836006a 100644
+--- a/src/site/layouts/vet_center.drupal.liquid
++++ b/src/site/layouts/vet_center.drupal.liquid
+@@ -28,7 +28,7 @@
+           small-screen:vads-u-font-size--xl" >Locations and contact information</h2>
+ 
+           <div class="region-list usa-grid usa-grid-full vads-u-display--flex vads-u-flex-direction--column
+-          small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--2p5 vads-u-margin-bottom--4">
++          small-screen:vads-u-flex-direction--row facility">
+               <div class="usa-width-two-thirds vads-u-display--block vads-u-width--full">
+ 
+                   <div>
+@@ -62,6 +62,13 @@
+                                    </p>
+                                </div>
+                               {% include 'src/site/includes/vet_center_hours.liquid' with vetCenterHours = fieldOfficeHours %}
++
++                              <div class="field-cc-non-traditional-hours">
++                                  {% include "src/site/includes/dynamic-content.drupal.liquid" with
++                                      entity = fieldCcNonTraditionalHours.fetched
++                                      contentType = fieldCcNonTraditionalHours.fetchedBundle
++                                  %}
++                              </div>
+                           </section>
+                       </div>
+                   </div>
+@@ -74,6 +81,14 @@
+ 
+           </div>
+ 
++          <div class="field-cc-vet-call-center">
++              {% include "src/site/includes/dynamic-content.drupal.liquid" with
++                  entity = fieldCcVetCenterCallCenter.fetched
++                  contentType = fieldCcVetCenterCallCenter.fetchedBundle
++              %}
++          </div>
++
++
+             {% if fieldPrepareForVisit.length > 0 %}
+                 <h2 id="prepare-for-your-visit" class="vads-u-margin-top--0 vads-u-font-size--lg
+           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Prepare for your visit</h2>
+@@ -91,6 +106,15 @@
+ 
+           <h2 id="in-the-spot-light" class="vads-u-margin-top--0 vads-u-font-size--lg
+           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">In the spotlight at {{ entityLabel }} </h2>
++            <div class="field-vet-center-feature-content">
++                <ul class="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
++                    {% for entity in fieldVetCenterFeatureContent %}
++                        {% include "src/site/includes/vet_center_featured_content.liquid" with
++                            entity = entity.entity
++                        %}
++                    {% endfor %}
++                </ul>
++            </div>
+ 
+             {% include "src/site/includes/vet_center_health_services.liquid" with
+                 fieldHealthServices
+@@ -107,8 +131,11 @@
+                 typeOfCare = "other"
+             %}
+ 
+-          <h2 id="how-different-than-clinic" class="vads-u-margin-top--0 vads-u-font-size--lg
+-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">How we're different than a clinic</h2>
++            {% if fieldCcVetCenterFaqs.fetched.field_section_header.0.value != empty %}
++                <h2 id="how-different-than-clinic" class="vads-u-margin-top--0 vads-u-font-size--lg
++          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2"> {{ fieldCcVetCenterFaqs.fetched.field_section_header.0.value }}</h2>
++                <p> {{ fieldCcVetCenterFaqs.fetched.field_section_intro.0.value }} </p>
++            {% endif %}
+ 
+         </article>
+       </div>
+diff --git a/src/site/stages/build/drupal/graphql/vetCenter.graphql.js b/src/site/stages/build/drupal/graphql/vetCenter.graphql.js
+index 1ddbb9260e..e300de74ce 100644
+--- a/src/site/stages/build/drupal/graphql/vetCenter.graphql.js
++++ b/src/site/stages/build/drupal/graphql/vetCenter.graphql.js
+@@ -16,6 +16,48 @@ const vetCenterFragment = `
+         entityLabel
+         fieldIntroText
+         fieldFacilityLocatorApiId
++        fieldVetCenterFeatureContent {
++           entity {
++                ... on ParagraphFeaturedContent {
++                  fieldDescription {
++                      value
++                      format
++                      processed
++                  }
++                  fieldSectionHeader
++                  fieldCta {
++                  targetId
++                  targetRevisionId
++                  entity {
++                     ... on ParagraphButton {
++                        fieldButtonLink {
++                            uri
++                            title
++                            options
++                        }
++                        fieldButtonLabel
++                       }
++                     }
++                }
++              }
++           }
++        }
++        fieldCcVetCenterFeaturedCon {
++          fetched
++          fetchedBundle
++        }
++        fieldCcVetCenterFaqs {
++          fetched
++          fetchedBundle
++        }
++        fieldCcNonTraditionalHours {
++          fetched
++          fetchedBundle
++        }
++        fieldCcVetCenterCallCenter {
++          fetched
++          fetchedBundle
++        }
+         ${derivativeImage('_32MEDIUMTHUMBNAIL')}
+         fieldPhoneNumber
+         fieldAddress {
+@@ -57,6 +99,9 @@ const vetCenterFragment = `
+         fieldHealthServices {
+           entity {
+             ... on NodeVetCenterFacilityHealthServi {
++             fieldBody {
++                processed
++              }
+               fieldServiceNameAndDescripti {
+                 entity {
+                   ... on TaxonomyTermHealthCareServiceTaxonomy {
+-- 
+2.30.0
+
