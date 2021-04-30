@@ -20,6 +20,10 @@ export function selectCovid19VaccineFormData(state) {
   return selectCovid19VaccineNewBooking(state).data;
 }
 
+export function selectPageChangeInProgress(state) {
+  return selectCovid19VaccineNewBooking(state).pageChangeInProgress;
+}
+
 export function getCovid19VaccineFormPageInfo(state, pageKey) {
   const newBooking = selectCovid19VaccineNewBooking(state);
   return {
@@ -37,7 +41,7 @@ export function getSiteIdForChosenFacility(state) {
 
 export function getChosenSlot(state) {
   const availableSlots = selectCovid19VaccineNewBooking(state).availableSlots;
-  const selectedTime = selectCovid19VaccineFormData(state).date1[0];
+  const selectedTime = selectCovid19VaccineFormData(state).date1?.[0];
 
   return availableSlots?.find(slot => slot.start === selectedTime);
 }
@@ -152,8 +156,10 @@ export function getReviewPage(state) {
 
 export function selectConfirmationPage(state) {
   return {
+    clinic: getChosenClinicInfo(state),
     data: selectCovid19VaccineFormData(state),
     facilityDetails: getChosenFacilityInfo(state),
+    slot: getChosenSlot(state),
     systemId: getSiteIdForChosenFacility(state),
     submitStatus: selectCovid19Vaccine(state).submitStatus,
   };

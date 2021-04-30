@@ -516,6 +516,33 @@ describe('user selectors', () => {
     });
   });
 
+  describe('isNotInMPI', () => {
+    it('returns `true` if the profile.status is `NOT_FOUND`', () => {
+      const state = {
+        user: {
+          profile: {
+            status: 'NOT_FOUND',
+          },
+        },
+      };
+      expect(selectors.isNotInMPI(state)).to.be.true;
+    });
+    it('returns `false` if the profile.status is anything other than `NOT_FOUND`', () => {
+      const state = {
+        user: {
+          profile: {
+            status: 'NOT_AUTHORIZED',
+          },
+        },
+      };
+      expect(selectors.isNotInMPI(state)).to.be.false;
+      delete state.user.profile.status;
+      expect(selectors.isNotInMPI(state)).to.be.false;
+      delete state.user.profile;
+      expect(selectors.isNotInMPI(state)).to.be.false;
+    });
+  });
+
   describe('hasMPIConnectionError', () => {
     it('returns `true` if the profile.status is `SERVER_ERROR`', () => {
       const state = {

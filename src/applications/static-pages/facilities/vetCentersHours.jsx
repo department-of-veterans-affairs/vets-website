@@ -12,15 +12,21 @@ const VetCenterHours = props => {
     if (item.starthours < 0 || item.endhours < 0) {
       return (
         <div className="row">
-          <div className="small-6 columns">{arrayOfWeekdays[item.day]}:</div>
-          <div className="small-6 columns">{item.comment}</div>
+          <div className="small-1 columns vads-u-padding-x--0 vads-u-padding-right--0">
+            {arrayOfWeekdays[item.day]}:
+          </div>
+          <div className="small-9 columns vads-u-padding-x--0 vads-u-padding-right--0">
+            {item.comment}
+          </div>
         </div>
       );
     } else {
       return (
         <div className="row">
-          <div className="small-6 columns">{arrayOfWeekdays[item.day]}:</div>
-          <div className="small-6 columns">
+          <div className="small-1 columns vads-u-padding-x--0 vads-u-padding-right--0">
+            {arrayOfWeekdays[item.day]}:
+          </div>
+          <div className="small-9 columns vads-u-padding-x--0 vads-u-padding-right--0">
             {formatHours(item.starthours)} - {formatHours(item.endhours)}
           </div>
         </div>
@@ -47,7 +53,7 @@ const VetCenterHours = props => {
       <h3 className="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
         Hours
       </h3>
-      <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row vads-u-margin-bottom--0">
+      <div className="vads-u-flex-direction--column small-screen:vads-u-flex-direction--row vads-u-margin-bottom--0">
         {buildHoursSection(props.hours)}
       </div>
     </div>

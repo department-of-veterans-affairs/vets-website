@@ -3,7 +3,6 @@ import org.kohsuke.github.GitHub
 
 env.CONCURRENCY = 10
 
-
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
               parameters([choice(name: "cmsEnvBuildOverride",
@@ -17,6 +16,7 @@ node('vetsgov-general-purpose') {
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
+  def envUsedCache = [:]
 
   // setupStage
   dockerContainer = commonStages.setup()
@@ -61,9 +61,6 @@ node('vetsgov-general-purpose') {
   //     }
   //   }
   // }
-
-  // Perform a build for each build type
-  envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
 
   // Run E2E tests
   stage('Integration') {
@@ -117,6 +114,8 @@ node('vetsgov-general-purpose') {
   commonStages.prearchiveAll(dockerContainer)
 
   commonStages.archiveAll(dockerContainer, ref);
+  
+  envsUsingDrupalCache = envUsedCache
   commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
   stage('Review') {
@@ -133,6 +132,7 @@ node('vetsgov-general-purpose') {
         stringParam(name: 'devops_branch', value: 'master'),
         stringParam(name: 'api_branch', value: 'master'),
         stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+        stringParam(name: 'content_branch', value: env.BRANCH_NAME),
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {

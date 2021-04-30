@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Switch,
   Route,
@@ -8,7 +8,6 @@ import {
   useLocation,
   Redirect,
 } from 'react-router-dom';
-import * as listActions from '../appointment-list/redux/actions';
 import covid19VaccineReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
 import PlanAheadPage from './components/PlanAheadPage';
@@ -17,7 +16,11 @@ import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
-import { selectFeatureCovid19Vaccine } from '../redux/selectors';
+import ConfirmationPageV2 from './components/ConfirmationPageV2';
+import {
+  selectFeatureCovid19Vaccine,
+  selectFeatureHomepageRefresh,
+} from '../redux/selectors';
 import SecondDosePage from './components/SecondDosePage';
 import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
@@ -33,20 +36,23 @@ import {
   selectCanUseVaccineFlow,
   selectDirectScheduleSettingsStatus,
 } from '../appointment-list/redux/selectors';
+import { fetchDirectScheduleSettings } from '../appointment-list/redux/actions';
 
-export function NewBookingSection({
-  canUseVaccineFlow,
-  featureCovid19Vaccine,
-  directScheduleSettingsStatus,
-  fetchDirectScheduleSettings,
-}) {
+export function NewBookingSection() {
   const match = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const canUseVaccineFlow = useSelector(selectCanUseVaccineFlow);
+  const featureCovid19Vaccine = useSelector(selectFeatureCovid19Vaccine);
+  const directScheduleSettingsStatus = useSelector(
+    selectDirectScheduleSettingsStatus,
+  );
+  const featureHomepageRefresh = useSelector(selectFeatureHomepageRefresh);
 
   useEffect(() => {
     if (directScheduleSettingsStatus === FETCH_STATUS.notStarted) {
-      fetchDirectScheduleSettings();
+      dispatch(fetchDirectScheduleSettings());
     }
   }, []);
 
@@ -138,29 +144,14 @@ export function NewBookingSection({
         <Route path={`${match.url}/review`} component={ReviewPage} />
         <Route
           path={`${match.url}/confirmation`}
-          component={ConfirmationPage}
+          component={
+            featureHomepageRefresh ? ConfirmationPageV2 : ConfirmationPage
+          }
         />
         <Route path="/" component={PlanAheadPage} />
       </Switch>
     </FormLayout>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    featureCovid19Vaccine: selectFeatureCovid19Vaccine(state),
-    directScheduleSettingsStatus: selectDirectScheduleSettingsStatus(state),
-    canUseVaccineFlow: selectCanUseVaccineFlow(state),
-    pageChangeInProgress: state.covid19Vaccine.newBooking.pageChangeInProgress,
-  };
-}
-const mapDispatchToProps = {
-  fetchDirectScheduleSettings: listActions.fetchDirectScheduleSettings,
-};
-
-export const NewBooking = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NewBookingSection);
 
 export const reducer = covid19VaccineReducer;

@@ -1,6 +1,5 @@
-import { add, format } from 'date-fns';
+import moment from 'moment';
 
-import { isValidDate } from '../validations';
 import { FORMAT_YMD } from '../constants';
 /**
  * @typedef DateFns~offset
@@ -24,8 +23,6 @@ export const getDate = ({
   date = new Date(),
   pattern = FORMAT_YMD,
 } = {}) => {
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
-  return isValidDate(dateObj)
-    ? format(add(dateObj, offset), pattern)
-    : dateObj.toString();
+  const dateObj = moment(date);
+  return dateObj.isValid() ? dateObj.add(offset).format(pattern) : date;
 };

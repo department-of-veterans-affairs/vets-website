@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 import { focusElement } from 'platform/utilities/ui';
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import StepComponent from './StepComponent';
 import { orientationSteps } from './utils';
 
@@ -17,18 +15,21 @@ const scrollToTop = () => {
 
 const OrientationApp = props => {
   const [step, setStep] = useState(0);
-  const [formStartControl, setFormStartControl] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const { wizardStateHandler } = props;
 
   // do this to prevent focus skip on prior link tag
-  useEffect(() => {
-    if (formStartControl) {
-      focusElement('#FormStartControl');
-    } else if (step > 0) {
-      focusElement('#StepTitle');
-      scrollToTop();
-    }
-  });
+  useEffect(
+    () => {
+      if (isFirstRender && step === 0) {
+        setIsFirstRender(false);
+      } else {
+        focusElement('#StepTitle');
+        scrollToTop();
+      }
+    },
+    [step],
+  );
 
   return (
     <>
@@ -43,7 +44,7 @@ const OrientationApp = props => {
         <p id="orientation-step" className="vads-u-font-weight--bold">
           Slide {step + 1} of {orientationSteps.length}
         </p>
-        <StepComponent step={step} />
+        <StepComponent step={step} clickHandler={wizardStateHandler} />
         <div>
           {step > 0 && (
             <button
@@ -53,45 +54,19 @@ const OrientationApp = props => {
               Previous slide
             </button>
           )}
-          <button
-            onClick={() => {
-              if (step < orientationSteps.length - 1) {
+          {step < orientationSteps.length - 1 && (
+            <button
+              onClick={() => {
                 setStep(step + 1);
-              } else {
-                setFormStartControl(true);
-              }
-            }}
-            type="button"
-            className="usa-button-primary"
-          >
-            {/* eslint-disable-next-line no-nested-ternary */}
-            {step === 0
-              ? 'Start VR&E orientation slideshow'
-              : step < orientationSteps.length - 1
-                ? 'Next slide'
-                : 'Finish VR&E Orientation'}
-          </button>
+              }}
+              type="button"
+              className="usa-button-primary"
+            >
+              {step === 0 ? 'Start VR&E orientation slideshow' : 'Next slide'}
+            </button>
+          )}
         </div>
       </article>
-      {formStartControl && (
-        <div className="vads-u-padding--3 vads-u-background-color--gray-lightest">
-          <p>
-            <strong>Thank you for viewing the VR&E orientation.</strong> To
-            apply for Veteran Readiness & Employment benefits now, click the
-            link below.
-          </p>
-          <Link
-            id="FormStartControl"
-            to="/"
-            className="vads-c-action-link--green vads-u-padding-left--0"
-            onClick={() => {
-              wizardStateHandler(WIZARD_STATUS_COMPLETE);
-            }}
-          >
-            Apply for Veteran Readiness and Employment with VA Form 28-1900
-          </Link>
-        </div>
-      )}
     </>
   );
 };
