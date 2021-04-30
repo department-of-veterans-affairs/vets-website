@@ -1,10 +1,8 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import mockLOA1User from '~/applications/personalization/profile/tests/fixtures/users/user-loa1.json';
 import { CHAPTER_31_ROOT_URL } from '../../constants';
 
 describe('Chapter 31 LOA1 authentication gate', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         type: 'feature_toggles',
