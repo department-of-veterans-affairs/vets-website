@@ -48,7 +48,7 @@ export default function Disclaimer() {
           <p>
             If you are experiencing a crisis, please call the Veterans Crisis
             Line at 800-273-8255 and press 1. To find additional support, go to{' '}
-            <a href="https://mentalhealth.va.gov">mentalhealth.va.gov</a>.
+            <a href="https://www.mentalhealth.va.gov">mentalhealth.va.gov</a>.
           </p>
 
           <p>
