@@ -174,7 +174,7 @@
               {% assign localHealthServices = fieldLocalHealthCareService | sortObjectsBy: 'entity.fieldRegionalHealthService.entity.fieldServiceNameAndDescripti.entity.name' %}
               {% for localService in localHealthServices %}
                 {% assign localHealthService = localService.entity | featureFieldRegionalHealthService %}
-                {% if localHealthService != empty %}
+                {% if localHealthService != empty and localService.entity.status == true %}
 
                   {% include "src/site/facilities/facility_health_service.drupal.liquid" with
                     healthService = localHealthService
