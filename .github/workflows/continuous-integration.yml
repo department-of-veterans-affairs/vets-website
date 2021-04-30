@@ -96,6 +96,87 @@ jobs:
       - name: Annotate Sass lint results
         run: node ./script/github-actions/sasslint-annotation-format.js
 
+  contract-tests:
+    name: Contract Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-gov-west-1"
+
+      - name: Get Pact Broker password from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
+          env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
+
+      - name: Get GitHub token from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Create test results folder
+        run: mkdir -p test-results
+
+      - name: Run contract tests
+        run: yarn test:contract
+        env:
+          MOCHA_FILE: ./test-results/test-results.xml
+
+      - name: Print Pact failures
+        run: cat test-results/test-results.xml
+        if: ${{ failure() }}
+
+      - name: Run Pact publish
+        run: yarn pact:publish
+        env:
+          PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
+          PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
+
+      - name: Run Pact verify
+        run: |
+          curl -v -X POST \
+          -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
+          -H 'Accept: application/vnd.github.v3+json' \
+          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
+          -d '{"ref": "master"}' \
+          --fail
+
+      - name: Archive contract test results
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: contract-test-report
+          path: test-results/test-results.xml
+
+      - name: Archive contract test log
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: contract-test-log
+          path: logs/pact.log
+
   security-audit:
     name: Security Audit
     runs-on: ubuntu-latest
