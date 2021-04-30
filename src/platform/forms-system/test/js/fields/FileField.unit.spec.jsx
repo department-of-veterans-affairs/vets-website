@@ -56,6 +56,9 @@ describe('Schemaform <FileField>', () => {
         .first()
         .text(),
     ).to.contain('Upload');
+    expect(tree.find('span[role="button"]').props()['aria-label']).to.contain(
+      'Upload Files',
+    );
     tree.unmount();
   });
   it('should render files', () => {
@@ -794,6 +797,43 @@ describe('Schemaform <FileField>', () => {
 
     // expect dl wrapper on review page
     expect(tree.find('dl.review').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should render schema title', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      title: 'schema title',
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('uiSchema title');
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.find('span[role="button"]').props()['aria-label']).to.contain(
+      'schema title',
+    );
     tree.unmount();
   });
 });
