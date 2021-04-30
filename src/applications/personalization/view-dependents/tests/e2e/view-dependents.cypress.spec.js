@@ -87,14 +87,18 @@ describe('View VA dependents', () => {
 
   it('should display a list of dependents on award and not on award', () => {
     testHappyPath();
+    cy.percySnapshot();
   });
   it('should display a message when no dependents are on award', () => {
     testNoDependentsOnAward();
+    cy.percySnapshot();
   });
   it('should display an alert when there are no dependents returned', () => {
     testEmptyResponse();
+    cy.percySnapshot();
   });
   it('should display an alert when there is a server error', () => {
     testServerError();
+    cy.percySnapshot();
   });
 });
