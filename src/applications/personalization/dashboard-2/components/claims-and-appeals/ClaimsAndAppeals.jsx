@@ -96,6 +96,7 @@ const ClaimsAndAppeals = ({
           <AlertBox
             status={ALERT_TYPE.ERROR}
             headline="We can’t access any claims or appeals information right now"
+            level={2}
           >
             We’re sorry. Something went wrong on our end. If you have any claims
             or appeals, you won’t be able to access your claims or appeals

@@ -121,7 +121,7 @@ describe('The My VA Dashboard', () => {
       cy.axeCheck();
     });
   });
-  describe('when there are no-progress forms', () => {
+  describe('when there are no in-progress forms', () => {
     beforeEach(() => {
       // a single form that fails the `isSIPEnabledForm()` check so none will be
       // shown
