@@ -1,7 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
-export default function FindVABenefitsIntro({ dismiss }) {
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+
+function FindVABenefitsIntro({ dismiss, isVisible }) {
+  if (!isVisible) {
+    return null;
+  }
   return (
     <Modal visible onClose={dismiss} id="modal-announcement">
       <div className="announcement-heading">
@@ -29,3 +36,14 @@ export default function FindVABenefitsIntro({ dismiss }) {
     </Modal>
   );
 }
+
+const mapStateToProps = state => {
+  const showDashboard2 = toggleValues(state)[
+    FEATURE_FLAG_NAMES.dashboardShowDashboard2
+  ];
+  return {
+    isVisible: !showDashboard2,
+  };
+};
+
+export default connect(mapStateToProps)(FindVABenefitsIntro);
