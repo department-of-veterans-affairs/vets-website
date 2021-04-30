@@ -12,10 +12,15 @@ const applyIgnoredRoutes = require('./helpers/applyIgnoredRoutes');
 
 module.exports = {
   initialize(buildOptions, files) {
+    this.isDisabled = buildOptions.watch || buildOptions.isPreviewServer;
+
+    if (this.isDisabled) {
+      return;
+    }
+
     const fileNames = Object.keys(files);
     this.allPaths = new Set(fileNames);
     this.brokenPages = [];
-
     this.logFile = path.join(
       __dirname,
       '../../../../../../../logs',
@@ -27,8 +32,8 @@ module.exports = {
     }
   },
 
-  modifyFile(fileName, file, files, buildOptions) {
-    if (buildOptions.watch) {
+  modifyFile(fileName, file) {
+    if (this.isDisabled) {
       return;
     }
 
@@ -66,6 +71,10 @@ module.exports = {
   },
 
   conclude(buildOptions, files) {
+    if (this.isDisabled) {
+      return;
+    }
+
     const brokenPages = applyIgnoredRoutes(this.brokenPages, files);
 
     if (brokenPages.length === 0) {
