@@ -55,14 +55,12 @@ describe('<Main>', () => {
     localStorage.clear();
   });
 
-  it('should render lazily', async () => {
+  it('should render lazily', () => {
     const wrapper = shallow(<Main {...props} />, { context: { store: {} } });
 
     expect(wrapper.find('SearchHelpSignIn').exists()).to.be.true;
     expect(wrapper.find('FormSignInModal').exists()).to.be.true;
-
-    expect(wrapper.find(SignInModal).exists()).to.be.false
-
+    expect(wrapper.find(SignInModal).exists()).to.be.false;
     wrapper.unmount();
   });
 
