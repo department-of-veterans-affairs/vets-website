@@ -85,7 +85,7 @@ node('vetsgov-general-purpose') {
         } else {
           nonce = Date.now();
           steps = 7;
-          sh "$PERCY_TOKEN=$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --query Parameters[0].Value --with-decryption | sed \'s/\"//g\')"
+          sh "$PERCY_TOKEN=aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --query Parameters[0].Value --with-decryption | sed \'s/\"//g\'"
 
           parallel (
             failFast: true,
