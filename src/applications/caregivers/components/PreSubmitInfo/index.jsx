@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { cloneDeep } from 'lodash';
 
 import SignatureCheckbox from './SignatureCheckbox';
@@ -7,31 +9,17 @@ import {
   PrivacyPolicy,
   veteranSignatureContent,
   primaryCaregiverContent,
-  secondaryCaregiverContent,
   signatureBoxNoteContent,
   representativeSignatureContent,
+  SecondaryCaregiverCopy,
 } from 'applications/caregivers/definitions/content';
 
-const SecondaryCaregiverCopy = ({ label }) => {
-  const header = title => `${title} statement of truth`;
-  const firstParagraph = secondaryCaregiverContent[0];
-  const contentWithoutFirstParagraph = secondaryCaregiverContent.slice(1);
-
-  return (
-    <div>
-      <h3 className="vads-u-margin-top--4">{header(label)}</h3>
-
-      <p className="vads-u-margin-y--4">{firstParagraph}</p>
-
-      {contentWithoutFirstParagraph.map((secondaryContent, idx) => {
-        return <p key={`${label}-${idx}`}>{secondaryContent}</p>;
-      })}
-      <PrivacyPolicy />
-    </div>
-  );
-};
-
-const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
+const PreSubmitCheckboxGroup = ({
+  onSectionComplete,
+  formData,
+  showError,
+  submission,
+}) => {
   const veteranLabel = `Veteran\u2019s`;
   const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
   const representativeLabel = `Representative\u2019s`;
@@ -131,6 +119,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           signatures={signatures}
           setSignature={setSignatures}
           showError={showError}
+          submission={submission}
           isRepresentative
           isRequired
         >
@@ -156,6 +145,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           signatures={signatures}
           setSignature={setSignatures}
           showError={showError}
+          submission={submission}
           isRequired
         >
           <h3>Veteran&apos;s statement of truth</h3>
@@ -180,6 +170,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           signatures={signatures}
           setSignature={setSignatures}
           showError={showError}
+          submission={submission}
           isRequired
         >
           <h3 className="vads-u-margin-top--4">
@@ -203,6 +194,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           signatures={signatures}
           setSignature={setSignatures}
           showError={showError}
+          submission={submission}
           isRequired
         >
           <SecondaryCaregiverCopy label={secondaryOneLabel} />
@@ -215,8 +207,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           label={secondaryTwoLabel}
           signatures={signatures}
           setSignature={setSignatures}
-          isRequired
           showError={showError}
+          submission={submission}
+          isRequired
         >
           <SecondaryCaregiverCopy label={secondaryTwoLabel} />
         </SignatureCheckbox>
@@ -227,13 +220,34 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       </p>
 
       <div aria-live="polite">
-        <SubmitLoadingIndicator />
+        <SubmitLoadingIndicator submission={submission} />
       </div>
     </section>
   );
 };
 
+PreSubmitCheckboxGroup.propTypes = {
+  showError: PropTypes.bool.isRequired,
+  onSectionComplete: PropTypes.func.isRequired,
+  formData: PropTypes.object.isRequired,
+  submission: PropTypes.shape({
+    errorMessage: PropTypes.bool,
+    hasAttemptedSubmit: PropTypes.bool,
+    status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    timestamp: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  }),
+};
+
+const mapStateToProps = state => {
+  return {
+    submission: state.form.submission,
+  };
+};
+
 export default {
   required: true,
-  CustomComponent: PreSubmitCheckboxGroup,
+  CustomComponent: connect(
+    mapStateToProps,
+    null,
+  )(PreSubmitCheckboxGroup),
 };

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 import SignatureInput from './SignatureInput';
@@ -13,14 +12,15 @@ const SignatureCheckbox = ({
   label,
   setSignature,
   showError,
-  globalFormState,
+  submission,
   isRepresentative,
 }) => {
   const [hasError, setError] = useState(null);
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const isSignatureComplete = isSigned && isChecked;
-  const hasSubmit = !!globalFormState.submission.status;
+  const hasSubmittedForm = !!submission.status;
+
   const createInputLabel = inputLabel =>
     isRepresentative
       ? `Enter your name to sign as the Veteran's representative`
@@ -40,9 +40,9 @@ const SignatureCheckbox = ({
     () => {
       setError(showError);
 
-      if (isChecked === true || hasSubmit) setError(false);
+      if (isChecked === true || hasSubmittedForm) setError(false);
     },
-    [showError, isChecked, hasSubmit],
+    [showError, isChecked, hasSubmittedForm],
   );
 
   return (
@@ -59,7 +59,7 @@ const SignatureCheckbox = ({
           fullName={fullName}
           required={isRequired}
           showError={showError}
-          hasSubmit={hasSubmit}
+          hasSubmittedForm={hasSubmittedForm}
           isRepresentative={isRepresentative}
         />
 
@@ -92,24 +92,15 @@ const SignatureCheckbox = ({
 };
 
 SignatureCheckbox.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.any.isRequired,
   fullName: PropTypes.object.isRequired,
-  isRequired: PropTypes.bool,
   label: PropTypes.string.isRequired,
   setSignature: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   signatures: PropTypes.object.isRequired,
-  globalFormState: PropTypes.object.isRequired,
+  submission: PropTypes.object.isRequired,
+  isRequired: PropTypes.bool,
   isRepresentative: PropTypes.bool,
 };
 
-const mapStateToProps = state => {
-  return {
-    globalFormState: state.form,
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  null,
-)(SignatureCheckbox);
+export default SignatureCheckbox;

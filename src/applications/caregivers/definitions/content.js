@@ -67,3 +67,22 @@ export const PrivacyPolicy = () => (
     .
   </p>
 );
+
+export const SecondaryCaregiverCopy = ({ label }) => {
+  const header = title => `${title} statement of truth`;
+  const firstParagraph = secondaryCaregiverContent[0];
+  const contentWithoutFirstParagraph = secondaryCaregiverContent.slice(1);
+
+  return (
+    <div>
+      <h3 className="vads-u-margin-top--4">{header(label)}</h3>
+
+      <p className="vads-u-margin-y--4">{firstParagraph}</p>
+
+      {contentWithoutFirstParagraph.map((secondaryContent, idx) => {
+        return <p key={`${label}-${idx}`}>{secondaryContent}</p>;
+      })}
+      <PrivacyPolicy />
+    </div>
+  );
+};

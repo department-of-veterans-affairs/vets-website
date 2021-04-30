@@ -8,7 +8,7 @@ const SignatureInput = ({
   label,
   setIsSigned,
   showError,
-  hasSubmit,
+  hasSubmittedForm,
   isRepresentative,
 }) => {
   const [hasError, setError] = useState(false);
@@ -57,7 +57,7 @@ const SignatureInput = ({
 
       /* show error if user has touched input and signature does not match
          show error if there is a form error and has not been submitted */
-      if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
+      if ((isDirty && !signatureMatches) || (showError && !hasSubmittedForm)) {
         setIsSigned(false);
         setError(true);
       }
@@ -80,7 +80,7 @@ const SignatureInput = ({
       signature.dirty,
       signatureMatches,
       showError,
-      hasSubmit,
+      hasSubmittedForm,
       isRepresentative,
       normalizedSignature,
     ],
@@ -103,7 +103,7 @@ SignatureInput.propTypes = {
   label: PropTypes.string.isRequired,
   setIsSigned: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
-  hasSubmit: PropTypes.bool.isRequired,
+  hasSubmittedForm: PropTypes.bool.isRequired,
   isRepresentative: PropTypes.bool,
   required: PropTypes.bool,
 };
