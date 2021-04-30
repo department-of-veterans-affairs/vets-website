@@ -2,7 +2,6 @@
 import org.kohsuke.github.GitHub
 
 env.CONCURRENCY = 10
-
 env.NONCE = Date.now()
 env.STEPS = 7
 
@@ -88,12 +87,6 @@ node('vetsgov-general-purpose') {
         } else {
           // def nonce = Date.now();
           // int steps = 7;
-
-          // echo 'none'
-          // echo nonce
-
-          // echo 'steps:'
-          // echo steps
 
           // Demian's code:
           // sh "$PERCY_TOKEN=$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --query Parameters[0].Value --with-decryption | sed \'s/"//g\')' && export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=0 -e NUM_STEPS=${steps} -e PERCY_PARALLEL_NONCE=${nonce} vets-website --no-color run cy:test:docker"
