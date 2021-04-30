@@ -141,9 +141,9 @@ node('vetsgov-general-purpose') {
   // Run E2E tests
   stage('Integration') {
     if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
-    timeout(5) {
-      dir("vets-website") {
-        try {
+    dir("vets-website") {
+      try {
+        timeout(5) {
           if (commonStages.IS_PROD_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) {
             parallel (
               failFast: true,
@@ -170,17 +170,17 @@ node('vetsgov-general-purpose') {
               }
             )
           }
-        } catch (error) {
-          commonStages.slackNotify()
-          throw error
-        } finally {
-          sh "docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          // if (commonStages.IS_PROD_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) {
-          //   sh "docker-compose -p accessibility down --remove-orphans"
-          // }
-          sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
         }
+      } catch (error) {
+        commonStages.slackNotify()
+        throw error
+      } finally {
+        sh "docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} down --remove-orphans"
+        // if (commonStages.IS_PROD_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) {
+        //   sh "docker-compose -p accessibility down --remove-orphans"
+        // }
+        sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
+        step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
       }
     }
   }
