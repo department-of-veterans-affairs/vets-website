@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { add, format } from 'date-fns';
-import { SELECTED } from '../../constants';
+import moment from 'moment';
+import { SELECTED, FORMAT_YMD } from '../../constants';
 
 import {
   getEligibleContestableIssues,
@@ -18,7 +18,7 @@ const issue1 = {
     attributes: {
       ratingIssueSubjectText: 'tinnitus',
       description: 'both ears',
-      approxDecisionDate: '1900-01-01',
+      approxDecisionDate: '2020-01-01',
       decisionIssueId: 1,
       ratingIssueReferenceId: '2',
       ratingDecisionReferenceId: '3',
@@ -29,7 +29,7 @@ const issue1 = {
     type: 'contestableIssue',
     attributes: {
       issue: 'tinnitus - 10% - both ears',
-      decisionDate: '1900-01-01',
+      decisionDate: '2020-01-01',
       decisionIssueId: 1,
       ratingIssueReferenceId: '2',
       ratingDecisionReferenceId: '3',
@@ -42,7 +42,7 @@ const issue2 = {
     type: 'contestableIssue',
     attributes: {
       ratingIssueSubjectText: 'left knee',
-      approxDecisionDate: '1900-01-02',
+      approxDecisionDate: '2020-01-02',
       decisionIssueId: 4,
       ratingIssueReferenceId: '5',
     },
@@ -51,7 +51,7 @@ const issue2 = {
     type: 'contestableIssue',
     attributes: {
       issue: 'left knee - 0%',
-      decisionDate: '1900-01-02',
+      decisionDate: '2020-01-02',
       decisionIssueId: 4,
       ratingIssueReferenceId: '5',
     },
@@ -68,11 +68,10 @@ describe('getEligibleContestableIssues', () => {
     const issue = {
       type: 'contestableIssue',
       attributes: {
-        ...issue1.raw,
-        approxDecisionDate: format(
-          add(new Date(), { months: -2 }),
-          'yyyy-MM-dd',
-        ),
+        ...issue1.raw.attributes,
+        approxDecisionDate: moment()
+          .subtract(2, 'months')
+          .format(FORMAT_YMD),
       },
     };
     expect(getEligibleContestableIssues([issue, issue2.raw])).to.deep.equal([

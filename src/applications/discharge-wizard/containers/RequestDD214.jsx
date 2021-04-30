@@ -1,9 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import localStorage from 'platform/utilities/storage/localStorage';
-import { board, venueAddress, branchOfService } from '../utils';
+import { board, venueAddress, branchOfService } from '../helpers';
 
-class RequestDD214 extends React.Component {
+export default class RequestDD214 extends Component {
   componentDidMount() {
     if (!localStorage.getItem('dw-viewed-guidance')) {
       this.props.router.push('/');
@@ -29,9 +28,9 @@ class RequestDD214 extends React.Component {
               To receive a second DD214 reflecting <strong>only</strong> your
               period of honorable service, you’ll need to complete Department of
               Defense (DoD) Form 149 and send it to the{' '}
-              {board(formValues, true).name}—<strong>do not</strong> send it to
+              {board(formValues, true)?.name}—<strong>do not</strong> send it to
               the Discharge Review Board (DRB) for the{' '}
-              {branchOfService(formValues['1_branchOfService'])}.
+              {branchOfService(formValues?.['1_branchOfService'])}.
             </p>
           </div>
           <ul className="vertical-list-group more-bottom-cushion numbered">
@@ -76,15 +75,15 @@ class RequestDD214 extends React.Component {
                 There are a number of different boards that handle discharge
                 upgrades and corrections. Because you want a new DD214, which is
                 seen as a correction of your military record, you’ll need to
-                apply to the {board(formValues, true).abbr} for the{' '}
-                {branchOfService(formValues['1_branchOfService'])}.
+                apply to the {board(formValues, true)?.abbr} for the{' '}
+                {branchOfService(formValues?.['1_branchOfService'])}.
               </p>
               <p>
                 Unfortunately, there isn’t a way to submit this form online.
               </p>
               <p>
                 Mail your completed form and all supporting documents to the{' '}
-                {board(formValues, true).abbr} at:
+                {board(formValues, true)?.abbr} at:
               </p>
               <p>{venueAddress(formValues, true)}</p>
             </li>
@@ -94,13 +93,3 @@ class RequestDD214 extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  formValues: state.dischargeWizard.form,
-});
-const mapDispatchToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequestDD214);

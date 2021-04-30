@@ -16,13 +16,6 @@ export default Object.freeze({
   vaOnlineSchedulingRequests: 'vaOnlineSchedulingRequests',
   vaOnlineSchedulingCommunityCare: 'vaOnlineSchedulingCommunityCare',
   vaOnlineSchedulingDirect: 'vaOnlineSchedulingDirect',
-  vaOnlineSchedulingVSPAppointmentList: 'vaOnlineSchedulingVspAppointmentList',
-  vaOnlineSchedulingVSPAppointmentNew: 'vaOnlineSchedulingVspAppointmentNew',
-  vaOnlineSchedulingCCSPAppointmentList:
-    'vaOnlineSchedulingCcspAppointmentList',
-  vaOnlineSchedulingCCSPRequestNew: 'vaOnlineSchedulingCcspRequestNew',
-  vaOnlineSchedulingVSPRequestList: 'vaOnlineSchedulingVspRequestList',
-  vaOnlineSchedulingVSPRequestNew: 'vaOnlineSchedulingVspRequestNew',
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
   vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
@@ -76,6 +69,7 @@ export default Object.freeze({
   searchTypeaheadEnabled: 'search_typeahead_enabled',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
+  sharableLinks: 'sharable_link',
   covidVaccineUpdatesDisableAuth:
     'covid_vaccine_registration_frontend_hide_auth',
   covidVaccineUpdatesEnableExpandedEligibility:
