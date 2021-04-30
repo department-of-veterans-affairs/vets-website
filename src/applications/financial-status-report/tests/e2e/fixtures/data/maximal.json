@@ -230,7 +230,7 @@
       "last": "",
       "middle": "Webb"
     },
-    "dateOfBirth": ""
+    "dateOfBirth": "1950-10-04"
   },
   "additionalIncome": {
     "spouse": {
@@ -265,8 +265,8 @@
     }
   },
   "personalIdentification": {
-    "ssn": "",
-    "fileNumber": ""
+    "ssn": "1234",
+    "fileNumber": "5678"
   },
   "selectedDebts": [
     {
@@ -368,8 +368,8 @@
   "income": [
     {
       "veteranOrSpouse": "VETERAN",
-      "compensationAndPension": "",
-      "education": ""
+      "compensationAndPension": "3261.1",
+      "education": "50"
     }
   ],
   "financialOverview": {},

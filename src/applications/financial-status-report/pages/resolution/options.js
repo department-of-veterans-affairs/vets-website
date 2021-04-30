@@ -43,14 +43,12 @@ export const uiSchema = {
     items: {
       resolution: {
         resolutionType: {
-          'ui:title': 'Resolution Type',
           'ui:required': (formData, index) => {
             const { selectedDebts } = formData;
             return !selectedDebts[index].resolution?.resolutionType;
           },
         },
         offerToPay: {
-          'ui:title': 'Offer to Pay',
           'ui:required': (formData, index) => {
             const { selectedDebts } = formData;
             return (
@@ -60,7 +58,6 @@ export const uiSchema = {
           },
         },
         agreeToWaiver: {
-          'ui:title': 'Agree to Waiver',
           'ui:required': (formData, index) => {
             const { selectedDebts } = formData;
             return (
@@ -89,7 +86,6 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Resolution Item',
         properties: {
           resolution: {
             type: 'object',
