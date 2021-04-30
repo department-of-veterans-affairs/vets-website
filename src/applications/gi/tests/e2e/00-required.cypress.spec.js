@@ -19,6 +19,7 @@ describe('Institution', () => {
 
   it('Default institution profile flow with giBillChapter chapter 33', () => {
     // Landing Page
+    cy.percySnapshot();
     cy.get('.keyword-search input[type="text"]').type(
       institutionAttributes.name,
     );
