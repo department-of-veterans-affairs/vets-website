@@ -346,3 +346,22 @@ a.operating-status-link {
 .operating-status-flag-error:active {
   background: rgba(229, 147, 147, 1)
 }
+
+div.field-cc-vet-call-center {
+  p {
+    background: #fff1d2;
+    padding: 20px
+  }
+}
+
+div.field-cc-non-traditional-hours {
+  p {
+    font-weight: bold;
+  }
+}
+
+div.field-vet-center-feature-content  {
+  li {
+    margin-bottom: 0px
+  }
+}

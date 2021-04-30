@@ -21,6 +21,10 @@ import { submit, transformForSubmit } from '../../shared/api';
 import { updateUrls } from './migrations';
 
 import { TRACKING_PREFIX } from '../../shared/constants/analytics';
+import {
+  getQuestionTextById,
+  QUESTION_IDS,
+} from '../../shared/constants/questionnaire.questions';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -126,20 +130,16 @@ const formConfig = {
               'ui:validations': [preventLargeFields],
               'ui:title': (
                 <span>
-                  Are there any additional details you’d like to share with your
-                  provider about this appointment?
+                  {getQuestionTextById(
+                    QUESTION_IDS.REASON_FOR_VISIT_DESCRIPTION,
+                  )}
                 </span>
               ),
             },
             lifeEvents: {
               'ui:widget': 'textarea',
               'ui:title': (
-                <span>
-                  Are there any other concerns or changes in your life that are
-                  affecting you or your health? (For example, a marriage,
-                  divorce, new baby, change in your job, retirement, or other
-                  medical conditions)
-                </span>
+                <span>{getQuestionTextById(QUESTION_IDS.LIFE_EVENTS)}</span>
               ),
               'ui:validations': [preventLargeFields],
             },
@@ -147,8 +147,9 @@ const formConfig = {
               items: {
                 additionalQuestions: {
                   'ui:validations': [preventLargeFields],
-                  'ui:title':
-                    'Do you have a question you want to ask your provider? Please enter your most important question first.',
+                  'ui:title': getQuestionTextById(
+                    QUESTION_IDS.ADDITIONAL_QUESTIONS,
+                  ),
                 },
               },
               'ui:options': {

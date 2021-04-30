@@ -40,4 +40,6 @@ export default {
   hcq: 'hcq',
   // Covid-19 Vaccination Keep Me Informed
   vetextVaccine: 'vetext_vaccine',
+  // veteran readiness and employment
+  vre: 'vre',
 };

@@ -24,14 +24,16 @@
 
         {% for accordionItem in questions %}
           {% assign item = accordionItem.entity %}
-        <li id="{{ item.entityId | formatSharableLinkID: item.fieldQuestion   }}"
-          data-template="paragraphs/q_a.collapsible_panel__qa"
+          {% assign id= item.entityId | formatSharableLinkID: item.fieldQuestion   %}
+        <li id={{id}}
+            data-template="paragraphs/q_a.collapsible_panel__qa"
             data-entity-id="{{ item.entityId }}"
             data-analytics-faq-section="{{ sectionHeader | escape }}"
             data-analytics-faq-text="{{ item.fieldQuestion | escape }}">
           <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <button class="usa-accordion-button usa-button-unstyled" aria-controls="{{ item.entityBundle }}-{{ item.entityId }}">
               <span itemprop="name">{{ item.fieldQuestion }}</span>
+              
             </button>
             <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content">
               <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
@@ -40,9 +42,12 @@
                   {% include {{ bundleComponent }} with entity = answer.entity %}
                 {% endfor %}
               </div>
+              
+              <div data-widget-type="sharable-link" parentId="{{id}}" ></div>
             </div>
-            </div>
-          </li>
+          </div>
+          
+        </li>
         {% endfor %}
     </ul>
   </div>

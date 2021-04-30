@@ -47,4 +47,14 @@ describe('health care questionnaire list - shows view and print button', () => {
     expect(component.exists('.va-button>i')).to.be.true;
     component.unmount();
   });
+  it('uses primary button', () => {
+    const component = mount(<ViewAndPrint useSecondary={false} />);
+    expect(component.exists('.usa-button')).to.be.true;
+    component.unmount();
+  });
+  it('uses secondary button', () => {
+    const component = mount(<ViewAndPrint useSecondary />);
+    expect(component.exists('.usa-button-secondary')).to.be.true;
+    component.unmount();
+  });
 });
