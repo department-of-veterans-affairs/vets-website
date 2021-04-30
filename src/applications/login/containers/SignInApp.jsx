@@ -14,7 +14,7 @@ import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 import downtimeBanners from '../utilities/downtimeBanners';
 
 const AutoSSO = loadable(() =>
-  import(/* webpackChunkName: "signIn" */ 'platform/site-wide/user-nav/containers/AutoSSO'),
+  import(/* webpackChunkName: "autoSSO" */ 'platform/site-wide/user-nav/containers/AutoSSO'),
 );
 const SignInDescription = loadable(() =>
   import(/* webpackChunkName: "signIn" */ '../components/SignInDescription'),

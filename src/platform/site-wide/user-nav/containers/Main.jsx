@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
+import loadable from '@loadable/component';
 
 import { isInProgressPath } from 'platform/forms/helpers';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
-import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
-import SignInModal from 'platform/user/authentication/components/SignInModal';
+
 import { initializeProfile } from 'platform/user/profile/actions';
 import { hasSession } from 'platform/user/profile/utilities';
 import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
@@ -23,7 +23,13 @@ import {
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
 
-import AutoSSO from './AutoSSO';
+const SessionTimeoutModal = loadable(() =>
+  import(/* webpackPrefetch: true, webpackChunkName: "sessionTimeout" */ 'platform/user/authentication/components/SessionTimeoutModal'),
+);
+const SignInModal = loadable(() =>
+  import(/* webpackPrefetch: true, webpackChunkName: "signInModal" */ 'platform/user/authentication/components/SignInModal'),
+);
+const AutoSSO = loadable(() => import('./AutoSSO'));
 
 export class Main extends React.Component {
   componentDidMount() {
