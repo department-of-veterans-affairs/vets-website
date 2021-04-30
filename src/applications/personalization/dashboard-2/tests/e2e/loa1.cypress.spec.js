@@ -72,7 +72,6 @@ describe('The My VA Dashboard', () => {
   let getDisabilityRatingStub;
   let stubs;
   beforeEach(() => {
-    mockFeatureToggles();
     cy.login(loa1User);
     getAppealsStub = cy.stub();
     getClaimsStub = cy.stub();
