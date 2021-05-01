@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { cloneDeep } from 'lodash';
 
+import { setData } from 'platform/forms-system/src/js/actions';
 import SignatureCheckbox from './SignatureCheckbox';
 import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 import {
@@ -19,6 +20,7 @@ const PreSubmitCheckboxGroup = ({
   formData,
   showError,
   submission,
+  setFormData,
 }) => {
   const veteranLabel = `Veteran\u2019s`;
   const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
@@ -50,6 +52,29 @@ const PreSubmitCheckboxGroup = ({
   const unSignedLength = Object.values(signatures).filter(
     obj => Boolean(obj) === false,
   ).length;
+
+  // const transformSignature = signature => {
+  //   const removeNonAlphanumericChars = string => string.replace(/\W/g, '');
+
+  //   return `${removeNonAlphanumericChars(signature).toLowerCase()}Signature`;
+  // };
+
+  const addSignaturesToFormData = useCallback(
+    () => {
+      setFormData({
+        ...formData,
+        ...signatures,
+      });
+    },
+    [setFormData, signatures],
+  );
+
+  useEffect(
+    () => {
+      addSignaturesToFormData();
+    },
+    [addSignaturesToFormData, signatures],
+  );
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
@@ -229,6 +254,7 @@ const PreSubmitCheckboxGroup = ({
 PreSubmitCheckboxGroup.propTypes = {
   showError: PropTypes.bool.isRequired,
   onSectionComplete: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   submission: PropTypes.shape({
     errorMessage: PropTypes.bool,
@@ -244,10 +270,14 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
 export default {
   required: true,
   CustomComponent: connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
   )(PreSubmitCheckboxGroup),
 };
