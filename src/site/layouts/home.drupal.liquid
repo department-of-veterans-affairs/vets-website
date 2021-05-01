@@ -14,12 +14,15 @@
         <div class="hub-links-container" data-e2e="bucket">
           <h2 class="heading-level-3 hub-links-title"><i class="icon-large-baseline icon-heading hub-icon-{{ card.label | downcase | replace: ' ', '-' }} hub-color-{{ card.label | downcase | replace: ' ', '-' }}"></i>{{ card.label }}</h2>
           <ul class="hub-links-list">
+            {% assign card_label = card.label %}
             {% for link in card.links %}
               <li>
                 <a href="{{ link.url.path }}"
                   onclick="recordEvent({
                     event: 'nav-zone-one',
                     'nav-path': '->{% if link.url.path != empty %}{{ link.url.path }}{% else %}{{ link.label }}{% endif %}',
+                    'click-text': '{{ link.label | strip }}',
+                    heading: '{{ card_label | strip }}',
                   });"
                   >
                   {{ link.label }}
