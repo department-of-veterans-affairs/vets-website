@@ -82,7 +82,6 @@ SignatureCheckbox.propTypes = {
   label: PropTypes.string.isRequired,
   setSignatures: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
-  signatures: PropTypes.object.isRequired,
   submission: PropTypes.object.isRequired,
   isRequired: PropTypes.bool,
   isRepresentative: PropTypes.bool,

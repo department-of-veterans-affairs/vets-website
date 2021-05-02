@@ -255,8 +255,8 @@ PreSubmitCheckboxGroup.propTypes = {
   setFormData: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   submission: PropTypes.shape({
-    errorMessage: PropTypes.bool,
     hasAttemptedSubmit: PropTypes.bool,
+    errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     timestamp: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   }),
