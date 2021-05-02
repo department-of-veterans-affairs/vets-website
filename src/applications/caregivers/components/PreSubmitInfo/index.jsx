@@ -44,13 +44,11 @@ const PreSubmitCheckboxGroup = ({
   );
 
   const [signatures, setSignatures] = useState({
-    [showRepresentativeSignatureBox
-      ? representativeLabel
-      : veteranLabel]: false,
+    [showRepresentativeSignatureBox ? representativeLabel : veteranLabel]: '',
   });
 
   const unSignedLength = Object.values(signatures).filter(
-    obj => Boolean(obj) === false,
+    signature => Boolean(signature) === false,
   ).length;
 
   // const transformSignature = signature => {
@@ -142,7 +140,7 @@ const PreSubmitCheckboxGroup = ({
           fullName={formData.veteranFullName}
           label={representativeLabel}
           signatures={signatures}
-          setSignature={setSignatures}
+          setSignatures={setSignatures}
           showError={showError}
           submission={submission}
           isRepresentative
@@ -168,7 +166,7 @@ const PreSubmitCheckboxGroup = ({
           fullName={formData.veteranFullName}
           label={veteranLabel}
           signatures={signatures}
-          setSignature={setSignatures}
+          setSignatures={setSignatures}
           showError={showError}
           submission={submission}
           isRequired
@@ -193,7 +191,7 @@ const PreSubmitCheckboxGroup = ({
           fullName={formData.primaryFullName}
           label={primaryLabel}
           signatures={signatures}
-          setSignature={setSignatures}
+          setSignatures={setSignatures}
           showError={showError}
           submission={submission}
           isRequired
@@ -217,7 +215,7 @@ const PreSubmitCheckboxGroup = ({
           fullName={formData.secondaryOneFullName}
           label={secondaryOneLabel}
           signatures={signatures}
-          setSignature={setSignatures}
+          setSignatures={setSignatures}
           showError={showError}
           submission={submission}
           isRequired
@@ -231,7 +229,7 @@ const PreSubmitCheckboxGroup = ({
           fullName={formData.secondaryTwoFullName}
           label={secondaryTwoLabel}
           signatures={signatures}
-          setSignature={setSignatures}
+          setSignatures={setSignatures}
           showError={showError}
           submission={submission}
           isRequired

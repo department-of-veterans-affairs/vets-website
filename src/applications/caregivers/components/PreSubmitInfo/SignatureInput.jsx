@@ -6,10 +6,11 @@ const SignatureInput = ({
   fullName,
   required,
   label,
-  setIsSigned,
   showError,
   hasSubmittedForm,
   isRepresentative,
+  setSignatures,
+  isChecked,
 }) => {
   const [hasError, setError] = useState(false);
   const firstName = fullName.first?.toLowerCase() || '';
@@ -23,6 +24,11 @@ const SignatureInput = ({
     value: '',
     dirty: false,
   });
+
+  const createInputLabel = inputLabel =>
+    isRepresentative
+      ? `Enter your name to sign as the Veteran's representative`
+      : `${inputLabel} full name`;
 
   const firstLetterOfMiddleName =
     middleName === undefined ? '' : middleName.charAt(0);
@@ -51,6 +57,20 @@ const SignatureInput = ({
   const signatureMatches =
     firstAndLastMatches || middleInitialMatches || withMiddleNameMatches;
 
+  const isSignatureComplete = signatureMatches && isChecked;
+
+  useEffect(
+    () => {
+      if (!isSignatureComplete) return;
+
+      setSignatures(prevState => {
+        return { ...prevState, [label]: signature.value };
+      });
+    },
+
+    [isSignatureComplete, label, setSignatures, signature.value],
+  );
+
   useEffect(
     () => {
       const isDirty = signature.dirty;
@@ -58,7 +78,9 @@ const SignatureInput = ({
       /* show error if user has touched input and signature does not match
          show error if there is a form error and has not been submitted */
       if ((isDirty && !signatureMatches) || (showError && !hasSubmittedForm)) {
-        setIsSigned(false);
+        setSignatures(prevState => {
+          return { ...prevState, [label]: '' };
+        });
         setError(true);
       }
 
@@ -71,27 +93,30 @@ const SignatureInput = ({
         (isDirty && signatureMatches) ||
         (isDirty && isRepresentative && !!normalizedSignature)
       ) {
-        setIsSigned(true);
+        setSignatures(prevState => {
+          return { ...prevState, [label]: signature.value };
+        });
         setError(false);
       }
     },
     [
-      setIsSigned,
-      signature.dirty,
       signatureMatches,
       showError,
       hasSubmittedForm,
       isRepresentative,
       normalizedSignature,
+      signature,
+      setSignatures,
+      label,
     ],
   );
 
   return (
     <TextInput
       additionalClass="signature-input"
-      label={label}
+      label={createInputLabel(label)}
       required={required}
-      onValueChange={value => setSignature(value)}
+      onValueChange={signatureValue => setSignature(signatureValue)}
       field={{ value: signature.value, dirty: signature.dirty }}
       errorMessage={hasError && errorMessage}
     />
@@ -101,9 +126,10 @@ const SignatureInput = ({
 SignatureInput.propTypes = {
   fullName: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
-  setIsSigned: PropTypes.func.isRequired,
+  isChecked: PropTypes.bool.isRequired,
   showError: PropTypes.bool.isRequired,
   hasSubmittedForm: PropTypes.bool.isRequired,
+  setSignatures: PropTypes.func.isRequired,
   isRepresentative: PropTypes.bool,
   required: PropTypes.bool,
 };

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 import SignatureInput from './SignatureInput';
@@ -10,31 +11,14 @@ const SignatureCheckbox = ({
   fullName,
   isRequired,
   label,
-  setSignature,
+  setSignatures,
   showError,
   submission,
   isRepresentative,
 }) => {
   const [hasError, setError] = useState(null);
-  const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const isSignatureComplete = isSigned && isChecked;
   const hasSubmittedForm = !!submission.status;
-
-  const createInputLabel = inputLabel =>
-    isRepresentative
-      ? `Enter your name to sign as the Veteran's representative`
-      : `Enter ${inputLabel} full name`;
-
-  useEffect(
-    () => {
-      setSignature(prevState => {
-        return { ...prevState, [label]: isSignatureComplete };
-      });
-    },
-
-    [isSignatureComplete, label, setSignature],
-  );
 
   useEffect(
     () => {
@@ -52,15 +36,16 @@ const SignatureCheckbox = ({
     >
       {children && <header>{children}</header>}
 
-      <section className="vads-u-display--flex">
+      <section className={classNames({ 'wide-input': isRepresentative })}>
         <SignatureInput
-          setIsSigned={setIsSigned}
-          label={createInputLabel(label)}
+          label={label}
           fullName={fullName}
           required={isRequired}
           showError={showError}
           hasSubmittedForm={hasSubmittedForm}
           isRepresentative={isRepresentative}
+          setSignatures={setSignatures}
+          isChecked={isChecked}
         />
 
         {isRepresentative && (
@@ -95,7 +80,7 @@ SignatureCheckbox.propTypes = {
   children: PropTypes.any.isRequired,
   fullName: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
-  setSignature: PropTypes.func.isRequired,
+  setSignatures: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   signatures: PropTypes.object.isRequired,
   submission: PropTypes.object.isRequired,
