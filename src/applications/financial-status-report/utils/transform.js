@@ -28,8 +28,13 @@ export const transform = ({ data }) => {
   const totalAssets = getTotalAssets(data);
   const income = getIncome(data);
 
+  const totalAmountCanBePaidTowardDebt = selectedDebts
+    .filter(item => item.resolution.offerToPay !== undefined)
+    .reduce((acc, debt) => acc + Number(debt.resolution?.offerToPay), 0);
+
   const formObj = {
     personalIdentification: {
+      fileNumber: '',
       fsrReason: selectedDebts
         .map(({ resolution }) => resolution.resolutionType)
         .join(', '),
@@ -86,10 +91,7 @@ export const transform = ({ data }) => {
     },
     discretionaryIncome: {
       netMonthlyIncomeLessExpenses: totalIncome - totalExpenses,
-      amountCanBePaidTowardDebt: selectedDebts?.reduce(
-        (acc, debt) => acc + debt.resolution.offerToPay || 0,
-        0,
-      ),
+      amountCanBePaidTowardDebt: totalAmountCanBePaidTowardDebt,
     },
     assets: {
       ...assets,

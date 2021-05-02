@@ -54,17 +54,23 @@ const index = props => {
                         questionnaireResponseId={qr.id}
                       />
                     )}
-                    DueDate={() => (
-                      <p className="completed-date">
-                        Submitted on
-                        <br />
-                        <span className={`vads-u-font-weight--bold`}>
-                          {moment(
-                            questionnaire[0].questionnaireResponse.submittedOn,
-                          ).format('dddd, MMMM D, YYYY')}
-                        </span>
-                      </p>
-                    )}
+                    DueDate={() => {
+                      if (!qr.submittedOn) {
+                        return <p className="completed-date" />;
+                      } else {
+                        return (
+                          <p className="completed-date">
+                            Submitted on
+                            <br />
+                            <span className={`vads-u-font-weight--bold`}>
+                              {moment(qr.submittedOn).format(
+                                'dddd, MMMM D, YYYY',
+                              )}
+                            </span>
+                          </p>
+                        );
+                      }
+                    }}
                   />
                 );
               })}
