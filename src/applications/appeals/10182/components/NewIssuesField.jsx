@@ -167,7 +167,7 @@ const NewIssuesField = props => {
     const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
     const updateText = index === 0 ? 'Save' : 'Update';
     const isEditing = editing[index];
-    const itemName = item.issue || 'issue';
+    const itemName = item?.issue || 'issue';
 
     // Don't show unselected items on the review & submit page in review
     // mode
