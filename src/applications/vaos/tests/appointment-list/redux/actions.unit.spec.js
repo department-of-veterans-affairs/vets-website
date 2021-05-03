@@ -423,6 +423,7 @@ describe('VAOS actions: appointments', () => {
         appointmentType: undefined,
         facilityType: undefined,
         'health-express-care-reason': undefined,
+        'va-facility': undefined,
         'vaos-item-type': undefined,
         'vaos-number-of-items': undefined,
         'tab-text': undefined,

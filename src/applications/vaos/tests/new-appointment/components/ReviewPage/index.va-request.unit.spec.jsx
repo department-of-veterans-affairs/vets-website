@@ -218,6 +218,7 @@ describe('VAOS <ReviewPage> VA request', () => {
       'tab-text': undefined,
       alertBoxHeading: undefined,
       'vaos-number-of-preferred-providers': undefined,
+      'va-facility': undefined,
     });
   });
 
@@ -274,6 +275,7 @@ describe('VAOS <ReviewPage> VA request', () => {
       'tab-text': undefined,
       alertBoxHeading: undefined,
       'vaos-number-of-preferred-providers': undefined,
+      'va-facility': undefined,
     });
   });
 });

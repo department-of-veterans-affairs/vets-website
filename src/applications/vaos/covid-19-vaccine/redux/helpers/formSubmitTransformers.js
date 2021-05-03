@@ -5,7 +5,6 @@ import {
   getSiteIdForChosenFacility,
   getChosenSlot,
   selectCovid19VaccineFormData,
-  getChosenFacilityInfo,
 } from '../selectors';
 import {
   findCharacteristic,
@@ -17,14 +16,13 @@ export function transformFormToAppointment(state) {
   const clinic = getChosenClinicInfo(state);
   const siteId = getSiteIdForChosenFacility(state);
   const data = selectCovid19VaccineFormData(state);
-  const facility = getChosenFacilityInfo(state);
   const { timezone = null } = siteId ? getTimezoneBySystemId(siteId) : {};
 
   const slot = getChosenSlot(state);
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
   return {
     appointmentType: 'Vaccine',
-    facilityName: facility.name,
+    vaFacility: data.vaFacility,
     clinic: {
       siteCode: getSiteCode(clinic),
       clinicId: getClinicId(clinic),
