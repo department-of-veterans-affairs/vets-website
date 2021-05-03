@@ -210,20 +210,25 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
     echo "${brokenLinks.brokenLinksCount} broken links found"
     echo message
 
-    // if (!IS_PROD_BRANCH && !contentOnlyBuild) {
-    //   // Ignore the results of the broken link checker unless
-    //   // we are running either on the master branch or during
-    //   // a Content Release. This way, if there is a broken link,
-    //   // feature branches aren't affected, so VFS teams can
-    //   // continue merging.
-    //   return;
-    // }
+    if (!IS_PROD_BRANCH && !contentOnlyBuild) {
+      // Ignore the results of the broken link checker unless
+      // we are running either on the master branch or during
+      // a Content Release. This way, if there is a broken link,
+      // feature branches aren't affected, so VFS teams can
+      // continue merging.
+      return;
+    }
+
+    // Unset brokenLinks now that we're done with this, because Jenkins may temporarily
+    // freeze (through serialization) this pipeline while the Slack message is being sent.
+    // brokenLinks is an instance of JSONObject, which cannot be serialized by default.
+    brokenLinks = null
 
     slackSend(
       message: message,
       color: color,
       failOnError: true,
-      channel: 'dev_null'
+      channel: 'vfs-platform-builds'
     )
 
     if (color == 'danger') {
