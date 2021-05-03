@@ -54,33 +54,28 @@ const PreSubmitCheckboxGroup = ({
 
   const transformSignature = signature => {
     const keys = Object.keys(signature);
-    const removeNonAlphanumericChars = string => string.replace(/\W/g, '');
+    const removeSpecialChars = string => string.replace(/\W/g, '');
     const cleanedKey = value =>
-      `${removeNonAlphanumericChars(value).toLowerCase()}Signature`;
+      `${removeSpecialChars(value).toLowerCase()}Signature`;
 
-    const renameKeys = (keysMap, obj) =>
+    // iterates through all keys and normalizes them
+    const renameObjectKeys = (keysMap, obj) =>
       Object.keys(obj).reduce((acc, key) => {
         const cleanKey = cleanedKey(key);
         return {
           ...acc,
-          ...{ [keysMap[cleanKey] || cleanKey]: obj[cleanKey] },
+          ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
         };
       }, {});
 
-    console.log('renameKeys: ', renameKeys(keys, signature));
-
-    return renameKeys(keys, signatures);
+    return renameObjectKeys(keys, signatures);
   };
 
   useEffect(
     () => {
-      const newSignatures = transformSignature(signatures);
-      console.log('signatures: ', signatures);
-      console.log('newSignatures: ', newSignatures);
-
       setFormData({
         ...formData,
-        newSignatures,
+        ...transformSignature(signatures),
       });
     },
     [setFormData, signatures],
