@@ -1,4 +1,4 @@
-import { join, sep } from 'path';
+import path, { join, sep } from 'path';
 
 import get from 'platform/utilities/data/get';
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
@@ -509,7 +509,10 @@ const testForm = testConfig => {
 
       cy.syncFixtures({
         // Load example upload data as a fixture.
-        'example-upload.png': 'src/platform/testing/example-upload.png',
+        'example-upload.png': path.join(
+          __dirname,
+          `../../../../example-upload.png`,
+        ),
         ...fixtures,
       }).then(setup);
     });
