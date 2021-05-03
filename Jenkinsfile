@@ -158,16 +158,16 @@ node('vetsgov-general-purpose') {
             }
           )
         } else {
-          // nonce = System.currentTimeMillis()
-          // steps = 6
+          nonce = System.currentTimeMillis()
+          steps = 6
 
-          // // making sure nonce is set
-          // echo 'nonce:'
-          // echo nonce
+          // making sure nonce is set
+          echo 'nonce:'
+          echo nonce
 
-          // // making sure steps is set
-          // echo 'steps:'
-          // echo steps
+          // making sure steps is set
+          echo 'steps:'
+          echo steps
 
           // sh "$PERCY_TOKEN=aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --query Parameters[0].Value --with-decryption | sed \'s/\"//g\'"
           // echo 'PERCY_TOKEN:'
