@@ -17,7 +17,6 @@ import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
   },
   user: {
@@ -148,9 +147,7 @@ describe('VAOS vaccine flow <ClinicChoicePage>', () => {
       store,
     });
 
-    await screen.findByText(/Choose a clinic located at/i);
-
-    userEvent.click(screen.getByLabelText(/red team/i));
+    userEvent.click(await screen.findByLabelText(/red team/i));
     await waitFor(
       () => expect(screen.getByLabelText(/red team/i).checked).to.be.true,
     );

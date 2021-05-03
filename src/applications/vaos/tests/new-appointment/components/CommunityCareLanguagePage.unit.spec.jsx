@@ -9,7 +9,6 @@ import CommunityCareLanguagePage from '../../../new-appointment/components/Commu
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: true,
   },

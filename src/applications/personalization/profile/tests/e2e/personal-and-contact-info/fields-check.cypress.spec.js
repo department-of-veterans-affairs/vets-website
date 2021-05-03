@@ -9,6 +9,7 @@ import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
 const setup = () => {
   disableFTUXModals();
   cy.login(mockUser);
+  cy.server();
   cy.route('GET', 'v0/profile/personal_information', mockPersonalInformation);
   cy.route('GET', 'v0/profile/service_history', mockServiceHistory);
   cy.route('GET', 'v0/profile/full_name', mockFullName);

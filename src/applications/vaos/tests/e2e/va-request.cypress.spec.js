@@ -26,7 +26,7 @@ function fillOutForm(facilitySelection) {
   cy.url().should('include', '/va-facility');
   cy.axeCheckBestPractice();
   if (facilitySelection) facilitySelection();
-  cy.findByText(/Continue/).click();
+  cy.findByText(/Continue/).click({ force: true });
 
   // Choose date and slot (AM or PM)
   newApptTests.selectRequestSlotTest();
@@ -64,11 +64,9 @@ function fillOutForm(facilitySelection) {
       date = date.format('MM/DD/YYYY');
     }
 
-    expect(xhr.status).to.eq(200);
-    expect(xhr.url, 'post url').to.contain(
-      '/vaos/v0/appointment_requests?type=va',
-    );
-    const request = xhr.requestBody;
+    expect(xhr.response.statusCode).to.eq(200);
+    expect(xhr.response.url).to.include('vaos/v0/appointment_requests?type=va');
+    const request = xhr.request.body;
     expect(request)
       .to.have.property('optionDate1')
       .to.equal(date);
@@ -92,7 +90,7 @@ function fillOutForm(facilitySelection) {
 
   // Check messages requestBody is as expected
   cy.wait('@requestMessages').should(xhr => {
-    const request = xhr.requestBody;
+    const request = xhr.request.body;
     expect(request).to.have.property('messageText', 'cough');
   });
 
@@ -113,37 +111,31 @@ describe('VAOS request flow', () => {
     initAppointmentListMock();
     initVARequestMock();
     fillOutForm(() => {
-      cy.findByLabelText(/Sidney/).click();
+      cy.findByLabelText(/Sidney/).click({ force: true });
     });
   });
   it('should submit form successfully for a single system user', () => {
     initAppointmentListMock();
     initVARequestMock();
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v0/facilities**',
-      response: {
+    cy.intercept('GET', '/vaos/v0/facilities**', {
+      body: {
         data: facilities.data.slice(0, 1),
       },
     });
     fillOutForm(() => {
-      cy.findByLabelText(/Sidney/).click();
+      cy.findByLabelText(/Sidney/).click({ force: true });
     });
   });
   it('should submit form successfully for a user with multi system including a Cerner facility', () => {
     initAppointmentListMock();
     initVARequestMock({ cernerUser: true });
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v0/facilities**',
-      response: {
+    cy.intercept('GET', '/vaos/v0/facilities**', {
+      body: {
         data: facilities.data.slice(0, 1),
       },
     });
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v0/systems/983/direct_scheduling_facilities*',
-      response: {
+    cy.intercept('GET', '/vaos/v0/systems/983/direct_scheduling_facilities*', {
+      body: {
         data: facilities983.data.filter(f => f.id === '983GB'),
       },
     });

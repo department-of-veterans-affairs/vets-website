@@ -40,7 +40,7 @@ export const uiSchema = {
       },
       items: {
         'ui:options': {
-          classNames: 'horizonal-field-container no-wrap',
+          classNames: 'horizontal-field-container no-wrap',
         },
         name: {
           'ui:title': 'Type of asset',

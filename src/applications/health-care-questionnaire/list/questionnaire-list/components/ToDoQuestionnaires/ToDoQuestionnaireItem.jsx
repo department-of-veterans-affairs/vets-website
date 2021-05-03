@@ -45,10 +45,17 @@ export default function ToDoQuestionnaireItem({ data }) {
             facilityName={facilityName}
             appointmentTime={appointmentTime}
             status={questionnaireResponseStatus}
+            useActionLink
           />
         )
       }
       DueDate={() => {
+        if (!appointmentTime)
+          return (
+            <section className="due-date" data-testid="due-date">
+              <p />
+            </section>
+          );
         const dueDate = moment(appointmentTime);
         const guess = moment.tz.guess();
         const formattedTimezone = moment.tz(guess).format('z');

@@ -79,7 +79,7 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.route('POST', '/v0/education_benefits_claims/10203', {
+      cy.intercept('POST', '/v0/education_benefits_claims/10203', {
         data: {
           attributes: {
             confirmationNumber: '123fake-submission-id-567',

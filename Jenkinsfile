@@ -16,52 +16,127 @@ node('vetsgov-general-purpose') {
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
+  def envUsedCache = [:]
 
   // setupStage
   dockerContainer = commonStages.setup()
 
-  // stage('Lint|Security|Unit') {
-  //   if (params.cmsEnvBuildOverride != 'none') { return }
+  stage('Main') {
+    def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
+    def assetSource = contentOnlyBuild ? ref : 'local'
 
-  //   try {
-  //     parallel (
-  //       failFast: true,
+    try {
+      parallel (
+        failFast: true,
 
-  //       lint: {
-  //         dockerContainer.inside(commonStages.DOCKER_ARGS) {
-  //           sh "cd /application && npm --no-color run lint"
-  //         }
-  //       },
+        buildDev: {
+          if (commonStages.shouldBail()) { return }
+          envName = 'vagovdev'
+          
+          shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          if (!shouldBuild) { return }
 
-  //       // Check package.json for known vulnerabilities
-  //       security: {
-  //         retry(3) {
-  //           dockerContainer.inside(commonStages.DOCKER_ARGS) {
-  //             sh "cd /application && npm run security-check"
-  //           }
-  //         }
-  //       },
+          try {
+            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            envUsedCache[envName] = false
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
+            }
+          }
+        },
 
-  //       unit: {
-  //         dockerContainer.inside(commonStages.DOCKER_ARGS) {
-  //           sh "/cc-test-reporter before-build"
-  //           sh "cd /application && npm --no-color run test:unit -- --coverage"
-  //           sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
-  //         }
-  //       }
-  //     )
-  //   } catch (error) {
-  //     commonStages.slackNotify()
-  //     throw error
-  //   } finally {
-  //     dir("vets-website") {
-  //       step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
-  //     }
-  //   }
-  // }
+        buildStaging: {
+          if (commonStages.shouldBail()) { return }
+          envName = 'vagovstaging'
 
-  // Perform a build for each build type
-  envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
+          shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          if (!shouldBuild) { return }
+
+          try {
+            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            envUsedCache[envName] = false
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
+            }
+          }
+        },
+
+        buildProd: {
+          if (commonStages.shouldBail()) { return }
+          envName = 'vagovprod'
+
+          shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          if (!shouldBuild) { return }
+                    
+          try {
+            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            envUsedCache[envName] = false
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
+            }
+          }
+        },
+
+        lint: {
+          if (params.cmsEnvBuildOverride != 'none') { return }
+          dockerContainer.inside(commonStages.DOCKER_ARGS) {
+            sh "cd /application && npm --no-color run lint"
+          }
+        },
+
+        // Check package.json for known vulnerabilities
+        security: {
+          if (params.cmsEnvBuildOverride != 'none') { return }
+          retry(3) {
+            dockerContainer.inside(commonStages.DOCKER_ARGS) {
+              sh "cd /application && npm run security-check"
+            }
+          }
+        },
+
+        unit: {
+          if (params.cmsEnvBuildOverride != 'none') { return }
+          dockerContainer.inside(commonStages.DOCKER_ARGS) {
+            sh "/cc-test-reporter before-build"
+            sh "cd /application && npm --no-color run test:unit -- --coverage"
+            sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
+          }
+        },
+
+      )
+    } catch (error) {
+      commonStages.slackNotify()
+      throw error
+    } finally {
+      dir("vets-website") {
+        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+      }
+    }
+  }
 
   // Run E2E tests
   stage('Integration') {
@@ -84,7 +159,7 @@ node('vetsgov-general-purpose') {
           )
         } else {
           nonce = System.currentTimeMillis()
-          steps = 7
+          steps = 6
 
           // making sure nonce is set
           echo 'nonce:'
@@ -99,7 +174,7 @@ node('vetsgov-general-purpose') {
           // echo PERCY_TOKEN
 
           parallel (
-            failFast: true,
+            failFast: false,
 
             'nightwatch-e2e': {
               sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
@@ -124,10 +199,7 @@ node('vetsgov-general-purpose') {
               sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=4 -e NUM_STEPS=${steps} -e PERCY_PARALLEL_NONCE=${nonce} vets-website --no-color run cy:test:docker"
             },
             'cypress-6': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=5 -e NUM_STEPS=${steps} -e PERCY_PARALLEL_NONCE=${nonce} vets-website --no-color run cy:test:docker"
-            },
-            'cypress-7': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress7-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress7-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=6 -e NUM_STEPS=${steps} -e PERCY_PARALLEL_NONCE=${nonce} vets-website --no-color run cy:test:docker"
+              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=5 vets-website --no-color run cy:test:docker"
             }
           )
         }
@@ -145,7 +217,6 @@ node('vetsgov-general-purpose') {
         sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
         sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
         sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
-        sh "docker-compose -p cypress7-${env.EXECUTOR_NUMBER} down --remove-orphans"
         step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
       }
     }
@@ -154,6 +225,8 @@ node('vetsgov-general-purpose') {
   commonStages.prearchiveAll(dockerContainer)
 
   commonStages.archiveAll(dockerContainer, ref);
+  
+  envsUsingDrupalCache = envUsedCache
   commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
   stage('Review') {
@@ -170,6 +243,7 @@ node('vetsgov-general-purpose') {
         stringParam(name: 'devops_branch', value: 'master'),
         stringParam(name: 'api_branch', value: 'master'),
         stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+        stringParam(name: 'content_branch', value: env.BRANCH_NAME),
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {

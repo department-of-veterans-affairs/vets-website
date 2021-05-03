@@ -181,7 +181,7 @@ export const uiSchema = {
         },
       },
       zipCode: {
-        'ui:title': 'Zip code',
+        'ui:title': 'Postal code',
         'ui:validations': [validateZIP],
         'ui:errorMessages': {
           required: 'Please enter a postal code',

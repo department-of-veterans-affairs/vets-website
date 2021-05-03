@@ -46,7 +46,8 @@ export const secondaryCaregiverContent = [
 ];
 
 export const representativeSignatureContent = [
-  'I certify that I give consent to the individual(s) named in this application to perform personal care services for the Veteran upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
+  'Signed by the Veteran’s legal representative on behalf of the Veteran.',
+  'I certify that I give consent to the individual(s) named in this application to perform personal care services for me (or if the Veteran’s Representative, the Veteran) upon being approved as a Primary and/or Secondary Family Caregiver(s) in the Program of Comprehensive Assistance for Family Caregivers.',
 ];
 
 export const signatureBoxNoteContent =

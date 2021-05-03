@@ -1,4 +1,6 @@
 import path from 'path';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
 
 describe('Detail Page', () => {
   before(function() {
@@ -8,15 +10,12 @@ describe('Detail Page', () => {
   });
 
   beforeEach(() => {
-    cy.server();
-    cy.route('GET', '/v0/feature_toggles?*', []);
-    cy.route('GET', '/v0/maintenance_windows', []);
-    cy.route(
-      'GET',
-      '/v1/facilities/va?*',
-      'fx:constants/mock-facility-data-v1',
-    ).as('searchFacilities');
-    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
+    cy.intercept('GET', '/v0/feature_toggles?*', []);
+    cy.intercept('GET', '/v0/maintenance_windows', []);
+    cy.intercept('GET', '/v1/facilities/va?*', mockFacilityDataV1).as(
+      'searchFacilities',
+    );
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
   });
 
   it('renders static map images on detail page', () => {

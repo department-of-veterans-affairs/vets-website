@@ -1035,7 +1035,6 @@
     "entryName": "1990s-edu-benefits",
     "rootUrl": "/education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s",
     "template": {
-      "vagovprod": false,
       "title": "Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)",
       "heading": "Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)",
       "layout": "page-react.html",
@@ -1087,6 +1086,15 @@
           "path": "/decision-reviews/board-appeal/request-board-review-form-10182"
         }
       ]
+    }
+  },
+  {
+    "appName": "Apply for Certificate of Eligibility",
+    "entryName": "coe",
+    "rootUrl": "/housing-assistance/home-loans/apply-lgy-form-1880",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
     }
   }
 ]

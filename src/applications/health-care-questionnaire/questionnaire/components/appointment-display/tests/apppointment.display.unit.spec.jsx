@@ -19,7 +19,7 @@ describe('health care questionnaire - display an appointment -- ', () => {
     ).to.match(/([\d]|[\d][\d]):[\d][\d]\s[a|p].m./);
     expect(
       mountedComponent.find('[data-testid="appointment-date"]').text(),
-    ).to.equal('Thursday, April 29th, 2021');
+    ).to.equal('Thursday, May 6th, 2021');
 
     mountedComponent.unmount();
   });
