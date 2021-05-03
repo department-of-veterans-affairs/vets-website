@@ -102,7 +102,13 @@ export const schema = {
                   properties: {
                     type: {
                       type: 'string',
-                      enum: ['Full time', 'Part time', 'Seasonal', 'Temporary'],
+                      enum: [
+                        'Contractor',
+                        'Full time',
+                        'Part time',
+                        'Seasonal',
+                        'Temporary',
+                      ],
                     },
                     from: {
                       type: 'string',
