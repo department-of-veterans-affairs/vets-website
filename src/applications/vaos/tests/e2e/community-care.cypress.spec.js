@@ -181,11 +181,11 @@ describe('VAOS community care flow', () => {
         date = date.format('MM/DD/YYYY');
       }
 
-      expect(xhr.status).to.eq(200);
-      expect(xhr.url, 'post url').to.contain(
+      expect(xhr.response.statusCode).to.eq(200);
+      expect(xhr.response.url).to.include(
         '/vaos/v0/appointment_requests?type=cc',
       );
-      const request = xhr.requestBody;
+      const request = xhr.request.body;
       expect(request)
         .to.have.property('optionDate1')
         .to.equal(date);
@@ -228,7 +228,7 @@ describe('VAOS community care flow', () => {
 
     // Check messages requestBody is as expected
     cy.wait('@requestMessages').should(xhr => {
-      const request = xhr.requestBody;
+      const request = xhr.request.body;
       expect(request).to.have.property(
         'messageText',
         'This is a very good reason.',
@@ -388,11 +388,11 @@ describe('VAOS community care flow', () => {
         date = date.format('MM/DD/YYYY');
       }
 
-      expect(xhr.status).to.eq(200);
-      expect(xhr.url, 'post url').to.contain(
+      expect(xhr.response.statusCode).to.eq(200);
+      expect(xhr.response.url).to.include(
         '/vaos/v0/appointment_requests?type=cc',
       );
-      const request = xhr.requestBody;
+      const request = xhr.request.body;
       expect(request)
         .to.have.property('optionDate1')
         .to.equal(date);
@@ -429,7 +429,7 @@ describe('VAOS community care flow', () => {
 
     // Check messages requestBody is as expected
     cy.wait('@requestMessages').should(xhr => {
-      const request = xhr.requestBody;
+      const request = xhr.request.body;
       expect(request).to.have.property(
         'messageText',
         'This is a very good reason.',
