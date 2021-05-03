@@ -54,12 +54,13 @@
                                 </div>
                                <div class="vads-u-margin-bottom--3">
                                    <h3 class="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">Other locations</h3>
-                                   <p>Vet Centers are community based to be more
-                                       accessible in areas where you live.
-                                       <a href="{{ entityUrl.path }}/locations">
-                                           View more {{ entityLabel }} locations
-                                       </a>
-                                   </p>
+                                   <div class="other-locations">
+                                       <p>Vet Centers are community based to be more
+                                           accessible in areas where you live.
+
+                                       </p>
+                                       <p><a href="{{ entityUrl.path }}/locations">View more {{ entityLabel }} locations</a></p>
+                                   </div>
                                </div>
                               {% include 'src/site/includes/vet_center_hours.liquid' with vetCenterHours = fieldOfficeHours %}
 
