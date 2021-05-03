@@ -50,7 +50,6 @@ const PreSubmitCheckboxGroup = ({
   const unSignedLength = Object.values(signatures).filter(
     signature => Boolean(signature) === false,
   ).length;
-  // TODO get signature keys then map over the keys and replace the keys on the signature object
 
   const transformSignature = signature => {
     const keys = Object.keys(signature);
