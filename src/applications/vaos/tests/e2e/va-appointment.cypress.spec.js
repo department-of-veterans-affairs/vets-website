@@ -51,7 +51,7 @@ describe('VAOS direct schedule flow', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
 
       expect(request.clinic.siteCode).to.eq('983');
       expect(request.clinic.clinicId).to.eq('455');
@@ -72,7 +72,7 @@ describe('VAOS direct schedule flow', () => {
       expect(request).to.have.property('preferredEmail', 'veteran@gmail.com');
     });
     cy.wait('@appointmentPreferences').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
       expect(request.emailAddress).to.eq('veteran@gmail.com');
     });
 
@@ -125,7 +125,7 @@ describe('VAOS direct schedule flow', () => {
     // Check form requestBody is as expected
     const fullReason = 'Follow-up/Routine: cough';
     cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
 
       expect(request.clinic.siteCode).to.eq('983');
       expect(request.clinic.clinicId).to.eq('455');
@@ -143,7 +143,7 @@ describe('VAOS direct schedule flow', () => {
       expect(request).to.have.property('preferredEmail', 'veteran@gmail.com');
     });
     cy.wait('@appointmentPreferences').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
       expect(request.emailAddress).to.eq('veteran@gmail.com');
     });
 
@@ -172,7 +172,7 @@ describe('VAOS direct schedule flow', () => {
     cy.url().should('include', '/choose-eye-care');
     cy.axeCheckBestPractice();
     cy.findByLabelText(/Optometry/).click();
-    cy.findByText(/Continue/).click({ force: true });
+    cy.findByText(/Continue/).click();
 
     // Choose VA Facility
     newApptTests.chooseVAFacilityV2Test();
@@ -198,7 +198,7 @@ describe('VAOS direct schedule flow', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
 
       expect(request.clinic.siteCode).to.eq('983');
       expect(request.clinic.clinicId).to.eq('455');
@@ -244,7 +244,7 @@ describe('VAOS direct schedule flow', () => {
     cy.url().should('include', '/choose-sleep-care');
     cy.axeCheckBestPractice();
     cy.findByLabelText(/Sleep medicine/).click();
-    cy.findByText(/Continue/).click({ force: true });
+    cy.findByText(/Continue/).click();
 
     // Choose VA Facility
     newApptTests.chooseVAFacilityV2Test();
@@ -270,7 +270,7 @@ describe('VAOS direct schedule flow', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
 
       expect(request.clinic.siteCode).to.eq('983');
       expect(request.clinic.clinicId).to.eq('455');
@@ -340,7 +340,7 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
 
       expect(request.clinic.siteCode).to.eq('983');
       expect(request.clinic.clinicId).to.eq('455');
@@ -361,7 +361,7 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
       expect(request).to.have.property('preferredEmail', 'veteran@gmail.com');
     });
     cy.wait('@appointmentPreferences').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
       expect(request.emailAddress).to.eq('veteran@gmail.com');
     });
 
@@ -390,7 +390,7 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
     cy.url().should('include', '/choose-eye-care');
     cy.axeCheckBestPractice();
     cy.findByLabelText(/Optometry/).click();
-    cy.findByText(/Continue/).click({ force: true });
+    cy.findByText(/Continue/).click();
 
     // Choose VA Facility
     newApptTests.chooseVAFacilityTest();
@@ -416,7 +416,7 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
 
       expect(request.clinic.siteCode).to.eq('983');
       expect(request.clinic.clinicId).to.eq('455');
@@ -462,7 +462,7 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
     cy.url().should('include', '/choose-sleep-care');
     cy.axeCheckBestPractice();
     cy.findByLabelText(/Sleep medicine/).click();
-    cy.findByText(/Continue/).click({ force: true });
+    cy.findByText(/Continue/).click();
 
     // Choose VA Facility
     newApptTests.chooseVAFacilityTest();
@@ -488,7 +488,7 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
 
       expect(request.clinic.siteCode).to.eq('983');
       expect(request.clinic.clinicId).to.eq('455');

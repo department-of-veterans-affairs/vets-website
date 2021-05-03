@@ -40,12 +40,12 @@ describe('VAOS appointment list', () => {
   });
 
   it('should render past appointments', () => {
-    cy.intercept(
-      'GET',
-      /.*\/v0\/appointments.*type=va$/,
-      createPastVAAppointments(),
-    );
-    cy.get('#tabpast').click({ force: true });
+    cy.route({
+      method: 'GET',
+      url: /.*\/v0\/appointments.*type=va$/,
+      response: createPastVAAppointments(),
+    });
+    cy.get('#tabpast').click();
     cy.findByText(/three day clinic name/i).should('exist');
     cy.findByLabelText(/select a date range/i).select('1');
     cy.findByText('Update').click();
@@ -234,7 +234,9 @@ describe('VAOS appointment list refresh', () => {
 
   describe('past appointments', () => {
     beforeEach(() => {
-      cy.intercept('GET', 'vaos/v0/appointments**', {
+      cy.route({
+        method: 'GET',
+        url: /.*\/v0\/appointments.*type=va$/,
         response: createPastVAAppointments(),
       });
       cy.get('#type-dropdown')
