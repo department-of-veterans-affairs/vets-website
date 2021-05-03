@@ -42,23 +42,15 @@ node('vetsgov-general-purpose') {
             envUsedCache[envName] = false
           } catch (error) {
             if (!contentOnlyBuild) {
-              try {
-                dockerContainer.inside(DOCKER_ARGS) {
-                  sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-                }
-                // Try to build again using cached drupal content
-                commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-                envUsedCache[envName] = true
-              } catch (err) {
-                throw err
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
+              // Try to build again using cached drupal content
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
             } else {
-              try {
-                commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-                envUsedCache[envName] = false
-              } catch (err) {
-                throw err
-              }
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
             }
           }
         },
@@ -76,23 +68,15 @@ node('vetsgov-general-purpose') {
             envUsedCache[envName] = false
           } catch (error) {
             if (!contentOnlyBuild) {
-              try {
-                dockerContainer.inside(DOCKER_ARGS) {
-                  sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-                }
-                // Try to build again using cached drupal content
-                commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-                envUsedCache[envName] = true
-              } catch (err) {
-                throw err
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
+              // Try to build again using cached drupal content
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
             } else {
-              try {
-                commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-                envUsedCache[envName] = false
-              } catch (err) {
-                throw err
-              }
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
             }
           }
         },
@@ -110,23 +94,15 @@ node('vetsgov-general-purpose') {
             envUsedCache[envName] = false
           } catch (error) {
             if (!contentOnlyBuild) {
-              try {
-                dockerContainer.inside(DOCKER_ARGS) {
-                  sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-                }
-                // Try to build again using cached drupal content
-                commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-                envUsedCache[envName] = true
-              } catch (err) {
-                throw err
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
+              // Try to build again using cached drupal content
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
             } else {
-              try {
-                commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-                envUsedCache[envName] = false
-              } catch (err) {
-                throw err
-              }
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
             }
           }
         },
