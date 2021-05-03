@@ -70,7 +70,7 @@ describe('App', () => {
     it('should not render webchat until webchat framework is loaded', async () => {
       mockApiRequest({});
 
-      const wrapper = renderInReduxProvider(<App />, {
+      const wrapper = renderInReduxProvider(<App webchatTimeout={1000} />, {
         initialState: {
           featureToggles: {
             loading: false,
@@ -91,6 +91,8 @@ describe('App', () => {
     });
 
     it('should display error if webchat does not load after x milliseconds', async () => {
+      mockApiRequest({});
+
       const wrapper = renderInReduxProvider(<App webchatTimeout={1500} />, {
         initialState: {
           featureToggles: {

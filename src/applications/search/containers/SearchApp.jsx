@@ -38,11 +38,14 @@ class SearchApp extends React.Component {
 
     const userInputFromURL = this.props.router?.location?.query?.query || '';
     const pageFromURL = this.props.router?.location?.query?.page || undefined;
+    const typeaheadUsed =
+      this.props.router?.location?.query?.t === 'true' || false;
 
     this.state = {
       userInput: userInputFromURL,
       currentResultsQuery: userInputFromURL,
       page: pageFromURL,
+      typeaheadUsed,
     };
 
     if (!userInputFromURL) {
@@ -123,7 +126,11 @@ class SearchApp extends React.Component {
 
     // Update query is necessary
     if (queryChanged) {
-      this.setState({ currentResultsQuery: userInput, page: 1 });
+      this.setState({
+        currentResultsQuery: userInput,
+        page: 1,
+        typeaheadUsed: false,
+      });
     }
   };
 
@@ -166,18 +173,19 @@ class SearchApp extends React.Component {
       'search-result-type': 'title',
       'search-selection': 'All VA.gov',
       'search-typeahead-enabled': this.props.searchTypeaheadEnabled,
+      'search-typeahead-used': this.state.typeaheadUsed,
     });
 
     const encodedUrl = encodeURIComponent(url);
     const userAgent = encodeURIComponent(navigator.userAgent);
-    const searchClickTrackingEndpoint = `/search_click_tracking`;
     const encodedQuery = encodeURIComponent(query);
     const apiRequestOptions = {
       method: 'POST',
     };
+    const moduleCode = bestBet ? 'BOOS' : 'I14Y';
 
     apiRequest(
-      `${searchClickTrackingEndpoint}?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}`,
+      `/search_click_tracking?position=${searchResultPosition}&query=${encodedQuery}&url=${encodedUrl}&user_agent=${userAgent}&module_code=${moduleCode}`,
       apiRequestOptions,
     );
   };

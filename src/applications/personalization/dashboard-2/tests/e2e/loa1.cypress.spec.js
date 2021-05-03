@@ -54,8 +54,8 @@ function loa1DashboardTest(mobile, stubs) {
 
   // make sure all three benefits links are shown in the Apply For Benefits section
   cy.findByRole('link', { name: /apply for va health care/i }).should('exist');
-  cy.findByRole('link', { name: /file a claim/i }).should('exist');
-  cy.findByRole('link', { name: /apply for education benefits/i }).should(
+  cy.findByRole('link', { name: /file a.*claim/i }).should('exist');
+  cy.findByRole('link', { name: /apply for.*education benefits/i }).should(
     'exist',
   );
 

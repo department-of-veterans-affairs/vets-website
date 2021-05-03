@@ -58,10 +58,10 @@ describe('Chapter 31 wizard', () => {
     cy.axeCheck();
     cy.findByRole('button', { name: /Next slide/i }).click();
     cy.axeCheck();
-    cy.findByRole('button', { name: /Finish VR&E Orientation/i }).click();
+    cy.findByRole('button', { name: /Next slide/i }).click();
     cy.axeCheck();
     cy.findAllByRole('link', {
-      name: /Apply for Veteran Readiness and Employment with VA Form 28-1900/i,
+      name: /Apply for Veteran Readiness and Employment now/i,
     })
       .last()
       .click();
