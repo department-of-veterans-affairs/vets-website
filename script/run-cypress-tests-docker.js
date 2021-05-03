@@ -23,6 +23,11 @@ const exec = require('child_process').exec;
 // });
 
 exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
+  /* eslint-disable no-console */
+  console.log('Steps: ', process.env.STEPS);
+  console.log('Nonce: ', process.env.NONCE);
+  /* eslint-enable no-console */
+
   const strings = stdout.split(',').sort();
   const divider = Math.ceil(strings.length / 6);
   const tests = strings
