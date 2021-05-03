@@ -389,19 +389,18 @@ export function selectAppointmentById(state, id, types = null) {
   return allAppointments.find(p => p.id === id);
 }
 
-export function selectDirectScheduleSettingsStatus(state) {
-  return state.appointments.directScheduleSettingsStatus;
+export function selectFacilitySettingsStatus(state) {
+  return state.appointments.facilitySettingsStatus;
 }
 
 export function selectCanUseVaccineFlow(state) {
   return (
     selectFeatureCovid19Vaccine(state) &&
-    state.appointments.directScheduleSettings?.some(setting =>
-      setting.coreSettings.some(
-        coreSetting =>
-          coreSetting.id === VACCINE_TYPE_OF_CARE_ID &&
-          !!coreSetting.patientHistoryRequired,
-      ),
+    state.appointments.facilitySettings?.some(
+      facility =>
+        facility.services.find(
+          service => service.id === VACCINE_TYPE_OF_CARE_ID,
+        )?.direct.enabled,
     )
   );
 }
