@@ -53,6 +53,12 @@ export const representativeSignatureContent = [
 export const signatureBoxNoteContent =
   'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or providing incorrect information. (See 18 U.S.C. 1001)';
 
+export const veteranLabel = `Veteran\u2019s`;
+export const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
+export const representativeLabel = `Representative\u2019s`;
+export const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
+export const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
+
 export const PrivacyPolicy = () => (
   <p>
     I have read and accept the

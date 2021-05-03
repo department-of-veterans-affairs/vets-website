@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { cloneDeep } from 'lodash';
@@ -13,6 +13,11 @@ import {
   signatureBoxNoteContent,
   representativeSignatureContent,
   SecondaryCaregiverCopy,
+  veteranLabel,
+  primaryLabel,
+  representativeLabel,
+  secondaryOneLabel,
+  secondaryTwoLabel,
 } from 'applications/caregivers/definitions/content';
 
 const PreSubmitCheckboxGroup = ({
@@ -22,11 +27,6 @@ const PreSubmitCheckboxGroup = ({
   submission,
   setFormData,
 }) => {
-  const veteranLabel = `Veteran\u2019s`;
-  const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
-  const representativeLabel = `Representative\u2019s`;
-  const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
-  const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
   const hasPrimary = formData['view:hasPrimaryCaregiver'];
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
@@ -50,28 +50,40 @@ const PreSubmitCheckboxGroup = ({
   const unSignedLength = Object.values(signatures).filter(
     signature => Boolean(signature) === false,
   ).length;
+  // TODO get signature keys then map over the keys and replace the keys on the signature object
 
-  // const transformSignature = signature => {
-  //   const removeNonAlphanumericChars = string => string.replace(/\W/g, '');
+  const transformSignature = signature => {
+    const keys = Object.keys(signature);
+    const removeNonAlphanumericChars = string => string.replace(/\W/g, '');
+    const cleanedKey = value =>
+      `${removeNonAlphanumericChars(value).toLowerCase()}Signature`;
 
-  //   return `${removeNonAlphanumericChars(signature).toLowerCase()}Signature`;
-  // };
+    const renameKeys = (keysMap, obj) =>
+      Object.keys(obj).reduce((acc, key) => {
+        const cleanKey = cleanedKey(key);
+        return {
+          ...acc,
+          ...{ [keysMap[cleanKey] || cleanKey]: obj[cleanKey] },
+        };
+      }, {});
 
-  const addSignaturesToFormData = useCallback(
-    () => {
-      setFormData({
-        ...formData,
-        ...signatures,
-      });
-    },
-    [setFormData, signatures],
-  );
+    console.log('renameKeys: ', renameKeys(keys, signature));
+
+    return renameKeys(keys, signatures);
+  };
 
   useEffect(
     () => {
-      addSignaturesToFormData();
+      const newSignatures = transformSignature(signatures);
+      console.log('signatures: ', signatures);
+      console.log('newSignatures: ', newSignatures);
+
+      setFormData({
+        ...formData,
+        newSignatures,
+      });
     },
-    [addSignaturesToFormData, signatures],
+    [setFormData, signatures],
   );
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
@@ -109,11 +121,6 @@ const PreSubmitCheckboxGroup = ({
       removePartyIfFalsy(!showRepresentativeSignatureBox, veteranLabel);
     },
     [
-      veteranLabel,
-      primaryLabel,
-      secondaryOneLabel,
-      secondaryTwoLabel,
-      representativeLabel,
       hasPrimary,
       hasSecondaryOne,
       hasSecondaryTwo,

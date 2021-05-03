@@ -8,12 +8,11 @@ import {
   veteranSignatureContent,
   primaryCaregiverContent,
   secondaryCaregiverContent,
+  veteranLabel,
+  primaryLabel,
+  secondaryOneLabel,
+  secondaryTwoLabel,
 } from 'applications/caregivers/definitions/content';
-
-const veteranLabel = `Veteran\u2019s`;
-const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
-const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
-const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
 
 export const mockVeteranSignatureContent = [
   'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
