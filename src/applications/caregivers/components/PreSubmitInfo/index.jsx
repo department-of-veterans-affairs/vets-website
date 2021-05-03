@@ -10,6 +10,11 @@ import {
   secondaryCaregiverContent,
   signatureBoxNoteContent,
   representativeSignatureContent,
+  veteranLabel,
+  primaryLabel,
+  secondaryOneLabel,
+  secondaryTwoLabel,
+  representativeLabel,
 } from 'applications/caregivers/definitions/content';
 
 const SecondaryCaregiverCopy = ({ label }) => {
@@ -32,11 +37,6 @@ const SecondaryCaregiverCopy = ({ label }) => {
 };
 
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
-  const veteranLabel = `Veteran\u2019s`;
-  const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
-  const representativeLabel = `Representative\u2019s`;
-  const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
-  const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
   const hasPrimary = formData['view:hasPrimaryCaregiver'];
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
@@ -98,11 +98,6 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       removePartyIfFalsy(!showRepresentativeSignatureBox, veteranLabel);
     },
     [
-      veteranLabel,
-      primaryLabel,
-      secondaryOneLabel,
-      secondaryTwoLabel,
-      representativeLabel,
       hasPrimary,
       hasSecondaryOne,
       hasSecondaryTwo,
