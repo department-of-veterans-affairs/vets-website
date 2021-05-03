@@ -196,7 +196,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
 
   if (fileExists(brokenLinksFile)) {
     def rawJsonFile = readFile(brokenLinksFile);
-    def jsonSlurper = new groovy.json.JsonSlurper.JsonSlurper();
+    def jsonSlurper = new groovy.json.JsonSlurper();
     def brokenLinks = jsonSlurper.parseText(rawJsonFile);
     def maxBrokenLinks = 10
     def color = 'warning'
