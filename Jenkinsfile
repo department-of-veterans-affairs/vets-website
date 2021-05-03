@@ -158,9 +158,9 @@ node('vetsgov-general-purpose') {
             }
           )
         } else {
-          sh PERCY_TOKEN=$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '"')
-          sh NONCE=$(System.currentTimeMillis())
-          sh NUM_STEPS=6
+          sh "export PERCY_TOKEN=$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"')"
+          sh "export NONCE=$(System.currentTimeMillis())"
+          sh "export NUM_STEPS=6"
 
           // confirm PERCY_TOKEN is set
           echo 'PERCY_TOKEN: '                 
