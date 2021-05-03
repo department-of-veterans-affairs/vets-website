@@ -96,7 +96,7 @@ export function getFacilityPageInfo(state) {
   } = newBooking;
 
   const supportedFacilities = facilities?.filter(
-    facility => facility.legacyVAR.directSchedulingSupported[TYPE_OF_CARE_ID],
+    facility => facility.legacyVAR.settings[TYPE_OF_CARE_ID]?.direct.enabled,
   );
 
   return {
