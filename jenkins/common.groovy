@@ -233,7 +233,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       message: message,
       color: color,
       failOnError: true,
-      channel: 'cms-helpdesk-bot'
+      channel: 'vfs-platform-builds'
     )
 
     if (color == 'danger') {

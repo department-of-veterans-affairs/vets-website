@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import ContactInfoPage from '../../../new-appointment/components/ContactInfoPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { cleanup } from '@testing-library/react';
+import { cleanup, waitFor } from '@testing-library/react';
 
 describe('VAOS <ContactInfoPage>', () => {
   it('should submit with valid data', async () => {
@@ -34,7 +34,9 @@ describe('VAOS <ContactInfoPage>', () => {
     const button = await screen.findByText(/^Continue/);
 
     userEvent.click(button);
-    expect(screen.history.push.called).to.be.true;
+    await waitFor(() => {
+      expect(screen.history.push.called).to.be.true;
+    });
 
     // Expect the previously entered form data is still there if you unmount and remount the page with the same store,
     await cleanup();

@@ -12,8 +12,7 @@ import * as Sentry from '@sentry/browser';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
-
-export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
+import { apiRequest } from 'platform/utilities/api';
 
 const ENTER_KEY = 13;
 
@@ -96,10 +95,14 @@ export class SearchMenu extends React.Component {
 
     // fetch suggestions
     try {
-      const response = await fetch(
-        `${searchGovSuggestionEndpoint}?name=va&q=${encodedInput}`,
+      const apiRequestOptions = {
+        method: 'GET',
+      };
+      const suggestions = await apiRequest(
+        `/search_typeahead?query=${encodedInput}`,
+        apiRequestOptions,
       );
-      const suggestions = await response.json();
+
       if (suggestions.length !== 0) {
         const sortedSuggestions = suggestions.sort(function(a, b) {
           return a.length - b.length;
@@ -193,12 +196,15 @@ export class SearchMenu extends React.Component {
       'type-ahead-options-count': suggestionsList.length,
     });
 
+    const typeaheadUsed = !!suggestion;
     // unifier to let the same function be used if we are searching from a userInput or a suggestion
     const query = suggestion || userInput;
 
     // create a search url
     const searchUrl = replaceWithStagingDomain(
-      `https://www.va.gov/search/?query=${encodeURIComponent(query)}`,
+      `https://www.va.gov/search/?query=${encodeURIComponent(
+        query,
+      )}&t=${typeaheadUsed}`,
     );
 
     // relocate to search results, preserving history
