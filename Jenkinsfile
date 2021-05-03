@@ -163,17 +163,17 @@ node('vetsgov-general-purpose') {
           sh "export NONCE=${milliseconds}"
           sh "export NUM_STEPS=6"
 
-          // confirm PERCY_TOKEN is set
-          echo 'PERCY_TOKEN: '                 
-          echo $PERCY_TOKEN
+          // // confirm PERCY_TOKEN is set
+          // echo 'PERCY_TOKEN: '                 
+          // echo $PERCY_TOKEN
 
-          // confirm NONCE is set
-          echo 'NONCE: '
-          echo $NONCE
+          // // confirm NONCE is set
+          // echo 'NONCE: '
+          // echo $NONCE
 
-          // confirm NUM_STEPS is set
-          echo 'NUM_STEPS: '
-          echo $NUM_STEPS
+          // // confirm NUM_STEPS is set
+          // echo 'NUM_STEPS: '
+          // echo $NUM_STEPS
 
           parallel (
             failFast: false,
