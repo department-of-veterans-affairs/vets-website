@@ -23,15 +23,8 @@ const exec = require('child_process').exec;
 // });
 
 exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
-  /* eslint-disable no-console */
-  console.log('In script/run-cypress-tests-docker.js');
-  console.log('PERCY_TOKEN: ', process.env.PERCY_TOKEN);
-  console.log('NUM_STEPS: ', process.env.NUM_STEPS);
-  console.log('NONCE: ', process.env.NONCE);
-  /* eslint-enable no-console */
-
   const strings = stdout.split(',').sort();
-  const divider = Math.ceil(strings.length / 6);
+  const divider = Math.ceil(strings.length / process.env.NUM_STEPS);
   const tests = strings
     .slice(
       Number(process.env.STEP) * divider,
