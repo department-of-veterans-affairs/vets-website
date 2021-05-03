@@ -15,6 +15,15 @@ export const uiSchema = {
           debt.
         </AdditionalInfo>
       ),
+      'ui:reviewField': ({
+        children: {
+          props: { formData },
+        },
+      }) => (
+        <dl className="review-row">
+          <dt>{formData}</dt>
+        </dl>
+      ),
       'ui:widget': 'textarea',
       'ui:required': formData =>
         formData.selectedDebts?.some(

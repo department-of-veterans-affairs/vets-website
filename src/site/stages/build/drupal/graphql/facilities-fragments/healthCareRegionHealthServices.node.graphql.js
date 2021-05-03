@@ -13,6 +13,7 @@ const HEALTH_SERVICES_RESULTS = `
       fieldLocalHealthCareService {
         entity {
           ...on NodeHealthCareLocalHealthService {
+            status
             fieldFacilityLocation {
               entity {
                 ... on NodeHealthCareLocalFacility {

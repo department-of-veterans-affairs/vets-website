@@ -23,6 +23,7 @@ import {
   transformFacility,
   setSupportedSchedulingMethods,
   transformCommunityProviders,
+  transformSettings,
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
@@ -110,6 +111,33 @@ export async function getLocation({ facilityId }) {
     throw e;
   }
 }
+
+/**
+ * Returns the VAOS settings for the included sites and their children
+ *
+ * @export
+ * @async
+ * @param {Object} params
+ * @param {Array<string>} params.siteIds The vista site ids of the facilities we want to fetch
+ * @returns {Array<FacilitySettings>} An array of facility settings
+ */
+export async function getLocationSettings({ siteIds }) {
+  try {
+    const settings = await Promise.all([
+      getRequestEligibilityCriteria(siteIds),
+      getDirectBookingEligibilityCriteria(siteIds),
+    ]);
+
+    return transformSettings(settings);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
 /**
  * Returns facilities with current settings for both direct scheduling
  * and requests for all types of care
@@ -118,36 +146,17 @@ export async function getLocation({ facilityId }) {
  * @async
  * @param {Object} params
  * @param {Array<string>} siteIds A list of 3 digit site ids to retrieve the settings for
- * @param {boolean} directSchedulingEnabled If we need to fetch direct scheduling settings as well
  * @returns {Array<Location>} An array of Locations with settings included
  */
-export async function getLocationsByTypeOfCareAndSiteIds({
-  siteIds,
-  directSchedulingEnabled,
-}) {
+export async function getLocationsByTypeOfCareAndSiteIds({ siteIds }) {
   try {
     let locations = [];
 
-    const promises = [getRequestEligibilityCriteria(siteIds)];
+    const settings = await getLocationSettings({
+      siteIds,
+    });
 
-    if (directSchedulingEnabled) {
-      promises.push(getDirectBookingEligibilityCriteria(siteIds));
-    }
-
-    const criteria = await Promise.all(promises);
-
-    // If patientHistoryRequired is blank or null, the scheduling method is
-    // disabled for that type of care.  If "No", it is enabled, but doesn't require
-    // a previous appointment.  If "Yes", it is enabled and requires a previous appt
-
-    const requestFacilityIds = criteria[0]?.map(facility => facility.id) || [];
-    const directFacilityIds = directSchedulingEnabled
-      ? criteria[1]?.map(facility => facility.id) || []
-      : [];
-
-    const uniqueIds = Array.from(
-      new Set([...directFacilityIds, ...requestFacilityIds]),
-    );
+    const uniqueIds = settings.map(setting => setting.id);
 
     // The above API calls only return the ids. Make an additional
     // call to getLocations so we can get additional details such
@@ -160,8 +169,7 @@ export async function getLocationsByTypeOfCareAndSiteIds({
       locations = locations?.map(location =>
         setSupportedSchedulingMethods({
           location,
-          requestFacilities: criteria[0] || [],
-          directFacilities: directSchedulingEnabled ? criteria[1] || [] : [],
+          settings,
         }),
       );
     }
