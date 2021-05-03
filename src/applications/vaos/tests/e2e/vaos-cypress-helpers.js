@@ -191,7 +191,7 @@ export function createPastVAAppointments() {
   appointments.push(appointment);
 
   return {
-    data: appointments,
+    body: appointments,
   };
 }
 
