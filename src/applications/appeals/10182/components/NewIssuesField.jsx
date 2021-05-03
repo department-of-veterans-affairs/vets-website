@@ -161,98 +161,92 @@ const NewIssuesField = props => {
       </button>
     );
 
-  return (
-    <div className="schemaform-field-container additional-issues-wrap">
-      {formData.length > 0 && (
-        <dl className="va-growable review">
-          <Element name={`topOfTable_${idSchema.$id}`} />
-          {items.map((item, index) => {
-            const itemSchema = getItemSchema(index);
-            const itemIdPrefix = `${idSchema.$id}_${index}`;
-            const itemIdSchema = toIdSchema(
-              itemSchema,
-              itemIdPrefix,
-              definitions,
-            );
-            const updateText = index === 0 ? 'Save' : 'Update';
-            const isEditing = editing[index];
-            const itemName = item.issue || 'issue';
+  const content = items.map((item, index) => {
+    const itemSchema = getItemSchema(index);
+    const itemIdPrefix = `${idSchema.$id}_${index}`;
+    const itemIdSchema = toIdSchema(itemSchema, itemIdPrefix, definitions);
+    const updateText = index === 0 ? 'Save' : 'Update';
+    const isEditing = editing[index];
+    const itemName = item.issue || 'issue';
 
-            // Don't show unselected items on the review & submit page in review
-            // mode
-            if (isReviewMode && (!item[SELECTED] || isEmptyObject(item))) {
-              return null;
-            }
+    // Don't show unselected items on the review & submit page in review
+    // mode
+    if (isReviewMode && (!item[SELECTED] || isEmptyObject(item))) {
+      return null;
+    }
 
-            // show edit card, but not in review mode
-            if (!isReviewMode && isEditing) {
-              return (
-                <div
+    // show edit card, but not in review mode
+    if (!isReviewMode && isEditing) {
+      return (
+        <div
+          key={index}
+          className="review-row vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
+        >
+          <dt className="widget-checkbox-wrap" />
+          <dd data-index={index}>
+            <Element name={`table_${itemIdPrefix}`} />
+            <fieldset className="additional-issues vads-u-text-align--left">
+              <legend className="schemaform-block-header vads-u-font-size--base vads-u-font-weight--normal">
+                <h3 className="vads-u-margin-top--0">Add issue</h3>
+                {uiSchema['ui:description']}
+              </legend>
+              <div className="input-section vads-u-margin-bottom--0 vads-u-font-weight--normal">
+                <SchemaField
                   key={index}
-                  className="review-row vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
+                  schema={itemSchema}
+                  uiSchema={uiSchema.items}
+                  errorSchema={errorSchema ? errorSchema[index] : undefined}
+                  idSchema={itemIdSchema}
+                  formData={item}
+                  onChange={value => onItemChange(index, value)}
+                  onBlur={onBlur}
+                  registry={registry}
+                  required
+                />
+              </div>
+              <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-justify-content--space-between">
+                <button
+                  type="button"
+                  className="vads-u-margin-right--2 update"
+                  aria-label={`${updateText} ${itemName}`}
+                  onClick={() => handleUpdate(index)}
                 >
-                  <dt className="widget-checkbox-wrap" />
-                  <dd data-index={index}>
-                    <Element name={`table_${itemIdPrefix}`} />
-                    <fieldset className="additional-issues vads-u-text-align--left">
-                      <legend className="schemaform-block-header vads-u-font-size--base vads-u-font-weight--normal">
-                        <h3 className="vads-u-margin-top--0">Add issue</h3>
-                        {uiSchema['ui:description']}
-                      </legend>
-                      <div className="input-section vads-u-margin-bottom--0 vads-u-font-weight--normal">
-                        <SchemaField
-                          key={index}
-                          schema={itemSchema}
-                          uiSchema={uiSchema.items}
-                          errorSchema={
-                            errorSchema ? errorSchema[index] : undefined
-                          }
-                          idSchema={itemIdSchema}
-                          formData={item}
-                          onChange={value => onItemChange(index, value)}
-                          onBlur={onBlur}
-                          registry={registry}
-                          required
-                        />
-                      </div>
-                      <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-justify-content--space-between">
-                        <button
-                          type="button"
-                          className="vads-u-margin-right--2 update"
-                          aria-label={`${updateText} ${itemName}`}
-                          onClick={() => handleUpdate(index)}
-                        >
-                          {updateText}
-                        </button>
-                        <button
-                          type="button"
-                          className="usa-button-secondary float-right remove"
-                          aria-label={`Remove ${itemName}`}
-                          onClick={() => handleRemove(index)}
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    </fieldset>
-                  </dd>
-                </div>
-              );
-            }
-            return (
-              <IssueCard
-                key={index}
-                id={idSchema.$id}
-                index={index}
-                item={item}
-                options={uiOptions}
-                onChange={toggleSelection}
-                showCheckbox={showCheckbox}
-                onEdit={() => handleEdit(index)}
-              />
-            );
-          })}
-        </dl>
-      )}
+                  {updateText}
+                </button>
+                <button
+                  type="button"
+                  className="usa-button-secondary float-right remove"
+                  aria-label={`Remove ${itemName}`}
+                  onClick={() => handleRemove(index)}
+                >
+                  Remove
+                </button>
+              </div>
+            </fieldset>
+          </dd>
+        </div>
+      );
+    }
+    return (
+      <IssueCard
+        key={index}
+        id={idSchema.$id}
+        index={index}
+        item={item}
+        options={uiOptions}
+        onChange={toggleSelection}
+        showCheckbox={showCheckbox}
+        onEdit={() => handleEdit(index)}
+      />
+    );
+  });
+
+  return isReviewMode ? (
+    content
+  ) : (
+    <div className="schemaform-field-container additional-issues-wrap">
+      <Element name={`topOfTable_${idSchema.$id}`} />
+      {formData.length > 0 && <dl className="va-growable review">{content}</dl>}
       {addButton}
       <p>{atMax && `You’ve entered the maximum number of items allowed.`}</p>
     </div>
