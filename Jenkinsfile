@@ -148,6 +148,7 @@ node('vetsgov-general-purpose') {
   stage('Integration') {
     if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
+      // Set timeout of 60 minutes for integration tests
       timeout(60) {
         try {
           if (commonStages.IS_PROD_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) {
