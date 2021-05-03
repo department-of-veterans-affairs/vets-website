@@ -1,4 +1,3 @@
-import disableFTUXModals from 'platform/user/tests/disableFTUXModals';
 import mockDisabilities from '../mockdata/200-response.json';
 import mockTotalRating from '../mockdata/total-rating-response.json';
 import mockErrorResponse from '../mockdata/error-response.json';
@@ -45,7 +44,6 @@ const testErrorStates = () => {
 
 describe('View rated disabilities', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login();
     cy.visit(RATED_DISABILITIES_PATH);
   });

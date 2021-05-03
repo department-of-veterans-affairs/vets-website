@@ -3,6 +3,9 @@ import environment from 'platform/utilities/environment';
 
 const USE_MOCK_DATA = window.Cypress; // || environment.isLocalhost() || environment.isStaging();
 
+/**
+ * @deprecated not in use due, use load-questionnaires instead
+ */
 const loadAppointment = async id => {
   let promise;
   if (USE_MOCK_DATA) {

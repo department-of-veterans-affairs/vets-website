@@ -1,6 +1,5 @@
 // Relative imports.
 import ExploreVAModal from '../components/ExploreVAModal';
-import FindVABenefitsIntro from '../components/FindVABenefitsIntro';
 import SingleSignOnInfoModal from '../components/SingleSignOnInfoModal';
 import VAMCWelcomeModal, { VAMC_PATHS } from '../components/VAMCWelcomeModal';
 import VAPlusVetsModal from '../components/VAPlusVetsModal';
@@ -38,12 +37,6 @@ const config = {
       paths: VAMC_PATHS.PITTSBURGH,
       component: VAMCWelcomeModal,
       region: 'Pittsburgh',
-    },
-    {
-      name: 'find-benefits-intro',
-      paths: /^(\/my-va\/)$/,
-      component: FindVABenefitsIntro,
-      relatedAnnouncements: ['personalization'],
     },
     {
       name: 'single-sign-on-intro',

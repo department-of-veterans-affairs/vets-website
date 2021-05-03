@@ -37,6 +37,7 @@ export const uiSchema = {
         doNotScroll: true,
         showSave: true,
         itemName: 'asset',
+        keepInPageOnReview: true,
       },
       items: {
         'ui:options': {
@@ -76,7 +77,6 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
-            title: 'Record',
             required: ['name', 'amount'],
             properties: {
               name: {

@@ -233,7 +233,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       message: message,
       color: color,
       failOnError: true,
-      channel: 'cms-helpdesk-bot'
+      channel: 'vfs-platform-builds'
     )
 
     if (color == 'danger') {
@@ -269,47 +269,6 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
         // Find any missing query flags in the log
         findMissingQueryFlags(buildLogPath, envName)
       }
-    }
-  }
-}
-
-def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
-  stage("Build") {
-    if (shouldBail()) { return }
-
-    try {
-      def builds = [:]
-      def envUsedCache = [:]
-      def assetSource = contentOnlyBuild ? ref : 'local'
-
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
-        builds[envName] = {
-          try {
-            build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
-          } catch (error) {
-            // We're not using the cache for content only builds, because requesting
-            // a content only build is an attempt to refresh content from the current set
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
-            } else {
-              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-              envUsedCache[envName] = false
-            }
-          }
-        }
-      }
-
-      parallel builds
-      return envUsedCache
-    } catch (error) {
-      slackNotify()
-      throw error
     }
   }
 }
@@ -394,6 +353,9 @@ def cacheDrupalContent(dockerContainer, envUsedCache) {
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
+        // Skip caching Drupal content for vagovdev since we aren't pulling and building content for that environment.
+        // vagovdev's Drupal cache is created and uploaded in the content-build repo. This prevents overwriting vagovdev's
+        // Drupal cache file with an empty file.
         if(envName != "vagovdev") {
           if (!envUsedCache[envName]) {
             dockerContainer.inside(DOCKER_ARGS) {
