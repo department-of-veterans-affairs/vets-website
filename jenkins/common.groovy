@@ -219,8 +219,6 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
     //   return;
     // }
 
-    brokenLinks = null
-
     slackSend(
       message: message,
       color: color,
