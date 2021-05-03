@@ -2,6 +2,7 @@ import {
   getStatus,
   getStartTime,
   getBookingNote,
+  getStartTimeInTimeZone,
 } from './appointment.selectors';
 import {
   getStatus as getQRStatus,
@@ -19,6 +20,7 @@ const appointment = {
   getStatus,
   getStartTime,
   getBookingNote,
+  getStartTimeInTimeZone,
 };
 
 const questionnaireResponse = {

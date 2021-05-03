@@ -60,4 +60,11 @@ const getStartTime = appointment => {
   return appointment ? appointment.start : null;
 };
 
-export { getStatus, getStartTime, getBookingNote };
+const getStartTimeInTimeZone = (
+  appointment,
+  _options = { timeZone: 'PT', showTimeZone: true },
+) => {
+  return getStartTime(appointment);
+};
+
+export { getStatus, getStartTime, getBookingNote, getStartTimeInTimeZone };
