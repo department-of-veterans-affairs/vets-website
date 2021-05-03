@@ -31,6 +31,7 @@ export const uiSchema = {
       doNotScroll: true,
       showSave: true,
       itemName: 'an expense',
+      keepInPageOnReview: true,
     },
     items: {
       'ui:options': {
@@ -66,7 +67,6 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Expense',
         required: ['name', 'amount'],
         properties: {
           name: {
