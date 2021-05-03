@@ -19,8 +19,6 @@ export default function AppointmentDisplay({ appointmentData, bold }) {
 
   const appointmentTime = appointmentSelector.getStartTime(appointment);
   const boldClass = bold ? 'vads-u-font-weight--bold' : '';
-  const guess = moment.tz.guess();
-  const formattedTimezone = moment.tz(guess).format('z');
 
   const clinicName = locationSelector.getName(clinic);
   const facilityName = organizationSelector.getName(facility);
