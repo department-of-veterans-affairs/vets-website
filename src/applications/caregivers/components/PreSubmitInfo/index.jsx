@@ -53,14 +53,26 @@ const PreSubmitCheckboxGroup = ({
 
   const transformSignature = signature => {
     const keys = Object.keys(signature);
-    const removeSpecialChars = string => string.replace(/\W/g, '');
-    const cleanedKey = value =>
-      `${removeSpecialChars(value).toLowerCase()}Signature`;
+
+    const getKeyName = key => {
+      switch (key) {
+        case veteranLabel:
+          return 'veteran';
+        case primaryLabel:
+          return 'primary';
+        case secondaryOneLabel:
+          return 'secondaryOne';
+        case secondaryTwoLabel:
+          return 'secondaryTwo';
+        default:
+          return null;
+      }
+    };
 
     // iterates through all keys and normalizes them
     const renameObjectKeys = (keysMap, obj) =>
       Object.keys(obj).reduce((acc, key) => {
-        const cleanKey = cleanedKey(key);
+        const cleanKey = `${getKeyName(key)}Signature`;
         return {
           ...acc,
           ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
@@ -259,7 +271,6 @@ PreSubmitCheckboxGroup.propTypes = {
     hasAttemptedSubmit: PropTypes.bool,
     errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    timestamp: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   }),
 };
 
