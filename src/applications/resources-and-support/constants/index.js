@@ -9,6 +9,7 @@ export const SEARCH_IGNORE_LIST = [
   'by',
   'for',
   'from',
+  'i',
   'in',
   'of',
   'on',
@@ -19,5 +20,3 @@ export const SEARCH_IGNORE_LIST = [
   'with',
   'yet',
 ];
-
-export const EXPERIMENTAL_SEARCH_IGNORE_LIST = [...SEARCH_IGNORE_LIST, 'i'];

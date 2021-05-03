@@ -45,13 +45,7 @@ export default function useGetSearchResults(articles, query, page) {
         .split(' ')
         .filter(word => !!word)
         .map(keyword => keyword.toLowerCase())
-        .filter(word => {
-          if (environment.isProduction()) {
-            return !SEARCH_IGNORE_LIST.includes(word);
-          }
-
-          return !EXPERIMENTAL_SEARCH_IGNORE_LIST.includes(word);
-        })
+        .filter(word => !SEARCH_IGNORE_LIST.includes(word))
         .map(keyword => {
           if (keyword.length > 6 && keyword.endsWith('ies')) {
             // Unpluralize the word, so that a search for "disabilities"
