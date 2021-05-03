@@ -22,6 +22,7 @@ export function transformFormToAppointment(state) {
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
   return {
     appointmentType: 'Vaccine',
+    vaFacility: data.vaFacility,
     clinic: {
       siteCode: getSiteCode(clinic),
       clinicId: getClinicId(clinic),

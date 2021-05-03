@@ -387,6 +387,7 @@ export function confirmAppointment(history) {
 
       recordEvent({
         event: `${GA_PREFIX}-covid19-submission-successful`,
+        vaFacility: appointmentBody?.vaFacility,
         flow: GA_FLOWS.DIRECT,
         ...additionalEventData,
       });
