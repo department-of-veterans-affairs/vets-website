@@ -38,6 +38,7 @@ describe('Profile', () => {
       shouldFetchCNPDirectDepositInformation: true,
       shouldFetchTotalDisabilityRating: true,
       showLoader: false,
+      isLOA3: true,
       user: {},
       location: {
         pathname: '/profile/personal-information',
@@ -64,22 +65,47 @@ describe('Profile', () => {
   });
 
   describe('when the component mounts', () => {
-    it('should fetch the military information data', () => {
-      const wrapper = shallow(<Profile {...defaultProps} />);
-      expect(fetchMilitaryInfoSpy.called).to.be.true;
-      wrapper.unmount();
+    context('when user is LOA3', () => {
+      it('should fetch the military information data', () => {
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchMilitaryInfoSpy.called).to.be.true;
+        wrapper.unmount();
+      });
+
+      it('should fetch the full name data', () => {
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchFullNameSpy.called).to.be.true;
+        wrapper.unmount();
+      });
+
+      it('should fetch the personal information data', () => {
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchPersonalInfoSpy.called).to.be.true;
+        wrapper.unmount();
+      });
     });
 
-    it('should fetch the full name data', () => {
-      const wrapper = shallow(<Profile {...defaultProps} />);
-      expect(fetchFullNameSpy.called).to.be.true;
-      wrapper.unmount();
-    });
+    context('when user is not LOA1', () => {
+      beforeEach(() => {
+        defaultProps.isLOA3 = false;
+      });
+      it('should not fetch the military information data', () => {
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchMilitaryInfoSpy.called).to.be.false;
+        wrapper.unmount();
+      });
 
-    it('should fetch the personal information data', () => {
-      const wrapper = shallow(<Profile {...defaultProps} />);
-      expect(fetchPersonalInfoSpy.called).to.be.true;
-      wrapper.unmount();
+      it('should not fetch the full name data', () => {
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchFullNameSpy.called).to.be.false;
+        wrapper.unmount();
+      });
+
+      it('should not fetch the personal information data', () => {
+        const wrapper = shallow(<Profile {...defaultProps} />);
+        expect(fetchPersonalInfoSpy.called).to.be.false;
+        wrapper.unmount();
+      });
     });
 
     it('should fetch the My HealtheVet data', () => {
