@@ -24,8 +24,9 @@ const exec = require('child_process').exec;
 
 exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
   /* eslint-disable no-console */
-  console.log('Steps: ', process.env.STEPS);
-  console.log('Nonce: ', process.env.NONCE);
+  console.log('PERCY_TOKEN: ', process.env.PERCY_TOKEN);
+  console.log('NUM_STEPS: ', process.env.NUM_STEPS);
+  console.log('NONCE: ', process.env.NONCE);
   /* eslint-enable no-console */
 
   const strings = stdout.split(',').sort();
