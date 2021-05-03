@@ -158,20 +158,21 @@ node('vetsgov-general-purpose') {
             }
           )
         } else {
-          nonce = System.currentTimeMillis()
-          steps = 6
+          sh PERCY_TOKEN=$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '"')
+          sh NONCE=$(System.currentTimeMillis())
+          sh NUM_STEPS=6
 
-          // making sure nonce is set
-          echo 'nonce:'
-          echo nonce
+          // confirm PERCY_TOKEN is set
+          echo 'PERCY_TOKEN: '                 
+          echo $PERCY_TOKEN
 
-          // making sure steps is set
-          echo 'steps:'
-          echo steps
+          // confirm NONCE is set
+          echo 'NONCE: '
+          echo $NONCE
 
-          // sh "$PERCY_TOKEN=aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --query Parameters[0].Value --with-decryption | sed \'s/\"//g\'"
-          // echo 'PERCY_TOKEN:'
-          // echo PERCY_TOKEN
+          // confirm NUM_STEPS is set
+          echo 'NUM_STEPS: '
+          echo $NUM_STEPS
 
           parallel (
             failFast: false,
@@ -179,27 +180,23 @@ node('vetsgov-general-purpose') {
             'nightwatch-e2e': {
               sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
             },
-            // i'd like to include PERCY_TOKEN like this if possible:
-            // 'cypress-1': {
-            //   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=0 -e NUM_STEPS=${steps} -e PERCY_PARALLEL_NONCE=${nonce} -e PERCY_TOKEN=${PERCY_TOKEN} vets-website --no-color run cy:test:docker"
-            // },
             'cypress-1': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=0 -e NUM_STEPS=${steps} -e PERCY_PARALLEL_NONCE=${nonce} vets-website --no-color run cy:test:docker"
+              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=0 -e NUM_STEPS=$NUM_STEPS -e PERCY_PARALLEL_NONCE=$NONCE -e PERCY_TOKEN=$PERCY_TOKEN vets-website --no-color run cy:test:docker"
             },
             'cypress-2': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=1 -e NUM_STEPS=${steps} -e PERCY_PARALLEL_NONCE=${nonce} vets-website --no-color run cy:test:docker"
+              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=1 -e NUM_STEPS=$NUM_STEPS -e PERCY_PARALLEL_NONCE=$NONCE -e PERCY_TOKEN=$PERCY_TOKEN vets-website --no-color run cy:test:docker"
             },
             'cypress-3': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=2 -e NUM_STEPS=${steps} -e PERCY_PARALLEL_NONCE=${nonce} vets-website --no-color run cy:test:docker"
+              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=2 -e NUM_STEPS=$NUM_STEPS -e PERCY_PARALLEL_NONCE=$NONCE -e PERCY_TOKEN=$PERCY_TOKEN vets-website --no-color run cy:test:docker"
             },
             'cypress-4': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=3 -e NUM_STEPS=${steps} -e PERCY_PARALLEL_NONCE=${nonce} vets-website --no-color run cy:test:docker"
+              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=3 -e NUM_STEPS=$NUM_STEPS -e PERCY_PARALLEL_NONCE=$NONCE -e PERCY_TOKEN=$PERCY_TOKEN vets-website --no-color run cy:test:docker"
             },
             'cypress-5': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=4 -e NUM_STEPS=${steps} -e PERCY_PARALLEL_NONCE=${nonce} vets-website --no-color run cy:test:docker"
+              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=4 -e NUM_STEPS=$NUM_STEPS -e PERCY_PARALLEL_NONCE=$NONCE -e PERCY_TOKEN=$PERCY_TOKEN vets-website --no-color run cy:test:docker"
             },
             'cypress-6': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=5 vets-website --no-color run cy:test:docker"
+              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=5 -e NUM_STEPS=$NUM_STEPS -e PERCY_PARALLEL_NONCE=$NONCE -e PERCY_TOKEN=$PERCY_TOKEN vets-website --no-color run cy:test:docker"
             }
           )
         }
