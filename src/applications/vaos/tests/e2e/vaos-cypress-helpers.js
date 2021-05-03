@@ -191,7 +191,7 @@ export function createPastVAAppointments() {
   appointments.push(appointment);
 
   return {
-    body: appointments,
+    data: appointments,
   };
 }
 
@@ -199,9 +199,11 @@ export function mockFeatureToggles({
   providerSelectionEnabled = false,
   homepageRefresh = false,
 } = {}) {
-  cy.intercept('GET', '/v0/feature_toggles*', {
-    statusCode: 200,
-    body: {
+  cy.route({
+    method: 'GET',
+    url: '/v0/feature_toggles*',
+    status: 200,
+    response: {
       data: {
         features: [
           {
@@ -255,8 +257,10 @@ export function mockFeatureToggles({
 }
 
 function mockRequestLimits(id = '983') {
-  cy.intercept('GET', `/vaos/v0/facilities/limits*`, {
-    body: {
+  cy.route({
+    method: 'GET',
+    url: `/vaos/v0/facilities/limits*`,
+    response: {
       data: [
         {
           id,
@@ -271,14 +275,18 @@ function mockRequestLimits(id = '983') {
 }
 
 function mockSupportedSites() {
-  cy.intercept('GET', '/vaos/v0/community_care/supported_sites*', {
-    body: supportedSites,
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/community_care/supported_sites*',
+    response: supportedSites,
   });
 }
 
 function mockCCPrimaryCareEligibility() {
-  cy.intercept('GET', '/vaos/v0/community_care/eligibility/PrimaryCare', {
-    body: {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/community_care/eligibility/PrimaryCare',
+    response: {
       data: {
         id: 'PrimaryCare',
         type: 'cc_eligibility',
@@ -289,50 +297,68 @@ function mockCCPrimaryCareEligibility() {
 }
 
 function mockRequestEligibilityCriteria() {
-  cy.intercept('GET', '/vaos/v0/request_eligibility_criteria*', {
-    body: requestEligibilityCriteria,
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/request_eligibility_criteria*',
+    response: requestEligibilityCriteria,
   });
 }
 
 function mockDirectBookingEligibilityCriteria() {
-  cy.intercept('GET', '/vaos/v0/direct_booking_eligibility_criteria*', {
-    body: directEligibilityCriteria,
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/direct_booking_eligibility_criteria*',
+    response: directEligibilityCriteria,
   });
 }
 
 function mockFacilityDetails() {
-  cy.intercept('GET', '/v1/facilities/va?ids=*', {
-    body: facilityData,
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va?ids=*',
+    response: facilityData,
   });
 }
 
 function mockFacilities() {
-  cy.intercept('GET', '/vaos/v0/facilities**', {
-    body: facilities,
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities**',
+    response: facilities,
   });
 }
 
 function mockDirectSchedulingFacilities() {
-  cy.intercept('GET', '/vaos/v0/systems/983/direct_scheduling_facilities*', {
-    body: facilities983,
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/systems/983/direct_scheduling_facilities*',
+    response: facilities983,
   });
 }
 
 function mockPrimaryCareClinics() {
-  cy.intercept('GET', '/vaos/v0/facilities/983/clinics*', {
-    body: clinicList983,
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/clinics*',
+    response: clinicList983,
   });
 }
 
 function mockSubmitVAAppointment() {
-  cy.intercept('POST', '/vaos/v0/appointments', {
-    body: { data: {} },
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointments',
+    response: { data: {} },
   }).as('appointmentSubmission');
-  cy.intercept('GET', '/vaos/v0/preferences', {
-    body: { data: {} },
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/preferences',
+    response: { data: {} },
   });
-  cy.intercept('PUT', '/vaos/v0/preferences', {
-    body: { data: {} },
+  cy.route({
+    method: 'PUT',
+    url: '/vaos/v0/preferences',
+    response: { data: {} },
   }).as('appointmentPreferences');
 }
 
@@ -345,6 +371,7 @@ function setupSchedulingMocks({ cernerUser = false } = {}) {
       },
     });
   });
+  cy.server();
   mockFeatureToggles();
 
   if (cernerUser) {
@@ -408,8 +435,10 @@ function updateTimeslots(data) {
 }
 
 function mockVisits(id = '983') {
-  cy.intercept('GET', `/vaos/v0/facilities/${id}/visits/*`, {
-    body: {
+  cy.route({
+    method: 'GET',
+    url: `/vaos/v0/facilities/${id}/visits/*`,
+    response: {
       data: {
         id: '05084676-77a1-4754-b4e7-3638cb3124e5',
         type: 'facility_visit',
@@ -423,8 +452,10 @@ function mockVisits(id = '983') {
 }
 
 function mockDirectScheduleSlots() {
-  cy.intercept('GET', '/vaos/v0/facilities/983/available_appointments*', {
-    body: updateTimeslots(slots),
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/available_appointments*',
+    response: updateTimeslots(slots),
   });
 }
 
@@ -453,8 +484,10 @@ function mockVaccineSlots() {
 
   slots.data[0].attributes.appointmentTimeSlot = [newSlot];
 
-  cy.intercept('GET', '/vaos/v0/facilities/983/available_appointments*', {
-    body: slots,
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/available_appointments*',
+    response: slots,
   });
 }
 
@@ -462,8 +495,10 @@ export function initAppointmentListMock() {
   setupSchedulingMocks();
 
   const today = moment();
-  cy.intercept('GET', '/vaos/v0/request_eligibility_criteria*', {
-    body: {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/request_eligibility_criteria*',
+    response: {
       data: [
         getExpressCareRequestCriteriaMock('983', [
           {
@@ -488,58 +523,69 @@ export function initAppointmentListMock() {
       ],
     },
   }).as('getRequestEligibilityCriteria');
-  cy.intercept('GET', '/vaos/v0/appointment_requests*', {
-    body: updateRequestDates(requests),
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/appointment_requests*',
+    response: updateRequestDates(requests),
   });
 
-  cy.intercept('GET', /.*\/v0\/appointments.*type=va$/, {
-    body: updateConfirmedVADates(confirmedVA),
+  cy.route({
+    method: 'GET',
+    url: /.*\/v0\/appointments.*type=va$/,
+    response: updateConfirmedVADates(confirmedVA),
   });
 
-  cy.intercept('GET', /.*\/v0\/appointments.*type=cc$/, {
-    body: updateConfirmedCCDates(confirmedCC),
+  cy.route({
+    method: 'GET',
+    url: /.*\/v0\/appointments.*type=cc$/,
+    response: updateConfirmedCCDates(confirmedCC),
   });
 
-  cy.intercept('GET', '/vaos/v0/facilities/983/cancel_reasons', {
-    body: cancelReasons,
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/cancel_reasons',
+    response: cancelReasons,
   });
 
-  cy.intercept('PUT', '/vaos/v0/appointments/cancel', {
-    body: '',
+  cy.route({
+    method: 'PUT',
+    url: '/vaos/v0/appointments/cancel',
+    response: '',
   });
 
-  cy.intercept(
-    'GET',
-    '/vaos/v0/appointment_requests/8a48912a6cab0202016cb4fcaa8b0038/messages',
-    {
-      body: {
-        data: [
-          {
-            id: '8a48912a6cab0202016cb4fcaa8b0038',
-            type: 'messages',
-            attributes: {
-              surrogateIdentifier: {},
-              messageText: 'Request 2 Message 1 Text',
-              messageDateTime: '11/11/2019 12:26:13',
-              senderId: '1012845331V153043',
-              appointmentRequestId: '8a48912a6cab0202016cb4fcaa8b0038',
-              date: '2019-11-11T12:26:13.931+0000',
-              assigningAuthority: 'ICN',
-              systemId: 'var',
-            },
+  cy.route({
+    method: 'GET',
+    url:
+      '/vaos/v0/appointment_requests/8a48912a6cab0202016cb4fcaa8b0038/messages',
+    response: {
+      data: [
+        {
+          id: '8a48912a6cab0202016cb4fcaa8b0038',
+          type: 'messages',
+          attributes: {
+            surrogateIdentifier: {},
+            messageText: 'Request 2 Message 1 Text',
+            messageDateTime: '11/11/2019 12:26:13',
+            senderId: '1012845331V153043',
+            appointmentRequestId: '8a48912a6cab0202016cb4fcaa8b0038',
+            date: '2019-11-11T12:26:13.931+0000',
+            assigningAuthority: 'ICN',
+            systemId: 'var',
           },
-        ],
-      },
+        },
+      ],
     },
-  );
+  });
 }
 
 export function initExpressCareMocks() {
   initAppointmentListMock();
   mockRequestLimits();
 
-  cy.intercept('GET', '/vaos/v0/facilities?facility_codes[]=983', {
-    body: {
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities?facility_codes[]=983',
+    response: {
       data: [
         {
           id: '983',
@@ -555,8 +601,10 @@ export function initExpressCareMocks() {
     },
   });
 
-  cy.intercept('POST', '/vaos/v0/appointment_requests?type=va', {
-    body: {
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests?type=va',
+    response: {
       data: {
         id: 'testing',
         attributes: {
@@ -574,14 +622,20 @@ export function initExpressCareMocks() {
 
 export function initVAAppointmentMock({ cernerUser = false } = {}) {
   setupSchedulingMocks({ cernerUser });
-  cy.intercept('GET', '/v1/facilities/va/vha_442', {
-    body: { data: facilityData.data[0] },
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va/vha_442',
+    response: { data: facilityData.data[0] },
   });
-  cy.intercept('GET', '/v1/facilities/va?ids=*', {
-    body: facilityData,
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va?ids=*',
+    response: facilityData,
   });
-  cy.intercept('GET', '/vaos/v0/community_care/eligibility/Optometry', {
-    body: { data: { eligible: false } },
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/community_care/eligibility/Optometry',
+    response: { data: { eligible: false } },
   });
   mockPrimaryCareClinics();
   mockRequestLimits();
@@ -596,19 +650,25 @@ export function initVaccineAppointmentMock({
   setupSchedulingMocks();
   // Modify directScheduling Response
   if (unableToScheduleCovid) {
-    cy.intercept('GET', '/vaos/v0/direct_booking_eligibility_criteria*', {
-      body: {
+    cy.route({
+      method: 'GET',
+      url: '/vaos/v0/direct_booking_eligibility_criteria*',
+      response: {
         data: directEligibilityCriteria.data.filter(
           facility => facility.id === 'covid',
         ),
       },
     });
   }
-  cy.intercept('GET', '/v1/facilities/va/vha_442', {
-    body: { data: facilityData.data[0] },
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va/vha_442',
+    response: { data: facilityData.data[0] },
   });
-  cy.intercept('GET', '/v1/facilities/va?ids=*', {
-    body: facilityData,
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va?ids=*',
+    response: facilityData,
   });
   mockPrimaryCareClinics();
   mockVaccineSlots();
@@ -617,35 +677,47 @@ export function initVaccineAppointmentMock({
 
 export function initVARequestMock({ cernerUser = false } = {}) {
   setupSchedulingMocks({ cernerUser });
-  cy.intercept('GET', '/vaos/v0/facilities/983/clinics*', {
-    body: { data: [] },
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/facilities/983/clinics*',
+    response: { data: [] },
   });
-  cy.intercept('GET', '/v1/facilities/va/vha_442GB', {
-    body: { data: facilityData.data[0] },
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/va/vha_442GB',
+    response: { data: facilityData.data[0] },
   });
   mockRequestLimits('983GB');
   mockVisits('983GB');
-  cy.intercept('POST', '/vaos/v0/appointment_requests?type=*', {
-    body: {
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests?type=*',
+    response: {
       data: {
         id: 'testing',
         attributes: {},
       },
     },
   }).as('appointmentRequests');
-  cy.intercept('POST', '/vaos/v0/appointment_requests/testing/messages', {
-    body: [],
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests/testing/messages',
+    response: [],
   }).as('requestMessages');
 }
 
 export function initCommunityCareMock() {
   setupSchedulingMocks();
 
-  cy.intercept('GET', '/vaos/v0/appointments?start_date=*&end_date=*&type=va', {
-    body: updateConfirmedVADates(confirmedVA),
+  cy.route({
+    method: 'GET',
+    url: '/vaos/v0/appointments?start_date=*&end_date=*&type=va',
+    response: updateConfirmedVADates(confirmedVA),
   });
-  cy.intercept('GET', '/v1/facilities/ccp*', {
-    body: {
+  cy.route({
+    method: 'GET',
+    url: '/v1/facilities/ccp*',
+    response: {
       data: [
         {
           id: '1497723753',
@@ -683,8 +755,10 @@ export function initCommunityCareMock() {
     },
   });
 
-  cy.intercept('POST', '/vaos/v0/appointment_requests?type=*', {
-    body: {
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests?type=*',
+    response: {
       data: {
         id: 'testing',
         attributes: {},
@@ -692,7 +766,9 @@ export function initCommunityCareMock() {
     },
   }).as('appointmentRequests');
 
-  cy.intercept('POST', '/vaos/v0/appointment_requests/testing/messages', {
-    body: [],
+  cy.route({
+    method: 'POST',
+    url: '/vaos/v0/appointment_requests/testing/messages',
+    response: [],
   }).as('requestMessages');
 }
