@@ -527,9 +527,9 @@ const testForm = testConfig => {
 
       // Resolve relative page hook paths as relative to the form's root URL.
       const resolvedPageHooks = Object.entries(pageHooks).reduce(
-        (hooks, [path, hook]) => ({
+        (hooks, [pagePath, hook]) => ({
           ...hooks,
-          [path.startsWith(sep) ? path : join(rootUrl, path)]: hook,
+          [pagePath.startsWith(sep) ? pagePath : join(rootUrl, pagePath)]: hook,
         }),
         {},
       );
