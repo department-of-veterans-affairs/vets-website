@@ -24,6 +24,8 @@ export default function AppointmentDisplay({ appointmentData, bold }) {
 
   const clinicName = locationSelector.getName(clinic);
   const facilityName = organizationSelector.getName(facility);
+  const displayTime = appointmentSelector.getStartTimeInTimeZone(appointment);
+
   return (
     <dl className={`appointment-details ${boldClass}`} itemScope>
       <div itemProp="appointment-date">
@@ -41,11 +43,9 @@ export default function AppointmentDisplay({ appointmentData, bold }) {
         <dt>Time: </dt>
         <dd
           data-testid="appointment-time"
-          aria-label={`Appointment time ${moment(appointmentTime).format(
-            'h:mm a z',
-          )}`}
+          aria-label={`Appointment time ${displayTime}`}
         >
-          {moment(appointmentTime).format('h:mm a')} {formattedTimezone}
+          {displayTime}
         </dd>
       </div>
       <div itemProp="appointment-location">
