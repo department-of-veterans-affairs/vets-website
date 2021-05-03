@@ -1,6 +1,6 @@
 import {
   getStatus,
-  getStartTime,
+  getStartDateTime,
   getBookingNote,
   getStartTimeInTimeZone,
 } from './appointment.selectors';
@@ -18,7 +18,7 @@ import {
 
 const appointment = {
   getStatus,
-  getStartTime,
+  getStartDateTime,
   getBookingNote,
   getStartTimeInTimeZone,
 };

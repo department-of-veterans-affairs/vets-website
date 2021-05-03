@@ -17,7 +17,7 @@ export default function AppointmentDisplay({ appointmentData, bold }) {
     organization: facility,
   } = appointmentData;
 
-  const appointmentTime = appointmentSelector.getStartTime(appointment);
+  const appointmentTime = appointmentSelector.getStartDateTime(appointment);
   const boldClass = bold ? 'vads-u-font-weight--bold' : '';
 
   const clinicName = locationSelector.getName(clinic);

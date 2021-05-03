@@ -58,7 +58,7 @@ const getStatus = appointment => {
   return appointment ? appointment.status : null;
 };
 
-const getStartTime = appointment => {
+const getStartDateTime = appointment => {
   return appointment ? appointment.start : null;
 };
 
@@ -71,7 +71,7 @@ const getStartTimeInTimeZone = (
     momentFormat: `h:mm`,
   },
 ) => {
-  const appointmentTime = getStartTime(appointment);
+  const appointmentTime = getStartDateTime(appointment);
   const time = moment(appointmentTime).tz(options.timeZone);
   const meridiem = time.hours() > 12 ? 'p.m.' : 'a.m.';
   const formattedTimezone = moment.tz(options.timeZone).format('z');
@@ -81,4 +81,4 @@ const getStartTimeInTimeZone = (
   } ${options.showTimeZone ? formattedTimezone : ''}`;
 };
 
-export { getStatus, getStartTime, getBookingNote, getStartTimeInTimeZone };
+export { getStatus, getStartDateTime, getBookingNote, getStartTimeInTimeZone };

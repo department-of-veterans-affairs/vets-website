@@ -18,7 +18,7 @@ export default function ToDoQuestionnaireItem({ data }) {
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
   const facilityName = organizationSelector.getName(organization);
-  const appointmentTime = appointmentSelector.getStartTime(appointment);
+  const appointmentTime = appointmentSelector.getStartDateTime(appointment);
   const questionnaireResponse = questionnaireResponseSelector.getQuestionnaireResponse(
     questionnaire[0].questionnaireResponse,
   );
