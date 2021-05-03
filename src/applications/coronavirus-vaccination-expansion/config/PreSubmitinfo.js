@@ -37,10 +37,8 @@ const PreSubmitCheckboxes = ({ showError, onSectionComplete }) => {
         rel="noreferrer"
         href="https://www.va.gov/vhapublications/ViewPublication.asp?pub_ID=1090"
       >
-        VA's Notice of Privacy Practices
+        VA's Notice of Privacy Practices.
       </a>{' '}
-      and understand that this document governs what VA can and cannot do with
-      my personal and health information.
     </span>
   );
   const privacyErrorMessage =
