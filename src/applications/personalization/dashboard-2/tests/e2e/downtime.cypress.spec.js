@@ -22,6 +22,7 @@ describe('The My VA Dashboard', () => {
   beforeEach(() => {
     disableFTUXModals();
     cy.login(mockUser);
+    cy.server();
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(

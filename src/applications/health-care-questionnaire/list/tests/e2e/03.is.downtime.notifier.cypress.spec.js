@@ -18,6 +18,7 @@ describe('Health care questionnaire list -- ', () => {
     // need to use route in the test, to overwrite the
     // route being added in `vets-website/src/platform/testing/e2e/cypress/support/index.js`
     // github link `https://github.com/department-of-veterans-affairs/vets-website/blob/0e1e0f3caa19fb2b2b5c4be3ed93523857c10060/src/platform/testing/e2e/cypress/support/index.js#L39-L41`
+    cy.server();
     cy.route('GET', '/v0/maintenance_windows', {
       data: [
         {

@@ -5,6 +5,7 @@ import featureToggles from './fixtures/mocks/feature-toggles.enabled.json';
 describe('Health care questionnaire list -- ', () => {
   beforeEach(() => {
     cy.login(basicUser);
+    cy.server();
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
     cy.window().then(window => {
       window.sessionStorage.removeItem('DISMISSED_DOWNTIME_WARNINGS');

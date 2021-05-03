@@ -3,8 +3,7 @@ import featureTogglesEnabled from './fixtures/toggle-covid-feature-hide-auth.jso
 describe('COVID-19 Vaccination Preparation Form', () => {
   describe('when entering app with auth turned off', () => {
     before(() => {
-      cy.server();
-      cy.route('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
+      cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
         'feature',
       );
       cy.visit('health-care/covid-19-vaccine/stay-informed/');
@@ -71,7 +70,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.get('#root_vaccineInterest_0').check();
 
       cy.axeCheck();
-      cy.route('POST', '**/covid_vaccine/v0/registration', {
+      cy.intercept('POST', '**/covid_vaccine/v0/registration', {
         status: 200,
       }).as('response');
 

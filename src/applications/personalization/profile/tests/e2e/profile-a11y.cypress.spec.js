@@ -118,7 +118,7 @@ describe('Profile', () => {
   beforeEach(() => {
     disableFTUXModals();
     cy.login(mockUser);
-    // login() calls cy.server() so we can now mock routes
+    cy.server();
     cy.route('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
   });
   it('should pass an aXe scan and manage focus on all pages at desktop size', () => {

@@ -1,25 +1,25 @@
 {% if fieldTags.entity != empty %}
-<div
-  class="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-top--3 vads-u-padding-bottom--1 medium-screen:vads-u-padding-bottom--3"
-  data-template="includes/tags">
   <div
-    class="vads-u-display--flex vads-u-align-items--flex-start medium-screen:vads-u-align-items--center vads-u-flex-direction--row vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
-    <!-- Title -->
-    <strong class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">Tags</strong>
+    class="vads-u-padding-x--1 large-screen:vads-u-padding-x--0"
+    data-template="includes/tags">
+    <div
+      class="vads-u-padding-top--3 vads-u-padding-bottom--1p5 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-display--flex vads-u-align-items--flex-start vads-u-flex-direction--row">
+      <!-- Title -->
+      <strong class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">Tags</strong>
 
-    <!-- Topic tags -->
-    <div class="vads-u-display--flex vads-u-flex-wrap--wrap">
-      {% assign tags = fieldTags | getTagsList %}
+      <!-- Topic tags -->
+      <div class="vads-u-display--flex vads-u-flex-wrap--wrap">
+        {% assign tags = fieldTags | getTagsList %}
 
-      {% for entity in tags %}
-        <a href="{{ entity.entityUrl.path }}"
-          class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 usa-button-secondary vads-u-font-size--sm vads-u-border--1px vads-u-border-color--primary vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--1 vads-u-text-decoration--none vads-u-color--base"
-          style="border-radius: 3px;"
-          onclick="recordEvent({ 'event': 'nav-page-tag-click', 'page-tag-click-label': '{{ entity.name }}', 'page-tag-category-label': '{{  entity.categoryLabel  }}' });">
-          {{ entity.name }}
-        </a>
-      {% endfor %}
+        {% for entity in tags %}
+          <a href="{{ entity.entityUrl.path }}"
+            class="vads-u-margin-bottom--1p5 usa-button-secondary vads-u-font-size--sm vads-u-border--1px vads-u-border-color--primary vads-u-padding--0p25 vads-u-padding-x--0p5 vads-u-margin-left--1p5 vads-u-text-decoration--none vads-u-color--base"
+            style="border-radius: 3px; line-height: 1.3;"
+            onclick="recordEvent({ 'event': 'nav-page-tag-click', 'page-tag-click-label': '{{ entity.name }}', 'page-tag-category-label': '{{  entity.categoryLabel  }}' });">
+            {{ entity.name }}
+          </a>
+        {% endfor %}
+      </div>
     </div>
   </div>
-</div>
 {% endif %}

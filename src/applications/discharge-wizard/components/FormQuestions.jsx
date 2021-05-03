@@ -1,25 +1,23 @@
-import React from 'react';
+// Dependencies.
+import React, { Component } from 'react';
 import { range } from 'lodash';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
+// Relative Imports
 import recordEvent from 'platform/monitoring/record-event';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import { months } from 'platform/static-data/options-for-select.js';
 import { focusElement } from 'platform/utilities/ui';
-import {
-  questionLabels,
-  prevApplicationYearCutoff,
-  answerReview,
-} from '../config';
-import { shouldShowQuestion } from '../utils';
+import { questionLabels, prevApplicationYearCutoff } from '../constants';
+import { answerReview, shouldShowQuestion } from '../helpers';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
-class FormQuestions extends React.Component {
+class FormQuestions extends Component {
   componentDidMount() {
     Scroll.animateScroll.scrollToTop();
     const el = document.getElementById('dw-home-link');
@@ -123,79 +121,21 @@ class FormQuestions extends React.Component {
     );
   }
 
-  renderQuestionThree() {
-    const key = '4_reason';
+  renderQuestionOne() {
+    const key = '1_branchOfService';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
       return null;
     }
 
+    const label = <h4>In which branch of service did you serve?</h4>;
     const options = [
-      { label: questionLabels[key]['1'], value: '1' },
-      { label: questionLabels[key]['2'], value: '2' },
-      { label: questionLabels[key]['3'], value: '3' },
-      { label: questionLabels[key]['4'], value: '4' },
-      { label: questionLabels[key]['5'], value: '5' },
-      // question 8 is intentionally presented out of order here
-      { label: questionLabels[key]['8'], value: '8' },
-      { label: questionLabels[key]['6'], value: '6' },
-      { label: questionLabels[key]['7'], value: '7' },
+      { label: 'Army', value: 'army' },
+      { label: 'Navy', value: 'navy' },
+      { label: 'Air Force', value: 'airForce' },
+      { label: 'Coast Guard', value: 'coastGuard' },
+      { label: 'Marine Corps', value: 'marines' },
     ];
 
-    const label = (
-      <div>
-        <h4>
-          Which of the following best describes why you want to change your
-          discharge paperwork? Choose the one that’s closest to your situation.
-        </h4>
-        <p>
-          <strong>Note:</strong> If more than one of these fits your situation,
-          choose the one that started the events leading to your discharge. For
-          example, if you experienced sexual assault and have posttraumatic
-          stress disorder (PTSD) resulting from that experience, choose sexual
-          assault.
-        </p>
-      </div>
-    );
-
-    return this.renderQuestion(key, label, options);
-  }
-
-  renderQuestionThreeA() {
-    const key = '5_dischargeType';
-    if (!shouldShowQuestion(key, this.props.formValues.questions)) {
-      return null;
-    }
-
-    const label = (
-      <h4>Which of the following categories best describes you?</h4>
-    );
-    const options = [
-      { label: questionLabels[key][1], value: '1' },
-      { label: questionLabels[key][2], value: '2' },
-    ];
-    return this.renderQuestion(key, label, options);
-  }
-
-  renderQuestionThreeB() {
-    const key = '6_intention';
-    if (!shouldShowQuestion(key, this.props.formValues.questions)) {
-      return null;
-    }
-    // explicit override for dd214 condition
-    if (this.props.formValues['4_reason'] === '8') {
-      return null;
-    }
-
-    const label = (
-      <h4>
-        Do you want to change your name, discharge date, or anything written in
-        the “other remarks” section of your DD214?
-      </h4>
-    );
-    const options = [
-      { label: `Yes, ${questionLabels[key][1]}`, value: '1' },
-      { label: `No, ${questionLabels[key][2]}`, value: '2' },
-    ];
     return this.renderQuestion(key, label, options);
   }
 
@@ -282,6 +222,82 @@ class FormQuestions extends React.Component {
     );
   }
 
+  renderQuestionThree() {
+    const key = '4_reason';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) {
+      return null;
+    }
+
+    const options = [
+      { label: questionLabels[key]['1'], value: '1' },
+      { label: questionLabels[key]['2'], value: '2' },
+      { label: questionLabels[key]['3'], value: '3' },
+      { label: questionLabels[key]['4'], value: '4' },
+      { label: questionLabels[key]['5'], value: '5' },
+      // question 8 is intentionally presented out of order here
+      { label: questionLabels[key]['8'], value: '8' },
+      { label: questionLabels[key]['6'], value: '6' },
+      { label: questionLabels[key]['7'], value: '7' },
+    ];
+
+    const label = (
+      <div>
+        <h4>
+          Which of the following best describes why you want to change your
+          discharge paperwork? Choose the one that’s closest to your situation.
+        </h4>
+        <p>
+          <strong>Note:</strong> If more than one of these fits your situation,
+          choose the one that started the events leading to your discharge. For
+          example, if you experienced sexual assault and have posttraumatic
+          stress disorder (PTSD) resulting from that experience, choose sexual
+          assault.
+        </p>
+      </div>
+    );
+
+    return this.renderQuestion(key, label, options);
+  }
+
+  renderQuestionThreeA() {
+    const key = '5_dischargeType';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) {
+      return null;
+    }
+
+    const label = (
+      <h4>Which of the following categories best describes you?</h4>
+    );
+    const options = [
+      { label: questionLabels[key][1], value: '1' },
+      { label: questionLabels[key][2], value: '2' },
+    ];
+    return this.renderQuestion(key, label, options);
+  }
+
+  renderQuestionThreeB() {
+    const key = '6_intention';
+    if (!shouldShowQuestion(key, this.props.formValues.questions)) {
+      return null;
+    }
+    // explicit override for dd214 condition
+    if (this.props.formValues['4_reason'] === '8') {
+      return null;
+    }
+
+    const label = (
+      <h4>
+        Do you want to change your name, discharge date, or anything written in
+        the “other remarks” section of your DD214?
+      </h4>
+    );
+    const options = [
+      { label: `Yes, ${questionLabels[key][1]}`, value: '1' },
+      { label: `No, ${questionLabels[key][2]}`, value: '2' },
+    ];
+    return this.renderQuestion(key, label, options);
+  }
+
   renderQuestionFour() {
     const key = '7_courtMartial';
     if (!shouldShowQuestion(key, this.props.formValues.questions)) {
@@ -309,24 +325,6 @@ class FormQuestions extends React.Component {
         value: '2',
       },
       { label: "I'm not sure.", value: '3' },
-    ];
-
-    return this.renderQuestion(key, label, options);
-  }
-
-  renderQuestionOne() {
-    const key = '1_branchOfService';
-    if (!shouldShowQuestion(key, this.props.formValues.questions)) {
-      return null;
-    }
-
-    const label = <h4>In which branch of service did you serve?</h4>;
-    const options = [
-      { label: 'Army', value: 'army' },
-      { label: 'Navy', value: 'navy' },
-      { label: 'Air Force', value: 'airForce' },
-      { label: 'Coast Guard', value: 'coastGuard' },
-      { label: 'Marine Corps', value: 'marines' },
     ];
 
     return this.renderQuestion(key, label, options);

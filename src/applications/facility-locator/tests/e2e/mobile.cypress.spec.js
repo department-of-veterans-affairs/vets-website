@@ -9,6 +9,7 @@ Cypress.Commands.add('checkClearInput', () => {
   [...randomInput].forEach(char => {
     cy.get('#street-city-state-zip')
       .should('not.be.disabled')
+      .focus()
       .type(char, { force: true });
   });
   cy.get('#clear-input').click();
@@ -31,6 +32,7 @@ Cypress.Commands.add('checkSearch', () => {
   [...city].forEach(char => {
     cy.get('#street-city-state-zip')
       .should('not.be.disabled')
+      .focus()
       .type(char, { force: true });
   });
   cy.get('#facility-type-dropdown').select('VA health');

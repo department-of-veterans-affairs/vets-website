@@ -3,13 +3,13 @@ import path from 'path';
 import formConfig from 'applications/caregivers/config/form';
 import manifest from 'applications/caregivers/manifest.json';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import {
   veteranSignatureContent,
   primaryCaregiverContent,
   secondaryCaregiverContent,
 } from 'applications/caregivers/definitions/content';
-import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 
 const veteranLabel = `Veteran\u2019s`;
 const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
@@ -70,7 +70,8 @@ const testSecondaryTwo = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+      cy.server();
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
     },
     pageHooks: {
       introduction: () => {

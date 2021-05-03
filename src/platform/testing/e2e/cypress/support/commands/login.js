@@ -70,5 +70,5 @@ const mockUser = {
  */
 Cypress.Commands.add('login', (userData = mockUser) => {
   window.localStorage.setItem('hasSession', true);
-  cy.server().route('GET', '/v0/user', userData);
+  cy.intercept('GET', '/v0/user', userData);
 });

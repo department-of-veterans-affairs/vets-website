@@ -30,6 +30,48 @@ import {
 import ApplicationsInProgress from './ApplicationsInProgress';
 import BenefitOfInterest from './BenefitOfInterest';
 
+const AllBenefits = () => (
+  <div className="vads-u-margin-top--2">
+    <AdditionalInfo triggerText="What benefits does VA offer?">
+      <p className="vads-u-font-weight--bold">
+        Explore VA.gov to learn about the benefits we offer.
+      </p>
+      <ul>
+        <li>
+          <a href="/health-care/">Health care</a>
+        </li>
+        <li>
+          <a href="/education/">Education and training</a>
+        </li>
+        <li>
+          <a href="/disability/">Disability compensation</a>
+        </li>
+        <li>
+          <a href="/careers-employment/">Careers &amp; employment</a>
+        </li>
+        <li>
+          <a href="/pension/">Pension</a>
+        </li>
+        <li>
+          <a href="/housing-assistance/">Housing assistance</a>
+        </li>
+        <li>
+          <a href="/burials-memorials/">Burials &amp; memorials</a>
+        </li>
+        <li>
+          <a href="/life-insurance/">Life insurance</a>
+        </li>
+        <li>
+          <a href="/service-member-benefits/">Service member benefits</a>
+        </li>
+        <li>
+          <a href="/family-member-benefits/">Family member benefits</a>
+        </li>
+      </ul>
+    </AdditionalInfo>
+  </div>
+);
+
 const BenefitsOfInterest = ({ children, showChildren }) => {
   return (
     <>
@@ -84,45 +126,7 @@ const ApplyForBenefits = ({
   return (
     <div data-testid="dashboard-section-apply-for-benefits">
       <h2>Apply for VA benefits</h2>
-      <div className="vads-u-margin-top--2">
-        <AdditionalInfo triggerText="What benefits does VA offer?">
-          <p className="vads-u-font-weight--bold">
-            Explore VA.gov to learn about the benefits we offer.
-          </p>
-          <ul>
-            <li>
-              <a href="/health-care/">Health care</a>
-            </li>
-            <li>
-              <a href="/education/">Education and training</a>
-            </li>
-            <li>
-              <a href="/disability/">Disability compensation</a>
-            </li>
-            <li>
-              <a href="/careers-employment/">Careers &amp; employment</a>
-            </li>
-            <li>
-              <a href="/pension/">Pension</a>
-            </li>
-            <li>
-              <a href="/housing-assistance/">Housing assistance</a>
-            </li>
-            <li>
-              <a href="/burials-memorials/">Burials &amp; memorials</a>
-            </li>
-            <li>
-              <a href="/life-insurance/">Life insurance</a>
-            </li>
-            <li>
-              <a href="/service-member-benefits/">Service member benefits</a>
-            </li>
-            <li>
-              <a href="/family-member-benefits/">Family member benefits</a>
-            </li>
-          </ul>
-        </AdditionalInfo>
-      </div>
+      <AllBenefits />
       <ApplicationsInProgress />
       <BenefitsOfInterest showChildren={hasLoadedAllData}>
         <>
@@ -143,7 +147,7 @@ const ApplyForBenefits = ({
           <BenefitOfInterest
             title="Disability compensation"
             icon="disability"
-            ctaButtonLabel="Learn how to file a claim for disability"
+            ctaButtonLabel="Learn how to file a VA disability claim"
             ctaUrl="/disability/how-to-file-claim/"
           >
             <p>
@@ -156,7 +160,7 @@ const ApplyForBenefits = ({
             <BenefitOfInterest
               title="Education and training"
               icon="education"
-              ctaButtonLabel="Learn how to apply for education benefits"
+              ctaButtonLabel="Learn how to apply for VA education benefits"
               ctaUrl="/education/how-to-apply/"
             >
               <p>

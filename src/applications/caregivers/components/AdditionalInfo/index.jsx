@@ -284,9 +284,9 @@ export const RepresentativeDocumentUploadDescription = () => {
       </h3>
 
       <p>
-        You will first need to scan a copy of your document onto the same device
-        that you are submitting your online application (i.e. computer or mobile
-        phone). You can upload the document from there.
+        You’ll need to scan your document onto the device you’re using to submit
+        this application, such as your computer, tablet, or mobile phone. You
+        can upload your document from there.
       </p>
 
       <p>Guidelines for uploading a file:</p>
@@ -295,10 +295,12 @@ export const RepresentativeDocumentUploadDescription = () => {
         <li>Maximum file size: 25MB</li>
       </ul>
 
-      <em>
+      <p>
         A 1MB file equals about 500 pages of text. A photo is usually about 6MB.
         Large files can take longer to upload with a slow internet connection.
-      </em>
+      </p>
+
+      <RepresentativeAdditionalInfo />
     </section>
   );
 };

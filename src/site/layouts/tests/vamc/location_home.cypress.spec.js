@@ -1,4 +1,5 @@
 import path from 'path';
+import mockFacilityDataV1 from './fixtures/mock-facility-data-v1.json';
 
 const phoneRegex = /\d{3}-\d{3}-\d{4}/;
 
@@ -88,12 +89,9 @@ describe('VAMC location home page', () => {
   });
 
   beforeEach(() => {
-    cy.server();
-    cy.route(
-      'GET',
-      '/v1/facilities/va/*',
-      'fx:fixtures/mock-facility-data-v1',
-    ).as('mockFacilityData');
+    cy.intercept('GET', '/v1/facilities/va/*', mockFacilityDataV1).as(
+      'mockFacilityData',
+    );
   });
 
   it('has expected elements on desktop', () => {

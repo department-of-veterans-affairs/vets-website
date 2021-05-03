@@ -3,7 +3,7 @@ import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system
 import { makeUserObject, mockLocalStorage } from './dashboard-e2e-helpers';
 
 function mockFeatureFlags() {
-  cy.route('GET', '/v0/feature_toggles*', {
+  cy.intercept('GET', '/v0/feature_toggles*', {
     data: {
       type: 'feature_toggles',
       features: [
@@ -29,8 +29,7 @@ describe('MyVA Dashboard - Health Care Widgets', () => {
         isPatient: true,
       });
       cy.login(mockUser);
-      // login() calls cy.server() so we can now mock routes
-      cy.route(
+      cy.intercept(
         'GET',
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
@@ -58,8 +57,7 @@ describe('MyVA Dashboard - Health Care Widgets', () => {
         isPatient: true,
       });
       cy.login(mockUser);
-      // login() calls cy.server() so we can now mock routes
-      cy.route(
+      cy.intercept(
         'GET',
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
@@ -87,8 +85,7 @@ describe('MyVA Dashboard - Health Care Widgets', () => {
         isPatient: true,
       });
       cy.login(mockUser);
-      // login() calls cy.server() so we can now mock routes
-      cy.route(
+      cy.intercept(
         'GET',
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
@@ -116,8 +113,7 @@ describe('MyVA Dashboard - Health Care Widgets', () => {
         isPatient: true,
       });
       cy.login(mockUser);
-      // login() calls cy.server() so we can now mock routes
-      cy.route(
+      cy.intercept(
         'GET',
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
@@ -145,8 +141,7 @@ describe('MyVA Dashboard - Health Care Widgets', () => {
         isPatient: true,
       });
       cy.login(mockUser);
-      // login() calls cy.server() so we can now mock routes
-      cy.route(
+      cy.intercept(
         'GET',
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,
@@ -174,8 +169,7 @@ describe('MyVA Dashboard - Health Care Widgets', () => {
         isPatient: true,
       });
       cy.login(mockUser);
-      // login() calls cy.server() so we can now mock routes
-      cy.route(
+      cy.intercept(
         'GET',
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusEnrolled,

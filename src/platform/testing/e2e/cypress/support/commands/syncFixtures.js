@@ -21,7 +21,7 @@ Cypress.Commands.add('syncFixtures', fixtures => {
 
       // The fixture shorthand in `cy.route` should be relative to temp path.
       Cypress.Commands.overwrite(
-        'route',
+        'intercept',
         (originalFn, method, url, response, options) => {
           const regex = /^(fx:|fixture:)/;
           const replaceFn = (_, match) => `${match}${dir}/`;

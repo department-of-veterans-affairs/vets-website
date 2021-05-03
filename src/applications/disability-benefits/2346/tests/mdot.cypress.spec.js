@@ -4,12 +4,10 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
-const dataSetToUserMap = {
-  happyPath: 'fx:users/gregUserData',
-  noTempAddress: 'fx:users/markUserData',
-  noBatteries: 'fx:users/jerryUserData',
-  noAccessories: 'fx:users/eddieUserData',
-};
+import happyPath from './data/users/gregUserData.json';
+import noTempAddress from './data/users/markUserData.json';
+import noBatteries from './data/users/jerryUserData.json';
+import noAccessories from './data/users/eddieUserData.json';
 
 const testConfig = createTestConfig(
   {
@@ -76,9 +74,10 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       let postData = [];
       cy.get('@testKey').then(testKey => {
-        cy.login(dataSetToUserMap[testKey]);
-        cy.intercept('GET', '/v0/user', dataSetToUserMap[testKey]);
+        cy.server();
+        cy.login(testKey);
         if (testKey === 'noBatteries') {
+          cy.route('GET', '/v0/user', noBatteries);
           postData = [
             {
               status: 'Order Processed',
@@ -92,6 +91,7 @@ const testConfig = createTestConfig(
             },
           ];
         } else if (testKey === 'noAccessories') {
+          cy.route('GET', '/v0/user', noAccessories);
           postData = [
             {
               status: 'Order Processed',
@@ -99,7 +99,27 @@ const testConfig = createTestConfig(
               productId: 1,
             },
           ];
+        } else if (testKey === 'noTempAddress') {
+          cy.route('GET', '/v0/user', noTempAddress);
+          postData = [
+            {
+              status: 'Order Processed',
+              orderId: 2329,
+              productId: 1,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2330,
+              productId: 3,
+            },
+            {
+              status: 'Order Processed',
+              orderId: 2331,
+              productId: 5,
+            },
+          ];
         } else {
+          cy.route('GET', '/v0/user', happyPath);
           postData = [
             {
               status: 'Order Processed',
