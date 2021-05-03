@@ -7,8 +7,8 @@ export function chooseTypeOfCareTest(label) {
   cy.axeCheckBestPractice();
   cy.findByLabelText(label)
     .focus()
-    .click();
-  cy.findByText(/Continue/).click();
+    .click({ force: true });
+  cy.findByText(/Continue/).click({ force: true });
 }
 
 export function chooseFacilityTypeTest(label) {
