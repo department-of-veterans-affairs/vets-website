@@ -273,47 +273,6 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   }
 }
 
-def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
-  stage("Build") {
-    if (shouldBail()) { return }
-
-    try {
-      def builds = [:]
-      def envUsedCache = [:]
-      def assetSource = contentOnlyBuild ? ref : 'local'
-
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
-        builds[envName] = {
-          try {
-            build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
-          } catch (error) {
-            // We're not using the cache for content only builds, because requesting
-            // a content only build is an attempt to refresh content from the current set
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
-            } else {
-              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-              envUsedCache[envName] = false
-            }
-          }
-        }
-      }
-
-      parallel builds
-      return envUsedCache
-    } catch (error) {
-      slackNotify()
-      throw error
-    }
-  }
-}
-
 def prearchive(dockerContainer, envName) {
   dockerContainer.inside(DOCKER_ARGS) {
     sh "cd /application && node script/prearchive.js --buildtype=${envName}"
