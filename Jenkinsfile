@@ -33,7 +33,7 @@ node('vetsgov-general-purpose') {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovdev'
           
-          shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
           if (!shouldBuild) { return }
 
           try {
@@ -57,7 +57,7 @@ node('vetsgov-general-purpose') {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovstaging'
 
-          shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
           if (!shouldBuild) { return }
 
           try {
@@ -81,7 +81,7 @@ node('vetsgov-general-purpose') {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovprod'
 
-          shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
           if (!shouldBuild) { return }
                     
           try {
