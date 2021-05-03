@@ -35,7 +35,7 @@ const mockFetchSuggestions = () => {
   cy.route({
     method: 'GET',
     status: 200,
-    url: 'https://search.usa.gov/sayt?name=va&q=benefits',
+    url: 'v0/search_typeahead?query=benefits',
     response: [
       'benefits response 1',
       'benefits response 2',
@@ -47,7 +47,7 @@ const mockFetchSuggestions = () => {
   cy.route({
     method: 'GET',
     status: 200,
-    url: 'https://search.usa.gov/sayt?name=va&q=health',
+    url: 'v0/search_typeahead?query=health',
     response: [
       'health response 1',
       'health response 2',

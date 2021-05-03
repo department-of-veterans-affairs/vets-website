@@ -19,7 +19,7 @@ function PreSubmitNotice({
               best of your knowledge and belief
             </li>
             <li>
-              As an active duty servicemember, you have consulted with an
+              As an active-duty service member, you have consulted with an
               Education Service Officer (ESO) regarding your education program
             </li>
           </ul>

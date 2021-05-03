@@ -16,6 +16,48 @@ const vetCenterFragment = `
         entityLabel
         fieldIntroText
         fieldFacilityLocatorApiId
+        fieldVetCenterFeatureContent {
+           entity {
+                ... on ParagraphFeaturedContent {
+                  fieldDescription {
+                      value
+                      format
+                      processed
+                  }
+                  fieldSectionHeader
+                  fieldCta {
+                  targetId
+                  targetRevisionId
+                  entity {
+                     ... on ParagraphButton {
+                        fieldButtonLink {
+                            uri
+                            title
+                            options
+                        }
+                        fieldButtonLabel
+                       }
+                     }
+                }
+              }
+           }
+        }
+        fieldCcVetCenterFeaturedCon {
+          fetched
+          fetchedBundle
+        }
+        fieldCcVetCenterFaqs {
+          fetched
+          fetchedBundle
+        }
+        fieldCcNonTraditionalHours {
+          fetched
+          fetchedBundle
+        }
+        fieldCcVetCenterCallCenter {
+          fetched
+          fetchedBundle
+        }
         ${derivativeImage('_32MEDIUMTHUMBNAIL')}
         fieldPhoneNumber
         fieldAddress {
@@ -57,6 +99,9 @@ const vetCenterFragment = `
         fieldHealthServices {
           entity {
             ... on NodeVetCenterFacilityHealthServi {
+             fieldBody {
+                processed
+              }
               fieldServiceNameAndDescripti {
                 entity {
                   ... on TaxonomyTermHealthCareServiceTaxonomy {

@@ -49,6 +49,7 @@ const formConfig = {
   customText: {
     finishAppLaterMessage: 'Finish this request later',
     reviewPageTitle: 'Review your request',
+    submitButtonText: 'Submit your request',
   },
   chapters: {
     veteranInformationChapter: {
@@ -158,13 +159,13 @@ const formConfig = {
         },
         socialSecurity: {
           path: 'social-security',
-          title: 'Social security',
+          title: 'Social Security',
           uiSchema: pages.socialSecurity.uiSchema,
           schema: pages.socialSecurity.schema,
         },
         socialSecurityRecords: {
           path: 'social-security-records',
-          title: 'Social security',
+          title: 'Social Security',
           uiSchema: pages.socialSecurityRecords.uiSchema,
           schema: pages.socialSecurityRecords.schema,
           depends: formData => formData.questions.hasSocialSecurity,
@@ -238,14 +239,14 @@ const formConfig = {
         },
         spouseSocialSecurity: {
           path: 'spouse-social-security',
-          title: 'Spouse social security',
+          title: 'Spouse Social Security',
           uiSchema: pages.spouseSocialSecurity.uiSchema,
           schema: pages.spouseSocialSecurity.schema,
           depends: formData => formData.questions.maritalStatus === 'Married',
         },
         spouseSocialSecurityRecords: {
           path: 'spouse-social-security-records',
-          title: 'Spouse social security',
+          title: 'Spouse Social Security',
           uiSchema: pages.spouseSocialSecurityRecords.uiSchema,
           schema: pages.spouseSocialSecurityRecords.schema,
           depends: formData =>
@@ -400,10 +401,8 @@ const formConfig = {
       title: 'Repayment or relief options',
       pages: {
         resolutionOptions: {
-          path: 'resolution-options/:index',
+          path: 'resolution-options',
           title: 'Resolution options',
-          showPagePerItem: true,
-          arrayPath: 'selectedDebts',
           uiSchema: pages.resolutionOptions.uiSchema,
           schema: pages.resolutionOptions.schema,
         },
