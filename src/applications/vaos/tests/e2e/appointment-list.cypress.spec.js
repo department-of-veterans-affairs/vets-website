@@ -45,7 +45,7 @@ describe('VAOS appointment list', () => {
       /.*\/v0\/appointments.*type=va$/,
       createPastVAAppointments(),
     );
-    cy.get('#tabpast').click();
+    cy.get('#tabpast').click({ force: true });
     cy.findByText(/three day clinic name/i).should('exist');
     cy.findByLabelText(/select a date range/i).select('1');
     cy.findByText('Update').click();
