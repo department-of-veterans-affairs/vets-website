@@ -244,15 +244,20 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
   // Use the CMS's Sandbox (Tugboat) environment for all branches that
-  // are not configured to deploy to dev/staging/prod. Currently, this
-  // means to use the CMS Sandbox for any branch that is NOT master.
+  // are not configured to deploy to prod.
   def drupalAddress = DRUPAL_ADDRESSES.get('sandbox')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
   def drupalMaxParallelRequests = 15
   def noDrupalProxy = '--no-drupal-proxy'
 
-  if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH || contentOnlyBuild) {
+  // Build using the CMS Production instance only if we are doing
+  // a content-only build (as part of a Content Release) OR if
+  // we are building the master branch's production environment.
+  if (
+    contentOnlyBuild ||
+    (IS_PROD_BRANCH && envName == 'vagovprod')
+  ) {
     drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
     noDrupalProxy = ''
   }
