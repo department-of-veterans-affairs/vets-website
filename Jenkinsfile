@@ -169,9 +169,9 @@ node('vetsgov-general-purpose') {
           echo 'steps:'
           echo steps
 
-          // sh "$PERCY_TOKEN=aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --query Parameters[0].Value --with-decryption | sed \'s/\"//g\'"
-          // echo 'PERCY_TOKEN:'
-          // echo PERCY_TOKEN
+          sh "$PERCY_TOKEN=aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --query Parameters[0].Value --with-decryption | sed \'s/\"//g\'"
+          echo 'PERCY_TOKEN:'
+          echo PERCY_TOKEN
 
           // parallel (
           //   failFast: false,
