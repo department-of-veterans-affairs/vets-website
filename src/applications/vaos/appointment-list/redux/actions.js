@@ -16,14 +16,17 @@ import {
 
 import {
   getCancelReasons,
-  getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
   getRequestMessages,
   updateAppointment,
   updateRequest,
 } from '../../services/var';
 
-import { getLocation, getLocations } from '../../services/location';
+import {
+  getLocation,
+  getLocations,
+  getLocationSettings,
+} from '../../services/location';
 
 import {
   getBookedAppointments,
@@ -91,12 +94,11 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
-export const FETCH_DIRECT_SCHEDULE_SETTINGS =
-  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS';
-export const FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED =
-  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED';
-export const FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED =
-  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED';
+export const FETCH_FACILITY_SETTINGS = 'vaos/FETCH_FACILITY_SETTINGS';
+export const FETCH_FACILITY_SETTINGS_FAILED =
+  'vaos/FETCH_FACILITY_SETTINGS_FAILED';
+export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
+  'vaos/FETCH_FACILITY_SETTINGS_SUCCEEDED';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -709,25 +711,25 @@ export function fetchExpressCareWindows() {
   };
 }
 
-export function fetchDirectScheduleSettings() {
+export function fetchFacilitySettings() {
   return async (dispatch, getState) => {
     dispatch({
-      type: FETCH_DIRECT_SCHEDULE_SETTINGS,
+      type: FETCH_FACILITY_SETTINGS,
     });
 
     try {
       const initialState = getState();
       const siteIds = selectSystemIds(initialState) || [];
 
-      const settings = await getDirectBookingEligibilityCriteria(siteIds);
+      const settings = await getLocationSettings({ siteIds });
 
       dispatch({
-        type: FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED,
+        type: FETCH_FACILITY_SETTINGS_SUCCEEDED,
         settings,
       });
     } catch (e) {
       dispatch({
-        type: FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED,
+        type: FETCH_FACILITY_SETTINGS_FAILED,
       });
 
       captureError(e, false);
