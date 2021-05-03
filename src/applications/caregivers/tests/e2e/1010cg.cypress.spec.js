@@ -38,7 +38,7 @@ const checkContent = (partyLabel, content, mockContent) => {
     cy.get(`[data-testid="${partyLabel}"]`)
       .contains(contentItem, { matchCase: true })
       .should(signatureParagraph =>
-        expect(signatureParagraph[0]).to.eq(mockContent[idx]),
+        expect(signatureParagraph[0].innerText).to.eq(mockContent[idx]),
       );
   });
 };
