@@ -22,7 +22,7 @@
     "spouseHasBenefits": true,
     "spousePreviouslyEmployed": true,
     "spouseIsEmployed": true,
-    "maritalStatus": "Married",
+    "maritalStatus": true,
     "hasAdditionalIncome": true,
     "hasSocialSecurity": true,
     "vetPreviouslyEmployed": true,
