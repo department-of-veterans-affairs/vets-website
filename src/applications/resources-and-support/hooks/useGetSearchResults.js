@@ -12,6 +12,7 @@ const countKeywordsFound = (searchableString = '', keyword = '') => {
   const searchableWords = searchableString.toLowerCase()?.split(' ');
 
   // Iterate over each word and see if we have any keywords that match it.
+  // eslint-disable-next-line no-unused-expressions
   searchableWords?.forEach(word => {
     if (keyword === word) {
       keywordsFound += 1;
