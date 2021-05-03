@@ -33,15 +33,21 @@
     "address": {
       "livesOnMilitaryBaseInfo": {},
       "countryName": "United States",
-      "street": "8200 DOBY LN",
-      "street2": "APT 4D",
-      "city": "PASADENA",
-      "stateCode": "MD",
-      "zipCode": "21122"
+      "street": "123 Fake St",
+      "city": "Tampa",
+      "stateCode": "FL",
+      "zipCode": "33543"
     },
     "telephoneNumber": "4445551212",
     "emailAddress": "test2@test1.net",
     "confirmationEmail": "test2@test1.net",
+    "veteranFullName": {
+      "first": "Mark",
+      "last": "Webb",
+      "middle": "",
+      "suffix": "Jr."
+    },
+    "dateOfBirth": "1950-10-04",
     "employmentHistory": {
       "veteran": {
         "currentEmployment": {}
@@ -50,13 +56,7 @@
         "currentEmployment": {}
       }
     },
-    "spouseFullName": {},
-    "veteranFullName": {
-      "first": "Mark",
-      "last": "Webb",
-      "suffix": "Jr."
-    },
-    "dateOfBirth": "1950-10-04"
+    "spouseFullName": {}
   },
   "view:components": {
     "view:veteranInfo": {},
@@ -65,23 +65,12 @@
     "view:recVehicleInfo": {},
     "view:assetInfo": {}
   },
-  "socialSecurity": {
-    "spouse": {}
-  },
-  "additionalIncome": {
-    "spouse": {}
-  },
-  "benefits": {
-    "spouseBenefits": {}
+  "personalIdentification": {
+    "ssn": "4437",
+    "fileNumber": "4437"
   },
   "selectedDebts": [
     {
-      "financialOverview": {},
-      "debtRepaymentOptions": {},
-      "resolutionOptionsTitle": {},
-      "resolution": {
-        "resolutionType": "Waiver"
-      },
       "fileNumber": "796121200",
       "payeeNumber": "00",
       "personEntitled": "AJHONS",
@@ -110,12 +99,22 @@
           "description": "Death Case Pending Action"
         }
       ],
-      "id": 0
+      "id": 0,
+      "resolution": {
+        "resolutionType": "Compromise",
+        "offerToPay": "0"
+      }
     }
   ],
-  "personalIdentification": {
-    "ssn": "4437",
-    "fileNumber": "4437"
+  "debt": {
+    "currentAr": 0,
+    "debtHistory": [
+      {
+        "date": ""
+      }
+    ],
+    "deductionCode": "",
+    "originalAr": 0
   },
   "income": [
     {
@@ -123,5 +122,16 @@
       "compensationAndPension": "3261.1",
       "education": "50"
     }
-  ]
+  ],
+  "socialSecurity": {
+    "spouse": {}
+  },
+  "additionalIncome": {
+    "spouse": {}
+  },
+  "benefits": {
+    "spouseBenefits": {}
+  },
+  "financialOverview": {},
+  "availableOptions": {}
 }

@@ -219,7 +219,10 @@ const ItemLoop = ({
   );
 
   useEffect(() => {
-    const editData = formData ? formData.map(() => false) : ['add'];
+    const editData = formData
+      ? formData.map(item => Object.values(item).includes(undefined))
+      : ['add'];
+
     setEditing(editData);
     setShowTable(editData.includes(false));
 

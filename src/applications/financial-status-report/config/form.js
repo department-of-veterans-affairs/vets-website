@@ -141,6 +141,7 @@ const formConfig = {
           uiSchema: pages.previousEmploymentRecords.uiSchema,
           schema: pages.previousEmploymentRecords.schema,
           depends: formData => formData.questions.vetPreviouslyEmployed,
+          editModeOnReviewPage: true,
         },
         benefits: {
           path: 'benefits',
@@ -182,6 +183,7 @@ const formConfig = {
           uiSchema: pages.additionalIncomeRecords.uiSchema,
           schema: pages.additionalIncomeRecords.schema,
           depends: formData => formData.questions.hasAdditionalIncome,
+          editModeOnReviewPage: true,
         },
         spouseInformation: {
           path: 'spouse-information',
@@ -220,6 +222,7 @@ const formConfig = {
           depends: formData =>
             formData.questions.maritalStatus &&
             formData.questions.spousePreviouslyEmployed,
+          editModeOnReviewPage: true,
         },
         spouseBenefits: {
           path: 'spouse-benefits',
@@ -268,6 +271,7 @@ const formConfig = {
           depends: formData =>
             formData.questions.maritalStatus &&
             formData.questions.spouseHasAdditionalIncome,
+          editModeOnReviewPage: true,
         },
         dependents: {
           path: 'dependents',
@@ -281,6 +285,7 @@ const formConfig = {
           uiSchema: pages.dependentRecords.uiSchema,
           schema: pages.dependentRecords.schema,
           depends: formData => formData.questions.hasDependents,
+          editModeOnReviewPage: true,
         },
       },
     },
@@ -305,6 +310,7 @@ const formConfig = {
           uiSchema: pages.realEstateRecords.uiSchema,
           schema: pages.realEstateRecords.schema,
           depends: formData => formData.questions.hasRealEstate,
+          editModeOnReviewPage: true,
         },
         vehicles: {
           path: 'vehicles',
@@ -318,6 +324,7 @@ const formConfig = {
           uiSchema: pages.vehicleRecords.uiSchema,
           schema: pages.vehicleRecords.schema,
           depends: formData => formData.questions.hasVehicle,
+          editModeOnReviewPage: true,
         },
         recreationalVehicles: {
           path: 'recreational-vehicles',
@@ -331,6 +338,7 @@ const formConfig = {
           uiSchema: pages.recreationalVehicleRecords.uiSchema,
           schema: pages.recreationalVehicleRecords.schema,
           depends: formData => formData.questions.hasRecreationalVehicle,
+          editModeOnReviewPage: true,
         },
         otherAssets: {
           path: 'other-assets',
@@ -344,6 +352,7 @@ const formConfig = {
           uiSchema: pages.otherAssetRecords.uiSchema,
           schema: pages.otherAssetRecords.schema,
           depends: formData => formData.questions.hasOtherAssets,
+          editModeOnReviewPage: true,
         },
       },
     },
@@ -368,6 +377,7 @@ const formConfig = {
           uiSchema: pages.utilityRecords.uiSchema,
           schema: pages.utilityRecords.schema,
           depends: formData => formData.questions.hasUtilities,
+          editModeOnReviewPage: true,
         },
         repayments: {
           path: 'repayments',
@@ -381,6 +391,7 @@ const formConfig = {
           uiSchema: pages.repaymentRecords.uiSchema,
           schema: pages.repaymentRecords.schema,
           depends: formData => formData.questions.hasRepayments,
+          editModeOnReviewPage: true,
         },
         otherExpenses: {
           path: 'other-expenses',
@@ -394,6 +405,7 @@ const formConfig = {
           uiSchema: pages.otherExpenseRecords.uiSchema,
           schema: pages.otherExpenseRecords.schema,
           depends: formData => formData.questions.hasOtherExpenses,
+          editModeOnReviewPage: true,
         },
       },
     },

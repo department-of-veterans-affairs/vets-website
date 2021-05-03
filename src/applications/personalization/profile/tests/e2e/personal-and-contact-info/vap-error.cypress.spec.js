@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import { mockUser } from '@@profile/tests/fixtures/users/user-vap-error.js';
@@ -8,8 +7,6 @@ import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
 import mockPaymentInfoNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
 
 const setup = () => {
-  disableFTUXModals();
-
   cy.login(mockUser);
   cy.route('GET', 'v0/profile/personal_information', mockPersonalInformation);
   cy.route('GET', 'v0/profile/service_history', mockServiceHistory);
