@@ -36,6 +36,7 @@ export const uiSchema = {
         doNotScroll: true,
         showSave: true,
         itemName: 'trailer, camper, or boat',
+        keepInPageOnReview: true,
       },
       items: {
         recreationalVehicleType: {
@@ -74,7 +75,6 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
-            title: 'Recreational vehicle',
             required: ['recreationalVehicleType', 'recreationalVehicleAmount'],
             properties: {
               recreationalVehicleType: {
