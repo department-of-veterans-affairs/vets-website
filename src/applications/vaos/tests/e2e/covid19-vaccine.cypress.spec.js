@@ -82,7 +82,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
 
       expect(request.clinic.siteCode).to.eq('983');
       expect(request.clinic.clinicId).to.eq('455');
@@ -183,7 +183,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
 
       expect(request.clinic.siteCode).to.eq('983');
       expect(request.clinic.clinicId).to.eq('455');

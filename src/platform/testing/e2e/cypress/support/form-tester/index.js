@@ -508,11 +508,6 @@ const testForm = testConfig => {
       }
 
       cy.syncFixtures({
-        // Load example upload data as a fixture.
-        'example-upload.png': path.join(
-          __dirname,
-          `../../../../example-upload.png`,
-        ),
         ...fixtures,
       }).then(setup);
     });
