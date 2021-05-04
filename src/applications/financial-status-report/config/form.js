@@ -95,11 +95,11 @@ const formConfig = {
           initialData: {
             personalData: {
               address: {
-                countryName: '',
                 street: '',
                 city: '',
-                stateCode: '',
-                zipCode: '',
+                state: '',
+                country: '',
+                postalCode: '',
               },
               telephoneNumber: '',
               emailAddress: '',

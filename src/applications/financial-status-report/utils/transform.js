@@ -55,9 +55,9 @@ export const transform = ({ data }) => {
         addresslineTwo: personalData.address.street2 || '',
         addresslineThree: '',
         city: personalData.address.city,
-        stateOrProvince: personalData.address.stateCode,
-        zipOrPostalCode: personalData.address.zipCode,
-        countryName: personalData.address.countryCodeIso3,
+        stateOrProvince: personalData.address.state,
+        zipOrPostalCode: personalData.address.postalCode,
+        countryName: personalData.address.country,
       },
       married: questions.maritalStatus,
       spouseFullName: {
