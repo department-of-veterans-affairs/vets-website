@@ -8,14 +8,14 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
 ];
 
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
-const IS_PROD_BRANCH = options.environment === 'master';
+const IS_PROD_BRANCH = options.env.replace('/refs/heads/', '') === 'master'; // format: /refs/heads/
 const contentOnlyBuild = options.contentOnlyBuild;
 // const reportPath = path.join(__dirname, '../../logs/localhost-broken-links.json'); // TODO: Maybe argparse parameter to determine environment
 const reportPath = options.path;
 const maxBrokenLinks = 10;
 let color = 'warning';
 
-console.log('branch name', options.environment); // eslint-disable-line no-console
+console.log('branch name', options.env.replace('/refs/heads/', '')); // eslint-disable-line no-console
 console.log('rp', reportPath); // eslint-disable-line no-console
 
 // broken links detected
