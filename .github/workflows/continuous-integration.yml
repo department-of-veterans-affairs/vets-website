@@ -253,7 +253,7 @@ jobs:
 
       - name: Get branch name
         id: get-branch-name
-        run: echo ::set-output name=BRANCH_NAME::$(echo ${{ GITHUB_REF#refs/heads/ }})
+        run: echo ::set-output name=BRANCH_NAME::$(echo ${ GITHUB_REF })
         shell: bash
 
       - name: Get Node version
