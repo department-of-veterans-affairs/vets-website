@@ -284,18 +284,6 @@ module.exports = (env = {}) => {
     );
   }
 
-  // Copy over image assets for when metalsmith is removed
-  baseConfig.plugins.push(
-    new CopyPlugin({
-      patterns: [
-        {
-          from: 'src/site/assets',
-          to: path.join(outputPath, '..', ''),
-        },
-      ],
-    }),
-  );
-
   // Optionally generate landing pages in the absence of a content build.
   if (buildOptions.scaffold) {
     const landingPagePath = rootUrl =>
