@@ -21,24 +21,6 @@ describe('health care questionnaire -- utils -- get appointment status --', () =
       expect(result).to.be.equal('the current status');
     });
   });
-  describe('getStatus', () => {
-    it('appointment is undefined', () => {
-      const result = appointment.getStartDateTime(undefined);
-      expect(result).to.be.null;
-    });
-    it("appointment exists, but appointment start time doesn't ", () => {
-      const result = appointment.getStartDateTime({
-        start: undefined,
-      });
-      expect(result).to.be.undefined;
-    });
-    it('appointment status exists', () => {
-      const result = appointment.getStartDateTime({
-        start: 'Sample Time',
-      });
-      expect(result).to.be.equal('Sample Time');
-    });
-  });
   describe('getBookingNote', () => {
     it('appointment is undefined', () => {
       const result = appointment.getBookingNote(undefined);
