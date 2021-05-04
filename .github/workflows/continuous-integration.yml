@@ -274,8 +274,14 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
+      - name: Fetch Drupal cache
+        run: yarn fetch-drupal-cache
+
       - name: Build
         run: yarn build --buildtype vagovprod --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
         timeout-minutes: 30
         env:
           NODE_ENV: production
+
+      - name: Run Nightwatch Tests
+        run: yarn test:e2e
