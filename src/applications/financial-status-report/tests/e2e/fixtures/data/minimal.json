@@ -9,7 +9,7 @@
     "hasVehicle": false,
     "hasRealEstate": false,
     "hasDependents": false,
-    "maritalStatus": "Single",
+    "isMarried": false,
     "hasAdditionalIncome": false,
     "hasSocialSecurity": false,
     "vetPreviouslyEmployed": false,
@@ -32,11 +32,11 @@
   "personalData": {
     "address": {
       "livesOnMilitaryBaseInfo": {},
-      "countryName": "United States",
+      "country": "United States",
       "street": "123 Fake St",
       "city": "Tampa",
-      "stateCode": "FL",
-      "zipCode": "33543"
+      "state": "FL",
+      "postalCode": "33543"
     },
     "telephoneNumber": "4445551212",
     "emailAddress": "test2@test1.net",
