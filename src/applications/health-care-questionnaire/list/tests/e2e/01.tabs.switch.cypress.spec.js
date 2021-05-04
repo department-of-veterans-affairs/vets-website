@@ -3,7 +3,7 @@ import basicUser from './fixtures/users/user-basic.json';
 describe('health care questionnaire list -- tabs ', () => {
   it('-- default to to do', () => {
     cy.fixture(
-      '../../src/applications/health-care-questionnaire/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
+      'applications/health-care-questionnaire/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
     ).then(features => {
       cy.intercept('GET', '/v0/feature_toggles*', features);
       cy.login(basicUser);
@@ -15,7 +15,7 @@ describe('health care questionnaire list -- tabs ', () => {
   });
   it('-- switch to completed tab', () => {
     cy.fixture(
-      '../../src/applications/health-care-questionnaire/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
+      'applications/health-care-questionnaire/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
     ).then(features => {
       cy.intercept('GET', '/v0/feature_toggles*', features);
       cy.login(basicUser);
@@ -28,7 +28,7 @@ describe('health care questionnaire list -- tabs ', () => {
   });
   it('-- switch to todo tab', () => {
     cy.fixture(
-      '../../src/applications/health-care-questionnaire/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
+      'applications/health-care-questionnaire/questionnaire/tests/e2e/fixtures/mocks/feature-toggles.enabled.json',
     ).then(features => {
       cy.intercept('GET', '/v0/feature_toggles*', features);
       cy.login(basicUser);
