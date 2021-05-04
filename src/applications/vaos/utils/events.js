@@ -28,7 +28,7 @@ export function resetDataLayer() {
     'error-key': undefined,
     appointmentType: undefined,
     facilityType: undefined,
-    'va-facility': undefined,
+    'facility-id': undefined,
     'tab-text': undefined,
     alertBoxHeading: undefined,
     'vaos-item-type': undefined,

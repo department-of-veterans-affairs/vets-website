@@ -382,7 +382,7 @@ export function confirmAppointment(history) {
 
       const data = selectCovid19VaccineFormData(getState());
       const facilityID = {
-        'va-facility': data.vaFacility,
+        'facility-id': data.vaFacility,
       };
 
       dispatch({

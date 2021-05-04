@@ -212,13 +212,13 @@ describe('VAOS <ReviewPage> VA request', () => {
       'error-key': undefined,
       appointmentType: undefined,
       facilityType: undefined,
+      'facility-id': undefined,
       'health-express-care-reason': undefined,
       'vaos-item-type': undefined,
       'vaos-number-of-items': undefined,
       'tab-text': undefined,
       alertBoxHeading: undefined,
       'vaos-number-of-preferred-providers': undefined,
-      'va-facility': undefined,
     });
   });
 
@@ -269,13 +269,13 @@ describe('VAOS <ReviewPage> VA request', () => {
       'error-key': undefined,
       appointmentType: undefined,
       facilityType: undefined,
+      'facility-id': undefined,
       'health-express-care-reason': undefined,
       'vaos-item-type': undefined,
       'vaos-number-of-items': undefined,
       'tab-text': undefined,
       alertBoxHeading: undefined,
       'vaos-number-of-preferred-providers': undefined,
-      'va-facility': undefined,
     });
   });
 });
