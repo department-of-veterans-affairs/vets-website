@@ -90,10 +90,8 @@ const IntroductionPage = props => {
               <p>
                 If you have questions about your order, you can call the DLC
                 Customer Service Section at{' '}
-                <a aria-label="3 0 3. 2 7 3. 6 2 0 0." href="tel:303-273-6200">
-                  303-273-6200
-                </a>{' '}
-                or email <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.{' '}
+                <Telephone contact={'303-273-6200'} /> or email{' '}
+                <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
               </p>
             </li>
           </ol>
