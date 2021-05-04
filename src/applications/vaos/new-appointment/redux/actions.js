@@ -68,7 +68,7 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
-import { fetchPatientEligibilityAndClinics } from '../../services/patient';
+import { fetchFlowEligibilityAndClinics } from '../../services/patient';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -281,7 +281,7 @@ export function checkEligibility({ location, showModal }) {
         eligibility,
         clinics,
         pastAppointments,
-      } = await fetchPatientEligibilityAndClinics({
+      } = await fetchFlowEligibilityAndClinics({
         location,
         typeOfCare,
         directSchedulingEnabled,
@@ -582,7 +582,7 @@ export function openFacilityPage(page, uiSchema, schema) {
         newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
 
       if (eligibilityDataNeeded && !eligibilityChecks) {
-        eligibilityResults = await fetchPatientEligibilityAndClinics({
+        eligibilityResults = await fetchFlowEligibilityAndClinics({
           location: locations.find(location => location.id === locationId),
           typeOfCare,
           directSchedulingEnabled,
@@ -694,7 +694,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           eligibility,
           clinics,
           pastAppointments,
-        } = await fetchPatientEligibilityAndClinics({
+        } = await fetchFlowEligibilityAndClinics({
           location: locations.find(location => location.id === data.vaFacility),
           typeOfCare,
           directSchedulingEnabled,

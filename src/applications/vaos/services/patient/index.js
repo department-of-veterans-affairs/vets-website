@@ -237,7 +237,7 @@ function logEligibilityExplanation(
   /* eslint-enable no-console */
 }
 
-export async function fetchPatientEligibilityAndClinics({
+export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
   directSchedulingEnabled,
@@ -254,6 +254,7 @@ export async function fetchPatientEligibilityAndClinics({
     }),
   };
 
+  // We don't want to make unnecessary api calls if DS is turned off
   if (directSchedulingAvailable) {
     apiCalls.clinics = getAvailableHealthcareServices({
       facilityId: location.id,
@@ -265,7 +266,12 @@ export async function fetchPatientEligibilityAndClinics({
     );
   }
 
+  // This waits for all the api calls we're running in parallel to finish
+  // It does not have a try/catch because all errors in the calls are caught
+  // and resolved, so that we can still provide users a path forward if enough
+  // checks succeeded
   const results = await promiseAllFromObject(apiCalls);
+
   const eligibility = {
     direct: directSchedulingEnabled,
     directReasons: !directSchedulingEnabled
@@ -275,6 +281,9 @@ export async function fetchPatientEligibilityAndClinics({
     requestReasons: [],
   };
 
+  // This is going through all of our request related checks and setting
+  // to false if we fail any of them. Order is important here, because the UI
+  // will only be able to show one reason, the first one
   if (!locationSupportsRequests(location, typeOfCare)) {
     eligibility.request = false;
     eligibility.requestReasons.push(ELIGIBILITY_REASONS.notSupported);
@@ -297,6 +306,7 @@ export async function fetchPatientEligibilityAndClinics({
     }
   }
 
+  // Similar to above, but for direct scheduling
   if (!locationSupportsDirectScheduling(location, typeOfCare)) {
     eligibility.direct = false;
     eligibility.directReasons.push(ELIGIBILITY_REASONS.notSupported);
@@ -331,6 +341,8 @@ export async function fetchPatientEligibilityAndClinics({
 
   return {
     eligibility,
+    // it feels sort of hackish to return these along with our main
+    // eligibility calcs, but we want to cache them for future use
     clinics: results.clinics,
     pastAppointments: results.pastAppointments,
   };
