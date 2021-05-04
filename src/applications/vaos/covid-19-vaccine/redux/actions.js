@@ -379,8 +379,10 @@ export function confirmAppointment(history) {
     try {
       const appointmentBody = transformFormToAppointment(getState());
       await submitAppointment(appointmentBody);
+
+      const data = selectCovid19VaccineFormData(getState());
       const facilityID = {
-        'va-facility': appointmentBody.vaFacility,
+        'va-facility': data.vaFacility,
       };
 
       dispatch({
