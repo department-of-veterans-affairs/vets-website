@@ -283,5 +283,10 @@ jobs:
         env:
           NODE_ENV: production
 
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt' # See 'Supported distributions' for available options
+          java-version: '11'
+
       - name: Run Nightwatch Tests
         run: yarn test:e2e
