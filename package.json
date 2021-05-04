@@ -144,6 +144,7 @@
     "@testing-library/dom": "^7.26.6",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
+    "JSONStream": "^1.3.5",
     "ajv": "^6.12.2",
     "append-query": "2.0.1",
     "ascii-table": "^0.0.9",
@@ -176,7 +177,7 @@
     "cors": "^2.7.1",
     "css-loader": "^1.0.0",
     "cssnano": "^4.1.10",
-    "cypress": "^6.8.0",
+    "cypress": "^6.9.1",
     "cypress-axe": "^0.12.2",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
@@ -365,7 +366,7 @@
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#4089b6b4390f05738e0dcef402c56978565a626c",
-    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.4.0",
+    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.5.0",
     "whatwg-fetch": "^2.0.3"
   },
   "resolutions": {
@@ -380,7 +381,7 @@
     "**/netmask": "^2.0.1",
     "**/is-svg": "^4.2.2",
     "**/y18n": "^ 4.0.1",
-    "cypress": "^6.8.0",
+    "cypress": "^6.9.1",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }

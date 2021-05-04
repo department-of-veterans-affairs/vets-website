@@ -42,9 +42,6 @@ const nodeCampaignLandingPage = `
         entityType
         entityBundle
         entityId
-        ... on TaxonomyTermAudienceTags {
-          name
-        }
         ... on TaxonomyTermAudienceBeneficiaries {
           name
         }
