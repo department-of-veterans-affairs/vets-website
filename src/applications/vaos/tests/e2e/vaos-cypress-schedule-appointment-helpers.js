@@ -5,7 +5,9 @@ const today = moment();
 export function chooseTypeOfCareTest(label) {
   cy.url().should('include', '/new-appointment');
   cy.axeCheckBestPractice();
-  cy.findByLabelText(label).click();
+  cy.findByLabelText(label)
+    .focus()
+    .click();
   cy.findByText(/Continue/).click();
 }
 
