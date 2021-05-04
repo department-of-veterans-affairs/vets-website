@@ -286,7 +286,8 @@ jobs:
           NODE_ENV: production
 
       - name: Broken link checks
+        id: get-broken-link-info
         run: node ./script/github-actions/check-broken-links.js -b ${{ steps.get-branch-name.outputs.BRANCH_NAME }} -p $GITHUB_WORKSPACE/logs/vagovprod-broken-links.json -e vagovprod -s $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
 
       - name: echo color
-        run: echo ${{ env.SLACK_COLOR }}
+        run: echo ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}

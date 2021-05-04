@@ -23,7 +23,7 @@ const maxBrokenLinks = 10;
 let color = 'warning';
 
 // for testing purposes
-console.log(`SLACK_COLOR=${color} >> $GITHUB_ENV`); // eslint-disable-line no-console
+console.log(`::set-output name=SLACK_COLOR::${color}`); // eslint-disable-line no-console
 
 // broken links detected
 if (fs.existsSync(reportPath)) {
@@ -43,11 +43,11 @@ if (fs.existsSync(reportPath)) {
   const message = `${heading}\n${brokenLinks.summary}`; // TODO: stripMargin equiv
 
   console.log(`${brokenLinks.brokenLinksCount} broken links found`); // eslint-disable-line no-console
-  console.log(`SLACK_MESSAGE=${message} >> $GITHUB_ENV`); // eslint-disable-line no-console
+  console.log(`::set-output name=SLACK_MESSAGE::${message}`); // eslint-disable-line no-console
 
   if (!IS_PROD_BRANCH && !contentOnlyBuild) {
     return;
   }
 
-  console.log(`SLACK_COLOR=${color} >> $GITHUB_ENV`); // eslint-disable-line no-console
+  console.log(`::set-output name=SLACK_COLOR::${color}`); // eslint-disable-line no-console
 }
