@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 
-import App from '../components/app/App';
+import Chatbox from '../components/chatbox/Chatbox';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import {
   mockApiRequest,
@@ -46,7 +46,7 @@ describe('App', () => {
       loadWebChat();
       mockApiRequest({});
 
-      const wrapper = renderInReduxProvider(<App />, {
+      const wrapper = renderInReduxProvider(<Chatbox />, {
         initialState: {
           featureToggles: {
             loading: false,
@@ -54,9 +54,7 @@ describe('App', () => {
         },
       });
 
-      await waitFor(
-        () => expect(wrapper.getByTestId('webchat-container')).to.exist,
-      );
+      await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
     });
   });
 
@@ -70,7 +68,7 @@ describe('App', () => {
     it('should not render webchat until webchat framework is loaded', async () => {
       mockApiRequest({});
 
-      const wrapper = renderInReduxProvider(<App webchatTimeout={1000} />, {
+      const wrapper = renderInReduxProvider(<Chatbox webchatTimeout={1000} />, {
         initialState: {
           featureToggles: {
             loading: false,
@@ -79,21 +77,19 @@ describe('App', () => {
       });
 
       expect(wrapper.getByRole('progressbar')).to.exist;
-      expect(wrapper.queryByTestId('webchat-container')).to.not.exist;
+      expect(wrapper.queryByTestId('webchat')).to.not.exist;
 
       await wait(500);
 
       loadWebChat();
 
-      await waitFor(
-        () => expect(wrapper.getByTestId('webchat-container')).to.exist,
-      );
+      await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
     });
 
     it('should display error if webchat does not load after x milliseconds', async () => {
       mockApiRequest({});
 
-      const wrapper = renderInReduxProvider(<App webchatTimeout={1500} />, {
+      const wrapper = renderInReduxProvider(<Chatbox webchatTimeout={1500} />, {
         initialState: {
           featureToggles: {
             loading: false,
@@ -125,7 +121,7 @@ describe('App', () => {
 
       mockApiRequest({});
 
-      renderInReduxProvider(<App />, {
+      renderInReduxProvider(<Chatbox />, {
         initialState: {
           featureToggles: {
             loading: true,
@@ -141,7 +137,7 @@ describe('App', () => {
 
       mockApiRequest({});
 
-      const wrapper = renderInReduxProvider(<App />, {
+      const wrapper = renderInReduxProvider(<Chatbox />, {
         initialState: {
           featureToggles: {
             loading: true,
@@ -165,7 +161,7 @@ describe('App', () => {
         },
       });
 
-      const wrapper = renderInReduxProvider(<App />, {
+      const wrapper = renderInReduxProvider(<Chatbox />, {
         store,
       });
 
@@ -183,7 +179,7 @@ describe('App', () => {
     it('should show loading indicator', () => {
       loadWebChat();
       mockApiRequest({ token: 'ANOTHERFAKETOKEN' });
-      const wrapper = renderInReduxProvider(<App />, {
+      const wrapper = renderInReduxProvider(<Chatbox />, {
         initialState: {
           featureToggles: {
             loading: false,
@@ -199,7 +195,7 @@ describe('App', () => {
     it('should render web chat', async () => {
       loadWebChat();
       mockApiRequest({ token: 'FAKETOKEN' });
-      const wrapper = renderInReduxProvider(<App />, {
+      const wrapper = renderInReduxProvider(<Chatbox />, {
         initialState: {
           featureToggles: {
             loading: false,
@@ -215,7 +211,7 @@ describe('App', () => {
     it('should display error message', async () => {
       loadWebChat();
       mockApiRequest({}, false);
-      const wrapper = renderInReduxProvider(<App />, {
+      const wrapper = renderInReduxProvider(<Chatbox />, {
         initialState: {
           featureToggles: {
             loading: false,
@@ -237,7 +233,7 @@ describe('App', () => {
         { response: { token: 'FAKETOKEN' }, shouldResolve: true },
       ]);
 
-      const wrapper = renderInReduxProvider(<App />, {
+      const wrapper = renderInReduxProvider(<Chatbox />, {
         initialState: {
           featureToggles: {
             loading: false,

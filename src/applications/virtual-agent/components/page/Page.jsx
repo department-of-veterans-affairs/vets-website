@@ -1,6 +1,6 @@
 import React from 'react';
 import Disclaimer from './Disclaimer';
-import App from '../app/App';
+import Chatbox from '../chatbox/Chatbox';
 
 export default function Page() {
   return (
@@ -10,7 +10,7 @@ export default function Page() {
           <Disclaimer />
         </div>
         <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--5">
-          <App />
+          <Chatbox />
         </div>
       </div>
     </div>

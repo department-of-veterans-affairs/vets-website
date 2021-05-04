@@ -38,7 +38,7 @@ const IntroductionPage = props => {
   }
 
   const facilityName = organizationSelector.getName(organization);
-  const appointmentTime = appointmentSelector.getStartTime(appointment);
+  const appointmentTime = appointmentSelector.getStartDateTime(appointment);
   let expirationTime = appointmentTime;
 
   if (expirationTime) {
