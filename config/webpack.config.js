@@ -284,7 +284,7 @@ module.exports = (env = {}) => {
     );
   }
 
-  // Copy over image assets to fill in the header and other content.
+  // Copy over image assets for when metalsmith is removed
   baseConfig.plugins.push(
     new CopyPlugin({
       patterns: [
