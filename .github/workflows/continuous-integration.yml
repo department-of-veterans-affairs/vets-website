@@ -286,4 +286,4 @@ jobs:
           NODE_ENV: production
 
       - name: Broken link checks
-        run: node ./script/github-actions/check-broken-links.js --env ${{ steps.get-branch-name.outputs.BRANCH_NAME }} --path `${ GITHUB_WORKSPACE }/logs/vagovprod-broken-links.json`
+        run: node ./script/github-actions/check-broken-links.js --e ${{ steps.get-branch-name.outputs.BRANCH_NAME }} --pa `${ GITHUB_WORKSPACE }/logs/vagovprod-broken-links.json`
