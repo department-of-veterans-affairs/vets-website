@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { expect } from 'chai';
 import { waitFor, screen } from '@testing-library/react';
+import sinon from 'sinon';
 
 import Chatbox from '../components/chatbox/Chatbox';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -18,13 +19,14 @@ export const CHATBOT_ERROR_MESSAGE =
 
 describe('App', () => {
   let oldWindow;
+  let directLineSpy;
 
   function loadWebChat() {
     global.window = Object.create(global.window);
     Object.assign(global.window, {
       WebChat: {
         createStore: () => {},
-        createDirectLine: () => {},
+        createDirectLine: directLineSpy,
         ReactWebChat: () => {
           return <div />;
         },
@@ -33,6 +35,7 @@ describe('App', () => {
   }
 
   beforeEach(() => {
+    directLineSpy = sinon.spy();
     resetFetch();
     oldWindow = global.window;
   });
@@ -205,6 +208,15 @@ describe('App', () => {
       });
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+
+      expect(directLineSpy.called).to.be.true;
+      expect(
+        directLineSpy.calledWith({
+          token: 'FAKETOKEN',
+          domain:
+            'https://northamerica.directline.botframework.com/v3/directline',
+        }),
+      ).to.be.true;
     });
   });
 
