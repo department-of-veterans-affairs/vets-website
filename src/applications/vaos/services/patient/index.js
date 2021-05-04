@@ -2,10 +2,17 @@
  * Functions related to patient specific information
  * @module services/Patient
  */
-import { checkPastVisits, getRequestLimits } from '../var';
-import { recordVaosError } from '../../utils/events';
+import environment from 'platform/utilities/environment';
+import {
+  checkPastVisits,
+  getLongTermAppointmentHistory,
+  getRequestLimits,
+} from '../var';
+import { recordEligibilityFailure, recordVaosError } from '../../utils/events';
 import { captureError } from '../../utils/error';
+import { ELIGIBILITY_REASONS } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
+import { getAvailableHealthcareServices } from '../healthcare-service';
 
 /**
  * @typedef PatientEligibilityForType
@@ -29,7 +36,7 @@ function createErrorHandler(errorKey) {
   return data => {
     captureError(data, true);
     recordVaosError(`eligibility-${errorKey}`);
-    return 'error';
+    return new Error('Eligibility error');
   };
 }
 
@@ -88,7 +95,9 @@ async function fetchPatientEligibilityFromVAR({
   const results = await promiseAllFromObject(checks);
   const output = { direct: null, request: null };
 
-  if (type !== 'request' && results.directPastVisit !== 'error') {
+  if (results.directPastVisit instanceof Error) {
+    output.direct = new Error('Direct scheduling eligibility check error');
+  } else if (type !== 'request') {
     output.direct = {
       hasRequiredAppointmentHistory: hasVisitedInPastMonths(
         results.directPastVisit,
@@ -97,10 +106,11 @@ async function fetchPatientEligibilityFromVAR({
   }
 
   if (
-    type !== 'direct' &&
-    results.requestPastVisit !== 'error' &&
-    results.requestLimit !== 'error'
+    results.requestPastVisit instanceof Error ||
+    results.requestLimit instanceof Error
   ) {
+    output.request = new Error('Request eligibility check error');
+  } else if (type !== 'direct') {
     output.request = {
       hasRequiredAppointmentHistory: hasVisitedInPastMonths(
         results.requestPastVisit,
@@ -132,4 +142,196 @@ export async function fetchPatientEligibility({
   type = null,
 }) {
   return fetchPatientEligibilityFromVAR({ typeOfCare, location, type });
+}
+
+function locationSupportsDirectScheduling(location, typeOfCare) {
+  return (
+    // this check is included due to old two step facilities page
+    location.legacyVAR.directSchedulingSupported ||
+    location.legacyVAR.settings?.[typeOfCare.id]?.direct.enabled
+  );
+}
+
+function locationSupportsRequests(location, typeOfCare) {
+  return (
+    // this check is included due to old two step facilities page
+    location.legacyVAR.requestSupported ||
+    location.legacyVAR.settings?.[typeOfCare.id]?.request.enabled
+  );
+}
+
+function hasMatchingClinics(clinics, pastAppointments) {
+  return clinics?.some(
+    clinic =>
+      !!pastAppointments.find(appt => {
+        return (
+          clinic.identifier[0].value ===
+          `urn:va:healthcareservice:${appt.facilityId}:${appt.sta6aid}:${
+            appt.clinicId
+          }`
+        );
+      }),
+  );
+}
+
+/*
+ * This function logs information about eligibility to the console, to help with
+ * testing in non-production environments
+ */
+/* istanbul ignore next */
+function logEligibilityExplanation(
+  location,
+  typeOfCare,
+  { request, direct, directReasons, requestReasons },
+) {
+  if (environment.isProduction() || navigator.userAgent === 'node.js') {
+    return;
+  }
+  const reasonMapping = {
+    [ELIGIBILITY_REASONS.notEnabled]:
+      'The FE has disabled direct scheduling via feature toggle',
+    [ELIGIBILITY_REASONS.notSupported]:
+      'Disabled in VATS for this location and type of care',
+    [ELIGIBILITY_REASONS.noRecentVisit]:
+      'The var-resources visited in past months service indicated that there has not been a recent visit',
+    [ELIGIBILITY_REASONS.overRequestLimit]:
+      'The var-resources request limit service indicated that there are too many outstanding requests',
+    [ELIGIBILITY_REASONS.noClinics]:
+      'The var-resources clinics service did not return any clinics',
+    [ELIGIBILITY_REASONS.noMatchingClinics]:
+      'The FE could not find any of the clinics returned by var-resources in the past 24 months of appointments',
+    [ELIGIBILITY_REASONS.error]:
+      'There were errors trying to determine eligibility',
+  };
+
+  try {
+    /* eslint-disable no-console */
+    console.log('----');
+    console.log(
+      `%cEligibility checks for location ${location.id} and type of care ${
+        typeOfCare.id
+      }`,
+      'font-weight: bold',
+    );
+
+    if (!direct) {
+      console.log('%cUser not eligible for direct scheduling:', 'color: red');
+      directReasons.map(reason => reasonMapping[reason]).forEach(message => {
+        console.log(`  ${message}`);
+      });
+    } else {
+      console.log('%cUser passed checks for direct scheduling', 'color: green');
+    }
+
+    if (!request) {
+      console.log('%cUser not eligible for requests:', 'color: red');
+      requestReasons.map(reason => reasonMapping[reason]).forEach(message => {
+        console.log(`  ${message}`);
+      });
+    } else {
+      console.log('%cUser passed checks for requests', 'color: green');
+    }
+  } catch (e) {
+    captureError(e);
+  }
+  /* eslint-enable no-console */
+}
+
+export async function fetchPatientEligibilityAndClinics({
+  typeOfCare,
+  location,
+  directSchedulingEnabled,
+}) {
+  const directSchedulingAvailable =
+    locationSupportsDirectScheduling(location, typeOfCare) &&
+    directSchedulingEnabled;
+
+  const apiCalls = {
+    patientEligibility: fetchPatientEligibility({
+      typeOfCare,
+      location,
+      type: !directSchedulingAvailable ? 'request' : null,
+    }),
+  };
+
+  if (directSchedulingAvailable) {
+    apiCalls.clinics = getAvailableHealthcareServices({
+      facilityId: location.id,
+      typeOfCareId: typeOfCare.id,
+      systemId: location.vistaId,
+    }).catch(createErrorHandler('direct-available-clinics-error'));
+    apiCalls.pastAppointments = getLongTermAppointmentHistory().catch(
+      createErrorHandler('direct-no-matching-past-clinics-error'),
+    );
+  }
+
+  const results = await promiseAllFromObject(apiCalls);
+  const eligibility = {
+    direct: directSchedulingEnabled,
+    directReasons: !directSchedulingEnabled
+      ? [ELIGIBILITY_REASONS.notEnabled]
+      : [],
+    request: true,
+    requestReasons: [],
+  };
+
+  if (!locationSupportsRequests(location, typeOfCare)) {
+    eligibility.request = false;
+    eligibility.requestReasons.push(ELIGIBILITY_REASONS.notSupported);
+  } else if (results.patientEligibility.request instanceof Error) {
+    eligibility.request = false;
+    eligibility.requestReasons.push(ELIGIBILITY_REASONS.error);
+  } else {
+    if (!results.patientEligibility.request.hasRequiredAppointmentHistory) {
+      eligibility.request = false;
+      eligibility.requestReasons.push(ELIGIBILITY_REASONS.noRecentVisit);
+      recordEligibilityFailure('request-past-visits');
+    }
+
+    if (
+      !results.patientEligibility.request.isEligibleForNewAppointmentRequest
+    ) {
+      eligibility.request = false;
+      eligibility.requestReasons.push(ELIGIBILITY_REASONS.overRequestLimit);
+      recordEligibilityFailure('request-exceeded-outstanding-requests');
+    }
+  }
+
+  if (!locationSupportsDirectScheduling(location, typeOfCare)) {
+    eligibility.direct = false;
+    eligibility.directReasons.push(ELIGIBILITY_REASONS.notSupported);
+  } else if (
+    results.patientEligibility.direct instanceof Error ||
+    results.clinics instanceof Error ||
+    results.pastAppointments instanceof Error
+  ) {
+    eligibility.direct = false;
+    eligibility.directReasons.push(ELIGIBILITY_REASONS.error);
+  } else {
+    if (!results.patientEligibility.direct.hasRequiredAppointmentHistory) {
+      eligibility.direct = false;
+      eligibility.directReasons.push(ELIGIBILITY_REASONS.noRecentVisit);
+      recordEligibilityFailure('direct-check-past-visits');
+    }
+
+    if (!results.clinics.length) {
+      eligibility.direct = false;
+      eligibility.directReasons.push(ELIGIBILITY_REASONS.noClinics);
+      recordEligibilityFailure('direct-available-clinics');
+    }
+
+    if (!hasMatchingClinics(results.clinics, results.pastAppointments)) {
+      eligibility.direct = false;
+      eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
+      recordEligibilityFailure('direct-no-matching-past-clinics');
+    }
+  }
+
+  logEligibilityExplanation(location, typeOfCare, eligibility);
+
+  return {
+    eligibility,
+    clinics: results.clinics,
+    pastAppointments: results.pastAppointments,
+  };
 }

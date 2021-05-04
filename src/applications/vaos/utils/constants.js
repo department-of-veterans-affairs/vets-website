@@ -300,3 +300,13 @@ export const EXPRESS_CARE_ERROR_REASON = {
   error: 'error',
   noActiveFacility: 'noActiveFacility',
 };
+
+export const ELIGIBILITY_REASONS = {
+  notEnabled: 'notEnabled',
+  notSupport: 'noSupported',
+  noRecentVisit: 'noRecentVisit',
+  overRequestLimit: 'overRequestLimit',
+  noClinics: 'noClinics',
+  noMatchingClinics: 'noMatchingClinics',
+  error: 'error',
+};

@@ -5,27 +5,36 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import { aOrAn, lowerCase } from '../../../utils/formatters';
 import State from '../../../components/State';
 import NewTabAnchor from '../../../components/NewTabAnchor';
+import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 
 export default function SingleFacilityEligibilityCheckMessage({
   facility,
   eligibility,
   typeOfCare,
+  typeOfCareName,
 }) {
   let title =
     'We found one facility that accepts online scheduling for this care';
   let message;
+  const requestReason = eligibility.requestReasons[0];
+  const monthRequirement = facility.legacyVAR.settings
+    ? (facility.legacyVAR.settings[typeOfCare.id].request
+        .patientHistoryDuration /
+        365) *
+      12
+    : '12-24';
 
-  if (eligibility.requestFailed) {
+  if (requestReason === ELIGIBILITY_REASONS.error) {
     return <ErrorMessage />;
   }
 
-  if (!eligibility.requestPastVisit) {
+  if (requestReason === ELIGIBILITY_REASONS.noRecentVisit) {
     message = (
       <>
         <p>
           To request an appointment online at this location, you need to have
-          had {aOrAn(typeOfCare)} {lowerCase(typeOfCare)} appointment at this
-          facility within the last {eligibility.requestPastVisitValue} months.
+          had {aOrAn(typeOfCareName)} {lowerCase(typeOfCareName)} appointment at
+          this facility within the last {monthRequirement} months.
         </p>
         <p>
           You’ll need to call the facility to schedule this appointment. Or{' '}
@@ -36,7 +45,7 @@ export default function SingleFacilityEligibilityCheckMessage({
         </p>
       </>
     );
-  } else if (!eligibility.requestSupported) {
+  } else if (requestReason === ELIGIBILITY_REASONS.notSupported) {
     title =
       'The facility we found doesn’t accept online scheduling for this care';
     message = (
@@ -53,7 +62,7 @@ export default function SingleFacilityEligibilityCheckMessage({
         </p>
       </>
     );
-  } else if (!eligibility.requestLimit) {
+  } else if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {
     message = (
       <>
         <p>

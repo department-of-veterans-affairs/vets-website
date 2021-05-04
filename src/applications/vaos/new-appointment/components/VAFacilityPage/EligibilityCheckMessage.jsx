@@ -3,16 +3,26 @@ import { Link } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
+import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 
 export default function EligibilityCheckMessage({
   eligibility,
   facilityDetails,
+  typeOfCare,
   typeOfCareName,
 }) {
-  if (eligibility.requestFailed) {
+  const requestReason = eligibility.requestReasons[0];
+  const monthRequirement = facilityDetails.legacyVAR.settings
+    ? (facilityDetails.legacyVAR.settings[typeOfCare.id].request
+        .patientHistoryDuration /
+        365) *
+      12
+    : '12-24';
+
+  if (requestReason === ELIGIBILITY_REASONS.error) {
     return <ErrorMessage />;
   }
-  if (!eligibility.requestSupported) {
+  if (requestReason === ELIGIBILITY_REASONS.notSupported) {
     return (
       <div aria-atomic="true" aria-live="assertive">
         <AlertBox
@@ -26,7 +36,7 @@ export default function EligibilityCheckMessage({
       </div>
     );
   }
-  if (!eligibility.requestPastVisit) {
+  if (requestReason === ELIGIBILITY_REASONS.noRecentVisit) {
     return (
       <div aria-atomic="true" aria-live="assertive">
         <AlertBox
@@ -35,8 +45,8 @@ export default function EligibilityCheckMessage({
         >
           <p>
             You need to have visited this facility within the past{' '}
-            {eligibility.requestPastVisitValue} months for {typeOfCareName} to
-            request an appointment for this type of care.
+            {monthRequirement} months for {typeOfCareName} to request an
+            appointment for this type of care.
           </p>
           <p>
             Please call the facility to schedule your appointment or search for
@@ -46,7 +56,7 @@ export default function EligibilityCheckMessage({
       </div>
     );
   }
-  if (!eligibility.requestLimit) {
+  if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {
     return (
       <div aria-atomic="true" aria-live="assertive">
         <AlertBox

@@ -16,7 +16,6 @@ import {
   getTypeOfCare,
   getNewAppointment,
   getFormData,
-  getEligibilityStatus,
   getTypeOfCareFacilities,
   getCCEType,
 } from './selectors';
@@ -56,11 +55,6 @@ import {
   transformFormToAppointment,
 } from './helpers/formSubmitTransformers';
 import {
-  getEligibilityData,
-  recordEligibilityGAEvents,
-  logEligibilityExplanation,
-} from './helpers/eligibility';
-import {
   resetDataLayer,
   recordItemsRetrieved,
   recordEligibilityFailure,
@@ -74,6 +68,7 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
+import { fetchPatientEligibilityAndClinics } from '../../services/patient';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -269,12 +264,11 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
-export function checkEligibility({ location, siteId, showModal }) {
+export function checkEligibility({ location, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const typeOfCare = getTypeOfCare(getState().newAppointment.data);
-    const typeOfCareId = typeOfCare?.id;
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -283,11 +277,15 @@ export function checkEligibility({ location, siteId, showModal }) {
     try {
       const loadingStartTime = Date.now();
 
-      const eligibilityData = await getEligibilityData(
+      const {
+        eligibility,
+        clinics,
+        pastAppointments,
+      } = await fetchPatientEligibilityAndClinics({
         location,
         typeOfCare,
         directSchedulingEnabled,
-      );
+      });
 
       if (showModal) {
         recordEvent({
@@ -296,20 +294,18 @@ export function checkEligibility({ location, siteId, showModal }) {
         });
       }
 
-      recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
-      logEligibilityExplanation(eligibilityData, typeOfCareId, location.id);
-
       dispatch({
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
         typeOfCare,
         location,
-        eligibilityData,
+        eligibility,
+        pastAppointments,
+        clinics,
         facilityId: location.id,
         showModal,
       });
 
       try {
-        const eligibility = getEligibilityStatus(getState());
         if (!eligibility.direct && !eligibility.request) {
           const thunk = fetchFacilityDetails(location.id);
           await thunk(dispatch, getState);
@@ -536,7 +532,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     const isCernerOnly = selectIsCernerOnlyPatient(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let locations = null;
-    let eligibilityData = null;
+    let eligibilityResults = null;
     let parentId = newAppointment.data.vaParent;
     let locationId = newAppointment.data.vaFacility;
     let siteId = null;
@@ -586,14 +582,11 @@ export function openFacilityPage(page, uiSchema, schema) {
         newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
 
       if (eligibilityDataNeeded && !eligibilityChecks) {
-        eligibilityData = await getEligibilityData(
-          locations.find(location => location.id === locationId),
+        eligibilityResults = await fetchPatientEligibilityAndClinics({
+          location: locations.find(location => location.id === locationId),
           typeOfCare,
           directSchedulingEnabled,
-        );
-
-        recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
-        logEligibilityExplanation(eligibilityData, typeOfCareId, locationId);
+        });
       }
 
       dispatch({
@@ -604,8 +597,8 @@ export function openFacilityPage(page, uiSchema, schema) {
         parentFacilities,
         facilities: locations,
         typeOfCareId,
-        eligibilityData,
-        location: eligibilityData
+        ...eligibilityResults,
+        location: eligibilityResults
           ? locations.find(location => location.id === locationId)
           : null,
         isCernerOnly,
@@ -697,29 +690,27 @@ export function updateFacilityPageData(page, uiSchema, data) {
       });
 
       try {
-        const eligibilityData = await getEligibilityData(
-          locations.find(location => location.id === data.vaFacility),
+        const {
+          eligibility,
+          clinics,
+          pastAppointments,
+        } = await fetchPatientEligibilityAndClinics({
+          location: locations.find(location => location.id === data.vaFacility),
           typeOfCare,
           directSchedulingEnabled,
-        );
-
-        recordEligibilityGAEvents(eligibilityData, typeOfCareId, siteId);
-        logEligibilityExplanation(
-          eligibilityData,
-          typeOfCareId,
-          data.vaFacility,
-        );
+        });
 
         dispatch({
           type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
           typeOfCare,
-          eligibilityData,
+          eligibility,
+          clinics,
+          pastAppointments,
           location: locations.find(location => location.id === data.vaFacility),
           facilityId: data.vaFacility,
         });
 
         try {
-          const eligibility = getEligibilityStatus(getState());
           if (!eligibility.direct && !eligibility.request) {
             const thunk = fetchFacilityDetails(data.vaFacility);
             await thunk(dispatch, getState);

@@ -146,6 +146,7 @@ export default function ClinicChoicePage() {
           <div className="vads-u-margin-top--2">
             <EligibilityCheckMessage
               eligibility={eligibility}
+              typeOfCare={typeOfCare}
               typeOfCareName={typeOfCareLabel}
             />
           </div>

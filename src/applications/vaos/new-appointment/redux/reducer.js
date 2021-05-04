@@ -9,8 +9,6 @@ import {
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
-import { getEligibilityChecks, isEligible } from './helpers/eligibility';
-
 import {
   FORM_DATA_UPDATED,
   FORM_PAGE_OPENED,
@@ -521,7 +519,6 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;
-      const typeOfCare = getTypeOfCare(newData);
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
 
@@ -576,26 +573,19 @@ export default function formReducer(state = initialState, action) {
       let clinics = state.clinics;
       let pastAppointments = state.pastAppointments;
 
-      if (action.eligibilityData) {
-        const facilityEligibility = getEligibilityChecks(
-          action.eligibilityData,
-          action.location,
-          typeOfCare,
-        );
-
+      if (action.eligibility) {
         eligibility = {
           ...state.eligibility,
-          [`${data.vaFacility}_${action.typeOfCareId}`]: facilityEligibility,
+          [`${data.vaFacility}_${action.typeOfCareId}`]: action.eligibility,
         };
 
-        if (action.eligibilityData.clinics !== 'error') {
+        if (Array.isArray(action.clinics)) {
           clinics = {
             ...state.clinics,
-            [`${data.vaFacility}_${action.typeOfCareId}`]: action
-              .eligibilityData.clinics,
+            [`${data.vaFacility}_${action.typeOfCareId}`]: action.clinics,
           };
 
-          pastAppointments = action.eligibilityData.pastAppointments;
+          pastAppointments = action.pastAppointments;
         }
       }
 
@@ -723,21 +713,14 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
-      const eligibility = getEligibilityChecks(
-        action.eligibilityData,
-        action.location,
-        action.typeOfCare,
-      );
-      const canSchedule = isEligible(eligibility);
       const facilityId = action.facilityId || state.data.vaFacility;
 
       let clinics = state.clinics;
 
-      if (action.eligibilityData.clinics !== 'error') {
+      if (Array.isArray(action.clinics)) {
         clinics = {
           ...state.clinics,
-          [`${facilityId}_${action.typeOfCare?.id}`]: action.eligibilityData
-            .clinics,
+          [`${facilityId}_${action.typeOfCare?.id}`]: action.clinics,
         };
       }
 
@@ -746,12 +729,14 @@ export default function formReducer(state = initialState, action) {
         clinics,
         eligibility: {
           ...state.eligibility,
-          [`${facilityId}_${action.typeOfCare?.id}`]: eligibility,
+          [`${facilityId}_${action.typeOfCare?.id}`]: action.eligibility,
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
-        pastAppointments: action.eligibilityData.pastAppointments,
+        pastAppointments: action.pastAppointments,
         showEligibilityModal:
-          action.showModal && !canSchedule.direct && !canSchedule.request,
+          action.showModal &&
+          !action.eligibility.direct &&
+          !action.eligibility.request,
       };
     }
     case FORM_ELIGIBILITY_CHECKS_FAILED: {

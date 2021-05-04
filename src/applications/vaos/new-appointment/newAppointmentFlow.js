@@ -4,10 +4,10 @@ import {
 } from '../redux/selectors';
 import {
   getChosenFacilityInfo,
-  getEligibilityStatus,
   getFormData,
   getNewAppointment,
   getTypeOfCare,
+  selectEligibility,
 } from './redux/selectors';
 import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
 import { getSiteIdFromFacilityId } from '../services/location';
@@ -65,11 +65,11 @@ function getFacilityPageKey(state) {
 }
 
 async function vaFacilityNext(state, dispatch) {
-  let eligibility = getEligibilityStatus(state);
+  let eligibility = selectEligibility(state);
 
   if (selectUseFlatFacilityPage(state)) {
     // Fetch eligibility if we haven't already
-    if (eligibility.direct === null && eligibility.request === null) {
+    if (!eligibility) {
       const location = getChosenFacilityInfo(state);
       const siteId = getSiteIdFromFacilityId(location.id);
 
