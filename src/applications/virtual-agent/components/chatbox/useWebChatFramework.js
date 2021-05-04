@@ -33,6 +33,9 @@ const loadWebChat = () => {
   document.body.appendChild(script);
 };
 
+const TIMEOUT_DURATION_MS = 250;
+const DEFAULT_WEBCHAT_TIMEOUT = 1 * 60 * 1000;
+
 export default function useWebChatFramework(props) {
   useEffect(() => {
     window.React = React;
@@ -43,12 +46,7 @@ export default function useWebChatFramework(props) {
   const [isLoading, setLoading] = useState(!window.WebChat);
   const [error, setError] = useState(false);
 
-  const TIMEOUT_DURATION_MS = 250;
-  const DEFAULT_WEBCHAT_TIMEOUT = 1 * 60 * 1000;
-
-  const webchatTimeout = props.webchatTimeout
-    ? props.webchatTimeout
-    : DEFAULT_WEBCHAT_TIMEOUT;
+  const webchatTimeout = props.webchatTimeout || DEFAULT_WEBCHAT_TIMEOUT;
   const MAX_INTERVAL_CALL_COUNT = webchatTimeout / TIMEOUT_DURATION_MS;
 
   if (isLoading) {
