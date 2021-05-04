@@ -278,7 +278,7 @@ jobs:
         run: yarn fetch-drupal-cache
 
       - name: Build
-        run: yarn build --buildtype vagovprod --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
+        run: yarn build --buildtype vagovprod
         timeout-minutes: 30
         env:
           NODE_ENV: production
