@@ -48,6 +48,7 @@ const healthServicesListingPage = `
               fieldLocalHealthCareService {
                 entity {
                   ... on NodeHealthCareLocalHealthService {
+                    status                  
                     entityUrl {
                       path
                     }

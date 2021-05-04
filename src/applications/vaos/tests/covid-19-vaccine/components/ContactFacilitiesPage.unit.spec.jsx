@@ -21,11 +21,18 @@ const initialState = {
     vaOnlineSchedulingCheetah: true,
   },
   appointments: {
-    directScheduleSettings: [
-      getDirectBookingEligibilityCriteriaMock({
+    facilitySettings: [
+      {
         id: '983',
-        typeOfCareId: 'covid',
-      }).attributes,
+        services: [
+          {
+            id: 'covid',
+            direct: {
+              enabled: true,
+            },
+          },
+        ],
+      },
     ],
   },
   user: {
@@ -377,12 +384,11 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
     const store = createTestStore({
       ...initialState,
       appointments: {
-        directScheduleSettings: [
-          getDirectBookingEligibilityCriteriaMock({
+        facilitySettings: [
+          {
             id: '983',
-            typeOfCareId: 'covid',
-            patientHistoryRequired: null,
-          }).attributes,
+            services: [{ id: 'covid', direct: { enabled: false } }],
+          },
         ],
       },
       user: {
