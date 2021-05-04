@@ -1,8 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { orientationSteps } from './utils';
 
 const StepComponent = props => {
-  const { step } = props;
+  const { step, clickHandler } = props;
   const data = orientationSteps[step];
   let content;
 
@@ -43,6 +45,20 @@ const StepComponent = props => {
           </ol>
         </div>
       </>
+    );
+  } else if (step === orientationSteps.length - 1) {
+    content = (
+      <div className="vads-u-margin-bottom--3">
+        <Link
+          to="/"
+          className="vads-c-action-link--green vads-u-padding-left--0"
+          onClick={() => {
+            clickHandler(WIZARD_STATUS_COMPLETE);
+          }}
+        >
+          Apply for Veteran Readiness and Employment now
+        </Link>
+      </div>
     );
   } else {
     content = (

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 const ResolutionComments = ({ selectedDebts }) => {
   const isWaiverSelected = selectedDebts.some(
-    debt => debt.resolution.resolutionType === 'Waiver',
+    debt => debt.resolution?.resolutionType === 'Waiver',
   );
 
   return isWaiverSelected ? (

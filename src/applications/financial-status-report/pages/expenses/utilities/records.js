@@ -24,14 +24,14 @@ export const uiSchema = {
     },
     items: {
       'ui:options': {
-        classNames: 'horizonal-field-container no-wrap',
+        classNames: 'horizontal-field-container no-wrap',
       },
       utilityType: {
         'ui:title': 'Type of utility',
         'ui:field': Typeahead,
         'ui:reviewField': CustomReviewField,
         'ui:options': {
-          idPrefix: 'utilites',
+          idPrefix: 'utilities',
           classNames: 'input-size-3',
           getOptions: () => formatOptions(utilityTypes),
         },
