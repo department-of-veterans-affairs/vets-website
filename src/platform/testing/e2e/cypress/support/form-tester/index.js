@@ -347,7 +347,7 @@ Cypress.Commands.add('enterData', field => {
 
     case 'file': {
       cy.get(`#${Cypress.$.escapeSelector(field.key)}`)
-        .upload('example-upload.png', 'image/png')
+        .upload(`../platform/testing/example-upload.png`, 'image/png')
         .get('.schemaform-file-uploading')
         .should('not.exist');
       break;
@@ -543,7 +543,7 @@ const testForm = testConfig => {
       testCase(testKey, () => {
         beforeEach(() => {
           cy.wrap(testKey).as('testKey');
-          cy.fixture(`../../../${fixtures.data}/${testKey}`)
+          cy.fixture(`../../${fixtures.data}/${testKey}`)
             .then(extractTestData)
             .as('testData')
             .then(setupPerTest);

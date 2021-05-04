@@ -79,7 +79,7 @@ function fillOutForm(facilitySelection) {
       .to.have.property('optionDate3')
       .to.equal('No Date Selected');
 
-    expect(request.facility.facilityCode).to.contain('983');
+    expect(request.facility.facilityCode).to.eq('983GB');
     expect(request.facility.parentSiteCode).to.eq('983');
     expect(request).to.have.property('typeOfCareId', '125');
     expect(request).to.have.property('visitType', 'Office Visit');
@@ -132,7 +132,7 @@ describe('VAOS request flow', () => {
   });
   it('should submit form successfully for a user with multi system including a Cerner facility', () => {
     initAppointmentListMock();
-    initVARequestMock({ cernerUser: true, visitId: '983' });
+    initVARequestMock({ cernerUser: true });
     cy.route({
       method: 'GET',
       url: '/vaos/v0/facilities**',
@@ -147,8 +147,6 @@ describe('VAOS request flow', () => {
         data: facilities983.data.filter(f => f.id === '983GB'),
       },
     });
-    fillOutForm(() => {
-      cy.contains(/Cheyenne/).click({ force: true });
-    });
+    fillOutForm();
   });
 });
