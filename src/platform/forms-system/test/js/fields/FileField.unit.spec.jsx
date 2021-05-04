@@ -415,7 +415,7 @@ describe('Schemaform <FileField>', () => {
     );
 
     expect(tree.find('label').exists()).to.be.false;
-    expect(tree.find('.delete-file.usa-button-secondary').exists()).to.be.false;
+    expect(tree.find('button.usa-button-secondary').exists()).to.be.false;
     tree.unmount();
   });
   it('should render upload or delete button on review & submit page while in edit mode', () => {
@@ -456,7 +456,7 @@ describe('Schemaform <FileField>', () => {
     );
 
     expect(tree.find('label').exists()).to.be.true;
-    expect(tree.find('.delete-file.usa-button-secondary').exists()).to.be.true;
+    expect(tree.find('button.usa-button-secondary').exists()).to.be.true;
     tree.unmount();
   });
 
