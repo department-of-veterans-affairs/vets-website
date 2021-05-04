@@ -35,7 +35,6 @@ function PreSubmitNotice({
 
   return (
     <>
-      {/* prod flag for 23443 */}
       {activeDutyNote}
       <PreSubmitInfo
         formData={formData}
