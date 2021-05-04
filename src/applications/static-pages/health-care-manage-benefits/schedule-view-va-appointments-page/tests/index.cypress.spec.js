@@ -6,7 +6,7 @@ const TEST_URL = '/health-care/schedule-view-va-appointments/';
 
 const setup = ({ authenticated, isCerner } = {}) => {
   cy.fixture(
-    '../../src/applications/static-pages/health-care-manage-benefits/fixtures/feature-toggles/enabled.json',
+    'applications/static-pages/health-care-manage-benefits/fixtures/feature-toggles/enabled.json',
   ).then(features => {
     // Mock feature toggles route.
     cy.intercept('GET', '/v0/feature_toggles*', features);

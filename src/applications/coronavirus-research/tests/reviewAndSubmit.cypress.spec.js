@@ -16,7 +16,7 @@ describe('COVID-19 Research Form', () => {
 
     it('should successfully submit the Covid Research form', () => {
       cy.fixture(
-        '../../src/applications/coronavirus-research/tests/fixtures/reviewAndSubmitData.json',
+        'applications/coronavirus-research/tests/fixtures/reviewAndSubmitData.json',
       ).then(dataElements => {
         dataElements.values.forEach(element => {
           switch (element.type) {
@@ -56,7 +56,7 @@ describe('COVID-19 Research Form', () => {
 
       // Confirm review fields are as expected based on test data
       cy.fixture(
-        '../../src/applications/coronavirus-research/tests/fixtures/reviewAndSubmitData.json',
+        'applications/coronavirus-research/tests/fixtures/reviewAndSubmitData.json',
       ).then(dataElements => {
         dataElements.values.forEach(element => {
           if (element.labelName !== undefined) {
