@@ -52,7 +52,6 @@ describe('VAOS scheduling eligibility logic', () => {
       );
 
       expect(eligibilityData).to.have.all.keys(
-        'requestPastVisit',
         'directSupported',
         'directEnabled',
         'requestSupported',
@@ -256,7 +255,10 @@ describe('VAOS scheduling eligibility logic', () => {
           direct: {
             hasRequiredAppointmentHistory: false,
           },
-          request: null,
+          request: {
+            hasRequiredAppointmentHistory: false,
+            isEligibleForNewAppointmentRequest: false,
+          },
         },
         '323',
         '983',

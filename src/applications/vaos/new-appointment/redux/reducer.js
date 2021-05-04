@@ -588,7 +588,7 @@ export default function formReducer(state = initialState, action) {
           [`${data.vaFacility}_${action.typeOfCareId}`]: facilityEligibility,
         };
 
-        if (!action.eligibilityData.clinics?.directFailed) {
+        if (action.eligibilityData.clinics !== 'error') {
           clinics = {
             ...state.clinics,
             [`${data.vaFacility}_${action.typeOfCareId}`]: action

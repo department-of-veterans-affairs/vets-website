@@ -273,9 +273,12 @@ describe('VAOS reducer: newAppointment', () => {
         facilities: facilities983Parsed.slice(0, 1),
         eligibilityData: {
           clinics: [],
-          requestPastVisit: {},
-          directPastVisit: {},
+          request: {},
+          direct: {},
           requestLimits: {},
+        },
+        location: {
+          legacyVAR: {},
         },
       };
 
@@ -298,10 +301,12 @@ describe('VAOS reducer: newAppointment', () => {
         parentFacilities: parentFacilitiesParsed.slice(0, 1),
         facilities: facilities983Parsed.slice(0, 1),
         eligibilityData: {
-          clinics: { directFailed: true },
-          requestPastVisit: {},
-          directPastVisit: {},
-          requestLimits: {},
+          clinics: 'error',
+          request: {},
+          direct: {},
+        },
+        location: {
+          legacyVAR: {},
         },
       };
 
@@ -620,13 +625,15 @@ describe('VAOS reducer: newAppointment', () => {
     it('should set eligibility and clinic info on state', () => {
       const action = {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
-        typeOfCareId: '323',
+        typeOfCare: { id: '323' },
         facilityId: '983',
         eligibilityData: {
           clinics: [],
-          directPastVisit: {},
-          requestPastVisit: {},
-          requestLimits: {},
+          direct: {},
+          request: {},
+        },
+        location: {
+          legacyVAR: {},
         },
       };
       const state = {
@@ -651,13 +658,15 @@ describe('VAOS reducer: newAppointment', () => {
     it('should not set clinic info if failed', () => {
       const action = {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
-        typeOfCareId: '323',
+        typeOfCare: { id: '323' },
         facilityId: '983',
         eligibilityData: {
-          clinics: { directFailed: true },
-          directPastVisit: {},
-          requestPastVisit: {},
-          requestLimits: {},
+          clinics: 'error',
+          direct: {},
+          request: {},
+        },
+        location: {
+          legacyVAR: {},
         },
       };
       const state = {
