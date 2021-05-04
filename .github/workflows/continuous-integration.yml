@@ -289,4 +289,4 @@ jobs:
           java-version: '11'
 
       - name: Run Nightwatch Tests
-        run: yarn test:e2e
+        run: yarn ci:nightwatch
