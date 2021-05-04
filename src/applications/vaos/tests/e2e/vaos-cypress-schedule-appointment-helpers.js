@@ -21,7 +21,10 @@ export function chooseFacilityTypeTest(label) {
 export function chooseVAFacilityTest() {
   cy.url().should('include', '/va-facility');
   cy.axeCheckBestPractice();
-  cy.contains(/Cheyenne/).click({ force: true });
+  cy.findByLabelText(/CHYSHR/).check();
+  cy.findByLabelText(
+    'CHYSHR-Cheyenne VA Medical Center (Cheyenne, WY)',
+  ).click();
   cy.findByText(/Continue/).click();
 }
 

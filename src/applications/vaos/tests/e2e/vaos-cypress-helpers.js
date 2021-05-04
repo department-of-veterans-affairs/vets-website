@@ -437,7 +437,7 @@ function updateTimeslots(data) {
 function mockVisits(id = '983') {
   cy.route({
     method: 'GET',
-    url: `/vaos/v0/facilities/${id}/visits/**`,
+    url: `/vaos/v0/facilities/${id}/visits/*`,
     response: {
       data: {
         id: '05084676-77a1-4754-b4e7-3638cb3124e5',
@@ -675,10 +675,7 @@ export function initVaccineAppointmentMock({
   mockSubmitVAAppointment();
 }
 
-export function initVARequestMock({
-  cernerUser = false,
-  visitId = '983GB',
-} = {}) {
+export function initVARequestMock({ cernerUser = false } = {}) {
   setupSchedulingMocks({ cernerUser });
   cy.route({
     method: 'GET',
@@ -690,8 +687,8 @@ export function initVARequestMock({
     url: '/v1/facilities/va/vha_442GB',
     response: { data: facilityData.data[0] },
   });
-  mockRequestLimits(visitId);
-  mockVisits(visitId);
+  mockRequestLimits('983GB');
+  mockVisits('983GB');
   cy.route({
     method: 'POST',
     url: '/vaos/v0/appointment_requests?type=*',
