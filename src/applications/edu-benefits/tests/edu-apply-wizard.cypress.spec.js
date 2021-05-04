@@ -135,7 +135,7 @@ describe('Education Application Wizard', () => {
     cy.get('#apply-now-link').click({ timeout: 1000 });
 
     cy.url().should(
-      'eq',
+      'contain',
       '/education/apply-for-education-benefits/application/1995/introduction',
     );
   });
