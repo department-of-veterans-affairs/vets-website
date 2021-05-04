@@ -39,6 +39,7 @@ export const uiSchema = {
   selectedDebts: {
     'ui:field': ResolutionDebtCards,
     'ui:options': {
+      customTitle: ' ',
       keepInPageOnReview: true,
     },
     items: {

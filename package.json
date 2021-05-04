@@ -178,7 +178,7 @@
     "cors": "^2.7.1",
     "css-loader": "^1.0.0",
     "cssnano": "^4.1.10",
-    "cypress": "^6.8.0",
+    "cypress": "^6.9.1",
     "cypress-axe": "^0.12.2",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
@@ -382,7 +382,7 @@
     "**/netmask": "^2.0.1",
     "**/is-svg": "^4.2.2",
     "**/y18n": "^ 4.0.1",
-    "cypress": "^6.8.0",
+    "cypress": "^6.9.1",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }
