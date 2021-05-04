@@ -125,3 +125,5 @@ src/applications/third-party-app-directory @department-of-veterans-affairs/light
 # Content Build Separation
 src/platform/site-wide/tests/accessible-modal.e2e.spec.js @department-of-veterans-affairs/frontend-review-group
 src/site/tests/home/00-required.e2e.spec.js @department-of-veterans-affairs/frontend-review-group
+site/layouts/tests/vamc/location_home.cypress.spec.js @department-of-veterans-affairs/frontend-review-group
+site/layouts/tests/vamc/system_home.cypress.spec.js @department-of-veterans-affairs/frontend-review-group
