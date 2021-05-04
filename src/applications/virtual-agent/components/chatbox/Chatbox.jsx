@@ -9,18 +9,6 @@ import WebChat from '../webchat/WebChat';
 window.React = React;
 window.ReactDOM = ReactDOM;
 
-const loadWebChat = () => {
-  const script = document.createElement('script');
-
-  script.src =
-    'https://cdn.botframework.com/botframework-webchat/4.12.0/webchat-es5.js';
-  script.crossOrigin = 'anonymous';
-
-  document.body.appendChild(script);
-};
-
-loadWebChat();
-
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
   const token = useVirtualAgentToken();

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
+import { waitFor, screen } from '@testing-library/react';
 
 import Chatbox from '../components/chatbox/Chatbox';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -243,5 +243,15 @@ describe('App', () => {
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
     });
+  });
+});
+
+describe('when chatbox is rendered', () => {
+  it('loads the webchat framework via script tag', () => {
+    expect(screen.queryByTestId('webchat-framework-script')).to.not.exist;
+
+    const wrapper = renderInReduxProvider(<Chatbox webchatTimeout={10} />);
+
+    expect(wrapper.getByTestId('webchat-framework-script')).to.exist;
   });
 });

@@ -21,7 +21,19 @@ function checkForWebchat(
   }, timeout);
 }
 
+const loadWebChat = () => {
+  const script = document.createElement('script');
+
+  script.src =
+    'https://cdn.botframework.com/botframework-webchat/4.12.0/webchat-es5.js';
+  script.crossOrigin = 'anonymous';
+  script.dataset.testid = 'webchat-framework-script';
+
+  document.body.appendChild(script);
+};
+
 export default function useWebChatFramework(props) {
+  loadWebChat();
   const [isLoading, setLoading] = useState(!window.WebChat);
   const [error, setError] = useState(false);
 
