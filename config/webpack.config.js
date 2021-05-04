@@ -284,6 +284,18 @@ module.exports = (env = {}) => {
     );
   }
 
+  // Copy over image assets to fill in the header and other content.
+  baseConfig.plugins.push(
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'src/site/assets',
+          to: path.join(outputPath, '..', ''),
+        },
+      ],
+    }),
+  );
+
   // Optionally generate landing pages in the absence of a content build.
   if (buildOptions.scaffold) {
     const landingPagePath = rootUrl =>
@@ -334,7 +346,7 @@ module.exports = (env = {}) => {
         }, [])
         .join('');
 
-    const appRegistryPath = 'src/applications/registry.json';
+    const appRegistryPath = '../content-build/src/applications/registry.json';
     let appRegistry;
 
     if (fs.existsSync(appRegistryPath)) {
