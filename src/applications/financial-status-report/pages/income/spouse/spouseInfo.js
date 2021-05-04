@@ -17,7 +17,7 @@ const MaritalStatusInfo = (
 export const uiSchema = {
   'ui:title': 'Your spouse information',
   questions: {
-    maritalStatus: {
+    isMarried: {
       'ui:title': 'Are you married?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
@@ -35,7 +35,7 @@ export const schema = {
     questions: {
       type: 'object',
       properties: {
-        maritalStatus: {
+        isMarried: {
           type: 'boolean',
         },
       },

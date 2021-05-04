@@ -9,7 +9,7 @@
     "hasVehicle": false,
     "hasRealEstate": false,
     "hasDependents": false,
-    "maritalStatus": false,
+    "isMarried": false,
     "hasAdditionalIncome": false,
     "hasSocialSecurity": false,
     "vetPreviouslyEmployed": false,

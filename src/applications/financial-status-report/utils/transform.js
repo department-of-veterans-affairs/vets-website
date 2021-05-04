@@ -59,7 +59,7 @@ export const transform = ({ data }) => {
         zipOrPostalCode: personalData.address.postalCode,
         countryName: personalData.address.country,
       },
-      married: questions.maritalStatus,
+      married: questions.isMarried,
       spouseFullName: {
         first: personalData.spouseFullName.first || '',
         middle: '',

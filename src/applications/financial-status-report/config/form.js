@@ -196,7 +196,7 @@ const formConfig = {
           title: 'Spouse employment',
           uiSchema: pages.spouseEmployment.uiSchema,
           schema: pages.spouseEmployment.schema,
-          depends: formData => formData.questions.maritalStatus,
+          depends: formData => formData.questions.isMarried,
         },
         spouseEmploymentRecords: {
           path: 'spouse-employment-records',
@@ -204,15 +204,14 @@ const formConfig = {
           uiSchema: pages.spouseEmploymentRecords.uiSchema,
           schema: pages.spouseEmploymentRecords.schema,
           depends: formData =>
-            formData.questions.maritalStatus &&
-            formData.questions.spouseIsEmployed,
+            formData.questions.isMarried && formData.questions.spouseIsEmployed,
         },
         spousePreviousEmployment: {
           path: 'spouse-previous-employment',
           title: 'Spouse previous employment',
           uiSchema: pages.spousePreviousEmployment.uiSchema,
           schema: pages.spousePreviousEmployment.schema,
-          depends: formData => formData.questions.maritalStatus,
+          depends: formData => formData.questions.isMarried,
         },
         spousePreviousEmploymentRecords: {
           path: 'spouse-previous-employment-records',
@@ -220,7 +219,7 @@ const formConfig = {
           uiSchema: pages.spousePreviousEmploymentRecords.uiSchema,
           schema: pages.spousePreviousEmploymentRecords.schema,
           depends: formData =>
-            formData.questions.maritalStatus &&
+            formData.questions.isMarried &&
             formData.questions.spousePreviouslyEmployed,
           editModeOnReviewPage: true,
         },
@@ -229,7 +228,7 @@ const formConfig = {
           title: 'Spouse benefits',
           uiSchema: pages.spouseBenefits.uiSchema,
           schema: pages.spouseBenefits.schema,
-          depends: formData => formData.questions.maritalStatus,
+          depends: formData => formData.questions.isMarried,
         },
         spouseBenefitRecords: {
           path: 'spouse-benefit-records',
@@ -237,7 +236,7 @@ const formConfig = {
           uiSchema: pages.spouseBenefitRecords.uiSchema,
           schema: pages.spouseBenefitRecords.schema,
           depends: formData =>
-            formData.questions.maritalStatus &&
+            formData.questions.isMarried &&
             formData.questions.spouseHasBenefits,
         },
         spouseSocialSecurity: {
@@ -245,7 +244,7 @@ const formConfig = {
           title: 'Spouse Social Security',
           uiSchema: pages.spouseSocialSecurity.uiSchema,
           schema: pages.spouseSocialSecurity.schema,
-          depends: formData => formData.questions.maritalStatus,
+          depends: formData => formData.questions.isMarried,
         },
         spouseSocialSecurityRecords: {
           path: 'spouse-social-security-records',
@@ -253,7 +252,7 @@ const formConfig = {
           uiSchema: pages.spouseSocialSecurityRecords.uiSchema,
           schema: pages.spouseSocialSecurityRecords.schema,
           depends: formData =>
-            formData.questions.maritalStatus &&
+            formData.questions.isMarried &&
             formData.questions.spouseHasSocialSecurity,
         },
         spouseAdditionalIncome: {
@@ -261,7 +260,7 @@ const formConfig = {
           title: 'Spouse additional income',
           uiSchema: pages.spouseAdditionalIncome.uiSchema,
           schema: pages.spouseAdditionalIncome.schema,
-          depends: formData => formData.questions.maritalStatus,
+          depends: formData => formData.questions.isMarried,
         },
         spouseAdditionalIncomeRecords: {
           path: 'spouse-additional-income-records',
@@ -269,7 +268,7 @@ const formConfig = {
           uiSchema: pages.spouseAdditionalIncomeRecords.uiSchema,
           schema: pages.spouseAdditionalIncomeRecords.schema,
           depends: formData =>
-            formData.questions.maritalStatus &&
+            formData.questions.isMarried &&
             formData.questions.spouseHasAdditionalIncome,
           editModeOnReviewPage: true,
         },
