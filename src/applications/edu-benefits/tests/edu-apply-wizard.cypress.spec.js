@@ -9,20 +9,20 @@ describe('Education Application Wizard', () => {
 
     cy.get('.wizard-button')
       .click()
-      .get('label[for="newBenefit-0"]', { timeout: 10000 })
+      .get('label[for="newBenefit-0"]', { timeout: 1000 })
       .should('be.visible');
     cy.axeCheck();
 
     // Create a new application
     cy.get('input[id="newBenefit-0"]')
       .click()
-      .get('label[for="serviceBenefitBasedOn-0"]', { timeout: 10000 })
+      .get('label[for="serviceBenefitBasedOn-0"]', { timeout: 1000 })
       .should('be.visible');
 
     // Select veteran
     cy.get('input[id="serviceBenefitBasedOn-0"]')
       .click()
-      .get('label[for="nationalCallToService-0"]', { timeout: 10000 })
+      .get('label[for="nationalCallToService-0"]', { timeout: 1000 })
       .should('be.visible');
 
     // Select national call to service
