@@ -3,6 +3,9 @@ import classNames from 'classnames';
 import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
 import FacilityPhone from './FacilityPhone';
 import State from './State';
+import { useParams } from 'react-router-dom';
+import { shallowEqual, useSelector } from 'react-redux';
+import { selectAppointmentById } from '../appointment-list/redux/selectors';
 
 export default function FacilityAddress({
   name,
@@ -12,8 +15,19 @@ export default function FacilityAddress({
   showPhone = true,
   level = 4,
 }) {
+  const { id } = useParams();
+  const appointment = useSelector(
+    state => selectAppointmentById(state, id),
+    shallowEqual,
+  );
+  const isCOVIDVaccine = appointment?.vaos.isCOVIDVaccine;
+  const COVIDPhoneLine =
+    facility?.detailedServices[0]?.appointmentPhones[0]?.number;
   const address = facility?.address;
-  const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+  const phone =
+    isCOVIDVaccine && COVIDPhoneLine
+      ? COVIDPhoneLine
+      : facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const extraInfoClasses = classNames({
     'vads-u-margin-top--1p5': !!clinicName || !!phone,
   });
