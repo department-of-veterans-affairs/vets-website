@@ -284,7 +284,7 @@
       "vagovprod": true,
       "breadcrumbs_override": [
         {
-          "name": "VA decision review and appeals",
+          "name": "Decision reviews and appeals",
           "path": "decision-reviews"
         },
         {
@@ -292,7 +292,7 @@
           "path": "decision-reviews/higher-level-review/"
         },
         {
-          "name": "Request a Higher-Level Review",
+          "name": "Request a Higher-Level Review with VA Form 20-0996",
           "path": "decision-reviews/higher-level-review/request-higher-level-review-form-20-0996"
         }
       ]
