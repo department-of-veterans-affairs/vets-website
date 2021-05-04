@@ -6,7 +6,7 @@ import URLSearchParams from 'url-search-params';
 // Relative imports.
 import {
   getFindFormsAppState,
-  applySearchQueryCorrections,
+  applyLighthouseFormsSearchLogic,
 } from '../helpers/selectors';
 import { fetchFormsThunk } from '../actions';
 
@@ -14,7 +14,7 @@ export class SearchForm extends Component {
   static propTypes = {
     // From mapStateToProps.
     fetching: PropTypes.bool.isRequired,
-    useSearchQueryAutoCorrect: PropTypes.bool,
+    useLighthouseSearchAlgo: PropTypes.bool,
     // From mapDispatchToProps.
     fetchFormsThunk: PropTypes.func.isRequired,
   };
@@ -37,8 +37,8 @@ export class SearchForm extends Component {
     const { query } = this.state;
     // Fetch the forms with their query if it's on the URL.
     if (query) {
-      const { useSearchQueryAutoCorrect } = this.props;
-      this.props.fetchFormsThunk(query, { useSearchQueryAutoCorrect });
+      const { useLighthouseSearchAlgo } = this.props;
+      this.props.fetchFormsThunk(query, { useLighthouseSearchAlgo });
     }
   }
 
@@ -52,8 +52,8 @@ export class SearchForm extends Component {
 
   onSubmitHandler = event => {
     event.preventDefault();
-    const { useSearchQueryAutoCorrect } = this.props;
-    this.props.fetchFormsThunk(this.state.query, { useSearchQueryAutoCorrect });
+    const { useLighthouseSearchAlgo } = this.props;
+    this.props.fetchFormsThunk(this.state.query, { useLighthouseSearchAlgo });
   };
 
   render() {
@@ -98,7 +98,7 @@ export class SearchForm extends Component {
 
 const mapStateToProps = state => ({
   fetching: getFindFormsAppState(state).fetching,
-  useSearchQueryAutoCorrect: applySearchQueryCorrections(state),
+  useLighthouseSearchAlgo: applyLighthouseFormsSearchLogic(state),
 });
 
 const mapDispatchToProps = {

@@ -27,9 +27,14 @@ export const fetchFormsFailure = error => ({
   type: FETCH_FORMS_FAILURE,
 });
 
-export const fetchFormsSuccess = (results, hasOnlyRetiredForms) => ({
+export const fetchFormsSuccess = (
   results,
   hasOnlyRetiredForms,
+  useLighthouseSearchAlgo,
+) => ({
+  results,
+  hasOnlyRetiredForms,
+  useLighthouseSearchAlgo,
   type: FETCH_FORMS_SUCCESS,
 });
 
@@ -75,7 +80,7 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
   const history = options?.history || window.history;
   const mockRequest = options?.mockRequest || false;
   let q = query;
-  if (options?.useSearchQueryAutoCorrect) {
+  if (!options?.useLighthouseSearchAlgo) {
     q = correctSearchTerm(query);
   }
 
@@ -118,11 +123,13 @@ export const fetchFormsThunk = (query, options = {}) => async dispatch => {
       'type-ahead-options-count': undefined,
     });
 
+    const useLighthouseSearchAlgo = options?.useLighthouseSearchAlgo || null;
     // If we are here, the API request succeeded.
     dispatch(
       fetchFormsSuccess(
         resultsDetails.results,
         resultsDetails.hasOnlyRetiredForms,
+        useLighthouseSearchAlgo,
       ),
     );
   } catch (error) {

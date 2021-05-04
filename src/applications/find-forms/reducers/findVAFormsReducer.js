@@ -8,6 +8,7 @@ import {
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
   INITIAL_SORT_STATE,
+  TEST_OPTION_RELEVANCE,
   UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
   UPDATE_RESULTS,
@@ -20,6 +21,7 @@ const initialState = {
   query: '',
   sortByPropertyName: INITIAL_SORT_STATE,
   results: null,
+  lighthouseTestSearchResults: null,
   hasOnlyRetiredForms: false,
   startIndex: 0,
 };
@@ -34,13 +36,29 @@ export default (state = initialState, action) => {
     }
     case FETCH_FORMS_SUCCESS: {
       const clonedResults = cloneDeep(action.results);
+      if (
+        !state.lighthouseTestSearchResults &&
+        state.sortByPropertyName === TEST_OPTION_RELEVANCE
+      ) {
+        // NOTE: This is only for testing Lighthouse Search Algorithm
+        return {
+          ...state,
+          fetching: false,
+          hasOnlyRetiredForms: action.hasOnlyRetiredForms,
+          lighthouseTestSearchResults: clonedResults,
+          results: clonedResults,
+        };
+      }
       return {
         ...state,
         fetching: false,
         hasOnlyRetiredForms: action.hasOnlyRetiredForms,
-        results: clonedResults.sort((a, b) =>
-          sortTheResults(state.sortByPropertyName, a, b),
-        ),
+        results:
+          state.sortByPropertyName === TEST_OPTION_RELEVANCE
+            ? state.lighthouseTestSearchResults // NOTE: This is only for testing Lighthouse Search Algorithm
+            : clonedResults.sort((a, b) =>
+                sortTheResults(state.sortByPropertyName, a, b),
+              ),
       };
     }
     case UPDATE_HOW_TO_SORT: {
@@ -50,9 +68,12 @@ export default (state = initialState, action) => {
       const clonedResults = cloneDeep(action.results);
       return {
         ...state,
-        results: clonedResults.sort((a, b) =>
-          sortTheResults(state.sortByPropertyName, a, b),
-        ),
+        results:
+          state.sortByPropertyName === TEST_OPTION_RELEVANCE
+            ? state.lighthouseTestSearchResults // NOTE: This is only for testing Lighthouse Search Algorithm
+            : clonedResults.sort((a, b) =>
+                sortTheResults(state.sortByPropertyName, a, b),
+              ),
       };
     }
     case UPDATE_PAGINATION: {
