@@ -24,7 +24,7 @@ const exec = require('child_process').exec;
 
 exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
   const strings = stdout.split(',').sort();
-  const divider = Math.ceil(strings.length / process.env.NUM_STEPS);
+  const divider = Math.ceil(strings.length / Number(process.env.NUM_STEPS));
   const tests = strings
     .slice(
       Number(process.env.STEP) * divider,
