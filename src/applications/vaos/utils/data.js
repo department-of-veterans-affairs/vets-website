@@ -37,3 +37,27 @@ export function arrayToObject(items, idProp = 'id') {
 export function dedupeArray(items) {
   return Array.from(new Set(items)).filter(i => !!i);
 }
+
+/**
+ * Takes an object with string keys and promise values,
+ * waits for them all to complete, then returns an object
+ * with the same string keys and the resolved promise values
+ *
+ * @export
+ * @param {Object} data An object with string keys and promise values
+ * @returns {Object} An object with string keys and resolved promise values
+ */
+export async function promiseAllFromObject(data) {
+  const keys = Object.keys(data);
+  const values = Object.values(data);
+
+  const results = await Promise.all(values);
+
+  return keys.reduce(
+    (resultsObj, key, i) => ({
+      ...resultsObj,
+      [key]: results[i],
+    }),
+    {},
+  );
+}

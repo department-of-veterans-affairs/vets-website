@@ -1,9 +1,5 @@
 import { captureError } from '../../../utils/error';
-import {
-  checkPastVisits,
-  getRequestLimits,
-  getLongTermAppointmentHistory,
-} from '../../../services/var';
+import { getLongTermAppointmentHistory } from '../../../services/var';
 import {
   recordVaosError,
   recordEligibilityFailure,
@@ -11,55 +7,13 @@ import {
 import { getFacilityIdFromLocation } from '../../../services/location';
 import { getAvailableHealthcareServices } from '../../../services/healthcare-service';
 import environment from 'platform/utilities/environment';
+import { fetchPatientEligibility } from '../../../services/patient';
 
-const DISABLED_LIMIT_VALUE = 0;
-
-const PRIMARY_CARE = '323';
-
-function hasVisitedInPastMonthsDirect(eligibilityData) {
-  if (!eligibilityData.directPastVisit) {
-    return true;
-  }
-
-  return (
-    eligibilityData.directPastVisit.durationInMonths === DISABLED_LIMIT_VALUE ||
-    eligibilityData.directPastVisit.hasVisitedInPastMonths
-  );
-}
-
-function hasVisitedInPastMonthsRequest(eligibilityData) {
-  if (!eligibilityData.requestPastVisit) {
-    return true;
-  }
-
-  return (
-    eligibilityData.requestPastVisit.durationInMonths ===
-      DISABLED_LIMIT_VALUE ||
-    eligibilityData.requestPastVisit.hasVisitedInPastMonths
-  );
-}
-
-function isUnderRequestLimit(eligibilityData) {
-  return (
-    eligibilityData.requestLimits?.requestLimit === DISABLED_LIMIT_VALUE ||
-    eligibilityData.requestLimits?.numberOfRequests <
-      eligibilityData.requestLimits?.requestLimit
-  );
-}
-
-function hasRequestFailed(eligibilityData) {
-  return Object.values(eligibilityData).some(result => result?.requestFailed);
-}
-
-function hasDirectFailed(eligibilityData) {
-  return Object.values(eligibilityData).some(result => result?.directFailed);
-}
-
-function createErrorHandler(directOrRequest, errorKey) {
+function createErrorHandler(errorKey) {
   return data => {
     captureError(data, true);
     recordVaosError(`eligibility-${errorKey}`);
-    return { [`${directOrRequest}Failed`]: true };
+    return 'error';
   };
 }
 
@@ -91,10 +45,11 @@ async function promiseAllFromObject(data) {
  */
 export async function getEligibilityData(
   location,
-  typeOfCareId,
-  systemId,
+  typeOfCare,
   isDirectScheduleEnabled,
 ) {
+  const systemId = location.vistaId;
+  const typeOfCareId = typeOfCare.id;
   const facilityId = getFacilityIdFromLocation(location);
   const directSchedulingAvailable =
     // this check is included due to old two step facilities page
@@ -103,50 +58,30 @@ export async function getEligibilityData(
     isDirectScheduleEnabled;
 
   const eligibilityChecks = {
-    // Now returns an array!!!
-    requestLimits: getRequestLimits(facilityId, typeOfCareId)
-      .then(resp => resp[0])
-      .catch(
-        createErrorHandler(
-          'request',
-          'request-exceeded-outstanding-requests-error',
-        ),
-      ),
+    eligibility: fetchPatientEligibility({
+      typeOfCare,
+      location,
+      type: !directSchedulingAvailable ? 'request' : null,
+    }),
   };
 
-  if (typeOfCareId !== PRIMARY_CARE) {
-    eligibilityChecks.requestPastVisit = checkPastVisits(
-      systemId,
-      facilityId,
-      typeOfCareId,
-      'request',
-    ).catch(createErrorHandler('request', 'request-check-past-visits-error'));
-  }
-
   if (directSchedulingAvailable) {
-    if (typeOfCareId !== PRIMARY_CARE) {
-      eligibilityChecks.directPastVisit = checkPastVisits(
-        systemId,
-        facilityId,
-        typeOfCareId,
-        'direct',
-      ).catch(createErrorHandler('direct', 'direct-check-past-visits-error'));
-    }
-
     eligibilityChecks.clinics = getAvailableHealthcareServices({
       facilityId,
       typeOfCareId,
       systemId,
-    }).catch(createErrorHandler('direct', 'direct-available-clinics-error'));
+    }).catch(createErrorHandler('direct-available-clinics-error'));
     eligibilityChecks.pastAppointments = getLongTermAppointmentHistory().catch(
-      createErrorHandler('direct', 'direct-no-matching-past-clinics-error'),
+      createErrorHandler('direct-no-matching-past-clinics-error'),
     );
   }
 
   const results = await promiseAllFromObject(eligibilityChecks);
 
   const eligibility = {
-    ...results,
+    ...results.eligibility,
+    clinics: results.clinics,
+    pastAppointments: results.pastAppointments,
     hasMatchingClinics: !!results.clinics?.length,
     directSupported:
       // this check is included due to old two step facilities page
@@ -159,8 +94,12 @@ export async function getEligibilityData(
       location.legacyVAR.settings?.[typeOfCareId]?.request.enabled,
   };
 
-  if (directSchedulingAvailable && eligibility.clinics?.length) {
-    eligibility.hasMatchingClinics = eligibility.clinics.some(
+  if (
+    directSchedulingAvailable &&
+    eligibility.clinics !== 'error' &&
+    eligibility.clinics?.length
+  ) {
+    eligibility.hasMatchingClinics = eligibility.clinics?.some(
       clinic =>
         !!eligibility.pastAppointments.find(appt => {
           return (
@@ -187,48 +126,37 @@ export async function getEligibilityData(
  * one block of checks is successful, we can still let a user continue on that,
  * even if another path is blocked.
 */
-export function getEligibilityChecks(eligibilityData) {
-  let eligibilityChecks = {
+export function getEligibilityChecks(eligibilityData, location, typeOfCare) {
+  return {
+    directPastVisit: eligibilityData.direct?.hasRequiredAppointmentHistory,
+    requestPastVisit: eligibilityData.request?.hasRequiredAppointmentHistory,
+    requestLimit: eligibilityData.request?.isEligibleForNewAppointmentRequest,
     requestSupported: eligibilityData.requestSupported,
-    requestFailed: hasRequestFailed(eligibilityData),
     directSupported: eligibilityData.directSupported,
-    directFailed: hasDirectFailed(eligibilityData),
-    directPastVisit: false,
-    directPastVisitValue: null,
-    directClinics: null,
+    requestFailed: !eligibilityData.request,
+    directFailed:
+      eligibilityData.directSupported &&
+      (!eligibilityData.direct ||
+        eligibilityData.clinics === 'error' ||
+        eligibilityData.pastAppointments === 'error'),
+    directPastVisitValue:
+      (location.legacyVAR.settings?.[typeOfCare.id].direct
+        .patientHistoryDuration /
+        365) *
+      12,
+    requestPastVisitValue:
+      (location.legacyVAR.settings?.[typeOfCare.id].request
+        .patientHistoryDuration /
+        365) *
+      12,
+    requestLimitValue:
+      location.legacyVAR.settings?.[typeOfCare.id].request
+        .submittedRequestLimit,
+    directClinics:
+      eligibilityData.directEnabled &&
+      !!eligibilityData.clinics?.length &&
+      eligibilityData.hasMatchingClinics,
   };
-
-  if (!eligibilityChecks.requestFailed) {
-    eligibilityChecks = {
-      ...eligibilityChecks,
-      requestPastVisit: hasVisitedInPastMonthsRequest(eligibilityData),
-      requestPastVisitValue:
-        eligibilityData.requestPastVisit?.durationInMonths || null,
-      requestLimit: isUnderRequestLimit(eligibilityData),
-      requestLimitValue: eligibilityData.requestLimits.requestLimit,
-    };
-  }
-
-  if (
-    !eligibilityChecks.directFailed &&
-    eligibilityData.directSupported &&
-    eligibilityData.directEnabled
-  ) {
-    eligibilityChecks = {
-      ...eligibilityChecks,
-      directPastVisit:
-        eligibilityData.directEnabled &&
-        hasVisitedInPastMonthsDirect(eligibilityData),
-      directPastVisitValue:
-        eligibilityData.directPastVisit?.durationInMonths || null,
-      directClinics:
-        eligibilityData.directEnabled &&
-        !!eligibilityData.clinics?.length &&
-        eligibilityData.hasMatchingClinics,
-    };
-  }
-
-  return eligibilityChecks;
 }
 
 /*
@@ -238,12 +166,12 @@ export function getEligibilityChecks(eligibilityData) {
  * of the check.
  */
 export function recordEligibilityGAEvents(eligibilityData) {
-  if (eligibilityData.requestSupported && !eligibilityData.requestFailed) {
-    if (!isUnderRequestLimit(eligibilityData)) {
+  if (eligibilityData.requestSupported && eligibilityData.request) {
+    if (!eligibilityData.request.isEligibleForNewAppointmentRequest) {
       recordEligibilityFailure('request-exceeded-outstanding-requests');
     }
 
-    if (!hasVisitedInPastMonthsRequest(eligibilityData)) {
+    if (!eligibilityData.request.hasRequiredAppointmentHistory) {
       recordEligibilityFailure('request-past-visits');
     }
   }
@@ -255,9 +183,9 @@ export function recordEligibilityGAEvents(eligibilityData) {
   if (
     eligibilityData.directEnabled &&
     eligibilityData.directSupported &&
-    !eligibilityData.directFailed
+    eligibilityData.direct
   ) {
-    if (!hasVisitedInPastMonthsDirect(eligibilityData)) {
+    if (!eligibilityData.direct.hasRequiredAppointmentHistory) {
       recordEligibilityFailure('direct-check-past-visits');
     }
 
@@ -294,22 +222,20 @@ export function logEligibilityExplanation(
     );
     const requestMessages = [];
     const directMessages = [];
-    if (eligibilityData.requestSupported && !eligibilityData.requestFailed) {
-      if (!isUnderRequestLimit(eligibilityData)) {
+    if (eligibilityData.requestSupported && eligibilityData.request) {
+      if (!eligibilityData.request.isEligibleForNewAppointmentRequest) {
         requestMessages.push(
           'The var-resources request limit service indicated that there are too many outstanding requests',
         );
       }
 
-      if (!hasVisitedInPastMonthsRequest(eligibilityData)) {
+      if (!eligibilityData.request.hasRequiredAppointmentHistory) {
         requestMessages.push(
-          `The var-resources visited in past months service indicated that there has not been a recent visit (past ${
-            eligibilityData.requestPastVisit.durationInMonths
-          } months)`,
+          `The var-resources visited in past months service indicated that there has not been a recent visit`,
         );
       }
     } else {
-      if (eligibilityData.requestFailed) {
+      if (!eligibilityData.request) {
         requestMessages.push(
           'There were errors trying to determine eligibility for making requests',
         );
@@ -324,13 +250,11 @@ export function logEligibilityExplanation(
     if (
       eligibilityData.directEnabled &&
       eligibilityData.directSupported &&
-      !eligibilityData.directFailed
+      eligibilityData.direct
     ) {
-      if (!hasVisitedInPastMonthsDirect(eligibilityData)) {
+      if (!eligibilityData.direct.hasRequiredAppointmentHistory) {
         directMessages.push(
-          `The var-resources visited in past months service indicated that there has not been a recent visit (past ${
-            eligibilityData.directPastVisit.durationInMonths
-          } months)`,
+          `The var-resources visited in past months service indicated that there has not been a recent visit`,
         );
       }
 
@@ -346,7 +270,7 @@ export function logEligibilityExplanation(
         );
       }
     } else if (eligibilityData.directEnabled) {
-      if (eligibilityData.directFailed) {
+      if (!eligibilityData.direct) {
         directMessages.push(
           'There were errors trying to determine eligibility for direct scheduling',
         );

@@ -12,7 +12,6 @@ import confirmed from '../../../../services/mocks/var/confirmed_va.json';
 
 import {
   isEligible,
-  getEligibilityChecks,
   getEligibilityData,
   recordEligibilityGAEvents,
 } from '../../../../new-appointment/redux/helpers/eligibility';
@@ -36,6 +35,7 @@ describe('VAOS scheduling eligibility logic', () => {
     it('should fetch all data', async () => {
       const eligibilityData = await getEligibilityData(
         {
+          vistaId: '983',
           identifier: [
             {
               system: VHA_FHIR_ID,
@@ -47,21 +47,20 @@ describe('VAOS scheduling eligibility logic', () => {
             requestSupported: true,
           },
         },
-        '322',
-        '983',
+        { id: '322' },
         true,
       );
 
       expect(eligibilityData).to.have.all.keys(
         'requestPastVisit',
-        'requestLimits',
         'directSupported',
         'directEnabled',
         'requestSupported',
-        'directPastVisit',
         'clinics',
         'hasMatchingClinics',
         'pastAppointments',
+        'direct',
+        'request',
       );
 
       expect(eligibilityData.hasMatchingClinics).to.be.true;
@@ -77,6 +76,7 @@ describe('VAOS scheduling eligibility logic', () => {
       setFetchJSONResponse(global.fetch.onCall(5), confirmed);
       const eligibilityData = await getEligibilityData(
         {
+          vistaId: '983',
           identifier: [
             {
               system: VHA_FHIR_ID,
@@ -88,19 +88,19 @@ describe('VAOS scheduling eligibility logic', () => {
             requestSupported: true,
           },
         },
-        '323',
-        '983',
+        { id: '323' },
         true,
       );
 
       expect(eligibilityData).to.have.all.keys(
-        'requestLimits',
         'directSupported',
         'directEnabled',
         'requestSupported',
         'clinics',
         'hasMatchingClinics',
         'pastAppointments',
+        'request',
+        'direct',
       );
       expect(eligibilityData.hasMatchingClinics).to.be.true;
       expect('startDate' in eligibilityData.pastAppointments[0]).to.be.true;
@@ -111,6 +111,7 @@ describe('VAOS scheduling eligibility logic', () => {
       setFetchJSONResponse(global.fetch, { data: [{}] });
       const eligibilityData = await getEligibilityData(
         {
+          vistaId: '983',
           identifier: [
             {
               system: VHA_FHIR_ID,
@@ -122,8 +123,7 @@ describe('VAOS scheduling eligibility logic', () => {
             requestSupported: true,
           },
         },
-        '322',
-        '983',
+        { id: '322' },
         true,
       );
 
@@ -146,6 +146,7 @@ describe('VAOS scheduling eligibility logic', () => {
       setFetchJSONResponse(global.fetch.onCall(5), nonMatchingAppointment);
       const eligibilityData = await getEligibilityData(
         {
+          vistaId: '983',
           identifier: [
             {
               system: VHA_FHIR_ID,
@@ -157,8 +158,7 @@ describe('VAOS scheduling eligibility logic', () => {
             requestSupported: true,
           },
         },
-        '322',
-        '983',
+        { id: '322' },
         true,
       );
 
@@ -170,6 +170,7 @@ describe('VAOS scheduling eligibility logic', () => {
       setFetchJSONFailure(global.fetch.onCall(2), { errors: [{}] });
       const eligibilityData = await getEligibilityData(
         {
+          vistaId: '983',
           identifier: [
             {
               system: VHA_FHIR_ID,
@@ -181,187 +182,20 @@ describe('VAOS scheduling eligibility logic', () => {
             requestSupported: true,
           },
         },
-        '502',
-        '983',
+        { id: '502' },
         true,
       );
 
       expect(eligibilityData).to.have.all.keys(
-        'requestPastVisit',
-        'requestLimits',
         'directSupported',
         'directEnabled',
         'requestSupported',
-        'directPastVisit',
         'clinics',
         'hasMatchingClinics',
         'pastAppointments',
+        'direct',
+        'request',
       );
-    });
-  });
-  describe('getEligibilityChecks', () => {
-    it('should calculate failing statuses', () => {
-      const eligibilityChecks = getEligibilityChecks({
-        clinics: [],
-        directSupported: true,
-        requestSupported: true,
-        directEnabled: true,
-        directPastVisit: {
-          durationInMonths: 12,
-          hasVisitedInPastMonths: false,
-        },
-        requestPastVisit: {
-          durationInMonths: 24,
-          hasVisitedInPastMonths: false,
-        },
-        requestLimits: {
-          requestLimit: 1,
-          numberOfRequests: 1,
-        },
-      });
-
-      expect(eligibilityChecks).to.deep.equal({
-        directFailed: false,
-        requestFailed: false,
-        directPastVisit: false,
-        directPastVisitValue: 12,
-        directClinics: false,
-        requestPastVisit: false,
-        requestPastVisitValue: 24,
-        requestLimit: false,
-        requestLimitValue: 1,
-        directSupported: true,
-        requestSupported: true,
-      });
-    });
-
-    it('should calculate successful statuses', () => {
-      const eligibilityChecks = getEligibilityChecks({
-        hasMatchingClinics: true,
-        pastAppointments: [{}],
-        clinics: [{}],
-        directSupported: true,
-        requestSupported: true,
-        directEnabled: true,
-        directPastVisit: {
-          durationInMonths: 12,
-          hasVisitedInPastMonths: true,
-        },
-        requestPastVisit: {
-          durationInMonths: 24,
-          hasVisitedInPastMonths: true,
-        },
-        requestLimits: {
-          requestLimit: 1,
-          numberOfRequests: 0,
-        },
-      });
-
-      expect(eligibilityChecks).to.deep.equal({
-        directFailed: false,
-        requestFailed: false,
-        directPastVisit: true,
-        directPastVisitValue: 12,
-        directClinics: true,
-        directSupported: true,
-        requestSupported: true,
-        requestPastVisit: true,
-        requestPastVisitValue: 24,
-        requestLimit: true,
-        requestLimitValue: 1,
-      });
-    });
-    it('should set direct checks to default state on direct service failure', () => {
-      const eligibilityChecks = getEligibilityChecks({
-        pacTeam: [],
-        clinics: [],
-        directSupported: true,
-        requestSupported: true,
-        directEnabled: true,
-        directPastVisit: {
-          directFailed: true,
-        },
-        requestPastVisit: {
-          durationInMonths: 24,
-          hasVisitedInPastMonths: false,
-        },
-        requestLimits: {
-          requestLimit: 1,
-          numberOfRequests: 1,
-        },
-      });
-
-      expect(eligibilityChecks).to.deep.equal({
-        directFailed: true,
-        requestFailed: false,
-        requestPastVisit: false,
-        requestPastVisitValue: 24,
-        requestLimit: false,
-        requestLimitValue: 1,
-        directSupported: true,
-        requestSupported: true,
-        directClinics: null,
-        directPastVisit: false,
-        directPastVisitValue: null,
-      });
-    });
-    it('should skip request status on request failure', () => {
-      const eligibilityChecks = getEligibilityChecks({
-        pacTeam: [],
-        clinics: [],
-        directSupported: true,
-        directEnabled: true,
-        requestSupported: true,
-        directPastVisit: {
-          durationInMonths: 12,
-          hasVisitedInPastMonths: false,
-        },
-        requestPastVisit: {
-          requestFailed: true,
-        },
-        requestLimits: {
-          requestLimit: 1,
-          numberOfRequests: 1,
-        },
-      });
-
-      expect(eligibilityChecks).to.deep.equal({
-        directFailed: false,
-        directSupported: true,
-        requestSupported: true,
-        requestFailed: true,
-        directPastVisit: false,
-        directPastVisitValue: 12,
-        directClinics: false,
-      });
-    });
-    it('should mark past visits as passed when missing', () => {
-      const eligibilityChecks = getEligibilityChecks({
-        hasMatchingClinics: true,
-        pastAppointments: [{}],
-        clinics: [{}],
-        directSupported: true,
-        directEnabled: true,
-        requestSupported: true,
-        requestLimits: {
-          requestLimit: 1,
-          numberOfRequests: 0,
-        },
-      });
-
-      expect(eligibilityChecks).to.deep.equal({
-        directFailed: false,
-        requestFailed: false,
-        directPastVisit: true,
-        directPastVisitValue: null,
-        directClinics: true,
-        directSupported: true,
-        requestSupported: true,
-        requestPastVisit: true,
-        requestPastVisitValue: null,
-        requestLimit: true,
-        requestLimitValue: 1,
-      });
     });
   });
   describe('isEligible', () => {
@@ -386,6 +220,7 @@ describe('VAOS scheduling eligibility logic', () => {
       setFetchJSONFailure(global.fetch, { errors: [{}] });
       await getEligibilityData(
         {
+          vistaId: '983',
           identifier: [
             {
               system: VHA_FHIR_ID,
@@ -397,8 +232,7 @@ describe('VAOS scheduling eligibility logic', () => {
             requestSupported: true,
           },
         },
-        '502',
-        '983',
+        { id: '502' },
         true,
       );
       expect(
@@ -419,17 +253,10 @@ describe('VAOS scheduling eligibility logic', () => {
           directEnabled: true,
           directSupported: true,
           requestSupported: true,
-          directPastVisit: {
-            durationInMonths: 12,
-            hasVisitedInPastMonths: false,
+          direct: {
+            hasRequiredAppointmentHistory: false,
           },
-          requestPastVisit: {
-            requestFailed: false,
-          },
-          requestLimits: {
-            requestLimit: 1,
-            numberOfRequests: 1,
-          },
+          request: null,
         },
         '323',
         '983',

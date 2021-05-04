@@ -199,20 +199,10 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
     mockParentSites(siteIds, [parentSite983]);
     mockDirectBookingEligibilityCriteria(siteIds, []);
     mockRequestEligibilityCriteria(siteIds, [
-      {
+      getRequestEligibilityCriteriaMock({
         id: '983',
-        attributes: {
-          ...requestFacilityAttributes,
-          id: '983',
-          requestSettings: [
-            {
-              ...requestFacilityAttributes.requestSettings[0],
-              id: '502',
-              typeOfCare: 'Outpatient Mental Health',
-            },
-          ],
-        },
-      },
+        typeOfCareId: '502',
+      }),
     ]);
 
     mockEligibilityFetches({

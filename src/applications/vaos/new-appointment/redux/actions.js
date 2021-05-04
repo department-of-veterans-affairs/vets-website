@@ -273,7 +273,8 @@ export function checkEligibility({ location, siteId, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
-    const typeOfCareId = getTypeOfCare(getState().newAppointment.data)?.id;
+    const typeOfCare = getTypeOfCare(getState().newAppointment.data);
+    const typeOfCareId = typeOfCare?.id;
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -284,8 +285,7 @@ export function checkEligibility({ location, siteId, showModal }) {
 
       const eligibilityData = await getEligibilityData(
         location,
-        typeOfCareId,
-        siteId,
+        typeOfCare,
         directSchedulingEnabled,
       );
 
@@ -301,7 +301,8 @@ export function checkEligibility({ location, siteId, showModal }) {
 
       dispatch({
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
-        typeOfCareId,
+        typeOfCare,
+        location,
         eligibilityData,
         facilityId: location.id,
         showModal,
@@ -587,8 +588,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       if (eligibilityDataNeeded && !eligibilityChecks) {
         eligibilityData = await getEligibilityData(
           locations.find(location => location.id === locationId),
-          typeOfCareId,
-          siteId,
+          typeOfCare,
           directSchedulingEnabled,
         );
 
@@ -605,6 +605,9 @@ export function openFacilityPage(page, uiSchema, schema) {
         facilities: locations,
         typeOfCareId,
         eligibilityData,
+        location: eligibilityData
+          ? locations.find(location => location.id === locationId)
+          : null,
         isCernerOnly,
       });
 
@@ -630,8 +633,8 @@ export function updateFacilityPageData(page, uiSchema, data) {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
     const previousNewAppointmentState = state.newAppointment;
-    const typeOfCare = getTypeOfCare(data)?.name;
-    const typeOfCareId = getTypeOfCare(data)?.id;
+    const typeOfCare = getTypeOfCare(data);
+    const typeOfCareId = typeOfCare?.id;
     const siteId = getSiteIdFromFacilityId(data.vaParent);
 
     let locations =
@@ -657,7 +660,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
           dispatch(fetchFacilityDetails(data.vaParent));
           recordEligibilityFailure(
             'supported-facilities',
-            typeOfCare,
+            typeOfCare?.name,
             data.vaParent,
           );
         }
@@ -696,8 +699,7 @@ export function updateFacilityPageData(page, uiSchema, data) {
       try {
         const eligibilityData = await getEligibilityData(
           locations.find(location => location.id === data.vaFacility),
-          typeOfCareId,
-          siteId,
+          typeOfCare,
           directSchedulingEnabled,
         );
 
@@ -710,8 +712,9 @@ export function updateFacilityPageData(page, uiSchema, data) {
 
         dispatch({
           type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
-          typeOfCareId,
+          typeOfCare,
           eligibilityData,
+          location: locations.find(location => location.id === data.vaFacility),
           facilityId: data.vaFacility,
         });
 

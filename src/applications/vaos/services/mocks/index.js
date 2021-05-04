@@ -200,77 +200,77 @@ export default [
     path: /community_care\/supported_sites/,
     response: sitesSupportingVAR,
   },
-  {
-    path: /vaos\/v0\/facilities\/.*\/visits/,
-    response: url => {
-      if (url.includes('visits/direct')) {
-        return {
-          data: {
-            id: '05084676-77a1-4754-b4e7-3638cb3124e5',
-            type: 'facility_visit',
-            attributes: {
-              durationInMonths: 24,
-              hasVisitedInPastMonths: !url.includes('facilities/984'),
-            },
-          },
-        };
-      }
+  // {
+  //   path: /vaos\/v0\/facilities\/.*\/visits/,
+  //   response: url => {
+  //     if (url.includes('visits/direct')) {
+  //       return {
+  //         data: {
+  //           id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+  //           type: 'facility_visit',
+  //           attributes: {
+  //             durationInMonths: 24,
+  //             hasVisitedInPastMonths: !url.includes('facilities/984'),
+  //           },
+  //         },
+  //       };
+  //     }
 
-      return {
-        data: {
-          id: '05084676-77a1-4754-b4e7-3638cb3124e5',
-          type: 'facility_visit',
-          attributes: {
-            durationInMonths: 12,
-            hasVisitedInPastMonths: !url.includes('facilities/984/'),
-          },
-        },
-      };
-    },
-  },
-  {
-    path: /vaos\/v0\/facilities\/limits/,
-    response: (url, { _groups }) => {
-      const data = [];
-      if (url.includes('983')) {
-        data.push({
-          id: '983',
-          attributes: {
-            numberOfRequests: 0,
-            requestLimit: 1,
-            institutionCode: '983',
-          },
-        });
-      } else if (url.includes('984')) {
-        data.push({
-          id: '984',
-          attributes: {
-            numberOfRequests: 1,
-            requestLimit: 1,
-            institutionCode: '984',
-          },
-        });
-      }
-      return {
-        data,
-      };
-    },
-  },
-  {
-    path: /vaos\/v0\/facilities\/(.*)\/limits/,
-    response: (url, { groups }) => {
-      const facilityId = groups[0];
-      return {
-        data: {
-          id: facilityId,
-          attributes: {
-            requestLimit: 1,
-            numberOfRequests: facilityId.includes('984') ? 1 : 0,
-          },
-        },
-      };
-    },
-  },
+  //     return {
+  //       data: {
+  //         id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+  //         type: 'facility_visit',
+  //         attributes: {
+  //           durationInMonths: 12,
+  //           hasVisitedInPastMonths: !url.includes('facilities/984/'),
+  //         },
+  //       },
+  //     };
+  //   },
+  // },
+  // {
+  //   path: /vaos\/v0\/facilities\/limits/,
+  //   response: (url, { _groups }) => {
+  //     const data = [];
+  //     if (url.includes('983')) {
+  //       data.push({
+  //         id: '983',
+  //         attributes: {
+  //           numberOfRequests: 0,
+  //           requestLimit: 1,
+  //           institutionCode: '983',
+  //         },
+  //       });
+  //     } else if (url.includes('984')) {
+  //       data.push({
+  //         id: '984',
+  //         attributes: {
+  //           numberOfRequests: 1,
+  //           requestLimit: 1,
+  //           institutionCode: '984',
+  //         },
+  //       });
+  //     }
+  //     return {
+  //       data,
+  //     };
+  //   },
+  // },
+  // {
+  //   path: /vaos\/v0\/facilities\/(.*)\/limits/,
+  //   response: (url, { groups }) => {
+  //     const facilityId = groups[0];
+  //     return {
+  //       data: {
+  //         id: facilityId,
+  //         attributes: {
+  //           requestLimit: 1,
+  //           numberOfRequests: facilityId.includes('984') ? 1 : 0,
+  //         },
+  //       },
+  //     };
+  //   },
+  // },
 
   {
     path: /vaos\/v0\/facilities\/.*\/clinics/,

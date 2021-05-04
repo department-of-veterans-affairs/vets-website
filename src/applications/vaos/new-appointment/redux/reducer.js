@@ -521,6 +521,7 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;
+      const typeOfCare = getTypeOfCare(newData);
       const parentFacilities =
         action.parentFacilities || state.parentFacilities;
 
@@ -578,6 +579,8 @@ export default function formReducer(state = initialState, action) {
       if (action.eligibilityData) {
         const facilityEligibility = getEligibilityChecks(
           action.eligibilityData,
+          action.location,
+          typeOfCare,
         );
 
         eligibility = {
@@ -720,16 +723,20 @@ export default function formReducer(state = initialState, action) {
       };
     }
     case FORM_ELIGIBILITY_CHECKS_SUCCEEDED: {
-      const eligibility = getEligibilityChecks(action.eligibilityData);
+      const eligibility = getEligibilityChecks(
+        action.eligibilityData,
+        action.location,
+        action.typeOfCare,
+      );
       const canSchedule = isEligible(eligibility);
       const facilityId = action.facilityId || state.data.vaFacility;
 
       let clinics = state.clinics;
 
-      if (!action.eligibilityData.clinics?.directFailed) {
+      if (action.eligibilityData.clinics !== 'error') {
         clinics = {
           ...state.clinics,
-          [`${facilityId}_${action.typeOfCareId}`]: action.eligibilityData
+          [`${facilityId}_${action.typeOfCare?.id}`]: action.eligibilityData
             .clinics,
         };
       }
@@ -739,7 +746,7 @@ export default function formReducer(state = initialState, action) {
         clinics,
         eligibility: {
           ...state.eligibility,
-          [`${facilityId}_${action.typeOfCareId}`]: eligibility,
+          [`${facilityId}_${action.typeOfCare?.id}`]: eligibility,
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
         pastAppointments: action.eligibilityData.pastAppointments,

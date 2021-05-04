@@ -19,6 +19,7 @@ export function transformDSFacilities(facilities) {
   return facilities.map(facility => ({
     resourceType: 'Location',
     id: facility.id,
+    vistaId: facility.rootStationCode,
     identifier: [
       {
         system: VHA_FHIR_ID,
@@ -174,6 +175,7 @@ export function transformFacility(facility) {
   return {
     resourceType: 'Location',
     id,
+    vistaId: id.substr(0, 3),
     identifier: [
       {
         system: 'http://med.va.gov/fhir/urn',
