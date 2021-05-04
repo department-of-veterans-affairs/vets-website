@@ -44,9 +44,7 @@ export const EligibleIssuesDescription = props => (
         list, you can add it by clicking the <strong>Add issue</strong> button.
       </p>
     </div>
-    <AdditionalInfo
-      triggerText={<strong>Why aren’t all my issues listed here?</strong>}
-    >
+    <AdditionalInfo triggerText="Why aren’t all my issues listed here?">
       The issue or decision may not be in our system yet. This can happen if
       it’s a more recent claim decision. We may still be processing it.
     </AdditionalInfo>

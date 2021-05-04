@@ -19,6 +19,7 @@ export const uiSchema = {
       doNotScroll: true,
       showSave: true,
       itemName: 'real estate',
+      keepInPageOnReview: true,
     },
     items: {
       realEstateType: {
@@ -48,7 +49,6 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Real estate',
         required: ['realEstateType', 'realEstateAmount'],
         properties: {
           realEstateType: {
