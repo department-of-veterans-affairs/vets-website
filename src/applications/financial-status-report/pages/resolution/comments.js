@@ -5,6 +5,9 @@ import AdditionalInfo from '@department-of-veterans-affairs/component-library/Ad
 export const uiSchema = {
   'ui:title': 'Supporting personal statement',
   additionalData: {
+    'ui:options': {
+      customTitle: ' ',
+    },
     additionalComments: {
       'ui:title': <ResolutionComments />,
       'ui:description': (
@@ -20,9 +23,9 @@ export const uiSchema = {
           props: { formData },
         },
       }) => (
-        <dl className="review-row">
-          <dt>{formData}</dt>
-        </dl>
+        <div className="review-row">
+          <div>{formData}</div>
+        </div>
       ),
       'ui:widget': 'textarea',
       'ui:required': formData =>
@@ -32,6 +35,7 @@ export const uiSchema = {
       'ui:options': {
         rows: 5,
         maxLength: 32000,
+        customTitle: ' ',
         classNames: 'resolution-comments',
       },
     },

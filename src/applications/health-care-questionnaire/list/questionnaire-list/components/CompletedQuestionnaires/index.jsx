@@ -34,7 +34,7 @@ const index = props => {
               {questionnaires.map(data => {
                 const { questionnaire, appointment, organization } = data;
                 const facilityName = organizationSelector.getName(organization);
-                const appointmentTime = appointmentSelector.getStartTime(
+                const appointmentTime = appointmentSelector.getStartDateTime(
                   appointment,
                 );
 

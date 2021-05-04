@@ -1,3 +1,5 @@
+import moment from 'moment-timezone';
+
 const PURPOSE_TEXT = Object.freeze([
   {
     key: 'Follow-up/Routine',
@@ -56,8 +58,30 @@ const getStatus = appointment => {
   return appointment ? appointment.status : null;
 };
 
-const getStartTime = appointment => {
+const getStartDateTime = appointment => {
   return appointment ? appointment.start : null;
 };
 
-export { getStatus, getStartTime, getBookingNote };
+const getStartTimeInTimeZone = (
+  appointment,
+  options = {
+    timeZone: 'America/Los_Angeles',
+    showTimeZone: true,
+    showMeridiem: true,
+    momentFormat: `h:mm`,
+  },
+) => {
+  const appointmentTime = getStartDateTime(appointment);
+  if (!appointmentTime) {
+    return null;
+  }
+  const time = moment(appointmentTime).tz(options.timeZone);
+  const meridiem = time.hours() > 12 ? 'p.m.' : 'a.m.';
+  const formattedTimezone = moment.tz(options.timeZone).format('z');
+
+  return `${time.format(options.momentFormat)} ${
+    options.showMeridiem ? meridiem : ''
+  } ${options.showTimeZone ? formattedTimezone : ''}`.trim();
+};
+
+export { getStatus, getStartDateTime, getBookingNote, getStartTimeInTimeZone };

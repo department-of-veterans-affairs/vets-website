@@ -1,4 +1,3 @@
-import disableFTUXModals from 'platform/user/tests/disableFTUXModals';
 import { rootUrl } from '../../manifest.json';
 import mockDependents from './fixtures/mock-dependents.json';
 import mockNoAwardDependents from './fixtures/mock-no-dependents-on-award.json';
@@ -70,7 +69,6 @@ const testServerError = () => {
 
 describe('View VA dependents', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         type: 'feature_toggles',

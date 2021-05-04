@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 import mockUser from '../fixtures/users/user-36.json';
@@ -116,7 +115,6 @@ function checkAllPages(mobile = false) {
 
 describe('Profile', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(mockUser);
     // login() calls cy.server() so we can now mock routes
     cy.route('GET', '/v0/ppiu/payment_information', mockPaymentInfo);
