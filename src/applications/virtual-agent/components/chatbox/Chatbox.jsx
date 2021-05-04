@@ -20,8 +20,8 @@ function useWebChat(props) {
 export default function Chatbox(props) {
   return (
     <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
-      <div className="chat-header vads-u-padding--1p5">
-        <h2 className="vads-u-font-size--lg vads-u-margin--0">
+      <div className="vads-u-background-color--primary-darkest vads-u-padding--1p5">
+        <h2 className="vads-u-font-size--lg vads-u-color--white vads-u-margin--0">
           VA Virtual Agent (beta)
         </h2>
       </div>
