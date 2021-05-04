@@ -58,6 +58,7 @@ describe('VAOS vaccine flow', () => {
         }),
       ],
     );
+    mockRequestEligibilityCriteria(['983', '984'], []);
 
     const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
@@ -126,6 +127,7 @@ describe('VAOS vaccine flow', () => {
         }),
       ],
     );
+    mockRequestEligibilityCriteria(['983', '984'], []);
     setFetchJSONResponse(
       global.fetch.withArgs(`${environment.API_URL}/v0/maintenance_windows/`),
       {

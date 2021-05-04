@@ -39,7 +39,7 @@ const RequestDetailsCard = ({ data, response, download }) => {
         <ul>
           {data.selectedDebts?.map((debt, index) => (
             <li key={index}>
-              {debt.resolution.resolutionType} for{' '}
+              {debt.resolution?.resolutionType} for{' '}
               {deductionCodes[debt.deductionCode]}{' '}
             </li>
           ))}

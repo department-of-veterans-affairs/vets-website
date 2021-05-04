@@ -37,10 +37,11 @@ export const uiSchema = {
         doNotScroll: true,
         showSave: true,
         itemName: 'asset',
+        keepInPageOnReview: true,
       },
       items: {
         'ui:options': {
-          classNames: 'horizonal-field-container no-wrap',
+          classNames: 'horizontal-field-container no-wrap',
         },
         name: {
           'ui:title': 'Type of asset',
@@ -76,7 +77,6 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
-            title: 'Record',
             required: ['name', 'amount'],
             properties: {
               name: {

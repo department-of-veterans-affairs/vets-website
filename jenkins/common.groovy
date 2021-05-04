@@ -1,5 +1,3 @@
-import groovy.json.JsonSlurper
-
 DRUPAL_MAPPING = [
   'dev': 'vagovdev',
   'staging': 'vagovstaging',
@@ -198,8 +196,7 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
 
   if (fileExists(brokenLinksFile)) {
     def rawJsonFile = readFile(brokenLinksFile);
-    def jsonSlurper = new JsonSlurper();
-    def brokenLinks = jsonSlurper.parseText(rawJsonFile);
+    def brokenLinks = new groovy.json.JsonSlurper().parseText(rawJsonFile);
     def maxBrokenLinks = 10
     def color = 'warning'
 
@@ -222,18 +219,16 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
       return;
     }
 
-    // JSONObjects in Groovy are not serializable by default, which is an issue, because
-    // a Jenkinsfile has to be fully serializable for it to be able to pause state.
-    // To get around this, we unset our reference to the brokenLinks JSON file
-    // once we're done with it. It's important that we do this before slackSend, which
-    // is likely causes this pipeline to pause while waiting for the message to complete.
+    // Unset brokenLinks now that we're done with this, because Jenkins may temporarily
+    // freeze (through serialization) this pipeline while the Slack message is being sent.
+    // brokenLinks is an instance of JSONObject, which cannot be serialized by default.
     brokenLinks = null
 
     slackSend(
       message: message,
       color: color,
       failOnError: true,
-      channel: 'cms-helpdesk-bot'
+      channel: 'vfs-platform-builds'
     )
 
     if (color == 'danger') {
@@ -244,15 +239,20 @@ def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnly
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
   // Use the CMS's Sandbox (Tugboat) environment for all branches that
-  // are not configured to deploy to dev/staging/prod. Currently, this
-  // means to use the CMS Sandbox for any branch that is NOT master.
+  // are not configured to deploy to prod.
   def drupalAddress = DRUPAL_ADDRESSES.get('sandbox')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
   def drupalMaxParallelRequests = 15
   def noDrupalProxy = '--no-drupal-proxy'
 
-  if (IS_DEV_BRANCH || IS_STAGING_BRANCH || IS_PROD_BRANCH || contentOnlyBuild) {
+  // Build using the CMS Production instance only if we are doing
+  // a content-only build (as part of a Content Release) OR if
+  // we are building the master branch's production environment.
+  if (
+    contentOnlyBuild ||
+    (IS_PROD_BRANCH && envName == 'vagovprod')
+  ) {
     drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
     noDrupalProxy = ''
   }
@@ -269,47 +269,6 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
         // Find any missing query flags in the log
         findMissingQueryFlags(buildLogPath, envName)
       }
-    }
-  }
-}
-
-def buildAll(String ref, dockerContainer, Boolean contentOnlyBuild) {
-  stage("Build") {
-    if (shouldBail()) { return }
-
-    try {
-      def builds = [:]
-      def envUsedCache = [:]
-      def assetSource = contentOnlyBuild ? ref : 'local'
-
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
-        builds[envName] = {
-          try {
-            build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
-          } catch (error) {
-            // We're not using the cache for content only builds, because requesting
-            // a content only build is an attempt to refresh content from the current set
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
-            } else {
-              build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-              envUsedCache[envName] = false
-            }
-          }
-        }
-      }
-
-      parallel builds
-      return envUsedCache
-    } catch (error) {
-      slackNotify()
-      throw error
     }
   }
 }
@@ -394,6 +353,9 @@ def cacheDrupalContent(dockerContainer, envUsedCache) {
 
       for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
         def envName = VAGOV_BUILDTYPES.get(i)
+        // Skip caching Drupal content for vagovdev since we aren't pulling and building content for that environment.
+        // vagovdev's Drupal cache is created and uploaded in the content-build repo. This prevents overwriting vagovdev's
+        // Drupal cache file with an empty file.
         if(envName != "vagovdev") {
           if (!envUsedCache[envName]) {
             dockerContainer.inside(DOCKER_ARGS) {
