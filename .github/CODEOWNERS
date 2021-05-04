@@ -121,3 +121,7 @@ src/applications/virtual-agent @department-of-veterans-affairs/orchid
 src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-admin
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe
 src/applications/third-party-app-directory @department-of-veterans-affairs/lighthouse-bilby
+
+# Content Build Separation
+src/platform/site-wide/tests/accessible-modal.e2e.spec.js @department-of-veterans-affairs/frontend-review-group
+src/site/tests/home/00-required.e2e.spec.js @department-of-veterans-affairs/frontend-review-group
