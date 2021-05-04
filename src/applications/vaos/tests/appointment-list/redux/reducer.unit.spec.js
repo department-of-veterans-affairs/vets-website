@@ -12,9 +12,6 @@ import {
   FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
   FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-  FETCH_EXPRESS_CARE_WINDOWS_FAILED,
-  FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
-  FETCH_EXPRESS_CARE_WINDOWS,
   CANCEL_APPOINTMENT,
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
@@ -369,71 +366,5 @@ describe('VAOS reducer: appointments', () => {
     expect(newState.confirmed).to.be.null;
     expect(newState.pendingStatus).to.equal(FETCH_STATUS.notStarted);
     expect(newState.pending).to.be.null;
-  });
-
-  describe('express care windows', () => {
-    it('should set expressCareWindowsStatus to loading', () => {
-      const action = {
-        type: FETCH_EXPRESS_CARE_WINDOWS,
-      };
-
-      const newState = appointmentsReducer(initialState, action);
-      expect(newState.expressCareWindowsStatus).to.equal(FETCH_STATUS.loading);
-    });
-
-    it('should filter out facilities without EC and set status on success', () => {
-      const action = {
-        type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
-        settings: [
-          {
-            id: '983',
-            customRequestSettings: [
-              {
-                id: 'CR1',
-                typeOfCare: 'Express Care',
-                supported: true,
-                schedulingDays: [
-                  {
-                    day: 'MONDAY',
-                    canSchedule: true,
-                  },
-                  {
-                    day: 'TUESDAY',
-                    canSchedule: false,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: '984',
-            customRequestSettings: [
-              {
-                id: 'CR1',
-                typeOfCare: 'Express Care',
-                supported: false,
-                schedulingDays: [],
-              },
-            ],
-          },
-        ],
-      };
-
-      const newState = appointmentsReducer(initialState, action);
-      expect(newState.expressCareWindowsStatus).to.equal(
-        FETCH_STATUS.succeeded,
-      );
-      expect(newState.expressCareFacilities.length).to.equal(1);
-      expect(newState.expressCareFacilities[0].days.length).to.equal(1);
-    });
-
-    it('should set expressCareWindowsStatus to failed', () => {
-      const action = {
-        type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
-      };
-
-      const newState = appointmentsReducer(initialState, action);
-      expect(newState.expressCareWindowsStatus).to.equal(FETCH_STATUS.failed);
-    });
   });
 });
