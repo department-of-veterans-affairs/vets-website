@@ -117,9 +117,7 @@ export default function AppointmentsPageV2() {
           <WarningNotification {...props}>{childContent}</WarningNotification>
         )}
       />
-
       {showScheduleButton && <ScheduleNewAppointmentRadioButtons />}
-
       {expressCare.useNewFlow &&
         !isCernerOnlyPatient && (
           <RequestExpressCare
