@@ -37,7 +37,8 @@ const TIME_TEXT = {
 };
 
 export default function RequestedAppointmentDetailsPage() {
-  const { id } = useParams();
+  // confirmMsg is to trigger the confirmation alert after the submission of a new appointment request
+  const { id, confirmMsg } = useParams();
   const dispatch = useDispatch();
   const {
     appointmentDetailsStatus,
@@ -139,33 +140,29 @@ export default function RequestedAppointmentDetailsPage() {
       <h1>
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
       </h1>
-      <AlertBox
-        status={canceled ? 'error' : 'info'}
-        className="vads-u-display--block vads-u-margin-bottom--2"
-        backgroundOnly
-      >
-        {canceled && 'This request has been canceled'}
-        {!canceled && (
-          <>
-            Your appointment request has been submitted. We will review your
-            request and contact you to schedule the first available appointment.
-            <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--2">
-              <i
-                aria-hidden="true"
-                className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
-              />
-
-              <button
-                aria-label="Cancel request"
-                className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
-                onClick={() => dispatch(cancelAppointment(appointment))}
-              >
-                Cancel Request
-              </button>
-            </div>
-          </>
-        )}
-      </AlertBox>
+      {confirmMsg && (
+        <AlertBox
+          status={canceled ? 'error' : 'success'}
+          className="vads-u-display--block vads-u-margin-bottom--2"
+          backgroundOnly
+        >
+          {canceled && 'This request has been canceled'}
+          {!canceled && (
+            <>
+              <strong>Your appointment request has been submitted. </strong>
+              We will review your request and contact you to schedule the first
+              available appointment.
+              <br />
+              <div className=" vads-u-margin-top--1">
+                <Link to="/">View your appointments</Link>
+              </div>
+              <div className=" vads-u-margin-top--1">
+                <Link to="/new-appointment">New appointment</Link>
+              </div>
+            </>
+          )}
+        </AlertBox>
+      )}
       <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
         {!isCCRequest && isVideoRequest && 'VA Video Connect'}
         {!isCCRequest && !isVideoRequest && 'VA Appointment'}
@@ -223,9 +220,27 @@ export default function RequestedAppointmentDetailsPage() {
             timesToCall={appointment.preferredTimesForPhoneCall}
           />
         </span>
+        {!canceled && (
+          <>
+            <br />
+            <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3">
+              <i
+                aria-hidden="true"
+                className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
+              />
+              <button
+                aria-label="Cancel request"
+                className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
+                onClick={() => dispatch(cancelAppointment(appointment))}
+              >
+                Cancel Request
+              </button>
+            </div>
+          </>
+        )}
       </div>
       <Link to="/requested">
-        <button className="usa-button vads-u-margin-top--2">
+        <button className="usa-button vads-u-margin-top--3">
           « Go back to appointments
         </button>
       </Link>

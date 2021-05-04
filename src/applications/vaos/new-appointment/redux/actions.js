@@ -1063,7 +1063,7 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        history.push('/new-appointment/confirmation');
+        history.push(`/requests/${requestData.id}/true`);
       } catch (error) {
         let extraData = null;
         if (requestBody) {
