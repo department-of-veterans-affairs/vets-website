@@ -14,6 +14,14 @@
   }
 }
 
+.form-review-panel-page tr td:last-child {
+  font-weight: inherit;
+}
+
+.schemaform-review-page-warning {
+  margin: 0;
+}
+
 .debt-card {
   padding: 24px;
   label {
@@ -47,7 +55,7 @@
   .item-loop {
     padding: 5px 15px 20px;
     background-color: $color-gray-lightest;
-    .horizonal-field-container .schemaform-field-container {
+    .horizontal-field-container .schemaform-field-container {
       display: flex;
       align-items: center;
       margin: 20px 0;
@@ -143,21 +151,47 @@
 }
 
 // resolution options
-.edu-waiver-checkbox {
-  .schemaform-field-template {
-    margin-top: 0;
+.resolution-options-available .schemaform-block-title {
+  font-size: 20px;
+}
+.resolution-options-debt-title {
+  font-size: 18px;
+}
+.resolution-cards {
+  padding: 0 24px 24px 24px;
+  .form-radio-buttons {
+    position: relative;
+    left: -12px;
   }
-  legend {
-    display: none;
+  .form-expanding-group {
+    .fieldset-input {
+      margin-top: 0;
+    }
+    .form-expanding-group-active-radio {
+      margin-left: 0;
+      label {
+        margin-top: 0;
+        margin-bottom: 10px;
+      }
+      .usa-input-error {
+        margin-top: 0;
+        padding-bottom: 0;
+      }
+    }
   }
 }
 
-.resolution-inputs label {
-  margin-top: 0;
-}
-
-.resolution-inputs .schemaform-currency-input label {
-  white-space: nowrap;
+.currency-input {
+  position: relative;
+  &:after {
+    content: "$";
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+  input {
+    padding-left: 25px;
+  }
 }
 
 .resolution-comments {

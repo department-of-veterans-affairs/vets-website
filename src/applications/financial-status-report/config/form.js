@@ -49,6 +49,7 @@ const formConfig = {
   customText: {
     finishAppLaterMessage: 'Finish this request later',
     reviewPageTitle: 'Review your request',
+    submitButtonText: 'Submit your request',
   },
   chapters: {
     veteranInformationChapter: {
@@ -140,6 +141,7 @@ const formConfig = {
           uiSchema: pages.previousEmploymentRecords.uiSchema,
           schema: pages.previousEmploymentRecords.schema,
           depends: formData => formData.questions.vetPreviouslyEmployed,
+          editModeOnReviewPage: true,
         },
         benefits: {
           path: 'benefits',
@@ -158,13 +160,13 @@ const formConfig = {
         },
         socialSecurity: {
           path: 'social-security',
-          title: 'Social security',
+          title: 'Social Security',
           uiSchema: pages.socialSecurity.uiSchema,
           schema: pages.socialSecurity.schema,
         },
         socialSecurityRecords: {
           path: 'social-security-records',
-          title: 'Social security',
+          title: 'Social Security',
           uiSchema: pages.socialSecurityRecords.uiSchema,
           schema: pages.socialSecurityRecords.schema,
           depends: formData => formData.questions.hasSocialSecurity,
@@ -181,6 +183,7 @@ const formConfig = {
           uiSchema: pages.additionalIncomeRecords.uiSchema,
           schema: pages.additionalIncomeRecords.schema,
           depends: formData => formData.questions.hasAdditionalIncome,
+          editModeOnReviewPage: true,
         },
         spouseInformation: {
           path: 'spouse-information',
@@ -219,6 +222,7 @@ const formConfig = {
           depends: formData =>
             formData.questions.maritalStatus === 'Married' &&
             formData.questions.spousePreviouslyEmployed,
+          editModeOnReviewPage: true,
         },
         spouseBenefits: {
           path: 'spouse-benefits',
@@ -238,14 +242,14 @@ const formConfig = {
         },
         spouseSocialSecurity: {
           path: 'spouse-social-security',
-          title: 'Spouse social security',
+          title: 'Spouse Social Security',
           uiSchema: pages.spouseSocialSecurity.uiSchema,
           schema: pages.spouseSocialSecurity.schema,
           depends: formData => formData.questions.maritalStatus === 'Married',
         },
         spouseSocialSecurityRecords: {
           path: 'spouse-social-security-records',
-          title: 'Spouse social security',
+          title: 'Spouse Social Security',
           uiSchema: pages.spouseSocialSecurityRecords.uiSchema,
           schema: pages.spouseSocialSecurityRecords.schema,
           depends: formData =>
@@ -267,6 +271,7 @@ const formConfig = {
           depends: formData =>
             formData.questions.maritalStatus === 'Married' &&
             formData.questions.spouseHasAdditionalIncome,
+          editModeOnReviewPage: true,
         },
         dependents: {
           path: 'dependents',
@@ -280,6 +285,7 @@ const formConfig = {
           uiSchema: pages.dependentRecords.uiSchema,
           schema: pages.dependentRecords.schema,
           depends: formData => formData.questions.hasDependents,
+          editModeOnReviewPage: true,
         },
       },
     },
@@ -304,6 +310,7 @@ const formConfig = {
           uiSchema: pages.realEstateRecords.uiSchema,
           schema: pages.realEstateRecords.schema,
           depends: formData => formData.questions.hasRealEstate,
+          editModeOnReviewPage: true,
         },
         vehicles: {
           path: 'vehicles',
@@ -317,6 +324,7 @@ const formConfig = {
           uiSchema: pages.vehicleRecords.uiSchema,
           schema: pages.vehicleRecords.schema,
           depends: formData => formData.questions.hasVehicle,
+          editModeOnReviewPage: true,
         },
         recreationalVehicles: {
           path: 'recreational-vehicles',
@@ -330,6 +338,7 @@ const formConfig = {
           uiSchema: pages.recreationalVehicleRecords.uiSchema,
           schema: pages.recreationalVehicleRecords.schema,
           depends: formData => formData.questions.hasRecreationalVehicle,
+          editModeOnReviewPage: true,
         },
         otherAssets: {
           path: 'other-assets',
@@ -343,6 +352,7 @@ const formConfig = {
           uiSchema: pages.otherAssetRecords.uiSchema,
           schema: pages.otherAssetRecords.schema,
           depends: formData => formData.questions.hasOtherAssets,
+          editModeOnReviewPage: true,
         },
       },
     },
@@ -367,6 +377,7 @@ const formConfig = {
           uiSchema: pages.utilityRecords.uiSchema,
           schema: pages.utilityRecords.schema,
           depends: formData => formData.questions.hasUtilities,
+          editModeOnReviewPage: true,
         },
         repayments: {
           path: 'repayments',
@@ -380,6 +391,7 @@ const formConfig = {
           uiSchema: pages.repaymentRecords.uiSchema,
           schema: pages.repaymentRecords.schema,
           depends: formData => formData.questions.hasRepayments,
+          editModeOnReviewPage: true,
         },
         otherExpenses: {
           path: 'other-expenses',
@@ -393,6 +405,7 @@ const formConfig = {
           uiSchema: pages.otherExpenseRecords.uiSchema,
           schema: pages.otherExpenseRecords.schema,
           depends: formData => formData.questions.hasOtherExpenses,
+          editModeOnReviewPage: true,
         },
       },
     },
@@ -400,10 +413,8 @@ const formConfig = {
       title: 'Repayment or relief options',
       pages: {
         resolutionOptions: {
-          path: 'resolution-options/:index',
+          path: 'resolution-options',
           title: 'Resolution options',
-          showPagePerItem: true,
-          arrayPath: 'selectedDebts',
           uiSchema: pages.resolutionOptions.uiSchema,
           schema: pages.resolutionOptions.schema,
         },

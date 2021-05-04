@@ -57,10 +57,11 @@ export const uiSchema = {
               doNotScroll: true,
               showSave: true,
               itemName: 'payroll deduction',
+              keepInPageOnReview: true,
             },
             items: {
               'ui:options': {
-                classNames: 'horizonal-field-container no-wrap',
+                classNames: 'horizontal-field-container no-wrap',
               },
               name: {
                 'ui:title': 'Type of payroll deduction',
@@ -117,7 +118,6 @@ export const schema = {
                       type: 'array',
                       items: {
                         type: 'object',
-                        title: 'Deduction',
                         required: ['name', 'amount'],
                         properties: {
                           name: {

@@ -16,7 +16,11 @@ import ClinicChoicePage from './components/ClinicChoicePage';
 import SelectDate1Page from './components/SelectDate1Page';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
-import { selectFeatureCovid19Vaccine } from '../redux/selectors';
+import ConfirmationPageV2 from './components/ConfirmationPageV2';
+import {
+  selectFeatureCovid19Vaccine,
+  selectFeatureHomepageRefresh,
+} from '../redux/selectors';
 import SecondDosePage from './components/SecondDosePage';
 import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
@@ -30,9 +34,9 @@ import ErrorMessage from '../components/ErrorMessage';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
   selectCanUseVaccineFlow,
-  selectDirectScheduleSettingsStatus,
+  selectFacilitySettingsStatus,
 } from '../appointment-list/redux/selectors';
-import { fetchDirectScheduleSettings } from '../appointment-list/redux/actions';
+import { fetchFacilitySettings } from '../appointment-list/redux/actions';
 
 export function NewBookingSection() {
   const match = useRouteMatch();
@@ -41,13 +45,12 @@ export function NewBookingSection() {
   const dispatch = useDispatch();
   const canUseVaccineFlow = useSelector(selectCanUseVaccineFlow);
   const featureCovid19Vaccine = useSelector(selectFeatureCovid19Vaccine);
-  const directScheduleSettingsStatus = useSelector(
-    selectDirectScheduleSettingsStatus,
-  );
+  const facilitySettingsStatus = useSelector(selectFacilitySettingsStatus);
+  const featureHomepageRefresh = useSelector(selectFeatureHomepageRefresh);
 
   useEffect(() => {
-    if (directScheduleSettingsStatus === FETCH_STATUS.notStarted) {
-      dispatch(fetchDirectScheduleSettings());
+    if (facilitySettingsStatus === FETCH_STATUS.notStarted) {
+      dispatch(fetchFacilitySettings());
     }
   }, []);
 
@@ -62,11 +65,11 @@ export function NewBookingSection() {
 
   useEffect(
     () => {
-      if (directScheduleSettingsStatus === FETCH_STATUS.failed) {
+      if (facilitySettingsStatus === FETCH_STATUS.failed) {
         scrollAndFocus();
       }
     },
-    [directScheduleSettingsStatus],
+    [facilitySettingsStatus],
   );
 
   useManualScrollRestoration();
@@ -86,13 +89,13 @@ export function NewBookingSection() {
     return <Redirect to={match.url} />;
   }
 
-  if (directScheduleSettingsStatus === FETCH_STATUS.failed) {
+  if (facilitySettingsStatus === FETCH_STATUS.failed) {
     return <ErrorMessage level="1" />;
   }
 
   if (
-    directScheduleSettingsStatus === FETCH_STATUS.loading ||
-    directScheduleSettingsStatus === FETCH_STATUS.notStarted
+    facilitySettingsStatus === FETCH_STATUS.loading ||
+    facilitySettingsStatus === FETCH_STATUS.notStarted
   ) {
     return (
       <div className="vads-u-margin-y--8">
@@ -108,7 +111,7 @@ export function NewBookingSection() {
   // support scheduling an appointment for the vaccine.
   if (
     !canUseVaccineFlow &&
-    directScheduleSettingsStatus === FETCH_STATUS.succeeded &&
+    facilitySettingsStatus === FETCH_STATUS.succeeded &&
     !location.pathname.includes(`${match.url}/contact-facilities`)
   ) {
     return <Redirect to={`${match.url}/contact-facilities`} />;
@@ -139,7 +142,9 @@ export function NewBookingSection() {
         <Route path={`${match.url}/review`} component={ReviewPage} />
         <Route
           path={`${match.url}/confirmation`}
-          component={ConfirmationPage}
+          component={
+            featureHomepageRefresh ? ConfirmationPageV2 : ConfirmationPage
+          }
         />
         <Route path="/" component={PlanAheadPage} />
       </Switch>

@@ -25,7 +25,8 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // Navigate to beta-page and wait for component render.
   client
     .openUrl(`${E2eHelpers.baseUrl}${drcPagePath}`)
-    .waitForElementPresent(componentSelector, Timeouts.slow);
+    .waitForElementPresent(componentSelector, Timeouts.slow)
+    .axeCheck();
 
   // Test row deletion.
   DrcE2eHelpers.fillRatings(client, rowDeletionTestInput);
