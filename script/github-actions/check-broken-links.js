@@ -13,7 +13,6 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
 const envName = options.envName;
 const contentOnlyBuild = options.contentOnlyBuild;
-// const reportPath = path.join(__dirname, '../../logs/localhost-broken-links.json'); // TODO: Maybe argparse parameter to determine environment
 const reportPath = options.path;
 const SERVER_URL = options.serverUrl;
 const BRANCH_NAME = options.branch.replace('refs/heads/', ''); // format: refs/heads/*
@@ -21,9 +20,6 @@ const IS_PROD_BRANCH = BRANCH_NAME === 'master';
 const maxBrokenLinks = 10;
 
 let color = 'warning';
-
-// for testing purposes
-console.log(`::set-output name=SLACK_COLOR::${color}`); // eslint-disable-line no-console
 
 // broken links detected
 if (fs.existsSync(reportPath)) {
