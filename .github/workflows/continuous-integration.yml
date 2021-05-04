@@ -251,6 +251,11 @@ jobs:
         with:
           path: vets-website
 
+      - name: Get branch name
+        id: get-branch-name
+        run: echo ::set-output name=BRANCH_NAME::$(echo ${{ GITHUB_REF#refs/heads/ }})
+        shell: bash
+
       - name: Get Node version
         id: get-node-version
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
@@ -279,3 +284,6 @@ jobs:
         timeout-minutes: 30
         env:
           NODE_ENV: production
+
+      - name: Broken link checks
+        run: node ./script/github-actions/check-broken-links.js --env ${{ steps.get-branch-name.outputs.BRANCH_NAME }} --path `${{ GITHUB_WORKSPACE }}/logs/vagovprod-broken-links.json`
