@@ -150,7 +150,7 @@ class SearchControls extends Component {
                   aria-hidden="true"
                   role="presentation"
                 />
-                <span>Finding your location...</span>
+                <span aria-live="assertive">Finding your location...</span>
               </div>
             ) : (
               <button
