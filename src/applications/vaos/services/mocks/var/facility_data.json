@@ -22,26 +22,6 @@
             "address3": null
           }
         },
-        "detailedServices": [
-          {
-            "name": "COVID-19 vaccines",
-            "descriptionFacility": null,
-            "appointmentLeadin": "Your VA health care team will contact you if you’re eligible to get a vaccine during this time. As the supply of vaccine increases, we'll work with our care teams to let Veterans know their options.",
-            "appointmentPhones": [
-              {
-                "extension": null,
-                "label": "Main phone",
-                "number": "307-778-7580",
-                "type": "tel"
-              }
-            ],
-            "onlineSchedulingAvailable": null,
-            "referralRequired": "true",
-            "walkInsAccepted": "false",
-            "serviceLocations": null,
-            "path": "https://www.cheyenne.va.gov/services/covid-19-vaccines.asp"
-          }
-        ],
         "phone": {
           "fax": "307-778-7381",
           "main": "307-778-7550",
