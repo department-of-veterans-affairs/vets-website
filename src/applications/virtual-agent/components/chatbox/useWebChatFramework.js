@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function checkForWebchat(
   setLoading,
@@ -33,7 +33,10 @@ const loadWebChat = () => {
 };
 
 export default function useWebChatFramework(props) {
-  loadWebChat();
+  useEffect(() => {
+    loadWebChat();
+  }, []);
+
   const [isLoading, setLoading] = useState(!window.WebChat);
   const [error, setError] = useState(false);
 

@@ -244,14 +244,31 @@ describe('App', () => {
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
     });
   });
-});
 
-describe('when chatbox is rendered', () => {
-  it('loads the webchat framework via script tag', () => {
-    expect(screen.queryByTestId('webchat-framework-script')).to.not.exist;
+  describe('when chatbox is rendered', () => {
+    it('loads the webchat framework via script tag', () => {
+      expect(screen.queryByTestId('webchat-framework-script')).to.not.exist;
 
-    const wrapper = renderInReduxProvider(<Chatbox webchatTimeout={10} />);
+      const wrapper = renderInReduxProvider(<Chatbox webchatTimeout={10} />);
 
-    expect(wrapper.getByTestId('webchat-framework-script')).to.exist;
+      expect(wrapper.getByTestId('webchat-framework-script')).to.exist;
+    });
+
+    it('loads the webchat framework only once', async () => {
+      loadWebChat();
+      mockApiRequest({ token: 'FAKETOKEN' });
+      const wrapper = renderInReduxProvider(<Chatbox />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+      expect(
+        wrapper.queryAllByTestId('webchat-framework-script'),
+      ).to.have.lengthOf(1);
+    });
   });
 });
