@@ -153,8 +153,7 @@ class SearchControls extends Component {
                 <span>Finding your location...</span>
               </div>
             ) : (
-              <a
-                href="#"
+              <button
                 onClick={this.handleGeolocationButtonClick}
                 className="use-my-location-link"
               >
@@ -164,7 +163,7 @@ class SearchControls extends Component {
                   role="presentation"
                 />
                 Use my location
-              </a>
+              </button>
             ))}
         </div>
         {showError && (

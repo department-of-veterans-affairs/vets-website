@@ -297,6 +297,10 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
       .use-my-location-link {
         text-decoration: none;
+        background-color: transparent;
+        color: $color-link-default;
+        font-weight: normal;
+        padding: 0;
         margin: 0 0 0 20px;
 
         @media (max-width: $small-desktop-screen) {
