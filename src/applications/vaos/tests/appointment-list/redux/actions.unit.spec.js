@@ -14,8 +14,6 @@ import {
   fetchRequestMessages,
   cancelAppointment,
   confirmCancelAppointment,
-  closeCancelAppointment,
-  startNewAppointmentFlow,
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
@@ -28,14 +26,12 @@ import {
   CANCEL_APPOINTMENT_CONFIRMED,
   CANCEL_APPOINTMENT_CONFIRMED_FAILED,
   CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
-  CANCEL_APPOINTMENT_CLOSED,
 } from '../../../appointment-list/redux/actions';
 
 import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
 } from '../../../utils/constants';
-import { STARTED_NEW_APPOINTMENT_FLOW } from '../../../redux/sitewide';
 
 // import facilityData from '../../../services/mocks/var/facility_data.json';
 import cancelReasons from '../../../services/mocks/var/cancel_reasons.json';
@@ -498,21 +494,6 @@ describe('VAOS actions: appointments', () => {
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
         isVaos400Error: true,
       });
-    });
-
-    it('should send close cancel action', () => {
-      const action = closeCancelAppointment();
-
-      expect(action).to.deep.equal({
-        type: CANCEL_APPOINTMENT_CLOSED,
-      });
-    });
-  });
-  it('should start new appointment flow', () => {
-    const action = startNewAppointmentFlow();
-
-    expect(action).to.deep.equal({
-      type: STARTED_NEW_APPOINTMENT_FLOW,
     });
   });
 });
