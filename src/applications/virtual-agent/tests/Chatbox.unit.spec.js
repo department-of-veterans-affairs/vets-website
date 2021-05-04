@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { expect } from 'chai';
 import { waitFor, screen } from '@testing-library/react';
 
@@ -269,6 +270,16 @@ describe('App', () => {
       expect(
         wrapper.queryAllByTestId('webchat-framework-script'),
       ).to.have.lengthOf(1);
+    });
+
+    it('exposes React and ReactDOM as globals for the framework to re-use so hooks still work', () => {
+      expect(window.React).to.not.exist;
+      expect(window.ReactDOM).to.not.exist;
+
+      renderInReduxProvider(<Chatbox webchatTimeout={10} />);
+
+      expect(window.React).to.eql(React);
+      expect(window.ReactDOM).to.eql(ReactDOM);
     });
   });
 });

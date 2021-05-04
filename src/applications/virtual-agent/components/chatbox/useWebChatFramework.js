@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 
 function checkForWebchat(
   setLoading,
@@ -34,6 +35,8 @@ const loadWebChat = () => {
 
 export default function useWebChatFramework(props) {
   useEffect(() => {
+    window.React = React;
+    window.ReactDOM = ReactDOM;
     loadWebChat();
   }, []);
 
