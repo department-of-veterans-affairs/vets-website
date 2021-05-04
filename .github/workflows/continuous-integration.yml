@@ -253,7 +253,7 @@ jobs:
 
       - name: Get branch name
         id: get-branch-name
-        run: echo ::set-output name=BRANCH_NAME::$(echo ${ GITHUB_REF })
+        run: echo ::set-output name=BRANCH_NAME::$(echo $GITHUB_REF)
         shell: bash
 
       - name: Get Node version
@@ -265,25 +265,28 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+      - name: test workspace
+        run: echo "branch = ${{ steps.get-branch-name.outputs.BRANCH_NAME }}, ws = $GITHUB_WORKSPACE"
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+      # - name: Cache dependencies
+      #   id: cache-dependencies
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: |
+      #       ~/.cache/yarn
+      #       node_modules
+      #     key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
-      - name: Build
-        run: yarn build --buildtype vagovprod --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
-        timeout-minutes: 30
-        env:
-          NODE_ENV: production
+      # - name: Install dependencies
+      #   run: yarn install --frozen-lockfile --prefer-offline
+      #   env:
+      #     YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Broken link checks
-        run: node ./script/github-actions/check-broken-links.js -e ${{ steps.get-branch-name.outputs.BRANCH_NAME }} -p `${ GITHUB_WORKSPACE }/logs/vagovprod-broken-links.json`
+      # - name: Build
+      #   run: yarn build --buildtype vagovprod --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
+      #   timeout-minutes: 30
+      #   env:
+      #     NODE_ENV: production
+
+      # - name: Broken link checks
+      #   run: node ./script/github-actions/check-broken-links.js -e ${{ steps.get-branch-name.outputs.BRANCH_NAME }} -p `${ GITHUB_WORKSPACE }/logs/vagovprod-broken-links.json`

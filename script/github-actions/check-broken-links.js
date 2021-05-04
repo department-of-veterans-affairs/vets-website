@@ -2,7 +2,7 @@ const fs = require('fs');
 const commandLineArgs = require('command-line-args');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'environment', alias: 'e', type: String },
+  { name: 'env', alias: 'e', type: String },
   { name: 'path', alias: 'p', type: String },
   { name: 'contentOnlyBuild', alias: 'c', type: Boolean, defaultValue: false },
 ];
