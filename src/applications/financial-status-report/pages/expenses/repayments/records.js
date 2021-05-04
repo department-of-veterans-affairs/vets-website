@@ -21,6 +21,7 @@ export const uiSchema = {
       doNotScroll: true,
       showSave: true,
       itemName: 'installment or other debt',
+      keepInPageOnReview: true,
     },
     items: {
       purpose: {
@@ -72,7 +73,6 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Repayment',
         required: [
           'purpose',
           'unpaidBalance',

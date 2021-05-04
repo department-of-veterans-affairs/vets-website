@@ -1,10 +1,7 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
 import mockUser from '@@profile/tests/fixtures/users/user-36.json';
 
 const setup = (mobile = false) => {
-  disableFTUXModals();
-
   if (mobile) {
     cy.viewport('iphone-4');
   }

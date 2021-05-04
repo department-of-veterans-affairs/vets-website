@@ -39,6 +39,10 @@ export const yesNo = ({ value, options = {} }) => {
   return <span>{displayValue}</span>;
 };
 
-export const CheckboxWidget = ({ value }) => (
-  <span>{value === true ? 'Selected' : ''}</span>
+export const CheckboxWidget = ({ value, schema = {} }) => (
+  <span>
+    {value === true
+      ? schema.enumNames?.[0] || 'Selected'
+      : schema.enumNames?.[1] || ''}
+  </span>
 );
