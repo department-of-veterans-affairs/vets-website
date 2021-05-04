@@ -3,16 +3,23 @@ import classNames from 'classnames';
 import Dropdown from './Dropdown';
 
 export default function SearchForm({
+  search,
   fetchSearchByLocation,
   fetchSearchByName,
 }) {
   const [currentTab, setCurrentTab] = useState('name');
-  const [searchName, setSearchName] = useState();
-  const [searchLocation, setSearchLocation] = useState();
+  const [searchName, setSearchName] = useState(search.query.name);
+  const [searchLocation, setSearchLocation] = useState('');
   const [distance, setDistance] = useState('10');
   const tabSearches = {
     name: () => fetchSearchByName(searchName),
     location: () => fetchSearchByLocation(searchLocation, distance),
+  };
+
+  const handleTabClick = tabName => {
+    setSearchLocation('');
+    setSearchName('');
+    setCurrentTab(tabName);
   };
 
   const tabContent = {
@@ -73,7 +80,7 @@ export default function SearchForm({
     );
 
     return (
-      <div className={tabClasses} onClick={() => setCurrentTab(tabName)}>
+      <div className={tabClasses} onClick={() => handleTabClick(tabName)}>
         {label}
       </div>
     );

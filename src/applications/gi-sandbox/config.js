@@ -2,7 +2,7 @@ import environment from 'platform/utilities/environment';
 import manifest from './manifest.json';
 
 export const api = {
-  url: `${environment.API_URL}/v0/gi`,
+  url: `${environment.API_URL}/v1/gi`,
   settings: {
     credentials: 'include',
     headers: {

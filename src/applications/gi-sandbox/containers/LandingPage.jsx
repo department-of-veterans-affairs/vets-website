@@ -10,6 +10,7 @@ import { PAGE_TITLE } from '../constants';
 import SearchForm from '../components/SearchForm';
 
 export function LandingPage({
+  search,
   dispatchSetPageTitle,
   dispatchFetchSearchByLocationResults,
   dispatchFetchSearchByNameResults,
@@ -29,6 +30,7 @@ export function LandingPage({
             </p>
           </div>
           <SearchForm
+            search={search}
             fetchSearchByLocation={dispatchFetchSearchByLocationResults}
             fetchSearchByName={dispatchFetchSearchByNameResults}
           />
@@ -42,6 +44,7 @@ export function LandingPage({
 const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   eligibility: state.eligibility,
+  search: state.search,
 });
 
 const mapDispatchToProps = {
