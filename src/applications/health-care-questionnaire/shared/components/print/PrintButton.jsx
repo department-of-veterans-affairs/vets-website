@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import ViewAndPrint from './ViewAndPrint';
 import PrintErrorMessage from './PrintErrorMessage';
@@ -43,12 +43,26 @@ export default function PrintButton({
     return <PrintErrorMessage CallToAction={ErrorCallToAction} />;
   }
   if (isLoading) {
+    const className = `usa-button va-button view-and-print-button`;
     return (
-      <LoadingButton
-        isLoading={isLoading}
-        disabled
-        loadingText="Generating PDF"
-      />
+      <>
+        <section className="load-message">
+          <LoadingIndicator />
+          <p>
+            We're creating a PDF of your completed questionnaire. Please don't
+            refresh your browser.
+          </p>
+          <p>When your PDF is ready, it will open in a new browser tab.</p>
+        </section>
+        <button
+          className={className}
+          disabled
+          data-testid="print-button"
+          aria-label={`Creating your PDF`}
+        >
+          Creating PDF...
+        </button>
+      </>
     );
   }
   return (
