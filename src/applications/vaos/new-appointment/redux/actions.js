@@ -11,6 +11,7 @@ import {
   selectSystemIds,
   selectIsCernerOnlyPatient,
   selectUseFlatFacilityPage,
+  selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -941,6 +942,7 @@ async function buildPreferencesDataAndUpdate(email) {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
+    const isFeatureHomepageRefresh = selectFeatureHomepageRefresh(state);
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -1059,7 +1061,11 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        history.push(`/requests/${requestData.id}/true`);
+        if (isFeatureHomepageRefresh) {
+          history.push(`/requests/${requestData.id}?confirmMsg=true`);
+        } else {
+          history.push('/new-appointment/confirmation');
+        }
       } catch (error) {
         let extraData = null;
         if (requestBody) {

@@ -37,8 +37,9 @@ const TIME_TEXT = {
 };
 
 export default function RequestedAppointmentDetailsPage() {
-  // confirmMsg is to trigger the confirmation alert after the submission of a new appointment request
-  const { id, confirmMsg } = useParams();
+  const queryParams = new URLSearchParams(window.location.search);
+  const showConfirmMsg = queryParams.get('confirmMsg');
+  const { id } = useParams();
   const dispatch = useDispatch();
   const {
     appointmentDetailsStatus,
@@ -140,7 +141,7 @@ export default function RequestedAppointmentDetailsPage() {
       <h1>
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
       </h1>
-      {confirmMsg && (
+      {showConfirmMsg && (
         <AlertBox
           status={canceled ? 'error' : 'success'}
           className="vads-u-display--block vads-u-margin-bottom--2"

@@ -20,10 +20,7 @@ function AppointmentListSection() {
     <Switch>
       <Route path="/cc/:id" component={CommunityCareAppointmentDetailsPage} />
       <Route path="/va/:id" component={ConfirmedAppointmentDetailsPage} />
-      <Route
-        path="/requests/:id/:confirmMsg?"
-        component={RequestedAppointmentDetailsPage}
-      />
+      <Route path="/requests/:id" component={RequestedAppointmentDetailsPage} />
       <Route path="/express-care/:id" component={ExpressCareDetailsPage} />
       <Route
         path="/"
