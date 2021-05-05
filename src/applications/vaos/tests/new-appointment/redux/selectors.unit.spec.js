@@ -351,7 +351,7 @@ describe('VAOS selectors', () => {
           },
           eligibility: {
             // eslint-disable-next-line camelcase
-            983_323: {
+            '983_323': {
               request: true,
             },
           },

@@ -505,7 +505,6 @@ describe('VAOS newAppointment actions', () => {
       const succeededAction = dispatch.firstCall.args[0];
       expect(succeededAction).to.deep.include({
         type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        eligibilityData: null,
       });
     });
   });

@@ -271,11 +271,10 @@ describe('VAOS reducer: newAppointment', () => {
         ...defaultOpenPageAction,
         parentFacilities: parentFacilitiesParsed.slice(0, 1),
         facilities: facilities983Parsed.slice(0, 1),
-        eligibilityData: {
-          clinics: [],
-          request: {},
-          direct: {},
-          requestLimits: {},
+        clinics: [],
+        eligibility: {
+          request: true,
+          direct: false,
         },
         location: {
           legacyVAR: {},
@@ -290,9 +289,7 @@ describe('VAOS reducer: newAppointment', () => {
         type: 'object',
         properties: {},
       });
-      expect(newState.clinics['983_323']).to.equal(
-        action.eligibilityData.clinics,
-      );
+      expect(newState.clinics['983_323']).to.equal(action.clinics);
     });
 
     it('should not set clinics when it failed', () => {
@@ -627,10 +624,10 @@ describe('VAOS reducer: newAppointment', () => {
         type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
         typeOfCare: { id: '323' },
         facilityId: '983',
-        eligibilityData: {
-          clinics: [],
-          direct: {},
-          request: {},
+        clinics: [],
+        eligibility: {
+          direct: true,
+          request: false,
         },
         location: {
           legacyVAR: {},
@@ -649,9 +646,7 @@ describe('VAOS reducer: newAppointment', () => {
       };
 
       const newState = newAppointmentReducer(state, action);
-      expect(newState.clinics['983_323']).to.equal(
-        action.eligibilityData.clinics,
-      );
+      expect(newState.clinics['983_323']).to.equal(action.clinics);
       expect(newState.eligibility['983_323']).to.not.be.undefined;
     });
 

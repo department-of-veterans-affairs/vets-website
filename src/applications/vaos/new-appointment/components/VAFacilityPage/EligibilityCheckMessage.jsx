@@ -12,7 +12,7 @@ export default function EligibilityCheckMessage({
   typeOfCareName,
 }) {
   const requestReason = eligibility.requestReasons[0];
-  const monthRequirement = facilityDetails.legacyVAR.settings
+  const monthRequirement = facilityDetails?.legacyVAR?.settings
     ? (facilityDetails.legacyVAR.settings[typeOfCare.id].request
         .patientHistoryDuration /
         365) *

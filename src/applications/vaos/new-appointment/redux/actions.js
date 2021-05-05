@@ -532,7 +532,7 @@ export function openFacilityPage(page, uiSchema, schema) {
     const isCernerOnly = selectIsCernerOnlyPatient(initialState);
     let parentFacilities = newAppointment.parentFacilities;
     let locations = null;
-    let eligibilityResults = null;
+    let eligibilityResults = {};
     let parentId = newAppointment.data.vaParent;
     let locationId = newAppointment.data.vaFacility;
     let siteId = null;
@@ -598,9 +598,10 @@ export function openFacilityPage(page, uiSchema, schema) {
         facilities: locations,
         typeOfCareId,
         ...eligibilityResults,
-        location: eligibilityResults
-          ? locations.find(location => location.id === locationId)
-          : null,
+        location:
+          eligibilityDataNeeded && !eligibilityChecks
+            ? locations.find(location => location.id === locationId)
+            : null,
         isCernerOnly,
       });
 
