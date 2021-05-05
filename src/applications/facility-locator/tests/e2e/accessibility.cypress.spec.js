@@ -24,11 +24,6 @@ describe('Accessibility', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    // Start by long click and tab to access input location
-    cy.get('#facility-search-controls').trigger('mousedown');
-    cy.tab();
-    cy.get('#facility-search-controls').trigger('mouseleave');
-
     // Verify focused on input location
     cy.get('#street-city-state-zip').focused();
     // Tab

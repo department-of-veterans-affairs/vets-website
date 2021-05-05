@@ -329,13 +329,14 @@ const SearchControls = props => {
     );
   };
 
+  // Set focus in the location field when manual geocoding completes
   useEffect(
     () => {
       if (
         currentQuery.geocodeInProgress === false &&
         locationInputFieldRef.current
       ) {
-        setFocus(locationInputFieldRef.current);
+        setFocus(locationInputFieldRef.current, false);
       }
     },
     [currentQuery.geocodeInProgress],
