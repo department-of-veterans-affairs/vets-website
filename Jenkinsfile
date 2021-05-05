@@ -167,13 +167,31 @@ node('vetsgov-general-purpose') {
             )
           } else {
             parallel (
-              failFast: true,
+              failFast: false,
 
               'nightwatch-e2e': {
                 sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
               },     
-              cypress: {
-                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 vets-website --no-color run cy:test:docker"
+              'cypress-1': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=0 vets-website --no-color run cy:test:docker"
+              },     
+              'cypress-2': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=1 vets-website --no-color run cy:test:docker"
+              },
+              'cypress-3': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=2 vets-website --no-color run cy:test:docker"
+              },
+              'cypress-4': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=3 vets-website --no-color run cy:test:docker"
+              },
+              'cypress-5': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=4 vets-website --no-color run cy:test:docker"
+              },
+              'cypress-6': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=5 vets-website --no-color run cy:test:docker"
+              },
+              'cypress-7': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress7-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress7-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=6 vets-website --no-color run cy:test:docker"
               }
             )
           }
@@ -186,6 +204,12 @@ node('vetsgov-general-purpose') {
           //   sh "docker-compose -p accessibility down --remove-orphans"
           // }
           sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          sh "docker-compose -p cypress2-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          sh "docker-compose -p cypress3-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          sh "docker-compose -p cypress7-${env.EXECUTOR_NUMBER} down --remove-orphans"
           step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
         }
       }
