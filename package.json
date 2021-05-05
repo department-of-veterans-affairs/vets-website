@@ -384,6 +384,7 @@
     "**/y18n": "^ 4.0.1",
     "cypress": "^6.9.1",
     "**/merge": "^ 2.1.1",
+    "**/ssri": "^ 8.0.1",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }
