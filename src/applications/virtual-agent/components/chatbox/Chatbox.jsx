@@ -33,7 +33,20 @@ function useWebChat(props) {
   };
 }
 
-export default function App(props) {
+export default function Chatbox(props) {
+  return (
+    <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
+      <div className="chat-header vads-u-padding--1p5">
+        <h2 className="vads-u-font-size--lg vads-u-margin--0">
+          VA Virtual Agent (beta)
+        </h2>
+      </div>
+      <App {...props} />
+    </div>
+  );
+}
+
+function App(props) {
   const { loading, error, token, WebChatFramework } = useWebChat(props);
 
   if (loading) {
@@ -44,17 +57,5 @@ export default function App(props) {
     return <ChatbotError />;
   }
 
-  return (
-    <div
-      data-testid={'webchat-container'}
-      className="vads-u-padding--1p5 vads-u-background-color--gray-lightest"
-    >
-      <div className="chat-header vads-u-padding--1p5">
-        <h2 className="vads-u-font-size--lg vads-u-margin--0">
-          VA Virtual Agent
-        </h2>
-      </div>
-      <WebChat token={token} WebChatFramework={WebChatFramework} />
-    </div>
-  );
+  return <WebChat token={token} WebChatFramework={WebChatFramework} />;
 }
