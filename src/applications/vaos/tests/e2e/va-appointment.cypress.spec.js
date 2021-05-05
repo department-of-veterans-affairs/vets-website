@@ -125,7 +125,7 @@ describe('VAOS direct schedule flow', () => {
     // Check form requestBody is as expected
     const fullReason = 'Follow-up/Routine: cough';
     cy.wait('@appointmentSubmission').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
 
       expect(request.clinic.siteCode).to.eq('983');
       expect(request.clinic.clinicId).to.eq('455');
@@ -143,7 +143,7 @@ describe('VAOS direct schedule flow', () => {
       expect(request).to.have.property('preferredEmail', 'veteran@gmail.com');
     });
     cy.wait('@appointmentPreferences').should(xhr => {
-      const request = xhr.request.body;
+      const request = xhr.requestBody;
       expect(request.emailAddress).to.eq('veteran@gmail.com');
     });
 

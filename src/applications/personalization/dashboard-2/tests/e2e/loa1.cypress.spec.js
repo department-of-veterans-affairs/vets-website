@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import loa1User from '@@profile/tests/fixtures/users/user-loa1.json';
 
 import manifest from 'applications/personalization/dashboard/manifest.json';
@@ -73,7 +72,6 @@ describe('The My VA Dashboard', () => {
   let getDisabilityRatingStub;
   let stubs;
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(loa1User);
     getAppealsStub = cy.stub();
     getClaimsStub = cy.stub();

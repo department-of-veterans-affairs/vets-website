@@ -818,6 +818,7 @@ describe('VAOS integration: appointment list', () => {
         }),
       ],
     );
+    mockRequestEligibilityCriteria(['983'], []);
 
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: defaultState,

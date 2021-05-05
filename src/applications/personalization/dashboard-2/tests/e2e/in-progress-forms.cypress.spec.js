@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -13,7 +12,6 @@ describe('The My VA Dashboard', () => {
   const oneWeekInSeconds = 24 * 60 * 60 * 7;
   const oneYearInSeconds = 24 * 60 * 60 * 365;
   beforeEach(() => {
-    disableFTUXModals();
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(
