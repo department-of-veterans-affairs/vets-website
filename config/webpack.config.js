@@ -347,8 +347,16 @@ module.exports = (env = {}) => {
         }, [])
         .join('');
 
-    const appRegistryPath = '../content-build/src/applications/registry.json';
+    // const appRegistryPath = 'src/applications/registry.json';
     let appRegistry;
+
+    const contentBuildPath = `../content-build/`;
+    const appRegistryPath = path.resolve(
+      contentBuildPath,
+      'src/applications/registry.json',
+    );
+
+    console.log(appRegistryPath);
 
     if (fs.existsSync(appRegistryPath)) {
       appRegistry = JSON.parse(fs.readFileSync(appRegistryPath));
