@@ -6,9 +6,9 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
   console.log('PERCY_PARALLEL_NONCE: ', process.env.PERCY_PARALLEL_NONCE);
   /* eslint-enable no-console */
 
-  const NUMBER_OF_STEPS = 6;
+  // const NUMBER_OF_STEPS = 6;
   const strings = stdout.split(',').sort();
-  const divider = Math.ceil(strings.length / NUMBER_OF_STEPS);
+  const divider = Math.ceil(strings.length / 6);
   const tests = strings
     .slice(
       Number(process.env.STEP) * divider,
@@ -23,6 +23,6 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
       process.env.PERCY_TOKEN
     } PERCY_PARALLEL_NONCE=${
       process.env.PERCY_PARALLEL_NONCE
-    } PERCY_PARALLEL_TOTAL=${NUMBER_OF_STEPS} yarn cy:run --config video=false --spec '${tests}'`,
+    } PERCY_PARALLEL_TOTAL=6 yarn cy:run --config video=false --spec '${tests}'`,
   );
 });
