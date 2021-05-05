@@ -28,6 +28,8 @@ node('vetsgov-general-purpose') {
   dir("vets-website") {
     checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+    echo "here is some stuff"
+    echo getChangedFilesList()
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
