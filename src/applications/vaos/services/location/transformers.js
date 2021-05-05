@@ -211,7 +211,7 @@ export function transformFacility(facility) {
     managingOrganization: {
       reference: `Organization/${id.substr(0, 3)}`,
     },
-    detailedServices: facility.detailedServices || undefined,
+    detailedServices: facility.detailedServices,
   };
 }
 
