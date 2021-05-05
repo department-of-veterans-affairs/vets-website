@@ -302,7 +302,4 @@ jobs:
       
       - name: Cancel flow
         if: ${{ always() }}
-        uses: styfle/cancel-workflow-action@0.9.0
-        with:
-          workflow_id: $GITHUB_RUN_ID
-          access_token: ${{ secrets.GITHUB_TOKEN }}
+        uses: andymckay/cancel-action@0.2
