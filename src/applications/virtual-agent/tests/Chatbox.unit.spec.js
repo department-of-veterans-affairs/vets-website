@@ -1,6 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
+import { waitFor, screen } from '@testing-library/react';
+import sinon from 'sinon';
 
 import Chatbox from '../components/chatbox/Chatbox';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -17,13 +19,14 @@ export const CHATBOT_ERROR_MESSAGE =
 
 describe('App', () => {
   let oldWindow;
+  let directLineSpy;
 
   function loadWebChat() {
     global.window = Object.create(global.window);
     Object.assign(global.window, {
       WebChat: {
         createStore: () => {},
-        createDirectLine: () => {},
+        createDirectLine: directLineSpy,
         ReactWebChat: () => {
           return <div />;
         },
@@ -32,6 +35,7 @@ describe('App', () => {
   }
 
   beforeEach(() => {
+    directLineSpy = sinon.spy();
     resetFetch();
     oldWindow = global.window;
   });
@@ -204,6 +208,15 @@ describe('App', () => {
       });
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+
+      expect(directLineSpy.called).to.be.true;
+      expect(
+        directLineSpy.calledWith({
+          token: 'FAKETOKEN',
+          domain:
+            'https://northamerica.directline.botframework.com/v3/directline',
+        }),
+      ).to.be.true;
     });
   });
 
@@ -242,6 +255,43 @@ describe('App', () => {
       });
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+    });
+  });
+
+  describe('when chatbox is rendered', () => {
+    it('loads the webchat framework via script tag', () => {
+      expect(screen.queryByTestId('webchat-framework-script')).to.not.exist;
+
+      const wrapper = renderInReduxProvider(<Chatbox webchatTimeout={10} />);
+
+      expect(wrapper.getByTestId('webchat-framework-script')).to.exist;
+    });
+
+    it('loads the webchat framework only once', async () => {
+      loadWebChat();
+      mockApiRequest({ token: 'FAKETOKEN' });
+      const wrapper = renderInReduxProvider(<Chatbox />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+      expect(
+        wrapper.queryAllByTestId('webchat-framework-script'),
+      ).to.have.lengthOf(1);
+    });
+
+    it('exposes React and ReactDOM as globals for the framework to re-use so hooks still work', () => {
+      expect(window.React).to.not.exist;
+      expect(window.ReactDOM).to.not.exist;
+
+      renderInReduxProvider(<Chatbox webchatTimeout={10} />);
+
+      expect(window.React).to.eql(React);
+      expect(window.ReactDOM).to.eql(ReactDOM);
     });
   });
 });
