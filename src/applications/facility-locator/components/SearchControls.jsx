@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
 import omit from 'platform/utilities/data/omit';
@@ -13,6 +13,7 @@ import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { setFocus } from '../utils/helpers';
 
 const SearchControls = props => {
   const {
@@ -23,6 +24,8 @@ const SearchControls = props => {
     geolocateUser,
     clearGeocodeError,
   } = props;
+
+  const locationInputFieldRef = useRef(null);
 
   const onlySpaces = str => /^\s+$/.test(str);
 
@@ -137,7 +140,9 @@ const SearchControls = props => {
   const renderLocationInputField = () => {
     const { locationChanged, searchString, geocodeInProgress } = currentQuery;
     const showError =
-      locationChanged && (!searchString || searchString.length === 0);
+      locationChanged &&
+      !geocodeInProgress &&
+      (!searchString || searchString.length === 0);
     return (
       <div
         className={classNames('vads-u-margin--0', {
@@ -185,6 +190,7 @@ const SearchControls = props => {
         <div className="input-container">
           <input
             id="street-city-state-zip"
+            ref={locationInputFieldRef}
             name="street-city-state-zip"
             type="text"
             onChange={handleQueryChange}
@@ -322,6 +328,18 @@ const SearchControls = props => {
       </span>
     );
   };
+
+  useEffect(
+    () => {
+      if (
+        currentQuery.geocodeInProgress === false &&
+        locationInputFieldRef.current
+      ) {
+        setFocus(locationInputFieldRef.current);
+      }
+    },
+    [currentQuery.geocodeInProgress],
+  );
 
   return (
     <div className="search-controls-container clearfix">
