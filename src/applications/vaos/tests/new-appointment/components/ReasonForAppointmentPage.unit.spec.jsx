@@ -37,6 +37,12 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
       store,
     });
 
+    const textBox = await screen.findByRole('textbox');
+    expect(textBox).to.exist;
+    expect(textBox)
+      .to.have.attribute('maxlength')
+      .to.equal('250');
+
     expect((await screen.findAllByRole('radio')).length).to.equal(4);
 
     expect(screen.baseElement).to.contain.text(
