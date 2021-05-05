@@ -23,6 +23,6 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
       process.env.PERCY_TOKEN
     } PERCY_PARALLEL_NONCE=${
       process.env.PERCY_PARALLEL_NONCE
-    } PERCY_PARALLEL_TOTAL=6 percy exec -- yarn cy:run --config video=false --spec '${tests}'`,
+    } PERCY_PARALLEL_TOTAL=6 yarn cy:run --config video=false --spec '${tests}'`,
   );
 });
