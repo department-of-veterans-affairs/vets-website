@@ -89,7 +89,7 @@ export const uiSchema = {
           'Please briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing. (400 characters maximum)',
         'ui:widget': 'textarea',
         'ui:required': (formData, index) =>
-          !isBDD(formData) && formData.newDisabilities[index].cause === 'NEW',
+          !isBDD(formData) && formData.newDisabilities[index]?.cause === 'NEW',
         'ui:options': {
           expandUnder: 'cause',
           expandUnderCondition: 'NEW',
@@ -106,7 +106,7 @@ export const uiSchema = {
           'ui:title':
             'Please choose the disability that caused the new disability you’re claiming here.',
           'ui:required': (formData, index) =>
-            formData.newDisabilities[index].cause === 'SECONDARY' &&
+            formData.newDisabilities[index]?.cause === 'SECONDARY' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:options': {
             labels: disabilityLabels,
@@ -129,7 +129,7 @@ export const uiSchema = {
           'ui:widget': 'textarea',
           'ui:required': (formData, index) =>
             !isBDD(formData) &&
-            formData.newDisabilities[index].cause === 'SECONDARY' &&
+            formData.newDisabilities[index]?.cause === 'SECONDARY' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:options': {
             hideIf: isBDD,
@@ -148,7 +148,7 @@ export const uiSchema = {
             'Please briefly describe the injury or exposure during your military service that caused your existing disability to get worse. (50 characters maximum)',
           'ui:required': (formData, index) =>
             !isBDD(formData) &&
-            formData.newDisabilities[index].cause === 'WORSENED' &&
+            formData.newDisabilities[index]?.cause === 'WORSENED' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:validations': [validateLength(50)],
         },
@@ -158,7 +158,7 @@ export const uiSchema = {
           'ui:widget': 'textarea',
           'ui:required': (formData, index) =>
             !isBDD(formData) &&
-            formData.newDisabilities[index].cause === 'WORSENED' &&
+            formData.newDisabilities[index]?.cause === 'WORSENED' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:validations': [validateLength(350)],
         },
@@ -174,7 +174,7 @@ export const uiSchema = {
           'ui:widget': 'textarea',
           'ui:required': (formData, index) =>
             !isBDD(formData) &&
-            formData.newDisabilities[index].cause === 'VA' &&
+            formData.newDisabilities[index]?.cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:options': {
             hideIf: isBDD,
@@ -185,7 +185,7 @@ export const uiSchema = {
           'ui:title':
             'Please tell us where this happened. (25 characters maximum)',
           'ui:required': (formData, index) =>
-            formData.newDisabilities[index].cause === 'VA' &&
+            formData.newDisabilities[index]?.cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:validations': [validateLength(25)],
         },
@@ -193,7 +193,7 @@ export const uiSchema = {
           'ui:title':
             'Please tell us when this happened. If you’re having trouble remembering the exact date you can provide a year. (25 characters maximum)',
           'ui:required': (formData, index) =>
-            formData.newDisabilities[index].cause === 'VA' &&
+            formData.newDisabilities[index]?.cause === 'VA' &&
             getDisabilitiesList(formData, index).length > 0,
           'ui:validations': [validateLength(25)],
         },

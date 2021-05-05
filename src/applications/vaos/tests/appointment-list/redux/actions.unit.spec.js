@@ -10,7 +10,6 @@ import {
 
 import {
   fetchFutureAppointments,
-  fetchPendingAppointments,
   fetchPastAppointments,
   fetchRequestMessages,
   cancelAppointment,
@@ -19,12 +18,9 @@ import {
   startNewAppointmentFlow,
   FETCH_FUTURE_APPOINTMENTS,
   FETCH_FUTURE_APPOINTMENTS_SUCCEEDED,
-  FETCH_PENDING_APPOINTMENTS,
   FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS,
-  FETCH_PAST_APPOINTMENTS_SUCCEEDED,
   FETCH_PAST_APPOINTMENTS_FAILED,
-  FETCH_FACILITY_LIST_DATA_SUCCEEDED,
   FETCH_REQUEST_MESSAGES,
   FETCH_REQUEST_MESSAGES_SUCCEEDED,
   FETCH_REQUEST_MESSAGES_FAILED,
@@ -41,7 +37,7 @@ import {
 } from '../../../utils/constants';
 import { STARTED_NEW_APPOINTMENT_FLOW } from '../../../redux/sitewide';
 
-import facilityData from '../../../services/mocks/var/facility_data.json';
+// import facilityData from '../../../services/mocks/var/facility_data.json';
 import cancelReasons from '../../../services/mocks/var/cancel_reasons.json';
 import { getVAAppointmentMock } from '../../mocks/v0';
 
@@ -52,40 +48,6 @@ describe('VAOS actions: appointments', () => {
 
   afterEach(() => {
     resetFetch();
-  });
-
-  it('should fetch past appointments', async () => {
-    const data = {
-      data: [],
-    };
-    setFetchJSONResponse(global.fetch, data);
-    setFetchJSONResponse(global.fetch.onCall(4), facilityData);
-    const thunk = fetchPastAppointments('2019-02-02', '2029-12-31', 1);
-    const dispatchSpy = sinon.spy();
-    const getState = () => ({
-      featureToggles: {},
-      appointments: {
-        pastStatus: 'notStarted',
-        past: [{ facilityId: '442' }],
-      },
-    });
-    await thunk(dispatchSpy, getState);
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(FETCH_PAST_APPOINTMENTS);
-    expect(dispatchSpy.firstCall.args[0].selectedIndex).to.eql(1);
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
-      FETCH_PAST_APPOINTMENTS_SUCCEEDED,
-    );
-    expect(dispatchSpy.thirdCall.args[0].type).to.eql(
-      FETCH_FACILITY_LIST_DATA_SUCCEEDED,
-    );
-    expect(global.fetch.lastCall.args[0]).to.contain('ids=vha_442');
-
-    expect(global.window.dataLayer[0].event).to.equal(
-      'vaos-get-past-appointments-started',
-    );
-    expect(global.window.dataLayer[1].event).to.equal(
-      'vaos-get-past-appointments-retrieved',
-    );
   });
 
   it('should dispatch fail action when fetching past appointments', async () => {
@@ -139,22 +101,6 @@ describe('VAOS actions: appointments', () => {
     );
     expect(dispatchSpy.callCount).to.equal(3);
     expect(global.fetch.callCount).to.equal(4);
-  });
-
-  it('should fetch pending appointments', async () => {
-    setFetchJSONResponse(global.fetch, { data: [getVAAppointmentMock()] });
-    setFetchJSONResponse(global.fetch.onCall(2), facilityData);
-    const thunk = fetchPendingAppointments();
-    const dispatchSpy = sinon.spy();
-    await thunk(dispatchSpy, () => ({}));
-    expect(dispatchSpy.firstCall.args[0].type).to.eql(
-      FETCH_PENDING_APPOINTMENTS,
-    );
-    expect(dispatchSpy.secondCall.args[0].type).to.eql(
-      FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-    );
-    expect(dispatchSpy.callCount).to.equal(2);
-    expect(global.fetch.callCount).to.equal(2);
   });
 
   it('should fetch request messages', async () => {
@@ -226,8 +172,7 @@ describe('VAOS actions: appointments', () => {
               },
             ],
             contained: null,
-            legacyVAR: {
-              id: '17dd714287e151195b99164cc1a8e49a',
+            vaos: {
               apiData: {
                 startDate: '2020-11-07T17:00:00Z',
                 clinicId: '455',
@@ -251,13 +196,14 @@ describe('VAOS actions: appointments', () => {
                 vvsAppointments: [],
                 id: '17dd714287e151195b99164cc1a8e49a',
               },
-            },
-            vaos: {
               isPastAppointment: false,
               appointmentType: 'vaAppointment',
               isCommunityCare: false,
               timeZone: null,
               isExpressCare: false,
+            },
+            location: {
+              clinicId: '455',
             },
           },
         },
@@ -272,7 +218,7 @@ describe('VAOS actions: appointments', () => {
       );
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
-        apiData: state.appointments.appointmentToCancel.legacyVAR.apiData,
+        apiData: state.appointments.appointmentToCancel.vaos.apiData,
       });
 
       expect(global.window.dataLayer[0]).to.deep.equal({
@@ -311,8 +257,7 @@ describe('VAOS actions: appointments', () => {
               },
             ],
             contained: null,
-            legacyVAR: {
-              id: '17dd714287e151195b99164cc1a8e49a',
+            vaos: {
               apiData: {
                 startDate: '2020-11-07T17:00:00Z',
                 clinicId: '455',
@@ -336,12 +281,13 @@ describe('VAOS actions: appointments', () => {
                 vvsAppointments: [],
                 id: '17dd714287e151195b99164cc1a8e49a',
               },
-            },
-            vaos: {
               isPastAppointment: false,
               appointmentType: 'vaAppointment',
               isCommunityCare: false,
               timeZone: null,
+            },
+            location: {
+              clinicId: '455',
             },
           },
         },
@@ -356,7 +302,7 @@ describe('VAOS actions: appointments', () => {
       );
       expect(dispatch.secondCall.args[0]).to.deep.equal({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
-        apiData: state.appointments.appointmentToCancel.legacyVAR.apiData,
+        apiData: state.appointments.appointmentToCancel.vaos.apiData,
       });
 
       expect(
@@ -374,7 +320,7 @@ describe('VAOS actions: appointments', () => {
             facilityId: '983',
             status: APPOINTMENT_STATUS.booked,
             appointmentType: APPOINTMENT_TYPES.request,
-            legacyVAR: { apiData: {} },
+            vaos: { apiData: {} },
           },
         },
       };
@@ -414,10 +360,7 @@ describe('VAOS actions: appointments', () => {
               },
             ],
             contained: null,
-            legacyVAR: {
-              id: '17dd714287e151195b99164cc1a8e49a',
-              facilityId: '983',
-              clinicId: '455',
+            vaos: {
               apiData: {
                 startDate: '2020-11-07T17:00:00Z',
                 clinicId: '455',
@@ -441,13 +384,14 @@ describe('VAOS actions: appointments', () => {
                 vvsAppointments: [],
                 id: '17dd714287e151195b99164cc1a8e49a',
               },
-            },
-            vaos: {
               isPastAppointment: false,
               appointmentType: 'vaAppointment',
               isCommunityCare: false,
               timeZone: null,
               isExpressCare: false,
+            },
+            location: {
+              clinicId: '455',
             },
           },
         },
@@ -479,6 +423,7 @@ describe('VAOS actions: appointments', () => {
         appointmentType: undefined,
         facilityType: undefined,
         'health-express-care-reason': undefined,
+        'facility-id': undefined,
         'vaos-item-type': undefined,
         'vaos-number-of-items': undefined,
         'tab-text': undefined,
@@ -507,10 +452,7 @@ describe('VAOS actions: appointments', () => {
               },
             ],
             contained: null,
-            legacyVAR: {
-              id: '17dd714287e151195b99164cc1a8e49a',
-              facilityId: '983',
-              clinicId: '455',
+            vaos: {
               apiData: {
                 startDate: '2020-11-07T17:00:00Z',
                 clinicId: '455',
@@ -534,12 +476,13 @@ describe('VAOS actions: appointments', () => {
                 vvsAppointments: [],
                 id: '17dd714287e151195b99164cc1a8e49a',
               },
-            },
-            vaos: {
               isPastAppointment: false,
               appointmentType: 'vaAppointment',
               isCommunityCare: false,
               timeZone: null,
+            },
+            location: {
+              clinicId: '455',
             },
           },
         },

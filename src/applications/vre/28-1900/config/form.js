@@ -1,12 +1,12 @@
 import fullSchema from 'vets-json-schema/dist/28-1900-schema.json';
 import environment from 'platform/utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PreSubmitInfo from 'applications/vre/28-1900/components/PreSubmitInfo';
 import { additionalInformation } from './chapters/additional-information';
 import { communicationPreferences } from './chapters/communication-preferences';
 import { veteranInformation, veteranAddress } from './chapters/veteran';
-import StaticInformationReviewField from '../containers/StaticInformationReviewField';
 import GetFormHelp from 'applications/vre/components/GetFormHelp';
 import { transform } from './helpers';
 import { WIZARD_STATUS } from '../constants';
@@ -17,7 +17,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/veteran_readiness_employment_claims`,
-  trackingPrefix: 'careers-employment-28-1900--',
+  trackingPrefix: 'careers-employment-28-1900-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: PreSubmitInfo,
@@ -32,6 +32,14 @@ const formConfig = {
         'Your saved VR&E Chapter 31 benefits application (28-1900) has expired. If you want to apply for Chapter 31 benefits, please start a new application.',
       saved: 'Your Chapter 31 benefits application has been saved.',
     },
+  },
+  downtime: {
+    requiredForPrefill: true,
+    dependencies: [
+      externalServices.vre,
+      externalServices.vaProfile,
+      externalServices.mvi,
+    ],
   },
   version: 0,
   getHelp: GetFormHelp,
@@ -49,7 +57,8 @@ const formConfig = {
   chapters: {
     veteranInformation: {
       title: 'Veteran Information',
-      reviewDescription: StaticInformationReviewField,
+      // TODO: related to the comment direcly below; add reviewDescription back in once the issues with static veteran information have been resolved.
+      // reviewDescription: StaticInformationReviewField,
       pages: {
         // TODO: possibly add this back in once issue has been investigated.
         // veteranStaticInformation: {

@@ -1,6 +1,5 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
-import { prescriptions } from '~/applications/personalization/dashboard-2/utils/prescriptions.js';
 
 export function loadPrescriptions(options) {
   let url = '/';
@@ -31,16 +30,6 @@ export function loadPrescriptions(options) {
     dispatch({
       type: options.active ? 'LOADING_ACTIVE' : 'LOADING_HISTORY',
     });
-
-    if (environment.isLocalhost()) {
-      dispatch({
-        type: 'LOAD_PRESCRIPTIONS_SUCCESS',
-        active: options.active,
-        data: prescriptions,
-      });
-
-      return;
-    }
 
     apiRequest(`${environment.API_URL}/v0/prescriptions${url}`)
       .then(data =>

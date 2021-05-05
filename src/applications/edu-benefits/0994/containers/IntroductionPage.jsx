@@ -85,13 +85,23 @@ export class IntroductionPage extends React.Component {
                       want to attend (optional)
                     </li>
                   </ul>
+                  <div>
+                    <h6>To be eligible for VET TEC, you need to be</h6>
+                  </div>
+                  <ul>
+                    <li>
+                      A Veteran with at least one day of unexpired education
+                      benefits, <strong>or</strong>
+                    </li>
+                    <li>
+                      A service member with 180 days or less left on active duty
+                    </li>
+                  </ul>
                   <p>
-                    To be eligible for VET TEC, you need to be a Veteran with at
-                    least one day of unexpired education benefits. You can
-                    complete the VET TEC application to see if you’re eligible
-                    for the program, even if you haven’t yet selected the
-                    training program you’d like to attend.{' '}
-                    <a href="https://www.benefits.va.gov/GIBILL/FGIB/VetTecTrainingProviders.asp">
+                    You can complete the VET TEC application to see if you’re
+                    eligible for the program, even if you haven’t yet selected
+                    the training program you'd like to attend.{' '}
+                    <a href="https://www.benefits.va.gov/gibill/fgib/VetTec_Veteran.asp">
                       Learn more about the programs covered under VET TEC
                     </a>
                     .
@@ -101,9 +111,7 @@ export class IntroductionPage extends React.Component {
                       What if I need help filling out my application?
                     </strong>{' '}
                     An accredited representative, like a Veterans Service
-                    Officer (VSO), can help you with your application.
-                  </p>
-                  <p>
+                    Officer (VSO), can help you fill out your application.{' '}
                     <a href="/disability/get-help-filing-claim/">
                       Get help filing your claim
                     </a>

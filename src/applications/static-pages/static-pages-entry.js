@@ -10,14 +10,15 @@ import './analytics';
 import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
+import createVetCentersHours from './facilities/createVetCentersHours';
 
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
 import subscribeAccordionEvents from './subscribeAccordionEvents';
-import subscribeComponentAnalyticsEvents from './subscribeComponentAnalyticsEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
+import createDirectDepositContent from './direct-deposit-content/createDirectDepositContent';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
@@ -58,6 +59,8 @@ import createChapter36CTA from './vre-chapter36/createChapter36CTA';
 import createChapter31CTA from './vre-chapter31/createChapter31CTA';
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
+import createI18Select from './i18Select/createI18Select';
+import createSharableLink from './sharable-links/createSharableLink';
 
 // School resources widgets
 import {
@@ -70,7 +73,6 @@ import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createC
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
-import initTranslation from './translation';
 
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
 import dependencyVerificationReducer from './dependency-verification/reducers/index';
@@ -97,8 +99,6 @@ Sentry.withScope(scope => {
 subscribeAdditionalInfoEvents();
 
 subscribeAccordionEvents();
-
-subscribeComponentAnalyticsEvents();
 
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_527EZ,
@@ -148,6 +148,7 @@ createResourcesAndSupportSearchWidget(
   widgetTypes.RESOURCES_AND_SUPPORT_SEARCH,
 );
 
+createVetCentersHours(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
@@ -194,16 +195,17 @@ createViewTestAndLabResultsPage(
 createChapter36CTA(store, widgetTypes.CHAPTER_36_CTA);
 createChapter31CTA(store, widgetTypes.CHAPTER_31_CTA);
 createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
+createI18Select(store, widgetTypes.I_18_SELECT);
 
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
+
+createDirectDepositContent(store, widgetTypes.DIRECT_DEPOSIT);
+createSharableLink(store, widgetTypes.SHARABLE_LINK);
 
 // homepage widgets
 if (location.pathname === '/') {
   createMyVALoginWidget(store);
 }
-
-// translation link
-initTranslation();
 
 /* eslint-disable no-unused-vars,camelcase */
 const lazyLoad = new LazyLoad({

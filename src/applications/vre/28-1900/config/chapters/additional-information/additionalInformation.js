@@ -55,6 +55,13 @@ export const uiSchema = {
     'ui:options': {
       expandUnder: 'isMoving',
       expandUnderCondition: true,
+      updateSchema: (formData, formSchema) => {
+        // Clear out required fields here to avoid silent validation errors for hidden fields.
+        if (!formData.isMoving && formData.newAddress) {
+          return { ...formSchema, required: [] };
+        }
+        return formSchema;
+      },
     },
   },
 };

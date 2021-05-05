@@ -7,7 +7,7 @@ import Home from '../../questionnaire-list/components/Home';
 import {
   selectShowQuestionnaire,
   selectLoadingFeatureFlags,
-} from '../../../shared/selectors';
+} from '../../../shared/redux-selectors';
 
 const QuestionnaireApp = props => {
   const { isLoadingFeatureFlags, isQuestionnaireEnabled } = props;

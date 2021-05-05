@@ -139,12 +139,14 @@ export default function ConfirmationRequestInfo({
                     <div>
                       {data.communityCareProvider.name}
                       <br />
-                      {data.communityCareProvider.address.line.map(line => (
-                        <>
-                          {line}
-                          <br />
-                        </>
-                      ))}
+                      {data.communityCareProvider.address.line.map(
+                        (line, index) => (
+                          <React.Fragment key={index}>
+                            {line}
+                            <br />
+                          </React.Fragment>
+                        ),
+                      )}
                       {data.communityCareProvider.address.city},{' '}
                       <State state={data.communityCareProvider.address.state} />{' '}
                       {data.communityCareProvider.address.postalCode}
@@ -159,7 +161,7 @@ export default function ConfirmationRequestInfo({
                       <strong>{facilityDetails.name}</strong>
                     </h3>
                     <div>
-                      <FacilityAddress facility={facilityDetails} />
+                      <FacilityAddress facility={facilityDetails} level={3} />
                     </div>
                   </>
                 )}

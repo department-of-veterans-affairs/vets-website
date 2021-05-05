@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 import SignatureInput from './SignatureInput';
+import recordEvent from 'platform/monitoring/record-event';
 
 const SignatureCheckbox = ({
   children,
@@ -13,13 +14,17 @@ const SignatureCheckbox = ({
   setSignature,
   showError,
   globalFormState,
+  isRepresentative,
 }) => {
   const [hasError, setError] = useState(null);
   const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const isSignatureComplete = isSigned && isChecked;
   const hasSubmit = !!globalFormState.submission.status;
-  const createInputContent = inputLabel => `Enter ${inputLabel} full name`;
+  const createInputLabel = inputLabel =>
+    isRepresentative
+      ? `Enter your name to sign as the Veteran's representative`
+      : `Enter ${inputLabel} full name`;
 
   useEffect(
     () => {
@@ -37,27 +42,47 @@ const SignatureCheckbox = ({
 
       if (isChecked === true || hasSubmit) setError(false);
     },
-    [showError, setIsChecked, isChecked, hasSubmit],
+    [showError, isChecked, hasSubmit],
   );
 
   return (
     <article
       data-testid={label}
-      className="vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7"
+      className="signature-box vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7"
     >
       {children && <header>{children}</header>}
 
-      <SignatureInput
-        setIsSigned={setIsSigned}
-        label={createInputContent(label)}
-        fullName={fullName}
-        required={isRequired}
-        showError={showError}
-        hasSubmit={hasSubmit}
-      />
+      <section className="vads-u-display--flex">
+        <SignatureInput
+          setIsSigned={setIsSigned}
+          label={createInputLabel(label)}
+          fullName={fullName}
+          required={isRequired}
+          showError={showError}
+          hasSubmit={hasSubmit}
+          isRepresentative={isRepresentative}
+        />
+
+        {isRepresentative && (
+          <p className="on-behalf-representative">
+            On behalf of
+            <strong className="vads-u-font-size--lg">
+              {fullName.first} {fullName.middle} {fullName.last}
+            </strong>
+          </p>
+        )}
+      </section>
 
       <Checkbox
-        onValueChange={value => setIsChecked(value)}
+        onValueChange={value => {
+          setIsChecked(value);
+          recordEvent({
+            'caregivers-poa-certification-checkbox-checked': value,
+            fullName,
+            label,
+            isRepresentative,
+          });
+        }}
         label="I certify the information above is correct and true to the best of my knowledge and belief."
         errorMessage={hasError && 'Must certify by checking box'}
         required={isRequired}
@@ -75,6 +100,7 @@ SignatureCheckbox.propTypes = {
   showError: PropTypes.bool.isRequired,
   signatures: PropTypes.object.isRequired,
   globalFormState: PropTypes.object.isRequired,
+  isRepresentative: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

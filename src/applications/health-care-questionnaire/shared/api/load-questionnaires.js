@@ -1,17 +1,14 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
-const USE_MOCK_DATA =
-  window.Cypress || environment.isLocalhost || environment.isStaging;
-
-const loadQuestionnaires = async () => {
+const loadQuestionnaires = async useMockData => {
   let promise;
-  if (USE_MOCK_DATA) {
+  if (useMockData) {
     promise = new Promise(resolve => {
       setTimeout(() => {
-        import(/* webpackChunkName: "my-questionnaires-sample-json" */ './mock-data/my-questionnaires.sample.json').then(
+        import(/* webpackChunkName: "my-questionnaires-sample" */ './mock-data/fhir/full.example.data').then(
           module => {
-            resolve(module.default);
+            resolve(module.json);
           },
         );
       }, 1000);

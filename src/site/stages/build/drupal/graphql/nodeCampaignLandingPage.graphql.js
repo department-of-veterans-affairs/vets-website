@@ -14,16 +14,13 @@ const nodeCampaignLandingPage = `
     fieldAdministration {
       entity {
         ... on TaxonomyTermAdministration {
-          fieldAcronym
           fieldDescription
           fieldEmailUpdatesLinkText
           fieldEmailUpdatesUrl
-          fieldIntroText
           fieldLink {
             uri
             title
           }
-          fieldMetatags
           fieldSocialMediaLinks {
             platform
             value
@@ -45,7 +42,10 @@ const nodeCampaignLandingPage = `
         entityType
         entityBundle
         entityId
-        ... on TaxonomyTermAudienceTags {
+        ... on TaxonomyTermAudienceBeneficiaries {
+          name
+        }
+        ... on TaxonomyTermAudienceNonBeneficiaries {
           name
         }
       }
@@ -57,16 +57,13 @@ const nodeCampaignLandingPage = `
         entityId
         ... on TaxonomyTermAdministration {
           name
-          fieldAcronym
           fieldDescription
           fieldEmailUpdatesLinkText
           fieldEmailUpdatesUrl
-          fieldIntroText
           fieldLink {
             uri
             title
           }
-          fieldMetatags
           fieldSocialMediaLinks {
             platform
             value
@@ -110,16 +107,13 @@ const nodeCampaignLandingPage = `
           fieldAdministration {
             entity {
               ... on TaxonomyTermAdministration {
-                fieldAcronym
                 fieldDescription
                 fieldEmailUpdatesLinkText
                 fieldEmailUpdatesUrl
-                fieldIntroText
                 fieldLink {
                   uri
                   title
                 }
-                fieldMetatags
                 fieldSocialMediaLinks {
                   platform
                   value
@@ -174,16 +168,13 @@ const nodeCampaignLandingPage = `
                 fieldAdministration {
                   entity {
                     ... on TaxonomyTermAdministration {
-                      fieldAcronym
                       fieldDescription
                       fieldEmailUpdatesLinkText
                       fieldEmailUpdatesUrl
-                      fieldIntroText
                       fieldLink {
                         uri
                         title
                       }
-                      fieldMetatags
                       fieldSocialMediaLinks {
                         platform
                         value
@@ -207,16 +198,13 @@ const nodeCampaignLandingPage = `
                           entityBundle
                           entityId
                           ... on TaxonomyTermAdministration {
-                            fieldAcronym
                             fieldDescription
                             fieldEmailUpdatesLinkText
                             fieldEmailUpdatesUrl
-                            fieldIntroText
                             fieldLink {
                               uri
                               title
                             }
-                            fieldMetatags
                             fieldSocialMediaLinks {
                               platform
                               value
@@ -319,11 +307,9 @@ const nodeCampaignLandingPage = `
               entityBundle
               entityId
               ... on TaxonomyTermAdministration {
-                fieldAcronym
                 fieldDescription
                 fieldEmailUpdatesLinkText
                 fieldEmailUpdatesUrl
-                fieldIntroText
                 fieldLink {
                   uri
                   title
@@ -440,6 +426,11 @@ const nodeCampaignLandingPage = `
               ... on Media {
                 name
                 thumbnail {
+                  derivative(style: _32MEDIUMTHUMBNAIL) {
+                    url
+                    width
+                    height
+                  }
                   height
                   width
                   url
@@ -453,11 +444,9 @@ const nodeCampaignLandingPage = `
           fieldOwner {
             entity {
               ... on TaxonomyTermAdministration {
-                fieldAcronym
                 fieldDescription
                 fieldEmailUpdatesLinkText
                 fieldEmailUpdatesUrl
-                fieldIntroText
                 fieldLink {
                   uri
                   title

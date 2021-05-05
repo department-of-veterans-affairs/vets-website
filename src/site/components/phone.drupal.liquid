@@ -2,46 +2,26 @@
   <div class="vads-u-display--flex vads-u-flex-direction--column">
     {% assign phoneNumberObj = numbers | phoneNumberArrayToObject %}
     {% if phoneNumberObj.tel %}
-      {% if haveLocationName %}
-        <h5>Phone</h5>
-      {% else %}
-        <h4 class="force-small-header">Phone</h4>
-      {% endif %}
       {% for number in phoneNumberObj.tel %}
-        {% include "src/site/components/phone-number.drupal.liquid" with number = number %}
+        {% include "src/site/components/phone-number.drupal.liquid" with number = number phoneLabel = 'Phone' %}
       {% endfor %}
     {% endif %}
 
     {% if phoneNumberObj.fax %}
-      {% if haveLocationName %}
-        <h5>Fax</h5>
-      {% else %}
-        <h4 class="force-small-header">Fax</h4>
-      {% endif %}
       {% for number in phoneNumberObj.fax %}
-        {% include "src/site/components/phone-number.drupal.liquid" with number = number %}
+        {% include "src/site/components/phone-number.drupal.liquid" with number = number phoneLabel = 'Fax' %}
       {% endfor %}
     {% endif %}
 
     {% if phoneNumberObj.sms %}
-      {% if haveLocationName %}
-        <h5>SMS</h5>
-      {% else %}
-        <h4 class="force-small-header">SMS</h4>
-      {% endif %}
       {% for number in phoneNumberObj.sms %}
-        {% include "src/site/components/phone-number.drupal.liquid" with number = number %}
+        {% include "src/site/components/phone-number.drupal.liquid" with number = number phoneLabel = 'SMS' %}
       {% endfor %}
     {% endif %}
 
     {% if phoneNumberObj.tty %}
-      {% if haveLocationName %}
-        <h5>TTY</h5>
-      {% else %}
-        <h4 class="force-small-header">TTY</h4>
-      {% endif %}
       {% for number in phoneNumberObj.tty %}
-        {% include "src/site/components/phone-number.drupal.liquid" with number = number %}
+        {% include "src/site/components/phone-number.drupal.liquid" with number = number phoneLabel = 'TTY'%}
       {% endfor %}
     {% endif %}
   </div>

@@ -22,8 +22,16 @@
   },
   {
     "column": 1,
-    "href": "https://www.ptsd.va.gov",
+    "href": "https://www.patientcare.va.gov/lgbt/",
     "order": 4,
+    "target": "",
+    "title": "LGBT Veterans",
+    "rel": "noopener noreferrer"
+  },
+  {
+    "column": 1,
+    "href": "https://www.ptsd.va.gov",
+    "order": 5,
     "target": "",
     "title": "PTSD",
     "rel": "noopener noreferrer"
@@ -31,7 +39,7 @@
   {
     "column": 1,
     "href": "https://www.mentalhealth.va.gov",
-    "order": 5,
+    "order": 6,
     "target": "",
     "title": "Mental health",
     "rel": "noopener noreferrer"
@@ -39,14 +47,14 @@
   {
     "column": 1,
     "href": "https://www.va.gov/adaptivesports/",
-    "order": 6,
+    "order": 7,
     "target": "",
     "title": "Adaptive sports and special events"
   },
   {
     "column": 1,
     "href": "https://www.va.gov/outreach-and-events/events/",
-    "order": 7,
+    "order": 8,
     "target": null,
     "title": "VA outreach events"
   },

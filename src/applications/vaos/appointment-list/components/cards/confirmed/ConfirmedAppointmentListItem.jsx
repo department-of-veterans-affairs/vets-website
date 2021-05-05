@@ -16,14 +16,8 @@ import CommunityCareInstructions from './CommunityCareInstructions';
 import AppointmentStatus from '../AppointmentStatus';
 import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import {
-  getATLASLocation,
-  getVARFacilityId,
   getVAAppointmentLocationId,
-  isVideoAppointment,
   isVAPhoneAppointment,
-  isAtlasLocation,
-  getVideoKind,
-  hasPractitioner,
 } from '../../../../services/appointment';
 import AdditionalInfoRow from '../AdditionalInfoRow';
 import {
@@ -51,11 +45,11 @@ export default function ConfirmedAppointmentListItem({
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isPastAppointment = appointment.vaos.isPastAppointment;
   const isCommunityCare = appointment.vaos.isCommunityCare;
-  const isVideo = isVideoAppointment(appointment);
+  const isVideo = appointment.vaos.isVideo;
   const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
-  const isAtlas = isAtlasLocation(appointment);
-  const videoKind = getVideoKind(appointment);
+  const isAtlas = appointment.videoData.isAtlas;
+  const videoKind = appointment.videoData.kind;
   const showInstructions =
     isCommunityCare ||
     (isInPersonVAAppointment &&
@@ -69,7 +63,7 @@ export default function ConfirmedAppointmentListItem({
     videoKind !== VIDEO_TYPES.clinic &&
     videoKind !== VIDEO_TYPES.gfe;
 
-  const showProvider = isVideo && hasPractitioner(appointment);
+  const showProvider = isVideo && !!appointment.videoData.providers?.length;
 
   let instructionText = 'VA appointment';
   if (showInstructions) {
@@ -96,7 +90,7 @@ export default function ConfirmedAppointmentListItem({
   if (isAtlas) {
     header = 'VA Video Connect';
     subHeader = ' at an ATLAS location';
-    const atlasLocation = getATLASLocation(appointment);
+    const { atlasLocation } = appointment.videoData;
     if (atlasLocation?.address) {
       location = formatFacilityAddress(atlasLocation);
     }
@@ -114,14 +108,15 @@ export default function ConfirmedAppointmentListItem({
     location = 'Video conference';
   } else if (isCommunityCare) {
     header = 'Community Care';
-    const address = appointment.contained.find(
-      res => res.resourceType === 'Location',
-    )?.address;
+    const address = appointment.communityCareProvider.address;
     if (address) {
       location = `${address.line[0]}, ${address.city}, ${address.state} ${
         address.postalCode
       }`;
     }
+  } else if (appointment.vaos.isCOVIDVaccine) {
+    header = 'COVID-19 Vaccine';
+    location = facility ? formatFacilityAddress(facility) : null;
   } else {
     header = 'VA Appointment';
     location = facility ? formatFacilityAddress(facility) : null;
@@ -148,7 +143,7 @@ export default function ConfirmedAppointmentListItem({
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
           timezone={appointment.vaos.timeZone}
-          facilityId={getVARFacilityId(appointment)}
+          facilityId={appointment.location.vistaId}
         />
       </h3>
       <AppointmentStatus
@@ -159,7 +154,9 @@ export default function ConfirmedAppointmentListItem({
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
           {isCommunityCare && (
-            <ConfirmedCommunityCareLocation appointment={appointment} />
+            <ConfirmedCommunityCareLocation
+              provider={appointment.communityCareProvider}
+            />
           )}
           {isVideo && (
             <VideoVisitSection facility={facility} appointment={appointment} />
@@ -168,7 +165,7 @@ export default function ConfirmedAppointmentListItem({
             <VAFacilityLocation
               facility={facility}
               facilityId={getVAAppointmentLocationId(appointment)}
-              clinicName={appointment.participant[0].actor.display}
+              clinicName={appointment.location?.clinicName}
             />
           )}
         </div>
@@ -187,7 +184,9 @@ export default function ConfirmedAppointmentListItem({
       {showProvider && (
         <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
           <div className="vads-u-flex--1 vads-u-margin-bottom--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
-            <VideoVisitProviderSection participants={appointment.participant} />
+            <VideoVisitProviderSection
+              providers={appointment.videoData.providers}
+            />
           </div>
         </div>
       )}

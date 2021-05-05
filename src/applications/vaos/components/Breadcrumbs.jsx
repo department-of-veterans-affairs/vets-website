@@ -15,7 +15,7 @@ export default function VAOSBreadcrumbs({ children }) {
         href="/health-care/schedule-view-va-appointments"
         key="schedule-view-va-appointments"
       >
-        Schedule and view appointments
+        Schedule and manage health appointments
       </a>
       <Link to="/" key="vaos-home">
         VA online scheduling

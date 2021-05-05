@@ -21,6 +21,7 @@ import ReviewRequestInfo from './ReviewRequestInfo';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import * as actions from '../../redux/actions';
 import FacilityAddress from '../../../components/FacilityAddress';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 const pageTitle = 'Review your appointment details';
 
@@ -107,9 +108,7 @@ export function ReviewPage({
               )}
               <p>
                 {!facilityDetails && (
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <NewTabAnchor
                     href={`/find-locations/facility/vha_${getRealFacilityId(
                       data.vaFacility || data.communityCareSystemId,
                     )}`}
@@ -117,7 +116,7 @@ export function ReviewPage({
                     {submitStatusVaos400
                       ? 'Find facility contact information'
                       : 'Contact your local VA medical center'}
-                  </a>
+                  </NewTabAnchor>
                 )}
                 {!!facilityDetails && (
                   <FacilityAddress

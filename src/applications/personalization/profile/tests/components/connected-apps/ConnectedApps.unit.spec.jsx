@@ -29,8 +29,10 @@ describe('<ConnectedApps>', () => {
 
     const wrapper = shallow(<ConnectedApps {...defaultProps} />);
 
+    const headline = wrapper.find('ProfileSectionHeadline');
+    expect(headline.dive().text()).to.equal(title);
+
     const text = wrapper.text();
-    expect(text).to.include(title);
     expect(text).to.include(
       'Your VA.gov profile is connected to the third-party (non-VA) apps listed below. If you want to stop sharing information with an app, you can disconnect it from your profile at any time.',
     );

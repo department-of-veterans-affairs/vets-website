@@ -1,21 +1,40 @@
 import path from 'path';
 
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import testForm from 'platform/testing/e2e/cypress/support/form-tester';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import { CHAPTER_31_ROOT_URL, WIZARD_STATUS } from '../../constants';
 
 Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
   {
-    skip: ['chapter31-maximal'],
     dataPrefix: 'data',
     dataSets: ['chapter31-maximal'],
     fixtures: { data: path.join(__dirname, 'formDataSets') },
     setupPerTest: () => {
-      window.sessionStorage.removeItem('wizardStatus31');
+      window.sessionStorage.removeItem(WIZARD_STATUS);
+      window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+      cy.login();
+      cy.visit(CHAPTER_31_ROOT_URL);
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            {
+              name: 'show_chapter_31',
+              value: true,
+            },
+          ],
+        },
+      });
+      cy.get('@testData').then(testData => {
+        cy.intercept('GET', '/v0/in_progress_forms/28-1900', testData);
+        cy.intercept('PUT', '/v0/in_progress_forms/28-1900', testData);
+      });
       cy.intercept('POST', '/v0/veteran_readiness_employment_claims', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2020-11-12',
@@ -28,26 +47,11 @@ const testConfig = createTestConfig(
       introduction: ({ afterHook }) => {
         // Previous button click fully loads a new page, so we need to
         // re-inject aXe to get the automatic aXe checks working.
-        cy.get('#start-option-0').click();
-        cy.get('#isVeteran-option-0').click();
-        cy.get('#yesHonorableDischarge-option-0').click();
-        cy.get('#yesHonorableDischarge-option-0').click();
-        cy.get('.usa-button-primary').click();
-        cy.get('.usa-button-primary').click();
-        cy.get('.usa-button-primary').click();
-        cy.get('.usa-button-primary').click();
-        cy.get('.usa-button-primary').click();
-        cy.get('.usa-button-primary').click();
-        cy.get('.usa-button-primary').click();
-        cy.get('.usa-button-primary').click();
-        cy.findAllByText(/Apply online with VA Form 28-1900/i, {
-          selector: 'a',
-        })
-          .first()
-          .click();
-        cy.injectAxe();
         afterHook(() => {
-          cy.get('.va-button-link.schemaform-start-button:first').click();
+          cy.injectAxe();
+          cy.findAllByRole('button', { name: /Start the Application »/i })
+            .first()
+            .click();
         });
       },
       'veteran-contact-information': ({ afterHook }) => {

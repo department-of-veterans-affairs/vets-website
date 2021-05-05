@@ -5,6 +5,7 @@ logs/
 tmp/
 out/
 src/applications/vaos/docs/
+src/site/tests/html/
 
 # Files to ignore
 ._*

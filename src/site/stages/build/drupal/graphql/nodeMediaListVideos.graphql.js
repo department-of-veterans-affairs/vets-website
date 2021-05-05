@@ -58,8 +58,16 @@ fragment nodeMediaListVideos on NodeMediaListVideos {
           targetId
           entity {
             ... on MediaVideo {
-              name
+              fieldDescription
+              fieldDuration
+              fieldMediaInLibrary
+              fieldMediaSubmissionGuideline
               fieldMediaVideoEmbedField
+              fieldPublicationDate {
+                value
+                date
+              }
+              name
             }
           }
         }

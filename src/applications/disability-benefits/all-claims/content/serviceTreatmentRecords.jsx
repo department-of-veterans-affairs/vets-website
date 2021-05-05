@@ -10,7 +10,7 @@ const alertContent = (
 );
 
 export const serviceTreatmentRecordsSubmitLater = (
-  <div className="service-treatment-records-submit-later">
+  <div id="submit-str-asap" className="service-treatment-records-submit-later">
     <AlertBox
       headline="Please submit your service treatment records as soon as possible"
       content={alertContent}

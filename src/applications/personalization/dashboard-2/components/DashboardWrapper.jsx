@@ -1,8 +1,7 @@
 import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
-import localStorage from 'platform/utilities/storage/localStorage';
 import { selectShowDashboard2 } from '../selectors';
 
 const DashboardV1 = React.lazy(() => {
@@ -34,14 +33,14 @@ function DashboardWrapper({ showDashboard2, rootUrl }) {
   return <Suspense fallback={loader}>{content}</Suspense>;
 }
 
-const mapStateToProps = state => {
-  const LSDashboardVersion = localStorage.getItem('DASHBOARD_VERSION');
-  const LSDashboard1 = LSDashboardVersion === '1';
-  const LSDashboard2 = LSDashboardVersion === '2';
-  const FFDashboard2 = selectShowDashboard2(state);
-  return {
-    showDashboard2: LSDashboard2 || (FFDashboard2 && !LSDashboard1),
-  };
+DashboardWrapper.propTypes = {
+  rootUrl: PropTypes.string,
+  // From mapStateToProps.
+  showDashboard2: PropTypes.bool.isRequired,
 };
+
+const mapStateToProps = state => ({
+  showDashboard2: selectShowDashboard2(state),
+});
 
 export default connect(mapStateToProps)(DashboardWrapper);

@@ -12,8 +12,7 @@ import * as Sentry from '@sentry/browser';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
-
-export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
+import { apiRequest } from 'platform/utilities/api';
 
 const ENTER_KEY = 13;
 
@@ -27,6 +26,7 @@ export class SearchMenu extends React.Component {
     this.state = {
       userInput: '',
       suggestions: [],
+      savedSuggestions: [],
       highlightedIndex: null,
     };
   }
@@ -84,7 +84,7 @@ export class SearchMenu extends React.Component {
     // end early / clear suggestions if user input is too short
     if (userInput?.length <= 2) {
       if (this.state.suggestions.length > 0) {
-        this.setState({ suggestions: [] });
+        this.setState({ suggestions: [], savedSuggestions: [] });
       }
 
       return;
@@ -95,18 +95,22 @@ export class SearchMenu extends React.Component {
 
     // fetch suggestions
     try {
-      const response = await fetch(
-        `${searchGovSuggestionEndpoint}?name=va&q=${encodedInput}`,
+      const apiRequestOptions = {
+        method: 'GET',
+      };
+      const suggestions = await apiRequest(
+        `/search_typeahead?query=${encodedInput}`,
+        apiRequestOptions,
       );
-      const suggestions = await response.json();
+
       if (suggestions.length !== 0) {
         const sortedSuggestions = suggestions.sort(function(a, b) {
           return a.length - b.length;
         });
-        this.setState({ suggestions: sortedSuggestions });
+        this.setState({ suggestions: sortedSuggestions, savedSuggestions: [] });
         return;
       }
-      this.setState({ suggestions });
+      this.setState({ suggestions, savedSuggestions: [] });
       // if we fail to fetch suggestions
     } catch (error) {
       Sentry.captureException(error);
@@ -159,16 +163,21 @@ export class SearchMenu extends React.Component {
     }
   };
 
+  handleSearchTab = () => {
+    const { suggestions } = this.state;
+    this.setState({ suggestions: [], savedSuggestions: suggestions });
+  };
+
   // handle event logging and fire off a search query
   handleSearchEvent = suggestion => {
-    const { suggestions, userInput } = this.state;
+    const { suggestions, userInput, savedSuggestions } = this.state;
     const { isUserInputValid } = this;
 
+    const suggestionsList = [...suggestions, ...savedSuggestions];
     // if the user tries to search with an empty input, escape early
     if (!isUserInputValid()) {
       return;
     }
-
     // event logging, note suggestion will be undefined during a userInput search
     recordEvent({
       event: 'view_search_results',
@@ -181,17 +190,21 @@ export class SearchMenu extends React.Component {
       'sitewide-search-app-used': true,
       'type-ahead-option-keyword-selected': suggestion,
       'type-ahead-option-position': suggestion
-        ? suggestions.indexOf(suggestion) + 1
+        ? suggestionsList.indexOf(suggestion) + 1
         : undefined,
-      'type-ahead-options-list': suggestions,
+      'type-ahead-options-list': suggestionsList,
+      'type-ahead-options-count': suggestionsList.length,
     });
 
+    const typeaheadUsed = !!suggestion;
     // unifier to let the same function be used if we are searching from a userInput or a suggestion
     const query = suggestion || userInput;
 
     // create a search url
     const searchUrl = replaceWithStagingDomain(
-      `https://www.va.gov/search/?query=${encodeURIComponent(query)}`,
+      `https://www.va.gov/search/?query=${encodeURIComponent(
+        query,
+      )}&t=${typeaheadUsed}`,
     );
 
     // relocate to search results, preserving history
@@ -226,6 +239,7 @@ export class SearchMenu extends React.Component {
       handleKeyUp,
       isUserInputValid,
       formatSuggestion,
+      handleSearchTab,
     } = this;
 
     const highlightedSuggestion =
@@ -319,7 +333,7 @@ export class SearchMenu extends React.Component {
                   event.preventDefault();
                   handleSearchEvent();
                 }}
-                onFocus={() => this.setState({ suggestions: [] })}
+                onFocus={handleSearchTab}
               >
                 <IconSearch color="#fff" />
                 <span className="usa-sr-only">Search</span>
@@ -378,14 +392,14 @@ export class SearchMenu extends React.Component {
 
     return (
       <DropDownPanel
-        onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
         buttonText="Search"
         clickHandler={clickHandler}
-        dropdownPanelClassNames="vads-u-padding--0 vads-u-margin--0"
         cssClass={buttonClasses}
-        id="search"
+        dropdownPanelClassNames="vads-u-padding--0 vads-u-margin--0"
         icon={icon}
+        id="search"
         isOpen={isOpen}
+        onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
       >
         {makeForm()}
       </DropDownPanel>

@@ -30,6 +30,7 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
+    const { formConfig, pageList } = this.props.route;
     const services = selectAvailableServices(this.props) || [];
     const allowOriginalClaim =
       this.props.allowOriginalClaim || this.props.testOriginalClaim;
@@ -46,7 +47,7 @@ class IntroductionPage extends React.Component {
     if (!allowContinue) {
       return (
         <div className="schemaform-intro">
-          <FormTitle title={pageTitle} />
+          <FormTitle title={pageTitle} subTitle={formConfig.subTitle} />
           <fileOriginalClaimPage.component props={this.props} />
         </div>
       );
@@ -84,12 +85,12 @@ class IntroductionPage extends React.Component {
         )}
         <SaveInProgressIntro
           hideUnauthedStartLink
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          prefillEnabled={formConfig.prefillEnabled}
           formId={this.props.formId}
-          pageList={this.props.route.pageList}
+          pageList={pageList}
           startText={startText}
           retentionPeriod="1 year"
-          downtime={this.props.route.formConfig.downtime}
+          downtime={formConfig.downtime}
         />
         {itfNotice}
         <h2 className="vads-u-font-size--h4">{subwayTitle}</h2>
@@ -252,11 +253,11 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           hideUnauthedStartLink
           buttonOnly
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          prefillEnabled={formConfig.prefillEnabled}
           formId={this.props.formId}
-          pageList={this.props.route.pageList}
+          pageList={pageList}
           startText={startText}
-          downtime={this.props.route.formConfig.downtime}
+          downtime={formConfig.downtime}
         />
         {itfNotice}
         <div className="omb-info--container">

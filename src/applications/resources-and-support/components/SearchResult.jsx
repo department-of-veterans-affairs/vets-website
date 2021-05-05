@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { truncate } from 'lodash';
 // Relative imports.
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from 'platform/monitoring/record-event';
@@ -57,12 +58,9 @@ export const SearchResult = ({
           {article.title}
         </a>
       </h2>
-      <p
-        className="vads-u-margin-bottom--0"
-        // the article descriptions contain HTML entities
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: article.description }}
-      />
+      <p className="vads-u-margin-bottom--0">
+        {truncate(article.introText, { length: 190 })}
+      </p>
     </div>
   );
 };

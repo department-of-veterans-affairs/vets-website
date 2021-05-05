@@ -1,6 +1,7 @@
 import moment from 'moment';
 
 const mock = require('platform/testing/e2e/mock-helpers');
+const { MOCK_SIPS_API } = require('../constants');
 
 function initDocumentUploadMock(token) {
   mock(token, {
@@ -179,7 +180,7 @@ const defaultData = {
 
 function initInProgressMock(token, data = defaultData) {
   mock(token, {
-    path: '/v0/in_progress_forms/21-526EZ',
+    path: MOCK_SIPS_API,
     verb: 'get',
     value: {
       formData: {

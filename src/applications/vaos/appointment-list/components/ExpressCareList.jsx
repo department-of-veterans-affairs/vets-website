@@ -35,7 +35,8 @@ export function ExpressCareList({
   } else if (expressCareRequests?.length > 0) {
     content = (
       <>
-        <ul className="usa-unstyled-list" id="appointments-list">
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul role="list" className="usa-unstyled-list" id="appointments-list">
           {expressCareRequests.map(appt => {
             return (
               <li

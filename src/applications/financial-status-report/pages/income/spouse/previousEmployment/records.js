@@ -1,5 +1,6 @@
 import ItemLoop from '../../../../components/ItemLoop';
 import CardDetailsView from '../../../../components/CardDetailsView';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -9,7 +10,7 @@ export const uiSchema = {
         classNames: 'vads-u-margin-top--2',
       },
       spouse: {
-        previousEmployment: {
+        spousePreviousEmployment: {
           'ui:field': ItemLoop,
           'ui:description':
             'Tell us about your spouse’s other jobs in the past 2 years.',
@@ -18,26 +19,21 @@ export const uiSchema = {
             doNotScroll: true,
             showSave: true,
             itemName: 'a job',
+            keepInPageOnReview: true,
           },
           items: {
             'ui:options': {
               classNames: 'vads-u-margin-bottom--3',
             },
-            previousEmploymentType: {
+            type: {
               'ui:title': 'Type of work',
               'ui:options': {
                 widgetClassNames: 'input-size-3',
               },
             },
-            previousEmploymentStart: {
-              'ui:title': 'Date your spouse started work at this job',
-              'ui:widget': 'date',
-            },
-            previousEmploymentEnd: {
-              'ui:title': 'Date your spouse stopped work at this job',
-              'ui:widget': 'date',
-            },
-            previousEmployerName: {
+            from: monthYearUI('Date your spouse started work at this job'),
+            to: monthYearUI('Date your spouse stopped work at this job'),
+            employerName: {
               'ui:title': 'Employer name',
               'ui:options': {
                 classNames: 'vads-u-margin-top--3',
@@ -62,18 +58,13 @@ export const schema = {
             spouse: {
               type: 'object',
               properties: {
-                previousEmployment: {
+                spousePreviousEmployment: {
                   type: 'array',
                   items: {
                     type: 'object',
-                    title: 'Previous employment',
-                    required: [
-                      'previousEmploymentType',
-                      'previousEmploymentStart',
-                      'previousEmploymentEnd',
-                    ],
+                    required: ['type', 'from', 'to'],
                     properties: {
-                      previousEmploymentType: {
+                      type: {
                         type: 'string',
                         enum: [
                           'Full time',
@@ -82,13 +73,13 @@ export const schema = {
                           'Temporary',
                         ],
                       },
-                      previousEmploymentStart: {
+                      from: {
                         type: 'string',
                       },
-                      previousEmploymentEnd: {
+                      to: {
                         type: 'string',
                       },
-                      previousEmployerName: {
+                      employerName: {
                         type: 'string',
                       },
                     },

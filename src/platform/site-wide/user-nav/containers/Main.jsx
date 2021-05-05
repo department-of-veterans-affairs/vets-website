@@ -8,7 +8,6 @@ import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
 import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import { initializeProfile } from 'platform/user/profile/actions';
-import environment from 'platform/utilities/environment';
 import { hasSession } from 'platform/user/profile/utilities';
 import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
 
@@ -165,12 +164,10 @@ export class Main extends React.Component {
           onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
         />
-        {!environment.isProduction() && (
-          <SessionTimeoutModal
-            isLoggedIn={this.props.currentlyLoggedIn}
-            onExtendSession={this.props.initializeProfile}
-          />
-        )}
+        <SessionTimeoutModal
+          isLoggedIn={this.props.currentlyLoggedIn}
+          onExtendSession={this.props.initializeProfile}
+        />
         <AutoSSO />
       </div>
     );

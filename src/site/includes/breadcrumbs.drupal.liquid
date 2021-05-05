@@ -17,7 +17,7 @@
           onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });" 
           aria-current="page" 
           href="/{{ path }}"
-          lang="{{ entityUrl.path | detectLang }}"
+          lang="{{ path | detectLang }}"
           >    
             {{ crumb.text }}
           </a>
@@ -25,14 +25,25 @@
       {% elsif crumb.url.path %}
         {% if crumb.url.path == '/' %}
           {% if hideHomeBreadcrumb != true %}
-            <li>
-              <a href="{{ crumb.url.path }}"
-                onclick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ crumb.text }}</a>
-            </li>
+            {% if customHomeCrumbText != empty %}
+              <li>
+                <a href="{{ crumb.url.path }}"
+                   lang="{{ crumb.url.path | detectLang }}"
+                   onclick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ customHomeCrumbText }}
+                </a>
+              </li>
+            {% else %}
+              <li>
+                <a href="{{ crumb.url.path }}"
+                  lang="{{ crumb.url.path | detectLang }}"
+                  onclick="recordEvent({ event: 'nav-breadcrumb', 'nav-breadcrumb-section': 'home' });">{{ crumb.text }}
+                </a>
+              </li>
+            {% endif %}
           {% endif %}
         {% else %}
           <li><a
-            lang="{{ entityUrl.path | detectLang }}" onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });"
+            lang="{{ crumb.url.path | detectLang }}" onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });"
             href="{{ crumb.url.path }}">{{ crumb.text }}</a></li>
         {% endif %}
       {% endif %}

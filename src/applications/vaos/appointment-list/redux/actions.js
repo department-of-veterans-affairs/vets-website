@@ -6,6 +6,7 @@ import {
   GA_PREFIX,
   APPOINTMENT_TYPES,
   EXPRESS_CARE,
+  VIDEO_TYPES,
 } from '../../utils/constants';
 import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
 import {
@@ -21,21 +22,17 @@ import {
   updateRequest,
 } from '../../services/var';
 
-import { getLocation, getLocations } from '../../services/location';
+import {
+  getLocation,
+  getLocations,
+  getLocationSettings,
+} from '../../services/location';
 
 import {
   getBookedAppointments,
   getAppointmentRequests,
-  getVARClinicId,
-  getVARFacilityId,
   getVAAppointmentLocationId,
-  getVideoAppointmentLocation,
-  isVideoAppointment,
   isVideoHome,
-  isAtlasLocation,
-  isVideoGFE,
-  isVideoVAFacility,
-  isVideoStoreForward,
   fetchRequestById,
   fetchBookedAppointment,
 } from '../../services/appointment';
@@ -44,6 +41,7 @@ import { captureError, has400LevelError } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   STARTED_NEW_EXPRESS_CARE_FLOW,
+  STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
 import { selectAppointmentById } from './selectors';
 
@@ -96,6 +94,11 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
+export const FETCH_FACILITY_SETTINGS = 'vaos/FETCH_FACILITY_SETTINGS';
+export const FETCH_FACILITY_SETTINGS_FAILED =
+  'vaos/FETCH_FACILITY_SETTINGS_FAILED';
+export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
+  'vaos/FETCH_FACILITY_SETTINGS_SUCCEEDED';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -130,29 +133,19 @@ async function getAdditionalFacilityInfo(futureAppointments) {
   // Get facility ids from non-VA appts or requests
   const nonVaFacilityAppointmentIds = futureAppointments
     .filter(
-      appt =>
-        !isVideoAppointment(appt) && (appt.vaos?.isCommunityCare || !appt.vaos),
+      appt => !appt.vaos?.isVideo && (appt.vaos?.isCommunityCare || !appt.vaos),
     )
     .map(appt => appt.facilityId || appt.facility?.facilityCode);
 
-  const videoAppointmentIds = futureAppointments
-    .filter(appt => isVideoAppointment(appt))
-    .map(getVideoAppointmentLocation);
-
   // Get facility ids from VA appointments
   const vaFacilityAppointmentIds = futureAppointments
-    .filter(
-      appt =>
-        appt.vaos && !isVideoAppointment(appt) && !appt.vaos.isCommunityCare,
-    )
+    .filter(appt => appt.vaos && !appt.vaos.isCommunityCare)
     .map(getVAAppointmentLocationId);
 
   const uniqueFacilityIds = new Set(
-    [
-      ...nonVaFacilityAppointmentIds,
-      ...videoAppointmentIds,
-      ...vaFacilityAppointmentIds,
-    ].filter(id => !!id),
+    [...nonVaFacilityAppointmentIds, ...vaFacilityAppointmentIds].filter(
+      id => !!id,
+    ),
   );
   let facilityData = null;
   if (uniqueFacilityIds.size > 0) {
@@ -243,22 +236,25 @@ export function fetchFutureAppointments() {
 
       recordItemsRetrieved(
         'video_atlas',
-        data[0]?.filter(appt => isAtlasLocation(appt)).length,
+        data[0]?.filter(appt => appt.videoData.isAtlas).length,
       );
 
       recordItemsRetrieved(
         'video_va_facility',
-        data[0]?.filter(appt => isVideoVAFacility(appt)).length,
+        data[0]?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic)
+          .length,
       );
 
       recordItemsRetrieved(
         'video_gfe',
-        data[0]?.filter(appt => isVideoGFE(appt)).length,
+        data[0]?.filter(appt => appt.videoData.kind === VIDEO_TYPES.gfe).length,
       );
 
       recordItemsRetrieved(
         'video_store_forward',
-        data[0]?.filter(appt => isVideoStoreForward(appt)).length,
+        data[0]?.filter(
+          appt => appt.videoData.kind === VIDEO_TYPES.storeForward,
+        ).length,
       );
 
       dispatch({
@@ -547,7 +543,7 @@ export function confirmCancelAppointment() {
           ? 'cc'
           : 'va',
     };
-    let apiData = appointment.legacyVAR?.apiData || appointment.apiData;
+    let apiData = appointment.vaos.apiData || appointment.apiData;
     let cancelReasons = null;
     let cancelReason = null;
 
@@ -563,28 +559,25 @@ export function confirmCancelAppointment() {
 
       if (!isConfirmedAppointment) {
         apiData = await updateRequest({
-          ...appointment.legacyVAR.apiData,
+          ...appointment.vaos.apiData,
           status: CANCELLED_REQUEST,
           appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
-        const facilityId = getVARFacilityId(appointment);
-
         const cancelData = {
           appointmentTime: moment
             .parseZone(appointment.start)
             .format('MM/DD/YYYY HH:mm:ss'),
-          clinicId: getVARClinicId(appointment),
-          facilityId,
+          clinicId: appointment.location.clinicId,
+          facilityId: appointment.location.vistaId,
           remarks: '',
           // Grabbing this from the api data because it's not clear if
           // we have to send the real name or if the friendly name is ok
-          clinicName:
-            appointment.legacyVAR.apiData.vdsAppointments[0].clinic.name,
+          clinicName: appointment.vaos.apiData.vdsAppointments[0].clinic.name,
           cancelCode: 'PC',
         };
 
-        cancelReasons = await getCancelReasons(facilityId);
+        cancelReasons = await getCancelReasons(appointment.location.vistaId);
 
         if (
           cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)
@@ -663,6 +656,12 @@ export function startNewExpressCareFlow() {
   };
 }
 
+export function startNewVaccineFlow() {
+  return {
+    type: STARTED_NEW_VACCINE_FLOW,
+  };
+}
+
 export function fetchExpressCareWindows() {
   return async (dispatch, getState) => {
     dispatch({
@@ -670,7 +669,7 @@ export function fetchExpressCareWindows() {
     });
 
     const initialState = getState();
-    const userSiteIds = selectSystemIds(initialState);
+    const userSiteIds = selectSystemIds(initialState) || [];
     const address = selectVAPResidentialAddress(initialState);
 
     try {
@@ -708,6 +707,32 @@ export function fetchExpressCareWindows() {
       dispatch({
         type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
       });
+    }
+  };
+}
+
+export function fetchFacilitySettings() {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: FETCH_FACILITY_SETTINGS,
+    });
+
+    try {
+      const initialState = getState();
+      const siteIds = selectSystemIds(initialState) || [];
+
+      const settings = await getLocationSettings({ siteIds });
+
+      dispatch({
+        type: FETCH_FACILITY_SETTINGS_SUCCEEDED,
+        settings,
+      });
+    } catch (e) {
+      dispatch({
+        type: FETCH_FACILITY_SETTINGS_FAILED,
+      });
+
+      captureError(e, false);
     }
   };
 }

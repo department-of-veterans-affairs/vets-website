@@ -2,9 +2,18 @@ export const uiSchema = {
   'ui:title': 'Your spouse information',
   personalData: {
     spouseFullName: {
-      'ui:title': 'What’s your spouse’s name?',
-      'ui:options': {
-        widgetClassNames: 'input-size-3',
+      first: {
+        'ui:title': 'What’s your spouse’s first name?',
+        'ui:options': {
+          widgetClassNames: 'input-size-3',
+        },
+        'ui:required': () => true,
+      },
+      last: {
+        'ui:title': 'What’s your spouse’s last name?',
+        'ui:options': {
+          widgetClassNames: 'input-size-3',
+        },
       },
     },
   },
@@ -24,7 +33,15 @@ export const schema = {
       type: 'object',
       properties: {
         spouseFullName: {
-          type: 'string',
+          type: 'object',
+          properties: {
+            first: {
+              type: 'string',
+            },
+            last: {
+              type: 'string',
+            },
+          },
         },
       },
     },

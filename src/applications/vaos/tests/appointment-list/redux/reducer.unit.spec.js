@@ -292,8 +292,7 @@ describe('VAOS reducer: appointments', () => {
         APPOINTMENT_STATUS.cancelled,
       );
       expect(
-        newState.confirmed[0].legacyVAR.apiData.vdsAppointments[0]
-          .currentStatus,
+        newState.confirmed[0].vaos.apiData.vdsAppointments[0].currentStatus,
       ).to.equal('CANCELLED BY PATIENT');
     });
 
@@ -315,7 +314,7 @@ describe('VAOS reducer: appointments', () => {
 
       expect(newState.showCancelModal).to.be.true;
       expect(newState.cancelAppointmentStatus).to.equal(FETCH_STATUS.succeeded);
-      expect(newState.pending[0].legacyVAR.apiData).to.equal(action.apiData);
+      expect(newState.pending[0].vaos.apiData).to.equal(action.apiData);
       expect(newState.pending[0].status).to.equal(APPOINTMENT_STATUS.cancelled);
       expect(newState.cancelAppointmentStatusVaos400).to.equal(false);
     });

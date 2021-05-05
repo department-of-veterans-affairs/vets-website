@@ -103,6 +103,11 @@ function ViewDependentsListItem(props) {
                 relationship={relationship}
                 closeFormHandler={handleClick}
                 stateKey={stateKey}
+                userInfo={{
+                  fullName: { firstName, lastName },
+                  dateOfBirth,
+                  ssn,
+                }}
               />
             </div>
           )}

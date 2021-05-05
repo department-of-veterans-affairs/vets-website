@@ -1,5 +1,6 @@
 import ItemLoop from '../../../../components/ItemLoop';
 import TableDetailsView from '../../../../components/TableDetailsView';
+import CustomReviewField from '../../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../../components/Typeahead';
 import {
@@ -12,7 +13,7 @@ export const uiSchema = {
   'ui:title': 'Your spouse information',
   additionalIncome: {
     spouse: {
-      additionalIncomeRecords: {
+      spouseAdditionalIncomeRecords: {
         'ui:field': ItemLoop,
         'ui:description':
           'Tell us how much you get each month for each type of income.',
@@ -22,20 +23,23 @@ export const uiSchema = {
           doNotScroll: true,
           showSave: true,
           itemName: 'income',
+          keepInPageOnReview: true,
         },
         items: {
           'ui:options': {
-            classNames: 'horizonal-field-container no-wrap',
+            classNames: 'horizontal-field-container no-wrap',
           },
-          incomeType: {
+          name: {
             'ui:title': 'Type of income',
             'ui:field': Typeahead,
+            'ui:reviewField': CustomReviewField,
             'ui:options': {
+              idPrefix: 'spouse_other_income',
               classNames: 'input-size-4',
               getOptions: () => formatOptions(incomeTypes),
             },
           },
-          monthlyAmount: _.merge(currencyUI('Monthly amount'), {
+          amount: _.merge(currencyUI('Monthly amount'), {
             'ui:options': {
               widgetClassNames: 'input-size-2',
             },
@@ -54,17 +58,16 @@ export const schema = {
         spouse: {
           type: 'object',
           properties: {
-            additionalIncomeRecords: {
+            spouseAdditionalIncomeRecords: {
               type: 'array',
               items: {
                 type: 'object',
-                title: 'Additional income',
-                required: ['incomeType', 'monthlyAmount'],
+                required: ['name', 'amount'],
                 properties: {
-                  incomeType: {
+                  name: {
                     type: 'string',
                   },
-                  monthlyAmount: {
+                  amount: {
                     type: 'number',
                   },
                 },

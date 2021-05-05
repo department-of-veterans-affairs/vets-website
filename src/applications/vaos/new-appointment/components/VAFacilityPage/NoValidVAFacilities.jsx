@@ -6,6 +6,7 @@ import { FETCH_STATUS } from '../../../utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { lowerCase } from '../../../utils/formatters';
 import { getRealFacilityId } from '../../../utils/appointment';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function NoValidVAFacilities({ formContext }) {
   const {
@@ -51,15 +52,13 @@ export default function NoValidVAFacilities({ formContext }) {
             ) : (
               <p>
                 You can find contact information for this medical center at{' '}
-                <a
+                <NewTabAnchor
                   href={`/find-locations/facility/vha_${getRealFacilityId(
                     siteId,
                   )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   our facility locator tool
-                </a>
+                </NewTabAnchor>
                 .
               </p>
             )}

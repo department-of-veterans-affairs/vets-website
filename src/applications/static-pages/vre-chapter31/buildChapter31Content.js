@@ -49,20 +49,22 @@ const Chapter31Content = props => {
               Sign in to your eBenefits account.
             </li>
             <li className="process-step list-two">
-              Select <strong>Apply</strong>.
+              Click <strong>Apply</strong>.
             </li>
             <li className="process-step list-three">
-              Click <strong>Veteran Readiness and Employment Program</strong>.
+              In the Education and Training section, click{' '}
+              <strong>Veteran Readiness and Employment Benefits</strong>.
             </li>
             <li className="process-step list-four">
-              Apply <strong>for Education and Career Counseling</strong>.
-            </li>
-            <li className="process-step list-five">
-              If you're eligible, we'll invite you to an orientation session at
-              your nearest VA regional office.
+              In the Veteran Readiness and Employment Program section, click{' '}
+              <strong>Apply for Chapter 31</strong>.
             </li>
             {optionalSubwayMapItem}
           </ol>
+          <p>
+            If you're eligible, we'll invite you to an orientation session at
+            your nearest VA regional office.
+          </p>
         </div>
         <EbenefitsLink
           path="ebenefits/about/feature?feature=vocational-rehabilitation-and-employment"

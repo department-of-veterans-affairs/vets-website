@@ -1,0 +1,17 @@
+{
+  "notice": {
+    "fieldOperatingStatusFacility": "notice",
+    "facilitySidebar": {
+      "links": [{"url": {"path": "test"}}]}
+  },
+  "limited": {
+    "fieldOperatingStatusFacility": "limited",
+    "facilitySidebar": {
+      "links": [{"url": {"path": "test"}}]}
+  },
+  "closed": {
+    "fieldOperatingStatusFacility": "closed",
+    "facilitySidebar": {
+      "links": [{"url": {"path": "test"}}]}
+  }
+}

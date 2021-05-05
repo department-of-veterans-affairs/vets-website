@@ -24,8 +24,7 @@ export const addAllOption = options => [
 ];
 
 export const createId = name => name?.toLowerCase().replace(/\s/g, '-');
-
-export const isCountryUSA = country => country.toUpperCase() === 'USA';
+export const isCountryUSA = country => country?.toUpperCase() === 'USA';
 export const isCountryInternational = country => !isCountryUSA(country);
 
 export const locationInfo = (city, state, country) => {

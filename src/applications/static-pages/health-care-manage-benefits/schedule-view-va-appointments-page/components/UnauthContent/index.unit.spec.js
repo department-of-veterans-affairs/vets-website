@@ -10,10 +10,6 @@ describe('Scheduling Page <UnauthContent>', () => {
     const wrapper = shallow(<UnauthContent />);
 
     const text = wrapper.text();
-    expect(text).to.include('Due to COVID-19,');
-    expect(text).to.include(
-      'View, schedule, or cancel a VA appointment online',
-    );
     expect(text).to.include(
       'How can the VA appointments tool help me manage my care?',
     );

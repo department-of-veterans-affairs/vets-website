@@ -157,7 +157,7 @@ export class SearchForm extends Component {
           htmlFor="yr-search-name"
           className="vads-u-margin-top--1 vads-u-margin--0"
         >
-          School name
+          Enter full school name
         </label>
         <div className="vads-u-flex--1">
           <input
@@ -173,6 +173,7 @@ export class SearchForm extends Component {
         <AdditionalInfo
           triggerText={TOOL_TIP_LABEL}
           onClick={onClickToolTipHandler}
+          disableAnalytics
         >
           <p>{TOOL_TIP_CONTENT}</p>
         </AdditionalInfo>

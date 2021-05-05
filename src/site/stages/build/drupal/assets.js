@@ -11,14 +11,14 @@ const PUBLIC_URLS_NO_SCHEME = Object.entries(PUBLIC_URLS).reduce(
   {},
 );
 
-function replacePathInData(data, replacer, ancestors = []) {
+function replacePathInData(data, replacer, ancestors = new Set()) {
   // Circular references happen when an entity in the CMS has a child entity
   // which is also in its ancestor tree. When this hapens, this function becomes
   // infinitely recursive. This check looks for circular references and, when
   // found, exits early because it's already checked that data.
-  if (ancestors.includes(data)) return data;
+  if (ancestors.has(data)) return data;
 
-  ancestors.push(data);
+  ancestors.add(data);
 
   let current = data;
   if (Array.isArray(data)) {

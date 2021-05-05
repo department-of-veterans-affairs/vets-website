@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { MENTAL_HEALTH } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
 import newAppointmentFlow from '../../newAppointmentFlow';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export const WaitTimeAlert = ({
   eligibleForRequests,
@@ -44,6 +45,7 @@ export const WaitTimeAlert = ({
         <AlertBox
           headline="Your appointment time"
           status={showUrgentCareMessage ? 'warning' : 'info'}
+          level={2}
           content={
             <>
               <p>
@@ -102,15 +104,13 @@ export const WaitTimeAlert = ({
                     </span>
                   </>
                 )}
-                <a
+                <NewTabAnchor
                   href={`/find-locations/facility/vha_${getRealFacilityId(
                     facilityId,
                   )}`}
-                  rel="noopener noreferrer"
-                  target="_blank"
                 >
                   Contact your local VA medical center
-                </a>
+                </NewTabAnchor>
               </div>
             </>
           }

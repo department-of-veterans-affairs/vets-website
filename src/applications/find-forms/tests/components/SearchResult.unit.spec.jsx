@@ -20,6 +20,17 @@ describe('Find VA Forms <SearchResult />', () => {
   const form = {
     id: '10-10CG',
     attributes: {
+      benefitCategories: [
+        {
+          description:
+            'VA benefits for spouses, dependents, survivors, and family caregivers',
+          name: 'Family member benefits',
+        },
+        {
+          description: 'VA health care',
+          name: 'Health care',
+        },
+      ],
       deletedAt: null,
       firstIssuedOn: '2011-05-01',
       formDetailsUrl:
@@ -41,8 +52,23 @@ describe('Find VA Forms <SearchResult />', () => {
       title:
         'Instructions and Application for Comprehensive Assistance for Family Caregivers Program',
       url: 'https://www.va.gov/vaforms/medical/pdf/10-10CG.pdf',
+      vaFormAdministration: 'Veterans Health Administration',
       validPdf: true,
     },
+  };
+  const formWithoutBenefitCats = {
+    benefitCategories: [],
+    vaFormAdministration: 'Veterans Health Administration',
+  };
+  const formWithFormTypeEmployment = {
+    benefitCategories: [],
+    vaFormAdministration: 'Veterans Health Administration',
+    formType: 'employment',
+  };
+  const formWithFormTypeNonVa = {
+    benefitCategories: [],
+    vaFormAdministration: 'Veterans Health Administration',
+    formType: 'non-va',
   };
 
   it('should render child component', () => {
@@ -71,6 +97,63 @@ describe('Find VA Forms <SearchResult />', () => {
       <SearchResult formMetaInfo={formMetaInfo} form={form} />,
     );
     expect(tree.exists('.usa-button')).to.equal(true);
+    tree.unmount();
+  });
+
+  it('should have related to benefitCategories text', () => {
+    const tree = mount(
+      <SearchResult formMetaInfo={formMetaInfo} form={form} />,
+    );
+    const html = tree.html();
+    expect(html).to.include(form.attributes.benefitCategories[0].name);
+    expect(html).to.include(form.attributes.benefitCategories[1].name);
+    tree.unmount();
+  });
+
+  it('should have related to vaFormAdmin text', () => {
+    const tree = mount(
+      <SearchResult
+        formMetaInfo={formMetaInfo}
+        form={{
+          form: form.id,
+          attributes: { ...form.attributes, ...formWithoutBenefitCats },
+        }}
+      />,
+    );
+    const html = tree.html();
+    expect(html).to.include(form.attributes.vaFormAdministration);
+    tree.unmount();
+  });
+
+  it('should have related to formType employment text', () => {
+    const tree = mount(
+      <SearchResult
+        formMetaInfo={formMetaInfo}
+        form={{
+          id: form.id,
+          attributes: { ...form.attributes, ...formWithFormTypeEmployment },
+        }}
+      />,
+    );
+    const html = tree.html();
+    expect(html).to.include('Employment or jobs at VA');
+    tree.unmount();
+  });
+
+  it('should have related to formType non-va text', () => {
+    const tree = mount(
+      <SearchResult
+        formMetaInfo={formMetaInfo}
+        form={{
+          form: form.id,
+          attributes: { ...form.attributes, ...formWithFormTypeNonVa },
+        }}
+      />,
+    );
+    const html = tree.html();
+    expect(html).to.include(
+      'A non-VA form. For other government agency forms, go to the',
+    );
     tree.unmount();
   });
 

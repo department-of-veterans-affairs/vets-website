@@ -1,0 +1,203 @@
+{% include "src/site/includes/header.html" with drupalTags = true %}
+{% include "src/site/includes/alerts.drupal.liquid" %}
+{% include "src/site/includes/preview-edit.drupal.liquid" %}
+{% include "src/site/includes/breadcrumbs.drupal.liquid" with hideHomeBreadcrumb = true %}
+
+<div id="content" class="interior">
+  <main class="va-l-detail-page va-facility-page">
+    <div class="usa-grid usa-grid-full">
+      {% include 'src/site/navigation/facility_sidebar_nav.drupal.liquid' with sidebarData = facilitySidebar %}
+      <div class="usa-width-three-fourths">
+        <article class="usa-content">
+          <!-- [AXE]: ARIA roles used must conform to valid values. Critical. -->
+          <h1 role="nonsense">{{ title }}</h1>
+          {% assign image = fieldMedia.entity.image %}
+
+          <div
+            class="duotone darken lighten medium-screen:vads-u-margin-bottom--0p5">
+            <!-- [AXE]: Images must have alternate text. Critical. -->
+            <img src="{{ image.derivative.url }}" width="100%">
+
+            <!-- [AXE]: Buttons must have discernible text. Critical. -->
+            <button type="button"></button>
+
+            <ul>
+              <!-- [AXE]: <ul> and <ol> must only directly contain <li>, <script> or <template> elements. Serious. -->
+              <h3>This heading should not be here</h3>
+              <li>One</li>
+              <li>Two</li>
+              <li>Three</li>
+              <li>Four</li>
+            </ul>
+          </div>
+
+          <div
+            class="usa-grid usa-grid-full vads-u-margin-top--0 vads-u-margin-bottom--3">
+            {% assign basePath = entityUrl.path | regionBasePath %}
+            {% include "src/site/facilities/main_buttons.drupal.liquid" with path = basePath %}
+          </div>
+
+          {% if fieldIntroText != empty %}
+          <div class="va-introtext">
+            <p class="vads-u-margin-bottom--0">{{ fieldIntroText }}</p>
+          </div>
+          {% endif %}
+
+          <section id="testId">
+            <h2
+              class="vads-u-font-size--xl vads-u-margin-top--3 medium-screen:vads-u-margin-top--5 medium-screen:vads-u-margin-bottom--2p5">
+              Locations</h2>
+            {% for main in mainFacilities.entities %}
+            {% include 'src/site/includes/facilityListing.drupal.liquid' with entity = main %}
+            {% endfor %} <a
+              onClick="recordEvent({ event: 'nav-secondary-button-click' });"
+              class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md"
+              href="{{ entityUrl.path }}/locations">
+              See all locations <i
+                class="fa fa-chevron-right va-l-font-size--12px">&nbsp;</i>
+            </a>
+          </section>
+
+          <!-- "Manage your health online" section -->
+          <!-- [AXE]: No duplicate IDs. Minor. -->
+          <section id="testId">
+            <h3>Manage your health online</h3>
+            <div
+              class="vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-flex-direction--column">
+              <div
+                class="vads-u-margin-right--0 medium-screen:vads-u-margin-right--3">
+                <div class="vads-facility-hub-cta">
+                  <!-- [AXE]: Links must have discernible text. Serious. -->
+                  <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
+                    href="/health-care/refill-track-prescriptions/"
+                    class="vads-u-height--full vads-u-width--full"></a>
+                </div>
+                <div class="vads-facility-hub-cta">
+                  <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
+                    href="/health-care/secure-messaging/"
+                    class="vads-u-height--full vads-u-width--full">
+                    <i
+                      class="far fa-comments vads-facility-hub-cta-circle">&nbsp;</i>
+                    <span class="vads-facility-hub-cta-label">Send a secure
+                      message to your health care team<i
+                        class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                  </a>
+                </div>
+                <div
+                  class="vads-facility-hub-cta vads-u-border-color--primary-alt-light medium-screen:vads-u-border-bottom--1px">
+
+                  <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
+                    href="/health-care/schedule-view-va-appointments/"
+                    class="vads-u-height--full vads-u-width--full">
+                    <i
+                      class="far fa-calendar-check vads-facility-hub-cta-circle">&nbsp;</i>
+                    <span class="vads-facility-hub-cta-label">Schedule and manage
+                      health appointments<i
+                        class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                  </a>
+                </div>
+              </div>
+              <div>
+                <div class="vads-facility-hub-cta">
+                  <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
+                    href="/health-care/get-medical-records/"
+                    class="vads-u-height--full vads-u-width--full">
+                    <i
+                      class="fa fa-file-medical vads-facility-hub-cta-circle">&nbsp;</i>
+                    <span class="vads-facility-hub-cta-label">Download your VA
+                      medical records (Blue Button)<i
+                        class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                  </a>
+                </div>
+                <div class="vads-facility-hub-cta">
+                  <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
+                    href="/health-care/view-test-and-lab-results/"
+                    class="vads-u-height--full vads-u-width--full">
+                    <i
+                      class="fa fa-clipboard-list vads-facility-hub-cta-circle">&nbsp;</i>
+                    <span class="vads-facility-hub-cta-label">View your lab and
+                      test results<i
+                        class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                  </a>
+                </div>
+                <div
+                  class="vads-facility-hub-cta vads-facility-hub-cta-last-line vads-u-border-top--1px vads-u-border-color--primary-alt-light">
+                  <a onClick="recordEvent({ event: 'cta-hub-link-click' });"
+                    href="/health-care/order-hearing-aid-batteries-and-accessories/"
+                    class="vads-u-height--full vads-u-width--full">
+                    <i
+                      class="fa fa-deaf vads-facility-hub-cta-circle">&nbsp;</i>
+                    <span class="vads-facility-hub-cta-label">Order hearing aid batteries <br/> and accessories<i class="fa fa-chevron-right vads-facility-hub-cta-arrow">&nbsp;</i></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+          <!-- List of links section -->
+          <div class="vads-u-margin-top--5">
+            {% include "src/site/paragraphs/list_of_link_teasers_facility.drupal.liquid" with paragraph = fieldRelatedLinks.entity %}
+          </div>
+
+          {% assign header = "h3" %}
+          <!-- Stories -->
+          {% if newsStoryTeasersFeatured.entities.0.reverseFieldListingNode.entities.length %}
+          <section>
+            <h2
+              class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-top--5">
+              Stories</h2>
+            {% for story in newsStoryTeasersFeatured.entities.0.reverseFieldListingNode.entities %}
+            {% assign node = story %}
+            {% include "src/site/teasers/news_story.drupal.liquid" with node = story %}
+            {% endfor %}
+            <a onClick="recordEvent({ event: 'nav-secondary-button-click' });"
+              class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0"
+              href="{{ entityUrl.path }}/stories">
+              See all stories <i
+                class="fa fa-chevron-right va-l-font-size--12px"></i>
+            </a>
+          </section>
+          {% endif %}
+
+          <!-- Events -->
+          {% if eventTeasersFeatured.entities.0.reverseFieldListingNode.entities.length %}
+          <section>
+            <h2
+              class="vads-u-margin-top--4 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--2p5">
+              Events</h2>
+              {% for event in eventTeasersFeatured.entities.0.reverseFieldListingNode.entities %}
+                {% assign node = event %}
+                {% include "src/site/teasers/event.drupal.liquid" %}
+              {% endfor %}
+            <a onClick="recordEvent({ event: 'nav-secondary-button-click' });"
+              class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0"
+              href="{{ entityUrl.path }}/events">
+              See all events <i
+                class="fa fa-chevron-right va-l-font-size--12px"></i>
+            </a>
+          </section>
+          {% elsif eventTeasersAll.entities.0.reverseFieldListingNode.entities.length %}
+          <section>
+            <h2
+              class="vads-u-margin-top--4 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--2p5">
+              Events</h2>
+            {% for event in eventTeasersAll.entities.0.reverseFieldListingNode.entities %}
+            {% assign node = event %}
+            {% include "src/site/teasers/event.drupal.liquid" %}
+            {% endfor %}
+            <a onClick="recordEvent({ event: 'nav-secondary-button-click' });"
+              class="usa-button usa-button-secondary vads-facility-hub-button vads-u-width--full medium-screen:vads-u-width--auto vads-u-font-size--md vads-u-margin--0"
+              href="{{ entityUrl.path }}/events">
+              See all events <i class="fa fa-chevron-right va-l-font-size--12px" aria-hidden="true"></i>
+            </a>
+          </section>
+          {% endif %}
+          {% include "src/site/facilities/facility_social_links.drupal.liquid" with regionNickname = title %}
+
+        </article>
+      </div>
+    </div>
+  </main>
+  {% include "src/site/includes/footer.html" %}
+  {% include "src/site/includes/debug.drupal.liquid" %}

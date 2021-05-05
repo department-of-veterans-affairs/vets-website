@@ -13,9 +13,9 @@ import {
   PHARMACY_RETAIL_SERVICE,
   LocationType,
   Error,
+  Covid19Vaccine,
 } from '../constants';
 
-import { distBetween } from '../utils/facilityDistance';
 import { setFocus } from '../utils/helpers';
 import { recordSearchResultsEvents } from '../utils/analytics';
 import { updateSearchQuery, searchWithBounds } from '../actions';
@@ -25,6 +25,7 @@ import VaFacilityResult from './search-results-items/VaFacilityResult';
 import CCProviderResult from './search-results-items/CCProviderResult';
 import PharmacyResult from './search-results-items/PharmacyResult';
 import UrgentCareResult from './search-results-items/UrgentCareResult';
+import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
@@ -63,14 +64,17 @@ class ResultsList extends Component {
         case 'cemetery':
         case 'benefits':
         case 'vet_center':
-          item = (
-            <VaFacilityResult
-              location={r}
-              query={query}
-              key={r.id}
-              index={index}
-            />
-          );
+          item =
+            query.serviceType === Covid19Vaccine ? (
+              <Covid19Result location={r} key={r.id} index={index} />
+            ) : (
+              <VaFacilityResult
+                location={r}
+                query={query}
+                key={r.id}
+                index={index}
+              />
+            );
           break;
         case 'provider':
           // Support non va urgent care search through ccp option
@@ -111,7 +115,6 @@ class ResultsList extends Component {
     const {
       facilityTypeName,
       inProgress,
-      position,
       searchString,
       results,
       error,
@@ -174,27 +177,16 @@ class ResultsList extends Component {
       return <SearchResultMessage />;
     }
 
-    const currentLocation = position;
     const markers = MARKER_LETTERS.values();
-    const sortedResults = results
+    const resultsData = results
       .map(result => {
-        const distance = currentLocation
-          ? distBetween(
-              currentLocation.latitude,
-              currentLocation.longitude,
-              result.attributes.lat,
-              result.attributes.long,
-            )
-          : null;
         return {
           ...result,
-          distance,
           resultItem: true,
           searchString,
           currentPage,
         };
       })
-      .sort((resultA, resultB) => resultA.distance - resultB.distance)
       .map(result => {
         const markerText = markers.next().value;
         return {
@@ -203,10 +195,10 @@ class ResultsList extends Component {
         };
       });
 
-    if (sortedResults.length > 0) {
-      recordSearchResultsEvents(this.props, sortedResults);
+    if (resultsData.length > 0) {
+      recordSearchResultsEvents(this.props, resultsData);
     }
-    return <div>{this.renderResultItems(query, sortedResults)}</div>;
+    return <div>{this.renderResultItems(query, resultsData)}</div>;
   }
 }
 

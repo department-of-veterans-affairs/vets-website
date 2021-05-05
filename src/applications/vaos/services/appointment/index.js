@@ -171,7 +171,7 @@ export async function fetchBookedAppointment(id, type) {
     } else if (type === 'cc') {
       // We don't have a fetch by id service for cc, so hopefully
       // the appointment is 13 months in either direction
-      const ccAppointments = await getConfirmedAppointments(
+      const { data } = await getConfirmedAppointments(
         type,
         moment()
           .add(-395, 'days')
@@ -182,7 +182,11 @@ export async function fetchBookedAppointment(id, type) {
           .startOf('day')
           .toISOString(),
       );
-      appointment = ccAppointments.find(appt => appt.id === id);
+      appointment = data.find(appt => appt.id === id);
+
+      if (!appointment) {
+        appointment = await getConfirmedAppointment(id, 'va');
+      }
     }
 
     if (!appointment) {
@@ -207,148 +211,7 @@ export async function fetchBookedAppointment(id, type) {
  * @returns {Boolean} Whether or not the appointment is by phone
  */
 export function isVAPhoneAppointment(appointment) {
-  return appointment.vaos.isPhoneAppointment;
-}
-
-/**
- * Returns whether or not the appointment/request is video
- *
- * @export
- * @param {Appointment} appointment A FHIR appointment resource
- * @returns {boolean} Whether or not the appointment/request is video
- */
-export function isVideoAppointment(appointment) {
-  return (
-    appointment?.contained
-      ?.find(contained => contained.resourceType === 'HealthcareService')
-      ?.characteristic?.some(c =>
-        c.coding?.some(code => code.system === 'VVS'),
-      ) || false
-  );
-}
-
-/**
- * Returns the VVS appointment kind
- *
- * @export
- * @param {Appointment} appointment A FHIR appointment resource
- * @returns {string} The VVS appointment kind
- */
-export function getVideoKind(appointment) {
-  const characteristic = appointment.contained
-    ?.find(contained => contained.resourceType === 'HealthcareService')
-    ?.characteristic?.find(c => c.coding?.find(code => code.system === 'VVS'));
-
-  return characteristic?.coding[0].code;
-}
-
-/**
- * Returns whether or not the appointment/request is a GFE video appointment
- *
- * @export
- * @param {Appointment} appointment A FHIR appointment resource
- * @returns {boolean} Whether or not the appointment is a GFE video appointment
- */
-export function isVideoGFE(appointment) {
-  return (
-    appointment.contained
-      ?.find(contained => contained.resourceType === 'HealthcareService')
-      ?.characteristic?.some(c =>
-        c.coding.some(code => code.code === VIDEO_TYPES.gfe),
-      ) || false
-  );
-}
-
-/**
- * Gets legacy VAR ATLAS location from HealthcareService reference
- *
- * @param {Appointment} appointment VAR Appointment in FHIR schema
- * @returns {AtlasLocation} the address from legacy VAR tasInfo.address
- */
-export function getATLASLocation(appointment) {
-  return appointment?.contained.find(res => res.resourceType === 'Location');
-}
-
-/**
- * Gets legacy VAR ATLAS confirmation code from HealthcareService reference
- *
- * @param {Appointment} appointment VAR Appointment in FHIR schema
- * @returns {string} the confirmation code from legacy VAR tasInfo.confirmationCode
- */
-export function getATLASConfirmationCode(appointment) {
-  const characteristic = appointment.contained
-    ?.find(contained => contained.resourceType === 'HealthcareService')
-    ?.characteristic?.find(c =>
-      c.coding?.find(code => code.system === 'ATLAS_CC'),
-    );
-
-  return characteristic?.coding[0].code;
-}
-
-/**
- * Gets legacy VAR facility id from HealthcareService reference
- *
- * @param {Appointment} appointment VAR Appointment in FHIR schema
- * @returns {string} Legacy VAR facility id
- */
-export function getVARFacilityId(appointment) {
-  if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    if (isVideoAppointment(appointment)) {
-      return appointment.legacyVAR.apiData.facilityId;
-    }
-
-    const id = appointment.participant?.[0]?.actor?.reference
-      ?.split('/')?.[1]
-      ?.split('_')?.[0];
-
-    if (id) {
-      return id;
-    }
-
-    return null;
-  }
-
-  return null;
-}
-
-/**
- * Gets legacy var clinic id from HealthcareService reference
- *
- * @param {Appointment} appointment VAR Appointment in FHIR schema
- * @returns {string} Legacy VAR clinic id
- */
-export function getVARClinicId(appointment) {
-  if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    const id = appointment.participant?.[0]?.actor?.reference
-      ?.split('/')?.[1]
-      ?.split('_')?.[1];
-
-    return id || null;
-  }
-
-  return null;
-}
-
-/**
- * Returns the location of a video appointment
- *
- * @export
- * @param {Appointment} appointment A FHIR appointment resource
- * @returns {string} The location id where the video appointment is located
- */
-export function getVideoAppointmentLocation(appointment) {
-  const serviceResource = appointment?.contained.find(
-    res => res.resourceType === 'HealthcareService',
-  );
-  const locationReference =
-    serviceResource?.location?.reference ||
-    serviceResource?.providedBy?.reference;
-
-  if (locationReference) {
-    return locationReference.split('/')[1];
-  }
-
-  return null;
+  return appointment?.vaos.isPhoneAppointment;
 }
 
 /**
@@ -360,21 +223,13 @@ export function getVideoAppointmentLocation(appointment) {
  */
 export function getVAAppointmentLocationId(appointment) {
   if (
-    isVideoAppointment(appointment) &&
-    appointment.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment
+    appointment?.vaos.isVideo &&
+    appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment
   ) {
-    return getVideoAppointmentLocation(appointment);
+    return appointment?.location.vistaId;
   }
 
-  const locationReference = appointment?.participant?.find(p =>
-    p.actor.reference?.startsWith('Location'),
-  )?.actor?.reference;
-
-  if (locationReference) {
-    return locationReference.split('/')[1];
-  }
-
-  return null;
+  return appointment?.location.stationId;
 }
 /**
  * Returns the patient telecom info in a VA appointment
@@ -382,12 +237,10 @@ export function getVAAppointmentLocationId(appointment) {
  * @export
  * @param {Appointment} appointment A FHIR appointment resource
  * @param {string} system A FHIR telecom system id
- * @returns {string} The patient telecome value
+ * @returns {string} The patient telecom value
  */
 export function getPatientTelecom(appointment, system) {
-  return appointment?.contained
-    .find(res => res.resourceType === 'Patient')
-    ?.telecom?.find(t => t.system === system)?.value;
+  return appointment?.contact?.telecom.find(t => t.system === system)?.value;
 }
 
 /**
@@ -612,78 +465,31 @@ export function sortMessages(a, b) {
 }
 
 /**
- * Method to check for ATLAS appointment
- * @param {Appointment} appointment  A FHIR appointment resource
- * @return {boolean} Returns whether or not the appointment is an ATLAS appointment.
- */
-export function isAtlasLocation(appointment) {
-  return appointment.legacyVAR.apiData.vvsAppointments?.some(
-    element => element.tasInfo,
-  );
-}
-
-/**
  * Method to check for home video appointment
  * @param {Appointment} appointment A FHIR appointment resource
  * @return {boolean} Returns whether or not the appointment is a home video appointment.
  */
 export function isVideoHome(appointment) {
-  const videoKind = getVideoKind(appointment);
-  const isAtlas = isAtlasLocation(appointment);
+  const { isAtlas, kind } = appointment.videoData || {};
   return (
-    !isAtlas &&
-    (videoKind === VIDEO_TYPES.mobile || videoKind === VIDEO_TYPES.adhoc)
+    !isAtlas && (kind === VIDEO_TYPES.mobile || kind === VIDEO_TYPES.adhoc)
   );
 }
 
 /**
- * Method to check for VA facility video appointment
- * @param {Appointment} appointment A FHIR appointment resource
- * @return {boolean} Returns whether or not the appointment is a VA facility video appointment.
+ * Get the name of the first preferred community care provider, or generic text
+ *
+ * @param {Appointment} appointment An appointment object
+ * @return {String} Returns the community care provider name
  */
-export function isVideoVAFacility(appointment) {
-  return VIDEO_TYPES.clinic === getVideoKind(appointment);
-}
+export function getPreferredCommunityCareProviderName(appointment) {
+  const provider = appointment?.preferredCommunityCareProviders?.[0];
 
-/**
- * Method to check for store forward video appointment
- * @param {Appointment} appointment A FHIR appointment resource
- * @return {boolean} Returns whether or not the appointment is a store forward video appointment.
- */
-export function isVideoStoreForward(appointment) {
-  return VIDEO_TYPES.storeForward === getVideoKind(appointment);
-}
+  if (provider) {
+    return provider.practiceName || provider.providerName;
+  }
 
-/**
- * Method to check for the existence of a practitioner
- * @param {Appointment} appointment An appointment resource
- * @return {boolean} Returns whether or not the appointment has a practitioner.
- */
-export function hasPractitioner(appointment) {
-  return !!appointment?.participant?.some(item =>
-    item.actor?.reference?.includes('Practitioner'),
-  );
-}
-
-/**
- * Method to parse out the appointment practitioner of participants array
- * @param {Array} participants An array of appointment participants
- * @return {string} Returns the appointment practitioner display value.
- */
-export function getPractitionerDisplay(participants) {
-  return participants?.find(p => p.actor.reference.includes('Practitioner'))
-    .actor.display;
-}
-
-/**
- * Method to parse out the appointment practitioner location display in contained array
- * @param {Array} participants An array of appointment participants
- * @return {Object} Returns the appointment practitioner object.
- */
-export function getPractitionerLocationDisplay(appointment) {
-  return appointment.contained?.find(c =>
-    c.resourceType.includes('Practitioner'),
-  )?.practitionerRole?.[0]?.location?.[0]?.display;
+  return 'Community care';
 }
 
 /**

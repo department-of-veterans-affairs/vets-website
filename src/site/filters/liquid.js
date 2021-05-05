@@ -1,9 +1,11 @@
-const phoneNumberArrayToObject = require('./phoneNumberArrayToObject');
-
-const moment = require('moment-timezone');
-const converter = require('number-to-words');
-const liquid = require('tinyliquid');
+// Node modules.
 const _ = require('lodash');
+const converter = require('number-to-words');
+const he = require('he');
+const liquid = require('tinyliquid');
+const moment = require('moment-timezone');
+// Relative imports.
+const phoneNumberArrayToObject = require('./phoneNumberArrayToObject');
 
 function getPath(obj) {
   return obj.path;
@@ -206,6 +208,15 @@ module.exports = function registerFilters() {
     return _.slice(arr, startIndex);
   };
 
+  liquid.filters.formatSharableLinkID = (id, description) => {
+    if (!id) return '';
+    if (!description) return id;
+    const truncatedText = description.substring(0, 30);
+    const escaped = liquid.filters.escape(truncatedText);
+    const hyphenatedDesc = _.kebabCase(escaped);
+    return `${hyphenatedDesc}-${id}`;
+  };
+
   liquid.filters.breakTerms = data => {
     let output = '';
     if (data != null) {
@@ -293,6 +304,7 @@ module.exports = function registerFilters() {
     return JSON.stringify(facilityList);
   };
 
+  // We might not need this filter, refactor
   liquid.filters.widgetFacilityDetail = facility => {
     const facilityLocatorApiId = facility.split('_')[1].toUpperCase();
     const id = `vha_${facilityLocatorApiId}`;
@@ -553,7 +565,9 @@ module.exports = function registerFilters() {
   };
 
   liquid.filters.detectLang = url => {
-    return url?.endsWith('-esp') ? 'es' : 'en';
+    if (url?.endsWith('-esp')) return 'es';
+    if (url?.endsWith('-tag')) return 'tl';
+    return 'en';
   };
 
   // sort a list of objects by a certain property in the object
@@ -599,19 +613,19 @@ module.exports = function registerFilters() {
       return url;
     }
 
+    // Not a youtube link? Return back the raw url.
     if (!_.includes(url, 'youtu')) {
       return url;
     }
 
-    if (_.includes(url, 'embed')) {
+    try {
+      // Recreate the embedded youtube.com URL so we know it's formatted correctly.
+      const urlInstance = new URL(url);
+      const pathname = urlInstance?.pathname?.replace('/embed', '');
+      return `https://www.youtube.com/embed${pathname}`;
+    } catch (error) {
       return url;
     }
-
-    if (_.includes(url, 'youtube.com/watch?v=')) {
-      return _.replace(url, '/watch?v=', '/embed/');
-    }
-
-    return _.replace(url, 'youtu.be', 'youtube.com/embed');
   };
 
   liquid.filters.deriveCLPTotalSections = (
@@ -662,5 +676,78 @@ module.exports = function registerFilters() {
 
     // Return a formatted timestamp string.
     return `${digits}${text}`;
+  };
+
+  liquid.filters.getTagsList = fieldTags => {
+    const {
+      entity: {
+        fieldTopics = [],
+        fieldAudienceBeneficiares,
+        fieldNonBeneficiares,
+      },
+    } = fieldTags;
+
+    const topics = fieldTopics.map(topic => ({
+      ...topic.entity,
+      categoryLabel: 'Topics',
+    }));
+
+    const audiences = [
+      fieldAudienceBeneficiares?.entity,
+      fieldNonBeneficiares?.entity,
+    ]
+      .filter(tag => !!tag)
+      .map(audience => ({
+        ...audience,
+        categoryLabel: 'Audience',
+      }));
+
+    const tagList = [...topics, ...audiences];
+
+    return _.sortBy(tagList, 'name');
+  };
+
+  liquid.filters.replace = (string, oldVal, newVal) => {
+    const regex = new RegExp(oldVal, 'g');
+    return string.replace(regex, newVal);
+  };
+
+  liquid.filters.filterBy = (data, filterBy, valueFilter) => {
+    return data.filter(e => _.get(e, filterBy) === valueFilter);
+  };
+
+  liquid.filters.processDynamicContent = (entity, contentType) => {
+    // TODO - add more cases as new centralized content types are added
+    // eslint-disable-next-line sonarjs/no-small-switch
+    switch (contentType) {
+      case 'wysiwyg': {
+        return {
+          fieldWysiwyg: {
+            // eslint-disable-next-line camelcase
+            processed: entity?.field_wysiwyg[0]?.processed,
+          },
+        };
+      }
+      default: {
+        return entity;
+      }
+    }
+  };
+
+  liquid.filters.concat = (...args) => _.concat(...args);
+
+  liquid.filters.strip = (string = '') => _.trim(string);
+
+  liquid.filters.encode = (string = '') => {
+    // Escape early in case of string being `null`.
+    if (!string) {
+      return '';
+    }
+
+    // Replace single quotes.
+    const stringWithoutSingleQuotes = string.replace("'", '&apos;');
+
+    // Encode the string.
+    return he.encode(stringWithoutSingleQuotes, { useNamedReferences: true });
   };
 };

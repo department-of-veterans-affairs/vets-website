@@ -202,11 +202,8 @@ export function institutionFilterChange(filter) {
   return { type: INSTITUTION_FILTER_CHANGED, filter };
 }
 
-export function fetchInstitutionSearchResults(query = {}, stateSearch) {
-  const url = appendQuery(
-    `${api.url}/institutions/search`,
-    stateSearch ? rubyifyKeys({ ...query, stateSearch }) : rubyifyKeys(query),
-  );
+export function fetchInstitutionSearchResults(query = {}) {
+  const url = appendQuery(`${api.url}/institutions/search`, rubyifyKeys(query));
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, query });
@@ -234,10 +231,10 @@ export function fetchInstitutionSearchResults(query = {}, stateSearch) {
   };
 }
 
-export function fetchProgramSearchResults(query = {}, stateSearch) {
+export function fetchProgramSearchResults(query = {}) {
   const url = appendQuery(
     `${api.url}/institution_programs/search`,
-    stateSearch ? rubyifyKeys({ ...query, stateSearch }) : rubyifyKeys(query),
+    rubyifyKeys(query),
   );
 
   return dispatch => {

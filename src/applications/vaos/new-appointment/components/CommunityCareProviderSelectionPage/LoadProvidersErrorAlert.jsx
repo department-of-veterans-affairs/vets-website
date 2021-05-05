@@ -1,5 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function LoadProvidersErrorAlert() {
   const headline = `We can’t load provider information`;
@@ -17,13 +18,9 @@ export default function LoadProvidersErrorAlert() {
           <ul>
             <li>
               Call your VA or community care facility.{' '}
-              <a
-                href="/find-locations"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <NewTabAnchor href="/find-locations">
                 Find your health facility’s phone number
-              </a>
+              </NewTabAnchor>
               , <strong>or</strong>
             </li>
             <li>

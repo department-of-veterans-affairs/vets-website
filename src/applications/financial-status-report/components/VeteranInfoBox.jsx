@@ -54,7 +54,7 @@ VeteranInfoBox.propTypes = {
   middle: PropTypes.string,
   dateOfBirth: PropTypes.string,
   ssnLastFour: PropTypes.string,
-  fileNumber: PropTypes.number,
+  fileNumber: PropTypes.string,
 };
 
 const mapStateToProps = ({ form }) => ({

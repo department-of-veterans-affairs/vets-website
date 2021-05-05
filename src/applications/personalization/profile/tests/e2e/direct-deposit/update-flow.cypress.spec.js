@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
@@ -76,7 +75,6 @@ function saveSuccessAlertRemoved() {
 
 describe('Direct Deposit', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(mockUserInEVSS);
     cy.intercept('GET', '/v0/feature_toggles*', dd4eduEnabled);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);
@@ -98,10 +96,6 @@ describe('Direct Deposit', () => {
       saveNewBankInfo();
       // the save will fail since we didn't mock the update endpoint yet
       saveErrorExists();
-      // TODO: can I make this mock smarter so that it inspects the PUT payload
-      // and I can confirm that the correct data is sent to it? We really just
-      // need to make sure that the routingNumber, accountNumber, and
-      // accountType are not null
       cy.intercept('PUT', 'v0/ppiu/payment_information', req => {
         // only return a successful response if the API payload includes data
         // that was entered into the edit form

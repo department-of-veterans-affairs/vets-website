@@ -226,20 +226,21 @@ function ProviderSelectionField({
               <>
                 <p className="vads-u-margin-top--0 vads-u-margin-bottom--2">
                   You can choose a provider based on your address on file. Or
-                  you can
-                  {''}
-                  <button
-                    type="button"
-                    className="va-button-link"
-                    onClick={() => {
-                      updateCCProviderSortMethod(
-                        FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                      );
-                    }}
-                  >
-                    use your current location
-                  </button>
-                  .
+                  you can{' '}
+                  <span>
+                    <button
+                      type="button"
+                      className="va-button-link"
+                      onClick={() => {
+                        updateCCProviderSortMethod(
+                          FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                        );
+                      }}
+                    >
+                      use your current location
+                    </button>
+                    .
+                  </span>
                 </p>
                 <ResidentialAddress address={address} />
               </>

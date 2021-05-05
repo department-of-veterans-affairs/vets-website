@@ -1,7 +1,20 @@
 import React from 'react';
 
-const DependencyVerificationFooter = () => {
-  return <div>This is the footer where the buttons go</div>;
+const DependencyVerificationFooter = ({
+  handleClose,
+  handleCloseAndUpdateDiaries,
+}) => {
+  return (
+    <div>
+      <button
+        className="usa-button-secondary"
+        onClick={handleCloseAndUpdateDiaries}
+      >
+        This is correct
+      </button>
+      <button onClick={handleClose}>Make changes</button>
+    </div>
+  );
 };
 
 export default DependencyVerificationFooter;

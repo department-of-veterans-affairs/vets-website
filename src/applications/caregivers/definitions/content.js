@@ -15,6 +15,7 @@ export const links = {
   },
   caregiverHelpPage: {
     link: 'https://www.caregiver.va.gov/',
+    label: 'www.va.caregiver.gov',
   },
   applyVAHealthCare: {
     link: 'https://www.va.gov/health-care/how-to-apply/',
@@ -28,6 +29,7 @@ export const links = {
 export const veteranSignatureContent = [
   'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
 ];
+
 export const primaryCaregiverContent = [
   'I certify that I am at least 18 years of age.',
   "I certify that I am a family member of the Veteran named in this application or I reside with the Veteran, or will do so upon designation as the Veteran's Primary Family Caregiver.",
@@ -43,6 +45,11 @@ export const secondaryCaregiverContent = [
   'I understand that participation in Program of Comprehensive Assistance for Family Caregivers does not create an employment relationship between me and the Department of Veterans Affairs.',
 ];
 
+export const representativeSignatureContent = [
+  'Signed by the Veteran’s legal representative on behalf of the Veteran.',
+  'I certify that I give consent to the individual(s) named in this application to perform personal care services for me (or if the Veteran’s Representative, the Veteran) upon being approved as a Primary and/or Secondary Family Caregiver(s) in the Program of Comprehensive Assistance for Family Caregivers.',
+];
+
 export const signatureBoxNoteContent =
   'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or providing incorrect information. (See 18 U.S.C. 1001)';
 
@@ -53,7 +60,7 @@ export const PrivacyPolicy = () => (
       target="_blank"
       rel="noopener noreferrer"
       className="vads-u-margin-left--0p5"
-      href={links.privacyPolicy}
+      href={links.privacyPolicy.link}
     >
       privacy policy
     </a>

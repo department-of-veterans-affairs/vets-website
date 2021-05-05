@@ -16,6 +16,7 @@ import {
 } from '../redux/selectors';
 
 import * as actions from '../redux/actions';
+import NewTabAnchor from '../../components/NewTabAnchor';
 
 const pageKey = 'details';
 const pageTitle = 'Express Care request details';
@@ -79,10 +80,7 @@ const uiSchema = {
           care staff can contact you. This contact information will be used just
           for Express Care and won’t be updated in your VA profile. If you want
           to update your contact information for all your accounts, please{' '}
-          <a href="/profile" target="_blank" rel="noopener noreferrer">
-            go to your profile page
-          </a>
-          .
+          <NewTabAnchor href="/profile">go to your profile page</NewTabAnchor>.
         </p>
       </div>
     ),

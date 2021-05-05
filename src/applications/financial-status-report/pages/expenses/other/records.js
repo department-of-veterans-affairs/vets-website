@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
+import CustomReviewField from '../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
 import {
@@ -30,20 +31,23 @@ export const uiSchema = {
       doNotScroll: true,
       showSave: true,
       itemName: 'an expense',
+      keepInPageOnReview: true,
     },
     items: {
       'ui:options': {
-        classNames: 'horizonal-field-container no-wrap',
+        classNames: 'horizontal-field-container no-wrap',
       },
-      expenseType: {
+      name: {
         'ui:title': 'Type of expense',
         'ui:field': Typeahead,
+        'ui:reviewField': CustomReviewField,
         'ui:options': {
+          idPrefix: 'other_expenses',
           classNames: 'input-size-3',
           getOptions: () => formatOptions(expenseTypes),
         },
       },
-      expenseAmount: _.merge(currencyUI('Estimated cost each month'), {
+      amount: _.merge(currencyUI('Estimated cost each month'), {
         'ui:options': {
           widgetClassNames: 'input-size-1',
         },
@@ -63,13 +67,12 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Expense',
-        required: ['expenseType', 'expenseAmount'],
+        required: ['name', 'amount'],
         properties: {
-          expenseType: {
+          name: {
             type: 'string',
           },
-          expenseAmount: {
+          amount: {
             type: 'number',
           },
         },

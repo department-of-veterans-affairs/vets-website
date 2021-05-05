@@ -1,14 +1,10 @@
 import React from 'react';
 import FacilityAddress from '../../../../components/FacilityAddress';
-import {
-  getATLASConfirmationCode,
-  getATLASLocation,
-} from '../../../../services/appointment';
 
 export default function AtlasLocation({ appointment }) {
-  const { address } = getATLASLocation(appointment);
+  const { address } = appointment.videoData.atlasLocation;
   const { city, state } = address;
-  const confirmationCode = getATLASConfirmationCode(appointment);
+  const confirmationCode = appointment.videoData.atlasConfirmationCode;
 
   const name = `ATLAS facility in ${city}, ${state}`;
   const facility = {

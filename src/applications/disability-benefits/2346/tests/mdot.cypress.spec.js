@@ -37,7 +37,9 @@ const testConfig = createTestConfig(
               selector: 'button',
             }).click();
             cy.findByLabelText(/Country/i).select('Canada');
-            cy.findByLabelText(/Street address/i).type('205 Test Lane');
+            cy.findAllByLabelText(/Street address/i)
+              .first()
+              .type('205 Test Lane');
             cy.findByLabelText(/City/i).type('Calgary');
             cy.findByLabelText(/Province/i).type('Alberta');
             cy.findByLabelText(/International Postal Code/i).type('T7N');

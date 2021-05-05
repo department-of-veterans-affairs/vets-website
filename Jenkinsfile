@@ -3,7 +3,6 @@ import org.kohsuke.github.GitHub
 
 env.CONCURRENCY = 10
 
-
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
               parameters([choice(name: "cmsEnvBuildOverride",
@@ -21,15 +20,99 @@ node('vetsgov-general-purpose') {
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
+  def envUsedCache = [:]
 
   // setupStage
   dockerContainer = commonStages.setup()
 
-  stage('Lint|Security|Unit') {
-    if (params.cmsEnvBuildOverride != 'none') { return }
+  stage('Main') {
+    def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
+    def assetSource = contentOnlyBuild ? ref : 'local'
+
     try {
       parallel (
+        failFast: true,
+
+        buildDev: {
+          if (commonStages.shouldBail()) { return }
+          def envName = 'vagovdev'
+          
+          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          if (!shouldBuild) { return }
+
+          try {
+            // Try to build using fresh drupal content
+            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            envUsedCache[envName] = false
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              // Try to build again using cached drupal content
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
+            }
+          }
+        },
+
+        buildStaging: {
+          if (commonStages.shouldBail()) { return }
+          def envName = 'vagovstaging'
+
+          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          if (!shouldBuild) { return }
+
+          try {
+            // Try to build using fresh drupal content
+            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            envUsedCache[envName] = false
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              // Try to build again using cached drupal content
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
+            }
+          }
+        },
+
+        buildProd: {
+          if (commonStages.shouldBail()) { return }
+          def envName = 'vagovprod'
+
+          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          if (!shouldBuild) { return }
+                    
+          try {
+            // Try to build using fresh drupal content
+            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            envUsedCache[envName] = false
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              // Try to build again using cached drupal content
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
+            }
+          }
+        },
+
         lint: {
+          if (params.cmsEnvBuildOverride != 'none') { return }
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "cd /application && npm --no-color run lint"
           }
@@ -37,6 +120,7 @@ node('vetsgov-general-purpose') {
 
         // Check package.json for known vulnerabilities
         security: {
+          if (params.cmsEnvBuildOverride != 'none') { return }
           retry(3) {
             dockerContainer.inside(commonStages.DOCKER_ARGS) {
               sh "cd /application && npm run security-check"
@@ -45,12 +129,14 @@ node('vetsgov-general-purpose') {
         },
 
         unit: {
+          if (params.cmsEnvBuildOverride != 'none') { return }
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "/cc-test-reporter before-build"
             sh "cd /application && npm --no-color run test:unit -- --coverage"
             sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
           }
-        }
+        },
+
       )
     } catch (error) {
       commonStages.slackNotify()
@@ -62,35 +148,50 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  // Perform a build for each build type
-  envsUsingDrupalCache = commonStages.buildAll(ref, dockerContainer, params.cmsEnvBuildOverride != 'none')
-
-  // Run E2E and accessibility tests
+  // Run E2E tests
   stage('Integration') {
     if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
-      try {
-        parallel (
-          'nightwatch-e2e': {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch up -d && docker-compose -p nightwatch run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-          },
+      // Set timeout of 60 minutes for integration tests
+      timeout(60) {
+        try {
+          if (commonStages.IS_PROD_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) {
+            parallel (
+              failFast: true,
 
-          'nightwatch-accessibility': {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
-          },
+              'nightwatch-e2e': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
+              },          
+              // 'nightwatch-accessibility': {
+              //     sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
+              // },
+              cypress: {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 vets-website --no-color run cy:test:docker"
+              }
+            )
+          } else {
+            parallel (
+              failFast: true,
 
-          cypress: {
-            sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress up -d && docker-compose -p cypress run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 vets-website --no-color run cy:test:docker"
+              'nightwatch-e2e': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
+              },     
+              cypress: {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 vets-website --no-color run cy:test:docker"
+              }
+            )
           }
-        )
-      } catch (error) {
-        commonStages.slackNotify()
-        throw error
-      } finally {
-        sh "docker-compose -p nightwatch down --remove-orphans"
-        sh "docker-compose -p accessibility down --remove-orphans"
-        sh "docker-compose -p cypress down --remove-orphans"
-        step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+        } catch (error) {
+          commonStages.slackNotify()
+          throw error
+        } finally {
+          sh "docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // if (commonStages.IS_PROD_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) {
+          //   sh "docker-compose -p accessibility down --remove-orphans"
+          // }
+          sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+        }
       }
     }
   }
@@ -98,6 +199,8 @@ node('vetsgov-general-purpose') {
   commonStages.prearchiveAll(dockerContainer)
 
   commonStages.archiveAll(dockerContainer, ref);
+  
+  envsUsingDrupalCache = envUsedCache
   commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
   stage('Review') {
@@ -114,6 +217,7 @@ node('vetsgov-general-purpose') {
         stringParam(name: 'devops_branch', value: 'master'),
         stringParam(name: 'api_branch', value: 'master'),
         stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+        stringParam(name: 'content_branch', value: env.BRANCH_NAME),
         stringParam(name: 'source_repo', value: 'vets-website'),
       ], wait: false
     } catch (error) {
@@ -132,6 +236,7 @@ node('vetsgov-general-purpose') {
       }
 
       if (commonStages.IS_STAGING_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovstaging')) {
+        commonStages.runDeploy('deploys/application-build-vagovstaging', ref, false)
         commonStages.runDeploy('deploys/vets-website-vagovstaging', ref, false)
       }
 

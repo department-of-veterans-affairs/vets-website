@@ -2,28 +2,36 @@ import moment from 'moment';
 import { createSelector } from 'reselect';
 import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
 import { titleCase } from '../../utils/formatters';
-import { FETCH_STATUS, APPOINTMENT_STATUS } from '../../utils/constants';
 import {
-  getVideoAppointmentLocation,
+  FETCH_STATUS,
+  APPOINTMENT_STATUS,
+  APPOINTMENT_TYPES,
+} from '../../utils/constants';
+import {
   getVAAppointmentLocationId,
-  isVideoAppointment,
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
   sortByDateDescending,
   sortByDateAscending,
   sortUpcoming,
-  getVARFacilityId,
   groupAppointmentsByMonth,
   isCanceledConfirmedOrExpressCare,
   isUpcomingAppointmentOrExpressCare,
   sortByCreatedDateDescending,
   isValidPastAppointmentOrExpressCare,
 } from '../../services/appointment';
-import { selectFeatureExpressCareNewRequest } from '../../redux/selectors';
+import {
+  selectFeatureExpressCareNewRequest,
+  selectFeatureCovid19Vaccine,
+  selectFeatureRequests,
+  selectIsCernerOnlyPatient,
+  selectFeatureCancel,
+} from '../../redux/selectors';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
 } from '../../utils/timezone';
+import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 
 export function getCancelInfo(state) {
   const {
@@ -34,28 +42,19 @@ export function getCancelInfo(state) {
     facilityData,
   } = state.appointments;
 
-  const isVideo = appointmentToCancel
-    ? isVideoAppointment(appointmentToCancel)
-    : false;
-
   let facility = null;
-  if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked && !isVideo) {
-    // Confirmed in person VA appts
+  if (appointmentToCancel?.status === APPOINTMENT_STATUS.booked) {
+    // Confirmed in person VA and video appts
     const locationId = getVAAppointmentLocationId(appointmentToCancel);
     facility = facilityData[locationId];
   } else if (appointmentToCancel?.facility) {
     // Requests
     facility = facilityData[appointmentToCancel.facility.facilityCode];
-  } else if (isVideo) {
-    // Video visits
-    const locationId = getVideoAppointmentLocation(appointmentToCancel);
-    facility = facilityData[locationId];
   }
   let isCerner = null;
   if (appointmentToCancel) {
-    const facilityId = getVARFacilityId(appointmentToCancel);
     isCerner = selectCernerAppointmentsFacilities(state)?.some(cernerSite =>
-      facilityId?.startsWith(cernerSite.facilityId),
+      appointmentToCancel.location.vistaId?.startsWith(cernerSite.facilityId),
     );
   }
 
@@ -388,4 +387,88 @@ export function selectAppointmentById(state, id, types = null) {
     .filter(item => !!item);
 
   return allAppointments.find(p => p.id === id);
+}
+
+export function selectFacilitySettingsStatus(state) {
+  return state.appointments.facilitySettingsStatus;
+}
+
+export function selectCanUseVaccineFlow(state) {
+  return (
+    selectFeatureCovid19Vaccine(state) &&
+    state.appointments.facilitySettings?.some(
+      facility =>
+        facility.services.find(
+          service => service.id === VACCINE_TYPE_OF_CARE_ID,
+        )?.direct.enabled,
+    )
+  );
+}
+
+export function selectRequestedAppointmentDetails(state, id) {
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
+
+  return {
+    appointment: selectAppointmentById(state, id, [
+      APPOINTMENT_TYPES.request,
+      APPOINTMENT_TYPES.ccRequest,
+    ]),
+    appointmentDetailsStatus,
+    facilityData,
+    message: selectFirstRequestMessage(state, id),
+    cancelInfo: getCancelInfo(state),
+  };
+}
+
+export function getCanceledAppointmentListInfo(state) {
+  return {
+    appointmentsByMonth: selectCanceledAppointments(state),
+    facilityData: state.appointments.facilityData,
+    futureStatus: selectFutureStatus(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
+}
+
+export function getRequestedAppointmentListInfo(state) {
+  return {
+    facilityData: state.appointments.facilityData,
+    pendingStatus: state.appointments.pendingStatus,
+    pendingAppointments: selectPendingAppointments(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
+}
+
+export function getUpcomingAppointmentListInfo(state) {
+  return {
+    facilityData: state.appointments.facilityData,
+    futureStatus: selectFutureStatus(state),
+    appointmentsByMonth: selectUpcomingAppointments(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
+}
+
+export function getConfirmedAppointmentDetailsInfo(state, id) {
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
+
+  return {
+    appointment: selectAppointmentById(state, id, [
+      APPOINTMENT_TYPES.vaAppointment,
+    ]),
+    appointmentDetailsStatus,
+    cancelInfo: getCancelInfo(state),
+    facilityData,
+    showCancelButton: selectFeatureCancel(state),
+  };
+}
+
+export function getPastAppointmentListInfo(state) {
+  return {
+    pastAppointmentsByMonth: selectPastAppointmentsV2(state),
+    pastStatus: state.appointments.pastStatus,
+    pastSelectedIndex: state.appointments.pastSelectedIndex,
+    facilityData: state.appointments.facilityData,
+  };
 }

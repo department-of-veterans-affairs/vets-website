@@ -261,4 +261,44 @@ describe('Form 526EZ Entry Page', () => {
     expect(tree.find('WizardContainer')).to.have.lengthOf(0);
     tree.unmount();
   });
+  it('should render loading indicator when feature is undefined', () => {
+    sessionStorage.removeItem(WIZARD_STATUS);
+    const initialState = {
+      form: {
+        loadedStatus: 'success',
+        savedStatus: '',
+        loadedData: { metadata: {} },
+      },
+      user: {
+        login: { currentlyLoggedIn: false },
+        profile: { verified: false, services: [], loading: false, status: '' },
+      },
+      currentLocation: { pathname: '/introduction', search: '' },
+      mvi: { addPersonState: '' },
+    };
+    const fakeStore = createStore(
+      combineReducers({
+        ...commonReducer,
+        ...reducers,
+      }),
+      initialState,
+    );
+    window.dataLayer = [];
+    gaData = global.window.dataLayer;
+    const tree = mount(
+      <Provider store={fakeStore}>
+        <Form526Entry
+          location={initialState.currentLocation}
+          user={initialState.user}
+        >
+          <main>
+            <h1>{fakeSipsIntro(initialState.user)}</h1>
+          </main>
+        </Form526Entry>
+      </Provider>,
+    );
+    expect(tree.find('LoadingIndicator')).to.have.lengthOf(1);
+    expect(tree.find('WizardContainer')).to.have.lengthOf(0);
+    tree.unmount();
+  });
 });

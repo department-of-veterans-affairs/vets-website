@@ -170,13 +170,13 @@ export const addressUiSchema = (path, checkBoxTitle, uiRequiredCallback) => {
       },
     },
     street2: {
-      'ui:title': 'Line 2',
+      'ui:title': 'Street address line 2',
       'ui:options': {
         hideEmptyValueInReview: true,
       },
     },
     street3: {
-      'ui:title': 'Line 3',
+      'ui:title': 'Street address line 3',
       'ui:options': {
         hideEmptyValueInReview: true,
       },

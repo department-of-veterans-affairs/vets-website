@@ -1,5 +1,6 @@
 import React from 'react';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function UpdateAddressAlert({ onClickUpdateAddress }) {
   const headline =
@@ -14,17 +15,16 @@ export default function UpdateAddressAlert({ onClickUpdateAddress }) {
         <p>
           To update your address, go to your VA.gov profile. Please allow some
           time for your address update to process through our system. <br />
-          <a
-            className="usa-button usa-button-primary vads-u-margin-top--4"
-            target="_blank"
-            rel="noopener noreferrer"
+          <NewTabAnchor
             href="/change-address/#how-do-i-change-my-address-in-"
+            className="usa-button usa-button-primary vads-u-margin-top--4"
             onClick={() => onClickUpdateAddress(headline)}
           >
             Update your address
-          </a>
+          </NewTabAnchor>
         </p>
       }
+      disableAnalytics
     />
   );
 }

@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
-import * as actions from '../redux/actions';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -19,18 +17,18 @@ import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import {
   getPatientTelecom,
-  isVideoAppointment,
   getVAAppointmentLocationId,
-  getPractitionerLocationDisplay,
 } from '../../services/appointment';
-import {
-  selectFirstRequestMessage,
-  getCancelInfo,
-  selectAppointmentById,
-} from '../redux/selectors';
+import { selectRequestedAppointmentDetails } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './AppointmentsPage/PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
+import {
+  cancelAppointment,
+  closeCancelAppointment,
+  confirmCancelAppointment,
+  fetchRequestDetails,
+} from '../redux/actions';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -38,24 +36,43 @@ const TIME_TEXT = {
   'No Time Selected': '',
 };
 
-function RequestedAppointmentDetailsPage({
-  appointment,
-  appointmentDetailsStatus,
-  cancelAppointment,
-  cancelInfo,
-  closeCancelAppointment,
-  confirmCancelAppointment,
-  facilityData,
-  fetchRequestDetails,
-  message,
-}) {
+export default function RequestedAppointmentDetailsPage() {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const {
+    appointmentDetailsStatus,
+    facilityData,
+    cancelInfo,
+    appointment,
+    message,
+  } = useSelector(
+    state => selectRequestedAppointmentDetails(state, id),
+    shallowEqual,
+  );
 
   useEffect(() => {
-    fetchRequestDetails(id);
-
-    scrollAndFocus();
+    dispatch(fetchRequestDetails(id));
   }, []);
+
+  useEffect(
+    () => {
+      if (appointment) {
+        const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+        const isCC = appointment.vaos.isCommunityCare;
+        const typeOfCareText = lowerCase(
+          appointment?.type?.coding?.[0]?.display,
+        );
+
+        const title = `${isCanceled ? 'Canceled' : 'Pending'} ${
+          isCC ? 'Community care' : 'VA'
+        } ${typeOfCareText} appointment`;
+
+        document.title = title;
+      }
+      scrollAndFocus();
+    },
+    [appointment],
+  );
 
   useEffect(
     () => {
@@ -67,6 +84,18 @@ function RequestedAppointmentDetailsPage({
       }
     },
     [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
+  );
+
+  useEffect(
+    () => {
+      if (
+        appointmentDetailsStatus === FETCH_STATUS.failed ||
+        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [appointmentDetailsStatus],
   );
 
   if (
@@ -83,20 +112,23 @@ function RequestedAppointmentDetailsPage({
   if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
     return (
       <FullWidthLayout>
-        <LoadingIndicator message="Loading your appointment request..." />
+        <LoadingIndicator
+          setFocus
+          message="Loading your appointment request..."
+        />
       </FullWidthLayout>
     );
   }
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isCC = appointment.vaos.isCommunityCare;
-  const isVideoRequest = isVideoAppointment(appointment);
+  const isVideoRequest = appointment.vaos.isVideo;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const practitionerName = getPractitionerLocationDisplay(appointment);
+  const provider = appointment.preferredCommunityCareProviders?.[0];
 
   return (
     <PageLayout>
@@ -126,7 +158,7 @@ function RequestedAppointmentDetailsPage({
               <button
                 aria-label="Cancel request"
                 className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
-                onClick={() => cancelAppointment(appointment)}
+                onClick={() => dispatch(cancelAppointment(appointment))}
               >
                 Cancel Request
               </button>
@@ -135,9 +167,8 @@ function RequestedAppointmentDetailsPage({
         )}
       </AlertBox>
       <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-        {isCC && !isCCRequest && 'Community Care'}
-        {!isCC && !!isVideoRequest && 'VA Video Connect'}
-        {!isCC && !isVideoRequest && 'VA Appointment'}
+        {!isCCRequest && isVideoRequest && 'VA Video Connect'}
+        {!isCCRequest && !isVideoRequest && 'VA Appointment'}
       </h2>
 
       {!!facility &&
@@ -150,16 +181,17 @@ function RequestedAppointmentDetailsPage({
           />
         )}
 
-      {isCC &&
-        isCCRequest && (
-          <>
-            <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
-              Preferred community care provider
-            </h2>
-            {!!practitionerName && <span>{practitionerName}</span>}
-            {!practitionerName && <span>No provider selected</span>}
-          </>
-        )}
+      {isCCRequest && (
+        <>
+          <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
+            Preferred community care provider
+          </h2>
+          {!!provider && (
+            <span>{provider.provideName || provider.practiceName}</span>
+          )}
+          {!provider && <span>No provider selected</span>}
+        </>
+      )}
 
       <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
         Preferred date and time
@@ -188,7 +220,7 @@ function RequestedAppointmentDetailsPage({
         <br />
         <span className="vads-u-font-style--italic">
           <ListBestTimeToCall
-            timesToCall={appointment.legacyVAR?.bestTimeToCall}
+            timesToCall={appointment.preferredTimesForPhoneCall}
           />
         </span>
       </div>
@@ -199,33 +231,9 @@ function RequestedAppointmentDetailsPage({
       </Link>
       <CancelAppointmentModal
         {...cancelInfo}
-        onConfirm={confirmCancelAppointment}
-        onClose={closeCancelAppointment}
+        onConfirm={() => dispatch(confirmCancelAppointment())}
+        onClose={() => dispatch(closeCancelAppointment())}
       />
     </PageLayout>
   );
 }
-function mapStateToProps(state, ownProps) {
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
-
-  return {
-    appointment: selectAppointmentById(state, ownProps.match.params.id, [
-      APPOINTMENT_TYPES.request,
-      APPOINTMENT_TYPES.ccRequest,
-    ]),
-    appointmentDetailsStatus,
-    facilityData,
-    message: selectFirstRequestMessage(state, ownProps.match.params.id),
-    cancelInfo: getCancelInfo(state),
-  };
-}
-const mapDispatchToProps = {
-  cancelAppointment: actions.cancelAppointment,
-  closeCancelAppointment: actions.closeCancelAppointment,
-  confirmCancelAppointment: actions.confirmCancelAppointment,
-  fetchRequestDetails: actions.fetchRequestDetails,
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RequestedAppointmentDetailsPage);

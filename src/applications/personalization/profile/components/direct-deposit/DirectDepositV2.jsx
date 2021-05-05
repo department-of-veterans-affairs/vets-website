@@ -24,6 +24,8 @@ import {
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import SetUp2FAAlert from '../alerts/SetUp2FAAlert';
 
+import Headline from '../ProfileSectionHeadline';
+
 import FraudVictimAlert from './FraudVictimAlert';
 import PaymentHistory from './PaymentHistory';
 import BankInfoCNPv2 from './BankInfoCNPv2';
@@ -136,13 +138,7 @@ const DirectDeposit = ({
 
   return (
     <>
-      <h2
-        tabIndex="-1"
-        className="vads-u-margin-y--2 medium-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-top--3"
-        data-focus-target
-      >
-        Direct deposit information
-      </h2>
+      <Headline>Direct deposit information</Headline>
       <div id="success" role="alert" aria-atomic="true">
         <ReactCSSTransitionGroup
           transitionName="form-expanding-group-inner"

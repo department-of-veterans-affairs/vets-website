@@ -1,5 +1,6 @@
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
+import CustomReviewField from '../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
 import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
@@ -11,21 +12,24 @@ import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your installment contracts and other debts',
-  'ui:description':
-    'Enter information for each installment contract or debt separately below.',
   installmentContractsAndOtherDebts: {
     'ui:field': ItemLoop,
+    'ui:description':
+      'Enter information for each installment contract or debt separately below.',
     'ui:options': {
       viewField: CardDetailsView,
       doNotScroll: true,
       showSave: true,
       itemName: 'installment or other debt',
+      keepInPageOnReview: true,
     },
     items: {
       purpose: {
         'ui:title': 'Type of contract or debt',
         'ui:field': Typeahead,
+        'ui:reviewField': CustomReviewField,
         'ui:options': {
+          idPrefix: 'repayments',
           classNames:
             'input-size-7 vads-u-margin-top--3 vads-u-margin-bottom--3',
           getOptions: () => formatOptions(installmentTypes),
@@ -69,9 +73,9 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Repayment',
         required: [
           'purpose',
+          'unpaidBalance',
           'amountDueMonthly',
           'dateStarted',
           'amountPastDue',

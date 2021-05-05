@@ -35,7 +35,7 @@
                                         {% for link in link.links %}
                                             <li {% if link.url.path contains entityUrl.path %} class="active-level" {% endif %}>
                                                 <a {% if entityUrl.path == link.url.path %} class="usa-current" {% endif %}
-                                                        href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
+                                                    lang="{{link.url.path | detectLang }}"   href="{{ link.url.path }}" onClick="recordEvent({ event: 'nav-sidenav' });">{{ link.label }}</a>
                                                 {% assign subListSize = link.links | size %}
                                                 {% if subListSize > 0 %}
                                                     <ul class="usa-sidenav-sub_list">

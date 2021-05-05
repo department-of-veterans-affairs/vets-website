@@ -15,8 +15,6 @@ import {
   eligibilityChange,
   showModal,
 } from '../actions';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
@@ -45,7 +43,6 @@ function VetTecSearchPage({
   dispatchUpdateAutocompleteSearchTerm,
   dispatchEligibilityChange,
   dispatchShowModal,
-  gibctStateSearch,
 }) {
   const location = useLocation();
   const history = useHistory();
@@ -149,10 +146,7 @@ function VetTecSearchPage({
     () => {
       if (!search.inProgress) {
         dispatchInstitutionFilterChange(queryFilterFields.institutionFilter);
-        dispatchFetchProgramSearchResults(
-          queryFilterFields.query,
-          gibctStateSearch,
-        );
+        dispatchFetchProgramSearchResults(queryFilterFields.query);
       }
     },
     [!_.isEqual(search.query, queryFilterFields.query)],
@@ -291,7 +285,6 @@ const mapStateToProps = state => ({
   filters: state.filters,
   search: state.search,
   eligibility: state.eligibility,
-  gibctStateSearch: toggleValues(state)[FEATURE_FLAG_NAMES.gibctStateSearch],
 });
 
 const mapDispatchToProps = {

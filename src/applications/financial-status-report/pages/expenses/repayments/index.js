@@ -1,5 +1,8 @@
 export const uiSchema = {
   'ui:title': 'Your installment contracts and other debts',
+  'ui:options': {
+    classNames: 'repayments',
+  },
   questions: {
     hasRepayments: {
       'ui:title':
@@ -12,6 +15,7 @@ export const uiSchema = {
     },
   },
 };
+
 export const schema = {
   type: 'object',
   properties: {

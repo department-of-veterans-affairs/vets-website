@@ -1,0 +1,37 @@
+on:
+  release:
+    types: [created]
+
+name: Test Role
+
+jobs:
+  deploy:
+    name: Test Frontend Role Configuration
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-gov-west-1
+      
+    - name: Get bot token from Parameter Store 
+      uses: marvinpinto/action-inject-ssm-secrets@latest 
+      with: 
+        ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+        env_variable_name: AWS_FRONTEND_NONPROD_ROLE  
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-gov-west-1
+        role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+        role-duration-seconds: 1200
+        role-session-name: vsp-frontendteam-githubaction

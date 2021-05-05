@@ -2,8 +2,18 @@
  * @module services/Slot
  */
 import { getAvailableSlots } from '../var';
-import { fhirSearch, mapToFHIRErrors } from '../utils';
+import { mapToFHIRErrors } from '../utils';
 import { transformSlots } from './transformers';
+
+/**
+ * @summary
+ * Each FHIR slot will have a start and end
+ *
+ * @global
+ * @typedef {Object} Slot
+ * @property {string} start Start date in iso format
+ * @property {?string} end End date in iso format
+ */
 
 /**
  * Fetch appointment slots based on start/end date times based on a VistA sites
@@ -25,29 +35,22 @@ export async function getSlots({
   clinicId,
   startDate,
   endDate,
-  useVSP,
 }) {
-  if (useVSP) {
-    return fhirSearch({
-      query: `Slot?schedule.actor=HealthcareService/${clinicId}&start=lt${endDate}&start=ge${startDate}`,
-    });
-  } else {
-    try {
-      const data = await getAvailableSlots(
-        siteId,
-        typeOfCareId,
-        clinicId.split('_')[1],
-        startDate,
-        endDate,
-      );
+  try {
+    const data = await getAvailableSlots(
+      siteId,
+      typeOfCareId,
+      clinicId.split('_')[1],
+      startDate,
+      endDate,
+    );
 
-      return transformSlots(data[0]?.appointmentTimeSlot || []);
-    } catch (e) {
-      if (e.errors) {
-        throw mapToFHIRErrors(e.errors);
-      }
-
-      throw e;
+    return transformSlots(data[0]?.appointmentTimeSlot || []);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
     }
+
+    throw e;
   }
 }

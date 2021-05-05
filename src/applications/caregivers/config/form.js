@@ -27,6 +27,10 @@ import vetInfoPage from './chapters/veteran/vetInfo';
 import vetContactInfoPage from './chapters/veteran/vetContactInfo';
 import vetMedicalCenterPage from './chapters/veteran/vetMedicalCenter';
 
+// sign as representative
+import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
+import uploadPOADocument from './chapters/signAsRepresentative/uploadPOADocument';
+
 // primary pages
 import hasPrimaryCaregiverPage from './chapters/primary/hasPrimaryCaregiver';
 import primaryInfoPage from './chapters/primary/primaryInfo';
@@ -132,23 +136,23 @@ const formConfig = {
         primaryCaregiverInfoTwo: {
           path: 'primary-2',
           title: 'Primary Family Caregiver information',
+          depends: formData => hasPrimaryCaregiver(formData),
           uiSchema: primaryInfoPage.uiSchema,
           schema: primaryInfoPage.schema,
-          depends: formData => hasPrimaryCaregiver(formData),
         },
         primaryCaregiverInfoThree: {
           path: 'primary-3',
           title: 'Contact information',
+          depends: formData => hasPrimaryCaregiver(formData),
           uiSchema: primaryContactInfoPage.uiSchema,
           schema: primaryContactInfoPage.schema,
-          depends: formData => hasPrimaryCaregiver(formData),
         },
         primaryCaregiverInfoFour: {
           path: 'primary-4',
           title: 'Health care coverage',
+          depends: formData => hasPrimaryCaregiver(formData),
           uiSchema: primaryMedicalPage.uiSchema,
           schema: primaryMedicalPage.schema,
-          depends: formData => hasPrimaryCaregiver(formData),
         },
       },
     },
@@ -194,6 +198,25 @@ const formConfig = {
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: secondaryTwoContactPage.uiSchema,
           schema: secondaryTwoContactPage.schema,
+        },
+      },
+    },
+    signAsRepresentativeChapter: {
+      title: 'Representative documentation',
+      pages: {
+        signAsRepresentative: {
+          depends: formData => formData['view:canUpload1010cgPOA'],
+          path: 'representative-documentation',
+          title: 'Representative documentation',
+          uiSchema: signAsRepresentativeYesNo.uiSchema,
+          schema: signAsRepresentativeYesNo.schema,
+        },
+        documentUpload: {
+          title: 'Supporting documentation',
+          depends: formData => formData.signAsRepresentativeYesNo === 'yes',
+          path: 'representative-document-upload',
+          uiSchema: uploadPOADocument.uiSchema,
+          schema: uploadPOADocument.schema,
         },
       },
     },

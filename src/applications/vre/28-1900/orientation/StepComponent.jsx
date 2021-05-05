@@ -1,25 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { orientationSteps } from './utils';
 
 const StepComponent = props => {
-  const { step } = props;
+  const { step, clickHandler } = props;
   const data = orientationSteps[step];
   let content;
 
   if (data.isVideoStep) {
     content = (
       <>
-        {data.subTitle()}
-
-        <iframe
-          width="325px"
-          height="185px"
-          src={`https://www.youtube.com/embed/${data.path}`}
-          title={data.title}
-          frameBorder="0"
-          allowFullScreen
-          key={data.path}
-        />
         <p>{data.desc}</p>
         <ul>
           {data.list.map((item, index) => {
@@ -31,7 +22,7 @@ const StepComponent = props => {
   } else if (data.isSubwayContent) {
     content = (
       <>
-        <h3>{data.desc}</h3>
+        <h4>{data.desc}</h4>
         <div className="process schemaform-process">
           <ol>
             {data.list.map((entry, index) => {
@@ -42,7 +33,7 @@ const StepComponent = props => {
                     entry.step
                   } vads-u-padding-bottom--0p5`}
                 >
-                  <h4>{entry.title}</h4>
+                  <h5 className="vads-u-font-size--h4">{entry.title}</h5>
                   <ul>
                     {entry.items.map((item, idx) => {
                       return <li key={idx}>{item}</li>;
@@ -54,6 +45,20 @@ const StepComponent = props => {
           </ol>
         </div>
       </>
+    );
+  } else if (step === orientationSteps.length - 1) {
+    content = (
+      <div className="vads-u-margin-bottom--3">
+        <Link
+          to="/"
+          className="vads-c-action-link--green vads-u-padding-left--0"
+          onClick={() => {
+            clickHandler(WIZARD_STATUS_COMPLETE);
+          }}
+        >
+          Apply for Veteran Readiness and Employment now
+        </Link>
+      </div>
     );
   } else {
     content = (
@@ -71,9 +76,13 @@ const StepComponent = props => {
 
   return (
     <div>
-      <h2 id="StepTitle" className="vads-u-margin-top--0">
+      <h3
+        aria-describedby="orientation-step"
+        id="StepTitle"
+        className="vads-u-margin-top--0"
+      >
         {data.title}
-      </h2>
+      </h3>
       {content}
     </div>
   );

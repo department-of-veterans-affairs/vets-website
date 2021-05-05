@@ -8,7 +8,7 @@ const { attachments } = full526EZSchema.properties;
 export const uiSchema = {
   additionalDocuments: {
     ...ancillaryFormUploadUi(
-      'to lay statements or other evidence',
+      'Supporting (lay) statements or other evidence',
       'Adding additional evidence:',
       {
         addAnotherLabel: 'Add another document',

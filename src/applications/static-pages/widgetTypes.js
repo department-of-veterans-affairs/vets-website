@@ -6,6 +6,7 @@ export default {
   CORONAVIRUS_CHATBOT: 'va-coronavirus-chatbot',
   COVID_VACCINE_UPDATES_CTA: 'va-covid-vaccine-updates-cta',
   CTA: 'cta',
+  DIRECT_DEPOSIT: 'direct-deposit',
   DISABILITY_APP_STATUS: 'disability-app-status',
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   EDUCATION_APP_STATUS: 'education-app-status',
@@ -28,5 +29,7 @@ export default {
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
   VIEW_TEST_AND_LAB_RESULTS_PAGE: 'view-test-and-lab-results-page',
   VIEW_PAYMENT_HISTORY: 'view-payment-history',
+  I_18_SELECT: 'i18-select',
   DEPENDENCY_VERIFICATION: 'dependency-verification',
+  SHARABLE_LINK: 'sharable-link',
 };

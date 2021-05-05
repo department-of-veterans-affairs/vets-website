@@ -1,5 +1,7 @@
 import sinon from 'sinon';
-import { like, term } from '@pact-foundation/pact/dsl/matchers';
+import { Matchers } from '@pact-foundation/pact';
+
+const { like, term } = Matchers;
 
 import contractTest from 'platform/testing/contract';
 import { submitForm } from 'platform/forms-system/src/js/actions';

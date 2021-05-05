@@ -5,11 +5,16 @@ import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
+import { wait } from '@@profile/tests/unit-test-helpers';
 import ApplyForBenefits from './ApplyForBenefits';
 
 const oneDayInMS = 24 * 60 * 60 * 1000;
 const oneWeekInMS = oneDayInMS * 7;
 const oneYearInMS = oneDayInMS * 365;
+
+function oneWeekAgo() {
+  return Date.now() - oneWeekInMS;
+}
 
 function oneDayAgo() {
   return Date.now() - oneDayInMS;
@@ -27,10 +32,67 @@ function oneYearFromNow() {
   return Date.now() + oneYearInMS;
 }
 
-function wait(timeout) {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
+function loadingSpinnerIsHidden(view) {
+  expect(
+    view.queryByRole('progressbar', {
+      value: /benefits you might be interested in/i,
+    }),
+  ).to.not.exist;
+}
+
+function noApplicationsInProgressShown(view, shown = true) {
+  const regex = /you have no applications in progress/i;
+  if (shown) {
+    view.getByText(regex);
+  } else {
+    expect(view.queryByText(regex)).not.to.exist;
+  }
+}
+
+function noApplicationsInProgressHidden(view) {
+  noApplicationsInProgressShown(view, false);
+}
+
+function healthCareInfoIsShown(view, shown = true) {
+  const query = [
+    'link',
+    {
+      name: /apply for VA health care/i,
+    },
+  ];
+  if (shown) {
+    view.getByRole(...query);
+  } else {
+    expect(view.queryByRole(...query)).not.to.exist;
+  }
+}
+
+function claimsInfoIsShown(view) {
+  view.getByRole('link', {
+    name: /learn how to file a.*claim/i,
   });
+}
+
+function educationInfoIsShown(view, shown = true) {
+  const query = [
+    'link',
+    {
+      name: /learn how to apply for.*education benefits/i,
+    },
+  ];
+  if (shown) {
+    view.getByRole(...query);
+  } else {
+    expect(view.queryByRole(...query)).to.not.exist;
+  }
+}
+
+function educationInfoIsHidden(view) {
+  educationInfoIsShown(view, false);
+}
+
+function healthCareInfoIsHidden(view) {
+  healthCareInfoIsShown(view, false);
 }
 
 describe('ApplyForBenefits component', () => {
@@ -41,6 +103,10 @@ describe('ApplyForBenefits component', () => {
         user: {
           profile: {
             savedForms: [],
+            loa: {
+              current: 1,
+              highest: 3,
+            },
           },
         },
       };
@@ -48,7 +114,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.findByText(/you have no applications in progress/)).to.exist;
+      noApplicationsInProgressShown(view);
     });
 
     it('does not render unknown applications that are in progress', () => {
@@ -56,6 +122,10 @@ describe('ApplyForBenefits component', () => {
         hcaEnrollmentStatus: { enrollmentStatus: null, hasServerError: false },
         user: {
           profile: {
+            loa: {
+              current: 1,
+              highest: 3,
+            },
             savedForms: [
               {
                 form: '123-ABC',
@@ -73,13 +143,57 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.findByText(/you have no applications in progress/)).to.exist;
+      noApplicationsInProgressShown(view);
+    });
+
+    it('does not render applications-in-progress that have expired', () => {
+      const initialState = {
+        hcaEnrollmentStatus: { enrollmentStatus: null, hasServerError: false },
+        user: {
+          profile: {
+            loa: {
+              current: 1,
+              highest: 3,
+            },
+            savedForms: [
+              {
+                form: '21-526EZ',
+                metadata: {
+                  version: 1,
+                  returnUrl: '/net-worth',
+                  savedAt: oneWeekAgo(),
+                  submission: {
+                    status: false,
+                    errorMessage: false,
+                    id: false,
+                    timestamp: false,
+                    hasAttemptedSubmit: false,
+                  },
+                  expiresAt: oneWeekAgo() / 1000,
+                  lastUpdated: oneWeekAgo() / 1000,
+                  inProgressFormId: 5179,
+                },
+                lastUpdated: oneWeekAgo() / 1000,
+              },
+            ],
+          },
+        },
+      };
+      view = renderInReduxProvider(<ApplyForBenefits />, {
+        initialState,
+        reducers,
+      });
+      noApplicationsInProgressShown(view);
     });
 
     it('sorts the in-progress applications, listing the soonest-to-expire applications first', () => {
       const initialState = {
         user: {
           profile: {
+            loa: {
+              current: 1,
+              highest: 3,
+            },
             savedForms: [
               {
                 form: '686C-674',
@@ -146,8 +260,7 @@ describe('ApplyForBenefits component', () => {
         initialState,
         reducers,
       });
-      expect(view.queryByText(/you have no applications in progress/)).not.to
-        .exist;
+      noApplicationsInProgressHidden(view);
       const applicationsInProgress = view.getAllByTestId(
         'application-in-progress',
       );
@@ -171,6 +284,10 @@ describe('ApplyForBenefits component', () => {
             profile: {
               vaPatient: false,
               multifactor: true,
+              loa: {
+                current: 3,
+                highest: 3,
+              },
             },
           },
         };
@@ -196,12 +313,62 @@ describe('ApplyForBenefits component', () => {
             );
           }),
         ).to.be.true;
-        // make sure the loading spinner is shown
-        view.getByRole('progressbar', {
-          value: /benefits you might be interested in/i,
-        });
       });
     });
+
+    context(
+      'when user is not a VA patient, not LOA3, and does not have 2FA set up',
+      () => {
+        beforeEach(() => {
+          mockFetch();
+        });
+        afterEach(() => {
+          resetFetch();
+        });
+        it('should not fetch ESR data or DD4EDU data and show the correct benefits', async () => {
+          const initialState = {
+            user: {
+              profile: {
+                vaPatient: false,
+                multifactor: false,
+                loa: {
+                  current: 1,
+                  highest: 3,
+                },
+              },
+            },
+          };
+          view = renderInReduxProvider(<ApplyForBenefits />, {
+            initialState,
+            reducers,
+          });
+          // Because fetch is called as part of an async Redux thunk, we need to
+          // wait here before confirming that fetch was called
+          await wait(1);
+          const fetchCalls = global.fetch.getCalls();
+          // make sure we are _not_ fetching DD4EDU info
+          expect(
+            fetchCalls.some(call => {
+              return call.args[0].includes('v0/profile/ch33_bank_accounts');
+            }),
+          ).to.be.false;
+          // make sure we are _not_ fetching ESR data
+          expect(
+            fetchCalls.some(call => {
+              return call.args[0].includes(
+                'v0/health_care_applications/enrollment_status',
+              );
+            }),
+          ).to.be.false;
+          // make sure the loading spinner is not shown since we didn't need to load anything
+          loadingSpinnerIsHidden(view);
+
+          healthCareInfoIsShown(view);
+          claimsInfoIsShown(view);
+          educationInfoIsShown(view);
+        });
+      },
+    );
 
     context('when user is a VA patient and does not have 2FA set up', () => {
       beforeEach(() => {
@@ -214,6 +381,10 @@ describe('ApplyForBenefits component', () => {
         const initialState = {
           user: {
             profile: {
+              loa: {
+                current: 3,
+                highest: 3,
+              },
               vaPatient: true,
               multifactor: false,
             },
@@ -241,12 +412,7 @@ describe('ApplyForBenefits component', () => {
             );
           }),
         ).to.be.false;
-        // make sure the loading spinner is shown
-        expect(
-          view.queryByRole('progressbar', {
-            value: /benefits you might be interested in/i,
-          }),
-        ).to.not.exist;
+        loadingSpinnerIsHidden(view);
       });
     });
 
@@ -259,6 +425,10 @@ describe('ApplyForBenefits component', () => {
               profile: {
                 vaPatient: false,
                 multifactor: true,
+                loa: {
+                  current: 1,
+                  highest: 3,
+                },
               },
             },
             hcaEnrollmentStatus: {
@@ -274,13 +444,111 @@ describe('ApplyForBenefits component', () => {
             initialState,
             reducers,
           });
-          expect(view.getByRole('link', { name: /apply for health care/i })).to
-            .exist;
-          expect(view.getByRole('link', { name: /file a disability claim/i }))
-            .to.exist;
-          expect(
-            view.getByRole('link', { name: /apply for education benefits/i }),
-          ).to.exist;
+          healthCareInfoIsShown(view);
+          claimsInfoIsShown(view);
+          educationInfoIsShown(view);
+        });
+      },
+    );
+
+    context(
+      'when user is not a VA patient, is not in ESR, but has a non-expired health care application in progress',
+      () => {
+        it('should not show info about health care benefits', () => {
+          const initialState = {
+            user: {
+              profile: {
+                vaPatient: false,
+                multifactor: false,
+                loa: {
+                  current: 1,
+                  highest: 3,
+                },
+                savedForms: [
+                  {
+                    form: '1010ez',
+                    metadata: {
+                      version: 1,
+                      returnUrl: '/net-worth',
+                      savedAt: oneDayAgo(),
+                      submission: {
+                        status: false,
+                        errorMessage: false,
+                        id: false,
+                        timestamp: false,
+                        hasAttemptedSubmit: false,
+                      },
+                      expiresAt: oneYearFromNow() / 1000,
+                      lastUpdated: oneDayAgo() / 1000,
+                      inProgressFormId: 5179,
+                    },
+                    lastUpdated: oneDayAgo() / 1000,
+                  },
+                ],
+              },
+            },
+            hcaEnrollmentStatus: {
+              noESRRecordFound: true,
+            },
+          };
+          view = renderInReduxProvider(<ApplyForBenefits />, {
+            initialState,
+            reducers,
+          });
+          // this assertion is to make sure that a loading spinner is not
+          // rendered
+          educationInfoIsShown(view);
+          healthCareInfoIsHidden(view);
+        });
+      },
+    );
+
+    context(
+      'when user is not a VA patient, is not in ESR, and has an expired health care application in progress',
+      () => {
+        it('should show info about health care benefits', () => {
+          const initialState = {
+            user: {
+              profile: {
+                vaPatient: false,
+                multifactor: false,
+                loa: {
+                  current: 1,
+                  highest: 3,
+                },
+                savedForms: [
+                  {
+                    form: '1010ez',
+                    metadata: {
+                      version: 1,
+                      returnUrl: '/net-worth',
+                      savedAt: oneDayAgo(),
+                      submission: {
+                        status: false,
+                        errorMessage: false,
+                        id: false,
+                        timestamp: false,
+                        hasAttemptedSubmit: false,
+                      },
+                      expiresAt: oneDayAgo() / 1000,
+                      lastUpdated: oneDayAgo() / 1000,
+                      inProgressFormId: 5179,
+                    },
+                    lastUpdated: oneDayAgo() / 1000,
+                  },
+                ],
+              },
+            },
+            hcaEnrollmentStatus: {
+              noESRRecordFound: true,
+            },
+          };
+          view = renderInReduxProvider(<ApplyForBenefits />, {
+            initialState,
+            reducers,
+          });
+          healthCareInfoIsShown(view);
+          educationInfoIsShown(view);
         });
       },
     );
@@ -294,6 +562,10 @@ describe('ApplyForBenefits component', () => {
               profile: {
                 vaPatient: false,
                 multifactor: true,
+                loa: {
+                  current: 1,
+                  highest: 3,
+                },
               },
             },
             hcaEnrollmentStatus: {
@@ -310,10 +582,9 @@ describe('ApplyForBenefits component', () => {
             initialState,
             reducers,
           });
-          expect(view.queryByRole('link', { name: /apply for health care/i }))
-            .to.not.exist;
-          view.getByRole('link', { name: /file a disability claim/i });
-          view.getByRole('link', { name: /apply for education benefits/i });
+          healthCareInfoIsHidden(view);
+          claimsInfoIsShown(view);
+          educationInfoIsShown(view);
         });
       },
     );
@@ -324,6 +595,10 @@ describe('ApplyForBenefits component', () => {
           user: {
             profile: {
               vaPatient: true,
+              loa: {
+                current: 3,
+                highest: 3,
+              },
               multifactor: true,
             },
           },
@@ -337,10 +612,9 @@ describe('ApplyForBenefits component', () => {
           initialState,
           reducers,
         });
-        expect(view.queryByRole('link', { name: /apply for health care/i })).to
-          .not.exist;
-        view.getByRole('link', { name: /file a disability claim/i });
-        view.getByRole('link', { name: /apply for education benefits/i });
+        healthCareInfoIsHidden(view);
+        claimsInfoIsShown(view);
+        educationInfoIsShown(view);
       });
     });
 
@@ -353,6 +627,10 @@ describe('ApplyForBenefits component', () => {
               profile: {
                 vaPatient: false,
                 multifactor: true,
+                loa: {
+                  current: 1,
+                  highest: 3,
+                },
               },
             },
             hcaEnrollmentStatus: {
@@ -370,11 +648,9 @@ describe('ApplyForBenefits component', () => {
             initialState,
             reducers,
           });
-          view.getByRole('link', { name: /apply for health care/i });
-          view.getByRole('link', { name: /file a disability claim/i });
-          expect(
-            view.queryByRole('link', { name: /apply for education benefits/i }),
-          ).to.not.exist;
+          healthCareInfoIsShown(view);
+          claimsInfoIsShown(view);
+          educationInfoIsHidden(view);
         });
       },
     );
@@ -384,6 +660,10 @@ describe('ApplyForBenefits component', () => {
         const initialState = {
           user: {
             profile: {
+              loa: {
+                current: 3,
+                highest: 3,
+              },
               vaPatient: true,
               multifactor: true,
             },
@@ -400,12 +680,9 @@ describe('ApplyForBenefits component', () => {
           initialState,
           reducers,
         });
-        expect(view.queryByRole('link', { name: /apply for health care/i })).to
-          .not.exist;
-        view.getByRole('link', { name: /file a disability claim/i });
-        expect(
-          view.queryByRole('link', { name: /apply for education benefits/i }),
-        ).to.not.exist;
+        claimsInfoIsShown(view);
+        healthCareInfoIsHidden(view);
+        educationInfoIsHidden(view);
       });
     });
   });

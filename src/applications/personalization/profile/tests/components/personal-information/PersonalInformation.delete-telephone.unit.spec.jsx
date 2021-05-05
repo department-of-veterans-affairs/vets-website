@@ -41,7 +41,11 @@ function getEditButton(numberName) {
 function deletePhoneNumber(numberName) {
   getEditButton(numberName).click();
 
-  const phoneNumberInput = view.getByLabelText(/Number/);
+  const phoneNumberInput = view.getByLabelText(
+    `${numberName} (U.S. numbers only)`,
+    { exact: false },
+  );
+
   expect(phoneNumberInput).to.exist;
 
   // delete

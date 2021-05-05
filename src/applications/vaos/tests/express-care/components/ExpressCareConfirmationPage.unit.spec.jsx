@@ -29,7 +29,7 @@ import {
   mockParentSites,
   mockSupportedFacilities,
   mockPreferences,
-  mockRequestLimit,
+  mockRequestLimits,
   setupExpressCareMocks,
 } from '../../mocks/helpers';
 import ExpressCareDetailsPage from '../../../express-care/components/ExpressCareDetailsPage';
@@ -280,8 +280,8 @@ describe('VAOS integration: Express Care form submission', () => {
       typeOfCareId: EXPRESS_CARE,
       data: [facility],
     });
-    mockRequestLimit({
-      facilityId: '983GD',
+    mockRequestLimits({
+      facilityIds: ['983GD'],
       numberOfRequests: 0,
     });
     const requestCriteria = getExpressCareRequestCriteriaMock('983GD', [

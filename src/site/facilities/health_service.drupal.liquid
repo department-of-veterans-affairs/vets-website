@@ -6,6 +6,8 @@
                     class="usa-accordion-button usa-button-unstyled"
                     aria-expanded="false"
                     aria-controls="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}"
+                    data-label="{{ serviceTaxonomy.name }}"
+                    data-childlabel="{{ serviceTaxonomy.fieldAlsoKnownAs }}"
             >
                 {{ serviceTaxonomy.name }}
                 {% if serviceTaxonomy.fieldAlsoKnownAs %}

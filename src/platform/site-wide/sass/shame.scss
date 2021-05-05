@@ -374,6 +374,7 @@ $medium-phone-screen: 375px;
     }
   }
 
+  va-accordion,
   .usa-accordion-bordered {
     &.social,
     &.links {
@@ -384,6 +385,7 @@ $medium-phone-screen: 375px;
         text-decoration: none;
       }
 
+      va-accordion-item,
       .usa-accordion-content {
         h4:first-child {
           margin-top: 0px;

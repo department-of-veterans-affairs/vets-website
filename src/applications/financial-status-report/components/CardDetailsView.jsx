@@ -24,38 +24,63 @@ const CardDetailsView = ({ formData, onEdit, index, title }) => {
   let startDate;
   let endDate;
   let age;
+  let purpose;
+  let balance;
+  let monthly;
 
-  keys.forEach(item => {
-    if (item.toLowerCase().includes('type')) {
-      type = capitalize(formData[item]);
+  keys.forEach(key => {
+    if (key.toLowerCase().includes('purpose')) {
+      purpose = capitalize(formData[key]);
     }
-    if (item.toLowerCase().includes('amount')) {
-      amount = formatter.format(formData[item]);
+    if (key.toLowerCase().includes('balance')) {
+      balance = formatter.format(formData[key]);
     }
-    if (item.toLowerCase().includes('make')) {
-      make = capitalize(formData[item]);
+    if (key.toLowerCase().includes('monthly')) {
+      monthly = formatter.format(formData[key]);
     }
-    if (item.toLowerCase().includes('model')) {
-      model = capitalize(formData[item]);
+    if (key.toLowerCase().includes('type')) {
+      type = capitalize(formData[key]);
     }
-    if (item.toLowerCase().includes('year')) {
-      year = formData[item];
+    if (
+      key.toLowerCase().includes('amount') ||
+      key.toLowerCase().includes('value')
+    ) {
+      amount = formatter.format(formData[key]);
     }
-    if (item.toLowerCase().includes('employer')) {
-      employer = formData[item];
+    if (key.toLowerCase().includes('make')) {
+      make = capitalize(formData[key]);
     }
-    if (item.toLowerCase().includes('employmentstart')) {
-      startDate = moment(formData[item]).format('MMMM Do, YYYY');
+    if (key.toLowerCase().includes('model')) {
+      model = capitalize(formData[key]);
     }
-    if (item.toLowerCase().includes('employmentend')) {
-      endDate = moment(formData[item]).format('MMMM Do, YYYY');
+    if (key.toLowerCase().includes('year')) {
+      year = formData[key];
     }
-    if (item.toLowerCase().includes('age')) {
-      age = formData[item];
+    if (key.toLowerCase().includes('employer')) {
+      employer = formData[key];
+    }
+    if (key.toLowerCase().includes('from')) {
+      const formatDate = formData[key]?.slice(0, -3);
+      startDate = moment(formatDate).format('MMMM YYYY');
+    }
+    if (key.toLowerCase().includes('to')) {
+      const formatDate = formData[key]?.slice(0, -3);
+      endDate = moment(formatDate).format('MMMM YYYY');
+    }
+    if (key.toLowerCase().includes('age')) {
+      age = formData[key];
     }
   });
 
   const renderDetails = () => {
+    if (purpose) {
+      return (
+        <h4 className="card-title">
+          {monthly} monthly toward {balance} balance for {purpose}
+        </h4>
+      );
+    }
+
     if (age) {
       return (
         <>

@@ -1,0 +1,377 @@
+{
+  "additionalData": {
+    "bankruptcy": {
+      "dateDischarged": "2004-06-XX",
+      "courtLocation": "Tampa, FL",
+      "docketNumber": "123456"
+    },
+    "additionalComments": "Supporting personal statement"
+  },
+  "questions": {
+    "hasBeenAdjudicatedBankrupt": true,
+    "hasOtherExpenses": true,
+    "hasRepayments": true,
+    "hasUtilities": true,
+    "hasOtherAssets": true,
+    "hasRecreationalVehicle": true,
+    "hasVehicle": true,
+    "hasRealEstate": true,
+    "hasDependents": true,
+    "spouseHasAdditionalIncome": true,
+    "spouseHasSocialSecurity": true,
+    "spouseHasBenefits": true,
+    "spousePreviouslyEmployed": true,
+    "spouseIsEmployed": true,
+    "isMarried": true,
+    "hasAdditionalIncome": true,
+    "hasSocialSecurity": true,
+    "vetPreviouslyEmployed": true,
+    "vetIsEmployed": true
+  },
+  "otherExpenses": [
+    {
+      "name": "Lawn service",
+      "amount": 150
+    },
+    {
+      "name": "Pool service",
+      "amount": 75
+    }
+  ],
+  "view:components": {
+    "view:assetInfo": {},
+    "view:recVehicleInfo": {},
+    "view:vehicleInfo": {},
+    "view:veteranInfo": {},
+    "view:vaBenefitsOnFile": {}
+  },
+  "installmentContractsAndOtherDebts": [
+    {
+      "purpose": "Credit card payments",
+      "creditorName": "Creditor Name 1",
+      "originalAmount": 125000,
+      "unpaidBalance": 55000,
+      "amountDueMonthly": 825,
+      "dateStarted": "2016-06-XX",
+      "amountPastDue": 100
+    },
+    {
+      "purpose": "Helicopter payment",
+      "creditorName": "Creditor 2",
+      "originalAmount": 1000000,
+      "unpaidBalance": 750000,
+      "amountDueMonthly": 2500,
+      "dateStarted": "2017-04-XX",
+      "amountPastDue": 0
+    }
+  ],
+  "utilityRecords": [
+    {
+      "utilityType": "Electricity",
+      "monthlyUtilityAmount": 350
+    },
+    {
+      "utilityType": "Cable",
+      "monthlyUtilityAmount": 225
+    },
+    {
+      "utilityType": "Cell phone",
+      "monthlyUtilityAmount": 400
+    }
+  ],
+  "expenses": {
+    "rentOrMortgage": 3200,
+    "food": 4500
+  },
+  "assets": {
+    "otherAssets": [
+      {
+        "name": "Bitcoin",
+        "amount": 60000
+      },
+      {
+        "name": "Gambling earning",
+        "amount": 225000
+      }
+    ],
+    "trailersBoatsCampers": [
+      {
+        "recreationalVehicleType": "Boat",
+        "recreationalVehicleAmount": 15000
+      }
+    ],
+    "automobiles": [
+      {
+        "type": "Truck",
+        "make": "Dodge",
+        "model": "RAM",
+        "year": "2020",
+        "resaleValue": 85000
+      },
+      {
+        "type": "Car",
+        "make": "Dodge",
+        "model": "Charger",
+        "year": "2020",
+        "resaleValue": 35000
+      }
+    ],
+    "cashInBank": 1650,
+    "cashOnHand": 4300,
+    "usSavingsBonds": 75000,
+    "stocksAndOtherBonds": 50000
+  },
+  "realEstateRecords": [
+    {
+      "realEstateType": "Acreage or land",
+      "realEstateAmount": 70000
+    },
+    {
+      "realEstateType": "Vacation property",
+      "realEstateAmount": 250000
+    }
+  ],
+  "personalData": {
+    "agesOfOtherDependents": [
+      {
+        "dependentAge": "12"
+      },
+      {
+        "dependentAge": "17"
+      }
+    ],
+    "employmentHistory": {
+      "spouse": {
+        "spousePreviousEmployment": [
+          {
+            "type": "Full time",
+            "from": "2016-07-XX",
+            "to": "2017-04-XX",
+            "employerName": "Spouse Prev Employer 1"
+          },
+          {
+            "type": "Part time",
+            "from": "2015-10-XX",
+            "to": "2017-08-XX",
+            "employerName": "Spouse Prev Employer 2"
+          }
+        ],
+        "currentEmployment": {
+          "type": "Full time",
+          "from": "2017-05-XX",
+          "employerName": "Spouse Current Employer",
+          "monthlyGrossSalary": 4500,
+          "spouseDeductions": [
+            {
+              "name": "Federal tax",
+              "amount": 300
+            },
+            {
+              "name": "Health insurance",
+              "amount": 410
+            }
+          ]
+        }
+      },
+      "veteran": {
+        "vetPreviousEmployment": [
+          {
+            "type": "Full time",
+            "from": "2017-02-XX",
+            "to": "2019-08-XX",
+            "employerName": "Veteran Prev Employer 1"
+          },
+          {
+            "type": "Full time",
+            "from": "2016-05-XX",
+            "to": "2017-08-XX",
+            "employerName": "Veteran Prev Employer 2"
+          }
+        ],
+        "currentEmployment": {
+          "type": "Full time",
+          "from": "2019-03-XX",
+          "employerName": "Veteran Current Employer",
+          "monthlyGrossSalary": 5300,
+          "deductions": [
+            {
+              "name": "Federal tax",
+              "amount": 350
+            },
+            {
+              "name": "Health insurance",
+              "amount": 420
+            },
+            {
+              "name": "FICA (Social Security and Medicare)",
+              "amount": 100
+            }
+          ]
+        }
+      }
+    },
+    "spouseFullName": {
+      "first": "Angela",
+      "last": "Mitchell"
+    },
+    "address": {
+      "livesOnMilitaryBaseInfo": {},
+      "country": "USA",
+      "street": "123 Fake St",
+      "city": "Tampa",
+      "state": "FL",
+      "postalCode": "33543"
+    },
+    "telephoneNumber": "4445551212",
+    "emailAddress": "test2@test1.net",
+    "confirmationEmail": "test2@test1.net",
+    "veteranFullName": {
+      "first": "Mark",
+      "last": "",
+      "middle": "Webb"
+    },
+    "dateOfBirth": "1950-10-04"
+  },
+  "additionalIncome": {
+    "spouse": {
+      "spouseAdditionalIncomeRecords": [
+        {
+          "name": "Bonus payment",
+          "amount": 800
+        }
+      ]
+    },
+    "additionalIncomeRecords": [
+      {
+        "name": "Alimony payment",
+        "amount": 2000
+      },
+      {
+        "name": "Freelance service",
+        "amount": 1200
+      }
+    ]
+  },
+  "socialSecurity": {
+    "spouse": {
+      "socialSecurityAmount": 1100
+    },
+    "socialSecurityAmount": 1500
+  },
+  "benefits": {
+    "spouseBenefits": {
+      "benefitAmount": 1200,
+      "educationAmount": 1700
+    }
+  },
+  "personalIdentification": {
+    "ssn": "1234",
+    "fileNumber": "5678"
+  },
+  "selectedDebts": [
+    {
+      "fileNumber": "796121200",
+      "payeeNumber": "00",
+      "personEntitled": "AJHONS",
+      "deductionCode": "30",
+      "benefitType": "Comp & Pen",
+      "diaryCode": "080",
+      "diaryCodeDescription": "Referred to the Department of the Treasury",
+      "amountOverpaid": 0,
+      "amountWithheld": 0,
+      "originalAr": 136.24,
+      "currentAr": 100,
+      "debtHistory": [
+        {
+          "date": "02/25/2009",
+          "letterCode": "914",
+          "description": "Paid In Full - Account balance cleared via offset, not including TOP."
+        },
+        {
+          "date": "02/07/2009",
+          "letterCode": "905",
+          "description": "Administrative Write Off"
+        },
+        {
+          "date": "12/03/2008",
+          "letterCode": "487",
+          "description": "Death Case Pending Action"
+        }
+      ],
+      "id": 0,
+      "resolution": {
+        "resolutionType": "Waiver",
+        "agreeToWaiver": true
+      }
+    },
+    {
+      "fileNumber": "796121200",
+      "payeeNumber": "00",
+      "personEntitled": "STUB_M",
+      "deductionCode": "44",
+      "benefitType": "CH35 EDU",
+      "diaryCode": "100",
+      "diaryCodeDescription": "Pending payment",
+      "amountOverpaid": 26000,
+      "amountWithheld": 0,
+      "originalAr": 100,
+      "currentAr": 80,
+      "debtHistory": [
+        {
+          "date": "12/19/2014",
+          "letterCode": "681",
+          "description": "Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available."
+        },
+        {
+          "date": "04/11/2013",
+          "letterCode": "080",
+          "description": "Debt referred to Treasury for Cross servicing"
+        },
+        {
+          "date": "12/11/2012",
+          "letterCode": "510",
+          "description": "Demand letters returned.  Unable to verify address with third party.  Account forced to TOP and/or CS."
+        },
+        {
+          "date": "10/17/2012",
+          "letterCode": "212",
+          "description": "Bad Address - Locator Request Sent"
+        },
+        {
+          "date": "09/28/2012",
+          "letterCode": "117",
+          "description": "Second Demand Letter"
+        },
+        {
+          "date": "09/18/2012",
+          "letterCode": "100",
+          "description": "First Demand Letter - Inactive Benefits - Due Process"
+        }
+      ],
+      "id": 1,
+      "resolution": {
+        "resolutionType": "Compromise",
+        "offerToPay": "80"
+      }
+    }
+  ],
+  "debt": {
+    "currentAr": 0,
+    "debtHistory": [
+      {
+        "date": ""
+      }
+    ],
+    "deductionCode": "",
+    "originalAr": 0
+  },
+  "income": [
+    {
+      "veteranOrSpouse": "VETERAN",
+      "compensationAndPension": "3261.1",
+      "education": "50"
+    }
+  ],
+  "financialOverview": {},
+  "availableOptions": {}
+}

@@ -13,6 +13,7 @@ import {
 import { scrollToFirstError } from '../utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
+import { isReactComponent } from '../../../../utilities/ui';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -23,7 +24,7 @@ export default class ArrayField extends React.Component {
     super(props);
 
     // Throw an error if there’s no viewField (should be React component)
-    if (typeof this.props.uiSchema['ui:options'].viewField !== 'function') {
+    if (!isReactComponent(this.props.uiSchema['ui:options'].viewField)) {
       throw new Error(
         `No viewField found in uiSchema for ArrayField ${
           this.props.idSchema.$id
@@ -221,8 +222,9 @@ export default class ArrayField extends React.Component {
     const description = uiSchema['ui:description'];
     const textDescription =
       typeof description === 'string' ? description : null;
-    const DescriptionField =
-      typeof description === 'function' ? uiSchema['ui:description'] : null;
+    const DescriptionField = isReactComponent(description)
+      ? uiSchema['ui:description']
+      : null;
     const isReviewMode = uiOptions.reviewMode;
     const hasTitleOrDescription = (!!title && !hideTitle) || !!description;
 

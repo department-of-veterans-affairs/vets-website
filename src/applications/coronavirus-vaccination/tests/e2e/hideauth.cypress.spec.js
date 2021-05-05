@@ -15,19 +15,18 @@ describe('COVID-19 Vaccination Preparation Form', () => {
     it('should launch app from the continue button', () => {
       // Intro page
       cy.axeCheck();
-      cy.get('.vads-l-row').contains(
-        'Stay informed about getting a COVID-19 vaccine at VA',
-      );
+      cy.get('.vads-l-row').contains('What you should know about signing up');
 
-      cy.get('.usa-button').contains('Continue');
+      cy.get('.usa-button').contains('Sign up now');
 
-      cy.findByText('Continue', { selector: 'a' }).click();
+      cy.findByText('Sign up now', { selector: 'a' }).click();
 
       // Form page
       cy.url().should(
         'include',
         '/health-care/covid-19-vaccine/stay-informed/form',
       );
+      cy.injectAxe();
       cy.axeCheck();
       cy.get('#covid-vaccination-heading-form').contains(
         'Fill out the form below',

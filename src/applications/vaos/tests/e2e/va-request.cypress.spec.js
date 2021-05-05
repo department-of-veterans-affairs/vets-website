@@ -13,15 +13,18 @@ function fillOutForm(facilitySelection) {
   cy.get('.va-modal-body button').click();
   cy.findAllByRole('tab').should('exist');
 
+  // Select primary care appointment type
+  cy.get('#schedule-new-appointment-0').click();
+
   // Start flow
-  cy.findByText('Schedule an appointment').click();
+  cy.findByText('Start scheduling').click();
 
   // Choose Type of Care
   newApptTests.chooseTypeOfCareTest('Social work');
 
   // Choose VA Facility
   cy.url().should('include', '/va-facility');
-  cy.axeCheck();
+  cy.axeCheckBestPractice();
   if (facilitySelection) facilitySelection();
   cy.findByText(/Continue/).click();
 
@@ -42,7 +45,7 @@ function fillOutForm(facilitySelection) {
 
   // Review
   cy.url().should('include', '/review');
-  cy.axeCheck();
+  cy.axeCheckBestPractice();
   cy.findByText('Request appointment').click();
 
   // Check form requestBody is as expected

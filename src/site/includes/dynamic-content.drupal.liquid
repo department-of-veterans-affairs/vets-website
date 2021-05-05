@@ -1,0 +1,4 @@
+{% assign bundleComponent = "src/site/paragraphs/" | append: contentType %}
+{% assign bundleComponentWithExtension = bundleComponent | append: ".drupal.liquid" %}
+{% assign processedEntity = entity | processDynamicContent: contentType %}
+{% include {{ bundleComponentWithExtension }} with entity = processedEntity %}

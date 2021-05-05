@@ -27,7 +27,6 @@ import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
   },
   user: {
@@ -249,14 +248,14 @@ describe('VAOS <DateTimeSelectPage>', () => {
     // it should display link to contact the local VA medical center
     expect(
       screen.getByRole('link', {
-        name: 'Contact your local VA medical center',
+        name: 'Contact your local VA medical center Link opens in a new tab.',
       }),
     ).to.be.ok;
 
     // it should display link to call the local VA medical center
     expect(
       screen.getByRole('link', {
-        name: 'call your local VA medical center',
+        name: 'call your local VA medical center Link opens in a new tab.',
       }),
     ).to.be.ok;
 

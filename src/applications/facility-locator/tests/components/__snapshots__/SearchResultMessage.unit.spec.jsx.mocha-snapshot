@@ -1,133 +1,3 @@
-exports["SearchResultMessage/Should render SearchResultMessage with Default error message(0)"] = {
-  "node": {
-    "nodeType": "host",
-    "type": "div",
-    "props": {
-      "className": "search",
-      "children": [
-        {
-          "type": "p",
-          "props": {
-            "children": "We’re sorry. Something went wrong on our end. Please try again."
-          },
-          "_store": {}
-        },
-        {
-          "type": "p",
-          "props": {
-            "children": "If you need care right away for a minor illness or injury, select Urgent care under facility type, then select either VA or community providers as the service type."
-          },
-          "_store": {}
-        },
-        {
-          "type": "p",
-          "props": {
-            "children": "If you have a medical emergency, please go to your nearest emergency room or call 911."
-          },
-          "_store": {}
-        }
-      ]
-    },
-    "ref": {},
-    "rendered": [
-      {
-        "nodeType": "host",
-        "type": "p",
-        "props": {
-          "children": "We’re sorry. Something went wrong on our end. Please try again."
-        },
-        "rendered": "We’re sorry. Something went wrong on our end. Please try again."
-      },
-      {
-        "nodeType": "host",
-        "type": "p",
-        "props": {
-          "children": "If you need care right away for a minor illness or injury, select Urgent care under facility type, then select either VA or community providers as the service type."
-        },
-        "rendered": "If you need care right away for a minor illness or injury, select Urgent care under facility type, then select either VA or community providers as the service type."
-      },
-      {
-        "nodeType": "host",
-        "type": "p",
-        "props": {
-          "children": "If you have a medical emergency, please go to your nearest emergency room or call 911."
-        },
-        "rendered": "If you have a medical emergency, please go to your nearest emergency room or call 911."
-      }
-    ]
-  },
-  "type": "div",
-  "props": {
-    "className": "search"
-  },
-  "children": [
-    {
-      "node": {
-        "nodeType": "host",
-        "type": "p",
-        "props": {
-          "children": "We’re sorry. Something went wrong on our end. Please try again."
-        },
-        "rendered": "We’re sorry. Something went wrong on our end. Please try again."
-      },
-      "type": "p",
-      "props": {},
-      "children": [
-        "We’re sorry. Something went wrong on our end. Please try again."
-      ]
-    },
-    {
-      "node": {
-        "nodeType": "host",
-        "type": "p",
-        "props": {
-          "children": "If you need care right away for a minor illness or injury, select Urgent care under facility type, then select either VA or community providers as the service type."
-        },
-        "rendered": "If you need care right away for a minor illness or injury, select Urgent care under facility type, then select either VA or community providers as the service type."
-      },
-      "type": "p",
-      "props": {},
-      "children": [
-        "If you need care right away for a minor illness or injury, select Urgent care under facility type, then select either VA or community providers as the service type."
-      ]
-    },
-    {
-      "node": {
-        "nodeType": "host",
-        "type": "p",
-        "props": {
-          "children": "If you have a medical emergency, please go to your nearest emergency room or call 911."
-        },
-        "rendered": "If you have a medical emergency, please go to your nearest emergency room or call 911."
-      },
-      "type": "p",
-      "props": {},
-      "children": [
-        "If you have a medical emergency, please go to your nearest emergency room or call 911."
-      ]
-    }
-  ]
-};
-
-exports["SearchResultMessage/Should render SearchResultMessage init(0)"] = {
-  "node": {
-    "nodeType": "host",
-    "type": "div",
-    "props": {
-      "className": "search",
-      "children": "Please enter a location (street, city, state, or postal code) and facility type, then click search above to find facilities."
-    },
-    "rendered": "Please enter a location (street, city, state, or postal code) and facility type, then click search above to find facilities."
-  },
-  "type": "div",
-  "props": {
-    "className": "search"
-  },
-  "children": [
-    "Please enter a location (street, city, state, or postal code) and facility type, then click search above to find facilities."
-  ]
-};
-
 exports["SearchResultMessage/Should render SearchResultMessage with no results message(0)"] = {
   "node": {
     "nodeType": "host",
@@ -304,6 +174,136 @@ exports["SearchResultMessage/Should render SearchResultMessage with location err
       "props": {},
       "children": [
         "Something’s not quite right. Please enter a valid or different location and try your search again."
+      ]
+    },
+    {
+      "node": {
+        "nodeType": "host",
+        "type": "p",
+        "props": {
+          "children": "If you need care right away for a minor illness or injury, select Urgent care under facility type, then select either VA or community providers as the service type."
+        },
+        "rendered": "If you need care right away for a minor illness or injury, select Urgent care under facility type, then select either VA or community providers as the service type."
+      },
+      "type": "p",
+      "props": {},
+      "children": [
+        "If you need care right away for a minor illness or injury, select Urgent care under facility type, then select either VA or community providers as the service type."
+      ]
+    },
+    {
+      "node": {
+        "nodeType": "host",
+        "type": "p",
+        "props": {
+          "children": "If you have a medical emergency, please go to your nearest emergency room or call 911."
+        },
+        "rendered": "If you have a medical emergency, please go to your nearest emergency room or call 911."
+      },
+      "type": "p",
+      "props": {},
+      "children": [
+        "If you have a medical emergency, please go to your nearest emergency room or call 911."
+      ]
+    }
+  ]
+};
+
+exports["SearchResultMessage/Should render SearchResultMessage init(0)"] = {
+  "node": {
+    "nodeType": "host",
+    "type": "div",
+    "props": {
+      "className": "search",
+      "children": "Please enter a location (street, city, state, or postal code) and facility type, then click search above to find facilities."
+    },
+    "rendered": "Please enter a location (street, city, state, or postal code) and facility type, then click search above to find facilities."
+  },
+  "type": "div",
+  "props": {
+    "className": "search"
+  },
+  "children": [
+    "Please enter a location (street, city, state, or postal code) and facility type, then click search above to find facilities."
+  ]
+};
+
+exports["SearchResultMessage/Should render SearchResultMessage with Default error message(0)"] = {
+  "node": {
+    "nodeType": "host",
+    "type": "div",
+    "props": {
+      "className": "search",
+      "children": [
+        {
+          "type": "p",
+          "props": {
+            "children": "We’re sorry. Something went wrong on our end. Please try again."
+          },
+          "_store": {}
+        },
+        {
+          "type": "p",
+          "props": {
+            "children": "If you need care right away for a minor illness or injury, select Urgent care under facility type, then select either VA or community providers as the service type."
+          },
+          "_store": {}
+        },
+        {
+          "type": "p",
+          "props": {
+            "children": "If you have a medical emergency, please go to your nearest emergency room or call 911."
+          },
+          "_store": {}
+        }
+      ]
+    },
+    "ref": {},
+    "rendered": [
+      {
+        "nodeType": "host",
+        "type": "p",
+        "props": {
+          "children": "We’re sorry. Something went wrong on our end. Please try again."
+        },
+        "rendered": "We’re sorry. Something went wrong on our end. Please try again."
+      },
+      {
+        "nodeType": "host",
+        "type": "p",
+        "props": {
+          "children": "If you need care right away for a minor illness or injury, select Urgent care under facility type, then select either VA or community providers as the service type."
+        },
+        "rendered": "If you need care right away for a minor illness or injury, select Urgent care under facility type, then select either VA or community providers as the service type."
+      },
+      {
+        "nodeType": "host",
+        "type": "p",
+        "props": {
+          "children": "If you have a medical emergency, please go to your nearest emergency room or call 911."
+        },
+        "rendered": "If you have a medical emergency, please go to your nearest emergency room or call 911."
+      }
+    ]
+  },
+  "type": "div",
+  "props": {
+    "className": "search"
+  },
+  "children": [
+    {
+      "node": {
+        "nodeType": "host",
+        "type": "p",
+        "props": {
+          "children": "We’re sorry. Something went wrong on our end. Please try again."
+        },
+        "rendered": "We’re sorry. Something went wrong on our end. Please try again."
+      },
+      "type": "p",
+      "props": {},
+      "children": [
+        "We’re sorry. Something went wrong on our end. Please try again."
       ]
     },
     {

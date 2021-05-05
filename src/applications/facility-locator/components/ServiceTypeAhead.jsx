@@ -69,7 +69,8 @@ class ServiceTypeAhead extends Component {
     return (
       <Downshift
         onChange={this.handleOnSelect}
-        defaultSelectedItem={defaultSelectedItem}
+        selectedItem={!window.Cypress ? defaultSelectedItem : undefined}
+        defaultSelectedItem={window.Cypress ? defaultSelectedItem : undefined}
         itemToString={this.getSpecialtyName}
         onInputValueChange={(inputValue, stateAndHelpers) => {
           const { selectedItem, clearSelection } = stateAndHelpers;
@@ -101,6 +102,7 @@ class ServiceTypeAhead extends Component {
             </label>
             {showError && (
               <span className="usa-input-error-message" role="alert">
+                <span className="sr-only">Error</span>
                 Please choose a service type.
               </span>
             )}
@@ -110,8 +112,9 @@ class ServiceTypeAhead extends Component {
                   placeholder: 'like Chiropractor or Optometrist',
                 })}
                 id="service-type-ahead-input"
+                onBlur={this.props.onBlur}
               />
-              {isOpen && inputValue.length >= 2 ? (
+              {isOpen && inputValue && inputValue.length >= 2 ? (
                 <div className="dropdown" role="listbox">
                   {services
                     .filter(specialty => this.shouldShow(inputValue, specialty))
@@ -144,6 +147,7 @@ ServiceTypeAhead.propTypes = {
   getProviderSpecialties: PropTypes.func.isRequired,
   initialSelectedServiceType: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   showError: PropTypes.bool,
 };
 

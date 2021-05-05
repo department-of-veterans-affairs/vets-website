@@ -15,9 +15,7 @@ module.exports = `
               name
               entityId
               entityBundle
-              fieldIntroText
               fieldDescription
-              fieldAcronym
               fieldLink {
                 url {
                   path

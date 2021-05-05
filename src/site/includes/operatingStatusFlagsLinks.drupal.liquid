@@ -1,0 +1,40 @@
+{% if fieldOperatingStatusFacility == 'notice' %}
+  <a class="operating-status-link"
+  onclick="recordEvent({
+  'event': 'nav-info-box-click',
+  'infoBoxText': 'Facility notice'});"
+  href="{{ facilitySidebar.links.0.url.path }}/operating-status">
+    <span
+      class="operating-status-flag operating-status-flag-notice operating-status usa-alert usa-alert-info background-color-only vads-u-margin-top--1 vads-u-padding-y--1 vads-u-padding-x--1p5">
+      <i class="fa fa-info-circle" aria-hidden="true"></i>
+        Facility notice
+      <i class="fa fa-chevron-right vads-u-padding-left--0p5" aria-hidden="true"></i>
+  </span>
+  </a>
+{% elsif fieldOperatingStatusFacility == 'limited' %}
+  <a class="operating-status-link"
+     onclick="recordEvent({
+  'event': 'nav-info-box-click',
+  'infoBoxText': 'Facility limited'});"
+     href="{{ facilitySidebar.links.0.url.path }}/operating-status">
+    <span
+      class="operating-status-flag operating-status-flag-warning operating-status usa-alert usa-alert-warning background-color-only vads-u-margin-top--1 vads-u-padding-y--1 vads-u-padding-x--1p5">
+      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        Limited services and hours
+      <i class="fa fa-chevron-right vads-u-padding-left--0p5" aria-hidden="true"></i>
+    </span>
+  </a>
+{% elsif fieldOperatingStatusFacility == 'closed' %}
+  <a class="operating-status-link"
+     onclick="recordEvent({
+  'event': 'nav-info-box-click',
+  'infoBoxText': 'Facility closed'});"
+     href="{{ facilitySidebar.links.0.url.path }}/operating-status">
+    <span
+      class="operating-status-flag operating-status-flag-error operating-status usa-alert usa-alert-error background-color-only vads-u-margin-top--1 vads-u-padding-y--1 vads-u-padding-x--1p5">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+        Facility Closed
+      <i class="fa fa-chevron-right vads-u-padding-left--0p5" aria-hidden="true"></i>
+    </span>
+  </a>
+{% endif %}

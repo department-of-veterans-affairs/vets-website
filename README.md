@@ -216,6 +216,20 @@ Just like with unit tests, you can also **specify the path to the test file**
 yarn test:e2e src/applications/path/to/test-file.e2e.spec.js
 ```
 
+### Contract tests
+
+To run all contract tests locally:
+
+```sh
+yarn test:contract
+```
+
+To run a specific contract test:
+
+```sh
+BUILDTYPE=localhost yarn test:unit src/applications/my-app/tests/example.pact.spec.js
+```
+
 ## Running a mock API for local development
 
 In separate terminal from your local dev server, run

@@ -54,9 +54,7 @@ class YourClaimsPageV2 extends React.Component {
       this.props.getAppealsV2();
     }
 
-    if (this.props.stemAutomatedDecision) {
-      this.props.getStemClaims();
-    }
+    this.props.getStemClaims();
 
     if (
       this.props.claimsLoading &&
@@ -268,17 +266,19 @@ function mapStateToProps(state) {
   const canAccessClaims = profileState.services.includes(
     backendServices.EVSS_CLAIMS,
   );
+  const stemAutomatedDecision = toggleValues(state)[
+    FEATURE_FLAG_NAMES.stemAutomatedDecision
+  ];
+
+  const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
+
   // TO-DO: Implement with reselect to save cycles
   const sortedList = [
     ...claimsV2Root.appeals,
     ...claimsV2Root.claims,
-    ...claimsV2Root.stemClaims,
+    ...stemClaims,
   ].sort(sortByLastUpdated);
   const list = getVisibleRows(sortedList, claimsV2Root.page);
-
-  const stemAutomatedDecision = toggleValues(state)[
-    FEATURE_FLAG_NAMES.stemAutomatedDecision
-  ];
 
   return {
     appealsAvailable: claimsV2Root.v2Availability,
@@ -297,7 +297,6 @@ function mapStateToProps(state) {
     canAccessAppeals,
     canAccessClaims,
     fullName: state.user.profile.userFullName,
-    stemAutomatedDecision,
   };
 }
 

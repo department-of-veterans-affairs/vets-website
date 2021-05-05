@@ -1,6 +1,5 @@
-import { api, resolveParamsWithUrl, urgentCareServices } from '../config';
+import { api, resolveParamsWithUrl } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
-import { FacilityType } from '../constants';
 
 class LocatorApi {
   /**
@@ -24,6 +23,7 @@ class LocatorApi {
     page,
     center,
     radius,
+    allUrgentCare,
   ) {
     const { params, url } = resolveParamsWithUrl(
       address,
@@ -33,33 +33,13 @@ class LocatorApi {
       bounds,
       center,
       radius,
+      allUrgentCare,
     );
+
     const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
       fetch(`${url}?${params}`, api.settings)
-        .then(async res => {
-          let response = await res.json();
-          if (
-            locationType === FacilityType.URGENT_CARE &&
-            (!serviceType || serviceType === Object.keys(urgentCareServices)[0])
-          ) {
-            response = {
-              meta: {
-                pagination: {
-                  currentPage: 1,
-                  nextPage: null,
-                  prevPage: null,
-                  totalPages: 1,
-                },
-              },
-              links: {},
-              data: response.included,
-            };
-            return response;
-          } else {
-            return response;
-          }
-        })
+        .then(res => res.json())
         .then(res => {
           const endTime = new Date().getTime();
           res.meta.resultTime = endTime - startTime;

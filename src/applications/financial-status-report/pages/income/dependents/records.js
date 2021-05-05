@@ -12,6 +12,7 @@ export const uiSchema = {
         doNotScroll: true,
         showSave: true,
         itemName: 'a dependent',
+        keepInPageOnReview: true,
       },
       items: {
         dependentAge: {
@@ -36,11 +37,10 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
-            title: 'Dependent',
             required: ['dependentAge'],
             properties: {
               dependentAge: {
-                type: 'number',
+                type: 'string',
               },
             },
           },

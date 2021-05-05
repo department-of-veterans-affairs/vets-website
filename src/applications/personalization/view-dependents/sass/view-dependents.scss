@@ -4,3 +4,8 @@
 .usa-alert-info::before {
     content: none;
 }
+
+// override the white-space: no-wrap in user-nav.scss because it makes the button overflow out of the container
+.additional-info-button {
+    white-space: normal !important;
+}

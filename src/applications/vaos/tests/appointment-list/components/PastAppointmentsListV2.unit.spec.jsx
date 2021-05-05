@@ -3,7 +3,7 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
-import { within } from '@testing-library/dom';
+import { within, waitFor } from '@testing-library/dom';
 import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import {
   getVAAppointmentMock,
@@ -178,7 +178,10 @@ describe('VAOS <PastAppointmentsListV2>', () => {
         new RegExp(pastDate.tz('America/Denver').format('h:mm'), 'i'),
       ),
     ).to.exist;
-    expect(within(firstCard).getByText(/Cheyenne VA Medical Center/i)).to.exist;
+    await waitFor(() => {
+      expect(within(firstCard).getByText(/Cheyenne VA Medical Center/i)).to
+        .exist;
+    });
     expect(screen.baseElement).not.to.contain.text('VA appointment');
   });
 

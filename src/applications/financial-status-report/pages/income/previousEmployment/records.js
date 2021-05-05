@@ -1,5 +1,6 @@
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 
 export const uiSchema = {
   'ui:title': 'Your work history',
@@ -9,7 +10,7 @@ export const uiSchema = {
         classNames: 'vads-u-margin-top--2',
       },
       veteran: {
-        previousEmployment: {
+        vetPreviousEmployment: {
           'ui:field': ItemLoop,
           'ui:description':
             'Tell us about your other jobs in the past 2 years.',
@@ -18,32 +19,21 @@ export const uiSchema = {
             doNotScroll: true,
             showSave: true,
             itemName: 'a job',
+            keepInPageOnReview: true,
           },
           items: {
             'ui:options': {
               classNames: 'vads-u-margin-bottom--3',
             },
-            previousEmploymentType: {
+            type: {
               'ui:title': 'Type of work',
               'ui:options': {
                 widgetClassNames: 'input-size-3',
               },
             },
-            previousEmploymentStart: {
-              'ui:title': 'Date you started work at this job',
-              'ui:widget': 'date',
-              'ui:options': {
-                widgetClassNames: 'vads-u-margin-bottom--2',
-              },
-            },
-            previousEmploymentEnd: {
-              'ui:title': 'Date you stopped work at this job',
-              'ui:widget': 'date',
-              'ui:options': {
-                widgetClassNames: 'vads-u-margin-bottom--2',
-              },
-            },
-            previousEmployerName: {
+            from: monthYearUI('Date you started work at this job'),
+            to: monthYearUI('Date you stopped work at this job'),
+            employerName: {
               'ui:title': 'Employer name',
               'ui:options': {
                 classNames: 'vads-u-margin-top--3',
@@ -68,18 +58,13 @@ export const schema = {
             veteran: {
               type: 'object',
               properties: {
-                previousEmployment: {
+                vetPreviousEmployment: {
                   type: 'array',
                   items: {
                     type: 'object',
-                    title: 'Previous employment',
-                    required: [
-                      'previousEmploymentType',
-                      'previousEmploymentStart',
-                      'previousEmploymentEnd',
-                    ],
+                    required: ['type', 'from', 'to'],
                     properties: {
-                      previousEmploymentType: {
+                      type: {
                         type: 'string',
                         enum: [
                           'Full time',
@@ -88,13 +73,13 @@ export const schema = {
                           'Temporary',
                         ],
                       },
-                      previousEmploymentStart: {
+                      from: {
                         type: 'string',
                       },
-                      previousEmploymentEnd: {
+                      to: {
                         type: 'string',
                       },
-                      previousEmployerName: {
+                      employerName: {
                         type: 'string',
                       },
                     },

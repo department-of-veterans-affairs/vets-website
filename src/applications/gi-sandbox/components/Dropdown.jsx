@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import classNames from 'classnames';
 import { handleScrollOnInputFocus } from '../utils/helpers';
 
 const Dropdown = ({
@@ -12,12 +13,15 @@ const Dropdown = ({
   options,
   onChange,
   onFocus,
+  selectClassName,
   value,
   visible,
 }) => {
+  if (!visible) {
+    return null;
+  }
+
   const dropdownId = `${name}-dropdown`;
-  const hideArrowsClass = hideArrows ? 'hide-arrows' : '';
-  const disabledClass = disabled ? 'disabled' : '';
   const labelElement =
     typeof label === 'string' ? (
       <label htmlFor={name}>{label}</label>
@@ -25,16 +29,19 @@ const Dropdown = ({
       <div className="vads-u-margin-top--3">{label}</div>
     );
 
-  if (!visible) {
-    return null;
-  }
+  const selectClasses = classNames(
+    'vads-u-font-style--italic',
+    'vads-u-color--gray',
+    selectClassName,
+    { hideArrows },
+  );
 
   return (
-    <div className={[className, disabledClass]} id={dropdownId}>
+    <div className={classNames(className, { disabled })} id={dropdownId}>
       {label && labelElement}
       <label className="wrap vads-u-margin--0">
         <select
-          className={hideArrowsClass}
+          className={selectClasses}
           id={name}
           name={name}
           alt={alt}

@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
+import CustomReviewField from '../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
 import { formatOptions, assetTypes } from '../../../constants/typeaheadOptions';
@@ -36,20 +37,23 @@ export const uiSchema = {
         doNotScroll: true,
         showSave: true,
         itemName: 'asset',
+        keepInPageOnReview: true,
       },
       items: {
         'ui:options': {
-          classNames: 'horizonal-field-container no-wrap',
+          classNames: 'horizontal-field-container no-wrap',
         },
-        assetName: {
+        name: {
           'ui:title': 'Type of asset',
           'ui:field': Typeahead,
+          'ui:reviewField': CustomReviewField,
           'ui:options': {
+            idPrefix: 'other_assets',
             classNames: 'input-size-3',
             getOptions: () => formatOptions(assetTypes),
           },
         },
-        assetValue: _.merge(currencyUI('Estimated value'), {
+        amount: _.merge(currencyUI('Estimated value'), {
           'ui:options': {
             widgetClassNames: 'input-size-1',
           },
@@ -73,13 +77,12 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
-            title: 'Record',
-            required: ['assetName', 'assetValue'],
+            required: ['name', 'amount'],
             properties: {
-              assetName: {
+              name: {
                 type: 'string',
               },
-              assetValue: {
+              amount: {
                 type: 'number',
               },
             },

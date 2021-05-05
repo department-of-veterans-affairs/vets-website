@@ -47,7 +47,7 @@ export const getContactInfoFieldAttributes = fieldName => {
   if (phoneNumbers.includes(fieldName)) {
     apiRoute = API_ROUTES.TELEPHONES;
     convertCleanDataToPayload = phoneConvertCleanDataToPayload;
-    uiSchema = phoneUiSchema;
+    uiSchema = phoneUiSchema(FIELD_TITLES[fieldName]);
     formSchema = phoneFormSchema;
 
     if (fieldName === FIELD_NAMES.HOME_PHONE) {

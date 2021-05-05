@@ -27,6 +27,15 @@ const sipEnabledForm = {
   form: VA_FORM_IDS.FORM_10_10EZ,
   metadata: {
     lastUpdated: '2019-04-24T00:00:00.000-06:00',
+    // create an expiration date one week in the future
+    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+};
+
+const expiredSipEnabledForm = {
+  form: VA_FORM_IDS.FORM_10_10EZ,
+  metadata: {
+    lastUpdated: '2019-04-24T00:00:00.000-06:00',
     expiresAt: '2019-07-24T00:00:00.000-06:00',
   },
 };
@@ -35,7 +44,10 @@ const nonSIPEnabledForm = {
   form: 'a-non-sip-enabled-form',
   metadata: {
     lastUpdated: '2019-04-24T00:00:00.000-06:00',
-    expiresAt: '2019-07-24T00:00:00.000-06:00',
+    // create an expiration date one week in the future. We want to test that
+    // this form is filtered out because it's not a SIP-enabled. We do _not want
+    // it filtered out because it expired
+    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
   },
 };
 
@@ -86,7 +98,7 @@ describe('mapStateToProps', () => {
   });
 
   describe('`savedForms`', () => {
-    it('is the filtered version of `profile.savedForms`', () => {
+    it('is the `profile.savedForms` array with non-verified forms and expired applications removed', () => {
       let mappedProps = mapStateToProps(state);
       expect(mappedProps.savedForms).to.deep.equal([]);
       state.user.profile.savedForms = [nonSIPEnabledForm];
@@ -96,6 +108,13 @@ describe('mapStateToProps', () => {
       mappedProps = mapStateToProps(state);
       expect(mappedProps.savedForms).to.deep.equal([sipEnabledForm]);
       state.user.profile.savedForms = [nonSIPEnabledForm, sipEnabledForm];
+      mappedProps = mapStateToProps(state);
+      expect(mappedProps.savedForms).to.deep.equal([sipEnabledForm]);
+      state.user.profile.savedForms = [
+        expiredSipEnabledForm,
+        nonSIPEnabledForm,
+        sipEnabledForm,
+      ];
       mappedProps = mapStateToProps(state);
       expect(mappedProps.savedForms).to.deep.equal([sipEnabledForm]);
     });

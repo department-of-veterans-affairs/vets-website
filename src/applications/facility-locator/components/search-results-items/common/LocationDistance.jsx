@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const LocationDistance = ({ distance, markerText }) => {
+  if (!distance) return null;
+
   return (
-    distance && (
-      <p>
-        {markerText && <span className="i-pin-card-map">{markerText}</span>}
-        <span className="vads-u-margin-left--1">
-          <strong>{distance.toFixed(1)} miles</strong>
-        </span>
-      </p>
-    )
+    <p>
+      {markerText && <span className="i-pin-card-map">{markerText}</span>}
+      <span className="vads-u-margin-left--1">
+        <strong>{distance.toFixed(1)} miles</strong>
+      </span>
+    </p>
   );
 };
 

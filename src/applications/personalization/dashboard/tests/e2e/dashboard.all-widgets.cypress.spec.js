@@ -22,7 +22,8 @@ describe('MyVA Dashboard', () => {
               version: 0,
               returnUrl: '/preparer',
               savedAt: 1602619612576,
-              expiresAt: 1607803612,
+              // a date 7 days in the future, in seconds
+              expiresAt: Date.now() / 1000 + 7 * 24 * 60 * 60,
               lastUpdated: 1602619612,
               inProgressFormId: 4950,
             },

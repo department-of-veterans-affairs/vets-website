@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import Telephone, {
   CONTACTS,
@@ -14,11 +16,37 @@ import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { setData } from 'platform/forms-system/src/js/actions';
 
-const IntroductionPage = ({ route, router }) => {
+const IntroductionPage = ({
+  route,
+  router,
+  formData,
+  setFormData,
+  canUpload1010cgPOA,
+}) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
+
+  const getFeatureFlip = useCallback(
+    () => {
+      setFormData({
+        ...formData,
+        'view:canUpload1010cgPOA': canUpload1010cgPOA,
+      });
+    },
+    [setFormData, canUpload1010cgPOA],
+  );
+
+  useEffect(
+    () => {
+      getFeatureFlip();
+    },
+    [getFeatureFlip],
+  );
 
   const startForm = () => {
     recordEvent({ event: 'caregivers-10-10cg-start-form' });
@@ -243,4 +271,26 @@ const IntroductionPage = ({ route, router }) => {
   );
 };
 
-export default withRouter(IntroductionPage);
+const mapStateToProps = state => ({
+  formData: state.form.data,
+  canUpload1010cgPOA: toggleValues(state)[
+    FEATURE_FLAG_NAMES.canUpload1010cgPOA
+  ],
+});
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+IntroductionPage.propTypes = {
+  canUpload1010cgPOA: PropTypes.bool,
+  setFormData: PropTypes.func,
+  formData: PropTypes.object,
+};
+
+const introPageWithRouter = withRouter(IntroductionPage);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(introPageWithRouter);

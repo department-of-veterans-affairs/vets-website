@@ -1,5 +1,6 @@
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
+import CustomReviewField from '../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
 import {
@@ -18,12 +19,15 @@ export const uiSchema = {
       doNotScroll: true,
       showSave: true,
       itemName: 'real estate',
+      keepInPageOnReview: true,
     },
     items: {
       realEstateType: {
         'ui:title': 'Type of real estate',
         'ui:field': Typeahead,
+        'ui:reviewField': CustomReviewField,
         'ui:options': {
+          idPrefix: 'realestate',
           classNames:
             'input-size-6 vads-u-margin-top--3 vads-u-margin-bottom--3',
           getOptions: () => formatOptions(realEstateTypes),
@@ -45,7 +49,6 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Real estate',
         required: ['realEstateType', 'realEstateAmount'],
         properties: {
           realEstateType: {

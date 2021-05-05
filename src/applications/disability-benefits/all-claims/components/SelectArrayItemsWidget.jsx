@@ -1,12 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
+import { setData } from 'platform/forms-system/src/js/actions';
+import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
+
+import { disabilityActionTypes } from '../constants';
 
 // TODO: Safety checks for `selected` callback and `label` element
 
-export default class SelectArrayItemsWidget extends React.Component {
+class SelectArrayItemsWidget extends React.Component {
+  // flag used to render a message to inform Veterans that their rated
+  // disabilities list has changed
+  hasUpdatedDisabilities = false;
+
+  defaultSelectedPropName = 'view:selected';
+
+  keyValue = 'ratedDisabilities';
+  updatedKeyValue = 'updatedRatedDisabilities';
+  keyConstants = ['ratingDecisionId', 'diagnosticCode'];
+
   onChange = (index, checked) => {
     const items = set(
       `[${index}].${this.props.options.selectedPropName ||
@@ -17,10 +33,60 @@ export default class SelectArrayItemsWidget extends React.Component {
     this.props.onChange(items);
   };
 
-  defaultSelectedPropName = 'view:selected';
+  processRatedDisabilityUpdates = () => {
+    const { formId, value, formData, metadata } = this.props;
+
+    // Whenever the rated disabilities are updated, `updatedRatedDisabilities`
+    // is added to the data. This bit of code ensures that exactly matching
+    // previously selected entries are still selected
+    const updatedItems = formData[this.updatedKeyValue].map(newValue => {
+      const hasItem = (value || []).find(oldValue =>
+        this.keyConstants.every(key => oldValue?.[key] === newValue?.[key]),
+      );
+      const isSelected = hasItem?.[this.defaultSelectedPropName] || false;
+      return {
+        ...newValue,
+        disabilityActionType:
+          hasItem?.disabilityActionType ||
+          disabilityActionTypes[isSelected ? 'INCREASE' : 'NONE'],
+        [this.defaultSelectedPropName]: isSelected,
+      };
+    });
+
+    const newData = {
+      ...formData,
+      // Adding updatedRatedDisabilities (from API) values to the form replacing
+      // ratedDisabilities; it's added here instead of the intro page because
+      // the separate save-in-progress endpoint will change the returnUrl to the
+      // ratedDisabilities page
+      [this.keyValue]: updatedItems,
+    };
+    // remove updatedRatedDisabilities
+    delete newData[this.updatedKeyValue];
+    this.props.setData(newData);
+
+    // Update save-in-progress data
+    const { version, returnUrl, submission } = metadata;
+    this.props.autoSaveForm(formId, newData, version, returnUrl, submission);
+
+    this.hasUpdatedDisabilities = true;
+  };
 
   render() {
-    const { value: items, id, options, required, formContext } = this.props;
+    const {
+      value: items,
+      id,
+      options,
+      required,
+      formContext,
+      formData,
+    } = this.props;
+
+    // rated disabilities updated on the backend
+    if (Array.isArray(formData[this.updatedKeyValue])) {
+      this.processRatedDisabilityUpdates();
+    }
+
     // Need customTitle to set error message above title.
     const { label: Label, selectedPropName, disabled, customTitle } = options;
 
@@ -36,7 +102,7 @@ export default class SelectArrayItemsWidget extends React.Component {
     );
 
     const itemsList =
-      items &&
+      items?.length > 0 &&
       items.map((item, index) => {
         const itemIsSelected = !!get(
           selectedPropName || this.defaultSelectedPropName,
@@ -113,21 +179,115 @@ export default class SelectArrayItemsWidget extends React.Component {
     const Tag = formContext.onReviewPage ? 'h4' : 'h3';
 
     const content =
-      items && (!inReviewMode || (inReviewMode && hasSelections)) ? (
+      itemsList && (!inReviewMode || (inReviewMode && hasSelections)) ? (
         itemsList
       ) : (
-        <p>No items selected</p>
+        <p>
+          <strong>
+            {`No rated disabilities ${
+              items?.length > 0 ? 'selected' : 'found'
+            }`}
+          </strong>
+        </p>
       );
+
+    // Let the user know we changed stuff
+    const updateMessage = this.hasUpdatedDisabilities ? (
+      <div className="usa-alert usa-alert-info background-color-only vads-u-margin-top--0">
+        <div className="usa-alert-body">
+          <strong>We’ve updated your list of rated disabilities</strong>
+          <p />
+          Please review the updated list because some disabilities may have been
+          added or removed, or your selections may have changed.
+        </div>
+      </div>
+    ) : (
+      ''
+    );
 
     return hasCustomTitle ? (
       <fieldset>
         <legend>
           <Tag className="vads-u-font-size--h5">{customTitle}</Tag>
         </legend>
+        {updateMessage}
         {content}
       </fieldset>
     ) : (
-      content
+      <>
+        {updateMessage}
+        {content}
+      </>
     );
   }
 }
+
+SelectArrayItemsWidget.propTypes = {
+  value: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      ratingPercentage: PropTypes.number.isRequired,
+      decisionCode: PropTypes.string.isRequired,
+      decisionText: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  updatedRatedDisabilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      ratingPercentage: PropTypes.number.isRequired,
+      decisionCode: PropTypes.string.isRequired,
+      decisionText: PropTypes.string.isRequired,
+    }),
+  ),
+  id: PropTypes.string.isRequired,
+  options: PropTypes.shape({
+    title: PropTypes.string,
+    customTitle: PropTypes.string,
+    field: PropTypes.string,
+    label: PropTypes.function,
+    showFieldLabel: PropTypes.string,
+    validations: PropTypes.array,
+  }).isRequired,
+  required: PropTypes.bool,
+  formContext: PropTypes.object.isRequired,
+  formId: PropTypes.string.isRequired,
+  formData: PropTypes.shape({}),
+  metadata: PropTypes.shape({
+    version: PropTypes.number,
+    returnUrl: PropTypes.string,
+    submission: PropTypes.shape({}),
+  }),
+  setData: PropTypes.func,
+  autoSaveForm: PropTypes.func,
+};
+
+SelectArrayItemsWidget.defaultProps = {
+  value: [],
+  formData: {},
+  loadedData: {
+    metadata: {},
+  },
+  setData: () => {},
+  autoSaveForm: () => {},
+};
+
+const mapDispatchToProps = {
+  setData,
+  autoSaveForm,
+};
+
+const mapStateToProps = state => {
+  const { form } = state;
+  return {
+    formId: form.formId,
+    formData: form.data,
+    metadata: form.loadedData?.metadata || {},
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SelectArrayItemsWidget);
+
+export { SelectArrayItemsWidget };

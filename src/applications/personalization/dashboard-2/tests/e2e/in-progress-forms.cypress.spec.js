@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -13,7 +12,6 @@ describe('The My VA Dashboard', () => {
   const oneWeekInSeconds = 24 * 60 * 60 * 7;
   const oneYearInSeconds = 24 * 60 * 60 * 365;
   beforeEach(() => {
-    disableFTUXModals();
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(
@@ -22,7 +20,6 @@ describe('The My VA Dashboard', () => {
     );
   });
   describe('when there are in-progress forms', () => {
-    let deleteApplicationStub;
     beforeEach(() => {
       // four forms, but one will fail the `isSIPEnabledForm()` check so only
       // three will be shown on the dashboard
@@ -81,6 +78,7 @@ describe('The My VA Dashboard', () => {
           },
           lastUpdated: 1607012813,
         },
+        // this form expired so it won't be shown
         {
           form: '21-526EZ',
           metadata: {
@@ -105,29 +103,20 @@ describe('The My VA Dashboard', () => {
       mockUser.data.attributes.inProgressForms = savedForms;
       cy.login(mockUser);
       mockFeatureToggles();
-      deleteApplicationStub = cy.stub();
-      cy.intercept('DELETE', '/v0/in_progress_forms/21-526EZ', () => {
-        deleteApplicationStub();
-      });
       cy.visit(manifest.rootUrl);
     });
-    it('should show benefit applications that were saved in progress and allow removing expired applications', () => {
-      cy.findByRole('heading', { name: /apply for benefits/i }).should('exist');
+    it('should show benefit applications that were saved in progress and have not expired', () => {
+      cy.findByRole('heading', { name: /apply for VA benefits/i }).should(
+        'exist',
+      );
       cy.findByRole('heading', { name: /applications in progress/i }).should(
         'exist',
       );
-      cy.findAllByTestId('application-in-progress').should('have.length', 3);
+      cy.findAllByTestId('application-in-progress').should('have.length', 2);
       cy.findByText(/you have no applications in/i).should('not.exist');
       // make the a11y check
       cy.injectAxe();
       cy.axeCheck();
-
-      cy.findByRole('button', { name: /^remove/i }).click();
-      cy.findAllByTestId('application-in-progress').should('have.length', 2);
-      // make sure we called the DELETE endpoint
-      cy.should(() => {
-        expect(deleteApplicationStub).to.be.called;
-      });
     });
   });
   describe('when there are no-progress forms', () => {
@@ -163,7 +152,9 @@ describe('The My VA Dashboard', () => {
       cy.visit(manifest.rootUrl);
     });
     it('should show fallback content when there are no benefit applications saved in progress', () => {
-      cy.findByRole('heading', { name: /apply for benefits/i }).should('exist');
+      cy.findByRole('heading', { name: /apply for VA benefits/i }).should(
+        'exist',
+      );
       cy.findByRole('heading', { name: /applications in progress/i }).should(
         'exist',
       );

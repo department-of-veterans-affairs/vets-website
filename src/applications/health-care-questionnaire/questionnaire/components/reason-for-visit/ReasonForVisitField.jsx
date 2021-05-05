@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getBookingNoteFromAppointment } from '../../../shared/utils';
+import { appointmentSelector } from '../../../shared/utils/selectors';
+import { selectCurrentAppointment } from '../../../shared/redux-selectors';
 
 const ReasonForVisitField = ({ appointment, onChange }) => {
-  const bookingNote = getBookingNoteFromAppointment(appointment);
+  const bookingNote = appointmentSelector.getBookingNote(appointment);
 
   useEffect(
     () => {
@@ -28,7 +29,7 @@ const ReasonForVisitField = ({ appointment, onChange }) => {
 };
 
 const mapStateToProps = state => ({
-  appointment: state?.questionnaireData?.context?.appointment,
+  appointment: selectCurrentAppointment(state),
 });
 
 export default connect(

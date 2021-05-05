@@ -106,19 +106,18 @@
 
           <!-- VA benefits -->
           {% include "src/site/includes/benefit-hubs-links.drupal.liquid" with fieldRelatedBenefitHubs = fieldRelatedBenefitHubs %}
-
-          <!-- Need more help -->
-          {% include "src/site/paragraphs/contact_information.drupal.liquid" with entity = fieldContactInformation.entity %}
-
-          <!-- Last updated -->
-          <div class="last-updated usa-content vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
-            Last updated: <time
-              datetime="{{ changed | dateFromUnix: 'YYYY-MM-DD'}}">{{ changed | humanizeTimestamp }}</time>
-          </div>
         </div>
       </div>
     </div>
+
+    <!-- Need more help -->
+    {% include "src/site/paragraphs/contact_information.drupal.liquid" with entity = fieldContactInformation.entity %}
+
+    <!-- Last updated -->
+    {% include "src/site/includes/last-updated.drupal.liquid" %}
   </main>
+
+  <!-- Up To Top Button -->
   {% include "src/site/components/up_to_top_button.html" %}
 </div>
 

@@ -1,4 +1,5 @@
 import enrollmentStatusNotInESR from '@@profile/tests/fixtures/enrollment-system/not-in-esr.json';
+import error500 from '@@profile/tests/fixtures/500.json';
 
 import {
   makeUserObject,
@@ -15,13 +16,34 @@ describe('MyVA Dashboard', () => {
         messaging: false,
         rx: false,
         facilities: [],
-        inProgressForms: [],
+        inProgressForms: [
+          // a single SIP form that has expired, so this should not be shown in
+          // the UI
+          {
+            form: '40-10007',
+            metadata: {
+              version: 0,
+              returnUrl: '/preparer',
+              savedAt: 1602619612576,
+              // a date one week in the past, in seconds
+              expiresAt: Date.now() / 1000 - 7 * 24 * 60 * 60,
+              lastUpdated: 1602619612,
+              inProgressFormId: 4950,
+            },
+            lastUpdated: 1602619612,
+          },
+        ],
         isPatient: false,
       });
       cy.login(mockUser);
       // login() calls cy.server() so we can now mock routes
-      cy.route('GET', '/v0/user/preferences', getUserPreferencesEmpty);
-      cy.route(
+      cy.intercept('GET', '/v0/user/preferences', getUserPreferencesEmpty);
+      cy.intercept(
+        'GET',
+        '/notifications/dismissed_statuses/form_10_10ez',
+        error500,
+      );
+      cy.intercept(
         'GET',
         '/v0/health_care_applications/enrollment_status',
         enrollmentStatusNotInESR,
@@ -29,6 +51,12 @@ describe('MyVA Dashboard', () => {
     });
     it('should show the correct widgets', () => {
       cy.visit('my-va/');
+
+      // should show a loading indicator
+      cy.findByRole('progressbar').should('exist');
+
+      // and then the loading indicator should be removed
+      cy.findByRole('progressbar').should('not.exist');
 
       cy.findByText(
         /You may be eligible to use health chat as part of our pilot/i,

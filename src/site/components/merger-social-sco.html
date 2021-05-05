@@ -6,17 +6,9 @@ Social Media - R. Rail
 See https://help.shopify.com/themes/liquid/tags/theme-tags#include
 {% endcomment %}
 
+  <va-accordion bordered multi class="social">
   {% for group in social %}
-  <ul class="usa-accordion-bordered social">
-    <li>
-      {% if group.heading != empty %}
-        <button class="usa-accordion-button usa-accordion-button-dark rail-heading"
-          aria-expanded="true"
-          aria-controls="a{{forloop.index}}">
-          {{ group.heading}}
-        </button>
-      {% endif %}
-      <div id="a{{forloop.index}}" class="usa-accordion-content">
+    <va-accordion-item level="3" open="true" header="{{ group.heading }}">
       {% if group.url != empty %}
       <h4 class='va-nav-linkslist-list'>
         <a href="{{group.url}}">{{group.admin}}</a>
@@ -91,7 +83,6 @@ See https://help.shopify.com/themes/liquid/tags/theme-tags#include
         {% endfor %}
 
       {% endif %}
-
-    </div>
-  </li>
-</ul>
+    </va-accordion-item>
+    {% endfor %}
+  </va-accordion>
