@@ -1,8 +1,8 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import basicUser from './fixtures/users/user-basic.js';
-import featureToggles from './fixtures/mocks/feature-toggles.enabled.json';
+import basicUser from '../fixtures/users/user-basic.js';
+import featureToggles from '../fixtures/mocks/feature-toggles.enabled.json';
 
-import { setSessionStorage } from '../../../shared/test-data/e2e/session.storage.mock';
+import { setSessionStorage } from '../../../../shared/test-data/e2e/session.storage.mock';
 
 describe('health care questionnaire -- reason for visit --', () => {
   beforeEach(() => {

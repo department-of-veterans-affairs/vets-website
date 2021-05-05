@@ -8,6 +8,12 @@ import manifest from '../../manifest.json';
 
 import basicUser from './fixtures/users/user-basic.js';
 
+import { setSessionStorage } from '../../../shared/test-data/e2e/session.storage.mock';
+
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
+
+import featureToggles from './fixtures/mocks/feature-toggles.enabled.json';
+
 const testConfig = createTestConfig(
   {
     appName: 'healthcare-questionnaire',
@@ -19,13 +25,22 @@ const testConfig = createTestConfig(
       mocks: path.join(__dirname, 'fixtures', 'this-visit'),
     },
     setupPerTest: () => {
-      cy.route('GET', '/v0/feature_toggles?*', 'fx:mocks/feature-toggles');
+      cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
       cy.login(basicUser);
+      disableFTUXModals();
+
+      cy.window().then(window => {
+        const apptId =
+          'I2-3PYJBEU2DIBW5RZT2XI3PASYGM7YYRD5TFQCLHQXK6YBXREQK5VQ0005';
+        setSessionStorage(window, apptId);
+      });
     },
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'button' })
+          cy.findAllByText(/Answer/i, {
+            selector: '.vads-c-action-link--green',
+          })
             .first()
             .click({ waitForAnimations: true });
         });
@@ -44,17 +59,23 @@ const testConfig = createTestConfig(
       'review-and-submit': () => {
         cy.route({
           method: 'POST',
-          url: '/v0/healthcare_questionnaire',
+          url: '/health_quest/v0/questionnaire_manager',
           status: 200,
           response: {
             body: {
-              data: {
-                id: '',
-                type: 'clipboard_submission',
-                attributes: {
-                  submittedAt: '2020-08-06T19:18:11+00:00',
-                },
+              resourceType: 'QuestionnaireResponse',
+              id: 'b18e0750-456d-41c9-a1a7-753bf66165f2',
+              meta: {
+                tag: [],
               },
+              text: {},
+              identifier: {},
+              questionnaire: 'Questionnaire/test-123',
+              status: 'completed',
+              subject: {},
+              authored: '2021-05-05T15:07:32+00:00',
+              source: {},
+              item: [],
             },
           },
         });
