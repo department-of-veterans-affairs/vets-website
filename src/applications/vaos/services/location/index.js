@@ -237,6 +237,17 @@ export function formatFacilityAddress(facility) {
 }
 
 /**
+ * Returns formatted facility phone number.
+ *
+ * @export
+ * @param {*} facility - facility details object
+ * @returns Formatted facility phone number.
+ */
+export function formatFacilityPhone(facility) {
+  return facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+}
+
+/**
  * Fetch community care providers by location and type of care
  *
  * @export

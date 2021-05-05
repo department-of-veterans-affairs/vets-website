@@ -3,7 +3,10 @@ import moment from '../../../lib/moment-tz.js';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import FacilityAddress from '../../../components/FacilityAddress';
 import AddToCalendar from '../../../components/AddToCalendar';
-import { formatFacilityAddress } from '../../../services/location';
+import {
+  formatFacilityAddress,
+  formatFacilityPhone,
+} from '../../../services/location';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
@@ -75,8 +78,12 @@ export default function ConfirmationDirectScheduleInfo({
         {facilityDetails && (
           <div className="vads-u-margin-top--2">
             <AddToCalendar
-              summary="VA Appointment"
-              description=""
+              summary="Appointment at {clinic name}"
+              description={{
+                text: 'You have a health care appointment at {clinic name}',
+                phone: formatFacilityPhone(facilityDetails),
+                additionalText: [],
+              }}
               location={formatFacilityAddress(facilityDetails)}
               startDateTime={momentDate.format()}
               duation={appointmentLength}

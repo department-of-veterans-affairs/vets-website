@@ -11,7 +11,10 @@ import * as actions from '../redux/actions';
 import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
 import AddToCalendar from '../../components/AddToCalendar';
 import FacilityAddress from '../../components/FacilityAddress';
-import { formatFacilityAddress } from '../../services/location';
+import {
+  formatFacilityAddress,
+  formatFacilityPhone,
+} from '../../services/location';
 import PageLayout from './AppointmentsPage/PageLayout';
 import ErrorMessage from '../../components/ErrorMessage';
 import { selectAppointmentById } from '../redux/selectors';
@@ -132,8 +135,13 @@ function CommunityCareAppointmentDetailsPage({
           className="far fa-calendar vads-u-margin-right--1"
         />
         <AddToCalendar
-          summary={header}
-          description={appointment.comment}
+          summary={`Appointment at ${providerName || practiceName}`}
+          description={{
+            text:
+              'You have a health care appointment with a community care provider. Please don’t go to your local VA health facility.',
+            phone: formatFacilityPhone(appointment.communityCareProvider),
+            additionalText: [],
+          }}
           location={formatFacilityAddress(appointment.communityCareProvider)}
           duration={appointment.minutesDuration}
           startDateTime={moment.parseZone(appointment.start)}

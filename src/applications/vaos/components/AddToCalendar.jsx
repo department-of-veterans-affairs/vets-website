@@ -11,24 +11,69 @@ import guid from 'simple-guid';
  */
 const ICS_LINE_LIMIT = 74;
 
-function formatDescription(description) {
+function formatDescription(description, location = '') {
   if (!description) {
     return description;
   }
 
-  const descWithEscapedBreaks = description
-    .replace(/\r/g, '')
-    .replace(/\n/g, '\\n');
-
   const chunked = [];
-  let restOfDescription = `DESCRIPTION:${descWithEscapedBreaks}`;
-  while (restOfDescription.length > ICS_LINE_LIMIT) {
-    chunked.push(restOfDescription.substring(0, ICS_LINE_LIMIT));
-    restOfDescription = restOfDescription.substring(ICS_LINE_LIMIT);
-  }
-  chunked.push(restOfDescription);
+  if (typeof description === 'object') {
+    let text = `DESCRIPTION:${description.text}`;
+    text = text.replace(/\r/g, '').replace(/\n/g, '\\n');
 
-  return chunked.join('\r\n\t').replace(/,/g, '\\,');
+    const phone = description.phone?.replace(/\r/g, '').replace(/\n/g, '\\n');
+
+    while (text.length > ICS_LINE_LIMIT) {
+      chunked.push(text.substring(0, ICS_LINE_LIMIT));
+      text = text.substring(ICS_LINE_LIMIT);
+    }
+    chunked.push(text);
+    chunked.push('\\n\\n');
+
+    const index = location.indexOf(',');
+    if (index !== -1) {
+      chunked.push(location.substring(0, index));
+      chunked.push('\\n');
+      chunked.push(location.substring(index + 1).trimStart());
+    } else {
+      chunked.push(location);
+    }
+
+    if (phone) {
+      chunked.push('\\n');
+      chunked.push(phone);
+    }
+
+    if (description.additionalText.length > 0) {
+      chunked.push('\\n\\n');
+      description.additionalText.forEach(val => {
+        let line = val;
+        while (line.length > ICS_LINE_LIMIT) {
+          chunked.push(line.substring(0, ICS_LINE_LIMIT));
+          line = line.substring(ICS_LINE_LIMIT);
+        }
+        chunked.push(line);
+      });
+    }
+
+    chunked.push('\\n\\n');
+    chunked.push('Sign in to VA.gov to get details about this appointment');
+  } else {
+    const descWithEscapedBreaks = description
+      .replace(/\r/g, '')
+      .replace(/\n/g, '\\n');
+
+    let restOfDescription = `DESCRIPTION:${descWithEscapedBreaks}`;
+    while (restOfDescription.length > ICS_LINE_LIMIT) {
+      chunked.push(restOfDescription.substring(0, ICS_LINE_LIMIT));
+      restOfDescription = restOfDescription.substring(ICS_LINE_LIMIT);
+    }
+    chunked.push(restOfDescription);
+  }
+
+  const x = chunked.join('\r\n\t').replace(/,/g, '\\,');
+  console.log(x);
+  return x;
 }
 
 function generateICS(
@@ -51,7 +96,7 @@ function generateICS(
     `BEGIN:VEVENT`,
     `UID:${guid()}`,
     `SUMMARY:${summary}`,
-    `${formatDescription(description)}`,
+    `${formatDescription(description, location)}`,
     `LOCATION:${location?.replace(/,/g, '\\,')}`,
     `DTSTAMP:${startDate}`,
     `DTSTART:${startDate}`,

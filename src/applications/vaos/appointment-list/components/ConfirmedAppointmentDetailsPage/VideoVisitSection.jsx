@@ -11,21 +11,50 @@ import VideoVisitProvider from './VideoVisitProvider';
 import { VideoVisitInstructions } from './VideoInstructions';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
 import moment from 'applications/vaos/lib/moment-tz';
-import { formatFacilityAddress } from 'applications/vaos/services/location';
+import {
+  formatFacilityAddress,
+  formatFacilityPhone,
+} from 'applications/vaos/services/location';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-function getLocation(isAtlas, isVideo, videoKind, facility, appointment) {
+function getLocation({ isAtlas, isVideo, videoKind, facility, appointment }) {
   if (isAtlas) {
     const { atlasLocation } = appointment.videoData;
+
     if (atlasLocation?.address) {
-      return formatFacilityAddress(atlasLocation);
+      const {
+        firstName,
+        lastName,
+      } = appointment.vaos.apiData.vvsAppointments[0].providers[0].name;
+      return {
+        providerName: `${firstName} ${lastName}`,
+        location: formatFacilityAddress(atlasLocation),
+        text: 'Join this video meeting from this ATLAS (non-VA) location:',
+        additionalText: [
+          `Your appointment code is ${
+            appointment.videoData.atlasConfirmationCode
+          }. Use this code to find your appointment on the computer at {ATLAS location}.`,
+        ],
+      };
     }
   } else if (videoKind === VIDEO_TYPES.clinic) {
-    return facility ? formatFacilityAddress(facility) : null;
+    return {
+      providerName: appointment.location.clinicName,
+      location: facility ? formatFacilityAddress(facility) : null,
+      text: 'You need to join this video meeting from:',
+      additionalText: [
+        `You’ll be meeting with ${appointment.location.clinicName}`,
+      ],
+    };
   } else if (videoKind === VIDEO_TYPES.gfe || isVideo) {
-    return 'Video conference';
+    return {
+      providerName: '',
+      location: 'Video conference',
+      text: '',
+      additionalText: [],
+    };
   }
-  return '';
+  return {};
 }
 
 export default function VideoVisitLocation({ header, appointment, facility }) {
@@ -35,13 +64,13 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
   const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const name = facility?.name;
 
-  const location = getLocation(
+  const { location, providerName, text, additionalText } = getLocation({
     isAtlas,
-    appointment.vaos.isVideo,
+    isVideo: appointment.vaos.isVideo,
     kind,
     facility,
     appointment,
-  );
+  });
 
   const showVideoInstructions =
     appointment.vaos.isVideo &&
@@ -113,8 +142,12 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             className="far fa-calendar vads-u-margin-right--1"
           />
           <AddToCalendar
-            summary={`${header}`}
-            description={`instructionText`}
+            summary={`VA Video Connect appointment at ${providerName}`}
+            description={{
+              text,
+              phone: formatFacilityPhone(facility),
+              additionalText,
+            }}
             location={location}
             duration={appointment.minutesDuration}
             startDateTime={moment.parseZone(appointment.start)}

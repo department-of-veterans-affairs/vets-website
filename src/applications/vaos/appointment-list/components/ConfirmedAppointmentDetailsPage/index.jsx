@@ -23,7 +23,10 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import AppointmentDateTime from './AppointmentDateTime';
 import VideoVisitSection from './VideoVisitSection';
 import { getVideoInstructionText } from './VideoInstructions';
-import { formatFacilityAddress } from 'applications/vaos/services/location';
+import {
+  formatFacilityAddress,
+  formatFacilityPhone,
+} from 'applications/vaos/services/location';
 import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
@@ -188,6 +191,10 @@ export default function ConfirmedAppointmentDetailsPage() {
     calendarDescription = 'VA video appointment';
   }
 
+  let text;
+  if (isPhone) text = 'Phone appointment';
+  else text = `You have a health care appointment at ${facility?.name}`;
+
   return (
     <PageLayout>
       <Breadcrumbs>
@@ -264,8 +271,22 @@ export default function ConfirmedAppointmentDetailsPage() {
                     className="far fa-calendar vads-u-margin-right--1"
                   />
                   <AddToCalendar
-                    summary={`${header}`}
-                    description={calendarDescription}
+                    summary={
+                      isPhone
+                        ? 'Phone appointment'
+                        : `Appointment at ${facility?.name}`
+                    }
+                    description={{
+                      text: isPhone
+                        ? `A provider will call you at ${moment
+                            .parseZone(appointment.start)
+                            .format('h:mm a')}`
+                        : `You have a health care appointment at ${
+                            facility?.name
+                          }`,
+                      phone: isPhone ? '' : formatFacilityPhone(facility),
+                      additionalText: [formatFacilityAddress(facility)],
+                    }}
                     location={
                       isPhone ? 'Phone call' : formatFacilityAddress(facility)
                     }
