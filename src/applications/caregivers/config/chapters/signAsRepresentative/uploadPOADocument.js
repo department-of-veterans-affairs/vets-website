@@ -12,35 +12,20 @@ import { RepresentativeDocumentUploadDescription } from 'applications/caregivers
 const attachmentsSchema = {
   type: 'array',
   minItems: 1,
+  maxItems: 1,
   items: {
     type: 'object',
-    required: ['attachmentId', 'name'],
+    required: ['guid'],
     properties: {
-      name: {
+      guid: {
         type: 'string',
-      },
-      size: {
-        type: 'integer',
-      },
-      confirmationCode: {
-        type: 'string',
-      },
-      attachmentId: {
-        type: 'string',
-        enum: ['1', '2', '3', '4', '5', '6', '7'],
-        enumNames: [
-          'DD214',
-          'DD215 (used to correct or make additions to the DD214)',
-          'WD AGO 53-55 (report of separation used prior to 1950)',
-          'Other discharge papers (like your DD256, DD257, or NGB22)',
-          'Official documentation of a military award (like a Purple Heart, Medal of Honor, or Silver Star)',
-          'Disability rating letter from the Veterans Benefit Administration (VBA)',
-          'Other official military document',
-        ],
+        format: 'uuid',
       },
     },
   },
 };
+
+// const { poaAttachmentId } = fullSchema.properties;
 
 export default {
   uiSchema: {
@@ -56,20 +41,24 @@ export default {
       hideLabelText: true,
       createPayload: (file, formId, password) => {
         const payload = new FormData();
-        payload.append('attachment', file);
+        payload.append('attachment[file_data]', file);
         payload.append('form_id', formId);
+
         // password for encrypted PDFs
         if (password) {
-          payload.append('password', password);
+          payload.append('attachment[password]', password);
         }
 
         return payload;
       },
-      parseResponse: fileInfo => ({
-        name: fileInfo.data.attributes.name,
-        size: fileInfo.data.attributes.size,
-        confirmationCode: fileInfo.data.attributes.confirmationCode,
-      }),
+      parseResponse: fileInfo => {
+        /* TODO need to figure out why this is failing 
+           I think there are more required attributes for UI */
+        return {
+          guid: fileInfo.data.attributes.guid,
+          confirmationCode: fileInfo.data.id,
+        };
+      },
       attachmentSchema: {
         'ui:title': 'Document type',
       },
