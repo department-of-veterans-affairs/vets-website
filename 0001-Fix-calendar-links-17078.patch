@@ -1,0 +1,61 @@
+From c4fa40ffd75c9761ebb663e230de92c421d9d176 Mon Sep 17 00:00:00 2001
+From: Kelson Adams <kelsonic@users.noreply.github.com>
+Date: Wed, 5 May 2021 10:28:55 -0600
+Subject: [PATCH] Fix calendar links (#17078)
+
+* Fix calendar links
+
+* Change endTime to endValue
+---
+ src/applications/static-pages/ics-generator.js | 10 ++++++----
+ src/site/includes/social-share.drupal.liquid   | 13 +++++++++++--
+ 2 files changed, 17 insertions(+), 6 deletions(-)
+
+diff --git a/src/applications/static-pages/ics-generator.js b/src/applications/static-pages/ics-generator.js
+index 02124c848f..57855b5f38 100644
+--- a/src/applications/static-pages/ics-generator.js
++++ b/src/applications/static-pages/ics-generator.js
+@@ -3,10 +3,12 @@ export function icsCreate(calendarLink) {
+     const cal = new ICS.VCALENDAR();
+     const event = new ICS.VEVENT();
+     const addToCalendarLink = document.getElementById('add-to-calendar-link');
+-    const start = addToCalendarLink.getAttribute('data-start');
+-    const startDateObj = new Date(start);
+-    const end = addToCalendarLink.getAttribute('data-end');
+-    const endDateObj = new Date(end);
++    const startSecondsString = addToCalendarLink.getAttribute('data-start');
++    const startMS = parseInt(startSecondsString, 10) * 1000;
++    const startDateObj = new Date(startMS);
++    const endSecondsString = addToCalendarLink.getAttribute('data-end');
++    const endMS = parseInt(endSecondsString, 10) * 1000;
++    const endDateObj = new Date(endMS);
+     const location = addToCalendarLink.getAttribute('data-location');
+     const description = addToCalendarLink.getAttribute('data-description');
+     const title = addToCalendarLink.getAttribute('data-subject');
+diff --git a/src/site/includes/social-share.drupal.liquid b/src/site/includes/social-share.drupal.liquid
+index dbd3a7ad93..406042f1b3 100644
+--- a/src/site/includes/social-share.drupal.liquid
++++ b/src/site/includes/social-share.drupal.liquid
+@@ -6,8 +6,17 @@
+ <div data-template="includes/social-share" id="va-c-social-share">
+   <ul class="usa-unstyled-list">
+     <li class="vads-u-margin-bottom--2p5">
+-      <a href="{{ entityUrl.path }}" id="add-to-calendar-link" data-start="{{fieldDatetimeRangeTimezone.value }}" data-end="{{fieldDatetimeRangeTimezone.endTime}}" data-location="{{fieldAddress.addressLine1}} {{fieldAddress.locality}}, {{fieldAddress.administrativeArea}}" data-subject="{{ title }}" data-description="{{fieldDescription}}">
+-        <i class="va-c-social-icon fas fa-calendar-check vads-u-margin-right--0p5" aria-hidden="true" role="presentation" aria-hidden="true"></i>Add to Calendar</a>
++      <a
++        data-description="{{ fieldDescription }}"
++        data-end="{{ fieldDatetimeRangeTimezone.endValue }}"
++        data-location="{{ fieldAddress.addressLine1 }} {{ fieldAddress.locality }}, {{ fieldAddress.administrativeArea }}"
++        data-subject="{{ title }}"
++        href="{{ entityUrl.path }}"
++        id="add-to-calendar-link" data-start="{{fieldDatetimeRangeTimezone.value }}"
++      >
++        <i class="va-c-social-icon fas fa-calendar-check vads-u-margin-right--0p5" aria-hidden="true" role="presentation" aria-hidden="true"></i>
++        Add to Calendar
++      </a>
+     </li>
+ 
+     <li class="vads-u-margin-bottom--2p5">
+-- 
+2.30.0
+
