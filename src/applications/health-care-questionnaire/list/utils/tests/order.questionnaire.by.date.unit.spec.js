@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import { sortQuestionnairesByStatus } from '../../../utils';
+import { sortQuestionnairesByStatus } from '../index';
 
-import { json } from '../../../../shared/api/mock-data/fhir/full.example.data';
+import { json } from '../../../shared/api/mock-data/fhir/full.example.data';
 
 describe('health care questionnaire -- utils -- questionnaire list -- ordering by date --', () => {
   it('sorts completed', () => {

@@ -401,6 +401,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
         }),
       ],
     );
+    mockRequestEligibilityCriteria(['983'], []);
 
     const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
       initialState: defaultState,
@@ -448,6 +449,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
         }),
       ],
     );
+    mockRequestEligibilityCriteria(['983'], []);
 
     const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
       initialState: defaultState,

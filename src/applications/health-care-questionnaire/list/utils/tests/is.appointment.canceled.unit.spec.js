@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { isAppointmentCancelled } from '../../../utils';
+import { isAppointmentCancelled } from '../index';
 
 describe('health care questionnaire -- utils -- questionnaire list -- is appointment cancelled --', () => {
   it('status is falsy', () => {

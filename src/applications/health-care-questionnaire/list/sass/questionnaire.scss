@@ -143,7 +143,6 @@ ol.questionnaire-list {
 
     .completed-date, .due-date{
       margin: 0;
-      margin-bottom: 1.25rem;
       line-height: 1.5;
     }
     .completed-date{
@@ -187,4 +186,8 @@ div.usa-alert.usa-alert-error.print-error-message{
   font-size: 1.35em;
   line-height: 1.5;
   font-weight: bold;
+}
+
+a.vads-c-action-link--blue, a.vads-c-action-link--green, a.vads-c-action-link--white {
+  padding: 0;
 }

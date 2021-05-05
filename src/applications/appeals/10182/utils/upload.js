@@ -22,7 +22,8 @@ const focusFileCard = name => {
 export const evidenceUploadUI = {
   ...fileUiSchema(EvidenceUploadLabel, {
     fileUploadUrl: `${environment.API_URL}/v0/decision_review_evidence`,
-    addAnotherLabel: 'Add another document',
+    addAnotherLabel: 'Upload additional evidence',
+    buttonText: 'Upload evidence',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     minSize: 1024,

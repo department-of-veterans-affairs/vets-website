@@ -7,9 +7,12 @@ import {
   getIssueName,
   getContestableIssues,
   addIncludedIssues,
+  addUploads,
   removeEmptyEntries,
   getAddress,
   getPhone,
+  getRepName,
+  getTimeZone,
 } from '../../utils/submit';
 
 const issue1 = {
@@ -145,6 +148,22 @@ describe('addIncludedIssues', () => {
   });
 });
 
+describe('addUploads', () => {
+  const getData = (checked, files) => ({
+    'view:additionalEvidence': checked,
+    evidence: files.map(name => ({ name, confirmationCode: '123' })),
+  });
+  it('should add uploads', () => {
+    expect(addUploads(getData(true, ['test1', 'test2']))).to.deep.equal([
+      { name: 'test1', confirmationCode: '123' },
+      { name: 'test2', confirmationCode: '123' },
+    ]);
+  });
+  it('should not add uploads', () => {
+    expect(addUploads(getData(false, ['test1', 'test2']))).to.deep.equal([]);
+  });
+});
+
 describe('removeEmptyEntries', () => {
   it('should remove empty string items', () => {
     expect(removeEmptyEntries({ a: '', b: 1, c: 'x', d: '' })).to.deep.equal({
@@ -225,5 +244,30 @@ describe('getPhone', () => {
       phoneNumber: '1234567',
       phoneNumberExt: '0000',
     });
+  });
+});
+
+describe('getRepName', () => {
+  const getData = (checked, representativesName) => ({
+    'view:hasRep': checked,
+    representativesName,
+  });
+  it('should return rep name', () => {
+    expect(getRepName(getData(true, 'Fred'))).to.eq('Fred');
+  });
+  it('should limit rep name to 120 characters', () => {
+    const result = getRepName(getData(true, new Array(130).fill('A').join('')));
+    expect(result).to.contain('AAAA');
+    expect(result.length).to.eq(120);
+  });
+  it('should not return rep name', () => {
+    expect(getRepName(getData(false, 'Fred'))).to.eq('');
+  });
+});
+
+describe('getTimeZone', () => {
+  it('should return a string', () => {
+    // result will be a location string, not stubbing for this test
+    expect(getTimeZone().length).to.be.greaterThan(1);
   });
 });

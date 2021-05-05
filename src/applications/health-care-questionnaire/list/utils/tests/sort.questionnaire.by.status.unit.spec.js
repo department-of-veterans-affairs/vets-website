@@ -1,22 +1,23 @@
 import { expect } from 'chai';
 
-import { sortQuestionnairesByStatus } from '../../../utils';
+import { sortQuestionnairesByStatus } from '../index';
 
-import { AppointmentData } from '../../../../shared/test-data/appointment/factory';
-import { QuestionnaireData } from '../../../../shared/test-data/questionnaire/factory';
-import { QuestionnaireResponseData } from '../../../../shared/test-data/questionnaire-response/factory';
+import { AppointmentData } from '../../../shared/test-data/appointment/factory';
+import { QuestionnaireData } from '../../../shared/test-data/questionnaire/factory';
+import { QuestionnaireResponseData } from '../../../shared/test-data/questionnaire-response/factory';
 
 import {
   cancelled,
   booked,
-} from '../../../../shared/constants/appointment.status';
+  arrived,
+} from '../../../shared/constants/appointment.status';
 
 import {
   inProgress,
   completed,
-} from '../../../../shared/constants/questionnaire.response.status';
+} from '../../../shared/constants/questionnaire.response.status';
 
-import { json } from '../../../../shared/api/mock-data/fhir/full.example.data';
+import { json } from '../../../shared/api/mock-data/fhir/full.example.data';
 
 describe('health care questionnaire -- utils -- questionnaire list -- sorting by status --', () => {
   it('undefined data', () => {
@@ -191,6 +192,24 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
       const data = [
         {
           appointment: new AppointmentData().withStatus(booked),
+          questionnaire: [
+            {
+              questionnaireResponse: [new QuestionnaireResponseData()],
+            },
+          ],
+        },
+      ];
+      const result = sortQuestionnairesByStatus(data);
+      expect(result.completed).to.exist;
+      expect(result.toDo).to.exist;
+      expect(result.completed.length).to.equal(0);
+      expect(result.toDo.length).to.equal(1);
+    });
+
+    it('appointment is FUTURE and questionnaire is NOT STARTED -- status of arrived -- should be in toDo list', () => {
+      const data = [
+        {
+          appointment: new AppointmentData().withStatus(arrived),
           questionnaire: [
             {
               questionnaireResponse: [new QuestionnaireResponseData()],

@@ -81,7 +81,7 @@ export const uiSchema = {
           </div>
         ),
       },
-      countryName: {
+      country: {
         'ui:title': 'Country',
         'ui:options': {
           classNames: 'input-size-7',
@@ -90,7 +90,7 @@ export const uiSchema = {
 
             if (formData.personalData.address.livesOutsideUS) {
               const formDataMailingAddress = formData.personalData.address;
-              formDataMailingAddress.countryName = 'United States';
+              formDataMailingAddress.country = 'United States';
               uiSchemaDisabled['ui:disabled'] = true;
 
               return {
@@ -107,6 +107,7 @@ export const uiSchema = {
       street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {
+          pattern: 'Please enter a valid street address',
           required: 'Please enter a street address',
         },
         'ui:options': {
@@ -149,7 +150,7 @@ export const uiSchema = {
           },
         ],
       },
-      stateCode: {
+      state: {
         'ui:title': 'State',
         'ui:options': {
           classNames: 'input-size-7',
@@ -180,7 +181,7 @@ export const uiSchema = {
           required: 'Please enter a state',
         },
       },
-      zipCode: {
+      postalCode: {
         'ui:title': 'Postal code',
         'ui:validations': [validateZIP],
         'ui:errorMessages': {
@@ -239,7 +240,7 @@ export const schema = {
       properties: {
         address: {
           type: 'object',
-          required: ['countryName', 'street', 'city', 'stateCode', 'zipCode'],
+          required: ['country', 'street', 'city', 'state', 'postalCode'],
           properties: {
             livesOutsideUS: {
               type: 'boolean',
@@ -248,16 +249,16 @@ export const schema = {
               type: 'object',
               properties: {},
             },
-            countryName: {
+            country: {
               type: 'string',
             },
             street: SCHEMA_DEFINITIONS.address,
             street2: SCHEMA_DEFINITIONS.address,
             city: SCHEMA_DEFINITIONS.city,
-            stateCode: {
+            state: {
               type: 'string',
             },
-            zipCode: SCHEMA_DEFINITIONS.zipCode,
+            postalCode: SCHEMA_DEFINITIONS.postalCode,
           },
         },
         telephoneNumber: SCHEMA_DEFINITIONS.telephoneNumber,

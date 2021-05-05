@@ -333,9 +333,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
     try {
       const initialState = getState();
       const newAppointment = initialState.newAppointment;
-      const directSchedulingEnabled = selectFeatureDirectScheduling(
-        initialState,
-      );
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
       if (typeOfCareId) {
@@ -352,7 +349,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         if (!typeOfCareFacilities) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
             siteIds,
-            directSchedulingEnabled,
           });
         }
 
@@ -374,8 +370,8 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         // fetch eligbility data immediately
         const supportedFacilities = typeOfCareFacilities?.filter(
           facility =>
-            facility.legacyVAR.directSchedulingSupported[typeOfCareId] ||
-            facility.legacyVAR.requestSupported[typeOfCareId],
+            facility.legacyVAR.settings[typeOfCareId]?.direct.enabled ||
+            facility.legacyVAR.settings[typeOfCareId]?.request.enabled,
         );
         const eligibilityDataNeeded =
           !!facilityId || supportedFacilities?.length === 1;
