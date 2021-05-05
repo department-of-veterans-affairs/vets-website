@@ -3,21 +3,6 @@ import org.kohsuke.github.GitHub
 
 env.CONCURRENCY = 10
 
-String getChangedFilesList() {
-
-    changedFiles = []
-    for (changeLogSet in currentBuild.changeSets) {
-        for (entry in changeLogSet.getItems()) { // for each commit in the detected changes
-            for (file in entry.getAffectedFiles()) {
-                changedFiles.add(file.getPath()) // add changed file to list
-            }
-        }
-    }
-
-    return changedFiles
-
-}
-
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
               parameters([choice(name: "cmsEnvBuildOverride",
@@ -28,8 +13,8 @@ node('vetsgov-general-purpose') {
   dir("vets-website") {
     checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-    echo "here is some stuff"
-    echo getChangedFilesList()
+    shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+    echo shortCommit
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
