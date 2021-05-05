@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { makeMockUser } from '@@profile/tests/fixtures/users/user.js';
 import dd4eduEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
 import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
@@ -22,9 +21,6 @@ function sectionHeadingsExist() {
 }
 
 describe('The My VA Dashboard', () => {
-  beforeEach(() => {
-    disableFTUXModals();
-  });
   describe('when user is not a patient, has not applied for health care, and is not known to get education benefits', () => {
     beforeEach(() => {
       const user = makeMockUser();

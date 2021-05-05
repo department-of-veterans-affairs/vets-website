@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import classNames from 'classnames';
-import { TRACKING_PREFIX } from '../../../../shared/constants/analytics';
 
 export default function TabItem(props) {
   const { id, text, onNextTab, onPreviousTab, tabPath, isActive } = props;
@@ -47,7 +46,7 @@ export default function TabItem(props) {
         onClick={() => {
           recordEvent({
             event: 'nav-tab-click',
-            'tab-text': `${TRACKING_PREFIX}${text}`,
+            'tab-text': `${text}`,
           });
         }}
       >

@@ -17,8 +17,8 @@ export default function NoValidVAFacilities({
   const unsupportedFacilities = facilities
     ?.filter(
       facility =>
-        !facility.legacyVAR.directSchedulingSupported[typeOfCare.id] &&
-        !facility.legacyVAR.requestSupported[typeOfCare.id],
+        !facility.legacyVAR.settings[typeOfCare.id]?.direct.enabled &&
+        !facility.legacyVAR.settings[typeOfCare.id]?.request.enabled,
     )
     ?.slice(0, facilityLimit);
 

@@ -28,7 +28,7 @@ export const ContactInfoDescription = ({ veteran }) => {
         .
       </p>
       <div className="blue-bar-block">
-        <h4 className="vads-u-font-size--h4">Phone &amp; email</h4>
+        <h3 className="vads-u-font-size--h4">Phone &amp; email</h3>
         <p>
           <strong>Home phone</strong>:{' '}
           <Telephone
@@ -40,7 +40,7 @@ export const ContactInfoDescription = ({ veteran }) => {
         <p>
           <strong>Email address</strong>: {email || ''}
         </p>
-        <h4 className="vads-u-font-size--h4">Mailing address</h4>
+        <h3 className="vads-u-font-size--h4">Mailing address</h3>
         <p>
           {addBrAfter(street)}
           {addBrAfter(cityStateZip)}
