@@ -15,6 +15,7 @@ const IdentityNotVerified = ({
     </p>
   ),
   additionalInfoClickHandler = null,
+  level = 3,
 }) => {
   const content = (
     <>
@@ -36,7 +37,12 @@ const IdentityNotVerified = ({
 
   return (
     <>
-      <AlertBox headline={alertHeadline} content={content} status="warning" />
+      <AlertBox
+        headline={alertHeadline}
+        content={content}
+        status="warning"
+        level={level}
+      />
       <div
         className="account-security-content vads-u-margin--2p5"
         onClick={additionalInfoClickHandler}

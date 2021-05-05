@@ -6,13 +6,13 @@ import recordEvent from 'platform/monitoring/record-event';
 import { FETCH_STATUS, GA_PREFIX } from 'applications/vaos/utils/constants';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import {
-  fetchDirectScheduleSettings,
+  fetchFacilitySettings,
   startNewAppointmentFlow,
   startNewVaccineFlow,
 } from '../redux/actions';
 import {
   selectCanUseVaccineFlow,
-  selectDirectScheduleSettingsStatus,
+  selectFacilitySettingsStatus,
 } from '../redux/selectors';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import NewTabAnchor from '../../components/NewTabAnchor';
@@ -36,20 +36,20 @@ export default function ScheduleNewAppointmentRadioButtons() {
   const canUseVaccineFlow = useSelector(state =>
     selectCanUseVaccineFlow(state),
   );
-  const directScheduleSettingsStatus = useSelector(state =>
-    selectDirectScheduleSettingsStatus(state),
+  const facilitySettingsStatus = useSelector(state =>
+    selectFacilitySettingsStatus(state),
   );
 
   const [radioSelection, setRadioSelection] = useState();
   useEffect(() => {
-    if (directScheduleSettingsStatus === FETCH_STATUS.notStarted) {
-      dispatch(fetchDirectScheduleSettings());
+    if (facilitySettingsStatus === FETCH_STATUS.notStarted) {
+      dispatch(fetchFacilitySettings());
     }
   }, []);
 
   if (
-    directScheduleSettingsStatus === FETCH_STATUS.loading ||
-    directScheduleSettingsStatus === FETCH_STATUS.notStarted
+    facilitySettingsStatus === FETCH_STATUS.loading ||
+    facilitySettingsStatus === FETCH_STATUS.notStarted
   ) {
     return (
       <div className="vads-u-padding-y--3 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">

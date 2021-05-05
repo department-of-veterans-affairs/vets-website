@@ -146,7 +146,6 @@ export function openFacilityPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
-          directSchedulingEnabled: true,
         });
       }
 
@@ -162,7 +161,7 @@ export function openFacilityPage() {
       // fetch eligbility data immediately
       const supportedFacilities = facilities?.filter(
         facility =>
-          facility.legacyVAR.directSchedulingSupported[TYPE_OF_CARE_ID],
+          facility.legacyVAR.settings[TYPE_OF_CARE_ID]?.direct.enabled,
       );
       const clinicsNeeded = !!facilityId || supportedFacilities?.length === 1;
 
@@ -475,7 +474,6 @@ export function openContactFacilitiesPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
-          directSchedulingEnabled: true,
         });
       }
 
