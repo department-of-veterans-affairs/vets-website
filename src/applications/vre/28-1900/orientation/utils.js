@@ -268,4 +268,7 @@ export const orientationSteps = [
       'Home adaptations so you can live more independently',
     ],
   },
+  {
+    title: 'Thank you for viewing the VR&E orientation',
+  },
 ];

@@ -18,7 +18,7 @@ export default function ToDoQuestionnaireItem({ data }) {
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
   const facilityName = organizationSelector.getName(organization);
-  const appointmentTime = appointmentSelector.getStartTime(appointment);
+  const appointmentTime = appointmentSelector.getStartDateTime(appointment);
   const questionnaireResponse = questionnaireResponseSelector.getQuestionnaireResponse(
     questionnaire[0].questionnaireResponse,
   );
@@ -45,14 +45,22 @@ export default function ToDoQuestionnaireItem({ data }) {
             facilityName={facilityName}
             appointmentTime={appointmentTime}
             status={questionnaireResponseStatus}
+            useActionLink
           />
         )
       }
       DueDate={() => {
+        if (!appointmentTime)
+          return (
+            <section className="due-date" data-testid="due-date">
+              <p />
+            </section>
+          );
+        const displayTime = appointmentSelector.getStartTimeInTimeZone(
+          appointment,
+        );
+
         const dueDate = moment(appointmentTime);
-        const guess = moment.tz.guess();
-        const formattedTimezone = moment.tz(guess).format('z');
-        const meridiem = dueDate.hours() > 12 ? 'p.m.' : 'a.m.';
         return (
           <section className="due-date" data-testid="due-date">
             <p>{isCancelled ? 'Access until' : 'Complete by'}</p>
@@ -64,7 +72,7 @@ export default function ToDoQuestionnaireItem({ data }) {
                 className="vads-u-font-weight--bold"
                 data-testid="due-by-timestamp"
               >
-                {dueDate.format(`h:mm`)} {meridiem} {formattedTimezone}
+                {displayTime}
               </p>
             )}
           </section>

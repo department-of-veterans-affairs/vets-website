@@ -53,7 +53,7 @@ module.exports = {
         },
       },
       selenium: {
-        start_process: true,
+        start_process: false,
         log_path: selenium_logs,
         host: 'selenium-chrome',
         port: selenium_server_port,

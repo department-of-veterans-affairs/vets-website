@@ -1,11 +1,19 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { setPageTitle } from '../actions';
+import {
+  fetchSearchByLocationResults,
+  fetchSearchByNameResults,
+  setPageTitle,
+} from '../actions';
 import { PAGE_TITLE } from '../constants';
-import SearchSchools from '../containers/SearchSchools';
+import SearchForm from '../components/SearchForm';
 
-export function LandingPage({ dispatchSetPageTitle }) {
+export function LandingPage({
+  dispatchSetPageTitle,
+  dispatchFetchSearchByLocationResults,
+  dispatchFetchSearchByNameResults,
+}) {
   useEffect(() => {
     dispatchSetPageTitle(`${PAGE_TITLE}: VA.gov`);
   }, []);
@@ -13,11 +21,17 @@ export function LandingPage({ dispatchSetPageTitle }) {
     <span className="landing-page">
       <div className="vads-u-min-height--viewport row">
         <div className="column">
-          <h1>GI Bill® CT Redesign Sandbox</h1>
-          <p className="vads-u-font-family--sans vads-u-font-size--h3 vads-u-color--gray-dark">
-            Learn about education programs and compare benefits by school.
-          </p>
-          <SearchSchools />
+          <div className="vads-u-text-align--center">
+            <h1>GI Bill® Comparison Tool</h1>
+            <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
+              Use the GI Bill Comparison Tool to see how VA education benefits
+              can pay for your education.
+            </p>
+          </div>
+          <SearchForm
+            fetchSearchByLocation={dispatchFetchSearchByLocationResults}
+            fetchSearchByName={dispatchFetchSearchByNameResults}
+          />
         </div>
         <div className="small-12 usa-width-one-third medium-4 columns" />
       </div>
@@ -32,6 +46,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchSetPageTitle: setPageTitle,
+  dispatchFetchSearchByLocationResults: fetchSearchByLocationResults,
+  dispatchFetchSearchByNameResults: fetchSearchByNameResults,
 };
 
 export default connect(

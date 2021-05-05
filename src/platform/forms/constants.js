@@ -28,6 +28,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21_22: '21-22',
   FORM_5655: '5655',
   FORM_COVID_VACCINATION_EXPANSION: 'COVID-VACCINATION-EXPANSION',
+  FORM_26_1880: '26-1880',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([

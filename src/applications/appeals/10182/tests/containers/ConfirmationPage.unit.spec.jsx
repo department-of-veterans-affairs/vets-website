@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import { format } from 'date-fns';
+import moment from 'moment';
 
 import formConfig from '../../config/form';
 import initialData from '../schema/initialData';
@@ -63,10 +63,7 @@ describe('Confirmation page', () => {
     tree.unmount();
   });
   it('should render the submit date', () => {
-    const date = format(
-      new Date(data.form.submission.timestamp),
-      FORMAT_READABLE,
-    );
+    const date = moment(data.form.submission.timestamp).format(FORMAT_READABLE);
     const tree = mount(<ConfirmationPage store={fakeStore} />);
     expect(tree.text()).to.contain(date);
     tree.unmount();

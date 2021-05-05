@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { makeMockUser } from '@@profile/tests/fixtures/users/user.js';
 import dd4eduEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
 import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
@@ -7,7 +6,12 @@ import notInESR from '@@profile/tests/fixtures/enrollment-system/not-in-esr.json
 
 import manifest from '~/applications/personalization/dashboard/manifest.json';
 
-import { mockFeatureToggles } from './helpers';
+import {
+  disabilityCompensationExists,
+  educationBenefitExists,
+  healthCareInfoExists,
+  mockFeatureToggles,
+} from './helpers';
 
 function sectionHeadingsExist() {
   cy.findByRole('heading', { name: /apply for VA benefits/i }).should('exist');
@@ -16,34 +20,7 @@ function sectionHeadingsExist() {
   }).should('exist');
 }
 
-// Helper to make sure that the "health care" info does or doesn't exist
-function healthCareInfoExists(exists) {
-  const assertion = exists ? 'exist' : 'not.exist';
-  cy.findByTestId('benefits-of-interest')
-    .findByRole('heading', { name: /^health care$/i })
-    .should(assertion);
-}
-
-// Helper to make sure that the "disability compensation" info does or doesn't exist
-function disabilityCompensationExists(exists) {
-  const assertion = exists ? 'exist' : 'not.exist';
-  cy.findByTestId('benefits-of-interest')
-    .findByRole('heading', { name: /^disability compensation$/i })
-    .should(assertion);
-}
-
-// Helper to make sure that the "education and training" info does or doesn't exist
-function educationBenefitExists(exists) {
-  const assertion = exists ? 'exist' : 'not.exist';
-  cy.findByTestId('benefits-of-interest')
-    .findByRole('heading', { name: /^education and training$/i })
-    .should(assertion);
-}
-
 describe('The My VA Dashboard', () => {
-  beforeEach(() => {
-    disableFTUXModals();
-  });
   describe('when user is not a patient, has not applied for health care, and is not known to get education benefits', () => {
     beforeEach(() => {
       const user = makeMockUser();

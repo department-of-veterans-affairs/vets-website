@@ -3,14 +3,18 @@ import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import AdditionalResources from '../content/AdditionalResources';
 import {
   convertRatingToStars,
   formatNumber,
   locationInfo,
 } from '../../utils/helpers';
 import { ariaLabels, MINIMUM_RATING_COUNT } from '../../constants';
-import { renderStars } from '../../utils/render';
+import CautionFlagHeading from './CautionFlagHeading';
+import SchoolClosingHeading from './SchoolClosingHeading';
 import ScorecardTags from '../ScorecardTags';
+import { renderStars } from '../../utils/render';
+import recordEvent from 'platform/monitoring/record-event';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -27,11 +31,22 @@ class HeadingSummary extends React.Component {
   render() {
     const it = this.props.institution;
     it.type = it.type && it.type.toLowerCase();
-    const formattedAddress = locationInfo(it.city, it.state, it.country);
+    const formattedAddress = locationInfo(
+      it.physicalCity,
+      it.physicalState,
+      it.physicalCountry,
+    );
     const addressPresent = formattedAddress !== ''; // if locationInfo returns a blank string, icon should not show
 
     const stars = convertRatingToStars(it.ratingAverage);
-    const displayStars = stars && it.ratingCount >= MINIMUM_RATING_COUNT;
+    const displayStars =
+      this.props.gibctSchoolRatings &&
+      stars &&
+      it.ratingCount >= MINIMUM_RATING_COUNT;
+
+    const titleClasses = classNames({
+      'vads-u-margin-bottom--0': displayStars,
+    });
 
     const starClasses = classNames(
       'vads-u-margin-bottom--1',
@@ -51,14 +66,21 @@ class HeadingSummary extends React.Component {
     };
 
     return (
-      <div id="heading-summary" className="heading row">
-        <div className="column">
-          <h1 tabIndex={-1} className="vads-u-margin-bottom--0">
+      <div className="heading row">
+        <div className="usa-width-two-thirds medium-8 small-12 column">
+          <h1 tabIndex={-1} className={titleClasses}>
             {it.name}
           </h1>
-          {addressPresent && (
-            <div className="vads-u-margin-top--0">{formattedAddress}</div>
-          )}
+          <SchoolClosingHeading
+            schoolClosing={it.schoolClosing}
+            schoolClosingOn={it.schoolClosingOn}
+          />
+          <div className="caution-flag">
+            <CautionFlagHeading
+              cautionFlags={it.cautionFlags}
+              onViewWarnings={this.props.onViewWarnings}
+            />
+          </div>
           {displayStars && (
             <div className={starClasses}>
               <span className="vads-u-font-size--sm">
@@ -71,7 +93,10 @@ class HeadingSummary extends React.Component {
                 {stars.display} of 5
               </span>{' '}
               (
-              <a href="#student-ratings">
+              <a
+                href="#profile-school-ratings"
+                onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
+              >
                 See {it.ratingCount} ratings by Veterans
               </a>
               )
@@ -94,6 +119,16 @@ class HeadingSummary extends React.Component {
           </div>
           <div>
             <div className="medium-6 small-12 column vads-u-margin-top--neg2">
+              <IconWithInfo icon="map-marker" present={addressPresent}>
+                {'  '}
+                {formattedAddress}
+              </IconWithInfo>
+              <IconWithInfo icon="globe" present={it.website}>
+                <a href={it.website} target="_blank" rel="noopener noreferrer">
+                  {'  '}
+                  {it.website}
+                </a>
+              </IconWithInfo>
               <IconWithInfo
                 icon="calendar"
                 present={it.type !== 'ojt' && it.highestDegree}
@@ -104,25 +139,18 @@ class HeadingSummary extends React.Component {
                   : it.highestDegree}{' '}
                 program
               </IconWithInfo>
-              <IconWithInfo
-                icon="university"
-                present={it.type && it.type !== 'ojt'}
-              >
-                {'   '}
-                {_.capitalize(it.type)} school
-              </IconWithInfo>
-              <IconWithInfo icon="award" present>
-                Regional Accreditation (Learn More)
-              </IconWithInfo>
             </div>
             <div className="medium-6 small-12 column vads-u-margin-top--neg2">
               <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
                 {'   '}
                 On-the-job training
               </IconWithInfo>
-              <IconWithInfo icon="users" present={it.type && it.type !== 'ojt'}>
+              <IconWithInfo
+                icon="university"
+                present={it.type && it.type !== 'ojt'}
+              >
                 {'   '}
-                {schoolSize(it.undergradEnrollment)} size
+                {_.capitalize(it.type)} school
               </IconWithInfo>
               <IconWithInfo
                 icon="map"
@@ -131,11 +159,9 @@ class HeadingSummary extends React.Component {
                 {'   '}
                 {_.capitalize(it.localeType)} locale
               </IconWithInfo>
-              <IconWithInfo icon="globe" present={it.website}>
-                <a href={it.website} target="_blank" rel="noopener noreferrer">
-                  {'  '}
-                  {it.website}
-                </a>
+              <IconWithInfo icon="users" present={it.type && it.type !== 'ojt'}>
+                {'   '}
+                {schoolSize(it.undergradEnrollment)} size
               </IconWithInfo>
             </div>
           </div>
@@ -144,14 +170,15 @@ class HeadingSummary extends React.Component {
               <ScorecardTags
                 styling="info-flag"
                 it={this.props.institution}
-                menOnly={this.props.institution.menOnly}
-                womenOnly={this.props.institution.womenOnly}
+                menOnly={this.props.institution.menonly}
+                womenOnly={this.props.institution.womenonly}
                 hbcu={this.props.institution.hbcu}
-                relAffil={this.props.institution.relAffil}
+                relAffil={this.props.institution.relaffil}
               />
             </div>
           </div>
         </div>
+        <AdditionalResources />
       </div>
     );
   }

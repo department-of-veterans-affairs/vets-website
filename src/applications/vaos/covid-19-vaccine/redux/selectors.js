@@ -41,7 +41,7 @@ export function getSiteIdForChosenFacility(state) {
 
 export function getChosenSlot(state) {
   const availableSlots = selectCovid19VaccineNewBooking(state).availableSlots;
-  const selectedTime = selectCovid19VaccineFormData(state).date1[0];
+  const selectedTime = selectCovid19VaccineFormData(state).date1?.[0];
 
   return availableSlots?.find(slot => slot.start === selectedTime);
 }
@@ -96,7 +96,7 @@ export function getFacilityPageInfo(state) {
   } = newBooking;
 
   const supportedFacilities = facilities?.filter(
-    facility => facility.legacyVAR.directSchedulingSupported[TYPE_OF_CARE_ID],
+    facility => facility.legacyVAR.settings[TYPE_OF_CARE_ID]?.direct.enabled,
   );
 
   return {
@@ -156,8 +156,10 @@ export function getReviewPage(state) {
 
 export function selectConfirmationPage(state) {
   return {
+    clinic: getChosenClinicInfo(state),
     data: selectCovid19VaccineFormData(state),
     facilityDetails: getChosenFacilityInfo(state),
+    slot: getChosenSlot(state),
     systemId: getSiteIdForChosenFacility(state),
     submitStatus: selectCovid19Vaccine(state).submitStatus,
   };

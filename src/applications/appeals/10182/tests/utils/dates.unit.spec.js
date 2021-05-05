@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { format } from 'date-fns';
+import moment from 'moment';
 
 import { FORMAT_YMD, FORMAT_READABLE } from '../../constants';
 import { getDate } from '../../utils/dates';
@@ -9,7 +9,7 @@ describe('getDate', () => {
   const date = new Date(dateString);
 
   it('should return a date string from date object', () => {
-    expect(getDate()).to.equal(format(new Date(), FORMAT_YMD));
+    expect(getDate()).to.equal(moment().format(FORMAT_YMD));
   });
   it('should return a date string from date string & offset', () => {
     expect(getDate({ date, offset: { days: 3 } })).to.contain('2021-02-13');

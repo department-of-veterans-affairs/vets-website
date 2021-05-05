@@ -11,7 +11,16 @@ export const needsHearingType = formData =>
   formData.boardReviewOption === 'hearing';
 export const wantsToUploadEvidence = formData =>
   canUploadEvidence(formData) && formData['view:additionalEvidence'];
-export const someSelected = issues => issues.some(issue => issue[SELECTED]);
+export const someSelected = issues =>
+  (issues || []).some(issue => issue[SELECTED]);
 
 export const noticeOfDisagreementFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.form10182Nod];
+
+export const isEmptyObject = obj =>
+  obj && typeof obj === 'object' && !Array.isArray(obj)
+    ? Object.keys(obj)?.length === 0 || false
+    : false;
+
+export const setInitialEditMode = formData =>
+  formData.map(({ issue, decisionDate } = {}) => !issue || !decisionDate);

@@ -107,7 +107,7 @@ const ProfileWrapper = ({
 const mapStateToProps = (state, ownProps) => {
   const veteranStatus = selectProfile(state)?.veteranStatus;
   const invalidVeteranStatus =
-    !veteranStatus || veteranStatus === 'NOT_AUTHORIZED';
+    !veteranStatus || veteranStatus.status === 'NOT_AUTHORIZED';
   const hero = state.vaProfile?.hero;
 
   return {

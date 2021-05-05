@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockUser from '@@profile/tests/fixtures/users/user-non-2fa.json';
@@ -30,7 +29,6 @@ function confirmSetUp2FAAlertIsShown() {
 
 describe('Direct Deposit', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login();
     cy.route('GET', '/v0/feature_toggles*', dd4eduEnabled);
   });

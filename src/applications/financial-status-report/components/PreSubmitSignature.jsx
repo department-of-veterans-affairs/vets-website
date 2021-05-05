@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import environment from 'platform/utilities/environment';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -138,6 +139,19 @@ const PreSubmitSignature = ({
           <li>My household assets and expenses</li>
           <li>My bankruptcy history</li>
         </ul>
+
+        <p>
+          I have read and accept the
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="vads-u-margin-left--0p5"
+            href={`${environment.BASE_URL}/privacy-policy`}
+          >
+            privacy policy (opens in new tab)
+          </a>
+          .
+        </p>
 
         <TextInput
           additionalClass="signature-input"

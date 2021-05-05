@@ -5,7 +5,9 @@ const today = moment();
 export function chooseTypeOfCareTest(label) {
   cy.url().should('include', '/new-appointment');
   cy.axeCheckBestPractice();
-  cy.findByLabelText(label).click();
+  cy.findByLabelText(label)
+    .focus()
+    .click();
   cy.findByText(/Continue/).click();
 }
 
@@ -131,4 +133,11 @@ export function confirmationPageTest(additionalInfo) {
   cy.findByText('VA Appointment');
   cy.findByText('Follow-up/Routine');
   cy.findByText(additionalInfo);
+}
+
+export function confirmationPageV2Test(fullReason) {
+  cy.findByText('Your appointment has been scheduled and is confirmed.');
+  cy.findByText('VA Appointment');
+  cy.findByText('Your reason for your visit');
+  cy.findByText(fullReason);
 }

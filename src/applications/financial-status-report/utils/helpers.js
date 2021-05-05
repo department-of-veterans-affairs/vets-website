@@ -67,7 +67,7 @@ export const getMonthlyIncome = ({
     totalArr = [...totalArr, benefitAmount, educationAmount];
   }
 
-  return totalArr.reduce((acc, income) => acc + income, 0);
+  return totalArr.reduce((acc, income) => acc + income, 0) || 0;
 };
 
 export const getMonthlyExpenses = ({
@@ -109,7 +109,7 @@ export const getMonthlyExpenses = ({
     totalArr = [...totalArr, ...other];
   }
 
-  return totalArr.reduce((acc, expense) => acc + expense, 0);
+  return totalArr.reduce((acc, expense) => acc + expense, 0) || 0;
 };
 
 export const getEmploymentHistory = ({ questions, personalData }) => {

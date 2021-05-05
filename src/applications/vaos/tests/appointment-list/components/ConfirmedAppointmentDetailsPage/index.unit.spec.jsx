@@ -36,69 +36,10 @@ const initialState = {
   },
 };
 
-const appointment = getVAAppointmentMock();
-appointment.attributes = {
-  ...appointment.attributes,
-  clinicId: '308',
-  clinicFriendlyName: "Jennie's Lab",
-  facilityId: '983',
-  sta6aid: '983GC',
-  communityCare: false,
-  vdsAppointments: [
-    {
-      bookingNote: 'New issue: ASAP',
-      appointmentLength: '60',
-      appointmentTime: '2021-12-07T16:00:00Z',
-      clinic: {
-        name: 'CHY OPT VAR1',
-        askForCheckIn: false,
-        facilityCode: '983',
-      },
-      type: 'REGULAR',
-      currentStatus: 'FUTURE',
-    },
-  ],
-  vvsAppointments: [],
-};
-
-const facility = {
-  id: 'vha_442GC',
-  attributes: {
-    ...getVAFacilityMock().attributes,
-    type: 'facility',
-    address: {
-      mailing: {},
-      physical: {
-        zip: '80526-8108',
-        city: 'Fort Collins',
-        state: 'CO',
-        address1: '2509 Research Boulevard',
-        address2: null,
-        address3: null,
-      },
-    },
-    id: 'vha_442GC',
-    name: 'Fort Collins VA Clinic',
-    phone: {
-      main: '970-224-1550',
-    },
-    uniqueId: '442GC',
-  },
-};
-
 describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
-    appointment.attributes.startDate = moment();
-    mockAppointmentInfo({
-      va: [appointment],
-      cc: [],
-      requests: [],
-      isHomepageRefresh: true,
-    });
-
-    mockFacilitiesFetch('vha_442GC', [facility]);
   });
   afterEach(() => {
     resetFetch();
@@ -107,10 +48,41 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should show confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      clinicFriendlyName: "Jennie's Lab",
+      facilityId: '983',
+      sta6aid: '983GC',
+      vdsAppointments: [
+        {
+          bookingNote: 'New issue: ASAP',
+        },
+      ],
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+      isHomepageRefresh: true,
+    });
+
     mockSingleAppointmentFetch({
       appointment,
-      type: 'va',
     });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Fort Collins VA Clinic',
+        phone: {
+          main: '970-224-1550',
+        },
+      },
+    };
 
     mockFacilityFetch('vha_442GC', facility);
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
@@ -201,6 +173,39 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should allow cancellation', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      facilityId: '983',
+      sta6aid: '983GC',
+      startDate: moment(),
+      vdsAppointments: [
+        {
+          clinic: {
+            name: 'CHY OPT VAR1',
+          },
+        },
+      ],
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+      isHomepageRefresh: true,
+    });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Fort Collins VA Clinic',
+      },
+    };
+
+    mockFacilitiesFetch('vha_442GC', [facility]);
+
     const cancelReason = getCancelReasonMock();
     cancelReason.attributes = {
       ...cancelReason.attributes,
@@ -277,14 +282,32 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should display who canceled the appointment', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-    const canceledAppointment = JSON.parse(JSON.stringify(appointment));
-    canceledAppointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      facilityId: '983',
+      sta6aid: '983GC',
+      vdsAppointments: [
+        {
+          currentStatus: 'CANCELLED BY CLINIC',
+        },
+      ],
+    };
 
     mockSingleAppointmentFetch({
-      appointment: canceledAppointment,
-      type: 'va',
+      appointment,
     });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Fort Collins VA Clinic',
+      },
+    };
 
     mockFacilityFetch('vha_442GC', facility);
 
@@ -307,6 +330,34 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should fire a print request when print button clicked', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+      isHomepageRefresh: true,
+    });
+
+    mockSingleAppointmentFetch({
+      appointment,
+    });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Fort Collins VA Clinic',
+      },
+    };
+
+    mockFacilityFetch('vha_442GC', facility);
 
     const screen = renderWithStoreAndRouter(
       <AppointmentList featureHomepageRefresh />,
@@ -351,9 +402,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
   it('should show error message when single fetch errors', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+
     mockSingleAppointmentFetch({
       appointment,
-      type: 'va',
       error: true,
     });
 

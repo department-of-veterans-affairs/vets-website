@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import React from 'react';
+import React, { Component } from 'react';
 
 import { updateField } from '../actions';
 import FormQuestions from '../components/FormQuestions';
 
-class FormPage extends React.Component {
+export class FormPage extends Component {
   componentDidMount() {
     window.scrollTo(0, 0);
     if (!sessionStorage.getItem('dw-session-started')) {

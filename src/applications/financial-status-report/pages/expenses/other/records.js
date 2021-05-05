@@ -31,10 +31,11 @@ export const uiSchema = {
       doNotScroll: true,
       showSave: true,
       itemName: 'an expense',
+      keepInPageOnReview: true,
     },
     items: {
       'ui:options': {
-        classNames: 'horizonal-field-container no-wrap',
+        classNames: 'horizontal-field-container no-wrap',
       },
       name: {
         'ui:title': 'Type of expense',
@@ -66,7 +67,6 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Expense',
         required: ['name', 'amount'],
         properties: {
           name: {

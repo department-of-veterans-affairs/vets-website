@@ -34,8 +34,10 @@ import {
   clearCurrentSession,
 } from '../../../../shared/utils';
 
-import { path, todoPath, completedPath } from './routes';
+import { path, todoPath, completedPath, deletePath } from './routes';
 import ShowErrorStatus from '../Messages/ShowErrorStatus';
+
+import Reset from '../Reset';
 
 const Home = props => {
   const {
@@ -104,6 +106,9 @@ const Home = props => {
                     path={completedPath}
                     component={CompletedQuestionnaires}
                   />
+                  {environment.isLocalhost() && (
+                    <Route path={deletePath} component={Reset} />
+                  )}
                   <Route path={path} component={ToDoQuestionnaires} />
                 </Switch>
               </Router>

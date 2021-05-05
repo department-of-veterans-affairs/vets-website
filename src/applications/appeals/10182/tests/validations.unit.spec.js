@@ -1,18 +1,83 @@
 import { expect } from 'chai';
 
-import { isValidDate } from '../validations';
+import { requireIssue, optInValidation } from '../validations';
+import { missingIssuesErrorMessage } from '../content/contestableIssues';
+import { optInErrorMessage } from '../content/OptIn';
+import { SELECTED } from '../constants';
 
-describe('isValidDate', () => {
-  it('should detect valid dates', () => {
-    expect(isValidDate(new Date())).to.be.true;
-    expect(isValidDate(new Date('2020-01-01'))).to.be.true;
-    expect(isValidDate(new Date(946684800000))).to.be.true;
+describe('requireIssue validation', () => {
+  const _ = null; // placeholder
+
+  let errorMessage = '';
+  const errors = {
+    addError: message => {
+      errorMessage = message || '';
+    },
+  };
+
+  beforeEach(() => {
+    errorMessage = '';
   });
-  it('should detect invalid dates', () => {
-    expect(isValidDate({})).to.be.false;
-    expect(isValidDate(12345)).to.be.false;
-    expect(isValidDate(Date)).to.be.false;
-    expect(isValidDate(new Date('xyz'))).to.be.false;
-    expect(isValidDate(new Date(Infinity))).to.be.false;
+
+  it('should show an error if no issues are selected', () => {
+    requireIssue(errors, _, _, _, _, _, {});
+    expect(errorMessage).to.equal(missingIssuesErrorMessage);
+  });
+
+  it('should show an error if no issues are selected', () => {
+    const data = {
+      contestableIssues: [{ [SELECTED]: false }, {}],
+      additionalIssues: [{ [SELECTED]: false }, {}],
+    };
+    requireIssue(errors, _, _, _, _, _, data);
+    expect(errorMessage).to.equal(missingIssuesErrorMessage);
+  });
+
+  it('should not show an error if a single contestable issue is selected', () => {
+    const data = {
+      contestableIssues: [{ [SELECTED]: true }, {}],
+      additionalIssues: [{ [SELECTED]: false }, {}],
+    };
+    requireIssue(errors, _, _, _, _, _, data);
+    expect(errorMessage).to.equal('');
+  });
+  it('should not show an error if a single added issue is selected', () => {
+    const data = {
+      contestableIssues: [{ [SELECTED]: false }, {}],
+      additionalIssues: [{ [SELECTED]: true }, {}],
+    };
+    requireIssue(errors, _, _, _, _, _, data);
+    expect(errorMessage).to.equal('');
+  });
+
+  it('should not show an error if a two issues are selected', () => {
+    const data = {
+      contestableIssues: [{ [SELECTED]: true }, {}],
+      additionalIssues: [{ [SELECTED]: true }, {}],
+    };
+    requireIssue(errors, _, _, _, _, _, data);
+    expect(errorMessage).to.equal('');
+  });
+});
+
+describe('optInValidation', () => {
+  let errorMessage = '';
+  const errors = {
+    addError: message => {
+      errorMessage = message || '';
+    },
+  };
+
+  beforeEach(() => {
+    errorMessage = '';
+  });
+
+  it('should show an error when the value is false', () => {
+    optInValidation(errors, false);
+    expect(errorMessage).to.equal(optInErrorMessage);
+  });
+  it('should not show an error when the value is true', () => {
+    optInValidation(errors, true);
+    expect(errorMessage).to.equal('');
   });
 });

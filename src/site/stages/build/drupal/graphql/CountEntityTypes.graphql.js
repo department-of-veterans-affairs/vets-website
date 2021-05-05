@@ -24,9 +24,28 @@ const CountEntityTypes = `
   vetCenters: nodeQuery(
     filter: {
       conditions: [
-        # TODO: uncomment when vet_centers officially go live:
-        # {field: "status", value: ["1"]},
+        {field: "status", value: ["1"]},
         {field: "type", value: ["vet_center"]}
+      ]}
+  	) {
+    count
+  }
+  
+  newsStories: nodeQuery(
+    filter: {
+      conditions: [
+        {field: "status", value: ["1"]},
+        {field: "type", value: ["news_story"]}
+      ]}
+  	) {
+    count
+  }
+  
+  pressReleases: nodeQuery(
+    filter: {
+      conditions: [
+        {field: "status", value: ["1"]},
+        {field: "type", value: ["press_release"]}
       ]}
   	) {
     count

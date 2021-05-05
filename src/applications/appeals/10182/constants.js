@@ -18,10 +18,10 @@ export const SELECTED = 'view:selected';
 export const CONTESTABLE_ISSUES_API =
   '/notice_of_disagreements/contestable_issues';
 
-export const FORMAT_READABLE = 'MMMM d, yyyy';
+export const FORMAT_READABLE = 'LL';
 
 // contested issue dates
-export const FORMAT_YMD = 'yyyy-MM-dd';
+export const FORMAT_YMD = 'YYYY-MM-DD';
 
 export const SUPPORTED_UPLOAD_TYPES = [
   'pdf',

@@ -17,7 +17,6 @@ import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
   },
   user: {

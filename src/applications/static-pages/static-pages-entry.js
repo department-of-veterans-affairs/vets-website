@@ -60,6 +60,7 @@ import createChapter31CTA from './vre-chapter31/createChapter31CTA';
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
 import createI18Select from './i18Select/createI18Select';
+import createSharableLink from './sharable-links/createSharableLink';
 
 // School resources widgets
 import {
@@ -199,6 +200,7 @@ createI18Select(store, widgetTypes.I_18_SELECT);
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 
 createDirectDepositContent(store, widgetTypes.DIRECT_DEPOSIT);
+createSharableLink(store, widgetTypes.SHARABLE_LINK);
 
 // homepage widgets
 if (location.pathname === '/') {

@@ -1,15 +1,34 @@
-import { parse, startOfDay, add, isAfter } from 'date-fns';
+import moment from 'moment';
 
 import { SELECTED } from '../constants';
-import { isValidDate } from '../validations';
 
 /**
  * @typedef FormData
  * @type {Object<Object>}
- * @property {ContestableIssues}
- * @property {AdditionaIssues}
- * @property {Evidence}
- * @property {*} Unused properties
+ * @property {Veteran} veteran - data from prefill & profile
+ * @property {ContestableIssues} contestableIssues - issues loaded from API
+ * @property {AdditionaIssues} additionalIssues - issues entered by Veteran
+ * @property {Evidence} evidence - Evidence uploaded by Veteran
+ * @property {Boolean} homeless - homeless choice
+ * @property {Boolean} view:hasRep - Has a VSO choice
+ * @property {String} representativesName - Veteran entered VSO name
+ * @property {String} boardReviewOption - Veteran selected review option - enum
+ *   to "direct_review", "evidence_submission" or "hearing"
+ * @property {String} hearingTypePreference - Vetera selected hearing type -
+ *   enum to "virtual_hearing", "video_conference" or "central_office"
+ * @property {Boolean} socOptIn - check box indicating the Veteran has opted in
+ *   to the new appeal process
+ * @property {Boolean} view:additionalEvidence - Veteran choice to upload more
+ *   evidence
+ */
+/**
+ * @typedef Veteran
+ * @type {Object}
+ * @property {String} ssnLastFour - Last four of SSN from prefill
+ * @property {String} vaFileLastFour - Last four of VA file number from prefill
+ * @property {Object<String>} address - Veteran's home address from profile
+ * @property {Object<String>} phone - Veteran's home phone from profile
+ * @property {Object<String>} email - Veteran's email from profile
  */
 /**
  * @typedef ContestableIssues
@@ -42,7 +61,7 @@ import { isValidDate } from '../validations';
  *  issues
  */
 export const getEligibleContestableIssues = issues => {
-  const today = startOfDay(new Date());
+  const today = moment().startOf('day');
   return (issues || []).filter(issue => {
     const {
       approxDecisionDate = '',
@@ -53,11 +72,11 @@ export const getEligibleContestableIssues = issues => {
     const isDeferred = [ratingIssueSubjectText, description]
       .join(' ')
       .includes('deferred');
-    const date = parse(approxDecisionDate, 'yyyy-MM-dd', new Date());
-    if (isDeferred || !isValidDate(date)) {
+    const date = moment(approxDecisionDate);
+    if (isDeferred || !date.isValid()) {
       return false;
     }
-    return isAfter(add(date, { years: 1 }), today);
+    return date.add(1, 'years').isAfter(today);
   });
 };
 
@@ -136,7 +155,6 @@ export const getContestableIssues = ({ contestableIssues }) =>
     );
 
     return {
-      // type: "contestableIssues"
       type: issue.type,
       attributes,
     };
@@ -208,10 +226,12 @@ export const addIncludedIssues = formData =>
  * @returns {Evidence~Submittable[]}
  */
 export const addUploads = formData =>
-  formData.evidence.map(({ name, confirmationCode }) => ({
-    name,
-    confirmationCode,
-  }));
+  formData['view:additionalEvidence']
+    ? formData.evidence.map(({ name, confirmationCode }) => ({
+        name,
+        confirmationCode,
+      }))
+    : [];
 
 /**
  * Remove objects with empty string values; Lighthouse doesn't like `null`
@@ -225,12 +245,12 @@ export const removeEmptyEntries = object =>
   );
 
 /**
- * Veteran
- * @property {String} ssnLastFour
- * @property {String} vaFileLastFour
+ * Veteran~submittable
  * @property {Address~submittable} address
  * @property {Phone~submittable} phone
- * @property {String} email
+ * @property {String} emailAddressText
+ * @property {Boolean} homeless
+ * @property {String} representativesName
  */
 /**
  * Address~submittable
@@ -254,7 +274,7 @@ export const removeEmptyEntries = object =>
  */
 /**
  * Strip out extra profile home address data & rename zipCode to zipCode5
- * @param {Object} veteran - Veteran formData object
+ * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
 export const getAddress = ({ veteran = {} } = {}) =>
@@ -271,7 +291,7 @@ export const getAddress = ({ veteran = {} } = {}) =>
 
 /**
  * Strip out extra profile phone data
- * @param {Object} veteran - Veteran formData object
+ * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
 export const getPhone = ({ veteran = {} } = {}) =>
@@ -281,6 +301,16 @@ export const getPhone = ({ veteran = {} } = {}) =>
     phoneNumber: veteran.phone?.phoneNumber || '',
     phoneNumberExt: veteran.phone?.phoneNumberExt || '',
   });
+
+/**
+ * Get representative name entered by Veteran
+ * @param {FormData}
+ * @returns {String} Rep name with max length of 120 characters
+ */
+export const getRepName = formData =>
+  formData['view:hasRep']
+    ? (formData.representativesName || '').substring(0, 120)
+    : '';
 
 /**
  * Get user's current time zone

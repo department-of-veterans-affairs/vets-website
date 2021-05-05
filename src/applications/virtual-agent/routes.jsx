@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router';
-import App from './containers/App.jsx';
+import Page from './components/page/Page';
 
-const routes = <Route path="/" component={App} />;
+const routes = <Route path="/" component={Page} />;
 
 export default routes;

@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+
+import environment from 'platform/utilities/environment';
+import GetFormHelp from '../components/GetFormHelp';
+import { focusElement } from 'platform/utilities/ui';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes/';
 import { downloadPDF } from '../actions';
-import { focusElement } from 'platform/utilities/ui';
 import { bindActionCreators } from 'redux';
-import GetFormHelp from '../components/GetFormHelp';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -37,7 +39,7 @@ const RequestDetailsCard = ({ data, response, download }) => {
         <ul>
           {data.selectedDebts?.map((debt, index) => (
             <li key={index}>
-              {debt.resolution.resolutionType} for{' '}
+              {debt.resolution?.resolutionType} for{' '}
               {deductionCodes[debt.deductionCode]}{' '}
             </li>
           ))}
@@ -84,12 +86,14 @@ const ConfirmationPage = ({ form, download }) => {
       <p className="vads-u-margin-top--0">
         <strong>Please print this page for your records.</strong>
       </p>
+
       <h3 className="confirmation-page-title">We've received your request</h3>
       <p>
         We’ll send you a letter with our decision and any next steps. If you
         experience changes that may affect our decision (like a job loss or a
         new job), you’ll need to submit a new request.
       </p>
+
       {response && (
         <RequestDetailsCard
           data={data}
@@ -97,13 +101,14 @@ const ConfirmationPage = ({ form, download }) => {
           download={download}
         />
       )}
+
       <h3>How can I check the status of my request?</h3>
       <div className="process schemaform-process">
         <ol>
           <li className="process-step list-one">
             <h4>Sign in to VA.gov</h4>
             <p>
-              You can sign in with your DS Logon, My HealtheVet, or ID.me
+              You can sign in with your DS Logon, My HealthyVet, or ID.me
               account.
             </p>
           </li>
@@ -140,7 +145,15 @@ const ConfirmationPage = ({ form, download }) => {
           You'll need to submit a new request to report the changes to us. We'll
           consider the changes when we make our decision on your request.
         </p>
+
+        <a
+          className="usa-button-primary va-button-primary vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
+          href={`${environment.BASE_URL}`}
+        >
+          Go back to VA.gov
+        </a>
       </div>
+
       <div className="help-container">
         <h2 className="help-heading">Need help?</h2>
         <GetFormHelp />

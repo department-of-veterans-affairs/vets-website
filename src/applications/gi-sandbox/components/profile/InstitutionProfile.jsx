@@ -1,16 +1,29 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ProfileSection from '../ProfileSection';
+import AccordionItem from '../AccordionItem';
 import HeadingSummary from './HeadingSummary';
-import { convertRatingToStars, createId } from '../../utils/helpers';
+import Programs from './Programs';
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
+import SchoolLocations from './SchoolLocations';
+import CautionaryInformation from './CautionaryInformation';
+import AdditionalInformation from './AdditionalInformation';
+import ContactInformation from './ContactInformation';
+import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
+import { convertRatingToStars } from '../../utils/helpers';
+import SchoolRatings from './SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
-import ProfileNavBar from '../ProfileNavBar';
-import _ from 'lodash';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
     profile: PropTypes.object,
+    isOJT: PropTypes.bool,
+    constants: PropTypes.object,
+    calculator: PropTypes.object,
+    eligibility: PropTypes.object,
+    gibctEybBottemSheet: PropTypes.bool,
   };
 
   shouldShowSchoolLocations = facilityMap =>
@@ -18,82 +31,93 @@ export class InstitutionProfile extends React.Component {
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
 
+  scrollToLocations = () => {
+    scroller.scrollTo('school-locations', getScrollOptions());
+  };
+
   render() {
-    const { profile, showModal } = this.props;
+    const {
+      profile,
+      isOJT,
+      constants,
+      showModal,
+      gibctEybBottomSheet,
+      gibctSchoolRatings,
+    } = this.props;
 
     const stars = convertRatingToStars(profile.attributes.ratingAverage);
     const displayStars =
-      stars && profile.attributes.ratingCount >= MINIMUM_RATING_COUNT;
-
-    const loremIpsum = (
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </div>
-    );
-
-    const profileSections = [
-      {
-        name: 'Estimate your benefits',
-        component: loremIpsum,
-      },
-      {
-        name: 'Institution Details',
-        component: loremIpsum,
-      },
-      {
-        name: 'Fields of Study',
-        component: loremIpsum,
-      },
-      {
-        name: 'School locations',
-        hide: !this.shouldShowSchoolLocations(profile.attributes.facilityMap),
-        component: loremIpsum,
-      },
-      {
-        name: 'Cautionary information',
-        component: loremIpsum,
-      },
-      {
-        name: 'Student ratings',
-        hide: !displayStars,
-        component: loremIpsum,
-      },
-      {
-        name: 'Contact details',
-        component: loremIpsum,
-      },
-    ];
-
-    const visibleSections = profileSections.filter(
-      section => !_.get(section, 'hide', false),
-    );
-    const sectionNames = visibleSections.map(({ name }) => name);
+      this.props.gibctSchoolRatings &&
+      stars &&
+      profile.attributes.ratingCount >= MINIMUM_RATING_COUNT;
 
     return (
       <div className="institution-profile">
         <HeadingSummary
           institution={profile.attributes}
           onLearnMore={showModal.bind(this, 'gibillstudents')}
+          gibctSchoolRatings={gibctSchoolRatings}
         />
-        <ProfileNavBar profileSections={sectionNames} />
-        <div className="row">
+        <div className="usa-accordion vads-u-margin-top--4">
           <ul>
-            {visibleSections.map(({ name, component }) => {
-              return (
-                <ProfileSection
-                  key={`${createId(name)}-profile-section`}
-                  name={name}
-                >
-                  {component}
-                </ProfileSection>
-              );
-            })}
+            <AccordionItem button="Estimate your benefits">
+              <EstimateYourBenefits gibctEybBottomSheet={gibctEybBottomSheet} />
+            </AccordionItem>
+            {!isOJT && (
+              <AccordionItem button="Veteran programs">
+                <Programs
+                  institution={profile.attributes}
+                  onShowModal={showModal}
+                />
+              </AccordionItem>
+            )}
+            {this.shouldShowSchoolLocations(profile.attributes.facilityMap) && (
+              <AccordionItem button="School locations">
+                <SchoolLocations
+                  institution={profile.attributes}
+                  facilityMap={profile.attributes.facilityMap}
+                  calculator={this.props.calculator}
+                  eligibility={this.props.eligibility}
+                  constants={constants}
+                  version={this.props.version}
+                  onViewLess={this.scrollToLocations}
+                />
+              </AccordionItem>
+            )}
+            <AccordionItem
+              button="Cautionary information"
+              ref={c => {
+                this._cautionaryInfo = c;
+              }}
+            >
+              <CautionaryInformation
+                institution={profile.attributes}
+                onShowModal={showModal}
+              />
+            </AccordionItem>
+            {displayStars && (
+              <AccordionItem button="School ratings">
+                <div id="profile-school-ratings">
+                  <SchoolRatings
+                    ratingAverage={profile.attributes.ratingAverage}
+                    ratingCount={profile.attributes.ratingCount}
+                    institutionCategoryRatings={
+                      profile.attributes.institutionCategoryRatings
+                    }
+                  />
+                </div>
+              </AccordionItem>
+            )}
+            <AccordionItem button="Contact details">
+              <ContactInformation institution={profile.attributes} />
+            </AccordionItem>
+            <AccordionItem button="Additional information">
+              <AdditionalInformation
+                institution={profile.attributes}
+                onShowModal={showModal}
+                constants={constants}
+              />
+            </AccordionItem>
           </ul>
         </div>
       </div>
