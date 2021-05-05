@@ -223,6 +223,9 @@ class FileField extends React.Component {
       : false;
 
     const isUploading = files.some(file => file.uploading);
+    // hide upload & delete buttons on review & submit page when reviewing
+    const showButtons = !formContext.reviewMode && !isUploading;
+
     let { buttonText = 'Upload' } = uiOptions;
     if (files.length > 0) buttonText = uiOptions.addAnotherLabel;
 
@@ -272,6 +275,8 @@ class FileField extends React.Component {
                 showPasswordContent &&
                 !showPasswordInput &&
                 file.confirmationCode;
+              const description =
+                (!file.uploading && uiOptions.itemDescription) || '';
 
               if (showPasswordInput) {
                 setTimeout(() => {
@@ -302,7 +307,7 @@ class FileField extends React.Component {
                       </button>
                     </div>
                   )}
-                  {!file.uploading && <p>{uiOptions.itemDescription}</p>}
+                  {description && <p>{description}</p>}
                   {!file.uploading && <strong>{file.name}</strong>}
                   {(showPasswordInput || showPasswordSuccess) && (
                     <PasswordLabel />
@@ -365,11 +370,11 @@ class FileField extends React.Component {
                       onSubmitPassword={this.onSubmitPassword}
                     />
                   )}
-                  {!file.uploading && (
-                    <div>
+                  {showButtons && (
+                    <div className="vads-u-margin-top--2">
                       <button
                         type="button"
-                        className="va-button-link"
+                        className="usa-button-secondary vads-u-width--auto"
                         onClick={() => {
                           this.removeFile(index);
                         }}
@@ -386,8 +391,7 @@ class FileField extends React.Component {
         {(maxItems === null || files.length < maxItems) &&
           // Don't render an upload button on review & submit page while in
           // review mode
-          !formContext.reviewMode &&
-          !isUploading && (
+          showButtons && (
             <>
               <label
                 id={`${idSchema.$id}_add_label`}
