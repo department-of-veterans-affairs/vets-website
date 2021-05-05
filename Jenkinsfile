@@ -22,6 +22,9 @@ node('vetsgov-general-purpose') {
   dockerContainer = commonStages.setup()
 
   stage('Main') {
+
+    dir("vets-website") {
+
     def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
     def assetSource = contentOnlyBuild ? ref : 'local'
 
@@ -149,6 +152,7 @@ node('vetsgov-general-purpose') {
         // step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
       }
     }
+  }
   }
 
   // Run E2E tests
