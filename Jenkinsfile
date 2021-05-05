@@ -85,6 +85,10 @@ node('vetsgov-general-purpose') {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovprod'
 
+          cd /application && ls
+          cd ../ && ls
+          cd /application
+
           def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
           if (!shouldBuild) { return }
                     
