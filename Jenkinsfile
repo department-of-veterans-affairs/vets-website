@@ -3,6 +3,21 @@ import org.kohsuke.github.GitHub
 
 env.CONCURRENCY = 10
 
+String getChangedFilesList() {
+
+    changedFiles = []
+    for (changeLogSet in currentBuild.changeSets) {
+        for (entry in changeLogSet.getItems()) { // for each commit in the detected changes
+            for (file in entry.getAffectedFiles()) {
+                changedFiles.add(file.getPath()) // add changed file to list
+            }
+        }
+    }
+
+    return changedFiles
+
+}
+
 node('vetsgov-general-purpose') {
   properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
               parameters([choice(name: "cmsEnvBuildOverride",
@@ -13,10 +28,6 @@ node('vetsgov-general-purpose') {
   dir("vets-website") {
     checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-    sh(returnStdout: true, script: 'git config --add remote.origin.fetch +refs/heads/master:refs/remotes/origin/master')
-    sh(returnStdout: true, script: 'git fetch --no-tags')
-    sourceChanged = sh(script: "git --no-pager diff origin/master --name-only", returnStdout: true).trim()
-    echo "changed files ${sourceChanged}"
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
@@ -36,7 +47,7 @@ node('vetsgov-general-purpose') {
         buildDev: {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovdev'
-          
+
           def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
           if (!shouldBuild) { return }
 
@@ -91,7 +102,7 @@ node('vetsgov-general-purpose') {
 
           def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
           if (!shouldBuild) { return }
-                    
+
           try {
             // Try to build using fresh drupal content
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
@@ -161,7 +172,7 @@ node('vetsgov-general-purpose') {
 
               'nightwatch-e2e': {
                 sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-              },          
+              },
               // 'nightwatch-accessibility': {
               //     sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
               // },
@@ -175,7 +186,7 @@ node('vetsgov-general-purpose') {
 
               'nightwatch-e2e': {
                 sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-              },     
+              },
               cypress: {
                 sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 vets-website --no-color run cy:test:docker"
               }
@@ -199,7 +210,7 @@ node('vetsgov-general-purpose') {
   commonStages.prearchiveAll(dockerContainer)
 
   commonStages.archiveAll(dockerContainer, ref);
-  
+
   envsUsingDrupalCache = envUsedCache
   commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
