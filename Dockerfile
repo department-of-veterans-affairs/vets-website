@@ -44,3 +44,7 @@ USER vets-website
 ENV NODE_EXTRA_CA_CERTS /etc/ssl/certs/ca-certificates.crt
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+
+RUN git clone --depth 1 https://github.com/department-of-veterans-affairs/content-build.git /application/content-build
+
+RUN ls
