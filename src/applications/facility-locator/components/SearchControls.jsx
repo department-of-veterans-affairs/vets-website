@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
 import omit from 'platform/utilities/data/omit';
@@ -14,50 +14,59 @@ import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
-class SearchControls extends Component {
-  onlySpaces = str => /^\s+$/.test(str);
+const SearchControls = props => {
+  const {
+    currentQuery,
+    onChange,
+    onSubmit,
+    clearSearchText,
+    geolocateUser,
+    clearGeocodeError,
+  } = props;
 
-  handleQueryChange = e => {
+  const onlySpaces = str => /^\s+$/.test(str);
+
+  const handleQueryChange = e => {
     // prevent users from entering only spaces
     // because this will not trigger a change
     // when they exit the field
-    this.props.onChange({
-      searchString: this.onlySpaces(e.target.value)
+    onChange({
+      searchString: onlySpaces(e.target.value)
         ? e.target.value.trim()
         : e.target.value,
     });
   };
 
-  handleLocationBlur = e => {
+  const handleLocationBlur = e => {
     // force redux state to register a change
-    this.props.onChange({ searchString: ' ' });
-    this.handleQueryChange(e);
+    onChange({ searchString: ' ' });
+    handleQueryChange(e);
   };
 
-  handleFacilityTypeChange = e => {
-    this.props.onChange({ facilityType: e.target.value, serviceType: null });
+  const handleFacilityTypeChange = e => {
+    onChange({ facilityType: e.target.value, serviceType: null });
   };
 
-  handleFacilityTypeBlur = e => {
+  const handleFacilityTypeBlur = e => {
     // force redux state to register a change
-    this.props.onChange({ facilityType: ' ' });
-    this.handleFacilityTypeChange(e);
+    onChange({ facilityType: ' ' });
+    handleFacilityTypeChange(e);
   };
 
-  handleServiceTypeChange = ({ target }) => {
+  const handleServiceTypeChange = ({ target }) => {
     const option = target.value.trim();
 
     const serviceType = option === 'All' ? null : option;
-    this.props.onChange({ serviceType });
+    onChange({ serviceType });
   };
 
-  handleServiceTypeBlur = e => {
+  const handleServiceTypeBlur = e => {
     // force redux state to register a change
-    this.props.onChange({ serviceType: ' ' });
-    this.handleServiceTypeChange(e);
+    onChange({ serviceType: ' ' });
+    handleServiceTypeChange(e);
   };
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     const {
@@ -66,13 +75,13 @@ class SearchControls extends Component {
       zoomLevel,
       isValid,
       searchString,
-    } = this.props.currentQuery;
+    } = currentQuery;
 
     let analyticsServiceType = serviceType;
 
     const updateReduxState = propName => {
-      this.props.onChange({ [propName]: ' ' });
-      this.props.onChange({ [propName]: '' });
+      onChange({ [propName]: ' ' });
+      onChange({ [propName]: '' });
     };
 
     if (facilityType === LocationType.CC_PROVIDER) {
@@ -82,7 +91,7 @@ class SearchControls extends Component {
         return;
       }
 
-      analyticsServiceType = this.props.currentQuery.specialties[serviceType];
+      analyticsServiceType = currentQuery.specialties[serviceType];
     }
 
     if (!searchString) {
@@ -109,23 +118,23 @@ class SearchControls extends Component {
       'fl-current-zoom-depth': zoomLevel,
     });
 
-    this.props.onSubmit();
+    onSubmit();
   };
 
-  handleGeolocationButtonClick = e => {
+  const handleGeolocationButtonClick = e => {
     e.preventDefault();
     recordEvent({
       event: 'fl-search-geolocation',
     });
-    this.props.geolocateUser();
+    geolocateUser();
   };
 
-  handleClearInput = () => {
-    this.props.clearSearchText();
+  const handleClearInput = () => {
+    clearSearchText();
     focusElement('#street-city-state-zip');
   };
 
-  renderLocationInputField = currentQuery => {
+  const renderLocationInputField = () => {
     const { locationChanged, searchString, geocodeInProgress } = currentQuery;
     const showError =
       locationChanged && (!searchString || searchString.length === 0);
@@ -155,7 +164,7 @@ class SearchControls extends Component {
               </div>
             ) : (
               <button
-                onClick={this.handleGeolocationButtonClick}
+                onClick={handleGeolocationButtonClick}
                 className="use-my-location-link"
               >
                 <i
@@ -178,8 +187,8 @@ class SearchControls extends Component {
             id="street-city-state-zip"
             name="street-city-state-zip"
             type="text"
-            onChange={this.handleQueryChange}
-            onBlur={this.handleLocationBlur}
+            onChange={handleQueryChange}
+            onBlur={handleLocationBlur}
             value={searchString}
             title="Your location: Street, City, State or Postal code"
           />
@@ -189,7 +198,7 @@ class SearchControls extends Component {
               type="button"
               id="clear-input"
               className="fas fa-times-circle clear-button"
-              onClick={this.handleClearInput}
+              onClick={handleClearInput}
             />
           )}
         </div>
@@ -197,13 +206,9 @@ class SearchControls extends Component {
     );
   };
 
-  renderFacilityTypeDropdown = () => {
-    const { suppressCCP, suppressPharmacies } = this.props;
-    const {
-      facilityType,
-      isValid,
-      facilityTypeChanged,
-    } = this.props.currentQuery;
+  const renderFacilityTypeDropdown = () => {
+    const { suppressCCP, suppressPharmacies } = props;
+    const { facilityType, isValid, facilityTypeChanged } = currentQuery;
     const locationOptions = facilityTypesOptions;
     const showError = !isValid && facilityTypeChanged && !facilityType;
 
@@ -241,8 +246,8 @@ class SearchControls extends Component {
           aria-label="Choose a facility type"
           value={facilityType || ''}
           className="bor-rad"
-          onChange={this.handleFacilityTypeChange}
-          onBlur={this.handleFacilityTypeBlur}
+          onChange={handleFacilityTypeChange}
+          onBlur={handleFacilityTypeBlur}
           style={{ fontWeight: 'bold' }}
         >
           {options}
@@ -251,13 +256,9 @@ class SearchControls extends Component {
     );
   };
 
-  renderServiceTypeDropdown = () => {
-    const { searchCovid19Vaccine } = this.props;
-    const {
-      facilityType,
-      serviceType,
-      serviceTypeChanged,
-    } = this.props.currentQuery;
+  const renderServiceTypeDropdown = () => {
+    const { searchCovid19Vaccine } = props;
+    const { facilityType, serviceType, serviceTypeChanged } = currentQuery;
     const disabled = ![
       LocationType.HEALTH,
       LocationType.URGENT_CARE,
@@ -288,8 +289,8 @@ class SearchControls extends Component {
       case LocationType.CC_PROVIDER:
         return (
           <ServiceTypeAhead
-            onSelect={this.handleServiceTypeChange}
-            onBlur={this.handleServiceTypeBlur}
+            onSelect={handleServiceTypeChange}
+            onBlur={handleServiceTypeBlur}
             initialSelectedServiceType={serviceType}
             showError={showError}
           />
@@ -313,7 +314,7 @@ class SearchControls extends Component {
           disabled={disabled || !facilityType}
           value={serviceType || ''}
           className="bor-rad"
-          onChange={this.handleServiceTypeChange}
+          onChange={handleServiceTypeChange}
           style={{ fontWeight: 'bold' }}
         >
           {options}
@@ -322,43 +323,39 @@ class SearchControls extends Component {
     );
   };
 
-  render() {
-    const { currentQuery } = this.props;
-
-    return (
-      <div className="search-controls-container clearfix">
-        <Modal
-          title={
-            currentQuery.geocodeError === 1
-              ? 'We need to use your location'
-              : "We couldn't locate you"
-          }
-          onClose={() => this.props.clearGeocodeError()}
-          status="warning"
-          visible={currentQuery.geocodeError > 0}
-          contents={
-            <>
-              <p>
-                {currentQuery.geocodeError === 1
-                  ? 'Please enable location sharing in your browser to use this feature.'
-                  : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
-              </p>
-            </>
-          }
-        />
-        <form id="facility-search-controls" onSubmit={this.handleSubmit}>
-          <div className={'columns'}>
-            {this.renderLocationInputField(currentQuery)}
-            <div id="search-controls-bottom-row">
-              {this.renderFacilityTypeDropdown()}
-              {this.renderServiceTypeDropdown()}
-              <input id="facility-search" type="submit" value="Search" />
-            </div>
+  return (
+    <div className="search-controls-container clearfix">
+      <Modal
+        title={
+          currentQuery.geocodeError === 1
+            ? 'We need to use your location'
+            : "We couldn't locate you"
+        }
+        onClose={() => clearGeocodeError()}
+        status="warning"
+        visible={currentQuery.geocodeError > 0}
+        contents={
+          <>
+            <p>
+              {currentQuery.geocodeError === 1
+                ? 'Please enable location sharing in your browser to use this feature.'
+                : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
+            </p>
+          </>
+        }
+      />
+      <form id="facility-search-controls" onSubmit={handleSubmit}>
+        <div className={'columns'}>
+          {renderLocationInputField()}
+          <div id="search-controls-bottom-row">
+            {renderFacilityTypeDropdown()}
+            {renderServiceTypeDropdown()}
+            <input id="facility-search" type="submit" value="Search" />
           </div>
-        </form>
-      </div>
-    );
-  }
-}
+        </div>
+      </form>
+    </div>
+  );
+};
 
 export default SearchControls;
