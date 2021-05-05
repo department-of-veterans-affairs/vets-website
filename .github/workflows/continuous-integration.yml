@@ -57,6 +57,14 @@ jobs:
           report_paths: 'test-results/unit-tests.xml'
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
 
+      - name: Max links exeeded
+        if: ${{ always() }}
+        uses: vishnudxb/cancel-workflow@v1.2
+        with:
+          repo: $GITHUB_REPOSITORY
+          workflow_id: $GITHUB_RUN_ID
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+
   linting:
     name: Linting
     runs-on: ubuntu-latest
