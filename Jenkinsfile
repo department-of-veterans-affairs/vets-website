@@ -92,7 +92,6 @@ node('vetsgov-general-purpose') {
           dockerContainer.inside(DOCKER_ARGS) {
             sh "pwd"
             sh "ls"
-            sh "../ && ls"
           }
 
           def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
