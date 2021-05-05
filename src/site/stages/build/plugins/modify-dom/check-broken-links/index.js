@@ -61,7 +61,7 @@ module.exports = {
   getMarkdownSummary(brokenPages) {
     const markdownMessage = brokenPages.map(page => {
       const brokenLinksForPage = page.linkErrors.map(linkError => {
-        return `\`\`\`${linkError.html}\`\`\``;
+        return `\`\`\`\n${linkError.html}\n\`\`\``;
       });
 
       return `*\`${page.path}\`* : \n${brokenLinksForPage.join('\n')}`;
@@ -92,9 +92,18 @@ module.exports = {
       brokenLinksCount,
     };
 
-    fs.ensureFileSync(this.logFile);
-    fs.writeJSONSync(this.logFile, brokenLinksJson);
-    console.log(`Broken links found. See results in ${this.logFile}.`);
+    console.log(`${brokenLinksCount} broken links were found.`);
+
+    try {
+      fs.ensureFileSync(this.logFile);
+      fs.writeJSONSync(this.logFile, brokenLinksJson);
+      console.log(`See report in ${this.logFile}.`);
+    } catch (err) {
+      console.log(
+        `Failed to report into ${this.logFile}. Outputting here instead...`,
+      );
+      console.log(markdownSummary);
+    }
 
     if (buildOptions['drupal-fail-fast']) {
       throw new Error(brokenLinksJson);

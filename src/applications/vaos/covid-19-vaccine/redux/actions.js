@@ -146,7 +146,6 @@ export function openFacilityPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
-          directSchedulingEnabled: true,
         });
       }
 
@@ -162,7 +161,7 @@ export function openFacilityPage() {
       // fetch eligbility data immediately
       const supportedFacilities = facilities?.filter(
         facility =>
-          facility.legacyVAR.directSchedulingSupported[TYPE_OF_CARE_ID],
+          facility.legacyVAR.settings[TYPE_OF_CARE_ID]?.direct.enabled,
       );
       const clinicsNeeded = !!facilityId || supportedFacilities?.length === 1;
 
@@ -381,6 +380,11 @@ export function confirmAppointment(history) {
       const appointmentBody = transformFormToAppointment(getState());
       await submitAppointment(appointmentBody);
 
+      const data = selectCovid19VaccineFormData(getState());
+      const facilityID = {
+        'facility-id': data.vaFacility,
+      };
+
       dispatch({
         type: VACCINE_FORM_SUBMIT_SUCCEEDED,
       });
@@ -389,6 +393,7 @@ export function confirmAppointment(history) {
         event: `${GA_PREFIX}-covid19-submission-successful`,
         flow: GA_FLOWS.DIRECT,
         ...additionalEventData,
+        ...facilityID,
       });
       resetDataLayer();
       history.push('/new-covid-19-vaccine-booking/confirmation');
@@ -475,7 +480,6 @@ export function openContactFacilitiesPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
-          directSchedulingEnabled: true,
         });
       }
 

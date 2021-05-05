@@ -35,6 +35,7 @@ export const uiSchema = {
         doNotScroll: true,
         showSave: true,
         itemName: 'vehicle',
+        keepInPageOnReview: true,
       },
       items: {
         type: {
@@ -91,7 +92,6 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
-            title: 'Vehicle',
             required: ['type', 'resaleValue'],
             properties: {
               type: {

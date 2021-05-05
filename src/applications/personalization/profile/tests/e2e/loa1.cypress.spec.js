@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '../../constants';
 
 import mockLOA1User from '../fixtures/users/user-loa1.json';
@@ -8,15 +7,28 @@ import {
   subNavOnlyContainsAccountSecurity,
 } from './helpers';
 
-describe('LOA1 users', () => {
-  beforeEach(() => {
-    disableFTUXModals();
-    cy.login(mockLOA1User);
-    // login() calls cy.server() so we can now mock routes
-  });
-  it('should only have access to the Account Security section', () => {
-    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+context('when user is LOA1', () => {
+  let getFullNameStub;
+  let getPersonalInformationStub;
+  let getServiceHistoryStub;
 
+  beforeEach(() => {
+    getFullNameStub = cy.stub();
+    getPersonalInformationStub = cy.stub();
+    getServiceHistoryStub = cy.stub();
+    cy.intercept('v0/profile/full_name', () => {
+      getFullNameStub();
+    });
+    cy.intercept('v0/profile/personal_information', () => {
+      getPersonalInformationStub();
+    });
+    cy.intercept('v0/profile/service_history', () => {
+      getServiceHistoryStub();
+    });
+    cy.login(mockLOA1User);
+    cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+  });
+  it('should only have access to the Account Security section and not call personal data APIs', () => {
     // should show a loading indicator
     cy.findByRole('progressbar').should('exist');
     cy.findByText(/loading your information/i).should('exist');
@@ -30,6 +42,13 @@ describe('LOA1 users', () => {
       'eq',
       `${Cypress.config().baseUrl}${PROFILE_PATHS.ACCOUNT_SECURITY}`,
     );
+
+    // APIs should not be called
+    cy.should(() => {
+      expect(getFullNameStub).not.to.be.called;
+      expect(getPersonalInformationStub).not.to.be.called;
+      expect(getServiceHistoryStub).not.to.be.called;
+    });
 
     subNavOnlyContainsAccountSecurity();
 

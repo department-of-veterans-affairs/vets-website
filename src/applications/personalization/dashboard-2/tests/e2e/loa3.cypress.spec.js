@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -63,7 +62,6 @@ function loa3DashboardTest(mobile) {
 
 describe('The My VA Dashboard', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(mockUser);
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);

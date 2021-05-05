@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
@@ -76,7 +75,6 @@ function saveSuccessAlertRemoved() {
 
 describe('Direct Deposit', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(mockUserInEVSS);
     cy.intercept('GET', '/v0/feature_toggles*', dd4eduEnabled);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);
