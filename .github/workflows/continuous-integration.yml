@@ -289,5 +289,29 @@ jobs:
         id: get-broken-link-info
         run: node ./script/github-actions/check-broken-links.js -b ${{ steps.get-branch-name.outputs.BRANCH_NAME }} -p ./logs/vagovprod-broken-links.json -e vagovprod -s $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
 
-      - name: echo color
-        run: echo ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
+      - name: Slack notification
+        if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
+        run: echo "Slack Message here"
+
+      - name: Max links exeeded
+        if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} == danger
+        uses: vishnudxb/cancel-workflow@v1.2
+        with:
+          repo: $GITHUB_REPOSITORY
+          workflow_id: $GITHUB_RUN_ID
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+
+  test-fail-workflow:
+    name: test fail
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Max links exeeded
+        if: ${{ always() }}
+        uses: vishnudxb/cancel-workflow@v1.2
+        with:
+          repo: $GITHUB_REPOSITORY
+          workflow_id: $GITHUB_RUN_ID
+          access_token: ${{ secrets.GITHUB_TOKEN }}
