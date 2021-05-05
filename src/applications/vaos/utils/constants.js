@@ -58,6 +58,20 @@ export const PURPOSE_TEXT = [
 ];
 
 export const PODIATRY_ID = 'tbd-podiatry';
+
+/**
+ * @typedef TypeOfCare
+ *
+ * @property {string} id Numeric id of the type of care
+ * @property {string} name Name of the type of care
+ * @property {string} label Longer label name for the type of care, used when choosing type
+ * @property {string|Array<string>} ccId Id(s) of the associated community care types of
+ *   care list in VAR resources
+ * @property {string} cceType Id of the associated community care serviceType from the
+ *   Lighthouse eligibility api
+ * @property {Array<string>} specialities PPMS specialty codes associated with this type of care
+ */
+
 export const TYPES_OF_CARE = [
   {
     id: '323',
@@ -303,7 +317,7 @@ export const EXPRESS_CARE_ERROR_REASON = {
 
 export const ELIGIBILITY_REASONS = {
   notEnabled: 'notEnabled',
-  notSupport: 'noSupported',
+  notSupported: 'noSupported',
   noRecentVisit: 'noRecentVisit',
   overRequestLimit: 'overRequestLimit',
   noClinics: 'noClinics',

@@ -1,3 +1,4 @@
+/** @module utils/data */
 export function createPreferenceBody(preferences, emailAddress) {
   return {
     ...preferences,
@@ -27,6 +28,7 @@ export function arrayToObject(items, idProp = 'id') {
     ) || {}
   );
 }
+
 /**
  * Returns an array with any duplicate values removed
  *

@@ -32,6 +32,22 @@ import { getAvailableHealthcareServices } from '../healthcare-service';
  * @property {?PatientEligibilityForType} request Patient eligibility for requests
  */
 
+/**
+ * @typedef {'error'|'overRequestLimit'|'noEnabled'|'notSupported'|'noRecentVisit'|
+ *   'noClinics'|'noMatchingClinics'} EligibilityReason
+ * @global
+ */
+
+/**
+ * @typedef FlowEligibility
+ * @global
+ *
+ * @property {boolean} direct Can the patient use the direct schedule flow
+ * @property {EligibilityReason} directReason The reason the patient isn't eligible for direct flow
+ * @property {boolean} request Can the patient use the request flow
+ * @property {EligibilityReason} requestReason The reason the patient isn't eligible for request flow
+ */
+
 function createErrorHandler(errorKey) {
   return data => {
     captureError(data, true);
@@ -129,9 +145,9 @@ async function fetchPatientEligibilityFromVAR({
  *
  * @export
  * @param {Object} params
- * @param {Object} typeOfCare Type of care object,
- * @param {Location} location Location of where patient should have eligibility checked,
- * @param {'direct'|'request'|null} [type=null] The type to check eligibility for. By default,
+ * @param {TypeOfCare} params.typeOfCare Type of care object,
+ * @param {Location} params.location Location of where patient should have eligibility checked,
+ * @param {'direct'|'request'|null} [params.type=null] The type to check eligibility for. By default,
  *   will check both
  * }
  * @returns {PatientEligibility} Patient eligibility data
@@ -237,6 +253,29 @@ function logEligibilityExplanation(
   /* eslint-enable no-console */
 }
 
+/**
+ * @typedef FlowEligibilityReturnData
+ * @global
+ *
+ * @property {FlowEligibility} eligibility The eligibility info for the patient
+ * @property {Array<HealthcareService>} clinics An array of clinics pulled when checking eligibility
+ * @property {Array<MASAppointment>} pastAppointments An array of untransformed appointments pulled
+ *   when checking eligibility
+ */
+
+/**
+ * Checks eligibility for new appointment flow and returns
+ * results, plus clinics and past appointments fetched along the way
+ *
+ * @export
+ * @async
+ * @param {Object} params
+ * @param {TypeOfCare} params.typeOfCare Type of care object for the currently chosen type of care
+ * @param {Location} params.location The current location to check eligibility against
+ * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
+ * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
+ *   so that they can be cache and reused later
+ */
 export async function fetchFlowEligibilityAndClinics({
   typeOfCare,
   location,
