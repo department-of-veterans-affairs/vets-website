@@ -4,6 +4,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 
 export const getFindFormsAppState = state => state.findVAFormsReducer;
 export const applySearchQueryCorrections = state =>
-  toggleValues(state)[
-    FEATURE_FLAG_NAMES.showFindFormsResultsLinkToFormDetailPages
-  ];
+  toggleValues(state)[FEATURE_FLAG_NAMES.findFormsEnhancements];
+export const useLighthouseFormsWeighingLogic = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.useLighthouseFormsWeighingLogic];

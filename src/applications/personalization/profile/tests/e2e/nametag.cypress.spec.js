@@ -1,5 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
@@ -18,7 +16,6 @@ import { PROFILE_PATHS } from '../../constants';
 
 describe('Profile NameTag', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(mockUser);
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);

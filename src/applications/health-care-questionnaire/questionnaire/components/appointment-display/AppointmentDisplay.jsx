@@ -17,13 +17,13 @@ export default function AppointmentDisplay({ appointmentData, bold }) {
     organization: facility,
   } = appointmentData;
 
-  const appointmentTime = appointmentSelector.getStartTime(appointment);
+  const appointmentTime = appointmentSelector.getStartDateTime(appointment);
   const boldClass = bold ? 'vads-u-font-weight--bold' : '';
-  const guess = moment.tz.guess();
-  const formattedTimezone = moment.tz(guess).format('z');
 
   const clinicName = locationSelector.getName(clinic);
   const facilityName = organizationSelector.getName(facility);
+  const displayTime = appointmentSelector.getStartTimeInTimeZone(appointment);
+
   return (
     <dl className={`appointment-details ${boldClass}`} itemScope>
       <div itemProp="appointment-date">
@@ -41,11 +41,9 @@ export default function AppointmentDisplay({ appointmentData, bold }) {
         <dt>Time: </dt>
         <dd
           data-testid="appointment-time"
-          aria-label={`Appointment time ${moment(appointmentTime).format(
-            'h:mm a z',
-          )}`}
+          aria-label={`Appointment time ${displayTime}`}
         >
-          {moment(appointmentTime).format('h:mm a')} {formattedTimezone}
+          {displayTime}
         </dd>
       </div>
       <div itemProp="appointment-location">

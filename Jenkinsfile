@@ -31,12 +31,13 @@ node('vetsgov-general-purpose') {
 
         buildDev: {
           if (commonStages.shouldBail()) { return }
-          envName = 'vagovdev'
+          def envName = 'vagovdev'
           
-          shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
           if (!shouldBuild) { return }
 
           try {
+            // Try to build using fresh drupal content
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
             envUsedCache[envName] = false
           } catch (error) {
@@ -44,6 +45,7 @@ node('vetsgov-general-purpose') {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
+              // Try to build again using cached drupal content
               commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
               envUsedCache[envName] = true
             } else {
@@ -55,12 +57,13 @@ node('vetsgov-general-purpose') {
 
         buildStaging: {
           if (commonStages.shouldBail()) { return }
-          envName = 'vagovstaging'
+          def envName = 'vagovstaging'
 
-          shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
           if (!shouldBuild) { return }
 
           try {
+            // Try to build using fresh drupal content
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
             envUsedCache[envName] = false
           } catch (error) {
@@ -68,6 +71,7 @@ node('vetsgov-general-purpose') {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
+              // Try to build again using cached drupal content
               commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
               envUsedCache[envName] = true
             } else {
@@ -79,12 +83,13 @@ node('vetsgov-general-purpose') {
 
         buildProd: {
           if (commonStages.shouldBail()) { return }
-          envName = 'vagovprod'
+          def envName = 'vagovprod'
 
-          shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
           if (!shouldBuild) { return }
                     
           try {
+            // Try to build using fresh drupal content
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
             envUsedCache[envName] = false
           } catch (error) {
@@ -92,6 +97,7 @@ node('vetsgov-general-purpose') {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
+              // Try to build again using cached drupal content
               commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
               envUsedCache[envName] = true
             } else {
@@ -191,21 +197,6 @@ node('vetsgov-general-purpose') {
             }
           )
         }
-      } catch (error) {
-        commonStages.slackNotify()
-        throw error
-      } finally {
-        sh "docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} down --remove-orphans"
-        // if (commonStages.IS_PROD_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) {
-        //   sh "docker-compose -p accessibility down --remove-orphans"
-        // }
-        sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
-        sh "docker-compose -p cypress2-${env.EXECUTOR_NUMBER} down --remove-orphans"
-        sh "docker-compose -p cypress3-${env.EXECUTOR_NUMBER} down --remove-orphans"
-        sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
-        sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
-        sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
-        step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
       }
     }
   }

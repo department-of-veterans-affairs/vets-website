@@ -1,5 +1,4 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
 function PreSubmitNotice({
@@ -36,8 +35,7 @@ function PreSubmitNotice({
 
   return (
     <>
-      {/* prod flag for 23443 */}
-      {!environment.isProduction() && activeDutyNote}
+      {activeDutyNote}
       <PreSubmitInfo
         formData={formData}
         showError={showError}
