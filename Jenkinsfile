@@ -85,12 +85,9 @@ node('vetsgov-general-purpose') {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovprod'
 
-          pwd
-          cd /application && ls
-          cd ../ && ls
-          cd /application
 
           dockerContainer.inside(DOCKER_ARGS) {
+            sh "pwd"
             sh "ls"
             sh "../ && ls"
           }
