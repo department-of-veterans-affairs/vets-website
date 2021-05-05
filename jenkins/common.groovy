@@ -267,6 +267,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
+      sh "cd /application && cd .. && ls"
       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} --drupalMaxParallelRequests ${drupalMaxParallelRequests} ${drupalMode} ${noDrupalProxy} --buildLog ${buildLogPath} --verbose"
 
       if (envName == 'vagovprod') {
