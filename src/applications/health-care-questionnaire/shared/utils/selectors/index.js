@@ -1,7 +1,8 @@
 import {
   getStatus,
-  getStartTime,
+  getStartDateTime,
   getBookingNote,
+  getStartTimeInTimeZone,
 } from './appointment.selectors';
 import {
   getStatus as getQRStatus,
@@ -17,8 +18,9 @@ import {
 
 const appointment = {
   getStatus,
-  getStartTime,
+  getStartDateTime,
   getBookingNote,
+  getStartTimeInTimeZone,
 };
 
 const questionnaireResponse = {
