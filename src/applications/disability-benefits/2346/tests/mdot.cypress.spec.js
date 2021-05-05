@@ -4,10 +4,12 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
-import happyPath from './data/users/gregUserData.json';
-import noTempAddress from './data/users/markUserData.json';
-import noBatteries from './data/users/jerryUserData.json';
-import noAccessories from './data/users/eddieUserData.json';
+const dataSetToUserMap = {
+  happyPath: 'fx:users/gregUserData',
+  noTempAddress: 'fx:users/markUserData',
+  noBatteries: 'fx:users/jerryUserData',
+  noAccessories: 'fx:users/eddieUserData',
+};
 
 const testConfig = createTestConfig(
   {
@@ -25,7 +27,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.findAllByText(/order/i, { selector: 'button' })
             .first()
-            .click({ force: true });
+            .click();
         });
       },
       address: () => {
@@ -33,7 +35,7 @@ const testConfig = createTestConfig(
           if (testKey === 'noTempAddress') {
             cy.findByText('Add a temporary address', {
               selector: 'button',
-            }).click({ force: true });
+            }).click();
             cy.findByLabelText(/Country/i).select('Canada');
             cy.findAllByLabelText(/Street address/i)
               .first()
@@ -46,7 +48,7 @@ const testConfig = createTestConfig(
           } else {
             cy.findByText('Edit permanent address', {
               selector: 'button',
-            }).click({ force: true });
+            }).click();
             cy.findByLabelText(/Country/i).select('Canada');
             cy.findByLabelText(/Province/i).type('Alberta');
             cy.findByLabelText(/International Postal Code/i).type('T7N');
@@ -58,14 +60,14 @@ const testConfig = createTestConfig(
       supplies: () => {
         cy.get('@testKey').then(testKey => {
           if (testKey === 'noBatteries') {
-            cy.get('#3').click({ force: true });
-            cy.get('#5').click({ force: true });
+            cy.get('#3').click();
+            cy.get('#5').click();
           } else if (testKey === 'noAccessories') {
-            cy.get('#1').click({ force: true });
+            cy.get('#1').click();
           } else {
-            cy.get('#1').click({ force: true });
-            cy.get('#3').click({ force: true });
-            cy.get('#5').click({ force: true });
+            cy.get('#1').click();
+            cy.get('#3').click();
+            cy.get('#5').click();
           }
         });
       },
@@ -74,10 +76,9 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       let postData = [];
       cy.get('@testKey').then(testKey => {
-        cy.server();
-        cy.login(testKey);
+        cy.login(dataSetToUserMap[testKey]);
+        cy.route('GET', '/v0/user', dataSetToUserMap[testKey]);
         if (testKey === 'noBatteries') {
-          cy.route('GET', '/v0/user', noBatteries);
           postData = [
             {
               status: 'Order Processed',
@@ -91,7 +92,6 @@ const testConfig = createTestConfig(
             },
           ];
         } else if (testKey === 'noAccessories') {
-          cy.route('GET', '/v0/user', noAccessories);
           postData = [
             {
               status: 'Order Processed',
@@ -99,27 +99,7 @@ const testConfig = createTestConfig(
               productId: 1,
             },
           ];
-        } else if (testKey === 'noTempAddress') {
-          cy.route('GET', '/v0/user', noTempAddress);
-          postData = [
-            {
-              status: 'Order Processed',
-              orderId: 2329,
-              productId: 1,
-            },
-            {
-              status: 'Order Processed',
-              orderId: 2330,
-              productId: 3,
-            },
-            {
-              status: 'Order Processed',
-              orderId: 2331,
-              productId: 5,
-            },
-          ];
         } else {
-          cy.route('GET', '/v0/user', happyPath);
           postData = [
             {
               status: 'Order Processed',

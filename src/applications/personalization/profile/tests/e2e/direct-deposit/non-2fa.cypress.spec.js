@@ -30,10 +30,10 @@ function confirmSetUp2FAAlertIsShown() {
 describe('Direct Deposit', () => {
   beforeEach(() => {
     cy.login();
-    cy.intercept('GET', '/v0/feature_toggles*', dd4eduEnabled);
+    cy.route('GET', '/v0/feature_toggles*', dd4eduEnabled);
   });
   it('should show a single "set up 2-factor authentication" alert to non-2FA users', () => {
-    cy.intercept('GET', 'v0/user', mockUser);
+    cy.route('GET', 'v0/user', mockUser);
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
 
     // confirm the 2FA alert is shown

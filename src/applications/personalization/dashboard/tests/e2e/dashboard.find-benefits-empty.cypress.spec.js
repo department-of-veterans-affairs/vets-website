@@ -19,7 +19,7 @@ describe('MyVA Dashboard - Find VA Benefits', () => {
         isPatient: false,
       });
       cy.login(mockUser);
-      cy.server();
+      // login() calls cy.server() so we can now mock routes
       cy.route('GET', '/v0/user/preferences', getUserPreferencesEmpty);
       cy.route(
         'GET',

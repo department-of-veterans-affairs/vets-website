@@ -1,5 +1,4 @@
 import path from 'path';
-import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 
 describe('Provider search', () => {
   before(function() {
@@ -9,14 +8,15 @@ describe('Provider search', () => {
   });
 
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles?*', []);
-    cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept(
+    cy.server();
+    cy.route('GET', '/v0/feature_toggles?*', []);
+    cy.route('GET', '/v0/maintenance_windows', []);
+    cy.route(
       'GET',
       '/v1/facilities/va?*',
       'fx:constants/mock-facility-data-v1',
     ).as('searchFacilities');
-    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
+    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
   it('finds community dentists', () => {

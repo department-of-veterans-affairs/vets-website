@@ -28,7 +28,6 @@ export function onlyAccountSecuritySectionIsAccessible() {
 }
 
 export const mockFeatureToggles = () => {
-  cy.server();
   cy.route({
     method: 'GET',
     status: 200,

@@ -11,7 +11,7 @@ Cypress.on('uncaught:exception', (_err, _runnable) => {
 
 // Default responses.
 beforeEach(() => {
-  cy.intercept('GET', '/v0/gi/calculator_constants', calculatorConstantsJson);
+  cy.route('GET', '/v0/gi/calculator_constants', calculatorConstantsJson);
 });
 
 /**
@@ -20,7 +20,7 @@ beforeEach(() => {
  */
 export const initMockProfile = profile => {
   const facilityCode = profile.data.attributes.facility_code;
-  cy.intercept('GET', `/v0/gi/institutions/${facilityCode}`, profile).as(
+  cy.route('GET', `/v0/gi/institutions/${facilityCode}`, profile).as(
     `profile${facilityCode}`,
   );
 };
@@ -36,12 +36,10 @@ export const initApplicationMock = (
   profile = institutionProfile,
   results = searchResults,
 ) => {
-  cy.intercept('GET', '/v0/gi/institutions/autocomplete**', autocomplete).as(
+  cy.route('GET', '/v0/gi/institutions/autocomplete**', autocomplete).as(
     'defaultAutocomplete',
   );
-  cy.intercept('GET', '/v0/gi/institutions/search**', results).as(
-    'defaultSearch',
-  );
+  cy.route('GET', '/v0/gi/institutions/search**', results).as('defaultSearch');
 
   initMockProfile(profile);
 };

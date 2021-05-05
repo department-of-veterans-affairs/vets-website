@@ -4,7 +4,6 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mock-user.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
 
 Cypress.config('waitForAnimations', true);
 
@@ -18,8 +17,8 @@ const form = createTestConfig(
     },
     setupPerTest: () => {
       cy.login(mockUser);
-      cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
-      cy.intercept('POST', '/v0/education_benefits_claims/5490', {
+      cy.route('GET', '/v0/feature_toggles*', 'fx:mocks/feature-toggles');
+      cy.route('POST', '/v0/education_benefits_claims/5490', {
         data: {
           attributes: {
             confirmationNumber: 'BB935000000F3VnCAW',
@@ -28,7 +27,7 @@ const form = createTestConfig(
         },
       });
       cy.get('@testData').then(testData => {
-        cy.intercept('GET', '/v0/in_progress_forms/5490', testData);
+        cy.route('GET', '/v0/in_progress_forms/5490', testData);
       });
     },
     pageHooks: {
@@ -37,18 +36,18 @@ const form = createTestConfig(
           selector: 'button',
         })
           .first()
-          .click({ force: true });
+          .click();
         cy.get('#NewBenefit-0').check();
         cy.get('#ClaimingBenefitOwnService-1').check();
-        cy.get('#SponsorDeceased-0').click({ force: true });
-        cy.get('#apply-now-link').click({ force: true });
+        cy.get('#SponsorDeceased-0').click();
+        cy.get('#apply-now-link').click();
 
         afterHook(() => {
           cy.findAllByText(/Start the education application/i, {
             selector: 'button',
           })
             .first()
-            .click({ force: true });
+            .click();
         });
       },
     },

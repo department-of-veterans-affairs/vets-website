@@ -7,7 +7,6 @@ import formConfig from '../../form/form';
 import manifest from '../../manifest.json';
 
 import mockUser from './fixtures/mocks/mockUser.json';
-import inProgressForms from './fixtures/mocks/in-progress-forms.json';
 
 // `appName`, `arrayPages`, and `rootUrl` don't need to be explicitly defined.
 const testConfig = createTestConfig(
@@ -29,10 +28,14 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.login(mockUser);
 
-      cy.intercept('PUT', '/v0/in_progress_forms/0873', inProgressForms);
+      cy.route(
+        'PUT',
+        '/v0/in_progress_forms/0873',
+        'fx:mocks/in-progress-forms',
+      );
 
       cy.get('@testData').then(_data => {
-        cy.intercept('GET', 'v0/in_progress_forms/0873', {
+        cy.route('GET', 'v0/in_progress_forms/0873', {
           formData: {
             fullName: {
               first: 'Terrence',
@@ -60,8 +63,10 @@ const testConfig = createTestConfig(
         });
       });
 
-      cy.intercept('POST', '/v0/contact-us/inquiries', {
-        statusCode: 200,
+      cy.route({
+        method: 'POST',
+        url: '/v0/contact-us/inquiries',
+        status: 200,
         response: {
           confirmationNumber: '000123456000A',
           dateSubmitted: '10-30-2020',

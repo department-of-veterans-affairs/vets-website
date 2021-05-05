@@ -19,7 +19,6 @@ export const setUp = type => {
     force: true,
   });
 
-  cy.server();
   cy.route({
     method: 'POST',
     url: '/v0/profile/address_validation',

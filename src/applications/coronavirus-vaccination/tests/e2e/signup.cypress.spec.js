@@ -3,7 +3,8 @@ import featureTogglesEnabled from './fixtures/toggle-covid-feature.json';
 describe('COVID-19 Vaccination Preparation Form', () => {
   describe('when entering valid contact information without signing in', () => {
     before(() => {
-      cy.intercept('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
+      cy.server();
+      cy.route('GET', '/v0/feature_toggles*', featureTogglesEnabled).as(
         'feature',
       );
       cy.visit('health-care/covid-19-vaccine/stay-informed/');
@@ -114,7 +115,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       );
 
       cy.axeCheck();
-      cy.intercept('POST', '**/covid_vaccine/v0/registration', {
+      cy.route('POST', '**/covid_vaccine/v0/registration', {
         status: 200,
       }).as('response');
 

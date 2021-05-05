@@ -1,7 +1,4 @@
 import path from 'path';
-import mockGeocodingData from '../../constants/mock-geocoding-data.json';
-import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
-import mockLaLocation from '../../constants/mock-la-location.json';
 
 Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
@@ -39,16 +36,18 @@ describe('Facility VA search', () => {
   });
 
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles?*', []);
-    cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/v1/facilities/va?*', mockFacilityDataV1).as(
-      'searchFacilities',
-    );
+    cy.server();
+    cy.route('GET', '/v0/feature_toggles?*', []);
+    cy.route('GET', '/v0/maintenance_windows', []);
+    cy.route(
+      'GET',
+      '/v1/facilities/va?*',
+      'fx:constants/mock-facility-data-v1',
+    ).as('searchFacilities');
+    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-geocoding-data');
   });
 
   it('does a simple search and finds a result on the list', () => {
-    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
-
     cy.visit('/find-locations');
 
     cy.injectAxe();
@@ -85,7 +84,7 @@ describe('Facility VA search', () => {
         cy.axeCheck();
 
         cy.get('.facility-result a').should('exist');
-        cy.intercept(
+        cy.route(
           'GET',
           '/v1/facilities/va/vha_674BY',
           'fx:constants/mock-facility-v1',
@@ -137,7 +136,9 @@ describe('Facility VA search', () => {
   });
 
   it('finds va benefits facility in Los Angeles and views its page', () => {
-    cy.intercept('GET', '/geocoding/**/*', mockLaLocation).as('caLocation');
+    cy.route('GET', '/geocoding/**/*', 'fx:constants/mock-la-location').as(
+      'caLocation',
+    );
 
     cy.visit('/find-locations');
     cy.injectAxe();

@@ -9,7 +9,7 @@ import {
 
 describe('VETTEC', () => {
   beforeEach(() => {
-    cy.intercept('/v0/gi/institution_programs/search', vetTecSearchResults);
+    cy.route('/v0/gi/institution_programs/search', vetTecSearchResults);
 
     initMockProfile(vetTecProfile);
 
