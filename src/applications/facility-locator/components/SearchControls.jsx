@@ -12,6 +12,7 @@ import {
 import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 class SearchControls extends Component {
   onlySpaces = str => /^\s+$/.test(str);
@@ -326,6 +327,25 @@ class SearchControls extends Component {
 
     return (
       <div className="search-controls-container clearfix">
+        <Modal
+          title={
+            currentQuery.geocodeError === 1
+              ? 'We need to use your location'
+              : "We couldn't locate you"
+          }
+          onClose={() => this.props.clearGeocodeError()}
+          status="warning"
+          visible={currentQuery.geocodeError > 0}
+          contents={
+            <>
+              <p>
+                {currentQuery.geocodeError === 1
+                  ? 'Please enable location sharing in your browser to use this feature.'
+                  : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
+              </p>
+            </>
+          }
+        />
         <form id="facility-search-controls" onSubmit={this.handleSubmit}>
           <div className={'columns'}>
             {this.renderLocationInputField(currentQuery)}
