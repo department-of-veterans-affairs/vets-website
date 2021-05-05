@@ -813,7 +813,7 @@ describe('Schemaform <FileField>', () => {
         },
       ],
     };
-    const uiSchema = fileUploadUI('uiSchema title');
+    const uiSchema = fileUploadUI(<p>uiSchema title</p>);
     const registry = {
       fields: {
         SchemaField: f => f,

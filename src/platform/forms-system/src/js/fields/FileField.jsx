@@ -229,6 +229,11 @@ class FileField extends React.Component {
     const Tag =
       formContext.onReviewPage && formContext.reviewMode ? 'dl' : 'div';
 
+    const titleString =
+      typeof uiSchema['ui:title'] === 'string'
+        ? uiSchema['ui:title']
+        : schema.title;
+
     return (
       <div
         className={
@@ -399,8 +404,7 @@ class FileField extends React.Component {
                     }
                   }}
                   tabIndex="0"
-                  aria-label={`${buttonText} ${schema.title ||
-                    uiSchema['ui:title']}`}
+                  aria-label={`${buttonText} ${titleString}`}
                 >
                   {buttonText}
                 </span>
