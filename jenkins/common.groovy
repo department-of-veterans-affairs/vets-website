@@ -120,6 +120,8 @@ def setup() {
       sh "mkdir -p logs/selenium"
       sh "mkdir -p coverage"
       sh "mkdir -p temp"
+      sh "ls"
+      sh "cd .. && ls"
 
       dockerImage = docker.build(DOCKER_TAG)
       retry(5) {

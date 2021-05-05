@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 require('core-js/stable');
 require('regenerator-runtime/runtime');
 const fs = require('fs');
@@ -346,11 +347,14 @@ module.exports = (env = {}) => {
         }, [])
         .join('');
 
-    const appRegistryPath = 'src/applications/registry.json';
+    const appRegistryPath = '../content-build/src/applications/registry.json';
     let appRegistry;
 
     if (fs.existsSync(appRegistryPath)) {
       appRegistry = JSON.parse(fs.readFileSync(appRegistryPath));
+      console.log('FILE FOUND');
+    } else {
+      console.log('FILE DOES NOT EXIST');
     }
 
     /* eslint-disable no-nested-ternary */
