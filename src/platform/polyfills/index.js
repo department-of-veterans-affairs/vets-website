@@ -17,6 +17,29 @@ if (navigator.userAgent.includes('Edge/14')) {
   window.fetch = undefined;
 }
 
+/* eslint-disable-next-line consistent-return */
+(function() {
+  if (typeof window.CustomEvent === 'function') return false;
+
+  function CustomEvent(event, params) {
+    const detail = params || {
+      bubbles: false,
+      cancelable: false,
+      detail: null,
+    };
+    const evt = document.createEvent('CustomEvent');
+    evt.initCustomEvent(
+      event,
+      detail.bubbles,
+      detail.cancelable,
+      detail.detail,
+    );
+    return evt;
+  }
+
+  window.CustomEvent = CustomEvent;
+})();
+
 // This needs to stay as require because import causes it to be executed before the
 // above code
 require('whatwg-fetch');
