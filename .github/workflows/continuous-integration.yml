@@ -293,13 +293,20 @@ jobs:
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
         run: echo "Slack Message here"
 
-  test-fail-workflow:
-    name: test fail
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      
-      - name: Cancel flow
-        if: ${{ always() }}
+      - name: Max links exeeded
+        if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} == danger
         uses: andymckay/cancel-action@0.2
+
+    test-fail-workflow:
+        name: test fail
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v2
+
+          - name: Exit status code
+            run: exit 1
+
+          - name: Cancel flow
+            if: ${{ always() }}
+            uses: andymckay/cancel-action@0.2 
