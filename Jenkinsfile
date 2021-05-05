@@ -30,58 +30,6 @@ node('vetsgov-general-purpose') {
       parallel (
         failFast: true,
 
-        // buildDev: {
-        //   if (commonStages.shouldBail()) { return }
-        //   def envName = 'vagovdev'
-          
-        //   def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
-        //   if (!shouldBuild) { return }
-
-        //   try {
-        //     // Try to build using fresh drupal content
-        //     commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-        //     envUsedCache[envName] = false
-        //   } catch (error) {
-        //     if (!contentOnlyBuild) {
-        //       dockerContainer.inside(DOCKER_ARGS) {
-        //         sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-        //       }
-        //       // Try to build again using cached drupal content
-        //       commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-        //       envUsedCache[envName] = true
-        //     } else {
-        //       commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-        //       envUsedCache[envName] = false
-        //     }
-        //   }
-        // },
-
-        // buildStaging: {
-        //   if (commonStages.shouldBail()) { return }
-        //   def envName = 'vagovstaging'
-
-        //   def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
-        //   if (!shouldBuild) { return }
-
-        //   try {
-        //     // Try to build using fresh drupal content
-        //     commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-        //     envUsedCache[envName] = false
-        //   } catch (error) {
-        //     if (!contentOnlyBuild) {
-        //       dockerContainer.inside(DOCKER_ARGS) {
-        //         sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-        //       }
-        //       // Try to build again using cached drupal content
-        //       commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-        //       envUsedCache[envName] = true
-        //     } else {
-        //       commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-        //       envUsedCache[envName] = false
-        //     }
-        //   }
-        // },
-
         buildProd: {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovprod'
