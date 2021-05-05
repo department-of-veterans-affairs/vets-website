@@ -426,4 +426,89 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       ).to.be.ok;
     });
   });
+
+  it('should allow the user to close the cancel modal without canceling', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
+
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+
+    mockSingleAppointmentFetch({ appointment });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Fort Collins VA Clinic',
+      },
+    };
+
+    mockFacilityFetch('vha_442GC', facility);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    userEvent.click(screen.getByText(/cancel appointment/i));
+
+    await screen.findByRole('alertdialog');
+
+    userEvent.click(screen.getByText(/no, take me back/i));
+
+    expect(screen.queryByRole('alertdialog')).to.not.be.ok;
+    expect(screen.baseElement).to.not.contain.text(
+      'You canceled this appointment.',
+    );
+  });
+
+  it('should allow the user to go back to the appointment list', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      facilityId: '983',
+      sta6aid: '983GC',
+      vdsAppointments: [{ currentStatus: 'CANCELLED BY CLINIC' }],
+    };
+
+    mockSingleAppointmentFetch({ appointment });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Fort Collins VA Clinic',
+      },
+    };
+
+    mockFacilityFetch('vha_442GC', facility);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    userEvent.click(screen.getByText(/go back to appointments/i));
+    expect(screen.baseElement).to.contain.text('Your appointments');
+  });
 });

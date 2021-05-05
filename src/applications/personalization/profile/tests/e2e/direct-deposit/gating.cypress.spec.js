@@ -81,6 +81,7 @@ describe('Direct Deposit', () => {
   beforeEach(() => {
     getPaymentInfoStub = cy.stub();
     cy.login();
+    cy.server();
     cy.route('GET', '/v0/feature_toggles*', dd4eduEnabled);
   });
   it('should be blocked if the user is not in EVSS and they are not signed up for DD4EDU', () => {

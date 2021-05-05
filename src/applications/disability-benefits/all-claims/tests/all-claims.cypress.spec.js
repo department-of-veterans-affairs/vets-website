@@ -43,7 +43,6 @@ const testConfig = createTestConfig(
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
-      mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
 
     pageHooks: {
