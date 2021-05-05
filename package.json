@@ -383,6 +383,7 @@
     "**/is-svg": "^4.2.2",
     "**/y18n": "^ 4.0.1",
     "cypress": "^6.9.1",
+    "**/merge": "^ 2.1.1",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }
