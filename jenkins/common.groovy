@@ -121,7 +121,7 @@ def setup() {
       sh "mkdir -p coverage"
       sh "mkdir -p temp"
       sh "ls"
-      sh "cd .. && ls"
+      sh "cd ../content-build/src/applications && ls"
 
       dockerImage = docker.build(DOCKER_TAG)
       retry(5) {
