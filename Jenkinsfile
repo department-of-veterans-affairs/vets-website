@@ -148,54 +148,68 @@ node('vetsgov-general-purpose') {
   stage('Integration') {
     if (commonStages.shouldBail() || !commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) { return }
     dir("vets-website") {
-      try {
-        if (commonStages.IS_PROD_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) {
-          parallel (
-            failFast: true,
 
-            'nightwatch-e2e': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-            },     
-            // 'nightwatch-accessibility': {
-            //     sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
-            // },
-            cypress: {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 vets-website --no-color run cy:test:docker"
-            }
-          )
-        } else {
-          sh "export PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"')"
-          milliseconds = System.currentTimeMillis()
-          sh "export NONCE=${milliseconds}"
-          sh "export NUM_STEPS=6"
+      // Set timeout of 60 minutes for integration tests
+      timeout(60) {
+        try {
+          if (commonStages.IS_PROD_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) {
+            parallel (
+              failFast: true,
 
-          def milliseconds = System.currentTimeMillis()
+              'nightwatch-e2e': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
+              },          
+              // 'nightwatch-accessibility': {
+              //     sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
+              // },
+              cypress: {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 vets-website --no-color run cy:test:docker"
+              }
+            )
+          } else {
+            def milliseconds = System.currentTimeMillis()
 
-          parallel (
-            failFast: false,
+            parallel (
+              failFast: false,
 
-            'nightwatch-e2e': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-            },
-            'cypress-1': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=0 -e PERCY_PARALLEL_NONCE=${milliseconds} -e PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"') vets-website --no-color run cy:test:docker"
-            },
-            'cypress-2': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=1 -e PERCY_PARALLEL_NONCE=${milliseconds} -e PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"') vets-website --no-color run cy:test:docker"
-            },
-            'cypress-3': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=2 -e PERCY_PARALLEL_NONCE=${milliseconds} -e PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"') vets-website --no-color run cy:test:docker"
-            },
-            'cypress-4': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=3 -e PERCY_PARALLEL_NONCE=${milliseconds} -e PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"') vets-website --no-color run cy:test:docker"
-            },
-            'cypress-5': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=4 -e PERCY_PARALLEL_NONCE=${milliseconds} -e PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"') vets-website --no-color run cy:test:docker"
-            },
-            'cypress-6': {
-              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=5 -e PERCY_PARALLEL_NONCE=${milliseconds} -e PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"') vets-website --no-color run cy:test:docker"
-            }
-          )
+              'nightwatch-e2e': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
+              },     
+              'cypress-1': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=0 -e PERCY_PARALLEL_NONCE=${milliseconds} -e PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"') vets-website --no-color run cy:test:docker"
+              },
+              'cypress-2': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=1 -e PERCY_PARALLEL_NONCE=${milliseconds} -e PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"') vets-website --no-color run cy:test:docker"
+              },
+              'cypress-3': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=2 -e PERCY_PARALLEL_NONCE=${milliseconds} -e PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"') vets-website --no-color run cy:test:docker"
+              },
+              'cypress-4': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=3 -e PERCY_PARALLEL_NONCE=${milliseconds} -e PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"') vets-website --no-color run cy:test:docker"
+              },
+              'cypress-5': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=4 -e PERCY_PARALLEL_NONCE=${milliseconds} -e PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"') vets-website --no-color run cy:test:docker"
+              },
+              'cypress-6': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e NO_COLOR=1 -e STEP=5 -e PERCY_PARALLEL_NONCE=${milliseconds} -e PERCY_TOKEN=\$(aws ssm get-parameters --region us-gov-west-1 --names /dsva-vagov/vets-website/common/percy_token_vets-website --with-decryption | jq '.Parameters[0].Value' | tr -d '\"') vets-website --no-color run cy:test:docker"
+              }
+            )
+          }
+        } catch (error) {
+          commonStages.slackNotify()
+          throw error
+        } finally {
+          sh "docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // if (commonStages.IS_PROD_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) {
+          //   sh "docker-compose -p accessibility down --remove-orphans"
+          // }
+          sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          sh "docker-compose -p cypress2-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          sh "docker-compose -p cypress3-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
         }
       }
     }
