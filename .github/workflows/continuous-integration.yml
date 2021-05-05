@@ -293,8 +293,12 @@ jobs:
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
         run: echo "Slack Message here"
 
-      - name: Max links exeeded
+      - name: Exit code if danger detected
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} == danger
+        run: exit 1
+
+      - name: Cancel workflow on failure
+        if: ${{ failure() }}
         uses: andymckay/cancel-action@0.2
 
   test-fail-workflow:
@@ -308,5 +312,5 @@ jobs:
         run: exit 1
 
       - name: Cancel flow
-        if: ${{ always() }}
+        if: ${{ failure() }}
         uses: andymckay/cancel-action@0.2 
