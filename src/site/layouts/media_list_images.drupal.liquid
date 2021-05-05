@@ -42,9 +42,100 @@
               {% assign image_title_classes = "vads-u-font-size--h3" %}
             {% endif %}
 
-            <!-- Images List -->
+            <!-- Images List Start -->
+            <!-- ================ -->
             <dl class="usa-unstyled-list">
-              {% include "src/site/includes/images_list_with_additional_info_component.drupal.liquid" with images = fieldMediaListImages.entity.fieldImages %}
+              {% if fieldMediaListImages.entity.fieldImages.size != 0 %}
+                {% assign pageSize = 10 %}
+                {% assign remainingImages = fieldMediaListImages.entity.fieldImages | sliceArrayFromStart: pageSize, fieldMediaListImages.entity.fieldImages.size %}
+
+                {% for mediaImage in fieldMediaListImages.entity.fieldImages %}
+                  {% assign recordsCount = recordsCount | plus: 1 %}
+
+                  {% unless recordsCount > pageSize %}
+                    {% assign alt = mediaImage.entity.image.alt %}
+
+                    <div class="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--4">
+                      <dt class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">
+                        <{{image_title_tag}} class="{{image_title_classes }} medium-screen:vads-u-margin-top--0">{{ mediaImage.entity.entityLabel }}</{{image_title_tag}}>
+                      </dt>
+
+                      <dd>
+                        <picture>
+                          {% if mediaImage.entity.image.url == empty %}
+                            <img
+                              alt="{{ alt }}"
+                              class="alt-text-container vads-u-background-color--gray-lightest vads-u-display--block vads-u-border--1px vads-u-border-color--gray-light"
+                              height="{{ mediaImage.entity.image.height }}"
+                              width="{{ mediaImage.entity.image.width }}"
+                            />
+                          {% else %}
+                            <img
+                              alt="{{ alt }}"
+                              class="vads-u-border--1px vads-u-border-color--gray-light"
+                              height="{{ mediaImage.entity.image.height }}"
+                              src="{{ mediaImage.entity.image.url }}"
+                              width="{{ mediaImage.entity.image.width }}"
+                            />
+                          {% endif %}
+                        </picture>
+                      </dd>
+
+                      {% if mediaImage.entity.fieldDescription %}
+                        <dt class="vads-u-margin-top--1">
+                          <p class="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-margin-y--0">{{ mediaImage.entity.fieldDescription }}</p>
+                        </dt>
+                      {% endif %}
+                    </div>
+                  {% endunless %}
+                {% endfor %}
+
+                {% if recordsCount > pageSize %}
+                  <div class="form-expanding-group additional-info-container vads-u-margin-y--2p5">
+                    <span class="additional-info-title">Show more</span>
+                    <span>
+                      <div class="additional-info-content">
+                        {% for remainingImage in remainingImages %}
+                          {% assign alt = remainingImage.entity.image.alt %}
+
+                          <div class="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--4">
+                            <dt class="vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0">
+                              <{{image_title_tag}} class="{{image_title_classes }} medium-screen:vads-u-margin-top--0">{{ remainingImage.entity.entityLabel }}</{{image_title_tag}}>
+                            </dt>
+
+                            <dd>
+                              <picture>
+                                {% if remainingImage.entity.image.url == empty %}
+                                  <img
+                                    alt="{{ alt }}"
+                                    class="alt-text-container vads-u-background-color--gray-lightest vads-u-display--block vads-u-border--1px vads-u-border-color--gray-light"
+                                    height="{{ remainingImage.entity.image.height }}"
+                                    width="{{ remainingImage.entity.image.width }}"
+                                  />
+                                {% else %}
+                                  <img
+                                    alt="{{ alt }}"
+                                    class="vads-u-border--1px vads-u-border-color--gray-light"
+                                    height="{{ remainingImage.entity.image.height }}"
+                                    src="{{ remainingImage.entity.image.url }}"
+                                    width="{{ remainingImage.entity.image.width }}"
+                                  />
+                                {% endif %}
+                              </picture>
+                            </dd>
+
+                            {% if remainingImage.entity.fieldDescription %}
+                              <dt class="vads-u-margin-top--1">
+                                <p class="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-margin-y--0">{{ remainingImage.entity.fieldDescription }}</p>
+                              </dt>
+                            {% endif %}
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </span>
+                  </div>
+                {% endif %}
+              {% endif %}
             </dl>
 
             <!-- Repeated buttons -->
@@ -56,6 +147,8 @@
               </div>
             {% endif %}
           </article>
+          <!-- ================ -->
+          <!-- Images List End -->
 
           <!-- Tags -->
           {% include "src/site/includes/tags.drupal.liquid" with fieldTags = fieldTags %}
