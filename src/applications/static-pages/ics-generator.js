@@ -3,10 +3,12 @@ export function icsCreate(calendarLink) {
     const cal = new ICS.VCALENDAR();
     const event = new ICS.VEVENT();
     const addToCalendarLink = document.getElementById('add-to-calendar-link');
-    const start = addToCalendarLink.getAttribute('data-start');
-    const startDateObj = new Date(start);
-    const end = addToCalendarLink.getAttribute('data-end');
-    const endDateObj = new Date(end);
+    const startSecondsString = addToCalendarLink.getAttribute('data-start');
+    const startMS = parseInt(startSecondsString, 10) * 1000;
+    const startDateObj = new Date(startMS);
+    const endSecondsString = addToCalendarLink.getAttribute('data-end');
+    const endMS = parseInt(endSecondsString, 10) * 1000;
+    const endDateObj = new Date(endMS);
     const location = addToCalendarLink.getAttribute('data-location');
     const description = addToCalendarLink.getAttribute('data-description');
     const title = addToCalendarLink.getAttribute('data-subject');
