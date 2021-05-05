@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
-import * as actions from '../../redux/actions';
+import {
+  onCalendarChange,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+} from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FormButtons from '../../../components/FormButtons';
 import CalendarWidget from '../../../components/calendar/CalendarWidget';
@@ -24,32 +28,27 @@ function exceededMaxSelections(dates) {
   return dates?.length > maxSelections;
 }
 
-function goForward({
-  data,
-  history,
-  routeToNextAppointmentPage,
-  setSubmitted,
-}) {
+function goForward({ dispatch, data, history, setSubmitted }) {
   setSubmitted(true);
 
   if (
     userSelectedSlot(data.selectedDates) &&
     !exceededMaxSelections(data.selectedDates)
   ) {
-    routeToNextAppointmentPage(history, pageKey);
+    dispatch(routeToNextAppointmentPage(history, pageKey));
   } else {
     scrollAndFocus('.usa-input-error-message');
   }
 }
 
-export function DateTimeRequestPage({
-  data,
-  pageChangeInProgress,
-  onCalendarChange,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-}) {
+export default function DateTimeRequestPage() {
+  const { data, pageChangeInProgress } = useSelector(
+    state => getFormPageInfo(state, pageKey),
+    shallowEqual,
+  );
+
   const history = useHistory();
+  const dispatch = useDispatch();
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
@@ -71,7 +70,7 @@ export function DateTimeRequestPage({
         multiSelect
         maxSelections={maxSelections}
         maxSelectionsError="You can only choose up to 3 dates for your appointment"
-        onChange={onCalendarChange}
+        onChange={(...args) => dispatch(onCalendarChange(...args))}
         minDate={moment()
           .add(5, 'days')
           .format('YYYY-MM-DD')}
@@ -87,9 +86,12 @@ export function DateTimeRequestPage({
         showValidation={submitted && !userSelectedSlot(selectedDates)}
       />
       <FormButtons
-        onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+        onBack={() =>
+          dispatch(routeToPreviousAppointmentPage(history, pageKey))
+        }
         onSubmit={() =>
           goForward({
+            dispatch,
             data,
             history,
             routeToNextAppointmentPage,
@@ -103,18 +105,3 @@ export function DateTimeRequestPage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
-}
-
-const mapDispatchToProps = {
-  onCalendarChange: actions.onCalendarChange,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DateTimeRequestPage);
