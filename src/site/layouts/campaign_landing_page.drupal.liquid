@@ -484,7 +484,8 @@
     <!--/  FAQs -->
 
     <!-- Connect with us -->
-    {% assign socialLinksObject = fieldClpConnectWithUs.entity.fieldSocialMediaLinks.platformValues | jsonToObj %}
+    {% if fieldClpConnectWithUs.entity.name %}
+      {% assign socialLinksObject = fieldClpConnectWithUs.entity.fieldSocialMediaLinks.platformValues | jsonToObj %}
       <div class="vads-l-grid-container vads-u-padding-y--3 vads-u-padding-x--4 large-screen:vads-u-padding-x--0">
         <div class="vads-l-row">
           <!-- CONTENT -->
@@ -517,7 +518,7 @@
             <div class="vads-l-col--12 medium-screen:vads-l-col--4">
               <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1">
                 <a
-                  aria-label="{{ fieldClpConnectWithUs.entity.name }} Twitter (opens in a new window)"
+                  aria-label="Twitter, {{ fieldClpConnectWithUs.entity.name }} (opens in a new window)"
                   href="https://twitter.com/{{ socialLinksObject.twitter.value }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name | encode }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name | encode }} Twitter' });"
                   rel="noreferrer noopener"
@@ -534,7 +535,7 @@
             <div class="vads-l-col--12 medium-screen:vads-l-col--4">
               <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1">
                 <a
-                  aria-label="{{ fieldClpConnectWithUs.entity.name }} Facebook (opens in a new window)"
+                  aria-label="Facebook, {{ fieldClpConnectWithUs.entity.name }} (opens in a new window)"
                   href="https://facebook.com/{{ socialLinksObject.facebook.value }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name | encode }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name | encode }} Facebook' });"
                   rel="noreferrer noopener"
@@ -551,7 +552,7 @@
             <div class="vads-l-col--12 medium-screen:vads-l-col--4">
               <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1">
                 <a
-                  aria-label="{{ fieldClpConnectWithUs.entity.name }} YouTube (opens in a new window)"
+                  aria-label="YouTube, {{ fieldClpConnectWithUs.entity.name }} (opens in a new window)"
                   href="https://youtube.com/{{ socialLinksObject.youtube.value }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name | encode }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name | encode }} YouTube' });"
                   rel="noreferrer noopener"
@@ -568,7 +569,7 @@
             <div class="vads-l-col--12 medium-screen:vads-l-col--4">
               <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1">
                 <a
-                  aria-label="{{ fieldClpConnectWithUs.entity.name }} Linkedin (opens in a new window)"
+                  aria-label="Linkedin, {{ fieldClpConnectWithUs.entity.name }} (opens in a new window)"
                   href="https://linkedin.com/{{ socialLinksObject.linkedin.value }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name | encode }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name | encode }} Linkedin' });"
                   rel="noreferrer noopener"
@@ -585,7 +586,7 @@
             <div class="vads-l-col--12 medium-screen:vads-l-col--4">
               <div class="vads-u-margin-y--1 medium-screen:vads-u-margin-x--1">
                 <a
-                  aria-label="{{ fieldClpConnectWithUs.entity.name }} Instagram (opens in a new window)"
+                  aria-label="Instagram, {{ fieldClpConnectWithUs.entity.name }} (opens in a new window)"
                   href="https://instagram.com/{{ socialLinksObject.instagram.value }}"
                   onclick="recordEvent({ 'event': 'clp-link-click', 'clp-section-category': 'Connect with us', 'clp-section-title': 'Get updates from {{ fieldClpConnectWithUs.entity.name | encode }}', 'clp-total-sections': '{{ clpTotalSections }}', 'clp-click-label': '{{ fieldClpConnectWithUs.entity.name | encode }} Instagram' });"
                   rel="noreferrer noopener"
@@ -599,6 +600,7 @@
           {% endif %}
         </div>
       </div>
+    {% endif %}
     <!-- Connect with us -->
 
     <!-- VA Benefits -->
