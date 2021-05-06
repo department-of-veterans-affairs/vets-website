@@ -104,11 +104,12 @@
                 </div>
             {% endif %}
 
-          <h2 id="in-the-spot-light" class="vads-u-margin-top--0 vads-u-font-size--lg
+            {% assign allFeaturedContent = fieldCcVetCenterFeaturedCon | appendCentralizedFeaturedContent: fieldVetCenterFeatureContent %}
+            <h2 id="in-the-spot-light" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">In the spotlight at {{ entityLabel }} </h2>
             <div class="field-vet-center-feature-content">
                 <ul class="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
-                    {% for entity in fieldVetCenterFeatureContent %}
+                    {% for entity in allFeaturedContent %}
                         {% include "src/site/includes/vet_center_featured_content.liquid" with
                             entity = entity.entity
                         %}
