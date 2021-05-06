@@ -14,7 +14,7 @@ node('vetsgov-general-purpose') {
     checkout scm
     ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
     shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
-    echo "here is some stuff"
+    echo "or here"
     echo shortCommit
   }
 
