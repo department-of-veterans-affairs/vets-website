@@ -97,7 +97,7 @@ export default function App({ children }) {
   let isOnProd = false;
 
   return (
-    <div>
+    <div className="row">
       <h1>Frontend Support Dashboard</h1>
       <h2>Commits</h2>
       <table>
@@ -138,7 +138,7 @@ export default function App({ children }) {
                 </td>
 
                 {/* Replace TODO with actual value once requests from localhost to dev are no longer blocked by CORS */}
-                <td style={onDevStyle}>TODO</td>
+                <td style={onDevStyle}>COMING SOON</td>
                 <td style={onStagingStyle}>{isOnStaging ? 'TRUE' : 'FALSE'}</td>
                 <td style={onProdStyle}>{isOnProd ? 'TRUE' : 'FALSE'}</td>
               </tr>
@@ -159,7 +159,7 @@ export default function App({ children }) {
             return <div key={x}>{x}</div>;
           })}
           */}
-          <div>TODO</div>
+          <div>COMING SOON</div>
         </div>
         <div>
           <h4>
@@ -180,6 +180,7 @@ export default function App({ children }) {
         </div>
       </div>
       <h2>content-build BUILD.txt files</h2>
+      <div>COMING SOON</div>
       {children}
     </div>
   );
