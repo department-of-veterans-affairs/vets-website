@@ -4,7 +4,7 @@ import { personalInformation } from '../schema-imports';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 function containsDisallowedCharacters(value) {
-  const disAllowedCharacters = ['(', ')'];
+  const disAllowedCharacters = ['(', ')', ',', ':', ';'];
   for (const character of disAllowedCharacters) {
     if (value.indexOf(character) !== -1) {
       return true;
@@ -28,7 +28,9 @@ export const uiSchema = {
         function(errors, fieldData) {
           const setError = containsDisallowedCharacters(fieldData);
           if (setError) {
-            errors.addError('Please only use letters and no parentheses');
+            errors.addError(
+              'Please only use letters and no special punctuation',
+            );
           }
         },
       ],
@@ -46,7 +48,7 @@ export const uiSchema = {
           const setError = containsDisallowedCharacters(fieldData);
           if (setError) {
             errors.addError(
-              'Please only use your current last name and no parentheses',
+              'Please only use your current last name and no special punctuation',
             );
           }
         },

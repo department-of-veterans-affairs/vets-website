@@ -52,6 +52,14 @@ const testConfig = createTestConfig(
           }
         });
       },
+      'review-and-submit': () => {
+        cy.findByLabelText(
+          /I certify that the information I’ve provided in this form is true/i,
+        ).click();
+        cy.findByLabelText(
+          /I have been provided access to VA's Notice of Privacy Practices/i,
+        ).click();
+      },
       confirmation: () => {
         cy.get('h2').contains("We've received your information");
       },

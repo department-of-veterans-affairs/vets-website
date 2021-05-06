@@ -280,9 +280,22 @@ module.exports = (env = {}) => {
     baseConfig.plugins.push(
       new ManifestPlugin({
         fileName: 'file-manifest.json',
+        filter: ({ path: filePath }) => !filePath.includes('/generated/..'),
       }),
     );
   }
+
+  // Copy over image assets for when metalsmith is removed
+  // baseConfig.plugins.push(
+  //   new CopyPlugin({
+  //     patterns: [
+  //       {
+  //         from: 'src/site/assets',
+  //         to: path.join(outputPath, '..', ''),
+  //       },
+  //     ],
+  //   }),
+  // );
 
   // Optionally generate landing pages in the absence of a content build.
   if (buildOptions.scaffold) {
