@@ -3,6 +3,9 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { SELECTED } from '../constants';
 
+export const someSelected = issues =>
+  (issues || []).some(issue => issue[SELECTED]);
+
 // checks
 export const hasRepresentative = formData => formData['view:hasRep'];
 export const canUploadEvidence = formData =>
@@ -11,8 +14,10 @@ export const needsHearingType = formData =>
   formData.boardReviewOption === 'hearing';
 export const wantsToUploadEvidence = formData =>
   canUploadEvidence(formData) && formData['view:additionalEvidence'];
-export const someSelected = issues =>
-  (issues || []).some(issue => issue[SELECTED]);
+export const showAddIssueQuestion = formData =>
+  someSelected(formData.contestableIssues);
+export const showAddIssues = formData =>
+  formData['view:hasIssuesToAdd'] || !showAddIssueQuestion(formData);
 
 export const noticeOfDisagreementFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.form10182Nod];
@@ -24,3 +29,11 @@ export const isEmptyObject = obj =>
 
 export const setInitialEditMode = formData =>
   formData.map(({ issue, decisionDate } = {}) => !issue || !decisionDate);
+
+export const appStateSelector = state => ({
+  // Validation functions are provided the pageData and not the
+  // formData on the review & submit page. For more details
+  // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
+  contestableIssues: state.form?.data?.contestableIssues || [],
+  additionalIssues: state.form?.data?.additionalIssues || [],
+});
