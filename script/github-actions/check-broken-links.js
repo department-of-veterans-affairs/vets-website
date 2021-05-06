@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
+
 const fs = require('fs');
-// const path = require('path');
 const commandLineArgs = require('command-line-args');
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
@@ -38,8 +39,8 @@ if (fs.existsSync(reportPath)) {
   } broken links found in the ${envName} build on ${BRANCH_NAME} \n\n${SERVER_URL}\n\n`;
   const message = `${heading}\n${brokenLinks.summary}`; // TODO: stripMargin equiv
 
-  console.log(`${brokenLinks.brokenLinksCount} broken links found`); // eslint-disable-line no-console
-  console.log(`::set-output name=SLACK_MESSAGE::${message}`); // eslint-disable-line no-console
+  console.log(`${brokenLinks.brokenLinksCount} broken links found`);
+  console.log(`::set-output name=SLACK_MESSAGE::${message}`);
 
   if (!IS_PROD_BRANCH && !contentOnlyBuild) {
     // Ignore the results of the broken link checker unless
@@ -60,5 +61,5 @@ if (fs.existsSync(reportPath)) {
     throw new Error('Broken links found');
   }
 
-  console.log(`::set-output name=SLACK_COLOR::${color}`); // eslint-disable-line no-console
+  console.log(`::set-output name=SLACK_COLOR::${color}`);
 }

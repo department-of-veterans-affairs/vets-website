@@ -194,7 +194,7 @@ jobs:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Audit dependencies
-        run: yarn security-check
+        run: yarn security-check -g
 
   drupal-cache-test:
     name: Drupal Cache Test
