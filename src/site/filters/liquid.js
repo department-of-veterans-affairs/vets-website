@@ -774,7 +774,11 @@ module.exports = function registerFilters() {
       },
     };
 
-    if (field_cta.length > 0) {
+    if (
+      field_cta.length > 0 &&
+      field_cta[0]?.field_button_link &&
+      field_cta[0]?.field_button_label
+    ) {
       const buttonFeatured = {
         entity: {
           fieldButtonLink: {
