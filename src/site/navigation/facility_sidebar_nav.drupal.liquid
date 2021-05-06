@@ -11,7 +11,10 @@
 {% assign deepLinks = deepLinksObj.link.links %}
 
 <script nonce="**CSP_NONCE**" type="text/javascript">
-    window.sideNav = {{ sidebarData | json }};
+    window.sideNav = {
+      rootPath: "{{ entityUrl.path }}/",
+      data: {{ sidebarData | json }},
+    };
 </script>
 
 {% comment %} React Widget located in `src/platform/site-wide/side-nav` {% endcomment %}

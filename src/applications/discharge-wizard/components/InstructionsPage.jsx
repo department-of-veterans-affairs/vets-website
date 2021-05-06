@@ -28,7 +28,7 @@ class InstructionsPage extends Component {
 
   render() {
     return (
-      <div
+      <section
         className="dw-instructions"
         itemScope
         itemType="http://schema.org/FAQPage"
@@ -373,7 +373,7 @@ class InstructionsPage extends Component {
             </div>
           </article>
         </div>
-      </div>
+      </section>
     );
   }
 }
