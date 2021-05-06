@@ -280,6 +280,7 @@ module.exports = (env = {}) => {
     baseConfig.plugins.push(
       new ManifestPlugin({
         fileName: 'file-manifest.json',
+        filter: ({ path: filePath }) => !filePath.includes('/generated/..'),
       }),
     );
   }
