@@ -14,10 +14,13 @@ export const needsHearingType = formData =>
   formData.boardReviewOption === 'hearing';
 export const wantsToUploadEvidence = formData =>
   canUploadEvidence(formData) && formData['view:additionalEvidence'];
-export const showAddIssueQuestion = formData =>
-  someSelected(formData.contestableIssues);
-export const showAddIssues = formData =>
-  formData['view:hasIssuesToAdd'] || !showAddIssueQuestion(formData);
+
+export const hasSomeSelected = ({
+  contestableIssues = [],
+  additionalIssues = [],
+}) => someSelected(contestableIssues) || someSelected(additionalIssues);
+export const showAddIssueQuestion = formData => hasSomeSelected(formData);
+export const showAddIssues = formData => formData['view:hasIssuesToAdd'];
 
 export const noticeOfDisagreementFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.form10182Nod];

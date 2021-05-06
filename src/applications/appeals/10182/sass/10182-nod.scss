@@ -78,7 +78,6 @@ dl.review {
   }
 
   dd.widget-content {
-    width: 100%;
     margin-inline-start: 0; /* override user agent */
     text-align: left;
     margin: 3rem 3.5rem 0 5rem;
@@ -151,6 +150,11 @@ article[data-location="eligible-issues"] {
       margin-top: 2rem;
     }
   }
+}
+
+/* new issues cards */
+dl.review .additional-issues.review-row {
+  flex-direction: column;
 }
 
 /* Rep info */
