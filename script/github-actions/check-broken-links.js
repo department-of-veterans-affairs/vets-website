@@ -56,5 +56,9 @@ if (fs.existsSync(reportPath)) {
   // brokenLinks is an instance of JSONObject, which cannot be serialized by default.
   // brokenLinks = null;
 
+  if (color === 'danger') {
+    throw new Error('Broken links found');
+  }
+
   console.log(`::set-output name=SLACK_COLOR::${color}`); // eslint-disable-line no-console
 }
