@@ -756,6 +756,7 @@ module.exports = function registerFilters() {
   // with the expected structure so that it can be directly passed inside the template
   /* eslint-disable prettier/prettier */
   liquid.filters.appendCentralizedFeaturedContent = ( ccFeatureContent, featureContentArray ) => {
+    if( !ccFeatureContent|| !ccFeatureContent.fetched) return [];
     /* eslint-disable camelcase */
     const {
       field_description,
