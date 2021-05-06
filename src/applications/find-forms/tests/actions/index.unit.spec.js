@@ -50,11 +50,13 @@ describe('Find VA Forms actions', () => {
     it('should return an action in the shape we expect', () => {
       const results = [];
       const hasOnlyRetiredForms = false;
+      const useLighthouseSearchAlgo = undefined;
       const action = fetchFormsSuccess(results, hasOnlyRetiredForms);
 
       expect(action).to.be.deep.equal({
         hasOnlyRetiredForms,
         results,
+        useLighthouseSearchAlgo,
         type: FETCH_FORMS_SUCCESS,
       });
     });
