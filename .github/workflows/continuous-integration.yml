@@ -300,3 +300,16 @@ jobs:
       - name: Cancel workflow on failure
         if: ${{ failure() }}
         uses: andymckay/cancel-action@0.2
+
+  stop:
+    name: Build
+    runs-on: self-hosted
+    steps:
+      - name: Checkout vagov-content
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/vagov-content
+          path: vagov-content
+
+      - name: stop
+        run: echo '::stop-commands::'
