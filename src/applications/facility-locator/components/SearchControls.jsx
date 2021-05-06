@@ -127,7 +127,7 @@ const SearchControls = props => {
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
     recordEvent({
-      event: 'fl-search-geolocation',
+      event: 'fl-get-geolocation',
     });
     geolocateUser();
   };
@@ -340,6 +340,34 @@ const SearchControls = props => {
       }
     },
     [currentQuery.geocodeInProgress],
+  );
+
+  // Track geocode errors
+  useEffect(
+    () => {
+      switch (currentQuery.geocodeError) {
+        case 0:
+          break;
+        case 1:
+          recordEvent({
+            event: 'fl-get-geolocation-permission-error',
+            'error-key': '1_PERMISSION_DENIED',
+          });
+          break;
+        case 2:
+          recordEvent({
+            event: 'fl-get-geolocation-other-error',
+            'error-key': '2_POSITION_UNAVAILABLE',
+          });
+          break;
+        default:
+          recordEvent({
+            event: 'fl-get-geolocation-other-error',
+            'error-key': '3_TIMEOUT',
+          });
+      }
+    },
+    [currentQuery.geocodeError],
   );
 
   return (
