@@ -591,3 +591,7 @@ img[data-srcset] {
     width: 100%;
   }
 }
+// Foresee a11y fit
+._acsBadgeLabel {
+  background-color: #000;
+}
