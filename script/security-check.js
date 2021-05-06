@@ -5,18 +5,13 @@
  * and aren't in our exceptions list
  */
 const { spawn } = require('child_process');
-const commandLineArgs = require('command-line-args');
+
 const packageJSON = require('../package.json');
 
 const exceptionSet = new Set([
   'https://npmjs.com/advisories/996',
   'https://npmjs.com/advisories/1488',
 ]);
-
-const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'gha', alias: 'g', type: Boolean, defaultValue: false },
-];
-const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
 
 const severitySet = new Set(['high', 'critical', 'moderate']);
 
@@ -59,11 +54,7 @@ function processAuditResults(audit) {
         Severity: ${adv.data.advisory.severity}
         Details: ${adv.data.advisory.url}
             `;
-      if (options.gha) {
-        console.log(`::error::${output}`);
-      } else {
-        console.log(output);
-      }
+      console.log(`::error::${output}`);
     });
   } else {
     console.log(
