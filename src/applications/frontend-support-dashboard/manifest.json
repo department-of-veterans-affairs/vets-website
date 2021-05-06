@@ -1,0 +1,6 @@
+{
+  "appName": "frontend-support-dashboard",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "frontend-support-dashboard",
+  "rootUrl": "/frontend-support-dashboard"
+}

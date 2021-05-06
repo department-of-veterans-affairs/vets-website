@@ -1096,5 +1096,14 @@
       "vagovprod": false,
       "layout": "page-react.html"
     }
+  },
+  {
+    "appName": "frontend-support-dashboard",
+    "entryName": "frontend-support-dashboard",
+    "rootUrl": "/frontend-support-dashboard",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html"
+    }
   }
 ]
