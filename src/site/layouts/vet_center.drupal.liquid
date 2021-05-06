@@ -132,10 +132,22 @@
                 typeOfCare = "other"
             %}
 
-            {% if fieldCcVetCenterFaqs.fetched.field_section_header.0.value != empty %}
-                <h2 id="how-different-than-clinic" class="vads-u-margin-top--0 vads-u-font-size--lg
-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2"> {{ fieldCcVetCenterFaqs.fetched.field_section_header.0.value }}</h2>
-                <p> {{ fieldCcVetCenterFaqs.fetched.field_section_intro.0.value }} </p>
+            {% if fieldCcVetCenterFaqs.fetched %}
+                {% if fieldCcVetCenterFaqs.fetched.field_section_header.0.value != empty %}
+                    <h2 id="how-different-than-clinic" class="vads-u-margin-top--0 vads-u-font-size--lg
+          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2"> {{ fieldCcVetCenterFaqs.fetched.field_section_header.0.value }}
+                    </h2>
+                    <p> {{ fieldCcVetCenterFaqs.fetched.field_section_intro.0.value }} </p>
+                {% endif %}
+                <div class="vads-u-margin-bottom--3" id="field-vet-center-faqs">
+                    {% for q in fieldCcVetCenterFaqs.fetched.field_questions %}
+                        <va-accordion bordered id="cc-question-accordion-{{ q.target_id }}" >
+                            <va-accordion-item id="cc-question-accordion-item-{{ q.target_id }}" header="{{ q.field_question.0.value }}" level="3">
+                                {{ q.field_answer.0.field_wysiwyg.0.processed | drupalToVaPath | outputLinks }}
+                            </va-accordion-item>
+                        </va-accordion>
+                    {% endfor %}
+                </div>
             {% endif %}
 
         </article>
