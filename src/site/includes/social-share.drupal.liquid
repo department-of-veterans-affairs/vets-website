@@ -6,8 +6,17 @@
 <div data-template="includes/social-share" id="va-c-social-share">
   <ul class="usa-unstyled-list">
     <li class="vads-u-margin-bottom--2p5">
-      <a href="{{ entityUrl.path }}" id="add-to-calendar-link" data-start="{{fieldDatetimeRangeTimezone.value }}" data-end="{{fieldDatetimeRangeTimezone.endTime}}" data-location="{{fieldAddress.addressLine1}} {{fieldAddress.locality}}, {{fieldAddress.administrativeArea}}" data-subject="{{ title }}" data-description="{{fieldDescription}}">
-        <i class="va-c-social-icon fas fa-calendar-check vads-u-margin-right--0p5" aria-hidden="true" role="presentation" aria-hidden="true"></i>Add to Calendar</a>
+      <a
+        data-description="{{ fieldDescription }}"
+        data-end="{{ fieldDatetimeRangeTimezone.endValue }}"
+        data-location="{{ fieldAddress.addressLine1 }} {{ fieldAddress.locality }}, {{ fieldAddress.administrativeArea }}"
+        data-subject="{{ title }}"
+        href="{{ entityUrl.path }}"
+        id="add-to-calendar-link" data-start="{{fieldDatetimeRangeTimezone.value }}"
+      >
+        <i class="va-c-social-icon fas fa-calendar-check vads-u-margin-right--0p5" aria-hidden="true" role="presentation" aria-hidden="true"></i>
+        Add to Calendar
+      </a>
     </li>
 
     <li class="vads-u-margin-bottom--2p5">
