@@ -55,7 +55,7 @@ const RequestDetailsCard = ({ data, response, download }) => {
         </p>
         <p className="vads-u-margin-y--0">Debt Management Center</p>
         <p className="vads-u-margin-y--0">P.O. Box 11930</p>
-        <p className="vads-u-margin-y--0">St. Paul, MN 5111-0930</p>
+        <p className="vads-u-margin-y--0">St. Paul, MN 55111-0930</p>
         <p>
           <button className="usa-button button" onClick={() => download()}>
             Download completed form
