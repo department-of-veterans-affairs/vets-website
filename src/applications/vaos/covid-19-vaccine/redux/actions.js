@@ -380,6 +380,11 @@ export function confirmAppointment(history) {
       const appointmentBody = transformFormToAppointment(getState());
       await submitAppointment(appointmentBody);
 
+      const data = selectCovid19VaccineFormData(getState());
+      const facilityID = {
+        'facility-id': data.vaFacility,
+      };
+
       dispatch({
         type: VACCINE_FORM_SUBMIT_SUCCEEDED,
       });
@@ -388,6 +393,7 @@ export function confirmAppointment(history) {
         event: `${GA_PREFIX}-covid19-submission-successful`,
         flow: GA_FLOWS.DIRECT,
         ...additionalEventData,
+        ...facilityID,
       });
       resetDataLayer();
       history.push('/new-covid-19-vaccine-booking/confirmation');

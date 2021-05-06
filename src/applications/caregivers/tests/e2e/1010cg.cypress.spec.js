@@ -3,6 +3,7 @@ import path from 'path';
 import formConfig from 'applications/caregivers/config/form';
 import manifest from 'applications/caregivers/manifest.json';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import {
   veteranSignatureContent,
@@ -68,7 +69,8 @@ const testSecondaryTwo = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.route('GET', '/v0/feature_toggles?*', 'fx:mocks/feature-toggles');
+      cy.server();
+      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
     },
     pageHooks: {
       introduction: () => {

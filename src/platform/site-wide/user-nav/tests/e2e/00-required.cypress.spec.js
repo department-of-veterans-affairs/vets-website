@@ -63,6 +63,10 @@ describe('Site-wide Search general functionality', () => {
     if (Cypress.env('CIRCLECI')) this.skip();
   });
 
+  beforeEach(function() {
+    cy.server();
+  });
+
   // default cases
   it('appears when the dropdown is clicked', () => {
     cy.visit('/');
@@ -97,6 +101,10 @@ describe('Site-wide Search functionality with typeahead disabled', () => {
     if (Cypress.env('CIRCLECI')) this.skip();
   });
 
+  beforeEach(function() {
+    cy.server();
+  });
+
   it('Clicking search button initiates search for input - typeahead disabled', () => {
     prepareSearch('benefits');
     cy.get('[data-e2e-id="sitewide-search-submit-button"]').click();
@@ -114,6 +122,10 @@ describe('Site-wide Search functionality with typeahead disabled', () => {
 describe('Site-wide Search functionality with typeahead enabled', () => {
   before(function() {
     if (Cypress.env('CIRCLECI')) this.skip();
+  });
+
+  beforeEach(function() {
+    cy.server();
   });
 
   it('shows suggestions when user input is present and typeahead is enabled', () => {

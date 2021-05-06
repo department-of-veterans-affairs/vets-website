@@ -34,8 +34,8 @@ const sortQuestionnairesByStatus = questionnaires => {
 
   // sort the items based on appointment time
   data.sort((first, second) => {
-    const f = appointmentSelector.getStartTime(first.appointment);
-    const s = appointmentSelector.getStartTime(second.appointment);
+    const f = appointmentSelector.getStartDateTime(first.appointment);
+    const s = appointmentSelector.getStartDateTime(second.appointment);
     return new Date(f) - new Date(s);
   });
 

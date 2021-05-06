@@ -49,9 +49,9 @@ const EligibleIssuesWidget = props => {
   }));
 
   const itemsLength = items.length;
-  const showError =
-    formContext.submitted &&
-    !(someSelected(value) || someSelected(props.additionalIssues));
+  const hasSelected =
+    someSelected(value) || someSelected(props.additionalIssues);
+  const showError = formContext.submitted && !hasSelected;
 
   const content = itemsLength ? (
     items.map((item, index) => {
@@ -73,7 +73,7 @@ const EligibleIssuesWidget = props => {
   ) : (
     <>
       <dt>
-        {onReviewPage || showError ? (
+        {onReviewPage && !hasSelected ? (
           'No issues selected'
         ) : (
           <strong>No eligible issues found</strong>
@@ -114,7 +114,7 @@ EligibleIssuesWidget.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  additionalIssues: state.form.data.additionalIssues || [],
+  additionalIssues: state.form.data?.additionalIssues || [],
 });
 
 export { EligibleIssuesWidget };
