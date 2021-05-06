@@ -13,9 +13,9 @@ node('vetsgov-general-purpose') {
   dir("vets-website") {
     //checkout scm
     //ref = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-    //shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
+    shortCommit = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
     echo "or here"
-    //echo shortCommit
+    echo shortCommit
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
