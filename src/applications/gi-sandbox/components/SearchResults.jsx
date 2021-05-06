@@ -7,8 +7,8 @@ export default function SearchResults({ search }) {
       {search.count > 0 && (
         <div className="usa-grid vads-u-padding--1">
           <p>
-            Showing <strong>{search.count} search results</strong> for{' '}
-            <strong>'{search.query.name}'</strong>
+            Showing <strong>{search.count} search results</strong> for '
+            <strong>{search.query.name}</strong>'
           </p>
           <div className="usa-width-one-third">
             <h3>Filter Panel</h3>
