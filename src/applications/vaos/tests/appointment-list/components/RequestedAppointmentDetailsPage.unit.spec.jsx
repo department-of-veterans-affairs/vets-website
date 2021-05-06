@@ -333,7 +333,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(await screen.findByText('Pending primary care appointment')).to.be
       .ok;
 
-    expect(screen.baseElement).not.to.contain.text('canceled');
+    expect(screen.baseElement).not.to.contain.text('Canceled');
 
     fireEvent.click(screen.getByText(/cancel request/i));
 
@@ -360,7 +360,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     fireEvent.click(screen.getByText(/continue/i));
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
-    expect(screen.baseElement).to.contain.text('canceled');
+    expect(screen.baseElement).to.contain.text('Canceled');
   });
 
   it('should show error message when single fetch errors', async () => {
