@@ -8,7 +8,7 @@ import {
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
   INITIAL_SORT_STATE,
-  TEST_OPTION_RELEVANCE,
+  FAF_TEST_OPTION_RELEVANCE,
   UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
   UPDATE_RESULTS,
@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
       const clonedResults = cloneDeep(action.results);
       if (
         !state.lighthouseTestSearchResults &&
-        state.sortByPropertyName === TEST_OPTION_RELEVANCE
+        state.sortByPropertyName === FAF_TEST_OPTION_RELEVANCE
       ) {
         // NOTE: This is only for testing Lighthouse Search Algorithm
         return {
@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
         fetching: false,
         hasOnlyRetiredForms: action.hasOnlyRetiredForms,
         results:
-          state.sortByPropertyName === TEST_OPTION_RELEVANCE
+          state.sortByPropertyName === FAF_TEST_OPTION_RELEVANCE
             ? state.lighthouseTestSearchResults // NOTE: This is only for testing Lighthouse Search Algorithm
             : clonedResults.sort((a, b) =>
                 sortTheResults(state.sortByPropertyName, a, b),
@@ -69,7 +69,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         results:
-          state.sortByPropertyName === TEST_OPTION_RELEVANCE
+          state.sortByPropertyName === FAF_TEST_OPTION_RELEVANCE
             ? state.lighthouseTestSearchResults // NOTE: This is only for testing Lighthouse Search Algorithm
             : clonedResults.sort((a, b) =>
                 sortTheResults(state.sortByPropertyName, a, b),

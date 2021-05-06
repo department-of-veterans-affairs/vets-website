@@ -16,7 +16,7 @@ export class SearchForm extends Component {
     fetching: PropTypes.bool.isRequired,
     useLighthouseSearchAlgo: PropTypes.bool,
     // From mapDispatchToProps.
-    fetchFormsThunk: PropTypes.func.isRequired,
+    fetchForms: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -37,8 +37,8 @@ export class SearchForm extends Component {
     const { query } = this.state;
     // Fetch the forms with their query if it's on the URL.
     if (query) {
-      const { useLighthouseSearchAlgo } = this.props;
-      this.props.fetchFormsThunk(query, { useLighthouseSearchAlgo });
+      const { fetchForms, useLighthouseSearchAlgo } = this.props;
+      fetchForms(query, { useLighthouseSearchAlgo });
     }
   }
 
@@ -52,8 +52,8 @@ export class SearchForm extends Component {
 
   onSubmitHandler = event => {
     event.preventDefault();
-    const { useLighthouseSearchAlgo } = this.props;
-    this.props.fetchFormsThunk(this.state.query, { useLighthouseSearchAlgo });
+    const { fetchForms, useLighthouseSearchAlgo } = this.props;
+    fetchForms(this.state.query, { useLighthouseSearchAlgo });
   };
 
   render() {
@@ -101,9 +101,9 @@ const mapStateToProps = state => ({
   useLighthouseSearchAlgo: applyLighthouseFormsSearchLogic(state),
 });
 
-const mapDispatchToProps = {
-  fetchFormsThunk,
-};
+const mapDispatchToProps = dispatch => ({
+  fetchForms: (query, options) => dispatch(fetchFormsThunk(query, options)),
+});
 
 export default connect(
   mapStateToProps,
