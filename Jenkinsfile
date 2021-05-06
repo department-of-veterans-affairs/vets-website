@@ -22,124 +22,126 @@ node('vetsgov-general-purpose') {
   dockerContainer = commonStages.setup()
 
   stage('Main') {
-    def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
-    def assetSource = contentOnlyBuild ? ref : 'local'
+    timeout(60) {
+      def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
+      def assetSource = contentOnlyBuild ? ref : 'local'
 
-    try {
-      parallel (
-        failFast: true,
+      try {
+        parallel (
+          failFast: true,
 
-        buildDev: {
-          if (commonStages.shouldBail()) { return }
-          def envName = 'vagovdev'
-          
-          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
-          if (!shouldBuild) { return }
+          buildDev: {
+            if (commonStages.shouldBail()) { return }
+            def envName = 'vagovdev'
 
-          try {
-            // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
-          } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              // Try to build again using cached drupal content
-              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
-            } else {
+            def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+            if (!shouldBuild) { return }
+
+            try {
+              // Try to build using fresh drupal content
               commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
               envUsedCache[envName] = false
-            }
-          }
-        },
-
-        buildStaging: {
-          if (commonStages.shouldBail()) { return }
-          def envName = 'vagovstaging'
-
-          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
-          if (!shouldBuild) { return }
-
-          try {
-            // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
-          } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+            } catch (error) {
+              if (!contentOnlyBuild) {
+                dockerContainer.inside(DOCKER_ARGS) {
+                  sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+                }
+                // Try to build again using cached drupal content
+                commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+                envUsedCache[envName] = true
+              } else {
+                commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+                envUsedCache[envName] = false
               }
-              // Try to build again using cached drupal content
-              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
-            } else {
+            }
+          },
+
+          buildStaging: {
+            if (commonStages.shouldBail()) { return }
+            def envName = 'vagovstaging'
+
+            def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+            if (!shouldBuild) { return }
+
+            try {
+              // Try to build using fresh drupal content
               commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
               envUsedCache[envName] = false
-            }
-          }
-        },
-
-        buildProd: {
-          if (commonStages.shouldBail()) { return }
-          def envName = 'vagovprod'
-
-          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
-          if (!shouldBuild) { return }
-                    
-          try {
-            // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
-          } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+            } catch (error) {
+              if (!contentOnlyBuild) {
+                dockerContainer.inside(DOCKER_ARGS) {
+                  sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+                }
+                // Try to build again using cached drupal content
+                commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+                envUsedCache[envName] = true
+              } else {
+                commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+                envUsedCache[envName] = false
               }
-              // Try to build again using cached drupal content
-              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
-            } else {
+            }
+          },
+
+          buildProd: {
+            if (commonStages.shouldBail()) { return }
+            def envName = 'vagovprod'
+
+            def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+            if (!shouldBuild) { return }
+
+            try {
+              // Try to build using fresh drupal content
               commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
               envUsedCache[envName] = false
+            } catch (error) {
+              if (!contentOnlyBuild) {
+                dockerContainer.inside(DOCKER_ARGS) {
+                  sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+                }
+                // Try to build again using cached drupal content
+                commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+                envUsedCache[envName] = true
+              } else {
+                commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+                envUsedCache[envName] = false
+              }
             }
-          }
-        },
+          },
 
-        lint: {
-          if (params.cmsEnvBuildOverride != 'none') { return }
-          dockerContainer.inside(commonStages.DOCKER_ARGS) {
-            sh "cd /application && npm --no-color run lint"
-          }
-        },
-
-        // Check package.json for known vulnerabilities
-        security: {
-          if (params.cmsEnvBuildOverride != 'none') { return }
-          retry(3) {
+          lint: {
+            if (params.cmsEnvBuildOverride != 'none') { return }
             dockerContainer.inside(commonStages.DOCKER_ARGS) {
-              sh "cd /application && npm run security-check"
+              sh "cd /application && npm --no-color run lint"
             }
-          }
-        },
+          },
 
-        unit: {
-          if (params.cmsEnvBuildOverride != 'none') { return }
-          dockerContainer.inside(commonStages.DOCKER_ARGS) {
-            sh "/cc-test-reporter before-build"
-            sh "cd /application && npm --no-color run test:unit -- --coverage"
-            sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
-          }
-        },
+          // Check package.json for known vulnerabilities
+          security: {
+            if (params.cmsEnvBuildOverride != 'none') { return }
+            retry(3) {
+              dockerContainer.inside(commonStages.DOCKER_ARGS) {
+                sh "cd /application && npm run security-check"
+              }
+            }
+          },
 
-      )
-    } catch (error) {
-      commonStages.slackNotify()
-      throw error
-    } finally {
-      dir("vets-website") {
-        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+          unit: {
+            if (params.cmsEnvBuildOverride != 'none') { return }
+            dockerContainer.inside(commonStages.DOCKER_ARGS) {
+              sh "/cc-test-reporter before-build"
+              sh "cd /application && npm --no-color run test:unit -- --coverage"
+              sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
+            }
+          },
+
+        )
+      } catch (error) {
+        commonStages.slackNotify()
+        throw error
+      } finally {
+        dir("vets-website") {
+          step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+        }
       }
     }
   }
