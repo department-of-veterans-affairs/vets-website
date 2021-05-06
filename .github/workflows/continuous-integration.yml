@@ -289,9 +289,6 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Check logs directory
-        run: ls ./logs
-
       - name: Broken link checks
         id: get-broken-link-info
         run: node ./script/github-actions/check-broken-links.js -b ${{ steps.get-branch-name.outputs.BRANCH_NAME }} -p ./logs/${{ matrix.buildtype }}-broken-links.json -e ${{ matrix.buildtype }} -s $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
