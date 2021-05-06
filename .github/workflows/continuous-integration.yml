@@ -301,16 +301,15 @@ jobs:
         if: ${{ failure() }}
         uses: andymckay/cancel-action@0.2
 
-  test-fail-workflow:
+  test-matrix-workflow:
     name: test fail
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        buildtype: [vagovdev, vagovstaging, vagovprod]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Exit status code
-        run: exit 1
-
-      - name: Cancel flow
-        if: ${{ failure() }}
-        uses: andymckay/cancel-action@0.2 
+      - name: test matrix
+        run: echo ${{ matrix.buildtype }}
