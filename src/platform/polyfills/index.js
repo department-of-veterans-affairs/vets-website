@@ -19,9 +19,8 @@ if (navigator.userAgent.includes('Edge/14')) {
 
 // This CustomEvent polyfill is for IE11:
 // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#polyfill
-/* eslint-disable-next-line consistent-return */
 (function() {
-  if (typeof window.CustomEvent === 'function') return false;
+  if (typeof window.CustomEvent === 'function') return;
 
   function CustomEvent(event, params) {
     const customParams = params || {
