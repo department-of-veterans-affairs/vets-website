@@ -45,8 +45,7 @@ function processAuditResults(audit) {
 
   if (validAdvisories.length) {
     validAdvisories.forEach(adv => {
-      const output = `
-      Security advisory:
+      const output = `Security advisory:
         Title: ${adv.data.advisory.title}
         Module name: ${adv.data.advisory.module_name}
         Dependency: ${getAffectedModule(adv.data)}
