@@ -5,15 +5,13 @@ module.exports = function(chai, utils) {
 
   utils.addMethod(chai.Assertion.prototype, 'accessible', function(
     rules = {},
-    rulesets = [],
+    rulesets = ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
   ) {
     const el = this._obj;
     const config = {
       runOnly: {
         type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'].concat(
-          rulesets,
-        ),
+        values: rulesets,
       },
       rules: {
         region: { enabled: false },
