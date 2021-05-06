@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
-import loadable from '@loadable/component';
 
 import { isInProgressPath } from 'platform/forms/helpers';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
@@ -23,12 +22,12 @@ import {
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
 
-const AutoSSO = loadable(() => import('./AutoSSO'));
+const AutoSSO = React.lazy(() => import('./AutoSSO'));
 
-const SessionTimeoutModal = loadable(() =>
+const SessionTimeoutModal = React.lazy(() =>
   import(/* webpackPrefetch: true, webpackChunkName: "sessionTimeout" */ 'platform/user/authentication/components/SessionTimeoutModal'),
 );
-const SignInModal = loadable(() =>
+const SignInModal = React.lazy(() =>
   import(/* webpackPrefetch: true, webpackChunkName: "signInModal" */ 'platform/user/authentication/components/SignInModal'),
 );
 
@@ -168,15 +167,17 @@ export class Main extends React.Component {
           onSignIn={this.openLoginModal}
           visible={this.props.showFormSignInModal}
         />
-        <SignInModal
-          onClose={this.closeLoginModal}
-          visible={this.props.showLoginModal}
-        />
-        <SessionTimeoutModal
-          isLoggedIn={this.props.currentlyLoggedIn}
-          onExtendSession={this.props.initializeProfile}
-        />
-        <AutoSSO />
+        <Suspense fallback={<div />}>
+          <SignInModal
+            onClose={this.closeLoginModal}
+            visible={this.props.showLoginModal}
+          />
+          <SessionTimeoutModal
+            isLoggedIn={this.props.currentlyLoggedIn}
+            onExtendSession={this.props.initializeProfile}
+          />
+          <AutoSSO />
+        </Suspense>
       </div>
     );
   }

@@ -5,9 +5,8 @@ import sinon from 'sinon';
 
 import { mockEventListeners } from 'platform/testing/unit/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
-import { Main, mapStateToProps } from '../../containers/Main';
-
 import SignInModal from 'platform/user/authentication/components/SignInModal';
+import { Main, mapStateToProps } from '../../containers/Main';
 
 describe('<Main>', () => {
   const props = {

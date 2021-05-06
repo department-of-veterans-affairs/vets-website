@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import 'url-search-params-polyfill';
-import loadable from '@loadable/component';
 
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
@@ -13,20 +12,20 @@ import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors'
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 import downtimeBanners from '../utilities/downtimeBanners';
 
-const AutoSSO = loadable(() =>
+const AutoSSO = React.lazy(() =>
   import(/* webpackChunkName: "autoSSO" */ 'platform/site-wide/user-nav/containers/AutoSSO'),
 );
-const SignInDescription = loadable(() =>
+const SignInDescription = React.lazy(() =>
   import(/* webpackChunkName: "signIn" */ '../components/SignInDescription'),
 );
-const SignInButtons = loadable(() =>
+const SignInButtons = React.lazy(() =>
   import(/* webpackChunkName: "signIn" */ '../components/SignInButtons'),
 );
-const FedWarning = loadable(() =>
-  import(/* webpackChunkName: "signIn" */ '../components/FedWarning'),
+const FedWarning = React.lazy(() =>
+  import(/* webpackChunkName: "signInWarning" */ '../components/FedWarning'),
 );
-const LogoutAlert = loadable(() =>
-  import(/* webpackChunkName: "signIn" */ '../components/LogoutAlert'),
+const LogoutAlert = React.lazy(() =>
+  import(/* webpackChunkName: "signInWarning" */ '../components/LogoutAlert'),
 );
 
 const vaGovFullDomain = environment.BASE_URL;
@@ -83,7 +82,7 @@ class SignInPage extends React.Component {
     const loggedOut = query.auth === 'logged_out';
 
     return (
-      <>
+      <Suspense fallback={<div>Loading...</div>}>
         <AutoSSO />
         <div className="row">
           {loggedOut && <LogoutAlert />}
@@ -162,7 +161,7 @@ class SignInPage extends React.Component {
             <FedWarning />
           </div>
         </div>
-      </>
+      </Suspense>
     );
   }
 }
