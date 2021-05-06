@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
 
 import FacilityAddress from '../../components/FacilityAddress';
+import { renderWithStoreAndRouter } from 'applications/vaos/tests/mocks/setup';
 
 const facility = {
   id: '377c',
@@ -22,10 +22,16 @@ const facility = {
 };
 
 describe('VAOS <FacilityAddress>', () => {
-  it('should render address for va facility', () => {
+  it('should render address for va facility', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const address = facility.address;
-    const screen = render(<FacilityAddress facility={facility} />);
-
+    const screen = renderWithStoreAndRouter(
+      <FacilityAddress facility={facility} />,
+      {
+        initialState: '',
+        path: url,
+      },
+    );
     expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
     expect(screen.baseElement).to.contain.text(
       `${address.city}, ${address.state} ${address.postalCode}`,
@@ -37,11 +43,15 @@ describe('VAOS <FacilityAddress>', () => {
   });
 
   it('should show directions link if showDirectionsLink === true', () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const address = facility.address;
-    const screen = render(
+    const screen = renderWithStoreAndRouter(
       <FacilityAddress facility={facility} showDirectionsLink />,
+      {
+        initialState: '',
+        path: url,
+      },
     );
-
     expect(screen.getByText(new RegExp(`${address.line[0]}`))).to.exist;
     expect(screen.baseElement).to.contain.text(
       `${address.city}, ${address.state} ${address.postalCode}`,
