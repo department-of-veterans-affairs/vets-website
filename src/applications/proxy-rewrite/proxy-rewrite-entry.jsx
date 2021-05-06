@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import 'platform/polyfills';
 import cookie from 'cookie';
 
