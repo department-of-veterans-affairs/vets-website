@@ -44,7 +44,7 @@
 
             <!-- Images List Start -->
             <!-- ================ -->
-            <dl class="usa-unstyled-list" style="max-width: 50%;">
+            <dl class="media-list-images usa-unstyled-list">
               {% if fieldMediaListImages.entity.fieldImages.size != 0 %}
                 {% assign pageSize = 10 %}
                 {% assign remainingImages = fieldMediaListImages.entity.fieldImages | sliceArrayFromStart: pageSize, fieldMediaListImages.entity.fieldImages.size %}
