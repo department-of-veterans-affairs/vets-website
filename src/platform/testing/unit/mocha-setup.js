@@ -12,6 +12,7 @@ import { JSDOM } from 'jsdom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
+import chaiAxe from './axe-plugin';
 
 import { sentryTransport } from './sentry';
 
@@ -26,6 +27,7 @@ global.__MEGAMENU_CONFIG__ = null;
 
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
+chai.use(chaiAxe);
 
 function copyProps(src, target) {
   Object.defineProperties(target, {
