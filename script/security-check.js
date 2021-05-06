@@ -54,7 +54,7 @@ function processAuditResults(audit) {
         Severity: ${adv.data.advisory.severity}
         Details: ${adv.data.advisory.url}
             `;
-      console.log(`::error::${output}`);
+      console.log(`::error::${output}\n`);
     });
   } else {
     console.log(
