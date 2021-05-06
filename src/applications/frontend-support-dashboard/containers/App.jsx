@@ -99,6 +99,39 @@ export default function App({ children }) {
   return (
     <div className="row">
       <h1>Frontend Support Dashboard</h1>
+      <h2>vets-website BUILD.txt files</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <div>
+          <h4>
+            <a href={vetsWebsiteBuildTexts.dev}>Dev</a>
+          </h4>
+          {/* 
+          TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
+          {devRows.map(x => {
+            return <div key={x}>{x}</div>;
+          })}
+          */}
+          <div>COMING SOON</div>
+        </div>
+        <div>
+          <h4>
+            <a href={vetsWebsiteBuildTexts.staging}>Staging</a>
+          </h4>
+          {stagingRows.map(x => {
+            return <div key={x}>{x}</div>;
+          })}
+        </div>
+        <div>
+          <h4>
+            <a href={vetsWebsiteBuildTexts.prod}>Prod</a>
+          </h4>
+          {prodRows.map(x => {
+            return <div key={x}>{x}</div>;
+          })}
+        </div>
+      </div>
+      <h2>content-build BUILD.txt files</h2>
+      <div>COMING SOON</div>
       <h2>Commits</h2>
       <table>
         <thead>
@@ -147,40 +180,6 @@ export default function App({ children }) {
         </tbody>
       </table>
 
-      <h2>vets-website BUILD.txt files</h2>
-      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-        <div>
-          <h4>
-            Dev's BUILD.txt <a href={vetsWebsiteBuildTexts.dev}>(Link)</a>
-          </h4>
-          {/* 
-          TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
-          {devRows.map(x => {
-            return <div key={x}>{x}</div>;
-          })}
-          */}
-          <div>COMING SOON</div>
-        </div>
-        <div>
-          <h4>
-            Staging's BUILD.txt{' '}
-            <a href={vetsWebsiteBuildTexts.staging}>(Link)</a>
-          </h4>
-          {stagingRows.map(x => {
-            return <div key={x}>{x}</div>;
-          })}
-        </div>
-        <div>
-          <h4>
-            Prod's BUILD.txt <a href={vetsWebsiteBuildTexts.prod}>(Link)</a>
-          </h4>
-          {prodRows.map(x => {
-            return <div key={x}>{x}</div>;
-          })}
-        </div>
-      </div>
-      <h2>content-build BUILD.txt files</h2>
-      <div>COMING SOON</div>
       {children}
     </div>
   );
