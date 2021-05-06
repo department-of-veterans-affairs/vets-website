@@ -41,6 +41,7 @@ export default class Footer extends React.Component {
           <MobileLinks visible={this.state.isMobile} links={this.linkObj} />
           <div className="usa-grid usa-grid-full va-footer-links-bottom">
             {/* add language support label here */}
+            {/* mobile view */}
             <ul>
               {[
                 {
