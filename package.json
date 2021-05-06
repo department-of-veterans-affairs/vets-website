@@ -386,6 +386,7 @@
     "**/merge": "^2.1.1",
     "**/ssri": "^8.0.1",
     "**/ua-parser-js": "^0.7.24",
+    "**/underscore": "^1.12.1",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }
