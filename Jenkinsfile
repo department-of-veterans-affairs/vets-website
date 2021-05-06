@@ -206,7 +206,7 @@ node('vetsgov-general-purpose') {
           sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
+          // step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
         }
       }
     }
