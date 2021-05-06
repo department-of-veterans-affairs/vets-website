@@ -151,7 +151,7 @@
         <% if (widgetType) { %>
           <% if (widgetTemplate == 'navigation/facility_sidebar_nav') { %>
             <script nonce="**CSP_NONCE**" type="text/javascript">
-              window.sideNav = <%= JSON.stringify(facilitySidebar) %>;
+              window.sideNav = <%= JSON.stringify({rootPath: rootUrl, data: facilitySidebar}) %>;
             </script>
             <nav data-template="navigation/facility_sidebar_nav" aria-label="secondary" data-widget-type="side-nav"></nav>
           <% } %>

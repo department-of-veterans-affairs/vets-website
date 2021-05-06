@@ -378,7 +378,7 @@ module.exports = (env = {}) => {
           widgetType,
           widgetTemplate,
           facilitySidebar,
-
+          rootUrl,
           // Default template metadata.
           breadcrumbs_override: [], // eslint-disable-line camelcase
           includeBreadcrumbs: false,
