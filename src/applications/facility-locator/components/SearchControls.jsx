@@ -138,10 +138,14 @@ const SearchControls = props => {
   };
 
   const renderLocationInputField = () => {
-    const { locationChanged, searchString, geocodeInProgress } = currentQuery;
+    const {
+      locationChanged,
+      searchString,
+      geolocationInProgress,
+    } = currentQuery;
     const showError =
       locationChanged &&
-      !geocodeInProgress &&
+      !geolocationInProgress &&
       (!searchString || searchString.length === 0);
     return (
       <div
@@ -158,7 +162,7 @@ const SearchControls = props => {
             <span className="form-required-span">(*Required)</span>
           </label>
           {(window.Cypress || !environment.isProduction()) &&
-            (geocodeInProgress ? (
+            (geolocationInProgress ? (
               <div className="use-my-location-link">
                 <i
                   className="fa fa-spinner fa-spin"
@@ -333,13 +337,13 @@ const SearchControls = props => {
   useEffect(
     () => {
       if (
-        currentQuery.geocodeInProgress === false &&
+        currentQuery.geolocationInProgress === false &&
         locationInputFieldRef.current
       ) {
         setFocus(locationInputFieldRef.current, false);
       }
     },
-    [currentQuery.geocodeInProgress],
+    [currentQuery.geolocationInProgress],
   );
 
   // Track geocode errors
