@@ -30,6 +30,7 @@ const PreSubmitCheckboxGroup = ({
   const hasPrimary = formData['view:hasPrimaryCaregiver'];
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
+  const hasSubmittedForm = !!submission.status;
   const showRepresentativeSignatureBox =
     formData.signAsRepresentativeYesNo === 'yes' ||
     formData.signAsRepresentativeYesNo === 'noRep';
@@ -51,12 +52,15 @@ const PreSubmitCheckboxGroup = ({
     signature => Boolean(signature) === false,
   ).length;
 
-  const transformSignature = signature => {
+  const transformSignatures = signature => {
     const keys = Object.keys(signature);
 
+    // takes in labels and renames to what schema expects
     const getKeyName = key => {
       switch (key) {
         case veteranLabel:
+          return 'veteran';
+        case representativeLabel:
           return 'veteran';
         case primaryLabel:
           return 'primary';
@@ -69,7 +73,7 @@ const PreSubmitCheckboxGroup = ({
       }
     };
 
-    // iterates through all keys and normalizes them
+    // iterates through all keys and normalizes them using getKeyName
     const renameObjectKeys = (keysMap, obj) =>
       Object.keys(obj).reduce((acc, key) => {
         const cleanKey = `${getKeyName(key)}Signature`;
@@ -84,9 +88,13 @@ const PreSubmitCheckboxGroup = ({
 
   useEffect(
     () => {
+      // do not clear signatures once form has been submitted
+      if (hasSubmittedForm) return;
+
+      // Add signatures to formData before submission
       setFormData({
         ...formData,
-        ...transformSignature(signatures),
+        ...transformSignatures(signatures),
       });
     },
     [setFormData, signatures],
