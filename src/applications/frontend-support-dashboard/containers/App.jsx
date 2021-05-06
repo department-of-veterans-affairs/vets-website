@@ -50,9 +50,10 @@ async function fetchDashboardData() {
 }
 
 export default function App({ children }) {
-  React.useEffect(() => {
+  const [commits, setCommits] = React.useState([]);
+  React.useEffect(function fetchComponentData() {
     fetchDashboardData()
-      .then(allData => {
+      .then(function handleSuccess(allData) {
         // const {
         //   vestWebsiteDevBuildText,
         //   vestWebsiteStagingBuildText,
@@ -60,15 +61,65 @@ export default function App({ children }) {
         //   vetsWebsiteCommits,
         // } = allData;
         console.log({ allData }); // eslint-disable-line no-console
+        setCommits(allData.vetsWebsiteCommits);
         return allData;
       })
-      .catch(error => {
+      .catch(function handleError(error) {
         console.log(error); // eslint-disable-line no-console
       });
   }, []);
   return (
     <div>
       <h1>Frontend Support Dashboard</h1>
+      <h2>Commits</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Message</th>
+            <th>SHA</th>
+            <th>Link</th>
+            <th>On Dev?</th>
+            <th>On Staging?</th>
+            <th>On Prod?</th>
+          </tr>
+        </thead>
+        <tbody>
+          {commits.map(x => {
+            const { commit = {}, html_url, sha } = x; // eslint-disable-line camelcase
+            const { committer = {}, message } = commit;
+            const { date } = committer;
+            /* 
+            if (sha === devRef) isOnDev = true;
+            if (sha === stagingRef) isOnStaging = true;
+            if (sha === prodRef) isOnProd = true;
+            const onDevStyle = isOnDev ? { background: 'green' } : {};
+            const onStagingStyle = isOnStaging ? { background: 'green' } : {};
+            const onProdStyle = isOnProd ? { background: 'green' } : {};
+            */
+            return (
+              <tr key={sha}>
+                <td>{date}</td>
+                <td>{message.slice(0, 50)}</td>
+                <td>{sha}</td>
+                <td>
+                  <a href={html_url /* eslint-disable-line camelcase */}>
+                    GitHub
+                  </a>
+                </td>
+                {/* 
+                <td style={onDevStyle}>{isOnDev ? 'TRUE' : 'FALSE'}</td>
+                <td style={onStagingStyle}>{isOnStaging ? 'TRUE' : 'FALSE'}</td>
+                <td style={onProdStyle}>{isOnProd ? 'TRUE' : 'FALSE'}</td>
+                */}
+                <td>TODO</td>
+                <td>TODO</td>
+                <td>TODO</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
       {children}
     </div>
   );
