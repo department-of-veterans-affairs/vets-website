@@ -479,4 +479,73 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       );
     });
   });
+
+  it('should display new appointment confirmation alert', async () => {
+    const appointment = getVARequestMock();
+
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      appointmentType: 'Primary care',
+      optionDate1: moment(testDate)
+        .add(3, 'days')
+        .format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+    };
+
+    const ccAppointmentRequest = getCCRequestMock();
+
+    ccAppointmentRequest.id = '1234';
+    ccAppointmentRequest.attributes = {
+      ...ccAppointmentRequest.attributes,
+      appointmentType: 'Audiology (hearing aid support)',
+      typeOfCareId: 'CCAUDHEAR',
+    };
+
+    // Verify VA pending
+    mockSingleRequestFetch({
+      request: appointment,
+      type: 'va',
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}?confirmMsg=true`,
+    });
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Pending VA primary care appointment`,
+      );
+    });
+    expect(screen.baseElement).to.contain('.usa-alert-success');
+    expect(screen.baseElement).to.contain.text(
+      'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
+    );
+    expect(screen.baseElement).to.contain.text('View your appointments');
+    expect(screen.baseElement).to.contain.text('New appointment');
+
+    // Verify CC pending appointment
+    mockSingleRequestFetch({
+      request: ccAppointmentRequest,
+      type: 'cc',
+    });
+
+    renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: `/requests/${appointment.id}?confirmMsg=true`,
+    });
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Pending Community care audiology (hearing aid support) appointment`,
+      );
+    });
+    expect(screen.baseElement).to.contain('.usa-alert-success');
+    expect(screen.baseElement).to.contain.text(
+      'Your appointment request has been submitted. We will review your request and contact you to schedule the first available appointment.',
+    );
+    expect(screen.baseElement).to.contain.text('View your appointments');
+    expect(screen.baseElement).to.contain.text('New appointment');
+  });
 });

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import URLSearchParams from 'url-search-params';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
@@ -37,7 +38,7 @@ const TIME_TEXT = {
 };
 
 export default function RequestedAppointmentDetailsPage() {
-  const queryParams = new URLSearchParams(window.location.search);
+  const queryParams = new URLSearchParams(useLocation().search);
   const showConfirmMsg = queryParams.get('confirmMsg');
   const { id } = useParams();
   const dispatch = useDispatch();
