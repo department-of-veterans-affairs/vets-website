@@ -271,14 +271,6 @@ function main() {
   // if a build type is passed in the url, then the header for the specific build type is used
   const { targetEnvironment, hostnameOverride } = getHostnameOverride();
 
-  console.log('---------------------------');
-  console.log('---------------------------');
-  console.log('---------------------------');
-  console.log(getContentHostName());
-  console.log('---------------------------');
-  console.log('---------------------------');
-  console.log('---------------------------');
-
   if (targetEnvironment && targetEnvironment !== environment.BUILDTYPE) {
     removeCurrentHeaderFooter();
     removeInjectedHeaderFooter();
