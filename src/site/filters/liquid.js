@@ -758,8 +758,8 @@ module.exports = function registerFilters() {
     ccFeatureContent,
     featureContentArray,
   ) => {
-    /* eslint-disable prettier/prettier */
-    if (!ccFeatureContent || !ccFeatureContent.fetched) return featureContentArray;
+    if (!ccFeatureContent || !ccFeatureContent.fetched)
+      return featureContentArray;
     /* eslint-disable camelcase */
     const {
       field_description,

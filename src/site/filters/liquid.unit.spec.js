@@ -424,23 +424,23 @@ describe('encode', () => {
     expect(liquid.filters.encode(null)).to.equal('');
   });
 });
-/* eslint-disable prettier/prettier */
-describe("appendCentralizedFeaturedContent", () => {
-  it("returns an array of featured content - empty cc featured content", () => {
+
+describe('appendCentralizedFeaturedContent', () => {
+  it('returns an array of featured content - empty cc featured content', () => {
     expect(
-        liquid.filters.appendCentralizedFeaturedContent(
-            {},
-            vetCenterData.fieldVetCenterFeatureContent
-        ).length
+      liquid.filters.appendCentralizedFeaturedContent(
+        {},
+        vetCenterData.fieldVetCenterFeatureContent,
+      ).length,
     ).to.equal(2);
   });
 
-  it("returns an array of featured content - empty cc featured content", () => {
+  it('returns an array of featured content - cc featured content', () => {
     expect(
-        liquid.filters.appendCentralizedFeaturedContent(
-            {},
-            vetCenterData.fieldVetCenterFeatureContent
-        ).length
-    ).to.equal(2);
+      liquid.filters.appendCentralizedFeaturedContent(
+        vetCenterData.fieldCcVetCenterFeaturedCon,
+        vetCenterData.fieldVetCenterFeatureContent,
+      ).length,
+    ).to.equal(3);
   });
 });
