@@ -43,9 +43,9 @@ import { getAvailableHealthcareServices } from '../healthcare-service';
  * @global
  *
  * @property {boolean} direct Can the patient use the direct schedule flow
- * @property {EligibilityReason} directReason The reason the patient isn't eligible for direct flow
+ * @property {Array<EligibilityReason>} directReason The reason the patient isn't eligible for direct flow
  * @property {boolean} request Can the patient use the request flow
- * @property {EligibilityReason} requestReason The reason the patient isn't eligible for request flow
+ * @property {Array<EligibilityReason>} requestReason The reason the patient isn't eligible for request flow
  */
 
 function createErrorHandler(errorKey) {
