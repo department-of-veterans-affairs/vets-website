@@ -239,6 +239,10 @@ jobs:
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
+    strategy:
+      matrix:
+        buildtype: [vagovdev, vagovstaging, vagovprod]
+
     steps:
       - name: Checkout vagov-content
         uses: actions/checkout@v2
@@ -280,14 +284,14 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Build
-        run: yarn build --buildtype vagovprod --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
+        run: yarn build --buildtype ${{ matrix.buildtype }} --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
         timeout-minutes: 30
         env:
           NODE_ENV: production
 
       - name: Broken link checks
         id: get-broken-link-info
-        run: node ./script/github-actions/check-broken-links.js -b ${{ steps.get-branch-name.outputs.BRANCH_NAME }} -p ./logs/vagovprod-broken-links.json -e vagovprod -s $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+        run: node ./script/github-actions/check-broken-links.js -b ${{ steps.get-branch-name.outputs.BRANCH_NAME }} -p ./logs/${{ matrix.buildtype }}-broken-links.json -e ${{ matrix.buildtype }} -s $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
 
       - name: Slack notification
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
@@ -300,16 +304,3 @@ jobs:
       - name: Cancel workflow on failure
         if: ${{ failure() }}
         uses: andymckay/cancel-action@0.2
-
-  test-matrix-workflow:
-    name: test fail
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        buildtype: [vagovdev, vagovstaging, vagovprod]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: test matrix
-        run: echo ${{ matrix.buildtype }}
