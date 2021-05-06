@@ -62,7 +62,7 @@ function processAuditResults(audit) {
       } \n`;
 
       if (options.gha) {
-        console.log(output.replace(/\n/g, '%0A'));
+        console.log(`::error::${output.replace(/\n/g, '%0A')}`);
       } else {
         console.log(output);
       }
