@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // https://github.com/department-of-veterans-affairs/vets-website/blob/1cee564813462d6fe3896a10e477016f7cac2ebd/jenkins/common.groovy#L316
 const vetsWebsiteBuildTexts = {
@@ -9,6 +9,7 @@ const vetsWebsiteBuildTexts = {
 };
 
 // https://github.com/department-of-veterans-affairs/content-build/blob/844d3170a92005dbee70a7ecf643362137ba68c3/jenkins/common.groovy#L280
+// TODO: Uncomment when we're ready to add the content-build BUILD.txt info
 // const contentBuildBuildTexts = {
 //   dev: 'https://dev.va.gov/BUILD.txt',
 //   staging: 'https://staging.va.gov/BUILD.txt',
@@ -21,11 +22,13 @@ const repo = 'vets-website';
 async function fetchDashboardData() {
   // https://dmitripavlutin.com/javascript-fetch-async-await/#5-parallel-fetch-requests
   const [
+    // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
     // vetsWebsiteDevBuildTextResponse,
     vetsWebsiteStagingBuildTextResponse,
     vetsWebsiteProdBuildTextResponse,
     vetsWebsiteCommitsResponse,
   ] = await Promise.all([
+    // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
     // fetch(vetsWebsiteBuildTexts.dev),
     fetch(vetsWebsiteBuildTexts.staging),
     fetch(vetsWebsiteBuildTexts.prod),
@@ -33,12 +36,14 @@ async function fetchDashboardData() {
     fetch(`https://api.github.com/repos/${owner}/${repo}/commits`),
   ]);
 
+  // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
   // const vestWebsiteDevBuildText = await vetsWebsiteDevBuildTextResponse.text();
   const vestWebsiteStagingBuildText = await vetsWebsiteStagingBuildTextResponse.text();
   const vestWebsiteProdBuildText = await vetsWebsiteProdBuildTextResponse.text();
   const vetsWebsiteCommits = await vetsWebsiteCommitsResponse.json();
 
   const result = {
+    // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
     // vestWebsiteDevBuildText,
     vestWebsiteStagingBuildText,
     vestWebsiteProdBuildText,
@@ -50,24 +55,47 @@ async function fetchDashboardData() {
 }
 
 export default function App({ children }) {
-  const [commits, setCommits] = React.useState([]);
+  const [commits, setCommits] = useState([]);
+  // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
+  // const [appsDevBuildText, setAppsDevBuildText] = useState('');
+  const [appsStagingBuildText, setAppsStagingBuildText] = useState('');
+  const [appsProdBuildText, setAppsProdBuildText] = useState('');
+
   React.useEffect(function fetchComponentData() {
     fetchDashboardData()
       .then(function handleSuccess(allData) {
-        // const {
-        //   vestWebsiteDevBuildText,
-        //   vestWebsiteStagingBuildText,
-        //   vestWebsiteProdBuildText,
-        //   vetsWebsiteCommits,
-        // } = allData;
-        console.log({ allData }); // eslint-disable-line no-console
-        setCommits(allData.vetsWebsiteCommits);
+        const {
+          // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
+          // vestWebsiteDevBuildText,
+          vestWebsiteStagingBuildText,
+          vestWebsiteProdBuildText,
+          vetsWebsiteCommits,
+        } = allData;
+        setCommits(vetsWebsiteCommits);
+        // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
+        // setAppsDevBuildText(vestWebsiteDevBuildText);
+        setAppsStagingBuildText(vestWebsiteStagingBuildText);
+        setAppsProdBuildText(vestWebsiteProdBuildText);
         return allData;
       })
       .catch(function handleError(error) {
         console.log(error); // eslint-disable-line no-console
       });
   }, []);
+
+  // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
+  // const devRows = appsDevBuildText.split('\n').filter(x => x) || [];
+  const stagingRows = appsStagingBuildText.split('\n').filter(x => x);
+  const prodRows = appsProdBuildText.split('\n').filter(x => x);
+
+  // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
+  // const devRef = devRows[6]?.slice(4);
+  const stagingRef = stagingRows[6]?.slice(4);
+  const prodRef = prodRows[6]?.slice(4);
+  const isOnDev = false; // TODO: Change from `const` to `let` once requests from localhost to dev are no longer blocked by CORS
+  let isOnStaging = false;
+  let isOnProd = false;
+
   return (
     <div>
       <h1>Frontend Support Dashboard</h1>
@@ -87,16 +115,17 @@ export default function App({ children }) {
         <tbody>
           {commits.map(x => {
             const { commit = {}, html_url, sha } = x; // eslint-disable-line camelcase
-            const { committer = {}, message } = commit;
+            const { committer = {}, message = '' } = commit;
             const { date } = committer;
-            /* 
-            if (sha === devRef) isOnDev = true;
+
+            // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
+            // if (sha === devRef) isOnDev = true;
             if (sha === stagingRef) isOnStaging = true;
             if (sha === prodRef) isOnProd = true;
             const onDevStyle = isOnDev ? { background: 'green' } : {};
             const onStagingStyle = isOnStaging ? { background: 'green' } : {};
             const onProdStyle = isOnProd ? { background: 'green' } : {};
-            */
+
             return (
               <tr key={sha}>
                 <td>{date}</td>
@@ -107,19 +136,50 @@ export default function App({ children }) {
                     GitHub
                   </a>
                 </td>
-                {/* 
-                <td style={onDevStyle}>{isOnDev ? 'TRUE' : 'FALSE'}</td>
+
+                {/* Replace TODO with actual value once requests from localhost to dev are no longer blocked by CORS */}
+                <td style={onDevStyle}>TODO</td>
                 <td style={onStagingStyle}>{isOnStaging ? 'TRUE' : 'FALSE'}</td>
                 <td style={onProdStyle}>{isOnProd ? 'TRUE' : 'FALSE'}</td>
-                */}
-                <td>TODO</td>
-                <td>TODO</td>
-                <td>TODO</td>
               </tr>
             );
           })}
         </tbody>
       </table>
+
+      <h2>vets-website BUILD.txt files</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <div>
+          <h4>
+            Dev's BUILD.txt <a href={vetsWebsiteBuildTexts.dev}>(Link)</a>
+          </h4>
+          {/* 
+          TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
+          {devRows.map(x => {
+            return <div key={x}>{x}</div>;
+          })}
+          */}
+          <div>TODO</div>
+        </div>
+        <div>
+          <h4>
+            Staging's BUILD.txt{' '}
+            <a href={vetsWebsiteBuildTexts.staging}>(Link)</a>
+          </h4>
+          {stagingRows.map(x => {
+            return <div key={x}>{x}</div>;
+          })}
+        </div>
+        <div>
+          <h4>
+            Prod's BUILD.txt <a href={vetsWebsiteBuildTexts.prod}>(Link)</a>
+          </h4>
+          {prodRows.map(x => {
+            return <div key={x}>{x}</div>;
+          })}
+        </div>
+      </div>
+      <h2>content-build BUILD.txt files</h2>
       {children}
     </div>
   );
