@@ -21,46 +21,128 @@ node('vetsgov-general-purpose') {
   // setupStage
   dockerContainer = commonStages.setup()
 
-  // TODO: Uncomment this section
-  // stage('Lint|Security|Unit') {
-  //   if (params.cmsEnvBuildOverride != 'none') { return }
+  stage('Main') {
+    def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
+    def assetSource = contentOnlyBuild ? ref : 'local'
 
-  //   try {
-  //     parallel (
-  //       failFast: true,
+    try {
+      parallel (
+        failFast: true,
 
-  //       lint: {
-  //         dockerContainer.inside(commonStages.DOCKER_ARGS) {
-  //           sh "cd /application && npm --no-color run lint"
-  //         }
-  //       },
+        buildDev: {
+          if (commonStages.shouldBail()) { return }
+          def envName = 'vagovdev'
+          
+          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          if (!shouldBuild) { return }
 
-  //       // Check package.json for known vulnerabilities
-  //       security: {
-  //         retry(3) {
-  //           dockerContainer.inside(commonStages.DOCKER_ARGS) {
-  //             sh "cd /application && npm run security-check"
-  //           }
-  //         }
-  //       },
+          try {
+            // Try to build using fresh drupal content
+            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            envUsedCache[envName] = false
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              // Try to build again using cached drupal content
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
+            }
+          }
+        },
 
-  //       unit: {
-  //         dockerContainer.inside(commonStages.DOCKER_ARGS) {
-  //           sh "/cc-test-reporter before-build"
-  //           sh "cd /application && npm --no-color run test:unit -- --coverage"
-  //           sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
-  //         }
-  //       }
-  //     )
-  //   } catch (error) {
-  //     commonStages.slackNotify()
-  //     throw error
-  //   } finally {
-  //     dir("vets-website") {
-  //       step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
-  //     }
-  //   }
-  // }
+        buildStaging: {
+          if (commonStages.shouldBail()) { return }
+          def envName = 'vagovstaging'
+
+          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          if (!shouldBuild) { return }
+
+          try {
+            // Try to build using fresh drupal content
+            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            envUsedCache[envName] = false
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              // Try to build again using cached drupal content
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
+            }
+          }
+        },
+
+        buildProd: {
+          if (commonStages.shouldBail()) { return }
+          def envName = 'vagovprod'
+
+          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
+          if (!shouldBuild) { return }
+                    
+          try {
+            // Try to build using fresh drupal content
+            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            envUsedCache[envName] = false
+          } catch (error) {
+            if (!contentOnlyBuild) {
+              dockerContainer.inside(DOCKER_ARGS) {
+                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+              }
+              // Try to build again using cached drupal content
+              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              envUsedCache[envName] = true
+            } else {
+              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              envUsedCache[envName] = false
+            }
+          }
+        },
+
+        // lint: {
+        //   if (params.cmsEnvBuildOverride != 'none') { return }
+        //   dockerContainer.inside(commonStages.DOCKER_ARGS) {
+        //     sh "cd /application && npm --no-color run lint"
+        //   }
+        // },
+
+        // // Check package.json for known vulnerabilities
+        // security: {
+        //   if (params.cmsEnvBuildOverride != 'none') { return }
+        //   retry(3) {
+        //     dockerContainer.inside(commonStages.DOCKER_ARGS) {
+        //       sh "cd /application && npm run security-check"
+        //     }
+        //   }
+        // },
+
+        // unit: {
+        //   if (params.cmsEnvBuildOverride != 'none') { return }
+        //   dockerContainer.inside(commonStages.DOCKER_ARGS) {
+        //     sh "/cc-test-reporter before-build"
+        //     sh "cd /application && npm --no-color run test:unit -- --coverage"
+        //     sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
+        //   }
+        // },
+
+      )
+    } catch (error) {
+      commonStages.slackNotify()
+      throw error
+    } finally {
+      dir("vets-website") {
+        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+      }
+    }
+  }
 
   // Run E2E tests
   stage('Integration') {
@@ -79,8 +161,23 @@ node('vetsgov-general-purpose') {
               // 'nightwatch-accessibility': {
               //     sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
               // },
-              cypress: {
-                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true vets-website run cy:test:docker"
+              'cypress-1': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=0 vets-website run cy:test:docker"
+              },     
+              'cypress-2': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=1 vets-website run cy:test:docker"
+              },
+              'cypress-3': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=2 vets-website run cy:test:docker"
+              },
+              'cypress-4': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=3 vets-website run cy:test:docker"
+              },
+              'cypress-5': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=4 vets-website run cy:test:docker"
+              },
+              'cypress-6': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=5 vets-website run cy:test:docker"
               }
             )
           } else {
@@ -89,12 +186,11 @@ node('vetsgov-general-purpose') {
 
               'nightwatch-e2e': {
                 sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-              },
-              // TODO: Remove the Nightwatch accessibility checks
+              }, 
               'nightwatch-accessibility': {
                   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
-              }   
-              // TODO: Uncomment the Cypress tests
+              }    
+              // TODO: Remove the previous nightwatch-accessibility and uncomment the Cypress tests
               // 'cypress-1': {
               //   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=0 vets-website run cy:test:docker"
               // },     
