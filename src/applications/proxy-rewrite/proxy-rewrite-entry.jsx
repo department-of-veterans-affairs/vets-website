@@ -1,7 +1,9 @@
+/* eslint-disable no-console */
 import 'platform/polyfills';
 import cookie from 'cookie';
 
 import buckets from 'site/constants/buckets';
+import bucketsContent from 'site/constants/buckets-content';
 import environments from 'site/constants/environments';
 
 import createCommonStore from 'platform/startup/store';
@@ -123,13 +125,22 @@ function mountReactComponents(headerFooterData, commonStore) {
   renderFooter(headerFooterData.footerData);
 }
 
-function getAssetHostName() {
+function getContentHostName() {
   if (environment.BUILDTYPE === environments.LOCALHOST) {
     return environment.BASE_URL;
   }
 
-  return buckets[environment.BUILDTYPE];
+  return bucketsContent[environment.BUILDTYPE];
 }
+
+// TO DO remove on clean up
+// function getAssetHostName() {
+//   if (environment.BUILDTYPE === environments.LOCALHOST) {
+//     return environment.BASE_URL;
+//   }
+
+//   return buckets[environment.BUILDTYPE];
+// }
 
 function removeCurrentHeaderFooter() {
   const observer = new MutationObserver(createMutationObserverCallback());
@@ -143,9 +154,10 @@ function removeCurrentHeaderFooter() {
     observer.disconnect();
   });
 }
+
 function activateInjectedAssets() {
   activateHeaderFooter();
-  fetch(`${getAssetHostName()}/generated/headerFooter.json`)
+  fetch(`${getContentHostName()}/generated/headerFooter.json`)
     .then(resp => {
       if (resp.ok) {
         return resp.json();
@@ -258,6 +270,14 @@ function addOverrideHeaderFooter(
 function main() {
   // if a build type is passed in the url, then the header for the specific build type is used
   const { targetEnvironment, hostnameOverride } = getHostnameOverride();
+
+  console.log('---------------------------');
+  console.log('---------------------------');
+  console.log('---------------------------');
+  console.log(getContentHostName());
+  console.log('---------------------------');
+  console.log('---------------------------');
+  console.log('---------------------------');
 
   if (targetEnvironment && targetEnvironment !== environment.BUILDTYPE) {
     removeCurrentHeaderFooter();
