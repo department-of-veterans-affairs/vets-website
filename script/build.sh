@@ -74,7 +74,7 @@ else
     echo "Will fetch application assets from the content build script"
 fi
 
-# Build the content
+# Build the contents
 # if [ -n "${forceContentBuild}" ] || [ "${buildtype}" != "vagovdev" ]
 # then
 #     yarn build:content $args
