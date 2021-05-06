@@ -41,6 +41,7 @@ const testConfig = createTestConfig(
     },
 
     setupPerTest: () => {
+      cy.server();
       cy.route({
         method: 'GET',
         url: '/v0/health_care_applications/enrollment_status*',
