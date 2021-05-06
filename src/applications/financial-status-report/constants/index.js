@@ -1,6 +1,7 @@
 import { pciuStates, countries } from 'vets-json-schema/dist/constants.json';
 
-export const COUNTRY_CODES = countries.map(country => country.label);
+export const COUNTRY_LABELS = countries.map(country => country.label);
+export const COUNTRY_VALUES = countries.map(country => country.value);
 
 export const STATE_LABELS = pciuStates.map(state => state.label);
 export const STATE_VALUES = pciuStates.map(state => state.value);

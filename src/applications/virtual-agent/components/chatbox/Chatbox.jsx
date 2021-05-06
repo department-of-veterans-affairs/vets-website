@@ -1,25 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
 import useVirtualAgentToken from './useVirtualAgentToken';
 import WebChat from '../webchat/WebChat';
-
-window.React = React;
-window.ReactDOM = ReactDOM;
-
-const loadWebChat = () => {
-  const script = document.createElement('script');
-
-  script.src =
-    'https://cdn.botframework.com/botframework-webchat/4.12.0/webchat-es5.js';
-  script.crossOrigin = 'anonymous';
-
-  document.body.appendChild(script);
-};
-
-loadWebChat();
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
@@ -36,8 +20,8 @@ function useWebChat(props) {
 export default function Chatbox(props) {
   return (
     <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
-      <div className="chat-header vads-u-padding--1p5">
-        <h2 className="vads-u-font-size--lg vads-u-margin--0">
+      <div className="vads-u-background-color--primary-darkest vads-u-padding--1p5">
+        <h2 className="vads-u-font-size--lg vads-u-color--white vads-u-margin--0">
           VA Virtual Agent (beta)
         </h2>
       </div>
