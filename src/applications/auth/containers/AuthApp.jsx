@@ -244,6 +244,7 @@ export class AuthApp extends React.Component {
           <>
             <h3>What you can do:</h3>
             <p>
+              <strong>Please try signing in again.</strong>
               If you still can't sign in, call our MyVA411 main information line
               for help at
               <Telephone contact={CONTACTS.HELP_DESK} />
@@ -271,6 +272,7 @@ export class AuthApp extends React.Component {
           <>
             <h3>What you can do:</h3>
             <p>
+              <strong>Please try signing in again.</strong>
               If you still can't sign in, call our MyVA411 main information line
               for help at
               <Telephone contact={CONTACTS.HELP_DESK} />
