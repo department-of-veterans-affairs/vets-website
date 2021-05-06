@@ -375,7 +375,9 @@
     "**/js-yaml": "^3.13.1",
     "**/jpeg-js": "^0.4.0",
     "**/dot-prop": "^5.1.1",
+    "**/handlebars": "^4.7.7",
     "**/http-proxy": "^1.18.1",
+    "**/hosted-git-info": "^3.0.8",
     "**/node-forge": "^0.10.0",
     "**/axios": "^0.21.1",
     "**/elliptic": "^6.5.4",
@@ -387,6 +389,7 @@
     "**/ssri": "^8.0.1",
     "**/ua-parser-js": "^0.7.24",
     "**/underscore": "^1.12.1",
+    "**/url-parse": "^1.5.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1"
   }
