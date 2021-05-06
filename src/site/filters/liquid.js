@@ -754,9 +754,11 @@ module.exports = function registerFilters() {
   // fieldCcVetCenterFeaturedCon data structure is different
   // from objects inside fieldVetCenterFeatureContent. Recreates the array
   // with the expected structure so that it can be directly passed inside the template
-  /* eslint-disable prettier/prettier */
-  liquid.filters.appendCentralizedFeaturedContent = ( ccFeatureContent, featureContentArray ) => {
-    if( !ccFeatureContent|| !ccFeatureContent.fetched) return [];
+  liquid.filters.appendCentralizedFeaturedContent = (
+    ccFeatureContent,
+    featureContentArray,
+  ) => {
+    if (!ccFeatureContent || !ccFeatureContent.fetched) return [];
     /* eslint-disable camelcase */
     const {
       field_description,
