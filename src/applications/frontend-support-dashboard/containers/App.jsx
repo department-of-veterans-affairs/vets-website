@@ -21,25 +21,25 @@ const repo = 'vets-website';
 async function fetchDashboardData() {
   // https://dmitripavlutin.com/javascript-fetch-async-await/#5-parallel-fetch-requests
   const [
-    vetsWebsiteDevBuildTextResponse,
+    // vetsWebsiteDevBuildTextResponse,
     vetsWebsiteStagingBuildTextResponse,
     vetsWebsiteProdBuildTextResponse,
     vetsWebsiteCommitsResponse,
   ] = await Promise.all([
-    fetch(vetsWebsiteBuildTexts.dev),
+    // fetch(vetsWebsiteBuildTexts.dev),
     fetch(vetsWebsiteBuildTexts.staging),
     fetch(vetsWebsiteBuildTexts.prod),
     // last 30 commits from vets-website
     fetch(`https://api.github.com/repos/${owner}/${repo}/commits`),
   ]);
 
-  const vestWebsiteDevBuildText = await vetsWebsiteDevBuildTextResponse.text();
+  // const vestWebsiteDevBuildText = await vetsWebsiteDevBuildTextResponse.text();
   const vestWebsiteStagingBuildText = await vetsWebsiteStagingBuildTextResponse.text();
   const vestWebsiteProdBuildText = await vetsWebsiteProdBuildTextResponse.text();
   const vetsWebsiteCommits = await vetsWebsiteCommitsResponse.json();
 
   const result = {
-    vestWebsiteDevBuildText,
+    // vestWebsiteDevBuildText,
     vestWebsiteStagingBuildText,
     vestWebsiteProdBuildText,
     vetsWebsiteCommits,
