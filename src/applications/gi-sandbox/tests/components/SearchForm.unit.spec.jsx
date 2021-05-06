@@ -6,14 +6,16 @@ import { shallow, mount } from 'enzyme';
 import SearchForm from '../../components/SearchForm';
 
 describe('<SearchForm>', () => {
+  const defaultSearch = { query: { name: '', location: '' } };
+
   it('should render', () => {
-    const tree = shallow(<SearchForm />);
+    const tree = shallow(<SearchForm search={defaultSearch} />);
     expect(tree).to.not.eq(null);
     tree.unmount();
   });
 
   it('should display name controls', () => {
-    const tree = shallow(<SearchForm />);
+    const tree = shallow(<SearchForm search={defaultSearch} />);
     expect(tree.find(`input`).length).to.eq(1);
     expect(tree.find(`button`).length).to.eq(1);
     expect(tree.find(`select`).length).to.eq(0);
@@ -21,7 +23,7 @@ describe('<SearchForm>', () => {
   });
 
   it('should display location controls', () => {
-    const tree = mount(<SearchForm />);
+    const tree = mount(<SearchForm search={defaultSearch} />);
     tree
       .find('.search-tab')
       .at(1)
@@ -37,6 +39,7 @@ describe('<SearchForm>', () => {
     const locationSearch = sinon.spy();
     const tree = mount(
       <SearchForm
+        search={defaultSearch}
         fetchSearchByName={nameSearch}
         fetchSearchByLocation={locationSearch}
       />,
@@ -52,6 +55,7 @@ describe('<SearchForm>', () => {
     const locationSearch = sinon.spy();
     const tree = mount(
       <SearchForm
+        search={defaultSearch}
         fetchSearchByName={nameSearch}
         fetchSearchByLocation={locationSearch}
       />,
