@@ -29,12 +29,12 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
     debt.benefitType,
   );
 
-  const isChecked = selectedDebts.some(
+  const isChecked = selectedDebts?.some(
     currentDebt => currentDebt.id === debt.id,
   );
 
   const onChange = selectedDebt => {
-    const alreadyIncluded = selectedDebts.some(
+    const alreadyIncluded = selectedDebts?.some(
       currentDebt => currentDebt.id === selectedDebt.id,
     );
 
@@ -44,7 +44,7 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
       );
       return setDebts({ ...formData, selectedDebts: checked });
     } else {
-      const newFsrDebts = selectedDebts.length
+      const newFsrDebts = selectedDebts?.length
         ? [...selectedDebts, selectedDebt]
         : [selectedDebt];
       return setDebts({
@@ -87,7 +87,7 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
           id={debtIdentifier}
           type="checkbox"
           className=" vads-u-width--auto"
-          checked={isChecked}
+          checked={isChecked || false}
           onChange={() => onChange(debt)}
         />
         <label

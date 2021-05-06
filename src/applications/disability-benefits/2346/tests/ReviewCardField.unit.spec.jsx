@@ -106,7 +106,9 @@ describe("the ReviewCardField's", () => {
             {...mockData}
             uiSchema={{}}
           />,
-        ).dive();
+        )
+          .dive()
+          .dive();
       }).to.throw('viewComponent');
     });
     it('should throw an error if schema type is not object or array', () => {
@@ -120,7 +122,9 @@ describe("the ReviewCardField's", () => {
             {...mockData}
             schema={{ type: 'string' }}
           />,
-        ).dive();
+        )
+          .dive()
+          .dive();
       }).to.throw('Unknown schema type');
     });
     // Also tests that it renders a custom component
@@ -131,7 +135,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...mockData}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       expect(wrapper.find('viewComponent').length).to.equal(1);
       expect(wrapper.find('.input-section').length).to.equal(0);
       wrapper.unmount();
@@ -143,7 +149,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...mockData}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       expect(wrapper.find('viewComponent').length).to.equal(1);
 
       // Start editing
@@ -159,7 +167,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...mockData}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
 
       expect(wrapper.find('viewComponent').props().formData).to.equal(
         mockData.formData,
@@ -174,7 +184,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...props}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       expect(tree.find('ObjectField').length).to.equal(1);
       tree.unmount();
     });
@@ -187,7 +199,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...props}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       expect(tree.find('.review-card--title').text()).to.equal('Thingy');
       tree.unmount();
     });
@@ -204,7 +218,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...props}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       expect(tree.find('.review-card--subtitle').text()).to.equal(
         'Subtitle text',
       );
@@ -223,7 +239,9 @@ describe("the ReviewCardField's", () => {
           {...mockData}
           errorSchema={errorSchema}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       expect(wrapper.find('viewComponent').length).to.equal(0);
       expect(wrapper.find('.input-section').length).to.equal(1);
       wrapper.unmount();
@@ -237,7 +255,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...mockData}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       expect(wrapper.find('viewComponent').length).to.equal(1);
 
       // Start editing
@@ -265,7 +285,9 @@ describe("the ReviewCardField's", () => {
           {...mockData}
           errorSchema={errorSchema}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       expect(wrapper.find('viewComponent').length).to.equal(0);
       expect(wrapper.find('.input-section').length).to.equal(1);
 
@@ -289,7 +311,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...props}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       expect(tree.find('.input-section').length).to.equal(1);
       tree.unmount();
     });
@@ -319,7 +343,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...props}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       expect(tree.find('.input-section').length).to.equal(1);
       tree.unmount();
     });
@@ -340,7 +366,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...props}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       expect(tree.find('.review-card--edit-title').text()).to.equal(
         'Edit thingy',
       );
@@ -422,7 +450,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...defaultVDProps}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       const editButtons = tree.find('.edit-button');
       expect(editButtons.length).to.equal(1);
       expect(editButtons.first().text()).to.equal('New Thing');
@@ -441,7 +471,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...props}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       expect(tree.find('.edit-button').text()).to.equal('New Doodad');
       tree.unmount();
     });
@@ -470,7 +502,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...defaultVDProps}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       // Start editing
       tree.find('.usa-button-primary').simulate('click');
       expect(tree.find('.update-button').length).to.equal(1);
@@ -487,7 +521,9 @@ describe("the ReviewCardField's", () => {
           store={mockStore}
           {...defaultVDProps}
         />,
-      ).dive();
+      )
+        .dive()
+        .dive();
       // Start editing
       tree.find('.usa-button-primary').simulate('click');
 

@@ -12,6 +12,15 @@ const analyticsEvents = {
     { action: 'collapse', event: 'int-additional-info-collapse' },
   ],
   AlertBox: [{ action: 'linkClick', event: 'nav-alert-box-link-click' }],
+  Breadcrumbs: [{ action: 'linkClick', event: 'nav-breadcrumb-link-click' }],
+  LoadingIndicator: [
+    { action: 'displayed', event: 'loading-indicator-displayed' },
+  ],
+  ProgressBar: [{ action: 'change', event: 'nav-progress-bar-change' }],
+  PromoBanner: [{ action: 'linkClick', event: 'nav-promo-banner-link-click' }],
+  SegmentedProgressBar: [
+    { action: 'change', event: 'nav-segmented-progress-bar-change' },
+  ],
 };
 
 export function subscribeComponentAnalyticsEvents(
@@ -23,11 +32,13 @@ export function subscribeComponentAnalyticsEvents(
 
   if (component) {
     const action = component.find(ev => ev.action === e.detail.action);
+    const version = e.detail.version;
 
     if (action) {
       const dataLayer = {
         event: action.event,
         'event-source': 'component-library',
+        'component-library-version': version,
       };
 
       // If the event included additional details / context...
@@ -40,8 +51,33 @@ export function subscribeComponentAnalyticsEvents(
       }
 
       recordEvent(dataLayer);
-      // Remove event-source from the dataLayer
-      recordEvent({ 'event-source': undefined });
+
+      // Reset dataLayer properties to undefined with a new push
+      // so they don't bleed into other event.
+
+      const clearedDataLayer = { ...dataLayer };
+
+      // Remove event property
+      if (Object.prototype.hasOwnProperty.call(clearedDataLayer, 'event')) {
+        delete clearedDataLayer.event;
+      }
+
+      // Remove gtm.uniqueEventId property
+      if (
+        Object.prototype.hasOwnProperty.call(
+          clearedDataLayer,
+          'gtm.uniqueEventId',
+        )
+      ) {
+        delete clearedDataLayer['gtm.uniqueEventId'];
+      }
+
+      // Set everything else to undefined
+      Object.keys(clearedDataLayer).forEach(key => {
+        clearedDataLayer[key] = undefined;
+      });
+
+      recordEvent(clearedDataLayer);
     }
   }
 }

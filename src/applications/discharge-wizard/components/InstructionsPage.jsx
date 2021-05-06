@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import recordEvent from 'platform/monitoring/record-event';
 
-class InstructionsPage extends React.Component {
+class InstructionsPage extends Component {
   constructor(props) {
     super(props);
 
@@ -28,7 +28,7 @@ class InstructionsPage extends React.Component {
 
   render() {
     return (
-      <div
+      <section
         className="dw-instructions"
         itemScope
         itemType="http://schema.org/FAQPage"
@@ -373,7 +373,7 @@ class InstructionsPage extends React.Component {
             </div>
           </article>
         </div>
-      </div>
+      </section>
     );
   }
 }

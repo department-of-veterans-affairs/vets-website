@@ -1,6 +1,6 @@
 {
   "questions": {
-    "hasBeenAdjucatedBankrupt": false,
+    "hasBeenAdjudicatedBankrupt": false,
     "hasOtherExpenses": false,
     "hasRepayments": false,
     "hasUtilities": false,
@@ -9,19 +9,11 @@
     "hasVehicle": false,
     "hasRealEstate": false,
     "hasDependents": false,
-    "maritalStatus": "Single",
+    "isMarried": false,
     "hasAdditionalIncome": false,
     "hasSocialSecurity": false,
     "vetPreviouslyEmployed": false,
     "vetIsEmployed": false
-  },
-  "view:components": {
-    "view:financialHardshipExplanation": {},
-    "view:veteranInfo": {},
-    "view:vaBenefitsOnFile": {},
-    "view:vehicleInfo": {},
-    "view:recVehicleInfo": {},
-    "view:assetInfo": {}
   },
   "additionalData": {
     "additionalComments": "Supporting personal statement",
@@ -40,35 +32,19 @@
   "personalData": {
     "address": {
       "livesOnMilitaryBaseInfo": {},
-      "countryName": "United States",
-      "addressLine1": "1493 Martin Luther King Rd",
-      "addressLine2": "Apt 1",
-      "city": "Fulton",
-      "stateCode": "NY",
-      "zipCode": "97062",
-      "addressLine3": null,
-      "addressPou": "CORRESPONDENCE",
-      "addressType": "DOMESTIC",
-      "countryCodeFips": "US",
-      "countryCodeIso2": "US",
-      "countryCodeIso3": "USA",
-      "createdAt": "2018-04-21T20:09:50Z",
-      "effectiveEndDate": "2018-04-21T20:09:50Z",
-      "effectiveStartDate": "2018-04-21T20:09:50Z",
-      "id": 123,
-      "internationalPostalCode": "54321",
-      "province": "string",
-      "sourceDate": "2018-04-21T20:09:50Z",
-      "updatedAt": "2018-04-21T20:09:50Z",
-      "zipCodeSuffix": "1234"
+      "country": "USA",
+      "street": "123 Fake St",
+      "city": "Tampa",
+      "state": "FL",
+      "postalCode": "33543"
     },
-    "telephoneNumber": "5035551234",
-    "primaryEmail": "veteran@gmail.com",
-    "confirmationEmail": "veteran@gmail.com",
+    "telephoneNumber": "4445551212",
+    "emailAddress": "test2@test1.net",
+    "confirmationEmail": "test2@test1.net",
     "veteranFullName": {
       "first": "Mark",
       "last": "Webb",
-      "middle": "R",
+      "middle": "",
       "suffix": "Jr."
     },
     "dateOfBirth": "1950-10-04",
@@ -80,8 +56,14 @@
         "currentEmployment": {}
       }
     },
-    "spouseFullName": {},
-    "emailAddress": "test2@test1.net"
+    "spouseFullName": {}
+  },
+  "view:components": {
+    "view:veteranInfo": {},
+    "view:vaBenefitsOnFile": {},
+    "view:vehicleInfo": {},
+    "view:recVehicleInfo": {},
+    "view:assetInfo": {}
   },
   "personalIdentification": {
     "ssn": "4437",
@@ -89,12 +71,6 @@
   },
   "selectedDebts": [
     {
-      "financialOverview": {},
-      "debtRepaymentOptions": {},
-      "resolutionOptionsTitle": {},
-      "resolution": {
-        "resolutionType": "Waiver"
-      },
       "fileNumber": "796121200",
       "payeeNumber": "00",
       "personEntitled": "AJHONS",
@@ -123,7 +99,11 @@
           "description": "Death Case Pending Action"
         }
       ],
-      "id": 0
+      "id": 0,
+      "resolution": {
+        "resolutionType": "Compromise",
+        "offerToPay": "0"
+      }
     }
   ],
   "debt": {
@@ -141,11 +121,6 @@
       "veteranOrSpouse": "VETERAN",
       "compensationAndPension": "3261.1",
       "education": "50"
-    },
-    {
-      "veteranOrSpouse": "SPOUSE",
-      "compensationAndPension": "0",
-      "education": "0"
     }
   ],
   "socialSecurity": {
@@ -156,5 +131,7 @@
   },
   "benefits": {
     "spouseBenefits": {}
-  }
+  },
+  "financialOverview": {},
+  "availableOptions": {}
 }

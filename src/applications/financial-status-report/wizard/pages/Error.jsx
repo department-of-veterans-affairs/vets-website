@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 import { PAGE_NAMES } from '../constants';
 
 const DebtError = () => {
+  useEffect(() => {
+    recordEvent({
+      event: 'howToWizard-alert-displayed',
+      'reason-for-alert': 'debt is due to an error',
+    });
+  }, []);
+
   return (
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
-      <p className="vads-u-margin-top--0">
+    <div className=" vads-u-padding--2 vads-u-margin-top--2">
+      <h2
+        className="vads-u-margin-top--0 vads-u-font-size--h6 vads-u-font-weight--normal vads-u-font-family--sans"
+        id="wizard-results"
+      >
         Based on the information you provided, this isn’t the form you need.
-      </p>
+      </h2>
       <p>
         <strong>
           If you think your debt or the amount of your debt is due to an error,
@@ -18,7 +29,16 @@ const DebtError = () => {
       <ul>
         <li>
           <strong>Online: </strong>
-          <a href="https://iris.custhelp.va.gov/app/ask">
+          <a
+            href="https://iris.custhelp.va.gov/app/ask"
+            onClick={() => {
+              recordEvent({
+                event: 'howToWizard-alert-link-click',
+                'howToWizard-alert-link-click-label':
+                  'Go to our online question form (called IRIS)',
+              });
+            }}
+          >
             Go to our online question form (called IRIS)
           </a>
           . On the IRIS page, select <strong>Debt Management Center</strong>,

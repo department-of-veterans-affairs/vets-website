@@ -13,7 +13,6 @@ import {
   selectFutureStatus,
   selectExpressCareAvailability,
   selectCanUseVaccineFlow,
-  selectDirectScheduleSettingsStatus,
 } from '../../redux/selectors';
 import {
   selectFeatureRequests,
@@ -21,7 +20,7 @@ import {
   selectFeatureCommunityCare,
   selectIsWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
-  selectFeatureProjectCheetah,
+  selectFeatureCovid19Vaccine,
 } from '../../../redux/selectors';
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -43,7 +42,7 @@ function AppointmentsPage({
   closeCancelAppointment,
   confirmCancelAppointment,
   expressCare,
-  featureProjectCheetah,
+  featureCovid19Vaccine,
   fetchFutureAppointments,
   fetchExpressCareWindows,
   futureStatus,
@@ -117,7 +116,7 @@ function AppointmentsPage({
 
       {showScheduleButton && (
         <>
-          {!featureProjectCheetah && (
+          {!featureCovid19Vaccine && (
             <ScheduleNewAppointment
               isCernerOnlyPatient={isCernerOnlyPatient}
               showCommunityCare={showCommunityCare}
@@ -130,7 +129,7 @@ function AppointmentsPage({
               }}
             />
           )}
-          {featureProjectCheetah && <ScheduleNewAppointmentRadioButtons />}
+          {featureCovid19Vaccine && <ScheduleNewAppointmentRadioButtons />}
         </>
       )}
 
@@ -151,12 +150,10 @@ function AppointmentsPage({
                 }}
               />
             )}
-          {expressCare.hasRequests && (
-            <h2 className="vads-u-font-size--h3 vads-u-margin-y--3">
-              Your upcoming, past, and Express Care appointments
-            </h2>
-          )}
-          <TabNav hasExpressCareRequests={expressCare.hasRequests} />
+          <h2 className="vads-u-margin-y--3">
+            Your upcoming and past appointments
+          </h2>
+          <TabNav />
           {routes}
         </>
       )}
@@ -178,7 +175,7 @@ AppointmentsPage.propTypes = {
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
-  featureProjectCheetah: PropTypes.bool.isRequired,
+  featureCovid19Vaccine: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -187,11 +184,10 @@ function mapStateToProps(state) {
     futureStatus: selectFutureStatus(state),
     cancelInfo: getCancelInfo(state),
     canUseVaccineFlow: selectCanUseVaccineFlow(state),
-    directScheduleSettingsStatus: selectDirectScheduleSettingsStatus(state),
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
-    featureProjectCheetah: selectFeatureProjectCheetah(state),
+    featureCovid19Vaccine: selectFeatureCovid19Vaccine(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     expressCare: selectExpressCareAvailability(state),
@@ -200,7 +196,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   fetchExpressCareWindows: actions.fetchExpressCareWindows,
-  fetchDirectScheduleSettings: actions.fetchDirectScheduleSettings,
   closeCancelAppointment: actions.closeCancelAppointment,
   confirmCancelAppointment: actions.confirmCancelAppointment,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,

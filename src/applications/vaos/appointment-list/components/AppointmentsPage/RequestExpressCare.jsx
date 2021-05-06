@@ -19,7 +19,7 @@ export default function RequestExpressCare({
   if (allowRequests) {
     return (
       <div className="vads-u-padding-bottom--3 vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
-        <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
+        <h2 className="vads-u-margin-y--0">
           Request a new Express Care appointment
         </h2>
         <p>
@@ -40,7 +40,7 @@ export default function RequestExpressCare({
 
   return (
     <div className="vads-u-padding-bottom--3 vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
-      <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
+      <h2 className="vads-u-margin-y--0">
         Express Care isn’t available right now
       </h2>
       <p>

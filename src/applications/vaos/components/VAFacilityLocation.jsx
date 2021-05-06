@@ -50,9 +50,8 @@ export default function VAFacilityLocation({
 
   return (
     <>
-      {!isHomepageRefresh && (
-        <h4 className="vaos-appts__block-label">{name}</h4>
-      )}
+      {!isHomepageRefresh &&
+        !!name && <h4 className="vaos-appts__block-label">{name}</h4>}
       {isHomepageRefresh && name}
       <div>{content}</div>
     </>

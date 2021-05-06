@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockUser from '@@profile/tests/fixtures/users/user-non-2fa.json';
@@ -30,12 +29,11 @@ function confirmSetUp2FAAlertIsShown() {
 
 describe('Direct Deposit', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login();
-    cy.route('GET', '/v0/feature_toggles*', dd4eduEnabled);
+    cy.intercept('GET', '/v0/feature_toggles*', dd4eduEnabled);
   });
   it('should show a single "set up 2-factor authentication" alert to non-2FA users', () => {
-    cy.route('GET', 'v0/user', mockUser);
+    cy.intercept('GET', 'v0/user', mockUser);
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
 
     // confirm the 2FA alert is shown

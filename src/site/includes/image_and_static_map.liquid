@@ -1,0 +1,16 @@
+<div class="usa-width-one-third inline-table-helper vads-u-order--first small-screen:vads-u-order--initial
+                vads-u-margin-bottom--2 vads-u-margin-left--auto facility">
+    {% if facilityMedia.entity.image != empty %}
+        {% assign image = facilityMedia.entity.image %}
+        <a href="#" rel="noopener noreferrer" target="_blank"
+           id="google-map-link-image">
+            <img class="facility-img" src="{{ image.derivative.url }}"
+                 alt="{{ image.alt }}" title="{{ image.title }}"
+                 width="{{ image.derivative.width }}"
+                 height="{{ image.derivative.height }}" />
+        </a>
+    {% endif %}
+    <div data-widget-type="facility-map"
+         data-facility="{{ facilityId }}">
+    </div>
+</div>

@@ -11,7 +11,12 @@ const eventListingPage = `
     title
     fieldIntroText
     entityId
-    pastEvents: reverseFieldListingNode(limit: 500, filter: {conditions: [{field: "status", value: "1", operator: EQUAL}, {field: "type", value: "event"}]}, sort: {field: "changed", direction: DESC}) {
+    pastEvents: reverseFieldListingNode(limit: 500, filter: {
+      conditions: [
+        {field: "status", value: "1", operator: EQUAL}, 
+        {field: "type", value: "event"},
+        {field: "field_datetime_range_timezone", value: [$today], operator: SMALLER_THAN}]},
+      sort: {field: "changed", direction: DESC}) {
           entities {
             ... on NodeEvent {
               title
@@ -77,7 +82,7 @@ const GetNodeEventListingPage = `
 
   ${eventListingPage}
 
-  query GetNodeEventListingPage($onlyPublishedContent: Boolean!) {
+  query GetNodeEventListingPage($today: String!,$onlyPublishedContent: Boolean!) {
     nodeQuery(limit: 500, filter: {
       conditions: [
         { field: "status", value: ["1"], enabled: $onlyPublishedContent },

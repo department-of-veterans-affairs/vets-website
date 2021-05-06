@@ -82,7 +82,7 @@ const uiSchema = {
     'ui:description': (
       <p className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--1">
         Use the{' '}
-        <NewTabAnchor href="/find-locations/?facilityType=cc_provider">
+        <NewTabAnchor href="/find-locations/?facilityType=provider">
           facility locator
         </NewTabAnchor>{' '}
         to find your preferred community care provider. Copy and paste their

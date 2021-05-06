@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -7,9 +6,19 @@ import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import error401 from '@@profile/tests/fixtures/401.json';
 import error500 from '@@profile/tests/fixtures/500.json';
-import { nameTagRenders } from '@@profile/tests/e2e/helpers';
+import {
+  nameTagRendersWithDisabilityRating,
+  nameTagRendersWithoutDisabilityRating,
+  nameTagRendersWithFallbackLink,
+} from '@@profile/tests/e2e/helpers';
 
-import manifest from 'applications/personalization/dashboard/manifest.json';
+import manifest from '~/applications/personalization/dashboard/manifest.json';
+
+import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
+import MOCK_VA_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
+import MOCK_CC_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
+import { mockFolderResponse } from '../../utils/mocks/messaging/folder';
+import { mockMessagesResponse } from '../../utils/mocks/messaging/messages';
 
 import { mockFeatureToggles } from './helpers';
 
@@ -39,13 +48,12 @@ function loa3DashboardTest(mobile) {
 
   // focus should be on the h1
   cy.focused()
-    .should('have.attr', 'id', 'dashboard-title')
     .contains('My VA')
     .and('have.prop', 'tagName')
     .should('equal', 'H1');
 
   // name tag exists with the right data
-  nameTagRenders({ withDisabilityRating: true });
+  nameTagRendersWithDisabilityRating();
 
   // make the a11y check
   cy.injectAxe();
@@ -54,12 +62,20 @@ function loa3DashboardTest(mobile) {
 
 describe('The My VA Dashboard', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(mockUser);
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept('/v0/evss_claims_async', claimsSuccess());
     cy.intercept('/v0/appeals', appealsSuccess());
+
+    cy.intercept('/v0/folders/0', mockFolderResponse);
+    cy.intercept('/v0/folders/0/messages', mockMessagesResponse);
+    cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
+    cy.intercept(
+      '/vaos/v0/appointments?start_date=*&type=va',
+      MOCK_VA_APPOINTMENTS,
+    );
+    cy.intercept('/vaos/v0/appointments?type=cc', MOCK_CC_APPOINTMENTS);
   });
   context('when it can load the total disability rating', () => {
     beforeEach(() => {
@@ -83,10 +99,10 @@ describe('The My VA Dashboard', () => {
         body: error401,
       });
     });
-    it('should show the fallback link in the header', () => {
+    it('should totally hide the disability rating in the header', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
-      nameTagRenders({ withDisabilityRating: false });
+      nameTagRendersWithoutDisabilityRating();
     });
   });
   context('when there is a 500 fetching the total disability rating', () => {
@@ -99,7 +115,7 @@ describe('The My VA Dashboard', () => {
     it('should show the fallback link in the header', () => {
       mockFeatureToggles();
       cy.visit(manifest.rootUrl);
-      nameTagRenders({ withDisabilityRating: false });
+      nameTagRendersWithFallbackLink();
     });
   });
 });

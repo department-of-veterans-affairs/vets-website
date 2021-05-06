@@ -1,5 +1,6 @@
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
+import CustomReviewField from '../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
 import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
@@ -20,11 +21,13 @@ export const uiSchema = {
       doNotScroll: true,
       showSave: true,
       itemName: 'installment or other debt',
+      keepInPageOnReview: true,
     },
     items: {
       purpose: {
         'ui:title': 'Type of contract or debt',
         'ui:field': Typeahead,
+        'ui:reviewField': CustomReviewField,
         'ui:options': {
           idPrefix: 'repayments',
           classNames:
@@ -70,7 +73,6 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Repayment',
         required: [
           'purpose',
           'unpaidBalance',

@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '../../constants';
 
 import mockMPIErrorUser from '../fixtures/users/user-mpi-error.json';
@@ -33,12 +32,12 @@ function test(mobile = false) {
   );
 
   // Should show an error alert about not being able to connect to MPI
-  cy.findByText(/We can’t access your Veteran records/i)
+  cy.findByText(/We can’t access your records/i)
     .should('exist')
     .closest('.usa-alert-warning')
     .should('exist');
   cy.findByText(
-    /something went wrong when we tried to connect to your veteran records/i,
+    /something went wrong when we tried to connect to your records/i,
   )
     .should('exist')
     .closest('.usa-alert-warning')
@@ -51,7 +50,6 @@ function test(mobile = false) {
 
 describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(mockMPIErrorUser);
   });
   it('should only have access to the Account Security section at desktop size', () => {

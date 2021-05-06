@@ -124,7 +124,7 @@ describe('VAOS integration: Express Care info page', () => {
       global.fetch.withArgs(
         `${
           environment.API_URL
-        }/vaos/v0/facilities/983/limits?type_of_care_id=CR1`,
+        }/vaos/v0/facilities/limits?type_of_care_id=CR1&facility_ids[]=983`,
       ),
       { errors: [] },
     );

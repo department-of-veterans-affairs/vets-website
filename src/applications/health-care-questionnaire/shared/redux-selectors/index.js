@@ -10,6 +10,9 @@ export const selectLoadingFeatureFlags = state =>
 export const selectQuestionnaireContext = state =>
   state.questionnaireData?.context;
 
+export const selectQuestionnaireResponseFromResponse = state =>
+  state?.form?.submission?.response[0];
+
 export const selectCurrentAppointment = state =>
   selectQuestionnaireContext(state)?.appointment;
 export const selectCurrentLocation = state =>

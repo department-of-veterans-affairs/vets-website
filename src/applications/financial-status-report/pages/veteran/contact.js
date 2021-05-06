@@ -7,7 +7,8 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import {
   SCHEMA_DEFINITIONS,
-  COUNTRY_CODES,
+  COUNTRY_LABELS,
+  COUNTRY_VALUES,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_CODES,
   MILITARY_CITY_CODES,
@@ -81,39 +82,41 @@ export const uiSchema = {
           </div>
         ),
       },
-      countryName: {
+      country: {
         'ui:title': 'Country',
         'ui:options': {
           classNames: 'input-size-7',
           updateSchema: (formData, schema, uiSchemaCountry) => {
             const uiSchemaDisabled = uiSchemaCountry;
+            uiSchemaDisabled['ui:disabled'] = false;
+            const { address } = formData.personalData;
 
-            if (formData.personalData.address.livesOutsideUS) {
-              const formDataMailingAddress = formData.personalData.address;
-              formDataMailingAddress.countryName = 'United States';
+            if (address.livesOutsideUS) {
+              address.country = 'USA';
               uiSchemaDisabled['ui:disabled'] = true;
-
               return {
-                enum: ['United States'],
+                enumNames: ['United States'],
+                enum: ['USA'],
               };
             }
-            uiSchemaDisabled['ui:disabled'] = false;
             return {
-              enum: COUNTRY_CODES,
+              enumNames: COUNTRY_LABELS,
+              enum: COUNTRY_VALUES,
             };
           },
         },
       },
-      addressLine1: {
+      street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {
+          pattern: 'Please enter a valid street address',
           required: 'Please enter a street address',
         },
         'ui:options': {
           classNames: 'input-size-7',
         },
       },
-      addressLine2: {
+      street2: {
         'ui:title': 'Street address line 2',
         'ui:options': {
           classNames: 'input-size-7',
@@ -149,7 +152,7 @@ export const uiSchema = {
           },
         ],
       },
-      stateCode: {
+      state: {
         'ui:title': 'State',
         'ui:options': {
           classNames: 'input-size-7',
@@ -180,8 +183,8 @@ export const uiSchema = {
           required: 'Please enter a state',
         },
       },
-      zipCode: {
-        'ui:title': 'Zip code',
+      postalCode: {
+        'ui:title': 'Postal code',
         'ui:validations': [validateZIP],
         'ui:errorMessages': {
           required: 'Please enter a postal code',
@@ -199,7 +202,7 @@ export const uiSchema = {
         classNames: 'input-size-7',
       },
     },
-    primaryEmail: {
+    emailAddress: {
       ...emailUI('Email address'),
       'ui:options': {
         classNames: 'input-size-7',
@@ -220,8 +223,8 @@ export const uiSchema = {
       'ui:validations': [
         {
           validator: (errors, fieldData, formData) => {
-            const { primaryEmail, confirmationEmail } = formData.personalData;
-            if (primaryEmail !== confirmationEmail) {
+            const { emailAddress, confirmationEmail } = formData.personalData;
+            if (emailAddress !== confirmationEmail) {
               errors.addError('Email does not match');
             }
           },
@@ -239,13 +242,7 @@ export const schema = {
       properties: {
         address: {
           type: 'object',
-          required: [
-            'countryName',
-            'addressLine1',
-            'city',
-            'stateCode',
-            'zipCode',
-          ],
+          required: ['country', 'street', 'city', 'state', 'postalCode'],
           properties: {
             livesOutsideUS: {
               type: 'boolean',
@@ -254,20 +251,20 @@ export const schema = {
               type: 'object',
               properties: {},
             },
-            countryName: {
+            country: {
               type: 'string',
             },
-            addressLine1: SCHEMA_DEFINITIONS.address,
-            addressLine2: SCHEMA_DEFINITIONS.address,
+            street: SCHEMA_DEFINITIONS.address,
+            street2: SCHEMA_DEFINITIONS.address,
             city: SCHEMA_DEFINITIONS.city,
-            stateCode: {
+            state: {
               type: 'string',
             },
-            zipCode: SCHEMA_DEFINITIONS.zipCode,
+            postalCode: SCHEMA_DEFINITIONS.postalCode,
           },
         },
         telephoneNumber: SCHEMA_DEFINITIONS.telephoneNumber,
-        primaryEmail: SCHEMA_DEFINITIONS.emailAddress,
+        emailAddress: SCHEMA_DEFINITIONS.emailAddress,
         confirmationEmail: SCHEMA_DEFINITIONS.emailAddress,
       },
     },

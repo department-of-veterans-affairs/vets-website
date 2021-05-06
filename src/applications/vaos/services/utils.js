@@ -80,7 +80,11 @@ export async function apiRequestWithMocks(url, options, ...rest) {
 
     if (match) {
       // eslint-disable-next-line no-console
-      console.log(`VAOS mock request: ${options?.method || 'GET'} ${url}`);
+      console.log(
+        `VAOS mock request: ${options?.method || 'GET'} ${url}\n${
+          options?.body ? JSON.stringify(JSON.parse(options.body), null, 2) : ''
+        }`,
+      );
 
       // Sometimes it's useful to grab ids or other data from the url, so
       // this passes through matched regex groups

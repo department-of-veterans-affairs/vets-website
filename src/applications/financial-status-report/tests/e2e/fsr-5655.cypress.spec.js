@@ -8,6 +8,8 @@ import debts from './fixtures/mocks/debts.json';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 import { WIZARD_STATUS } from '../../wizard/constants';
 
+Cypress.config('waitForAnimations', true);
+
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',

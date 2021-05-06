@@ -13,8 +13,8 @@ Used as quick navigate back to top for long article pages.
 
 <div id="back-to-top-container">
   <div class="usa-grid usa-grid-full">
-    <div class="usa-width-three-fourths">
-      <div class="usa-content">
+    {% if isCampaignLandingPage %}
+      <div class="usa-content" style="max-width: 100rem;">
         <button type="button" className="usa-button">
           <span>
             <i aria-hidden="true" class="fas fa-arrow-up" role="img"></i>
@@ -22,6 +22,17 @@ Used as quick navigate back to top for long article pages.
           <span>Back to top</span>
         </button>
       </div>
-    </div>
+    {% else %}
+      <div class="usa-width-three-fourths">
+        <div class="usa-content">
+          <button type="button" className="usa-button">
+            <span>
+              <i aria-hidden="true" class="fas fa-arrow-up" role="img"></i>
+            </span>
+            <span>Back to top</span>
+          </button>
+        </div>
+      </div>
+    {% endif %}
   </div>
 </div>

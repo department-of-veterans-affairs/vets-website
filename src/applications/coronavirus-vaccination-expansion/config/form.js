@@ -16,8 +16,8 @@ import {
   veteranInformation,
 } from './pages';
 
-import { isTypeNone, isVeteran } from './helpers';
-import PreSubmitInfo from './PreSubmitinfo';
+import { isTypeNone, isVeteran, isSpouseOrCaregiver } from './helpers';
+import PreSubmitCheckboxes from './PreSubmitInfo';
 
 import manifest from '../manifest.json';
 
@@ -28,7 +28,7 @@ const formConfig = {
   trackingPrefix: 'covid-vaccination-expanded-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  preSubmitInfo: PreSubmitInfo,
+  preSubmitInfo: PreSubmitCheckboxes,
   formId: VA_FORM_IDS.FORM_COVID_VACCINATION_EXPANSION,
   version: 0,
   prefillEnabled: false,
@@ -73,12 +73,12 @@ const formConfig = {
       },
     },
     veteranInformation: {
-      title: 'Help us match you to an eligible Veteran',
+      title: "Provide the Veteran's name",
       pages: {
         veteranInformation: {
           //  returning false to disable this page. leaving infrastructure in place as this may be desired functionality in the near future.
           // To revert set depends: formData => isSpouseOrCaregiver(formData)
-          depends: () => false,
+          depends: formData => isSpouseOrCaregiver(formData),
           path: 'veteran-information',
           schema: veteranInformation.schema.veteranInformation,
           uiSchema: veteranInformation.uiSchema.veteranInformation,

@@ -116,10 +116,12 @@ export default [
   {
     path: /vaos\/v0\/appointments.*type=cc.*/,
     response: confirmedCC,
+    delay: 3000,
   },
   {
     path: /vaos\/v0\/appointments\?.*type=va.*/,
     response: confirmedVA,
+    delay: 3000,
   },
   {
     path: /vaos\/v0\/appointments\/va\/.*/,
@@ -130,10 +132,12 @@ export default [
         data: confirmedVA.data.find(appt => appt.id === id),
       };
     },
+    delay: 3000,
   },
   {
     path: /vaos\/v0\/appointment_requests\?/,
     response: requests,
+    delay: 3000,
   },
   {
     path: /vaos\/v0\/appointment_requests\//,
@@ -144,6 +148,7 @@ export default [
         data: requests.data.find(req => req.id === id),
       };
     },
+    delay: 3000,
   },
   {
     path: /vaos\/v0\/appointment_requests\/.*\/messages/,
@@ -224,6 +229,34 @@ export default [
     },
   },
   {
+    path: /vaos\/v0\/facilities\/limits/,
+    response: (url, { _groups }) => {
+      const data = [];
+      if (url.includes('983')) {
+        data.push({
+          id: '983',
+          attributes: {
+            numberOfRequests: 0,
+            requestLimit: 1,
+            institutionCode: '983',
+          },
+        });
+      } else if (url.includes('984')) {
+        data.push({
+          id: '984',
+          attributes: {
+            numberOfRequests: 1,
+            requestLimit: 1,
+            institutionCode: '984',
+          },
+        });
+      }
+      return {
+        data,
+      };
+    },
+  },
+  {
     path: /vaos\/v0\/facilities\/(.*)\/limits/,
     response: (url, { groups }) => {
       const facilityId = groups[0];
@@ -238,6 +271,7 @@ export default [
       };
     },
   },
+
   {
     path: /vaos\/v0\/facilities\/.*\/clinics/,
     response: url => {

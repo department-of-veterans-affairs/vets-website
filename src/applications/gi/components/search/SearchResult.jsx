@@ -21,9 +21,9 @@ export function SearchResult({
   estimated,
   facilityCode,
   name,
-  city,
-  state,
-  country,
+  physicalCity,
+  physicalState,
+  physicalCountry,
   studentCount,
   cautionFlags,
   menOnly,
@@ -63,7 +63,11 @@ export function SearchResult({
               <h2>
                 <Link
                   to={profileLink}
-                  aria-label={`${name} ${locationInfo(city, state, country)}`}
+                  aria-label={`${name} ${locationInfo(
+                    physicalCity,
+                    physicalState,
+                    physicalCountry,
+                  )}`}
                 >
                   {name}
                 </Link>
@@ -82,7 +86,7 @@ export function SearchResult({
             <div className={'small-12  medium-6 large-7 columns'}>
               <div style={{ position: 'relative', bottom: 0 }}>
                 <p className="locality" id={`location-${facilityCode}`}>
-                  {locationInfo(city, state, country)}
+                  {locationInfo(physicalCity, physicalState, physicalCountry)}
                 </p>
                 <p className="count">
                   {(+studentCount).toLocaleString()} GI Bill Students

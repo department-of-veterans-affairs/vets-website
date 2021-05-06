@@ -5,10 +5,11 @@ const createFakeConfirmationStore = ({ hasData }) => {
         ? {
             form: {
               submission: {
-                response: {
-                  veteranInfo: { fullName: 'Mickey Mouse' },
-                  timestamp: new Date(),
-                },
+                response: [
+                  {
+                    id: 'questionnaire-response-test-id',
+                  },
+                ],
               },
             },
             questionnaireData: {

@@ -26,7 +26,7 @@ describe('IdentityNotVerified component', () => {
     });
     it('renders the correct CTA', () => {
       expect(
-        view.getByRole('link', { name: /Verify my identity/i }),
+        view.getByRole('link', { name: /Verify your identity/i }),
       ).to.have.attr('href', '/verify');
     });
     it('renders the correct additional info component', () => {
@@ -57,7 +57,7 @@ describe('IdentityNotVerified component', () => {
     });
     it('renders the correct CTA', () => {
       expect(
-        view.getByRole('link', { name: /Verify my identity/i }),
+        view.getByRole('link', { name: /Verify your identity/i }),
       ).to.have.attr('href', '/verify');
     });
     it('renders the correct additional info component', () => {

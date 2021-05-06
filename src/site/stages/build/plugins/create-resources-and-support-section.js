@@ -291,34 +291,130 @@ function createArticleListingsPages(files) {
   );
 }
 
-function deriveIntroText(htmlText) {
-  const sanitizedText = liquid.filters.strip_html(htmlText);
-  const strippedNewlines = liquid.filters.strip_newlines(sanitizedText);
+function cleanHTML(text) {
+  // Escape early if text is falsey since there's nothing to sanitize.
+  if (!text) {
+    return text;
+  }
+
+  // Strip out the html tags.
+  const strippedHTML = liquid.filters.strip_html(text);
+
+  // Strip out newlines.
+  const strippedNewlines = liquid.filters.strip_newlines(strippedHTML);
+
+  // Strip out character references (e.g. &amp;)
   return he.decode(strippedNewlines);
+}
+
+function deriveQASearchableContent(entity) {
+  // Some QAs have react widgets, so we need to have it default to an empty string in that scenario.
+  const wysiwyg = entity.fieldAnswer.entity?.fieldWysiwyg?.processed || '';
+
+  // Sanitize the wysiwyg of HTML markup + character references.
+  const cleanedWysiwyg = cleanHTML(wysiwyg);
+
+  // Combine the title (question) and wysiwyg (answer).
+  return `${entity.title} ${cleanedWysiwyg}`;
+}
+
+function deriveFAQMultipleQASearchableContent(entity) {
+  return entity.fieldQAGroups
+    .map(fieldQAGroup =>
+      fieldQAGroup.entity.fieldQAs
+        .map(fieldQA => deriveQASearchableContent(fieldQA.entity))
+        .join(' '),
+    )
+    .join(' ');
+}
+
+function deriveStepByStepSearchableContent(entity) {
+  return entity.fieldSteps
+    .map(
+      fieldStep =>
+        `${fieldStep.entity.fieldSectionHeader} ${cleanHTML(
+          fieldStep.entity.fieldStep
+            .map(fieldSubStep => fieldSubStep.entity.fieldWysiwyg.processed)
+            .join(' '),
+        )}`,
+    )
+    .join(' ');
+}
+
+function deriveSupportResourcesDetailPageSearchableContent(entity) {
+  return entity.fieldContentBlock
+    .map(contentBlock => {
+      switch (contentBlock.entity.entityBundle) {
+        case 'wysiwyg': {
+          return cleanHTML(contentBlock.entity.fieldWysiwyg.processed);
+        }
+        case 'table': {
+          return cleanHTML(contentBlock.entity.fieldTable.tableValue);
+        }
+        case 'collapsible_panel': {
+          return contentBlock.entity.fieldVaParagraphs
+            .map(vaParagraph => {
+              return `${
+                vaParagraph.entity.fieldTitle
+              } ${vaParagraph.entity.fieldVaParagraphs
+                .map(subVAParagraph =>
+                  cleanHTML(subVAParagraph.entity.fieldTable.tableValue),
+                )
+                .join(' ')}`;
+            })
+            .join(' ');
+        }
+        case 'react_widget': {
+          return '';
+        }
+        default: {
+          return '';
+        }
+      }
+    })
+    .join(' ');
+}
+
+function deriveSearchableContent(article) {
+  switch (article.entityBundle) {
+    case 'faq_multiple_q_a': {
+      return deriveFAQMultipleQASearchableContent(article);
+    }
+    case 'q_a': {
+      return deriveQASearchableContent(article);
+    }
+    case 'step_by_step': {
+      return deriveStepByStepSearchableContent(article);
+    }
+    case 'support_resources_detail_page': {
+      return deriveSupportResourcesDetailPageSearchableContent(article);
+    }
+    default: {
+      return '';
+    }
+  }
+}
+
+function deriveIntroText(article) {
+  const text =
+    article.entityBundle === 'q_a'
+      ? article.fieldAnswer.entity.fieldWysiwyg.processed
+      : article.fieldIntroTextLimitedHtml.processed;
+  return cleanHTML(text);
 }
 
 function createSearchResults(files) {
   const allArticles = getArticlesBelongingToResourcesAndSupportSection(files);
-  const articleSearchData = allArticles.map(article => {
-    let introText = '';
-
-    if (article.entityBundle === 'q_a') {
-      const answer = article.fieldAnswer.entity.fieldWysiwyg.processed;
-      introText = deriveIntroText(answer);
-    } else {
-      introText = deriveIntroText(article.fieldIntroTextLimitedHtml.processed);
-    }
-
-    return {
-      entityBundle: article.entityBundle,
-      entityUrl: { path: article.entityUrl.path },
-      fieldOtherCategories: article.fieldOtherCategories,
-      fieldPrimaryCategory: article.fieldPrimaryCategory,
-      fieldTags: article.fieldTags,
-      introText,
-      title: article.title,
-    };
-  });
+  const articleSearchData = allArticles.map(article => ({
+    entityBundle: article.entityBundle,
+    entityUrl: { path: article.entityUrl.path },
+    fieldOtherCategories: article.fieldOtherCategories,
+    fieldPrimaryCategory: article.fieldPrimaryCategory,
+    fieldTags: article.fieldTags,
+    searchableContent: deriveSearchableContent(article),
+    introText: deriveIntroText(article),
+    title: article.title,
+  }));
 
   files['resources/search/articles.json'] = {
     contents: Buffer.from(JSON.stringify(articleSearchData)),

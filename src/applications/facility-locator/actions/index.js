@@ -47,8 +47,9 @@ export const clearSearchResults = () => ({
   type: CLEAR_SEARCH_RESULTS,
 });
 
-export const mapMoved = () => ({
+export const mapMoved = currentRadius => ({
   type: MAP_MOVED,
+  currentRadius,
 });
 
 /**

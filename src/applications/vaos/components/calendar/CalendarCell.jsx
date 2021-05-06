@@ -19,6 +19,7 @@ const CalendarCell = ({
   selectedDates,
   id,
   timezone,
+  showWeekends,
 }) => {
   const [optionsHeight, setOptionsHeight] = useState(0);
   const buttonRef = useRef(null);
@@ -69,7 +70,7 @@ const CalendarCell = ({
   if (date === null) {
     return (
       <div role="cell" className="vaos-calendar__calendar-day">
-        <button className=" vads-u-visibility--hidden" />
+        <button className="vads-u-padding--0 vads-u-visibility--hidden" />
       </div>
     );
   }
@@ -129,6 +130,7 @@ const CalendarCell = ({
           renderOptions={renderOptions}
           id={id}
           timezone={timezone}
+          showWeekends={showWeekends}
         />
       )}
     </div>

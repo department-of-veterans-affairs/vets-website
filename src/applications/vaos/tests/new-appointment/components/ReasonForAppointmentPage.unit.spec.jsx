@@ -14,7 +14,6 @@ import { startDirectScheduleFlow } from '../../../new-appointment/redux/actions'
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: true,
   },
@@ -37,6 +36,12 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
       store,
     });
+
+    const textBox = await screen.findByRole('textbox');
+    expect(textBox).to.exist;
+    expect(textBox)
+      .to.have.attribute('maxlength')
+      .to.equal('250');
 
     expect((await screen.findAllByRole('radio')).length).to.equal(4);
 

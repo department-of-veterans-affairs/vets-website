@@ -168,6 +168,9 @@ A GraphQL query for retrieving pages will consist of a `nodeQuery` with a `filte
       ... on NodeLandingPage {
         entityId
       	entityBundle
+      	entityUrl {
+          path
+        }    
         title
         fieldIntroText
       }
@@ -186,6 +189,9 @@ The response JSON for this GraphQL query will contain a single instance of the p
         {
           "entityId": "79",
           "entityBundle": "landing_page",
+           "entityUrl": {
+              "path": "/records"
+           },           
           "title": "VA records",
           "fieldIntroText": "Access your VA records and documents online to more easily manage your benefits."
         }
@@ -195,13 +201,27 @@ The response JSON for this GraphQL query will contain a single instance of the p
 }
 ```
 
-Your complete query will be restructured so that your JS module exports a GraphQL fragment for use in the preview server as well as as a standalone `nodeQuery` for use in the content build. It should also contain an additional `filter` - a boolean field called `status` that is used to toggle only draft vs. published content. Here is a complete example of what your module may look like. _Note - Hopefully, soon the preview server will be updated to use the same query as the content build. This doc wil be updated once that happens._
+Every page-level query _must_ include the following fields:
+
+- **entityId**: used for troubleshooting and, in some cases, connecting to React components on the page
+- **entityBundle**: used by the build system to determine which template to use when rendering the page
+- **entityUrl**: used by the build system to determine the path of generated static HTML file
+
+Other common page-level fields you may need to include:
+
+- **changed**: needed to populate the "last updated" section
+- **fieldOffice**: needed for VAMC pages that need a side nav menu
+
+Your complete query will be restructured so that your JS module exports a GraphQL fragment for use in the preview server as well as a standalone `nodeQuery` for use in the content build. It should also contain an additional `filter` - a boolean field called `status` that is used to toggle only draft vs. published content. Here is a complete example of what your module may look like. _Note - Hopefully, soon the preview server will be updated to use the same query as the content build. This doc wil be updated once that happens._
 
 ```js
 const examplePageFragment = `
   fragment examplePageFragment on NodeLandingPage {
     entityId
     entityBundle
+    entityUrl {
+      path
+    }     
     title
     fieldIntroText
   }
@@ -281,7 +301,7 @@ _Note: you may have noticed that the project also has a `yarn watch:content` tas
 
 This approach is recommended if you are making heavy changes to a template or are writing a template for a page-type without any published instances. The preview server will load data fresh from the CMS on each page request and processes it through the template at that time, meaning you don't need to wait for a content build to run to see your changes.
 
-1. Run `yarn build:webpack --env.entry=static-pages` to generate the JS/CSS files required by templates. If you make changes to the `static-pages` application code, you will need to run this command again.
+1. Run `yarn build:content` and `yarn build:webpack --env.entry=static-pages` to generate the JS/CSS files required by templates. If you make changes to the `static-pages` application code, you will need to run the second command again.
 1. Determine the `entityId` of a page that uses the template you are editing.
     - If you are interested in templating against a page already published, you can find its `entityId` by navigating to the page on the website (dev, staging, or prod will all work) and inspecting its DOM. At the top of the DOM should be a comment containing its `entityId`.
     - If you are interested in templating against a page that has not been published, you can look up an `entityId` of that page-type using the [GraphQL Explorer](https://prod.cms.va.gov/graphql/explorer). See the section below for an example.
@@ -289,6 +309,7 @@ This approach is recommended if you are making heavy changes to a template or ar
 1. Navigated to `http://localhost:3001/preview?nodeId=${YOUR_ENTITY_ID}`
 1. After making a change to the template, stop your preview server and start it again. There is no hot reload for the preview server. Fortunately, it is lightweight enough to be quick to stop and start.
 
+If you are getting this error: `Error: HTTP error when fetching manifest: 404 Not Found`, re-run step 1.
 ### How to look look up an entityId
 The following query looks up the `entityId` for one page of the `entityBundle` (page-type) with value `landing_page`. This would be useful if you are interested in making changes to the `landing_page.drupal.liquid` template but are are unsure what pages on the website are instances of that page-type. Run this query using the [GraphQL Explorer](https://prod.cms.va.gov/graphql/explorer).
 

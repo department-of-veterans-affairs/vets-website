@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
+import moment from 'moment';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -10,12 +10,14 @@ import { genderLabels } from 'platform/static-data/labels';
 import { selectProfile } from 'platform/user/selectors';
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
+import { FORMAT_READABLE } from '../constants';
+
 const VeteranInformation = ({ profile = {}, veteran = {} }) => {
   const { ssnLastFour, vaFileLastFour } = veteran;
-  const { dob, gender, userFullName } = profile;
+  const { dob, gender, userFullName = {} } = profile;
   const { first, middle, last, suffix } = userFullName;
 
-  const dateOfBirth = dob ? format(new Date(dob), 'MMMM dd, yyyy') : '';
+  const dateOfBirth = dob ? moment(dob).format(FORMAT_READABLE) : '';
 
   // separate each number so the screenreader reads "number ending with 1 2 3 4"
   // instead of "number ending with 1,234"
@@ -55,9 +57,8 @@ const VeteranInformation = ({ profile = {}, veteran = {} }) => {
       <br />
       <p>
         <strong>Note:</strong> If you need to update your personal information,
-        please call Veterans Benefits Assistance toll free at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-        8:00 a.m. to 9:00 p.m. ET.
+        please call us at <Telephone contact={CONTACTS.VA_BENEFITS} />. We’re
+        here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
   );

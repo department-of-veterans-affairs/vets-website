@@ -10,7 +10,7 @@ export default function ExpressCareStatus({ appointment }) {
   let content = null;
   const status = appointment.status;
   const unableToReachVeteran =
-    appointment.cancelationReason?.text === UNABLE_TO_REACH_VETERAN_DETCODE;
+    appointment.cancelationReason === UNABLE_TO_REACH_VETERAN_DETCODE;
 
   switch (status) {
     case APPOINTMENT_STATUS.proposed: {

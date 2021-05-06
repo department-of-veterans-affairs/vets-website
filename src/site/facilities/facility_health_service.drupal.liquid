@@ -3,10 +3,15 @@
     {% assign serviceTaxonomy = healthService.fieldServiceNameAndDescripti.entity %}
     <li class="vads-u-margin-bottom--1">
       <h3>
+        {% comment %}
+          See Google Analytics datalayer handling in src/applications/static-pages/subscribeAccordionEvents.js
+        {% endcomment %}
         <button
             class="usa-accordion-button usa-button-unstyled vads-u-padding-y--2 vads-u-padding-left--2p5 vads-u-line-height--4"
             aria-expanded="false"
             aria-controls="{{ serviceTaxonomy.entityBundle }}-{{ serviceTaxonomy.entityId }}"
+            data-label="{{ serviceTaxonomy.name }}"
+            data-childlabel="{{ serviceTaxonomy.fieldAlsoKnownAs }}"
         >
           {{ serviceTaxonomy.name }}
           {% if serviceTaxonomy.fieldAlsoKnownAs %}

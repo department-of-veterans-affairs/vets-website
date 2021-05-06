@@ -4,6 +4,7 @@ import addJumplinkListeners from './addJumpLinkListeners';
 import addQaSectionListeners from './addQaSectionListeners';
 import addTeaserListeners from './addTeaserListeners';
 import addButtonLinkListeners from './addButtonLinkListeners';
+import addActionLinkListeners from './addActionLinkListeners';
 
 /**
  * Use pageListenersMap.set(<page path>, <array of functions>) to register
@@ -40,6 +41,7 @@ function attachAnalytics() {
     // Global listeners
     addTeaserListeners();
     addButtonLinkListeners();
+    addActionLinkListeners();
   } catch (error) {
     Sentry.withScope(scope => {
       scope.setExtra('error', error);

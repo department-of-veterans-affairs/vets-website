@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -13,7 +12,6 @@ describe('The My VA Dashboard', () => {
   const oneWeekInSeconds = 24 * 60 * 60 * 7;
   const oneYearInSeconds = 24 * 60 * 60 * 365;
   beforeEach(() => {
-    disableFTUXModals();
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(
@@ -108,7 +106,9 @@ describe('The My VA Dashboard', () => {
       cy.visit(manifest.rootUrl);
     });
     it('should show benefit applications that were saved in progress and have not expired', () => {
-      cy.findByRole('heading', { name: /apply for benefits/i }).should('exist');
+      cy.findByRole('heading', { name: /apply for VA benefits/i }).should(
+        'exist',
+      );
       cy.findByRole('heading', { name: /applications in progress/i }).should(
         'exist',
       );
@@ -152,7 +152,9 @@ describe('The My VA Dashboard', () => {
       cy.visit(manifest.rootUrl);
     });
     it('should show fallback content when there are no benefit applications saved in progress', () => {
-      cy.findByRole('heading', { name: /apply for benefits/i }).should('exist');
+      cy.findByRole('heading', { name: /apply for VA benefits/i }).should(
+        'exist',
+      );
       cy.findByRole('heading', { name: /applications in progress/i }).should(
         'exist',
       );

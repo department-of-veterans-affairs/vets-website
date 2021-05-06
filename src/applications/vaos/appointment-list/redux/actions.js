@@ -16,20 +16,21 @@ import {
 
 import {
   getCancelReasons,
-  getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
   getRequestMessages,
   updateAppointment,
   updateRequest,
 } from '../../services/var';
 
-import { getLocation, getLocations } from '../../services/location';
+import {
+  getLocation,
+  getLocations,
+  getLocationSettings,
+} from '../../services/location';
 
 import {
   getBookedAppointments,
   getAppointmentRequests,
-  getVARClinicId,
-  getVARFacilityId,
   getVAAppointmentLocationId,
   isVideoHome,
   fetchRequestById,
@@ -93,12 +94,11 @@ export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
 export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
   'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
-export const FETCH_DIRECT_SCHEDULE_SETTINGS =
-  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS';
-export const FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED =
-  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED';
-export const FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED =
-  'vaos/FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED';
+export const FETCH_FACILITY_SETTINGS = 'vaos/FETCH_FACILITY_SETTINGS';
+export const FETCH_FACILITY_SETTINGS_FAILED =
+  'vaos/FETCH_FACILITY_SETTINGS_FAILED';
+export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
+  'vaos/FETCH_FACILITY_SETTINGS_SUCCEEDED';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -543,7 +543,7 @@ export function confirmCancelAppointment() {
           ? 'cc'
           : 'va',
     };
-    let apiData = appointment.legacyVAR?.apiData || appointment.apiData;
+    let apiData = appointment.vaos.apiData || appointment.apiData;
     let cancelReasons = null;
     let cancelReason = null;
 
@@ -559,28 +559,25 @@ export function confirmCancelAppointment() {
 
       if (!isConfirmedAppointment) {
         apiData = await updateRequest({
-          ...appointment.legacyVAR.apiData,
+          ...appointment.vaos.apiData,
           status: CANCELLED_REQUEST,
           appointmentRequestDetailCode: ['DETCODE8'],
         });
       } else {
-        const facilityId = getVARFacilityId(appointment);
-
         const cancelData = {
           appointmentTime: moment
             .parseZone(appointment.start)
             .format('MM/DD/YYYY HH:mm:ss'),
-          clinicId: getVARClinicId(appointment),
-          facilityId,
+          clinicId: appointment.location.clinicId,
+          facilityId: appointment.location.vistaId,
           remarks: '',
           // Grabbing this from the api data because it's not clear if
           // we have to send the real name or if the friendly name is ok
-          clinicName:
-            appointment.legacyVAR.apiData.vdsAppointments[0].clinic.name,
+          clinicName: appointment.vaos.apiData.vdsAppointments[0].clinic.name,
           cancelCode: 'PC',
         };
 
-        cancelReasons = await getCancelReasons(facilityId);
+        cancelReasons = await getCancelReasons(appointment.location.vistaId);
 
         if (
           cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)
@@ -714,25 +711,25 @@ export function fetchExpressCareWindows() {
   };
 }
 
-export function fetchDirectScheduleSettings() {
+export function fetchFacilitySettings() {
   return async (dispatch, getState) => {
     dispatch({
-      type: FETCH_DIRECT_SCHEDULE_SETTINGS,
+      type: FETCH_FACILITY_SETTINGS,
     });
 
     try {
       const initialState = getState();
       const siteIds = selectSystemIds(initialState) || [];
 
-      const settings = await getDirectBookingEligibilityCriteria(siteIds);
+      const settings = await getLocationSettings({ siteIds });
 
       dispatch({
-        type: FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED,
+        type: FETCH_FACILITY_SETTINGS_SUCCEEDED,
         settings,
       });
     } catch (e) {
       dispatch({
-        type: FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED,
+        type: FETCH_FACILITY_SETTINGS_FAILED,
       });
 
       captureError(e, false);

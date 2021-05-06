@@ -40,21 +40,25 @@ export const UnauthContent = () => (
     <p>
       <strong>And you must have one of these free accounts:</strong>
     </p>
-    <li>
-      A{' '}
-      <a href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount">
-        Premium <strong>My HealtheVet</strong> account
-      </a>
-      , <strong>or</strong>
-    </li>
-    <li>
-      A Premium <strong>DS Logon</strong> account (used for eBenefits and
-      milConnect), <strong>or</strong>
-    </li>
-    <li>
-      A verified <strong>ID.me</strong> account that you can{' '}
-      <a href="https://api.id.me/en/registration/new">create here on VA.gov</a>
-    </li>
+    <ul>
+      <li>
+        A{' '}
+        <a href="https://www.myhealth.va.gov/mhv-portal-web/upgrade-account-to-premium#UpgradeToPremiumAccount">
+          Premium <strong>My HealtheVet</strong> account
+        </a>
+        , <strong>or</strong>
+      </li>
+      <li>
+        A Premium <strong>DS Logon</strong> account (used for eBenefits and
+        milConnect), <strong>or</strong>
+      </li>
+      <li>
+        A verified <strong>ID.me</strong> account that you can{' '}
+        <a href="https://api.id.me/en/registration/new">
+          create here on VA.gov
+        </a>
+      </li>
+    </ul>
     <p className="vads-u-margin-bottom--0">
       <strong>Note:</strong> If you sign in with a Basic or Advanced account,
       you’ll find only the results you’ve entered yourself.

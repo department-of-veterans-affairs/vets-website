@@ -116,6 +116,7 @@ const SearchResult = ({ form, formMetaInfo }) => {
       formType,
       formToolUrl,
       formDetailsUrl,
+      language,
       lastRevisionOn,
       benefitCategories,
       vaFormAdministration,
@@ -146,6 +147,7 @@ const SearchResult = ({ form, formMetaInfo }) => {
       <FormTitle
         id={id}
         formUrl={formDetailsUrl}
+        lang={language}
         title={title}
         recordGAEvent={recordGAEvent}
       />

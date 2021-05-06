@@ -20,10 +20,10 @@ const {
   getNodeHealthServicesListingPageQueries,
 } = require('./graphql/healthServicesListingPage.graphql');
 
-const { GetNodeNewsStoryPages } = require('./graphql/newStoryPage.graphql');
+const { getNewsStoryQueries } = require('./graphql/newStoryPage.graphql');
 
 const {
-  GetNodePressReleasePages,
+  getPressReleaseQueries,
 } = require('./graphql/pressReleasePage.graphql');
 
 const {
@@ -83,7 +83,9 @@ const {
   GetCampaignLandingPages,
 } = require('./graphql/nodeCampaignLandingPage.graphql');
 
-const { GetVetCenters } = require('./graphql/vetCenter.graphql');
+const { GetPolicyPages } = require('./graphql/vamcPoliciesPage.graphql');
+
+const { getVetCenterQueries } = require('./graphql/vetCenter.graphql');
 const {
   GetVetCenterLocations,
 } = require('./graphql/vetCenterLocations.graphql');
@@ -98,8 +100,8 @@ function getNodeQueries(entityCounts) {
     GetNodeOffices,
     ...getNodeHealthCareLocalFacilityPageQueries(entityCounts),
     ...getNodeHealthServicesListingPageQueries(entityCounts),
-    GetNodeNewsStoryPages,
-    GetNodePressReleasePages,
+    ...getNewsStoryQueries(entityCounts),
+    ...getPressReleaseQueries(entityCounts),
     GetNodePressReleaseListingPages,
     GetNodeEventListingPage,
     ...getNodeEventQueries(entityCounts),
@@ -118,8 +120,9 @@ function getNodeQueries(entityCounts) {
     GetNodeSupportResourcesDetailPage,
     GetNodeBasicLandingPage,
     GetCampaignLandingPages,
-    GetVetCenters,
+    ...getVetCenterQueries(entityCounts),
     GetVetCenterLocations,
+    GetPolicyPages,
   };
 }
 

@@ -21,6 +21,7 @@ const recordButtonClick = buttonClickLabel => {
 };
 
 function OnState({ copy }) {
+  if (!copy) return null;
   return (
     <>
       <DowntimeNotification

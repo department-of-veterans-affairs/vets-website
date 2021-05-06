@@ -87,7 +87,7 @@ function ExpressCareDetailsPage({
   }
 
   const unableToReachVeteran =
-    appointment.cancelationReason?.text === UNABLE_TO_REACH_VETERAN_DETCODE;
+    appointment.cancelationReason === UNABLE_TO_REACH_VETERAN_DETCODE;
 
   return (
     <PageLayout>
@@ -134,7 +134,10 @@ function ExpressCareDetailsPage({
 
       {!canceled && (
         <>
-          <h3 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
+          <h3
+            className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label"
+            data-cy="express-care-appointment-details-header"
+          >
             Express Care request
           </h3>
           {(appointment.status === APPOINTMENT_STATUS.proposed ||

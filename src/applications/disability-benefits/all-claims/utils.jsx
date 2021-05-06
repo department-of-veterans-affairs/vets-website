@@ -943,6 +943,14 @@ export const isBDD = formData => {
   return Boolean(result);
 };
 
+export const isUploadingSTR = formData =>
+  isBDD(formData) &&
+  _.get(
+    'view:uploadServiceTreatmentRecordsQualifier.view:hasServiceTreatmentRecordsToUpload',
+    formData,
+    false,
+  );
+
 export const DISABILITY_SHARED_CONFIG = {
   orientation: {
     path: 'disabilities/orientation',
@@ -1002,19 +1010,3 @@ export const show526Wizard = state => toggleValues(state).show526Wizard;
 
 export const showSubform8940And4192 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
-
-export const confirmationEmailFeature = state => {
-  const isForm526ConfirmationEmailOn = toggleValues(state)[
-    FEATURE_FLAG_NAMES.form526ConfirmationEmail
-  ];
-  const isForm526ConfirmationEmailShowCopyOn = toggleValues(state)[
-    FEATURE_FLAG_NAMES.form526ConfirmationEmailShowCopy
-  ];
-
-  return [
-    isForm526ConfirmationEmailOn,
-    isForm526ConfirmationEmailShowCopyOn,
-  ].includes(undefined)
-    ? false
-    : isForm526ConfirmationEmailOn && isForm526ConfirmationEmailShowCopyOn;
-};

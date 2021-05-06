@@ -18,8 +18,8 @@ describe('MyVA Dashboard - Find VA Benefits', () => {
         inProgressForms: [],
         isPatient: false,
       });
+      cy.server();
       cy.login(mockUser);
-      // login() calls cy.server() so we can now mock routes
       cy.route('GET', '/v0/user/preferences', getUserPreferencesTwoSelected);
       cy.route('POST', '/v0/user/preferences', removeSinglePreference);
       cy.route(

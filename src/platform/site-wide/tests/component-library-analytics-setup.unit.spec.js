@@ -15,12 +15,14 @@ describe('Site-wide component library analytics', () => {
           primaryButtonText: 'Button Text 1',
           secondaryButtonText: 'Button Text 3',
         },
+        version: '0.0.0',
       },
     };
 
     const dataLayerEvent = {
       event: 'int-modal-show',
       'event-source': 'component-library',
+      'component-library-version': '0.0.0',
       'modal-title': 'Modal title',
       'modal-status': 'info',
       'modal-primaryButtonText': 'Button Text 1',

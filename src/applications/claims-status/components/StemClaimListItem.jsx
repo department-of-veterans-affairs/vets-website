@@ -30,11 +30,10 @@ export default function StemClaimListItem({ claim }) {
       </div>
       <Link
         aria-label={`View details of claim received ${formattedReceiptDate}`}
-        className="usa-button usa-button-primary"
+        className="vads-c-action-link--blue"
         to={`your-stem-claims/${claim.id}/status`}
       >
         View details
-        <i className="fa fa-chevron-right" aria-hidden="true" />
       </Link>
     </div>
   );

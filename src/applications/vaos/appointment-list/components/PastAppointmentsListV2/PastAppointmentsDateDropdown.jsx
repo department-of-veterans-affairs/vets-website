@@ -11,7 +11,7 @@ export default function PastAppointmentsDateDropdown({
   return (
     <>
       <label
-        htmlFor="type-dropdown"
+        htmlFor="date-dropdown"
         className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2 vads-u-margin-bottom--0"
       >
         Select a date range{' '}
@@ -20,7 +20,7 @@ export default function PastAppointmentsDateDropdown({
       <Select
         options={options}
         onChange={e => updateDateRangeIndex(Number(e.target.value))}
-        id="type-dropdown"
+        id="date-dropdown"
         value={dateRangeIndex}
       />
       <button

@@ -38,6 +38,7 @@ const taxonomiesQuery = require('./taxonomy-fragments/GetTaxonomies.graphql');
 const supportResourcesDetailPage = require('./nodeSupportResourcesDetailPage.graphql');
 const vaFormPage = require('./vaFormPage.graphql');
 const vamcOperatingStatusAndAlerts = require('./vamcOperatingStatusAndAlerts.graphql');
+const vamcPolicyPages = require('./vamcPoliciesPage.graphql');
 
 // Get current feature flags
 const { cmsFeatureFlags } = global;
@@ -90,6 +91,7 @@ const buildQuery = ({ useTomeSync }) => {
   ${supportResourcesDetailPage.fragment}
   ${basicLandingPage.fragment}
   ${nodeCampaignLandingPage.fragment}
+  ${vamcPolicyPages.fragment}
 `;
 
   const todayQueryVar = useTomeSync ? '' : '$today: String!,';
@@ -131,6 +133,7 @@ const buildQuery = ({ useTomeSync }) => {
         ... nodeSupportResourcesDetailPage
         ... nodeBasicLandingPage
         ... nodeCampaignLandingPage
+        ... policiesPageFragment        
       }
     }`;
 

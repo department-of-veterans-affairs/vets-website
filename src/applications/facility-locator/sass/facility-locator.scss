@@ -566,29 +566,33 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
+#mapbox-gl-container {
+  max-height: 55vh;
+  height: 55vh;
+  display: flex;
+  justify-content: center;
+}
+
 #search-area-control-container {
   z-index: 1;
 }
 
 #search-area-control {
-  background: $color-blue;
-  border-radius: 5px;
   cursor: pointer;
-  padding: 8px;
-  margin-top: 15px;
-  clear: both;
   pointer-events: auto;
-  color: $color-white;
-  font-family: $font-sans;
 
   @media (max-width: $small-screen) {
-    width: 235px;
     height: 43px;
   }
 }
 
+// Override design system default
+// because it will cause an axe failure
+.fl-disabled  {
+  background-color: $color-gray-medium !important;
+}
+
 .mapboxgl-ctrl-top-center {
-  left: 35%;
   position: absolute;
   pointer-events: none;
   margin: 15px 0 0 15px;
@@ -596,10 +600,8 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .mapboxgl-ctrl-bottom-center {
   bottom: 40px;
-  left: 22%;
   position: absolute;
   pointer-events: none;
-  margin: 15px 0 0 15px;
 }
 
 button.mapboxgl-ctrl-zoom-in {

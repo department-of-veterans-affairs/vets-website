@@ -6,6 +6,7 @@ import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
+import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -37,7 +38,7 @@ const IntroductionPage = props => {
   }
 
   const facilityName = organizationSelector.getName(organization);
-  const appointmentTime = appointmentSelector.getStartTime(appointment);
+  const appointmentTime = appointmentSelector.getStartDateTime(appointment);
   let expirationTime = appointmentTime;
 
   if (expirationTime) {
@@ -62,6 +63,9 @@ const IntroductionPage = props => {
     );
 
     if (appointmentInPast) {
+      recordEvent({
+        event: `hcq-questionnaire-expired-loaded`,
+      });
       return (
         <div>
           <div className="usa-alert usa-alert-warning background-color-only schemaform-sip-alert">

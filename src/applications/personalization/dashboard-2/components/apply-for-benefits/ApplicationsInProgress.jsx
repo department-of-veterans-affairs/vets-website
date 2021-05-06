@@ -33,33 +33,31 @@ const ApplicationsInProgress = ({ savedForms }) => {
       </h3>
 
       {verifiedSavedForms.length > 0 && (
-        <div className="vads-l-grid-container vads-u-padding--0">
-          <div className="vads-l-row">
-            {verifiedSavedForms.map(form => {
-              const formId = form.form;
-              const formTitle = `application for ${formTitles[formId]}`;
-              const presentableFormId = presentableFormIDs[formId];
-              const { lastUpdated, expiresAt } = form.metadata || {};
-              const lastOpenedDate = moment
-                .unix(lastUpdated)
-                .format('MMMM D, YYYY');
-              const expirationDate = moment
-                .unix(expiresAt)
-                .format('MMMM D, YYYY');
-              const continueUrl = `${formLinks[formId]}resume`;
-              return (
-                <ApplicationInProgress
-                  key={formId}
-                  continueUrl={continueUrl}
-                  expirationDate={expirationDate}
-                  formId={formId}
-                  formTitle={formTitle}
-                  lastOpenedDate={lastOpenedDate}
-                  presentableFormId={presentableFormId}
-                />
-              );
-            })}
-          </div>
+        <div className="vads-l-row">
+          {verifiedSavedForms.map(form => {
+            const formId = form.form;
+            const formTitle = `application for ${formTitles[formId]}`;
+            const presentableFormId = presentableFormIDs[formId];
+            const { lastUpdated, expiresAt } = form.metadata || {};
+            const lastOpenedDate = moment
+              .unix(lastUpdated)
+              .format('MMMM D, YYYY');
+            const expirationDate = moment
+              .unix(expiresAt)
+              .format('MMMM D, YYYY');
+            const continueUrl = `${formLinks[formId]}resume`;
+            return (
+              <ApplicationInProgress
+                key={formId}
+                continueUrl={continueUrl}
+                expirationDate={expirationDate}
+                formId={formId}
+                formTitle={formTitle}
+                lastOpenedDate={lastOpenedDate}
+                presentableFormId={presentableFormId}
+              />
+            );
+          })}
         </div>
       )}
       {!verifiedSavedForms.length && (
