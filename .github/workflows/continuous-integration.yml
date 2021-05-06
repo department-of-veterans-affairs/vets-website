@@ -297,10 +297,6 @@ jobs:
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
 
-      # - name: Exit code if danger detected
-      #   if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} == danger
-      #   run: exit 1
-
       - name: Cancel workflow on failure
         if: ${{ failure() }}
         uses: andymckay/cancel-action@0.2
