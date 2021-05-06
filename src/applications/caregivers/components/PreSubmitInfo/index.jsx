@@ -26,7 +26,7 @@ const SecondaryCaregiverCopy = ({ label }) => {
     <div>
       <h3 className="vads-u-margin-top--4">{header(label)}</h3>
 
-      <p className="vads-u-margin-y--4">{firstParagraph}</p>
+      <p className="vads-u-margin-y--2">{firstParagraph}</p>
 
       {contentWithoutFirstParagraph.map((secondaryContent, idx) => {
         return <p key={`${label}-${idx}`}>{secondaryContent}</p>;
@@ -181,7 +181,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
             Primary Family Caregiver applicant&apos;s statement of truth
           </h3>
 
-          <p className="vads-u-margin-y--4">{primaryFirstParagraph}</p>
+          <p className="vads-u-margin-y--2">{primaryFirstParagraph}</p>
 
           {primaryWithoutFirstParagraph.map((primaryContent, idx) => (
             <p key={`primary-signature-${idx}`}>{primaryContent}</p>
