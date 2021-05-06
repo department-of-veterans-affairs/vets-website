@@ -317,7 +317,7 @@ export const EXPRESS_CARE_ERROR_REASON = {
 
 export const ELIGIBILITY_REASONS = {
   notEnabled: 'notEnabled',
-  notSupported: 'noSupported',
+  notSupported: 'notSupported',
   noRecentVisit: 'noRecentVisit',
   overRequestLimit: 'overRequestLimit',
   noClinics: 'noClinics',
