@@ -94,7 +94,6 @@ export default function DateTimeRequestPage() {
             dispatch,
             data,
             history,
-            routeToNextAppointmentPage,
             submitted,
             setSubmitted,
           })
