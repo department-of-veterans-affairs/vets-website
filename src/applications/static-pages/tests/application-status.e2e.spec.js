@@ -1,30 +1,27 @@
 /* eslint-disable va/axe-check-required */
 const E2eHelpers = require('platform/testing/e2e/helpers');
-const Timeouts = require('platform/testing/e2e/timeouts.js');
+// const Timeouts = require('platform/testing/e2e/timeouts.js');
 const Auth = require('platform/testing/e2e/auth');
 const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
 
+// eslint-disable-next-line no-unused-vars
 function testStatus(client, page, url) {
   // client
   //   .openUrl(`${E2eHelpers.baseUrl}${page}`)
   //   .waitForElementVisible('.sip-application-status', Timeouts.slow)
   //   .axeCheck('.main');
-
-  E2eHelpers.overrideScrolling(client);
-
-  client.expect
-    .element('main a.usa-button-primary')
-    .to.have.attribute('href')
-    .contains(url);
-
-  client
-    .waitForElementPresent('.usa-button-secondary', Timeouts.normal)
-    .moveTo('.usa-button-secondary', 0, 200)
-    .click('.usa-button-secondary')
-    .waitForElementPresent('#start-over-modal-title', Timeouts.normal)
-    .expect.element('#start-over-modal-title')
-    .text.equals('Starting over will delete your in-progress application.');
-
+  // E2eHelpers.overrideScrolling(client);
+  // client.expect
+  //   .element('main a.usa-button-primary')
+  //   .to.have.attribute('href')
+  //   .contains(url);
+  // client
+  //   .waitForElementPresent('.usa-button-secondary', Timeouts.normal)
+  //   .moveTo('.usa-button-secondary', 0, 200)
+  //   .click('.usa-button-secondary')
+  //   .waitForElementPresent('#start-over-modal-title', Timeouts.normal)
+  //   .expect.element('#start-over-modal-title')
+  //   .text.equals('Starting over will delete your in-progress application.');
   // client.axeCheck('.main');
 }
 
