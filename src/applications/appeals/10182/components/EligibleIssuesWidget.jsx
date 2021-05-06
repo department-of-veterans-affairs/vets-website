@@ -48,37 +48,49 @@ const EligibleIssuesWidget = props => {
   const itemsLength = items.length;
   const hasSelected = someSelected(value);
 
-  const content = itemsLength ? (
-    items.map((item, index) => {
-      const itemIsSelected = !!item[SELECTED];
-
-      // Don't show un-selected ratings in review mode
-      return (inReviewMode && !itemIsSelected) || isEmptyObject(item) ? null : (
-        <IssueCard
-          key={index}
-          id={id}
-          index={index}
-          item={item}
-          options={options}
-          onChange={onChange}
-          showCheckbox={showCheckbox}
-        />
-      );
-    })
-  ) : (
-    <>
-      <dt>
-        {onReviewPage && !hasSelected ? (
-          'No issues selected'
-        ) : (
+  if (!itemsLength) {
+    return (
+      <>
+        <dt>
           <strong>No eligible issues found</strong>
-        )}
-      </dt>
-      <dd />
-    </>
-  );
+        </dt>
+        <dd />
+      </>
+    );
+  }
 
-  return <dl className="review">{content}</dl>;
+  if (onReviewPage && inReviewMode && !hasSelected) {
+    return (
+      <>
+        <dt>No issues selected</dt>
+        <dd />
+      </>
+    );
+  }
+
+  const content = items.map((item, index) => {
+    const itemIsSelected = !!item[SELECTED];
+    const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
+
+    // Don't show un-selected ratings in review mode
+    return hideCard ? null : (
+      <IssueCard
+        key={index}
+        id={id}
+        index={index}
+        item={item}
+        options={options}
+        onChange={onChange}
+        showCheckbox={showCheckbox}
+      />
+    );
+  });
+
+  return onReviewPage && inReviewMode ? (
+    content
+  ) : (
+    <dl className="review">{content}</dl>
+  );
 };
 
 EligibleIssuesWidget.propTypes = {
