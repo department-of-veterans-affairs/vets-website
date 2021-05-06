@@ -14,7 +14,7 @@
       {% if forloop.last == true %}
         <li>
           <a 
-          onclick="recordEvent({ 'event': 'nav-breadcrumb-link-click', 'breadcrumbs-clickLabel': '{{ crumb.text }}', 'breadcrumbs-clickLevel': '{{ forloop.index }}', 'breadcrumbs-totalLevels': '{{ crumbs.length }}' });" 
+          onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });" 
           aria-current="page" 
           href="/{{ path }}"
           lang="{{ path | detectLang }}"
@@ -43,7 +43,7 @@
           {% endif %}
         {% else %}
           <li><a
-            lang="{{ crumb.url.path | detectLang }}" onclick="recordEvent({ 'event': 'nav-breadcrumb-link-click', 'breadcrumbs-clickLabel': '{{ crumb.text }}', 'breadcrumbs-clickLevel': '{{ forloop.index }}', 'breadcrumbs-totalLevels: '{{ crumbs.length }}' });"
+            lang="{{ crumb.url.path | detectLang }}" onclick="recordEvent({ 'event': 'nav-breadcrumb', 'breadcrumb-click-label': '{{ crumb.text }}', 'breadcrumb-click-level': '{{ forloop.index }}', 'breadcrumb-total-levels': '{{ crumbs.length }}' });"
             href="{{ crumb.url.path }}">{{ crumb.text }}</a></li>
         {% endif %}
       {% endif %}
