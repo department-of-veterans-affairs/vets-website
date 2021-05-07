@@ -32,11 +32,9 @@ export default class Footer extends React.Component {
     }
   }
   render() {
-    // update font?
     return (
       <div>
         <div className="footer-inner">
-          {/* add dividers between items */}
           <DesktopLinks visible={!this.state.isMobile} links={this.linkObj} />
           <MobileLinks visible={this.state.isMobile} links={this.linkObj} />
           {!this.state.isMobile && (
