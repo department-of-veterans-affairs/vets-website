@@ -138,9 +138,9 @@ node('vetsgov-general-purpose') {
       commonStages.slackNotify()
       throw error
     } finally {
-      dir("vets-website") {
-        step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
-      }
+      // dir("vets-website") {
+      //   step([$class: 'JUnitResultArchiver', testResults: 'test-results.xml'])
+      // }
     }
   }
 
@@ -186,11 +186,10 @@ node('vetsgov-general-purpose') {
 
               'nightwatch-e2e': {
                 sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
-              }, 
+              },  
               'nightwatch-accessibility': {
                   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
-              }    
-              // TODO: Remove the previous nightwatch-accessibility and uncomment the Cypress tests
+              }   
               // 'cypress-1': {
               //   sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=0 vets-website run cy:test:docker"
               // },     
