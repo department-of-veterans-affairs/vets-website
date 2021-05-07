@@ -8,6 +8,7 @@ import mockConnectedApps from '../fixtures/connected-apps/mock-connected-apps.js
  */
 
 function disconnectApps(mobile = false) {
+  cy.server();
   cy.route('GET', 'v0/profile/connected_applications', mockConnectedApps);
 
   cy.route({
@@ -81,7 +82,6 @@ function disconnectApps(mobile = false) {
 describe('Connected applications', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    // login() calls cy.server() so we can now mock routes
   });
   it('should successfully disconnect apps on Desktop', () => {
     disconnectApps(false);
