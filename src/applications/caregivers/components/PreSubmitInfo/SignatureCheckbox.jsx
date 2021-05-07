@@ -77,7 +77,10 @@ const SignatureCheckbox = ({
 };
 
 SignatureCheckbox.propTypes = {
-  children: PropTypes.any.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
   fullName: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   setSignatures: PropTypes.func.isRequired,
