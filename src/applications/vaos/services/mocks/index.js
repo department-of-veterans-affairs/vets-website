@@ -123,154 +123,154 @@ export default [
   //   response: confirmedVA,
   //   delay: 3000,
   // },
-  {
-    path: /vaos\/v0\/appointments\/va\/.*/,
-    response: url => {
-      const segments = url.split(/[/]/);
-      const id = segments[segments.length - 1];
-      return {
-        data: confirmedVA.data.find(appt => appt.id === id),
-      };
-    },
-    delay: 3000,
-  },
-  {
-    path: /vaos\/v0\/appointment_requests\?/,
-    response: requests,
-    delay: 3000,
-  },
-  {
-    path: /vaos\/v0\/appointment_requests\//,
-    response: url => {
-      const segments = url.split('/');
-      const id = segments[segments.length - 1];
-      return {
-        data: requests.data.find(req => req.id === id),
-      };
-    },
-    delay: 3000,
-  },
-  {
-    path: /vaos\/v0\/appointment_requests\/.*\/messages/,
-    response: url => {
-      if (url.includes('8a48912a6c2409b9016c525a4d490190')) {
-        return messages0190;
-      }
+  // {
+  //   path: /vaos\/v0\/appointments\/va\/.*/,
+  //   response: url => {
+  //     const segments = url.split(/[/]/);
+  //     const id = segments[segments.length - 1];
+  //     return {
+  //       data: confirmedVA.data.find(appt => appt.id === id),
+  //     };
+  //   },
+  //   delay: 3000,
+  // },
+  // {
+  //   path: /vaos\/v0\/appointment_requests\?/,
+  //   response: requests,
+  //   delay: 3000,
+  // },
+  // {
+  //   path: /vaos\/v0\/appointment_requests\//,
+  //   response: url => {
+  //     const segments = url.split('/');
+  //     const id = segments[segments.length - 1];
+  //     return {
+  //       data: requests.data.find(req => req.id === id),
+  //     };
+  //   },
+  //   delay: 3000,
+  // },
+  // {
+  //   path: /vaos\/v0\/appointment_requests\/.*\/messages/,
+  //   response: url => {
+  //     if (url.includes('8a48912a6c2409b9016c525a4d490190')) {
+  //       return messages0190;
+  //     }
 
-      if (url.includes('8a48912a6cab0202016cb4fcaa8b0038')) {
-        return messages0038;
-      }
+  //     if (url.includes('8a48912a6cab0202016cb4fcaa8b0038')) {
+  //       return messages0038;
+  //     }
 
-      return { data: [] };
-    },
-  },
-  {
-    path: /vaos\/v0\/facilities\?/,
-    response: parentFacilities,
-  },
-  {
-    path: /vaos\/v0\/systems\/.*\/direct_scheduling_facilities/,
-    response: url => {
-      if (url.includes(EXPRESS_CARE)) {
-        if (url.includes('systems/983/')) {
-          return expressCareFacilities983;
-        } else {
-          return expressCareFacilities984;
-        }
-      } else if (url.endsWith('parent_code=984')) {
-        return facilities984;
-      } else if (url.endsWith('parent_code=983A6')) {
-        return facilities983A6;
-      } else {
-        return facilities983;
-      }
-    },
-  },
-  {
-    path: /community_care\/eligibility/,
-    response: {
-      data: {
-        id: 'PrimaryCare',
-        type: 'cc_eligibility',
-        attributes: { eligible: true },
-      },
-    },
-  },
-  {
-    path: /community_care\/supported_sites/,
-    response: sitesSupportingVAR,
-  },
-  {
-    path: /vaos\/v0\/facilities\/.*\/visits/,
-    response: url => {
-      if (url.includes('visits/direct')) {
-        return {
-          data: {
-            id: '05084676-77a1-4754-b4e7-3638cb3124e5',
-            type: 'facility_visit',
-            attributes: {
-              durationInMonths: 24,
-              hasVisitedInPastMonths: !url.includes('facilities/984'),
-            },
-          },
-        };
-      }
+  //     return { data: [] };
+  //   },
+  // },
+  // {
+  //   path: /vaos\/v0\/facilities\?/,
+  //   response: parentFacilities,
+  // },
+  // {
+  //   path: /vaos\/v0\/systems\/.*\/direct_scheduling_facilities/,
+  //   response: url => {
+  //     if (url.includes(EXPRESS_CARE)) {
+  //       if (url.includes('systems/983/')) {
+  //         return expressCareFacilities983;
+  //       } else {
+  //         return expressCareFacilities984;
+  //       }
+  //     } else if (url.endsWith('parent_code=984')) {
+  //       return facilities984;
+  //     } else if (url.endsWith('parent_code=983A6')) {
+  //       return facilities983A6;
+  //     } else {
+  //       return facilities983;
+  //     }
+  //   },
+  // },
+  // {
+  //   path: /community_care\/eligibility/,
+  //   response: {
+  //     data: {
+  //       id: 'PrimaryCare',
+  //       type: 'cc_eligibility',
+  //       attributes: { eligible: true },
+  //     },
+  //   },
+  // },
+  // {
+  //   path: /community_care\/supported_sites/,
+  //   response: sitesSupportingVAR,
+  // },
+  // {
+  //   path: /vaos\/v0\/facilities\/.*\/visits/,
+  //   response: url => {
+  //     if (url.includes('visits/direct')) {
+  //       return {
+  //         data: {
+  //           id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+  //           type: 'facility_visit',
+  //           attributes: {
+  //             durationInMonths: 24,
+  //             hasVisitedInPastMonths: !url.includes('facilities/984'),
+  //           },
+  //         },
+  //       };
+  //     }
 
-      return {
-        data: {
-          id: '05084676-77a1-4754-b4e7-3638cb3124e5',
-          type: 'facility_visit',
-          attributes: {
-            durationInMonths: 12,
-            hasVisitedInPastMonths: !url.includes('facilities/984/'),
-          },
-        },
-      };
-    },
-  },
-  {
-    path: /vaos\/v0\/facilities\/limits/,
-    response: (url, { _groups }) => {
-      const data = [];
-      if (url.includes('983')) {
-        data.push({
-          id: '983',
-          attributes: {
-            numberOfRequests: 0,
-            requestLimit: 1,
-            institutionCode: '983',
-          },
-        });
-      } else if (url.includes('984')) {
-        data.push({
-          id: '984',
-          attributes: {
-            numberOfRequests: 1,
-            requestLimit: 1,
-            institutionCode: '984',
-          },
-        });
-      }
-      return {
-        data,
-      };
-    },
-  },
-  {
-    path: /vaos\/v0\/facilities\/(.*)\/limits/,
-    response: (url, { groups }) => {
-      const facilityId = groups[0];
-      return {
-        data: {
-          id: facilityId,
-          attributes: {
-            requestLimit: 1,
-            numberOfRequests: facilityId.includes('984') ? 1 : 0,
-          },
-        },
-      };
-    },
-  },
+  //     return {
+  //       data: {
+  //         id: '05084676-77a1-4754-b4e7-3638cb3124e5',
+  //         type: 'facility_visit',
+  //         attributes: {
+  //           durationInMonths: 12,
+  //           hasVisitedInPastMonths: !url.includes('facilities/984/'),
+  //         },
+  //       },
+  //     };
+  //   },
+  // },
+  // {
+  //   path: /vaos\/v0\/facilities\/limits/,
+  //   response: (url, { _groups }) => {
+  //     const data = [];
+  //     if (url.includes('983')) {
+  //       data.push({
+  //         id: '983',
+  //         attributes: {
+  //           numberOfRequests: 0,
+  //           requestLimit: 1,
+  //           institutionCode: '983',
+  //         },
+  //       });
+  //     } else if (url.includes('984')) {
+  //       data.push({
+  //         id: '984',
+  //         attributes: {
+  //           numberOfRequests: 1,
+  //           requestLimit: 1,
+  //           institutionCode: '984',
+  //         },
+  //       });
+  //     }
+  //     return {
+  //       data,
+  //     };
+  //   },
+  // },
+  // {
+  //   path: /vaos\/v0\/facilities\/(.*)\/limits/,
+  //   response: (url, { groups }) => {
+  //     const facilityId = groups[0];
+  //     return {
+  //       data: {
+  //         id: facilityId,
+  //         attributes: {
+  //           requestLimit: 1,
+  //           numberOfRequests: facilityId.includes('984') ? 1 : 0,
+  //         },
+  //       },
+  //     };
+  //   },
+  // },
 
   {
     path: /vaos\/v0\/facilities\/.*\/clinics/,
