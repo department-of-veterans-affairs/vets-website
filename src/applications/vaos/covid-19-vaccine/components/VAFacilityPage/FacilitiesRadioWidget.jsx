@@ -110,6 +110,7 @@ export default function FacilitiesRadioWidget({
         backgroundOnly
         content="If you get a vaccine that requires 2 doses, you'll need to return to the same facility for your second dose."
         headline="Some COVID-19 vaccines require 2 doses"
+        level={2}
         status="info"
       />
     </div>

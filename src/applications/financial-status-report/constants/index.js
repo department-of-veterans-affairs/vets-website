@@ -1,6 +1,7 @@
 import { pciuStates, countries } from 'vets-json-schema/dist/constants.json';
 
-export const COUNTRY_CODES = countries.map(country => country.label);
+export const COUNTRY_LABELS = countries.map(country => country.label);
+export const COUNTRY_VALUES = countries.map(country => country.value);
 
 export const STATE_LABELS = pciuStates.map(state => state.label);
 export const STATE_VALUES = pciuStates.map(state => state.value);
@@ -36,7 +37,7 @@ export const SCHEMA_DEFINITIONS = {
     maxLength: 30,
     pattern: "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$",
   },
-  zipCode: {
+  postalCode: {
     type: 'string',
     pattern: '^\\d{5}(?:([-\\s]?)\\d{4})?$',
   },

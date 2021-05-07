@@ -3,7 +3,7 @@ import moment from 'moment';
 
 // relative imports
 import { deriveLatestIssue } from '../components/SearchResult';
-import { SORT_OPTIONS, SEARCH_QUERY_AUTO_CORRECT_MAP } from '../constants';
+import { FAF_SORT_OPTIONS, SEARCH_QUERY_AUTO_CORRECT_MAP } from '../constants';
 /**
  * This function sorts the results of Find Forms search.
  * @param {string} sortByPropertyName Is the state property in the SearchResults Controller
@@ -19,7 +19,7 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
     ALPHA_DESCENDING,
     LAST_UPDATED_NEWEST_OPTION,
     LAST_UPDATED_OLDEST_OPTION,
-  ] = SORT_OPTIONS;
+  ] = FAF_SORT_OPTIONS;
   const sortIndexToFront = -1;
   const sortIndexToBack = 1;
   const indexRemainsInPlace = 0;
