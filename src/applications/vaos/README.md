@@ -4,7 +4,17 @@ This is the front end source for the VAOS application. Veterans can schedule, re
 
 It is a React/Redux application that makes heavy use of MomentJS. Tests are written with React Testing Library and Cypress.
 
-Generate the docs:
+## Frontend Documentation
+
+Documentation for the frontend of the VAOS application is generated using [JSDoc](https://jsdoc.app/).
+
+### Documentation outline
+
+The documentation navigation is separated into type sections. We currently have sections for `Modules` and `Global`. The `Modules` section consists of components and function definitions broken up by files. The `Global` contains type definitions for the resources that we receive from our various [data sources](https://github.com/department-of-veterans-affairs/vets-website/tree/master/src/applications/vaos#api-interaction).
+
+### Generate the docs
+
+Run the following command:
 
 ```
 yarn jsdoc -c src/applications/vaos/jsdoc.json
@@ -12,7 +22,7 @@ yarn jsdoc -c src/applications/vaos/jsdoc.json
 
 Docs are generated at `src/applications/vaos/docs/index.html`
 
-Watch the docs for changes and rebuild:
+You can also watch the docs for changes and rebuild:
 
 ```
 npx nodemon --exec "yarn jsdoc -c src/applications/vaos/jsdoc.json" --watch src/applications/vaos --ignore 'docs/*' -e js,jsx,md,json
@@ -28,7 +38,7 @@ The application has four major sections
   - The code for the new appointment and request flows
 - /express-care
   - The code for the new Express Care request flow
-- /project-cheetah
+- /covid-19-vaccine
   - In progress vaccine appointment scheduling MVP
 
 Application sections are generally organized into three folders:

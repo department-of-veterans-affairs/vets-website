@@ -300,3 +300,26 @@ export const EXPRESS_CARE_ERROR_REASON = {
   error: 'error',
   noActiveFacility: 'noActiveFacility',
 };
+
+export const DEFAULT_WEEK_DAYS = [
+  {
+    name: 'Monday',
+    abbr: 'Mon',
+  },
+  {
+    name: 'Tuesday',
+    abbr: 'Tue',
+  },
+  {
+    name: 'Wednesday',
+    abbr: 'Wed',
+  },
+  {
+    name: 'Thursday',
+    abbr: 'Thu',
+  },
+  {
+    name: 'Friday',
+    abbr: 'Fri',
+  },
+];

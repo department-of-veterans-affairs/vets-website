@@ -1,3 +1,9 @@
+/**
+ * Data utility methods
+ * @module utils/data
+ *
+ */
+
 export function createPreferenceBody(preferences, emailAddress) {
   return {
     ...preferences,
