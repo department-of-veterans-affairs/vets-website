@@ -280,6 +280,7 @@ module.exports = (env = {}) => {
     baseConfig.plugins.push(
       new ManifestPlugin({
         fileName: 'file-manifest.json',
+        filter: ({ path: filePath }) => !filePath.includes('/generated/..'),
       }),
     );
   }
@@ -377,7 +378,7 @@ module.exports = (env = {}) => {
           widgetType,
           widgetTemplate,
           facilitySidebar,
-
+          rootUrl,
           // Default template metadata.
           breadcrumbs_override: [], // eslint-disable-line camelcase
           includeBreadcrumbs: false,
@@ -406,16 +407,16 @@ module.exports = (env = {}) => {
     );
 
     // Copy over image assets to fill in the header and other content.
-    baseConfig.plugins.push(
-      new CopyPlugin({
-        patterns: [
-          {
-            from: 'src/site/assets/img',
-            to: path.join(outputPath, '..', 'img'),
-          },
-        ],
-      }),
-    );
+    // baseConfig.plugins.push(
+    //   new CopyPlugin({
+    //     patterns: [
+    //       {
+    //         from: 'src/site/assets/img',
+    //         to: path.join(outputPath, '..', 'img'),
+    //       },
+    //     ],
+    //   }),
+    // );
 
     // Open the browser to either --env.openTo or one of the root URLs of the
     // apps we're scaffolding

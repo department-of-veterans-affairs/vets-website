@@ -34,6 +34,7 @@ const WebChat = ({ token, WebChatFramework }) => {
     bubbleFromUserBackground: '#f1f1f1',
     bubbleNubSize: 10,
     bubbleFromUserNubSize: 10,
+    timestampColor: '#000000',
   };
 
   return (

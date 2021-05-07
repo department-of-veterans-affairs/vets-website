@@ -10,6 +10,11 @@ import {
   secondaryCaregiverContent,
   signatureBoxNoteContent,
   representativeSignatureContent,
+  veteranLabel,
+  primaryLabel,
+  secondaryOneLabel,
+  secondaryTwoLabel,
+  representativeLabel,
 } from 'applications/caregivers/definitions/content';
 
 const SecondaryCaregiverCopy = ({ label }) => {
@@ -21,7 +26,7 @@ const SecondaryCaregiverCopy = ({ label }) => {
     <div>
       <h3 className="vads-u-margin-top--4">{header(label)}</h3>
 
-      <p className="vads-u-margin-y--4">{firstParagraph}</p>
+      <p className="vads-u-margin-y--2">{firstParagraph}</p>
 
       {contentWithoutFirstParagraph.map((secondaryContent, idx) => {
         return <p key={`${label}-${idx}`}>{secondaryContent}</p>;
@@ -32,11 +37,6 @@ const SecondaryCaregiverCopy = ({ label }) => {
 };
 
 const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
-  const veteranLabel = `Veteran\u2019s`;
-  const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
-  const representativeLabel = `Representative\u2019s`;
-  const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
-  const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
   const hasPrimary = formData['view:hasPrimaryCaregiver'];
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
@@ -98,11 +98,6 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       removePartyIfFalsy(!showRepresentativeSignatureBox, veteranLabel);
     },
     [
-      veteranLabel,
-      primaryLabel,
-      secondaryOneLabel,
-      secondaryTwoLabel,
-      representativeLabel,
       hasPrimary,
       hasSecondaryOne,
       hasSecondaryTwo,
@@ -186,7 +181,7 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
             Primary Family Caregiver applicant&apos;s statement of truth
           </h3>
 
-          <p className="vads-u-margin-y--4">{primaryFirstParagraph}</p>
+          <p className="vads-u-margin-y--2">{primaryFirstParagraph}</p>
 
           {primaryWithoutFirstParagraph.map((primaryContent, idx) => (
             <p key={`primary-signature-${idx}`}>{primaryContent}</p>
