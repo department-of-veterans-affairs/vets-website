@@ -9,14 +9,10 @@ const NotInMPIError = ({ level }) => {
   const content = (
     <>
       <p>
-        We can’t give you access to VA.gov tools to manage your health and
-        benefits right now. We’ll need to match your information and verify your
-        identity first.
-      </p>
-      <p>
-        If you’d like to access these tools on VA.gov, please contact the VA
-        help desk at <Telephone contact={CONTACTS.VA_311} /> (TTY:{' '}
-        <Telephone contact={CONTACTS['711']} />) to verify and update your
+        We’re sorry. We’re having trouble matching your information to our
+        records. So we can’t give you access to VA.gov tools right now. Please
+        contact the VA help desk at <Telephone contact={CONTACTS.VA_311} />{' '}
+        (TTY: <Telephone contact={CONTACTS['711']} />) to verify and update your
         records.
       </p>
     </>
@@ -24,7 +20,7 @@ const NotInMPIError = ({ level }) => {
 
   return (
     <AlertBox
-      headline="We can’t match your information to our records"
+      headline="We’re having trouble verifying your identity"
       content={content}
       status="warning"
       level={level}
