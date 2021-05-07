@@ -2,7 +2,7 @@ import { rootUrl } from '../../manifest.json';
 import mockDependents from './fixtures/mock-dependents.json';
 import mockNoAwardDependents from './fixtures/mock-no-dependents-on-award.json';
 
-const DEPENDENTS_ENDPOINT = '/dependents_applications/show';
+const DEPENDENTS_ENDPOINT = '**/dependents_applications/show';
 
 const testAxe = () => {
   cy.injectAxe();
@@ -69,6 +69,7 @@ const testServerError = () => {
 
 describe('View VA dependents', () => {
   beforeEach(() => {
+    cy.login();
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         type: 'feature_toggles',
@@ -80,7 +81,7 @@ describe('View VA dependents', () => {
         ],
       },
     });
-    cy.login();
+
   });
 
   it('should display a list of dependents on award and not on award', () => {
