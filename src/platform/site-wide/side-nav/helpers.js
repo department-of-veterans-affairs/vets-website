@@ -47,7 +47,6 @@ const expandParentIDs = options => {
 */
 const deriveNavItemsLookup = options => {
   // Derive the properties from options.
-  const rootPath = get(options, 'rootPath');
   const depth = get(options, 'depth', 0);
   const items = get(options, 'items', []);
   const parentID = get(options, 'parentID');
@@ -65,7 +64,7 @@ const deriveNavItemsLookup = options => {
     const nestedItems = get(item, 'links');
 
     // Derive the current path.
-    const pathname = trimEnd(rootPath, '/');
+    const pathname = trimEnd(window.location.pathname, '/');
 
     // Derive if the item is selected.
     const isSelected = pathname === href;
@@ -95,7 +94,6 @@ const deriveNavItemsLookup = options => {
     // Update our navItemsLookup with the nested items if the option is passed.
     if (!isEmpty(nestedItems)) {
       const nestedNavItemsLookup = deriveNavItemsLookup({
-        rootPath,
         depth: depth + 1,
         items: nestedItems,
         navItemsLookup,
@@ -133,18 +131,17 @@ const deriveNavItemsLookup = options => {
 
   @returns {Object}, navItemsLookup keyed off by `id`.
 */
-export const normalizeSideNavData = (rootPath, data) => {
+export const normalizeSideNavData = data => {
   // Derive properties we need from data.
   const items = data?.links;
 
   // Derive only nav items that are relevant for the current page.
   const relevantNavItems = items?.filter(item =>
-    rootPath.includes(item?.url?.path),
+    window.location.pathname.includes(item?.url?.path),
   );
 
   // Derive a nav items array and a lookup table.
   return deriveNavItemsLookup({
-    rootPath,
     items: relevantNavItems,
     navItemsLookup: {},
   });
