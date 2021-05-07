@@ -3,20 +3,19 @@ import React from 'react';
 import { vetsWebsiteInfo } from '../definitions/constants';
 
 export default function CommitsTable({
-  commits,
+  appsDevBuildText,
   stagingBuildText,
   prodBuildText,
+  commits,
 }) {
-  // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
-  // const devRows = appsDevBuildText.split('\n').filter(x => x) || [];
+  const devRows = appsDevBuildText.split('\n').filter(x => x) || [];
   const stagingRows = stagingBuildText.split('\n').filter(x => x);
   const prodRows = prodBuildText.split('\n').filter(x => x);
 
-  // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
-  // const devRef = devRows[6]?.slice(4);
+  const devRef = devRows[6]?.slice(4);
   const stagingRef = stagingRows[6]?.slice(4);
   const prodRef = prodRows[6]?.slice(4);
-  const isOnDev = false; // TODO: Change from `const` to `let` once requests from localhost to dev are no longer blocked by CORS
+  let isOnDev = false;
   let isOnStaging = false;
   let isOnProd = false;
 
@@ -28,28 +27,24 @@ export default function CommitsTable({
           <h4>
             <a href={vetsWebsiteInfo.devBuildText}>Dev</a>
           </h4>
-          {/* 
-                TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
-                {devRows.map(x => {
-                    return <div key={x}>{x}</div>;
-                })}
-                */}
-          <div>COMING SOON</div>
+          {devRows.map(info => {
+            return <div key={info}>{info}</div>;
+          })}
         </div>
         <div>
           <h4>
             <a href={vetsWebsiteInfo.stagingBuildText}>Staging</a>
           </h4>
-          {stagingRows.map(x => {
-            return <div key={x}>{x}</div>;
+          {stagingRows.map(info => {
+            return <div key={info}>{info}</div>;
           })}
         </div>
         <div>
           <h4>
             <a href={vetsWebsiteInfo.prodBuildText}>Prod</a>
           </h4>
-          {prodRows.map(x => {
-            return <div key={x}>{x}</div>;
+          {prodRows.map(info => {
+            return <div key={info}>{info}</div>;
           })}
         </div>
       </div>
@@ -71,8 +66,7 @@ export default function CommitsTable({
             const { committer = {}, message = '' } = commit;
             const { date } = committer;
 
-            // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
-            // if (sha === devRef) isOnDev = true;
+            if (sha === devRef) isOnDev = true;
             if (sha === stagingRef) isOnStaging = true;
             if (sha === prodRef) isOnProd = true;
             const onDevStyle = isOnDev ? { background: 'green' } : {};
@@ -89,9 +83,7 @@ export default function CommitsTable({
                     GitHub
                   </a>
                 </td>
-
-                {/* Replace TODO with actual value once requests from localhost to dev are no longer blocked by CORS */}
-                <td style={onDevStyle}>COMING SOON</td>
+                <td style={onDevStyle}>{isOnDev ? 'TRUE' : 'FALSE'}</td>
                 <td style={onStagingStyle}>{isOnStaging ? 'TRUE' : 'FALSE'}</td>
                 <td style={onProdStyle}>{isOnProd ? 'TRUE' : 'FALSE'}</td>
               </tr>

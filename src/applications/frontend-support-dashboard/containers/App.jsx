@@ -1,35 +1,30 @@
 import React, { useState } from 'react';
 
 import CommitsTable from './CommitsTable';
-
 import { vetsWebsiteInfo } from '../definitions/constants';
 
 async function fetchDashboardData(repo) {
   // https://dmitripavlutin.com/javascript-fetch-async-await/#5-parallel-fetch-requests
   const [
-    // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
-    // devBuildTextResponse,
+    devBuildTextResponse,
     stagingBuildTextResponse,
     prodBuildTextResponse,
     commitsResponse,
   ] = await Promise.all([
-    // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
-    // fetch(repo.devBuildText),
+    fetch(repo.devBuildText),
     fetch(repo.stagingBuildText),
     fetch(repo.prodBuildText),
     // last 30 commits from vets-website
     fetch(`https://api.github.com/repos/${repo.owner}/${repo.repo}/commits`),
   ]);
 
-  // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
-  // const devBuildText = await devBuildTextResponse.text();
+  const devBuildText = await devBuildTextResponse.text();
   const stagingBuildText = await stagingBuildTextResponse.text();
   const prodBuildText = await prodBuildTextResponse.text();
   const commits = await commitsResponse.json();
 
   const result = {
-    // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
-    // devBuildText,
+    devBuildText,
     stagingBuildText,
     prodBuildText,
     commits,
@@ -40,8 +35,7 @@ async function fetchDashboardData(repo) {
 }
 
 export default function App({ children }) {
-  // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
-  // const [appsDevBuildText, setAppsDevBuildText] = useState('');
+  const [appsDevBuildText, setAppsDevBuildText] = useState('');
   const [appsStagingBuildText, setAppsStagingBuildText] = useState('');
   const [appsProdBuildText, setAppsProdBuildText] = useState('');
   const [appsCommits, setAppsCommits] = useState([]);
@@ -50,14 +44,12 @@ export default function App({ children }) {
     fetchDashboardData(vetsWebsiteInfo)
       .then(function handleSuccess(allData) {
         const {
-          // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
-          // devBuildText,
+          devBuildText,
           stagingBuildText,
           prodBuildText,
           commits,
         } = allData;
-        // TODO: Uncomment once requests from localhost to dev are no longer blocked by CORS
-        // setAppsDevBuildText(devBuildText);
+        setAppsDevBuildText(devBuildText);
         setAppsStagingBuildText(stagingBuildText);
         setAppsProdBuildText(prodBuildText);
         setAppsCommits(commits);
@@ -73,9 +65,10 @@ export default function App({ children }) {
       <h1>Frontend Support Dashboard</h1>
 
       <CommitsTable
-        commits={appsCommits}
+        appsDevBuildText={appsDevBuildText}
         stagingBuildText={appsStagingBuildText}
         prodBuildText={appsProdBuildText}
+        commits={appsCommits}
       />
 
       {children}

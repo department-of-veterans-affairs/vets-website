@@ -11,10 +11,10 @@ export const vetsWebsiteInfo = {
 };
 
 // https://github.com/department-of-veterans-affairs/content-build/blob/844d3170a92005dbee70a7ecf643362137ba68c3/jenkins/common.groovy#L280
-// export const contentBuildInfo = {
-//   owner: 'department-of-veterans-affairs',
-//   repo: 'content-build',
-//   devBuildText: 'https://dev.va.gov/BUILD.txt',
-//   stagingBuildText: 'https://staging.va.gov/BUILD.txt',
-//   prodBuildText: 'https://www.va.gov/BUILD.txt',
-// };
+export const contentBuildInfo = {
+  owner: 'department-of-veterans-affairs',
+  repo: 'content-build',
+  devBuildText: 'https://dev.va.gov/BUILD.txt',
+  stagingBuildText: 'https://staging.va.gov/BUILD.txt',
+  prodBuildText: 'https://www.va.gov/BUILD.txt',
+};
