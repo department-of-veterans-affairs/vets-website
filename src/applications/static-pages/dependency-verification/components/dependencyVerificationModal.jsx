@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import {
@@ -13,14 +13,12 @@ import DependencyVerificationFooter from './dependencyVerificationFooter';
 const RETRIEVE_DIARIES = 'retrieveDiaries';
 
 const DependencyVerificationModal = props => {
-  const [isModalShowing, setIsModalShowing] = useState(false);
   const handleClose = () => {
     sessionStorage.setItem(RETRIEVE_DIARIES, 'false');
-    setIsModalShowing(false);
+    props.updateDiariesService(false);
   };
 
   const handleCloseAndUpdateDiaries = shouldUpdate => {
-    setIsModalShowing(false);
     sessionStorage.setItem(RETRIEVE_DIARIES, 'false');
     props.updateDiariesService(shouldUpdate);
   };
@@ -32,19 +30,13 @@ const DependencyVerificationModal = props => {
     props.getDependencyVerifications();
   }, []);
 
-  useEffect(
-    () => {
-      if (props?.data?.getDependencyVerificationStatus === CALLSTATUS.success) {
-        setIsModalShowing(true);
-      }
-    },
-    [props],
-  );
   return props?.data?.getDependencyVerificationStatus === CALLSTATUS.success ? (
     <>
       <Modal
         onClose={handleClose}
-        visible={isModalShowing}
+        visible={
+          props?.data?.getDependencyVerificationStatus === CALLSTATUS.success
+        }
         cssClass="va-modal-large vads-u-padding--1"
         id="dependency-verification"
         contents={
