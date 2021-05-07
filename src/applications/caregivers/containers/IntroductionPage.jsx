@@ -90,7 +90,7 @@ const IntroductionPage = ({
                 download the paper form
                 <p className="vads-u-margin-top--2">
                   <a
-                    href="https://www.va.gov/vaforms/medical/pdf/VA%20Form%2010-10CG.pdf"
+                    href="https://www.va.gov/vaforms/medical/pdf/10-10CG.pdf"
                     download="10-10CG.pdf"
                     type="application/pdf"
                     target="_blank"
