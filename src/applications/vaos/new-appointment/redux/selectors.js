@@ -24,6 +24,7 @@ import { isEligible } from './helpers/eligibility';
 import {
   selectUseFlatFacilityPage,
   selectIsCernerOnlyPatient,
+  selectUseProviderSelection,
 } from '../../redux/selectors';
 
 export function getNewAppointment(state) {
@@ -399,4 +400,18 @@ export function getChosenVACityState(state) {
   }
 
   return null;
+}
+
+export function selectConfirmationPage(state) {
+  return {
+    data: getFormData(state),
+    clinic: getChosenClinicInfo(state),
+    facilityDetails: getChosenFacilityInfo(state),
+    slot: getChosenSlot(state),
+    systemId: getSiteIdForChosenFacility(state),
+    submitStatus: getNewAppointment(state).submitStatus,
+    flowType: getFlowType(state),
+    appointmentLength: getAppointmentLength(state),
+    useProviderSelection: selectUseProviderSelection(state),
+  };
 }

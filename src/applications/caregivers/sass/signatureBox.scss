@@ -6,7 +6,13 @@
     margin: 0 0 0 10px;
   }
 
-  section {
+  header {
+    p + p {
+      margin-bottom: 0;
+    }
+  }
+
+  .wide-input {
     display: flex;
 
     label {

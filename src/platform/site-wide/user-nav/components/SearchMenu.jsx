@@ -19,7 +19,7 @@ const ENTER_KEY = 13;
 export class SearchMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.getSuggestions = debounce(
+    this.debouncedSuggestions = debounce(
       this.props.debounceRate,
       this.getSuggestions,
     );
@@ -38,7 +38,7 @@ export class SearchMenu extends React.Component {
     // if userInput has changed, fetch suggestions for the typeahead experience
     const inputChanged = prevState.userInput !== userInput;
     if (inputChanged && searchTypeaheadEnabled) {
-      this.getSuggestions();
+      this.debouncedSuggestions();
     }
 
     // event logging for phased typeahead rollout
@@ -232,7 +232,7 @@ export class SearchMenu extends React.Component {
     const { suggestions, userInput } = this.state;
     const { searchTypeaheadEnabled } = this.props;
     const {
-      getSuggestions,
+      debouncedSuggestions,
       handelDownshiftStateChange,
       handleInputChange,
       handleSearchEvent,
@@ -315,7 +315,7 @@ export class SearchMenu extends React.Component {
                 className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1 vads-u-padding-left--1 vads-u-width--full"
                 name="query"
                 aria-controls={isOpen ? 'suggestions-list' : undefined}
-                onFocus={getSuggestions}
+                onFocus={debouncedSuggestions}
                 onKeyUp={handleKeyUp}
                 {...getInputProps({
                   type: 'text',
@@ -416,7 +416,7 @@ SearchMenu.propTypes = {
 };
 
 SearchMenu.defaultProps = {
-  debounceRate: 200,
+  debounceRate: 300,
 };
 
 const mapStateToProps = store => ({
