@@ -1062,7 +1062,7 @@
   {
     "appName": "Request a Board Appeal",
     "entryName": "10182-board-appeal",
-    "rootUrl": "/decision-reviews/board-appeal/request-board-review-form-10182",
+    "rootUrl": "/decision-reviews/board-appeal/request-board-appeal-form-10182",
     "template": {
       "title": "Request a Board Appeal",
       "heading": "Request a Board Appeal",
@@ -1083,7 +1083,7 @@
         },
         {
           "name": "Request a Board Appeal",
-          "path": "/decision-reviews/board-appeal/request-board-review-form-10182"
+          "path": "/decision-reviews/board-appeal/request-board-appeal-form-10182"
         }
       ]
     }
