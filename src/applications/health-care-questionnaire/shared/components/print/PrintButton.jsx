@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { focusElement } from 'platform/utilities/ui';
 
-import ViewAndPrint from './ViewAndPrint';
+import LoadingMessage from './LoadingMessage';
 import PrintErrorMessage from './PrintErrorMessage';
+import ViewAndPrint from './ViewAndPrint';
 import recordEvent from 'platform/monitoring/record-event';
 import { TRACKING_PREFIX } from '../../constants/analytics';
 
@@ -46,27 +46,7 @@ export default function PrintButton({
     return <PrintErrorMessage CallToAction={ErrorCallToAction} />;
   }
   if (isLoading) {
-    const className = `usa-button va-button view-and-print-button`;
-    return (
-      <>
-        <section className="load-message">
-          <LoadingIndicator />
-          <p id="loading-message" tabIndex="-1" aria-live="assertive">
-            We're creating a PDF of your completed questionnaire. Please don't
-            refresh your browser.
-          </p>
-          <p>When your PDF is ready, it will open in a new browser tab.</p>
-        </section>
-        <button
-          className={className}
-          disabled
-          data-testid="print-button"
-          aria-label={`Creating your PDF`}
-        >
-          Creating PDF...
-        </button>
-      </>
-    );
+    return <LoadingMessage />;
   }
   return (
     <>
