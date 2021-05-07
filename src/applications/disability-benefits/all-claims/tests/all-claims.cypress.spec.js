@@ -140,9 +140,9 @@ const testConfig = createTestConfig(
 
       // `mockItf` is not a fixture; it can't be loaded as a fixture
       // because fixtures don't evaluate JS.
-      cy.intercept('GET', '/v0/intent_to_file', mockItf);
+      cy.intercept('GET', '**/v0/intent_to_file', mockItf);
 
-      cy.intercept('PUT', `${MOCK_SIPS_API}*`, mockInProgress);
+      cy.intercept('PUT', `**/${MOCK_SIPS_API}*`, mockInProgress);
 
       cy.intercept(
         'GET',
@@ -176,7 +176,7 @@ const testConfig = createTestConfig(
           ({ 'view:selected': _, ...obj }) => obj,
         );
 
-        cy.intercept('GET', MOCK_SIPS_API, {
+        cy.intercept('GET', `**/${MOCK_SIPS_API}*`, {
           formData: {
             veteran: {
               primaryPhone: '4445551212',
