@@ -221,7 +221,7 @@ const PreSubmitCheckboxGroup = ({
             Primary Family Caregiver applicant&apos;s statement of truth
           </h3>
 
-          <p className="vads-u-margin-y--4">{primaryFirstParagraph}</p>
+          <p className="vads-u-margin-y--2">{primaryFirstParagraph}</p>
 
           {primaryWithoutFirstParagraph.map((primaryContent, idx) => (
             <p key={`primary-signature-${idx}`}>{primaryContent}</p>
