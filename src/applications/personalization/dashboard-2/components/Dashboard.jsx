@@ -176,9 +176,10 @@ const Dashboard = ({
 
               {showNotInMPIError ? (
                 <div className="vads-l-row">
-                  <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <NotInMPIError level={2} />
-                  </div>
+                  <NotInMPIError
+                    className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3"
+                    level={2}
+                  />
                 </div>
               ) : null}
 
