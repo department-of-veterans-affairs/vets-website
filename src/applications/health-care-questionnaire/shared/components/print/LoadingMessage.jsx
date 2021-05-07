@@ -4,7 +4,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 export default function LoadingMessage() {
   return (
     <>
-      <section className="load-message" data-testid="loader-container">
+      <section className="loading-message" data-testid="loader-container">
         <LoadingIndicator />
         <p id="loading-message" tabIndex="-1" aria-live="assertive">
           We're creating a PDF of your completed questionnaire. Please don't
