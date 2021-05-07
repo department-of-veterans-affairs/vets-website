@@ -36,8 +36,9 @@ const AddIssuesField = props => {
   const uiOptions = uiSchema['ui:options'] || {};
 
   const initialEditingState = uiOptions.setInitialEditMode?.(formData);
+  // Editing state: 1 = new edit, true = update edit & false = view state
   const [editing, setEditing] = useState(
-    initialEditingState.length ? initialEditingState : [true],
+    initialEditingState.length ? initialEditingState : [1],
   );
 
   const toggleSelection = (indexToChange, checked) => {
@@ -102,9 +103,9 @@ const AddIssuesField = props => {
   const handleAdd = () => {
     const lastIndex = formData.length - 1;
     if (errorSchemaIsValid(errorSchema[lastIndex])) {
-      // When we add another, we want to change the editing state of the currently
-      // last item, but not ones above it
-      setEditing(editing.concat([true]));
+      // For new entries we don't use a boolean, so we know it should be labeled
+      // as "new" and not "update"
+      setEditing(editing.concat([1]));
 
       const newFormData = formData.concat(
         getDefaultFormState(schema.additionalItems, undefined, {}) || {},
@@ -196,12 +197,12 @@ const AddIssuesField = props => {
         <dd data-index={index}>
           <Element name={`table_${itemIdPrefix}`} />
           <fieldset className="vads-u-text-align--left">
-            <legend className="schemaform-block-header vads-u-font-size--base vads-u-font-weight--normal">
+            <legend className="schemaform-block-header vads-u-font-size--base vads-u-font-weight--normal vads-u-margin-y--0 vads-u-padding-y--0">
               {first ? (
                 'Please add a new issue for review:'
               ) : (
-                <h2 className="vads-u-margin-top--0 vads-u-font-size--h4">
-                  Add issue
+                <h2 className="vads-u-margin-y--0 vads-u-font-size--h4">
+                  {`${isEditing === 1 ? 'Add' : 'Update'} issue`}
                 </h2>
               )}
             </legend>

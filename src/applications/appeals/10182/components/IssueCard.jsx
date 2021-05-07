@@ -98,7 +98,7 @@ export const IssueCard = ({
     'review-row',
     'widget-wrapper',
     'vads-u-border--0',
-    isEditable ? 'additional-issues' : '',
+    isEditable ? 'additional-issue' : '',
     showCheckbox ? '' : 'checkbox-hidden',
     `vads-u-padding-top--${showCheckbox ? 1 : 0}`,
     'vads-u-padding-right--3',
