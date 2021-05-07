@@ -7,7 +7,8 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import {
   SCHEMA_DEFINITIONS,
-  COUNTRY_CODES,
+  COUNTRY_LABELS,
+  COUNTRY_VALUES,
   MILITARY_STATE_LABELS,
   MILITARY_STATE_CODES,
   MILITARY_CITY_CODES,
@@ -87,19 +88,20 @@ export const uiSchema = {
           classNames: 'input-size-7',
           updateSchema: (formData, schema, uiSchemaCountry) => {
             const uiSchemaDisabled = uiSchemaCountry;
+            uiSchemaDisabled['ui:disabled'] = false;
+            const { address } = formData.personalData;
 
-            if (formData.personalData.address.livesOutsideUS) {
-              const formDataMailingAddress = formData.personalData.address;
-              formDataMailingAddress.country = 'United States';
+            if (address.livesOutsideUS) {
+              address.country = 'USA';
               uiSchemaDisabled['ui:disabled'] = true;
-
               return {
-                enum: ['United States'],
+                enumNames: ['United States'],
+                enum: ['USA'],
               };
             }
-            uiSchemaDisabled['ui:disabled'] = false;
             return {
-              enum: COUNTRY_CODES,
+              enumNames: COUNTRY_LABELS,
+              enum: COUNTRY_VALUES,
             };
           },
         },

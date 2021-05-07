@@ -17,7 +17,7 @@ import {
 } from './pages';
 
 import { isTypeNone, isVeteran, isSpouseOrCaregiver } from './helpers';
-import PreSubmitInfo from './PreSubmitinfo';
+import PreSubmitCheckboxes from './PreSubmitInfo';
 
 import manifest from '../manifest.json';
 
@@ -28,7 +28,7 @@ const formConfig = {
   trackingPrefix: 'covid-vaccination-expanded-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  preSubmitInfo: PreSubmitInfo,
+  preSubmitInfo: PreSubmitCheckboxes,
   formId: VA_FORM_IDS.FORM_COVID_VACCINATION_EXPANSION,
   version: 0,
   prefillEnabled: false,

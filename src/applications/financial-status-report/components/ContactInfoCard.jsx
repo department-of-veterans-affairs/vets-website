@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { COUNTRY_LABELS, COUNTRY_VALUES } from '../constants';
 
 const ContactInfoCard = ({
   street,
@@ -11,6 +12,7 @@ const ContactInfoCard = ({
   country,
   edit,
 }) => {
+  const countryLabel = COUNTRY_LABELS[COUNTRY_VALUES.indexOf(country)];
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3 vads-u-margin-bottom--5">
       <h4 className="vads-u-margin--0 vads-u-margin-bottom--2">
@@ -22,7 +24,7 @@ const ContactInfoCard = ({
         <p className="vads-u-margin--1px">
           {city}, {state} {postalCode}
         </p>
-        <p className="vads-u-margin--1px">{country}</p>
+        <p className="vads-u-margin--1px">{countryLabel}</p>
       </div>
       <div className="vads-u-margin-top--1">
         <a onClick={() => edit()}>Edit mailing address</a>

@@ -24,7 +24,7 @@ const SignatureCheckbox = ({
   const createInputLabel = inputLabel =>
     isRepresentative
       ? `Enter your name to sign as the Veteran's representative`
-      : `Enter ${inputLabel} full name`;
+      : `${inputLabel} full name`;
 
   useEffect(
     () => {
