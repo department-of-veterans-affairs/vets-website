@@ -39,40 +39,42 @@ export default class Footer extends React.Component {
           {/* add dividers between items */}
           <DesktopLinks visible={!this.state.isMobile} links={this.linkObj} />
           <MobileLinks visible={this.state.isMobile} links={this.linkObj} />
-          <div className="usa-grid usa-grid-full va-footer-links-bottom">
-            {/* mobile view */}
-            {/* add language support label here */}
-            <ul>
-              {[
-                {
-                  label: 'English',
-                  suffix: '/',
-                  lang: 'en',
-                },
-                {
-                  onThisPage: 'En esta página',
-                  label: 'Español',
-                  suffix: '-esp/',
-                  lang: 'es',
-                },
-                {
-                  suffix: '-tag/',
-                  label: 'Tagalog',
-                  onThisPage: 'Sa pahinang ito',
-                  lang: 'tl',
-                },
-              ].map((link, i) => (
-                <li key={i}>
-                  <a
-                    href={link.href}
-                    // onClick={captureEvent}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {!this.state.isMobile && (
+            <div className="usa-grid usa-grid-full va-footer-links-bottom">
+              <h2 className="va-footer-linkgroup-title"> Language support</h2>
+              <ul>
+                {[
+                  {
+                    label: 'English',
+                    suffix: '/',
+                    lang: 'en',
+                  },
+                  {
+                    onThisPage: 'En esta página',
+                    label: 'Español',
+                    suffix: '-esp/',
+                    lang: 'es',
+                  },
+                  {
+                    suffix: '-tag/',
+                    label: 'Tagalog',
+                    onThisPage: 'Sa pahinang ito',
+                    lang: 'tl',
+                  },
+                ].map((link, i) => (
+                  <li key={i}>
+                    <a
+                      href={link.href}
+                      // onClick={captureEvent}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <div className="usa-grid usa-grid-full footer-banner">
             <a href="/" className="va-footer-logo" title="Go to VA.gov">
               <img

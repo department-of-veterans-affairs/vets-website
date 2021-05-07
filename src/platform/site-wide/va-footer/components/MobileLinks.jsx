@@ -80,6 +80,52 @@ export default function MobileLinks({ links, visible }) {
             {links[FOOTER_COLUMNS.CONNECT]}
           </div>
         </li>
+
+        <li>
+          <button
+            className="usa-button-unstyled usa-accordion-button va-footer-button"
+            aria-controls="veteran-language-support"
+            itemProp="name"
+            aria-expanded="false"
+          >
+            Language Support
+          </button>
+          <div
+            className="usa-accordion-content va-footer-accordion-content"
+            id="veteran-language-support"
+            aria-hidden="true"
+          >
+            <div>
+              {[
+                {
+                  label: 'English',
+                  suffix: '/',
+                  lang: 'en',
+                },
+                {
+                  onThisPage: 'En esta página',
+                  label: 'Español',
+                  suffix: '-esp/',
+                  lang: 'es',
+                },
+                {
+                  suffix: '-tag/',
+                  label: 'Tagalog',
+                  onThisPage: 'Sa pahinang ito',
+                  lang: 'tl',
+                },
+              ].map((link, i) => (
+                <a
+                  key={i}
+                  href={link.href}
+                  // onClick={captureEvent}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </li>
       </ul>
     </div>
   );
