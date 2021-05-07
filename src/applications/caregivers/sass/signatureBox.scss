@@ -6,6 +6,12 @@
     margin: 0 0 0 10px;
   }
 
+  header {
+    p + p {
+      margin-bottom: 0;
+    }
+  }
+
   section {
     display: flex;
 
