@@ -150,52 +150,6 @@ def findMissingQueryFlags(String buildLogPath, String envName) {
   }
 }
 
-def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnlyBuild) {
-  def brokenLinksFile = "${WORKSPACE}/vets-website/logs/${envName}-broken-links.json"
-
-  if (fileExists(brokenLinksFile)) {
-    def rawJsonFile = readFile(brokenLinksFile);
-    def brokenLinks = new groovy.json.JsonSlurper().parseText(rawJsonFile);
-    def maxBrokenLinks = 10
-    def color = 'warning'
-
-    if (brokenLinks.isHomepageBroken || brokenLinks.brokenLinksCount > maxBrokenLinks) {
-      color = 'danger'
-    }
-
-    def heading = "@cmshelpdesk ${brokenLinks.brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n\n${env.RUN_DISPLAY_URL}\n\n"
-    def message = "${heading}\n${brokenLinks.summary}".stripMargin()
-
-    echo "${brokenLinks.brokenLinksCount} broken links found"
-    echo message
-
-    if (!IS_PROD_BRANCH && !contentOnlyBuild) {
-      // Ignore the results of the broken link checker unless
-      // we are running either on the master branch or during
-      // a Content Release. This way, if there is a broken link,
-      // feature branches aren't affected, so VFS teams can
-      // continue merging.
-      return;
-    }
-
-    // Unset brokenLinks now that we're done with this, because Jenkins may temporarily
-    // freeze (through serialization) this pipeline while the Slack message is being sent.
-    // brokenLinks is an instance of JSONObject, which cannot be serialized by default.
-    brokenLinks = null
-
-    slackSend(
-      message: message,
-      color: color,
-      failOnError: true,
-      channel: 'vfs-platform-builds'
-    )
-
-    if (color == 'danger') {
-      throw new Exception('Broken links found')
-    }
-  }
-}
-
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
   // Use the CMS's Sandbox (Tugboat) environment for all branches that
   // are not configured to deploy to prod.
@@ -223,8 +177,6 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} --drupalMaxParallelRequests ${drupalMaxParallelRequests} ${drupalMode} ${noDrupalProxy} --buildLog ${buildLogPath} --verbose"
 
       if (envName == 'vagovprod') {
-        // Find any broken links in the log
-        checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
         // Find any missing query flags in the log
         findMissingQueryFlags(buildLogPath, envName)
       }
