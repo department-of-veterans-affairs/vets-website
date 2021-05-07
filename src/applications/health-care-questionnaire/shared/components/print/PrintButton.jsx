@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { focusElement } from 'platform/utilities/ui';
 
 import ViewAndPrint from './ViewAndPrint';
 import PrintErrorMessage from './PrintErrorMessage';
@@ -23,6 +24,8 @@ export default function PrintButton({
   const handleClick = async () => {
     try {
       setisLoading(true);
+      focusElement('#loading-message');
+
       const resp = await loadPdfData(questionnaireResponseId);
       const blob = await resp.blob();
       openPdfInNewWindow(window, blob);
@@ -48,7 +51,7 @@ export default function PrintButton({
       <>
         <section className="load-message">
           <LoadingIndicator />
-          <p>
+          <p id="loading-message" tabIndex="-1" aria-live="assertive">
             We're creating a PDF of your completed questionnaire. Please don't
             refresh your browser.
           </p>
