@@ -27,7 +27,6 @@ describe('eligible issues page', () => {
       />,
     );
 
-    expect(form.find('AdditionalInfo').length).to.equal(1);
     expect(form.find('EligibleIssuesWidget').length).to.equal(1);
     form.unmount();
   });

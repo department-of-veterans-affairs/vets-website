@@ -30,7 +30,7 @@ export const isEmptyObject = obj =>
     ? Object.keys(obj)?.length === 0 || false
     : false;
 
-export const setInitialEditMode = formData =>
+export const setInitialEditMode = (formData = []) =>
   formData.map(({ issue, decisionDate } = {}) => !issue || !decisionDate);
 
 export const appStateSelector = state => ({

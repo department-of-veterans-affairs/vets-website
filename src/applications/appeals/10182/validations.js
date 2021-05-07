@@ -2,18 +2,20 @@ import { hasSomeSelected } from './utils/helpers';
 import { optInErrorMessage } from './content/OptIn';
 import { missingIssuesErrorMessage } from './content/additionalIssues';
 
-// not used to show an issue on the eligible issues page, but needed when the
-// user submits and we want to show where the error is
 export const requireIssue = (
   errors,
   _fieldData,
-  _formData,
+  formData = {},
   _schema,
   _uiSchema,
   _index,
   appStateData,
 ) => {
-  if (!hasSomeSelected(appStateData)) {
+  // formData === pageData on review & submit page. It should include the entire
+  // formData. see https://github.com/department-of-veterans-affairs/vsp-support/issues/162
+  // Fall back to formData for unit testing
+  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
+  if (!hasSomeSelected(data)) {
     errors.addError(missingIssuesErrorMessage);
   }
 };

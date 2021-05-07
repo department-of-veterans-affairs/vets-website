@@ -16,6 +16,7 @@ import dateUiSchema from 'platform/forms-system/src/js/definitions/date';
 export default {
   uiSchema: {
     'ui:title': AdditionalIssuesLabel,
+    'ui:validations': [requireIssue],
     additionalIssues: {
       'ui:title': '',
       'ui:field': AddIssuesField,
@@ -29,7 +30,6 @@ export default {
       'ui:errorMessages': {
         required: missingIssuesErrorMessage,
       },
-      'ui:validations': [requireIssue],
       items: {
         issue: {
           'ui:title': 'Name of issue',
