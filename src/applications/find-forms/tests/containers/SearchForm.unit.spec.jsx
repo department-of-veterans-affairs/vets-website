@@ -27,11 +27,11 @@ describe('Find VA Forms <SearchForm>', () => {
       },
     };
 
-    const fetchFormsThunk = sinon.stub().resolves(stub);
-    const tree = shallow(<SearchForm fetchFormsThunk={fetchFormsThunk} />);
+    const fetchForms = sinon.stub().resolves(stub);
+    const tree = shallow(<SearchForm fetchForms={fetchForms} />);
 
-    expect(fetchFormsThunk.calledOnce).to.be.true;
-    expect(fetchFormsThunk.calledWith('health')).to.be.true;
+    expect(fetchForms.calledOnce).to.be.true;
+    expect(fetchForms.calledWith('health')).to.be.true;
     expect(tree.state().query).to.be.equal('health');
 
     tree.unmount();
@@ -51,8 +51,8 @@ describe('Find VA Forms <SearchForm>', () => {
   });
 
   it('fetches data on submit', () => {
-    const fetchFormsThunk = sinon.stub().resolves(stub);
-    const tree = shallow(<SearchForm fetchFormsThunk={fetchFormsThunk} />);
+    const fetchForms = sinon.stub().resolves(stub);
+    const tree = shallow(<SearchForm fetchForms={fetchForms} />);
 
     tree.setState({ query: 'health' });
 
@@ -61,7 +61,7 @@ describe('Find VA Forms <SearchForm>', () => {
 
     form.simulate('submit', { preventDefault });
 
-    expect(fetchFormsThunk.calledOnce).to.be.true;
+    expect(fetchForms.calledOnce).to.be.true;
     expect(preventDefault.calledOnce).to.be.true;
 
     tree.unmount();

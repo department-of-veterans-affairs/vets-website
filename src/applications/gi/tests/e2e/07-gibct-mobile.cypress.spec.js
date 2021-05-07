@@ -5,7 +5,7 @@ const searchResults = require('../data/search-results.json');
 
 describe('GI Bill Comparison Tool mobile view', () => {
   beforeEach(() => {
-    cy.route('/v0/gi/institution/search', searchResults);
+    cy.intercept('/v0/gi/institution/search', searchResults);
 
     initApplicationMock(institutionProfile, searchResults);
 

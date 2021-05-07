@@ -76,7 +76,7 @@ export default Object.freeze({
     'covid_vaccine_registration_frontend_enable_expanded_eligibility',
   findFormsEnhancements: 'find_forms_mvp_enhancement',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
-  useLighthouseFormsWeighingLogic: 'new_va_forms_search',
+  useLighthouseFormsSearchLogic: 'new_va_forms_search',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   searchRepresentative: 'search_representative',
   manageDependents: 'dependents_management',

@@ -5,7 +5,7 @@ const BaseLink = ({ children, onClick, ariaLabel, usePrimary, testId }) => {
   return (
     <a
       href="#"
-      data-testId={testId}
+      data-testid={testId}
       className={`${className} vads-u-padding-left--0`}
       onClick={onClick}
       aria-label={ariaLabel}

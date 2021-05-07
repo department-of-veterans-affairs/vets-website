@@ -8,8 +8,10 @@ import {
 } from '../actions';
 import { PAGE_TITLE } from '../constants';
 import SearchForm from '../components/SearchForm';
+import SearchResults from '../components/SearchResults';
 
 export function LandingPage({
+  search,
   dispatchSetPageTitle,
   dispatchFetchSearchByLocationResults,
   dispatchFetchSearchByNameResults,
@@ -20,7 +22,7 @@ export function LandingPage({
   return (
     <span className="landing-page">
       <div className="vads-u-min-height--viewport row">
-        <div className="column">
+        <div className="column vads-u-padding-bottom--2">
           <div className="vads-u-text-align--center">
             <h1>GI Bill® Comparison Tool</h1>
             <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
@@ -29,11 +31,14 @@ export function LandingPage({
             </p>
           </div>
           <SearchForm
+            search={search}
             fetchSearchByLocation={dispatchFetchSearchByLocationResults}
             fetchSearchByName={dispatchFetchSearchByNameResults}
           />
         </div>
-        <div className="small-12 usa-width-one-third medium-4 columns" />
+        <div>
+          <SearchResults search={search} />
+        </div>
       </div>
     </span>
   );
@@ -42,6 +47,7 @@ export function LandingPage({
 const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   eligibility: state.eligibility,
+  search: state.search,
 });
 
 const mapDispatchToProps = {

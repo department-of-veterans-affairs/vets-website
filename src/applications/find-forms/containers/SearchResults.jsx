@@ -15,8 +15,11 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import { getFindFormsAppState } from '../helpers/selectors';
-import { SORT_OPTIONS } from '../constants';
+import {
+  getFindFormsAppState,
+  applyLighthouseFormsSearchLogic,
+} from '../helpers/selectors';
+import { FAF_SORT_OPTIONS, FAF_TEST_OPTION_RELEVANCE } from '../constants';
 import SearchResult from '../components/SearchResult';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
@@ -31,6 +34,7 @@ export class SearchResults extends Component {
     hasOnlyRetiredForms: PropTypes.bool.isRequired,
     sortByPropertyName: PropTypes.string,
     startIndex: PropTypes.number.isRequired,
+    useLighthouseSearchAlgo: PropTypes.bool,
     // From mapDispatchToProps.
     updateSortByPropertyName: PropTypes.func,
     updatePagination: PropTypes.func.isRequired,
@@ -39,9 +43,16 @@ export class SearchResults extends Component {
   componentDidUpdate(previousProps) {
     const { props } = this;
     const justRefreshed = previousProps.fetching && !props.fetching;
-
     if (justRefreshed) {
       focusElement('[data-forms-focus]');
+    }
+
+    // NOTE: This is only for testing Lighthouse Search Algorithm
+    if (
+      previousProps.useLighthouseSearchAlgo === undefined &&
+      props.useLighthouseSearchAlgo === true
+    ) {
+      props.updateSortByPropertyName(FAF_TEST_OPTION_RELEVANCE, props.results);
     }
   }
 
@@ -90,6 +101,7 @@ export class SearchResults extends Component {
       sortByPropertyName,
       hasOnlyRetiredForms,
       startIndex,
+      useLighthouseSearchAlgo,
     } = this.props;
 
     // Show loading indicator if we are fetching.
@@ -149,6 +161,11 @@ export class SearchResults extends Component {
       );
     }
 
+    // Derive sort options
+    const DEFAULT_SORT_OPTIONS = useLighthouseSearchAlgo
+      ? [FAF_TEST_OPTION_RELEVANCE, ...FAF_SORT_OPTIONS]
+      : FAF_SORT_OPTIONS;
+
     // Derive the last index.
     const lastIndex = startIndex + MAX_PAGE_LIST_LENGTH;
 
@@ -203,7 +220,7 @@ export class SearchResults extends Component {
             includeBlankOption={false}
             name="findFormsSortBySelect"
             onValueChange={setSortByPropertyNameState(formMetaInfo)}
-            options={SORT_OPTIONS}
+            options={DEFAULT_SORT_OPTIONS}
             value={{ value: sortByPropertyName }}
           />
         </div>
@@ -235,6 +252,7 @@ const mapStateToProps = state => ({
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
   startIndex: getFindFormsAppState(state).startIndex,
+  useLighthouseSearchAlgo: applyLighthouseFormsSearchLogic(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,6 +1,10 @@
+import appendQuery from 'append-query';
+
 import { api } from '../config';
 
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+
+import { rubyifyKeys } from '../utils/helpers';
 
 export const AUTOCOMPLETE_STARTED = 'AUTOCOMPLETE_STARTED';
 export const AUTOCOMPLETE_FAILED = 'AUTOCOMPLETE_FAILED';
@@ -213,7 +217,35 @@ export function updateEstimatedBenefits(estimatedBenefits) {
 }
 
 export function fetchSearchByNameResults(name) {
-  return { type: SEARCH_STARTED, payload: name };
+  const url = appendQuery(
+    `${api.url}/institutions/search`,
+    rubyifyKeys({ name }),
+  );
+
+  return dispatch => {
+    dispatch({ type: SEARCH_STARTED, payload: { name } });
+
+    return fetch(url, api.settings)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        throw new Error(res.statusText);
+      })
+      .then(payload =>
+        withPreview(dispatch, {
+          type: SEARCH_BY_NAME_SUCCEEDED,
+          payload,
+        }),
+      )
+      .catch(err => {
+        dispatch({
+          type: SEARCH_FAILED,
+          payload: err.message,
+        });
+      });
+  };
 }
 
 export function fetchSearchByLocationResults(location, distance) {
