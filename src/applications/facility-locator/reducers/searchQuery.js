@@ -14,6 +14,7 @@ import {
   GEOCODE_CLEAR_ERROR,
   MAP_MOVED,
   CLEAR_SEARCH_TEXT,
+  GEOLOCATE_USER,
 } from '../utils/actionTypes';
 
 export const INITIAL_STATE = {
@@ -136,12 +137,18 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         error: false,
         geocodeInProgress: true,
       };
+    case GEOLOCATE_USER:
+      return {
+        ...state,
+        geolocationInProgress: true,
+      };
     case GEOCODE_FAILED:
       return {
         ...state,
         error: true,
         geocodeError: action.code,
         geocodeInProgress: false,
+        geolocationInProgress: false,
       };
     case GEOCODE_COMPLETE:
       return {
@@ -149,6 +156,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         geocodeResults: action.payload,
         error: false,
         geocodeInProgress: false,
+        geolocationInProgress: false,
       };
     case GEOCODE_CLEAR_ERROR:
       return {
@@ -156,6 +164,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         error: false,
         geocodeError: 0,
         geocodeInProgress: false,
+        geolocationInProgress: false,
       };
     case CLEAR_SEARCH_TEXT:
       return {
