@@ -310,7 +310,3 @@ jobs:
       - name: Slack notification
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
-
-      - name: Cancel workflow on failure
-        if: ${{ failure() }}
-        uses: andymckay/cancel-action@0.2
