@@ -197,7 +197,7 @@ const AddIssuesField = props => {
         <dd data-index={index}>
           <Element name={`table_${itemIdPrefix}`} />
           <fieldset className="vads-u-text-align--left">
-            <legend className="schemaform-block-header vads-u-font-size--base vads-u-font-weight--normal vads-u-margin-y--0 vads-u-padding-y--0">
+            <legend className="schemaform-block-header vads-u-font-size--base vads-u-font-weight--normal vads-u-margin-top--0 vads-u-padding-y--0">
               {first ? (
                 'Please add a new issue for review:'
               ) : (
