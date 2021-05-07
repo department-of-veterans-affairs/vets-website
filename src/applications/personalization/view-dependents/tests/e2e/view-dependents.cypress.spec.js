@@ -81,7 +81,6 @@ describe('View VA dependents', () => {
         ],
       },
     });
-
   });
 
   it('should display a list of dependents on award and not on award', () => {
