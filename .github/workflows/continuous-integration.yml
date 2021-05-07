@@ -329,6 +329,9 @@ jobs:
     steps:
       - name: Checkout vets-website
         uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/vets-website
+          path: vets-website
 
       - name: Get Node version
         id: get-node-version
