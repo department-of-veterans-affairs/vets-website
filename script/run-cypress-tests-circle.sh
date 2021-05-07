@@ -7,7 +7,7 @@ else
   # Flags to indicate to tests that they are running in a CI environment
   # and also that they are running in CircleCI specifically.
   export CYPRESS_CI=$CI
-  export CYPRESS_CIRCLECI=$CIRCLECI
+  # export CYPRESS_CIRCLECI=$CIRCLECI
 
   # Use mocha-junit-reporter and save results in './test-results'.
   reporterArgs="--reporter cypress-multi-reporters --reporter-options \"configFile=config/cypress-reporters.json\""
