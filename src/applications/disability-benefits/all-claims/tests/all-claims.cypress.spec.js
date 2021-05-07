@@ -136,7 +136,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.login();
 
-      cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+      cy.intercept('GET', '**/v0/feature_toggles*', mockFeatureToggles);
 
       // `mockItf` is not a fixture; it can't be loaded as a fixture
       // because fixtures don't evaluate JS.

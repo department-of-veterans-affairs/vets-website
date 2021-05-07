@@ -11,7 +11,7 @@ describe('MyVA Dashboard - Messaging', () => {
     beforeEach(() => {
       mockLocalStorage();
       const mockUser = makeUserObject({
-        messaging: true,
+        messaging: false,
         rx: true,
         isPatient: true,
       });
