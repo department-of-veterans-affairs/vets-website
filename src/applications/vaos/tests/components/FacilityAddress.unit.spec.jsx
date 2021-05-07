@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import FacilityAddress from '../../components/FacilityAddress';
-import { renderWithStoreAndRouter } from 'applications/vaos/tests/mocks/setup';
+import { renderWithStoreAndRouter } from '../../tests/mocks/setup';
 
 const facility = {
   id: '377c',
