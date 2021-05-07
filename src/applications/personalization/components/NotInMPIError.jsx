@@ -5,7 +5,7 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-const NotInMPIError = ({ level }) => {
+const NotInMPIError = ({ className, level }) => {
   const content = (
     <>
       <p>
@@ -19,16 +19,19 @@ const NotInMPIError = ({ level }) => {
   );
 
   return (
-    <AlertBox
-      headline="We’re having trouble verifying your identity"
-      content={content}
-      status="warning"
-      level={level}
-    />
+    <div className={className}>
+      <AlertBox
+        headline="We’re having trouble verifying your identity"
+        content={content}
+        status="warning"
+        level={level}
+      />
+    </div>
   );
 };
 
 NotInMPIError.propTypes = {
+  className: PropTypes.string,
   level: PropTypes.number.isRequired,
 };
 

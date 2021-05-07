@@ -29,6 +29,7 @@ import {
 import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 
 import NameTag from '~/applications/personalization/components/NameTag';
+import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
@@ -44,7 +45,6 @@ import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import MPIConnectionError from './MPIConnectionError';
-import NotInMPIError from './NotInMPIError';
 import CTALink from './CTALink';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {

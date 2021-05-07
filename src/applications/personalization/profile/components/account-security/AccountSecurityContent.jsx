@@ -16,10 +16,10 @@ import {
   signInServiceName as signInServiceNameSelector,
 } from 'platform/user/authentication/selectors';
 
+import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import ProfileInfoTable from '../ProfileInfoTable';
 import TwoFactorAuthorizationStatus from './TwoFactorAuthorizationStatus';
-import NotInMPIError from './NotInMPIError';
 import MPIConnectionError from '../alerts/MPIConnectionError';
 import MHVTermsAndConditionsStatus from './MHVTermsAndConditionsStatus';
 import EmailAddressNotification from '../personal-information/email-addresses/EmailAddressNotification';
@@ -86,7 +86,12 @@ export const AccountSecurityContent = ({
         />
       )}
       {showMPIConnectionError && <MPIConnectionError />}
-      {showNotInMPIError && <NotInMPIError />}
+      {showNotInMPIError && (
+        <NotInMPIError
+          level={2}
+          className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--4"
+        />
+      )}
       <ProfileInfoTable data={securitySections} fieldName="accountSecurity" />
       <AlertBox
         status="info"
