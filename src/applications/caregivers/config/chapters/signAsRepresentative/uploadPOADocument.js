@@ -1,31 +1,8 @@
-// import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import environment from 'platform/utilities/environment';
 import { representativeFields } from 'applications/caregivers/definitions/constants';
 import { RepresentativeDocumentUploadDescription } from 'applications/caregivers/components/AdditionalInfo';
-// import recordEvent from 'platform/monitoring/record-event';
-
-// const { representative } = fullSchema.properties;
-// const veteranProps = veteran.properties;
-// const { address, phone } = fullSchema.definitions;
-
-const attachmentsSchema = {
-  type: 'array',
-  minItems: 1,
-  maxItems: 1,
-  items: {
-    type: 'object',
-    required: ['guid'],
-    properties: {
-      guid: {
-        type: 'string',
-        format: 'uuid',
-      },
-    },
-  },
-};
-
-// const { poaAttachmentId } = fullSchema.properties;
+import recordEvent from 'platform/monitoring/record-event';
 
 export default {
   uiSchema: {
@@ -52,15 +29,15 @@ export default {
         return payload;
       },
       parseResponse: fileInfo => {
-        /* TODO need to figure out why this is failing 
-           I think there are more required attributes for UI */
+        recordEvent({
+          'caregivers-poa-document-guid': fileInfo.data.attributes.guid,
+          'caregivers-poa-document-confirmation-code': fileInfo.data.id,
+        });
         return {
           guid: fileInfo.data.attributes.guid,
           confirmationCode: fileInfo.data.id,
+          name: 'Legal representative documentation',
         };
-      },
-      attachmentSchema: {
-        'ui:title': 'Document type',
       },
       attachmentName: {
         'ui:title': 'Document name',
@@ -70,7 +47,24 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      [representativeFields.documentUpload]: attachmentsSchema,
+      [representativeFields.documentUpload]: {
+        type: 'array',
+        minItems: 1,
+        maxItems: 1,
+        items: {
+          type: 'object',
+          required: ['guid', 'name'],
+          properties: {
+            guid: {
+              type: 'string',
+              format: 'uuid',
+            },
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
     },
   },
 };
