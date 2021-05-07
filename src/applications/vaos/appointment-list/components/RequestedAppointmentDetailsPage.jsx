@@ -9,6 +9,7 @@ import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
   FETCH_STATUS,
+  GA_PREFIX,
 } from '../../utils/constants';
 import { lowerCase } from '../../utils/formatters';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -29,7 +30,9 @@ import {
   closeCancelAppointment,
   confirmCancelAppointment,
   fetchRequestDetails,
+  startNewAppointmentFlow,
 } from '../redux/actions';
+import recordEvent from 'platform/monitoring/record-event';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -156,10 +159,29 @@ export default function RequestedAppointmentDetailsPage() {
               available appointment.
               <br />
               <div className=" vads-u-margin-top--1">
-                <Link to="/">View your appointments</Link>
+                <Link
+                  to="/"
+                  onClick={() => {
+                    recordEvent({
+                      event: `${GA_PREFIX}-view-your-appointments-button-clicked`,
+                    });
+                  }}
+                >
+                  View your appointments
+                </Link>
               </div>
               <div className=" vads-u-margin-top--1">
-                <Link to="/new-appointment">New appointment</Link>
+                <Link
+                  to="/new-appointment"
+                  onClick={() => {
+                    recordEvent({
+                      event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
+                    });
+                    dispatch(startNewAppointmentFlow());
+                  }}
+                >
+                  New appointment
+                </Link>
               </div>
             </>
           )}
