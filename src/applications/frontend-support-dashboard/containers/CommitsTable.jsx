@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { vetsWebsiteInfo } from '../definitions/constants';
-
 export default function CommitsTable({
-  appsDevBuildText,
+  repo,
+  devBuildText,
   stagingBuildText,
   prodBuildText,
   commits,
 }) {
-  const devRows = appsDevBuildText.split('\n').filter(x => x) || [];
+  const devRows = devBuildText.split('\n').filter(x => x) || [];
   const stagingRows = stagingBuildText.split('\n').filter(x => x);
   const prodRows = prodBuildText.split('\n').filter(x => x);
 
@@ -21,11 +20,11 @@ export default function CommitsTable({
 
   return (
     <div>
-      <h2>{vetsWebsiteInfo.repo} BUILD.txt files</h2>
+      <h2>{repo.repo} BUILD.txt files</h2>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <div>
           <h4>
-            <a href={vetsWebsiteInfo.devBuildText}>Dev</a>
+            <a href={repo.devBuildText}>Dev</a>
           </h4>
           {devRows.map(info => {
             return <div key={info}>{info}</div>;
@@ -33,7 +32,7 @@ export default function CommitsTable({
         </div>
         <div>
           <h4>
-            <a href={vetsWebsiteInfo.stagingBuildText}>Staging</a>
+            <a href={repo.stagingBuildText}>Staging</a>
           </h4>
           {stagingRows.map(info => {
             return <div key={info}>{info}</div>;
@@ -41,7 +40,7 @@ export default function CommitsTable({
         </div>
         <div>
           <h4>
-            <a href={vetsWebsiteInfo.prodBuildText}>Prod</a>
+            <a href={repo.prodBuildText}>Prod</a>
           </h4>
           {prodRows.map(info => {
             return <div key={info}>{info}</div>;

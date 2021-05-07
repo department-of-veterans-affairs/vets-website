@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import CommitsTable from './CommitsTable';
-import { vetsWebsiteInfo } from '../definitions/constants';
+import { vetsWebsiteInfo, contentBuildInfo } from '../definitions/constants';
 
 async function fetchDashboardData(repo) {
   // https://dmitripavlutin.com/javascript-fetch-async-await/#5-parallel-fetch-requests
@@ -39,7 +39,12 @@ export default function App({ children }) {
   const [appsStagingBuildText, setAppsStagingBuildText] = useState('');
   const [appsProdBuildText, setAppsProdBuildText] = useState('');
   const [appsCommits, setAppsCommits] = useState([]);
+  const [contentDevBuildText, setContentDevBuildText] = useState('');
+  const [contentStagingBuildText, setContentStagingBuildText] = useState('');
+  const [contentProdBuildText, setContentProdBuildText] = useState('');
+  const [contentCommits, setContentCommits] = useState([]);
 
+  // Fetches vets-website
   React.useEffect(function fetchComponentData() {
     fetchDashboardData(vetsWebsiteInfo)
       .then(function handleSuccess(allData) {
@@ -60,15 +65,45 @@ export default function App({ children }) {
       });
   }, []);
 
+  // Fetches content-build
+  React.useEffect(function fetchComponentData() {
+    fetchDashboardData(contentBuildInfo)
+      .then(function handleSuccess(allData) {
+        const {
+          devBuildText,
+          stagingBuildText,
+          prodBuildText,
+          commits,
+        } = allData;
+        setContentDevBuildText(devBuildText);
+        setContentStagingBuildText(stagingBuildText);
+        setContentProdBuildText(prodBuildText);
+        setContentCommits(commits);
+        return allData;
+      })
+      .catch(function handleError(error) {
+        console.log(error); // eslint-disable-line no-console
+      });
+  }, []);
+
   return (
     <div className="row">
       <h1>Frontend Support Dashboard</h1>
 
       <CommitsTable
-        appsDevBuildText={appsDevBuildText}
+        repo={vetsWebsiteInfo}
+        devBuildText={appsDevBuildText}
         stagingBuildText={appsStagingBuildText}
         prodBuildText={appsProdBuildText}
         commits={appsCommits}
+      />
+
+      <CommitsTable
+        repo={contentBuildInfo}
+        devBuildText={contentDevBuildText}
+        stagingBuildText={contentStagingBuildText}
+        prodBuildText={contentProdBuildText}
+        commits={contentCommits}
       />
 
       {children}
