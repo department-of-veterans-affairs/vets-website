@@ -154,7 +154,7 @@ class ResultsList extends Component {
           />
         );
       }
-    } else if (currentQuery.error && error.type === 'mapBox') {
+    } else if (currentQuery.error && currentQuery.error.type === 'mapBox') {
       return (
         <SearchResultMessage
           facilityType={facilityTypeName}
