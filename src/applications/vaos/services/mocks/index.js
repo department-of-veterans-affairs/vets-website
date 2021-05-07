@@ -113,16 +113,16 @@ export function generateMockFHIRSlots() {
  * options.groups: Any matched regex groups from the url
  */
 export default [
-  {
-    path: /vaos\/v0\/appointments.*type=cc.*/,
-    response: confirmedCC,
-    delay: 3000,
-  },
-  {
-    path: /vaos\/v0\/appointments\?.*type=va.*/,
-    response: confirmedVA,
-    delay: 3000,
-  },
+  // {
+  //   path: /vaos\/v0\/appointments.*type=cc.*/,
+  //   response: confirmedCC,
+  //   delay: 3000,
+  // },
+  // {
+  //   path: /vaos\/v0\/appointments\?.*type=va.*/,
+  //   response: confirmedVA,
+  //   delay: 3000,
+  // },
   {
     path: /vaos\/v0\/appointments\/va\/.*/,
     response: url => {
