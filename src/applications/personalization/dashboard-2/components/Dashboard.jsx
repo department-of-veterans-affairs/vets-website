@@ -29,6 +29,7 @@ import {
 import externalServiceStatus from '~/platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 
 import NameTag from '~/applications/personalization/components/NameTag';
+import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
@@ -44,7 +45,6 @@ import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderM
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
 import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
-import MPIConnectionError from './MPIConnectionError';
 import CTALink from './CTALink';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
@@ -168,9 +168,10 @@ const Dashboard = ({
 
               {showMPIConnectionError ? (
                 <div className="vads-l-row">
-                  <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <MPIConnectionError level={2} />
-                  </div>
+                  <MPIConnectionError
+                    className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3"
+                    level={2}
+                  />
                 </div>
               ) : null}
 
