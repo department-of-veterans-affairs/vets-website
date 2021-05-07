@@ -215,15 +215,16 @@ node('vetsgov-general-purpose') {
           throw error
         } finally {
           sh "docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          sh "docker-compose -p accessibility down --remove-orphans"
           // if (commonStages.IS_PROD_BRANCH && commonStages.VAGOV_BUILDTYPES.contains('vagovprod')) {
           //   sh "docker-compose -p accessibility down --remove-orphans"
           // }
-          sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          sh "docker-compose -p cypress2-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          sh "docker-compose -p cypress3-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // sh "docker-compose -p cypress2-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // sh "docker-compose -p cypress3-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
+          // sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
           step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
         }
       }
