@@ -5,6 +5,7 @@
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { VHA_FHIR_ID } from '../../utils/constants';
+import { arrayToObject, dedupeArray } from '../../utils/data';
 
 /**
  * Transforms /vaos/systems/983/direct_scheduling_facilities?type_of_care_id=323&parent_code=983GB to
@@ -258,35 +259,10 @@ export function transformATLASLocation(tasInfo) {
  * @param {Array} params.directSupportedFacilities An array of location ids that support direct scheduling for a particular type of care
  * @returns {Array} A location resource
  */
-export function setSupportedSchedulingMethods({
-  location,
-  requestFacilities,
-  directFacilities,
-} = {}) {
+export function setSupportedSchedulingMethods({ location, settings } = {}) {
   const id = location.id;
-  const requestSupported = {};
-  const directSchedulingSupported = {};
 
-  const facilityRequestSettings = requestFacilities.find(
-    facility => facility.id === id,
-  )?.requestSettings;
-  const facilityCoreSettings = directFacilities.find(
-    facility => facility.id === id,
-  )?.coreSettings;
-
-  if (facilityRequestSettings) {
-    facilityRequestSettings.forEach(typeOfCare => {
-      requestSupported[typeOfCare.id] = !!typeOfCare.patientHistoryRequired;
-    });
-  }
-
-  if (facilityCoreSettings) {
-    facilityCoreSettings.forEach(typeOfCare => {
-      directSchedulingSupported[
-        typeOfCare.id
-      ] = !!typeOfCare.patientHistoryRequired;
-    });
-  }
+  const facilitySettings = settings.find(f => f.id === id);
 
   const identifier = location.identifier;
   const vhaIdentifier = location.identifier.find(i => i.system === VHA_FHIR_ID);
@@ -304,8 +280,7 @@ export function setSupportedSchedulingMethods({
     identifier,
     legacyVAR: {
       ...location.legacyVAR,
-      requestSupported,
-      directSchedulingSupported,
+      settings: arrayToObject(facilitySettings.services),
     },
     managingOrganization: {
       reference: location.managingOrganization?.reference,
@@ -353,6 +328,61 @@ export function transformCommunityProviders(providers) {
           value: provider.caresitePhone,
         },
       ],
+    };
+  });
+}
+
+export function transformSettings([request = [], direct = []]) {
+  // Trying to handle if we get different sets of facilities from each setttings list
+  // by converting the lists to objects and creating a unique list of ids
+  const directSettings = arrayToObject(direct);
+  const requestSettings = arrayToObject(request);
+  const facilityIds = dedupeArray([
+    ...direct.map(d => d.id),
+    ...request.map(r => r.id),
+  ]);
+
+  return facilityIds.map(id => {
+    // Similar to above, trying to handle us potentially getting different sets of
+    // types of care between the two types of settings
+    const serviceIds = dedupeArray([
+      ...(directSettings[id]?.coreSettings.map(d => d.id) || []),
+      ...(requestSettings[id]?.requestSettings.map(r => r.id) || []),
+    ]);
+    const requestServiceSettings = arrayToObject(
+      requestSettings[id]?.requestSettings,
+    );
+    const directServiceSettings = arrayToObject(
+      directSettings[id]?.coreSettings,
+    );
+
+    return {
+      id,
+      services: serviceIds.map(serviceId => {
+        const directCareSettings = directServiceSettings[serviceId];
+        const requestCareSettings = requestServiceSettings[serviceId];
+
+        return {
+          id: serviceId,
+          name:
+            requestCareSettings?.typeOfCare || directCareSettings?.typeOfCare,
+          direct: {
+            enabled: !!directCareSettings?.patientHistoryRequired,
+            patientHistoryRequired:
+              directCareSettings?.patientHistoryRequired?.toLowerCase() ===
+              'yes',
+            patientHistoryDuration: directCareSettings?.patientHistoryDuration,
+          },
+          request: {
+            enabled: !!requestCareSettings?.patientHistoryRequired,
+            patientHistoryRequired:
+              requestCareSettings?.patientHistoryRequired?.toLowerCase() ===
+              'yes',
+            patientHistoryDuration: requestCareSettings?.patientHistoryDuration,
+            submittedRequestLimit: requestCareSettings?.submittedRequestLimit,
+          },
+        };
+      }),
     };
   });
 }

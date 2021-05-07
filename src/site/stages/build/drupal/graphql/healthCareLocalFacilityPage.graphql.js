@@ -79,6 +79,7 @@ const healthCareLocalFacilityPageFragment = `
     fieldLocalHealthCareService {
       entity {
         ... on NodeHealthCareLocalHealthService {
+          status        
           fieldBody {
             processed
           }
@@ -88,6 +89,7 @@ const healthCareLocalFacilityPageFragment = `
           {
             entity {
               ... on NodeRegionalHealthCareServiceDes {
+                status              
                 entityBundle
                 fieldBody {
                   processed

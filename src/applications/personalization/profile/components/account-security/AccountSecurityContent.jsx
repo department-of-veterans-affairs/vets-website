@@ -82,6 +82,7 @@ export const AccountSecurityContent = ({
               'additional-info': 'learn-more-identity',
             })
           }
+          level={2}
         />
       )}
       {showMPIConnectionError && <MPIConnectionError />}

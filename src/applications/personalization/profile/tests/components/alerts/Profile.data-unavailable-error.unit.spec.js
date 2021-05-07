@@ -94,17 +94,13 @@ async function errorAppearsOnAllPages(
   });
 }
 
-async function errorIsNotShownOnAnyPage(
-  pageNames = [
+async function errorIsNotShownOnAnyPage(initialState) {
+  const pageNames = [
     PROFILE_PATH_NAMES.MILITARY_INFORMATION,
     PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
     PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
     PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
-  ],
-) {
-  const initialState = createBasicInitialState();
-  initialState.user.profile.veteranStatus = null;
-
+  ];
   const view = render(<Profile isLOA3 isInMVI />, {
     initialState,
   });
@@ -144,16 +140,40 @@ describe('Profile "Not all data available" error', () => {
     expect(view.queryByTestId(ALERT_ID)).not.to.exist;
   });
 
-  it('should not be shown if there is a 500 error with the `GET service_history` endpoint and the user is not a vet', async () => {
-    server.use(...mocks.getServiceHistory500);
+  context('when veteranStatus is null', () => {
+    it('should not be shown if there is a 500 error with the `GET service_history` endpoint and the user is not a vet', async () => {
+      const initialState = createBasicInitialState();
+      initialState.user.profile.veteranStatus = null;
+      server.use(...mocks.getServiceHistory500);
 
-    await errorIsNotShownOnAnyPage();
+      await errorIsNotShownOnAnyPage(initialState);
+    });
+
+    it('should not be shown if there is a 401 error with the `GET service_history` endpoint and the user is not a vet', async () => {
+      const initialState = createBasicInitialState();
+      initialState.user.profile.veteranStatus = null;
+      server.use(...mocks.getServiceHistory401);
+
+      await errorIsNotShownOnAnyPage(initialState);
+    });
   });
 
-  it('should not be shown if there is a 401 error with the `GET service_history` endpoint and the user is not a vet', async () => {
-    server.use(...mocks.getServiceHistory401);
+  context('when veteranStatus.status is "NOT_AUTHORIZED"', () => {
+    it('should not be shown if there is a 500 error with the `GET service_history` endpoint and the user is not a vet', async () => {
+      const initialState = createBasicInitialState();
+      initialState.user.profile.veteranStatus.status = 'NOT_AUTHORIZED';
+      server.use(...mocks.getServiceHistory500);
 
-    await errorIsNotShownOnAnyPage();
+      await errorIsNotShownOnAnyPage(initialState);
+    });
+
+    it('should not be shown if there is a 401 error with the `GET service_history` endpoint and the user is not a vet', async () => {
+      const initialState = createBasicInitialState();
+      initialState.user.profile.veteranStatus.status = 'NOT_AUTHORIZED';
+      server.use(...mocks.getServiceHistory401);
+
+      await errorIsNotShownOnAnyPage(initialState);
+    });
   });
 
   it('should be shown on all pages if there is an error with the `GET full_name` endpoint', async () => {

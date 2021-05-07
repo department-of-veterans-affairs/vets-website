@@ -45,6 +45,7 @@ export const WaitTimeAlert = ({
         <AlertBox
           headline="Your appointment time"
           status={showUrgentCareMessage ? 'warning' : 'info'}
+          level={2}
           content={
             <>
               <p>

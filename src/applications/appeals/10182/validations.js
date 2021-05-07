@@ -11,7 +11,7 @@ export const requireIssue = (
   _schema,
   _uiSchema,
   _index,
-  { contestableIssues, additionalIssues },
+  { contestableIssues = [], additionalIssues = [] },
 ) => {
   if (!(someSelected(contestableIssues) || someSelected(additionalIssues))) {
     errors.addError(missingIssuesErrorMessage);

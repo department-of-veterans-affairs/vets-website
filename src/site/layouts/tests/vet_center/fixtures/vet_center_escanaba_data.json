@@ -98,6 +98,30 @@
       }
     ]
   },
+  "fieldCcNonTraditionalHours": {
+    "fetched": {
+      "field_wysiwyg": [
+        {
+          "value": "<p>We also have non-traditional hours that change periodically given our community’s needs. Please call us to find out more.&nbsp;</p>\r\n",
+          "format": "rich_text",
+          "processed": "<p>We also have non-traditional hours that change periodically given our community’s needs. Please call us to find out more. </p>"
+        }
+      ]
+    },
+    "fetchedBundle": "wysiwyg"
+  },
+  "fieldCcVetCenterCallCenter": {
+    "fetched": {
+      "field_wysiwyg": [
+        {
+          "value": "<p>If you need to talk with someone after hours, on weekends, or holidays, the Vet Center call center is available 24/7: 1-877-WAR-VETS (1-877-927-8387).</p>\r\n",
+          "format": "rich_text",
+          "processed": "<p>If you need to talk with someone after hours, on weekends, or holidays, the Vet Center call center is available 24/7: 1-877-WAR-VETS (1-877-927-8387).</p>"
+        }
+      ]
+    },
+    "fetchedBundle": "wysiwyg"
+  },
   "fieldPrepareForVisit": [
     {
       "entity": {

@@ -591,3 +591,12 @@ img[data-srcset] {
     width: 100%;
   }
 }
+._acs._acsbadge--default {
+  background-color: #000 !important;
+}
+
+.media-list-images {
+  @media (min-width: $small-screen) {
+    max-width: 50%;
+  }
+}

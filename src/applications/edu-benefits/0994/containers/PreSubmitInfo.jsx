@@ -1,5 +1,4 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 
 function PreSubmitNotice({
@@ -19,7 +18,7 @@ function PreSubmitNotice({
               best of your knowledge and belief
             </li>
             <li>
-              As an active duty servicemember, you have consulted with an
+              As an active-duty service member, you have consulted with an
               Education Service Officer (ESO) regarding your education program
             </li>
           </ul>
@@ -36,8 +35,7 @@ function PreSubmitNotice({
 
   return (
     <>
-      {/* prod flag for 23443 */}
-      {!environment.isProduction() && activeDutyNote}
+      {activeDutyNote}
       <PreSubmitInfo
         formData={formData}
         showError={showError}

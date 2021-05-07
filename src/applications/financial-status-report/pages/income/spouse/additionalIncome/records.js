@@ -23,10 +23,11 @@ export const uiSchema = {
           doNotScroll: true,
           showSave: true,
           itemName: 'income',
+          keepInPageOnReview: true,
         },
         items: {
           'ui:options': {
-            classNames: 'horizonal-field-container no-wrap',
+            classNames: 'horizontal-field-container no-wrap',
           },
           name: {
             'ui:title': 'Type of income',
@@ -61,7 +62,6 @@ export const schema = {
               type: 'array',
               items: {
                 type: 'object',
-                title: 'Additional income',
                 required: ['name', 'amount'],
                 properties: {
                   name: {

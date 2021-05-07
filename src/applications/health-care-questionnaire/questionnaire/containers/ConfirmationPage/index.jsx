@@ -23,7 +23,6 @@ const ConfirmationPage = props => {
     () => {
       clearCurrentSession(window);
       clearSelectedAppointmentData(window, appointment.id);
-      sessionStorage.setItem('mock-questionnaire-response-id', response.id);
       focusElement('h2.usa-alert-heading');
     },
     [appointment.id, response.id],

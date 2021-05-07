@@ -22,13 +22,14 @@ const focusFileCard = name => {
 export const evidenceUploadUI = {
   ...fileUiSchema(EvidenceUploadLabel, {
     fileUploadUrl: `${environment.API_URL}/v0/decision_review_evidence`,
-    addAnotherLabel: 'Add another document',
+    addAnotherLabel: 'Upload additional evidence',
+    buttonText: 'Upload evidence',
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     minSize: 1024,
-    createPayload: ({ name }) => {
+    createPayload: file => {
       const payload = new FormData();
-      payload.append('decision_review_evidence_attachment[file_data]', name);
+      payload.append('decision_review_evidence_attachment[file_data]', file);
       return payload;
     },
     parseResponse: (response, { name }) => {
