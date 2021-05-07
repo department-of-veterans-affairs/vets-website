@@ -95,34 +95,37 @@ export default function MobileLinks({ links, visible }) {
             id="veteran-language-support"
             aria-hidden="true"
           >
-            <div>
-              {[
-                {
-                  label: 'English',
-                  suffix: '/',
-                  lang: 'en',
-                },
-                {
-                  onThisPage: 'En esta página',
-                  label: 'Español',
-                  suffix: '-esp/',
-                  lang: 'es',
-                },
-                {
-                  suffix: '-tag/',
-                  label: 'Tagalog',
-                  onThisPage: 'Sa pahinang ito',
-                  lang: 'tl',
-                },
-              ].map((link, i) => (
-                <a
-                  key={i}
-                  href={link.href}
-                  // onClick={captureEvent}
-                >
-                  {link.label}
-                </a>
-              ))}
+            <div className="usa-grid usa-grid-full va-footer-links-bottom">
+              <ul>
+                {[
+                  {
+                    label: 'English',
+                    suffix: '/',
+                    lang: 'en',
+                  },
+                  {
+                    onThisPage: 'En esta página',
+                    label: 'Español',
+                    suffix: '-esp/',
+                    lang: 'es',
+                  },
+                  {
+                    suffix: '-tag/',
+                    label: 'Tagalog',
+                    onThisPage: 'Sa pahinang ito',
+                    lang: 'tl',
+                  },
+                ].map((link, i) => (
+                  <li key={i}>
+                    <a
+                      href={link.href}
+                      // onClick={captureEvent}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </li>
