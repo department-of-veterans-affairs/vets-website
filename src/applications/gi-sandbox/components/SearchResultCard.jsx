@@ -14,7 +14,7 @@ export function SearchResultCard({ institution, estimated }) {
     name,
     city,
     state,
-    giBillStudents,
+    studentCount,
     ratingAverage,
     ratingCount,
     accreditationType,
@@ -51,7 +51,7 @@ export function SearchResultCard({ institution, estimated }) {
         <div className={accreditationTypeClassNames}>Regionally accredited</div>
 
         <p>
-          <strong>GI Bill Students:</strong> {giBillStudents}
+          <strong>GI Bill Students:</strong> {studentCount}
         </p>
         {ratingCount > 0 ? (
           <div>
