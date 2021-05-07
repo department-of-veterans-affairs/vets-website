@@ -10,6 +10,7 @@ export const DEPENDENCY_VERIFICATION_CALL_FAILED =
 export const UPDATE_DIARIES_STARTED = 'UPDATE_DIARIES_STARTED';
 export const UPDATE_DIARIES_SUCCESS = 'UPDATE_DIARIES_SUCCESS';
 export const UPDATE_DIARIES_FAILED = 'UPDATE_DIARIES_FAILED';
+export const UPDATE_DIARIES_SKIP = 'UPDATE_DIARIES_SKIP';
 
 const getDependentsVerificationStatus = async () => {
   try {
@@ -37,31 +38,37 @@ export function getDependencyVerifications() {
   };
 }
 
-export function updateDiariesService() {
+export function updateDiariesService(shouldUpdate) {
   return async dispatch => {
-    dispatch({
-      type: UPDATE_DIARIES_STARTED,
-    });
-    try {
-      const response = await apiRequest(DEPENDENCY_VERIFICATION_URI, {
-        method: 'POST',
-        body: JSON.stringify({ updateDiaries: 'true' }),
-        credentials: 'include',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': localStorage.getItem('csrfToken'),
-        },
-      });
+    if (!shouldUpdate) {
       dispatch({
-        type: UPDATE_DIARIES_SUCCESS,
-        response,
+        type: UPDATE_DIARIES_SKIP,
       });
-    } catch (error) {
+    } else {
       dispatch({
-        type: UPDATE_DIARIES_FAILED,
-        error,
+        type: UPDATE_DIARIES_STARTED,
       });
+      try {
+        const response = await apiRequest(DEPENDENCY_VERIFICATION_URI, {
+          method: 'POST',
+          body: JSON.stringify({ updateDiaries: 'true' }),
+          credentials: 'include',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': localStorage.getItem('csrfToken'),
+          },
+        });
+        dispatch({
+          type: UPDATE_DIARIES_SUCCESS,
+          response,
+        });
+      } catch (error) {
+        dispatch({
+          type: UPDATE_DIARIES_FAILED,
+          error,
+        });
+      }
     }
   };
 }

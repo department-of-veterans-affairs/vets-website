@@ -5,6 +5,7 @@ export const CALLSTATUS = {
   pending: 'pending',
   success: 'success',
   failed: 'failed',
+  skip: 'skipped',
 };
 
 export const isServerError = errCode => SERVER_ERROR_REGEX.test(errCode);

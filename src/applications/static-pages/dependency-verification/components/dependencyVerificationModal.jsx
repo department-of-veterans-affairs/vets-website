@@ -19,11 +19,10 @@ const DependencyVerificationModal = props => {
     setIsModalShowing(false);
   };
 
-  // Wire this up to api call when it's ready
-  const handleCloseAndUpdateDiaries = () => {
+  const handleCloseAndUpdateDiaries = shouldUpdate => {
     setIsModalShowing(false);
     sessionStorage.setItem(RETRIEVE_DIARIES, 'false');
-    props.updateDiariesService();
+    props.updateDiariesService(shouldUpdate);
   };
   useEffect(() => {
     // user has clicked 'skip for now' or 'make changes' button
@@ -55,7 +54,6 @@ const DependencyVerificationModal = props => {
               dependents={props?.data?.verifiableDependents}
             />
             <DependencyVerificationFooter
-              handleClose={handleClose}
               handleCloseAndUpdateDiaries={handleCloseAndUpdateDiaries}
             />
           </>
