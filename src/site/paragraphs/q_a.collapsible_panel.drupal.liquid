@@ -1,59 +1,54 @@
 {% comment %}
-  <!--
-  looks like this format is not supported anymore
-  since q_a.collapsible_panel.drupal.liquid is called inside
-  q_a_section.drupal.liquid and is not being used anywhere
-  -->
-  Example data:
-  "entity": {
-    "parentFieldName": "field_questions",
-    "fieldQuestion": "How do I schedule my first appointment?",
-    "fieldAnswer": [
-      {
-        "entity": {
-          "entityBundle": "wysiwyg",
-          "fieldWysiwyg": {
-            "processed": "<p><strong>If you’re already using VA medical services,</strong>..."
-          }
-        }
-      }
-    ]
+Example data:
+"entity": {
+"parentFieldName": "field_questions",
+"fieldQuestion": "How do I schedule my first appointment?",
+"fieldAnswer": [
+{
+"entity": {
+"entityBundle": "wysiwyg",
+"fieldWysiwyg": {
+"processed": "<p><strong>If you’re already using VA medical services,</strong>..."
   }
-  Centralized content data:
-  CC data
+  }
+  }
+  ]
+  }
+  {% endcomment %}
 
-  {
-  "fetched": {
-    "field_accordion_display": [
-      {
-        "value": "1"
-      }
-    ],
-    "field_questions": [Questions GO HERE],
-    "field_section_header": [
-      {
-        "value": "How we're different than a clinic"
-      }
-    ],
-    "field_section_intro": [
-      {
-        "value": "Click on a topic for more details."
-      }
-    ]
-  },
-  "fetchedBundle": "q_a_section"
-}
-{% endcomment %}
+<div data-template="paragraphs/q_a.collapsible_panel">
+  <div class="usa-accordion">
+    <ul class="usa-unstyled-list">
+      {% assign questions = entity.fieldQuestions %}
+      {% assign sectionHeader = entity.fieldSectionHeader %}
 
-  {% for q in fetched.field_questions %}
-    <va-accordion bordered id="cc-question-accordion-{{ q.target_id }}">
-      <va-accordion-item id="cc-question-accordion-item-{{ q.target_id }}" header="{{ q.field_question.0.value }}"
-                         level="3">
-        {% for answer in q.field_answer %}
-          {% include "src/site/includes/dynamic-content.drupal.liquid" with
-            entity = answer
-            contentType = answer.bundle %}
-        {% endfor %}
-      </va-accordion-item>
-    </va-accordion>
-  {% endfor %}
+      {% for accordionItem in questions %}
+        {% assign item = accordionItem.entity %}
+        {% assign id= item.entityId | formatSharableLinkID: item.fieldQuestion   %}
+        <li id={{id}}
+            data-template="paragraphs/q_a.collapsible_panel__qa"
+            data-entity-id="{{ item.entityId }}"
+            data-analytics-faq-section="{{ sectionHeader | escape }}"
+            data-analytics-faq-text="{{ item.fieldQuestion | escape }}">
+          <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+            <button class="usa-accordion-button usa-button-unstyled" aria-controls="{{ item.entityBundle }}-{{ item.entityId }}">
+              <span itemprop="name">{{ item.fieldQuestion }}</span>
+
+            </button>
+            <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content">
+              <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
+                {% for answer in item.fieldAnswer %}
+                  {%  assign bundleComponent = "src/site/paragraphs/" | append: answer.entity.entityBundle | append: ".drupal.liquid" %}
+                  {% include {{ bundleComponent }} with entity = answer.entity %}
+                {% endfor %}
+              </div>
+
+              <div data-widget-type="sharable-link" parentId="{{id}}" ></div>
+            </div>
+          </div>
+
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>%}
