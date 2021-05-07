@@ -1382,9 +1382,9 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@git://github.com/department-of-veterans-affairs/component-library.git#14493-radio-button-label-fix-bsm":
+"@department-of-veterans-affairs/component-library@git://github.com/department-of-veterans-affairs/component-library#14493-radio-button-label-fix-bsm":
   version "2.5.1"
-  resolved "git://github.com/department-of-veterans-affairs/component-library.git#30a5eaba0b9d40cc72e4d84507e8ca31aa6235fb"
+  resolved "git://github.com/department-of-veterans-affairs/component-library#30a5eaba0b9d40cc72e4d84507e8ca31aa6235fb"
   dependencies:
     classnames "^2.2.6"
     core-js "^3.9.0"
