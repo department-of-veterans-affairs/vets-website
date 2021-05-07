@@ -3,7 +3,6 @@ import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import moment from 'moment';
 import React from 'react';
-import sinon from 'sinon';
 import ConfirmationPage from '../../../../new-appointment/components/ConfirmationPage';
 import { FETCH_STATUS, FLOW_TYPES } from '../../../../utils/constants';
 import {
@@ -79,10 +78,6 @@ const getInitialState = start => ({
     },
   },
 });
-
-const closeConfirmationPage = sinon.spy();
-const fetchFacilityDetails = sinon.spy();
-const startNewAppointmentFlow = sinon.spy();
 
 describe('VAOS <ConfirmationPage>', () => {
   it('should render appointment direct schedule view', async () => {
@@ -337,24 +332,17 @@ describe('VAOS <ConfirmationPage>', () => {
   });
 
   it('should render new appointment page when "New appointment" button is clicked', () => {
-    const flowType = FLOW_TYPES.REQUEST;
-    const data = {
+    const initialState = getInitialState(moment());
+    initialState.newAppointment.data = {
       typeOfCareId: '323',
       vaFacility: '983',
     };
+    initialState.newAppointment.flowType = FLOW_TYPES.REQUEST;
+    const store = createTestStore(initialState);
 
-    const screen = renderWithStoreAndRouter(
-      <noConnect.ConfirmationPage
-        submitStatus={FETCH_STATUS.succeeded}
-        fetchFacilityDetails={fetchFacilityDetails}
-        startNewAppointmentFlow={startNewAppointmentFlow}
-        flowType={flowType}
-        data={data}
-      />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
 
     // Simulate user clicking button
     const button = screen.getByText(/New appointment/i);
@@ -366,28 +354,17 @@ describe('VAOS <ConfirmationPage>', () => {
   });
 
   it('should render appointment list page when "View your appointments" button is clicked', () => {
-    const start = moment().tz('America/Denver');
-    const end = start;
-    const flowType = FLOW_TYPES.DIRECT;
-    const data = {
+    const initialState = getInitialState(moment());
+    initialState.newAppointment.data = {
       typeOfCareId: '323',
       vaFacility: '983',
     };
+    initialState.newAppointment.flowType = FLOW_TYPES.REQUEST;
+    const store = createTestStore(initialState);
 
-    const screen = renderWithStoreAndRouter(
-      <noConnect.ConfirmationPage
-        submitStatus={FETCH_STATUS.succeeded}
-        fetchFacilityDetails={fetchFacilityDetails}
-        closeConfirmationPage={closeConfirmationPage}
-        flowType={flowType}
-        data={data}
-        startNewAppointmentFlow={startNewAppointmentFlow}
-        slot={{ start, end }}
-      />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
 
     // Simulate user clicking button
     const button = screen.getByText(/View your appointments/i);
@@ -398,7 +375,9 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(screen.history.push.getCall(0).args[0]).to.equal('/');
   });
 
-  it('should redirect to new appointment page if no form data', async () => {
+  it('should redirect to new appointment page if not succeeded', async () => {
+    const initialState = getInitialState(moment());
+    initialState.newAppointment.submitStatus = FETCH_STATUS.notStarted;
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
       store,
