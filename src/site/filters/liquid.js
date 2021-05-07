@@ -758,20 +758,24 @@ module.exports = function registerFilters() {
     ccFeatureContent,
     featureContentArray,
   ) => {
-    if (!ccFeatureContent || !ccFeatureContent.fetched)
+    if (!ccFeatureContent || !ccFeatureContent.fetched) {
       return featureContentArray;
+    }
     /* eslint-disable camelcase */
     const {
       field_description,
       field_section_header,
       field_cta,
     } = ccFeatureContent.fetched;
+
+    if (!field_description || !field_section_header) return featureContentArray;
+
     const featureContentObj = {
       entity: {
         fieldDescription: {
-          processed: field_description[0].processed,
+          processed: field_description[0]?.processed,
         },
-        fieldSectionHeader: field_section_header[0].value,
+        fieldSectionHeader: field_section_header[0]?.value,
       },
     };
 

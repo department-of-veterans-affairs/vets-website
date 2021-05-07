@@ -3,6 +3,7 @@ import { expect, assert } from 'chai';
 
 import registerFilters from './liquid';
 import vetCenterData from '../layouts/tests/vet_center/fixtures/vet_center_escanaba_data';
+import featuredContentData from '../layouts/tests/vet_center/fixtures/featuredContentData.json';
 
 registerFilters();
 
@@ -442,5 +443,23 @@ describe('appendCentralizedFeaturedContent', () => {
         vetCenterData.fieldVetCenterFeatureContent,
       ).length,
     ).to.equal(3);
+  });
+
+  it('returns an array of featured content - field_description null', () => {
+    expect(
+      liquid.filters.appendCentralizedFeaturedContent(
+        featuredContentData.emptyFieldDescription,
+        vetCenterData.fieldVetCenterFeatureContent,
+      ).length,
+    ).to.equal(2);
+  });
+
+  it('returns an array of featured content - field_section_header null', () => {
+    expect(
+      liquid.filters.appendCentralizedFeaturedContent(
+        featuredContentData.emptySectionHeader,
+        vetCenterData.fieldVetCenterFeatureContent,
+      ).length,
+    ).to.equal(2);
   });
 });
