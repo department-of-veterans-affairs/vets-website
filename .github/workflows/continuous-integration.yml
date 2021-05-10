@@ -270,7 +270,7 @@ jobs:
           path: vets-website
 
       - name: echo head
-        run: echo $GITHUB_HEAD_REF
+        run: echo ${{ github.head_ref}}
 
       - name: Get branch name
         id: get-branch-name
