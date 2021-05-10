@@ -1,18 +1,23 @@
 import React from 'react';
 
-const DependencyVerificationFooter = ({
-  handleClose,
-  handleCloseAndUpdateDiaries,
-}) => {
+const DependencyVerificationFooter = ({ handleCloseAndUpdateDiaries }) => {
   return (
     <div>
       <button
         className="usa-button-secondary"
-        onClick={handleCloseAndUpdateDiaries}
+        onClick={() => {
+          handleCloseAndUpdateDiaries(true);
+        }}
       >
-        This is correct
+        My dependents are correct
       </button>
-      <button onClick={handleClose}>Make changes</button>
+      <button
+        onClick={() => {
+          handleCloseAndUpdateDiaries(false);
+        }}
+      >
+        I need to change my dependents
+      </button>
     </div>
   );
 };
