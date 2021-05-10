@@ -161,8 +161,23 @@ node('vetsgov-general-purpose') {
               // 'nightwatch-accessibility': {
               //     sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
               // },
-              cypress: {
-                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true vets-website run cy:test:docker"
+              'cypress-1': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=0 vets-website run cy:test:docker"
+              },     
+              'cypress-2': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress2-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=1 vets-website run cy:test:docker"
+              },
+              'cypress-3': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress3-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=2 vets-website run cy:test:docker"
+              },
+              'cypress-4': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress4-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=3 vets-website run cy:test:docker"
+              },
+              'cypress-5': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress5-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=4 vets-website run cy:test:docker"
+              },
+              'cypress-6': {
+                sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress6-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=5 vets-website run cy:test:docker"
               }
             )
           } else {
