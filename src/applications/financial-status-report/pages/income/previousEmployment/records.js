@@ -19,6 +19,7 @@ export const uiSchema = {
             doNotScroll: true,
             showSave: true,
             itemName: 'a job',
+            keepInPageOnReview: true,
           },
           items: {
             'ui:options': {
@@ -61,7 +62,6 @@ export const schema = {
                   type: 'array',
                   items: {
                     type: 'object',
-                    title: 'Previous employment',
                     required: ['type', 'from', 'to'],
                     properties: {
                       type: {

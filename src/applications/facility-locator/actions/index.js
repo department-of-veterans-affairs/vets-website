@@ -18,6 +18,7 @@ import {
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
   GEOCODE_CLEAR_ERROR,
+  GEOLOCATE_USER,
   MAP_MOVED,
 } from '../utils/actionTypes';
 import LocatorApi from '../api';
@@ -501,8 +502,9 @@ export const getProviderSpecialties = () => async dispatch => {
 };
 
 export const geolocateUser = () => async dispatch => {
+  const GEOLOCATION_TIMEOUT = 10000;
   if (navigator?.geolocation?.getCurrentPosition) {
-    dispatch({ type: GEOCODE_STARTED });
+    dispatch({ type: GEOLOCATE_USER });
     navigator.geolocation.getCurrentPosition(
       async currentPosition => {
         const query = await searchCriteraFromCoords(
@@ -515,6 +517,7 @@ export const geolocateUser = () => async dispatch => {
       e => {
         dispatch({ type: GEOCODE_FAILED, code: e.code });
       },
+      { timeout: GEOLOCATION_TIMEOUT },
     );
   } else {
     dispatch({ type: GEOCODE_FAILED, code: -1 });

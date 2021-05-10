@@ -21,6 +21,7 @@ export const uiSchema = {
       doNotScroll: true,
       showSave: true,
       itemName: 'utility',
+      keepInPageOnReview: true,
     },
     items: {
       'ui:options': {
@@ -52,7 +53,6 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Utility',
         required: ['utilityType', 'monthlyUtilityAmount'],
         properties: {
           utilityType: {

@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '../../constants';
 
 import mockUserNotInMPI from '../fixtures/users/user-not-in-mpi.json';
@@ -51,7 +50,6 @@ function test(mobile = false) {
 
 describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(mockUserNotInMPI);
   });
   it('should only have access to the Account Security section at desktop size', () => {

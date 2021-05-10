@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
 
 import mockUserNotInEVSS from '@@profile/tests/fixtures/users/user-non-vet.json';
@@ -80,9 +79,9 @@ function confirmDirectDepositIsBlocked() {
 describe('Direct Deposit', () => {
   let getPaymentInfoStub;
   beforeEach(() => {
-    disableFTUXModals();
     getPaymentInfoStub = cy.stub();
     cy.login();
+    cy.server();
     cy.route('GET', '/v0/feature_toggles*', dd4eduEnabled);
   });
   it('should be blocked if the user is not in EVSS and they are not signed up for DD4EDU', () => {
