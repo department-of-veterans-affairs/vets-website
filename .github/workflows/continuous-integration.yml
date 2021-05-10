@@ -315,7 +315,7 @@ jobs:
     name: Prearchive Optimizations
     runs-on: self-hosted
     # TODO: readd security-audit
-    needs: [unit-tests, linting, contract-tests, drupal-cache-test, build]
+    # needs: [unit-tests, linting, contract-tests, drupal-cache-test, build]
     defaults:
       run:
         working-directory: vets-website
@@ -362,6 +362,7 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
+        # TODO: Do we want to rerun build? Seems a bit irrelavent
       - name: Build
         run: yarn build --buildtype ${{ matrix.buildtype }} --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
         timeout-minutes: 30
