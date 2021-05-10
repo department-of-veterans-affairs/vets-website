@@ -22,7 +22,7 @@ node('vetsgov-general-purpose') {
   dockerContainer = commonStages.setup()
 
   stage('Main') {
-    timeout(60) {
+    timeout(30) {
       def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
       def assetSource = contentOnlyBuild ? ref : 'local'
 
