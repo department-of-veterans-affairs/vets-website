@@ -1,45 +1,36 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { cloneDeep } from 'lodash';
 
+import { setData } from 'platform/forms-system/src/js/actions';
 import SignatureCheckbox from './SignatureCheckbox';
 import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 import {
   PrivacyPolicy,
   veteranSignatureContent,
   primaryCaregiverContent,
-  secondaryCaregiverContent,
   signatureBoxNoteContent,
   representativeSignatureContent,
+  SecondaryCaregiverCopy,
+  veteranLabel,
+  primaryLabel,
+  representativeLabel,
+  secondaryOneLabel,
+  secondaryTwoLabel,
 } from 'applications/caregivers/definitions/content';
 
-const SecondaryCaregiverCopy = ({ label }) => {
-  const header = title => `${title} statement of truth`;
-  const firstParagraph = secondaryCaregiverContent[0];
-  const contentWithoutFirstParagraph = secondaryCaregiverContent.slice(1);
-
-  return (
-    <div>
-      <h3 className="vads-u-margin-top--4">{header(label)}</h3>
-
-      <p className="vads-u-margin-y--4">{firstParagraph}</p>
-
-      {contentWithoutFirstParagraph.map((secondaryContent, idx) => {
-        return <p key={`${label}-${idx}`}>{secondaryContent}</p>;
-      })}
-      <PrivacyPolicy />
-    </div>
-  );
-};
-
-const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
-  const veteranLabel = `Veteran\u2019s`;
-  const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
-  const representativeLabel = `Representative\u2019s`;
-  const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
-  const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
+const PreSubmitCheckboxGroup = ({
+  onSectionComplete,
+  formData,
+  showError,
+  submission,
+  setFormData,
+}) => {
   const hasPrimary = formData['view:hasPrimaryCaregiver'];
   const hasSecondaryOne = formData['view:hasSecondaryCaregiverOne'];
   const hasSecondaryTwo = formData['view:hasSecondaryCaregiverTwo'];
+  const hasSubmittedForm = !!submission.status;
   const showRepresentativeSignatureBox =
     formData.signAsRepresentativeYesNo === 'yes' ||
     formData.signAsRepresentativeYesNo === 'noRep';
@@ -54,14 +45,60 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
   );
 
   const [signatures, setSignatures] = useState({
-    [showRepresentativeSignatureBox
-      ? representativeLabel
-      : veteranLabel]: false,
+    [showRepresentativeSignatureBox ? representativeLabel : veteranLabel]: '',
   });
 
   const unSignedLength = Object.values(signatures).filter(
-    obj => Boolean(obj) === false,
+    signature => Boolean(signature) === false,
   ).length;
+
+  const transformSignatures = signature => {
+    const keys = Object.keys(signature);
+
+    // takes in labels and renames to what schema expects
+    const getKeyName = key => {
+      switch (key) {
+        case veteranLabel:
+          return 'veteran';
+        case representativeLabel:
+          return 'veteran';
+        case primaryLabel:
+          return 'primary';
+        case secondaryOneLabel:
+          return 'secondaryOne';
+        case secondaryTwoLabel:
+          return 'secondaryTwo';
+        default:
+          return null;
+      }
+    };
+
+    // iterates through all keys and normalizes them using getKeyName
+    const renameObjectKeys = (keysMap, obj) =>
+      Object.keys(obj).reduce((acc, key) => {
+        const cleanKey = `${getKeyName(key)}Signature`;
+        return {
+          ...acc,
+          ...{ [keysMap[cleanKey] || cleanKey]: obj[key] },
+        };
+      }, {});
+
+    return renameObjectKeys(keys, signatures);
+  };
+
+  useEffect(
+    () => {
+      // do not clear signatures once form has been submitted
+      if (hasSubmittedForm) return;
+
+      // Add signatures to formData before submission
+      setFormData({
+        ...formData,
+        ...transformSignatures(signatures),
+      });
+    },
+    [setFormData, signatures],
+  );
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
   // if goes to another page (unmount), set AGREED (onSectionComplete) to false
@@ -98,11 +135,6 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       removePartyIfFalsy(!showRepresentativeSignatureBox, veteranLabel);
     },
     [
-      veteranLabel,
-      primaryLabel,
-      secondaryOneLabel,
-      secondaryTwoLabel,
-      representativeLabel,
       hasPrimary,
       hasSecondaryOne,
       hasSecondaryTwo,
@@ -129,8 +161,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           fullName={formData.veteranFullName}
           label={representativeLabel}
           signatures={signatures}
-          setSignature={setSignatures}
+          setSignatures={setSignatures}
           showError={showError}
+          submission={submission}
           isRepresentative
           isRequired
         >
@@ -154,8 +187,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           fullName={formData.veteranFullName}
           label={veteranLabel}
           signatures={signatures}
-          setSignature={setSignatures}
+          setSignatures={setSignatures}
           showError={showError}
+          submission={submission}
           isRequired
         >
           <h3>Veteran&apos;s statement of truth</h3>
@@ -178,15 +212,16 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           fullName={formData.primaryFullName}
           label={primaryLabel}
           signatures={signatures}
-          setSignature={setSignatures}
+          setSignatures={setSignatures}
           showError={showError}
+          submission={submission}
           isRequired
         >
           <h3 className="vads-u-margin-top--4">
             Primary Family Caregiver applicant&apos;s statement of truth
           </h3>
 
-          <p className="vads-u-margin-y--4">{primaryFirstParagraph}</p>
+          <p className="vads-u-margin-y--2">{primaryFirstParagraph}</p>
 
           {primaryWithoutFirstParagraph.map((primaryContent, idx) => (
             <p key={`primary-signature-${idx}`}>{primaryContent}</p>
@@ -201,8 +236,9 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           fullName={formData.secondaryOneFullName}
           label={secondaryOneLabel}
           signatures={signatures}
-          setSignature={setSignatures}
+          setSignatures={setSignatures}
           showError={showError}
+          submission={submission}
           isRequired
         >
           <SecondaryCaregiverCopy label={secondaryOneLabel} />
@@ -214,9 +250,10 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
           fullName={formData.secondaryTwoFullName}
           label={secondaryTwoLabel}
           signatures={signatures}
-          setSignature={setSignatures}
-          isRequired
+          setSignatures={setSignatures}
           showError={showError}
+          submission={submission}
+          isRequired
         >
           <SecondaryCaregiverCopy label={secondaryTwoLabel} />
         </SignatureCheckbox>
@@ -227,13 +264,38 @@ const PreSubmitCheckboxGroup = ({ onSectionComplete, formData, showError }) => {
       </p>
 
       <div aria-live="polite">
-        <SubmitLoadingIndicator />
+        <SubmitLoadingIndicator submission={submission} />
       </div>
     </section>
   );
 };
 
+PreSubmitCheckboxGroup.propTypes = {
+  showError: PropTypes.bool.isRequired,
+  onSectionComplete: PropTypes.func.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  formData: PropTypes.object.isRequired,
+  submission: PropTypes.shape({
+    hasAttemptedSubmit: PropTypes.bool,
+    errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  }),
+};
+
+const mapStateToProps = state => {
+  return {
+    submission: state.form.submission,
+  };
+};
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
 export default {
   required: true,
-  CustomComponent: PreSubmitCheckboxGroup,
+  CustomComponent: connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(PreSubmitCheckboxGroup),
 };

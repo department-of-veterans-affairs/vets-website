@@ -2,7 +2,7 @@
 import chunk from 'lodash/chunk';
 
 // Relative Imports
-import { INITIAL_SORT_STATE, SORT_OPTIONS } from '../../constants';
+import { INITIAL_SORT_STATE, FAF_SORT_OPTIONS } from '../../constants';
 import { sortTheResults } from '../../helpers';
 import stub from '../../constants/stub.json';
 
@@ -86,10 +86,10 @@ describe('functionality of Find Forms', () => {
     cy.get(`${SELECTORS.SORT_SELECT_WIDGET}`);
     cy.get(`${SELECTORS.SORT_SELECT_WIDGET} option`).should(
       'have.length',
-      SORT_OPTIONS.length,
+      FAF_SORT_OPTIONS.length,
     );
     cy.get(`${SELECTORS.SORT_SELECT_WIDGET} option:first`)
       .should('be.selected')
-      .should('contain', SORT_OPTIONS[0]);
+      .should('contain', FAF_SORT_OPTIONS[0]);
   });
 });

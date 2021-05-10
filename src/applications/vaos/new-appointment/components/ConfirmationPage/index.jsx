@@ -1,23 +1,14 @@
 import React, { useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import {
-  selectFeatureHomepageRefresh,
-  selectUseProviderSelection,
-} from '../../../redux/selectors';
-import {
-  getAppointmentLength,
-  getFormData,
-  getFlowType,
-  getChosenClinicInfo,
-  getChosenFacilityDetails,
-  getSiteIdForChosenFacility,
-  getChosenSlot,
-} from '../../redux/selectors';
+import { selectFeatureHomepageRefresh } from '../../../redux/selectors';
+import { selectConfirmationPage } from '../../redux/selectors';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import * as actions from '../../redux/actions';
+import {
+  startNewAppointmentFlow,
+  fetchFacilityDetails,
+} from '../../redux/actions';
 import {
   FLOW_TYPES,
   FACILITY_TYPES,
@@ -28,19 +19,20 @@ import ConfirmationDirectScheduleInfo from './ConfirmationDirectScheduleInfo';
 import ConfirmationDirectScheduleInfoV2 from './ConfirmationDirectScheduleInfoV2';
 import ConfirmationRequestInfo from './ConfirmationRequestInfo';
 
-export function ConfirmationPage({
-  data,
-  facilityDetails,
-  clinic,
-  flowType,
-  slot,
-  systemId,
-  startNewAppointmentFlow,
-  fetchFacilityDetails,
-  useProviderSelection,
-  submitStatus,
-}) {
+export default function ConfirmationPage() {
+  const dispatch = useDispatch();
   const featureHomepageRefresh = useSelector(selectFeatureHomepageRefresh);
+  const {
+    data,
+    facilityDetails,
+    clinic,
+    flowType,
+    slot,
+    systemId,
+    useProviderSelection,
+    submitStatus,
+  } = useSelector(selectConfirmationPage, shallowEqual);
+
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
   const pageTitle = isDirectSchedule
     ? 'Your appointment has been scheduled'
@@ -51,7 +43,7 @@ export function ConfirmationPage({
       data?.vaFacility &&
       data?.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
     ) {
-      fetchFacilityDetails(data.vaFacility);
+      dispatch(fetchFacilityDetails(data.vaFacility));
     }
 
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -111,7 +103,7 @@ export function ConfirmationPage({
               recordEvent({
                 event: `${GA_PREFIX}-schedule-another-appointment-button-clicked`,
               });
-              startNewAppointmentFlow();
+              dispatch(startNewAppointmentFlow());
             }}
           >
             New appointment
@@ -121,35 +113,3 @@ export function ConfirmationPage({
     </div>
   );
 }
-
-ConfirmationPage.propTypes = {
-  data: PropTypes.object.isRequired,
-  facilityDetails: PropTypes.object,
-  clinic: PropTypes.object,
-};
-
-function mapStateToProps(state) {
-  const data = getFormData(state);
-
-  return {
-    data,
-    facilityDetails: getChosenFacilityDetails(state),
-    clinic: getChosenClinicInfo(state),
-    flowType: getFlowType(state),
-    appointmentLength: getAppointmentLength(state),
-    systemId: getSiteIdForChosenFacility(state),
-    slot: getChosenSlot(state),
-    useProviderSelection: selectUseProviderSelection(state),
-    submitStatus: state.newAppointment.submitStatus,
-  };
-}
-
-const mapDispatchToProps = {
-  startNewAppointmentFlow: actions.startNewAppointmentFlow,
-  fetchFacilityDetails: actions.fetchFacilityDetails,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConfirmationPage);

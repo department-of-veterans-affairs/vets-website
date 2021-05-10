@@ -1,0 +1,74 @@
+{
+    "emptyFieldDescription": {
+    "fetched": {
+      "field_cta": [
+        {
+          "target_id": "32956",
+          "target_revision_id": "291418",
+          "type": "paragraph",
+          "bundle": "button",
+          "pid": "32956",
+          "label": "National Vet Center content > Content > Call to Action",
+          "status": true,
+          "langcode": "en",
+          "field_button_label": [
+            {
+              "value": "Listen to the podcast"
+            }
+          ],
+          "field_button_link": [
+            {
+              "uri": "https://share.transistor.fm/s/fa73389e",
+              "title": "",
+              "options": []
+            }
+          ]
+        }
+      ],
+      "field_description": null,
+      "field_section_header": [
+        {
+          "value": "Borne the Battle Podcast: Vet Centers"
+        }
+      ]
+    },
+    "fetchedBundle": "featured_content"
+  },
+  "emptySectionHeader": {
+    "fetched": {
+      "field_cta": [
+        {
+          "target_id": "32956",
+          "target_revision_id": "291418",
+          "type": "paragraph",
+          "bundle": "button",
+          "pid": "32956",
+          "label": "National Vet Center content > Content > Call to Action",
+          "status": true,
+          "langcode": "en",
+          "field_button_label": [
+            {
+              "value": "Listen to the podcast"
+            }
+          ],
+          "field_button_link": [
+            {
+              "uri": "https://share.transistor.fm/s/fa73389e",
+              "title": "",
+              "options": []
+            }
+          ]
+        }
+      ],
+      "field_description": [
+        {
+          "value": "<p>A recent Borne the Battle episode discusses some of the unique and generous benefits that Vet Centers offer.</p>\r\n",
+          "format": "rich_text_limited",
+          "processed": "<p>A recent Borne the Battle episode discusses some of the unique and generous benefits that Vet Centers offer.</p>\n"
+        }
+      ],
+      "field_section_header": null
+    },
+    "fetchedBundle": "featured_content"
+  }
+}
