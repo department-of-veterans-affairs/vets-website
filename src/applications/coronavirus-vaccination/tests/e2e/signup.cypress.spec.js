@@ -135,9 +135,6 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.get('.vads-l-row').contains(
         'Thank you for signing up to stay informed about COVID-19 vaccines at VA',
       );
-      cy.get('.vads-l-row').contains(
-        'Your local VA health facility may also use the information you provided to determine when to contact you about getting a vaccine once your risk group becomes eligible',
-      );
     });
   });
 });
