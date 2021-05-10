@@ -42,6 +42,7 @@ const DependencyVerificationModal = props => {
         visible={isModalShowing}
         cssClass="va-modal-large vads-u-padding--1"
         id="dependency-verification"
+        title="Please make sure your dependents are correct"
         contents={
           <>
             <DependencyVerificationHeader />

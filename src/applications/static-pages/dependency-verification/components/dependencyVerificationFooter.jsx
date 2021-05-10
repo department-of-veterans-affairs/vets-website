@@ -10,9 +10,9 @@ const DependencyVerificationFooter = ({
         className="usa-button-secondary"
         onClick={handleCloseAndUpdateDiaries}
       >
-        This is correct
+        Verify this is correct
       </button>
-      <button onClick={handleClose}>Make changes</button>
+      <button onClick={handleClose}>Change dependents</button>
     </div>
   );
 };
