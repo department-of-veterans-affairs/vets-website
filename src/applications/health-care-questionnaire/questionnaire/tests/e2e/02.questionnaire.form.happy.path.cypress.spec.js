@@ -14,6 +14,9 @@ import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 
 import featureToggles from './fixtures/mocks/feature-toggles.enabled.json';
 
+import sipPutData from './fixtures/sip/put.json';
+import sipDeleteData from './fixtures/sip/delete.json';
+
 const testConfig = createTestConfig(
   {
     appName: 'healthcare-questionnaire',
@@ -26,6 +29,23 @@ const testConfig = createTestConfig(
     },
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+      cy.intercept('POST', '/health_quest/v0/questionnaire_manager', {
+        resourceType: 'QuestionnaireResponse',
+        id: 'b18e0750-456d-41c9-a1a7-753bf66165f2',
+        meta: {
+          tag: [],
+        },
+        text: {},
+        identifier: {},
+        questionnaire: 'Questionnaire/test-123',
+        status: 'completed',
+        subject: {},
+        authored: '2021-05-05T15:07:32+00:00',
+        source: {},
+        item: [],
+      });
+      cy.intercept('PUT', '/v0/in_progress_forms/**', sipPutData);
+      cy.intercept('DELETE', '/v0/in_progress_forms/**', sipDeleteData);
       cy.login(basicUser);
       disableFTUXModals();
 
@@ -56,29 +76,15 @@ const testConfig = createTestConfig(
         });
       },
       // 'reason-for-visit': ({afterHook}) => {  },
-      'review-and-submit': () => {
-        cy.route({
-          method: 'POST',
-          url: '/health_quest/v0/questionnaire_manager',
-          status: 200,
-          response: {
-            body: {
-              resourceType: 'QuestionnaireResponse',
-              id: 'b18e0750-456d-41c9-a1a7-753bf66165f2',
-              meta: {
-                tag: [],
-              },
-              text: {},
-              identifier: {},
-              questionnaire: 'Questionnaire/test-123',
-              status: 'completed',
-              subject: {},
-              authored: '2021-05-05T15:07:32+00:00',
-              source: {},
-              item: [],
-            },
-          },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.findAllByText(/submit/i, { selector: 'button' })
+            .first()
+            .click({ waitForAnimations: true });
         });
+      },
+      confirmation: () => {
+        cy.get('.usa-alert-heading').contains('has been sen');
       },
     },
     // disable all tests until we out of proof of concept stage
