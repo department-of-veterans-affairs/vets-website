@@ -26,8 +26,6 @@ The application has four major sections
   - The code for the appointment list and detail pages
 - /new-appointment
   - The code for the new appointment and request flows
-- /express-care
-  - The code for the new Express Care request flow
 - /project-cheetah
   - In progress vaccine appointment scheduling MVP
 
