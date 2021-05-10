@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import classNames from 'classnames';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 import SignatureInput from './SignatureInput';
@@ -11,38 +11,22 @@ const SignatureCheckbox = ({
   fullName,
   isRequired,
   label,
-  setSignature,
+  setSignatures,
   showError,
-  globalFormState,
+  submission,
   isRepresentative,
 }) => {
   const [hasError, setError] = useState(null);
-  const [isSigned, setIsSigned] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const isSignatureComplete = isSigned && isChecked;
-  const hasSubmit = !!globalFormState.submission.status;
-  const createInputLabel = inputLabel =>
-    isRepresentative
-      ? `Enter your name to sign as the Veteran's representative`
-      : `Enter ${inputLabel} full name`;
-
-  useEffect(
-    () => {
-      setSignature(prevState => {
-        return { ...prevState, [label]: isSignatureComplete };
-      });
-    },
-
-    [isSignatureComplete, label, setSignature],
-  );
+  const hasSubmittedForm = !!submission.status;
 
   useEffect(
     () => {
       setError(showError);
 
-      if (isChecked === true || hasSubmit) setError(false);
+      if (isChecked === true || hasSubmittedForm) setError(false);
     },
-    [showError, isChecked, hasSubmit],
+    [showError, isChecked, hasSubmittedForm],
   );
 
   return (
@@ -52,15 +36,16 @@ const SignatureCheckbox = ({
     >
       {children && <header>{children}</header>}
 
-      <section className="vads-u-display--flex">
+      <section className={classNames({ 'wide-input': isRepresentative })}>
         <SignatureInput
-          setIsSigned={setIsSigned}
-          label={createInputLabel(label)}
+          label={label}
           fullName={fullName}
           required={isRequired}
           showError={showError}
-          hasSubmit={hasSubmit}
+          hasSubmittedForm={hasSubmittedForm}
           isRepresentative={isRepresentative}
+          setSignatures={setSignatures}
+          isChecked={isChecked}
         />
 
         {isRepresentative && (
@@ -92,24 +77,17 @@ const SignatureCheckbox = ({
 };
 
 SignatureCheckbox.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
   fullName: PropTypes.object.isRequired,
-  isRequired: PropTypes.bool,
   label: PropTypes.string.isRequired,
-  setSignature: PropTypes.func.isRequired,
+  setSignatures: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
-  signatures: PropTypes.object.isRequired,
-  globalFormState: PropTypes.object.isRequired,
+  submission: PropTypes.object.isRequired,
+  isRequired: PropTypes.bool,
   isRepresentative: PropTypes.bool,
 };
 
-const mapStateToProps = state => {
-  return {
-    globalFormState: state.form,
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  null,
-)(SignatureCheckbox);
+export default SignatureCheckbox;
