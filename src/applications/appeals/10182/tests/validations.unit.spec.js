@@ -1,12 +1,11 @@
 import { expect } from 'chai';
 
 import { requireIssue, optInValidation } from '../validations';
-import { missingIssuesErrorMessage } from '../content/contestableIssues';
 import { optInErrorMessage } from '../content/OptIn';
 import { SELECTED } from '../constants';
 
 describe('requireIssue validation', () => {
-  const _ = null; // placeholder
+  const _ = undefined; // placeholder
 
   let errorMessage = '';
   const errors = {
@@ -21,7 +20,8 @@ describe('requireIssue validation', () => {
 
   it('should show an error if no issues are selected', () => {
     requireIssue(errors, _, _, _, _, _, {});
-    expect(errorMessage).to.equal(missingIssuesErrorMessage);
+    // errorMessage will contain JSX
+    expect(errorMessage).to.not.equal('');
   });
 
   it('should show an error if no issues are selected', () => {
@@ -30,7 +30,8 @@ describe('requireIssue validation', () => {
       additionalIssues: [{ [SELECTED]: false }, {}],
     };
     requireIssue(errors, _, _, _, _, _, data);
-    expect(errorMessage).to.equal(missingIssuesErrorMessage);
+    // errorMessage will contain JSX
+    expect(errorMessage).to.not.equal('');
   });
 
   it('should not show an error if a single contestable issue is selected', () => {
