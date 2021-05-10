@@ -311,6 +311,14 @@ jobs:
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
 
+      - name: Upload build
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: ./build
+          retention-days: 1
+
   prearchive:
     name: Prearchive Optimizations
     runs-on: self-hosted
@@ -355,6 +363,11 @@ jobs:
         run: yarn install --frozen-lockfile --prefer-offline
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: ./build
 
       - name: Prearchive
         run: node ./script/prearchive.js --buildtype=${{ matrix.buildtype }}
