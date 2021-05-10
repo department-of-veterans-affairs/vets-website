@@ -8,7 +8,7 @@ const reportPath = `./logs/${envName}-broken-links.json`;
 const SERVER_URL = `${process.env.GITHUB_SERVER_URL}/${
   process.env.GITHUB_REPOSITORY
 }/actions/runs/${process.env.GITHUB_RUN_ID}`;
-const BRANCH_NAME = process.env.GITHUB_HEAD_REF;
+const BRANCH_NAME = process.env.github.head_ref;
 const IS_PROD_BRANCH = BRANCH_NAME === 'master';
 const maxBrokenLinks = 10;
 
@@ -36,6 +36,8 @@ if (fs.existsSync(reportPath)) {
     }`,
   );
 
+  console.log(`::set-output name=SLACK_MESSAGE::${message}`);
+
   if (!IS_PROD_BRANCH && !contentOnlyBuild) {
     // Ignore the results of the broken link checker unless
     // we are running either on the master branch or during
@@ -49,6 +51,5 @@ if (fs.existsSync(reportPath)) {
     throw new Error('Broken links found');
   }
 
-  console.log(`::set-output name=SLACK_MESSAGE::${message}`);
   console.log(`::set-output name=SLACK_COLOR::${color}`);
 }
