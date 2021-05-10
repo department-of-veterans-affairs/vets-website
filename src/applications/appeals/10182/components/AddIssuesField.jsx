@@ -38,7 +38,7 @@ const AddIssuesField = props => {
   const initialEditingState = uiOptions.setInitialEditMode?.(formData);
   // Editing state: 1 = new edit, true = update edit & false = view state
   const [editing, setEditing] = useState(
-    initialEditingState.length ? initialEditingState : [1],
+    initialEditingState?.length ? initialEditingState : [1],
   );
 
   const toggleSelection = (indexToChange, checked) => {
@@ -184,6 +184,7 @@ const AddIssuesField = props => {
     const className = [
       'review-row',
       'additional-issue',
+      'editing',
       first ? '' : 'vads-u-background-color--gray-lightest',
       first ? 'vads-u-border-top--0' : '',
       first ? 'vads-u-padding--0' : 'vads-u-padding--3',
