@@ -92,7 +92,7 @@ const IntroductionPage = props => {
           If you’re not sure this is the right form, you can{' '}
           <Link
             aria-describedby="vre-orientation-return"
-            to="/orientation"
+            to="/start"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-start-over',

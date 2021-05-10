@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -50,6 +50,15 @@ function FormApp(props) {
     </>
   );
 
+  // workaround for removing wizard status on nav away
+  useEffect(() => {
+    return () => {
+      if (!loggedIn && sessionStorage.getItem(WIZARD_STATUS)) {
+        sessionStorage.removeItem(WIZARD_STATUS);
+      }
+    };
+  });
+
   if (isLoading || chapter31Feature === undefined) {
     return <LoadingIndicator message="Loading your information..." />;
   }
@@ -79,7 +88,7 @@ function FormApp(props) {
   // if a user has not done the wizard, send them there.
   // else if a user is trying to access parts of the form unauthenticated, redirect them to the intro page.
   if (!wizardStatus) {
-    router.push('/orientation');
+    router.push('/start');
     return <LoadingIndicator message="Loading VRE Orientation..." />;
   } else if (!loggedIn && CHAPTER_NAMES.includes(formPath)) {
     router.push('/introduction');

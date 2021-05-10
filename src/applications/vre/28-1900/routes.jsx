@@ -5,7 +5,7 @@ import FormApp from './containers/FormApp.jsx';
 
 const routes = [
   {
-    path: '/orientation',
+    path: '/start',
     component: App,
   },
   {
