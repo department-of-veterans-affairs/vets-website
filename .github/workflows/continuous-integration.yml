@@ -311,14 +311,6 @@ jobs:
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
 
-      - name: Upload build
-        if: ${{ success() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: build
-          path: build
-          retention-days: 1
-
   prearchive:
     name: Prearchive Optimizations
     runs-on: self-hosted
@@ -336,10 +328,15 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     steps:
+      - name: Checkout vagov-content
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/vagov-content
+          path: vagov-content
+
       - name: Checkout vets-website
         uses: actions/checkout@v2
         with:
-          repository: department-of-veterans-affairs/vets-website
           path: vets-website
 
       - name: Get Node version
@@ -365,10 +362,11 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - uses: actions/download-artifact@v2
-        with:
-          name: build
-          path: ./build
+      - name: Build
+        run: yarn build --buildtype ${{ matrix.buildtype }} --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
+        timeout-minutes: 30
+        env:
+          NODE_ENV: production
 
       - name: Prearchive
         run: node ./script/prearchive.js --buildtype=${{ matrix.buildtype }}
