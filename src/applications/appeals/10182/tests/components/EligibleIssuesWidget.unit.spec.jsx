@@ -90,7 +90,7 @@ describe('<EligibleIssuesWidget>', () => {
   });
 
   it('should show a message when no issues found', () => {
-    const props = getProps();
+    const props = getProps({ review: true });
     const wrapper = mount(<EligibleIssuesWidget {...props} value={[]} />);
     expect(wrapper.find('dt').text()).to.contain('No eligible issues found');
     wrapper.unmount();
