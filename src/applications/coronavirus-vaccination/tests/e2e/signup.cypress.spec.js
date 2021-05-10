@@ -138,12 +138,6 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.get('.vads-l-row').contains(
         'Your local VA health facility may also use the information you provided to determine when to contact you about getting a vaccine once your risk group becomes eligible',
       );
-      cy.get('.vads-l-row').contains(
-        'Your local VA health facility may contact you by phone, email, or text message.',
-      );
-      cy.get('.vads-l-row').contains(
-        'By sharing your plans for getting a vaccine, you help us better plan our efforts',
-      );
     });
   });
 });
