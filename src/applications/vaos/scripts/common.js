@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
-const mocks = require('../services/mocks/mock-api-config.js');
+const mocks = require('../services/mocks/index.js');
+const delay = require('mocker-api/lib/delay');
 
 const responses = {
-  ...mocks,
+  ...delay(mocks, 1500),
   'GET /v0/user': {
     data: {
       attributes: {
