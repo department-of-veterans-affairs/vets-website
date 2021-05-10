@@ -5,12 +5,10 @@ import {
   getDependencyVerifications,
   updateDiariesService,
 } from '../actions/index';
-import { CALLSTATUS } from '../utils';
+import { CALLSTATUS, RETRIEVE_DIARIES } from '../utils';
 import DependencyVerificationHeader from './dependencyVerificationHeader';
 import DependencyVerificationList from './dependencyVerificationList';
 import DependencyVerificationFooter from './dependencyVerificationFooter';
-
-const RETRIEVE_DIARIES = 'retrieveDiaries';
 
 const DependencyVerificationModal = props => {
   const handleClose = () => {

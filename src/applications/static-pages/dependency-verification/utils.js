@@ -8,5 +8,7 @@ export const CALLSTATUS = {
   skip: 'skipped',
 };
 
+export const RETRIEVE_DIARIES = 'retrieveDiaries';
+
 export const isServerError = errCode => SERVER_ERROR_REGEX.test(errCode);
 export const isClientError = errCode => CLIENT_ERROR_REGEX.test(errCode);
