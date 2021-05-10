@@ -20,6 +20,7 @@ const DependencyVerificationModal = props => {
     sessionStorage.setItem(RETRIEVE_DIARIES, 'false');
     props.updateDiariesService(shouldUpdate);
   };
+
   useEffect(() => {
     // user has clicked 'skip for now' or 'make changes' button
     if (sessionStorage.getItem(RETRIEVE_DIARIES) === 'false') {
