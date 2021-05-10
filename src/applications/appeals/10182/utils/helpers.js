@@ -21,7 +21,7 @@ export const showAddIssueQuestion = ({ contestableIssues }) =>
   // additional issues yes/no question:
   // SHOW: if contestable issues selected. HIDE: if no contestable issues are
   // selected or, there are no contestable issues
-  contestableIssues?.length ? !someSelected(contestableIssues) : false;
+  contestableIssues?.length ? someSelected(contestableIssues) : false;
 
 // Simple one level deep check
 export const isEmptyObject = obj =>

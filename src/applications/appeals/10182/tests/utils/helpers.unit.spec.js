@@ -4,6 +4,7 @@ import { SELECTED } from '../../constants';
 import {
   someSelected,
   hasSomeSelected,
+  showAddIssueQuestion,
   isEmptyObject,
   setInitialEditMode,
 } from '../../utils/helpers';
@@ -44,6 +45,19 @@ describe('hasSomeSelected', () => {
     expect(
       testIssues([{}, { [SELECTED]: false }], [{}, {}, { [SELECTED]: false }]),
     ).to.be.false;
+  });
+});
+
+describe('showAddIssueQuestion', () => {
+  it('should show add issue question when contestable issues selected', () => {
+    expect(showAddIssueQuestion({ contestableIssues: [{ [SELECTED]: true }] }))
+      .to.be.true;
+  });
+  it('should not show add issue question when no issues or none selected', () => {
+    expect(showAddIssueQuestion({ contestableIssues: [] })).to.be.false;
+    expect(showAddIssueQuestion({ contestableIssues: [{}] })).to.be.false;
+    expect(showAddIssueQuestion({ contestableIssues: [{ [SELECTED]: false }] }))
+      .to.be.false;
   });
 });
 
