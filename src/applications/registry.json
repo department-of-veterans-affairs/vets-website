@@ -1062,7 +1062,7 @@
   {
     "appName": "Request a Board Appeal",
     "entryName": "10182-board-appeal",
-    "rootUrl": "/decision-reviews/board-appeal/request-board-review-form-10182",
+    "rootUrl": "/decision-reviews/board-appeal/request-board-appeal-form-10182",
     "template": {
       "title": "Request a Board Appeal",
       "heading": "Request a Board Appeal",
@@ -1083,7 +1083,7 @@
         },
         {
           "name": "Request a Board Appeal",
-          "path": "/decision-reviews/board-appeal/request-board-review-form-10182"
+          "path": "/decision-reviews/board-appeal/request-board-appeal-form-10182"
         }
       ]
     }
@@ -1094,7 +1094,22 @@
     "rootUrl": "/housing-assistance/home-loans/apply-lgy-form-1880",
     "template": {
       "vagovprod": false,
-      "layout": "page-react.html"
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "name": "Housing assistance",
+          "path": "/housing-assistance"
+        },
+        {
+          "name": "VA-backed home loans",
+          "path": "/housing-assistance/home-loans"
+        },
+        {
+          "name": "Apply for Certificate of Eligibility Form 26-1880",
+          "path": "/housing-assistance/home-loans/apply-lgy-form-1880"
+        }
+      ]
     }
   }
 ]

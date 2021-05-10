@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -7,7 +7,6 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
@@ -24,9 +23,6 @@ import {
 } from '../../../shared/utils/selectors';
 
 const IntroductionPage = props => {
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
   const { isLoggedIn, route, savedForms, formId } = props;
   const { appointment, location, organization } = props?.context;
   if (!appointment?.id) {
