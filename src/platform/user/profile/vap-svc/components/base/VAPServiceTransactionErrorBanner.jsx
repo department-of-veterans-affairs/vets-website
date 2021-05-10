@@ -64,7 +64,7 @@ export function VAProfileInitError(props) {
           </p>
           <p>
             To find out if this is about an account with the Department of
-            Defense: Call our MyVA411 main information line for help at
+            Defense, call our MyVA411 main information line for help at
             <Telephone contact={CONTACTS.HELP_DESK} />
             (TTY:{' '}
             <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
