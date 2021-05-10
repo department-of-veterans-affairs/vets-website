@@ -17,6 +17,7 @@
     "middle": "Geef",
     "last": "Goofus"
   },
+  "secondaryOneSignature": "George G Goofus",
   "secondaryOneDateOfBirth": "1932-05-12",
   "secondaryOneGender": "M",
   "view:hasSecondaryCaregiverOne": true,
@@ -33,6 +34,7 @@
     "first": "Mini",
     "last": "Mouse"
   },
+  "primarySignature": "Mini Mouse",
   "primaryDateOfBirth": "1928-11-18",
   "primaryGender": "F",
   "veteranLastTreatmentFacility": {
@@ -54,6 +56,7 @@
     "first": "Micky",
     "last": "Mouse"
   },
+  "veteranSignature": "Micky Mouse",
   "veteranSsnOrTin": "788775458",
   "veteranDateOfBirth": "1948-11-18",
   "veteranGender": "M",

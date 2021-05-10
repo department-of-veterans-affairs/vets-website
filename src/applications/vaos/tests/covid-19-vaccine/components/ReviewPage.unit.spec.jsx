@@ -105,16 +105,20 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     });
 
     await screen.findByText(/COVID-19 vaccine/i);
-    const [pageHeading, descHeading, facilityHeading] = screen.getAllByRole(
-      'heading',
-    );
+    const [
+      pageHeading,
+      descHeading,
+      dateHeading,
+      facilityHeading,
+    ] = screen.getAllByRole('heading');
     expect(pageHeading).to.contain.text('Review your appointment details');
     expect(descHeading).to.contain.text('COVID-19 vaccine');
     expect(descHeading).to.have.tagName('h2');
 
-    expect(screen.baseElement).to.contain.text(
+    expect(dateHeading).to.contain.text(
       start.format('dddd, MMMM DD, YYYY [at] h:mm a'),
     );
+    expect(dateHeading).to.have.tagName('h3');
 
     expect(facilityHeading).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('Some VA clinic');
