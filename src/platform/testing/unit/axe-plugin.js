@@ -1,6 +1,5 @@
-import axe from 'axe-core';
-
 module.exports = function(chai, utils) {
+  const axe = require('axe-core');
   const Assertion = chai.Assertion;
 
   utils.addMethod(chai.Assertion.prototype, 'accessible', function(

@@ -27,7 +27,6 @@ global.__MEGAMENU_CONFIG__ = null;
 
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
-chai.use(chaiAxe);
 
 function copyProps(src, target) {
   Object.defineProperties(target, {
@@ -156,6 +155,10 @@ function setupJSDom() {
 }
 
 setupJSDom();
+
+// This needs to be after JSDom has been setup, otherwise
+// axe has strange issues with globals not being set up
+chai.use(chaiAxe);
 
 export const mochaHooks = {
   beforeEach() {
