@@ -24,10 +24,11 @@ describe('Accessibility', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    // Start by long click and tab to access input location
+    // Verify Use My Location is first in tab order
     cy.get('#facility-search-controls').trigger('mousedown');
     cy.tab();
-    cy.get('#facility-search-controls').trigger('mouseleave');
+    cy.get('button.use-my-location-link').focused();
+    cy.tab();
 
     // Verify focused on input location
     cy.get('#street-city-state-zip').focused();
