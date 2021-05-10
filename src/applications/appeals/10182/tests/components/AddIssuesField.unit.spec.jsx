@@ -45,51 +45,50 @@ const getProps = ({
 });
 
 describe('<AddIssuesField>', () => {
-  // it('should render wrapper & add button', () => {
-  //   const wrapper = shallow(<AddIssuesField {...getProps()} />);
-  //   expect(wrapper.find('.additional-issues-wrap').length).to.equal(1);
-  //   // add button not visible while editing
-  //   expect(wrapper.find('.va-growable-add-btn').length).to.equal(0);
-  //   wrapper.unmount();
-  // });
-  // it('should render item cards', () => {
-  //   const formData = [
-  //     { issue: 'test', decisionDate: '2020-01-01' },
-  //     { issue: 'test2', decisionDate: '2020-01-02' },
-  //   ];
-  //   const wrapper = mount(<AddIssuesField {...getProps({ formData })} />);
+  it('should render wrapper & add button', () => {
+    const wrapper = shallow(<AddIssuesField {...getProps()} />);
+    expect(wrapper.find('.additional-issues-wrap').length).to.equal(1);
+    // add button not visible while editing
+    expect(wrapper.find('.va-growable-add-btn').length).to.equal(0);
+    wrapper.unmount();
+  });
+  it('should render item cards', () => {
+    const formData = [
+      { issue: 'test', decisionDate: '2020-01-01' },
+      { issue: 'test2', decisionDate: '2020-01-02' },
+    ];
+    const wrapper = mount(<AddIssuesField {...getProps({ formData })} />);
 
-  //   expect(wrapper.find('.widget-outline').length).to.equal(2);
-  //   expect(wrapper.find('button.edit').length).to.equal(2);
-  //   expect(wrapper.find('.va-growable-add-btn').length).to.equal(1);
-  //   wrapper.unmount();
-  // });
+    expect(wrapper.find('.widget-outline').length).to.equal(2);
+    expect(wrapper.find('button.edit').length).to.equal(2);
+    expect(wrapper.find('.va-growable-add-btn').length).to.equal(1);
+    wrapper.unmount();
+  });
 
-  // it('should render edit mode with update & remove button', () => {
-  //   const formData = [{ issue: '' }];
-  //   const wrapper = mount(<AddIssuesField {...getProps({ formData })} />);
+  it('should render edit mode with update & remove button', () => {
+    const formData = [{ issue: '' }];
+    const wrapper = mount(<AddIssuesField {...getProps({ formData })} />);
 
-  //   expect(wrapper.find('.editing fieldset').length).to.equal(1);
-  //   expect(wrapper.find('.schemaform-field-container').length).to.equal(1);
-  //   expect(wrapper.find('.va-growable-add-btn').length).to.equal(0);
-  //   expect(wrapper.find('button.update').length).to.equal(1);
-  //   // no remove button when editing the only issue
-  //   expect(wrapper.find('button.remove').length).to.equal(0);
-  //   wrapper.unmount();
-  // });
-  // it('should render 2 item cards with one in edit mode', () => {
-  //   const formData = [{ issue: 'test2', decisionDate: '2020-01-01' }, {}];
-  //   const wrapper = mount(<AddIssuesField {...getProps({ formData })} />);
+    expect(wrapper.find('.editing fieldset').length).to.equal(1);
+    expect(wrapper.find('.schemaform-field-container').length).to.equal(1);
+    expect(wrapper.find('.va-growable-add-btn').length).to.equal(0);
+    expect(wrapper.find('button.update').length).to.equal(1);
+    // no remove button when editing the only issue
+    expect(wrapper.find('button.remove').length).to.equal(0);
+    wrapper.unmount();
+  });
+  it('should render 2 item cards with one in edit mode', () => {
+    const formData = [{ issue: 'test2', decisionDate: '2020-01-01' }, {}];
+    const wrapper = mount(<AddIssuesField {...getProps({ formData })} />);
 
-  //   expect(wrapper.find('.editing').length).to.equal(2); // issues
-  //   expect(wrapper.find('.widget-outline').length).to.equal(1); // card
-  //   expect(wrapper.find('.editing').length).to.equal(1); // edit
-  //   expect(wrapper.find('button.update').length).to.equal(1);
-  //   expect(wrapper.find('button.remove').length).to.equal(1);
-  //   // add button not visible while editing
-  //   expect(wrapper.find('.va-growable-add-btn').length).to.equal(0);
-  //   wrapper.unmount();
-  // });
+    expect(wrapper.find('.widget-outline').length).to.equal(1); // card
+    expect(wrapper.find('.editing').length).to.equal(1); // edit
+    expect(wrapper.find('button.update').length).to.equal(1);
+    expect(wrapper.find('button.remove').length).to.equal(1);
+    // add button not visible while editing
+    expect(wrapper.find('.va-growable-add-btn').length).to.equal(0);
+    wrapper.unmount();
+  });
 
   describe('should handle', () => {
     it('edit', () => {
