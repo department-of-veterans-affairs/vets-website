@@ -28,7 +28,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.injectAxe();
       cy.axeCheck();
       cy.get('#covid-vaccination-heading-form').contains(
-        'Fill out the form below',
+        'Sign up for vaccine updates',
       );
 
       cy.findByLabelText(/First name/i)
