@@ -17,7 +17,7 @@ export const uiSchema = {
       'ui:description': NotificationText,
     },
     fullName: {
-      'ui:validation': [validateName],
+      'ui:validations': [validateName],
       first: {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'report674'),
