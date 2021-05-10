@@ -269,6 +269,9 @@ jobs:
         with:
           path: vets-website
 
+      - name: echo head
+        run: echo $GITHUB_HEAD_REF
+
       - name: Get branch name
         id: get-branch-name
         run: echo ::set-output name=BRANCH_NAME::$(echo $GITHUB_REF)
