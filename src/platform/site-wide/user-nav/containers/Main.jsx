@@ -24,6 +24,7 @@ import { selectUserGreeting } from '../selectors';
 import Loader from '../components/Loader';
 
 const AutoSSO = React.lazy(() => import('./AutoSSO'));
+
 const SessionTimeoutModal = React.lazy(() =>
   import(/* webpackPrefetch: true, webpackChunkName: "sessionTimeout" */ 'platform/user/authentication/components/SessionTimeoutModal'),
 );
