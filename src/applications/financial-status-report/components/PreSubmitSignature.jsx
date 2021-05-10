@@ -5,6 +5,20 @@ import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
+const privacyLabel = (
+  <span>
+    I have read and accept the
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      className="vads-u-margin-left--0p5"
+      href={`${environment.BASE_URL}/privacy-policy`}
+    >
+      privacy policy.
+    </a>
+  </span>
+);
+
 const PreSubmitSignature = ({
   formData,
   showError,
@@ -140,19 +154,6 @@ const PreSubmitSignature = ({
           <li>My bankruptcy history</li>
         </ul>
 
-        <p>
-          I have read and accept the
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            className="vads-u-margin-left--0p5"
-            href={`${environment.BASE_URL}/privacy-policy`}
-          >
-            privacy policy (opens in new tab)
-          </a>
-          .
-        </p>
-
         <TextInput
           additionalClass="signature-input"
           label={"Veteran's full name"}
@@ -177,6 +178,15 @@ const PreSubmitSignature = ({
         could affect our decision on this request. Penalties may include a fine,
         imprisonment, or both.
       </p>
+
+      <Checkbox
+        className="vads-u-margin-bottom--3"
+        checked={checked}
+        onValueChange={value => setChecked(value)}
+        label={privacyLabel}
+        errorMessage={checkboxError && 'Must accept by checking box'}
+        required
+      />
     </>
   );
 };
