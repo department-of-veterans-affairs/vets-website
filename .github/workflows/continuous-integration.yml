@@ -269,9 +269,6 @@ jobs:
         with:
           path: vets-website
 
-      - name: echo head
-        run: echo ${{ github.head_ref}}
-
       - name: Get branch name
         id: get-branch-name
         run: echo ::set-output name=BRANCH_NAME::$(echo $GITHUB_REF)
@@ -308,8 +305,8 @@ jobs:
 
       - name: Broken link checks
         id: get-broken-link-info
-        run: node ./script/github-actions/check-broken-links.js -b ${{ steps.get-branch-name.outputs.BRANCH_NAME }} -p ./logs/${{ matrix.buildtype }}-broken-links.json -e ${{ matrix.buildtype }} -s $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+        run: node ./script/github-actions/check-broken-links.js -e ${{ matrix.buildtype }}
 
       - name: Slack notification
-        if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
+        if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined || ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }} != undefined
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
