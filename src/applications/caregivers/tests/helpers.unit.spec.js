@@ -34,6 +34,7 @@ describe('Caregivers helpers', () => {
       'address',
       'primaryPhoneNumber',
       'fullName',
+      'signature',
       'ssnOrTin',
       'dateOfBirth',
       'gender',
@@ -44,6 +45,7 @@ describe('Caregivers helpers', () => {
       'primaryPhoneNumber',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
       'gender',
     ]);
@@ -71,6 +73,7 @@ describe('Caregivers helpers', () => {
       'address',
       'primaryPhoneNumber',
       'fullName',
+      'signature',
       'ssnOrTin',
       'dateOfBirth',
       'gender',
@@ -81,6 +84,7 @@ describe('Caregivers helpers', () => {
       'email',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
       'gender',
     ]);
@@ -109,6 +113,7 @@ describe('Caregivers helpers', () => {
       'address',
       'primaryPhoneNumber',
       'fullName',
+      'signature',
       'ssnOrTin',
       'dateOfBirth',
       'gender',
@@ -119,6 +124,7 @@ describe('Caregivers helpers', () => {
       'primaryPhoneNumber',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
       'gender',
     ]);
@@ -128,6 +134,7 @@ describe('Caregivers helpers', () => {
       'email',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
       'gender',
     ]);
@@ -156,6 +163,7 @@ describe('Caregivers helpers', () => {
       'address',
       'primaryPhoneNumber',
       'fullName',
+      'signature',
       'ssnOrTin',
       'dateOfBirth',
       'gender',
@@ -166,6 +174,7 @@ describe('Caregivers helpers', () => {
       'primaryPhoneNumber',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
       'gender',
     ]);
@@ -175,6 +184,7 @@ describe('Caregivers helpers', () => {
       'email',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
     ]);
     expect(secondaryTwoKeys).to.deep.equal([
@@ -183,6 +193,7 @@ describe('Caregivers helpers', () => {
       'email',
       'vetRelationship',
       'fullName',
+      'signature',
       'dateOfBirth',
       'gender',
     ]);
