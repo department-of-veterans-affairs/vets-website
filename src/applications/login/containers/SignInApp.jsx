@@ -11,6 +11,7 @@ import environment from 'platform/utilities/environment';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 import downtimeBanners from '../utilities/downtimeBanners';
+import Loader from 'platform/site-wide/user-nav/components/Loader';
 
 const AutoSSO = React.lazy(() =>
   import(/* webpackChunkName: "autoSSO" */ 'platform/site-wide/user-nav/containers/AutoSSO'),
@@ -82,7 +83,7 @@ class SignInPage extends React.Component {
     const loggedOut = query.auth === 'logged_out';
 
     return (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <AutoSSO />
         <div className="row">
           {loggedOut && <LogoutAlert />}
