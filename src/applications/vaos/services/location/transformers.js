@@ -193,7 +193,9 @@ export function transformFacility(facility) {
       {
         system: 'covid',
         value: facility.detailedServices
-          ? facility.detailedServices[0]?.appointmentPhones[0]?.number
+          ? facility.detailedServices.find(
+              service => service.name === 'COVID-19 vaccines',
+            )?.appointmentPhones[0]?.number
           : null,
       },
     ],
