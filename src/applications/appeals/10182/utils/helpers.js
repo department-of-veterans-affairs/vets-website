@@ -3,9 +3,6 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { SELECTED } from '../constants';
 
-export const someSelected = issues =>
-  (issues || []).some(issue => issue[SELECTED]);
-
 // checks
 export const hasRepresentative = formData => formData['view:hasRep'];
 export const canUploadEvidence = formData =>
@@ -14,17 +11,15 @@ export const needsHearingType = formData =>
   formData.boardReviewOption === 'hearing';
 export const wantsToUploadEvidence = formData =>
   canUploadEvidence(formData) && formData['view:additionalEvidence'];
-
-export const hasSomeSelected = ({
-  contestableIssues = [],
-  additionalIssues = [],
-}) => someSelected(contestableIssues) || someSelected(additionalIssues);
-export const showAddIssueQuestion = formData => hasSomeSelected(formData);
 export const showAddIssues = formData => formData['view:hasIssuesToAdd'];
 
-export const noticeOfDisagreementFeature = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.form10182Nod];
+export const someSelected = issues =>
+  (issues || []).some(issue => issue[SELECTED]);
+export const hasSomeSelected = ({ contestableIssues, additionalIssues } = {}) =>
+  someSelected(contestableIssues) || someSelected(additionalIssues);
+export const showAddIssueQuestion = formData => hasSomeSelected(formData);
 
+// Simple one level deep check
 export const isEmptyObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
     ? Object.keys(obj)?.length === 0 || false
@@ -40,3 +35,6 @@ export const appStateSelector = state => ({
   contestableIssues: state.form?.data?.contestableIssues || [],
   additionalIssues: state.form?.data?.additionalIssues || [],
 });
+
+export const noticeOfDisagreementFeature = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.form10182Nod];

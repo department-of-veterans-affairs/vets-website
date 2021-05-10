@@ -1,12 +1,58 @@
 import { expect } from 'chai';
 
-import { isEmptyObject, setInitialEditMode } from '../../utils/helpers';
+import { SELECTED } from '../../constants';
+import {
+  someSelected,
+  hasSomeSelected,
+  isEmptyObject,
+  setInitialEditMode,
+} from '../../utils/helpers';
+
+describe('someSelected', () => {
+  it('should return true for issues that have some selected values', () => {
+    expect(someSelected([{ [SELECTED]: true }, {}])).to.be.true;
+    expect(someSelected([{}, { [SELECTED]: true }, {}])).to.be.true;
+    expect(someSelected([{}, {}, {}, { [SELECTED]: true }])).to.be.true;
+  });
+  it('should return false for issues with no selected values', () => {
+    expect(someSelected()).to.be.false;
+    expect(someSelected([])).to.be.false;
+    expect(someSelected([{}, {}])).to.be.false;
+    expect(someSelected([{}, { [SELECTED]: false }, {}])).to.be.false;
+    expect(someSelected([{}, {}, {}, { [SELECTED]: false }])).to.be.false;
+  });
+});
+
+describe('hasSomeSelected', () => {
+  const testIssues = (contestableIssues, additionalIssues) =>
+    hasSomeSelected({ contestableIssues, additionalIssues });
+  it('should return true for issues that have some selected values', () => {
+    expect(testIssues([{ [SELECTED]: true }], [{}])).to.be.true;
+    expect(testIssues([{}], [{ [SELECTED]: true }, {}])).to.be.true;
+    expect(testIssues([{}], [{}, {}, { [SELECTED]: true }])).to.be.true;
+    expect(
+      testIssues([{}, { [SELECTED]: true }], [{}, {}, { [SELECTED]: true }]),
+    ).to.be.true;
+  });
+  it('should return false for no selected issues', () => {
+    expect(testIssues()).to.be.false;
+    expect(testIssues([], [])).to.be.false;
+    expect(testIssues([{}], [{}])).to.be.false;
+    expect(testIssues([{ [SELECTED]: false }], [{}])).to.be.false;
+    expect(testIssues([{}], [{ [SELECTED]: false }, {}])).to.be.false;
+    expect(testIssues([{}], [{}, {}, { [SELECTED]: false }])).to.be.false;
+    expect(
+      testIssues([{}, { [SELECTED]: false }], [{}, {}, { [SELECTED]: false }]),
+    ).to.be.false;
+  });
+});
 
 describe('isEmptyObject', () => {
   it('should return true for an empty object', () => {
     expect(isEmptyObject({})).to.be.true;
   });
   it('should return true for non objects or filled objects', () => {
+    expect(isEmptyObject()).to.be.false;
     expect(isEmptyObject('')).to.be.false;
     expect(isEmptyObject([])).to.be.false;
     expect(isEmptyObject('test')).to.be.false;
