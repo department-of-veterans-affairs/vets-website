@@ -88,7 +88,6 @@
               %}
           </div>
 
-
             {% if fieldPrepareForVisit.length > 0 %}
                 <h2 id="prepare-for-your-visit" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">Prepare for your visit</h2>
@@ -104,11 +103,12 @@
                 </div>
             {% endif %}
 
-          <h2 id="in-the-spot-light" class="vads-u-margin-top--0 vads-u-font-size--lg
+            {% assign allFeaturedContent = fieldCcVetCenterFeaturedCon | appendCentralizedFeaturedContent: fieldVetCenterFeatureContent %}
+            <h2 id="in-the-spot-light" class="vads-u-margin-top--0 vads-u-font-size--lg
           small-screen:vads-u-font-size--xl vads-u-margin-bottom--2">In the spotlight at {{ entityLabel }} </h2>
             <div class="field-vet-center-feature-content">
                 <ul class="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
-                    {% for entity in fieldVetCenterFeatureContent %}
+                    {% for entity in allFeaturedContent %}
                         {% include "src/site/includes/vet_center_featured_content.liquid" with
                             entity = entity.entity
                         %}
@@ -131,10 +131,20 @@
                 typeOfCare = "other"
             %}
 
-            {% if fieldCcVetCenterFaqs.fetched.field_section_header.0.value != empty %}
-                <h2 id="how-different-than-clinic" class="vads-u-margin-top--0 vads-u-font-size--lg
-          small-screen:vads-u-font-size--xl vads-u-margin-bottom--2"> {{ fieldCcVetCenterFaqs.fetched.field_section_header.0.value }}</h2>
-                <p> {{ fieldCcVetCenterFaqs.fetched.field_section_intro.0.value }} </p>
+            {% if fieldCcVetCenterFaqs.fetched %}
+                {% if fieldCcVetCenterFaqs.fetched.field_section_header.0.value != empty %}
+                    <h2 id="field-cc-content-faq-heading"
+                        class="vads-u-margin-top--0 vads-u-font-size--lg small-screen:vads-u-font-size--xl vads-u-margin-bottom--2"> 
+                          {{ fieldCcVetCenterFaqs.fetched.field_section_header.0.value }}
+                    </h2>
+                    <p> {{ fieldCcVetCenterFaqs.fetched.field_section_intro.0.value }} </p>
+                {% endif %}
+                <div class="vads-u-margin-bottom--3" id="field-vet-center-faqs">
+                    {% include "src/site/paragraphs/q_a.accordion_panel.drupal.liquid" with
+                        fetched = fieldCcVetCenterFaqs.fetched
+                        fetchedBundle = fieldCcVetCenterFaqs.fetchedBundle
+                    %}
+                </div>
             {% endif %}
 
         </article>
