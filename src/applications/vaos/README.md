@@ -62,7 +62,7 @@ Those services are:
   - Source for video and VistA appointments
 - var-resources (VAMF)
   - Scheduling and requests related endpoints
-- Mobile facilties service (VAMF)
+- Mobile facilities service (VAMF)
   - Request and direct scheduling settings by facility
 - VA facilities service (Lighthouse)
   - VA facility data
