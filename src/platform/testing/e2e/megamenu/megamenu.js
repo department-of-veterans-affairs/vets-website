@@ -107,7 +107,7 @@ function testDataDrivenMegamenu(client, path) {
       'css selector',
       '#vetnav-careers-and-employment-ms .column-one > ul > li.mm-link-container',
       results => {
-        client.expect(results.value.length).to.equal(4);
+        client.expect(results.value.length).to.equal(3);
       },
     )
     .elements(
