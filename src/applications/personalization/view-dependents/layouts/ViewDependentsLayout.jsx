@@ -41,7 +41,7 @@ function ViewDependentsLayout(props) {
         loading={props.loading}
         onAwardDependents={props.onAwardDependents}
         notOnAwardDependents={props.notOnAwardDependents}
-        dependencyVerificationToggle
+        dependencyVerificationToggle={props.dependencyVerificationToggle}
       />
     );
   }
