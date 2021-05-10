@@ -379,6 +379,7 @@
     "**/http-proxy": "^1.18.1",
     "**/hosted-git-info": "^3.0.8",
     "**/node-forge": "^0.10.0",
+    "**/postcss": "^8.2.10",
     "**/axios": "^0.21.1",
     "**/elliptic": "^6.5.4",
     "**/netmask": "^2.0.1",
