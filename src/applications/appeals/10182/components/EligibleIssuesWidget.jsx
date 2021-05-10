@@ -49,14 +49,14 @@ const EligibleIssuesWidget = props => {
   const hasSelected = someSelected(value);
 
   if (!itemsLength) {
-    return (
+    return onReviewPage && inReviewMode ? (
       <>
         <dt>
           <strong>No eligible issues found</strong>
         </dt>
         <dd />
       </>
-    );
+    ) : null; // h2 shown on page (not review & submit page)
   }
 
   if (onReviewPage && inReviewMode && !hasSelected) {

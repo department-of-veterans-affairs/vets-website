@@ -17,7 +17,11 @@ export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);
 export const hasSomeSelected = ({ contestableIssues, additionalIssues } = {}) =>
   someSelected(contestableIssues) || someSelected(additionalIssues);
-export const showAddIssueQuestion = formData => hasSomeSelected(formData);
+export const showAddIssueQuestion = ({ contestableIssues }) =>
+  // additional issues yes/no question:
+  // SHOW: if contestable issues selected. HIDE: if no contestable issues are
+  // selected or, there are no contestable issues
+  contestableIssues?.length ? !someSelected(contestableIssues) : false;
 
 // Simple one level deep check
 export const isEmptyObject = obj =>
