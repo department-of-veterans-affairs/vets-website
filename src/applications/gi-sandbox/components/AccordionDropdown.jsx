@@ -4,7 +4,6 @@ const AccordionDropdown = ({
   children,
   buttonLabel,
   buttonOnClick,
-  displayCancel,
   label,
   name,
   onOpen,
@@ -37,33 +36,30 @@ const AccordionDropdown = ({
           <label>{label}</label>
         </div>
       </div>
+      <div>
+        {isOpen && (
+          <div className="accordion-dropdown-out vads-u-padding-x--0p25 vads-u-padding-top--0 vads-u-padding-bottom--2 vads-u-background-color--gray-lightest">
+            <div className="vads-u-padding-x--5  vads-u-background-color--white vads-u-padding-top--1">
+              <form>
+                {children}
 
-      {isOpen && (
-        <div className="accordion-dropdown-out">
-          <form>
-            {children}
-
-            <div className="footer-controls">
-              {displayCancel && (
-                <span className="cancel" onClick={toggleExpanded}>
-                  Cancel
-                </span>
-              )}
-
-              {displayButton && (
-                <button
-                  type="button"
-                  id="update-benefits-button"
-                  className="calculate-button"
-                  onClick={buttonOnClick}
-                >
-                  {buttonLabel}
-                </button>
-              )}
+                <div className="footer-controls">
+                  {displayButton && (
+                    <button
+                      type="button"
+                      id="update-benefits-button"
+                      className="calculate-button"
+                      onClick={buttonOnClick}
+                    >
+                      {buttonLabel}
+                    </button>
+                  )}
+                </div>
+              </form>
             </div>
-          </form>
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
