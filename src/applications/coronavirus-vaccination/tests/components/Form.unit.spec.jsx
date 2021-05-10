@@ -45,7 +45,7 @@ describe('<Form/>', () => {
       reducers: reducer,
     });
 
-    screen.getByText('Fill out the form below');
+    screen.getByText('Sign up for vaccine updates');
     await screen.findByLabelText('Social Security number (SSN)');
     screen.getByLabelText('Last name', { exact: false });
     screen.getByLabelText('First name', { exact: false });
