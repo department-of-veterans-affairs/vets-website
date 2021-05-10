@@ -32,13 +32,11 @@ function test(mobile = false) {
   );
 
   // Should show a "not in MPI" error
-  cy.findByText(/We can’t match your information to our records/i)
+  cy.findByText(/We’re having trouble verifying your identity/i)
     .should('exist')
     .closest('.usa-alert-warning')
     .should('exist');
-  cy.findByText(
-    /We can’t give you access to your profile or account information/i,
-  )
+  cy.findByText(/we can’t give you access to VA.gov tools/i)
     .should('exist')
     .closest('.usa-alert-warning')
     .should('exist');

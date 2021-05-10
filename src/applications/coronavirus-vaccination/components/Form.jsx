@@ -83,7 +83,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         dependencies={[externalServices.vetextVaccine]}
       >
         <h1 id="covid-vaccination-heading-form" className="no-outline">
-          Fill out the form below
+          Sign up for vaccine updates
         </h1>
         {previouslySubmittedFormData ? (
           <p>
@@ -96,10 +96,24 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
           </p>
         ) : (
           <p>
-            We’ll share this information with your local VA health facility.
-            They may use this information to determine when to contact you about
-            getting your COVID-19 vaccine. We’ll also send you updates on our
-            vaccine plans.
+            <p>
+              <strong>
+                If you’re a Veteran who receives care at VA, you don’t need to
+                fill out this form to get your COVID-19 vaccine.
+              </strong>{' '}
+              You can call your nearest VA health facility, or go to the
+              facility’s vaccine clinic during walk-in hours.{' '}
+              <a href="/find-locations/?facilityType=health&serviceType=Covid19Vaccine">
+                Find VA facilities near you that offer COVID-19 vaccines
+              </a>
+            </p>
+            <p>
+              If you’re not ready to get your vaccine yet, sign up here to stay
+              informed about your options. We’ll send you updates about our
+              vaccine plans and other helpful information. We may also use your
+              information to contact you about your vaccine options. It's always
+              your choice if you want to get a vaccine.
+            </p>
           </p>
         )}
 
