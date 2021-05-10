@@ -223,7 +223,7 @@ describe('VAOS appointment list refresh', () => {
         .should('exist');
     });
 
-    it.skip('should navigate to requested appointment details', () => {
+    it('should navigate to requested appointment details', () => {
       cy.get('[data-cy=requested-appointment-list-item]')
         .first()
         .findByText(/Details/i)
@@ -254,7 +254,7 @@ describe('VAOS appointment list refresh', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('should navigate to requested appointment details', () => {
+    it.skip('should navigate to requested appointment details', () => {
       cy.get('[data-cy=appointment-list-item]')
         .first()
         .findByText(/Details/i)
