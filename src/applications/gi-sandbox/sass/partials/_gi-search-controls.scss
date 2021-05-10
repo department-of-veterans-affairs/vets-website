@@ -70,6 +70,41 @@
     color: $color-gray-medium;
   }
 }
+.accordion-dropdown-test {
+  border: 1px solid $color-gray;
+  position: relative;
+  min-width: 230px;
+  margin: 0.2em 0;
+
+  .opener {
+    label {
+      margin: 0px;
+      display: inline-block;
+    }
+
+    label:after{
+      color: $color-primary;
+      content: "\F107";
+      font-family: "Font Awesome 5 Free";
+      position: absolute;
+      font-style: normal;
+      right: 8px;
+      top: 5px;
+      width: 20px;
+      height: 100%;
+      font-weight: 900;
+      font-size: 150%;
+      pointer-events: none;
+    }
+
+    i {
+      font-size: 150% !important;
+      position: absolute;
+      right: 8px;
+      top: 5px;
+    }
+  }
+}
 
 .accordion-dropdown {
   border: 1px solid $color-gray;

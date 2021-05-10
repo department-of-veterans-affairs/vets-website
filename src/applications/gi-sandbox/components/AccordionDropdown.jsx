@@ -28,7 +28,7 @@ const AccordionDropdown = ({
   };
 
   return (
-    <div className="accordion-dropdown">
+    <div className="accordion-dropdown-test">
       <div
         className="vads-u-padding-x--1p5 vads-u-padding-y--1"
         onClick={toggleExpanded}
