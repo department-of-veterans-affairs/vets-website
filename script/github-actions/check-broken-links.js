@@ -1,25 +1,9 @@
 /* eslint-disable no-console */
-
 const fs = require('fs');
-// const commandLineArgs = require('command-line-args');
+
 const args = process.argv.slice(2);
-
-// const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-//   { name: 'branch', alias: 'b', type: String },
-//   { name: 'contentOnlyBuild', alias: 'c', type: Boolean, defaultValue: false },
-//   { name: 'envName', alias: 'e', type: String },
-//   { name: 'path', alias: 'p', type: String },
-//   { name: 'serverUrl', alias: 's', type: String },
-// ];
-
-console.log('args', args);
-
-// const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
 const envName = args[0];
 const contentOnlyBuild = !!args[1];
-// const reportPath = options.path;
-// const SERVER_URL = options.serverUrl;
-// const BRANCH_NAME = options.branch.replace('refs/heads/', ''); // format: refs/heads/*
 const reportPath = `./logs/${envName}-broken-links.json`;
 const SERVER_URL = `${process.env.GITHUB_SERVER_URL}/${
   process.env.GITHUB_REPOSITORY

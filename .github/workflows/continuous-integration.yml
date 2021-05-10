@@ -305,7 +305,7 @@ jobs:
 
       - name: Broken link checks
         id: get-broken-link-info
-        run: node ./script/github-actions/check-broken-links.js -e ${{ matrix.buildtype }}
+        run: node ./script/github-actions/check-broken-links.js ${{ matrix.buildtype }}
 
       - name: Slack notification
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined || ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }} != undefined
