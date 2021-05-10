@@ -18,6 +18,7 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import {
   getPatientTelecom,
   getVAAppointmentLocationId,
+  isValidCovidPhoneNumber,
 } from '../../services/appointment';
 import { selectRequestedAppointmentDetails } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
@@ -129,6 +130,9 @@ export default function RequestedAppointmentDetailsPage() {
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
   const provider = appointment.preferredCommunityCareProviders?.[0];
+  const isCovidVaccine = appointment.vaos.isCOVIDVaccine;
+  const hasCovidPhone = isValidCovidPhoneNumber(facility);
+  const showCovidPhone = isCovidVaccine && hasCovidPhone;
 
   return (
     <PageLayout>
@@ -178,6 +182,7 @@ export default function RequestedAppointmentDetailsPage() {
             facilityName={facility?.name}
             facilityId={facilityId}
             isHomepageRefresh
+            showCovidPhone={showCovidPhone}
           />
         )}
 

@@ -190,6 +190,12 @@ export function transformFacility(facility) {
         system: 'phone',
         value: facility.phone?.main,
       },
+      {
+        system: 'covid',
+        value: facility.detailedServices
+          ? facility.detailedServices[0]?.appointmentPhones[0]?.number
+          : null,
+      },
     ],
     address: facility.address?.physical
       ? {
@@ -211,7 +217,6 @@ export function transformFacility(facility) {
     managingOrganization: {
       reference: `Organization/${id.substr(0, 3)}`,
     },
-    detailedServices: facility.detailedServices,
   };
 }
 

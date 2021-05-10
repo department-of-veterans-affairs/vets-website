@@ -215,6 +215,17 @@ export function isVAPhoneAppointment(appointment) {
 }
 
 /**
+ * Returns whether or not the appointment is COVID vaccine appointment
+ *
+ * @export
+ * @param {Object} appointment A FHIR appointment resource
+ * @returns {Boolean} Whether or not the appointment is for COVID vaccine
+ */
+export function isCOVIDVaccineAppointment(appointment) {
+  return appointment?.vaos.isCOVIDVaccine;
+}
+
+/**
  * Returns the location ID of a VA appointment (in person or video)
  *
  * @export
@@ -241,6 +252,17 @@ export function getVAAppointmentLocationId(appointment) {
  */
 export function getPatientTelecom(appointment, system) {
   return appointment?.contact?.telecom.find(t => t.system === system)?.value;
+}
+
+/**
+ * Returns whether or not the facility has a COVID vaccine phone line
+ *
+ * @export
+ * @param {Object} facility A facility resource
+ * @returns {Boolean} Whether or not the facility has a COVID vaccine phone line
+ */
+export function isValidCovidPhoneNumber(facility) {
+  return !!facility?.telecom?.find(tele => tele.system === 'covid')?.value;
 }
 
 /**

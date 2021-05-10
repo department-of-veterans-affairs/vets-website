@@ -4,7 +4,6 @@ import { render } from '@testing-library/react';
 import { FETCH_STATUS } from '../../../../utils/constants';
 
 import NoValidVAFacilities from '../../../../new-appointment/components/VAFacilityPage/NoValidVAFacilities';
-import { renderWithStoreAndRouter } from 'applications/vaos/tests/mocks/setup';
 
 const parentDetails = {
   name: 'Cheyenne VA Medical Center',
@@ -71,19 +70,11 @@ describe('VAOS <NoValidVAFacilities>', () => {
   });
 
   it('should render facility info if parentDetails provided', () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
-
     const formContext = {
       typeOfCare: 'Mental health',
       parentDetails,
     };
-    const screen = renderWithStoreAndRouter(
-      <NoValidVAFacilities formContext={formContext} />,
-      {
-        initialState: '',
-        path: url,
-      },
-    );
+    const screen = render(<NoValidVAFacilities formContext={formContext} />);
 
     expect(
       screen.getByRole('heading', {
@@ -122,19 +113,12 @@ describe('VAOS <NoValidVAFacilities>', () => {
   });
 
   it('should render a link to facility locator if no parentDetails provided', () => {
-    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
     const formContext = {
       typeOfCare: 'Mental health',
       siteId: '442',
     };
 
-    const screen = renderWithStoreAndRouter(
-      <NoValidVAFacilities formContext={formContext} />,
-      {
-        initialState: '',
-        path: url,
-      },
-    );
+    const screen = render(<NoValidVAFacilities formContext={formContext} />);
 
     expect(
       screen.getByText(
