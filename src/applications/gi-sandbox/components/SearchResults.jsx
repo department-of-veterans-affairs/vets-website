@@ -125,7 +125,7 @@ export function SearchResults({
               </AccordionDropdown>
             </div>
           </div>
-          <div className="usa-width-two-thirds vads-u-margin-right--neg2">
+          <div className="usa-width-two-thirds ">
             <div className="vads-l-row vads-u-flex-wrap--wrap">
               {search.results.map(institution => (
                 <SearchResultCard

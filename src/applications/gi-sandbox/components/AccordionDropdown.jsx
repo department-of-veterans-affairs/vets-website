@@ -71,7 +71,7 @@ class AccordionDropdown extends React.Component {
         <button
           id={`${this.id}-button`}
           onClick={this.toggle}
-          className="usa-accordion-button vads-u-font-size--lg test"
+          className="usa-accordion-button vads-u-font-size--md"
           aria-expanded={expanded}
           aria-controls={this.id}
         >
