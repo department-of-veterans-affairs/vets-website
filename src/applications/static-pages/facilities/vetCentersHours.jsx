@@ -40,7 +40,7 @@ const VetCenterHours = props => {
   };
 
   const buildHoursSection = hours => {
-    const hoursListItems = [...hours.slice(-6), hours[0]].map(hourObj => (
+    const hoursListItems = hours.map(hourObj => (
       <li className="vads-u-margin-bottom--0" key={hourObj.day}>
         {buildHourItem(hourObj)}
       </li>
