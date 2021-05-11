@@ -8,8 +8,8 @@ const reportPath = `./logs/${envName}-broken-links.json`;
 const SERVER_URL = `${process.env.GITHUB_SERVER_URL}/${
   process.env.GITHUB_REPOSITORY
 }/actions/runs/${process.env.GITHUB_RUN_ID}`;
-const BRANCH_NAME = process.env.GITHUB_REF;
-const IS_PROD_BRANCH = BRANCH_NAME === 'master';
+const BRANCH_NAME = process.env.GITHUB_HEAD_REF;
+const IS_PROD_BRANCH = BRANCH_NAME.replace('refs/heads/', '') === 'master';
 const maxBrokenLinks = 10;
 
 console.log('branch_name', BRANCH_NAME);
