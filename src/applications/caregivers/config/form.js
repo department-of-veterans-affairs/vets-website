@@ -53,6 +53,8 @@ const {
   vetRelationship,
   ssn,
   fullName,
+  uuid,
+  signature,
 } = fullSchema.definitions;
 
 /* Chapters
@@ -90,15 +92,17 @@ const formConfig = {
     'Apply for the Program of Comprehensive Assistance for Family Caregivers',
   subTitle: 'Form 10-10CG',
   defaultDefinitions: {
-    address,
-    addressWithoutCountryUI,
-    date,
-    email,
     fullName,
+    ssn,
+    date,
     gender,
     phone,
-    ssn,
+    address,
+    addressWithoutCountryUI,
+    email,
     vetRelationship,
+    uuid,
+    signature,
   },
   chapters: {
     veteranChapter: {

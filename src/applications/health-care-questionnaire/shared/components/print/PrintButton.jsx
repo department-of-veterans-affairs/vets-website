@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { focusElement } from 'platform/utilities/ui';
 
-import ViewAndPrint from './ViewAndPrint';
+import LoadingMessage from './LoadingMessage';
 import PrintErrorMessage from './PrintErrorMessage';
+import ViewAndPrint from './ViewAndPrint';
 import recordEvent from 'platform/monitoring/record-event';
 import { TRACKING_PREFIX } from '../../constants/analytics';
 
@@ -23,6 +24,8 @@ export default function PrintButton({
   const handleClick = async () => {
     try {
       setisLoading(true);
+      focusElement('#loading-message');
+
       const resp = await loadPdfData(questionnaireResponseId);
       const blob = await resp.blob();
       openPdfInNewWindow(window, blob);
@@ -43,13 +46,7 @@ export default function PrintButton({
     return <PrintErrorMessage CallToAction={ErrorCallToAction} />;
   }
   if (isLoading) {
-    return (
-      <LoadingButton
-        isLoading={isLoading}
-        disabled
-        loadingText="Generating PDF"
-      />
-    );
+    return <LoadingMessage />;
   }
   return (
     <>

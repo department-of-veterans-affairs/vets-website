@@ -1,89 +1,88 @@
-// import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
+import React from 'react';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import environment from 'platform/utilities/environment';
 import { representativeFields } from 'applications/caregivers/definitions/constants';
 import { RepresentativeDocumentUploadDescription } from 'applications/caregivers/components/AdditionalInfo';
 import recordEvent from 'platform/monitoring/record-event';
 
-// const { representative } = fullSchema.properties;
-// const veteranProps = veteran.properties;
-// const { address, phone } = fullSchema.definitions;
+const createPayload = (file, formId, password) => {
+  const payload = new FormData();
+  payload.append('attachment[file_data]', file);
+  payload.append('form_id', formId);
+  payload.append('name', file.name);
 
-const attachmentsSchema = {
-  type: 'array',
-  minItems: 1,
-  items: {
-    type: 'object',
-    required: ['attachmentId', 'name'],
-    properties: {
-      name: {
-        type: 'string',
-      },
-      size: {
-        type: 'integer',
-      },
-      confirmationCode: {
-        type: 'string',
-      },
-      attachmentId: {
-        type: 'string',
-        enum: ['1', '2', '3', '4', '5', '6', '7'],
-        enumNames: [
-          'DD214',
-          'DD215 (used to correct or make additions to the DD214)',
-          'WD AGO 53-55 (report of separation used prior to 1950)',
-          'Other discharge papers (like your DD256, DD257, or NGB22)',
-          'Official documentation of a military award (like a Purple Heart, Medal of Honor, or Silver Star)',
-          'Disability rating letter from the Veterans Benefit Administration (VBA)',
-          'Other official military document',
-        ],
-      },
-    },
-  },
+  // password for encrypted PDFs
+  if (password) {
+    payload.append('attachment[password]', password);
+  }
+
+  return payload;
+};
+
+const parseResponse = (fileInfo, file) => {
+  recordEvent({
+    'caregivers-poa-document-guid': fileInfo.data.attributes.guid,
+    'caregivers-poa-document-confirmation-code': fileInfo.data.id,
+  });
+
+  return {
+    guid: fileInfo.data.attributes.guid,
+    confirmationCode: fileInfo.data.id,
+    name: file.name,
+  };
 };
 
 export default {
   uiSchema: {
-    'ui:title': '',
     'ui:description': RepresentativeDocumentUploadDescription(),
-    [representativeFields.documentUpload]: fileUploadUI('', {
-      buttonText: 'Upload',
-      classNames: 'poa-document-upload',
-      multiple: false,
-      fileUploadUrl: `${environment.API_URL}/v0/caregiver_attachments`,
-      fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
-      maxSize: 1024 * 1024 * 10,
-      hideLabelText: true,
-      createPayload: file => {
-        const payload = new FormData();
-        payload.append('caregiver_attachment[file_data]', file);
-        return payload;
+    'ui:title': () => (
+      <legend className="vads-u-font-size--h4">
+        Upload your legal representative documentation
+        <span className="vads-u-margin-left--0p5 vads-u-color--secondary-dark vads-u-font-size--sm vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </legend>
+    ),
+    [representativeFields.documentUpload]: fileUploadUI(
+      'Upload your legal representative documentation',
+      {
+        buttonText: 'Upload',
+        classNames: 'poa-document-upload',
+        multiple: false,
+        fileUploadUrl: `${environment.API_URL}/v0/form1010cg/attachments`,
+        fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
+        maxSize: 1024 * 1024 * 10,
+        hideLabelText: true,
+        createPayload,
+        parseResponse,
+        attachmentName: {
+          'ui:title': 'Document name',
+        },
       },
-      parseResponse: (response, file) => {
-        recordEvent({
-          'caregivers-poa-document-success': file.name,
-          'caregivers-poa-document-size': file.size,
-          'caregivers-poa-document-confirmation-code':
-            response.data.attributes.guid,
-        });
-        return {
-          name: file.name,
-          confirmationCode: response.data.attributes.guid,
-          size: file.size,
-        };
-      },
-      attachmentSchema: {
-        'ui:title': 'Document type',
-      },
-      attachmentName: {
-        'ui:title': 'Document name',
-      },
-    }),
+    ),
   },
   schema: {
     type: 'object',
+    required: [representativeFields.documentUpload],
     properties: {
-      [representativeFields.documentUpload]: attachmentsSchema,
+      [representativeFields.documentUpload]: {
+        type: 'array',
+        minItems: 1,
+        maxItems: 1,
+        items: {
+          type: 'object',
+          required: ['guid', 'name'],
+          properties: {
+            guid: {
+              type: 'string',
+              format: 'uuid',
+            },
+            name: {
+              type: 'string',
+            },
+          },
+        },
+      },
     },
   },
 };
