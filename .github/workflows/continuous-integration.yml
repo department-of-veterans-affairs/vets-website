@@ -292,9 +292,8 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
-      # - name: Checkout output pwd
-      #   run: |
-      #     pwd
+      - name: Checkout output pwd
+        run: echo $GITHUB_WORKSPACE
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
@@ -315,25 +314,22 @@ jobs:
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
 
-      # - name: Checkout output build dir
-      #   run: |
-      #     ls
-          
-      # - name: Checkout output build dir
-      #   run: |
-      #     ls build
+      - name: Checkout output build dir
+        run: |
+          ls
 
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:
-          name: build-${{ matrix.buildtype }}
-          path: /home/runner/_work/vets-website/vets-website/vets-website/build/${{ matrix.buildtype }}
+          name: ${{ matrix.buildtype }}
+          path: /home/runner/_work/vets-website/vets-website/vets-website/build
+          retention-days: 1
 
   prearchive:
     name: Prearchive Optimizations
     runs-on: self-hosted
     # TODO: readd security-audit
-    needs: [unit-tests, linting, contract-tests, drupal-cache-test, build]
+    # needs: [unit-tests, linting, contract-tests, drupal-cache-test, build]
     defaults:
       run:
         working-directory: vets-website
@@ -391,14 +387,18 @@ jobs:
         run: |
           ls
 
-      - name: Download build
+      - name: Make build directory
+        run: mkdir -p build
+
+      - name: Download build artifactory
         uses: actions/download-artifact@v2
         with:
-          name: build-${{ matrix.buildtype }}
+          name: ${{ matrix.buildtype }}
+          path: /home/runner/_work/vets-website/vets-website/vets-website/build
       
       - name: Checkout output dir post DL
         run: |
-          ls
+          ls build
 
       - name: Prearchive
         run: node ./script/prearchive.js --buildtype=${{ matrix.buildtype }}
