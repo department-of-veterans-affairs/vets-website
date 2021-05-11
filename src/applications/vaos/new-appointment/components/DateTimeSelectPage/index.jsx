@@ -208,7 +208,6 @@ export default function DateTimeSelectPage() {
             dispatch,
             data,
             history,
-            routeToNextAppointmentPage,
             setSubmitted,
           })
         }
