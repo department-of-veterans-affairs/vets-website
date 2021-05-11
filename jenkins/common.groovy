@@ -4,15 +4,6 @@ DRUPAL_MAPPING = [
   'prod': 'vagovprod',
 ]
 
-DRUPAL_ADDRESSES = [
-  'vagovdev'    : 'http://internal-dsva-vagov-dev-cms-812329399.us-gov-west-1.elb.amazonaws.com',
-  'vagovstaging': 'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com',
-  'vagovprod'   : 'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com',
-  // This is a Tugboat URL, rebuilt frequently from PROD CMS. See https://tugboat.vfs.va.gov/6042f35d6a89945fd6399dc3.
-  // If there are issues with this endpoint, please post in #cms-support Slack and tag @CMS DevOps Engineers.
-  'sandbox'     : 'https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov',
-]
-
 DRUPAL_CREDENTIALS = [
   'vagovdev'    : 'drupal-dev',
   'vagovstaging': 'drupal-staging',
@@ -133,9 +124,6 @@ def setup() {
 }
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
-  // Use the CMS's Sandbox (Tugboat) environment for all branches that
-  // are not configured to deploy to prod.
-  def drupalAddress = DRUPAL_ADDRESSES.get('sandbox')
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMode = useCache ? '' : '--pull-drupal'
   def drupalMaxParallelRequests = 15
@@ -148,7 +136,6 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     contentOnlyBuild ||
     (IS_PROD_BRANCH && envName == 'vagovprod')
   ) {
-    drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
     noDrupalProxy = ''
   }
 
@@ -156,7 +143,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} --drupalMaxParallelRequests ${drupalMaxParallelRequests} ${drupalMode} ${noDrupalProxy} --buildLog ${buildLogPath} --verbose"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalMaxParallelRequests ${drupalMaxParallelRequests} ${drupalMode} ${noDrupalProxy} --buildLog ${buildLogPath} --verbose"
     }
   }
 }
