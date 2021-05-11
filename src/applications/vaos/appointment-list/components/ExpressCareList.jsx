@@ -20,7 +20,7 @@ export function ExpressCareList({
   status,
   isCernerOnlyPatient,
   expressCareRequests,
-  cancelAppointment,
+  startAppointmentCancel,
   startNewAppointmentFlow,
 }) {
   let content;
@@ -47,7 +47,7 @@ export function ExpressCareList({
                 <ExpressCareCard
                   appointment={appt}
                   showCancelButton={showCancelButton}
-                  cancelAppointment={cancelAppointment}
+                  startAppointmentCancel={startAppointmentCancel}
                 />
               </li>
             );
@@ -89,7 +89,7 @@ ExpressCareList.propTypes = {
   showScheduleButton: PropTypes.bool,
   expressCareRequests: PropTypes.array,
   status: PropTypes.string,
-  cancelAppointment: PropTypes.func,
+  startAppointmentCancel: PropTypes.func,
   fetchFutureAppointments: PropTypes.func,
   startNewAppointmentFlow: PropTypes.func,
 };
@@ -105,7 +105,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  cancelAppointment: actions.cancelAppointment,
+  startAppointmentCancel: actions.startAppointmentCancel,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
 };
 

@@ -26,7 +26,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './AppointmentsPage/PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import {
-  cancelAppointment,
+  startAppointmentCancel,
   closeCancelAppointment,
   confirmCancelAppointment,
   fetchRequestDetails,
@@ -256,7 +256,7 @@ export default function RequestedAppointmentDetailsPage() {
               <button
                 aria-label="Cancel request"
                 className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
-                onClick={() => dispatch(cancelAppointment(appointment))}
+                onClick={() => dispatch(startAppointmentCancel(appointment))}
               >
                 Cancel Request
               </button>
