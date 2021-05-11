@@ -12,7 +12,7 @@ const BRANCH_NAME = process.env.GITHUB_HEAD_REF;
 const IS_PROD_BRANCH = BRANCH_NAME.replace('refs/heads/', '') === 'master';
 const maxBrokenLinks = 10;
 
-console.log('branch_name', BRANCH_NAME);
+console.log('branch_name', BRANCH_NAME.replace('refs/heads/', ''));
 console.log('server_url', SERVER_URL);
 console.log('CB', contentOnlyBuild);
 
