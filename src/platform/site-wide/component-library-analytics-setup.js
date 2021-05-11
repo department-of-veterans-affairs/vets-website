@@ -7,6 +7,10 @@ import { kebabCase } from 'lodash';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-show' }],
+  Accordion: [
+    { action: 'expand', event: 'int-accordion-expand' },
+    { action: 'collapse', event: 'int-accordion-collapse' },
+  ],
   AdditionalInfo: [
     { action: 'expand', event: 'int-additional-info-expand' },
     { action: 'collapse', event: 'int-additional-info-collapse' },
