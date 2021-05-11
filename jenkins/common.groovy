@@ -118,13 +118,12 @@ def setup() {
 
 def build(String ref, dockerContainer, String envName) {
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
-  def drupalMaxParallelRequests = 15
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --drupalMaxParallelRequests ${drupalMaxParallelRequests} --buildLog ${buildLogPath} --verbose"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --buildLog ${buildLogPath} --verbose"
     }
   }
 }
