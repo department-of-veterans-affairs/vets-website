@@ -218,6 +218,7 @@ const formConfig = {
         documentUpload: {
           title: 'Supporting documentation',
           depends: formData => formData.signAsRepresentativeYesNo === 'yes',
+          editModeOnReviewPage: true,
           path: 'representative-document-upload',
           uiSchema: uploadPOADocument.uiSchema,
           schema: uploadPOADocument.schema,
