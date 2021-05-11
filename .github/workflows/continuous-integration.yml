@@ -193,22 +193,8 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
-
       - name: Audit dependencies
-        run: yarn security-check -g
+        run: yarn security-check
 
   drupal-cache-test:
     name: Drupal Cache Test
