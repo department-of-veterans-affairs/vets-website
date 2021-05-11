@@ -20,7 +20,6 @@ import {
   getParentOfLocation,
   getSiteIdFromFacilityId,
 } from '../../services/location';
-import { isEligible } from './helpers/eligibility';
 import {
   selectUseFlatFacilityPage,
   selectIsCernerOnlyPatient,
@@ -169,7 +168,7 @@ export function getChosenFacilityDetails(state) {
     : facilityDetails[data.vaFacility];
 }
 
-export function getEligibilityChecks(state) {
+export function selectEligibility(state) {
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
   const typeOfCareId = getTypeOfCare(data)?.id;
@@ -177,11 +176,6 @@ export function getEligibilityChecks(state) {
   return (
     newAppointment.eligibility[`${data.vaFacility}_${typeOfCareId}`] || null
   );
-}
-
-export function getEligibilityStatus(state) {
-  const eligibility = getEligibilityChecks(state);
-  return isEligible(eligibility);
 }
 
 export function getPreferredDate(state, pageKey) {
@@ -203,7 +197,7 @@ export function getDateTimeSelect(state, pageKey) {
   const data = getFormData(state);
   const formInfo = getFormPageInfo(state, pageKey);
   const availableSlots = newAppointment.availableSlots;
-  const eligibilityStatus = getEligibilityStatus(state);
+  const eligibilityStatus = selectEligibility(state);
   const systemId = getSiteIdForChosenFacility(state);
 
   const timezoneDescription = systemId
@@ -286,16 +280,15 @@ export function getFacilityPageV2Info(state) {
   } = newAppointment;
 
   const facilities = newAppointment.facilities[(typeOfCare?.id)];
-  const eligibilityStatus = getEligibilityStatus(state);
+  const eligibility = selectEligibility(state);
   const validFacilities = formInfo.schema?.properties.vaFacility.enum;
 
   return {
     ...formInfo,
     address: selectVAPResidentialAddress(state),
-    canScheduleAtChosenFacility:
-      eligibilityStatus.direct || eligibilityStatus.request,
+    canScheduleAtChosenFacility: eligibility?.direct || eligibility?.request,
     childFacilitiesStatus,
-    eligibility: getEligibilityChecks(state),
+    eligibility,
     facilities,
     hasDataFetchingError:
       childFacilitiesStatus === FETCH_STATUS.failed ||
@@ -317,7 +310,7 @@ export function getFacilityPageInfo(state) {
   const formInfo = getFormPageInfo(state, 'vaFacility');
   const data = getFormData(state);
   const newAppointment = getNewAppointment(state);
-  const eligibilityStatus = getEligibilityStatus(state);
+  const eligibility = selectEligibility(state);
 
   return {
     ...formInfo,
@@ -328,9 +321,8 @@ export function getFacilityPageInfo(state) {
     loadingFacilities: !!formInfo.schema?.properties.vaFacilityLoading,
     loadingEligibility:
       newAppointment.eligibilityStatus === FETCH_STATUS.loading,
-    eligibility: getEligibilityChecks(state),
-    canScheduleAtChosenFacility:
-      eligibilityStatus.direct || eligibilityStatus.request,
+    eligibility,
+    canScheduleAtChosenFacility: eligibility?.direct || eligibility?.request,
     singleValidVALocation: hasSingleValidVALocation(state),
     noValidVAParentFacilities:
       !data.vaParent && formInfo.schema && !formInfo.schema.properties.vaParent,
@@ -374,7 +366,7 @@ export function getClinicPageInfo(state, pageKey) {
   const formPageInfo = getFormPageInfo(state, pageKey);
   const newAppointment = getNewAppointment(state);
   const facilityDetails = newAppointment.facilityDetails;
-  const eligibility = getEligibilityChecks(state);
+  const eligibility = selectEligibility(state);
 
   return {
     ...formPageInfo,
@@ -383,7 +375,7 @@ export function getClinicPageInfo(state, pageKey) {
     clinics: getClinicsForChosenFacility(state),
     facilityDetailsStatus: newAppointment.facilityDetailsStatus,
     eligibility,
-    canMakeRequests: isEligible(eligibility).request,
+    canMakeRequests: eligibility?.request,
   };
 }
 
@@ -413,5 +405,20 @@ export function selectConfirmationPage(state) {
     flowType: getFlowType(state),
     appointmentLength: getAppointmentLength(state),
     useProviderSelection: selectUseProviderSelection(state),
+  };
+}
+
+export function selectReviewPage(state) {
+  return {
+    clinic: getChosenClinicInfo(state),
+    data: getFormData(state),
+    facility: getChosenFacilityInfo(state),
+    facilityDetails: getChosenFacilityDetails(state),
+    flowType: getFlowType(state),
+    submitStatus: state.newAppointment.submitStatus,
+    submitStatusVaos400: state.newAppointment.submitStatusVaos400,
+    systemId: getSiteIdForChosenFacility(state),
+    useProviderSelection: selectUseProviderSelection(state),
+    vaCityState: getChosenVACityState(state),
   };
 }

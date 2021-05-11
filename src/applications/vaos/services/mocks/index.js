@@ -189,7 +189,7 @@ module.exports = {
   'PUT /vaos/v0/appointments/cancel': {},
   'POST /vaos/v0/appointment_requests': {
     data: {
-      id: 'testing',
+      id: '8a4886886e4c8e22016e6613216d001g',
       attributes: {},
     },
   },

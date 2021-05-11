@@ -92,11 +92,13 @@ export const IssueCard = ({
   const elementId = `${id}_${index}${appendId}`;
 
   const itemIsSelected = item[SELECTED];
+  const isEditable = typeof onEdit === 'function';
 
   const wrapperClass = [
     'review-row',
     'widget-wrapper',
     'vads-u-border--0',
+    isEditable ? 'additional-issue' : '',
     showCheckbox ? '' : 'checkbox-hidden',
     `vads-u-padding-top--${showCheckbox ? 1 : 0}`,
     'vads-u-padding-right--3',
@@ -118,7 +120,7 @@ export const IssueCard = ({
   );
 
   const editButton =
-    showCheckbox && typeof onEdit === 'function' ? (
+    showCheckbox && isEditable ? (
       <button
         type="button"
         className="usa-button-secondary edit vads-u-flex--auto"
@@ -171,7 +173,6 @@ IssueCard.propTypes = {
   index: PropTypes.number,
   showCheckbox: PropTypes.bool,
   item: PropTypes.shape({
-    // not using oneOf because there is a lot of extra props in here
     issue: PropTypes.string,
     decisionDate: PropTypes.string,
     ratingIssueSubjectText: PropTypes.string,
