@@ -20,6 +20,7 @@ import { mockFeatureToggles } from './helpers';
 describe('The My VA Dashboard', () => {
   beforeEach(() => {
     cy.login(mockUser);
+    cy.server();
     cy.intercept('/v0/profile/service_history', serviceHistory);
     cy.intercept('/v0/profile/full_name', fullName);
     cy.intercept(

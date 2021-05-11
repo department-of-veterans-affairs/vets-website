@@ -10,6 +10,7 @@ import AppointmentStatus from '../AppointmentStatus';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
 import AppointmentRequestCommunityCareLocation from './AppointmentRequestCommunityCareLocation';
 import AdditionalInfoRow from '../AdditionalInfoRow';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -142,7 +143,7 @@ export default function AppointmentRequestListItem({
               <div>
                 {getPatientTelecom(appointment, 'email')}
                 <br />
-                {getPatientTelecom(appointment, 'phone')}
+                <Telephone contact={getPatientTelecom(appointment, 'phone')} />
                 <br />
                 <span className="vads-u-font-style--italic">
                   <ListBestTimeToCall
