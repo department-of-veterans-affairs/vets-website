@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SearchResultCard from './SearchResultCard';
 import SearchBenefits from './SearchBenefits';
-import TuitionHousingEstimateAccordionDropdown from './TuitionHousingEstimateAccordionDropdown';
+import AccordionDropdown from './AccordionDropdown';
 import LearnMoreLabel from './LearnMoreLabel';
 import RadioButtons from './RadioButtons';
 import { connect } from 'react-redux';
@@ -76,7 +76,7 @@ export function SearchResults({
           </p>
           <div className="usa-width-one-third">
             <div>
-              <TuitionHousingEstimateAccordionDropdown
+              <AccordionDropdown
                 button="Update tuition and housing estimates"
                 buttonLabel="Update results"
                 buttonOnClick={updateStore}
@@ -122,7 +122,7 @@ export function SearchResults({
                     setInPersonClasses(e.target.value);
                   }}
                 />
-              </TuitionHousingEstimateAccordionDropdown>
+              </AccordionDropdown>
             </div>
           </div>
           <div className="usa-width-two-thirds vads-u-margin-right--neg2">

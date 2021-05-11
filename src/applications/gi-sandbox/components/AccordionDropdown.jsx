@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../utils/helpers';
 
-class TuitionHousingEstimateAccordionDropdown extends React.Component {
+class AccordionDropdown extends React.Component {
   static propTypes = {
     expanded: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
@@ -71,7 +71,7 @@ class TuitionHousingEstimateAccordionDropdown extends React.Component {
         <button
           id={`${this.id}-button`}
           onClick={this.toggle}
-          className="usa-accordion-button .vads-u-font-size--md"
+          className="usa-accordion-button vads-u-font-size--lg test"
           aria-expanded={expanded}
           aria-controls={this.id}
         >
@@ -116,4 +116,4 @@ class TuitionHousingEstimateAccordionDropdown extends React.Component {
   }
 }
 
-export default TuitionHousingEstimateAccordionDropdown;
+export default AccordionDropdown;
