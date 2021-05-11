@@ -77,11 +77,13 @@
         "attributes": {
           "ratingIssueSubjectText": "Traumatic Brain Injury",
           "approxDecisionDate": "2020-01-05",
-          "decisionIssueId": 10
+          "decisionIssueId": 10,
+          "ratingIssuePercentNumber": "5"
         },
-        "view:selected": false
+        "view:selected": true
       }
     ],
+    "view:hasIssuesToAdd": false,
     "additionalIssues": [
       {
         "issue": "right arm",

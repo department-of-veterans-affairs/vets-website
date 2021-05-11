@@ -28,7 +28,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
       cy.injectAxe();
       cy.axeCheck();
       cy.get('#covid-vaccination-heading-form').contains(
-        'Fill out the form below',
+        'Sign up for vaccine updates',
       );
 
       cy.findByLabelText(/First name/i)
@@ -92,13 +92,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
         'Thank you for signing up to stay informed about COVID-19 vaccines at VA',
       );
       cy.get('.vads-l-row').contains(
-        'Your local VA health facility may also use the information you provided to determine when to contact you about getting a vaccine once your risk group becomes eligible',
-      );
-      cy.get('.vads-l-row').contains(
         'Your local VA health facility may contact you by phone, email, or text message.',
-      );
-      cy.get('.vads-l-row').contains(
-        'By sharing your plans for getting a vaccine, you help us better plan our efforts',
       );
     });
   });

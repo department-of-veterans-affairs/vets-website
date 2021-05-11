@@ -155,7 +155,7 @@ const formConfig = {
               'ui:options': {
                 doNotScroll: true,
                 keepInPageOnReview: true,
-                itemName: 'question',
+                itemName: 'Question',
                 viewField: formData => {
                   return <>{formData.formData.additionalQuestions}</>;
                 },

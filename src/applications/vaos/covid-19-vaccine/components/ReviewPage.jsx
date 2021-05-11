@@ -14,6 +14,7 @@ import flow from '../flow';
 import State from '../../components/State';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import { confirmAppointment } from '../redux/actions';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const pageTitle = 'Review your appointment details';
 
@@ -53,11 +54,11 @@ export default function ReviewPage() {
       <div className="vads-l-grid-container vads-u-padding--0">
         <div className="vads-l-row vads-u-justify-content--space-between">
           <div className="vads-u-flex--1 vads-u-padding-right--1">
-            <strong>
+            <h3 className="vaos-appts__block-label">
               {moment(date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
                 'dddd, MMMM DD, YYYY [at] h:mm a ',
               ) + getTimezoneAbbrBySystemId(systemId)}
-            </strong>
+            </h3>
           </div>
         </div>
       </div>
@@ -86,7 +87,7 @@ export default function ReviewPage() {
             <div>
               {data.email}
               <br />
-              {data.phoneNumber}
+              <Telephone contact={data.phoneNumber} />
             </div>
           </div>
           <Link to={flow.contactInfo.url} aria-label="Edit contact information">

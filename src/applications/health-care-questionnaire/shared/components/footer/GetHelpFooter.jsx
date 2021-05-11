@@ -95,7 +95,7 @@ const GetHelpFooter = props => {
         </p>
         <p>
           If you have hearing loss, call{' '}
-          <Telephone contact={TTY_NUMBER}>TTY: {TTY_NUMBER}</Telephone>
+          <Telephone contact={TTY_NUMBER}>TTY: {TTY_NUMBER}</Telephone>.
         </p>
       </div>
     </div>
