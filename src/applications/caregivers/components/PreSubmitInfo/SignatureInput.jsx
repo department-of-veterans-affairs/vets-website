@@ -16,9 +16,6 @@ const SignatureInput = ({
   const firstName = fullName.first?.toLowerCase() || '';
   const lastName = fullName.last?.toLowerCase() || '';
   const middleName = fullName.middle?.toLowerCase() || '';
-  const errorMessage = isRepresentative
-    ? 'You must sign as representative.'
-    : 'Your signature must match your first and last name as previously entered.';
 
   const [signature, setSignature] = useState({
     value: '',
@@ -41,6 +38,10 @@ const SignatureInput = ({
 
   const getName = (middle = '') =>
     removeSpaces(`${firstName}${middle}${lastName}`);
+
+  const errorMessage = isRepresentative
+    ? 'You must sign as representative.'
+    : `Your signature must match previously entered name: ${getName()}`;
 
   const normalizedSignature = removeSpaces(signature.value);
 
