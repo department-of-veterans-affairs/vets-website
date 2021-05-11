@@ -33,8 +33,9 @@
     {
       "type": "contestableIssue",
       "attributes": {
-        "issue": "right shoulder",
-        "decisionDate": "2020-01-06"
+        "issue": "Traumatic Brain Injury - 5%",
+        "decisionIssueId": 10,
+        "decisionDate": "2020-01-05"
       }
     }
   ],

@@ -86,6 +86,8 @@ describe('FormApp', () => {
   it('should render WIP alert', () => {
     const { props } = getData({ showNod: false });
     const tree = shallow(<FormApp {...props} />);
+
+    tree.setProps();
     // FormTitle rendered separately in WIP page
     const title = tree.find('FormTitle');
     expect(title).to.exist;
@@ -108,7 +110,7 @@ describe('FormApp', () => {
       </Provider>,
     );
 
-    expect(tree.find('#form-10182').length).to.equal(1);
+    tree.setProps();
     expect(getIssues.called).to.be.true;
 
     tree.unmount();
@@ -122,7 +124,7 @@ describe('FormApp', () => {
       </Provider>,
     );
 
-    expect(tree.find('#form-10182').length).to.equal(1);
+    tree.setProps();
     expect(getIssues.notCalled).to.be.true;
 
     tree.unmount();
@@ -157,7 +159,7 @@ describe('FormApp', () => {
       </Provider>,
     );
 
-    expect(tree.find('#form-10182').length).to.equal(1);
+    tree.setProps();
     expect(setFormData.called).to.be.true;
 
     const formData = setFormData.args[0][0];

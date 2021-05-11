@@ -1,6 +1,7 @@
 import { mapValues } from 'lodash/fp';
 import caregiverFacilities from 'vets-json-schema/dist/caregiverProgramFacilities.json';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { isEmpty } from 'lodash';
 import {
   primaryCaregiverFields,
   secondaryOneFields,
@@ -74,8 +75,18 @@ export const submitTransform = (formConfig, form) => {
 
     // maps over all keys, and creates objects of the same prefix then removes prefix
     keys.map(key => {
-      // if has same prefix
-      if (key.includes(dataPrefix)) {
+      if (key === 'signAsRepresentativeDocumentUpload') {
+        /* if user submits a document via upload page, add the guid to the formData
+          otherwise delete object and move on to next keys */
+        if (isEmpty(data[key])) {
+          return delete sortedDataByChapter.poaAttachmentId;
+        }
+
+        const documentUpload = data[key][0].guid;
+        sortedDataByChapter.poaAttachmentId = documentUpload;
+
+        // if has same prefix
+      } else if (key.includes(dataPrefix)) {
         // if preferredFacility grab the nested "plannedClinic" value, and surface it
         if (key === 'veteranPreferredFacility') {
           sortedDataByChapter[chapterName] = {
