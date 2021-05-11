@@ -20,6 +20,7 @@ import { getRealFacilityId } from '../../utils/appointment';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
+import { hasValidCovidPhoneNumber } from '../../services/appointment';
 
 const pageKey = 'contactFacilities';
 
@@ -125,7 +126,7 @@ function ContactFacilitiesPage({
             )}
             <FacilityPhone
               contact={
-                facility.telecom.find(t => t.system === 'covid')?.value
+                hasValidCovidPhoneNumber
                   ? facility.telecom.find(t => t.system === 'covid')?.value
                   : facility.telecom.find(t => t.system === 'phone')?.value
               }
