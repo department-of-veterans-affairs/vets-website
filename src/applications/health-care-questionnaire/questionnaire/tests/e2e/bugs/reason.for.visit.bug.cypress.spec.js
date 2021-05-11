@@ -20,7 +20,7 @@ describe('health care questionnaire -- reason for visit --', () => {
   });
 
   it('can be cleared', () => {
-    cy.title().should('contain', 'Health care Questionnaire');
+    cy.title().should('contain', 'Questionnaire');
     cy.get('.schemaform-title>h1').contains(
       'Answer primary care questionnaire',
     );
