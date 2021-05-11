@@ -4,12 +4,6 @@ DRUPAL_MAPPING = [
   'prod': 'vagovprod',
 ]
 
-DRUPAL_CREDENTIALS = [
-  'vagovdev'    : 'drupal-dev',
-  'vagovstaging': 'drupal-staging',
-  'vagovprod'   : 'drupal-prod',
-]
-
 ALL_VAGOV_BUILDTYPES = [
   'vagovdev',
   'vagovstaging',
@@ -117,14 +111,10 @@ def setup() {
 }
 
 def build(String ref, dockerContainer, String envName) {
-  def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
+  dockerContainer.inside(DOCKER_ARGS) {
+    def buildLogPath = "/application/${envName}-build.log"
 
-  withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
-    dockerContainer.inside(DOCKER_ARGS) {
-      def buildLogPath = "/application/${envName}-build.log"
-
-      sh "cd /application && jenkins/build.sh --envName ${envName} --buildLog ${buildLogPath} --verbose"
-    }
+    sh "cd /application && jenkins/build.sh --envName ${envName} --buildLog ${buildLogPath} --verbose"
   }
 }
 
