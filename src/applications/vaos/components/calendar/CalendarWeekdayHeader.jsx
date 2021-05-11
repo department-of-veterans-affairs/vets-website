@@ -1,31 +1,5 @@
 import React from 'react';
-
-/**
- * @const {number} DEFAULT_WEEK_DAYS
- * @default Object { name: 'Monday, abbr: 'Mon', name: 'Tuesday, abbr: 'Tue', ...}
- */
-const DEFAULT_WEEK_DAYS = [
-  {
-    name: 'Monday',
-    abbr: 'Mon',
-  },
-  {
-    name: 'Tuesday',
-    abbr: 'Tue',
-  },
-  {
-    name: 'Wednesday',
-    abbr: 'Wed',
-  },
-  {
-    name: 'Thursday',
-    abbr: 'Thu',
-  },
-  {
-    name: 'Friday',
-    abbr: 'Fri',
-  },
-];
+import { DEFAULT_WEEK_DAYS } from '../../utils/constants';
 
 /**
  * Calendar widget weekday header
