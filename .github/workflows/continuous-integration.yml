@@ -317,6 +317,10 @@ jobs:
 
       - name: Checkout output build dir
         run: |
+          ls
+          
+      - name: Checkout output build dir
+        run: |
           ls build
 
       - name: Upload build
