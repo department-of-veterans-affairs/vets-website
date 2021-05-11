@@ -311,15 +311,18 @@ jobs:
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
 
-      - name: Checkout output dir
-        run: |
-          ls
+      - name: Upload build
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: |
+            build
 
   prearchive:
     name: Prearchive Optimizations
     runs-on: self-hosted
     # TODO: readd security-audit
-    # needs: [unit-tests, linting, contract-tests, drupal-cache-test, build]
+    needs: [unit-tests, linting, contract-tests, drupal-cache-test, build]
     defaults:
       run:
         working-directory: vets-website
@@ -367,11 +370,24 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
         # TODO: Do we want to rerun build? Seems a bit irrelavent
-      - name: Build
-        run: yarn build --buildtype ${{ matrix.buildtype }} --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
-        timeout-minutes: 30
-        env:
-          NODE_ENV: production
+      # - name: Build
+      #   run: yarn build --buildtype ${{ matrix.buildtype }} --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
+      #   timeout-minutes: 30
+      #   env:
+      #     NODE_ENV: production
+
+      - name: Checkout output dir
+        run: |
+          ls
+
+      - name: Download build
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+      
+      - name: Checkout output dir post DL
+        run: |
+          ls
 
       - name: Prearchive
         run: node ./script/prearchive.js --buildtype=${{ matrix.buildtype }}
