@@ -311,6 +311,10 @@ jobs:
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
 
+      - name: Checkout output dir
+        run: |
+          ls
+
   prearchive:
     name: Prearchive Optimizations
     runs-on: self-hosted
