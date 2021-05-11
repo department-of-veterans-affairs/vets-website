@@ -140,7 +140,9 @@ function CommunityCareAppointmentDetailsPage({
             text:
               'You have a health care appointment with a community care provider. Please don’t go to your local VA health facility.',
             phone: formatFacilityPhone(appointment.communityCareProvider),
-            additionalText: [],
+            additionalText: [
+              'Sign in to VA.gov to get details about this appointment',
+            ],
           }}
           location={formatFacilityAddress(appointment.communityCareProvider)}
           duration={appointment.minutesDuration}

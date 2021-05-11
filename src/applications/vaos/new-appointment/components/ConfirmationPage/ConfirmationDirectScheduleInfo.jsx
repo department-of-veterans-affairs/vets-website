@@ -78,15 +78,19 @@ export default function ConfirmationDirectScheduleInfo({
         {facilityDetails && (
           <div className="vads-u-margin-top--2">
             <AddToCalendar
-              summary="Appointment at {clinic name}"
+              summary={`Appointment at ${facilityDetails.name}`}
               description={{
-                text: 'You have a health care appointment at {clinic name}',
+                text: `You have a health care appointment at ${
+                  facilityDetails.name
+                }`,
                 phone: formatFacilityPhone(facilityDetails),
-                additionalText: [],
+                additionalText: [
+                  'Sign in to VA.gov to get details about this appointment',
+                ],
               }}
               location={formatFacilityAddress(facilityDetails)}
               startDateTime={momentDate.format()}
-              duation={appointmentLength}
+              duration={appointmentLength}
             />
           </div>
         )}

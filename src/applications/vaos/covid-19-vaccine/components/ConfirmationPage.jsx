@@ -10,7 +10,10 @@ import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
 import FacilityAddress from '../../components/FacilityAddress.jsx';
 import { selectConfirmationPage } from '../redux/selectors.js';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
-import { formatFacilityAddress } from 'applications/vaos/services/location';
+import {
+  formatFacilityAddress,
+  formatFacilityPhone,
+} from 'applications/vaos/services/location';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
@@ -67,9 +70,19 @@ function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
         )}
         <div className="vads-u-margin-top--3 vaos-appts__block-label">
           <AddToCalendar
-            summary={appointmentType.concat(' Appointment')}
+            summary={`Appointment at ${facilityDetails.name}`}
+            description={{
+              text: `You have a health care appointment at ${
+                facilityDetails.name
+              }`,
+              phone: formatFacilityPhone(facilityDetails),
+              additionalText: [
+                'Sign in to VA.gov to get details about this appointment',
+              ],
+            }}
             location={formatFacilityAddress(facilityDetails)}
             startDateTime={data.date1[0]}
+            duration={30}
           />
         </div>
       </div>

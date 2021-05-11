@@ -16,58 +16,19 @@ import {
   formatFacilityPhone,
 } from 'applications/vaos/services/location';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { selectCalendarData } from '../../redux/selectors';
 
-function getLocation({ isAtlas, isVideo, videoKind, facility, appointment }) {
-  if (isAtlas) {
-    const { atlasLocation } = appointment.videoData;
-
-    if (atlasLocation?.address) {
-      const {
-        firstName,
-        lastName,
-      } = appointment.vaos.apiData.vvsAppointments[0].providers[0].name;
-      return {
-        providerName: `${firstName} ${lastName}`,
-        location: formatFacilityAddress(atlasLocation),
-        text: 'Join this video meeting from this ATLAS (non-VA) location:',
-        additionalText: [
-          `Your appointment code is ${
-            appointment.videoData.atlasConfirmationCode
-          }. Use this code to find your appointment on the computer at {ATLAS location}.`,
-        ],
-      };
-    }
-  } else if (videoKind === VIDEO_TYPES.clinic) {
-    return {
-      providerName: appointment.location.clinicName,
-      location: facility ? formatFacilityAddress(facility) : null,
-      text: 'You need to join this video meeting from:',
-      additionalText: [
-        `You’ll be meeting with ${appointment.location.clinicName}`,
-      ],
-    };
-  } else if (videoKind === VIDEO_TYPES.gfe || isVideo) {
-    return {
-      providerName: '',
-      location: 'Video conference',
-      text: '',
-      additionalText: [],
-    };
-  }
-  return {};
-}
-
-export default function VideoVisitLocation({ header, appointment, facility }) {
+export default function VideoVisitLocation({ appointment, facility }) {
   const { kind, isAtlas, providers } = appointment.videoData;
   const isHome = isVideoHome(appointment);
   const [showMoreOpen, setShowMoreOpen] = useState(false);
   const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const name = facility?.name;
 
-  const { location, providerName, text, additionalText } = getLocation({
+  const { summary, location, text, additionalText } = selectCalendarData({
+    videoKind: kind,
+    isHome,
     isAtlas,
-    isVideo: appointment.vaos.isVideo,
-    kind,
     facility,
     appointment,
   });
@@ -142,7 +103,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             className="far fa-calendar vads-u-margin-right--1"
           />
           <AddToCalendar
-            summary={`VA Video Connect appointment at ${providerName}`}
+            summary={summary}
             description={{
               text,
               phone: formatFacilityPhone(facility),

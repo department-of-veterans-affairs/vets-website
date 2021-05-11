@@ -239,6 +239,7 @@ export function getTestFacilityId(facilityId) {
  * @param {*} facility - facility details object
  */
 export function formatFacilityAddress(facility) {
+  if (!facility) return '';
   return `${facility.address?.line.join(', ')}, ${facility.address?.city}, ${
     facility.address?.state
   } ${facility.address?.postalCode}`;

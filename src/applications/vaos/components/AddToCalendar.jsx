@@ -21,44 +21,45 @@ function formatDescription(description, location = '') {
     let text = `DESCRIPTION:${description.text}`;
     text = text.replace(/\r/g, '').replace(/\n/g, '\\n');
 
-    const phone = description.phone?.replace(/\r/g, '').replace(/\n/g, '\\n');
-
     while (text.length > ICS_LINE_LIMIT) {
-      chunked.push(text.substring(0, ICS_LINE_LIMIT));
+      chunked.push(`${text}\\n`.substring(0, ICS_LINE_LIMIT));
       text = text.substring(ICS_LINE_LIMIT);
     }
-    chunked.push(text);
-    chunked.push('\\n\\n');
 
-    const index = location.indexOf(',');
-    if (index !== -1) {
-      chunked.push(location.substring(0, index));
-      chunked.push('\\n');
-      chunked.push(location.substring(index + 1).trimStart());
-    } else {
-      chunked.push(location);
+    // Add last line of description text
+    if (text) {
+      chunked.push(text);
     }
 
+    if (location) {
+      const loc = `\\n\\n${location}`;
+      const index = loc.indexOf(',');
+
+      if (index !== -1) {
+        chunked.push(`${loc.substring(0, index)}\\n`);
+        chunked.push(`${loc.substring(index + 1).trimStart()}\\n`);
+      } else {
+        chunked.push(`${loc}\\n`);
+      }
+    }
+
+    const phone = description.phone?.replace(/\r/g, '').replace(/\n/g, '\\n');
     if (phone) {
-      chunked.push('\\n');
-      chunked.push(phone);
+      chunked.push(`${phone}\\n`);
     }
 
-    if (description.additionalText.length > 0) {
-      chunked.push('\\n\\n');
+    if (description.additionalText?.length > 0) {
       description.additionalText.forEach(val => {
-        let line = val;
+        let line = `\\n${val}`;
         while (line.length > ICS_LINE_LIMIT) {
-          chunked.push(line.substring(0, ICS_LINE_LIMIT));
+          chunked.push(`${line}\\n`.substring(0, ICS_LINE_LIMIT));
           line = line.substring(ICS_LINE_LIMIT);
         }
-        chunked.push(line);
+        chunked.push(`${line}\\n`);
       });
     }
-
-    chunked.push('\\n\\n');
-    chunked.push('Sign in to VA.gov to get details about this appointment');
   } else {
+    // TODO: Remove else block when verified
     const descWithEscapedBreaks = description
       .replace(/\r/g, '')
       .replace(/\n/g, '\\n');
@@ -71,9 +72,7 @@ function formatDescription(description, location = '') {
     chunked.push(restOfDescription);
   }
 
-  const x = chunked.join('\r\n\t').replace(/,/g, '\\,');
-  console.log(x);
-  return x;
+  return chunked.join('\r\n\t').replace(/,/g, '\\,');
 }
 
 function generateICS(
@@ -97,7 +96,11 @@ function generateICS(
     `UID:${guid()}`,
     `SUMMARY:${summary}`,
     `${formatDescription(description, location)}`,
-    `LOCATION:${location?.replace(/,/g, '\\,')}`,
+    `LOCATION:${
+      summary.startsWith('Phone')
+        ? 'Phone call'
+        : location?.replace(/,/g, '\\,')
+    }`,
     `DTSTAMP:${startDate}`,
     `DTSTART:${startDate}`,
     `DTEND:${endDate}`,

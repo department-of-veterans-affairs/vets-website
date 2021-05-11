@@ -688,3 +688,456 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
     ).to.equal(1);
   });
 });
+
+describe('VAOS integration: calendar ics file format', () => {
+  it('should verify Video Connect at home calendar ics file format', async () => {
+    const appointment = getVideoAppointmentMock();
+    const startDate = moment.utc().add(3, 'days');
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: startDate.format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: startDate.format(),
+      bookingNotes: 'Some random note',
+      appointmentKind: 'ADHOC',
+      status: { description: 'F', code: 'FUTURE' },
+      instructionsTitle: 'Video Visit Preparation',
+      providers: [
+        {
+          name: { firstName: 'Test T+90', lastName: 'Test' },
+          location: {
+            type: 'VA',
+            facility: {
+              name: 'CHEYENNE VAMC',
+              siteCode: '983',
+              timeZone: '10',
+            },
+          },
+          virtualMeetingRoom: {
+            conference: 'VVC8275247',
+            pin: '7172705#',
+            url:
+              'https://care2.evn.va.gov/vvc-app/?name=Test%2CTest+T%2B90&join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=7172705#',
+          },
+        },
+      ],
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
+
+    await screen.findByText('VA Video Connect');
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link', {
+          name: `Add ${startDate
+            .tz('America/Denver')
+            .format('MMMM D, YYYY')} appointment to your calendar`,
+        })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = ics.split('\r\n');
+
+    // TODO: Debugging
+    // console.log(tokens);
+
+    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
+    expect(tokens[1]).to.equal('VERSION:2.0');
+    expect(tokens[2]).to.equal('PRODID:VA');
+    expect(tokens[3]).to.equal('BEGIN:VEVENT');
+    expect(tokens[4]).to.contain('UID:');
+    expect(tokens[5]).to.contain('SUMMARY:VA Video Connect appointment');
+
+    // Description text longer than 74 characters should start on newline beginning
+    // with a tab character
+    expect(tokens[6]).to.equal(
+      'DESCRIPTION:You can join this meeting up to 30 minutes before the start ti',
+    );
+    expect(tokens[7]).to.equal('\tme.');
+    expect(tokens[8]).to.equal('\t\\n\\nVA Video Connect at home\\n');
+    expect(tokens[9]).to.equal(
+      `\t\\nSign in to VA.gov to join this meeting\\n`,
+    );
+
+    expect(tokens[10]).to.equal('LOCATION:VA Video Connect at home');
+    expect(tokens[11]).to.equal(
+      `DTSTAMP:${moment(startDate)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[12]).to.equal(
+      `DTSTART:${moment(startDate)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[13]).to.equal(
+      `DTEND:${startDate
+        .clone()
+        .add(20, 'minutes') // Default duration
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[14]).to.equal('END:VEVENT');
+    expect(tokens[15]).to.equal('END:VCALENDAR');
+  });
+
+  it('should verify Video Connect at VA location calendar ics file format', async () => {
+    const appointment = getVideoAppointmentMock();
+    const startDate = moment.utc().add(3, 'days');
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: '848',
+      clinicFriendlyName: 'CHY PC VAR2',
+      sta6aid: '983',
+      startDate: startDate.format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: startDate.format(),
+      bookingNotes: 'Some random note',
+      appointmentKind: 'CLINIC_BASED',
+      status: { description: 'F', code: 'FUTURE' },
+      providers: [
+        {
+          name: {
+            firstName: 'Meg',
+            lastName: 'Smith',
+          },
+        },
+      ],
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+    });
+
+    const facility = {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    };
+    mockFacilitiesFetch('vha_442', [facility]);
+
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
+
+    await screen.findByText(
+      (_, node) => node.textContent === 'VA Video Connect at a VA location',
+    );
+
+    // screen.debug();
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link', {
+          name: `Add ${startDate
+            .tz('America/Denver')
+            .format('MMMM D, YYYY')} appointment to your calendar`,
+        })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = ics.split('\r\n');
+
+    // TODO: Debugging
+    // console.log(tokens);
+
+    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
+    expect(tokens[1]).to.equal('VERSION:2.0');
+    expect(tokens[2]).to.equal('PRODID:VA');
+    expect(tokens[3]).to.equal('BEGIN:VEVENT');
+    expect(tokens[4]).to.contain('UID:');
+
+    // TODO: location name???
+    expect(tokens[5]).to.equal(
+      'SUMMARY:VA Video Connect appointment at CHY PC VAR2',
+    );
+
+    // Description text longer than 74 characters should start on newline beginning
+    // with a tab character
+    expect(tokens[6]).to.equal(
+      'DESCRIPTION:You need to join this video meeting from:',
+    );
+    expect(tokens[7]).to.equal('\t\\n\\n2360 East Pershing Boulevard\\n');
+    expect(tokens[8]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
+    expect(tokens[9]).to.equal('\t307-778-7550\\n');
+    expect(tokens[10]).to.equal('\t\\nYou’ll be meeting with CHY PC VAR2\\n'); // TODO: Verify meeting with whom
+    expect(tokens[11]).to.equal(
+      `\t\\nSign in to VA.gov to get details about this appointment\\n`,
+    );
+
+    expect(tokens[12]).to.equal(
+      'LOCATION:2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
+    );
+    expect(tokens[13]).to.equal(
+      `DTSTAMP:${moment(startDate)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[14]).to.equal(
+      `DTSTART:${moment(startDate)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[15]).to.equal(
+      `DTEND:${startDate
+        .clone()
+        .add(20, 'minutes') // Default duration
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[16]).to.equal('END:VEVENT');
+    expect(tokens[17]).to.equal('END:VCALENDAR');
+  });
+
+  it('should verify Video Connect at ATLAS calendar ics file format', async () => {
+    const appointment = getVideoAppointmentMock();
+    const startDate = moment.utc().add(3, 'days');
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: startDate.format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: startDate.format(),
+      bookingNotes: 'Some random note',
+      appointmentKind: 'ADHOC',
+      status: { description: 'F', code: 'FUTURE' },
+      providers: [
+        {
+          name: {
+            firstName: 'Meg',
+            lastName: 'Smith',
+          },
+        },
+      ],
+      tasInfo: {
+        siteCode: '9931',
+        slotId: 'Slot8',
+        confirmationCode: '7VBBCA',
+        address: {
+          streetAddress: '114 Dewey Ave',
+          city: 'Eureka',
+          state: 'MT',
+          zipCode: '59917',
+          country: 'USA',
+          longitude: null,
+          latitude: null,
+          additionalDetails: '',
+        },
+        contacts: [
+          {
+            name: 'Decker Konya',
+            phone: '5557582786',
+            email: 'Decker.Konya@va.gov',
+          },
+        ],
+      },
+    };
+
+    mockAppointmentInfo({ va: [appointment] });
+
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
+
+    await screen.findByText(
+      (_, node) => node.textContent === 'VA Video Connect at an ATLAS location',
+    );
+
+    // screen.debug();
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link', {
+          name: `Add ${startDate
+            .tz('America/Denver')
+            .format('MMMM D, YYYY')} appointment to your calendar`,
+        })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = ics.split('\r\n');
+
+    // TODO: Debugging
+    // console.log(tokens);
+
+    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
+    expect(tokens[1]).to.equal('VERSION:2.0');
+    expect(tokens[2]).to.equal('PRODID:VA');
+    expect(tokens[3]).to.equal('BEGIN:VEVENT');
+    expect(tokens[4]).to.contain('UID:');
+    // TODO: location name???
+    expect(tokens[5]).to.equal(
+      'SUMMARY:VA Video Connect appointment at Meg Smith',
+    );
+
+    // Description text longer than 74 characters should start on newline beginning
+    // with a tab character
+    expect(tokens[6]).to.equal(
+      'DESCRIPTION:Join this video meeting from this ATLAS (non-VA) location:',
+    );
+    expect(tokens[7]).to.equal(`\t\\n\\n114 Dewey Ave\\n`);
+    expect(tokens[8]).to.equal('\tEureka\\, MT 59917\\n');
+    expect(tokens[9]).to.equal(
+      '\t\\nYour appointment code is 7VBBCA. Use this code to find your appointment ',
+    );
+    expect(tokens[10]).to.equal('\ton the computer at Meg Smith.\\n');
+    expect(tokens[11]).to.equal(`\t\\nYou'll be meeting with Meg Smith\\n`);
+
+    expect(tokens[12]).to.equal('LOCATION:114 Dewey Ave\\, Eureka\\, MT 59917');
+    expect(tokens[13]).to.equal(
+      `DTSTAMP:${moment(startDate)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[14]).to.equal(
+      `DTSTART:${moment(startDate)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[15]).to.equal(
+      `DTEND:${startDate
+        .clone()
+        .add(20, 'minutes') // Default duration
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[16]).to.equal('END:VEVENT');
+    expect(tokens[17]).to.equal('END:VCALENDAR');
+  });
+
+  it('should verify Video Connect on VA device calendar ics file format', async () => {
+    const startDate = moment().add(30, 'minutes');
+    const appointment = getVideoAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: startDate.format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: startDate.format(),
+      appointmentKind: 'MOBILE_GFE',
+      status: { description: 'F', code: 'FUTURE' },
+      providers: [
+        {
+          name: { firstName: 'Test T+90', lastName: 'Test' },
+          contactInformation: {
+            mobile: '8888888888',
+            preferredEmail: 'marcy.nadeau@va.gov',
+            timeZone: '10',
+          },
+          location: {
+            type: 'VA',
+            facility: {
+              name: 'CHEYENNE VAMC',
+              siteCode: '983',
+              timeZone: '10',
+            },
+          },
+          virtualMeetingRoom: {
+            conference: 'VVC8275247',
+            pin: '7172705#',
+            url:
+              'https://care2.evn.va.gov/vvc-app/?name=Test%2CTest+T%2B90&join=1&media=1&escalate=1&conference=VVC8275247@care2.evn.va.gov&pin=7172705#',
+          },
+        },
+      ],
+    };
+    mockAppointmentInfo({
+      va: [appointment],
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
+      initialState,
+    });
+
+    await screen.findByText(
+      (_, node) => node.textContent === 'VA Video Connect using a VA device',
+    );
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link', {
+          name: `Add ${startDate
+            .tz('America/Denver')
+            .format('MMMM D, YYYY')} appointment to your calendar`,
+        })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = ics.split('\r\n');
+
+    // TODO: Debugging
+    // console.log(tokens);
+
+    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
+    expect(tokens[1]).to.equal('VERSION:2.0');
+    expect(tokens[2]).to.equal('PRODID:VA');
+    expect(tokens[3]).to.equal('BEGIN:VEVENT');
+    expect(tokens[4]).to.contain('UID:');
+
+    expect(tokens[5]).to.equal(
+      'SUMMARY:VA Video Connect appointment using a VA device',
+    );
+
+    // Description text longer than 74 characters should start on newline beginning
+    // with a tab character
+    expect(tokens[6]).to.equal(
+      'DESCRIPTION:Join this video meeting using a device provided by VA.',
+    );
+    expect(tokens[7]).to.contains('\t\\nYou’ll be meeting with'); // TODO: Verify meeting with whom
+
+    expect(tokens[8]).to.equal('LOCATION:');
+    expect(tokens[9]).to.equal(
+      `DTSTAMP:${moment(startDate)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[10]).to.equal(
+      `DTSTART:${moment(startDate)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[11]).to.equal(
+      `DTEND:${startDate
+        .clone()
+        .add(20, 'minutes') // Default mock duration
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[12]).to.equal('END:VEVENT');
+    expect(tokens[13]).to.equal('END:VCALENDAR');
+  });
+});

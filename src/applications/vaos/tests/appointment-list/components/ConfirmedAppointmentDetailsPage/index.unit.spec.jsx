@@ -426,4 +426,235 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       ).to.be.ok;
     });
   });
+
+  it('should verify VA in person calendar ics file format', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      clinicFriendlyName: "Jennie's Lab",
+      facilityId: '983',
+      sta6aid: '983GC',
+      vdsAppointments: [
+        {
+          bookingNote: 'New issue: ASAP',
+        },
+      ],
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+      isHomepageRefresh: true,
+    });
+
+    mockSingleAppointmentFetch({
+      appointment,
+    });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Fort Collins VA Clinic',
+        phone: {
+          main: '970-224-1550',
+        },
+      },
+    };
+
+    mockFacilityFetch('vha_442GC', facility);
+
+    const startDateTime = moment(appointment.start);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    // Verify document title and content...
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `VA appointment on ${moment()
+          .tz('America/Denver')
+          .format('dddd, MMMM D, YYYY')}`,
+      );
+    });
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link', {
+          name: `Add ${moment(appointment.start)
+            .tz('America/Denver')
+            .format('MMMM D, YYYY')} appointment to your calendar`,
+        })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = ics.split('\r\n');
+
+    // TODO: Debugging
+    // console.log(tokens);
+
+    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
+    expect(tokens[1]).to.equal('VERSION:2.0');
+    expect(tokens[2]).to.equal('PRODID:VA');
+    expect(tokens[3]).to.equal('BEGIN:VEVENT');
+    expect(tokens[4]).to.contain('UID:');
+    expect(tokens[5]).to.equal('SUMMARY:Appointment at Fort Collins VA Clinic');
+
+    // Description text longer than 74 characters should start on newline beginning
+    // with a tab character
+    expect(tokens[6]).to.equal(
+      'DESCRIPTION:You have a health care appointment at Fort Collins VA Clinic',
+    );
+    expect(tokens[7]).to.equal('\t\\n\\nFake street\\n');
+    expect(tokens[8]).to.equal('\tFake city\\, FA fake zip\\n');
+    expect(tokens[9]).to.equal('\t970-224-1550\\n');
+    expect(tokens[10]).to.equal(
+      '\t\\nSign in to VA.gov to get details about this appointment\\n',
+    );
+
+    expect(tokens[11]).to.equal(
+      'LOCATION:Fake street\\, Fake city\\, FA fake zip',
+    );
+    expect(tokens[12]).to.equal(
+      `DTSTAMP:${moment(startDateTime)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[13]).to.equal(
+      `DTSTART:${moment(startDateTime)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[14]).to.equal(
+      `DTEND:${startDateTime
+        .clone()
+        .add(60, 'minutes')
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[15]).to.equal('END:VEVENT');
+    expect(tokens[16]).to.equal('END:VCALENDAR');
+  });
+
+  it('should verify VA phone calendar ics file format', async () => {
+    const url = '/va/22cdc6741c00ac67b6cbf6b972d084c0';
+
+    const appointment = getVAAppointmentMock();
+    appointment.id = '22cdc6741c00ac67b6cbf6b972d084c0';
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      clinicFriendlyName: "Jennie's Lab",
+      facilityId: '983',
+      phoneOnly: true,
+      sta6aid: '983GC',
+      start: '2021-06-20T16:00:00Z',
+      vdsAppointments: [
+        {
+          bookingNote: 'New issue: ASAP',
+        },
+      ],
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+      isHomepageRefresh: true,
+    });
+
+    mockSingleAppointmentFetch({
+      appointment,
+    });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Cheyenne VA Medical Center',
+        phone: {
+          main: '970-224-1550',
+        },
+      },
+    };
+
+    mockFacilityFetch('vha_442GC', facility);
+    mockFacilitiesFetch('vha_442GC', [facility]);
+    const startDateTime = moment(appointment.start);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    // Verify document title and content...
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `VA appointment on ${moment(appointment.start)
+          .tz('America/Denver')
+          .format('dddd, MMMM D, YYYY')}`,
+      );
+    });
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link', {
+          name: `Add ${moment(appointment.start)
+            .tz('America/Denver')
+            .format('MMMM D, YYYY')} appointment to your calendar`,
+        })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = ics.split('\r\n');
+
+    // TODO: Debugging
+    // console.log(tokens);
+
+    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
+    expect(tokens[1]).to.equal('VERSION:2.0');
+    expect(tokens[2]).to.equal('PRODID:VA');
+    expect(tokens[3]).to.equal('BEGIN:VEVENT');
+    expect(tokens[4]).to.contain('UID:');
+    expect(tokens[5]).to.equal('SUMMARY:Phone appointment');
+
+    // Description text longer than 74 characters should start on newline beginning
+    // with a tab character
+    expect(tokens[6]).to.equal(
+      `DESCRIPTION:A provider will call you at ${moment(appointment.start)
+        .tz('America/Denver')
+        .format('h:mm a')}`,
+    );
+    expect(tokens[7]).to.equal('\t\\n\\nFake street\\n');
+    expect(tokens[8]).to.equal('\tFake city\\, FA fake zip\\n');
+    expect(tokens[9]).to.equal('\t970-224-1550\\n');
+    expect(tokens[10]).to.equal(
+      '\t\\nSign in to VA.gov to get details about this appointment\\n',
+    );
+
+    expect(tokens[11]).to.equal('LOCATION:Phone call');
+    expect(tokens[12]).to.equal(
+      `DTSTAMP:${moment(startDateTime)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[13]).to.equal(
+      `DTSTART:${moment(startDateTime)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[14]).to.equal(
+      `DTEND:${startDateTime
+        .clone()
+        .add(60, 'minutes')
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[15]).to.equal('END:VEVENT');
+    expect(tokens[16]).to.equal('END:VCALENDAR');
+  });
 });

@@ -354,4 +354,102 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
 
     expect(screen.getByText(/Community care/)).to.be.ok;
   });
+
+  it('should verify community care calendar ics file format', async () => {
+    const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
+
+    const appointment = getCCAppointmentMock();
+    appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
+    appointment.attributes = {
+      ...appointment.attributes,
+      appointmentRequestId: '8a4885896a22f88f016a2cb7f5de0062',
+      distanceEligibleConfirmed: true,
+      name: { firstName: 'Rick', lastName: 'Katz' },
+      providerPractice: 'My Eye Dr',
+      providerPhone: '(703) 555-1264',
+      address: {
+        street: '123',
+        city: 'Burke',
+        state: 'VA',
+        zipCode: '20151',
+      },
+      appointmentTime: '05/20/2021 14:15:00',
+      timeZone: 'UTC',
+    };
+
+    mockSingleCommunityCareAppointmentFetch({
+      appointment,
+    });
+    const startDateTime = moment(appointment.attributes.appointmentTime);
+
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+        path: url,
+      },
+    );
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /^Thursday, May 20, 2021/,
+      }),
+    ).to.be.ok;
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link', {
+          name: 'Add May 20, 2021 appointment to your calendar',
+        })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = ics.split('\r\n');
+
+    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
+    expect(tokens[1]).to.equal('VERSION:2.0');
+    expect(tokens[2]).to.equal('PRODID:VA');
+    expect(tokens[3]).to.equal('BEGIN:VEVENT');
+    expect(tokens[4]).to.contain('UID:');
+
+    // TODO: Should this be provider practice instead of name???
+    expect(tokens[5]).to.equal('SUMMARY:Appointment at Rick Katz');
+
+    // The description text longer than 74 characters should start newlines with a tab character
+    expect(tokens[6]).to.equal(
+      'DESCRIPTION:You have a health care appointment with a community care provi',
+    );
+    expect(tokens[7]).to.equal(
+      '\tder. Please don’t go to your local VA health facility.',
+    );
+    expect(tokens[8]).to.equal('\t\\n\\n123\\n');
+    expect(tokens[9]).to.equal('\tBurke\\, VA 20151\\n');
+    expect(tokens[10]).to.equal('\t(703) 555-1264\\n');
+    expect(tokens[11]).to.equal(
+      '\t\\nSign in to VA.gov to get details about this appointment\\n',
+    );
+
+    expect(tokens[12]).to.equal('LOCATION:123\\, Burke\\, VA 20151');
+    expect(tokens[13]).to.equal(
+      `DTSTAMP:${moment(startDateTime)
+        // .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[14]).to.equal(
+      `DTSTART:${moment(startDateTime)
+        // .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[15]).to.equal(
+      `DTEND:${startDateTime
+        .clone()
+        .add(60, 'minutes')
+        // .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[16]).to.equal('END:VEVENT');
+    expect(tokens[17]).to.equal('END:VCALENDAR');
+  });
 });

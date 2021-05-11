@@ -284,12 +284,12 @@ export default function ConfirmedAppointmentDetailsPage() {
                         : `You have a health care appointment at ${
                             facility?.name
                           }`,
-                      phone: isPhone ? '' : formatFacilityPhone(facility),
-                      additionalText: [formatFacilityAddress(facility)],
+                      phone: formatFacilityPhone(facility),
+                      additionalText: [
+                        'Sign in to VA.gov to get details about this appointment',
+                      ],
                     }}
-                    location={
-                      isPhone ? 'Phone call' : formatFacilityAddress(facility)
-                    }
+                    location={formatFacilityAddress(facility)}
                     duration={appointment.minutesDuration}
                     startDateTime={appointment.start}
                   />

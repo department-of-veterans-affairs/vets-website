@@ -5,7 +5,10 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import recordEvent from 'platform/monitoring/record-event.js';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import AddToCalendar from '../../../components/AddToCalendar';
-import { formatFacilityAddress } from '../../../services/location';
+import {
+  formatFacilityAddress,
+  formatFacilityPhone,
+} from '../../../services/location';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
@@ -87,8 +90,14 @@ export default function ConfirmationDirectScheduleInfoV2({
           className="far fa-calendar vads-u-margin-right--1"
         />
         <AddToCalendar
-          summary="VA Appointment"
-          description=""
+          summary={`Appointment at ${clinic.serviceName}`}
+          description={{
+            text: `You have a health care appointment at ${clinic.serviceName}`,
+            phone: formatFacilityPhone(facilityDetails),
+            additionalText: [
+              'Sign in to VA.gov to get details about this appointment',
+            ],
+          }}
           location={formatFacilityAddress(facilityDetails)}
           startDateTime={momentDate.format()}
           duration={appointmentLength}

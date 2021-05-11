@@ -6,6 +6,7 @@ import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
+  VIDEO_TYPES,
 } from '../../utils/constants';
 import {
   getVAAppointmentLocationId,
@@ -32,6 +33,10 @@ import {
   getTimezoneBySystemId,
 } from '../../utils/timezone';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
+import {
+  formatFacilityAddress,
+  formatFacilityPhone,
+} from '../../services/location';
 
 export function getCancelInfo(state) {
   const {
@@ -470,5 +475,106 @@ export function getPastAppointmentListInfo(state) {
     pastStatus: state.appointments.pastStatus,
     pastSelectedIndex: state.appointments.pastSelectedIndex,
     facilityData: state.appointments.facilityData,
+  };
+}
+
+export function selectCalendarData({
+  videoKind,
+  isHome,
+  isAtlas,
+  facility,
+  appointment,
+}) {
+  const isVideo = appointment.vaos.isVideo;
+  const isCommunityCare = appointment.vaos.isCommunityCare;
+  const isInPersonVAAppointment = !isVideo && !isCommunityCare;
+
+  if (isInPersonVAAppointment) {
+    let location = '';
+    if (facility) location = formatFacilityAddress(facility);
+
+    return {
+      summary: `Appointment at ${facility?.name}`,
+      providerName: '',
+      location,
+      text: `You have a health care appointment at ${facility?.name}`,
+      additionalText: [
+        'Sign in to VA.gov to get details about this appointment',
+      ],
+    };
+  } else if (isCommunityCare) {
+    const { providerName, practiceName } =
+      appointment.communityCareProvider || {};
+
+    return {
+      summary: `Appointment at ${providerName || practiceName}`,
+      providerName: `${providerName || practiceName}`,
+      location: `${formatFacilityAddress(appointment.communityCareProvider)}`,
+      text:
+        'You have a health care appointment with a community care provider. Please don’t go to your local VA health facility.',
+      phone: `${formatFacilityPhone(appointment.communityCareProvider)}`,
+      additionalText: [
+        'Sign in to VA.gov to get details about this appointment',
+      ],
+    };
+  } else if (isVideo) {
+    const providerName = appointment.videoData?.providers
+      ? appointment.videoData.providers[0]?.display
+      : '';
+
+    if (isHome) {
+      return {
+        summary: 'VA Video Connect appointment',
+        text:
+          'You can join this meeting up to 30 minutes before the start time.',
+        location: 'VA Video Connect at home',
+        additionalText: ['Sign in to VA.gov to join this meeting'],
+      };
+    } else if (isAtlas) {
+      const { atlasLocation } = appointment.videoData;
+
+      if (atlasLocation?.address) {
+        return {
+          // TODO: This doesn't seem right
+          summary: `VA Video Connect appointment at ${providerName}`,
+          // providerName: `${firstName} ${lastName}`,
+          location: formatFacilityAddress(atlasLocation),
+          text: 'Join this video meeting from this ATLAS (non-VA) location:',
+          additionalText: [
+            `Your appointment code is ${
+              appointment.videoData.atlasConfirmationCode
+            }. Use this code to find your appointment on the computer at ${providerName}.`,
+            `You'll be meeting with ${providerName}`,
+          ],
+        };
+      }
+    } else if (videoKind === VIDEO_TYPES.clinic) {
+      return {
+        summary: `VA Video Connect appointment at ${
+          appointment.location.clinicName
+        }`,
+        providerName: appointment.location.clinicName,
+        location: formatFacilityAddress(facility),
+        text: 'You need to join this video meeting from:',
+        additionalText: [
+          `You’ll be meeting with ${appointment.location.clinicName}`, // TODO: Verify this
+          'Sign in to VA.gov to get details about this appointment',
+        ],
+      };
+    } else if (videoKind === VIDEO_TYPES.gfe) {
+      return {
+        summary: 'VA Video Connect appointment using a VA device',
+        providerName: '',
+        location: '',
+        text: 'Join this video meeting using a device provided by VA.',
+        additionalText: [
+          `You’ll be meeting with ${appointment.location.clinicName}.`,
+        ],
+      };
+    }
+  }
+
+  return {
+    summary: '',
   };
 }

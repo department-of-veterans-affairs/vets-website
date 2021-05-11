@@ -18,6 +18,7 @@ import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import {
   getVAAppointmentLocationId,
   isVAPhoneAppointment,
+  isVideoHome,
 } from '../../../../services/appointment';
 import AdditionalInfoRow from '../AdditionalInfoRow';
 import {
@@ -25,6 +26,7 @@ import {
   VideoVisitInstructions,
 } from './VideoInstructions';
 import VideoVisitProviderSection from './VideoVisitProvider';
+import { selectCalendarData } from '../../../redux/selectors';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -50,6 +52,9 @@ export default function ConfirmedAppointmentListItem({
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
   const isAtlas = appointment.videoData.isAtlas;
   const videoKind = appointment.videoData.kind;
+  const isHome = isVideoHome(appointment);
+  const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+
   const showInstructions =
     isCommunityCare ||
     (isInPersonVAAppointment &&
@@ -65,14 +70,14 @@ export default function ConfirmedAppointmentListItem({
 
   const showProvider = isVideo && !!appointment.videoData.providers?.length;
 
-  let instructionText = 'VA appointment';
-  if (showInstructions) {
-    instructionText = appointment.comment;
-  } else if (showVideoInstructions) {
-    instructionText = getVideoInstructionText(appointment.comment);
-  } else if (isVideo) {
-    instructionText = 'VA video appointment';
-  }
+  // let instructionText = 'VA appointment';
+  // if (showInstructions) {
+  //   instructionText = appointment.comment;
+  // } else if (showVideoInstructions) {
+  //   instructionText = getVideoInstructionText(appointment.comment);
+  // } else if (isVideo) {
+  //   instructionText = 'VA video appointment';
+  // }
 
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
@@ -86,6 +91,13 @@ export default function ConfirmedAppointmentListItem({
   let header;
   let location;
   let subHeader = '';
+  const calendarData = selectCalendarData({
+    videoKind,
+    isHome,
+    isAtlas,
+    facility,
+    appointment,
+  });
 
   if (isAtlas) {
     header = 'VA Video Connect';
@@ -207,9 +219,13 @@ export default function ConfirmedAppointmentListItem({
               </AdditionalInfoRow>
             )}
             <AddToCalendar
-              summary={`${header}${subHeader}`}
-              description={instructionText}
-              location={location}
+              summary={calendarData.summary}
+              description={{
+                text: calendarData.text,
+                phone,
+                additionalText: calendarData.additionalText,
+              }}
+              location={calendarData.location}
               duration={appointment.minutesDuration}
               startDateTime={appointment.start}
             />
