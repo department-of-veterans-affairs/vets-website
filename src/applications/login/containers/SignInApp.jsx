@@ -14,7 +14,9 @@ import downtimeBanners from '../utilities/downtimeBanners';
 import Loader from 'platform/site-wide/user-nav/components/Loader';
 
 const AutoSSO = React.lazy(() =>
-  import(/* webpackChunkName: "autoSSO" */ 'platform/site-wide/user-nav/containers/AutoSSO'),
+  import(
+    /* webpackChunkName: "autoSSO" */ 'platform/site-wide/user-nav/containers/AutoSSO'
+  ),
 );
 const SignInDescription = React.lazy(() =>
   import(/* webpackChunkName: "signIn" */ '../components/SignInDescription'),

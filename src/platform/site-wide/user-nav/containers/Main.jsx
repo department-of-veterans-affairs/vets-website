@@ -26,10 +26,14 @@ import Loader from '../components/Loader';
 const AutoSSO = React.lazy(() => import('./AutoSSO'));
 
 const SessionTimeoutModal = React.lazy(() =>
-  import(/* webpackPrefetch: true, webpackChunkName: "sessionTimeout" */ 'platform/user/authentication/components/SessionTimeoutModal'),
+  import(
+    /* webpackPrefetch: true, webpackChunkName: "sessionTimeout" */ 'platform/user/authentication/components/SessionTimeoutModal'
+  ),
 );
 const SignInModal = React.lazy(() =>
-  import(/* webpackPrefetch: true, webpackChunkName: "signInModal" */ 'platform/user/authentication/components/SignInModal'),
+  import(
+    /* webpackPrefetch: true, webpackChunkName: "signInModal" */ 'platform/user/authentication/components/SignInModal'
+  ),
 );
 
 export class Main extends React.Component {
@@ -219,7 +223,4 @@ const mapDispatchToProps = {
   updateLoggedInStatus,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
