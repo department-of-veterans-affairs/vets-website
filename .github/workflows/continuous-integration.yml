@@ -292,9 +292,6 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
-      - name: Checkout output pwd
-        run: echo $GITHUB_WORKSPACE
-
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
@@ -314,15 +311,11 @@ jobs:
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
 
-      - name: Checkout output build dir
-        run: |
-          ls
-
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.buildtype }}
-          path: /home/runner/_work/vets-website/vets-website/vets-website/build
+          path: $GITHUB_WORKSPACE/vets-website/build
           retention-days: 1
 
   prearchive:
@@ -376,17 +369,6 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-        # TODO: Do we want to rerun build? Seems a bit irrelavent
-      # - name: Build
-      #   run: yarn build --buildtype ${{ matrix.buildtype }} --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
-      #   timeout-minutes: 30
-      #   env:
-      #     NODE_ENV: production
-
-      - name: Checkout output dir
-        run: |
-          ls
-
       - name: Make build directory
         run: mkdir -p build
 
@@ -394,11 +376,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: ${{ matrix.buildtype }}
-          path: /home/runner/_work/vets-website/vets-website/vets-website/build
-      
-      - name: Checkout output dir post DL
-        run: |
-          ls build
+          path: $GITHUB_WORKSPACE/vets-website/build
 
       - name: Prearchive
         run: node ./script/prearchive.js --buildtype=${{ matrix.buildtype }}
