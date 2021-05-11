@@ -12,10 +12,6 @@ const BRANCH_NAME = process.env.GITHUB_REF;
 const IS_PROD_BRANCH = BRANCH_NAME.replace('refs/heads/', '') === 'master';
 const maxBrokenLinks = 10;
 
-console.log('branch_name', BRANCH_NAME.replace('refs/heads/', ''));
-console.log('server_url', SERVER_URL);
-console.log('CB', contentOnlyBuild);
-
 // broken links detected
 if (fs.existsSync(reportPath)) {
   const brokenLinksReport = fs.readFileSync(reportPath, 'utf8');
@@ -37,6 +33,7 @@ if (fs.existsSync(reportPath)) {
   );
 
   console.log(`::set-output name=SLACK_MESSAGE::${message}`);
+  console.log(`::set-output name=SLACK_COLOR::${color}`);
 
   if (!IS_PROD_BRANCH && !contentOnlyBuild) {
     // Ignore the results of the broken link checker unless
@@ -46,10 +43,7 @@ if (fs.existsSync(reportPath)) {
     // continue merging.
     return;
   }
-
   if (color === 'danger') {
     throw new Error('Broken links found');
   }
-
-  console.log(`::set-output name=SLACK_COLOR::${color}`);
 }
