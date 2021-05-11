@@ -5,11 +5,6 @@ function LanguagesListTemplate() {
     <ul>
       {[
         {
-          label: 'English',
-          suffix: '/',
-          lang: 'en',
-        },
-        {
           onThisPage: 'En esta página',
           label: 'Español',
           suffix: '-esp/',
@@ -20,6 +15,11 @@ function LanguagesListTemplate() {
           label: 'Tagalog',
           onThisPage: 'Sa pahinang ito',
           lang: 'tl',
+        },
+        {
+          label: 'Other languages',
+          suffix: '/',
+          lang: 'en',
         },
       ].map((link, i) => (
         <li key={i}>
