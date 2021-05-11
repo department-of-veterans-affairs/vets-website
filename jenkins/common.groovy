@@ -116,7 +116,7 @@ def setup() {
   }
 }
 
-def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
+def build(String ref, dockerContainer, String assetSource, String envName, Boolean contentOnlyBuild) {
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMaxParallelRequests = 15
   def noDrupalProxy = '--no-drupal-proxy'

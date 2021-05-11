@@ -37,16 +37,16 @@ node('vetsgov-general-purpose') {
 
           try {
             // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
           } catch (error) {
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
               // Try to build again using cached drupal content
-              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
             } else {
-              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
             }
           }
         },
@@ -60,16 +60,16 @@ node('vetsgov-general-purpose') {
 
           try {
             // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
           } catch (error) {
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
               // Try to build again using cached drupal content
-              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
             } else {
-              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
             }
           }
         },
@@ -83,16 +83,16 @@ node('vetsgov-general-purpose') {
                     
           try {
             // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+            commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
           } catch (error) {
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
                 sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
               // Try to build again using cached drupal content
-              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
+              commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
             } else {
-              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
+              commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
             }
           }
         },
