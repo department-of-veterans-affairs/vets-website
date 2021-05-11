@@ -116,26 +116,15 @@ def setup() {
   }
 }
 
-def build(String ref, dockerContainer, String assetSource, String envName, Boolean contentOnlyBuild) {
+def build(String ref, dockerContainer, String envName) {
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
   def drupalMaxParallelRequests = 15
-  def noDrupalProxy = '--no-drupal-proxy'
-
-  // Build using the CMS Production instance only if we are doing
-  // a content-only build (as part of a Content Release) OR if
-  // we are building the master branch's production environment.
-  if (
-    contentOnlyBuild ||
-    (IS_PROD_BRANCH && envName == 'vagovprod')
-  ) {
-    noDrupalProxy = ''
-  }
 
   withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalMaxParallelRequests ${drupalMaxParallelRequests} ${noDrupalProxy} --buildLog ${buildLogPath} --verbose"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --drupalMaxParallelRequests ${drupalMaxParallelRequests} --buildLog ${buildLogPath} --verbose"
     }
   }
 }

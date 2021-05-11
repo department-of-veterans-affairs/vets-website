@@ -21,9 +21,6 @@ node('vetsgov-general-purpose') {
   dockerContainer = commonStages.setup()
 
   stage('Main') {
-    def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
-    def assetSource = contentOnlyBuild ? ref : 'local'
-
     try {
       parallel (
         failFast: true,
@@ -31,23 +28,12 @@ node('vetsgov-general-purpose') {
         buildDev: {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovdev'
-          
-          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
-          if (!shouldBuild) { return }
 
           try {
             // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
+            commonStages.build(ref, dockerContainer, envName)
           } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              // Try to build again using cached drupal content
-              commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
-            } else {
-              commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
-            }
+            commonStages.build(ref, dockerContainer, envName)
           }
         },
 
@@ -55,45 +41,23 @@ node('vetsgov-general-purpose') {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovstaging'
 
-          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
-          if (!shouldBuild) { return }
-
           try {
             // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
+            commonStages.build(ref, dockerContainer, envName)
           } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              // Try to build again using cached drupal content
-              commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
-            } else {
-              commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
-            }
+            commonStages.build(ref, dockerContainer, envName)
           }
         },
 
         buildProd: {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovprod'
-
-          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
-          if (!shouldBuild) { return }
                     
           try {
             // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
+            commonStages.build(ref, dockerContainer, envName)
           } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              // Try to build again using cached drupal content
-              commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
-            } else {
-              commonStages.build(ref, dockerContainer, assetSource, envName, contentOnlyBuild)
-            }
+            commonStages.build(ref, dockerContainer, envName)
           }
         },
 
