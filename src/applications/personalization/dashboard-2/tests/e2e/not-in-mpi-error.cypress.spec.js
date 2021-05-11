@@ -20,11 +20,11 @@ describe('MyVA Dashboard', () => {
       cy.visit('my-va/');
 
       cy.findByRole('heading', {
-        name: /We can’t match your information to our records/i,
+        name: /We’re having trouble verifying your identity/i,
       }).should('exist');
-      cy.findByText(
-        /We can’t give you access to VA.gov tools to manage your health and benefits right now./i,
-      ).should('exist');
+      cy.findByText(/we can’t give you access to VA.gov tools/i).should(
+        'exist',
+      );
       cy.findByTestId('dashboard-section-health-care').should('not.exist');
       cy.findByTestId('dashboard-section-claims-and-appeals').should(
         'not.exist',

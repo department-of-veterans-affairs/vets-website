@@ -19,6 +19,240 @@
     ],
     "path": "/escanaba-vet-center"
   },
+  "fieldVetCenterFeatureContent": [
+    {
+      "entity": {
+        "fieldDescription": {
+          "value": "<ul>\r\n\t<li>Whole Health (Yoga, CrossFit, Outdoor Rec)</li>\r\n\t<li>&nbsp;Art and Narrative Therapy</li>\r\n\t<li>&nbsp;Model Kit Building and&nbsp;Painting</li>\r\n\t<li>&nbsp;Female Veteran Connect</li>\r\n\t<li>&nbsp;Chronic Condition Management</li>\r\n\t<li>&nbsp;Spouse / Significant Other</li>\r\n\t<li>&nbsp;Couples – Gottman</li>\r\n\t<li>&nbsp;Other ongoing Veteran specific</li>\r\n</ul>\r\n\r\n<p>Call 906-233-0244 for information about these groups&nbsp; and other services.</p>\r\n",
+          "format": "rich_text_limited",
+          "processed": "<ul>\n<li>Whole Health (Yoga, CrossFit, Outdoor Rec)</li>\n<li> Art and Narrative Therapy</li>\n<li> Model Kit Building and Painting</li>\n<li> Female Veteran Connect</li>\n<li> Chronic Condition Management</li>\n<li> Spouse / Significant Other</li>\n<li> Couples – Gottman</li>\n<li> Other ongoing Veteran specific</li>\n</ul>\n<p>Call 906-233-0244 for information about these groups  and other services.</p>\n"
+        },
+        "fieldSectionHeader": "Newly offered supportive groups beginning in April",
+        "fieldCta": {
+          "targetId": 38024,
+          "targetRevisionId": 286240,
+          "entity": {
+            "fieldButtonLink": {
+              "uri": "http://localhost:3001/wholehealth/",
+              "title": "",
+              "options": []
+            },
+            "fieldButtonLabel": "Learn more"
+          }
+        }
+      }
+    },
+    {
+      "entity": {
+        "fieldDescription": {
+          "value": "<p>Come join us on <strong>April 21 at 8:30 a.m.</strong> to enjoy coffee and fellowship with other Veterans. Our staff will be on hand to offer information and answer questions.&nbsp;</p>\r\n\r\n<p>A Veteran Service Officer will be available for questions on benefit related topics.&nbsp;</p>\r\n\r\n<p>Masks will be available and there is enough room for social distancing.&nbsp;</p>\r\n\r\n<p>Call 906-233-0244 for more information.</p>\r\n",
+          "format": "rich_text_limited",
+          "processed": "<p>Come join us on <strong>April 21 at 8:30 a.m.</strong> to enjoy coffee and fellowship with other Veterans. Our staff will be on hand to offer information and answer questions. </p>\n<p>A Veteran Service Officer will be available for questions on benefit related topics. </p>\n<p>Masks will be available and there is enough room for social distancing. </p>\n<p>Call 906-233-0244 for more information.</p>\n"
+        },
+        "fieldSectionHeader": "Morning Coffee Call",
+        "fieldCta": null
+      }
+    }
+  ],
+  "fieldCcVetCenterFeaturedCon": {
+    "fetched": {
+      "field_cta": [
+        {
+          "target_id": "32956",
+          "target_revision_id": "291418",
+          "type": "paragraph",
+          "bundle": "button",
+          "pid": "32956",
+          "label": "National Vet Center content > Content > Call to Action",
+          "status": true,
+          "langcode": "en",
+          "field_button_label": [
+            {
+              "value": "Listen to the podcast"
+            }
+          ],
+          "field_button_link": [
+            {
+              "uri": "https://share.transistor.fm/s/fa73389e",
+              "title": "",
+              "options": []
+            }
+          ]
+        }
+      ],
+      "field_description": [
+        {
+          "value": "<p>A recent Borne the Battle episode discusses some of the unique and generous benefits that Vet Centers offer.</p>\r\n",
+          "format": "rich_text_limited",
+          "processed": "<p>A recent Borne the Battle episode discusses some of the unique and generous benefits that Vet Centers offer.</p>\n"
+        }
+      ],
+      "field_section_header": [
+        {
+          "value": "Borne the Battle Podcast: Vet Centers"
+        }
+      ]
+    },
+    "fetchedBundle": "featured_content"
+  },
+  "fieldCcVetCenterFaqs": {
+    "fetched": {
+      "field_accordion_display": [
+        {
+          "value": "1"
+        }
+      ],
+      "field_questions": [
+        {
+          "target_id": "29903",
+          "target_revision_id": "291422",
+          "type": "paragraph",
+          "bundle": "q_a",
+          "pid": "29903",
+          "label": "National Vet Center content > Content > Questions",
+          "status": true,
+          "langcode": "en",
+          "field_answer": [
+            {
+              "target_id": "29902",
+              "target_revision_id": "291421",
+              "type": "paragraph",
+              "bundle": "wysiwyg",
+              "pid": "29902",
+              "label": "National Vet Center content > Content > Questions > Answer",
+              "status": true,
+              "langcode": "en",
+              "field_wysiwyg": [
+                {
+                  "value": "<p>Vet Centers are small, non-medical, counseling centers conveniently located in your community. They're staffed by highly trained counselors and team members dedicated to seeing you through the challenges that come with managing life during and after the military.</p>\r\n\r\n<p>Whether you come in for one-on-one counseling or to participate in a group session, at Vet Centers you can form social connections, try new things, and build a support system with people who understand you and want to help you succeed.</p>\r\n",
+                  "format": "rich_text_limited",
+                  "processed": "<p>Vet Centers are small, non-medical, counseling centers conveniently located in your community. They're staffed by highly trained counselors and team members dedicated to seeing you through the challenges that come with managing life during and after the military.</p>\n<p>Whether you come in for one-on-one counseling or to participate in a group session, at Vet Centers you can form social connections, try new things, and build a support system with people who understand you and want to help you succeed.</p>\n"
+                }
+              ]
+            }
+          ],
+          "field_question": [
+            {
+              "value": "What are Vet Centers?"
+            }
+          ]
+        },
+        {
+          "target_id": "29905",
+          "target_revision_id": "291424",
+          "type": "paragraph",
+          "bundle": "q_a",
+          "pid": "29905",
+          "label": "National Vet Center content > Content > Questions",
+          "status": true,
+          "langcode": "en",
+          "field_answer": [
+            {
+              "target_id": "29904",
+              "target_revision_id": "291423",
+              "type": "paragraph",
+              "bundle": "wysiwyg",
+              "pid": "29904",
+              "label": "National Vet Center content > Content > Questions > Answer",
+              "status": true,
+              "langcode": "en",
+              "field_wysiwyg": [
+                {
+                  "value": "<p>Vet Center services are available to you at no cost, regardless of discharge character, and without you needing to be enrolled in VA health care or having a service-connected disability. If you are a Veteran or service member, including members of the National Guard and Reserve, you can access our services if you:</p>\r\n\r\n<ul>\r\n\t<li>Served on active military duty in any combat theater or area of hostility.</li>\r\n\t<li>Experienced military sexual trauma (regardless of gender or service era.)&nbsp;</li>\r\n\t<li>Provided mortuary services or direct emergent medical care to treat the casualties of war while serving on active military duty.</li>\r\n\t<li>Served stateside during a national disaster as a member of the National Guard or Reserve.</li>\r\n\t<li>Participated in a drug interdiction operation as a member of the U.S. Coast Guard (regardless of location.)</li>\r\n\t<li>Performed as a member of an unmanned aerial vehicle crew that provided direct support to operations in a combat theater or area of hostility.&nbsp;</li>\r\n\t<li>Accessed care at a Vet Center prior to January 2, 2013 as a Vietnam-Era Veteran.</li>\r\n</ul>\r\n\r\n<p><strong>We encourage you to contact us, even if you are unsure if you meet these criteria. If we can’t help you, we will find someone who will.&nbsp;</strong></p>\r\n\r\n<p>&nbsp;</p>\r\n",
+                  "format": "rich_text",
+                  "processed": "<p>Vet Center services are available to you at no cost, regardless of discharge character, and without you needing to be enrolled in VA health care or having a service-connected disability. If you are a Veteran or service member, including members of the National Guard and Reserve, you can access our services if you:</p>\n\n<ul><li>Served on active military duty in any combat theater or area of hostility.</li>\n\t<li>Experienced military sexual trauma (regardless of gender or service era.) </li>\n\t<li>Provided mortuary services or direct emergent medical care to treat the casualties of war while serving on active military duty.</li>\n\t<li>Served stateside during a national disaster as a member of the National Guard or Reserve.</li>\n\t<li>Participated in a drug interdiction operation as a member of the U.S. Coast Guard (regardless of location.)</li>\n\t<li>Performed as a member of an unmanned aerial vehicle crew that provided direct support to operations in a combat theater or area of hostility. </li>\n\t<li>Accessed care at a Vet Center prior to January 2, 2013 as a Vietnam-Era Veteran.</li>\n</ul><p><strong>We encourage you to contact us, even if you are unsure if you meet these criteria. If we can’t help you, we will find someone who will. </strong></p>\n\n<p> </p>"
+                }
+              ]
+            }
+          ],
+          "field_question": [
+            {
+              "value": "Who is eligible to receive services at Vet Centers?"
+            }
+          ]
+        },
+        {
+          "target_id": "29907",
+          "target_revision_id": "291426",
+          "type": "paragraph",
+          "bundle": "q_a",
+          "pid": "29907",
+          "label": "National Vet Center content > Content > Questions",
+          "status": true,
+          "langcode": "en",
+          "field_answer": [
+            {
+              "target_id": "29906",
+              "target_revision_id": "291425",
+              "type": "paragraph",
+              "bundle": "wysiwyg",
+              "pid": "29906",
+              "label": "National Vet Center content > Content > Questions > Answer",
+              "status": true,
+              "langcode": "en",
+              "field_wysiwyg": [
+                {
+                  "value": "<p>No. You do not have to be enrolled in VA Healthcare or have a service connected disability.</p>\r\n",
+                  "format": "rich_text",
+                  "processed": "<p>No. You do not have to be enrolled in VA Healthcare or have a service connected disability.</p>"
+                }
+              ]
+            }
+          ],
+          "field_question": [
+            {
+              "value": "Do I have to be enrolled in VA health care to access VA mental health services?"
+            }
+          ]
+        },
+        {
+          "target_id": "29909",
+          "target_revision_id": "291428",
+          "type": "paragraph",
+          "bundle": "q_a",
+          "pid": "29909",
+          "label": "National Vet Center content > Content > Questions",
+          "status": true,
+          "langcode": "en",
+          "field_answer": [
+            {
+              "target_id": "29908",
+              "target_revision_id": "291427",
+              "type": "paragraph",
+              "bundle": "wysiwyg",
+              "pid": "29908",
+              "label": "National Vet Center content > Content > Questions > Answer",
+              "status": true,
+              "langcode": "en",
+              "field_wysiwyg": [
+                {
+                  "value": "<p><strong>Safe and confidential. </strong>Our records cannot be accessed by other VA offices, the DoD offices, military units, or other community networks and providers without your permission or unless required to avert a life-threatening situation.&nbsp; Here, you can be as open as you want – there’s absolutely no judgement.</p>\r\n",
+                  "format": "rich_text",
+                  "processed": "<p><strong>Safe and confidential. </strong>Our records cannot be accessed by other VA offices, the DoD offices, military units, or other community networks and providers without your permission or unless required to avert a life-threatening situation.  Here, you can be as open as you want – there’s absolutely no judgement.</p>"
+                }
+              ]
+            }
+          ],
+          "field_question": [
+            {
+              "value": "What about my privacy?"
+            }
+          ]
+        }
+      ],
+      "field_section_header": [
+        {
+          "value": "How we're different than a clinic"
+        }
+      ],
+      "field_section_intro": [
+        {
+          "value": "Click on a topic for more details."
+        }
+      ]
+    },
+    "fetchedBundle": "q_a_section"
+  },
   "entityBundle": "vet_center",
   "entityLabel": "Escanaba Vet Center",
   "fieldIntroText": "We offer confidential help for Veterans, service members, and their families at no cost in a non-medical setting. Our services include counseling for needs such as depression, posttraumatic stress disorder (PTSD), and the psychological effects of military sexual trauma (MST). We can also connect you with more support in VA and your community.",
