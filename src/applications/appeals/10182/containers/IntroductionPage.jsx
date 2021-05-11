@@ -64,47 +64,38 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">
-                Determine your eligibility
+                Check to be sure you can request a Board Appeal
               </h3>
-              <p>A board appeal can be requested on:</p>
+              <p>
+                {' '}
+                You can request a Board Appeal up to 1 year from the date on
+                your decision notice. You'll have 60 days if you have a a{' '}
+                <a href={CONTESTED_CLAIMS_URL}>contested claim</a> (these are
+                rare).
+              </p>
               <ul>
                 <li>An initial claim decision</li>
                 <li>A supplemental claim decision</li>
                 <li>A Higher-Level Review claim decision</li>
               </ul>
               <p>
-                A board appeal <strong>cannot</strong> be requested on a
-                previous Board Appeal on the <strong>same</strong> claim.
-              </p>
-              <p>
-                You have one year from the date on your decision letter to
-                request a Board Appeal, unless you have a{' '}
-                <a href={CONTESTED_CLAIMS_URL}>contested claim</a> (these are
-                rare).
-              </p>
-              <h4>You’ll have to opt-in to the new decision review process</h4>
-              <p className="vads-u-margin-bottom--0">
-                If you received a VA decision before Febrauary 19, 2019, and you
-                want to appeal your decision under the new decision review
-                process, you’ll need to opt-in. When you fill out the request
-                form, you’ll need to check an opt-in box. This withdraws your
-                claim from the legacy appeal process (the process for decisions
-                received before Febrauary 19, 2019). Your claim will move
-                forward under the new process.
+                <strong>Note: </strong>
+                You can't request a Board Appeal if you've already requested on
+                for this same claim.
               </p>
             </li>
             <li className="process-step list-two">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
-              <p>To fill out this application, you’ll need your:</p>
+              <p>Here's what you'll need to apply:</p>
               <ul>
-                <li>Primary address</li>
+                <li>Mailing address</li>
                 <li>
                   List of issues you disagree with and the VA decision date for
                   each
                 </li>
                 <li>Representative’s contact information (optional)</li>
               </ul>
-              <h4>What if I need help filling out my application?</h4>
+              <h5>What if I need help filling out my application?</h5>
               <p>
                 If you need help requesting a Board Appeal, you can contact a VA
                 regional office near you.
