@@ -1,43 +1,34 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import { selectUseProviderSelection } from '../../../redux/selectors';
-import {
-  getFormData,
-  getFlowType,
-  getChosenFacilityInfo,
-  getChosenClinicInfo,
-  getChosenVACityState,
-  getChosenFacilityDetails,
-  getSiteIdForChosenFacility,
-} from '../../redux/selectors';
+import { selectReviewPage } from '../../redux/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ReviewDirectScheduleInfo from './ReviewDirectScheduleInfo';
 import ReviewRequestInfo from './ReviewRequestInfo';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import * as actions from '../../redux/actions';
+import { submitAppointmentOrRequest } from '../../redux/actions';
 import FacilityAddress from '../../../components/FacilityAddress';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 
 const pageTitle = 'Review your appointment details';
 
-export function ReviewPage({
-  data,
-  facility,
-  facilityDetails,
-  clinic,
-  vaCityState,
-  flowType,
-  submitStatus,
-  submitStatusVaos400,
-  systemId,
-  submitAppointmentOrRequest,
-  useProviderSelection,
-}) {
+export default function ReviewPage() {
+  const dispatch = useDispatch();
+  const {
+    clinic,
+    data,
+    facility,
+    facilityDetails,
+    flowType,
+    submitStatus,
+    submitStatusVaos400,
+    systemId,
+    useProviderSelection,
+    vaCityState,
+  } = useSelector(selectReviewPage, shallowEqual);
   const history = useHistory();
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -78,7 +69,7 @@ export function ReviewPage({
           }
           isLoading={submitStatus === FETCH_STATUS.loading}
           loadingText="Submission in progress"
-          onClick={() => submitAppointmentOrRequest(history)}
+          onClick={() => dispatch(submitAppointmentOrRequest(history))}
           className="usa-button usa-button-primary"
         >
           {isDirectSchedule ? 'Confirm appointment' : 'Request appointment'}
@@ -133,33 +124,3 @@ export function ReviewPage({
     </div>
   );
 }
-
-ReviewPage.propTypes = {
-  data: PropTypes.object.isRequired,
-  facility: PropTypes.object,
-  clinic: PropTypes.object,
-};
-
-function mapStateToProps(state) {
-  return {
-    data: getFormData(state),
-    facility: getChosenFacilityInfo(state),
-    facilityDetails: getChosenFacilityDetails(state),
-    clinic: getChosenClinicInfo(state),
-    vaCityState: getChosenVACityState(state),
-    flowType: getFlowType(state),
-    submitStatus: state.newAppointment.submitStatus,
-    submitStatusVaos400: state.newAppointment.submitStatusVaos400,
-    systemId: getSiteIdForChosenFacility(state),
-    useProviderSelection: selectUseProviderSelection(state),
-  };
-}
-
-const mapDispatchToProps = {
-  submitAppointmentOrRequest: actions.submitAppointmentOrRequest,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReviewPage);
