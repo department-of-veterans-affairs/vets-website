@@ -7,7 +7,6 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 
 import {
   CONTESTED_CLAIMS_URL,
-  DECISION_REVIEWS_URL,
   FACILITY_LOCATOR_URL,
   GET_HELP_REQUEST_URL,
 } from '../constants';
@@ -116,23 +115,6 @@ class IntroductionPage extends React.Component {
                 Complete this Board Appeal application form. After submitting
                 the form, you’ll get a confirmation message. You can print this
                 for your records.
-              </p>
-            </li>
-            <li className="process-step list-four">
-              <h3 className="vads-u-font-size--h4">Board Review</h3>
-              <p className="vads-u-margin-bottom--0">
-                A Veterans Law Judge at The Board of Veteran appeals will review
-                your case. Depending on which{' '}
-                <a href={DECISION_REVIEWS_URL}>review option</a> you choose, it
-                will take the Board a year or longer to make a decision on your
-                case.
-              </p>
-            </li>
-            <li className="process-step list-five">
-              <h3 className="vads-u-font-size--h4">Decision</h3>
-              <p>
-                Once the Board has processed your claim, you’ll get a notice in
-                the mail with their decision.
               </p>
             </li>
           </ol>
