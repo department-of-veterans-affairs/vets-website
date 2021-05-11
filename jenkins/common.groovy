@@ -118,7 +118,6 @@ def setup() {
 
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
   def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
-  def drupalMode = useCache ? '' : '--pull-drupal'
   def drupalMaxParallelRequests = 15
   def noDrupalProxy = '--no-drupal-proxy'
 
@@ -136,7 +135,7 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
     dockerContainer.inside(DOCKER_ARGS) {
       def buildLogPath = "/application/${envName}-build.log"
 
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalMaxParallelRequests ${drupalMaxParallelRequests} ${drupalMode} ${noDrupalProxy} --buildLog ${buildLogPath} --verbose"
+      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalMaxParallelRequests ${drupalMaxParallelRequests} ${noDrupalProxy} --buildLog ${buildLogPath} --verbose"
     }
   }
 }
