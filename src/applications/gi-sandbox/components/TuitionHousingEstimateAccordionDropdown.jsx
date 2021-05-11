@@ -59,9 +59,12 @@ class TuitionHousingEstimateAccordionDropdown extends React.Component {
       );
     }
 
-    const headerClasses = classNames('accordion-button-wrapper update-results-header ', {
-      [headerClass]: headerClass,
-    });
+    const headerClasses = classNames(
+      'accordion-button-wrapper update-results-header ',
+      {
+        [headerClass]: headerClass,
+      },
+    );
 
     return (
       <h2 className={headerClasses}>
