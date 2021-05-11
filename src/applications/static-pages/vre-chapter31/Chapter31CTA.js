@@ -32,7 +32,7 @@ const Chapter31CTA = props => {
           href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900"
           className="usa-button-primary va-button-primary"
         >
-          Apply for VR&R benefits
+          Apply for VR&E benefits
         </a>
       </>
     );
