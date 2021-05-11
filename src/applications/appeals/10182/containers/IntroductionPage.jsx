@@ -49,6 +49,17 @@ class IntroductionPage extends React.Component {
         <h2 className="vads-u-font-size--h3">
           Follow the steps below to request a Board Appeal.
         </h2>
+        <h5>
+          If you're requesting a Board Appeal on an issue in a claim we decided
+          before February 19, 2019
+        </h5>
+        <p className="vads-u-margin-bottom--0">
+          You'll need to opt in to the new decision review process by checking a
+          box when you fill out the application. This moves your issue from the
+          old appeals process to the new decision review process. As part of the
+          Appeals Modernization Act, our new process means you'll likely get a
+          faster decision.
+        </p>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
