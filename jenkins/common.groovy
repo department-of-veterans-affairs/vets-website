@@ -132,24 +132,6 @@ def setup() {
   }
 }
 
-
-/**
- * Searches the build log for missing query flags ands sends a notification
- * to Slack if any are found.
- *
- * NOTE: This function is meant to be called from within the
- * dockerContainer.inside() context so buildLog can point to the right file.
- */
-def findMissingQueryFlags(String buildLogPath, String envName) {
-  def missingFlags = sh(returnStdout: true, script: "sed -nr 's/Could not find query flag (.+)\\..+/\\1/p' ${buildLogPath} | sort | uniq")
-  if (missingFlags) {
-    slackSend message: "Missing query flags found in the ${envName} build on `${env.BRANCH_NAME}`. The following will flags be considered false:\n${missingFlags}",
-      color: 'warning',
-      failOnError: true,
-      channel: 'cms-team'
-  }
-}
-
 def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
   // Use the CMS's Sandbox (Tugboat) environment for all branches that
   // are not configured to deploy to prod.
@@ -175,11 +157,6 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
       def buildLogPath = "/application/${envName}-build.log"
 
       sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} --drupalMaxParallelRequests ${drupalMaxParallelRequests} ${drupalMode} ${noDrupalProxy} --buildLog ${buildLogPath} --verbose"
-
-      if (envName == 'vagovprod') {
-        // Find any missing query flags in the log
-        findMissingQueryFlags(buildLogPath, envName)
-      }
     }
   }
 }
