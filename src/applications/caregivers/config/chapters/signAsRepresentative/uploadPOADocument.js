@@ -64,8 +64,6 @@ export default {
     properties: {
       [representativeFields.documentUpload]: {
         type: 'array',
-        minItems: 1,
-        maxItems: 1,
         items: {
           type: 'object',
           required: ['guid', 'name'],

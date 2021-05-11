@@ -38,6 +38,7 @@ const SignatureCheckbox = ({
 
       <section className={classNames({ 'wide-input': isRepresentative })}>
         <SignatureInput
+          aria-describedby={`${label}-signature-label`}
           label={label}
           fullName={fullName}
           required={isRequired}
@@ -49,7 +50,10 @@ const SignatureCheckbox = ({
         />
 
         {isRepresentative && (
-          <p className="on-behalf-representative">
+          <p
+            className="on-behalf-representative"
+            id={`${label}-signature-label`}
+          >
             On behalf of
             <strong className="vads-u-font-size--lg">
               {fullName.first} {fullName.middle} {fullName.last}
