@@ -1,18 +1,8 @@
-DRUPAL_MAPPING = [
-  'dev': 'vagovdev',
-  'staging': 'vagovstaging',
-  'prod': 'vagovprod',
-]
-
-ALL_VAGOV_BUILDTYPES = [
+VAGOV_BUILDTYPES = [
   'vagovdev',
   'vagovstaging',
   'vagovprod'
 ]
-
-BUILD_TYPE_OVERRIDE = DRUPAL_MAPPING.get(params.cmsEnvBuildOverride, null)
-
-VAGOV_BUILDTYPES = BUILD_TYPE_OVERRIDE ? [BUILD_TYPE_OVERRIDE] : ALL_VAGOV_BUILDTYPES
 
 DEV_BRANCH = 'master'
 STAGING_BRANCH = 'master'

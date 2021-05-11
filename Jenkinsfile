@@ -4,10 +4,7 @@ import org.kohsuke.github.GitHub
 env.CONCURRENCY = 10
 
 node('vetsgov-general-purpose') {
-  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
-              parameters([choice(name: "cmsEnvBuildOverride",
-                                 description: "Choose an environment to run a content only build. Select 'none' to run the regular pipeline.",
-                                 choices: ["none", "dev", "staging"].join("\n"))])]);
+  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']]]);
 
   // Checkout vets-website code
   dir("vets-website") {
@@ -62,7 +59,6 @@ node('vetsgov-general-purpose') {
         },
 
         lint: {
-          if (params.cmsEnvBuildOverride != 'none') { return }
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "cd /application && npm --no-color run lint"
           }
@@ -70,7 +66,6 @@ node('vetsgov-general-purpose') {
 
         // Check package.json for known vulnerabilities
         security: {
-          if (params.cmsEnvBuildOverride != 'none') { return }
           retry(3) {
             dockerContainer.inside(commonStages.DOCKER_ARGS) {
               sh "cd /application && npm run security-check"
@@ -79,7 +74,6 @@ node('vetsgov-general-purpose') {
         },
 
         unit: {
-          if (params.cmsEnvBuildOverride != 'none') { return }
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "/cc-test-reporter before-build"
             sh "cd /application && npm --no-color run test:unit -- --coverage"
