@@ -232,41 +232,4 @@ def archiveAll(dockerContainer, String ref) {
   }
 }
 
-def cacheDrupalContent(dockerContainer, envUsedCache) {
-  stage("Cache Drupal Content") {
-    if (!isDeployable()) { return }
-
-    try {
-      def archives = [:]
-
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
-        // Skip caching Drupal content for vagovdev since we aren't pulling and building content for that environment.
-        // vagovdev's Drupal cache is created and uploaded in the content-build repo. This prevents overwriting vagovdev's
-        // Drupal cache file with an empty file.
-        if(envName != "vagovdev") {
-          if (!envUsedCache[envName]) {
-            dockerContainer.inside(DOCKER_ARGS) {
-              sh "cd /application && node script/drupal-aws-cache.js --buildtype=${envName}"
-            }
-          } else {
-            slackCachedContent(envName)
-            // TODO: Read the envName-output.log and send that into the Slack message
-          }
-        }
-      }
-
-      dockerContainer.inside(DOCKER_ARGS) {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
-                         usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-          sh "aws s3 sync /application/.cache/content s3://vetsgov-website-builds-s3-upload/content/ --acl public-read --region us-gov-west-1 --quiet"
-        }
-      }
-    } catch (error) {
-      slackNotify()
-      throw error
-    }
-  }
-}
-
 return this;

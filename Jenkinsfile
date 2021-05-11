@@ -16,7 +16,6 @@ node('vetsgov-general-purpose') {
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
-  def envUsedCache = [:]
 
   // setupStage
   dockerContainer = commonStages.setup()
@@ -39,7 +38,6 @@ node('vetsgov-general-purpose') {
           try {
             // Try to build using fresh drupal content
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
           } catch (error) {
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
@@ -47,10 +45,8 @@ node('vetsgov-general-purpose') {
               }
               // Try to build again using cached drupal content
               commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
             } else {
               commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-              envUsedCache[envName] = false
             }
           }
         },
@@ -65,7 +61,6 @@ node('vetsgov-general-purpose') {
           try {
             // Try to build using fresh drupal content
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
           } catch (error) {
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
@@ -73,10 +68,8 @@ node('vetsgov-general-purpose') {
               }
               // Try to build again using cached drupal content
               commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
             } else {
               commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-              envUsedCache[envName] = false
             }
           }
         },
@@ -91,7 +84,6 @@ node('vetsgov-general-purpose') {
           try {
             // Try to build using fresh drupal content
             commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
           } catch (error) {
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
@@ -99,10 +91,8 @@ node('vetsgov-general-purpose') {
               }
               // Try to build again using cached drupal content
               commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
             } else {
               commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-              envUsedCache[envName] = false
             }
           }
         },
@@ -230,9 +220,6 @@ node('vetsgov-general-purpose') {
   commonStages.prearchiveAll(dockerContainer)
 
   commonStages.archiveAll(dockerContainer, ref);
-  
-  envsUsingDrupalCache = envUsedCache
-  commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
   stage('Review') {
     if (commonStages.shouldBail()) {
