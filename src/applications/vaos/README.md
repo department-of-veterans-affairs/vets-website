@@ -10,7 +10,11 @@ Documentation for the frontend of the VAOS application is generated using [JSDoc
 
 ### Documentation outline
 
-The documentation navigation is separated into type sections. We currently have sections for `Modules` and `Global`. The `Modules` section consists of components and function definitions broken up by files. The `Global` section contains type definitions for the resource objects that we receive from our various [data sources](https://github.com/department-of-veterans-affairs/vets-website/tree/master/src/applications/vaos#api-interaction).
+The documentation navigation is separated into type sections. We currently have sections for `Modules` and `Global`. The `Modules` section consists of services and helper method definitions broken up by file. The `Global` section contains type definitions for the resource objects that we receive from our various [data sources](https://github.com/department-of-veterans-affairs/vets-website/tree/master/src/applications/vaos#api-interaction).
+
+### Documentation guidelines
+
+We want to document shared services and helper methods as well as any type definitions for VAOS specific resource objects. This includes `/services` functions and transformers, mock data helpers, and type definitions in `*.types` files.
 
 ### Generate the docs
 
