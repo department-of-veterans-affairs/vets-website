@@ -75,7 +75,6 @@ const testConfig = createTestConfig(
             .click({ waitForAnimations: true });
         });
       },
-      // 'reason-for-visit': ({afterHook}) => {  },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.findAllByText(/submit/i, { selector: 'button' })
