@@ -40,8 +40,6 @@ function ConfirmationPageV2({
 
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
-  const showCovidPhone = data.vaos.isCOVIDVaccine;
-
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{appointmentDateString}</h1>
@@ -78,7 +76,7 @@ function ConfirmationPageV2({
             facilityId={facilityDetails.id}
             isHomepageRefresh
             clinicFriendlyName={clinic?.serviceName}
-            showCovidPhone={showCovidPhone}
+            showCovidPhone
           />
         </div>
       </div>
