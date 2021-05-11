@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FOOTER_COLUMNS } from '../helpers';
+import LanguageSupport from './LanguageSupport';
 
 export default function MobileLinks({ links, visible }) {
   return (
@@ -80,55 +81,7 @@ export default function MobileLinks({ links, visible }) {
             {links[FOOTER_COLUMNS.CONNECT]}
           </div>
         </li>
-
-        <li>
-          <button
-            className="usa-button-unstyled usa-accordion-button va-footer-button"
-            aria-controls="veteran-language-support"
-            itemProp="name"
-            aria-expanded="false"
-          >
-            Language Support
-          </button>
-          <div
-            className="usa-accordion-content va-footer-accordion-content"
-            id="veteran-language-support"
-            aria-hidden="true"
-          >
-            <div className="usa-grid usa-grid-full va-footer-links-bottom">
-              <ul>
-                {[
-                  {
-                    label: 'English',
-                    suffix: '/',
-                    lang: 'en',
-                  },
-                  {
-                    onThisPage: 'En esta página',
-                    label: 'Español',
-                    suffix: '-esp/',
-                    lang: 'es',
-                  },
-                  {
-                    suffix: '-tag/',
-                    label: 'Tagalog',
-                    onThisPage: 'Sa pahinang ito',
-                    lang: 'tl',
-                  },
-                ].map((link, i) => (
-                  <li key={i}>
-                    <a
-                      href={link.href}
-                      // onClick={captureEvent}
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </li>
+        <LanguageSupport />
       </ul>
     </div>
   );

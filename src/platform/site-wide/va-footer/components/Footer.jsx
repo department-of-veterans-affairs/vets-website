@@ -3,6 +3,7 @@ import { isWideScreen } from '../../../utilities/accessibility/index';
 import CrisisPanel from './CrisisPanel';
 import DesktopLinks from './DesktopLinks';
 import MobileLinks from './MobileLinks';
+import LanguageSupport from './LanguageSupport';
 import { createLinkGroups } from '../helpers';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
@@ -37,41 +38,7 @@ export default class Footer extends React.Component {
         <div className="footer-inner">
           <DesktopLinks visible={!this.state.isMobile} links={this.linkObj} />
           <MobileLinks visible={this.state.isMobile} links={this.linkObj} />
-          {!this.state.isMobile && (
-            <div className="usa-grid usa-grid-full va-footer-links-bottom">
-              <h2 className="va-footer-linkgroup-title"> Language support</h2>
-              <ul>
-                {[
-                  {
-                    label: 'English',
-                    suffix: '/',
-                    lang: 'en',
-                  },
-                  {
-                    onThisPage: 'En esta página',
-                    label: 'Español',
-                    suffix: '-esp/',
-                    lang: 'es',
-                  },
-                  {
-                    suffix: '-tag/',
-                    label: 'Tagalog',
-                    onThisPage: 'Sa pahinang ito',
-                    lang: 'tl',
-                  },
-                ].map((link, i) => (
-                  <li key={i}>
-                    <a
-                      href={link.href}
-                      // onClick={captureEvent}
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          {!this.state.isMobile && <LanguageSupport isDesktop />}
 
           <div className="usa-grid usa-grid-full footer-banner">
             <a href="/" className="va-footer-logo" title="Go to VA.gov">
