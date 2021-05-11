@@ -292,6 +292,10 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
+      - name: Checkout output dir
+        run: |
+          ls ~
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
@@ -310,6 +314,10 @@ jobs:
       - name: Slack notification
         if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
+
+      - name: Checkout output build dir
+        run: |
+          ls build
 
       - name: Upload build
         uses: actions/upload-artifact@v2
