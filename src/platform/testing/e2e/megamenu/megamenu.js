@@ -1,11 +1,7 @@
 const E2eHelpers = require('../helpers');
 const Timeouts = require('../timeouts');
 
-function testDataDrivenMegamenu(client, path) {
-  const appURL = `${E2eHelpers.baseUrl}${path}`;
-
-  client.openUrl(appURL).waitForElementVisible('body', Timeouts.normal);
-
+function assertBenefitsAndHealthCareIsPresent(client) {
   client
     .waitForElementVisible('#vetnav-menu', Timeouts.normal)
     .elements('css selector', '#vetnav-menu li', results => {
@@ -19,11 +15,9 @@ function testDataDrivenMegamenu(client, path) {
         client.expect(results.value.length).to.equal(1);
       },
     );
+}
 
-  // Click on "VA Benefits and Health Care" nav button
-  client.click('button[aria-controls="vetnav-va-benefits-and-health-care"]');
-
-  // VA Benefits and Health Care top level links
+function assertBenefitsAndHealthCareTopLevelLinksArePresent(client) {
   client
     .elements(
       'css selector',
@@ -50,8 +44,9 @@ function testDataDrivenMegamenu(client, path) {
     )
     .expect.element('#vetnav-health-care-ms .panel-bottom-link')
     .text.to.equal('View all in health care');
+}
 
-  // Disability links
+function assertDisabilityLinksArePresent(client) {
   client
     .click(
       'css selector',
@@ -73,8 +68,9 @@ function testDataDrivenMegamenu(client, path) {
     )
     .expect.element('#vetnav-disability-ms .panel-bottom-link')
     .text.to.equal('View all in disability');
+}
 
-  // Education and training links
+function assertEducationAndTrainingLinksArePresent(client) {
   client
     .click(
       'css selector',
@@ -96,8 +92,9 @@ function testDataDrivenMegamenu(client, path) {
     )
     .expect.element('#vetnav-education-and-training-ms .panel-bottom-link')
     .text.to.equal('View all in education');
+}
 
-  // Careers and employment links
+function assertCareersAndEmploymentLinksArePresent(client) {
   client
     .click(
       'css selector',
@@ -119,8 +116,9 @@ function testDataDrivenMegamenu(client, path) {
     )
     .expect.element('#vetnav-careers-and-employment-ms .panel-bottom-link')
     .text.to.equal('View all in careers and employment');
+}
 
-  // Pension links
+function assertPensionLinksArePresent(client) {
   client
     .click(
       'css selector',
@@ -142,8 +140,9 @@ function testDataDrivenMegamenu(client, path) {
     )
     .expect.element('#vetnav-pension-ms .panel-bottom-link')
     .text.to.equal('View all in pension');
+}
 
-  // Housing assistance links
+function assertHousingAssistanceLinksArePresent(client) {
   client
     .click(
       'css selector',
@@ -165,8 +164,9 @@ function testDataDrivenMegamenu(client, path) {
     )
     .expect.element('#vetnav-housing-assistance-ms .panel-bottom-link')
     .text.to.equal('View all in housing assistance');
+}
 
-  // Life insurance links
+function assertLifeInsuranceLinkArePresent(client) {
   client
     .click(
       'css selector',
@@ -188,8 +188,9 @@ function testDataDrivenMegamenu(client, path) {
     )
     .expect.element('#vetnav-life-insurance-ms .panel-bottom-link')
     .text.to.equal('View all in life insurance');
+}
 
-  // Burials and memorials links
+function assertBurialsAndMemorialsLinksArePresent(client) {
   client
     .click(
       'css selector',
@@ -211,8 +212,9 @@ function testDataDrivenMegamenu(client, path) {
     )
     .expect.element('#vetnav-burials-and-memorials-ms .panel-bottom-link')
     .text.to.equal('View all in burials and memorials');
+}
 
-  // Records links
+function assertRecordsLinksArePresent(client) {
   client
     .click(
       'css selector',
@@ -234,6 +236,84 @@ function testDataDrivenMegamenu(client, path) {
     )
     .expect.element('#vetnav-records-ms .panel-bottom-link')
     .text.to.equal('View all in records');
+}
+
+function assertAboutVANavIsPresent(client) {
+  client.elements(
+    'css selector',
+    '#vetnav-about-va > ul .vetnav-panel--submenu',
+    results => {
+      client.expect(results.value.length).to.equal(4);
+    },
+  );
+}
+
+function assertMainColumnElementsArePresent(client) {
+  client.elements(
+    'css selector',
+    '#vetnav-main-column-col li.mm-link-container',
+    results => {
+      client.expect(results.value.length).to.equal(7);
+    },
+  );
+}
+
+function assertColumnOneElementsArePresent(client) {
+  client.elements(
+    'css selector',
+    '#vetnav-column-one-col li.mm-link-container',
+    results => {
+      client.expect(results.value.length).to.equal(8);
+    },
+  );
+}
+
+function assertColumnTwoElementsArePresent(client) {
+  client.elements(
+    'css selector',
+    '#vetnav-column-two-col li.mm-link-container',
+    results => {
+      client.expect(results.value.length).to.equal(6);
+    },
+  );
+}
+
+function testDataDrivenMegamenu(client, path) {
+  const appURL = `${E2eHelpers.baseUrl}${path}`;
+
+  client.openUrl(appURL).waitForElementVisible('body', Timeouts.normal);
+
+  assertBenefitsAndHealthCareIsPresent(client);
+
+  // Click on "VA Benefits and Health Care" nav button
+  client.click('button[aria-controls="vetnav-va-benefits-and-health-care"]');
+
+  // VA Benefits and Health Care top level links
+  assertBenefitsAndHealthCareTopLevelLinksArePresent(client);
+
+  // Disability links
+  assertDisabilityLinksArePresent(client);
+
+  // Education and training links
+  assertEducationAndTrainingLinksArePresent(client);
+
+  // Careers and employment links
+  assertCareersAndEmploymentLinksArePresent(client);
+
+  // Pension links
+  assertPensionLinksArePresent(client);
+
+  // Housing assistance links
+  assertHousingAssistanceLinksArePresent(client);
+
+  // Life insurance links
+  assertLifeInsuranceLinkArePresent(client);
+
+  // Burials and memorials links
+  assertBurialsAndMemorialsLinksArePresent(client);
+
+  // Records links
+  assertRecordsLinksArePresent(client);
 
   client.expect
     .element('#vetnav-va-benefits-and-health-care > ul li:nth-child(10) a')
@@ -247,52 +327,28 @@ function testDataDrivenMegamenu(client, path) {
   client.click('button[aria-controls="vetnav-about-va"]');
 
   // About VA nav
-  client.elements(
-    'css selector',
-    '#vetnav-about-va > ul .vetnav-panel--submenu',
-    results => {
-      client.expect(results.value.length).to.equal(4);
-    },
-  );
+  assertAboutVANavIsPresent(client);
 
   // About VA links column one
   client.expect
     .element('#vetnav-main-column-header')
     .text.to.equal('VA organizations');
 
-  client.elements(
-    'css selector',
-    '#vetnav-main-column-col li.mm-link-container',
-    results => {
-      client.expect(results.value.length).to.equal(7);
-    },
-  );
+  assertMainColumnElementsArePresent(client);
 
   // About VA links column two
   client.expect
     .element('#vetnav-column-one-header')
     .text.to.equal('Innovation at VA');
 
-  client.elements(
-    'css selector',
-    '#vetnav-column-one-col li.mm-link-container',
-    results => {
-      client.expect(results.value.length).to.equal(8);
-    },
-  );
+  assertColumnOneElementsArePresent(client);
 
   // About VA links column two
   client.expect
     .element('#vetnav-column-two-header')
     .text.to.equal('Learn about VA');
 
-  client.elements(
-    'css selector',
-    '#vetnav-column-two-col li.mm-link-container',
-    results => {
-      client.expect(results.value.length).to.equal(6);
-    },
-  );
+  assertColumnTwoElementsArePresent(client);
 
   // Find a VA Location
   client.expect
