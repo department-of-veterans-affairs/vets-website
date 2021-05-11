@@ -5,19 +5,13 @@
  * and aren't in our exceptions list
  */
 const { spawn } = require('child_process');
-const commandLineArgs = require('command-line-args');
+
 const packageJSON = require('../package.json');
 
 const exceptionSet = new Set([
   'https://npmjs.com/advisories/996',
   'https://npmjs.com/advisories/1488',
 ]);
-
-const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'gha', alias: 'g', type: Boolean, defaultValue: false },
-];
-
-const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
 
 const severitySet = new Set(['high', 'critical', 'moderate']);
 
@@ -51,21 +45,15 @@ function processAuditResults(audit) {
 
   if (validAdvisories.length) {
     validAdvisories.forEach(adv => {
-      const output = `Security advisory: \n Title: ${
-        adv.data.advisory.title
-      } \n Module name: ${
-        adv.data.advisory.module_name
-      } \n Dependency: ${getAffectedModule(adv.data)} \n Path: ${
-        adv.data.resolution.path
-      } \n Severity: ${adv.data.advisory.severity} \n Details: ${
-        adv.data.advisory.url
-      } \n`;
-
-      if (options.gha) {
-        console.log(`::error::${output.replace(/\n/g, '%0A')}`);
-      } else {
-        console.log(output);
-      }
+      console.log(`
+Security advisory:
+  Title: ${adv.data.advisory.title}
+  Module name: ${adv.data.advisory.module_name}
+  Dependency: ${getAffectedModule(adv.data)}
+  Path: ${adv.data.resolution.path}
+  Severity: ${adv.data.advisory.severity}
+  Details: ${adv.data.advisory.url}
+      `);
     });
   } else {
     console.log(
