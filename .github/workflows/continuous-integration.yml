@@ -294,7 +294,7 @@ jobs:
 
       - name: Checkout output pwd
         run: |
-          ls pwd
+          pwd
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
