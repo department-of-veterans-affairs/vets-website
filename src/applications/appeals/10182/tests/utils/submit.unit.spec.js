@@ -136,12 +136,34 @@ describe('addIncludedIssues', () => {
         { ...issue1.raw, [SELECTED]: false },
         { ...issue2.raw, [SELECTED]: true },
       ],
+      'view:hasIssuesToAdd': true,
       additionalIssues: [
         { issue: 'not-added', decisionDate: '2000-01-02', [SELECTED]: false },
         { ...issue.attributes, [SELECTED]: true },
       ],
     };
     expect(addIncludedIssues(formData)).to.deep.equal([issue2.result, issue]);
+    expect(
+      addIncludedIssues({ ...formData, additionalIssues: [] }),
+    ).to.deep.equal([issue2.result]);
+  });
+  it('should not add additional items to contestableIssues array', () => {
+    const issue = {
+      type: 'contestableIssue',
+      attributes: { issue: 'test', decisionDate: '2000-01-01' },
+    };
+    const formData = {
+      contestableIssues: [
+        { ...issue1.raw, [SELECTED]: false },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      'view:hasIssuesToAdd': false,
+      additionalIssues: [
+        { issue: 'not-added', decisionDate: '2000-01-02', [SELECTED]: false },
+        { ...issue.attributes, [SELECTED]: true },
+      ],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([issue2.result]);
     expect(
       addIncludedIssues({ ...formData, additionalIssues: [] }),
     ).to.deep.equal([issue2.result]);

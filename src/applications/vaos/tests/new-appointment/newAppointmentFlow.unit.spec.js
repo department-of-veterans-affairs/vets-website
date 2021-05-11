@@ -364,10 +364,7 @@ describe('VAOS newAppointmentFlow', () => {
             ...defaultState.newAppointment,
             eligibility: {
               '983_323': {
-                directSupported: true,
-                directPastVisit: true,
-                directPACT: true,
-                directClinics: true,
+                direct: true,
               },
             },
           },
@@ -392,13 +389,8 @@ describe('VAOS newAppointmentFlow', () => {
             ...defaultState.newAppointment,
             eligibility: {
               '983_323': {
-                directSupported: false,
-                directPastVisit: true,
-                directPACT: true,
-                directClinics: true,
-                requestSupported: false,
-                requestPastVisit: true,
-                requestLimit: true,
+                direct: false,
+                request: false,
               },
             },
           },
@@ -422,13 +414,8 @@ describe('VAOS newAppointmentFlow', () => {
             ...defaultState.newAppointment,
             eligibility: {
               '983_323': {
-                directSupported: true,
-                directPastVisit: false,
-                directPACT: true,
-                directClinics: true,
-                requestSupported: true,
-                requestPastVisit: true,
-                requestLimit: true,
+                direct: false,
+                request: true,
               },
             },
           },

@@ -36,6 +36,7 @@ class ViewDependentsApp extends Component {
               dependencyVerificationToggle={
                 this.props.dependencyVerificationToggle
               }
+              updateDiariesStatus={this.props.updateDiariesStatus}
             />
           </RequiredLoginView>
         </DowntimeNotification>
@@ -59,6 +60,7 @@ const mapStateToProps = state => ({
   ],
   onAwardDependents: state.allDependents.onAwardDependents,
   notOnAwardDependents: state.allDependents.notOnAwardDependents,
+  updateDiariesStatus: state.verifyDependents.updateDiariesStatus,
 });
 
 const mapDispatchToProps = {

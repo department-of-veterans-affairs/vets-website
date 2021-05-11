@@ -1,45 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import { dependencyVerificationCall } from '../actions/index';
+import {
+  getDependencyVerifications,
+  updateDiariesService,
+} from '../actions/index';
+import { CALLSTATUS, RETRIEVE_DIARIES } from '../utils';
 import DependencyVerificationHeader from './dependencyVerificationHeader';
 import DependencyVerificationList from './dependencyVerificationList';
 import DependencyVerificationFooter from './dependencyVerificationFooter';
 
-const RETRIEVE_DIARIES = 'retrieveDiaries';
-
 const DependencyVerificationModal = props => {
-  const [isModalShowing, setIsModalShowing] = useState(false);
   const handleClose = () => {
     sessionStorage.setItem(RETRIEVE_DIARIES, 'false');
-    setIsModalShowing(false);
+    props.updateDiariesService(false);
   };
 
-  // Wire this up to api call when it's ready
-  const handleCloseAndUpdateDiaries = () => {
-    setIsModalShowing(false);
+  const handleCloseAndUpdateDiaries = shouldUpdate => {
+    sessionStorage.setItem(RETRIEVE_DIARIES, 'false');
+    props.updateDiariesService(shouldUpdate);
   };
   useEffect(() => {
     // user has clicked 'skip for now' or 'make changes' button
     if (sessionStorage.getItem(RETRIEVE_DIARIES) === 'false') {
       return;
     }
-    props.dependencyVerificationCall();
+    props.getDependencyVerifications();
   }, []);
 
-  useEffect(
-    () => {
-      if (props?.data?.verifiableDependents?.length > 0) {
-        setIsModalShowing(true);
-      }
-    },
-    [props],
-  );
-  return props?.data?.verifiableDependents?.length > 0 ? (
+  return props?.data?.getDependencyVerificationStatus === CALLSTATUS.success ? (
     <>
       <Modal
         onClose={handleClose}
-        visible={isModalShowing}
+        visible={
+          props?.data?.getDependencyVerificationStatus === CALLSTATUS.success
+        }
         cssClass="va-modal-large vads-u-padding--1"
         id="dependency-verification"
         contents={
@@ -49,7 +44,6 @@ const DependencyVerificationModal = props => {
               dependents={props?.data?.verifiableDependents}
             />
             <DependencyVerificationFooter
-              handleClose={handleClose}
               handleCloseAndUpdateDiaries={handleCloseAndUpdateDiaries}
             />
           </>
@@ -64,7 +58,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  dependencyVerificationCall,
+  getDependencyVerifications,
+  updateDiariesService,
 };
 
 export default connect(

@@ -9,21 +9,16 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import userEvent from '@testing-library/user-event';
 
 import { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '../../redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
-import expressCareReducer from '../../express-care/redux/reducer';
 import covid19VaccineReducer from '../../covid-19-vaccine/redux/reducer';
 import unenrolledVaccineReducer from '../../unenrolled-vaccine/redux/reducer';
-import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
-import ExpressCareInfoPage from '../../express-care/components/ExpressCareInfoPage';
-import ExpressCareReasonPage from '../../express-care/components/ExpressCareReasonPage';
 import { cleanup } from '@testing-library/react';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
@@ -61,7 +56,6 @@ export function createTestStore(initialState) {
       ...commonReducer,
       ...reducers,
       newAppointment: newAppointmentReducer,
-      expressCare: expressCareReducer,
       covid19Vaccine: covid19VaccineReducer,
       unenrolledVaccine: unenrolledVaccineReducer,
     }),
@@ -463,48 +457,4 @@ export async function setPreferredDate(store, preferredDate) {
   await cleanup();
 
   return screen.history.push.firstCall.args[0];
-}
-
-/**
- * Renders the Express Care info page and continues on
- *
- * @export
- * @async
- * @param {Object} params The Redux store to use to render the page
- * @param {ReduxStore} params.store The Redux store to use to render the page
- */
-export async function setExpressCareFacility({ store }) {
-  const windowsThunk = fetchExpressCareWindows();
-  await windowsThunk(store.dispatch, store.getState);
-  const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
-    store,
-  });
-
-  await screen.findByText(/How Express Care Works/i);
-  fireEvent.click(screen.getByText(/^Continue/));
-  await waitFor(() => expect(screen.history.push.called).to.be.true);
-  await cleanup();
-}
-
-/**
- * Renders the Express Care reason page and selects a reason
- *
- * @export
- * @async
- * @param {Object} params The Redux store to use to render the page
- * @param {ReduxStore} params.store The Redux store to use to render the page
- * @param {string|RegExp} params.label The label of the reason option to choose
- */
-export async function setExpressCareReason({ store, label }) {
-  const screen = renderWithStoreAndRouter(<ExpressCareReasonPage />, {
-    store,
-  });
-
-  userEvent.click(await screen.findByLabelText(label));
-
-  await waitFor(() => expect(screen.getByLabelText(label).checked).to.be.true);
-
-  userEvent.click(screen.getByText(/^Continue/));
-  await waitFor(() => expect(screen.history.push.called).to.be.true);
-  await cleanup();
 }
