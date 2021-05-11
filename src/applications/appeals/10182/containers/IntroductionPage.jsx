@@ -120,6 +120,16 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
           </ol>
+          <h3>Our review and decision process</h3>
+          <p>
+            A Veterans Law Judge at the Board of Veteran's Appeals will review
+            your case. Depending on which review option you choose, it will take
+            the Board a year or longer to make a decision on your case.
+          </p>
+          <p>
+            After the Board has made a decision on your case, you'll get a
+            decision notice in the mail.
+          </p>
         </div>
         <SaveInProgressIntro buttonOnly {...sipOptions} />
         <div className="omb-info--container vads-u-padding-left--0">
