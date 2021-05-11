@@ -57,3 +57,12 @@ export const selectFeatureFacilitySelectionV22 = state =>
 
 export const selectFeatureUnenrolledVaccine = state =>
   toggleValues(state).vaOnlineSchedulingUnenrolledVaccine;
+
+export const selectFeatureVAOSServiceRequests = state =>
+  toggleValues(state).vaOnlineSchedulingVaosServiceRequests;
+
+export const selectFeatureVAOSServiceVAAppointments = state =>
+  toggleValues(state).vaOnlineSchedulingVaosServiceVaAppointments;
+
+export const selectFeatureVAOSServiceCCAppointments = state =>
+  toggleValues(state).vaOnlineSchedulingVaosServiceCcAppointments;
