@@ -113,6 +113,8 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
         /If you get a vaccine that requires 2 doses, you'll need to return to the same facility for your second dose./i,
       ),
     ).to.exist;
+
+    await expect(screen.baseElement).to.be.accessible();
   });
 
   it('should display list of facilities with show more button', async () => {

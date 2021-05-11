@@ -131,6 +131,11 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   @import "consolidated-patches";
 }
 
+// A specificity issue snuck into teamsites that switched some divs to use Arial
+.consolidated div {
+  font-family: $font-stack;
+}
+
 .merger #bg-middle-effect {
   background: url(https://benefits.va.gov/va_files/2014/responsive/images/bg-middle-effect.png) repeat-y scroll center -65px $teamsite-light-blue;
 }

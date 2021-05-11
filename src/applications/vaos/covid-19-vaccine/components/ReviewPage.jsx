@@ -14,6 +14,7 @@ import flow from '../flow';
 import State from '../../components/State';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import { confirmAppointment } from '../redux/actions';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const pageTitle = 'Review your appointment details';
 
@@ -86,7 +87,7 @@ export default function ReviewPage() {
             <div>
               {data.email}
               <br />
-              {data.phoneNumber}
+              <Telephone contact={data.phoneNumber} />
             </div>
           </div>
           <Link to={flow.contactInfo.url} aria-label="Edit contact information">

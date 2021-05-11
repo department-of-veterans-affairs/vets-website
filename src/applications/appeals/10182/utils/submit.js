@@ -183,22 +183,27 @@ export const getContestableIssues = ({ contestableIssues }) =>
  * @param {FormData}
  * @returns {ContestableIssue~Submittable}
  */
-export const addIncludedIssues = formData =>
-  getContestableIssues(formData).concat(
-    (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
-      if (issue[SELECTED] && issue.issue && issue.decisionDate) {
-        // match contested issue pattern
-        issuesToAdd.push({
-          type: 'contestableIssue',
-          attributes: {
-            issue: issue.issue,
-            decisionDate: issue.decisionDate,
-          },
-        });
-      }
-      return issuesToAdd;
-    }, []),
-  );
+export const addIncludedIssues = formData => {
+  const issues = getContestableIssues(formData);
+  if (formData['view:hasIssuesToAdd']) {
+    return issues.concat(
+      (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
+        if (issue[SELECTED] && issue.issue && issue.decisionDate) {
+          // match contested issue pattern
+          issuesToAdd.push({
+            type: 'contestableIssue',
+            attributes: {
+              issue: issue.issue,
+              decisionDate: issue.decisionDate,
+            },
+          });
+        }
+        return issuesToAdd;
+      }, []),
+    );
+  }
+  return issues;
+};
 
 /**
  * @typedef Evidence

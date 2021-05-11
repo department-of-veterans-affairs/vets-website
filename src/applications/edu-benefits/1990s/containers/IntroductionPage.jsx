@@ -6,12 +6,12 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { connect } from 'react-redux';
 import OMBInfo from '../content/OMBInfo';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
+import environment from 'platform/utilities/environment';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
-
   loginPrompt() {
     if (this.props.isLoggedIn) {
       return null;
@@ -114,15 +114,24 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <SaveInProgressIntro
-          buttonOnly={!this.props.isLoggedIn}
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
-          startText="Start the education application"
-          unauthStartText="Sign in or create an account"
-          hideUnauthedStartLink
-        />
+        <div
+          // Prod Flag bah-23496
+          className={
+            !this.props.isLoggedIn && !environment.isProduction()
+              ? 'vads-u-padding-bottom--1p5'
+              : ''
+          }
+        >
+          <SaveInProgressIntro
+            buttonOnly={!this.props.isLoggedIn}
+            prefillEnabled={this.props.route.formConfig.prefillEnabled}
+            messages={this.props.route.formConfig.savedFormMessages}
+            pageList={this.props.route.pageList}
+            startText="Start the education application"
+            unauthStartText="Sign in or create an account"
+            hideUnauthedStartLink
+          />
+        </div>
         <div
           className="omb-info--container"
           style={{ paddingLeft: '0px' }}
