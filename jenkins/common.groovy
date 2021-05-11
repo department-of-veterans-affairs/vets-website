@@ -88,13 +88,6 @@ def slackIntegrationNotify() {
     failOnError: true
 }
 
-def slackCachedContent(envName) {
-  message = "vets-website built with cached Drupal data for ${envName}. |${env.RUN_DISPLAY_URL}".stripMargin()
-  slackSend message: message,
-    color: 'warning',
-    failOnError: true
-}
-
 def setup() {
   stage("Setup") {
 
