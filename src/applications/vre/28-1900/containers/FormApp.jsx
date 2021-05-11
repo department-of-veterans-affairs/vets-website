@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -57,8 +55,15 @@ function FormApp(props) {
   // if a user has a saved form but starts a new session, keep them here instead of
   // sending them to the wizard. This is first so people that make it in during a tiered roll out
   // with flipper can reliably access their form again.
-  if (loggedIn && hasSavedForm) {
+
+  // if a user logs in and checks LOCAL storage for a completion flag, then they have completed the wizard and can stay on the intro page.
+  // this flag should then be deleted.
+  if (
+    (loggedIn && hasSavedForm) ||
+    (loggedIn && localStorage.getItem(WIZARD_STATUS))
+  ) {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    localStorage.removeItem(WIZARD_STATUS);
     return content;
   }
 
@@ -79,13 +84,12 @@ function FormApp(props) {
     );
   }
 
-  // if a user is not logged in, but has completed the wizard, and is navigating away,
-  // it counts as abandonment, and the wizard flag should be reset....but if a user logs in, this still fires..and they will have to fill out the wizard again.
-  if (!loggedIn && wizardStatus) {
-    window.onbeforeunload = () => {
-      sessionStorage.removeItem(WIZARD_STATUS);
-    };
-  }
+  // if (!loggedIn && wizardStatus) {
+  //   window.onbeforeunload = () => {
+  //     console.log('unloading');
+  //     sessionStorage.removeItem(WIZARD_STATUS);
+  //   };
+  // }
 
   // if a user has not done the wizard, send them there.
   // else if a user is trying to access parts of the form unauthenticated, redirect them to the intro page.

@@ -18,6 +18,7 @@ function App({ chapter31Feature }) {
 
   const wizardStateHandler = status => {
     sessionStorage.setItem(WIZARD_STATUS, status);
+    localStorage.setItem(WIZARD_STATUS, status);
   };
 
   if (chapter31Feature === undefined) {
