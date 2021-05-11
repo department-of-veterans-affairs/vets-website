@@ -29,7 +29,7 @@ const AccordionDropdown = ({
   return (
     <div className="accordion-dropdown-test">
       <div
-        className="vads-u-padding-x--1p5 vads-u-padding-y--1"
+        className="20px .vads-u-font-size--lg accordion-height vads-u-background-color--gray-lightest vads-u-padding-x--1p5 vads-u-padding-y--1"
         onClick={toggleExpanded}
       >
         <div className="opener">
@@ -38,8 +38,8 @@ const AccordionDropdown = ({
       </div>
       <div>
         {isOpen && (
-          <div className="accordion-dropdown-out vads-u-padding-x--0p25 vads-u-padding-top--0 vads-u-padding-bottom--2 vads-u-background-color--gray-lightest">
-            <div className="vads-u-padding-x--5  vads-u-background-color--white vads-u-padding-top--1">
+          <div className="accordion-dropdown-out vads-u-padding-x--0p25 vads-u-padding-top--4 vads-u-padding-bottom--2 vads-u-background-color--gray-lightest">
+            <div className="vads-u-padding-x--5 vads-u-margin-bottom--4 vads-u-background-color--white vads-u-padding-top--1 vads-u-padding-bottom--0">
               <form>
                 {children}
 
