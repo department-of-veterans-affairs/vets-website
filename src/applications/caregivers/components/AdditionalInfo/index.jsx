@@ -279,10 +279,6 @@ export const RepresentativeAdditionalInfo = () => {
 export const RepresentativeDocumentUploadDescription = () => {
   return (
     <section>
-      <h3 style={{ padding: 0, marginBottom: '1.3em' }}>
-        Upload your legal representative documentation
-      </h3>
-
       <p>
         You’ll need to scan your document onto the device you’re using to submit
         this application, such as your computer, tablet, or mobile phone. You

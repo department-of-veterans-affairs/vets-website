@@ -4,7 +4,7 @@ import AdditionalInfo from '@department-of-veterans-affairs/component-library/Ad
 const DependencyVerificationHeader = () => {
   return (
     <header>
-      <h2>Dependents on your VA benefits</h2>
+      <h1 className="vads-u-font-size--h2">Dependents on your VA benefits</h1>
       <p>
         Our records show the following dependents on your VA benefits. Please
         let us know if a dependent's status has changed.

@@ -55,7 +55,7 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
   };
 
   const container = classnames(
-    'vads-u-background-color--gray-lightest vads-u-margin-bottom--3 debt-card',
+    'vads-u-background-color--gray-lightest vads-u-margin-top--3 debt-card',
     {
       'selected-debt': isChecked,
     },
