@@ -17,7 +17,7 @@ import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
 Sentry.init({
-  dsn: 'http://one@fake/dsn',
+  dsn: 'http://one@fakedsn/1',
   transport: sentryTransport,
 });
 
