@@ -87,7 +87,7 @@ const testConfig = createTestConfig(
       },
     },
     // disable all tests until we out of proof of concept stage
-    skip: Cypress.env('CI'),
+    skip: true,
   },
   manifest,
   formConfig,
