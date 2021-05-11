@@ -407,3 +407,18 @@ export function selectConfirmationPage(state) {
     useProviderSelection: selectUseProviderSelection(state),
   };
 }
+
+export function selectReviewPage(state) {
+  return {
+    clinic: getChosenClinicInfo(state),
+    data: getFormData(state),
+    facility: getChosenFacilityInfo(state),
+    facilityDetails: getChosenFacilityDetails(state),
+    flowType: getFlowType(state),
+    submitStatus: state.newAppointment.submitStatus,
+    submitStatusVaos400: state.newAppointment.submitStatusVaos400,
+    systemId: getSiteIdForChosenFacility(state),
+    useProviderSelection: selectUseProviderSelection(state),
+    vaCityState: getChosenVACityState(state),
+  };
+}
