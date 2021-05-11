@@ -1,4 +1,5 @@
 import React from 'react';
+import { PrimaryActionLink } from '../../../shared/components/action-link';
 
 export default function AuthedWelcomeMessage(props) {
   const { goToFirstPage } = props;
@@ -12,9 +13,11 @@ export default function AuthedWelcomeMessage(props) {
           filling it out.
         </div>
       </div>
-      <button className="va-button top-login-button" onClick={goToFirstPage}>
-        Answer questions
-      </button>
+      <section className="action-link-container">
+        <PrimaryActionLink onClick={goToFirstPage} ariaLabel="Answer questions">
+          Answer questions
+        </PrimaryActionLink>
+      </section>
     </>
   );
 }

@@ -5,7 +5,7 @@ import ContactDMC from '../components/Contacts';
 import DelayedLiveRegion from '../DelayedLiveRegion';
 
 const Submit = ({ setWizardStatus }) => {
-  const label = 'Submit a Financial Status Report';
+  const label = 'Start your request now';
 
   return (
     <DelayedLiveRegion>

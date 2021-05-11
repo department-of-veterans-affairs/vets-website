@@ -21,7 +21,7 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [focusTriggerButton, setFocusTriggerButton] = useState(false);
 
-  // on first render, set the focus to the h1
+  // on first render, set the focus to the h4
   useEffect(() => {
     focusElement('#mobile-subnav-header');
   }, []);
@@ -67,9 +67,9 @@ const ProfileMobileSubNav = ({ isLOA3, isInMVI, routes }) => {
             onClick={() => setIsMenuOpen(true)}
           >
             <strong>
-              <h1 id="mobile-subnav-header" className={menuButtonClasses}>
+              <h4 id="mobile-subnav-header" className={menuButtonClasses}>
                 Profile
-              </h1>{' '}
+              </h4>{' '}
               menu
             </strong>
             <i className="fa fa-bars" aria-hidden="true" role="img" />

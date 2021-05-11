@@ -6,7 +6,7 @@ const ClaimsAndAppealsCTA = () => {
   return (
     <IconCTALink
       text="Manage all your claims and appeals"
-      href="claim-or-appeal-status/"
+      href="/claim-or-appeal-status/"
       icon="clipboard"
     />
   );

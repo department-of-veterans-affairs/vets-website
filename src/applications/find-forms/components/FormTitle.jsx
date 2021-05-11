@@ -11,14 +11,9 @@ const FormTitle = ({ id, formUrl, title, lang, recordGAEvent }) => (
         href={formUrl}
         className="vads-u-text-decoration--none"
         onClick={() => recordGAEvent(title, formUrl, 'title')}
+        lang={lang}
       >
-        <dfn>
-          <span className="vads-u-visibility--screen-reader">
-            Visit the landing page for Form number
-          </span>
-          {id}{' '}
-        </dfn>
-        <span lang={lang}>{title}</span>
+        {id} {title}{' '}
         <i
           aria-hidden="true"
           role="presentation"
@@ -28,11 +23,7 @@ const FormTitle = ({ id, formUrl, title, lang, recordGAEvent }) => (
       </a>
     ) : (
       <>
-        <dfn>
-          <span className="vads-u-visibility--screen-reader">Form number</span>{' '}
-          {id}{' '}
-        </dfn>
-        <span lang={lang}>{title}</span>
+        {id} {title}
       </>
     )}
   </dt>

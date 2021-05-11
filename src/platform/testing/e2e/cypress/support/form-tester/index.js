@@ -1,4 +1,4 @@
-import { join, sep } from 'path';
+import path, { join, sep } from 'path';
 
 import get from 'platform/utilities/data/get';
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
@@ -347,7 +347,7 @@ Cypress.Commands.add('enterData', field => {
 
     case 'file': {
       cy.get(`#${Cypress.$.escapeSelector(field.key)}`)
-        .upload('example-upload.png', 'image/png')
+        .upload(`../platform/testing/example-upload.png`, 'image/png')
         .get('.schemaform-file-uploading')
         .should('not.exist');
       break;
@@ -509,7 +509,10 @@ const testForm = testConfig => {
 
       cy.syncFixtures({
         // Load example upload data as a fixture.
-        'example-upload.png': 'src/platform/testing/example-upload.png',
+        'example-upload.png': path.join(
+          __dirname,
+          `../../../../example-upload.png`,
+        ),
         ...fixtures,
       }).then(setup);
     });
@@ -524,9 +527,9 @@ const testForm = testConfig => {
 
       // Resolve relative page hook paths as relative to the form's root URL.
       const resolvedPageHooks = Object.entries(pageHooks).reduce(
-        (hooks, [path, hook]) => ({
+        (hooks, [pagePath, hook]) => ({
           ...hooks,
-          [path.startsWith(sep) ? path : join(rootUrl, path)]: hook,
+          [pagePath.startsWith(sep) ? pagePath : join(rootUrl, pagePath)]: hook,
         }),
         {},
       );
@@ -540,7 +543,7 @@ const testForm = testConfig => {
       testCase(testKey, () => {
         beforeEach(() => {
           cy.wrap(testKey).as('testKey');
-          cy.fixture(`data/${testKey}`)
+          cy.fixture(`../../${fixtures.data}/${testKey}`)
             .then(extractTestData)
             .as('testData')
             .then(setupPerTest);

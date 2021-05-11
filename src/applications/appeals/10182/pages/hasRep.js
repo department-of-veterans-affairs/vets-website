@@ -1,9 +1,9 @@
+import { RepIntroTitle } from '../content/representative';
+
 export default {
   uiSchema: {
     'view:hasRep': {
-      'ui:title': `Do you have a representative, like a Veteran Service
-        Organization (VSO) or a VA-accredited attorney or agent helping you file
-        this appeal?`,
+      'ui:title': RepIntroTitle,
       'ui:widget': 'yesNo',
     },
   },

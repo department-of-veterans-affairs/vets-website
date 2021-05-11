@@ -44,7 +44,7 @@
 
           {% for healthServiceGroup in clinicalHealthServices %}
             {% assign groupName = healthServiceGroup.0.fieldServiceNameAndDescripti.entity.parent.0.entity.name %}
-            <section>
+            <section data-label="{{groupName}}">
               <h2>{{groupName}}</h2>
               {% for service in healthServiceGroup %}
                 {% include "src/site/facilities/health_service.drupal.liquid" with healthService = service %}

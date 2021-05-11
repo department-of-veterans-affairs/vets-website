@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
-import * as actions from '../redux/actions';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import CalendarWidget from '../../components/calendar/CalendarWidget';
@@ -13,6 +12,12 @@ import { getRealFacilityId } from '../../utils/appointment';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import useIsInitialLoad from '../../hooks/useIsInitialLoad';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import {
+  getAppointmentSlots,
+  onCalendarChange,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+} from '../redux/actions';
 
 const pageKey = 'selectDate1';
 const pageTitle = 'Choose a date';
@@ -44,10 +49,6 @@ function ErrorMessage({ facilityId }) {
   );
 }
 
-function goBack({ routeToPreviousAppointmentPage, history }) {
-  return routeToPreviousAppointmentPage(history, pageKey);
-}
-
 function validate({ dates, setValidationError }) {
   if (dates?.length) {
     setValidationError(null);
@@ -57,16 +58,16 @@ function validate({ dates, setValidationError }) {
 }
 
 function goForward({
+  dispatch,
   data,
   history,
-  routeToNextAppointmentPage,
   submitted,
   setSubmitted,
   setValidationError,
 }) {
   validate({ date: data.date1, setValidationError });
   if (data.date1?.length) {
-    routeToNextAppointmentPage(history, pageKey);
+    dispatch(routeToNextAppointmentPage(history, pageKey));
   } else if (submitted) {
     scrollAndFocus('.usa-input-error-message');
   } else {
@@ -74,22 +75,20 @@ function goForward({
   }
 }
 
-export function SelectDate1Page({
-  appointmentSlotsStatus,
-  availableSlots,
-  data,
-  facilityId,
-  getAppointmentSlots,
-  pageChangeInProgress,
-  onCalendarChange,
-  routeToPreviousAppointmentPage,
-  requestAppointmentDateChoice,
-  routeToNextAppointmentPage,
-  selectedFacility,
-  timezone,
-  timezoneDescription,
-}) {
+export default function SelectDate1Page() {
+  const {
+    appointmentSlotsStatus,
+    availableSlots,
+    data,
+    facilityId,
+    requestAppointmentDateChoice,
+    selectedFacility,
+    timezone,
+    timezoneDescription,
+    pageChangeInProgress,
+  } = useSelector(state => getDateTimeSelect(state, pageKey), shallowEqual);
   const history = useHistory();
+  const dispatch = useDispatch();
   const [submitted, setSubmitted] = useState(false);
   const [validationError, setValidationError] = useState(null);
   const selectedDates = data.date1;
@@ -99,15 +98,17 @@ export function SelectDate1Page({
   const isInitialLoad = useIsInitialLoad(loadingSlots);
 
   useEffect(() => {
-    getAppointmentSlots(
-      moment()
-        .startOf('month')
-        .format('YYYY-MM-DD'),
-      moment()
-        .add(1, 'months')
-        .endOf('month')
-        .format('YYYY-MM-DD'),
-      true,
+    dispatch(
+      getAppointmentSlots(
+        moment()
+          .startOf('month')
+          .format('YYYY-MM-DD'),
+        moment()
+          .add(1, 'months')
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+        true,
+      ),
     );
     document.title = `${pageTitle} | Veterans Affairs`;
   }, []);
@@ -191,10 +192,12 @@ export function SelectDate1Page({
             }
             onChange={dates => {
               validate({ dates, setValidationError });
-              onCalendarChange(dates, pageKey);
+              dispatch(onCalendarChange(dates, pageKey));
             }}
-            onNextMonth={getAppointmentSlots}
-            onPreviousMonth={getAppointmentSlots}
+            onNextMonth={(...args) => dispatch(getAppointmentSlots(...args))}
+            onPreviousMonth={(...args) =>
+              dispatch(getAppointmentSlots(...args))
+            }
             minDate={moment()
               .add(1, 'days')
               .format('YYYY-MM-DD')}
@@ -210,9 +213,12 @@ export function SelectDate1Page({
         </>
       )}
       <FormButtons
-        onBack={() => goBack({ routeToPreviousAppointmentPage, history })}
+        onBack={() =>
+          dispatch(routeToPreviousAppointmentPage(history, pageKey))
+        }
         onSubmit={() =>
           goForward({
+            dispatch,
             data,
             history,
             routeToNextAppointmentPage,
@@ -228,19 +234,3 @@ export function SelectDate1Page({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getDateTimeSelect(state, pageKey);
-}
-
-const mapDispatchToProps = {
-  getAppointmentSlots: actions.getAppointmentSlots,
-  onCalendarChange: actions.onCalendarChange,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SelectDate1Page);

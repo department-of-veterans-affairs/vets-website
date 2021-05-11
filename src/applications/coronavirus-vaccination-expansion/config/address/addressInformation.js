@@ -2,32 +2,6 @@ import React from 'react';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { addressInformation } from '../schema-imports';
 
-function monkeyPatchStateNames(extraStates, addressInformationObj) {
-  for (const extra of extraStates) {
-    addressInformationObj.properties.stateCode.enum.push(extra.stateCode);
-    addressInformationObj.properties.stateCode.enumNames.push(extra.stateName);
-  }
-}
-
-const extraStates = [
-  {
-    stateCode: 'GU',
-    stateName: 'Guam',
-  },
-  {
-    stateCode: 'PR',
-    stateName: 'Puerto Rico',
-  },
-];
-
-monkeyPatchStateNames(extraStates, addressInformation);
-
-const validateZip = (errors, formData) => {
-  if (formData.zipCode > 4) {
-    errors.state.addError('Please enter at least 5 digits');
-  }
-};
-
 export const schema = {
   addressInformation,
 };
@@ -54,7 +28,6 @@ export const uiSchema = {
       'ui:errorMessages': {
         pattern: 'Please enter your five digit zip code',
       },
-      'ui:validations': [validateZip],
     },
     emailAddress: {
       ...emailUI(),

@@ -27,7 +27,6 @@ import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
   },
   user: {
@@ -164,11 +163,14 @@ describe('VAOS <DateTimeSelectPage>', () => {
     const store = createTestStore({
       newAppointment: {
         data: {
+          typeOfCareId: '323',
           vaFacility: '983GB',
           clinicId: '308',
         },
         pages: [],
-        eligibility: [],
+        eligibility: {
+          '983GB_323': { request: true },
+        },
         appointmentSlotsStatus: FETCH_STATUS.loading,
       },
     });

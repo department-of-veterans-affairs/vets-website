@@ -16,6 +16,9 @@ async function downloadFile(
   everythingDownloaded,
 ) {
   const asset = assetsToDownload.shift();
+  if (!asset) {
+    return;
+  }
   const fileOutputPath = path.join(
     options.cacheDirectory,
     'drupal/downloads',

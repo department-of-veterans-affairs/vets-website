@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import { getPreferredDate } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { useHistory } from 'react-router-dom';
-import * as actions from '../redux/actions';
+import {
+  openFormPage,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+  updateFormData,
+} from '../redux/actions';
 
 const initialSchema = {
   type: 'object',
@@ -44,20 +49,17 @@ const uiSchema = {
 const pageKey = 'preferredDate';
 const pageTitle = 'Tell us when you want to schedule your appointment';
 
-function PreferredDatePage({
-  data,
-  openFormPage,
-  pageChangeInProgress,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-  schema,
-  updateFormData,
-}) {
+export default function PreferredDatePage() {
+  const dispatch = useDispatch();
+  const { schema, data, pageChangeInProgress } = useSelector(
+    state => getPreferredDate(state, pageKey),
+    shallowEqual,
+  );
   const history = useHistory();
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
-    openFormPage(pageKey, uiSchema, initialSchema);
+    dispatch(openFormPage(pageKey, uiSchema, initialSchema));
   }, []);
 
   return (
@@ -69,8 +71,12 @@ function PreferredDatePage({
           title="Type of appointment"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          onSubmit={() =>
+            dispatch(routeToNextAppointmentPage(history, pageKey))
+          }
+          onChange={newData =>
+            dispatch(updateFormData(pageKey, uiSchema, newData))
+          }
           data={data}
         >
           <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--neg2">
@@ -81,7 +87,9 @@ function PreferredDatePage({
             </AdditionalInfo>
           </div>
           <FormButtons
-            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            onBack={() =>
+              dispatch(routeToPreviousAppointmentPage(history, pageKey))
+            }
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
           />
@@ -90,19 +98,3 @@ function PreferredDatePage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getPreferredDate(state, pageKey);
-}
-
-const mapDispatchToProps = {
-  openFormPage: actions.openFormPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  updateFormData: actions.updateFormData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PreferredDatePage);

@@ -3,13 +3,17 @@ import moment from 'moment';
 
 export default function ViewAndPrint({
   displayArrow = true,
+  useSecondary = true,
   onClick = () => {},
   facilityName,
   appointmentTime,
 }) {
+  const className = `usa-button${
+    useSecondary ? '-secondary' : ''
+  } va-button view-and-print-button`;
   return (
     <button
-      className="usa-button va-button view-and-print-button"
+      className={className}
       onClick={onClick}
       data-testid="print-button"
       aria-label={`Download your response to the questionnaire you submitted for your appointment at ${facilityName} that was on ${moment(

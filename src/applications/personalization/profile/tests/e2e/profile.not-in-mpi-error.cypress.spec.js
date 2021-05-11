@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '../../constants';
 
 import mockUserNotInMPI from '../fixtures/users/user-not-in-mpi.json';
@@ -33,13 +32,11 @@ function test(mobile = false) {
   );
 
   // Should show a "not in MPI" error
-  cy.findByText(/We can’t match your information to our Veteran records/i)
+  cy.findByText(/We’re having trouble verifying your identity/i)
     .should('exist')
     .closest('.usa-alert-warning')
     .should('exist');
-  cy.findByText(
-    /We can’t give you access to your profile or account information/i,
-  )
+  cy.findByText(/we can’t give you access to VA.gov tools/i)
     .should('exist')
     .closest('.usa-alert-warning')
     .should('exist');
@@ -51,7 +48,6 @@ function test(mobile = false) {
 
 describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(mockUserNotInMPI);
   });
   it('should only have access to the Account Security section at desktop size', () => {

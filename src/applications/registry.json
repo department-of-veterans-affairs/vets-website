@@ -284,15 +284,15 @@
       "vagovprod": true,
       "breadcrumbs_override": [
         {
-          "name": "VA decision review and appeals",
+          "name": "Decision reviews and appeals",
           "path": "decision-reviews"
         },
         {
-          "name": "Higher-Level Reviews",
+          "name": "Higher‑Level Reviews",
           "path": "decision-reviews/higher-level-review/"
         },
         {
-          "name": "Request a Higher-Level Review",
+          "name": "Request a Higher‑Level Review with VA Form 20‑0996",
           "path": "decision-reviews/higher-level-review/request-higher-level-review-form-20-0996"
         }
       ]
@@ -982,7 +982,7 @@
         },
         {
           "path": "health-care/covid-19-vaccine/stay-informed",
-          "name": "Sign up to get a vaccine"
+          "name": "Sign up for vaccine updates"
         }
       ]
     }
@@ -1035,7 +1035,6 @@
     "entryName": "1990s-edu-benefits",
     "rootUrl": "/education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s",
     "template": {
-      "vagovprod": false,
       "title": "Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)",
       "heading": "Apply for the Veteran Rapid Retraining Assistance Program (VRRAP)",
       "layout": "page-react.html",
@@ -1063,7 +1062,7 @@
   {
     "appName": "Request a Board Appeal",
     "entryName": "10182-board-appeal",
-    "rootUrl": "/decision-reviews/board-appeal/request-board-review-form-10182",
+    "rootUrl": "/decision-reviews/board-appeal/request-board-appeal-form-10182",
     "template": {
       "title": "Request a Board Appeal",
       "heading": "Request a Board Appeal",
@@ -1084,7 +1083,31 @@
         },
         {
           "name": "Request a Board Appeal",
-          "path": "/decision-reviews/board-appeal/request-board-review-form-10182"
+          "path": "/decision-reviews/board-appeal/request-board-appeal-form-10182"
+        }
+      ]
+    }
+  },
+  {
+    "appName": "Apply for Certificate of Eligibility",
+    "entryName": "coe",
+    "rootUrl": "/housing-assistance/home-loans/apply-lgy-form-1880",
+    "template": {
+      "vagovprod": false,
+      "layout": "page-react.html",
+      "includeBreadcrumbs": true,
+      "breadcrumbs_override": [
+        {
+          "name": "Housing assistance",
+          "path": "/housing-assistance"
+        },
+        {
+          "name": "VA-backed home loans",
+          "path": "/housing-assistance/home-loans"
+        },
+        {
+          "name": "Apply for Certificate of Eligibility Form 26-1880",
+          "path": "/housing-assistance/home-loans/apply-lgy-form-1880"
         }
       ]
     }

@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-// import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 
+import { IssueCard } from './IssueCard';
 import { SELECTED } from '../constants';
-import IssueCards from './IssueCards';
+import { someSelected, isEmptyObject } from '../utils/helpers';
 
 /**
  * EligibleIssuesWidget
@@ -33,36 +34,74 @@ const EligibleIssuesWidget = props => {
 
   const { value = [], id, options, formContext = {} } = props;
 
+  const onReviewPage = formContext?.onReviewPage || false;
   // inReviewMode = true (review page view, not in edit mode)
   // inReviewMode = false (in edit mode)
-  const onReviewPage = formContext?.onReviewPage || false;
   const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
-  const checkboxVisible = !onReviewPage || (onReviewPage && !inReviewMode);
+  const showCheckbox = !onReviewPage || (onReviewPage && !inReviewMode);
 
   const items = value.map(item => ({
     ...item.attributes,
     [SELECTED]: item[SELECTED],
   }));
 
-  const content = (
-    <IssueCards
-      id={id}
-      items={items}
-      options={options}
-      onReviewPage={onReviewPage}
-      inReviewMode={inReviewMode}
-      checkboxVisible={checkboxVisible}
-      onChange={onChange}
-    />
-  );
+  const itemsLength = items.length;
+  const hasSelected = someSelected(value);
 
-  return inReviewMode ? (
+  if (!itemsLength) {
+    return onReviewPage && inReviewMode ? (
+      <>
+        <dt>
+          <strong>No eligible issues found</strong>
+        </dt>
+        <dd />
+      </>
+    ) : null; // h2 shown on page (not review & submit page)
+  }
+
+  if (onReviewPage && inReviewMode && !hasSelected) {
+    return (
+      <>
+        <dt>No issues selected</dt>
+        <dd />
+      </>
+    );
+  }
+
+  const content = items.map((item, index) => {
+    const itemIsSelected = !!item[SELECTED];
+    const hideCard = (inReviewMode && !itemIsSelected) || isEmptyObject(item);
+
+    // Don't show un-selected ratings in review mode
+    return hideCard ? null : (
+      <IssueCard
+        key={index}
+        id={id}
+        index={index}
+        item={item}
+        options={options}
+        onChange={onChange}
+        showCheckbox={showCheckbox}
+      />
+    );
+  });
+
+  return onReviewPage && inReviewMode ? (
     content
   ) : (
-    <div>
-      <dl className="review">{content}</dl>
-    </div>
+    <dl className="review">{content}</dl>
   );
+};
+
+EligibleIssuesWidget.propTypes = {
+  id: PropTypes.string,
+  options: PropTypes.shape({}),
+  formContext: PropTypes.shape({
+    onReviewPage: PropTypes.bool,
+    reviewMode: PropTypes.bool,
+    submitted: PropTypes.bool,
+  }),
+  value: PropTypes.array,
 };
 
 export default EligibleIssuesWidget;

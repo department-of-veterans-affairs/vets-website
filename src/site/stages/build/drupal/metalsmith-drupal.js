@@ -3,6 +3,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const recursiveRead = require('recursive-readdir');
+const JSONStream = require('JSONStream');
 
 const ENVIRONMENTS = require('../../../constants/environments');
 const { ENABLED_ENVIRONMENTS } = require('../../../constants/drupals');
@@ -135,6 +136,60 @@ function pipeDrupalPagesIntoMetalsmith(contentData, files) {
 }
 
 /**
+ * Read GraphQL cache file and return a promise containing cached queries.
+ * Stream data to avoid V8's 500mb string length limit.
+ *
+ * @param {String} cacheFilePath - path of cache file to read
+ * @return {Promise} - resolves with object containing cached query results
+ */
+function readGraphQLCacheFile(cacheFilePath) {
+  return new Promise(resolve => {
+    const stream = fs.createReadStream(cacheFilePath, { encoding: 'utf8' });
+    const parser = JSONStream.parse('*').on('data', data => {
+      resolve({ data });
+    });
+    stream.pipe(parser);
+  });
+}
+
+/**
+ * Save the provided GraphQL query results to a JSON cache file.
+ * Stream page objects to avoid V8's 500mb string length limit.
+ *
+ * @param {String} cacheFilePath - path of cache file to create
+ * @param {Object} graphQLData - object containing query results
+ */
+function writeGraphQLCacheFile(cacheFilePath, graphQLData) {
+  const outputStream = fs.createWriteStream(cacheFilePath);
+  outputStream.write('{\n  "data": {\n');
+
+  const queries = Object.keys(graphQLData.data);
+  queries.forEach((queryName, queryIndex) => {
+    const props = graphQLData.data[queryName];
+    outputStream.write(`"${queryName}": `);
+
+    if (queryName === 'nodeQuery') {
+      // For the pages query, write each page (entity) separately
+      outputStream.write('{\n"entities": [\n');
+      props.entities.forEach((entity, entityIndex) => {
+        outputStream.write(JSON.stringify(entity, null, 2));
+        if (entityIndex < props.entities.length - 1) outputStream.write(',');
+        outputStream.write('\n');
+      });
+      outputStream.write(']\n},\n');
+    } else {
+      // The other queries are smaller, so write the whole query at once
+      outputStream.write(JSON.stringify(props, null, 2));
+      if (queryIndex < queries.length - 1) outputStream.write(',');
+      outputStream.write('\n');
+    }
+  });
+
+  outputStream.write('}\n}\n');
+  outputStream.end();
+}
+
+/**
  * Uses Drupal content via a new GraphQL query or the cached result of a
  * previous query. This is where the cache is saved.
  *
@@ -171,7 +226,7 @@ async function getContentViaGraphQL(buildOptions) {
     }
 
     // Save new cache
-    fs.outputJsonSync(drupalCache, drupalPages, { spaces: 2 });
+    writeGraphQLCacheFile(drupalCache, drupalPages);
 
     if (drupalPages.data.allSideNavMachineNamesQuery) {
       fs.outputJsonSync(
@@ -184,8 +239,7 @@ async function getContentViaGraphQL(buildOptions) {
     log('Attempting to load Drupal content from cache...');
     log(`To pull latest, run with "--${PULL_DRUPAL_BUILD_ARG}" flag.`);
 
-    // eslint-disable-next-line import/no-dynamic-require
-    drupalPages = require(drupalCache);
+    drupalPages = await readGraphQLCacheFile(drupalCache);
   }
 
   return drupalPages;
@@ -234,7 +288,9 @@ async function loadDrupal(buildOptions) {
   console.timeEnd(contentTimer);
 
   // Dynamic GraphQL from CMS build
-  fs.outputJsonSync(CMS_EXPORT_CACHE_FILENAME, drupalPages);
+  if (buildOptions[USE_CMS_EXPORT_BUILD_ARG]) {
+    fs.outputJsonSync(CMS_EXPORT_CACHE_FILENAME, drupalPages);
+  }
 
   log('Drupal successfully loaded!');
   return drupalPages;

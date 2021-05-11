@@ -5,12 +5,22 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 const StemDeniedDetails = ({
   deniedAt,
   isEnrolledStem,
   isPursuingTeachingCert,
 }) => {
   const date = moment(deniedAt).format('MMM D, YYYY');
+
+  const recordResourceLinkClick = (header, section) => {
+    recordEvent({
+      event: 'nav-linkslist',
+      'links-list-section-header': section,
+      'links-list-header': header,
+    });
+  };
 
   return (
     <>
@@ -182,6 +192,12 @@ const StemDeniedDetails = ({
         </h3>
         <a
           href="https://www.va.gov/education/other-va-education-benefits/stem-scholarship/"
+          onClick={() => {
+            recordResourceLinkClick(
+              'Edith Nourse Rogers STEM Scholarship',
+              'Learn more about eligibility and how to apply for this scholarship.',
+            );
+          }}
           className="vads-u-margin-top--3 vads-u-margin-bottom--1 vads-u-display--inline-block va-nav-linkslist-title vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--none"
         >
           Edith Nourse Rogers STEM Scholarship
@@ -191,6 +207,9 @@ const StemDeniedDetails = ({
         </p>
         <a
           href="https://www.va.gov/vaforms"
+          onClick={() => {
+            recordResourceLinkClick('Find a VA Form', 'Search for a VA form.');
+          }}
           className="vads-u-margin-top--3 vads-u-margin-bottom--1 vads-u-display--inline-block va-nav-linkslist-title vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--none"
         >
           Find a VA Form
@@ -200,6 +219,12 @@ const StemDeniedDetails = ({
         </p>
         <a
           href="https://www.va.gov/gi-bill-comparison-tool"
+          onClick={() => {
+            recordResourceLinkClick(
+              'GI Bill® Comparison Tool',
+              'Get information on a school’s value and affordability; and compare estimated benefits by school.',
+            );
+          }}
           className="vads-u-margin-top--3 vads-u-margin-bottom--1 vads-u-display--inline-block va-nav-linkslist-title vads-u-font-size--h4 vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--none"
         >
           GI Bill® Comparison Tool

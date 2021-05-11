@@ -9,7 +9,6 @@ import { cleanup } from '@testing-library/react';
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
     vaOnlineSchedulingCommunityCare: true,
   },

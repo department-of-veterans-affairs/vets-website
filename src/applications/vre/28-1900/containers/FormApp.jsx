@@ -7,12 +7,13 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormFooter from 'platform/forms/components/FormFooter';
-import { isLoggedIn } from 'platform/user/selectors';
+import { isLoggedIn, isLOA3 as isLOA3Selector } from 'platform/user/selectors';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 import formConfig from '../config/form';
 import { WIZARD_STATUS, VRE_FORM_NUMBER } from '../constants';
 import FormInProgressNotification from '../components/FormInProgressNotification';
+import IdentityNotVerified from '../components/IdentityNotVerified';
 
 const CHAPTER_NAMES = [
   'veteran-information-review',
@@ -32,6 +33,7 @@ function FormApp(props) {
     loggedIn,
     location,
     router,
+    isIdentityVerified,
   } = props;
 
   const wizardStatus =
@@ -60,6 +62,14 @@ function FormApp(props) {
       </>
     );
   }
+  // if a user is logged in but not LOA3, ask them to verify their identity
+  if (loggedIn && !isIdentityVerified) {
+    return (
+      <div className="row vads-u-margin-bottom--2">
+        <IdentityNotVerified />
+      </div>
+    );
+  }
   // if a user has a saved form but starts a new session, keep them here instead of
   // sending them to the wizard.
   if (loggedIn && hasSavedForm) {
@@ -78,6 +88,7 @@ function FormApp(props) {
 }
 
 const mapStateToProps = state => ({
+  isIdentityVerified: isLOA3Selector(state),
   loggedIn: isLoggedIn(state),
   isLoading: state?.user?.profile?.loading,
   hasSavedForm: state?.user?.profile?.savedForms.some(

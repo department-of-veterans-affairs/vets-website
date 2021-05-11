@@ -5,7 +5,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const deductionCodes = Object.freeze({
-  '30': 'Compensation & pension debt',
+  '30': 'Disability compensation and pension debt',
   '41': 'Chapter 34 education debt',
   '44': 'Chapter 35 education debt',
   '71': 'Post-9/11 GI Bill debt for books and supplies',

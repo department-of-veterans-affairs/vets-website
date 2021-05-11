@@ -87,7 +87,7 @@ function ExpressCareDetailsPage({
   }
 
   const unableToReachVeteran =
-    appointment.cancelationReason?.text === UNABLE_TO_REACH_VETERAN_DETCODE;
+    appointment.cancelationReason === UNABLE_TO_REACH_VETERAN_DETCODE;
 
   return (
     <PageLayout>

@@ -26,10 +26,12 @@
       </div>
     </div>
     <div class="vads-u-margin-bottom--0">
+      {% if entity.fieldPhoneNumber %}
       <div class="main-phone vads-u-margin-bottom--1">
         <strong>Main phone:</strong>
         <a href="tel:{{ entity.fieldPhoneNumber }}">{{ entity.fieldPhoneNumber }}</a>
       </div>
+      {% endif %}
       {% if entity.fieldMentalHealthPhone %}
         <div class="mental-health-clinic-phone">
           <strong>Mental health clinic:</strong>

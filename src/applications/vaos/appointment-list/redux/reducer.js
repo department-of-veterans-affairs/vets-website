@@ -27,9 +27,9 @@ import {
   FETCH_CONFIRMED_DETAILS_SUCCEEDED,
   FETCH_CONFIRMED_DETAILS_FAILED,
   FETCH_REQUEST_DETAILS_FAILED,
-  FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED,
-  FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED,
-  FETCH_DIRECT_SCHEDULE_SETTINGS,
+  FETCH_FACILITY_SETTINGS_FAILED,
+  FETCH_FACILITY_SETTINGS_SUCCEEDED,
+  FETCH_FACILITY_SETTINGS,
 } from './actions';
 
 import {
@@ -75,8 +75,8 @@ const initialState = {
   systemClinicToFacilityMap: {},
   expressCareWindowsStatus: FETCH_STATUS.notStarted,
   expressCareFacilities: null,
-  directScheduleSettingsStatus: FETCH_STATUS.notStarted,
-  directScheduleSettings: null,
+  facilitySettingsStatus: FETCH_STATUS.notStarted,
+  facilitySettings: null,
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -310,7 +310,7 @@ export default function appointmentsReducer(state = initialState, action) {
         }
 
         const newAppt = set(
-          'legacyVAR.apiData.vdsAppointments[0].currentStatus',
+          'vaos.apiData.vdsAppointments[0].currentStatus',
           'CANCELLED BY PATIENT',
           appt,
         );
@@ -326,8 +326,8 @@ export default function appointmentsReducer(state = initialState, action) {
 
         const newAppt = {
           ...appt,
-          legacyVAR: {
-            ...appt.legacyVAR,
+          vaos: {
+            ...appt.vaos,
             apiData: action.apiData,
           },
         };
@@ -342,9 +342,10 @@ export default function appointmentsReducer(state = initialState, action) {
           ...appointmentDetails,
           [appointmentToCancel.id]: {
             ...appointmentDetails[appointmentToCancel.id],
+            description: 'CANCELLED BY PATIENT',
             status: APPOINTMENT_STATUS.cancelled,
-            legacyVAR: {
-              ...appointmentDetails[appointmentToCancel.id].legacyVAR,
+            vaos: {
+              ...appointmentDetails[appointmentToCancel.id].vaos,
               apiData: action.apiData,
             },
           },
@@ -394,21 +395,21 @@ export default function appointmentsReducer(state = initialState, action) {
         confirmed: null,
         confirmedStatus: FETCH_STATUS.notStarted,
       };
-    case FETCH_DIRECT_SCHEDULE_SETTINGS:
+    case FETCH_FACILITY_SETTINGS:
       return {
         ...state,
-        directScheduleSettingsStatus: FETCH_STATUS.loading,
+        facilitySettingsStatus: FETCH_STATUS.loading,
       };
-    case FETCH_DIRECT_SCHEDULE_SETTINGS_SUCCEEDED:
+    case FETCH_FACILITY_SETTINGS_SUCCEEDED:
       return {
         ...state,
-        directScheduleSettingsStatus: FETCH_STATUS.succeeded,
-        directScheduleSettings: action.settings,
+        facilitySettingsStatus: FETCH_STATUS.succeeded,
+        facilitySettings: action.settings,
       };
-    case FETCH_DIRECT_SCHEDULE_SETTINGS_FAILED:
+    case FETCH_FACILITY_SETTINGS_FAILED:
       return {
         ...state,
-        directScheduleSettingsStatus: FETCH_STATUS.failed,
+        facilitySettingsStatus: FETCH_STATUS.failed,
       };
     default:
       return state;

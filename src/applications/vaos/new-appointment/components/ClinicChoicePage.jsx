@@ -10,6 +10,7 @@ import { FETCH_STATUS } from '../../utils/constants';
 import {
   openClinicPage,
   routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
   updateFormData,
 } from '../redux/actions';
 
@@ -145,12 +146,15 @@ export default function ClinicChoicePage() {
           <div className="vads-u-margin-top--2">
             <EligibilityCheckMessage
               eligibility={eligibility}
+              typeOfCare={typeOfCare}
               typeOfCareName={typeOfCareLabel}
             />
           </div>
         )}
         <FormButtons
-          onBack={() => dispatch(routeToNextAppointmentPage(history, pageKey))}
+          onBack={() =>
+            dispatch(routeToPreviousAppointmentPage(history, pageKey))
+          }
           disabled={usingUnsupportedRequestFlow}
           pageChangeInProgress={pageChangeInProgress}
           loadingText="Page change in progress"

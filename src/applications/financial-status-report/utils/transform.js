@@ -28,14 +28,23 @@ export const transform = ({ data }) => {
   const totalAssets = getTotalAssets(data);
   const income = getIncome(data);
 
+  const totalAmountCanBePaidTowardDebt = selectedDebts
+    .filter(item => item.resolution.offerToPay !== undefined)
+    .reduce((acc, debt) => acc + Number(debt.resolution?.offerToPay), 0);
+
   const formObj = {
     personalIdentification: {
+      fileNumber: '',
       fsrReason: selectedDebts
         .map(({ resolution }) => resolution.resolutionType)
         .join(', '),
     },
     personalData: {
-      veteranFullName: personalData.veteranFullName,
+      veteranFullName: {
+        first: personalData.veteranFullName.first || '',
+        middle: personalData.veteranFullName.middle || '',
+        last: personalData.veteranFullName.last || '',
+      },
       agesOfOtherDependents: personalData.agesOfOtherDependents
         ? personalData.agesOfOtherDependents.map(
             dependent => dependent.dependentAge,
@@ -43,18 +52,18 @@ export const transform = ({ data }) => {
         : [],
       address: {
         addresslineOne: personalData.address.street,
-        addresslineTwo: personalData.address.street2,
+        addresslineTwo: personalData.address.street2 || '',
         addresslineThree: '',
         city: personalData.address.city,
-        stateOrProvince: personalData.address.stateCode,
-        zipOrPostalCode: personalData.address.zipCode,
-        countryName: personalData.address.countryCodeIso3,
+        stateOrProvince: personalData.address.state,
+        zipOrPostalCode: personalData.address.postalCode,
+        countryName: personalData.address.country,
       },
-      married: questions.maritalStatus === 'Married',
+      married: questions.isMarried,
       spouseFullName: {
-        first: personalData.spouseFullName.first,
+        first: personalData.spouseFullName.first || '',
         middle: '',
-        last: personalData.spouseFullName.last,
+        last: personalData.spouseFullName.last || '',
       },
       employmentHistory,
       telephoneNumber: personalData.telephoneNumber,
@@ -82,10 +91,7 @@ export const transform = ({ data }) => {
     },
     discretionaryIncome: {
       netMonthlyIncomeLessExpenses: totalIncome - totalExpenses,
-      amountCanBePaidTowardDebt: selectedDebts?.reduce(
-        (acc, debt) => acc + debt.resolution.offerToPay || 0,
-        0,
-      ),
+      amountCanBePaidTowardDebt: totalAmountCanBePaidTowardDebt,
     },
     assets: {
       ...assets,

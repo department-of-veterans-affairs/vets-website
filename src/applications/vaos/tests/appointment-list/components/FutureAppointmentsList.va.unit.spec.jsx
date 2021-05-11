@@ -294,12 +294,15 @@ describe('VAOS integration: upcoming VA appointments', () => {
     appointment.attributes = {
       ...appointment.attributes,
       startDate: moment().format(),
-      clinicFriendlyName: 'COVID Vaccine',
       facilityId: '983',
       sta6aid: '983GC',
       char4: 'CDQC',
+      clinicFriendlyName: null,
     };
     appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].clinic = {
+      name: 'VACCINE CLINIC 1',
+    };
     mockAppointmentInfo({ va: [appointment] });
 
     const facility = {
@@ -340,7 +343,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
       'href',
       'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
     );
-    expect(screen.baseElement).to.contain.text('COVID Vaccine');
+    expect(screen.baseElement).to.contain.text('VACCINE CLINIC 1');
     expect(screen.baseElement).to.contain.text('COVID-19 Vaccine');
     expect(screen.baseElement).not.to.contain.text('VA Appointment');
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');

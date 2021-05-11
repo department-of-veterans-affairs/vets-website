@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-
-import * as actions from '../../redux/actions';
 import { selectExpressCareAvailability } from '../../redux/selectors';
 import {
   selectFeatureRequests,
@@ -24,6 +21,10 @@ import DowntimeNotification, {
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
 import ScheduleNewAppointmentRadioButtons from '../ScheduleNewAppointmentRadioButtons';
+import {
+  fetchExpressCareWindows,
+  startNewExpressCareFlow,
+} from '../../redux/actions';
 
 const pageTitle = 'VA appointments';
 
@@ -53,16 +54,20 @@ function getDropdownValueFromLocation(pathname) {
   }
 }
 
-function AppointmentsPageV2({
-  expressCare,
-  fetchExpressCareWindows,
-  isCernerOnlyPatient,
-  isWelcomeModalDismissed,
-  showScheduleButton,
-  startNewExpressCareFlow,
-}) {
+export default function AppointmentsPageV2() {
+  const dispatch = useDispatch();
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
+  const showScheduleButton = useSelector(state => selectFeatureRequests(state));
+  const isWelcomeModalDismissed = useSelector(state =>
+    selectIsWelcomeModalDismissed(state),
+  );
+  const isCernerOnlyPatient = useSelector(state =>
+    selectIsCernerOnlyPatient(state),
+  );
+  const expressCare = useSelector(state =>
+    selectExpressCareAvailability(state),
+  );
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -71,7 +76,7 @@ function AppointmentsPageV2({
       expressCare.useNewFlow &&
       expressCare.windowsStatus === FETCH_STATUS.notStarted
     ) {
-      fetchExpressCareWindows();
+      dispatch(fetchExpressCareWindows());
     }
   }, []);
 
@@ -123,7 +128,7 @@ function AppointmentsPageV2({
               recordEvent({
                 event: `${GA_PREFIX}-express-care-request-button-clicked`,
               });
-              startNewExpressCareFlow();
+              dispatch(startNewExpressCareFlow());
             }}
           />
         )}
@@ -157,27 +162,3 @@ function AppointmentsPageV2({
     </>
   );
 }
-
-AppointmentsPageV2.propTypes = {
-  isCernerOnlyPatient: PropTypes.bool.isRequired,
-  isWelcomeModalDismissed: PropTypes.bool.isRequired,
-};
-
-function mapStateToProps(state) {
-  return {
-    showScheduleButton: selectFeatureRequests(state),
-    isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    expressCare: selectExpressCareAvailability(state),
-  };
-}
-
-const mapDispatchToProps = {
-  fetchExpressCareWindows: actions.fetchExpressCareWindows,
-  startNewExpressCareFlow: actions.startNewExpressCareFlow,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AppointmentsPageV2);

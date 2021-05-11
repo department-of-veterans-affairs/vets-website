@@ -1,11 +1,19 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
-import * as actions from '../redux/actions';
-import { getCovid19VaccineFormPageInfo } from '../redux/selectors';
+import {
+  getCovid19VaccineFormPageInfo,
+  selectCovid19VaccineFormData,
+} from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import {
+  openFormPage,
+  updateFormData,
+  routeToPreviousAppointmentPage,
+  routeToNextAppointmentPage,
+} from '../redux/actions';
 
 const initialSchema = {
   type: 'object',
@@ -36,18 +44,16 @@ const uiSchema = {
 const pageKey = 'receivedDoseScreener';
 const pageTitle = 'Have you received a COVID-19 vaccine?';
 
-function ReceivedDoseScreenerPage({
-  schema,
-  data,
-  openFormPage,
-  updateFormData,
-  routeToPreviousAppointmentPage,
-  routeToNextAppointmentPage,
-  pageChangeInProgress,
-}) {
+export default function ReceivedDoseScreenerPage() {
+  const { schema, data, selectPageChangeInProgress } = useSelector(
+    state => getCovid19VaccineFormPageInfo(state, pageKey),
+    shallowEqual,
+  );
   const history = useHistory();
+  const dispatch = useDispatch();
+  const userData = useSelector(selectCovid19VaccineFormData);
   useEffect(() => {
-    openFormPage(pageKey, uiSchema, initialSchema);
+    dispatch(openFormPage(pageKey, uiSchema, initialSchema));
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
@@ -61,13 +67,19 @@ function ReceivedDoseScreenerPage({
           title="Received dose screener"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
-          data={data}
+          onSubmit={() =>
+            dispatch(routeToNextAppointmentPage(history, pageKey, data))
+          }
+          onChange={newData =>
+            dispatch(updateFormData(pageKey, uiSchema, newData))
+          }
+          data={userData}
         >
           <FormButtons
-            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
-            pageChangeInProgress={pageChangeInProgress}
+            onBack={() =>
+              dispatch(routeToPreviousAppointmentPage(history, pageKey, data))
+            }
+            pageChangeInProgress={selectPageChangeInProgress}
             loadingText="Page change in progress"
           />
         </SchemaForm>
@@ -75,19 +87,3 @@ function ReceivedDoseScreenerPage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getCovid19VaccineFormPageInfo(state, pageKey);
-}
-
-const mapDispatchToProps = {
-  openFormPage: actions.openFormPage,
-  updateFormData: actions.updateFormData,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ReceivedDoseScreenerPage);
