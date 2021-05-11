@@ -31,11 +31,7 @@ export default function AppointmentRequestListItem({
   const [showMore, setShowMore] = useState(false);
 
   const toggleShowMore = () => {
-    if (
-      !showMore &&
-      !messages[appointment.id] &&
-      !appointment.vaos.isExpressCare
-    ) {
+    if (!showMore && !messages[appointment.id]) {
       fetchMessages(appointment.id);
     }
 
@@ -43,7 +39,6 @@ export default function AppointmentRequestListItem({
   };
 
   const isCC = appointment.vaos.isCommunityCare;
-  const isExpressCare = appointment.vaos.isExpressCare;
   const isVideoRequest = appointment.vaos.isVideo;
   const cancelled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const firstMessage = messages?.[appointment.id]?.[0]?.attributes?.messageText;
@@ -84,32 +79,30 @@ export default function AppointmentRequestListItem({
               appointment={appointment}
             />
           )}
-          {isExpressCare && facility?.name}
-          {!isCC &&
-            !isExpressCare && (
-              <VAFacilityLocation
-                facility={facility}
-                facilityName={facility?.name}
-                facilityId={facilityId}
-              />
-            )}
+          {facility?.name}
+          {!isCC && (
+            <VAFacilityLocation
+              facility={facility}
+              facilityName={facility?.name}
+              facilityId={facilityId}
+            />
+          )}
         </div>
-        {!isExpressCare && (
-          <div className="vads-u-flex--1 vaos-u-word-break--break-word">
-            <h4 className="vaos-appts__block-label">Preferred date and time</h4>
-            <div>
-              <ul className="usa-unstyled-list">
-                {appointment.requestedPeriod.map((option, optionIndex) => (
-                  <li key={`${appointment.id}-option-${optionIndex}`}>
-                    {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
-                    {option.start.includes('00:00:00')
-                      ? TIME_TEXT.AM
-                      : TIME_TEXT.PM}
-                  </li>
-                ))}
-              </ul>
-            </div>
+        <div className="vads-u-flex--1 vaos-u-word-break--break-word">
+          <h4 className="vaos-appts__block-label">Preferred date and time</h4>
+          <div>
+            <ul className="usa-unstyled-list">
+              {appointment.requestedPeriod.map((option, optionIndex) => (
+                <li key={`${appointment.id}-option-${optionIndex}`}>
+                  {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
+                  {option.start.includes('00:00:00')
+                    ? TIME_TEXT.AM
+                    : TIME_TEXT.PM}
+                </li>
+              ))}
+            </ul>
           </div>
+        </div>
         )}
       </div>
       <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
@@ -121,22 +114,8 @@ export default function AppointmentRequestListItem({
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
             <div className="vaos_appts__message vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
-              {isExpressCare && (
-                <>
-                  <h4 className="vaos-appts__block-label">
-                    Reason for appointment
-                  </h4>
-                  <div>{appointment.reason}</div>
-                </>
-              )}
-              {!isExpressCare && (
-                <>
-                  <h4 className="vaos-appts__block-label">
-                    {appointment.reason}
-                  </h4>
-                  <div>{firstMessage}</div>
-                </>
-              )}
+              <h4 className="vaos-appts__block-label">{appointment.reason}</h4>
+              <div>{firstMessage}</div>
             </div>
             <div className="vads-u-flex--1 vads-u-margin-top--2 small-screen:vads-u-margin-top--0 vaos-u-word-break--break-word">
               <h4 className="vaos-appts__block-label">Your contact details</h4>

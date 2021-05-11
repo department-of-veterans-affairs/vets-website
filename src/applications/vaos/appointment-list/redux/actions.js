@@ -1,11 +1,9 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
   GA_PREFIX,
   APPOINTMENT_TYPES,
-  EXPRESS_CARE,
   VIDEO_TYPES,
 } from '../../utils/constants';
 import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
@@ -16,7 +14,6 @@ import {
 
 import {
   getCancelReasons,
-  getRequestEligibilityCriteria,
   getRequestMessages,
   updateAppointment,
   updateRequest,
@@ -40,7 +37,6 @@ import {
 import { captureError, has400LevelError } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
-  STARTED_NEW_EXPRESS_CARE_FLOW,
   STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
 import { selectAppointmentById } from './selectors';
@@ -88,12 +84,6 @@ export const CANCEL_APPOINTMENT_CONFIRMED_FAILED =
 export const CANCEL_APPOINTMENT_CLOSED = 'vaos/CANCEL_APPOINTMENT_CLOSED';
 export const FETCH_FACILITY_LIST_DATA_SUCCEEDED =
   'vaos/FETCH_FACILITY_LIST_DATA_SUCCEEDED';
-
-export const FETCH_EXPRESS_CARE_WINDOWS = 'vaos/FETCH_EXPRESS_CARE_WINDOWS';
-export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
-  'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
-export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
-  'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
 export const FETCH_FACILITY_SETTINGS = 'vaos/FETCH_FACILITY_SETTINGS';
 export const FETCH_FACILITY_SETTINGS_FAILED =
   'vaos/FETCH_FACILITY_SETTINGS_FAILED';
@@ -206,11 +196,6 @@ export function fetchFutureAppointments() {
               event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
             });
 
-            recordItemsRetrieved(
-              'express_care',
-              requests.filter(appt => appt.vaos.isExpressCare).length,
-            );
-
             return requests;
           })
           .catch(resp => {
@@ -313,11 +298,6 @@ export function fetchPendingAppointments() {
       recordEvent({
         event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
       });
-
-      recordItemsRetrieved(
-        'express_care',
-        pendingAppointments.filter(appt => appt.vaos.isExpressCare).length,
-      );
 
       try {
         const facilityData = await getAdditionalFacilityInfo(
@@ -650,64 +630,9 @@ export function startNewAppointmentFlow() {
   };
 }
 
-export function startNewExpressCareFlow() {
-  return {
-    type: STARTED_NEW_EXPRESS_CARE_FLOW,
-  };
-}
-
 export function startNewVaccineFlow() {
   return {
     type: STARTED_NEW_VACCINE_FLOW,
-  };
-}
-
-export function fetchExpressCareWindows() {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FETCH_EXPRESS_CARE_WINDOWS,
-    });
-
-    const initialState = getState();
-    const userSiteIds = selectSystemIds(initialState) || [];
-    const address = selectVAPResidentialAddress(initialState);
-
-    try {
-      const settings = await getRequestEligibilityCriteria(userSiteIds);
-      let facilityData;
-
-      if (address?.latitude && address?.longitude) {
-        const facilityIds = settings
-          .filter(
-            facility =>
-              facility.customRequestSettings?.find(
-                setting => setting.id === EXPRESS_CARE,
-              )?.supported,
-          )
-          .map(f => f.id);
-        if (facilityIds.length) {
-          try {
-            facilityData = await getLocations({ facilityIds });
-          } catch (error) {
-            // Still allow people into EC if the facility data call fails
-            captureError(error);
-          }
-        }
-      }
-
-      dispatch({
-        type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
-        settings,
-        facilityData,
-        address,
-        nowUtc: moment.utc(),
-      });
-    } catch (error) {
-      captureError(error);
-      dispatch({
-        type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
-      });
-    }
   };
 }
 
