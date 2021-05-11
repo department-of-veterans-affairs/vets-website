@@ -9,6 +9,7 @@ import {
   CONTESTED_CLAIMS_URL,
   FACILITY_LOCATOR_URL,
   GET_HELP_REQUEST_URL,
+  BOARD_APPEAL_OPTIONS_URL,
 } from '../constants';
 
 import {
@@ -69,7 +70,7 @@ class IntroductionPage extends React.Component {
               <p>
                 {' '}
                 You can request a Board Appeal up to 1 year from the date on
-                your decision notice. You'll have 60 days if you have a a{' '}
+                your decision notice. You'll have 60 days if you have a{' '}
                 <a href={CONTESTED_CLAIMS_URL}>contested claim</a> (these are
                 rare).
               </p>
@@ -80,7 +81,7 @@ class IntroductionPage extends React.Component {
               </ul>
               <p>
                 <strong>Note: </strong>
-                You can't request a Board Appeal if you've already requested on
+                You can't request a Board Appeal if you've already requested one
                 for this same claim.
               </p>
             </li>
@@ -114,17 +115,19 @@ class IntroductionPage extends React.Component {
             <li className="process-step list-three">
               <h3 className="vads-u-font-size--h4">Apply</h3>
               <p>
-                Complete this Board Appeal application form. After submitting
-                the form, you’ll get a confirmation message. You can print this
-                for your records.
+                Complete this Board Appeal application form. After you submit
+                the application, you’ll get a confirmation message. You can
+                print this for your records.
               </p>
             </li>
           </ol>
           <h3>Our review and decision process</h3>
           <p>
             A Veterans Law Judge at the Board of Veteran's Appeals will review
-            your case. Depending on which review option you choose, it will take
-            the Board a year or longer to make a decision on your case.
+            your case. Depending on which{' '}
+            <a href={BOARD_APPEAL_OPTIONS_URL}>review option</a> you choose, it
+            will take the Board a year or longer to make a decision on your
+            case.
           </p>
           <p>
             After the Board has made a decision on your case, you'll get a
