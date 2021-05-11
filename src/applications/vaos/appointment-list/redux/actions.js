@@ -532,7 +532,7 @@ export function confirmCancelAppointment() {
         type: CANCEL_APPOINTMENT_CONFIRMED,
       });
 
-      const updatedAppointment = await cancelAppointment(appointment);
+      const updatedAppointment = await cancelAppointment({ appointment });
 
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,

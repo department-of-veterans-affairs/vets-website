@@ -652,10 +652,11 @@ async function cancelBookedAppointment(appointment) {
  * Cancels an appointment or request
  *
  * @export
- * @param {Appointment} appointment The appointment to cancel
+ * @param {Object} params
+ * @param {Appointment} params.appointment The appointment to cancel
  * @returns {?Appointment} Returns either null or the updated appointment data
  */
-export async function cancelAppointment(appointment) {
+export async function cancelAppointment({ appointment }) {
   const isConfirmedAppointment =
     appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
 

@@ -47,7 +47,7 @@ export function ExpressCareList({
                 <ExpressCareCard
                   appointment={appt}
                   showCancelButton={showCancelButton}
-                  startAppointmentCancel={startAppointmentCancel}
+                  cancelAppointment={startAppointmentCancel}
                 />
               </li>
             );
