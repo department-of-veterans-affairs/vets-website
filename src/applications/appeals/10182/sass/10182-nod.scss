@@ -78,7 +78,6 @@ dl.review {
   }
 
   dd.widget-content {
-    width: 100%;
     margin-inline-start: 0; /* override user agent */
     text-align: left;
     margin: 3rem 3.5rem 0 5rem;
@@ -132,33 +131,37 @@ dl.review {
   margin-top: 0;
 }
 
-/* extend red error border */
-article.error .additional-issues-wrap {
-  border-left: 4px solid #cd2026;
-  padding: 0 0 .8rem 1.5rem;
-  position: relative;
-  top: -2rem;
-  right: 1.9rem;
-}
-
-/* hide duplicate opt-in checkbox label */
-#root_socOptIn-label {
-  display: none;
-}
-
 /* issues page */
 article[data-location="eligible-issues"] {
-  .schemaform-block-header {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 2rem;
+  .input-section {
+    .schemaform-block-header {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 2rem;
 
-    /* ui:title doesn't render?! so moved it into the top of the description and
-      change order to move it to the bottom */
-    .section-title {
-      order: 3;
+      /* ui:title doesn't render?! so moved it into the top of the description and
+        change order to move it to the bottom */
+      .section-title {
+        order: 3;
+      }
+    }
+
+    .schemaform-field-container {
+      margin-top: 2rem;
     }
   }
+}
+
+/* new issues cards tweak */
+dl.review .additional-issue.review-row {
+  flex-direction: column;
+
+  dd {
+    padding-left: 0;
+  }
+}
+.usa-input-error #root_additionalIssues_0_decisionDate-label {
+  font-weight: bold;
 }
 
 /* Rep info */

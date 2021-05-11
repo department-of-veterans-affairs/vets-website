@@ -285,7 +285,7 @@ describe('VAOS integration: pending appointments', () => {
       expect(baseElement).to.contain.text('Your contact details');
       expect(await findByText('Your contact details')).to.have.tagName('h4');
       expect(baseElement).to.contain.text('patient.test@va.gov');
-      expect(baseElement).to.contain.text('5555555566');
+      expect(baseElement).to.contain.text('555-555-5566');
       expect(baseElement.querySelector('h4')).to.be.ok;
     });
 
@@ -427,7 +427,7 @@ describe('VAOS integration: pending appointments', () => {
       expect(baseElement).to.contain.text('Your contact details');
       expect(await findByText('Your contact details')).to.have.tagName('h4');
       expect(baseElement).to.contain.text('patient.test@va.gov');
-      expect(baseElement).to.contain.text('5555555566');
+      expect(baseElement).to.contain.text('555-555-5566');
       expect(baseElement.querySelector('h4')).to.be.ok;
     });
   });

@@ -19,7 +19,10 @@ import {
   hasRepresentative,
   canUploadEvidence,
   wantsToUploadEvidence,
+  showAddIssueQuestion,
+  showAddIssues,
   needsHearingType,
+  appStateSelector,
 } from '../utils/helpers';
 
 // Pages
@@ -29,6 +32,8 @@ import homeless from '../pages/homeless';
 import hasRep from '../pages/hasRep';
 import repInfo from '../pages/repInfo';
 import contestableIssues from '../pages/contestableIssues';
+import additionalIssuesIntro from '../pages/additionalIssuesIntro';
+import additionalIssues from '../pages/additionalIssues';
 import boardReview from '../pages/boardReview';
 import evidenceIntro from '../pages/evidenceIntro';
 import evidenceUpload from '../pages/evidenceUpload';
@@ -130,13 +135,26 @@ const formConfig = {
           path: 'eligible-issues',
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
-          appStateSelector: state => ({
-            // Validation functions are provided the pageData and not the
-            // formData on the review & submit page. For more details
-            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-            contestableIssues: state.form?.data?.contestableIssues || [],
-            additionalIssues: state.form?.data?.additionalIssues || [],
-          }),
+        },
+        additionalIssuesIntro: {
+          title: 'Additional issues for review',
+          path: 'additional-issues-intro',
+          depends: showAddIssueQuestion,
+          uiSchema: additionalIssuesIntro.uiSchema,
+          schema: additionalIssuesIntro.schema,
+          appStateSelector,
+        },
+        additionalIssues: {
+          title: 'Add issues for review',
+          path: 'additional-issues',
+          depends: showAddIssues,
+          uiSchema: additionalIssues.uiSchema,
+          schema: additionalIssues.schema,
+          appStateSelector,
+          initialData: {
+            'view:hasIssuesToAdd': true,
+            additionalIssues: [{}],
+          },
         },
       },
     },

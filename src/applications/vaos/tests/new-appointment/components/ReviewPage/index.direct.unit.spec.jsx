@@ -49,7 +49,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
         pages: {},
         data: {
           typeOfCareId: '323',
-          phoneNumber: '1234567890',
+          phoneNumber: '2234567890',
           email: 'joeblow@gmail.com',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'I need an appt',
@@ -178,7 +178,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
 
     expect(contactHeading).to.contain.text('Your contact details');
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
-    expect(screen.baseElement).to.contain.text('1234567890');
+    expect(screen.baseElement).to.contain.text('223-456-7890');
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
     const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
