@@ -292,9 +292,9 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
-      - name: Checkout output dir
+      - name: Checkout output pwd
         run: |
-          ls ~
+          ls pwd
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
@@ -302,8 +302,10 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Build
-        run: yarn build
+        run: yarn build --buildtype=${{ matrix.buildtype }} --drupal-address="https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov" --no-drupal-proxy
         timeout-minutes: 30
+        env:
+          NODE_ENV: production
 
       - name: Broken link checks
         id: get-broken-link-info
