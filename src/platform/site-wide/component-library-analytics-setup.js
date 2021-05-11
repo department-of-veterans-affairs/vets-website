@@ -26,7 +26,7 @@ const analyticsEvents = {
   SegmentedProgressBar: [
     { action: 'change', event: 'nav-segmented-progress-bar-change' },
   ],
-  Select: [{ action: 'change', event: 'int-select-box-option-clickxx' }],
+  Select: [{ action: 'change', event: 'int-select-box-option-click' }],
   TextArea: [{ action: 'blur', event: 'int-text-area-blur' }],
   TextInput: [{ action: 'blur', event: 'int-text-input-blur' }],
 };
