@@ -50,10 +50,10 @@ class IntroductionPage extends React.Component {
         <h2 className="vads-u-font-size--h3">
           Follow the steps below to request a Board Appeal.
         </h2>
-        <h5>
+        <strong>
           If you're requesting a Board Appeal on an issue in a claim we decided
           before February 19, 2019
-        </h5>
+        </strong>
         <p className="vads-u-margin-bottom--0">
           You'll need to opt in to the new decision review process by checking a
           box when you fill out the application. This moves your issue from the
@@ -68,12 +68,12 @@ class IntroductionPage extends React.Component {
                 Check to be sure you can request a Board Appeal
               </h3>
               <p>
-                {' '}
                 You can request a Board Appeal up to 1 year from the date on
                 your decision notice. You'll have 60 days if you have a{' '}
                 <a href={CONTESTED_CLAIMS_URL}>contested claim</a> (these are
                 rare).
               </p>
+              <p>You can request a Board Appeal for these claim decision.</p>
               <ul>
                 <li>An initial claim decision</li>
                 <li>A supplemental claim decision</li>
@@ -87,7 +87,7 @@ class IntroductionPage extends React.Component {
             </li>
             <li className="process-step list-two">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
-              <p>Here's what you'll need to apply:</p>
+              <p>Here's what you’ll need to apply:</p>
               <ul>
                 <li>Mailing address</li>
                 <li>
@@ -96,7 +96,9 @@ class IntroductionPage extends React.Component {
                 </li>
                 <li>Representative’s contact information (optional)</li>
               </ul>
-              <h5>What if I need help filling out my application?</h5>
+              <h4 className="vads-u-font-size--h5">
+                What if I need help filling out my application?
+              </h4>
               <p>
                 If you need help requesting a Board Appeal, you can contact a VA
                 regional office near you.
