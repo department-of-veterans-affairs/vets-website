@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -50,17 +50,16 @@ function FormApp(props) {
     </>
   );
 
-  // workaround for removing wizard status on nav away
-  useEffect(() => {
-    return () => {
-      if (!loggedIn && sessionStorage.getItem(WIZARD_STATUS)) {
-        sessionStorage.removeItem(WIZARD_STATUS);
-      }
-    };
-  });
-
   if (isLoading || chapter31Feature === undefined) {
     return <LoadingIndicator message="Loading your information..." />;
+  }
+
+  // if a user has a saved form but starts a new session, keep them here instead of
+  // sending them to the wizard. This is first so people that make it in during a tiered roll out
+  // with flipper can reliably access their form again.
+  if (loggedIn && hasSavedForm) {
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    return content;
   }
 
   if (!chapter31Feature) {
@@ -79,12 +78,15 @@ function FormApp(props) {
       </div>
     );
   }
-  // if a user has a saved form but starts a new session, keep them here instead of
-  // sending them to the wizard.
-  if (loggedIn && hasSavedForm) {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-    return content;
+
+  // if a user is not logged in, but has completed the wizard, and is navigating away,
+  // it counts as abandonment, and the wizard flag should be reset....but if a user logs in, this still fires..and they will have to fill out the wizard again.
+  if (!loggedIn && wizardStatus) {
+    window.onbeforeunload = () => {
+      sessionStorage.removeItem(WIZARD_STATUS);
+    };
   }
+
   // if a user has not done the wizard, send them there.
   // else if a user is trying to access parts of the form unauthenticated, redirect them to the intro page.
   if (!wizardStatus) {
