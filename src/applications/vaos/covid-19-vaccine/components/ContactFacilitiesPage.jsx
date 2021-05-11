@@ -35,11 +35,9 @@ function ContactFacilitiesPage({
   const loadingFacilities =
     facilitiesStatus === FETCH_STATUS.loading ||
     facilitiesStatus === FETCH_STATUS.notStarted;
-
   const pageTitle = canUseVaccineFlow
     ? 'We can’t schedule your second dose online'
     : 'Contact a facility';
-
   useEffect(
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
@@ -126,7 +124,11 @@ function ContactFacilitiesPage({
               </>
             )}
             <FacilityPhone
-              contact={facility.telecom.find(t => t.system === 'phone')?.value}
+              contact={
+                facility.telecom.find(t => t.system === 'covid')?.value
+                  ? facility.telecom.find(t => t.system === 'covid')?.value
+                  : facility.telecom.find(t => t.system === 'phone')?.value
+              }
               level="3"
             />
           </li>

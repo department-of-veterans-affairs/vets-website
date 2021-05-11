@@ -215,17 +215,6 @@ export function isVAPhoneAppointment(appointment) {
 }
 
 /**
- * Returns whether or not the appointment is COVID vaccine appointment
- *
- * @export
- * @param {Object} appointment A FHIR appointment resource
- * @returns {Boolean} Whether or not the appointment is for COVID vaccine
- */
-export function isCOVIDVaccineAppointment(appointment) {
-  return appointment?.vaos.isCOVIDVaccine;
-}
-
-/**
  * Returns the location ID of a VA appointment (in person or video)
  *
  * @export

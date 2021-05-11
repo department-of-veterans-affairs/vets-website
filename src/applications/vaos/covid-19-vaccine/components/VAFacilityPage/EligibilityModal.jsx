@@ -26,6 +26,7 @@ export default function EligibilityModal({
             <FacilityAddress
               name={facilityDetails.name}
               facility={facilityDetails}
+              showCovidPhone
             />
           </>
         )}

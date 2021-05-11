@@ -10,7 +10,6 @@ import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
-  isValidCovidPhoneNumber,
   isVAPhoneAppointment,
   isVideoHome,
 } from '../../../services/appointment';
@@ -180,9 +179,7 @@ export default function ConfirmedAppointmentDetailsPage() {
     videoKind !== VIDEO_TYPES.clinic &&
     videoKind !== VIDEO_TYPES.gfe;
 
-  const isCovidVaccine = appointment.vaos.isCOVIDVaccine;
-  const hasCovidPhone = isValidCovidPhoneNumber(facility);
-  const showCovidPhone = isCovidVaccine && hasCovidPhone;
+  const showCovidPhone = appointment.vaos.isCOVIDVaccine;
 
   let calendarDescription = 'VA appointment';
   if (showInstructions) {
