@@ -161,35 +161,6 @@ def build(String ref, dockerContainer, String assetSource, String envName, Boole
   }
 }
 
-def prearchive(dockerContainer, envName) {
-  dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && node script/prearchive.js --buildtype=${envName}"
-  }
-}
-
-def prearchiveAll(dockerContainer) {
-  stage("Prearchive Optimizations") {
-    if (shouldBail()) { return }
-
-    try {
-      def builds = [:]
-
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
-
-        builds[envName] = {
-          prearchive(dockerContainer, envName)
-        }
-      }
-
-      parallel builds
-    } catch (error) {
-      slackNotify()
-      throw error
-    }
-  }
-}
-
 def archive(dockerContainer, String ref, String envName) {
   def long buildtime = System.currentTimeMillis() / 1000L;
   def buildDetails = buildDetails(envName, ref, buildtime)
