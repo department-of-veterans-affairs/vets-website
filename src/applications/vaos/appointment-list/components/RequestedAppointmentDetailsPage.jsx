@@ -32,6 +32,7 @@ import {
   fetchRequestDetails,
   startNewAppointmentFlow,
 } from '../redux/actions';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import recordEvent from 'platform/monitoring/record-event';
 
 const TIME_TEXT = {
@@ -237,7 +238,7 @@ export default function RequestedAppointmentDetailsPage() {
       <div>
         {getPatientTelecom(appointment, 'email')}
         <br />
-        {getPatientTelecom(appointment, 'phone')}
+        <Telephone contact={getPatientTelecom(appointment, 'phone')} />
         <br />
         <span className="vads-u-font-style--italic">
           <ListBestTimeToCall

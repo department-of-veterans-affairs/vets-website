@@ -235,7 +235,7 @@ describe('VAOS <ConfirmationPage>', () => {
     const initialState = getInitialState(moment());
     initialState.newAppointment.data = {
       typeOfCareId: '323',
-      phoneNumber: '1234567890',
+      phoneNumber: '2234567890',
       email: 'joeblow@gmail.com',
       reasonForAppointment: 'routine-follow-up',
       reasonAdditionalInfo: 'Additional info',
@@ -273,7 +273,7 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(screen.getByText(/Follow-up\/Routine/i)).to.be.ok;
     expect(screen.getByText(/Additional info/i)).to.be.ok;
     expect(screen.getByText(/joeblow@gmail.com/i)).to.be.ok;
-    expect(screen.getByText(/1234567890/i)).to.be.ok;
+    expect(screen.getByText(/223-456-7890/i)).to.be.ok;
     expect(screen.getByText(/Evening/i)).to.be.ok;
   });
 
