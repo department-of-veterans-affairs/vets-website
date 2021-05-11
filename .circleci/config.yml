@@ -77,22 +77,6 @@ jobs:
       - store_artifacts:
           path: ./test-results
 
-  # test ability to pull cache from drupal
-  drupal-cache-test:
-    executor: circleci-node
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-      - run: yarn fetch-drupal-cache
-
   can-i-deploy:
     executor: circleci-node
     steps:
@@ -275,7 +259,6 @@ workflows:
       - lint
       - unit-test
       - contract-test
-      - drupal-cache-test
       - security-audit
       - build-e2e
       - build:
