@@ -1,6 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
-
+@import '../../shared/sass/ie.scss';
 
 .questionnaire-list-tabs-container{
   border-bottom: 1px solid $color-gray-light;
@@ -199,17 +199,7 @@ a.vads-c-action-link--white {
 
 }
 
-a.action-link-ie::before{
-  text-decoration: none !important;
-}
-
 .action-link-ie{
-  span{
-    margin-top: 1.5rem;
-  }
-  height: initial;
-  border: 1px solid pink;
-  width: 100%;
   display: flex;
 }
 
