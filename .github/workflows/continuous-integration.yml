@@ -265,7 +265,7 @@ jobs:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Test conditional statement
-        if: ${{ github.ref }} == 'refs/heads/master'
+        if: github.ref == 'refs/heads/master'
         run: echo "test"
 
       - name: Cache dependencies
