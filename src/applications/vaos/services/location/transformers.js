@@ -219,7 +219,7 @@ export function transformFacility(facility) {
   if (hasValidCovidPhoneNumber(facility)) {
     facilityObj.telecom.push({
       system: 'covid',
-      value: facility.detailedServices.find(
+      value: facility.detailedServices?.find(
         service => service.name === 'COVID-19 vaccines',
       )?.appointmentPhones[0]?.number,
     });
