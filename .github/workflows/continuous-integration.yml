@@ -265,7 +265,7 @@ jobs:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Echo branch name
-        run: echo ${{ github.ref}}
+        run: echo ${{ github.head_ref}}
 
       - name: Cache dependencies
         id: cache-dependencies
