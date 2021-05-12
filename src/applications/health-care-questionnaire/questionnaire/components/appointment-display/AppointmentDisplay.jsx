@@ -34,7 +34,7 @@ export default function AppointmentDisplay({ appointmentData, bold }) {
             'dddd, MMMM Do, YYYY',
           )}`}
         >
-          {moment(appointmentTime).format('dddd, MMMM Do, YYYY')}
+          {moment(appointmentTime).format('dddd, MMMM D, YYYY')}
         </dd>
       </div>
       <div itemProp="appointment-time">

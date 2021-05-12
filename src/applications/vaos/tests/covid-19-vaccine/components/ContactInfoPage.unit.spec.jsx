@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import ContactInfoPage from '../../../covid-19-vaccine/components/ContactInfoPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { cleanup } from 'axe-core';
+import { cleanup } from '@testing-library/react';
 
 describe('VAOS <ContactInfoPage>', () => {
   it('should submit with valid data', async () => {

@@ -1,30 +1,12 @@
-{% comment %}
-  Example data:
-  "entity": {
-    "parentFieldName": "field_questions",
-    "fieldQuestion": "How do I schedule my first appointment?",
-    "fieldAnswer": [
-      {
-        "entity": {
-          "entityBundle": "wysiwyg",
-          "fieldWysiwyg": {
-            "processed": "<p><strong>If you’re already using VA medical services,</strong>..."
-          }
-        }
-      }
-    ]
-  }
-{% endcomment %}
-
 <div data-template="paragraphs/q_a.collapsible_panel">
   <div class="usa-accordion">
     <ul class="usa-unstyled-list">
-        {% assign questions = entity.fieldQuestions %}
-        {% assign sectionHeader = entity.fieldSectionHeader %}
+      {% assign questions = entity.fieldQuestions %}
+      {% assign sectionHeader = entity.fieldSectionHeader %}
 
-        {% for accordionItem in questions %}
-          {% assign item = accordionItem.entity %}
-          {% assign id= item.entityId | formatSharableLinkID: item.fieldQuestion   %}
+      {% for accordionItem in questions %}
+        {% assign item = accordionItem.entity %}
+        {% assign id= item.entityId | formatSharableLinkID: item.fieldQuestion   %}
         <li id={{id}}
             data-template="paragraphs/q_a.collapsible_panel__qa"
             data-entity-id="{{ item.entityId }}"
@@ -33,7 +15,7 @@
           <div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
             <button class="usa-accordion-button usa-button-unstyled" aria-controls="{{ item.entityBundle }}-{{ item.entityId }}">
               <span itemprop="name">{{ item.fieldQuestion }}</span>
-              
+
             </button>
             <div id="{{ item.entityBundle }}-{{ item.entityId }}" class="usa-accordion-content">
               <div itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
@@ -42,13 +24,13 @@
                   {% include {{ bundleComponent }} with entity = answer.entity %}
                 {% endfor %}
               </div>
-              
+
               <div data-widget-type="sharable-link" parentId="{{id}}" ></div>
             </div>
           </div>
-          
+
         </li>
-        {% endfor %}
+      {% endfor %}
     </ul>
   </div>
 </div>

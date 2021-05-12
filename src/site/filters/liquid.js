@@ -750,4 +750,50 @@ module.exports = function registerFilters() {
     // Encode the string.
     return he.encode(stringWithoutSingleQuotes, { useNamedReferences: true });
   };
+
+  // fieldCcVetCenterFeaturedCon data structure is different
+  // from objects inside fieldVetCenterFeatureContent. Recreates the array
+  // with the expected structure so that it can be directly passed inside the template
+  liquid.filters.appendCentralizedFeaturedContent = (
+    ccFeatureContent,
+    featureContentArray,
+  ) => {
+    if (!ccFeatureContent || !ccFeatureContent.fetched) {
+      return featureContentArray;
+    }
+    /* eslint-disable camelcase */
+    const {
+      field_description,
+      field_section_header,
+      field_cta,
+    } = ccFeatureContent.fetched;
+
+    if (!field_description || !field_section_header) return featureContentArray;
+
+    const featureContentObj = {
+      entity: {
+        fieldDescription: {
+          processed: field_description[0]?.processed,
+        },
+        fieldSectionHeader: field_section_header[0]?.value,
+      },
+    };
+
+    if (
+      field_cta.length > 0 &&
+      field_cta[0]?.field_button_link &&
+      field_cta[0]?.field_button_label
+    ) {
+      const buttonFeatured = {
+        entity: {
+          fieldButtonLink: {
+            uri: field_cta[0]?.field_button_link[0].uri,
+          },
+          fieldButtonLabel: field_cta[0].field_button_label[0].value,
+        },
+      };
+      featureContentObj.entity.fieldCta = buttonFeatured;
+    }
+    return [featureContentObj, ...featureContentArray];
+  };
 };
