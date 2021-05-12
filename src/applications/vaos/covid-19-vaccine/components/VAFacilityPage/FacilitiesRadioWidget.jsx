@@ -81,7 +81,8 @@ export default function FacilitiesRadioWidget({
                 {address?.line}
               </span>
               <span className="vads-u-display--block vads-u-font-size--sm">
-                {address?.city}, <State state={address?.state} />
+                {address?.city}, <State state={address?.state} />{' '}
+                {address.postalCode}
               </span>
               {!!distance && (
                 <span className="vads-u-display--block vads-u-font-size--sm">
