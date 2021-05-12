@@ -227,12 +227,12 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  commonStages.prearchiveAll(dockerContainer)
+  // commonStages.prearchiveAll(dockerContainer)
 
   commonStages.archiveAll(dockerContainer, ref);
   
   envsUsingDrupalCache = envUsedCache
-  commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
+  // commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
   stage('Review') {
     if (commonStages.shouldBail()) {
