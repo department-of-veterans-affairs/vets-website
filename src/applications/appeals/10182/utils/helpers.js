@@ -32,6 +32,19 @@ export const isEmptyObject = obj =>
 export const setInitialEditMode = (formData = []) =>
   formData.map(({ issue, decisionDate } = {}) => !issue || !decisionDate);
 
+export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
+  if (loadedIssues.length !== existingIssues.length) {
+    return true;
+  }
+  return !loadedIssues.every(({ attributes }, index) => {
+    const existing = existingIssues[index]?.attributes || {};
+    return (
+      attributes.ratingIssueSubjectText === existing.ratingIssueSubjectText &&
+      attributes.approxDecisionDate === existing.approxDecisionDate
+    );
+  });
+};
+
 export const appStateSelector = state => ({
   // Validation functions are provided the pageData and not the
   // formData on the review & submit page. For more details

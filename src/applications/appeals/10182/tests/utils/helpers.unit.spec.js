@@ -7,6 +7,7 @@ import {
   showAddIssueQuestion,
   isEmptyObject,
   setInitialEditMode,
+  issuesNeedUpdating,
 } from '../../utils/helpers';
 
 describe('someSelected', () => {
@@ -105,5 +106,40 @@ describe('setInitialEditMode', () => {
         { issue: 'test2', decisionDate: '2000-01-02' },
       ]),
     ).to.deep.equal([false, false]);
+  });
+});
+
+describe('issuesNeedUpdating', () => {
+  const createEntry = (ratingIssueSubjectText, approxDecisionDate) => ({
+    attributes: {
+      ratingIssueSubjectText,
+      approxDecisionDate,
+    },
+  });
+  it('should return true if array lengths are different', () => {
+    expect(issuesNeedUpdating([], [''])).to.be.true;
+    expect(issuesNeedUpdating([''], ['', ''])).to.be.true;
+  });
+  it('should return true if content is different', () => {
+    expect(
+      issuesNeedUpdating(
+        [createEntry('test', '123'), createEntry('test2', '345')],
+        [createEntry('test', '123'), createEntry('test2', '346')],
+      ),
+    ).to.be.true;
+    expect(
+      issuesNeedUpdating(
+        [createEntry('test', '123'), createEntry('test3', '345')],
+        [createEntry('test', '123'), createEntry('test', '345')],
+      ),
+    ).to.be.true;
+  });
+  it('should return true if arrays are the same', () => {
+    expect(
+      issuesNeedUpdating(
+        [createEntry('test', '123'), createEntry('test2', '345')],
+        [createEntry('test', '123'), createEntry('test2', '345')],
+      ),
+    ).to.be.false;
   });
 });

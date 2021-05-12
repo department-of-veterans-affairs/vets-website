@@ -364,7 +364,7 @@ module.exports = (env = {}) => {
       widgetTemplate,
     }) =>
       new HtmlPlugin({
-        chunks: ['polyfills', 'vendor', 'style', entryName],
+        chunks: ['polyfills', 'web-components', 'vendor', 'style', entryName],
         filename: landingPagePath(rootUrl),
         inject: false,
         scriptLoading: 'defer',
