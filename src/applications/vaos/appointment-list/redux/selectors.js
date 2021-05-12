@@ -177,6 +177,7 @@ export const selectPastAppointmentsV2 = createSelector(
 
     const sortedAppointments = past
       .filter(isValidPastAppointment)
+      .filter(a => !a.vaos.isExpressCare)
       .sort(sortByDateAscending);
 
     return groupAppointmentsByMonth(sortedAppointments);
