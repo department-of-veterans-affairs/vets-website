@@ -20,7 +20,7 @@ const representativePage = {
         labels: {
           yes: 'Yes. I want to upload my document now.',
           noRep: "Yes. But I'll provide my document later.",
-          no: "No. I don't have this document",
+          no: "No. I don't have this document.",
         },
       },
     },
