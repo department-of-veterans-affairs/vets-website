@@ -288,8 +288,8 @@ jobs:
         id: get-broken-link-info
         run: node ./script/github-actions/check-broken-links.js ${{ matrix.buildtype }}
 
+# (${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined || ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }} != undefined)
       - name: Slack notification
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
         if: |
           $GITHUB_REF == 'refs/heads/master' &&
-          (${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined || ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }} != undefined)
