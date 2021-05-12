@@ -264,10 +264,6 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Test conditional statement
-        if: github.ref == 'refs/heads/master'
-        run: echo "test"
-
       - name: Cache dependencies
         id: cache-dependencies
         uses: actions/cache@v2
@@ -294,6 +290,4 @@ jobs:
 
       - name: Slack notification
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
-        if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR != '' || steps.get-broken-link-info.outputs.SLACK_MESSAGE != '' }}
-          
-# ( ||  != undefined)
+        if: ${{ steps.get-broken-link-info.outputs.SLACK_COLOR != '' || steps.get-broken-link-info.outputs.SLACK_MESSAGE != '' }} && github.ref == 'refs/heads/master'
