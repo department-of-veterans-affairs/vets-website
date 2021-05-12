@@ -168,17 +168,17 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
             onFocus={() => {
               onFocus(dataEntityId);
             }}
+            onClick={event => {
+              event.persist();
+              if (!event || !event.target) return;
+              displayFeedback(event.target);
+              copyToUsersClipBoard(dataEntityId, event.target);
+            }}
           >
             <ShareIcon
               aria-hidden="true"
               className={`fas fa-link sharable-link`}
               feedbackActive={feedbackActive}
-              onClick={event => {
-                event.persist();
-                if (!event || !event.target) return;
-                displayFeedback(event.target);
-                copyToUsersClipBoard(dataEntityId, event.target.parentElement);
-              }}
               id={`icon-${dataEntityId}`}
             />
           </UnStyledButtonInAccordion>
