@@ -20,7 +20,6 @@ import {
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
-import Loader from '../components/Loader';
 
 const AutoSSO = React.lazy(() =>
   import(/* webpackChunkName: "autoSSO" */ './AutoSSO'),
@@ -168,7 +167,7 @@ export class Main extends React.Component {
           onSignIn={this.openLoginModal}
           visible={this.props.showFormSignInModal}
         />
-        <React.Suspense fallback={<Loader />}>
+        <React.Suspense fallback={<span />}>
           <SignInModal
             onClose={this.closeLoginModal}
             visible={this.props.showLoginModal}
