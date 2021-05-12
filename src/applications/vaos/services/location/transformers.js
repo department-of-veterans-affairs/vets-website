@@ -216,7 +216,7 @@ export function transformFacility(facility) {
     },
   };
 
-  if (hasValidCovidPhoneNumber) {
+  if (hasValidCovidPhoneNumber(facility)) {
     facilityObj.telecom.push({
       system: 'covid',
       value: facility.detailedServices.find(
