@@ -43,7 +43,7 @@ node('vetsgov-general-purpose') {
           } catch (error) {
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+                // sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
               // Try to build again using cached drupal content
               commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
@@ -69,7 +69,7 @@ node('vetsgov-general-purpose') {
           } catch (error) {
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+                // sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
               // Try to build again using cached drupal content
               commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
@@ -95,7 +95,7 @@ node('vetsgov-general-purpose') {
           } catch (error) {
             if (!contentOnlyBuild) {
               dockerContainer.inside(DOCKER_ARGS) {
-                sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
+                // sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
               }
               // Try to build again using cached drupal content
               commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
