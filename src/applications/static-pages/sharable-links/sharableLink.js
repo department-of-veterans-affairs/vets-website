@@ -120,6 +120,7 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
       const id = extractId(feedback.getAttribute('id'));
       if (id !== extractId(activeId)) {
         feedback.style.display = 'none';
+        onBlur(id);
       } else {
         feedback.style = {};
       }
@@ -162,17 +163,12 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
             className="usa-button-unstyled"
             aria-label={`Copy ${dataEntityId} sharable link`}
             id={`button-${dataEntityId}`}
-            onBlur={() => {
-              onBlur(dataEntityId);
-            }}
-            onFocus={() => {
-              onFocus(dataEntityId);
-            }}
             onClick={event => {
               event.persist();
               if (!event || !event.target) return;
               displayFeedback(event.target);
               copyToUsersClipBoard(dataEntityId, event.target);
+              onFocus(dataEntityId);
             }}
           >
             <ShareIcon
@@ -180,6 +176,9 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
               className={`fas fa-link sharable-link`}
               feedbackActive={feedbackActive}
               id={`icon-${dataEntityId}`}
+              onBlur={() => {
+                onBlur(dataEntityId);
+              }}
             />
           </UnStyledButtonInAccordion>
           {feedbackActive && (
