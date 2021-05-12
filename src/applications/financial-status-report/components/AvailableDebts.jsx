@@ -20,9 +20,12 @@ const NoDebts = () => (
 );
 
 const AvailableDebts = ({ pendingDebts, debts, getDebts }) => {
-  useEffect(() => {
-    getDebts();
-  }, [getDebts]);
+  useEffect(
+    () => {
+      getDebts();
+    },
+    [getDebts],
+  );
 
   return !pendingDebts && debts.length ? (
     <>
@@ -64,4 +67,7 @@ const mapDispatchToProps = {
   getDebts: fetchDebts,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AvailableDebts);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AvailableDebts);

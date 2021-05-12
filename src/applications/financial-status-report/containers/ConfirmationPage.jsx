@@ -169,4 +169,7 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({ download: downloadPDF }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmationPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmationPage);
