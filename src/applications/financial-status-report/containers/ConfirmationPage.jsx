@@ -19,7 +19,7 @@ const scrollToTop = () => {
   });
 };
 
-const RequestDetailsCard = ({ data, response, download }) => {
+const RequestDetailsCard = ({ data, response }) => {
   const name = data.personalData?.veteranFullName;
 
   return (
@@ -57,9 +57,6 @@ const RequestDetailsCard = ({ data, response, download }) => {
         <p className="vads-u-margin-y--0">P.O. Box 11930</p>
         <p className="vads-u-margin-y--0">St. Paul, MN 55111-0930</p>
         <p>
-          <button className="usa-button button" onClick={() => download()}>
-            Download completed form
-          </button>
           <button
             className="usa-button-secondary button vads-u-background-color--white"
             onClick={() => window.print()}
@@ -172,7 +169,4 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({ download: downloadPDF }, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConfirmationPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmationPage);
