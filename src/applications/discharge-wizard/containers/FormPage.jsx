@@ -1,19 +1,13 @@
 // Dependencies
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 // Relative Imports
 import { updateField } from '../actions';
 import FormQuestions from '../components/FormQuestions';
 
-const FormPage = ({ router, formValues, updateFormField }) => {
-  useEffect(() => {
-    if (!sessionStorage.getItem('dw-session-started')) {
-      router.push('/');
-    }
-  });
-
+export const FormPage = ({ formValues, updateFormField }) => {
   return (
     <div>
       <h1>How to Apply for a Discharge Upgrade</h1>
