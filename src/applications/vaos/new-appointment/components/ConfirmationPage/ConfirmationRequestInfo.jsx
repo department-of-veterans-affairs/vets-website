@@ -209,7 +209,7 @@ export default function ConfirmationRequestInfo({
                 <div>
                   {data.email}
                   <br />
-                  <Telephone contact={data.phoneNumber} />
+                  <Telephone notClickable contact={data.phoneNumber} />
                   <br />
                   {formatBestTime(data.bestTimeToCall)}{' '}
                 </div>
