@@ -45,9 +45,9 @@ export function ClinicChoicePage({
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-      <p>{`${
+      <p>{`Clinics at ${
         facilityDetails.name
-      } offers vaccine appointments at different times.`}</p>
+      } offer vaccine appointments at different times.`}</p>
       {!!schema && (
         <SchemaForm
           name="Clinic choice"
