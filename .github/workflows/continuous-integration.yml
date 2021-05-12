@@ -292,4 +292,4 @@ jobs:
       - name: Slack notification
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
         if: |
-          $GITHUB_REF == 'refs/heads/master' &&
+          $GITHUB_REF == 'refs/heads/master'
