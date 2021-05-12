@@ -243,6 +243,12 @@ describe('mapStateToProps', () => {
         },
       ],
     },
+    eduPaymentInformation: {
+      accountType: 'Checking',
+      accountNumber: '*****6789',
+      financialInstitutionRoutingNumber: '*****6800',
+      financialInstitutionName: 'Chase Bank',
+    },
   });
   const makeDefaultState = () => ({
     user: {
