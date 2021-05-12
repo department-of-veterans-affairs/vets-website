@@ -284,7 +284,7 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Broken link checks
+      - name: Check broken links
         id: get-broken-link-info
         run: node ./script/github-actions/check-broken-links.js ${{ matrix.buildtype }}
 
