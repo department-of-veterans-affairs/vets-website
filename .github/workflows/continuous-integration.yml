@@ -264,9 +264,6 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Echo branch name
-        run: echo ${{ github.head_ref}}
-
       - name: Cache dependencies
         id: cache-dependencies
         uses: actions/cache@v2
@@ -291,8 +288,8 @@ jobs:
         id: get-broken-link-info
         run: node ./script/github-actions/check-broken-links.js ${{ matrix.buildtype }}
 
-# (${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined || ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }} != undefined)
       - name: Slack notification
         run: echo Slack Message ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }}. Outputting color for testing ${{ steps.get-broken-link-info.outputs.SLACK_COLOR }}
         if: |
-          ${{github.head_ref}} == 'refs/heads/master'
+          ${{ github.ref }} == 'refs/heads/master' &&
+          (${{ steps.get-broken-link-info.outputs.SLACK_COLOR }} != undefined || ${{ steps.get-broken-link-info.outputs.SLACK_MESSAGE }} != undefined)
