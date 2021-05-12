@@ -83,4 +83,5 @@ export default Object.freeze({
   dependencyVerification: 'dependency_verification',
   form10182Nod: 'form10182_nod',
   canUpload1010cgPOA: 'can_upload_10_10cg_poa',
+  coeAccess: 'coe_access',
 });
