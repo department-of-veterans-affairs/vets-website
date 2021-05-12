@@ -252,7 +252,8 @@ export function getPatientTelecom(appointment, system) {
 export function isValidPastAppointment(appt) {
   return (
     appt.vaos.appointmentType !== APPOINTMENT_TYPES.vaAppointment ||
-    !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)
+    (!PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
+      !appt.vaos.isExpressCare)
   );
 }
 
@@ -266,7 +267,10 @@ export function isValidPastAppointment(appt) {
  *  appointment or request
  */
 export function isUpcomingAppointmentOrRequest(appt) {
-  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
+  if (
+    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
+    !appt.vaos.isExpressCare
+  ) {
     const apptDateTime = moment(appt.start);
 
     return (
@@ -303,7 +307,10 @@ export function isUpcomingAppointmentOrRequest(appt) {
  *  appointment
  */
 export function isUpcomingAppointment(appt) {
-  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
+  if (
+    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
+    !appt.vaos.isExpressCare
+  ) {
     const apptDateTime = moment(appt.start);
 
     return (
@@ -319,15 +326,7 @@ export function isUpcomingAppointment(appt) {
     );
   }
 
-  return (
-    appt.status !== APPOINTMENT_STATUS.fulfilled &&
-    moment(appt.start).isAfter(
-      // going one day back to account for late in the day EC requests
-      moment()
-        .startOf('day')
-        .add(-1, 'day'),
-    )
-  );
+  return appt.status !== APPOINTMENT_STATUS.fulfilled;
 }
 
 /**
@@ -341,7 +340,10 @@ export function isUpcomingAppointment(appt) {
 export function isCanceledConfirmed(appt) {
   const today = moment();
 
-  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
+  if (
+    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
+    !appt.vaos.isExpressCare
+  ) {
     const apptDateTime = moment(appt.start);
 
     return (

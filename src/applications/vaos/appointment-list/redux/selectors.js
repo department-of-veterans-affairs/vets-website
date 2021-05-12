@@ -97,24 +97,19 @@ export const selectFutureAppointments = createSelector(
     return confirmed
       .concat(...pending)
       .filter(isUpcomingAppointmentOrRequest)
-      .filter(a => !a.vaos.isExpressCare)
       .sort(sortUpcoming);
   },
 );
 
 export const selectUpcomingAppointments = createSelector(
-  // Selecting pending here to pull in EC requests
-  state => state.appointments.pending,
   state => state.appointments.confirmed,
-  (pending, confirmed) => {
-    if (!confirmed || !pending) {
+  confirmed => {
+    if (!confirmed) {
       return null;
     }
 
     const sortedAppointments = confirmed
-      .concat(pending)
       .filter(isUpcomingAppointment)
-      .filter(a => !a.vaos.isExpressCare)
       .sort(sortByDateAscending);
 
     return groupAppointmentsByMonth(sortedAppointments);
@@ -132,10 +127,7 @@ export const selectPendingAppointments = createSelector(
 export const selectPastAppointments = createSelector(
   state => state.appointments.past,
   past => {
-    return past
-      ?.filter(isValidPastAppointment)
-      .filter(a => !a.vaos.isExpressCare)
-      .sort(sortByDateDescending);
+    return past?.filter(isValidPastAppointment).sort(sortByDateDescending);
   },
 );
 
@@ -151,7 +143,6 @@ export const selectCanceledAppointments = createSelector(
     const sortedAppointments = confirmed
       .concat(pending)
       .filter(isCanceledConfirmed)
-      .filter(a => !a.vaos.isExpressCare)
       .sort(sortByDateDescending);
 
     return groupAppointmentsByMonth(sortedAppointments);
@@ -177,7 +168,6 @@ export const selectPastAppointmentsV2 = createSelector(
 
     const sortedAppointments = past
       .filter(isValidPastAppointment)
-      .filter(a => !a.vaos.isExpressCare)
       .sort(sortByDateAscending);
 
     return groupAppointmentsByMonth(sortedAppointments);

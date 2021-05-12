@@ -187,16 +187,20 @@ export function fetchFutureAppointments() {
           endDate: moment().format('YYYY-MM-DD'),
         })
           .then(requests => {
+            const filteredRequests = requests.filter(
+              appt => !appt.vaos.isExpressCare,
+            );
+
             dispatch({
               type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-              data: requests,
+              data: filteredRequests,
             });
 
             recordEvent({
               event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
             });
 
-            return requests;
+            return filteredRequests;
           })
           .catch(resp => {
             recordEvent({
@@ -288,7 +292,7 @@ export function fetchPendingAppointments() {
           .subtract(featureHomepageRefresh ? 120 : 30, 'days')
           .format('YYYY-MM-DD'),
         endDate: moment().format('YYYY-MM-DD'),
-      });
+      }).filter(appt => appt.vaos.isExpressCare);
 
       dispatch({
         type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
@@ -329,7 +333,6 @@ export function fetchPendingAppointments() {
 
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
-    const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
       selectedIndex,
@@ -346,15 +349,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
           endDate,
         }),
       ];
-
-      if (featureHomepageRefresh) {
-        fetches.push(
-          getAppointmentRequests({
-            startDate: moment(startDate).format('YYYY-MM-DD'),
-            endDate: moment(endDate).format('YYYY-MM-DD'),
-          }),
-        );
-      }
 
       const [appointments, requests] = await Promise.all(fetches);
 
