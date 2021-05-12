@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= htmlWebpackPlugin.options.title %></title>
 
-    <script nonce="**CSP_NONCE**">
+    <!-- <script nonce="**CSP_NONCE**">
       <%= inlineScripts['record-event.js'] %>
-    </script>
+    </script> -->
 
 
     <!-- Icons -->
@@ -118,13 +118,13 @@
       </div>
     </header>
 
-    <script nonce="**CSP_NONCE**" type="text/javascript">
+    <!-- <script nonce="**CSP_NONCE**" type="text/javascript">
     (function() {
       var module = {};
       <%= inlineScripts['incompatible-browser.js'] %>
       checkBrowserCompatibility();
     })();
-    </script>
+    </script> -->
 
     <!-- TODO: Add breadcrumbs -->
     <% if (includeBreadcrumbs) { %>

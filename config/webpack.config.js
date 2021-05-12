@@ -303,8 +303,8 @@ module.exports = (env = {}) => {
       path.join(outputPath, '../', rootUrl, 'index.html');
 
     const inlineScripts = [
-      'incompatible-browser.js',
-      'record-event.js',
+      // 'incompatible-browser.js',
+      // 'record-event.js',
       'static-page-widgets.js',
     ].reduce(
       (scripts, filename) => ({
