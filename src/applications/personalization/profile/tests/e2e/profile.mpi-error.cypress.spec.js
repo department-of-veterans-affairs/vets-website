@@ -3,6 +3,7 @@ import { PROFILE_PATHS } from '../../constants';
 import mockMPIErrorUser from '../fixtures/users/user-mpi-error.json';
 
 import {
+  mockGETEndpoints,
   onlyAccountSecuritySectionIsAccessible,
   subNavOnlyContainsAccountSecurity,
 } from './helpers';
@@ -51,6 +52,13 @@ function test(mobile = false) {
 describe('When user is LOA3 with 2FA turned on but we cannot connect to MPI', () => {
   beforeEach(() => {
     cy.login(mockMPIErrorUser);
+    mockGETEndpoints([
+      'v0/mhv_account',
+      'v0/profile/full_name',
+      'v0/profile/personal_information',
+      'v0/profile/service_history',
+      'v0/feature_toggles*',
+    ]);
   });
   it('should only have access to the Account Security section at desktop size', () => {
     test();
