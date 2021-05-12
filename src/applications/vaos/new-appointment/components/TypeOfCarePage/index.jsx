@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import recordEvent from 'platform/monitoring/record-event';
@@ -9,39 +9,32 @@ import FormButtons from '../../../components/FormButtons';
 import PodiatryAppointmentUnavailableModal from './PodiatryAppointmentUnavailableModal';
 import UpdateAddressAlert from './UpdateAddressAlert';
 import TypeOfCareAlert from './TypeOfCareAlert';
-import * as actions from '../../redux/actions';
 import {
-  selectFeatureCommunityCare,
-  selectFeatureDirectScheduling,
-  selectIsCernerOnlyPatient,
-} from '../../../redux/selectors';
-import {
-  getFormData,
-  getNewAppointment,
-  selectPageChangeInProgress,
-} from '../../redux/selectors';
+  clickUpdateAddressButton,
+  hidePodiatryAppointmentUnavailableModal,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+} from '../../redux/actions';
+import { selectTypeOfCarePage } from '../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
 
-function TypeOfCarePage({
-  hideUpdateAddressAlert,
-  addressLine1,
-  initialData,
-  pageChangeInProgress,
-  showPodiatryApptUnavailableModal,
-  clickUpdateAddressButton,
-  showDirectScheduling,
-  showCommunityCare,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-  hidePodiatryAppointmentUnavailableModal,
-}) {
+export default function TypeOfCarePage() {
+  const dispatch = useDispatch();
+  const {
+    addressLine1,
+    hideUpdateAddressAlert,
+    initialData,
+    pageChangeInProgress,
+    showCommunityCare,
+    showDirectScheduling,
+    showPodiatryApptUnavailableModal,
+  } = useSelector(selectTypeOfCarePage, shallowEqual);
   const history = useHistory();
   const showUpdateAddressAlert =
     !hideUpdateAddressAlert && (!addressLine1 || addressLine1.match(/^PO Box/));
@@ -92,7 +85,7 @@ function TypeOfCarePage({
       {showUpdateAddressAlert && (
         <UpdateAddressAlert
           onClickUpdateAddress={heading => {
-            clickUpdateAddressButton();
+            dispatch(clickUpdateAddressButton());
             recordEvent({
               event: 'nav-warning-alert-box-content-link-click',
               alertBoxHeading: heading,
@@ -101,14 +94,15 @@ function TypeOfCarePage({
           }}
         />
       )}
-
       {!!schema && (
         <SchemaForm
           name="Type of care"
           title="Type of care"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey, data)}
+          onSubmit={() =>
+            dispatch(routeToNextAppointmentPage(history, pageKey, data))
+          }
           onChange={newData => {
             // When someone chooses a type of care that can be direct scheduled,
             // kick off the past appointments fetch, which takes a while
@@ -125,7 +119,7 @@ function TypeOfCarePage({
           <TypeOfCareAlert />
           <FormButtons
             onBack={() =>
-              routeToPreviousAppointmentPage(history, pageKey, data)
+              dispatch(routeToPreviousAppointmentPage(history, pageKey, data))
             }
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
@@ -134,39 +128,8 @@ function TypeOfCarePage({
       )}
       <PodiatryAppointmentUnavailableModal
         showModal={showPodiatryApptUnavailableModal}
-        onClose={hidePodiatryAppointmentUnavailableModal}
+        onClose={dispatch(hidePodiatryAppointmentUnavailableModal)}
       />
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  const newAppointment = getNewAppointment(state);
-  const address = selectVAPResidentialAddress(state);
-  return {
-    ...address,
-    showPodiatryApptUnavailableModal:
-      newAppointment.showPodiatryAppointmentUnavailableModal,
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showDirectScheduling: selectFeatureDirectScheduling(state),
-    showCommunityCare: selectFeatureCommunityCare(state),
-    hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
-    pageChangeInProgress: selectPageChangeInProgress(state),
-    initialData: getFormData(state),
-  };
-}
-
-const mapDispatchToProps = {
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-  showPodiatryAppointmentUnavailableModal:
-    actions.showPodiatryAppointmentUnavailableModal,
-  hidePodiatryAppointmentUnavailableModal:
-    actions.hidePodiatryAppointmentUnavailableModal,
-  clickUpdateAddressButton: actions.clickUpdateAddressButton,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(TypeOfCarePage);
