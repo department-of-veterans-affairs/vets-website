@@ -15,7 +15,7 @@ export default function FacilityAddress({
   const address = facility?.address;
   const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const extraInfoClasses = classNames({
-    'vads-u-margin-top--1p5': !!clinicName || !!phone,
+    'vads-u-margin-top--1p5': !!clinicName || (showPhone && !!phone),
   });
   const Heading = `h${level}`;
   const HeadingSub = `h${parseInt(level, 10) + 1}`;
