@@ -74,7 +74,7 @@ export default function FacilitiesRadioWidget({
               disabled={loadingEligibility}
             />
             <label htmlFor={`${id}_${facilityPosition}`}>
-              <span className="vads-u-display--block vads-u-margin-bottom-0">
+              <span className="vads-u-display--block">
                 <FacilityAddress
                   name={name}
                   facility={option?.label}
