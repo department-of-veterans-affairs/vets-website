@@ -303,13 +303,15 @@ module.exports = (env = {}) => {
       path.join(outputPath, '../', rootUrl, 'index.html');
 
     const inlineScripts = [
-      // 'incompatible-browser.js',
-      // 'record-event.js',
+      'incompatible-browser.js',
+      'record-event.js',
       'static-page-widgets.js',
     ].reduce(
       (scripts, filename) => ({
         ...scripts,
-        [filename]: fs.readFileSync(path.join('src/site/assets/js', filename)),
+        [filename]: fs.readFileSync(
+          path.join('../content-build/src/site/assets/js', filename),
+        ),
       }),
       {},
     );
