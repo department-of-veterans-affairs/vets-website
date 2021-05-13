@@ -51,13 +51,22 @@ const GetHelpFooter = props => {
           .
         </span>
       );
-    } else {
+    } else if (facilityId) {
       return (
         <>
           <a
             href={`/find-locations/facility/${facilityId}`}
-            data-testid="default-details"
+            data-testid="default-details-with-id"
           >
+            Contact your VA provider
+          </a>
+          .
+        </>
+      );
+    } else {
+      return (
+        <>
+          <a href={`/find-locations`} data-testid="default-details">
             Contact your VA provider
           </a>
           .

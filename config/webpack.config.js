@@ -309,7 +309,9 @@ module.exports = (env = {}) => {
     ].reduce(
       (scripts, filename) => ({
         ...scripts,
-        [filename]: fs.readFileSync(path.join('src/site/assets/js', filename)),
+        [filename]: fs.readFileSync(
+          path.join('../content-build/src/site/assets/js', filename),
+        ),
       }),
       {},
     );

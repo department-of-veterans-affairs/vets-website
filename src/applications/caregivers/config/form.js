@@ -206,18 +206,18 @@ const formConfig = {
       },
     },
     signAsRepresentativeChapter: {
-      title: 'Representative documentation',
+      title: 'Representative document',
       pages: {
         signAsRepresentative: {
-          path: 'representative-documentation',
-          title: 'Representative documentation',
+          path: 'representative-document',
+          title: 'Representative document',
           depends: formData => formData['view:canUpload1010cgPOA'],
           uiSchema: signAsRepresentativeYesNo.uiSchema,
           schema: signAsRepresentativeYesNo.schema,
         },
         documentUpload: {
           path: 'representative-document-upload',
-          title: 'Representative documentation',
+          title: 'Representative document',
           depends: formData => formData.signAsRepresentativeYesNo === 'yes',
           editModeOnReviewPage: false,
           uiSchema: uploadPOADocument.uiSchema,
