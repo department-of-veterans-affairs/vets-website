@@ -30,6 +30,7 @@ import {
   getSitesSupportingVAR,
   getCommunityCare,
 } from '../../services/var';
+import { createAppointment } from '../../services/appointment';
 import {
   getOrganizations,
   getIdOfRootOrganization,
@@ -72,7 +73,6 @@ import {
   FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
 import { fetchFlowEligibilityAndClinics } from '../../services/patient';
-import { postAppointment } from '../../services/vaos';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -1024,7 +1024,7 @@ export function submitAppointmentOrRequest(history) {
         let requestData;
         if (featureVAOSServiceRequests && isCommunityCare) {
           requestBody = transformFormToVAOSCCRequest(getState());
-          requestData = await postAppointment(requestBody);
+          requestData = await createAppointment({ appointment: requestBody });
         } else if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);

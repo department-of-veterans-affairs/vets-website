@@ -8,7 +8,6 @@ import {
   getConfirmedAppointments,
   getPendingAppointment,
   getPendingAppointments,
-  submitAppointment,
 } from '../var';
 import { postAppointment } from '../vaos';
 import {
@@ -537,11 +536,7 @@ export function groupAppointmentsByMonth(appointments) {
   return appointmentsByMonth;
 }
 
-export async function createAppointment({ appointment, useVAOSService }) {
-  if (!useVAOSService) {
-    return submitAppointment(appointment);
-  }
-
+export async function createAppointment({ appointment }) {
   const result = await postAppointment(appointment);
 
   return transformVAOSAppointment(result);
