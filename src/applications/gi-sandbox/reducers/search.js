@@ -36,6 +36,7 @@ const INITIAL_STATE = {
     provider: [],
   },
   geocodeInProgress: false,
+  geocode: {},
 };
 
 function uppercaseKeys(obj) {
@@ -86,8 +87,6 @@ function buildSearchResults(payload) {
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case SEARCH_BY_LOCATION_SUCCEEDED:
-      return { ...state, inProgress: false };
-
     case SEARCH_BY_NAME_SUCCEEDED:
       return {
         ...state,

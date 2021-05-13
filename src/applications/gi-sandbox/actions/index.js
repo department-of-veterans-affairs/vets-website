@@ -287,11 +287,10 @@ export function fetchNameAutocompleteSuggestions(term, filterFields, version) {
  * Calculates a bounding box (±BOUNDING_RADIUS°) centering on the current
  * address string as typed by the user.
  *
- * @param features return object from MapBox
- * @param {Object<T>} query Current searchQuery state (`searchQuery.searchString` at a minimum)
+ * @param features object from MapBox call
  * @returns {Function<T>} A thunk for Redux to process OR a failure action object on bad input
  */
-export const genBBoxFromAddress = (features, query) => {
+export const genBBoxFromAddress = features => {
   const zip = features[0].context.find(v => v.id.includes('postcode')) || {};
   const coordinates = features[0].center;
   const latitude = coordinates[1];
@@ -321,11 +320,9 @@ export const genBBoxFromAddress = (features, query) => {
     dispatch({
       type: GEOCODE_COMPLETE,
       payload: {
-        ...query,
         radius,
         context: zipCode,
         id: Date.now(),
-        inProgress: true,
         position: {
           latitude,
           longitude,
@@ -336,20 +333,11 @@ export const genBBoxFromAddress = (features, query) => {
         },
         bounds: minBounds,
         zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,
-        currentPage: 1,
         mapBoxQuery: {
           placeName: features[0].place_name,
           placeType: features[0].place_type[0],
         },
         searchArea: null,
-        results: query.usePredictiveGeolocation
-          ? features.map(feature => ({
-              placeName: feature.place_name,
-              placeType: feature.place_type[0],
-              bbox: feature.bbox,
-              center: feature.center,
-            }))
-          : [],
       },
     });
   };
@@ -361,7 +349,7 @@ export const genBBoxFromAddress = (features, query) => {
 export function fetchSearchByLocationResults(query, distance) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
-  if (!query.searchString) {
+  if (!query) {
     return {
       type: SEARCH_FAILED,
       error: 'Empty search string/address. Search cancelled.',
@@ -374,7 +362,7 @@ export function fetchSearchByLocationResults(query, distance) {
     // commas can be stripped from query if Mapbox is returning unexpected results
     let types = TypeList;
     // check for postcode search
-    const isPostcode = query.searchString.match(/^\s*\d{5}\s*$/);
+    const isPostcode = query.match(/^\s*\d{5}\s*$/);
 
     if (isPostcode) {
       types = ['postcode'];
@@ -385,11 +373,11 @@ export function fetchSearchByLocationResults(query, distance) {
         countries: CountriesList,
         types,
         autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
-        query: query.searchString,
+        query,
       })
       .send()
       .then(({ body: { features } }) => {
-        genBBoxFromAddress(features, query);
+        genBBoxFromAddress(features);
 
         const coordinates = features[0].center;
         const latitude = coordinates[1];
