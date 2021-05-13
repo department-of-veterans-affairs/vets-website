@@ -277,3 +277,48 @@ export function transformFormToAppointment(state) {
     schedulingMethod: 'direct',
   };
 }
+
+export function transformFormToVAOSCCRequest(state) {
+  const data = getFormData(state);
+  const useProviderSelection = selectUseProviderSelection(state);
+  const provider = data.communityCareProvider;
+  let practitioners = [];
+
+  if (useProviderSelection && !!provider && Object.keys(provider).length) {
+    practitioners = [data.communityCareProvider.id];
+  }
+
+  const typeOfCare = getTypeOfCare(data);
+
+  return {
+    kind: 'cc',
+    status: 'proposed',
+    locationId: data.communityCareSystemId,
+    serviceType: typeOfCare.ccId,
+    reason: data.reasonAdditionalInfo,
+    contact: {
+      telecom: [
+        {
+          type: 'phone',
+          value: data.phoneNumber,
+        },
+        {
+          type: 'email',
+          value: data.email,
+        },
+      ],
+    },
+    requestedPeriods: data.selectedDates.map(date => ({
+      start: moment.utc(date).format(),
+      end: moment
+        .utc(date)
+        .add(12, 'hours')
+        .subtract(1, 'minute')
+        .format(),
+    })),
+    practitioners,
+    preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall)
+      .filter(item => item[1])
+      .map(item => titleCase(item[0])),
+  };
+}

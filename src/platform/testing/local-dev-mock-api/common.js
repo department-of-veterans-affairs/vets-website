@@ -81,7 +81,7 @@ const responses = {
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: false },
-        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: false },
+        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },

@@ -429,4 +429,18 @@ export default [
     path: /vaos.*\/Slot\?/,
     response: () => ({ ...fhirSlots, entry: generateMockFHIRSlots() }),
   },
+  {
+    method: 'POST',
+    path: /vaos\/v2\/appointments/,
+    response: (url, { requestData }) => {
+      return {
+        data: {
+          id: '8a4886886e4c8e22016e6613216d001g',
+          attributes: {
+            ...requestData,
+          },
+        },
+      };
+    },
+  },
 ];

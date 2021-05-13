@@ -8,7 +8,9 @@ import {
   getConfirmedAppointments,
   getPendingAppointment,
   getPendingAppointments,
+  submitAppointment,
 } from '../var';
+import { postAppointment } from '../vaos';
 import {
   transformConfirmedAppointment,
   transformConfirmedAppointments,
@@ -21,6 +23,7 @@ import {
   APPOINTMENT_STATUS,
   VIDEO_TYPES,
 } from '../../utils/constants';
+import { transformVAOSAppointment } from './transformers.vaos';
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
@@ -532,4 +535,14 @@ export function groupAppointmentsByMonth(appointments) {
   });
 
   return appointmentsByMonth;
+}
+
+export async function createAppointment({ appointment, useVAOSService }) {
+  if (!useVAOSService) {
+    return submitAppointment(appointment);
+  }
+
+  const result = await postAppointment(appointment);
+
+  return transformVAOSAppointment(result);
 }

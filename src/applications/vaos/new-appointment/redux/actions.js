@@ -12,6 +12,7 @@ import {
   selectIsCernerOnlyPatient,
   selectUseFlatFacilityPage,
   selectFeatureHomepageRefresh,
+  selectFeatureVAOSServiceRequests,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -54,6 +55,7 @@ import {
   transformFormToVARequest,
   transformFormToCCRequest,
   transformFormToAppointment,
+  transformFormToVAOSCCRequest,
 } from './helpers/formSubmitTransformers';
 import {
   resetDataLayer,
@@ -70,6 +72,7 @@ import {
   FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
 import { fetchFlowEligibilityAndClinics } from '../../services/patient';
+import { postAppointment } from '../../services/vaos';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -938,6 +941,7 @@ export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
     const isFeatureHomepageRefresh = selectFeatureHomepageRefresh(state);
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -1018,7 +1022,10 @@ export function submitAppointmentOrRequest(history) {
 
       try {
         let requestData;
-        if (isCommunityCare) {
+        if (featureVAOSServiceRequests && isCommunityCare) {
+          requestBody = transformFormToVAOSCCRequest(getState());
+          requestData = await postAppointment(requestBody);
+        } else if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
         } else {
