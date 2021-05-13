@@ -128,7 +128,7 @@ export default function TypeOfCarePage() {
       )}
       <PodiatryAppointmentUnavailableModal
         showModal={showPodiatryApptUnavailableModal}
-        onClose={dispatch(hidePodiatryAppointmentUnavailableModal)}
+        onClose={() => dispatch(hidePodiatryAppointmentUnavailableModal())}
       />
     </div>
   );
