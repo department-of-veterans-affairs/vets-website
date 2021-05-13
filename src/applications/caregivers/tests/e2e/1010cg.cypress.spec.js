@@ -75,7 +75,7 @@ const testSecondaryTwo = createTestConfig(
     pageHooks: {
       introduction: () => {
         // Hit the start button
-        cy.findAllByText(/start/i, { selector: 'button' })
+        cy.findAllByText(/start/i, { selector: 'a' })
           .first()
           .click();
       },
