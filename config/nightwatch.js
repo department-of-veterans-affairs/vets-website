@@ -3,7 +3,6 @@
 
 const fs = require('fs-extra');
 const chromedriver = require('chromedriver');
-const seleniumServer = require('selenium-server');
 
 require('@babel/register');
 require('core-js/stable');
@@ -51,7 +50,8 @@ module.exports = {
           'webdriver.chrome.driver': chromedriver.path,
         },
         start_process: true,
-        server_path: seleniumServer.path,
+        server_path:
+          './node_modules/selenium-server/lib/runner/selenium-server-standalone-3.141.59.jar',
         log_path: selenium_logs,
         host: '127.0.0.1',
         port: selenium_server_port,
