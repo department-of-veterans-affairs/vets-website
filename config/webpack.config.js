@@ -94,7 +94,6 @@ module.exports = (env = {}) => {
     port: 3001,
     scaffold: false,
     watch: false,
-    setPublicPath: false,
     destination: buildtype,
     ...env,
   };
@@ -120,7 +119,7 @@ module.exports = (env = {}) => {
 
   // Set the publicPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
-    buildOptions.setPublicPath && buildtype !== LOCALHOST
+    buildtype !== LOCALHOST
       ? `${BUCKETS[buildtype]}/generated/`
       : '/generated/';
 
