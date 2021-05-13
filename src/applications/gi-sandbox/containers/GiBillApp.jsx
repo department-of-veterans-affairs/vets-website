@@ -2,14 +2,13 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
+import { exitPreviewMode, fetchConstants } from '../actions';
 import GiBillBreadcrumbs from '../components/GiBillBreadcrumbs';
 import Modals from './Modals';
 import { useQueryParams } from '../utils/helpers';
 
 export function GiBillApp({
   children,
-  dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
   preview,
@@ -26,13 +25,9 @@ export function GiBillApp({
 
   useEffect(() => {
     const shouldExitPreviewMode = preview.display && !version;
-    const shouldEnterPreviewMode =
-      !preview.display && version && preview.version.createdAt;
 
     if (shouldExitPreviewMode) {
       dispatchExitPreviewMode();
-    } else if (shouldEnterPreviewMode) {
-      dispatchEnterPreviewMode();
     }
   });
 
@@ -54,14 +49,14 @@ GiBillApp.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { preview } = state;
+  const { preview, version } = state;
   return {
     preview,
+    version,
   };
 };
 
 const mapDispatchToProps = {
-  dispatchEnterPreviewMode: enterPreviewMode,
   dispatchExitPreviewMode: exitPreviewMode,
   dispatchFetchConstants: fetchConstants,
 };

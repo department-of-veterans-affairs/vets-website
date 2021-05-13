@@ -8,14 +8,11 @@ const INITIAL_STATE = {
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case ENTER_PREVIEW_MODE: {
-      const { version } = action;
-      const newState = { ...state, display: true };
-
-      if (version) {
-        newState.version = version;
-      }
-
-      return newState;
+      return {
+        ...state,
+        display: true,
+        version: action.version,
+      };
     }
     case EXIT_PREVIEW_MODE:
       return INITIAL_STATE;

@@ -4,11 +4,9 @@ import {
   AUTOCOMPLETE_STARTED,
   AUTOCOMPLETE_FAILED,
   AUTOCOMPLETE_SUCCEEDED,
-  SEARCH_STARTED,
   AUTOCOMPLETE_CLEARED,
 } from '../actions';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
-import get from 'platform/utilities/data/get';
 
 const INITIAL_STATE = {
   inProgress: false,
@@ -64,11 +62,6 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         suggestions: [],
-      };
-    case SEARCH_STARTED:
-      return {
-        ...state,
-        searchTerm: get('query.name', action, ''),
       };
     default:
       return state;

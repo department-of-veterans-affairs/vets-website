@@ -68,8 +68,11 @@ export function hideModal() {
   return showModal(null);
 }
 
-function withPreview(dispatch, action) {
-  const version = action.payload.meta.version;
+function withPreview(dispatch, action, versionId) {
+  const version = {
+    ...action.payload.meta.version,
+    id: versionId,
+  };
   if (version.preview) {
     dispatch({
       type: ENTER_PREVIEW_MODE,
@@ -132,7 +135,11 @@ export function fetchConstants(version) {
         throw new Error(res.statusText);
       })
       .then(payload => {
-        withPreview(dispatch, { type: FETCH_CONSTANTS_SUCCEEDED, payload });
+        withPreview(
+          dispatch,
+          { type: FETCH_CONSTANTS_SUCCEEDED, payload },
+          version,
+        );
       })
       .catch(err => {
         dispatch({
@@ -216,11 +223,12 @@ export function updateEstimatedBenefits(estimatedBenefits) {
   return { type: UPDATE_ESTIMATED_BENEFITS, estimatedBenefits };
 }
 
-export function fetchSearchByNameResults(name) {
-  const url = appendQuery(
-    `${api.url}/institutions/search`,
-    rubyifyKeys({ name }),
-  );
+export function fetchSearchByNameResults(name, filterFields, version) {
+  const url = appendQuery(`${api.url}/institutions/search`, {
+    name,
+    ...rubyifyKeys(filterFields),
+    version,
+  });
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, payload: { name } });
@@ -250,6 +258,17 @@ export function fetchSearchByNameResults(name) {
 
 export function fetchSearchByLocationResults(location, distance) {
   return { type: SEARCH_STARTED, payload: { location, distance } };
+}
+
+export function clearAutocompleteSuggestions() {
+  return { type: AUTOCOMPLETE_CLEARED };
+}
+
+export function updateAutocompleteSearchTerm(searchTerm) {
+  return {
+    type: AUTOCOMPLETE_TERM_CHANGED,
+    searchTerm,
+  };
 }
 
 export function fetchNameAutocompleteSuggestions(term, filterFields, version) {
