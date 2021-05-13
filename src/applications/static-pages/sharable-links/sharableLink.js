@@ -164,6 +164,7 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
             aria-label={`Copy ${dataEntityId} sharable link`}
             id={`button-${dataEntityId}`}
             onClick={event => {
+              // this event has event.target as the icon
               event.persist();
               if (!event || !event.target) return;
               displayFeedback(event.target);
@@ -171,6 +172,7 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
               onFocus(dataEntityId);
             }}
             onKeyPress={event => {
+              // this event has event.target as the button
               event.persist();
               if (!event || !event.which) return;
               if (event.which === 13 || event.which === 32) {
