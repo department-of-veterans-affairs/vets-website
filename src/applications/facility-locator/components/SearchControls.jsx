@@ -10,7 +10,6 @@ import {
   facilityTypesOptions,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { setFocus } from '../utils/helpers';
@@ -161,29 +160,28 @@ const SearchControls = props => {
             City, state or postal code{' '}
             <span className="form-required-span">(*Required)</span>
           </label>
-          {(window.Cypress || !environment.isProduction()) &&
-            (geolocationInProgress ? (
-              <div className="use-my-location-link">
-                <i
-                  className="fa fa-spinner fa-spin"
-                  aria-hidden="true"
-                  role="presentation"
-                />
-                <span aria-live="assertive">Finding your location...</span>
-              </div>
-            ) : (
-              <button
-                onClick={handleGeolocationButtonClick}
-                className="use-my-location-link"
-              >
-                <i
-                  className="use-my-location-button"
-                  aria-hidden="true"
-                  role="presentation"
-                />
-                Use my location
-              </button>
-            ))}
+          {geolocationInProgress ? (
+            <div className="use-my-location-link">
+              <i
+                className="fa fa-spinner fa-spin"
+                aria-hidden="true"
+                role="presentation"
+              />
+              <span aria-live="assertive">Finding your location...</span>
+            </div>
+          ) : (
+            <button
+              onClick={handleGeolocationButtonClick}
+              className="use-my-location-link"
+            >
+              <i
+                className="use-my-location-button"
+                aria-hidden="true"
+                role="presentation"
+              />
+              Use my location
+            </button>
+          )}
         </div>
         {showError && (
           <span className="usa-input-error-message" role="alert">
