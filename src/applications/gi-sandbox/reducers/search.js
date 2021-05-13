@@ -16,7 +16,7 @@ const INITIAL_STATE = {
   results: [],
   count: null,
   version: {},
-  query: { name: '', location: '', distance: '10' },
+  query: { name: '', location: '', distance: '50' },
   pagination: {
     currentPage: 1,
     totalPages: 1,

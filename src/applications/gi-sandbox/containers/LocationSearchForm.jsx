@@ -31,9 +31,10 @@ export function LocationSearchForm({ fetchSearchByLocation, search }) {
                 selectClassName="vads-u-font-style--italic vads-u-color--gray"
                 name="distance"
                 options={[
-                  { optionValue: '10', optionLabel: 'within 10 miles' },
+                  { optionValue: '5', optionLabel: 'within 5 miles' },
                   { optionValue: '25', optionLabel: 'within 25 miles' },
                   { optionValue: '50', optionLabel: 'within 50 miles' },
+                  { optionValue: '75', optionLabel: 'within 75 miles' },
                 ]}
                 value={distance}
                 alt="distance"
