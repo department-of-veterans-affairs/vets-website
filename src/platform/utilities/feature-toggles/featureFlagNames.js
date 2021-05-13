@@ -18,6 +18,12 @@ export default Object.freeze({
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
   vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
+  vaOnlineSchedulingVAOSServiceRequests:
+    'vaOnlineSchedulingVAOSServiceRequests',
+  vaOnlineSchedulingVAOSServiceVAAppointments:
+    'vaOnlineSchedulingVAOSServiceVAAppointments',
+  vaOnlineSchedulingVAOSServiceCCAppointments:
+    'vaOnlineSchedulingVAOSServiceCCAppointments',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   vaOnlineSchedulingHomepageRefresh: 'vaOnlineSchedulingHomepageRefresh',
   vaOnlineFacilitySelectionV22: 'vaOnlineFacilitySelectionV22',

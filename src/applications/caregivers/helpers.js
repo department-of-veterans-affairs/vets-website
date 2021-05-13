@@ -189,7 +189,7 @@ export const isSSNUnique = formData => {
 export const validateSSNIsUnique = (errors, formData) => {
   if (!isSSNUnique(formData)) {
     errors.addError(
-      "We're sorry. You've already entered this number elsewhere. Please check your data and try again.",
+      'We\u2019re sorry. You\u2019ve already entered this number elsewhere. Please check your data and try again.',
     );
   }
 };
@@ -198,7 +198,7 @@ export const facilityNameMaxLength = (errors, formData) => {
   const facilityNameLength = formData.veteranLastTreatmentFacility.name?.length;
   if (facilityNameLength > 80) {
     errors.addError(
-      "You've entered too many characters, please enter less than 80 characters.",
+      'You\u2019ve entered too many characters, please enter less than 80 characters.',
     );
   }
 };

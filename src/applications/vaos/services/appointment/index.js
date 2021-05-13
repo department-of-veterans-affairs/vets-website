@@ -252,6 +252,17 @@ export function getPatientTelecom(appointment, system) {
 }
 
 /**
+ * Returns whether or not the facility has a COVID vaccine phone line
+ *
+ * @export
+ * @param {Object} facility A facility resource
+ * @returns {Boolean} Whether or not the facility has a COVID vaccine phone line
+ */
+export function hasValidCovidPhoneNumber(facility) {
+  return !!facility?.telecom?.find(tele => tele.system === 'covid')?.value;
+}
+
+/**
  * Checks to see if a past appointment has a valid status
  *
  * @param {Appointment} appt A FHIR appointment resource
