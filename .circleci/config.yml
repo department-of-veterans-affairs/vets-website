@@ -45,6 +45,11 @@ jobs:
     steps:
       - checkout
       - yarn-install-cache
+      - run:
+          name: Download static-page-widgets asset from content-build repo
+          command: |
+            mkdir -p ../content-build/src/site/assets/js
+            curl -L "https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master/src/site/assets/js/static-page-widgets.js" -o "../content-build/src/site/assets/js/static-page-widgets.js"
       - run: mkdir -p ./test-results
       - run:
           command: yarn test:unit --coverage
