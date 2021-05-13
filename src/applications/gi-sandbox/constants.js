@@ -32,12 +32,6 @@ export const MapboxInit = {
 };
 
 /**
- * Mapbox api request countries
- */
-
-export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp'];
-
-/**
  * Mapbox api request types
  */
 

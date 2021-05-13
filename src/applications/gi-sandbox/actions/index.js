@@ -5,7 +5,7 @@ import { api } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
 import { rubyifyKeys } from '../utils/helpers';
-import { BOUNDING_RADIUS, TypeList, CountriesList } from '../constants';
+import { BOUNDING_RADIUS, TypeList } from '../constants';
 import { radiusFromBoundingBox } from '../utils/mapHelpers';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../components/MapboxClient';
@@ -288,7 +288,7 @@ export function fetchNameAutocompleteSuggestions(term, filterFields, version) {
  * @param features object from MapBox call
  * @returns {Function<T>} A thunk for Redux to process OR a failure action object on bad input
  */
-export const genBBoxFromAddress = features => {
+export const genBBoxFromGeocode = features => {
   const zip = features[0].context.find(v => v.id.includes('postcode')) || {};
   const coordinates = features[0].center;
   const latitude = coordinates[1];
@@ -369,7 +369,6 @@ export function fetchSearchByLocationResults(query, distance) {
 
     mbxClient
       .forwardGeocode({
-        countries: CountriesList,
         types,
         autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
         query,
@@ -377,7 +376,7 @@ export function fetchSearchByLocationResults(query, distance) {
       .send()
       .then(({ body: { features } }) => {
         dispatch({ type: GEOCODE_COMPLETE });
-        genBBoxFromAddress(features);
+        genBBoxFromGeocode(features);
 
         const coordinates = features[0].center;
         const latitude = coordinates[1];
