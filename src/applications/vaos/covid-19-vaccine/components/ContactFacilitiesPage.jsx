@@ -126,7 +126,7 @@ function ContactFacilitiesPage({
             )}
             <FacilityPhone
               contact={
-                hasValidCovidPhoneNumber
+                hasValidCovidPhoneNumber(facility)
                   ? facility.telecom.find(t => t.system === 'covid')?.value
                   : facility.telecom.find(t => t.system === 'phone')?.value
               }
