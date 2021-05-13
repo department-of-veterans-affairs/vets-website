@@ -12,7 +12,6 @@ export function SearchResults({
   eligibility,
   dispatchUpdateEligibilityAndFilters,
   dispatchShowModal,
-  filters,
 }) {
   const [giBillChapter, setGiBillChapter] = useState(eligibility.giBillChapter);
   const [openName, setOpenName] = useState('');
@@ -41,25 +40,19 @@ export function SearchResults({
     eligibility.numberOfDependents,
   );
 
-  const [inPersonClasses, setInPersonClasses] = useState(
-    filters.inPersonClasses,
-  );
+  const [onlineClasses, setOnlineClasses] = useState(eligibility.onlineClasses);
 
   const updateStore = () => {
-    dispatchUpdateEligibilityAndFilters(
-      {
-        militaryStatus,
-        spouseActiveDuty,
-        giBillChapter,
-        cumulativeService,
-        enlistmentService,
-        eligForPostGiBill,
-        numberOfDependents,
-      },
-      {
-        inPersonClasses,
-      },
-    );
+    dispatchUpdateEligibilityAndFilters({
+      militaryStatus,
+      spouseActiveDuty,
+      giBillChapter,
+      cumulativeService,
+      enlistmentService,
+      eligForPostGiBill,
+      numberOfDependents,
+      onlineClasses,
+    });
   };
 
   const handleAccordionDropdownOpen = openedName => {
@@ -117,9 +110,9 @@ export function SearchResults({
                     { value: 'no', label: 'Yes' },
                     { value: 'yes', label: 'No' },
                   ]}
-                  value={inPersonClasses}
+                  value={onlineClasses}
                   onChange={e => {
-                    setInPersonClasses(e.target.value);
+                    setOnlineClasses(e.target.value);
                   }}
                 />
               </AccordionDropdown>
