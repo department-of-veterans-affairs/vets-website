@@ -292,7 +292,9 @@ export function fetchPendingAppointments() {
           .subtract(featureHomepageRefresh ? 120 : 30, 'days')
           .format('YYYY-MM-DD'),
         endDate: moment().format('YYYY-MM-DD'),
-      }).filter(appt => appt.vaos.isExpressCare);
+      });
+
+      pendingAppointments.filter(appt => appt.vaos.isExpressCare);
 
       dispatch({
         type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
