@@ -37,21 +37,9 @@ export default (state = initialState, action) => {
     case FETCH_FORMS_SUCCESS: {
       const clonedResults = cloneDeep(action.results);
       if (
-        !state.lighthouseTestSearchResults &&
+        (!state.lighthouseTestSearchResults ||
+          state.lighthouseTestSearchResults) &&
         state.sortByPropertyName === FAF_TEST_OPTION_CLOSEST_MATCH
-      ) {
-        // NOTE: This is only for testing Lighthouse Search Algorithm
-        return {
-          ...state,
-          fetching: false,
-          hasOnlyRetiredForms: action.hasOnlyRetiredForms,
-          lighthouseTestSearchResults: clonedResults,
-          results: clonedResults,
-        };
-      }
-      if (
-        state.sortByPropertyName === FAF_TEST_OPTION_CLOSEST_MATCH &&
-        state.lighthouseTestSearchResults
       ) {
         // NOTE: This is only for testing Lighthouse Search Algorithm
         return {
