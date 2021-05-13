@@ -155,7 +155,7 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
     hideFeedback(iconElement.getAttribute('id'));
   };
 
-  if (true) {
+  if (showSharableLink) {
     return (
       <ThemeProvider theme={theme.main}>
         <span aria-live="polite" aria-relevant="additions">
