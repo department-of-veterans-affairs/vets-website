@@ -76,6 +76,8 @@ import createThirdPartyApps, {
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
 import dependencyVerificationReducer from './dependency-verification/reducers/index';
 
+import createCOEAccess from './coe-access/createCOEAccess';
+
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -197,6 +199,8 @@ createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
+
+createCOEAccess(store, widgetTypes.COE_ACCESS);
 
 createSharableLink(store, widgetTypes.SHARABLE_LINK);
 

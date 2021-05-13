@@ -25,7 +25,7 @@ const SignatureInput = ({
 
   const createInputLabel = inputLabel =>
     isRepresentative
-      ? `Enter your name to sign as the Veteran's representative`
+      ? `Enter your name to sign as the Veteran\u2019s representative`
       : `${inputLabel} full name`;
 
   const firstLetterOfMiddleName =

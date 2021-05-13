@@ -39,7 +39,7 @@ export default function ContactDetailSection({ data }) {
             <span>
               {data.email}
               <br />
-              <Telephone contact={data.phoneNumber} />
+              <Telephone notClickable contact={data.phoneNumber} />
               <br />
               <i>Call {formatBestTimetoCall(data.bestTimeToCall)}</i>
             </span>

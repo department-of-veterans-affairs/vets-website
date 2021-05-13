@@ -179,6 +179,8 @@ export default function ConfirmedAppointmentDetailsPage() {
     videoKind !== VIDEO_TYPES.clinic &&
     videoKind !== VIDEO_TYPES.gfe;
 
+  const showCovidPhone = appointment.vaos.isCOVIDVaccine;
+
   let calendarDescription = 'VA appointment';
   if (showInstructions) {
     calendarDescription = appointment.comment;
@@ -242,6 +244,7 @@ export default function ConfirmedAppointmentDetailsPage() {
               facilityId={facilityId}
               isHomepageRefresh
               clinicFriendlyName={appointment.location?.clinicName}
+              showCovidPhone={showCovidPhone}
             />
 
             {showInstructions &&
