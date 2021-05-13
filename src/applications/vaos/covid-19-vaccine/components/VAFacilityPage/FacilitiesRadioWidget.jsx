@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import State from '../../../components/State';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import FacilityAddress from '../../../components/FacilityAddress';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
@@ -49,7 +49,7 @@ export default function FacilitiesRadioWidget({
   return (
     <div>
       {displayedOptions.map((option, i) => {
-        const { name, address, legacyVAR } = option?.label;
+        const { name, legacyVAR } = option?.label;
         const checked = option.value === value;
         let distance;
 
@@ -77,8 +77,8 @@ export default function FacilitiesRadioWidget({
               <span className="vads-u-display--block vads-u-font-weight--bold">
                 {name}
               </span>
-              <span className="vads-u-display--block vads-u-font-size--sm">
-                {address?.city}, <State state={address?.state} />
+              <span className="vads-u-display--block">
+                <FacilityAddress facility={option?.label} showPhone={false} />
               </span>
               {!!distance && (
                 <span className="vads-u-display--block vads-u-font-size--sm">

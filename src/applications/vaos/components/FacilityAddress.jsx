@@ -20,7 +20,7 @@ export default function FacilityAddress({
       ? facility?.telecom?.find(tele => tele.system === 'covid')?.value
       : facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const extraInfoClasses = classNames({
-    'vads-u-margin-top--1p5': !!clinicName || !!phone,
+    'vads-u-margin-top--1p5': !!clinicName || (showPhone && !!phone),
   });
   const Heading = `h${level}`;
   const HeadingSub = `h${parseInt(level, 10) + 1}`;
