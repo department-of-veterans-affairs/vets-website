@@ -190,5 +190,6 @@ function getIndividualizedQueries(entityCounts) {
 
 module.exports = {
   getIndividualizedQueries,
+  nonNodeQueries,
   CountEntityTypes,
 };
