@@ -74,13 +74,11 @@ export default function FacilitiesRadioWidget({
               disabled={loadingEligibility}
             />
             <label htmlFor={`${id}_${facilityPosition}`}>
+              <span className="vads-u-display--block vads-u-font-weight--bold">
+                {name}
+              </span>
               <span className="vads-u-display--block">
-                <FacilityAddress
-                  name={name}
-                  facility={option?.label}
-                  level={2}
-                  showPhone={false}
-                />
+                <FacilityAddress facility={option?.label} showPhone={false} />
               </span>
               {!!distance && (
                 <span className="vads-u-display--block vads-u-font-size--sm">
