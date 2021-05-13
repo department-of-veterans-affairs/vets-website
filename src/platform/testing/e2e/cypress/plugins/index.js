@@ -1,24 +1,43 @@
 const fs = require('fs-extra');
 const path = require('path');
-const webpackPreprocessor = require('@cypress/webpack-preprocessor');
+// const webpackPreprocessor = require('@cypress/webpack-preprocessor');
+const createBundler = require('../../../../../../node_modules/@bahmutov/cypress-esbuild-preprocessor');
 
-module.exports = on => {
+// module.exports = on => {
+
+module.exports = (on, config) => {
+  // `on` is used to hook into various events Cypress emits
+  // `config` is the resolved Cypress config
   const ENV = 'localhost';
 
-  const options = {
-    webpackOptions: {
-      // Import our own Webpack config.
-      ...require('../../../../../../config/webpack.config.js')(ENV),
+  // const options = {
+  //   webpackOptions: {
+  //     // Import our own Webpack config.
+  // ...require('../../../../../../config/webpack.config.js')(ENV),
 
-      // Expose some Node globals.
-      node: {
-        __dirname: true,
-        __filename: true,
-      },
+  //     // Expose some Node globals.
+  //     node: {
+  //       __dirname: true,
+  //       __filename: true,
+  //     },
+  //   },
+  // };
+
+  // eslint-disable-next-line no-console
+  console.log('config:', config);
+  const bundler = createBundler({
+    define: {
+      'process.env.NODE_ENV': '"development"',
+      // nodePaths: ['platform'],
+      // plugins: [
+      //   alias({
+      //     import: getAbsolutePath(),
+      //   }),
+      // ],
     },
-  };
-
-  on('file:preprocessor', webpackPreprocessor(options));
+  });
+  on('file:preprocessor', bundler);
+  // on('file:preprocessor', webpackPreprocessor(options));
 
   on('task', {
     /* eslint-disable no-console */
@@ -88,3 +107,4 @@ module.exports = on => {
     },
   });
 };
+
