@@ -267,10 +267,7 @@ export function isValidPastAppointment(appt) {
  *  appointment or request
  */
 export function isUpcomingAppointmentOrRequest(appt) {
-  if (
-    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
-    !appt.vaos.isExpressCare
-  ) {
+  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
     const apptDateTime = moment(appt.start);
 
     return (
@@ -291,10 +288,10 @@ export function isUpcomingAppointmentOrRequest(appt) {
   });
 
   return (
-    appt.status === APPOINTMENT_STATUS.proposed ||
-    appt.status === APPOINTMENT_STATUS.pending ||
-    (appt.status === APPOINTMENT_STATUS.cancelled &&
-      (hasValidDate || appt.vaos.isExpressCare))
+    !appt.vaos.isExpressCare &&
+    (appt.status === APPOINTMENT_STATUS.proposed ||
+      appt.status === APPOINTMENT_STATUS.pending ||
+      (appt.status === APPOINTMENT_STATUS.cancelled && hasValidDate))
   );
 }
 
@@ -307,10 +304,7 @@ export function isUpcomingAppointmentOrRequest(appt) {
  *  appointment
  */
 export function isUpcomingAppointment(appt) {
-  if (
-    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
-    !appt.vaos.isExpressCare
-  ) {
+  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
     const apptDateTime = moment(appt.start);
 
     return (
@@ -326,7 +320,7 @@ export function isUpcomingAppointment(appt) {
     );
   }
 
-  return appt.status !== APPOINTMENT_STATUS.fulfilled;
+  return false;
 }
 
 /**
@@ -340,10 +334,7 @@ export function isUpcomingAppointment(appt) {
 export function isCanceledConfirmed(appt) {
   const today = moment();
 
-  if (
-    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
-    !appt.vaos.isExpressCare
-  ) {
+  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
     const apptDateTime = moment(appt.start);
 
     return (

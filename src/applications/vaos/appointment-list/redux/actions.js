@@ -187,20 +187,16 @@ export function fetchFutureAppointments() {
           endDate: moment().format('YYYY-MM-DD'),
         })
           .then(requests => {
-            const filteredRequests = requests.filter(
-              appt => !appt.vaos.isExpressCare,
-            );
-
             dispatch({
               type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
-              data: filteredRequests,
+              data: requests,
             });
 
             recordEvent({
               event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
             });
 
-            return filteredRequests;
+            return requests;
           })
           .catch(resp => {
             recordEvent({
@@ -293,8 +289,6 @@ export function fetchPendingAppointments() {
           .format('YYYY-MM-DD'),
         endDate: moment().format('YYYY-MM-DD'),
       });
-
-      pendingAppointments.filter(appt => appt.vaos.isExpressCare);
 
       dispatch({
         type: FETCH_PENDING_APPOINTMENTS_SUCCEEDED,
