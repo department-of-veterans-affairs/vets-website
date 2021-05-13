@@ -1,15 +1,18 @@
+// Node modules.
 import React from 'react';
+import Telephone, {
+  CONTACTS,
+  PATTERNS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 
 export default function SubmitSignInForm({ startSentence }) {
   return (
     <span>
-      <a
-        href="https://www.accesstocare.va.gov/sign-in-help"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {startSentence ? 'Submit' : 'submit'} a request to get help signing in
-      </a>
+      {startSentence ? 'Call' : 'call'} our MyVA411 main information line for
+      help at
+      <Telephone contact={CONTACTS.HELP_DESK} />
+      (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+      ).
     </span>
   );
 }

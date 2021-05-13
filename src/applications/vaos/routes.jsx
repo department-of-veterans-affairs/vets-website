@@ -43,17 +43,6 @@ export default function createRoutesWithStore(store) {
             )}
           />
           <EnrolledRoute
-            path="/new-express-care-request"
-            component={asyncLoader(() =>
-              import(/* webpackChunkName: "express-care" */ './express-care')
-                .then(({ NewExpressCareRequest, reducer }) => {
-                  store.injectReducer('expressCare', reducer);
-                  return NewExpressCareRequest;
-                })
-                .catch(handleLoadError),
-            )}
-          />
-          <EnrolledRoute
             path="/new-covid-19-vaccine-booking"
             component={asyncLoader(() =>
               import(/* webpackChunkName: "covid-19-vaccine" */ './covid-19-vaccine')

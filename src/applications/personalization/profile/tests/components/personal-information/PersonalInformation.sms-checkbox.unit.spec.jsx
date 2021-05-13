@@ -24,7 +24,7 @@ let server;
 
 const savingMessageRegex = /We’re working on saving your.*text alert preference/i;
 
-const smsCheckboxLabelRegex = /We’ll send VA health care appointment text reminders to this number/i;
+const smsCheckboxLabelRegex = /We’ll send VA health care appointment text reminders to your mobile number/i;
 
 function getCheckbox(_view) {
   return _view.getByLabelText(smsCheckboxLabelRegex);

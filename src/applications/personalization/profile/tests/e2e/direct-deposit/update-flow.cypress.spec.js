@@ -11,19 +11,6 @@ const TEST_ACCOUNT = {
   TYPE: 'Checking',
 };
 
-// TODO: remove this when we are no longer gating DD4EDU with a feature flag
-const dd4eduEnabled = {
-  data: {
-    type: 'feature_toggles',
-    features: [
-      {
-        name: 'ch33_dd_profile',
-        value: true,
-      },
-    ],
-  },
-};
-
 function fillInBankInfoForm(id) {
   cy.axeCheck();
   cy.findByTestId(`${id}-bank-info-form`)
@@ -76,7 +63,6 @@ function saveSuccessAlertRemoved() {
 describe('Direct Deposit', () => {
   beforeEach(() => {
     cy.login(mockUserInEVSS);
-    cy.intercept('GET', '/v0/feature_toggles*', dd4eduEnabled);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);

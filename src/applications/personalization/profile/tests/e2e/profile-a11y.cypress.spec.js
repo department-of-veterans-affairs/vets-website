@@ -75,7 +75,7 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT}`,
   );
-  cy.title().should('eq', 'Direct Deposit | Veterans Affairs');
+  cy.title().should('eq', 'Direct Deposit Information | Veterans Affairs');
   cy.axeCheck();
   // focus should be on the section's heading
   cy.focused().contains(PROFILE_PATH_NAMES.DIRECT_DEPOSIT);

@@ -20,10 +20,10 @@ describe('MyVA Dashboard', () => {
       cy.visit('my-va/');
 
       cy.findByRole('heading', {
-        name: /We can’t access any health care, claims, or appeals information right now/i,
+        name: /We can’t access your records right now/i,
       }).should('exist');
       cy.findByText(
-        /Something went wrong when we tried to connect to your records. Please refresh or try again later/i,
+        /Something went wrong when we tried to connect to your records. Please refresh this page or try again later/i,
       ).should('exist');
       cy.findByTestId('dashboard-section-health-care').should('not.exist');
       cy.findByTestId('dashboard-section-claims-and-appeals').should(

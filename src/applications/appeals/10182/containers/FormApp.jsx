@@ -6,7 +6,10 @@ import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
-import { noticeOfDisagreementFeature } from '../utils/helpers';
+import {
+  noticeOfDisagreementFeature,
+  issuesNeedUpdating,
+} from '../utils/helpers';
 import { showWorkInProgress } from '../content/WorkInProgressMessage';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
@@ -36,7 +39,10 @@ export const FormApp = ({
           email?.emailAddress !== veteran.email ||
           homePhone?.updatedAt !== veteran.phone?.updatedAt ||
           mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
-          contestableIssues?.issues.length !== formData.contestableIssues.length
+          issuesNeedUpdating(
+            contestableIssues?.issues,
+            formData.contestableIssues,
+          )
         ) {
           setFormData({
             ...formData,

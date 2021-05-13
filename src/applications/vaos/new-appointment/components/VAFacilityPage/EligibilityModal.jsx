@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { ELIGIBILITY_REASONS, FETCH_STATUS } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
 import { lowerCase } from '../../../utils/formatters';
 import NewTabAnchor from '../../../components/NewTabAnchor';
@@ -14,11 +14,17 @@ export default function EligibilityModal({
 }) {
   let title;
   let content;
+  const requestReason = eligibility.requestReasons[0];
+  const monthRequirement =
+    (facilityDetails.legacyVAR.settings[typeOfCare.id].request
+      .patientHistoryDuration /
+      365) *
+    12;
 
-  if (eligibility.requestFailed) {
+  if (requestReason === ELIGIBILITY_REASONS.error) {
     title = 'We’re sorry. We’ve run into a problem';
     content = 'Something went wrong on our end. Please try again later.';
-  } else if (!eligibility.requestSupported) {
+  } else if (requestReason === ELIGIBILITY_REASONS.notSupported) {
     title = 'This facility doesn’t accept online scheduling for this care';
     content = (
       <div aria-atomic="true" aria-live="assertive">
@@ -27,14 +33,14 @@ export default function EligibilityModal({
         of care
       </div>
     );
-  } else if (!eligibility.requestPastVisit) {
+  } else if (requestReason === ELIGIBILITY_REASONS.noRecentVisit) {
     title = 'We can’t find a recent appointment for you';
     content = (
       <>
         <p>
           You need to have visited this facility within the past{' '}
-          {eligibility.requestPastVisitValue} months for {lowerCase(typeOfCare)}{' '}
-          to request an appointment for this type of care.
+          {monthRequirement} months for {lowerCase(typeOfCare?.name)} to request
+          an appointment for this type of care.
         </p>
         <p>
           You’ll need to call the facility to schedule this appointment. Or{' '}
@@ -45,7 +51,7 @@ export default function EligibilityModal({
         </p>
       </>
     );
-  } else if (!eligibility.requestLimit) {
+  } else if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {
     title = 'You’ve reached the limit for appointment requests';
     content = (
       <>

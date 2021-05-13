@@ -31,6 +31,8 @@ export default function subscribeAccordionEvents() {
 
       if (e.target.dataset?.childlabel) {
         data['accordion-child-label'] = e.target.dataset.childlabel;
+      } else {
+        data['accordion-child-label'] = undefined;
       }
 
       recordEvent(data);

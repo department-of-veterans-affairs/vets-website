@@ -54,6 +54,13 @@ function FormApp(props) {
     return <LoadingIndicator message="Loading your information..." />;
   }
 
+  // if a user has a saved form but starts a new session, keep them here instead of
+  // sending them to the wizard.
+  if (loggedIn && hasSavedForm) {
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    return content;
+  }
+
   if (!chapter31Feature) {
     return (
       <>
@@ -70,16 +77,10 @@ function FormApp(props) {
       </div>
     );
   }
-  // if a user has a saved form but starts a new session, keep them here instead of
-  // sending them to the wizard.
-  if (loggedIn && hasSavedForm) {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-    return content;
-  }
   // if a user has not done the wizard, send them there.
   // else if a user is trying to access parts of the form unauthenticated, redirect them to the intro page.
   if (!wizardStatus) {
-    router.push('/orientation');
+    router.push('/start');
     return <LoadingIndicator message="Loading VRE Orientation..." />;
   } else if (!loggedIn && CHAPTER_NAMES.includes(formPath)) {
     router.push('/introduction');

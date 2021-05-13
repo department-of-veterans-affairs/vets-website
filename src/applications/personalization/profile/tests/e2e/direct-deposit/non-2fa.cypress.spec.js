@@ -2,19 +2,6 @@ import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockUser from '@@profile/tests/fixtures/users/user-non-2fa.json';
 
-// TODO: remove this when we are no longer gating DD4EDU with a feature flag
-const dd4eduEnabled = {
-  data: {
-    type: 'feature_toggles',
-    features: [
-      {
-        name: 'ch33_dd_profile',
-        value: true,
-      },
-    ],
-  },
-};
-
 function confirmSetUp2FAAlertIsShown() {
   cy.findByRole('button', { name: /set up 2-factor authentication/i }).should(
     'exist',
@@ -30,7 +17,6 @@ function confirmSetUp2FAAlertIsShown() {
 describe('Direct Deposit', () => {
   beforeEach(() => {
     cy.login();
-    cy.intercept('GET', '/v0/feature_toggles*', dd4eduEnabled);
   });
   it('should show a single "set up 2-factor authentication" alert to non-2FA users', () => {
     cy.intercept('GET', 'v0/user', mockUser);

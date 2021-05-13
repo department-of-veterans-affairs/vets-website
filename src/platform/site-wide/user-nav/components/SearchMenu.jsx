@@ -113,6 +113,12 @@ export class SearchMenu extends React.Component {
       this.setState({ suggestions, savedSuggestions: [] });
       // if we fail to fetch suggestions
     } catch (error) {
+      if (error?.error?.code === 'OVER_RATE_LIMIT') {
+        Sentry.captureException(
+          new Error(`"OVER_RATE_LIMIT" - Search Typeahead`),
+        );
+        return;
+      }
       Sentry.captureException(error);
     }
   };
@@ -416,7 +422,7 @@ SearchMenu.propTypes = {
 };
 
 SearchMenu.defaultProps = {
-  debounceRate: 300,
+  debounceRate: 200,
 };
 
 const mapStateToProps = store => ({
