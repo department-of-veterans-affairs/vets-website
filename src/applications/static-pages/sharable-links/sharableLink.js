@@ -176,9 +176,6 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
               className={`fas fa-link sharable-link`}
               feedbackActive={feedbackActive}
               id={`icon-${dataEntityId}`}
-              onBlur={() => {
-                onBlur(dataEntityId);
-              }}
             />
           </UnStyledButtonInAccordion>
           {feedbackActive && (
