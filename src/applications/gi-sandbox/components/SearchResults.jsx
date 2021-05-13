@@ -1,7 +1,11 @@
 import React from 'react';
 import SearchResultCard from './SearchResultCard';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 export default function SearchResults({ search }) {
+  if (search.inProgress) {
+    return <LoadingIndicator message="Loading search results..." />;
+  }
   return (
     <>
       {search.count > 0 && (

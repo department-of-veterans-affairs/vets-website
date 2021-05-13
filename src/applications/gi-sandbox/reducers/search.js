@@ -8,6 +8,7 @@ import {
   GEOCODE_COMPLETE,
   GEOCODE_STARTED,
   GEOCODE_FAILED,
+  GEOCODE_UPDATED,
 } from '../actions';
 import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
 
@@ -97,7 +98,11 @@ export default function(state = INITIAL_STATE, action) {
       };
 
     case SEARCH_STARTED:
-      return { ...state, query: action.payload, inProgress: true };
+      return {
+        ...state,
+        query: { ...state.query, ...action.payload },
+        inProgress: true,
+      };
 
     case SEARCH_FAILED:
       return {
@@ -107,9 +112,16 @@ export default function(state = INITIAL_STATE, action) {
       };
 
     case GEOCODE_STARTED:
-      return { ...state, query: action.payload, geocodeInProgress: true };
+      return {
+        ...state,
+        query: { ...state.query, ...action.payload },
+        geocodeInProgress: true,
+      };
 
     case GEOCODE_COMPLETE:
+      return { ...state, geocodeInProgress: false };
+
+    case GEOCODE_UPDATED:
       return {
         ...state,
         geocode: action.payload,

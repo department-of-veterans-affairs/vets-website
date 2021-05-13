@@ -36,12 +36,10 @@ export const FILTER_TOGGLED = 'FILTER_TOGGLED';
 export const GEOCODE_STARTED = 'GEOCODE_STARTED';
 export const GEOCODE_FAILED = 'GEOCODE_FAILED';
 export const GEOCODE_COMPLETE = 'GEOCODE_COMPLETE';
-export const GEOCODE_CLEAR_ERROR = 'GEOCODE_CLEAR_ERROR';
-export const GEOLOCATE_USER = 'GEOLOCATE_USER';
+export const GEOCODE_UPDATED = 'GEOCODE_COMPLETE';
 export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const SEARCH_BY_NAME_SUCCEEDED = 'SEARCH_BY_NAME_SUCCEEDED';
 export const SEARCH_BY_LOCATION_SUCCEEDED = 'SEARCH_BY_LOCATION_SUCCEEDED';
-export const SEARCH_BY_LOCATION_UPDATED = 'SEARCH_BY_LOCATION_UPDATED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
@@ -318,7 +316,7 @@ export const genBBoxFromAddress = features => {
 
   return dispatch => {
     dispatch({
-      type: GEOCODE_COMPLETE,
+      type: GEOCODE_UPDATED,
       payload: {
         radius,
         context: zipCode,
@@ -353,12 +351,12 @@ export function fetchSearchByLocationResults(query, distance) {
   if (!query) {
     return {
       type: SEARCH_FAILED,
-      error: 'Empty search string/address. Search cancelled.',
+      payload: 'Empty search string/address. Search cancelled.',
     };
   }
 
   return dispatch => {
-    dispatch({ type: GEOCODE_STARTED });
+    dispatch({ type: GEOCODE_STARTED, payload: { location: query, distance } });
 
     // commas can be stripped from query if Mapbox is returning unexpected results
     let types = TypeList;
@@ -378,6 +376,7 @@ export function fetchSearchByLocationResults(query, distance) {
       })
       .send()
       .then(({ body: { features } }) => {
+        dispatch({ type: GEOCODE_COMPLETE });
         genBBoxFromAddress(features);
 
         const coordinates = features[0].center;
@@ -387,9 +386,10 @@ export function fetchSearchByLocationResults(query, distance) {
           `${api.url}/institutions/search`,
           rubyifyKeys({ latitude, longitude, distance }),
         );
+
         dispatch({
           type: SEARCH_STARTED,
-          payload: { latitude, longitude, distance },
+          payload: { latitude, longitude },
         });
 
         return fetch(url, api.settings)
