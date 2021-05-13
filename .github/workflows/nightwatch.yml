@@ -43,6 +43,11 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+      - uses: browser-actions/setup-chrome@latest
+
+      - name: Print Chrome version
+        run: chrome --version
+
       - name: Cache dependencies
         id: cache-dependencies
         uses: actions/cache@v2
