@@ -56,6 +56,7 @@ export default {
       attachmentName: {
         'ui:title': 'Document name',
       },
+      cancelBtnClass: 'usa-button-secondary vads-u-width--auto',
     }),
   },
   schema: {
