@@ -4,6 +4,7 @@ import fullNameUI from 'platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import PrefillAlert from '../components/PrefillAlert';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
 import {
   uiSchema as directDepositUiSchema,
@@ -15,6 +16,7 @@ import {
   schema as addressSchema,
 } from 'platform/forms/definitions/address';
 import _ from 'lodash';
+import environment from 'platform/utilities/environment';
 
 const {
   veteranFullName,
@@ -39,6 +41,10 @@ const hasNotSelectedProgram = form =>
 const path = 'apply';
 const title = 'VRRAP application';
 const uiSchema = {
+  // Prod Flag bah-23496
+  'view:alert': {
+    'ui:title': !environment.isProduction() ? PrefillAlert : '',
+  },
   'view:applicantInformation': {
     'ui:title': 'Applicant information',
     veteranFullName: fullNameUI,
@@ -61,11 +67,19 @@ const uiSchema = {
       mobilePhone: phoneUI('Mobile phone number'),
       alternatePhone: phoneUI('Home phone number'),
       email: emailUI(),
-      'view:confirmEmail': _.merge(emailUI('Re-enter email address'), {
-        'ui:options': {
-          hideOnReview: true,
+      'view:confirmEmail': _.merge(
+        // Prod Flag bah-23496
+        emailUI(
+          environment.isProduction()
+            ? 'Re-enter email address'
+            : 'Confirm email address',
+        ),
+        {
+          'ui:options': {
+            hideOnReview: true,
+          },
         },
-      }),
+      ),
     },
     address: {
       ...addressUiSchema,
@@ -128,6 +142,10 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
+    'view:alert': {
+      type: 'object',
+      properties: {},
+    },
     'view:applicantInformation': {
       type: 'object',
       required: [

@@ -28,7 +28,7 @@ import Headline from '../ProfileSectionHeadline';
 
 import FraudVictimAlert from './FraudVictimAlert';
 import PaymentHistory from './PaymentHistory';
-import BankInfoCNPv2 from './BankInfoCNPv2';
+import BankInfoCNP from './BankInfoCNP';
 import BankInfoEDU from './BankInfoEDU';
 
 export const benefitTypes = {
@@ -173,7 +173,7 @@ const DirectDeposit = ({
           )}
           dependencies={[externalServices.evss]}
         >
-          <BankInfoCNPv2 />
+          <BankInfoCNP />
         </DowntimeNotification>
       )}
       <FraudVictimAlert status={ALERT_TYPE.INFO} />

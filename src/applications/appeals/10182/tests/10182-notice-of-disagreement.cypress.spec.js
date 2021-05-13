@@ -33,14 +33,16 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'eligible-issues': () => {
+      'additional-issues': () => {
         cy.get('@testData').then(data => {
           data.additionalIssues.forEach((item, index) => {
-            cy.get('.va-growable-add-btn')
-              .first()
-              .click();
+            if (index !== 0) {
+              cy.get('.va-growable-add-btn')
+                .first()
+                .click();
+            }
 
-            cy.get(`input[name^="root_additionalIssues_${index}"]`)
+            cy.get(`input[name$="${index}_issue"]`)
               .first()
               .clear()
               .type(item.issue);
@@ -56,7 +58,6 @@ const testConfig = createTestConfig(
               .first()
               .click();
           });
-          cy.get('input[name="root_socOptIn"]').check();
         });
       },
     },
@@ -68,7 +69,7 @@ const testConfig = createTestConfig(
 
       cy.intercept(
         'GET',
-        `/v0${CONTESTABLE_ISSUES_API}compensation`,
+        `/v0${CONTESTABLE_ISSUES_API}`,
         mockContestableIssues,
       );
 
@@ -81,6 +82,11 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(testData => {
         cy.intercept('GET', '/v0/in_progress_forms/10182', testData);
         cy.intercept('PUT', 'v0/in_progress_forms/10182', testData);
+
+        // eventually use issues from dataSets (this doesn't work?)
+        // cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}*`, {
+        //   data: testData.contestableIssues,
+        // });
       });
     },
 

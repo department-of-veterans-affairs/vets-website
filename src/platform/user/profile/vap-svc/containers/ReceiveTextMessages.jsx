@@ -95,15 +95,15 @@ class ReceiveTextMessages extends React.Component {
             }
             label={
               <span>
-                We’ll send VA health care appointment text reminders to this
-                number
+                We’ll send VA health care appointment text reminders to your
+                mobile number
               </span>
             }
             onValueChange={this.onChange}
           />
           <AlertBox
             isVisible={this.isSuccessVisible()}
-            content={<p>We've saved your preference.</p>}
+            content={<p>We’ve saved your preference.</p>}
             status="success"
             backgroundOnly
           />

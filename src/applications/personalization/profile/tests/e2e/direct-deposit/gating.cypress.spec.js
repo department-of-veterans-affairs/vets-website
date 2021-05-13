@@ -15,19 +15,6 @@ import mockDD4EDUNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-en
 
 import error500 from '@@profile/tests/fixtures/500.json';
 
-// TODO: remove this when we are no longer gating DD4EDU with a feature flag
-const dd4eduEnabled = {
-  data: {
-    type: 'feature_toggles',
-    features: [
-      {
-        name: 'ch33_dd_profile',
-        value: true,
-      },
-    ],
-  },
-};
-
 function confirmDDBlockedAlertIsNotShown() {
   cy.findByText(/You can’t update your financial information/i).should(
     'not.exist',
@@ -82,7 +69,6 @@ describe('Direct Deposit', () => {
     getPaymentInfoStub = cy.stub();
     cy.login();
     cy.server();
-    cy.route('GET', '/v0/feature_toggles*', dd4eduEnabled);
   });
   it('should be blocked if the user is not in EVSS and they are not signed up for DD4EDU', () => {
     cy.route('GET', 'v0/user', mockUserNotInEVSS);
