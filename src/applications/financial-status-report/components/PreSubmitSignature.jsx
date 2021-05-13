@@ -14,7 +14,7 @@ const privacyLabel = (
       className="vads-u-margin-left--0p5"
       href={`${environment.BASE_URL}/privacy-policy`}
     >
-      privacy policy.
+      privacy policy
     </a>
   </span>
 );
@@ -25,45 +25,44 @@ const PreSubmitSignature = ({
   onSectionComplete,
   formSubmission,
 }) => {
-  const fullName = formData.personalData.veteranFullName;
-  const hasSubmit = !!formSubmission.status;
   const isSubmitPending = formSubmission.status === 'submitPending';
+  const hasSubmit = !!formSubmission.status;
+  const fullName = formData.personalData.veteranFullName;
   const firstName = fullName?.first.toLowerCase() || '';
   const lastName = fullName?.last.toLowerCase() || '';
   const middleName = fullName?.middle?.toLowerCase() || '';
-  const [checked, setChecked] = useState(false);
+  const firstLetterOfMiddleName = middleName.charAt(0);
+  const [certifyChecked, setCertifyChecked] = useState(false);
+  const [certifyCheckboxError, setCertifyCheckboxError] = useState(false);
+  const [privacyChecked, setPrivacyChecked] = useState(false);
+  const [privacyCheckboxError, setPrivacyCheckboxError] = useState(false);
   const [signatureError, setSignatureError] = useState(false);
-  const [checkboxError, setCheckboxError] = useState(false);
   const [signature, setSignature] = useState({
     value: '',
     dirty: false,
   });
   const isDirty = signature.dirty;
 
-  const firstLetterOfMiddleName =
-    middleName === undefined ? '' : middleName.charAt(0);
-
-  const removeSpaces = string =>
-    string
+  const removeSpaces = string => {
+    return string
       .split(' ')
       .join('')
       .toLocaleLowerCase();
+  };
 
-  const getName = (middle = '') =>
-    removeSpaces(`${firstName}${middle}${lastName}`);
+  const getName = (middle = '') => {
+    return removeSpaces(`${firstName}${middle}${lastName}`);
+  };
 
   const hasName = getName() !== '';
 
   const normalizedSignature = removeSpaces(signature.value);
 
-  // first and last
   const firstAndLastMatches = hasName && getName() === normalizedSignature;
 
-  // middle initial
   const middleInitialMatches =
     hasName && getName(firstLetterOfMiddleName) === normalizedSignature;
 
-  // middle name
   const withMiddleNameMatches =
     hasName && getName(middleName) === normalizedSignature;
 
@@ -72,57 +71,57 @@ const PreSubmitSignature = ({
 
   useEffect(
     () => {
-      /* show error if user has touched input and signature does not match
-           show error if there is a form error and has not been submitted */
-
+      // show error if user has touched input and signature does not match show error if there is a form error and has not been submitted
       if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
         setSignatureError(true);
       }
 
-      /* if input has been touched and signature matches allow submission
-           if input is dirty and representative is signing skip validation and make sure signature is present
-           all signature matching logic is with spaces removed
-        */
-
+      // if input has been touched and signature matches allow submission
+      // if input is dirty and representative is signing skip validation but make sure signature is not undefined
+      // signature matching logic is with spaces removed
       if (isDirty && signatureMatches) {
         setSignatureError(false);
       }
     },
     [
-      signature.dirty,
-      signatureMatches,
       showError,
       hasSubmit,
-      normalizedSignature,
       isDirty,
+      signature.dirty,
+      signatureMatches,
+      normalizedSignature,
     ],
   );
 
   useEffect(
     () => {
-      if (showError && !checked && !hasSubmit) {
-        setCheckboxError(true);
-      }
-
-      if (showError && !signatureMatches && !hasSubmit) {
-        setSignatureError(true);
+      if (showError && !hasSubmit) {
+        setCertifyCheckboxError(!certifyChecked);
+        setPrivacyCheckboxError(!privacyChecked);
+        setSignatureError(!signatureMatches);
       }
     },
-    [checked, hasSubmit, showError, signatureError, signatureMatches],
+    [showError, hasSubmit, certifyChecked, privacyChecked, signatureMatches],
   );
 
   useEffect(
     () => {
-      if (checked && isDirty && signatureMatches) {
+      if (certifyChecked && privacyChecked && isDirty && signatureMatches) {
         onSectionComplete(true);
       }
-
       return () => {
         onSectionComplete(false);
         setSignatureError(false);
       };
     },
-    [checked, signatureMatches, isDirty, setSignatureError],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      isDirty,
+      certifyChecked,
+      privacyChecked,
+      signatureMatches,
+      setSignatureError,
+    ],
   );
 
   if (isSubmitPending) {
@@ -164,10 +163,10 @@ const PreSubmitSignature = ({
         />
 
         <Checkbox
-          checked={checked}
-          onValueChange={value => setChecked(value)}
+          checked={certifyChecked}
+          onValueChange={value => setCertifyChecked(value)}
           label="By checking this box, I certify that the information in this request is true and correct to the best of my knowledge and belief."
-          errorMessage={checkboxError && 'Must certify by checking box'}
+          errorMessage={certifyCheckboxError && 'Must certify by checking box'}
           required
         />
       </article>
@@ -181,19 +180,19 @@ const PreSubmitSignature = ({
 
       <Checkbox
         className="vads-u-margin-bottom--3"
-        checked={checked}
-        onValueChange={value => setChecked(value)}
+        checked={privacyChecked}
+        onValueChange={value => setPrivacyChecked(value)}
         label={privacyLabel}
-        errorMessage={checkboxError && 'Must accept by checking box'}
+        errorMessage={privacyCheckboxError && 'Must accept by checking box'}
         required
       />
     </>
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({ form }) => {
   return {
-    formSubmission: state.form.submission,
+    formSubmission: form.submission,
   };
 };
 
