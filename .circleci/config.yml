@@ -32,6 +32,11 @@ jobs:
     steps:
       - checkout
       - yarn-install-cache
+      - run:
+          name: Download registry and js assets from content-build repo
+          command: |
+            mkdir -p ../content-build/src/{applications,site/assets/js}
+            curl -L "https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master/src/{applications/registry.json,site/assets/js/incompatible-browser.js,site/assets/js/record-event.js,site/assets/js/static-page-widgets.js}" -o "../content-build/src/#1"
       - run: mkdir -p ./test-results
       - run: npx eslint --ext .js --ext .jsx --format junit --output-file ./test-results/eslint.xml .
       - run: yarn lint:sass
@@ -45,6 +50,11 @@ jobs:
     steps:
       - checkout
       - yarn-install-cache
+      - run:
+          name: Download static-page-widgets asset from content-build repo
+          command: |
+            mkdir -p ../content-build/src/site/assets/js
+            curl -L "https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master/src/site/assets/js/static-page-widgets.js" -o "../content-build/src/site/assets/js/static-page-widgets.js"
       - run: mkdir -p ./test-results
       - run:
           command: yarn test:unit --coverage
@@ -202,10 +212,10 @@ jobs:
             - ~/.cache/yarn
             - ~/.cache/Cypress
       - run:
-          name: Download registry from content-build repo
+          name: Download registry and js assets from content-build repo
           command: |
-            mkdir -p ../content-build/src/applications
-            curl -L https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master/src/applications/registry.json -o ../content-build/src/applications/registry.json
+            mkdir -p ../content-build/src/{applications,site/assets/js}
+            curl -L "https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master/src/{applications/registry.json,site/assets/js/incompatible-browser.js,site/assets/js/record-event.js,site/assets/js/static-page-widgets.js}" -o "../content-build/src/#1"
       - run:
           name: Build apps
           command: yarn build:webpack --env.buildtype vagovprod --env.scaffold
