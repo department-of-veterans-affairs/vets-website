@@ -4,10 +4,7 @@ import org.kohsuke.github.GitHub
 env.CONCURRENCY = 10
 
 node('vetsgov-general-purpose') {
-  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']],
-              parameters([choice(name: "cmsEnvBuildOverride",
-                                 description: "Choose an environment to run a content only build. Select 'none' to run the regular pipeline.",
-                                 choices: ["none", "dev", "staging"].join("\n"))])]);
+  properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', daysToKeepStr: '60']]]);
 
   // Checkout vets-website code
   dir("vets-website") {
@@ -16,15 +13,11 @@ node('vetsgov-general-purpose') {
   }
 
   def commonStages = load "vets-website/jenkins/common.groovy"
-  def envUsedCache = [:]
 
   // setupStage
   dockerContainer = commonStages.setup()
 
   stage('Main') {
-    def contentOnlyBuild = params.cmsEnvBuildOverride != 'none'
-    def assetSource = contentOnlyBuild ? ref : 'local'
-
     try {
       parallel (
         failFast: true,
@@ -32,26 +25,12 @@ node('vetsgov-general-purpose') {
         buildDev: {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovdev'
-          
-          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
-          if (!shouldBuild) { return }
 
           try {
             // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
+            commonStages.build(ref, dockerContainer, envName)
           } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                // sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              // Try to build again using cached drupal content
-              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
-            } else {
-              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-              envUsedCache[envName] = false
-            }
+            commonStages.build(ref, dockerContainer, envName)
           }
         },
 
@@ -59,56 +38,27 @@ node('vetsgov-general-purpose') {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovstaging'
 
-          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
-          if (!shouldBuild) { return }
-
           try {
             // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
+            commonStages.build(ref, dockerContainer, envName)
           } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                // sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              // Try to build again using cached drupal content
-              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
-            } else {
-              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-              envUsedCache[envName] = false
-            }
+            commonStages.build(ref, dockerContainer, envName)
           }
         },
 
         buildProd: {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovprod'
-
-          def shouldBuild = !contentOnlyBuild || envName == params.cmsEnvBuildOverride
-          if (!shouldBuild) { return }
                     
           try {
             // Try to build using fresh drupal content
-            commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-            envUsedCache[envName] = false
+            commonStages.build(ref, dockerContainer, envName)
           } catch (error) {
-            if (!contentOnlyBuild) {
-              dockerContainer.inside(DOCKER_ARGS) {
-                // sh "cd /application && node script/drupal-aws-cache.js --fetch --buildtype=${envName}"
-              }
-              // Try to build again using cached drupal content
-              commonStages.build(ref, dockerContainer, assetSource, envName, true, contentOnlyBuild)
-              envUsedCache[envName] = true
-            } else {
-              commonStages.build(ref, dockerContainer, assetSource, envName, false, contentOnlyBuild)
-              envUsedCache[envName] = false
-            }
+            commonStages.build(ref, dockerContainer, envName)
           }
         },
 
         lint: {
-          if (params.cmsEnvBuildOverride != 'none') { return }
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "cd /application && npm --no-color run lint"
           }
@@ -116,7 +66,6 @@ node('vetsgov-general-purpose') {
 
         // Check package.json for known vulnerabilities
         security: {
-          if (params.cmsEnvBuildOverride != 'none') { return }
           retry(3) {
             dockerContainer.inside(commonStages.DOCKER_ARGS) {
               sh "cd /application && npm run security-check"
@@ -125,7 +74,6 @@ node('vetsgov-general-purpose') {
         },
 
         unit: {
-          if (params.cmsEnvBuildOverride != 'none') { return }
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "/cc-test-reporter before-build"
             sh "cd /application && npm --no-color run test:unit -- --coverage"
@@ -227,12 +175,7 @@ node('vetsgov-general-purpose') {
     }
   }
 
-  // commonStages.prearchiveAll(dockerContainer)
-
   commonStages.archiveAll(dockerContainer, ref);
-  
-  envsUsingDrupalCache = envUsedCache
-  // commonStages.cacheDrupalContent(dockerContainer, envsUsingDrupalCache);
 
   stage('Review') {
     if (commonStages.shouldBail()) {
