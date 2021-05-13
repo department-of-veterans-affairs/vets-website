@@ -1,12 +1,15 @@
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
-import basicUser from './fixtures/users/user-basic.js';
-import featureToggles from './fixtures/mocks/feature-toggles.enabled.json';
+import basicUser from '../fixtures/users/user-basic.js';
+import featureToggles from '../fixtures/mocks/feature-toggles.enabled.json';
 
-import { setSessionStorage } from '../../../shared/test-data/e2e/session.storage.mock';
+import sipPutData from '../fixtures/sip/put.json';
+
+import { setSessionStorage } from '../../../../shared/test-data/e2e/session.storage.mock';
 
 describe('health care questionnaire -- reason for visit --', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+    cy.intercept('PUT', '/v0/in_progress_forms/**', sipPutData);
     cy.login(basicUser);
     disableFTUXModals();
     cy.window().then(window => {
@@ -19,8 +22,8 @@ describe('health care questionnaire -- reason for visit --', () => {
     });
   });
 
-  it('can be cleared', () => {
-    cy.title().should('contain', 'Health care Questionnaire');
+  it('is required', () => {
+    cy.title().should('contain', 'Questionnaire');
     cy.get('.schemaform-title>h1').contains(
       'Answer primary care questionnaire',
     );
@@ -32,5 +35,16 @@ describe('health care questionnaire -- reason for visit --', () => {
 
     cy.get('#root_reasonForVisitDescription').clear();
     cy.get('#root_reasonForVisitDescription').should('be.empty');
+
+    cy.findAllByText(/continue/i, { selector: 'button' })
+      .first()
+      .click({ waitForAnimations: true });
+
+    cy.get('#root_reasonForVisitDescription-error-message').contains(
+      'Please provide a response',
+    );
+
+    cy.get('#root_reasonForVisitDescription').type('this is my response');
+    cy.get('#root_reasonForVisitDescription-error-message').should('not.exist');
   });
 });

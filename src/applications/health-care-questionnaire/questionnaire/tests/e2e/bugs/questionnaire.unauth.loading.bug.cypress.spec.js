@@ -1,4 +1,4 @@
-import featureToggles from './fixtures/mocks/feature-toggles.enabled.json';
+import featureToggles from '../fixtures/mocks/feature-toggles.enabled.json';
 
 describe('health care questionnaire -- un-authenticated', () => {
   beforeEach(() => {
