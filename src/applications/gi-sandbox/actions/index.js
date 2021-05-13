@@ -251,3 +251,26 @@ export function fetchSearchByNameResults(name) {
 export function fetchSearchByLocationResults(location, distance) {
   return { type: SEARCH_STARTED, payload: { location, distance } };
 }
+
+export function fetchNameAutocompleteSuggestions(term, filterFields, version) {
+  const url = appendQuery(`${api.url}/institutions/autocomplete`, {
+    term,
+    ...rubyifyKeys(filterFields),
+    version,
+  });
+  return dispatch =>
+    fetch(url, api.settings)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return res.json().then(({ errors }) => {
+          throw new Error(errors[0].title);
+        });
+      })
+      .then(payload => dispatch({ type: AUTOCOMPLETE_SUCCEEDED, payload }))
+      .catch(err => {
+        dispatch({ type: AUTOCOMPLETE_FAILED, err });
+      });
+}

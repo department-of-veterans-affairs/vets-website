@@ -3,9 +3,9 @@ import classNames from 'classnames';
 import Dropdown from './Dropdown';
 
 export default function SearchForm({
-  search,
   fetchSearchByLocation,
   fetchSearchByName,
+  search,
 }) {
   const [currentTab, setCurrentTab] = useState('name');
   const [searchName, setSearchName] = useState(search.query.name);
@@ -86,7 +86,8 @@ export default function SearchForm({
     );
   };
 
-  const doSearch = () => {
+  const doSearch = event => {
+    event.preventDefault();
     tabSearches[currentTab]();
   };
 
@@ -97,17 +98,19 @@ export default function SearchForm({
         {getTab('location', 'Search by location')}
       </div>
       <div className="search-box">
-        <div className="vads-l-row">
-          <div className="medium-screen:vads-l-col--10">
-            {tabContent[currentTab]}
+        <form onSubmit={doSearch}>
+          <div className="vads-l-row">
+            <div className="medium-screen:vads-l-col--10">
+              {tabContent[currentTab]}
+            </div>
+            <div className="medium-screen:vads-l-col--2 vads-u-text-align--right">
+              <button type="submit" className="usa-button">
+                Search
+                <i aria-hidden="true" className="fa fa-search" />
+              </button>
+            </div>
           </div>
-          <div className="medium-screen:vads-l-col--2 vads-u-text-align--right">
-            <button type="button" className="usa-button" onClick={doSearch}>
-              Search
-              <i aria-hidden="true" className="fa fa-search" />
-            </button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   );
