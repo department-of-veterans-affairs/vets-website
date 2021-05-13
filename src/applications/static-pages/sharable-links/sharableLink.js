@@ -167,7 +167,7 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
               event.persist();
               if (!event || !event.target) return;
               displayFeedback(event.target);
-              copyToUsersClipBoard(dataEntityId, event.target);
+              copyToUsersClipBoard(dataEntityId, event.target.parentElement);
               onFocus(dataEntityId);
             }}
           >
