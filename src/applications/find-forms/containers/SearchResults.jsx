@@ -19,7 +19,7 @@ import {
   getFindFormsAppState,
   applyLighthouseFormsSearchLogic,
 } from '../helpers/selectors';
-import { FAF_SORT_OPTIONS, FAF_TEST_OPTION_RELEVANCE } from '../constants';
+import { FAF_SORT_OPTIONS, FAF_TEST_OPTION_CLOSEST_MATCH } from '../constants';
 import SearchResult from '../components/SearchResult';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
@@ -52,7 +52,10 @@ export class SearchResults extends Component {
       previousProps.useLighthouseSearchAlgo === undefined &&
       props.useLighthouseSearchAlgo === true
     ) {
-      props.updateSortByPropertyName(FAF_TEST_OPTION_RELEVANCE, props.results);
+      props.updateSortByPropertyName(
+        FAF_TEST_OPTION_CLOSEST_MATCH,
+        props.results,
+      );
     }
   }
 
@@ -163,7 +166,7 @@ export class SearchResults extends Component {
 
     // Derive sort options
     const DEFAULT_SORT_OPTIONS = useLighthouseSearchAlgo
-      ? [FAF_TEST_OPTION_RELEVANCE, ...FAF_SORT_OPTIONS]
+      ? [FAF_TEST_OPTION_CLOSEST_MATCH, ...FAF_SORT_OPTIONS]
       : FAF_SORT_OPTIONS;
 
     // Derive the last index.
