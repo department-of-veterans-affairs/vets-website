@@ -22,7 +22,12 @@ module.exports = {
   live_output: true,
   parallel_process_delay: 10,
   disable_colors: process.env.BUILDTYPE === 'production',
-  test_workers: false,
+
+  // If set to true, runs the tests in parallel and determines the number of workers automatically.
+  // If set to an object, can specify specify the number of workers as "auto" or a number.
+  // Source: https://nightwatchjs.org/gettingstarted/configuration/#test-runner-settings
+  test_workers: { enabled: true, workers: 4 },
+
   test_settings: {
     default: {
       launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
@@ -55,10 +60,6 @@ module.exports = {
         log_path: selenium_logs,
         host: '127.0.0.1',
         port: selenium_server_port,
-      },
-      test_workers: {
-        enabled: false,
-        workers: parseInt(process.env.CONCURRENCY || 1, 10),
       },
     },
     accessibility: {
