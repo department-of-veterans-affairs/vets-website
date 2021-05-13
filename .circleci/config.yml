@@ -285,7 +285,7 @@ workflows:
       - lint
       - unit-test
       - contract-test
-      - drupal-cache-test
+      # - drupal-cache-test
       - security-audit
       - build-e2e
       - build:
