@@ -31,4 +31,5 @@ export default {
   I_18_SELECT: 'i18-select',
   DEPENDENCY_VERIFICATION: 'dependency-verification',
   SHARABLE_LINK: 'sharable-link',
+  COE_ACCESS: 'coe_access',
 };

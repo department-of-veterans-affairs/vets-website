@@ -18,6 +18,12 @@ export default Object.freeze({
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
   vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
+  vaOnlineSchedulingVAOSServiceRequests:
+    'vaOnlineSchedulingVAOSServiceRequests',
+  vaOnlineSchedulingVAOSServiceVAAppointments:
+    'vaOnlineSchedulingVAOSServiceVAAppointments',
+  vaOnlineSchedulingVAOSServiceCCAppointments:
+    'vaOnlineSchedulingVAOSServiceCCAppointments',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   vaOnlineSchedulingHomepageRefresh: 'vaOnlineSchedulingHomepageRefresh',
   vaOnlineFacilitySelectionV22: 'vaOnlineFacilitySelectionV22',
@@ -83,4 +89,5 @@ export default Object.freeze({
   dependencyVerification: 'dependency_verification',
   form10182Nod: 'form10182_nod',
   canUpload1010cgPOA: 'can_upload_10_10cg_poa',
+  coeAccess: 'coe_access',
 });

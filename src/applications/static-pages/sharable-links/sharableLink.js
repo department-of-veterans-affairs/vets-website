@@ -155,7 +155,7 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
     hideFeedback(iconElement.getAttribute('id'));
   };
 
-  if (showSharableLink) {
+  if (true) {
     return (
       <ThemeProvider theme={theme.main}>
         <span aria-live="polite" aria-relevant="additions">
@@ -169,6 +169,15 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
               displayFeedback(event.target);
               copyToUsersClipBoard(dataEntityId, event.target.parentElement);
               onFocus(dataEntityId);
+            }}
+            onKeyPress={event => {
+              event.persist();
+              if (!event || !event.which) return;
+              if (event.which === 13 || event.which === 32) {
+                setTimeout(() => {
+                  event.target.focus();
+                }, 300);
+              }
             }}
           >
             <ShareIcon
