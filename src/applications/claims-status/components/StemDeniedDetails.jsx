@@ -162,11 +162,11 @@ const StemDeniedDetails = ({
         </li>
       </ul>
       <p>
-        For more information about these options, please read "Your Rights to
-        Seek Further Review of Our Decisions" (VA Form 20-0998).{' '}
+        For more information about these options, please read "Your Right to
+        Seek Review of Our Decision" (VA Form 20-0998).{' '}
         <a
           href="https://www.vba.va.gov/pubs/forms/VBA-20-0998-ARE.pdf"
-          aria-label="Download Your Rights to Seek Further Review of Our Decisions VA Form 20 - 0 9 9 8. Opens in new browser tab"
+          aria-label="Download Your Right to Seek Review of Our Decision VA Form 20 - 0 9 9 8. Opens in new browser tab"
           target="_blank"
           rel="noopener noreferrer"
         >

@@ -148,15 +148,6 @@ const formConfig = {
           title: 'Benefits',
           uiSchema: pages.benefits.uiSchema,
           schema: pages.benefits.schema,
-          initialData: {
-            income: [
-              {
-                veteranOrSpouse: 'VETERAN',
-                compensationAndPension: '',
-                education: '',
-              },
-            ],
-          },
         },
         socialSecurity: {
           path: 'social-security',

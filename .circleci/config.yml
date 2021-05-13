@@ -218,6 +218,11 @@ jobs:
             - ~/.cache/yarn
             - ~/.cache/Cypress
       - run:
+          name: Download registry from content-build repo
+          command: |
+            mkdir -p ../content-build/src/applications
+            curl -L https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master/src/applications/registry.json -o ../content-build/src/applications/registry.json
+      - run:
           name: Build apps
           command: yarn build:webpack --env.buildtype vagovprod --env.scaffold
           no_output_timeout: 15m

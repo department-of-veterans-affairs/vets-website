@@ -47,7 +47,7 @@ export class Main extends Component {
         href: PropTypes.string,
         menuSections: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
       }).isRequired,
-    ).isRequired,
+    ),
     toggleMobileDisplayHidden: PropTypes.func.isRequired,
     togglePanelOpen: PropTypes.func.isRequired,
     updateCurrentSection: PropTypes.func.isRequired,
@@ -126,7 +126,7 @@ const mapStateToProps = (state, ownProps) => {
   const showDashboard2 = selectShowDashboard2(state);
 
   // Derive the default mega menu links (both auth + unauth).
-  const defaultLinks = [...ownProps.megaMenuData];
+  const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
 
   // Add the My VA link to default links if we are showing dashboard 2 or if we are logged in.
   if (showDashboard2 || loggedIn) {

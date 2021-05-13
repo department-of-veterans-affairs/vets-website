@@ -9,14 +9,14 @@ const DependencyVerificationFooter = ({ handleCloseAndUpdateDiaries }) => {
           handleCloseAndUpdateDiaries(true);
         }}
       >
-        My dependents are correct
+        Verify this is correct
       </button>
       <button
         onClick={() => {
           handleCloseAndUpdateDiaries(false);
         }}
       >
-        I need to change my dependents
+        Change dependents
       </button>
     </div>
   );
