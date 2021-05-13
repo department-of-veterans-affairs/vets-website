@@ -72,14 +72,14 @@ function derivePaging(links) {
   return { currentPage, totalPages, perPage };
 }
 
-function buildSearchResults(payload) {
+function buildSearchResults(payload, paging = true) {
   const camelPayload = camelCaseKeysRecursive(payload);
   return {
     results: camelPayload.data.reduce((acc, result) => {
       const attributes = normalizedInstitutionAttributes(result.attributes);
       return [...acc, attributes];
     }, []),
-    pagination: derivePaging(camelPayload.links),
+    pagination: paging ? derivePaging(camelPayload.links) : undefined,
     facets: normalizedInstitutionFacets(camelPayload.meta.facets),
     count: camelPayload.meta.count,
     version: camelPayload.meta.version,
@@ -89,6 +89,13 @@ function buildSearchResults(payload) {
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
     case SEARCH_BY_LOCATION_SUCCEEDED:
+      return {
+        ...state,
+        ...buildSearchResults(action.payload, false),
+        inProgress: false,
+        error: null,
+      };
+
     case SEARCH_BY_NAME_SUCCEEDED:
       return {
         ...state,
