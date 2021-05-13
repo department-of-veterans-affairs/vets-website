@@ -36,6 +36,7 @@ const INITIAL_STATE = {
     provider: [],
   },
   geocodeInProgress: false,
+  geolocationInProgress: false,
   geocode: {},
 };
 
@@ -120,8 +121,7 @@ export default function(state = INITIAL_STATE, action) {
     case GEOCODE_FAILED:
       return {
         ...state,
-        error: true,
-        geocodeError: action.code,
+        error: action.payload,
         geocodeInProgress: false,
         geolocationInProgress: false,
       };

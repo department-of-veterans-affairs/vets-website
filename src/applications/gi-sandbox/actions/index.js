@@ -338,6 +338,7 @@ export const genBBoxFromAddress = features => {
           placeType: features[0].place_type[0],
         },
         searchArea: null,
+        results: [],
       },
     });
   };
@@ -412,9 +413,11 @@ export function fetchSearchByLocationResults(query, distance) {
             });
           });
       })
-      .catch(_ => {
-        dispatch({ type: GEOCODE_FAILED });
-        dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
+      .catch(err => {
+        dispatch({
+          type: GEOCODE_FAILED,
+          payload: err.message,
+        });
       });
   };
 }
