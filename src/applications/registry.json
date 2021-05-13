@@ -1091,7 +1091,7 @@
   {
     "appName": "Apply for Certificate of Eligibility",
     "entryName": "coe",
-    "rootUrl": "/housing-assistance/home-loans/apply-lgy-form-1880",
+    "rootUrl": "/housing-assistance/home-loans/apply-for-coe-form-26-1880",
     "template": {
       "vagovprod": false,
       "layout": "page-react.html",
@@ -1107,7 +1107,7 @@
         },
         {
           "name": "Apply for Certificate of Eligibility Form 26-1880",
-          "path": "/housing-assistance/home-loans/apply-lgy-form-1880"
+          "path": "/housing-assistance/home-loans/apply-for-coe-form-26-1880"
         }
       ]
     }
