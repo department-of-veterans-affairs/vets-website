@@ -20,6 +20,44 @@ export const KEY_CODES = Object.freeze({
   enterKey: 13,
 });
 
+/**
+ * Mapbox init values
+ */
+export const MapboxInit = {
+  zoomInit: 3,
+  centerInit: {
+    lng: -99.27246093750001,
+    lat: 40.17887331434698,
+  },
+};
+
+/**
+ * Mapbox api request countries
+ */
+
+export const CountriesList = ['us', 'pr', 'ph', 'gu', 'as', 'mp'];
+
+/**
+ * Mapbox api request types
+ */
+
+export const TypeList = ['place', 'region', 'postcode', 'locality'];
+
+/**
+ * Max search area in miles
+ */
+export const MAX_SEARCH_AREA = 500;
+
+/**
+ * Min radius search area in miles
+ */
+export const MIN_RADIUS = 10;
+
+/**
+ * Defines the ± change in bounding box size for the map when changing zoom
+ */
+export const BOUNDING_RADIUS = 0.75;
+
 export const ariaLabels = Object.freeze({
   learnMore: {
     giBillBenefits: 'Learn more about VA education and training programs',

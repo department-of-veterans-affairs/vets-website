@@ -5,6 +5,9 @@ import {
   SEARCH_FAILED,
   SEARCH_BY_LOCATION_SUCCEEDED,
   SEARCH_BY_NAME_SUCCEEDED,
+  GEOCODE_COMPLETE,
+  GEOCODE_STARTED,
+  GEOCODE_FAILED,
 } from '../actions';
 import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
 
@@ -32,6 +35,7 @@ const INITIAL_STATE = {
     stem: {},
     provider: [],
   },
+  geocodeInProgress: false,
 };
 
 function uppercaseKeys(obj) {
@@ -100,6 +104,27 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         inProgress: false,
         error: action.payload,
+      };
+
+    case GEOCODE_STARTED:
+      return { ...state, query: action.payload, geocodeInProgress: true };
+
+    case GEOCODE_COMPLETE:
+      return {
+        ...state,
+        geocode: action.payload,
+        error: false,
+        geocodeInProgress: false,
+        geolocationInProgress: false,
+      };
+
+    case GEOCODE_FAILED:
+      return {
+        ...state,
+        error: true,
+        geocodeError: action.code,
+        geocodeInProgress: false,
+        geolocationInProgress: false,
       };
 
     default:
