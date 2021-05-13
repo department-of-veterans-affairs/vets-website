@@ -14,13 +14,13 @@ const representativePage = {
     'ui:description': RepresentativeIntroContent(),
     [representativeFields.signAsRepresentativeYesNo]: {
       'ui:title':
-        "Do you have a legal representative document you'd like to share with us?",
+        'Do you have a legal representative document you\u2019d like to share with us?',
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
           yes: 'Yes. I want to upload my document now.',
-          noRep: "Yes. But I'll provide my document later.",
-          no: "No. I don't have this document.",
+          noRep: 'Yes. But I\u2019ll provide my document later.',
+          no: 'No. I don\u2019t have this document.',
         },
       },
     },
