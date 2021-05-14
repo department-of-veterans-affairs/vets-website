@@ -41,7 +41,8 @@ const RequestDD214 = ({ router }) => {
             <div>
               <h4>
                 Download and fill out{' '}
-                <a href="http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf">
+                {/* <a href="http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf"> */}
+                <a href="https://www.dfas.mil/Portals/98/Documents/CorrectMilitaryRecords/dd0149.pdf?ver=2020-01-08-143351-750">
                   DoD Form 149
                 </a>
               </h4>
