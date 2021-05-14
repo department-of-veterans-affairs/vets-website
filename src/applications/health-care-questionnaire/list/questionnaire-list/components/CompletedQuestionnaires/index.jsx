@@ -59,15 +59,17 @@ const index = props => {
                         return <p className="completed-date" />;
                       } else {
                         return (
-                          <p className="completed-date">
-                            Submitted on
-                            <br />
-                            <span className={`vads-u-font-weight--bold`}>
-                              {moment(qr.submittedOn).format(
-                                'dddd, MMMM D, YYYY',
-                              )}
-                            </span>
-                          </p>
+                          <>
+                            <dt className="vads-u-margin-top--1p5">
+                              Submitted on
+                            </dt>
+                            <dd>
+                              {moment(qr.submittedOn).format('dddd')}{' '}
+                              <time dateTime="2021-07-10T14:00">
+                                {moment(qr.submittedOn).format('MMMM D, YYYY')}
+                              </time>
+                            </dd>
+                          </>
                         );
                       }
                     }}

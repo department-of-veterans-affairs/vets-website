@@ -23,7 +23,6 @@ const Index = props => {
             <ol
               data-testid="questionnaire-list"
               className="questionnaire-list toDo"
-              aria-label="Your outstanding questionnaires"
             >
               {questionnaires.map((data, i) => {
                 return <ToDoQuestionnaireItem data={data} key={i} />;

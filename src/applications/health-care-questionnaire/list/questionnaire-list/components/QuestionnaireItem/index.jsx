@@ -24,16 +24,20 @@ const index = props => {
   return (
     <li data-request-id={appointment.id} className="card">
       <Status data={data} />
-      <header data-testid="appointment-type-header">
+      <h3 data-testid="appointment-type-header">
         {appointmentType} questionnaire
-      </header>
-      <p className="appointment-location" data-testid="appointment-location">
-        for your {isCancelled ? 'canceled or rescheduled ' : ''}
-        appointment at {clinicName}, {facilityName}
-        {extraText && `. ${extraText}`}
-      </p>
-      <section className="due-details">{DueDate && <DueDate />}</section>
-
+      </h3>
+      <dl className="vads-u-margin-bottom--0p5">
+        <dt>
+          For your {isCancelled ? 'canceled or rescheduled ' : ''}
+          appointment at
+        </dt>
+        <dd data-testid="appointment-location">
+          {clinicName}, {facilityName}
+          {extraText && `. ${extraText}`}
+        </dd>
+        {DueDate && <DueDate />}
+      </dl>
       {Actions && <Actions />}
     </li>
   );
