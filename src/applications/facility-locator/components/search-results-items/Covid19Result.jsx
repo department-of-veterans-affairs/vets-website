@@ -9,6 +9,7 @@ import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
 import CovidPhoneLink from './common/Covid19PhoneLink';
+import recordEvent from 'platform/monitoring/record-event';
 
 const Covid19Result = ({
   location,
@@ -60,8 +61,13 @@ const Covid19Result = ({
         {showCovidVaccineSchedulingLinks &&
           covidSchedulingAvailable && (
             <a
-              className="vads-c-action-link--blue"
+              className="vads-c-action-link--blue vads-u-margin-bottom--4"
               href="/health-care/schedule-view-va-appointments/appointments/"
+              onClick={() =>
+                recordEvent({
+                  'cta-action-link-click': 'fl-schedule-covid-vaccine',
+                })
+              }
             >
               Schedule an appointment online
             </a>
