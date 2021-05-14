@@ -1,4 +1,4 @@
-import path, { join, sep } from 'path';
+import path from 'path';
 
 import get from 'platform/utilities/data/get';
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
@@ -529,7 +529,9 @@ const testForm = testConfig => {
       const resolvedPageHooks = Object.entries(pageHooks).reduce(
         (hooks, [pagePath, hook]) => ({
           ...hooks,
-          [pagePath.startsWith(sep) ? pagePath : join(rootUrl, pagePath)]: hook,
+          [pagePath.startsWith(path.sep)
+            ? pagePath
+            : path.join(rootUrl, pagePath)]: hook,
         }),
         {},
       );
