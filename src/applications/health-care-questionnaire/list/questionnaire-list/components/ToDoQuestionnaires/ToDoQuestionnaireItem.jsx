@@ -63,7 +63,10 @@ export default function ToDoQuestionnaireItem({ data }) {
         const dueDate = moment(appointmentTime);
         return (
           <>
-            <dt className="vads-u-margin-top--1p5">
+            <dt
+              className="vads-u-margin-top--1p5"
+              data-testid="due-instructions"
+            >
               {isCancelled ? 'Access until' : 'Complete by'}
             </dt>
             <dd className="due-date">
@@ -71,7 +74,12 @@ export default function ToDoQuestionnaireItem({ data }) {
                 {dueDate.format('dddd')}{' '}
                 <time dateTime={dueDate.format('YYYY-MM-DDTHH:MM')}>
                   {dueDate.format('MMMM D, YYYY')}
-                  {!isCancelled && <> at {displayTime}</>}
+                  {!isCancelled && (
+                    <span data-testid="due-by-timestamp">
+                      {' '}
+                      at {displayTime}
+                    </span>
+                  )}
                 </time>
               </dd>
             </dd>

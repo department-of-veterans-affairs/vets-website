@@ -28,7 +28,7 @@ const index = props => {
         {appointmentType} questionnaire
       </h3>
       <dl className="vads-u-margin-bottom--0p5">
-        <dt>
+        <dt data-testid="appointment-status">
           For your {isCancelled ? 'canceled or rescheduled ' : ''}
           appointment at
         </dt>
