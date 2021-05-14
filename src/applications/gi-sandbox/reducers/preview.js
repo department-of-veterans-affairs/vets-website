@@ -2,7 +2,7 @@ import { ENTER_PREVIEW_MODE, EXIT_PREVIEW_MODE } from '../actions';
 
 const INITIAL_STATE = {
   display: false,
-  version: {},
+  version: null,
 };
 
 export default function(state = INITIAL_STATE, action) {

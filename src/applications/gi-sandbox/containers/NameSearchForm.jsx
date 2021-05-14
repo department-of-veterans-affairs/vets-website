@@ -18,7 +18,7 @@ export function NameSearchForm({
   updateNameAutocomplete,
 }) {
   const [searchError, setSearchError] = useState(false);
-  const versionId = preview?.version?.id;
+  const { version } = preview;
 
   const doSearch = () => {
     fetchSearchByName(
@@ -26,7 +26,7 @@ export function NameSearchForm({
       {
         category: filters.category,
       },
-      versionId,
+      version,
     );
   };
 
@@ -45,7 +45,7 @@ export function NameSearchForm({
       {
         category: filters.category,
       },
-      versionId,
+      version,
     );
   };
 
@@ -55,7 +55,7 @@ export function NameSearchForm({
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--10">
             <KeywordSearch
-              version={versionId}
+              version={version}
               className="name-search"
               placeholder="school, employer, or training provider"
               autocomplete={autocomplete}
