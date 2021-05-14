@@ -5,20 +5,6 @@ import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-const privacyLabel = (
-  <span>
-    I have read and accept the
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-      className="vads-u-margin-left--0p5"
-      href={`${environment.BASE_URL}/privacy-policy`}
-    >
-      privacy policy
-    </a>
-  </span>
-);
-
 const PreSubmitSignature = ({
   formData,
   showError,
@@ -27,11 +13,7 @@ const PreSubmitSignature = ({
 }) => {
   const isSubmitPending = formSubmission.status === 'submitPending';
   const hasSubmit = !!formSubmission.status;
-  const fullName = formData.personalData.veteranFullName;
-  const firstName = fullName?.first.toLowerCase() || '';
-  const lastName = fullName?.last.toLowerCase() || '';
-  const middleName = fullName?.middle?.toLowerCase() || '';
-  const firstLetterOfMiddleName = middleName.charAt(0);
+  const { first, middle, last } = formData.personalData.veteranFullName;
   const [certifyChecked, setCertifyChecked] = useState(false);
   const [certifyCheckboxError, setCertifyCheckboxError] = useState(false);
   const [privacyChecked, setPrivacyChecked] = useState(false);
@@ -43,54 +25,49 @@ const PreSubmitSignature = ({
   });
   const isDirty = signature.dirty;
 
-  const removeSpaces = string => {
+  const privacyLabel = (
+    <span>
+      I have read and accept the
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        className="vads-u-margin-left--0p5"
+        href={`${environment.BASE_URL}/privacy-policy`}
+      >
+        privacy policy
+      </a>
+    </span>
+  );
+
+  const normalize = string => {
     return string
       .split(' ')
       .join('')
-      .toLocaleLowerCase();
+      .toLowerCase();
   };
 
-  const getName = (middle = '') => {
-    return removeSpaces(`${firstName}${middle}${lastName}`);
-  };
-
-  const hasName = getName() !== '';
-
-  const normalizedSignature = removeSpaces(signature.value);
-
-  const firstAndLastMatches = hasName && getName() === normalizedSignature;
-
-  const middleInitialMatches =
-    hasName && getName(firstLetterOfMiddleName) === normalizedSignature;
-
-  const withMiddleNameMatches =
-    hasName && getName(middleName) === normalizedSignature;
-
-  const signatureMatches =
-    firstAndLastMatches || middleInitialMatches || withMiddleNameMatches;
+  // validate input name with name on file
+  // signature matching logic is done with spaces removed
+  const nameOnFile = normalize(first + middle + last);
+  const inputValue = normalize(signature.value);
+  const signatureMatches = !!nameOnFile && nameOnFile === inputValue;
 
   useEffect(
     () => {
-      // show error if user has touched input and signature does not match show error if there is a form error and has not been submitted
+      // show error if user has touched input and signature does not match
+      // show error if there is a form error and has not been submitted
       if ((isDirty && !signatureMatches) || (showError && !hasSubmit)) {
         setSignatureError(true);
       }
 
       // if input has been touched and signature matches allow submission
-      // if input is dirty and representative is signing skip validation but make sure signature is not undefined
-      // signature matching logic is with spaces removed
+      // if input is dirty and representative is signing skip validation
+      // make sure signature is not undefined
       if (isDirty && signatureMatches) {
         setSignatureError(false);
       }
     },
-    [
-      showError,
-      hasSubmit,
-      isDirty,
-      signature.dirty,
-      signatureMatches,
-      normalizedSignature,
-    ],
+    [showError, hasSubmit, isDirty, signature.dirty, signatureMatches],
   );
 
   useEffect(
@@ -159,7 +136,10 @@ const PreSubmitSignature = ({
           required
           onValueChange={value => setSignature(value)}
           field={{ value: signature.value, dirty: signature.dirty }}
-          errorMessage={signatureError && 'Your signature must match.'}
+          errorMessage={
+            signatureError &&
+            `Please enter your name exactly as it appears on your VA profile: ${first} ${middle} ${last}`
+          }
         />
 
         <Checkbox
