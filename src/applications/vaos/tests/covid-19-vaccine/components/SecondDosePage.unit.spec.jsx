@@ -56,17 +56,15 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     ).to.have.tagName('h1');
     expect(
       screen.getByText(
-        /If you need a second dose, you may need to return to the Cheyenne VA Medical Center/i,
+        /If you need a second dose, you may need to return to the Cheyenne VA Medical Center after the dates below, depending on which vaccine you receive:/i,
       ),
     ).to.be.ok;
     expect(
+      screen.getByText(new RegExp(`If you receive your first dose on`, 'i')),
+    ).to.be.ok;
+    expect(
       screen.getByText(
-        new RegExp(
-          `If you receive your first dose on ${start
-            .clone()
-            .format('dddd, MMMM DD, YYYY')} and receive:`,
-          'i',
-        ),
+        new RegExp(`${start.clone().format('dddd, MMMM DD, YYYY')}`, 'i'),
       ),
     ).to.be.ok;
     expect(screen.getByText('Moderna')).to.have.tagName('h2');
