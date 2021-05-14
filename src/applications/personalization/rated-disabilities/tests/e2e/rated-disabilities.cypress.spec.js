@@ -4,8 +4,8 @@ import mockErrorResponse from '../mockdata/error-response.json';
 
 const RATED_DISABILITIES_PATH = '/disability/view-disability-rating/rating';
 const DISABILITIES_ENDPOINT =
-  '**/disability_compensation_form/rated_disabilities';
-const TOTAL_RATING_ENDPOINT = '**/disability_compensation_form/rating_info';
+  'v0/disability_compensation_form/rated_disabilities';
+const TOTAL_RATING_ENDPOINT = 'v0/disability_compensation_form/rating_info';
 
 const testAxe = () => {
   cy.injectAxe();
@@ -13,21 +13,18 @@ const testAxe = () => {
 };
 
 const testHappyPath = () => {
-  cy.login();
   cy.intercept('GET', DISABILITIES_ENDPOINT, mockDisabilities).as(
     'mockDisabilities',
   );
   cy.intercept('GET', TOTAL_RATING_ENDPOINT, mockTotalRating).as(
     'mockTotalRating',
   );
-  cy.visit(RATED_DISABILITIES_PATH);
   testAxe();
   cy.findByText(/90%/).should('exist');
   cy.findAllByText(/Diabetes mellitus0/).should('have.length', 2);
 };
 
 const testErrorStates = () => {
-  cy.login();
   cy.intercept('GET', DISABILITIES_ENDPOINT, {
     body: mockErrorResponse,
     statusCode: 404,
@@ -36,7 +33,6 @@ const testErrorStates = () => {
     body: mockErrorResponse,
     statusCode: 404,
   }).as('totalRatingClientError');
-  cy.visit(RATED_DISABILITIES_PATH);
   testAxe();
   cy.findByText(
     /We don’t have a combined disability rating on file for you/,
@@ -47,6 +43,11 @@ const testErrorStates = () => {
 };
 
 describe('View rated disabilities', () => {
+  beforeEach(() => {
+    cy.login();
+    cy.visit(RATED_DISABILITIES_PATH);
+  });
+
   it('should display a total rating and a list of ratings', () => {
     testHappyPath();
   });
