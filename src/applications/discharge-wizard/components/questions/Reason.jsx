@@ -34,7 +34,7 @@ const Reason = ({ formValues, handleKeyDown, scrollToLast, updateField }) => {
 
   const label = (
     <div>
-      <h4>
+      <h4 className={`${key}_header`}>
         Which of the following best describes why you want to change your
         discharge paperwork? Choose the one that’s closest to your situation.
       </h4>
