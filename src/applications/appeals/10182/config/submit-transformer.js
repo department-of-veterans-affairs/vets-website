@@ -1,5 +1,6 @@
 import {
   addIncludedIssues,
+  addAreaOfDisagreement,
   addUploads,
   getRepName,
   getAddress,
@@ -28,7 +29,7 @@ export function transform(formConfig, form) {
           socOptIn: true,
         },
       },
-      included: addIncludedIssues(formData),
+      included: addAreaOfDisagreement(addIncludedIssues(formData), formData),
       nodUploads: addUploads(formData),
     };
     if (formData.boardReviewOption !== 'hearing') {

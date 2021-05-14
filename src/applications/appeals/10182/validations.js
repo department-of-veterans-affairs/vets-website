@@ -1,6 +1,11 @@
 import { hasSomeSelected } from './utils/helpers';
 import { optInErrorMessage } from './content/OptIn';
 import { missingIssuesErrorMessage } from './content/additionalIssues';
+import {
+  missingAreaOfDisagreementErrorMessage,
+  missingAreaOfDisagreementOtherErrorMessage,
+} from './content/areaOfDisagreement';
+import { areaOfDisagreementWorkAround } from './utils/ui';
 
 export const requireIssue = (
   errors,
@@ -18,6 +23,23 @@ export const requireIssue = (
   if (!hasSomeSelected(data)) {
     errors.addError(missingIssuesErrorMessage);
   }
+};
+
+export const areaOfDisagreementRequired = (
+  errors,
+  { disagreementOptions, otherEntry } = {},
+) => {
+  const keys = Object.keys(disagreementOptions || {});
+  const hasSelection = keys.some(key => disagreementOptions[key]);
+
+  if (!hasSelection) {
+    errors.addError(missingAreaOfDisagreementErrorMessage);
+  } else if (disagreementOptions.other && !otherEntry) {
+    errors.addError(missingAreaOfDisagreementOtherErrorMessage);
+  }
+
+  // work-around for error message not showing :(
+  areaOfDisagreementWorkAround(hasSelection);
 };
 
 export const optInValidation = (errors, value) => {
