@@ -61,7 +61,7 @@ const Covid19Result = ({
         {showCovidVaccineSchedulingLinks &&
           covidSchedulingAvailable && (
             <a
-              className="vads-c-action-link--blue vads-u-margin-bottom--4"
+              className="vads-c-action-link--blue vads-u-margin-bottom--1 vads-u-display--inline-block vads-u-margin-top--0"
               href="/health-care/schedule-view-va-appointments/appointments/"
               onClick={() =>
                 recordEvent({
