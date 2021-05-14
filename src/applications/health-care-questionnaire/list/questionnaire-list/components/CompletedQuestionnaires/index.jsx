@@ -65,7 +65,11 @@ const index = props => {
                             </dt>
                             <dd>
                               {moment(qr.submittedOn).format('dddd')}{' '}
-                              <time dateTime="2021-07-10T14:00">
+                              <time
+                                dateTime={moment(qr.submittedOn).format(
+                                  'YYYY-MM-DDTHH:MM',
+                                )}
+                              >
                                 {moment(qr.submittedOn).format('MMMM D, YYYY')}
                               </time>
                             </dd>
