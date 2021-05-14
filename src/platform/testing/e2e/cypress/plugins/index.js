@@ -37,7 +37,7 @@ module.exports = (on, config) => {
     },
     inject: ['src/platform/testing/e2e/cypress/plugins/react-shim.js'],
     loader: { '.js': 'jsx' },
-    outfile: 'out.js',
+    // outfile: 'out.js',
   });
   on('file:preprocessor', bundler);
   // on('file:preprocessor', webpackPreprocessor(options));
