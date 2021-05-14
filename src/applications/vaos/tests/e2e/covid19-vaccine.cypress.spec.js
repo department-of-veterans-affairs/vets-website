@@ -242,7 +242,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.axeCheckBestPractice();
   });
 
-  it('should show facility contact page when vaccine schedule is not available', () => {
+  it.skip('should show facility contact page when vaccine schedule is not available', () => {
     initAppointmentListMock();
     initVaccineAppointmentMock({ unableToScheduleCovid: true });
 
