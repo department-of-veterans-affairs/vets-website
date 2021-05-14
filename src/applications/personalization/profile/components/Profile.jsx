@@ -40,7 +40,6 @@ import {
   cnpDirectDepositIsSetUp,
   eduDirectDepositInformation,
   eduDirectDepositIsSetUp,
-  showDirectDepositV2,
 } from '@@profile/selectors';
 import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
@@ -282,8 +281,7 @@ const mapStateToProps = state => {
 
   const shouldFetchCNPDirectDepositInformation =
     isEvssAvailable && is2faEnabled;
-  const shouldFetchEDUDirectDepositInformation =
-    !!showDirectDepositV2(state) && is2faEnabled;
+  const shouldFetchEDUDirectDepositInformation = is2faEnabled;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);

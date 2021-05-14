@@ -64,7 +64,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `Plan to return after ${start
+          `after ${start
             .clone()
             .add(21, 'days')
             .format('dddd, MMMM DD, YYYY')}`,
@@ -75,7 +75,7 @@ describe('VAOS vaccine flow <SecondDosePage>', () => {
     expect(
       screen.getByText(
         new RegExp(
-          `Plan to return after ${start
+          `after ${start
             .clone()
             .add(28, 'days')
             .format('dddd, MMMM DD, YYYY')}`,

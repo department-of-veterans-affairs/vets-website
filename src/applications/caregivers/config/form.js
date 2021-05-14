@@ -191,7 +191,7 @@ const formConfig = {
       pages: {
         secondaryCaregiverTwo: {
           path: 'secondary-two-1',
-          title: 'Secondary Family Caregiver (2) applicant information',
+          title: secondaryTwoChapterTitle,
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: secondaryTwoInfoPage.uiSchema,
           schema: secondaryTwoInfoPage.schema,
@@ -206,19 +206,20 @@ const formConfig = {
       },
     },
     signAsRepresentativeChapter: {
-      title: 'Representative documentation',
+      title: 'Representative document',
       pages: {
         signAsRepresentative: {
+          path: 'representative-document',
+          title: 'Representative document',
           depends: formData => formData['view:canUpload1010cgPOA'],
-          path: 'representative-documentation',
-          title: 'Representative documentation',
           uiSchema: signAsRepresentativeYesNo.uiSchema,
           schema: signAsRepresentativeYesNo.schema,
         },
         documentUpload: {
-          title: 'Supporting documentation',
-          depends: formData => formData.signAsRepresentativeYesNo === 'yes',
           path: 'representative-document-upload',
+          title: 'Representative document',
+          depends: formData => formData.signAsRepresentativeYesNo === 'yes',
+          editModeOnReviewPage: false,
           uiSchema: uploadPOADocument.uiSchema,
           schema: uploadPOADocument.schema,
         },
@@ -226,5 +227,8 @@ const formConfig = {
     },
   },
 };
+
+/* TODO Need to change editModeOnReviewPage for document upload to true 
+when platform bug is fixed and upload button appears with this feature enabled */
 
 export default formConfig;

@@ -53,8 +53,9 @@ describe('VAOS <ContactInfoPage>', () => {
     // it should display page heading
     expect(screen.getByText('Confirm your contact information')).to.be.ok;
 
-    expect(await screen.findByText(/^Please enter a 10-digit phone number/)).to
-      .be.ok;
+    expect(
+      await screen.findByText(/^Please enter a valid 10-digit phone number/),
+    ).to.be.ok;
     expect(screen.getByText(/^Please provide a response/)).to.be.ok;
 
     userEvent.click(button);

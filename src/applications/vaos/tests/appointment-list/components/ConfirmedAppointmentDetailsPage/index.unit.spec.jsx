@@ -511,4 +511,108 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     userEvent.click(screen.getByText(/go back to appointments/i));
     expect(screen.baseElement).to.contain.text('Your appointments');
   });
+
+  it('should cancel appointment when default reason code is not available', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      facilityId: '983',
+      sta6aid: '983GC',
+      startDate: moment(),
+      vdsAppointments: [
+        {
+          clinic: {
+            name: 'CHY OPT VAR1',
+          },
+        },
+      ],
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+      isHomepageRefresh: true,
+    });
+
+    mockFacilitiesFetch('vha_442GC', [
+      {
+        id: 'vha_442GC',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '442GC',
+          name: 'Fort Collins VA Clinic',
+        },
+      },
+    ]);
+
+    const cancelReason = getCancelReasonMock();
+    cancelReason.attributes = {
+      ...cancelReason.attributes,
+      number: '6',
+    };
+    mockVACancelFetches('983', [cancelReason]);
+    const screen = renderWithStoreAndRouter(
+      <AppointmentList featureHomepageRefresh />,
+      {
+        initialState,
+      },
+    );
+
+    const detailLinks = await screen.findAllByRole('link', {
+      name: /Detail/i,
+    });
+
+    // Select an appointment details link...
+    const detailLink = detailLinks.find(l => l.getAttribute('href') === url);
+    userEvent.click(detailLink);
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+    expect(await screen.findByText(/Fort Collins VA Clinic/)).to.be.ok;
+    // VA appointment id from confirmed_va.json
+    expect(screen.baseElement).not.to.contain.text('canceled');
+
+    userEvent.click(screen.getByText(/cancel appointment/i));
+
+    await screen.findByRole('alertdialog');
+
+    userEvent.click(screen.getByText(/yes, cancel this appointment/i));
+
+    await screen.findByText(/your appointment has been canceled/i);
+
+    const cancelData = JSON.parse(
+      global.fetch
+        .getCalls()
+        .find(call => call.args[0].includes('appointments/cancel')).args[1]
+        .body,
+    );
+
+    expect(cancelData).to.deep.equal({
+      appointmentTime: moment()
+        .tz('America/Denver')
+        .format('MM/DD/YYYY HH:mm:ss'),
+      cancelReason: '6',
+      cancelCode: 'PC',
+      clinicName: 'CHY OPT VAR1',
+      clinicId: '308',
+      facilityId: '983',
+      remarks: '',
+    });
+
+    userEvent.click(screen.getByText(/continue/i));
+  });
 });

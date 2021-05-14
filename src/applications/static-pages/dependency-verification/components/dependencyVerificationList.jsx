@@ -1,6 +1,4 @@
 import React from 'react';
-import format from 'date-fns/format';
-import parseISO from 'date-fns/parseISO';
 
 const NOTONAWARD = 'NAWDDEP';
 
@@ -24,10 +22,6 @@ const DependencyVerificationList = ({ dependents }) => {
               <p className="vads-l-col--12 vads-u-margin-y--1">
                 <strong>Relationship: </strong>
                 {dependent.dependencyStatusTypeDescription}
-              </p>
-              <p className="vads-l-col--12 vads-u-margin--0">
-                <strong>Date of birth: </strong>{' '}
-                {format(parseISO(dependent.birthdayDate), 'MMMM d, yyyy')}
               </p>
             </div>
           );

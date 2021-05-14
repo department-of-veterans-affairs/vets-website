@@ -36,30 +36,27 @@ export default {
   uiSchema: {
     'ui:description': RepresentativeDocumentUploadDescription(),
     'ui:title': () => (
-      <legend className="vads-u-font-size--h4">
-        Upload your legal representative documentation
-        <span className="vads-u-margin-left--0p5 vads-u-color--secondary-dark vads-u-font-size--sm vads-u-font-weight--normal">
+      <h3 className="vads-u-font-size--h4 vads-u-margin--0">
+        Upload your legal representative document
+        <span className="vads-u-margin-left--0p5 vads-u-color--secondary-dark vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           (*Required)
         </span>
-      </legend>
+      </h3>
     ),
-    [representativeFields.documentUpload]: fileUploadUI(
-      'Upload your legal representative documentation',
-      {
-        buttonText: 'Upload',
-        classNames: 'poa-document-upload',
-        multiple: false,
-        fileUploadUrl: `${environment.API_URL}/v0/form1010cg/attachments`,
-        fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
-        maxSize: 1024 * 1024 * 10,
-        hideLabelText: true,
-        createPayload,
-        parseResponse,
-        attachmentName: {
-          'ui:title': 'Document name',
-        },
+    [representativeFields.documentUpload]: fileUploadUI(' ', {
+      buttonText: 'Upload',
+      classNames: 'poa-document-upload',
+      multiple: false,
+      fileUploadUrl: `${environment.API_URL}/v0/form1010cg/attachments`,
+      fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
+      maxSize: 1024 * 1024 * 10,
+      hideLabelText: true,
+      createPayload,
+      parseResponse,
+      attachmentName: {
+        'ui:title': 'Document name',
       },
-    ),
+    }),
   },
   schema: {
     type: 'object',

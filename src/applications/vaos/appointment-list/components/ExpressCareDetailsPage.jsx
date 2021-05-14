@@ -26,7 +26,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 function ExpressCareDetailsPage({
   appointment,
   appointmentDetailsStatus,
-  cancelAppointment,
+  startAppointmentCancel,
   cancelInfo,
   closeCancelAppointment,
   confirmCancelAppointment,
@@ -178,7 +178,7 @@ function ExpressCareDetailsPage({
         <p>
           <button
             className="va-button-link"
-            onClick={() => cancelAppointment(appointment)}
+            onClick={() => startAppointmentCancel(appointment)}
           >
             Cancel Express Care request
           </button>
@@ -211,7 +211,7 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = {
   fetchRequestDetails: actions.fetchRequestDetails,
-  cancelAppointment: actions.cancelAppointment,
+  startAppointmentCancel: actions.startAppointmentCancel,
   closeCancelAppointment: actions.closeCancelAppointment,
   confirmCancelAppointment: actions.confirmCancelAppointment,
 };
