@@ -249,21 +249,15 @@ const IntroductionPage = ({
           health and wellness of Veterans.
         </p>
 
-        <button
-          style={{ display: 'inherit ' }}
-          className="usa-button vads-u-margin-y--3"
-          onClick={startForm}
-        >
+        <a className="vads-c-action-link--blue" href="#" onClick={startForm}>
           Start your application
-        </button>
+        </a>
         <ProcessTimeline />
-        <button
-          className="usa-button vads-u-margin-bottom--3"
-          onClick={startForm}
-        >
+
+        <a className="vads-c-action-link--blue" href="#" onClick={startForm}>
           Start your application
-        </button>
-        <div className="omb-info--container vads-u-padding-left--0">
+        </a>
+        <div className="omb-info--container vads-u-padding-left--0  vads-u-margin-top--3">
           <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="09/30/2021" />
         </div>
       </DowntimeNotification>

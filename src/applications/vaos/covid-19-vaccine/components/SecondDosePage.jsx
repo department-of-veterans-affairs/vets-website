@@ -36,28 +36,27 @@ export default function SecondDosePage() {
           You’ll need to return to the {facility.name} after the dates below,
           depending on which vaccine you receive:
         </p>
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-font-weight--normal">
+        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
           Moderna
         </h2>
         <div>
           Requires 2 doses
           <br />
+          Plan to return{' '}
           <strong>
-            Plan to return after{' '}
+            after{' '}
             {moment(date1[0])
               .add(28, 'days')
               .format('dddd, MMMM DD, YYYY')}
           </strong>
         </div>
-        <hr aria-hidden="true" className="vads-u-margin-y--2" />
-        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vaos-appts__block-label  vads-u-font-weight--normal">
-          Pfizer
-        </h2>
+        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">Pfizer</h2>
         <div>
           Requires 2 doses
           <br />
+          Plan to return{' '}
           <strong>
-            Plan to return after{' '}
+            after{' '}
             {moment(date1[0])
               .add(21, 'days')
               .format('dddd, MMMM DD, YYYY')}

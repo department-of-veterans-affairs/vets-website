@@ -36,7 +36,28 @@ describe('health care questionnaire - get help footer  -', () => {
 
     wrapper.unmount();
   });
-  it('displays default information', () => {
+  it('only facility id is found', () => {
+    const fakeStore = createFakeFooterStore(
+      {},
+      {
+        identifier: [
+          {
+            system:
+              'https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
+            value: '1234',
+          },
+        ],
+      },
+    );
+    const wrapper = mount(<GetHelpFooter store={fakeStore} />);
+    expect(
+      wrapper.find('[data-testid="default-details-with-id"]').text(),
+    ).to.contains('Contact your VA provider');
+    expect(wrapper.find('a').exists()).to.be.true;
+
+    wrapper.unmount();
+  });
+  it('default contact message', () => {
     const fakeStore = createFakeFooterStore();
     const wrapper = mount(<GetHelpFooter store={fakeStore} />);
     expect(wrapper.find('[data-testid="default-details"]').text()).to.contains(
