@@ -155,13 +155,17 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
     hideFeedback(iconElement.getAttribute('id'));
   };
 
+  const extractH3Text = () => {
+    return document.querySelector(`#${dataEntityId} h3`).innerText;
+  };
+
   if (showSharableLink) {
     return (
       <ThemeProvider theme={theme.main}>
         <span aria-live="polite" aria-relevant="additions">
           <UnStyledButtonInAccordion
             className="usa-button-unstyled"
-            aria-label={`Copy ${dataEntityId} sharable link`}
+            aria-label={`Copy a link for ${extractH3Text()}`}
             id={`button-${dataEntityId}`}
             onClick={event => {
               // this event has event.target as the icon
