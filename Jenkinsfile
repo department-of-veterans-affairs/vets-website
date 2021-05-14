@@ -175,6 +175,7 @@ node('vetsgov-general-purpose') {
     }
   }
 
+  commonStages.prearchiveAll(dockerContainer)
   commonStages.archiveAll(dockerContainer, ref);
 
   stage('Review') {
