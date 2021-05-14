@@ -56,6 +56,7 @@ export function NameSearchForm({
           <div className="medium-screen:vads-l-col--10">
             <KeywordSearch
               version={versionId}
+              className="name-search"
               placeholder="school, employer, or training provider"
               autocomplete={autocomplete}
               onClearAutocompleteSuggestions={clearNameAutocompleteSuggestions}
