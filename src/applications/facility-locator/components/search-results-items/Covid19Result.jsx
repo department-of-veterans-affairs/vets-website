@@ -10,17 +10,24 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
-const Covid19Result = ({ location, index }) => {
+const Covid19Result = ({
+  location,
+  index,
+  showCovidVaccineSchedulingLinks,
+}) => {
   const {
     name,
     website,
     operatingStatus,
     detailedServices,
+    tmpCovidOnlineScheduling,
   } = location.attributes;
   const appointmentPhone = detailedServices
     ? detailedServices[0]?.appointmentPhones[0]
     : null;
   const infoURL = detailedServices ? detailedServices[0]?.path : null;
+  const covidSchedulingAvailable =
+    tmpCovidOnlineScheduling || detailedServices?.onlineSchedulingAvailable;
 
   return (
     <div className="facility-result" id={location.id} key={location.id}>
@@ -50,7 +57,21 @@ const Covid19Result = ({ location, index }) => {
           )}
         <LocationAddress location={location} />
         <LocationDirectionsLink location={location} from={'SearchResult'} />
-        <CovidPhoneLink phone={appointmentPhone} />
+        {showCovidVaccineSchedulingLinks &&
+          covidSchedulingAvailable && (
+            <a
+              className="vads-c-action-link--blue"
+              href="/health-care/schedule-view-va-appointments/appointments/"
+            >
+              Schedule an appointment online
+            </a>
+          )}
+        <CovidPhoneLink
+          phone={appointmentPhone}
+          showCovidVaccineSchedulingLink={
+            showCovidVaccineSchedulingLinks && covidSchedulingAvailable
+          }
+        />
         {infoURL && (
           <span className="vads-u-margin-top--2 vads-u-display--block">
             <a href={infoURL} target="_blank" rel="noreferrer">
