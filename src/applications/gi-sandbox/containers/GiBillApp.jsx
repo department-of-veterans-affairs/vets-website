@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import GiBillBreadcrumbs from '../components/GiBillBreadcrumbs';
