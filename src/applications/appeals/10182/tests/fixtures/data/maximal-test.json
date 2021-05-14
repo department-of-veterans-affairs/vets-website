@@ -95,6 +95,40 @@
         "view:selected": true
       }
     ],
+    "areaOfDisagreement": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "tinnitus"
+        },
+        "disagreementOptions": {
+          "serviceConnection": true,
+          "effectiveDate": true,
+          "evaluation": true,
+          "other": true
+        },
+        "otherEntry": "this is an other entry"
+      },
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "left knee"
+        },
+        "disagreementOptions": {
+          "serviceConnection": false,
+          "effectiveDate": true
+        },
+        "otherEntry": ""
+      },
+      {
+        "issue": "right shoulder",
+        "disagreementOptions": {
+          "evaluation": true,
+          "other": true
+        },
+        "otherEntry": "this is another other entry"
+      }
+    ],
     "evidence": [
       {
         "name": "file-1.pdf",
