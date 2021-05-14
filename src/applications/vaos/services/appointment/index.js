@@ -3,11 +3,15 @@
  * @module services/Appointment
  */
 import moment from 'moment';
+import * as Sentry from '@sentry/browser';
 import {
+  getCancelReasons,
   getConfirmedAppointment,
   getConfirmedAppointments,
   getPendingAppointment,
   getPendingAppointments,
+  updateAppointment,
+  updateRequest,
 } from '../var';
 import {
   transformConfirmedAppointment,
@@ -20,7 +24,11 @@ import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
   VIDEO_TYPES,
+  GA_PREFIX,
 } from '../../utils/constants';
+import recordEvent from 'platform/monitoring/record-event';
+import { captureError, has400LevelError } from '../../utils/error';
+import { resetDataLayer } from '../../utils/events';
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
@@ -532,4 +540,140 @@ export function groupAppointmentsByMonth(appointments) {
   });
 
   return appointmentsByMonth;
+}
+
+const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
+const CANCELLED_REQUEST = 'Cancelled';
+async function cancelRequestedAppointment(request) {
+  const additionalEventData = {
+    appointmentType: 'pending',
+    facilityType: request.vaos?.isCommunityCare ? 'cc' : 'va',
+  };
+
+  recordEvent({
+    event: eventPrefix,
+    ...additionalEventData,
+  });
+
+  try {
+    const updatedRequest = await updateRequest({
+      ...request.vaos.apiData,
+      status: CANCELLED_REQUEST,
+      appointmentRequestDetailCode: ['DETCODE8'],
+    });
+
+    recordEvent({
+      event: `${eventPrefix}-successful`,
+      ...additionalEventData,
+    });
+    resetDataLayer();
+
+    return transformPendingAppointment(updatedRequest);
+  } catch (e) {
+    captureError(e, true);
+    recordEvent({
+      event: `${eventPrefix}-failed`,
+      ...additionalEventData,
+    });
+    resetDataLayer();
+
+    throw e;
+  }
+}
+
+const UNABLE_TO_KEEP_APPT = '5';
+const VALID_CANCEL_CODES = new Set(['4', '5', '6']);
+async function cancelBookedAppointment(appointment) {
+  const additionalEventData = {
+    appointmentType: 'confirmed',
+    facilityType: 'va',
+  };
+
+  recordEvent({
+    event: eventPrefix,
+    ...additionalEventData,
+  });
+  let cancelReasons;
+  let cancelReason;
+
+  try {
+    const cancelData = {
+      appointmentTime: moment
+        .parseZone(appointment.start)
+        .format('MM/DD/YYYY HH:mm:ss'),
+      clinicId: appointment.location.clinicId,
+      facilityId: appointment.location.vistaId,
+      remarks: '',
+      // Grabbing this from the api data because it's not clear if
+      // we have to send the real name or if the friendly name is ok
+      clinicName: appointment.vaos.apiData.vdsAppointments[0].clinic.name,
+      cancelCode: 'PC',
+    };
+
+    cancelReasons = await getCancelReasons(appointment.location.vistaId);
+
+    if (cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)) {
+      cancelReason = UNABLE_TO_KEEP_APPT;
+      await updateAppointment({
+        ...cancelData,
+        cancelReason,
+      });
+    } else if (
+      cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason.number))
+    ) {
+      cancelReason = cancelReasons.find(reason =>
+        VALID_CANCEL_CODES.has(reason.number),
+      );
+      await updateAppointment({
+        ...cancelData,
+        cancelReason: cancelReason.number,
+      });
+    } else {
+      throw new Error('Unable to find valid cancel reason');
+    }
+
+    recordEvent({
+      event: `${eventPrefix}-successful`,
+      ...additionalEventData,
+    });
+    resetDataLayer();
+  } catch (e) {
+    const isVaos400Error = has400LevelError(e);
+    if (isVaos400Error) {
+      Sentry.withScope(scope => {
+        scope.setExtra('error', e);
+        scope.setExtra('cancelReasons', cancelReasons);
+        scope.setExtra('cancelReason', cancelReason);
+        Sentry.captureMessage('Cancel failed due to bad request');
+      });
+    } else {
+      captureError(e, true);
+    }
+
+    recordEvent({
+      event: `${eventPrefix}-failed`,
+      ...additionalEventData,
+    });
+    resetDataLayer();
+
+    throw e;
+  }
+}
+/**
+ * Cancels an appointment or request
+ *
+ * @export
+ * @param {Object} params
+ * @param {Appointment} params.appointment The appointment to cancel
+ * @returns {?Appointment} Returns either null or the updated appointment data
+ */
+export async function cancelAppointment({ appointment }) {
+  const isConfirmedAppointment =
+    appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
+
+  if (isConfirmedAppointment) {
+    return cancelBookedAppointment(appointment);
+  } else {
+    return cancelRequestedAppointment(appointment);
+  }
 }
