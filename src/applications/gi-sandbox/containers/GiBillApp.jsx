@@ -2,34 +2,36 @@ import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { exitPreviewMode, fetchConstants } from '../actions';
+import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import GiBillBreadcrumbs from '../components/GiBillBreadcrumbs';
 import Modals from './Modals';
 import { useQueryParams } from '../utils/helpers';
 
 export function GiBillApp({
   children,
+  dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
   preview,
 }) {
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
+  const versionChange = version && version !== preview.version?.id;
+  const shouldExitPreviewMode = preview.display && !version;
+  const shouldEnterPreviewMode = !preview.display && versionChange;
 
   useEffect(
     () => {
-      dispatchFetchConstants(version);
+      if (shouldExitPreviewMode) {
+        dispatchExitPreviewMode();
+      } else if (shouldEnterPreviewMode) {
+        dispatchEnterPreviewMode(version);
+      } else {
+        dispatchFetchConstants();
+      }
     },
-    [version],
+    [shouldExitPreviewMode, shouldEnterPreviewMode],
   );
-
-  useEffect(() => {
-    const shouldExitPreviewMode = preview.display && !version;
-
-    if (shouldExitPreviewMode) {
-      dispatchExitPreviewMode();
-    }
-  });
 
   return (
     <div className="gi-app">
@@ -57,6 +59,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
+  dispatchEnterPreviewMode: enterPreviewMode,
   dispatchExitPreviewMode: exitPreviewMode,
   dispatchFetchConstants: fetchConstants,
 };

@@ -18,7 +18,7 @@ export function NameSearchForm({
   updateNameAutocomplete,
 }) {
   const [searchError, setSearchError] = useState(false);
-  const { id: versionId } = preview.version;
+  const versionId = preview?.version?.id;
 
   const doSearch = () => {
     fetchSearchByName(
