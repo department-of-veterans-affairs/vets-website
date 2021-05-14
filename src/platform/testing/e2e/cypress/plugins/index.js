@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 // const webpackPreprocessor = require('@cypress/webpack-preprocessor');
-const createBundler = require('../../../../../../node_modules/@bahmutov/cypress-esbuild-preprocessor');
+const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
 
 // module.exports = on => {
 
