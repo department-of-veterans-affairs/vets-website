@@ -23,6 +23,15 @@ const setSessionStorage = (
     organization,
   });
 
+  const current = JSON.stringify({
+    appointmentId: apptId,
+  });
+
+  window.sessionStorage.setItem(
+    `health.care.questionnaire.currentHealthQuestionnaire`,
+    current,
+  );
+
   window.sessionStorage.setItem(
     `health.care.questionnaire.selectedAppointmentData.${apptId}`,
     data,
