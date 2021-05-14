@@ -28,12 +28,6 @@ import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
-import environment from 'platform/utilities/environment';
-
-import mapboxClient from '../components/MapboxClient';
-import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-
-const mbxClient = mbxGeo(mapboxClient);
 
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import {
@@ -506,32 +500,6 @@ const FacilitiesMap = props => {
     );
   };
 
-  const genLocationFromCoords = position => {
-    mbxClient
-      .reverseGeocode({
-        query: [position.longitude, position.latitude],
-        types: ['address'],
-      })
-      .send()
-      .then(({ body: { features } }) => {
-        const placeName = features[0].place_name;
-        const zipCode =
-          features[0].context.find(v => v.id.includes('postcode')).text || '';
-
-        props.updateSearchQuery({
-          searchString: placeName,
-          context: zipCode,
-          position,
-        });
-
-        updateUrlParams({
-          address: placeName,
-          context: zipCode,
-        });
-      })
-      .catch(error => error);
-  };
-
   useEffect(
     () => {
       if (map) {
@@ -575,16 +543,6 @@ const FacilitiesMap = props => {
     };
 
     searchWithUrl();
-
-    // TODO - remove environment flag once the Use My Location link has been approved on staging
-    if (environment.isProduction() && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(currentPosition => {
-        const input = document.getElementById('street-city-state-zip');
-        if (input && !input.value) {
-          genLocationFromCoords(currentPosition.coords);
-        }
-      });
-    }
 
     const debouncedResize = vaDebounce(250, setMobile);
     window.addEventListener('resize', debouncedResize);

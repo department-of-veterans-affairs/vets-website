@@ -21,6 +21,8 @@ import {
   getSiteIdFromFacilityId,
 } from '../../services/location';
 import {
+  selectFeatureCommunityCare,
+  selectFeatureDirectScheduling,
   selectUseFlatFacilityPage,
   selectIsCernerOnlyPatient,
   selectUseProviderSelection,
@@ -420,5 +422,20 @@ export function selectReviewPage(state) {
     systemId: getSiteIdForChosenFacility(state),
     useProviderSelection: selectUseProviderSelection(state),
     vaCityState: getChosenVACityState(state),
+  };
+}
+
+export function selectTypeOfCarePage(state) {
+  const newAppointment = getNewAppointment(state);
+  const address = selectVAPResidentialAddress(state);
+  return {
+    ...address,
+    hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
+    initialData: getFormData(state),
+    pageChangeInProgress: selectPageChangeInProgress(state),
+    showCommunityCare: selectFeatureCommunityCare(state),
+    showDirectScheduling: selectFeatureDirectScheduling(state),
+    showPodiatryApptUnavailableModal:
+      newAppointment.showPodiatryAppointmentUnavailableModal,
   };
 }

@@ -1,6 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
-
+@import '../../shared/sass/ie.scss';
 
 .questionnaire-list-tabs-container{
   border-bottom: 1px solid $color-gray-light;
@@ -188,9 +188,21 @@ div.usa-alert.usa-alert-error.print-error-message{
   font-weight: bold;
 }
 
-a.vads-c-action-link--blue, a.vads-c-action-link--green, a.vads-c-action-link--white {
-  padding: 0;
+.action-link-container{
+  width: 100%;
 }
+
+a.vads-c-action-link--blue,
+a.vads-c-action-link--green,
+a.vads-c-action-link--white {
+  padding: 0;
+
+}
+
+.action-link-ie{
+  display: flex;
+}
+
 
 .loading-message{
   text-align: center;
