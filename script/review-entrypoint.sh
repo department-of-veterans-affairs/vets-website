@@ -3,7 +3,7 @@
 # Build vets-website
 set -e
 yarn install --production=false
-npm run build -- --buildtype localhost
+npm run build -- --buildtype localhost --api='${API_URL}' --host='${WEB_HOST}' --port='${WEB_PORT}'
 
 # Build content-build and serve site
 cd ../content-build
