@@ -1,13 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
+import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
 import GiBillBreadcrumbs from '../components/GiBillBreadcrumbs';
+import PreviewBanner from '../components/PreviewBanner';
 import Modals from './Modals';
 import { useQueryParams } from '../utils/helpers';
+import ServiceError from '../components/ServiceError';
 
 export function GiBillApp({
+  constants,
   children,
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
@@ -37,8 +42,15 @@ export function GiBillApp({
     <div className="gi-app">
       <div>
         <div>
+          {preview.display && <PreviewBanner version={preview.version} />}
           <GiBillBreadcrumbs />
-          {children}
+          {constants.inProgress && <LoadingIndicator message="Loading..." />}
+          {constants.error && <ServiceError />}
+          {!(constants.error || constants.inProgress) && (
+            <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
+              {children}
+            </DowntimeNotification>
+          )}
           <Modals />
         </div>
       </div>
@@ -51,8 +63,9 @@ GiBillApp.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { preview, version } = state;
+  const { constants, preview, version } = state;
   return {
+    constants,
     preview,
     version,
   };
