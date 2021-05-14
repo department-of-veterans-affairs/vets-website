@@ -32,6 +32,11 @@ jobs:
     steps:
       - checkout
       - yarn-install-cache
+      - run:
+          name: Download registry and js assets from content-build repo
+          command: |
+            mkdir -p ../content-build/src/{applications,site/assets/js}
+            curl -L "https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master/src/{applications/registry.json,site/assets/js/incompatible-browser.js,site/assets/js/record-event.js,site/assets/js/static-page-widgets.js}" -o "../content-build/src/#1"
       - run: mkdir -p ./test-results
       - run: npx eslint --ext .js --ext .jsx --format junit --output-file ./test-results/eslint.xml .
       - run: yarn lint:sass
@@ -45,6 +50,11 @@ jobs:
     steps:
       - checkout
       - yarn-install-cache
+      - run:
+          name: Download static-page-widgets asset from content-build repo
+          command: |
+            mkdir -p ../content-build/src/site/assets/js
+            curl -L "https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master/src/site/assets/js/static-page-widgets.js" -o "../content-build/src/site/assets/js/static-page-widgets.js"
       - run: mkdir -p ./test-results
       - run:
           command: yarn test:unit --coverage
@@ -76,22 +86,6 @@ jobs:
           path: ./test-results
       - store_artifacts:
           path: ./test-results
-
-  # test ability to pull cache from drupal
-  drupal-cache-test:
-    executor: circleci-node
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-      - run: yarn fetch-drupal-cache
 
   can-i-deploy:
     executor: circleci-node
@@ -218,6 +212,11 @@ jobs:
             - ~/.cache/yarn
             - ~/.cache/Cypress
       - run:
+          name: Download registry and js assets from content-build repo
+          command: |
+            mkdir -p ../content-build/src/{applications,site/assets/js}
+            curl -L "https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master/src/{applications/registry.json,site/assets/js/incompatible-browser.js,site/assets/js/record-event.js,site/assets/js/static-page-widgets.js}" -o "../content-build/src/#1"
+      - run:
           name: Build apps
           command: yarn build:webpack --env.buildtype vagovprod --env.scaffold
           no_output_timeout: 15m
@@ -275,7 +274,6 @@ workflows:
       - lint
       - unit-test
       - contract-test
-      - drupal-cache-test
       - security-audit
       - build-e2e
       - build:

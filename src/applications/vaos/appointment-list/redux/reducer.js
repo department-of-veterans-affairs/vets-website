@@ -229,31 +229,25 @@ export default function appointmentsReducer(state = initialState, action) {
           return appt;
         }
 
-        const newAppt = {
-          ...appt,
-          vaos: {
-            ...appt.vaos,
-            apiData: action.apiData,
-          },
-        };
-
-        return { ...newAppt, status: APPOINTMENT_STATUS.cancelled };
+        return action.updatedAppointment;
       });
 
       let appointmentDetails = state.appointmentDetails;
 
       if (appointmentDetails?.[appointmentToCancel.id]) {
+        const updatedAppointment = action.updatedAppointment || {
+          ...appointmentDetails[appointmentToCancel.id],
+          description: 'CANCELLED BY PATIENT',
+          status: APPOINTMENT_STATUS.cancelled,
+          vaos: {
+            ...appointmentDetails[appointmentToCancel.id].vaos,
+            apiData: action.apiData,
+          },
+        };
+
         appointmentDetails = {
           ...appointmentDetails,
-          [appointmentToCancel.id]: {
-            ...appointmentDetails[appointmentToCancel.id],
-            description: 'CANCELLED BY PATIENT',
-            status: APPOINTMENT_STATUS.cancelled,
-            vaos: {
-              ...appointmentDetails[appointmentToCancel.id].vaos,
-              apiData: action.apiData,
-            },
-          },
+          [appointmentToCancel.id]: updatedAppointment,
         };
       }
 

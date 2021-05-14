@@ -32,7 +32,7 @@ function FutureAppointmentsList({
   futureStatus,
   facilityData,
   requestMessages,
-  cancelAppointment,
+  startAppointmentCancel,
   fetchRequestMessages,
   startNewAppointmentFlow,
 }) {
@@ -61,7 +61,7 @@ function FutureAppointmentsList({
                   appointment={appt}
                   facility={facilityData[facilityId]}
                   showCancelButton={showCancelButton}
-                  cancelAppointment={cancelAppointment}
+                  cancelAppointment={startAppointmentCancel}
                 />
               );
             case APPOINTMENT_TYPES.request:
@@ -74,7 +74,7 @@ function FutureAppointmentsList({
                   facility={facilityData[facilityId]}
                   facilityId={facilityId}
                   showCancelButton={showCancelButton}
-                  cancelAppointment={cancelAppointment}
+                  cancelAppointment={startAppointmentCancel}
                   fetchMessages={fetchRequestMessages}
                   messages={requestMessages}
                 />
@@ -118,7 +118,7 @@ function FutureAppointmentsList({
 }
 
 FutureAppointmentsList.propTypes = {
-  cancelAppointment: PropTypes.func,
+  startAppointmentCancel: PropTypes.func,
   isCernerOnlyPatient: PropTypes.bool,
   fetchRequestMessages: PropTypes.func,
   fetchFutureAppointments: PropTypes.func,
@@ -140,7 +140,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  cancelAppointment: actions.cancelAppointment,
+  startAppointmentCancel: actions.startAppointmentCancel,
   fetchFutureAppointments: actions.fetchFutureAppointments,
   fetchRequestMessages: actions.fetchRequestMessages,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,

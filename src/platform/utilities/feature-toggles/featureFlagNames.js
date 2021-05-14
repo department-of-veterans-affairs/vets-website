@@ -1,7 +1,6 @@
 export default Object.freeze({
   preEntryCovid19Screener: 'preEntryCovid19Screener',
   dashboardShowDashboard2: 'dashboard_show_dashboard_2',
-  directDepositEducation: 'ch33_dd_profile',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
@@ -19,6 +18,12 @@ export default Object.freeze({
   vaOnlineSchedulingExpressCareNew: 'vaOnlineSchedulingExpressCareNew',
   vaOnlineSchedulingProviderSelection: 'vaOnlineSchedulingProviderSelection',
   vaOnlineSchedulingCheetah: 'vaOnlineSchedulingCheetah',
+  vaOnlineSchedulingVAOSServiceRequests:
+    'vaOnlineSchedulingVAOSServiceRequests',
+  vaOnlineSchedulingVAOSServiceVAAppointments:
+    'vaOnlineSchedulingVAOSServiceVAAppointments',
+  vaOnlineSchedulingVAOSServiceCCAppointments:
+    'vaOnlineSchedulingVAOSServiceCCAppointments',
   vaGlobalDowntimeNotification: 'vaGlobalDowntimeNotification',
   vaOnlineSchedulingHomepageRefresh: 'vaOnlineSchedulingHomepageRefresh',
   vaOnlineFacilitySelectionV22: 'vaOnlineFacilitySelectionV22',
@@ -84,4 +89,5 @@ export default Object.freeze({
   dependencyVerification: 'dependency_verification',
   form10182Nod: 'form10182_nod',
   canUpload1010cgPOA: 'can_upload_10_10cg_poa',
+  coeAccess: 'coe_access',
 });
