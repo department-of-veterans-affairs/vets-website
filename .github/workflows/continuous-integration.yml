@@ -256,6 +256,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+        env:
+          NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
       - name: Cache dependencies
         id: cache-dependencies
@@ -268,9 +270,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
-          env:
-            YARN_CACHE_FOLDER: ~/.cache/yarn
-            NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+          NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
       - name: Fetch Drupal cache
         run: yarn fetch-drupal-cache
