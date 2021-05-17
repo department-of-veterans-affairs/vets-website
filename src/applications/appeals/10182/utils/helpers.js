@@ -12,6 +12,8 @@ export const needsHearingType = formData =>
 export const wantsToUploadEvidence = formData =>
   canUploadEvidence(formData) && formData['view:additionalEvidence'];
 export const showAddIssues = formData => formData['view:hasIssuesToAdd'];
+export const otherTypeSelected = ({ areaOfDisagreement } = {}, index) =>
+  areaOfDisagreement?.[index]?.disagreementOptions?.other;
 
 export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);
@@ -23,6 +25,14 @@ export const showAddIssueQuestion = ({ contestableIssues }) =>
   // selected or, there are no contestable issues
   contestableIssues?.length ? someSelected(contestableIssues) : false;
 
+export const getSelected = ({ contestableIssues, additionalIssues } = {}) =>
+  (contestableIssues || [])
+    .filter(issue => issue[SELECTED])
+    .concat((additionalIssues || []).filter(issue => issue[SELECTED]));
+
+export const getIssueName = (entry = {}) =>
+  entry.issue || entry.attributes?.ratingIssueSubjectText;
+
 // Simple one level deep check
 export const isEmptyObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
@@ -31,6 +41,19 @@ export const isEmptyObject = obj =>
 
 export const setInitialEditMode = (formData = []) =>
   formData.map(({ issue, decisionDate } = {}) => !issue || !decisionDate);
+
+export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
+  if (loadedIssues.length !== existingIssues.length) {
+    return true;
+  }
+  return !loadedIssues.every(({ attributes }, index) => {
+    const existing = existingIssues[index]?.attributes || {};
+    return (
+      attributes.ratingIssueSubjectText === existing.ratingIssueSubjectText &&
+      attributes.approxDecisionDate === existing.approxDecisionDate
+    );
+  });
+};
 
 export const appStateSelector = state => ({
   // Validation functions are provided the pageData and not the

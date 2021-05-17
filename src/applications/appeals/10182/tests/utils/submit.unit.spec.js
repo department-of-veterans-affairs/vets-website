@@ -4,9 +4,10 @@ import { SELECTED, FORMAT_YMD } from '../../constants';
 
 import {
   getEligibleContestableIssues,
-  getIssueName,
+  createIssueName,
   getContestableIssues,
   addIncludedIssues,
+  addAreaOfDisagreement,
   addUploads,
   removeEmptyEntries,
   getAddress,
@@ -83,9 +84,9 @@ describe('getEligibleContestableIssues', () => {
   });
 });
 
-describe('getIssueName', () => {
+describe('createIssueName', () => {
   const getName = (name, description, percent) =>
-    getIssueName({
+    createIssueName({
       attributes: {
         ratingIssueSubjectText: name,
         ratingIssuePercentNumber: percent,
@@ -167,6 +168,73 @@ describe('addIncludedIssues', () => {
     expect(
       addIncludedIssues({ ...formData, additionalIssues: [] }),
     ).to.deep.equal([issue2.result]);
+  });
+});
+
+describe('addAreaOfDisagreement', () => {
+  it('should process a single choice', () => {
+    const formData = {
+      areaOfDisagreement: [
+        {
+          disagreementOptions: {
+            serviceConnection: true,
+            effectiveDate: false,
+          },
+        },
+        {
+          disagreementOptions: {
+            effectiveDate: true,
+            other: false,
+          },
+          otherEntry: 'test',
+        },
+      ],
+    };
+    const result = addAreaOfDisagreement(
+      [issue1.result, issue2.result],
+      formData,
+    );
+    expect(result[0].attributes.disagreementReason).to.equal(
+      'service connection',
+    );
+    expect(result[1].attributes.disagreementReason).to.equal('effective date');
+  });
+  it('should process multiple choices', () => {
+    const formData = {
+      areaOfDisagreement: [
+        {
+          disagreementOptions: {
+            serviceConnection: true,
+            effectiveDate: true,
+            evaluation: true,
+          },
+          otherEntry: 'test',
+        },
+      ],
+    };
+    const result = addAreaOfDisagreement([issue1.result], formData);
+    expect(result[0].attributes.disagreementReason).to.equal(
+      'service connection,effective date,disability evaluation',
+    );
+  });
+  it('should process other choice', () => {
+    const formData = {
+      areaOfDisagreement: [
+        {
+          disagreementOptions: {
+            serviceConnection: true,
+            effectiveDate: true,
+            evaluation: true,
+            other: true,
+          },
+          otherEntry: 'this is an other entry',
+        },
+      ],
+    };
+    const result = addAreaOfDisagreement([issue1.result], formData);
+    expect(result[0].attributes.disagreementReason).to.equal(
+      'service connection,effective date,disability evaluation,this is an other entry',
+    );
   });
 });
 

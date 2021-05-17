@@ -30,21 +30,23 @@ const PrevApplicationYear = ({
     return null;
   }
 
-  const prevApplicationYearLabel = (
-    <h4>What year did you apply for a discharge upgrade?</h4>
+  const label = (
+    <h4 className={`${key}_header`}>
+      What year did you apply for a discharge upgrade?
+    </h4>
   );
 
   const labelYear = prevApplicationYearCutoff[formValues['4_reason']];
 
-  const prevApplicationYearOptions = [
+  const options = [
     { label: `${labelYear} or earlier`, value: '1' },
     { label: `After ${labelYear}`, value: '2' },
   ];
 
   const radioButtonProps = {
     name: key,
-    label: prevApplicationYearLabel,
-    options: prevApplicationYearOptions,
+    label,
+    options,
     key,
     onValueChange: v => {
       if (v.dirty) {

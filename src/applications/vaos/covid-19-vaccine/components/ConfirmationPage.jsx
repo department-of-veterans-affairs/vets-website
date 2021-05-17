@@ -65,6 +65,7 @@ function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
               facility={facilityDetails}
               level={3}
               showDirectionsLink
+              showCovidPhone
             />
           </div>
         )}

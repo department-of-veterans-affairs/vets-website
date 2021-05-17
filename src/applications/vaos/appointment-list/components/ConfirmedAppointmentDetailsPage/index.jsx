@@ -28,7 +28,7 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import {
-  cancelAppointment,
+  startAppointmentCancel,
   closeCancelAppointment,
   confirmCancelAppointment,
   fetchConfirmedAppointmentDetails,
@@ -176,6 +176,8 @@ export default function ConfirmedAppointmentDetailsPage() {
     facility: facilityData[locationId],
   });
 
+  const showCovidPhone = appointment.vaos.isCOVIDVaccine;
+
   return (
     <PageLayout>
       <Breadcrumbs>
@@ -230,6 +232,7 @@ export default function ConfirmedAppointmentDetailsPage() {
               facilityId={facilityId}
               isHomepageRefresh
               clinicFriendlyName={appointment.location?.clinicName}
+              showCovidPhone={showCovidPhone}
             />
 
             {showInstructions &&
@@ -284,7 +287,9 @@ export default function ConfirmedAppointmentDetailsPage() {
                       className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
                     />
                     <button
-                      onClick={() => dispatch(cancelAppointment(appointment))}
+                      onClick={() =>
+                        dispatch(startAppointmentCancel(appointment))
+                      }
                       aria-label={`Cancel appointment on ${formatAppointmentDate(
                         moment.parseZone(appointment.start),
                       )}`}

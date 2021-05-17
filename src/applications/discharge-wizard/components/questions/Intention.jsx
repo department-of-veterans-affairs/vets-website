@@ -26,7 +26,7 @@ const Intention = ({
   }
 
   const label = (
-    <h4>
+    <h4 className={`${key}_header`}>
       Do you want to change your name, discharge date, or anything written in
       the “other remarks” section of your DD214?
     </h4>
