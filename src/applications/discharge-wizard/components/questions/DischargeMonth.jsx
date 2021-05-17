@@ -27,7 +27,7 @@ const DischargeMonthQuestion = ({
 
   const monthLabel = (
     <legend className="legend-label">
-      <h4>What month were you discharged?</h4>
+      <h4 className={`${key}_header`}>What month were you discharged?</h4>
     </legend>
   );
 
