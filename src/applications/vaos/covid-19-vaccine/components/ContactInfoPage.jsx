@@ -46,16 +46,9 @@ const uiSchema = {
   ),
   phoneNumber: {
     ...phoneConfig,
-    'ui:errorMessages': {
-      ...phoneConfig['ui:errorMessages'],
-      pattern: 'Please enter a 10-digit phone number (with or without dashes)',
-    },
   },
   email: {
-    'ui:title': 'Your email address',
-    'ui:errorMessages': {
-      ...emailConfig['ui:errorMessages'],
-    },
+    ...emailConfig,
   },
 };
 
