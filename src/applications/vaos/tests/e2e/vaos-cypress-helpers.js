@@ -654,9 +654,15 @@ export function initVaccineAppointmentMock({
       method: 'GET',
       url: '/vaos/v0/direct_booking_eligibility_criteria*',
       response: {
-        data: directEligibilityCriteria.data.filter(
-          facility => facility.id === 'covid',
-        ),
+        data: directEligibilityCriteria.data.map(facility => ({
+          ...facility,
+          attributes: {
+            ...facility.attributes,
+            coreSettings: facility.attributes.coreSettings.filter(
+              f => f.id !== 'covid',
+            ),
+          },
+        })),
       },
     });
   }
