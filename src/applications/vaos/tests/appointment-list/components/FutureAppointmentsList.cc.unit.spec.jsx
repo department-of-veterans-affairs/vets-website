@@ -226,20 +226,19 @@ describe('VAOS integration: upcoming CC appointments', () => {
       'LOCATION:123 Big Sky st\\, Bozeman\\, MT 59715',
     );
     expect(tokens[13]).to.equal(
-      `DTSTAMP:${moment(appointmentTime)
-        .utc()
+      `DTSTAMP:${moment(appointment.attributes.appointmentTime)
+        // .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
     expect(tokens[14]).to.equal(
-      `DTSTART:${moment(appointmentTime)
-        .utc()
+      `DTSTART:${moment(appointment.attributes.appointmentTime)
+        // .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
     expect(tokens[15]).to.equal(
-      `DTEND:${appointmentTime
-        .clone()
+      `DTEND:${moment(appointment.attributes.appointmentTime)
         .add(60, 'minutes')
-        .utc()
+        // .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
     expect(tokens[16]).to.equal('END:VEVENT');
