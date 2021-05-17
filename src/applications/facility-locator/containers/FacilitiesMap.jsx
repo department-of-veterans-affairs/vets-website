@@ -579,34 +579,48 @@ const FacilitiesMap = props => {
     }
   };
 
-  useEffect(() => {
-    if (map) {
-      setMapEventHandlers();
-    }
-  }, [map, props.currentQuery.searchCoords]);
+  useEffect(
+    () => {
+      if (map) {
+        setMapEventHandlers();
+      }
+    },
+    [map, props.currentQuery.searchCoords],
+  );
 
-  useEffect(() => {
-    searchCurrentArea();
-  }, [props.currentQuery.searchArea]);
+  useEffect(
+    () => {
+      searchCurrentArea();
+    },
+    [props.currentQuery.searchArea],
+  );
 
   useEffect(() => {
     setMap(setupMap());
-
-    setUpResizeEventListener() 
+    setUpResizeEventListener();
   }, []); // <-- empty array means 'run once'
 
-  useEffect(() => {
-    handleSearchOnQueryChange()
-  }, [props.currentQuery.id]);
+  useEffect(
+    () => {
+      handleSearchOnQueryChange();
+    },
+    [props.currentQuery.id],
+  );
 
-  useEffect(() => {
-    if (!map) return;
-    renderMarkers(props.results);
-  }, [props.results, map]);
+  useEffect(
+    () => {
+      if (!map) return;
+      renderMarkers(props.results);
+    },
+    [props.results, map],
+  );
 
-  useEffect(() => {
-    handleMapOnNoResultsFound()
-  }, [props.currentQuery.searchCoords, props.results]);
+  useEffect(
+    () => {
+      handleMapOnNoResultsFound();
+    },
+    [props.currentQuery.searchCoords, props.results],
+  );
 
   return (
     <>
