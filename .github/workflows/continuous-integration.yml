@@ -234,10 +234,9 @@ jobs:
     runs-on: self-hosted
     defaults:
       run:
-        working-directory: vets-website
-
-    # env:
-    #   NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+        working-directory: vets-websits
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     steps:
       - name: Checkout vagov-content
@@ -271,9 +270,9 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
-          NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+          env:
+            YARN_CACHE_FOLDER: ~/.cache/yarn
+            NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
       - name: Fetch Drupal cache
         run: yarn fetch-drupal-cache
