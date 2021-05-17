@@ -30,6 +30,8 @@ import {
   mockPreferences,
   mockRequestSubmit,
 } from '../../../mocks/helpers';
+
+import { mockAppointmentSubmit } from '../../../mocks/helpers.vaos';
 import { getVAFacilityMock } from '../../../mocks/v0';
 
 const initialState = {
@@ -46,6 +48,17 @@ const initialStateHomepageRefresh = {
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
     vaOnlineSchedulingHomepageRefresh: true,
+  },
+};
+
+const initialStateVAOSService = {
+  featureToggles: {
+    vaOnlineSchedulingCancel: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
+    vaOnlineSchedulingHomepageRefresh: true,
+    vaOnlineSchedulingVAOSServiceRequests: true,
+    vaOnlineSchedulingProviderSelection: true,
   },
 };
 
@@ -599,5 +612,110 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     );
 
     expect(screen.history.push.called).to.be.false;
+  });
+});
+
+describe('VAOS <ReviewPage> CC request with VAOS service', () => {
+  let store;
+  let start;
+
+  beforeEach(() => {
+    mockFetch();
+    start = moment();
+    store = createTestStore({
+      ...initialStateVAOSService,
+      newAppointment: {
+        pages: {},
+        data: {
+          facilityType: FACILITY_TYPES.COMMUNITY_CARE,
+          typeOfCareId: '323',
+          phoneNumber: '1234567890',
+          email: 'joeblow@gmail.com',
+          reasonAdditionalInfo: 'I need an appt',
+          communityCareSystemId: '983',
+          preferredLanguage: 'english',
+          hasCommunityCareProvider: true,
+          communityCareProvider: {
+            resourceType: 'Location',
+            identifier: [
+              {
+                system: 'PPMS',
+                value: 'ppmsid',
+              },
+            ],
+            address: {
+              line: ['1012 14TH ST NW STE 700'],
+              city: 'WASHINGTON',
+              state: 'DC',
+              postalCode: '20005-3477',
+            },
+            name: 'CAMPBELL, WILLIAM',
+          },
+          bestTimeToCall: {
+            morning: true,
+            afternoon: true,
+            evening: true,
+          },
+        },
+        clinics: {},
+        ccEnabledSystems: [
+          {
+            id: '983',
+            identifier: [
+              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+              {
+                system: 'http://med.va.gov/fhir/urn',
+                value: 'urn:va:facility:983',
+              },
+            ],
+          },
+        ],
+        parentFacilities: [
+          {
+            id: '983',
+            identifier: [
+              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+              {
+                system: 'http://med.va.gov/fhir/urn',
+                value: 'urn:va:facility:983',
+              },
+            ],
+          },
+        ],
+        facilities: {},
+      },
+    });
+    store.dispatch(startRequestAppointmentFlow());
+    store.dispatch(
+      onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
+    );
+  });
+  afterEach(() => resetFetch());
+
+  it('should submit successfully', async () => {
+    mockAppointmentSubmit({
+      id: 'fake_id',
+    });
+    mockPreferences(null);
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText(/requesting a community care appointment/i);
+
+    userEvent.click(screen.getByText(/Request appointment/i));
+    await waitFor(() => {
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/requests/fake_id?confirmMsg=true',
+      );
+    });
+
+    const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
+
+    expect(submitData.locationId).to.equal('983');
+    expect(submitData.kind).to.equal('cc');
+    expect(submitData.serviceType).to.equal('CCPRMYRTNE');
+    expect(submitData.practitioners[0]).to.equal('ppmsid');
   });
 });

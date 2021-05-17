@@ -280,12 +280,31 @@ export function transformFormToAppointment(state) {
 
 export function transformFormToVAOSCCRequest(state) {
   const data = getFormData(state);
-  const useProviderSelection = selectUseProviderSelection(state);
   const provider = data.communityCareProvider;
+  const residentialAddress = selectVAPResidentialAddress(state);
+  const parentFacility = getChosenCCSystemId(state);
   let practitioners = [];
 
-  if (useProviderSelection && !!provider && Object.keys(provider).length) {
-    practitioners = [data.communityCareProvider.id];
+  if (provider?.identifier) {
+    practitioners = [
+      data.communityCareProvider.identifier.find(item => item.system === 'PPMS')
+        ?.value,
+    ];
+  }
+
+  let preferredCity;
+
+  if (
+    residentialAddress &&
+    residentialAddress.addressType !== 'MILITARY OVERSEAS'
+  ) {
+    preferredCity = `${residentialAddress.city}, ${
+      residentialAddress.stateCode
+    }`;
+  } else {
+    preferredCity = `${parentFacility.address?.city}, ${
+      parentFacility.address?.state
+    }`;
   }
 
   const typeOfCare = getTypeOfCare(data);
@@ -316,9 +335,14 @@ export function transformFormToVAOSCCRequest(state) {
         .subtract(1, 'minute')
         .format(),
     })),
-    practitioners,
     preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
+    // These three fields aren't in the current schema, but probably should be
+    preferredLanguage: LANGUAGES.find(
+      lang => lang.id === data.preferredLanguage,
+    )?.value,
+    preferredCity,
+    practitioners,
   };
 }

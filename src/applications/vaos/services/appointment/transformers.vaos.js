@@ -49,7 +49,8 @@ export function transformVAOSAppointment(appt) {
     },
     communityCareProvider:
       appt.start && appt.kind === 'cc' ? { id: appt.practitioners[0] } : null,
-    preferredCommunityCareProviders: appt.practitioners.map(id => ({ id })),
+    preferredCommunityCareProviders:
+      appt.practitioners?.map(id => ({ id })) || [],
     vaos: {
       isVideo,
       appointmentType: getAppointmentType(appt),

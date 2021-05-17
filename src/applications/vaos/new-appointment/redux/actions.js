@@ -1033,24 +1033,26 @@ export function submitAppointmentOrRequest(history) {
           requestData = await submitRequest('va', requestBody);
         }
 
-        try {
-          const requestMessage = data.reasonAdditionalInfo;
-          if (requestMessage) {
-            await sendRequestMessage(requestData.id, requestMessage);
+        if (!featureVAOSServiceRequests) {
+          try {
+            const requestMessage = data.reasonAdditionalInfo;
+            if (requestMessage) {
+              await sendRequestMessage(requestData.id, requestMessage);
+            }
+            await buildPreferencesDataAndUpdate(data.email);
+          } catch (error) {
+            // These are ancillary updates, the request went through if the first submit
+            // succeeded
+            captureError(error, false, 'Request message failure', {
+              messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
+              hasLineBreak: newAppointment?.data?.reasonAdditionalInfo?.includes(
+                '\r\n',
+              ),
+              hasNewLine: newAppointment?.data?.reasonAdditionalInfo?.includes(
+                '\n',
+              ),
+            });
           }
-          await buildPreferencesDataAndUpdate(data.email);
-        } catch (error) {
-          // These are ancillary updates, the request went through if the first submit
-          // succeeded
-          captureError(error, false, 'Request message failure', {
-            messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
-            hasLineBreak: newAppointment?.data?.reasonAdditionalInfo?.includes(
-              '\r\n',
-            ),
-            hasNewLine: newAppointment?.data?.reasonAdditionalInfo?.includes(
-              '\n',
-            ),
-          });
         }
 
         dispatch({
