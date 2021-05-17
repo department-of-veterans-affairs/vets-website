@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AccordionDropdown from '../AccordionDropdown';
+import SearchAccordion from '../SearchAccordion';
 import SearchBenefits from '../SearchBenefits';
 import RadioButtons from '../RadioButtons';
 import LearnMoreLabel from '../LearnMoreLabel';
@@ -59,7 +59,7 @@ export function TuitionAndHousingEstimates({
 
   return (
     <div>
-      <AccordionDropdown
+      <SearchAccordion
         button="Update tuition and housing estimates"
         buttonLabel="Update results"
         buttonOnClick={updateStore}
@@ -103,7 +103,7 @@ export function TuitionAndHousingEstimates({
             setOnlineClasses(e.target.value);
           }}
         />
-      </AccordionDropdown>
+      </SearchAccordion>
     </div>
   );
 }
