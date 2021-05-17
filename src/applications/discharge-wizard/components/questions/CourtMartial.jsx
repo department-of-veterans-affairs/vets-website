@@ -30,7 +30,7 @@ const CourtMartial = ({
   }
 
   const label = (
-    <h4>
+    <h4 className={`${key}_header`}>
       Was your discharge the outcome of a <strong>general</strong>{' '}
       court-martial?
     </h4>

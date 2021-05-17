@@ -112,20 +112,6 @@ describe('VAOS appointment list refresh', () => {
       cy.axeCheckBestPractice();
     });
 
-    it('express care appointment', () => {
-      cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
-      cy.get('[data-cy=appointment-list-item]')
-        .contains(/Express Care request/i)
-        .parent()
-        .findByText(/Details/i)
-        .click();
-      cy.url().should('include', '/appointments/express-care');
-      cy.get('[data-cy=express-care-appointment-details-header]')
-        .should('exist')
-        .contains('Express Care request');
-      cy.axeCheckBestPractice();
-    });
-
     it('va video appointment', () => {
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')

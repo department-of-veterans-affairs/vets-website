@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
-import { selectExpressCareAvailability } from '../../redux/selectors';
 import {
   selectFeatureRequests,
   selectIsWelcomeModalDismissed,
-  selectIsCernerOnlyPatient,
 } from '../../../redux/selectors';
-import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import RequestExpressCare from './RequestExpressCareV2';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
@@ -21,10 +16,6 @@ import DowntimeNotification, {
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
 import ScheduleNewAppointmentRadioButtons from '../ScheduleNewAppointmentRadioButtons';
-import {
-  fetchExpressCareWindows,
-  startNewExpressCareFlow,
-} from '../../redux/actions';
 
 const pageTitle = 'VA appointments';
 
@@ -55,29 +46,15 @@ function getDropdownValueFromLocation(pathname) {
 }
 
 export default function AppointmentsPageV2() {
-  const dispatch = useDispatch();
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   const showScheduleButton = useSelector(state => selectFeatureRequests(state));
   const isWelcomeModalDismissed = useSelector(state =>
     selectIsWelcomeModalDismissed(state),
   );
-  const isCernerOnlyPatient = useSelector(state =>
-    selectIsCernerOnlyPatient(state),
-  );
-  const expressCare = useSelector(state =>
-    selectExpressCareAvailability(state),
-  );
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
-
-    if (
-      expressCare.useNewFlow &&
-      expressCare.windowsStatus === FETCH_STATUS.notStarted
-    ) {
-      dispatch(fetchExpressCareWindows());
-    }
   }, []);
 
   useEffect(
@@ -117,21 +94,7 @@ export default function AppointmentsPageV2() {
           <WarningNotification {...props}>{childContent}</WarningNotification>
         )}
       />
-
       {showScheduleButton && <ScheduleNewAppointmentRadioButtons />}
-
-      {expressCare.useNewFlow &&
-        !isCernerOnlyPatient && (
-          <RequestExpressCare
-            {...expressCare}
-            startNewExpressCareFlow={() => {
-              recordEvent({
-                event: `${GA_PREFIX}-express-care-request-button-clicked`,
-              });
-              dispatch(startNewExpressCareFlow());
-            }}
-          />
-        )}
       <h2 className="vads-u-margin-y--3">Your appointments</h2>
       <label
         htmlFor="type-dropdown"

@@ -9,6 +9,7 @@ export const PROFILE_URL = '/profile';
 export const DECISION_REVIEWS_URL = '/decision-reviews/';
 export const FACILITY_LOCATOR_URL = '/find-locations';
 export const CONTESTED_CLAIMS_URL = '/decision-reviews/contested-claims';
+export const BOARD_APPEAL_OPTIONS_URL = '/decision-reviews/board-appeal/';
 export const GET_HELP_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
 
@@ -37,3 +38,8 @@ export const MAX_FILE_SIZE_MB = 100;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
 export const MAX_NEW_CONDITIONS = 99;
+
+// see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v1/10182.json
+export const MAX_ISSUE_LENGTH = 180;
+export const MAX_REP_NAME_LENGTH = 120;
+export const MAX_DISAGREEMENT_REASON_LENGTH = 90;

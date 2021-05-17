@@ -5,6 +5,7 @@ import DebtCard from './DebtCard';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 const NoDebts = () => (
   <div className="usa-alert background-color-only">
@@ -26,6 +27,14 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts }) => {
     },
     [getDebts],
   );
+
+  if (pendingDebts) {
+    return (
+      <div className="vads-u-margin--5">
+        <LoadingIndicator setFocus message="Loading your information..." />
+      </div>
+    );
+  }
 
   return !pendingDebts && debts.length ? (
     <>

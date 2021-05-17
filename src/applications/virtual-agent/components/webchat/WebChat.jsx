@@ -7,7 +7,7 @@ const renderMarkdown = text => MarkdownRenderer.render(text);
 const WebChat = ({ token, WebChatFramework }) => {
   const { ReactWebChat, createDirectLine, createStore } = WebChatFramework;
 
-  const store = createStore({}, makeBotGreetUser);
+  const store = useMemo(() => createStore({}, makeBotGreetUser), [createStore]);
 
   const directLine = useMemo(
     () =>

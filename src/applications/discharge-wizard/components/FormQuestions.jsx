@@ -1,31 +1,34 @@
 // Dependencies.
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Scroll from 'react-scroll';
 
 // Relative Imports
+import { focusElement } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 import AnswerReview from './AnswerReview';
 import Questions from './questions';
-import { focusElement } from 'platform/utilities/ui';
 
 const scroller = Scroll.scroller;
 
-class FormQuestions extends Component {
-  componentDidMount() {
-    Scroll.animateScroll.scrollToTop();
-    const el = document.getElementById('dw-home-link');
-    focusElement(el);
-  }
+const FormQuestions = ({ formValues, updateFormField }) => {
+  useEffect(
+    () => {
+      // Helps screen reader read the next question
+      const nextEl = formValues.questions.slice()[
+        formValues.questions.length - 1
+      ];
+      const header = document.querySelector(`h4[class="${nextEl}_header"]`);
+      if (header) {
+        focusElement(header);
+      }
+    },
+    [formValues.questions],
+  );
 
-  updateField = (name, value) => {
-    this.props.updateField(name, value);
-    this.forceUpdate();
-  };
-
-  scrollToLast = action => {
+  const scrollToLast = action => {
     setTimeout(() => {
-      const el = this.props.formValues.questions.slice(-1)[0];
+      const el = formValues.questions.slice(-1)[0];
       scroller.scrollTo(
         el,
         window.VetsGov?.scroll || {
@@ -40,14 +43,14 @@ class FormQuestions extends Component {
     }, 100);
   };
 
-  handleKeyDown = e => {
+  const handleKeyDown = e => {
     // only scroll to next question if user tabs out of the current one
     if (
       !e.shiftKey &&
       e.keyCode === 9 &&
       ['INPUT', 'SELECT'].includes(document.activeElement.tagName)
     ) {
-      const next = this.props.formValues.questions.slice(-1)[0];
+      const next = formValues.questions.slice(-1)[0];
       const curr = e.target.name;
 
       if (
@@ -55,17 +58,18 @@ class FormQuestions extends Component {
         curr &&
         parseInt(next.charAt(0), 10) > parseInt(curr.charAt(0), 10)
       ) {
-        const el = this.props.formValues.questions.slice(-1)[0];
-        this.scrollToLast(() => {
+        const el = formValues.questions.slice(-1)[0];
+        scrollToLast(() => {
           (
-            this[el].querySelector('input') || this[el].querySelector('select')
+            document.querySelector(`input[name="${el}"]`) ||
+            document.querySelector(`select[name="${el}"]`)
           ).focus();
         });
       }
     }
   };
 
-  handleScrollTo = e => {
+  const handleScrollTo = e => {
     e.preventDefault();
 
     recordEvent({ event: 'discharge-upgrade-review-edit' });
@@ -78,36 +82,30 @@ class FormQuestions extends Component {
         offset: -150,
       },
     );
-
     (
       document.querySelector(`input[name="${e.target.name}"]`) ||
       document.querySelector(`select[name="${e.target.name}"]`)
     ).focus();
   };
 
-  render() {
-    return (
-      <section className="dw-questions">
-        {Questions.map((Question, index) => (
-          <Question
-            key={index + 1}
-            formValues={this.props.formValues}
-            handleKeyDown={this.handleKeyDown}
-            scrollToLast={this.scrollToLast}
-            updateField={this.updateField}
-          />
-        ))}
-        <AnswerReview
-          formValues={this.props.formValues}
-          handleScrollTo={(this, this.handleScrollTo)}
+  return (
+    <section className="dw-questions">
+      {Questions.map((Question, index) => (
+        <Question
+          key={index + 1}
+          formValues={formValues}
+          handleKeyDown={handleKeyDown}
+          scrollToLast={scrollToLast}
+          updateField={updateFormField}
         />
-      </section>
-    );
-  }
-}
+      ))}
+      <AnswerReview formValues={formValues} handleScrollTo={handleScrollTo} />
+    </section>
+  );
+};
 
 FormQuestions.propTypes = {
-  updateField: PropTypes.func.isRequired,
+  updateFormField: PropTypes.func.isRequired,
   formValues: PropTypes.object.isRequired,
 };
 
