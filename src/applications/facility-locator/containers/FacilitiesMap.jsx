@@ -500,44 +500,29 @@ const FacilitiesMap = props => {
     );
   };
 
-  useEffect(
-    () => {
-      if (map) {
-        setMapEventHandlers();
-      }
-    },
-    [map, props.currentQuery.searchCoords],
-  );
+  const searchCurrentArea = () => {
+    const { currentQuery } = props;
+    const { searchArea, context, searchString } = currentQuery;
+    const coords = currentQuery.position;
+    const radius = currentQuery.radius;
+    const center = [coords.latitude, coords.longitude];
+    if (searchArea) {
+      updateUrlParams({
+        context,
+        searchString,
+      });
+      props.searchWithBounds({
+        bounds: props.currentQuery.bounds,
+        facilityType: props.currentQuery.facilityType,
+        serviceType: props.currentQuery.serviceType,
+        page: props.currentQuery.currentPage,
+        center,
+        radius,
+      });
+    }
+  };
 
-  useEffect(
-    () => {
-      const { currentQuery } = props;
-      const { searchArea, context, searchString } = currentQuery;
-      const coords = currentQuery.position;
-      const radius = currentQuery.radius;
-      const center = [coords.latitude, coords.longitude];
-      // Search current area
-      if (searchArea) {
-        updateUrlParams({
-          context,
-          searchString,
-        });
-        props.searchWithBounds({
-          bounds: props.currentQuery.bounds,
-          facilityType: props.currentQuery.facilityType,
-          serviceType: props.currentQuery.serviceType,
-          page: props.currentQuery.currentPage,
-          center,
-          radius,
-        });
-      }
-    },
-    [props.currentQuery.searchArea],
-  );
-
-  useEffect(() => {
-    setMap(setupMap());
-
+  const setUpResizeEventListener = () => {
     const setMobile = () => {
       setIsMobile(window.innerWidth <= 481);
     };
@@ -549,67 +534,79 @@ const FacilitiesMap = props => {
     return () => {
       window.removeEventListener('resize', debouncedResize);
     };
+  };
+
+  const handleSearchOnQueryChange = () => {
+    if (isSearching) {
+      updateUrlParams({
+        context: props.currentQuery.context,
+        address: props.currentQuery.searchString,
+      });
+      const { currentQuery } = props;
+      const coords = currentQuery.position;
+      const radius = currentQuery.radius;
+      const center = [coords.latitude, coords.longitude];
+      const resultsPage = currentQuery.currentPage;
+
+      if (!props.searchBoundsInProgress) {
+        props.searchWithBounds({
+          bounds: props.currentQuery.bounds,
+          facilityType: props.currentQuery.facilityType,
+          serviceType: props.currentQuery.serviceType,
+          page: resultsPage,
+          center,
+          radius,
+        });
+        setIsSearching(false);
+      }
+    }
+  };
+
+  const handleMapOnNoResultsFound = () => {
+    if (
+      props.results &&
+      props.results.length === 0 &&
+      map &&
+      props.currentQuery.searchCoords
+    ) {
+      const { searchCoords } = props.currentQuery;
+      const locationBounds = new mapboxgl.LngLatBounds();
+      addMapMarker(searchCoords);
+      locationBounds.extend(
+        new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
+      );
+      map.fitBounds(locationBounds, { maxZoom: 12 });
+    }
+  };
+
+  useEffect(() => {
+    if (map) {
+      setMapEventHandlers();
+    }
+  }, [map, props.currentQuery.searchCoords]);
+
+  useEffect(() => {
+    searchCurrentArea();
+  }, [props.currentQuery.searchArea]);
+
+  useEffect(() => {
+    setMap(setupMap());
+
+    setUpResizeEventListener() 
   }, []); // <-- empty array means 'run once'
 
-  // Handle search when query changes
-  useEffect(
-    () => {
-      if (isSearching) {
-        updateUrlParams({
-          context: props.currentQuery.context,
-          address: props.currentQuery.searchString,
-        });
-        const { currentQuery } = props;
-        const coords = currentQuery.position;
-        const radius = currentQuery.radius;
-        const center = [coords.latitude, coords.longitude];
-        const resultsPage = currentQuery.currentPage;
+  useEffect(() => {
+    handleSearchOnQueryChange()
+  }, [props.currentQuery.id]);
 
-        if (!props.searchBoundsInProgress) {
-          props.searchWithBounds({
-            bounds: props.currentQuery.bounds,
-            facilityType: props.currentQuery.facilityType,
-            serviceType: props.currentQuery.serviceType,
-            page: resultsPage,
-            center,
-            radius,
-          });
-          setIsSearching(false);
-        }
-      }
-    },
-    [props.currentQuery.id],
-  );
+  useEffect(() => {
+    if (!map) return;
+    renderMarkers(props.results);
+  }, [props.results, map]);
 
-  // Handle build markers when we get results
-  useEffect(
-    () => {
-      if (!map) return;
-      renderMarkers(props.results);
-    },
-    [props.results, map],
-  );
-
-  // Handle no results found map transition
-  useEffect(
-    () => {
-      if (
-        props.results &&
-        props.results.length === 0 &&
-        map &&
-        props.currentQuery.searchCoords
-      ) {
-        const { searchCoords } = props.currentQuery;
-        const locationBounds = new mapboxgl.LngLatBounds();
-        addMapMarker(searchCoords);
-        locationBounds.extend(
-          new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
-        );
-        map.fitBounds(locationBounds, { maxZoom: 12 });
-      }
-    },
-    [props.currentQuery.searchCoords, props.results],
-  );
+  useEffect(() => {
+    handleMapOnNoResultsFound()
+  }, [props.currentQuery.searchCoords, props.results]);
 
   return (
     <>
