@@ -70,7 +70,12 @@ const UnStyledButtonInAccordion = styled.button`
   width: auto !important;
 `;
 
-const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
+const SharableLink = ({
+  dataEntityId,
+  idx,
+  showSharableLink,
+  sharableText,
+}) => {
   const [feedbackActive, setFeedbackActive] = useState(false);
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
@@ -155,17 +160,13 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
     hideFeedback(iconElement.getAttribute('id'));
   };
 
-  const extractH3Text = () => {
-    return document.querySelector(`#${dataEntityId} h3`).innerText;
-  };
-
-  if (showSharableLink) {
+  if (true) {
     return (
       <ThemeProvider theme={theme.main}>
         <span aria-live="polite" aria-relevant="additions">
           <UnStyledButtonInAccordion
             className="usa-button-unstyled"
-            aria-label={`Copy a link for ${extractH3Text()}`}
+            aria-label={`Copy a link for ${sharableText}`}
             id={`button-${dataEntityId}`}
             onClick={event => {
               // this event has event.target as the icon
