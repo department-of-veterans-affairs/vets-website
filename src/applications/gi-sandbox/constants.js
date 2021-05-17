@@ -52,6 +52,11 @@ export const MIN_RADIUS = 10;
  */
 export const BOUNDING_RADIUS = 0.75;
 
+export const TABS = Object.freeze({
+  name: 'name',
+  location: 'location',
+});
+
 export const ariaLabels = Object.freeze({
   learnMore: {
     giBillBenefits: 'Learn more about VA education and training programs',

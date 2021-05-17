@@ -9,6 +9,7 @@ import {
   GEOCODE_STARTED,
   GEOCODE_FAILED,
   GEOCODE_UPDATED,
+  UPDATE_CURRENT_SEARCH_TAB,
 } from '../actions';
 import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
 
@@ -16,7 +17,13 @@ const INITIAL_STATE = {
   results: [],
   count: null,
   version: {},
-  query: { name: '', location: '', distance: '50' },
+  query: {
+    name: '',
+    location: '',
+    distance: '50',
+    latitude: null,
+    longitude: null,
+  },
   pagination: {
     currentPage: 1,
     totalPages: 1,
@@ -39,6 +46,11 @@ const INITIAL_STATE = {
   geocodeInProgress: false,
   geolocationInProgress: false,
   geocode: {},
+  location: {
+    count: null,
+    results: [],
+  },
+  tab: 'name',
 };
 
 function uppercaseKeys(obj) {
@@ -88,10 +100,16 @@ function buildSearchResults(payload, paging = true) {
 
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case UPDATE_CURRENT_SEARCH_TAB:
+      return {
+        ...state,
+        tab: action.tab,
+      };
+
     case SEARCH_BY_LOCATION_SUCCEEDED:
       return {
         ...state,
-        ...buildSearchResults(action.payload, false),
+        location: { ...buildSearchResults(action.payload, false) },
         inProgress: false,
         error: null,
       };

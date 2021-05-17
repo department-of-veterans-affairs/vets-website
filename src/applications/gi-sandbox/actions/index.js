@@ -43,6 +43,7 @@ export const SEARCH_BY_LOCATION_SUCCEEDED = 'SEARCH_BY_LOCATION_SUCCEEDED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
+export const UPDATE_CURRENT_SEARCH_TAB = 'UPDATE_CURRENT_TAB';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 
@@ -208,11 +209,12 @@ export function updateEstimatedBenefits(estimatedBenefits) {
   return { type: UPDATE_ESTIMATED_BENEFITS, estimatedBenefits };
 }
 
-export function fetchSearchByNameResults(name, filterFields, version) {
+export function fetchSearchByNameResults(name, filterFields, version, tab) {
   const url = appendQuery(`${api.url}/institutions/search`, {
     name,
     ...rubyifyKeys(filterFields),
     version,
+    tab,
   });
 
   return dispatch => {
@@ -273,6 +275,13 @@ export function fetchNameAutocompleteSuggestions(term, filterFields, version) {
       .catch(err => {
         dispatch({ type: AUTOCOMPLETE_FAILED, err });
       });
+}
+
+export function changeSearchTab(tab) {
+  return {
+    type: UPDATE_CURRENT_SEARCH_TAB,
+    tab,
+  };
 }
 
 /**
@@ -339,7 +348,7 @@ export const genBBoxFromGeocode = features => {
 /**
  * Finds results based on parameters for action SEARCH_BY_LOCATION_SUCCEEDED
  */
-export function fetchSearchByLocationResults(query, distance) {
+export function fetchSearchByLocationResults(query, distance, tab) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
   if (!query) {
@@ -377,7 +386,7 @@ export function fetchSearchByLocationResults(query, distance) {
         const longitude = coordinates[0];
         const url = appendQuery(
           `${api.url}/institutions/search`,
-          rubyifyKeys({ latitude, longitude, distance }),
+          rubyifyKeys({ latitude, longitude, distance, tab }),
         );
 
         dispatch({
