@@ -4,6 +4,8 @@ import { SELECTED } from '../../constants';
 import {
   someSelected,
   hasSomeSelected,
+  getSelected,
+  getIssueName,
   showAddIssueQuestion,
   isEmptyObject,
   setInitialEditMode,
@@ -46,6 +48,60 @@ describe('hasSomeSelected', () => {
     expect(
       testIssues([{}, { [SELECTED]: false }], [{}, {}, { [SELECTED]: false }]),
     ).to.be.false;
+  });
+});
+
+describe('getSelected', () => {
+  it('should return selected contestable issues', () => {
+    expect(
+      getSelected({
+        contestableIssues: [
+          { type: 'no', [SELECTED]: false },
+          { type: 'ok', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([{ type: 'ok', [SELECTED]: true }]);
+  });
+  it('should return selected additional issues', () => {
+    expect(
+      getSelected({
+        additionalIssues: [
+          { type: 'no', [SELECTED]: false },
+          { type: 'ok', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([{ type: 'ok', [SELECTED]: true }]);
+  });
+  it('should return all selected issues', () => {
+    expect(
+      getSelected({
+        contestableIssues: [
+          { type: 'no1', [SELECTED]: false },
+          { type: 'ok1', [SELECTED]: true },
+        ],
+        additionalIssues: [
+          { type: 'no2', [SELECTED]: false },
+          { type: 'ok2', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([
+      { type: 'ok1', [SELECTED]: true },
+      { type: 'ok2', [SELECTED]: true },
+    ]);
+  });
+});
+
+describe('getIssueName', () => {
+  it('should return undefined', () => {
+    expect(getIssueName()).to.be.undefined;
+  });
+  it('should return a contestable issue name', () => {
+    expect(
+      getIssueName({ attributes: { ratingIssueSubjectText: 'test' } }),
+    ).to.eq('test');
+  });
+  it('should return an added issue name', () => {
+    expect(getIssueName({ issue: 'test2' })).to.eq('test2');
   });
 });
 
