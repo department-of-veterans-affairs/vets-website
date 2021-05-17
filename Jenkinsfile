@@ -17,33 +17,30 @@ node('vetsgov-general-purpose') {
   // setupStage
   dockerContainer = commonStages.setup()
 
-  stage('Review') {
-    if (commonStages.shouldBail()) {
-      currentBuild.result = 'ABORTED'
-      return
-    }
-
-    try {
-      if (!commonStages.isReviewable()) {
-        return
-      }
-      build job: 'deploys/vets-review-instance-deploy', parameters: [
-        stringParam(name: 'devops_branch', value: 'master'),
-        stringParam(name: 'api_branch', value: 'master'),
-        stringParam(name: 'web_branch', value: env.BRANCH_NAME),
-        stringParam(name: 'content_branch', value: env.BRANCH_NAME),
-        stringParam(name: 'source_repo', value: 'vets-website'),
-      ], wait: false
-    } catch (error) {
-      commonStages.slackNotify()
-      throw error
-    }
-  }
-
   stage('Main') {
     try {
       parallel (
         failFast: true,
+
+        startReviewInstance {
+          if (commonStages.shouldBail()) { return }
+
+          try {
+            if (!commonStages.isReviewable()) {
+              return
+            }
+            build job: 'deploys/vets-review-instance-deploy', parameters: [
+              stringParam(name: 'devops_branch', value: 'master'),
+              stringParam(name: 'api_branch', value: 'master'),
+              stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+              stringParam(name: 'content_branch', value: env.BRANCH_NAME),
+              stringParam(name: 'source_repo', value: 'vets-website'),
+            ], wait: false
+          } catch (error) {
+            commonStages.slackNotify()
+            throw error
+          }
+        }
 
         buildDev: {
           if (commonStages.shouldBail()) { return }
