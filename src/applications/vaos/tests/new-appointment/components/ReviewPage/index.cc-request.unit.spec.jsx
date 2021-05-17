@@ -617,13 +617,26 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
 
 describe('VAOS <ReviewPage> CC request with VAOS service', () => {
   let store;
-  let start;
 
   beforeEach(() => {
     mockFetch();
-    start = moment();
     store = createTestStore({
       ...initialStateVAOSService,
+      user: {
+        profile: {
+          facilities: [{ facilityId: '983', isCerner: false }],
+          vapContactInfo: {
+            residentialAddress: {
+              addressLine1: '123 big sky st',
+              city: 'Cincinnati',
+              stateCode: 'OH',
+              zipCode: '45220',
+              latitude: 39.1,
+              longitude: -84.6,
+            },
+          },
+        },
+      },
       newAppointment: {
         pages: {},
         data: {
@@ -635,6 +648,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
           communityCareSystemId: '983',
           preferredLanguage: 'english',
           hasCommunityCareProvider: true,
+          selectedDates: ['2020-05-25T00:00:00.000', '2020-05-26T12:00:00.000'],
           communityCareProvider: {
             resourceType: 'Location',
             identifier: [
@@ -661,34 +675,11 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
         ccEnabledSystems: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
-          },
-        ],
-        parentFacilities: [
-          {
-            id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
           },
         ],
         facilities: {},
       },
     });
-    store.dispatch(startRequestAppointmentFlow());
-    store.dispatch(
-      onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
-    );
   });
   afterEach(() => resetFetch());
 
@@ -713,9 +704,82 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
 
     const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
 
-    expect(submitData.locationId).to.equal('983');
-    expect(submitData.kind).to.equal('cc');
-    expect(submitData.serviceType).to.equal('CCPRMYRTNE');
-    expect(submitData.practitioners[0]).to.equal('ppmsid');
+    expect(submitData).to.deep.equal({
+      kind: 'cc',
+      status: 'proposed',
+      locationId: '983',
+      serviceType: 'CCPRMYRTNE',
+      reason: 'I need an appt',
+      contact: {
+        telecom: [
+          {
+            type: 'phone',
+            value: '1234567890',
+          },
+          {
+            type: 'email',
+            value: 'joeblow@gmail.com',
+          },
+        ],
+      },
+      requestedPeriods: [
+        {
+          start: '2020-05-25T00:00:00Z',
+          end: '2020-05-25T11:59:00Z',
+        },
+        {
+          start: '2020-05-26T12:00:00Z',
+          end: '2020-05-26T23:59:00Z',
+        },
+      ],
+      preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
+      preferredLanguage: 'English',
+      preferredCity: 'Cincinnati, OH',
+      practitioners: ['ppmsid'],
+    });
+  });
+
+  it('should show error message on failure', async () => {
+    mockFacilityFetch('vha_442', {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    });
+    setFetchJSONFailure(
+      global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
+      {
+        errors: [{}],
+      },
+    );
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText(/requesting a community care appointment/i);
+
+    userEvent.click(screen.getByText(/Request appointment/i));
+
+    await screen.findByText('We couldn’t schedule this appointment');
+
+    expect(screen.baseElement).contain.text(
+      'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
+    );
+
+    expect(screen.history.push.called).to.be.false;
   });
 });
