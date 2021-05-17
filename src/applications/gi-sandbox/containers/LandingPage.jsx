@@ -5,6 +5,8 @@ import { setPageTitle, changeSearchTab } from '../actions';
 import { PAGE_TITLE } from '../constants';
 import SearchResults from '../components/SearchResults';
 import SearchTabs from '../components/search/SearchTabs';
+import { useQueryParams } from '../utils/helpers';
+import { useHistory } from 'react-router-dom';
 
 export function LandingPage({
   search,
@@ -14,6 +16,15 @@ export function LandingPage({
   useEffect(() => {
     dispatchSetPageTitle(`${PAGE_TITLE}: VA.gov`);
   }, []);
+  const queryParams = useQueryParams();
+  const history = useHistory();
+
+  const tabChange = tab => {
+    dispatchChangeSearchTab(tab);
+
+    queryParams.set('tab', tab);
+    history.push({ pathname: '/', search: queryParams.toString() });
+  };
 
   return (
     <span className="landing-page">
@@ -26,7 +37,7 @@ export function LandingPage({
               can pay for your education.
             </p>
           </div>
-          <SearchTabs onChange={dispatchChangeSearchTab} />
+          <SearchTabs onChange={tabChange} tab={search.tab} />
         </div>
         <div>
           <SearchResults search={search} />

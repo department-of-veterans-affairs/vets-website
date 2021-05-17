@@ -4,8 +4,8 @@ import NameSearchForm from '../../containers/NameSearchForm';
 import LocationSearchForm from '../../containers/LocationSearchForm';
 import { TABS } from '../../constants';
 
-export default function SearchTabs({ onChange }) {
-  const [currentTab, setCurrentTab] = useState(TABS.name);
+export default function SearchTabs({ onChange, tab }) {
+  const [currentTab, setCurrentTab] = useState(tab);
 
   const handleTabClick = tabName => {
     setCurrentTab(tabName);

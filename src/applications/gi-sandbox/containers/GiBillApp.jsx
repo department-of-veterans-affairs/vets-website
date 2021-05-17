@@ -3,7 +3,12 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
-import { enterPreviewMode, exitPreviewMode, fetchConstants } from '../actions';
+import {
+  changeSearchTab,
+  enterPreviewMode,
+  exitPreviewMode,
+  fetchConstants,
+} from '../actions';
 import GiBillBreadcrumbs from '../components/GiBillBreadcrumbs';
 import PreviewBanner from '../components/PreviewBanner';
 import Modals from './Modals';
@@ -16,6 +21,7 @@ export function GiBillApp({
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
+  dispatchChangeSearchTab,
   preview,
 }) {
   const queryParams = useQueryParams();
@@ -23,6 +29,8 @@ export function GiBillApp({
   const versionChange = version && version !== preview.version?.id;
   const shouldExitPreviewMode = preview.display && !version;
   const shouldEnterPreviewMode = !preview.display && versionChange;
+
+  const tab = queryParams.get('tab');
 
   useEffect(
     () => {
@@ -32,6 +40,10 @@ export function GiBillApp({
         dispatchEnterPreviewMode(version);
       } else {
         dispatchFetchConstants();
+      }
+
+      if (tab) {
+        dispatchChangeSearchTab(tab);
       }
     },
     [shouldExitPreviewMode, shouldEnterPreviewMode],
@@ -74,6 +86,7 @@ const mapDispatchToProps = {
   dispatchEnterPreviewMode: enterPreviewMode,
   dispatchExitPreviewMode: exitPreviewMode,
   dispatchFetchConstants: fetchConstants,
+  dispatchChangeSearchTab: changeSearchTab,
 };
 
 export default connect(
