@@ -5,7 +5,7 @@ import { LocationType } from '../../../constants';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 import CCProviderPhoneLink from './CCProviderPhoneLink';
 
-const renderPhoneNumber = (title, subTitle = null, phone, from) => {
+export const renderPhoneNumber = (title, subTitle = null, phone, from) => {
   if (!phone) {
     return null;
   }

@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { renderPhoneNumber } from './LocationPhoneLink'
 import {
   LocationType,
   CLINIC_URGENTCARE_SERVICE,
   PHARMACY_RETAIL_SERVICE,
 } from '../../../constants';
 
-const CCProviderPhoneLink = ({ location, query, renderPhoneNumber }) => {
+const CCProviderPhoneLink = ({ location, query }) => {
   const { caresitePhone: phone } = location.attributes;
   const isCCProvider =
     query &&
@@ -29,7 +30,6 @@ const CCProviderPhoneLink = ({ location, query, renderPhoneNumber }) => {
 CCProviderPhoneLink.propTypes = {
   location: PropTypes.object,
   query: PropTypes.object,
-  renderPhoneNumber: PropTypes.func.isRequired,
 };
 
 export default CCProviderPhoneLink;
