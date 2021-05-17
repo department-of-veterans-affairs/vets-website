@@ -48,5 +48,13 @@ export const OptInLabel = (
   </strong>
 );
 
+// children should always be "True"
+export const OptInReviewField = ({ children }) => (
+  <div className="review-row">
+    <dt>{OptInLabel}</dt>
+    <dd>{children}</dd>
+  </div>
+);
+
 export const optInErrorMessage =
   'Please opt into the new decision review process to proceed';

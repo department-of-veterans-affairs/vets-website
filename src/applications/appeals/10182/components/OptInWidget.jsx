@@ -15,7 +15,14 @@ import { OptInLabel, optInErrorMessage } from '../content/OptIn';
 const OptInWidget = props => {
   const { value, formContext, onChange } = props;
 
-  return (
+  const onReviewPage = formContext?.onReviewPage || false;
+  // inReviewMode = true (review page view, not in edit mode)
+  // inReviewMode = false (in edit mode)
+  const inReviewMode = (onReviewPage && formContext.reviewMode) || false;
+
+  return onReviewPage && inReviewMode ? (
+    <span>True</span>
+  ) : (
     <Checkbox
       name="root_socOptIn"
       errorMessage={!value && formContext.submitted ? optInErrorMessage : ''}
