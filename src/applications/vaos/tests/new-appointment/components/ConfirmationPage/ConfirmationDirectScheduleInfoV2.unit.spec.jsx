@@ -2,7 +2,6 @@ import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import moment from 'moment';
 import React from 'react';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 import ConfirmationPage from '../../../../new-appointment/components/ConfirmationPage';
 import { FETCH_STATUS, FLOW_TYPES } from '../../../../utils/constants';
 import {
@@ -10,8 +9,6 @@ import {
   // getTimezoneTestDate,
   renderWithStoreAndRouter,
 } from '../../../mocks/setup';
-// import { getVAAppointmentMock } from '../../../mocks/v0';
-// import MockDate from 'mockdate';
 
 const initialState = {
   featureToggles: {

@@ -24,7 +24,6 @@ const pageTitle = 'We’ve scheduled your appointment';
 
 function ConfirmationPageV2({
   clinic,
-  data,
   systemId,
   facilityDetails,
   slot,
@@ -43,11 +42,6 @@ function ConfirmationPageV2({
   const momentDate = timezone
     ? moment(slot.start).tz(timezone.timezone, true)
     : moment(slot.start);
-
-  // const appointmentDateString =
-  //   moment(data.date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
-  //     'dddd, MMMM D, YYYY [at] h:mm a ',
-  //   ) + getTimezoneAbbrBySystemId(systemId);
 
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 

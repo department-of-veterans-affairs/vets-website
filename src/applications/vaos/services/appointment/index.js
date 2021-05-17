@@ -680,7 +680,7 @@ export async function cancelAppointment({ appointment }) {
 }
 
 /**
- * Get scheduled appointment information needed. The function is used when generating
+ * Get scheduled appointment information needed for generating
  * an .ics file.
  *
  * @export
