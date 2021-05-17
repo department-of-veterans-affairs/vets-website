@@ -36,6 +36,7 @@ import contestableIssues from '../pages/contestableIssues';
 import additionalIssuesIntro from '../pages/additionalIssuesIntro';
 import additionalIssues from '../pages/additionalIssues';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
+import optIn from '../pages/optIn';
 import boardReview from '../pages/boardReview';
 import evidenceIntro from '../pages/evidenceIntro';
 import evidenceUpload from '../pages/evidenceUpload';
@@ -165,6 +166,12 @@ const formConfig = {
           arrayPath: 'areaOfDisagreement',
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
           schema: areaOfDisagreementFollowUp.schema,
+        },
+        optIn: {
+          title: 'Opt in',
+          path: 'opt-in',
+          uiSchema: optIn.uiSchema,
+          schema: optIn.schema,
         },
       },
     },
