@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import SearchAccordion from '../SearchAccordion';
-import SearchBenefits from '../SearchBenefits';
-import RadioButtons from '../RadioButtons';
-import LearnMoreLabel from '../LearnMoreLabel';
-import { showModal, updateEligibilityAndFilters } from '../../actions';
+import SearchAccordion from '../components/SearchAccordion';
+import SearchBenefits from '../components/SearchBenefits';
+import RadioButtons from '../components/RadioButtons';
+import LearnMoreLabel from '../components/LearnMoreLabel';
+import { showModal, updateEligibilityAndFilters } from '../actions';
 import { connect } from 'react-redux';
 
 export function TuitionAndHousingEstimates({
