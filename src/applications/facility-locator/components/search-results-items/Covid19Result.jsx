@@ -94,6 +94,7 @@ Covid19Result.propTypes = {
   location: PropTypes.object,
   query: PropTypes.object,
   index: PropTypes.number,
+  showCovidVaccineSchedulingLinks: PropTypes.bool,
 };
 
 export default Covid19Result;
