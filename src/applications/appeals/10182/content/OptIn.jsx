@@ -9,7 +9,7 @@ export const OptInDescription = ({ formData }) => {
   return (
     <div id="opt-in-description">
       The issue(s) listed here may be in our old appeals process:
-      {ShowIssuesList(issues)}
+      {ShowIssuesList({ issues })}
       <p>
         If you’re requesting a Board Appeal on an issue in an older claim,
         you’ll need to opt in to the new decision review process by checking the

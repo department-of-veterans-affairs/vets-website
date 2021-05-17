@@ -2,7 +2,7 @@ import React from 'react';
 import { getDate } from '../utils/dates';
 import { FORMAT_READABLE } from '../constants';
 
-export const ShowIssuesList = issues => (
+export const ShowIssuesList = ({ issues }) => (
   <ul>
     {issues.map((issue, index) => (
       <li key={index}>

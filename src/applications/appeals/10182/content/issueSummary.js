@@ -14,7 +14,7 @@ export const SummaryTitle = ({ formData }) => {
       Below is a list of the issues that you are requesting the Board to review.
       If an issue is missing, please{' '}
       <Link
-        aria-label="go back and add any missing disabilities"
+        aria-label="go back and add any missing issues for review"
         to={{
           pathname: path,
           search: '?redirect',
@@ -22,7 +22,7 @@ export const SummaryTitle = ({ formData }) => {
       >
         go back and add it
       </Link>
-      .{ShowIssuesList(issues)}
+      .{ShowIssuesList({ issues })}
     </p>
   );
 };
