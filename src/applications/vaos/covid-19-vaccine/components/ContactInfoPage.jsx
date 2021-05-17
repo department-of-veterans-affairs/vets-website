@@ -16,7 +16,7 @@ const initialSchema = {
   properties: {
     phoneNumber: {
       type: 'string',
-      pattern: '^[0-9]{10}$',
+      pattern: '^[2-9][0-9]{9}$',
     },
     email: {
       type: 'string',
@@ -25,6 +25,7 @@ const initialSchema = {
   },
 };
 
+const phoneConfig = phoneUI('Your phone number');
 const uiSchema = {
   'ui:description': (
     <>
@@ -41,7 +42,14 @@ const uiSchema = {
       </p>
     </>
   ),
-  phoneNumber: phoneUI('Your phone number'),
+  phoneNumber: {
+    ...phoneConfig,
+    'ui:errorMessages': {
+      ...phoneConfig['ui:errorMessages'],
+      pattern:
+        'Please enter a valid 10-digit phone number (with or without dashes)',
+    },
+  },
   email: {
     'ui:title': 'Your email address',
   },

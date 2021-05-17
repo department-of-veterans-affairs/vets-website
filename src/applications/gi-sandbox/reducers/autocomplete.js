@@ -1,14 +1,11 @@
-/* eslint-disable no-case-declarations */
 import {
   AUTOCOMPLETE_TERM_CHANGED,
   AUTOCOMPLETE_STARTED,
   AUTOCOMPLETE_FAILED,
   AUTOCOMPLETE_SUCCEEDED,
-  SEARCH_STARTED,
   AUTOCOMPLETE_CLEARED,
 } from '../actions';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
-import get from 'platform/utilities/data/get';
 
 const INITIAL_STATE = {
   inProgress: false,
@@ -16,6 +13,26 @@ const INITIAL_STATE = {
   searchTerm: '',
   facilityCode: null,
   suggestions: [],
+};
+
+const camelCasedFields = (searchTerm, payload) => {
+  const camelCasedPayload = camelCaseKeysRecursive(payload);
+  const previewVersion = camelCasedPayload.meta.version;
+  const suggestions = camelCasedPayload.data;
+  const shouldIncludeSearchTerm =
+    searchTerm && suggestions.length && searchTerm !== suggestions[0].label;
+  if (shouldIncludeSearchTerm) {
+    suggestions.unshift({
+      id: null,
+      value: searchTerm,
+      label: searchTerm,
+    });
+  }
+
+  return {
+    suggestions,
+    previewVersion,
+  };
 };
 
 export default function(state = INITIAL_STATE, action) {
@@ -40,35 +57,15 @@ export default function(state = INITIAL_STATE, action) {
         inProgress: false,
       };
     case AUTOCOMPLETE_SUCCEEDED:
-      const camelPayload = camelCaseKeysRecursive(action.payload);
-      const suggestions = camelPayload.data;
-      const { searchTerm } = state;
-      const shouldIncludeSearchTerm =
-        searchTerm && suggestions.length && searchTerm !== suggestions[0].label;
-
-      if (shouldIncludeSearchTerm) {
-        suggestions.unshift({
-          id: null,
-          value: searchTerm,
-          label: searchTerm,
-        });
-      }
-
       return {
         ...state,
-        suggestions,
-        previewVersion: camelPayload.meta.version,
+        ...camelCasedFields(state.searchTerm, action.payload),
         inProgress: false,
       };
     case AUTOCOMPLETE_CLEARED:
       return {
         ...state,
         suggestions: [],
-      };
-    case SEARCH_STARTED:
-      return {
-        ...state,
-        searchTerm: get('query.name', action, ''),
       };
     default:
       return state;

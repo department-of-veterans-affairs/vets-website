@@ -2,14 +2,22 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Dropdown from '../components/Dropdown';
 import { fetchSearchByLocationResults } from '../actions';
+import { useHistory } from 'react-router-dom';
+import { useQueryParams } from '../utils/helpers';
 
 export function LocationSearchForm({ fetchSearchByLocation, search }) {
   const [searchLocation, setSearchLocation] = useState(search.query.location);
   const [distance, setDistance] = useState(search.query.distance);
+  const history = useHistory();
+  const queryParams = useQueryParams();
 
   const doSearch = event => {
     event.preventDefault();
     fetchSearchByLocation(searchLocation, distance);
+    queryParams.set('location', searchLocation);
+    queryParams.set('distance', distance);
+
+    history.push({ pathname: '/', search: queryParams.toString() });
   };
 
   return (
