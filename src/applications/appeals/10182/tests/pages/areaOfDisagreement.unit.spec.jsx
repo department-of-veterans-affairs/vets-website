@@ -1,5 +1,3 @@
-// import areaOfDisagreement from '../pages/areaOfDisagreement';
-
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
@@ -26,9 +24,6 @@ describe('area of disagreement page', () => {
         attributes: {
           ratingIssueSubjectText: 'Tinnitus',
         },
-        // disgreementOptions: {
-        //   evaluation: true,
-        // },
       },
     ],
   };
