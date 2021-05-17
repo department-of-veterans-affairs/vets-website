@@ -148,17 +148,17 @@ describe('HealthCare component', () => {
       ).to.be.false;
     });
 
-    it('should render a generic message when the number of unread messages was not fetched', async () => {
+    it('should not render a messaging CTA', () => {
       initialState.health.msg.folders.data.currentItem.attributes.unreadCount = null;
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
         reducers,
       });
       expect(
-        await view.findByRole('link', {
-          name: /Send a secure message to your health care team/i,
+        view.queryByRole('link', {
+          name: /message/i,
         }),
-      ).to.exist;
+      ).not.to.exist;
     });
   });
 });

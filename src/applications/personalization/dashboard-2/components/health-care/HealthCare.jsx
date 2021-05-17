@@ -43,6 +43,7 @@ const HealthCare = ({
   // TODO: possibly remove this prop in favor of mocking API calls in our unit tests
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
+  shouldShowPrescriptions,
   hasInboxError,
   hasAppointmentsError,
 }) => {
@@ -137,24 +138,28 @@ const HealthCare = ({
             )}
 
           {/* Messages */}
-          <IconCTALink
-            boldText={unreadMessagesCount > 0}
-            href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-            icon="comments"
-            newTab
-            text={messagesText}
-          />
+          {shouldFetchMessages ? (
+            <IconCTALink
+              boldText={unreadMessagesCount > 0}
+              href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+              icon="comments"
+              newTab
+              text={messagesText}
+            />
+          ) : null}
 
           {/* Prescriptions */}
-          <IconCTALink
-            href={mhvUrl(
-              authenticatedWithSSOe,
-              'web/myhealthevet/refill-prescriptions',
-            )}
-            icon="prescription-bottle"
-            newTab
-            text="Refill and track your prescriptions"
-          />
+          {shouldShowPrescriptions ? (
+            <IconCTALink
+              href={mhvUrl(
+                authenticatedWithSSOe,
+                'web/myhealthevet/refill-prescriptions',
+              )}
+              icon="prescription-bottle"
+              newTab
+              text="Refill and track your prescriptions"
+            />
+          ) : null}
 
           {/* Lab and test results */}
           <IconCTALink
@@ -205,6 +210,9 @@ const mapStateToProps = state => {
   const shouldFetchMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
   );
+  const shouldShowPrescriptions = selectAvailableServices(state).includes(
+    backendServices.RX,
+  );
 
   const fetchingAppointments = state.health?.appointments?.fetching;
   const fetchingInbox = shouldFetchMessages
@@ -223,6 +231,7 @@ const mapStateToProps = state => {
     isCernerPatient: selectIsCernerPatient(state),
     shouldFetchMessages,
     shouldShowLoadingIndicator: fetchingAppointments || fetchingInbox,
+    shouldShowPrescriptions,
     unreadMessagesCount: selectUnreadMessagesCount(state),
   };
 };
