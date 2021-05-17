@@ -37,7 +37,7 @@ export default {
     'ui:description': RepresentativeDocumentUploadDescription(),
     'ui:title': () => (
       <h3 className="vads-u-font-size--h4 vads-u-margin--0">
-        Upload your legal representative documentation
+        Upload your legal representative document
         <span className="vads-u-margin-left--0p5 vads-u-color--secondary-dark vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           (*Required)
         </span>

@@ -24,8 +24,8 @@ const PrevApplicationType = ({
     return null;
   }
 
-  const prevApplicationTypeLabel = (
-    <h4>
+  const label = (
+    <h4 className={`${key}_header`}>
       What type of application did you make to upgrade your discharge
       previously?
     </h4>
@@ -38,7 +38,7 @@ const PrevApplicationType = ({
       'I applied to the Board for Correction of Naval Records (BCNR)';
   }
 
-  const prevApplicationTypeOptions = [
+  const options = [
     {
       label:
         'I applied to a Discharge Review Board (DRB) for a Documentary Review',
@@ -55,8 +55,8 @@ const PrevApplicationType = ({
 
   const radioButtonProps = {
     name: key,
-    label: prevApplicationTypeLabel,
-    options: prevApplicationTypeOptions,
+    label,
+    options,
     key,
     onValueChange: v => {
       if (v.dirty) {

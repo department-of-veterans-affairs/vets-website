@@ -9,9 +9,6 @@ import FormQuestions from '../../components/FormQuestions';
 import { FormPage } from '../../containers/FormPage';
 
 describe('Discharge Wizard <FormPage />', () => {
-  const reactRouterStub = {
-    push: () => sinon.stub(),
-  };
   // This is "formValues" prop from the redux store
   const formValuesAllQuestionsListed = {
     '1_branchOfService': 'army', // 4
@@ -45,7 +42,6 @@ describe('Discharge Wizard <FormPage />', () => {
       <FormPage
         formValues={formValuesAllQuestionsListed}
         updateField={() => sinon.stub()}
-        router={reactRouterStub}
       />,
     );
     expect(tree.find(FormQuestions)).to.have.lengthOf(1);

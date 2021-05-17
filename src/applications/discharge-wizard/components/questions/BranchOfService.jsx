@@ -24,7 +24,11 @@ const BranchOfServiceQuestion = ({
     return null;
   }
 
-  const label = <h4>In which branch of service did you serve?</h4>;
+  const label = (
+    <h4 className={`${key}_header`}>
+      In which branch of service did you serve?
+    </h4>
+  );
   const options = [
     { label: 'Army', value: 'army' },
     { label: 'Navy', value: 'navy' },

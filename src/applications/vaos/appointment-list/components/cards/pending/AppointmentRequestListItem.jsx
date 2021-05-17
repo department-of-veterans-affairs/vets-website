@@ -143,7 +143,10 @@ export default function AppointmentRequestListItem({
               <div>
                 {getPatientTelecom(appointment, 'email')}
                 <br />
-                <Telephone contact={getPatientTelecom(appointment, 'phone')} />
+                <Telephone
+                  notClickable
+                  contact={getPatientTelecom(appointment, 'phone')}
+                />
                 <br />
                 <span className="vads-u-font-style--italic">
                   <ListBestTimeToCall
