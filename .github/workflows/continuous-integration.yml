@@ -236,28 +236,31 @@ jobs:
       run:
         working-directory: vets-website
 
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
     steps:
+      - name: Checkout vets-website
+        uses: actions/checkout@v2
+        with:
+          path: vets-website
+
       - name: Checkout vagov-content
         uses: actions/checkout@v2
         with:
           repository: department-of-veterans-affairs/vagov-content
           path: vagov-content
 
-      - name: Checkout vets-website
+      - name: Checkout content-build
         uses: actions/checkout@v2
         with:
-          path: vets-website
-
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+          repository: department-of-veterans-affairs/content-build
+          path: content-build
 
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-        env:
-          NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
       - name: Cache dependencies
         id: cache-dependencies
@@ -268,20 +271,44 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
-      - name: Install dependencies
+      - name: Install vets-website dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
-          NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
-      - name: Fetch Drupal cache
-        run: yarn fetch-drupal-cache
+      - name: Install content-build dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        working-directory: content-build
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Build
-        run: yarn build
-        timeout-minutes: 30
+      - name: Build vets-website
+        run: yarn build:webpack --env.scaffold
+        timeout-minutes: 15
         env:
           NODE_ENV: production
 
-      - name: Run Cypress Tests
+      - name: Fetch Drupal Cache
+        run: yarn fetch-drupal-cache
+        working-directory: content-build
+
+      - name: Build content-build
+        run: yarn build
+        working-directory: content-build
+
+      - name: Start content-build
+        run: yarn watch --verbose &
+        working-directory: content-build
+
+      - name: Curl content-build
+        run: curl localhost:3002
+        working-directory: content-build
+
+      - name: Start vets-website
+        run: yarn watch --verbose &
+
+      - name: Curl vets-website
+        run: curl localhost:3001
+
+      - name: Start Nightwatch tests
         run: yarn cy:test:circle
