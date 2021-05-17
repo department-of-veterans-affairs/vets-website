@@ -48,7 +48,7 @@ function InstitutionSearchForm({
         queryParams.delete(key);
       }
     }
-    queryParams.set('category', filters.category);app/controllers/v1/institutions_controller.rb:24
+    queryParams.set('category', filters.category);
     queryParams.set('name', value);
 
     history.push({ pathname: 'search', search: queryParams.toString() });
