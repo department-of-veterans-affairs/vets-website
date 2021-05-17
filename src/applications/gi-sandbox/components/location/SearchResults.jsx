@@ -3,7 +3,7 @@ import SearchResultCard from '../SearchResultCard';
 import mapboxgl from 'mapbox-gl';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit } from '../../constants';
-import TuitionAndHousingEstimates from '../search/TuitionAndHousingEstimates';
+import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import SearchAccordion from '../SearchAccordion';
 
 export default function SearchResults({ search }) {
