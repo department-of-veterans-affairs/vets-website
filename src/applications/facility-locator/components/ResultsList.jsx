@@ -27,6 +27,7 @@ import PharmacyResult from './search-results-items/PharmacyResult';
 import UrgentCareResult from './search-results-items/UrgentCareResult';
 import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
+import { covidVaccineSchedulingFrontend } from '../utils/selectors';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 
@@ -66,7 +67,14 @@ class ResultsList extends Component {
         case 'vet_center':
           item =
             query.serviceType === Covid19Vaccine ? (
-              <Covid19Result location={r} key={r.id} index={index} />
+              <Covid19Result
+                location={r}
+                key={r.id}
+                index={index}
+                showCovidVaccineSchedulingLinks={
+                  this.props.showCovidVaccineSchedulingLinks
+                }
+              />
             ) : (
               <VaFacilityResult
                 location={r}
@@ -239,6 +247,7 @@ function mapStateToProps(state) {
     searchString,
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
+    showCovidVaccineSchedulingLinks: covidVaccineSchedulingFrontend(state),
   };
 }
 
