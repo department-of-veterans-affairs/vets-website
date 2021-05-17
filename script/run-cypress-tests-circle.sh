@@ -14,5 +14,4 @@ else
 
   # Start the web server & run Cypress tests.
   node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 > /dev/null 2>&1
-  xyarn cy:run
 fi
