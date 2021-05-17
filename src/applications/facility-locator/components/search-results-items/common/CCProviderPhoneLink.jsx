@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { renderPhoneNumber } from './LocationPhoneLink'
+import { renderPhoneNumber } from './LocationPhoneLink';
 import {
   LocationType,
   CLINIC_URGENTCARE_SERVICE,

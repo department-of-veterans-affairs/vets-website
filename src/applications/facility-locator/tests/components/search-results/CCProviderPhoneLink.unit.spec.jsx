@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { LocationType } from '../../../constants';
@@ -23,5 +23,5 @@ describe('CCProviderPhoneLink', () => {
     );
 
     wrapper.unmount();
-  })
-})
+  });
+});
