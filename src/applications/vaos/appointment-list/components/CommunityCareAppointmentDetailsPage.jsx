@@ -11,10 +11,6 @@ import * as actions from '../redux/actions';
 import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
 import AddToCalendar from '../../components/AddToCalendar';
 import FacilityAddress from '../../components/FacilityAddress';
-import {
-  formatFacilityAddress,
-  formatFacilityPhone,
-} from '../../services/location';
 import PageLayout from './AppointmentsPage/PageLayout';
 import ErrorMessage from '../../components/ErrorMessage';
 import { selectAppointmentById } from '../redux/selectors';
@@ -23,6 +19,7 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
+import { getCalendarData } from '../../services/appointment';
 
 function CommunityCareAppointmentDetailsPage({
   appointment,
@@ -82,6 +79,10 @@ function CommunityCareAppointmentDetailsPage({
   const header = 'Community care';
   const { providerName, practiceName } =
     appointment.communityCareProvider || {};
+  const calendarData = getCalendarData({
+    facility: appointment.communityCareProvider,
+    appointment,
+  });
 
   return (
     <PageLayout>
@@ -135,16 +136,13 @@ function CommunityCareAppointmentDetailsPage({
           className="far fa-calendar vads-u-margin-right--1"
         />
         <AddToCalendar
-          summary={`Appointment at ${providerName || practiceName}`}
+          summary={calendarData.summary}
           description={{
-            text:
-              'You have a health care appointment with a community care provider. Please don’t go to your local VA health facility.',
-            phone: formatFacilityPhone(appointment.communityCareProvider),
-            additionalText: [
-              'Sign in to VA.gov to get details about this appointment',
-            ],
+            text: calendarData.text,
+            phone: calendarData.phone,
+            additionalText: calendarData.additionalText,
           }}
-          location={formatFacilityAddress(appointment.communityCareProvider)}
+          location={calendarData.location}
           duration={appointment.minutesDuration}
           startDateTime={moment.parseZone(appointment.start)}
         />

@@ -1150,7 +1150,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens[4]).to.contain('UID:');
       // TODO: location name???
       expect(tokens[5]).to.equal(
-        'SUMMARY:VA Video Connect appointment at Meg Smith',
+        'SUMMARY:VA Video Connect appointment at an ATLAS facility',
       );
 
       // Description text longer than 74 characters should start on newline beginning

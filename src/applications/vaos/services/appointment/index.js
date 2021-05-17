@@ -21,6 +21,7 @@ import {
   APPOINTMENT_STATUS,
   VIDEO_TYPES,
 } from '../../utils/constants';
+import { formatFacilityAddress, formatFacilityPhone } from '../location';
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
@@ -470,7 +471,7 @@ export function sortMessages(a, b) {
  * @return {boolean} Returns whether or not the appointment is a home video appointment.
  */
 export function isVideoHome(appointment) {
-  const { isAtlas, kind } = appointment.videoData || {};
+  const { isAtlas, kind } = appointment?.videoData || {};
   return (
     !isAtlas && (kind === VIDEO_TYPES.mobile || kind === VIDEO_TYPES.adhoc)
   );
@@ -521,4 +522,121 @@ export function groupAppointmentsByMonth(appointments) {
   });
 
   return appointmentsByMonth;
+}
+
+/**
+ * Get scheduled appointment information needed. The function is used when generating
+ * an .ics file.
+ *
+ * @export
+ * @param {Appointment} Appointment object, facility object
+ * @param {Facility} Facility object
+ * @returns An object containing appointment information.
+ */
+export function getCalendarData({ appointment, facility }) {
+  let data = {};
+  const isAtlas = appointment?.videoData.isAtlas;
+  const isHome = isVideoHome(appointment);
+  const videoKind = appointment?.videoData.kind;
+  const isVideo = appointment?.vaos.isVideo;
+  const isCommunityCare = appointment?.vaos.isCommunityCare;
+  const isPhone = isVAPhoneAppointment(appointment);
+  const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
+
+  if (isPhone) {
+    data = {
+      summary: 'Phone appointment',
+      location: formatFacilityAddress(facility),
+      text: `A provider will call you at ${moment
+        .parseZone(appointment.start)
+        .format('h:mm a')}`,
+      phone: formatFacilityPhone(facility),
+      additionalText: [
+        'Sign in to VA.gov to get details about this appointment',
+      ],
+    };
+  } else if (isInPersonVAAppointment) {
+    data = {
+      summary: `Appointment at ${facility?.name}`,
+      location: formatFacilityAddress(facility),
+      text: `You have a health care appointment at ${facility?.name}`,
+      phone: formatFacilityPhone(facility),
+      additionalText: [
+        'Sign in to VA.gov to get details about this appointment',
+      ],
+    };
+  } else if (isCommunityCare) {
+    const { providerName, practiceName } =
+      appointment.communityCareProvider || {};
+
+    data = {
+      summary: `Appointment at ${providerName || practiceName}`,
+      providerName: `${providerName || practiceName}`,
+      location: `${formatFacilityAddress(appointment.communityCareProvider)}`,
+      text:
+        'You have a health care appointment with a community care provider. Please don’t go to your local VA health facility.',
+      phone: `${formatFacilityPhone(appointment.communityCareProvider)}`,
+      additionalText: [
+        'Sign in to VA.gov to get details about this appointment',
+      ],
+    };
+  } else if (isVideo) {
+    const providerName = appointment.videoData?.providers
+      ? appointment.videoData.providers[0]?.display
+      : '';
+
+    if (isHome) {
+      data = {
+        summary: 'VA Video Connect appointment',
+        text:
+          'You can join this meeting up to 30 minutes before the start time.',
+        location: 'VA Video Connect at home',
+        additionalText: ['Sign in to VA.gov to join this meeting'],
+      };
+    } else if (isAtlas) {
+      const { atlasLocation } = appointment.videoData;
+
+      if (atlasLocation?.address) {
+        data = {
+          // TODO: This doesn't seem right
+          summary: `VA Video Connect appointment at an ATLAS facility`,
+          // providerName: `${firstName} ${lastName}`,
+          location: formatFacilityAddress(atlasLocation),
+          text: 'Join this video meeting from this ATLAS (non-VA) location:',
+          additionalText: [
+            `Your appointment code is ${
+              appointment.videoData.atlasConfirmationCode
+            }. Use this code to find your appointment on the computer at ${providerName}.`,
+            `You'll be meeting with ${providerName}`,
+          ],
+        };
+      }
+    } else if (videoKind === VIDEO_TYPES.clinic) {
+      data = {
+        summary: `VA Video Connect appointment at ${
+          appointment.location.clinicName
+        }`,
+        providerName: appointment.location.clinicName,
+        location: formatFacilityAddress(facility),
+        text: 'You need to join this video meeting from:',
+        phone: `${formatFacilityPhone(facility)}`,
+        additionalText: [
+          `You’ll be meeting with ${appointment.location.clinicName}`, // TODO: Verify this
+          'Sign in to VA.gov to get details about this appointment',
+        ],
+      };
+    } else if (videoKind === VIDEO_TYPES.gfe) {
+      data = {
+        summary: 'VA Video Connect appointment using a VA device',
+        providerName: '',
+        location: '',
+        text: 'Join this video meeting using a device provided by VA.',
+        additionalText: [
+          `You’ll be meeting with ${appointment.location.clinicName}.`,
+        ],
+      };
+    }
+  }
+
+  return data;
 }

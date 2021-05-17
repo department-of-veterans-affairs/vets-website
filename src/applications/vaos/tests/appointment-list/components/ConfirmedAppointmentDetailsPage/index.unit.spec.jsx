@@ -668,8 +668,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     };
 
     mockFacilityFetch('vha_442GC', facility);
-    mockFacilitiesFetch('vha_442GC', [facility]);
-    const startDateTime = moment(appointment.start);
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
@@ -723,18 +721,17 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     expect(tokens[11]).to.equal('LOCATION:Phone call');
     expect(tokens[12]).to.equal(
-      `DTSTAMP:${moment(startDateTime)
+      `DTSTAMP:${moment(appointment.start)
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
     expect(tokens[13]).to.equal(
-      `DTSTART:${moment(startDateTime)
+      `DTSTART:${moment(appointment.start)
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
     expect(tokens[14]).to.equal(
-      `DTEND:${startDateTime
-        .clone()
+      `DTEND:${moment(appointment.start)
         .add(60, 'minutes')
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,

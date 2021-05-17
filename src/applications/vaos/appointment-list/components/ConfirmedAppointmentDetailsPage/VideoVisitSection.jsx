@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { isVideoHome } from '../../../services/appointment';
+import { isVideoHome, getCalendarData } from '../../../services/appointment';
 import { VIDEO_TYPES } from '../../../utils/constants';
 import VideoLink from './VideoLink';
 import AtlasLocation from './AtlasLocation';
@@ -11,24 +11,15 @@ import VideoVisitProvider from './VideoVisitProvider';
 import { VideoVisitInstructions } from './VideoInstructions';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
 import moment from 'applications/vaos/lib/moment-tz';
-import {
-  formatFacilityAddress,
-  formatFacilityPhone,
-} from 'applications/vaos/services/location';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import { selectCalendarData } from '../../redux/selectors';
 
 export default function VideoVisitLocation({ appointment, facility }) {
   const { kind, isAtlas, providers } = appointment.videoData;
   const isHome = isVideoHome(appointment);
   const [showMoreOpen, setShowMoreOpen] = useState(false);
-  const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const name = facility?.name;
 
-  const { summary, location, text, additionalText } = selectCalendarData({
-    videoKind: kind,
-    isHome,
-    isAtlas,
+  const { summary, location, text, phone, additionalText } = getCalendarData({
     facility,
     appointment,
   });
@@ -106,7 +97,7 @@ export default function VideoVisitLocation({ appointment, facility }) {
             summary={summary}
             description={{
               text,
-              phone: formatFacilityPhone(facility),
+              phone,
               additionalText,
             }}
             location={location}

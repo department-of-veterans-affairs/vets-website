@@ -110,7 +110,7 @@ function generateICS(
 }
 
 export default function AddToCalendar({
-  summary,
+  summary = '',
   description,
   location,
   startDateTime,

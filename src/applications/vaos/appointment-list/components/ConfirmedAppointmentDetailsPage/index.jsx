@@ -12,6 +12,7 @@ import {
   getVAAppointmentLocationId,
   isVAPhoneAppointment,
   isVideoHome,
+  getCalendarData,
 } from '../../../services/appointment';
 import {
   APPOINTMENT_STATUS,
@@ -22,11 +23,6 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import AppointmentDateTime from './AppointmentDateTime';
 import VideoVisitSection from './VideoVisitSection';
-import { getVideoInstructionText } from './VideoInstructions';
-import {
-  formatFacilityAddress,
-  formatFacilityPhone,
-} from 'applications/vaos/services/location';
 import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
@@ -94,6 +90,7 @@ export default function ConfirmedAppointmentDetailsPage() {
     shallowEqual,
   );
   const appointmentDate = moment.parseZone(appointment?.start);
+  const locationId = getVAAppointmentLocationId(appointment);
 
   useEffect(() => {
     dispatch(fetchConfirmedAppointmentDetails(id, 'va'));
@@ -158,8 +155,6 @@ export default function ConfirmedAppointmentDetailsPage() {
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = appointment.vaos.isVideo;
-  const videoKind = appointment.videoData.kind;
-  const isPhone = isVAPhoneAppointment(appointment);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
   const isInPersonVAAppointment = !isVideo;
@@ -176,24 +171,10 @@ export default function ConfirmedAppointmentDetailsPage() {
       appointment?.comment?.startsWith(purpose.short),
     );
 
-  const showVideoInstructions =
-    isVideo &&
-    appointment.comment &&
-    videoKind !== VIDEO_TYPES.clinic &&
-    videoKind !== VIDEO_TYPES.gfe;
-
-  let calendarDescription = 'VA appointment';
-  if (showInstructions) {
-    calendarDescription = appointment.comment;
-  } else if (showVideoInstructions) {
-    calendarDescription = getVideoInstructionText(appointment.comment);
-  } else if (isVideo) {
-    calendarDescription = 'VA video appointment';
-  }
-
-  let text;
-  if (isPhone) text = 'Phone appointment';
-  else text = `You have a health care appointment at ${facility?.name}`;
+  const calendarData = getCalendarData({
+    appointment,
+    facility: facilityData[locationId],
+  });
 
   return (
     <PageLayout>
@@ -271,25 +252,13 @@ export default function ConfirmedAppointmentDetailsPage() {
                     className="far fa-calendar vads-u-margin-right--1"
                   />
                   <AddToCalendar
-                    summary={
-                      isPhone
-                        ? 'Phone appointment'
-                        : `Appointment at ${facility?.name}`
-                    }
+                    summary={calendarData.summary}
                     description={{
-                      text: isPhone
-                        ? `A provider will call you at ${moment
-                            .parseZone(appointment.start)
-                            .format('h:mm a')}`
-                        : `You have a health care appointment at ${
-                            facility?.name
-                          }`,
-                      phone: formatFacilityPhone(facility),
-                      additionalText: [
-                        'Sign in to VA.gov to get details about this appointment',
-                      ],
+                      text: calendarData.text,
+                      phone: calendarData.phone,
+                      additionalText: calendarData.additionalText,
                     }}
-                    location={formatFacilityAddress(facility)}
+                    location={calendarData.location}
                     duration={appointment.minutesDuration}
                     startDateTime={appointment.start}
                   />
