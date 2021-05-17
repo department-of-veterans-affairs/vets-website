@@ -33,8 +33,14 @@ export default function SecondDosePage() {
       <h1>{pageTitle}</h1>
       <div className="vads-u-margin-bottom--4">
         <p>
-          You’ll need to return to the {facility.name} after the dates below,
-          depending on which vaccine you receive:
+          If you need a second dose, you may need to return to the{' '}
+          {facility.name} after the dates below, depending on which vaccine you
+          receive:
+        </p>
+        <p>
+          If you receive your first dose on{' '}
+          <strong>{moment(date1[0]).format('dddd, MMMM DD, YYYY')}</strong> and
+          receive:
         </p>
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
           Moderna
@@ -62,6 +68,10 @@ export default function SecondDosePage() {
               .format('dddd, MMMM DD, YYYY')}
           </strong>
         </div>
+        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
+          Johnson & Johnson
+        </h2>
+        <div>1 dose only</div>
       </div>
       <FormButtons
         pageChangeInProgress={pageChangeInProgress}
