@@ -171,6 +171,37 @@ article[data-location="representative-info"] {
   }
 }
 
+/* Area of disagreement */
+#area-of-disagreement-label {
+  margin-top: 0;
+}
+#area-of-disagreement-label .hide { display: none; }
+#area-of-disagreement-label:not(.usa-input-error) {
+  margin: 2rem 0;
+}
+#area-of-disagreement-label.usa-input-error {
+  .input-section {
+    margin-bottom: 0;
+  }
+  .hide {
+    display: block;
+  }
+}
+article[data-location^="area-of-disagreement"] {
+  .schemaform-block-header,
+  .schemaform-block-header + .usa-input-error {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+/* override formation to maintain margin between checkboxes */
+.usa-input-error label {
+  margin-top: 3rem;
+}
+.usa-input-error > label {
+  margin-top: 0;
+}
+
 /* additional evidence */
 article[data-location$="/upload"] {
   #root_evidence_add_label {

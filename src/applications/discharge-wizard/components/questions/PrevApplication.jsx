@@ -30,7 +30,7 @@ const PrevApplication = ({
   }
 
   const label = (
-    <h4>
+    <h4 className={`${key}_header`}>
       Have you previously applied for and been denied a discharge upgrade for
       this period of service? Note: You can still apply. Your answer to this
       question simply changes where you send your application.

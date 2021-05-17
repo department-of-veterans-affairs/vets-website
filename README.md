@@ -55,6 +55,10 @@ run it locally, you can specify `--env.api`:
 yarn watch --env.api https://dev-api.va.gov
 ```
 
+You will need to disable CORS in your browser when using a non-local API. Here are some helpful links that explain how to do this:
+- https://stackoverflow.com/questions/3102819/disable-same-origin-policy-in-chrome
+- https://stackoverflow.com/questions/4556429/disabling-same-origin-policy-in-safari
+
 **Note:** If you try to log on, ID.me will redirect you to the environment that
 the API is set up for. So in the above example, you'd be **redirected back to
 dev.va.gov.**

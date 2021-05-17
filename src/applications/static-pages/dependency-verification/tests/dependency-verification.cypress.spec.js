@@ -57,11 +57,11 @@ describe('Dependency Verification', () => {
     cy.visit(rootUrl);
     cy.wait('@mockDiaries');
     cy.findByRole('heading', {
-      name: /Dependents on your VA benefits/i,
+      name: /Please make sure your dependents are correct/i,
     }).should('exist');
     cy.injectAxe();
     cy.axeCheck();
-    cy.findByRole('button', { name: /My dependents are correct/i }).click();
+    cy.findByRole('button', { name: /Verify this is correct/i }).click();
     cy.findByRole('heading', {
       name: /Thank you for verifying your dependents/i,
     }).should('exist');
@@ -86,7 +86,7 @@ describe('Dependency Verification', () => {
     }).should('exist');
     cy.injectAxe();
     cy.axeCheck();
-    cy.findByRole('button', { name: /My dependents are correct/i }).click();
+    cy.findByRole('button', { name: /Verify this is correct/i }).click();
     cy.findByRole('heading', {
       name: /We’re sorry. Something went wrong on our end/i,
     }).should('exist');

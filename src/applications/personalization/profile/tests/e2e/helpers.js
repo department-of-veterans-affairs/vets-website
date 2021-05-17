@@ -1,4 +1,5 @@
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
+import error500 from '@@profile/tests/fixtures/500.json';
 
 export function subNavOnlyContainsAccountSecurity(mobile) {
   if (mobile) {
@@ -26,6 +27,22 @@ export function onlyAccountSecuritySectionIsAccessible() {
     );
   });
 }
+
+// Pass in an array of GET endpoints you want to mock. All endpoints will be
+// mocked with the same statusCode and response body, both of which can be
+// specified as optional arguments
+export const mockGETEndpoints = (
+  endpoints,
+  statusCode = 500,
+  body = error500,
+) => {
+  endpoints.forEach(endpoint => {
+    cy.intercept(endpoint, {
+      statusCode,
+      body,
+    });
+  });
+};
 
 export const mockFeatureToggles = () => {
   cy.server();

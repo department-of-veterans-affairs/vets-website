@@ -1,33 +1,8 @@
-DRUPAL_MAPPING = [
-  'dev': 'vagovdev',
-  'staging': 'vagovstaging',
-  'prod': 'vagovprod',
-]
-
-DRUPAL_ADDRESSES = [
-  'vagovdev'    : 'http://internal-dsva-vagov-dev-cms-812329399.us-gov-west-1.elb.amazonaws.com',
-  'vagovstaging': 'http://internal-dsva-vagov-staging-cms-1188006.us-gov-west-1.elb.amazonaws.com',
-  'vagovprod'   : 'http://internal-dsva-vagov-prod-cms-2000800896.us-gov-west-1.elb.amazonaws.com',
-  // This is a Tugboat URL, rebuilt frequently from PROD CMS. See https://tugboat.vfs.va.gov/6042f35d6a89945fd6399dc3.
-  // If there are issues with this endpoint, please post in #cms-support Slack and tag @CMS DevOps Engineers.
-  'sandbox'     : 'https://cms-vets-website-branch-builds-lo9uhqj18nwixunsjadvjsynuni7kk1u.ci.cms.va.gov',
-]
-
-DRUPAL_CREDENTIALS = [
-  'vagovdev'    : 'drupal-dev',
-  'vagovstaging': 'drupal-staging',
-  'vagovprod'   : 'drupal-prod',
-]
-
-ALL_VAGOV_BUILDTYPES = [
+VAGOV_BUILDTYPES = [
   'vagovdev',
   'vagovstaging',
   'vagovprod'
 ]
-
-BUILD_TYPE_OVERRIDE = DRUPAL_MAPPING.get(params.cmsEnvBuildOverride, null)
-
-VAGOV_BUILDTYPES = BUILD_TYPE_OVERRIDE ? [BUILD_TYPE_OVERRIDE] : ALL_VAGOV_BUILDTYPES
 
 DEV_BRANCH = 'master'
 STAGING_BRANCH = 'master'
@@ -97,13 +72,6 @@ def slackIntegrationNotify() {
     failOnError: true
 }
 
-def slackCachedContent(envName) {
-  message = "vets-website built with cached Drupal data for ${envName}. |${env.RUN_DISPLAY_URL}".stripMargin()
-  slackSend message: message,
-    color: 'warning',
-    failOnError: true
-}
-
 def setup() {
   stage("Setup") {
 
@@ -132,177 +100,11 @@ def setup() {
   }
 }
 
-
-/**
- * Searches the build log for missing query flags ands sends a notification
- * to Slack if any are found.
- *
- * NOTE: This function is meant to be called from within the
- * dockerContainer.inside() context so buildLog can point to the right file.
- */
-def findMissingQueryFlags(String buildLogPath, String envName) {
-  def missingFlags = sh(returnStdout: true, script: "sed -nr 's/Could not find query flag (.+)\\..+/\\1/p' ${buildLogPath} | sort | uniq")
-  if (missingFlags) {
-    slackSend message: "Missing query flags found in the ${envName} build on `${env.BRANCH_NAME}`. The following will flags be considered false:\n${missingFlags}",
-      color: 'warning',
-      failOnError: true,
-      channel: 'cms-team'
-  }
-}
-
-def accessibilityTests() {
-
-  if (shouldBail() || !VAGOV_BUILDTYPES.contains('vagovprod')) { return }
-
-  stage("Accessibility") {
-
-     slackSend(
-        message: "Starting the daily accessibility scan of vets-website... ${env.RUN_DISPLAY_URL}".stripMargin(),
-        color: 'good',
-        channel: '-daily-accessibility-scan'
-      )
-
-    dir("vets-website") {
-      try {
-        parallel (
-          'nightwatch-accessibility': {
-            sh "export IMAGE_TAG=${IMAGE_TAG} && docker-compose -p accessibility up -d && docker-compose -p accessibility run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker -- --env=accessibility"
-          },
-        )
-
-        slackSend(
-          message: 'The daily accessibility scan has completed successfully.',
-          color: 'good',
-          channel: '-daily-accessibility-scan'
-        )
-
-      } catch (error) {
-
-        slackSend(
-            message: "@here Daily accessibility tests have failed. ${env.RUN_DISPLAY_URL}".stripMargin(),
-            color: 'danger',
-            failOnError: true,
-            channel: '-daily-accessibility-scan'
-          )
-
-        throw error
-      } finally {
-        sh "docker-compose -p accessibility down --remove-orphans"
-        step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
-      }
-    }
-
-  }
-}
-
-def checkForBrokenLinks(String buildLogPath, String envName, Boolean contentOnlyBuild) {
-  def brokenLinksFile = "${WORKSPACE}/vets-website/logs/${envName}-broken-links.json"
-
-  if (fileExists(brokenLinksFile)) {
-    def rawJsonFile = readFile(brokenLinksFile);
-    def brokenLinks = new groovy.json.JsonSlurper().parseText(rawJsonFile);
-    def maxBrokenLinks = 10
-    def color = 'warning'
-
-    if (brokenLinks.isHomepageBroken || brokenLinks.brokenLinksCount > maxBrokenLinks) {
-      color = 'danger'
-    }
-
-    def heading = "@cmshelpdesk ${brokenLinks.brokenLinksCount} broken links found in the `${envName}` build on `${env.BRANCH_NAME}`\n\n${env.RUN_DISPLAY_URL}\n\n"
-    def message = "${heading}\n${brokenLinks.summary}".stripMargin()
-
-    echo "${brokenLinks.brokenLinksCount} broken links found"
-    echo message
-
-    if (!IS_PROD_BRANCH && !contentOnlyBuild) {
-      // Ignore the results of the broken link checker unless
-      // we are running either on the master branch or during
-      // a Content Release. This way, if there is a broken link,
-      // feature branches aren't affected, so VFS teams can
-      // continue merging.
-      return;
-    }
-
-    // Unset brokenLinks now that we're done with this, because Jenkins may temporarily
-    // freeze (through serialization) this pipeline while the Slack message is being sent.
-    // brokenLinks is an instance of JSONObject, which cannot be serialized by default.
-    brokenLinks = null
-
-    slackSend(
-      message: message,
-      color: color,
-      failOnError: true,
-      channel: 'vfs-platform-builds'
-    )
-
-    if (color == 'danger') {
-      throw new Exception('Broken links found')
-    }
-  }
-}
-
-def build(String ref, dockerContainer, String assetSource, String envName, Boolean useCache, Boolean contentOnlyBuild) {
-  // Use the CMS's Sandbox (Tugboat) environment for all branches that
-  // are not configured to deploy to prod.
-  def drupalAddress = DRUPAL_ADDRESSES.get('sandbox')
-  def drupalCred = DRUPAL_CREDENTIALS.get('vagovprod')
-  def drupalMode = useCache ? '' : '--pull-drupal'
-  def drupalMaxParallelRequests = 15
-  def noDrupalProxy = '--no-drupal-proxy'
-
-  // Build using the CMS Production instance only if we are doing
-  // a content-only build (as part of a Content Release) OR if
-  // we are building the master branch's production environment.
-  if (
-    contentOnlyBuild ||
-    (IS_PROD_BRANCH && envName == 'vagovprod')
-  ) {
-    drupalAddress = DRUPAL_ADDRESSES.get('vagovprod')
-    noDrupalProxy = ''
-  }
-
-  withCredentials([usernamePassword(credentialsId:  "${drupalCred}", usernameVariable: 'DRUPAL_USERNAME', passwordVariable: 'DRUPAL_PASSWORD')]) {
-    dockerContainer.inside(DOCKER_ARGS) {
-      def buildLogPath = "/application/${envName}-build.log"
-
-      sh "cd /application && jenkins/build.sh --envName ${envName} --assetSource ${assetSource} --drupalAddress ${drupalAddress} --drupalMaxParallelRequests ${drupalMaxParallelRequests} ${drupalMode} ${noDrupalProxy} --buildLog ${buildLogPath} --verbose"
-
-      if (envName == 'vagovprod') {
-        // Find any broken links in the log
-        checkForBrokenLinks(buildLogPath, envName, contentOnlyBuild)
-        // Find any missing query flags in the log
-        findMissingQueryFlags(buildLogPath, envName)
-      }
-    }
-  }
-}
-
-def prearchive(dockerContainer, envName) {
+def build(String ref, dockerContainer, String envName) {
   dockerContainer.inside(DOCKER_ARGS) {
-    sh "cd /application && node script/prearchive.js --buildtype=${envName}"
-  }
-}
+    def buildLogPath = "/application/${envName}-build.log"
 
-def prearchiveAll(dockerContainer) {
-  stage("Prearchive Optimizations") {
-    if (shouldBail()) { return }
-
-    try {
-      def builds = [:]
-
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
-
-        builds[envName] = {
-          prearchive(dockerContainer, envName)
-        }
-      }
-
-      parallel builds
-    } catch (error) {
-      slackNotify()
-      throw error
-    }
+    sh "cd /application && jenkins/build.sh --envName ${envName} --buildLog ${buildLogPath} --verbose"
   }
 }
 
@@ -341,43 +143,6 @@ def archiveAll(dockerContainer, String ref) {
 
       parallel archives
 
-    } catch (error) {
-      slackNotify()
-      throw error
-    }
-  }
-}
-
-def cacheDrupalContent(dockerContainer, envUsedCache) {
-  stage("Cache Drupal Content") {
-    if (!isDeployable()) { return }
-
-    try {
-      def archives = [:]
-
-      for (int i=0; i<VAGOV_BUILDTYPES.size(); i++) {
-        def envName = VAGOV_BUILDTYPES.get(i)
-        // Skip caching Drupal content for vagovdev since we aren't pulling and building content for that environment.
-        // vagovdev's Drupal cache is created and uploaded in the content-build repo. This prevents overwriting vagovdev's
-        // Drupal cache file with an empty file.
-        if(envName != "vagovdev") {
-          if (!envUsedCache[envName]) {
-            dockerContainer.inside(DOCKER_ARGS) {
-              sh "cd /application && node script/drupal-aws-cache.js --buildtype=${envName}"
-            }
-          } else {
-            slackCachedContent(envName)
-            // TODO: Read the envName-output.log and send that into the Slack message
-          }
-        }
-      }
-
-      dockerContainer.inside(DOCKER_ARGS) {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'vetsgov-website-builds-s3-upload',
-                         usernameVariable: 'AWS_ACCESS_KEY', passwordVariable: 'AWS_SECRET_KEY']]) {
-          sh "aws s3 sync /application/.cache/content s3://vetsgov-website-builds-s3-upload/content/ --acl public-read --region us-gov-west-1 --quiet"
-        }
-      }
     } catch (error) {
       slackNotify()
       throw error

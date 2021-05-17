@@ -14,7 +14,7 @@ function generateWebpackDevConfig(buildOptions) {
 
   // This buildType likely always be 'localhost', but adding in to match patterns elsewhere and just incase we ever need it
   const publicAssetPath =
-    buildOptions.setPublicPath && buildOptions.buildtype !== 'localhost'
+    buildOptions.buildtype !== 'localhost'
       ? `${BUCKETS[buildOptions.buildtype]}/generated/`
       : '/generated/';
 

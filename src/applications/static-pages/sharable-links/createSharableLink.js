@@ -24,6 +24,7 @@ export default function createSharableLink(store, widgetType) {
           <Provider store={store}>
             <SharableLink
               dataEntityId={link.getAttribute('parentid')}
+              sharableText={link.getAttribute('sharabletext')}
               idx={idx}
               key={idx}
             />

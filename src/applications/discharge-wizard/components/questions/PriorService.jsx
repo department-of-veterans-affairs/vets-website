@@ -30,7 +30,7 @@ const PriorService = ({
   }
 
   const label = (
-    <h4>
+    <h4 className={`${key}_header`}>
       Did you complete a period of service in which your character of service
       was Honorable or General Under Honorable Conditions?
     </h4>
