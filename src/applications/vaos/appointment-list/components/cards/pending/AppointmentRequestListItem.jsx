@@ -79,7 +79,6 @@ export default function AppointmentRequestListItem({
               appointment={appointment}
             />
           )}
-          {facility?.name}
           {!isCC && (
             <VAFacilityLocation
               facility={facility}
