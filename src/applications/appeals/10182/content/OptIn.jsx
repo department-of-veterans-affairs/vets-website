@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { getSelected } from '../utils/helpers';
-import { getDate } from '../utils/dates';
-import { FORMAT_READABLE } from '../constants';
+import { ShowIssuesList } from '../components/ShowIssuesList';
 
 export const OptInDescription = ({ formData }) => {
   // Change this once we figure out which issues are legacy, switch to getLegacyAppeals
@@ -10,25 +9,7 @@ export const OptInDescription = ({ formData }) => {
   return (
     <div id="opt-in-description">
       The issue(s) listed here may be in our old appeals process:
-      <ul>
-        {issues.map((issue, index) => (
-          <li key={index}>
-            <strong className="capitalize">
-              {issue.attributes?.ratingIssueSubjectText || issue.issue || ''}
-            </strong>
-            <div>
-              Decision date:{' '}
-              {getDate({
-                date:
-                  issue.attributes?.approxDecisionDate ||
-                  issue.decisionDate ||
-                  '',
-                pattern: FORMAT_READABLE,
-              })}
-            </div>
-          </li>
-        ))}
-      </ul>
+      {ShowIssuesList(issues)}
       <p>
         If you’re requesting a Board Appeal on an issue in an older claim,
         you’ll need to opt in to the new decision review process by checking the
