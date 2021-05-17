@@ -4,6 +4,7 @@ import formConfig from 'applications/caregivers/config/form';
 import manifest from 'applications/caregivers/manifest.json';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
+import mockUpload from './fixtures/mocks/mock-upload.json';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import {
   veteranSignatureContent,
@@ -13,10 +14,16 @@ import {
   primaryLabel,
   secondaryOneLabel,
   secondaryTwoLabel,
+  representativeLabel,
+  representativeSignatureContent,
 } from 'applications/caregivers/definitions/content';
 
 export const mockVeteranSignatureContent = [
   'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
+];
+export const mockRepresentativeSignatureContent = [
+  'Signed by the Veteran’s legal representative on behalf of the Veteran.',
+  'I certify that I give consent to the individual(s) named in this application to perform personal care services for me (or if the Veteran’s Representative, the Veteran) upon being approved as a Primary and/or Secondary Family Caregiver(s) in the Program of Comprehensive Assistance for Family Caregivers.',
 ];
 export const mockPrimaryCaregiverContent = [
   'I certify that I am at least 18 years of age.',
@@ -62,6 +69,9 @@ const testSecondaryTwo = createTestConfig(
       'secondaryOneOnly',
       'oneSecondaryCaregivers',
       'twoSecondaryCaregivers',
+      'signAsRepresentativeYes',
+      'signAsRepresentativeNoRep',
+      'signAsRepresentativeNo',
     ],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -71,6 +81,7 @@ const testSecondaryTwo = createTestConfig(
     setupPerTest: () => {
       cy.server();
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
+      cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
     },
     pageHooks: {
       introduction: () => {
@@ -158,6 +169,24 @@ const testSecondaryTwo = createTestConfig(
                 mockSecondaryCaregiverContent,
               );
               signAsParty(secondaryTwoLabel, 'Donald Duck');
+              break;
+            case 'signAsRepresentativeYes':
+            case 'signAsRepresentativeNoRep':
+              // check veteran content && sign as representative
+              checkContent(
+                representativeLabel,
+                representativeSignatureContent,
+                mockRepresentativeSignatureContent,
+              );
+              signAsParty(representativeLabel, 'Mini Mouse');
+
+              // Check primary caregiver && sign
+              checkContent(
+                primaryLabel,
+                primaryCaregiverContent,
+                mockPrimaryCaregiverContent,
+              );
+              signAsParty(primaryLabel, 'Mini Mouse');
               break;
             default:
               // check veteran content && sign
