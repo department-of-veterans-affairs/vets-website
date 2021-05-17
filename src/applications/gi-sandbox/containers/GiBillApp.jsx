@@ -30,7 +30,7 @@ export function GiBillApp({
   const shouldExitPreviewMode = preview.display && !version;
   const shouldEnterPreviewMode = !preview.display && versionChange;
 
-  const tab = queryParams.get('tab');
+  const tab = queryParams.get('search');
 
   useEffect(
     () => {

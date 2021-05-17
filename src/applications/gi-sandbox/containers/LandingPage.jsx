@@ -22,7 +22,7 @@ export function LandingPage({
   const tabChange = tab => {
     dispatchChangeSearchTab(tab);
 
-    queryParams.set('tab', tab);
+    queryParams.set('search', tab);
     history.push({ pathname: '/', search: queryParams.toString() });
   };
 
