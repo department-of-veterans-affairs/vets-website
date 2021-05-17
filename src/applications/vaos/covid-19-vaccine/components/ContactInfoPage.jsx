@@ -46,10 +46,13 @@ const uiSchema = {
   ),
   phoneNumber: {
     ...phoneConfig,
+    'ui:errorMessages': {
+      ...phoneConfig['ui:errorMessages'],
+      pattern:
+        'Please enter a valid 10-digit phone number (with or without dashes)',
+    },
   },
-  email: {
-    ...emailConfig,
-  },
+  email: emailConfig,
 };
 
 const pageKey = 'contactInfo';
