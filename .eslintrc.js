@@ -47,7 +47,7 @@ module.exports = {
       2,
       { args: 'after-used', argsIgnorePattern: '^_', vars: 'local' },
     ],
-    'no-restricted-imports': ['error', 'raven'],
+    'no-restricted-imports': ['error'],
     'prefer-rest-params': 2,
 
     /* || va custom plugin || */
@@ -220,7 +220,7 @@ module.exports = {
         'src/applications/static-pages/**/*.jsx',
       ],
       rules: {
-        'no-restricted-imports': ['error', 'raven', 'lodash/fp'],
+        'no-restricted-imports': ['error', 'lodash/fp'],
       },
     },
     {
@@ -231,7 +231,7 @@ module.exports = {
         'src/platform/testing/**/*.jsx',
       ],
       rules: {
-        'no-restricted-imports': ['error', 'raven'],
+        'no-restricted-imports': ['error'],
         'no-unused-expressions': 0,
         'react/no-find-dom-node': 0,
       },

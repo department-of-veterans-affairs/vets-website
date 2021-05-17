@@ -296,7 +296,6 @@
     "moment": "^2.19.3",
     "moment-timezone": "^0.5.31",
     "prop-types": "^15.6.1",
-    "raven": "^2.6.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-dropzone": "^4.2.5",
