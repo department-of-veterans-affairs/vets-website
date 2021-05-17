@@ -879,7 +879,7 @@ describe('Schemaform <FileField>', () => {
     tree.unmount();
   });
 
-  it('should render default cancel button', () => {
+  it('should render cancel button with secondary class', () => {
     const idSchema = {
       $id: 'field',
     };
@@ -892,49 +892,6 @@ describe('Schemaform <FileField>', () => {
       ],
     };
     const uiSchema = fileUploadUI('Files');
-    const formData = [
-      {
-        uploading: true,
-      },
-    ];
-    const registry = {
-      fields: {
-        SchemaField: f => f,
-      },
-    };
-    const tree = shallow(
-      <FileField
-        registry={registry}
-        schema={schema}
-        uiSchema={uiSchema}
-        idSchema={idSchema}
-        formData={formData}
-        formContext={formContext}
-        onChange={f => f}
-        requiredSchema={requiredSchema}
-      />,
-    );
-
-    const cancelButton = tree.find('button');
-    expect(cancelButton.hasClass('va-button-link')).to.equal(true);
-    tree.unmount();
-  });
-
-  it('should render cancel button with cancelBtnClass', () => {
-    const idSchema = {
-      $id: 'field',
-    };
-    const schema = {
-      additionalItems: {},
-      items: [
-        {
-          properties: {},
-        },
-      ],
-    };
-    const uiSchema = fileUploadUI('Files', {
-      cancelBtnClass: 'usa-button-secondary',
-    });
     const formData = [
       {
         uploading: true,

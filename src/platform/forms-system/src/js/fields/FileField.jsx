@@ -229,8 +229,6 @@ class FileField extends React.Component {
     let { buttonText = 'Upload' } = uiOptions;
     if (files.length > 0) buttonText = uiOptions.addAnotherLabel;
 
-    const { cancelBtnClass = 'va-button-link' } = uiOptions;
-
     const Tag =
       formContext.onReviewPage && formContext.reviewMode ? 'dl' : 'div';
 
@@ -299,7 +297,7 @@ class FileField extends React.Component {
                       <ProgressBar percent={this.state.progress} />
                       <button
                         type="button"
-                        className={cancelBtnClass}
+                        className="usa-button-secondary vads-u-width--auto"
                         onClick={() => {
                           this.cancelUpload(index);
                         }}
