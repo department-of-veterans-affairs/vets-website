@@ -7,7 +7,7 @@ import TuitionAndHousingEstimates from '../search/TuitionAndHousingEstimates';
 import SearchAccordion from '../SearchAccordion';
 
 export default function SearchResults({ search }) {
-  const [map, setMap] = useState(null);
+  const [setMap] = useState(null);
   const mapboxGlContainer = 'mapbox-gl-container';
   const setupMap = () => {
     const mapContainerElement = document.getElementById(mapboxGlContainer);
