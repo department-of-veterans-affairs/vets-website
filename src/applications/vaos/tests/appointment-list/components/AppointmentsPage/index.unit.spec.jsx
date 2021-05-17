@@ -15,13 +15,8 @@ import {
   getVideoAppointmentMock,
   getVAAppointmentMock,
   getCCAppointmentMock,
-  getDirectBookingEligibilityCriteriaMock,
 } from '../../../mocks/v0';
-import {
-  mockAppointmentInfo,
-  mockDirectBookingEligibilityCriteria,
-  mockRequestEligibilityCriteria,
-} from '../../../mocks/helpers';
+import { mockAppointmentInfo } from '../../../mocks/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -355,16 +350,6 @@ describe('VAOS integration: appointment list', () => {
       },
       user: userState,
     };
-    mockDirectBookingEligibilityCriteria(
-      ['983'],
-      [
-        getDirectBookingEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: 'covid',
-        }),
-      ],
-    );
-    mockRequestEligibilityCriteria(['983'], []);
 
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState: defaultState,
@@ -394,42 +379,6 @@ describe('VAOS integration: appointment list', () => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
         '/new-covid-19-vaccine-booking',
       ),
-    );
-  });
-
-  it('should render schedule radio list without COVID-19 vaccine option', async () => {
-    const defaultState = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingCheetah: true,
-      },
-      user: userState,
-    };
-
-    const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
-      initialState: defaultState,
-    });
-    expect(
-      await screen.findByRole('heading', {
-        level: 2,
-        name: /Schedule a new appointment/,
-      }),
-    );
-
-    expect(await screen.findByText(/start scheduling/i)).be.ok;
-
-    expect(screen.queryByRole('radio')).not.to.exist;
-    expect(screen.getByRole('heading', { name: /COVID-19 vaccines/, level: 3 }))
-      .to.be.ok;
-    expect(screen.getByText(/at this time, you can't schedule a COVID-19/i)).to
-      .be.ok;
-
-    userEvent.click(
-      await screen.findByRole('button', { name: /Start scheduling/i }),
-    );
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/new-appointment'),
     );
   });
 });
