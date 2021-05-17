@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchResultCard from './SearchResultCard';
-import TuitionAndHousingEstimates from './search/TuitionAndHousingEstimates';
+import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 export default function SearchResults({ search }) {
