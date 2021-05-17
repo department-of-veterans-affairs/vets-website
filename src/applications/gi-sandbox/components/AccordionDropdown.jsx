@@ -1,71 +1,119 @@
-import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
+import classNames from 'classnames';
+import { createId } from '../utils/helpers';
 
-const AccordionDropdown = ({
-  children,
-  buttonLabel,
-  buttonOnClick,
-  displayCancel,
-  label,
-  name,
-  onOpen,
-  openName,
-}) => {
-  const [expanded, setExpanded] = useState(false);
-  const wrongOpenName = openName !== name && onOpen && name;
-  const displayButton = buttonLabel && buttonOnClick;
-  const isOpen = expanded && !wrongOpenName;
+class AccordionDropdown extends React.Component {
+  static propTypes = {
+    expanded: PropTypes.bool.isRequired,
+    children: PropTypes.node.isRequired,
+    buttonLabel: PropTypes.string.isRequired,
+    button: PropTypes.string.isRequired,
+    buttonOnClick: PropTypes.func.isRequired,
+  };
 
-  if (wrongOpenName && expanded) {
-    setExpanded(false);
+  static defaultProps = {
+    expanded: false,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: props.expanded,
+    };
+    this.id = `${createId(props.button)}-accordion`;
   }
 
-  const toggleExpanded = () => {
-    setExpanded(!expanded);
+  expanded = () => {
+    if (this.props.section) {
+      return this.props.expanded;
+    }
+    return this.state.expanded;
+  };
 
-    if (!expanded && onOpen) {
-      onOpen(name);
+  toggle = () => {
+    const expanded = !this.expanded();
+    const { onClick } = this.props;
+
+    this.setState({ expanded });
+
+    if (onClick) {
+      onClick(expanded);
     }
   };
 
-  return (
-    <div className="accordion-dropdown">
-      <div
-        className="vads-u-padding-x--1p5 vads-u-padding-y--1"
-        onClick={toggleExpanded}
-      >
-        <div className="opener">
-          <label>{label}</label>
+  renderHeader = () => {
+    const expanded = this.expanded();
+    const { section, button, headerClass } = this.props;
+    if (section) {
+      return (
+        <button
+          id={`${this.id}-button`}
+          aria-expanded={expanded}
+          aria-controls={this.id}
+          onClick={this.toggle}
+          className="usa-accordion-button vads-u-border--2px vads-u-border-style--solid vads-u-border-color--gray-light vads-u-margin--0"
+        >
+          <span className="section-button-span ">{button}</span>
+        </button>
+      );
+    }
+
+    const headerClasses = classNames(
+      'accordion-button-wrapper update-results-header ',
+      {
+        [headerClass]: headerClass,
+      },
+    );
+
+    return (
+      <h2 className={headerClasses}>
+        <button
+          id={`${this.id}-button`}
+          onClick={this.toggle}
+          className="usa-accordion-button vads-u-font-size--md"
+          aria-expanded={expanded}
+          aria-controls={this.id}
+        >
+          <span className="vads-u-font-family--serif accordion-button-text">
+            {button}
+          </span>
+        </button>
+      </h2>
+    );
+  };
+
+  render() {
+    const expanded = this.expanded();
+    const { children, buttonLabel, buttonOnClick } = this.props;
+
+    return (
+      <div className="usa-accordion-item" id={this.id}>
+        {this.renderHeader()}
+        <div
+          id={`${this.id}-content`}
+          className="usa-accordion-content update-results-form"
+          aria-hidden={!expanded}
+          hidden={!expanded}
+        >
+          {expanded ? children : null}
         </div>
+        {expanded && (
+          <div className="update-results">
+            {' '}
+            <button
+              type="button"
+              id="update-benefits-button"
+              className="update-results-button"
+              onClick={buttonOnClick}
+            >
+              {buttonLabel}
+            </button>
+          </div>
+        )}
       </div>
-
-      {isOpen && (
-        <div className="accordion-dropdown-out">
-          <form>
-            {children}
-
-            <div className="footer-controls">
-              {displayCancel && (
-                <span className="cancel" onClick={toggleExpanded}>
-                  Cancel
-                </span>
-              )}
-
-              {displayButton && (
-                <button
-                  type="button"
-                  id="update-benefits-button"
-                  className="calculate-button"
-                  onClick={buttonOnClick}
-                >
-                  {buttonLabel}
-                </button>
-              )}
-            </div>
-          </form>
-        </div>
-      )}
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default AccordionDropdown;

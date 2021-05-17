@@ -35,7 +35,8 @@
       "attributes": {
         "issue": "Traumatic Brain Injury - 5%",
         "decisionIssueId": 10,
-        "decisionDate": "2020-01-05"
+        "decisionDate": "2020-01-05",
+        "disagreementReason": "effective date"
       }
     }
   ],
