@@ -310,5 +310,5 @@ jobs:
       - name: Curl vets-website
         run: curl localhost:3001
 
-      - name: Start Nightwatch tests
+      - name: Start Cypress tests
         run: yarn cy:test:circle
