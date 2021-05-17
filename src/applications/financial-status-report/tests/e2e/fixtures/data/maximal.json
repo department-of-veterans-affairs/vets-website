@@ -227,8 +227,8 @@
     "confirmationEmail": "test2@test1.net",
     "veteranFullName": {
       "first": "Mark",
-      "last": "",
-      "middle": "Webb"
+      "middle": "",
+      "last": "Webb"
     },
     "dateOfBirth": "1950-10-04"
   },
