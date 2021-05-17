@@ -96,6 +96,18 @@
         "view:selected": true
       }
     ],
+    "areaOfDisagreement": [
+      {
+        "type": "contestableIssue",
+        "attributes": {
+          "ratingIssueSubjectText": "Traumatic Brain Injury"
+        },
+        "disagreementOptions": {
+          "effectiveDate": true
+        },
+        "otherEntry": ""
+      }
+    ],
     "evidence": []
   }
 }
