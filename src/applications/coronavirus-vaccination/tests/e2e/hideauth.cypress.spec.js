@@ -60,7 +60,7 @@ describe('COVID-19 Vaccination Preparation Form', () => {
         .type('10001');
 
       cy.get('#root_locationDetails-label').contains(
-        'Will you be in this zip code for the next 6 to 12 months?',
+        'Will you be in this zisp code for the next 6 to 12 months?',
       );
       cy.get('#root_locationDetails_0').check();
 
