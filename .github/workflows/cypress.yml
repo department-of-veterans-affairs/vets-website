@@ -83,8 +83,14 @@ jobs:
       - name: Start Cypress tests
         run: yarn cy:test:gha
 
-      - name: Archive Cypress test artifacts
+      - name: Archive Cypress test videos
         uses: actions/upload-artifact@v2
         with:
-          name: cypress-artifacts
-          path: logs/pact.log 
+          name: cypress-video-artifacts
+          path: cypress/videos
+
+      - name: Archive Cypress test screenshots
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-screenshot-artifacts
+          path: cypress/screenshots
