@@ -103,8 +103,7 @@ def setup() {
 def build(String ref, dockerContainer, String envName) {
   dockerContainer.inside(DOCKER_ARGS) {
     def buildLogPath = "/application/${envName}-build.log"
-    sh "cd /application && yarn build --env.buildtype=${envName} --env.buildLog=${buildLogPath} --verbose"
-    // sh "cd /application && jenkins/build.sh --envName ${envName} --buildLog ${buildLogPath} --verbose"
+    sh "cd /application && jenkins/build.sh --envName ${envName} --buildLog ${buildLogPath} --verbose"
   }
 }
 
