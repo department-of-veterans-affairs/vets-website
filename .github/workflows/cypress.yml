@@ -66,6 +66,12 @@ jobs:
         run: yarn build
         working-directory: content-build
 
+      - name: Start vets-website
+        run: yarn watch --verbose &
+
+      - name: Curl vets-website
+        run: curl -s --fail localhost:3001 > /dev/null
+
       - name: Start content-build
         run: yarn watch --verbose &
         working-directory: content-build
@@ -74,23 +80,19 @@ jobs:
         run: curl -s --fail localhost:3002 > /dev/null
         working-directory: content-build
 
-      - name: Start vets-website
-        run: yarn watch --verbose &
-
-      - name: Curl vets-website
-        run: curl -s --fail localhost:3001 > /dev/null
-
       - name: Start Cypress tests
         run: yarn cy:test:gha
 
       - name: Archive Cypress test videos
         uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
         with:
           name: cypress-video-artifacts
           path: cypress/videos
 
       - name: Archive Cypress test screenshots
         uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
