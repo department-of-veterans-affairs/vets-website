@@ -116,10 +116,10 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
-              <h4 className="vads-u-font-size--h6">
+              <p>
                 When you file a disability claim, you’ll have a chance to
                 provide evidence to support your claim. Evidence could include:
-              </h4>
+              </p>
               <ul>
                 <li>
                   {isBDDForm ? 'Service treatment records, ' : ''}
@@ -210,10 +210,10 @@ class IntroductionPage extends React.Component {
               <h3 className="vads-u-font-size--h4">Apply</h3>
               {isBDDForm ? (
                 <>
-                  <h4 className="vads-u-font-size--h6">
+                  <p>
                     Complete the Benefits Delivery at Discharge form. These are
                     the steps you can expect:
-                  </h4>
+                  </p>
                   <ul>
                     <li>Provide your service member information</li>
                     <li>Provide your military history</li>

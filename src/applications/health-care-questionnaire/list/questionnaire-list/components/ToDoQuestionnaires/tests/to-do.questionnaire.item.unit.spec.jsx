@@ -17,15 +17,15 @@ describe('health care questionnaire list - display a questionnaire item', () => 
     const component = mount(<ToDoQuestionnaireItem data={data} />);
     expect(
       component.find('[data-testid="appointment-location"]').text(),
-    ).to.equal(
-      'for your canceled or rescheduled appointment at Tomorrowland, Magic Kingdom. You can access this questionnaire to copy answers for a rescheduled appointment.',
+    ).to.contain(
+      'Tomorrowland, Magic Kingdom. You can access this questionnaire to copy answers for a rescheduled appointment.',
     );
     expect(component.find('button').text()).to.equal(
       'View and print questions',
     );
-    expect(component.find('[data-testid="due-date"]').text()).to.contain(
-      'Access until',
-    );
+    expect(
+      component.find('[data-testid="due-instructions"]').text(),
+    ).to.contain('Access until');
     expect(component.find('[data-testid="due-by-timestamp"]').exists()).to.be
       .false;
     component.unmount();
@@ -39,11 +39,11 @@ describe('health care questionnaire list - display a questionnaire item', () => 
     const component = mount(<ToDoQuestionnaireItem data={data} />);
     expect(
       component.find('[data-testid="appointment-location"]').text(),
-    ).to.equal('for your appointment at Tomorrowland, Magic Kingdom');
+    ).to.contain('Tomorrowland, Magic Kingdom');
     expect(component.find('a').text()).to.equal('Answer questions');
-    expect(component.find('[data-testid="due-date"]').text()).to.contain(
-      'Complete by',
-    );
+    expect(
+      component.find('[data-testid="due-instructions"]').text(),
+    ).to.contain('Complete by');
     expect(component.find('[data-testid="due-by-timestamp"]').exists()).to.be
       .true;
     component.unmount();
