@@ -3,259 +3,16 @@ name: Continuous Integration
 on: [push]
 
 jobs:
-  # unit-tests:
-  #   name: Unit Tests
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: Get Node version
-  #       id: get-node-version
-  #       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-  #     - name: Cache dependencies
-  #       id: cache-dependencies
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: |
-  #           ~/.cache/yarn
-  #           node_modules
-  #         key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
-  #     - name: Install dependencies
-  #       run: yarn install --frozen-lockfile --prefer-offline
-  #       env:
-  #         YARN_CACHE_FOLDER: ~/.cache/yarn
-
-  #     - name: Create test results folder
-  #       run: mkdir -p test-results
-
-  #     - name: Run unit tests
-  #       run: yarn test:unit --coverage
-  #       env:
-  #         MOCHA_FILE: test-results/unit-tests.xml
-
-  #     - name: Generate coverage report by app
-  #       run: node script/app-coverage-report.js > test-results/coverage_report.txt
-
-  #     - name: Get code coverage
-  #       id: code-coverage
-  #       run: echo ::set-output name=MARKDOWN::$(node ./script/github-actions/code-coverage-format-report.js)
-
-  #     - name: Publish test results
-  #       if: ${{ always() }}
-  #       uses: mikepenz/action-junit-report@v2.4.0
-  #       with:
-  #         check_name: 'Unit Tests Summary'
-  #         github_token: ${{ secrets.GITHUB_TOKEN }}
-  #         report_paths: 'test-results/unit-tests.xml'
-  #         summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
-
-  # linting:
-  #   name: Linting
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: Get Node version
-  #       id: get-node-version
-  #       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-  #     - name: Cache dependencies
-  #       id: cache-dependencies
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: |
-  #           ~/.cache/yarn
-  #           node_modules
-  #         key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
-  #     - name: Install dependencies
-  #       run: yarn install --frozen-lockfile --prefer-offline
-  #       env:
-  #         YARN_CACHE_FOLDER: ~/.cache/yarn
-
-  #     - name: Annotate ESLint results
-  #       run: yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/eslint-annotation-format.js .
-
-  #     - name: Run Sass lint
-  #       run: yarn run sass-lint --format json --verbose --output sasslint-report.json
-
-  #     - name: Annotate Sass lint results
-  #       run: node ./script/github-actions/sasslint-annotation-format.js
-
-  # contract-tests:
-  #   name: Contract Tests
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: Configure AWS Credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: 'us-gov-west-1'
-
-  #     - name: Get Pact Broker password from Parameter Store
-  #       uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-  #       with:
-  #         ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
-  #         env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
-
-  #     - name: Get GitHub token from Parameter Store
-  #       uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
-  #       with:
-  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-  #     - name: Get Node version
-  #       id: get-node-version
-  #       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-  #     - name: Install dependencies
-  #       run: yarn install --frozen-lockfile --prefer-offline
-  #       env:
-  #         YARN_CACHE_FOLDER: ~/.cache/yarn
-
-  #     - name: Create test results folder
-  #       run: mkdir -p test-results
-
-  #     - name: Run contract tests
-  #       run: yarn test:contract
-  #       env:
-  #         MOCHA_FILE: ./test-results/test-results.xml
-
-  #     - name: Print Pact failures
-  #       run: cat test-results/test-results.xml
-  #       if: ${{ failure() }}
-
-  #     - name: Run Pact publish
-  #       run: yarn pact:publish
-  #       env:
-  #         PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
-  #         PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
-
-  #     - name: Run Pact verify
-  #       run: |
-  #         curl -v -X POST \
-  #         -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
-  #         -H 'Accept: application/vnd.github.v3+json' \
-  #         https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
-  #         -d '{"ref": "master"}' \
-  #         --fail
-
-  #     - name: Archive contract test results
-  #       uses: actions/upload-artifact@v2
-  #       if: ${{ failure() }}
-  #       with:
-  #         name: contract-test-report
-  #         path: test-results/test-results.xml
-
-  #     - name: Archive contract test log
-  #       uses: actions/upload-artifact@v2
-  #       if: ${{ failure() }}
-  #       with:
-  #         name: contract-test-log
-  #         path: logs/pact.log
-
-  # security-audit:
-  #   name: Security Audit
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: Get Node version
-  #       id: get-node-version
-  #       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-  #     - name: Audit dependencies
-  #       run: yarn security-check
-
-  # drupal-cache-test:
-  #   name: Drupal Cache Test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-
-  #     - name: Get Node version
-  #       id: get-node-version
-  #       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-  #     - name: Cache dependencies
-  #       id: cache-dependencies
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: |
-  #           ~/.cache/yarn
-  #           node_modules
-  #         key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
-  #     - name: Install dependencies
-  #       run: yarn install --frozen-lockfile --prefer-offline
-  #       env:
-  #         YARN_CACHE_FOLDER: ~/.cache/yarn
-
-  #     - name: Fetch Drupal cache
-  #       run: yarn fetch-drupal-cache
-
-  build:
-    name: Build
-    runs-on: self-hosted
-    defaults:
-      run:
-        working-directory: vets-website
-
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout vets-website
+      - name: Checkout
         uses: actions/checkout@v2
-        with:
-          path: vets-website
 
-      - name: Checkout vagov-content
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/vagov-content
-          path: vagov-content
-
-      - name: Checkout content-build
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/content-build
-          path: content-build
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
       - name: Setup Node
         uses: actions/setup-node@v2
@@ -271,50 +28,203 @@ jobs:
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
-      - name: Install vets-website dependencies
+      - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Install content-build dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
-        working-directory: content-build
+      - name: Create test results folder
+        run: mkdir -p test-results
+
+      - name: Run unit tests
+        run: yarn test:unit --coverage
         env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+          MOCHA_FILE: test-results/unit-tests.xml
 
-      - name: Build vets-website
-        run: yarn build:webpack --env.scaffold
-        timeout-minutes: 15
-        env:
-          NODE_ENV: production
+      - name: Generate coverage report by app
+        run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
-      - name: Fetch Drupal Cache
-        run: yarn fetch-drupal-cache
-        working-directory: content-build
+      - name: Get code coverage
+        id: code-coverage
+        run: echo ::set-output name=MARKDOWN::$(node ./script/github-actions/code-coverage-format-report.js)
 
-      - name: Build content-build
-        run: yarn build
-        working-directory: content-build
-
-      - name: Start content-build
-        run: yarn watch --verbose &
-        working-directory: content-build
-
-      - name: Curl content-build
-        run: curl -s --fail localhost:3002 > /dev/null
-        working-directory: content-build
-
-      - name: Start vets-website
-        run: yarn watch --verbose &
-
-      - name: Curl vets-website
-        run: curl -s --fail localhost:3001 > /dev/null
-
-      - name: Start Cypress tests
-        run: yarn cy:test:gha
-
-      - name: Archive Cypress test artifacts
-        uses: actions/upload-artifact@v2
+      - name: Publish test results
+        if: ${{ always() }}
+        uses: mikepenz/action-junit-report@v2.4.0
         with:
-          name: cypress-artifacts
+          check_name: 'Unit Tests Summary'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'test-results/unit-tests.xml'
+          summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
+
+  linting:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Annotate ESLint results
+        run: yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/eslint-annotation-format.js .
+
+      - name: Run Sass lint
+        run: yarn run sass-lint --format json --verbose --output sasslint-report.json
+
+      - name: Annotate Sass lint results
+        run: node ./script/github-actions/sasslint-annotation-format.js
+
+  contract-tests:
+    name: Contract Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'us-gov-west-1'
+
+      - name: Get Pact Broker password from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
+          env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
+
+      - name: Get GitHub token from Parameter Store
+        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Create test results folder
+        run: mkdir -p test-results
+
+      - name: Run contract tests
+        run: yarn test:contract
+        env:
+          MOCHA_FILE: ./test-results/test-results.xml
+
+      - name: Print Pact failures
+        run: cat test-results/test-results.xml
+        if: ${{ failure() }}
+
+      - name: Run Pact publish
+        run: yarn pact:publish
+        env:
+          PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
+          PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
+
+      - name: Run Pact verify
+        run: |
+          curl -v -X POST \
+          -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
+          -H 'Accept: application/vnd.github.v3+json' \
+          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/8289333/dispatches \
+          -d '{"ref": "master"}' \
+          --fail
+
+      - name: Archive contract test results
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: contract-test-report
+          path: test-results/test-results.xml
+
+      - name: Archive contract test log
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: contract-test-log
           path: logs/pact.log
+
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Audit dependencies
+        run: yarn security-check
+
+  drupal-cache-test:
+    name: Drupal Cache Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Fetch Drupal cache
+        run: yarn fetch-drupal-cache
