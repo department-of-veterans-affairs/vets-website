@@ -45,7 +45,7 @@ routes.forEach(url => {
 app.listen(options.port, options.host, () => {
   // eslint-disable-next-line no-console
   console.log(
-    `Test server listening on port ${options.port}, ${options.host} for type ${
+    `Test server listening on port ${options.port} for type ${
       options.buildtype
     }`,
   );
