@@ -384,6 +384,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     userEvent.click(
       await screen.findByRole('radio', { name: '9:00 AM option selected' }),
     );
+    expect(button.getAttribute('aria-label')).to.contain('Date selected');
 
     userEvent.click(screen.getByText(/^Continue/));
     await waitFor(() => {
