@@ -144,23 +144,11 @@ const formConfig = {
               'ui:validations': [preventLargeFields],
             },
             questions: {
-              items: {
-                additionalQuestions: {
-                  'ui:validations': [preventLargeFields],
-                  'ui:title': getQuestionTextById(
-                    QUESTION_IDS.ADDITIONAL_QUESTIONS,
-                  ),
-                },
-              },
-              'ui:options': {
-                doNotScroll: true,
-                keepInPageOnReview: true,
-                itemName: 'Question',
-                viewField: formData => {
-                  return <>{formData.formData.additionalQuestions}</>;
-                },
-              },
-              'ui:title': 'Additional questions for your provider',
+              'ui:widget': 'textarea',
+              'ui:validations': [preventLargeFields],
+              'ui:title': getQuestionTextById(
+                QUESTION_IDS.ADDITIONAL_QUESTIONS,
+              ),
             },
           },
           schema: {
@@ -177,13 +165,7 @@ const formConfig = {
                 type: 'string',
               },
               questions: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    additionalQuestions: { type: 'string' },
-                  },
-                },
+                type: 'string',
               },
             },
           },
