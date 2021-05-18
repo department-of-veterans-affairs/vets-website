@@ -36,7 +36,7 @@ export default function ReviewFieldTemplate(props) {
       return null;
     }
   }
-  const Tag = uiSchema?.['ui:options']?.useDlWrap ? 'dl' : 'div';
+  const Tag = 'dl'; // uiSchema?.['ui:options']?.useDlWrap ? 'dl' : 'dl';
 
   return (
     <Tag className="review-row">
