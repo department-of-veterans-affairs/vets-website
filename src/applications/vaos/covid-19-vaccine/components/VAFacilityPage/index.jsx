@@ -85,6 +85,9 @@ function VAFacilityPage({
       vaFacility: {
         'ui:title': 'Please select where you’d like to have your appointment.',
         'ui:widget': FacilitiesRadioWidget,
+        'ui:errorMessages': {
+          required: 'Please select a location for your appointment',
+        },
       },
     },
     initialData,

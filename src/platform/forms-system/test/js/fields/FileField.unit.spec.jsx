@@ -878,4 +878,45 @@ describe('Schemaform <FileField>', () => {
     );
     tree.unmount();
   });
+
+  it('should render cancel button with secondary class', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files');
+    const formData = [
+      {
+        uploading: true,
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    const cancelButton = tree.find('button.usa-button-secondary');
+    expect(cancelButton.text()).to.equal('Cancel');
+    tree.unmount();
+  });
 });

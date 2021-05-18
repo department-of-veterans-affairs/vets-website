@@ -202,6 +202,16 @@ article[data-location^="area-of-disagreement"] {
   margin-top: 0;
 }
 
+/* Opt in */
+.capitalize {
+  text-transform: capitalize;
+}
+/* hide duplicate "required" checkbox label & error message above checkbox */
+#root_socOptIn-label,
+#root_socOptIn-label + span {
+  display: none;
+}
+
 /* additional evidence */
 article[data-location$="/upload"] {
   #root_evidence_add_label {

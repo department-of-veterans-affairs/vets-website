@@ -93,7 +93,7 @@ describe('VAOS vaccine flow <ClinicChoicePage>', () => {
     userEvent.click(screen.getByText(/continue/i));
 
     expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
+      'Please select a clinic for your appointment',
     );
     expect(screen.history.push.called).not.to.be.true;
 
