@@ -31,7 +31,7 @@ const NeedHelp = () => (
       <Telephone contact="6127136415" pattern={PATTERNS.OUTSIDE_US} />
       {'.'}
     </p>
-    <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
+    <a href="/manage-va-debt/request-debt-help-5655/">
       Find information about submitting a financial status report
     </a>
     <h2

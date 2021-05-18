@@ -25,7 +25,7 @@ const FailureToExhaust = ({
   }
 
   const label = (
-    <h4>
+    <h4 className={`${key}_header`}>
       Was your application denied due to “failure to exhaust other remedies”?
       Note: “Failure to exhaust other remedies” generally means you applied to
       the wrong board.

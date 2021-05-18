@@ -39,7 +39,7 @@ const VeteranInformationDisplay = props => {
           {fullName}
         </p>
         <p className="vads-u-margin--1px">
-          Date of birth:{' '}
+          <span className="vads-u-font-weight--bold">Date of birth: </span>
           <time
             dateTime={dateOfBirth}
             aria-label={`Veteran's date of birth ${moment(dateOfBirth).format(
@@ -58,7 +58,7 @@ const VeteranInformationDisplay = props => {
                 genderLabels[gender] ? genderLabels[gender] : 'UNKNOWN'
               }`}
             >
-              Gender:{' '}
+              <span className="vads-u-font-weight--bold">Gender: </span>
               <span data-testid="gender">
                 {genderLabels[gender] ? genderLabels[gender] : 'UNKNOWN'}
               </span>
@@ -68,7 +68,9 @@ const VeteranInformationDisplay = props => {
         {mailing && (
           <>
             <p>
-              <span>Mailing address: </span>
+              <span className="vads-u-font-weight--bold">
+                Mailing address:{' '}
+              </span>
               <span data-testid="mailingAddress">
                 <AddressView address={mailing} />
               </span>
@@ -78,7 +80,7 @@ const VeteranInformationDisplay = props => {
         {residential && (
           <>
             <p>
-              <span>Home address: </span>
+              <span className="vads-u-font-weight--bold">Home address: </span>
               <span data-testid="residentialAddress">
                 <AddressView address={residential} />
               </span>

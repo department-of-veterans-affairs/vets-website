@@ -18,7 +18,6 @@ import subscribeAccordionEvents from './subscribeAccordionEvents';
 import createApplicationStatus from './createApplicationStatus';
 import createCallToActionWidget from './createCallToActionWidget';
 import createMyVALoginWidget from './createMyVALoginWidget';
-import createDirectDepositContent from './direct-deposit-content/createDirectDepositContent';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
@@ -76,6 +75,8 @@ import createThirdPartyApps, {
 
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
 import dependencyVerificationReducer from './dependency-verification/reducers/index';
+
+import createCOEAccess from './coe-access/createCOEAccess';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -199,7 +200,8 @@ createI18Select(store, widgetTypes.I_18_SELECT);
 
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 
-createDirectDepositContent(store, widgetTypes.DIRECT_DEPOSIT);
+createCOEAccess(store, widgetTypes.COE_ACCESS);
+
 createSharableLink(store, widgetTypes.SHARABLE_LINK);
 
 // homepage widgets

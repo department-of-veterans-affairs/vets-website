@@ -32,7 +32,7 @@ import BankInfoForm, { makeFormProperties } from './BankInfoForm';
 
 import PaymentInformationEditError from './PaymentInformationEditError';
 import ProfileInfoTable from '../ProfileInfoTable';
-import { benefitTypes } from './DirectDepositV2';
+import { benefitTypes } from './DirectDeposit';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 

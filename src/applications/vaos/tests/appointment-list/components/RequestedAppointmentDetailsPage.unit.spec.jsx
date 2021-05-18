@@ -150,7 +150,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('patient.test@va.gov');
-    expect(screen.baseElement).to.contain.text('(703) 652-0000');
+    expect(screen.baseElement).to.contain.text('703-652-0000');
     expect(screen.baseElement).to.contain.text('Call morning');
   });
 
@@ -547,5 +547,47 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     );
     expect(screen.baseElement).to.contain.text('View your appointments');
     expect(screen.baseElement).to.contain.text('New appointment');
+  });
+
+  it('should handle error when cancelling', async () => {
+    const appointment = getVARequestMock();
+
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      appointmentType: 'Primary care',
+      optionDate1: moment(testDate)
+        .add(3, 'days')
+        .format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+    };
+
+    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    // missing cancel request mock
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: '/requested',
+    });
+
+    const detailLinks = await screen.findAllByRole('link', {
+      name: /Detail/i,
+    });
+
+    fireEvent.click(detailLinks[0]);
+
+    expect(await screen.findByText('Pending primary care appointment')).to.be
+      .ok;
+
+    expect(screen.baseElement).not.to.contain.text('Canceled');
+
+    fireEvent.click(screen.getByText(/cancel request/i));
+
+    await screen.findByRole('alertdialog');
+
+    fireEvent.click(screen.getByText(/yes, cancel this request/i));
+
+    await screen.findByText(/We couldn’t cancel your request/i);
+
+    expect(screen.baseElement).not.to.contain.text('Canceled');
   });
 });

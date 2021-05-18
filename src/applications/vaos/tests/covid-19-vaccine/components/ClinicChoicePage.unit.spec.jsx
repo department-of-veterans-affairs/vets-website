@@ -80,10 +80,11 @@ describe('VAOS vaccine flow <ClinicChoicePage>', () => {
       store,
     });
 
-    await screen.findByText(/Choose a clinic located at/i);
+    await screen.findByText(
+      /Clinics at Cheyenne VA Medical Center offer vaccine appointments at different times./i,
+    );
 
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
 
     expect(await screen.findAllByRole('radio')).to.have.length(2);
     expect(screen.getByRole('radio', { name: /Green team clinic/ })).to.be.ok;
@@ -92,7 +93,7 @@ describe('VAOS vaccine flow <ClinicChoicePage>', () => {
     userEvent.click(screen.getByText(/continue/i));
 
     expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
+      'Please select a clinic for your appointment',
     );
     expect(screen.history.push.called).not.to.be.true;
 

@@ -21,6 +21,8 @@ import {
   getSiteIdFromFacilityId,
 } from '../../services/location';
 import {
+  selectFeatureCommunityCare,
+  selectFeatureDirectScheduling,
   selectUseFlatFacilityPage,
   selectIsCernerOnlyPatient,
   selectUseProviderSelection,
@@ -405,5 +407,35 @@ export function selectConfirmationPage(state) {
     flowType: getFlowType(state),
     appointmentLength: getAppointmentLength(state),
     useProviderSelection: selectUseProviderSelection(state),
+  };
+}
+
+export function selectReviewPage(state) {
+  return {
+    clinic: getChosenClinicInfo(state),
+    data: getFormData(state),
+    facility: getChosenFacilityInfo(state),
+    facilityDetails: getChosenFacilityDetails(state),
+    flowType: getFlowType(state),
+    submitStatus: state.newAppointment.submitStatus,
+    submitStatusVaos400: state.newAppointment.submitStatusVaos400,
+    systemId: getSiteIdForChosenFacility(state),
+    useProviderSelection: selectUseProviderSelection(state),
+    vaCityState: getChosenVACityState(state),
+  };
+}
+
+export function selectTypeOfCarePage(state) {
+  const newAppointment = getNewAppointment(state);
+  const address = selectVAPResidentialAddress(state);
+  return {
+    ...address,
+    hideUpdateAddressAlert: newAppointment.hideUpdateAddressAlert,
+    initialData: getFormData(state),
+    pageChangeInProgress: selectPageChangeInProgress(state),
+    showCommunityCare: selectFeatureCommunityCare(state),
+    showDirectScheduling: selectFeatureDirectScheduling(state),
+    showPodiatryApptUnavailableModal:
+      newAppointment.showPodiatryAppointmentUnavailableModal,
   };
 }

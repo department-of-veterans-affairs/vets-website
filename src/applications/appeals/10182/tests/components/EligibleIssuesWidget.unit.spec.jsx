@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { EligibleIssuesWidget } from '../../components/EligibleIssuesWidget';
+import EligibleIssuesWidget from '../../components/EligibleIssuesWidget';
 import { SELECTED } from '../../constants';
 
 describe('<EligibleIssuesWidget>', () => {
@@ -79,12 +79,6 @@ describe('<EligibleIssuesWidget>', () => {
     });
     wrapper.unmount();
   });
-  it('should show an error when submitted with no selections', () => {
-    const props = getProps({ submitted: true });
-    const wrapper = mount(<EligibleIssuesWidget {...props} />);
-    expect(wrapper.find('.usa-input-error').length).to.equal(1);
-    wrapper.unmount();
-  });
   it('should not show an error when submitted with no selections in eligible issues', () => {
     const props = getProps({ submitted: true });
     const issues = [{ [SELECTED]: true }];
@@ -96,14 +90,14 @@ describe('<EligibleIssuesWidget>', () => {
   });
 
   it('should show a message when no issues found', () => {
-    const props = getProps();
+    const props = getProps({ review: true });
     const wrapper = mount(<EligibleIssuesWidget {...props} value={[]} />);
     expect(wrapper.find('dt').text()).to.contain('No eligible issues found');
     wrapper.unmount();
   });
   it('should show a message when no issues selected on review page', () => {
     const props = getProps({ review: true });
-    const wrapper = mount(<EligibleIssuesWidget {...props} value={[]} />);
+    const wrapper = mount(<EligibleIssuesWidget {...props} value={[{}]} />);
     expect(wrapper.find('dt').text()).to.contain('No issues selected');
     wrapper.unmount();
   });

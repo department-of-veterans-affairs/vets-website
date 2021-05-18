@@ -18,7 +18,7 @@ describe('Chapter 31 wizard', () => {
     cy.injectAxe();
   });
   it('should show the chapter 31 wizard', () => {
-    cy.url().should('include', `${CHAPTER_31_ROOT_URL}/orientation`);
+    cy.url().should('include', `${CHAPTER_31_ROOT_URL}/start`);
     cy.axeCheck();
     cy.get('h1').should(
       'have.text',
@@ -30,7 +30,7 @@ describe('Chapter 31 wizard', () => {
     cy.axeCheck();
   });
   it('should fill out the wizard and orientation', () => {
-    cy.url().should('include', `${CHAPTER_31_ROOT_URL}/orientation`);
+    cy.url().should('include', `${CHAPTER_31_ROOT_URL}/start`);
     cy.axeCheck();
     cy.findByRole('radio', { name: /Veteran/i }).click();
     cy.findAllByRole('radio', { name: /Yes/i })

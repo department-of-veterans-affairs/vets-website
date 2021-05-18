@@ -11,6 +11,7 @@ const initialState = {
   isError: false,
   errorCode: '',
   pending: true,
+  pendingDebts: true,
   debts: [],
 };
 
@@ -33,13 +34,12 @@ const fsrApi = (state = initialState, action) => {
         ...state,
         pending: true,
       };
-    case DEBTS_FETCH_SUCCESS: {
+    case DEBTS_FETCH_SUCCESS:
       return {
         ...state,
         debts: action.debts,
-        pending: false,
+        pendingDebts: false,
       };
-    }
     default:
       return state;
   }

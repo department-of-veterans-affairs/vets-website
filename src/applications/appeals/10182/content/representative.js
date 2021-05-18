@@ -1,10 +1,16 @@
 import React from 'react';
 
 export const RepIntroTitle = (
-  <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-    Do you have a representative, like a Veteran Service Organization (VSO) or a
-    VA-accredited attorney or agent, helping you file this appeal?
-  </p>
+  <div>
+    <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+      Do you have a representative—like an accredited attorney, a claims agent,
+      Veterans Service Officer (VSO)—helping you file this decision review?
+    </p>
+    <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+      <strong>Note:</strong> These professionals are trained and certified in
+      the VA claims and appeals processes.
+    </p>
+  </div>
 );
 
 export const repLabel = 'Representative or VSO name';

@@ -9,11 +9,7 @@ import {
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
 import reducers from '../../../redux/reducer';
-import {
-  getVAAppointmentMock,
-  getVAFacilityMock,
-  getVARequestMock,
-} from '../../mocks/v0';
+import { getVAAppointmentMock, getVAFacilityMock } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import {
   renderWithStoreAndRouter,
@@ -24,8 +20,6 @@ import CanceledAppointmentsList from '../../../appointment-list/components/Cance
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaExpressCare: true,
-    vaExpressCareNew: true,
     vaOnlineSchedulingHomepageRefresh: true,
   },
 };
@@ -368,69 +362,6 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       'VA Video Connect at a VA location',
     );
     expect(screen.baseElement).to.contain.text('Canceled');
-  });
-
-  it('should show cancelled express care appointment text', async () => {
-    const startDate = moment.utc();
-    const appointment = getVARequestMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      status: 'Cancelled',
-      date: startDate,
-      optionDate1: startDate,
-      optionTime1: 'AM',
-      purposeOfVisit: 'New Issue',
-      bestTimetoCall: ['Morning'],
-      email: 'patient.test@va.gov',
-      phoneNumber: '5555555566',
-      typeOfCareId: 'CR1',
-      reasonForVisit: 'Back pain',
-      friendlyLocationName: 'Some VA medical center',
-      appointmentType: 'Express Care',
-      comment: 'loss of smell',
-      facility: {
-        ...appointment.attributes.facility,
-        facilityCode: '983GC',
-      },
-    };
-    appointment.id = '1234';
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
-
-    const facility = {
-      id: 'vha_442GC',
-      attributes: {
-        ...getVAFacilityMock().attributes,
-        uniqueId: '442GC',
-        name: 'Cheyenne VA Medical Center',
-        address: {
-          physical: {
-            zip: '82001-5356',
-            city: 'Cheyenne',
-            state: 'WY',
-            address1: '2360 East Pershing Boulevard',
-          },
-        },
-        phone: {
-          main: '307-778-7550',
-        },
-      },
-    };
-    mockFacilitiesFetch('vha_442GC', [facility]);
-    const screen = renderWithStoreAndRouter(<CanceledAppointmentsList />, {
-      initialState,
-      reducers,
-    });
-
-    await screen.findByText(
-      new RegExp(startDate.tz('America/New_York').format('dddd, MMMM D'), 'i'),
-    );
-
-    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text('Canceled');
-    expect(screen.baseElement).not.to.contain.text(
-      'A VA health care provider will follow up with you today.',
-    );
-    expect(screen.baseElement).to.contain.text('Express Care request');
   });
 
   it('should show phone call appointment text', async () => {

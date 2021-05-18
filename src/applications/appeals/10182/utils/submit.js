@@ -1,6 +1,11 @@
 import moment from 'moment';
 
-import { SELECTED } from '../constants';
+import {
+  SELECTED,
+  MAX_ISSUE_LENGTH,
+  MAX_REP_NAME_LENGTH,
+  MAX_DISAGREEMENT_REASON_LENGTH,
+} from '../constants';
 
 /**
  * @typedef FormData
@@ -85,7 +90,7 @@ export const getEligibleContestableIssues = issues => {
  * @param {ContestableIssue~Attributes} attributes
  * @returns {String} Issue name - rating % - description combined
  */
-export const getIssueName = ({ attributes } = {}) => {
+export const createIssueName = ({ attributes } = {}) => {
   const {
     ratingIssueSubjectText,
     ratingIssuePercentNumber,
@@ -98,14 +103,15 @@ export const getIssueName = ({ attributes } = {}) => {
   ]
     .filter(part => part)
     .join(' - ')
-    .substring(0, 255);
+    .substring(0, MAX_ISSUE_LENGTH);
 };
 
 /**
  * @typedef ContestableIssue~SubmittableItem
  * @type {Object}
- * @property {String} issue - title of issue returned by getIssueName function
+ * @property {String} issue - title of issue returned by createIssueName function
  * @property {String} decisionDate - decision date string (YYYY-MM-DD)
+ * @property {String} disagreementReason - area of disagreement
  * @property {Number=} decisionIssueId - decision id
  * @property {String=} ratingIssueReferenceId - issue reference number
  * @property {String=} ratingDecisionReferenceId - decision reference id
@@ -149,7 +155,7 @@ export const getContestableIssues = ({ contestableIssues }) =>
         return acc;
       },
       {
-        issue: getIssueName(issue),
+        issue: createIssueName(issue),
         decisionDate: attr.approxDecisionDate,
       },
     );
@@ -183,22 +189,57 @@ export const getContestableIssues = ({ contestableIssues }) =>
  * @param {FormData}
  * @returns {ContestableIssue~Submittable}
  */
-export const addIncludedIssues = formData =>
-  getContestableIssues(formData).concat(
-    (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
-      if (issue[SELECTED] && issue.issue && issue.decisionDate) {
-        // match contested issue pattern
-        issuesToAdd.push({
-          type: 'contestableIssue',
-          attributes: {
-            issue: issue.issue,
-            decisionDate: issue.decisionDate,
-          },
-        });
-      }
-      return issuesToAdd;
-    }, []),
-  );
+export const addIncludedIssues = formData => {
+  const issues = getContestableIssues(formData);
+  if (formData['view:hasIssuesToAdd']) {
+    return issues.concat(
+      (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
+        if (issue[SELECTED] && issue.issue && issue.decisionDate) {
+          // match contested issue pattern
+          issuesToAdd.push({
+            type: 'contestableIssue',
+            attributes: {
+              issue: issue.issue,
+              decisionDate: issue.decisionDate,
+            },
+          });
+        }
+        return issuesToAdd;
+      }, []),
+    );
+  }
+  return issues;
+};
+
+/**
+ * Add area of disagreement
+ * @param {ContestableIssue~Submittable} issues - selected & processed issues
+ * @param {FormData} formData
+ * @return {ContestableIssues~Submittable} issues with "disagreementReason" added
+ */
+export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
+  const keywords = {
+    serviceConnection: () => 'service connection',
+    effectiveDate: () => 'effective date',
+    evaluation: () => 'disability evaluation',
+    other: disagreementOptions => disagreementOptions.otherEntry,
+  };
+  return issues.map((issue, index) => {
+    const entry = areaOfDisagreement[index];
+    const reasons = Object.entries(entry.disagreementOptions)
+      .map(([key, value]) => value && keywords[key](entry))
+      .filter(Boolean);
+    return {
+      ...issue,
+      attributes: {
+        ...issue.attributes,
+        disagreementReason: reasons
+          .join(',')
+          .substring(0, MAX_DISAGREEMENT_REASON_LENGTH), // max length in schema
+      },
+    };
+  });
+};
 
 /**
  * @typedef Evidence
@@ -305,11 +346,11 @@ export const getPhone = ({ veteran = {} } = {}) =>
 /**
  * Get representative name entered by Veteran
  * @param {FormData}
- * @returns {String} Rep name with max length of 120 characters
+ * @returns {String} Rep name with max length of characters
  */
 export const getRepName = formData =>
   formData['view:hasRep']
-    ? (formData.representativesName || '').substring(0, 120)
+    ? (formData.representativesName || '').substring(0, MAX_REP_NAME_LENGTH)
     : '';
 
 /**
