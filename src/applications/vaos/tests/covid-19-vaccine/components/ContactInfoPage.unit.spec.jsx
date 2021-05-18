@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import ContactInfoPage from '../../../covid-19-vaccine/components/ContactInfoPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { cleanup } from 'axe-core';
+import { cleanup } from '@testing-library/react';
 
 describe('VAOS <ContactInfoPage>', () => {
   it('should submit with valid data', async () => {
@@ -53,9 +53,12 @@ describe('VAOS <ContactInfoPage>', () => {
     // it should display page heading
     expect(screen.getByText('Confirm your contact information')).to.be.ok;
 
-    expect(await screen.findByText(/^Please enter a 10-digit phone number/)).to
-      .be.ok;
-    expect(screen.getByText(/^Please provide a response/)).to.be.ok;
+    expect(
+      await screen.findByText(
+        /^Please enter a valid 10-digit phone number \(with or without dashes\)/,
+      ),
+    ).to.be.ok;
+    expect(screen.getByText(/^Please enter an email address/)).to.be.ok;
 
     userEvent.click(button);
     expect(screen.history.push.called).to.be.false;

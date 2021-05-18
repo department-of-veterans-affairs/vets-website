@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 import SignatureInput from './SignatureInput';
@@ -36,8 +35,9 @@ const SignatureCheckbox = ({
     >
       {children && <header>{children}</header>}
 
-      <section className={classNames({ 'wide-input': isRepresentative })}>
+      <section>
         <SignatureInput
+          ariaDescribedby={`${label}-signature-label`}
           label={label}
           fullName={fullName}
           required={isRequired}
@@ -49,7 +49,10 @@ const SignatureCheckbox = ({
         />
 
         {isRepresentative && (
-          <p className="on-behalf-representative">
+          <p
+            className="on-behalf-representative"
+            id={`${label}-signature-label`}
+          >
             On behalf of
             <strong className="vads-u-font-size--lg">
               {fullName.first} {fullName.middle} {fullName.last}

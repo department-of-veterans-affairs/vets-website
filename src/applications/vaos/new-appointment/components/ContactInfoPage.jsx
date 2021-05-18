@@ -26,7 +26,7 @@ const initialSchema = {
   properties: {
     phoneNumber: {
       type: 'string',
-      pattern: '^[0-9]{10}$',
+      pattern: '^[2-9][0-9]{9}$',
     },
     bestTimeToCall: {
       type: 'object',
@@ -49,6 +49,7 @@ const initialSchema = {
   },
 };
 
+const phoneConfig = phoneUI('Your phone number');
 const uiSchema = {
   'ui:description': (
     <>
@@ -65,7 +66,14 @@ const uiSchema = {
       </p>
     </>
   ),
-  phoneNumber: phoneUI('Your phone number'),
+  phoneNumber: {
+    ...phoneConfig,
+    'ui:errorMessages': {
+      ...phoneConfig['ui:errorMessages'],
+      pattern:
+        'Please enter a valid 10-digit phone number (with or without dashes)',
+    },
+  },
   bestTimeToCall: {
     'ui:title': 'What are the best times for us to call you?',
     'ui:validations': [validateBooleanGroup],

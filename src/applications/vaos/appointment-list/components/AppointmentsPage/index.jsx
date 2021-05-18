@@ -11,7 +11,6 @@ import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import {
   getCancelInfo,
   selectFutureStatus,
-  selectExpressCareAvailability,
   selectCanUseVaccineFlow,
 } from '../../redux/selectors';
 import {
@@ -25,10 +24,8 @@ import {
 import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import TabNav from './TabNav';
-import RequestExpressCare from './RequestExpressCare';
 import FutureAppointmentsList from '../FutureAppointmentsList';
 import PastAppointmentsList from '../PastAppointmentsList';
-import ExpressCareList from '../ExpressCareList';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -41,10 +38,8 @@ function AppointmentsPage({
   cancelInfo,
   closeCancelAppointment,
   confirmCancelAppointment,
-  expressCare,
   featureCovid19Vaccine,
   fetchFutureAppointments,
-  fetchExpressCareWindows,
   futureStatus,
   isCernerOnlyPatient,
   isWelcomeModalDismissed,
@@ -53,17 +48,12 @@ function AppointmentsPage({
   pendingStatus,
   showScheduleButton,
   startNewAppointmentFlow,
-  startNewExpressCareFlow,
 }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
 
     if (futureStatus === FETCH_STATUS.notStarted) {
       fetchFutureAppointments();
-    }
-
-    if (expressCare.windowsStatus === FETCH_STATUS.notStarted) {
-      fetchExpressCareWindows();
     }
   }, []);
 
@@ -90,14 +80,11 @@ function AppointmentsPage({
 
   const isLoading =
     pendingStatus === FETCH_STATUS.loading ||
-    expressCare.windowsStatus === FETCH_STATUS.loading ||
-    pendingStatus === FETCH_STATUS.notStarted ||
-    expressCare.windowsStatus === FETCH_STATUS.notStarted;
+    pendingStatus === FETCH_STATUS.notStarted;
 
   const routes = (
     <Switch>
       <Route component={PastAppointmentsList} path="/past" />
-      <Route component={ExpressCareList} path="/express-care" />
       <Route path="/" component={FutureAppointmentsList} />
     </Switch>
   );
@@ -138,18 +125,6 @@ function AppointmentsPage({
       )}
       {!isLoading && (
         <>
-          {!isCernerOnlyPatient &&
-            expressCare.useNewFlow && (
-              <RequestExpressCare
-                {...expressCare}
-                startNewExpressCareFlow={() => {
-                  recordEvent({
-                    event: `${GA_PREFIX}-express-care-request-button-clicked`,
-                  });
-                  startNewExpressCareFlow();
-                }}
-              />
-            )}
           <h2 className="vads-u-margin-y--3">
             Your upcoming and past appointments
           </h2>
@@ -190,16 +165,13 @@ function mapStateToProps(state) {
     featureCovid19Vaccine: selectFeatureCovid19Vaccine(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    expressCare: selectExpressCareAvailability(state),
   };
 }
 
 const mapDispatchToProps = {
-  fetchExpressCareWindows: actions.fetchExpressCareWindows,
   closeCancelAppointment: actions.closeCancelAppointment,
   confirmCancelAppointment: actions.confirmCancelAppointment,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,
-  startNewExpressCareFlow: actions.startNewExpressCareFlow,
   startNewVaccineFlow: actions.startNewVaccineFlow,
   fetchFutureAppointments: actions.fetchFutureAppointments,
 };

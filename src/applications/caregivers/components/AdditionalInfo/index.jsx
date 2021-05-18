@@ -279,10 +279,6 @@ export const RepresentativeAdditionalInfo = () => {
 export const RepresentativeDocumentUploadDescription = () => {
   return (
     <section>
-      <h3 style={{ padding: 0, marginBottom: '1.3em' }}>
-        Upload your legal representative documentation
-      </h3>
-
       <p>
         You’ll need to scan your document onto the device you’re using to submit
         this application, such as your computer, tablet, or mobile phone. You
@@ -291,8 +287,8 @@ export const RepresentativeDocumentUploadDescription = () => {
 
       <p>Guidelines for uploading a file:</p>
       <ul>
-        <li>File types you can upload: .pdf, .jpeg, or .png</li>
-        <li>Maximum file size: 25MB</li>
+        <li>You can upload a .pdf, .jpeg, or .png file</li>
+        <li>Your file should be no larger than 25MB</li>
       </ul>
 
       <p>

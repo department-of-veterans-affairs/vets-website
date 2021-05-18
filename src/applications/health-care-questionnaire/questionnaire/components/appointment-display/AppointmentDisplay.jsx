@@ -7,7 +7,7 @@ import {
   locationSelector,
 } from '../../../shared/utils/selectors';
 
-export default function AppointmentDisplay({ appointmentData, bold }) {
+export default function AppointmentDisplay({ appointmentData, bold = true }) {
   if (!appointmentData) {
     return <></>;
   }
@@ -25,20 +25,22 @@ export default function AppointmentDisplay({ appointmentData, bold }) {
   const displayTime = appointmentSelector.getStartTimeInTimeZone(appointment);
 
   return (
-    <dl className={`appointment-details ${boldClass}`} itemScope>
+    <dl className={`appointment-details`} itemScope>
       <div itemProp="appointment-date">
-        <dt>Date: </dt>
+        <dt className={boldClass} data-testid="date-label">
+          Date:{' '}
+        </dt>
         <dd
           data-testid="appointment-date"
           aria-label={`Appointment date ${moment(appointmentTime).format(
             'dddd, MMMM Do, YYYY',
           )}`}
         >
-          {moment(appointmentTime).format('dddd, MMMM Do, YYYY')}
+          {moment(appointmentTime).format('dddd, MMMM D, YYYY')}
         </dd>
       </div>
       <div itemProp="appointment-time">
-        <dt>Time: </dt>
+        <dt className={boldClass}>Time: </dt>
         <dd
           data-testid="appointment-time"
           aria-label={`Appointment time ${displayTime}`}
@@ -47,7 +49,7 @@ export default function AppointmentDisplay({ appointmentData, bold }) {
         </dd>
       </div>
       <div itemProp="appointment-location">
-        <dt>Location: </dt>
+        <dt className={boldClass}>Location: </dt>
         <dd
           data-testid="appointment-location"
           aria-label={`appointment at ${clinicName} at ${facilityName}`}

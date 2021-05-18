@@ -19,6 +19,21 @@ const paymentAccount = {
   financialInstitutionRoutingNumber: '*****0021',
 };
 
+const paymentAddress = {
+  type: 'DOMESTIC',
+  addressEffectiveDate: '2016-12-16T06:00:00.000+00:00',
+  addressOne: '123 MAIN ST',
+  addressTwo: '',
+  addressThree: '',
+  city: 'TAMPA',
+  stateCode: 'FL',
+  zipCode: '12345',
+  zipSuffix: '1234',
+  countryName: 'TAMPA',
+  militaryPostOfficeTypeCode: null,
+  militaryStateCode: null,
+};
+
 const emptyPaymentAccount = {
   accountType: '',
   financialInstitutionName: null,
@@ -42,6 +57,7 @@ function createBasicInitialState() {
         responses: [
           {
             paymentAccount,
+            paymentAddress,
           },
         ],
       },
@@ -119,7 +135,7 @@ describe('DirectDepositCNP', () => {
     });
     expect(container).to.be.empty;
   });
-  describe('when bank info is not set up', () => {
+  describe('when bank info is not set up but payment address is', () => {
     let view;
     beforeEach(() => {
       initialState = createBasicInitialState();
@@ -163,13 +179,6 @@ describe('DirectDepositCNP', () => {
         view.queryByLabelText(/account number/i),
       );
 
-      // shows a save succeeded alert
-      expect(
-        view.findByRole('alert', {
-          name: /We’ve updated your bank account information/i,
-        }),
-      ).to.exist;
-
       // and the bank info from the mocked call should be shown
       expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))
         .to.exist;
@@ -206,13 +215,6 @@ describe('DirectDepositCNP', () => {
       await waitForElementToBeRemoved(() =>
         view.queryByLabelText(/account number/i),
       );
-
-      // shows a save succeeded alert
-      expect(
-        view.findByRole('alert', {
-          name: /We’ve updated your bank account information/i,
-        }),
-      ).to.exist;
 
       // and the bank info from the mocked call should be shown
       expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))

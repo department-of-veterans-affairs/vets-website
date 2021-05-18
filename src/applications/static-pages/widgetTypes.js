@@ -6,7 +6,6 @@ export default {
   CORONAVIRUS_CHATBOT: 'va-coronavirus-chatbot',
   COVID_VACCINE_UPDATES_CTA: 'va-covid-vaccine-updates-cta',
   CTA: 'cta',
-  DIRECT_DEPOSIT: 'direct-deposit',
   DISABILITY_APP_STATUS: 'disability-app-status',
   DISABILITY_RATING_CALCULATOR: 'disability-rating-calculator',
   EDUCATION_APP_STATUS: 'education-app-status',
@@ -32,4 +31,5 @@ export default {
   I_18_SELECT: 'i18-select',
   DEPENDENCY_VERIFICATION: 'dependency-verification',
   SHARABLE_LINK: 'sharable-link',
+  COE_ACCESS: 'coe_access',
 };

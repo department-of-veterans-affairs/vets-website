@@ -20,10 +20,11 @@ const Index = props => {
               }
             />
           ) : (
+            // eslint-disable-next-line jsx-a11y/no-redundant-roles
             <ol
               data-testid="questionnaire-list"
               className="questionnaire-list toDo"
-              aria-label="Your outstanding questionnaires"
+              role="list"
             >
               {questionnaires.map((data, i) => {
                 return <ToDoQuestionnaireItem data={data} key={i} />;

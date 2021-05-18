@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
-import FacilityAddress from '../../components/FacilityAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import * as actions from '../redux/actions';
 
@@ -22,6 +21,9 @@ const initialSchema = {
 const uiSchema = {
   clinicId: {
     'ui:widget': 'radio',
+    'ui:errorMessages': {
+      required: 'Please select a clinic for your appointment',
+    },
   },
 };
 const pageKey = 'clinicChoice';
@@ -46,18 +48,9 @@ export function ClinicChoicePage({
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-      <p>Each clinic offers vaccine appointments at different times.</p>
-      <p>Choose a clinic located at:</p>
-      {facilityDetails && (
-        <div className="vads-u-margin-y--2p5">
-          <FacilityAddress
-            name={facilityDetails.name}
-            facility={facilityDetails}
-            level={2}
-            showPhone={false}
-          />
-        </div>
-      )}
+      <p>{`Clinics at ${
+        facilityDetails.name
+      } offer vaccine appointments at different times.`}</p>
       {!!schema && (
         <SchemaForm
           name="Clinic choice"

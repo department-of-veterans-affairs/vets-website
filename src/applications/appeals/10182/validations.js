@@ -1,21 +1,45 @@
-import { someSelected } from './utils/helpers';
+import { hasSomeSelected } from './utils/helpers';
 import { optInErrorMessage } from './content/OptIn';
-import { missingIssuesErrorMessage } from './content/contestableIssues';
+import { missingIssuesErrorMessage } from './content/additionalIssues';
+import {
+  missingAreaOfDisagreementErrorMessage,
+  missingAreaOfDisagreementOtherErrorMessage,
+} from './content/areaOfDisagreement';
+import { areaOfDisagreementWorkAround } from './utils/ui';
 
-// not used to show an issue on the eligible issues page, but needed when the
-// user submits and we want to show where the error is
 export const requireIssue = (
   errors,
   _fieldData,
-  _formData,
+  formData = {},
   _schema,
   _uiSchema,
   _index,
-  { contestableIssues = [], additionalIssues = [] },
+  appStateData,
 ) => {
-  if (!(someSelected(contestableIssues) || someSelected(additionalIssues))) {
+  // formData === pageData on review & submit page. It should include the entire
+  // formData. see https://github.com/department-of-veterans-affairs/vsp-support/issues/162
+  // Fall back to formData for unit testing
+  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
+  if (!hasSomeSelected(data)) {
     errors.addError(missingIssuesErrorMessage);
   }
+};
+
+export const areaOfDisagreementRequired = (
+  errors,
+  { disagreementOptions, otherEntry } = {},
+) => {
+  const keys = Object.keys(disagreementOptions || {});
+  const hasSelection = keys.some(key => disagreementOptions[key]);
+
+  if (!hasSelection) {
+    errors.addError(missingAreaOfDisagreementErrorMessage);
+  } else if (disagreementOptions.other && !otherEntry) {
+    errors.addError(missingAreaOfDisagreementOtherErrorMessage);
+  }
+
+  // work-around for error message not showing :(
+  areaOfDisagreementWorkAround(hasSelection);
 };
 
 export const optInValidation = (errors, value) => {

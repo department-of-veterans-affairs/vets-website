@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -7,7 +7,6 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
@@ -24,9 +23,6 @@ import {
 } from '../../../shared/utils/selectors';
 
 const IntroductionPage = props => {
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
   const { isLoggedIn, route, savedForms, formId } = props;
   const { appointment, location, organization } = props?.context;
   if (!appointment?.id) {
@@ -111,13 +107,13 @@ const IntroductionPage = props => {
   return (
     <div className="schemaform-intro healthcare-experience">
       <FormTitle title={title} subTitle={subTitle} />
-      <h2 className="better-prepare-yours">
+      <p className="better-prepare-yours">
         Please try to fill out this questionnaire before your appointment. When
         you tell us about your symptoms and concerns, we can better prepare to
         meet your needs.
-      </h2>
+      </p>
       <section className="after-details">
-        <h3>What happens after I answer the questions?</h3>
+        <h2>What happens after I answer the questions?</h2>
         <p>
           We’ll send your completed questionnaire to your provider through a
           secure electronic communication. We’ll also add the questionnaire to
@@ -131,10 +127,10 @@ const IntroductionPage = props => {
         </p>
       </section>
       <section className="personal-information">
-        <h3>
+        <h2>
           How will VA protect my personal and health information if I answer
           these questions?
-        </h3>
+        </h2>
         <p>
           We keep all of the information in your medical record private and
           secure. This includes any information you share in this questionnaire.

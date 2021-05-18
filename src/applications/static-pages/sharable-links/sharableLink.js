@@ -70,7 +70,12 @@ const UnStyledButtonInAccordion = styled.button`
   width: auto !important;
 `;
 
-const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
+const SharableLink = ({
+  dataEntityId,
+  idx,
+  showSharableLink,
+  sharableText,
+}) => {
   const [feedbackActive, setFeedbackActive] = useState(false);
   const [copiedText] = useState('Link copied');
   const [leftAligned, setLeftAligned] = useState(false);
@@ -120,6 +125,7 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
       const id = extractId(feedback.getAttribute('id'));
       if (id !== extractId(activeId)) {
         feedback.style.display = 'none';
+        onBlur(id);
       } else {
         feedback.style = {};
       }
@@ -160,25 +166,31 @@ const SharableLink = ({ dataEntityId, idx, showSharableLink }) => {
         <span aria-live="polite" aria-relevant="additions">
           <UnStyledButtonInAccordion
             className="usa-button-unstyled"
-            aria-label={`Copy ${dataEntityId} sharable link`}
+            aria-label={`Copy a link for ${sharableText}`}
             id={`button-${dataEntityId}`}
-            onBlur={() => {
-              onBlur(dataEntityId);
-            }}
-            onFocus={() => {
+            onClick={event => {
+              // this event has event.target as the icon
+              event.persist();
+              if (!event || !event.target) return;
+              displayFeedback(event.target);
+              copyToUsersClipBoard(dataEntityId, event.target.parentElement);
               onFocus(dataEntityId);
+            }}
+            onKeyPress={event => {
+              // this event has event.target as the button
+              event.persist();
+              if (!event || !event.which) return;
+              if (event.which === 13 || event.which === 32) {
+                setTimeout(() => {
+                  event.target.focus();
+                }, 300);
+              }
             }}
           >
             <ShareIcon
               aria-hidden="true"
               className={`fas fa-link sharable-link`}
               feedbackActive={feedbackActive}
-              onClick={event => {
-                event.persist();
-                if (!event || !event.target) return;
-                displayFeedback(event.target);
-                copyToUsersClipBoard(dataEntityId, event.target.parentElement);
-              }}
               id={`icon-${dataEntityId}`}
             />
           </UnStyledButtonInAccordion>

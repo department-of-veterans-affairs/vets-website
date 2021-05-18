@@ -4,9 +4,10 @@ import { SELECTED, FORMAT_YMD } from '../../constants';
 
 import {
   getEligibleContestableIssues,
-  getIssueName,
+  createIssueName,
   getContestableIssues,
   addIncludedIssues,
+  addAreaOfDisagreement,
   addUploads,
   removeEmptyEntries,
   getAddress,
@@ -83,9 +84,9 @@ describe('getEligibleContestableIssues', () => {
   });
 });
 
-describe('getIssueName', () => {
+describe('createIssueName', () => {
   const getName = (name, description, percent) =>
-    getIssueName({
+    createIssueName({
       attributes: {
         ratingIssueSubjectText: name,
         ratingIssuePercentNumber: percent,
@@ -136,6 +137,7 @@ describe('addIncludedIssues', () => {
         { ...issue1.raw, [SELECTED]: false },
         { ...issue2.raw, [SELECTED]: true },
       ],
+      'view:hasIssuesToAdd': true,
       additionalIssues: [
         { issue: 'not-added', decisionDate: '2000-01-02', [SELECTED]: false },
         { ...issue.attributes, [SELECTED]: true },
@@ -145,6 +147,94 @@ describe('addIncludedIssues', () => {
     expect(
       addIncludedIssues({ ...formData, additionalIssues: [] }),
     ).to.deep.equal([issue2.result]);
+  });
+  it('should not add additional items to contestableIssues array', () => {
+    const issue = {
+      type: 'contestableIssue',
+      attributes: { issue: 'test', decisionDate: '2000-01-01' },
+    };
+    const formData = {
+      contestableIssues: [
+        { ...issue1.raw, [SELECTED]: false },
+        { ...issue2.raw, [SELECTED]: true },
+      ],
+      'view:hasIssuesToAdd': false,
+      additionalIssues: [
+        { issue: 'not-added', decisionDate: '2000-01-02', [SELECTED]: false },
+        { ...issue.attributes, [SELECTED]: true },
+      ],
+    };
+    expect(addIncludedIssues(formData)).to.deep.equal([issue2.result]);
+    expect(
+      addIncludedIssues({ ...formData, additionalIssues: [] }),
+    ).to.deep.equal([issue2.result]);
+  });
+});
+
+describe('addAreaOfDisagreement', () => {
+  it('should process a single choice', () => {
+    const formData = {
+      areaOfDisagreement: [
+        {
+          disagreementOptions: {
+            serviceConnection: true,
+            effectiveDate: false,
+          },
+        },
+        {
+          disagreementOptions: {
+            effectiveDate: true,
+            other: false,
+          },
+          otherEntry: 'test',
+        },
+      ],
+    };
+    const result = addAreaOfDisagreement(
+      [issue1.result, issue2.result],
+      formData,
+    );
+    expect(result[0].attributes.disagreementReason).to.equal(
+      'service connection',
+    );
+    expect(result[1].attributes.disagreementReason).to.equal('effective date');
+  });
+  it('should process multiple choices', () => {
+    const formData = {
+      areaOfDisagreement: [
+        {
+          disagreementOptions: {
+            serviceConnection: true,
+            effectiveDate: true,
+            evaluation: true,
+          },
+          otherEntry: 'test',
+        },
+      ],
+    };
+    const result = addAreaOfDisagreement([issue1.result], formData);
+    expect(result[0].attributes.disagreementReason).to.equal(
+      'service connection,effective date,disability evaluation',
+    );
+  });
+  it('should process other choice', () => {
+    const formData = {
+      areaOfDisagreement: [
+        {
+          disagreementOptions: {
+            serviceConnection: true,
+            effectiveDate: true,
+            evaluation: true,
+            other: true,
+          },
+          otherEntry: 'this is an other entry',
+        },
+      ],
+    };
+    const result = addAreaOfDisagreement([issue1.result], formData);
+    expect(result[0].attributes.disagreementReason).to.equal(
+      'service connection,effective date,disability evaluation,this is an other entry',
+    );
   });
 });
 

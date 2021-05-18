@@ -1,7 +1,10 @@
 import React from 'react';
+import { isBrowser } from '../../../shared/components/print/utils';
 
 const BaseLink = ({ children, onClick, ariaLabel, usePrimary, testId }) => {
-  const className = `vads-c-action-link--${usePrimary ? 'green' : 'blue'}`;
+  const className = `vads-c-action-link--${usePrimary ? 'green' : 'blue'} ${
+    isBrowser(window).isIE ? 'action-link-ie' : ''
+  }`;
   return (
     <a
       href="#"

@@ -6,6 +6,7 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { arrayToObject, dedupeArray } from '../../utils/data';
+import { hasValidCovidPhoneNumber } from '../appointment';
 
 /**
  * Transforms /vaos/systems/983/direct_scheduling_facilities?type_of_care_id=323&parent_code=983GB to
@@ -19,6 +20,7 @@ export function transformDSFacilities(facilities) {
   return facilities.map(facility => ({
     resourceType: 'Location',
     id: facility.id,
+    vistaId: facility.rootStationCode,
     identifier: [
       {
         system: VHA_FHIR_ID,
@@ -171,9 +173,10 @@ function getTestFacilityId(facilityId) {
  */
 export function transformFacility(facility) {
   const id = getTestFacilityId(facility.uniqueId);
-  return {
+  const facilityObj = {
     resourceType: 'Location',
     id,
+    vistaId: id.substr(0, 3),
     identifier: [
       {
         system: 'http://med.va.gov/fhir/urn',
@@ -212,6 +215,17 @@ export function transformFacility(facility) {
       reference: `Organization/${id.substr(0, 3)}`,
     },
   };
+
+  if (hasValidCovidPhoneNumber(facility)) {
+    facilityObj.telecom.push({
+      system: 'covid',
+      value: facility.detailedServices?.find(
+        service => service.name === 'COVID-19 vaccines',
+      )?.appointmentPhones[0]?.number,
+    });
+  }
+
+  return facilityObj;
 }
 
 /**

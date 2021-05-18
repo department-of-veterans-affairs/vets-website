@@ -89,7 +89,7 @@ describe('Find VA Forms helpers', () => {
         ),
       );
 
-    // Sort By 'Last Updated (Newest)'
+    // Sort By 'Last updated (newest)'
     expect(sortedResultsByNewestRevisionDate).to.eql(
       sortedResultsNodesTextByLatestRevisionNewest,
     );
@@ -112,7 +112,7 @@ describe('Find VA Forms helpers', () => {
         ),
       );
 
-    // SORT BY 'Last Updated (Oldest)'
+    // SORT BY 'Last updated (oldest)'
     expect(sortedResultsByOldestRevisionDate).to.eql(
       sortedResultsNodesTextByLatestRevisionOldest,
     );

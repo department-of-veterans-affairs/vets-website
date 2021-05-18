@@ -9,7 +9,12 @@ const VetCenterHours = props => {
 
   const buildHourItem = item => {
     // {day: 4, starthours: 700, endhours: 1730, comment: ""}
-    if (item.starthours < 0 || item.endhours < 0) {
+    if (
+      item.starthours < 0 ||
+      item.endhours < 0 ||
+      !item.starthours ||
+      !item.endhours
+    ) {
       return (
         <div className="row">
           <div className="small-1 columns vads-u-padding-x--0 vads-u-padding-right--0">
@@ -35,7 +40,7 @@ const VetCenterHours = props => {
   };
 
   const buildHoursSection = hours => {
-    const hoursListItems = [...hours.slice(-6), hours[0]].map(hourObj => (
+    const hoursListItems = hours.map(hourObj => (
       <li className="vads-u-margin-bottom--0" key={hourObj.day}>
         {buildHourItem(hourObj)}
       </li>
