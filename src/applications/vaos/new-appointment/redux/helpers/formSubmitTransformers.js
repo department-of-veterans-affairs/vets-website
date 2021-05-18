@@ -336,10 +336,10 @@ export function transformFormToVAOSCCRequest(state) {
         .subtract(1, 'minute')
         .format(),
     })),
+    // These four fields aren't in the current schema, but probably should be
     preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
-    // These three fields aren't in the current schema, but probably should be
     preferredLanguage: LANGUAGES.find(
       lang => lang.id === data.preferredLanguage,
     )?.value,
