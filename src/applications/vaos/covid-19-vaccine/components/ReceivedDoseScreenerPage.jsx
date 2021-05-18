@@ -36,7 +36,7 @@ const uiSchema = {
     'ui:title':
       "If you've received the first dose of a vaccine that requires 2 doses, answer Yes.",
     'ui:errorMessages': {
-      required: 'Please select an option',
+      required: 'Please select an answer',
     },
   },
 };
