@@ -38,7 +38,7 @@ export function GiBillApp({
   );
 
   return (
-    <div className="gi-app">
+    <div className="gi-app" role="application">
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
@@ -62,11 +62,10 @@ GiBillApp.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { constants, preview, version } = state;
+  const { constants, preview } = state;
   return {
     constants,
     preview,
-    version,
   };
 };
 

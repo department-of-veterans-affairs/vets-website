@@ -5,27 +5,21 @@ import { combineReducers, applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import sinon from 'sinon';
 
-import createCommonStore, { commonReducer } from 'platform/startup/store';
+import { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
-import reducer from '../reducers';
+import reducers from '../reducers';
 
 const calculatorConstants = require('./data/calculator-constants.json');
 
-export const getDefaultState = () => {
-  const defaultState = createCommonStore(reducer).getState();
-
-  defaultState.constants = {
-    constants: {},
-    version: calculatorConstants.meta.version,
-    inProgress: false,
-  };
-
+export function mockConstants() {
+  const constants = [];
   calculatorConstants.data.forEach(c => {
-    defaultState.constants.constants[c.attributes.name] = c.attributes.value;
+    constants[c.attributes.name] = c.attributes.value;
   });
-  return defaultState;
-};
+
+  return { constants };
+}
 
 export function createTestHistory(path = '/') {
   const history = createMemoryHistory({ initialEntries: [path] });
@@ -42,7 +36,7 @@ export function renderWithStoreAndRouter(
   const testStore =
     store ||
     createStore(
-      combineReducers({ ...commonReducer, ...reducer }),
+      combineReducers({ ...commonReducer, ...reducers }),
       initialState,
       applyMiddleware(thunk),
     );
@@ -53,7 +47,7 @@ export function renderWithStoreAndRouter(
     {
       store: testStore,
       initialState,
-      reducers: reducer,
+      reducers,
     },
   );
 
