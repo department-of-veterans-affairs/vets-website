@@ -176,7 +176,7 @@ function testDataDrivenMegamenu(client, path) {
       'css selector',
       '#vetnav-life-insurance-ms .column-one > ul > li.mm-link-container',
       results => {
-        client.expect(results.value.length).to.equal(0);
+        client.expect(results.value.length).to.equal(3);
       },
     )
     .elements(
@@ -277,7 +277,7 @@ function testDataDrivenMegamenu(client, path) {
     'css selector',
     '#vetnav-column-one-col li.mm-link-container',
     results => {
-      client.expect(results.value.length).to.equal(7);
+      client.expect(results.value.length).to.equal(8);
     },
   );
 
