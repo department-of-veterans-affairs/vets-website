@@ -2,7 +2,7 @@ name: E2E Tests
 on: [push]
 jobs:
   build:
-    name: Build
+    name: E2E Tests
     runs-on: self-hosted
     defaults:
       run:
