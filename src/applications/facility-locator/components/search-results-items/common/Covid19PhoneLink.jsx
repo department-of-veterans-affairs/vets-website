@@ -2,7 +2,11 @@ import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 
-const Covid19PhoneLink = ({ phone }) => {
+const Covid19PhoneLink = ({ phone, showCovidVaccineSchedulingLink }) => {
+  if (!phone) {
+    return null;
+  }
+
   const { number, extension } = phone;
 
   if (!number) {
@@ -11,9 +15,16 @@ const Covid19PhoneLink = ({ phone }) => {
 
   const { extension: parsedExtension, contact } = parsePhoneNumber(number);
 
+  const labelText = showCovidVaccineSchedulingLink
+    ? 'Or call to schedule'
+    : 'Call to schedule';
+
   return (
     <div>
-      <strong>Call to schedule:&nbsp;</strong>
+      <strong>
+        {labelText}
+        :&nbsp;
+      </strong>
       <Telephone
         className="vads-u-margin-left--0p25"
         contact={contact}

@@ -24,15 +24,7 @@ export const FORMAT_READABLE = 'LL';
 // contested issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
 
-export const SUPPORTED_UPLOAD_TYPES = [
-  'pdf',
-  'jpg',
-  'jpeg',
-  'png',
-  'gif',
-  'bmp',
-  'txt',
-];
+export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
 
 export const MAX_FILE_SIZE_MB = 100;
 export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based

@@ -55,6 +55,9 @@ export default {
       parseResponse,
       attachmentName: {
         'ui:title': 'Document name',
+        'ui:options': {
+          useDlWrap: true,
+        },
       },
     }),
   },

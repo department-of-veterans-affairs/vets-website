@@ -179,7 +179,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     // Should validation message if no facility selected
     fireEvent.click(screen.getByText(/Continue/));
     expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
+      'Please select a location for your appointment',
     );
   });
 

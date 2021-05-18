@@ -41,8 +41,9 @@ describe('health care questionnaire - display an appointment -- ', () => {
     const mountedComponent = mount(
       <AppointmentDisplay appointmentData={testData} bold />,
     );
-    const classes = mountedComponent.find('.appointment-details').props('class')
-      .className;
+    const classes = mountedComponent
+      .find('[data-testid="date-label"]')
+      .props('class').className;
     expect(classes).to.contain('vads-u-font-weight--bold');
 
     mountedComponent.unmount();
@@ -51,8 +52,9 @@ describe('health care questionnaire - display an appointment -- ', () => {
     const mountedComponent = mount(
       <AppointmentDisplay appointmentData={testData} bold={false} />,
     );
-    const classes = mountedComponent.find('.appointment-details').props('class')
-      .className;
+    const classes = mountedComponent
+      .find('[data-testid="date-label"]')
+      .props('class').className;
     expect(classes).to.not.contain('vads-u-font-weight--bold');
 
     mountedComponent.unmount();
