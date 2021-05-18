@@ -9,7 +9,12 @@ import { renderStars } from '../../gi/utils/render';
 import { estimatedBenefits } from '../selectors/estimator';
 import { formatCurrency } from '../utils/helpers';
 
-export function SearchResultCard({ institution, estimated }) {
+export function SearchResultCard({
+  institution,
+  estimated,
+  header,
+  location = false,
+}) {
   const {
     name,
     city,
@@ -40,13 +45,24 @@ export function SearchResultCard({ institution, estimated }) {
     { 'vads-u-visibility--hidden': accreditationType !== 'regional' },
   );
 
+  const nameCityStateHeader = (
+    <>
+      <div className="card-title-section">
+        <h3 className="vads-u-margin-top--2">{name}</h3>
+      </div>
+      <p className="vads-u-padding--0">{`${city}, ${state}`}</p>
+    </>
+  );
+
+  const resultCardClasses = classNames(
+    'result-card vads-u-background-color--gray-lightest vads-u-margin-bottom--2',
+    { 'vads-u-margin-left--2p5': location },
+  );
+
   return (
-    <div className="result-card vads-u-background-color--gray-lightest vads-u-margin-bottom--2 vads-u-margin-left--2p5">
+    <div className={resultCardClasses}>
       <div className="vads-u-padding-x--2">
-        <div className="card-title-section">
-          <h3 className="vads-u-margin-top--2">{name}</h3>
-        </div>
-        <p className="vads-u-padding--0">{`${city}, ${state}`}</p>
+        {header || nameCityStateHeader}
 
         <div className={accreditationTypeClassNames}>Regionally accredited</div>
 
@@ -76,7 +92,7 @@ export function SearchResultCard({ institution, estimated }) {
           <strong>You may be eligible for up to:</strong>
         </p>
         <div className="vads-u-display--flex vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--2">
-          <div className="vads-u-flex--1 ">
+          <div className="vads-u-flex--1">
             <p className="secondary-info-label">Tuition benefit:</p>
             <p className="vads-u-margin-y--0">{tuition}</p>
           </div>

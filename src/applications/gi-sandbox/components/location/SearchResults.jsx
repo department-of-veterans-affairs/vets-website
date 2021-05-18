@@ -42,6 +42,36 @@ export default function SearchResults({ search }) {
     }
   }, []); // <-- empty array means 'run once'
 
+  const results = search.location.results.map((institution, index) => {
+    const { name, city, state, distance } = institution;
+    const letter = (index + 10).toString(36).toUpperCase();
+    const miles = Number.parseFloat(distance).toFixed(2);
+
+    const header = (
+      <>
+        <div className="vads-u-display--flex vads-u-padding-top--1">
+          <span className="location-header-letter">{letter}</span>
+          <span className="vads-u-padding-x--1">
+            <strong>{miles} miles</strong>
+          </span>
+          <span>{`${city}, ${state}`}</span>
+        </div>
+        <div className="card-title-section">
+          <h3 className="vads-u-margin-top--2">{name}</h3>
+        </div>
+      </>
+    );
+
+    return (
+      <SearchResultCard
+        institution={institution}
+        key={institution.id}
+        header={header}
+        location
+      />
+    );
+  });
+
   return (
     <>
       {search.location.count > 0 && (
@@ -53,18 +83,13 @@ export default function SearchResults({ search }) {
               buttonLabel="Update results"
               buttonOnClick={() => {}}
             />
-            <div className="location-search-results usa-grid vads-u-padding--1p5">
+            <div className="location-search-results-container usa-grid vads-u-padding--1p5">
               <p>
                 Showing <strong>{search.location.count} search results</strong>{' '}
                 for '<strong>{search.query.location}</strong>'
               </p>
-              <div className="vads-l-row vads-u-flex-wrap--wrap">
-                {search.location.results.map(institution => (
-                  <SearchResultCard
-                    institution={institution}
-                    key={institution.id}
-                  />
-                ))}
+              <div className="location-search-results vads-l-row vads-u-flex-wrap--wrap">
+                {results}
               </div>
             </div>
           </div>
