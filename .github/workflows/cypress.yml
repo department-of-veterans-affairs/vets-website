@@ -3,7 +3,7 @@ on: [push]
 jobs:
   build:
     name: E2E Tests
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: vets-website
