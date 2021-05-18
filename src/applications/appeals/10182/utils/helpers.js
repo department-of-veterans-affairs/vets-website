@@ -28,7 +28,9 @@ export const showAddIssueQuestion = ({ contestableIssues }) =>
 export const getSelected = ({ contestableIssues, additionalIssues } = {}) =>
   (contestableIssues || [])
     .filter(issue => issue[SELECTED])
-    .concat((additionalIssues || []).filter(issue => issue[SELECTED]));
+    .concat((additionalIssues || []).filter(issue => issue[SELECTED]))
+    // include index to help with error messaging
+    .map((issue, index) => ({ ...issue, index }));
 
 export const getIssueName = (entry = {}) =>
   entry.issue || entry.attributes?.ratingIssueSubjectText;
