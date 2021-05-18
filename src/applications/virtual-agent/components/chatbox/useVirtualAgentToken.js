@@ -27,7 +27,7 @@ export default function useVirtualAgentToken() {
           setTokenLoading(false);
           setToken(response.token);
         } catch (ex) {
-          Sentry.captureException(error);
+          Sentry.captureException(ex);
           setTokenLoading(false);
           setError(true);
         }
