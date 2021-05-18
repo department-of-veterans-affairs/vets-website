@@ -83,12 +83,7 @@ export class SearchMenu extends React.Component {
 
     // end early / clear suggestions if user input is too short
     if (userInput?.length <= 2) {
-      if (
-        this.state.suggestions?.length > 0 ||
-        this.state.savedSuggestions?.length
-      ) {
-        this.setState({ suggestions: [], savedSuggestions: [] });
-      }
+      this.setState({ suggestions: [], savedSuggestions: [] });
       return;
     }
 
@@ -251,7 +246,7 @@ export class SearchMenu extends React.Component {
     } = this;
 
     const highlightedSuggestion =
-      'suggestion-highlighted vads-u-background-color--primary-alt-light .vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
+      'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     const regularSuggestion =
       'suggestion vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
