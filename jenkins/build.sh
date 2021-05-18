@@ -31,6 +31,6 @@ done
 # exit code.  In this case, if the build command fails, the tee
 # command won't trick Jenkins into thinking the step passed.
 set -o pipefail
-npm --no-color run build -- --verbose --buildtype="$envName" "$omitdebug" 2>&1 | tee "$buildLog"
+npm --no-color run build:clean -- --scaffold --verbose --buildtype="$envName" "$omitdebug" 2>&1 | tee "$buildLog"
 
 exit $?
