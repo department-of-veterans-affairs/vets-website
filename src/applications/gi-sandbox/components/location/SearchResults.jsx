@@ -44,7 +44,7 @@ export default function SearchResults({ search }) {
 
   return (
     <>
-      {search.count > 0 && (
+      {search.location.count > 0 && (
         <div>
           <div className={'usa-width-one-third'}>
             <TuitionAndHousingEstimates />
