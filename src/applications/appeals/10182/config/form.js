@@ -23,6 +23,7 @@ import {
   showAddIssues,
   needsHearingType,
   appStateSelector,
+  getIssueName,
 } from '../utils/helpers';
 
 // Pages
@@ -34,6 +35,9 @@ import repInfo from '../pages/repInfo';
 import contestableIssues from '../pages/contestableIssues';
 import additionalIssuesIntro from '../pages/additionalIssuesIntro';
 import additionalIssues from '../pages/additionalIssues';
+import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
+import optIn from '../pages/optIn';
+import issueSummary from '../pages/issueSummary';
 import boardReview from '../pages/boardReview';
 import evidenceIntro from '../pages/evidenceIntro';
 import evidenceUpload from '../pages/evidenceUpload';
@@ -155,6 +159,26 @@ const formConfig = {
             'view:hasIssuesToAdd': true,
             additionalIssues: [{}],
           },
+        },
+        areaOfDisagreementFollowUp: {
+          title: getIssueName,
+          path: 'area-of-disagreement/:index',
+          showPagePerItem: true,
+          arrayPath: 'areaOfDisagreement',
+          uiSchema: areaOfDisagreementFollowUp.uiSchema,
+          schema: areaOfDisagreementFollowUp.schema,
+        },
+        optIn: {
+          title: 'Opt in',
+          path: 'opt-in',
+          uiSchema: optIn.uiSchema,
+          schema: optIn.schema,
+        },
+        issueSummary: {
+          title: 'Issue summary',
+          path: 'issue-summary',
+          uiSchema: issueSummary.uiSchema,
+          schema: issueSummary.schema,
         },
       },
     },

@@ -5,6 +5,7 @@ import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
 import { FormApp } from '../../containers/FormApp';
+import { SELECTED } from '../../constants';
 
 const profile = {
   vapContactInfo: {
@@ -170,6 +171,54 @@ describe('FormApp', () => {
     };
     expect(formData.veteran).to.deep.equal(result);
     expect(formData.contestableIssues).to.deep.equal(contestableIssues.issues);
+
+    tree.unmount();
+  });
+
+  it('should update areaOfDisagreement from selected issues', () => {
+    const setFormData = sinon.spy();
+    const { props, mockStore } = getData();
+    const contestableIssues = {
+      status: 'done', // any truthy value to skip get contestable issues action
+      issues: [
+        {
+          type: 'contestableIssue',
+          attributes: {
+            ratingIssueSubjectText: 'tinnitus',
+          },
+          [SELECTED]: true,
+        },
+      ],
+    };
+    const formData = {
+      contestableIssues: contestableIssues.issues,
+      additionalIssues: [{ issue: 'other issue', [SELECTED]: true }],
+      veteran: {
+        email: profile.vapContactInfo.email.emailAddress,
+        phone: profile.vapContactInfo.homePhone,
+        address: profile.vapContactInfo.mailingAddress,
+      },
+    };
+    const tree = mount(
+      <Provider store={mockStore}>
+        <FormApp
+          {...props}
+          setFormData={setFormData}
+          formData={formData}
+          contestableIssues={contestableIssues}
+        />
+      </Provider>,
+    );
+
+    tree.setProps();
+    expect(setFormData.called).to.be.true;
+
+    const updatedFormData = setFormData.args[0][0];
+    expect(updatedFormData.areaOfDisagreement.length).to.eq(2);
+    expect(updatedFormData.areaOfDisagreement).to.deep.equal([
+      { ...formData.contestableIssues[0], index: 0 },
+      { ...formData.additionalIssues[0], index: 1 },
+    ]);
 
     tree.unmount();
   });

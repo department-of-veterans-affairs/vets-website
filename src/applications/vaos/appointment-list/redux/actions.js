@@ -1,10 +1,8 @@
 import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
   GA_PREFIX,
   APPOINTMENT_TYPES,
-  EXPRESS_CARE,
   VIDEO_TYPES,
 } from '../../utils/constants';
 import { recordItemsRetrieved } from '../../utils/events';
@@ -13,10 +11,7 @@ import {
   selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 
-import {
-  getRequestEligibilityCriteria,
-  getRequestMessages,
-} from '../../services/var';
+import { getRequestMessages } from '../../services/var';
 
 import {
   getLocation,
@@ -37,7 +32,6 @@ import {
 import { captureError, has400LevelError } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
-  STARTED_NEW_EXPRESS_CARE_FLOW,
   STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
 import { selectAppointmentById } from './selectors';
@@ -85,12 +79,6 @@ export const CANCEL_APPOINTMENT_CONFIRMED_FAILED =
 export const CANCEL_APPOINTMENT_CLOSED = 'vaos/CANCEL_APPOINTMENT_CLOSED';
 export const FETCH_FACILITY_LIST_DATA_SUCCEEDED =
   'vaos/FETCH_FACILITY_LIST_DATA_SUCCEEDED';
-
-export const FETCH_EXPRESS_CARE_WINDOWS = 'vaos/FETCH_EXPRESS_CARE_WINDOWS';
-export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
-  'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
-export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
-  'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
 export const FETCH_FACILITY_SETTINGS = 'vaos/FETCH_FACILITY_SETTINGS';
 export const FETCH_FACILITY_SETTINGS_FAILED =
   'vaos/FETCH_FACILITY_SETTINGS_FAILED';
@@ -203,11 +191,6 @@ export function fetchFutureAppointments() {
               event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
             });
 
-            recordItemsRetrieved(
-              'express_care',
-              requests.filter(appt => appt.vaos.isExpressCare).length,
-            );
-
             return requests;
           })
           .catch(resp => {
@@ -311,11 +294,6 @@ export function fetchPendingAppointments() {
         event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
       });
 
-      recordItemsRetrieved(
-        'express_care',
-        pendingAppointments.filter(appt => appt.vaos.isExpressCare).length,
-      );
-
       try {
         const facilityData = await getAdditionalFacilityInfo(
           pendingAppointments,
@@ -346,7 +324,6 @@ export function fetchPendingAppointments() {
 
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
-    const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
       selectedIndex,
@@ -363,15 +340,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
           endDate,
         }),
       ];
-
-      if (featureHomepageRefresh) {
-        fetches.push(
-          getAppointmentRequests({
-            startDate: moment(startDate).format('YYYY-MM-DD'),
-            endDate: moment(endDate).format('YYYY-MM-DD'),
-          }),
-        );
-      }
 
       const [appointments, requests] = await Promise.all(fetches);
 
@@ -561,64 +529,9 @@ export function startNewAppointmentFlow() {
   };
 }
 
-export function startNewExpressCareFlow() {
-  return {
-    type: STARTED_NEW_EXPRESS_CARE_FLOW,
-  };
-}
-
 export function startNewVaccineFlow() {
   return {
     type: STARTED_NEW_VACCINE_FLOW,
-  };
-}
-
-export function fetchExpressCareWindows() {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FETCH_EXPRESS_CARE_WINDOWS,
-    });
-
-    const initialState = getState();
-    const userSiteIds = selectSystemIds(initialState) || [];
-    const address = selectVAPResidentialAddress(initialState);
-
-    try {
-      const settings = await getRequestEligibilityCriteria(userSiteIds);
-      let facilityData;
-
-      if (address?.latitude && address?.longitude) {
-        const facilityIds = settings
-          .filter(
-            facility =>
-              facility.customRequestSettings?.find(
-                setting => setting.id === EXPRESS_CARE,
-              )?.supported,
-          )
-          .map(f => f.id);
-        if (facilityIds.length) {
-          try {
-            facilityData = await getLocations({ facilityIds });
-          } catch (error) {
-            // Still allow people into EC if the facility data call fails
-            captureError(error);
-          }
-        }
-      }
-
-      dispatch({
-        type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
-        settings,
-        facilityData,
-        address,
-        nowUtc: moment.utc(),
-      });
-    } catch (error) {
-      captureError(error);
-      dispatch({
-        type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
-      });
-    }
   };
 }
 

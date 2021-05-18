@@ -242,7 +242,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.axeCheckBestPractice();
   });
 
-  it.skip('should show facility contact page when vaccine schedule is not available', () => {
+  it('should show facility contact page when vaccine schedule is not available', () => {
     initAppointmentListMock();
     initVaccineAppointmentMock({ unableToScheduleCovid: true });
 
@@ -253,6 +253,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
 
     // Contact Facility Page
     cy.url().should('include', '/contact-facilities');
+    cy.findByText('Your facilities');
     cy.axeCheckBestPractice();
     cy.findByText(/Continue/i).should('not.exist');
   });

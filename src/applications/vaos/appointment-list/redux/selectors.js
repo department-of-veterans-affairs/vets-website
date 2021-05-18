@@ -1,7 +1,5 @@
-import moment from 'moment';
 import { createSelector } from 'reselect';
 import { selectCernerAppointmentsFacilities } from 'platform/user/selectors';
-import { titleCase } from '../../utils/formatters';
 import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
@@ -15,22 +13,16 @@ import {
   sortByDateAscending,
   sortUpcoming,
   groupAppointmentsByMonth,
-  isCanceledConfirmedOrExpressCare,
-  isUpcomingAppointmentOrExpressCare,
+  isCanceledConfirmed,
+  isUpcomingAppointment,
   sortByCreatedDateDescending,
-  isValidPastAppointmentOrExpressCare,
 } from '../../services/appointment';
 import {
-  selectFeatureExpressCareNewRequest,
   selectFeatureCovid19Vaccine,
   selectFeatureRequests,
   selectIsCernerOnlyPatient,
   selectFeatureCancel,
 } from '../../redux/selectors';
-import {
-  getTimezoneAbbrBySystemId,
-  getTimezoneBySystemId,
-} from '../../utils/timezone';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 
 export function getCancelInfo(state) {
@@ -68,12 +60,6 @@ export function getCancelInfo(state) {
   };
 }
 
-export const selectExpressCareRequests = createSelector(
-  state => state.appointments.pending,
-  pending =>
-    pending?.filter(appt => appt.vaos.isExpressCare).sort(sortByDateDescending),
-);
-
 export function selectFutureStatus(state) {
   const { pendingStatus, confirmedStatus } = state.appointments;
   if (
@@ -110,24 +96,20 @@ export const selectFutureAppointments = createSelector(
 
     return confirmed
       .concat(...pending)
-      .filter(appt => !appt.vaos.isExpressCare)
       .filter(isUpcomingAppointmentOrRequest)
       .sort(sortUpcoming);
   },
 );
 
 export const selectUpcomingAppointments = createSelector(
-  // Selecting pending here to pull in EC requests
-  state => state.appointments.pending,
   state => state.appointments.confirmed,
-  (pending, confirmed) => {
-    if (!confirmed || !pending) {
+  confirmed => {
+    if (!confirmed) {
       return null;
     }
 
     const sortedAppointments = confirmed
-      .concat(pending)
-      .filter(isUpcomingAppointmentOrExpressCare)
+      .filter(isUpcomingAppointment)
       .sort(sortByDateAscending);
 
     return groupAppointmentsByMonth(sortedAppointments);
@@ -160,7 +142,7 @@ export const selectCanceledAppointments = createSelector(
 
     const sortedAppointments = confirmed
       .concat(pending)
-      .filter(isCanceledConfirmedOrExpressCare)
+      .filter(isCanceledConfirmed)
       .sort(sortByDateDescending);
 
     return groupAppointmentsByMonth(sortedAppointments);
@@ -185,189 +167,12 @@ export const selectPastAppointmentsV2 = createSelector(
     }
 
     const sortedAppointments = past
-      .filter(isValidPastAppointmentOrExpressCare)
+      .filter(isValidPastAppointment)
       .sort(sortByDateAscending);
 
     return groupAppointmentsByMonth(sortedAppointments);
   },
 );
-
-/*
- * Express Care related appointments state selectors
- */
-
-export function selectExpressCareFacilities(state) {
-  return state.appointments.expressCareFacilities;
-}
-
-/*
- * Selects any EC windows that we're in at the current (or provided) time
- */
-export function selectActiveExpressCareWindows(state, nowMoment) {
-  const now = nowMoment || moment();
-  return selectExpressCareFacilities(state)
-    ?.map(({ days, facilityId }) => {
-      const siteId = facilityId.substring(0, 3);
-      const { timezone } = getTimezoneBySystemId(siteId);
-      const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
-      const nowFacilityTime = now.clone().tz(timezone);
-      const currentDayOfWeek = nowFacilityTime.format('dddd').toUpperCase();
-      const activeDay = days.find(day => day.day === currentDayOfWeek);
-
-      if (!activeDay) {
-        return null;
-      }
-
-      const start = moment.tz(
-        `${nowFacilityTime.format('YYYY-MM-DD')}T${activeDay.startTime}:00`,
-        timezone,
-      );
-      const end = moment.tz(
-        `${nowFacilityTime.format('YYYY-MM-DD')}T${activeDay.endTime}:00`,
-        timezone,
-      );
-
-      if (!now.isBetween(start, end)) {
-        return null;
-      }
-
-      return {
-        facilityId,
-        siteId,
-        timezone,
-        timezoneAbbreviation,
-        start,
-        end,
-      };
-    })
-    .filter(win => !!win);
-}
-
-/*
- * Gets the formatted hours string of the current window, chosen based on the
- * provided time.
- *
- * Note: we're picking the first active window, there could be more than one
- */
-export function selectLocalExpressCareWindowString(state, nowMoment) {
-  const current = selectActiveExpressCareWindows(state, nowMoment);
-
-  if (!current?.length) {
-    return null;
-  }
-
-  return `${current[0].start.format('h:mm a')} to ${current[0].end.format(
-    'h:mm a',
-  )} ${current[0].timezoneAbbreviation}`;
-}
-
-/*
- * Gets the facility info for the current window, chosen based on the
- * provided time.
- *
- * Note: we're picking the first active window, there could be more than one
- */
-export function selectActiveExpressCareFacility(state, nowMoment) {
-  const current = selectActiveExpressCareWindows(state, nowMoment);
-
-  if (!current?.length) {
-    return null;
-  }
-
-  return {
-    facilityId: current[0].facilityId,
-    siteId: current[0].facilityId.substring(0, 3),
-  };
-}
-
-function getFormattedTime(time) {
-  return moment(`${moment().format('YYYY-MM-DD')}T${time}:00`).format('h:mm a');
-}
-
-function getWindowString(window, timezoneAbbreviation, isToday) {
-  return `${isToday ? 'today' : titleCase(window.day)} from ${getFormattedTime(
-    window.startTime,
-  )} to ${getFormattedTime(window.endTime)} ${timezoneAbbreviation}`;
-}
-
-/*
- * Returns next schedulable window.  If today is schedulable and current time is before window,
- * return today's window.  Otherwise, return the next schedulable day's window
- */
-export function selectNextAvailableExpressCareWindowString(state, nowMoment) {
-  const supportedFacilities = selectExpressCareFacilities(state);
-  if (!supportedFacilities?.length) {
-    return null;
-  }
-
-  const facility = supportedFacilities[0];
-  const siteId = facility.facilityId.substring(0, 3);
-  const { timezone } = getTimezoneBySystemId(siteId);
-  const timezoneAbbreviation = getTimezoneAbbrBySystemId(siteId);
-  const nowFacilityTime = nowMoment.clone().tz(timezone);
-  const dayOfWeek = nowFacilityTime.format('dddd').toUpperCase();
-  const todayDayOfWeekIndex = Number(nowFacilityTime.format('d'));
-  const todaysWindow = facility.days.find(d => d.day === dayOfWeek);
-
-  // Sort schedulable days after today so we can easily find the next
-  // day if needed
-  const schedulableDaysAfterToday = [
-    ...facility.days.filter(day => day.dayOfWeekIndex > todayDayOfWeekIndex),
-    ...facility.days.filter(day => day.dayOfWeekIndex < todayDayOfWeekIndex),
-  ];
-
-  if (todaysWindow) {
-    const start = moment.tz(
-      `${nowFacilityTime.format('YYYY-MM-DD')}T${todaysWindow.startTime}:00`,
-      timezone,
-    );
-    if (nowMoment.isBefore(start)) {
-      // If today is schedulable and we are before the window, return today's window
-      return getWindowString(todaysWindow, timezoneAbbreviation, true);
-    } else {
-      // In the rare case the today is the only schedulable day and they are past the window,
-      // return today's window and specify "next week". Otherwise, return the next schedulable day
-      if (!schedulableDaysAfterToday.length) {
-        return `next ${getWindowString(
-          todaysWindow,
-          timezoneAbbreviation,
-          false,
-        )}`;
-      }
-      return getWindowString(
-        schedulableDaysAfterToday[0],
-        timezoneAbbreviation,
-        false,
-      );
-    }
-  } else {
-    // If today isn't schedulable, return the next day that is
-    return getWindowString(
-      schedulableDaysAfterToday[0],
-      timezoneAbbreviation,
-      false,
-    );
-  }
-}
-
-export function selectExpressCareAvailability(state) {
-  const activeWindows = selectActiveExpressCareWindows(state);
-  return {
-    activeWindows,
-    localWindowString: selectLocalExpressCareWindowString(state),
-    localNextAvailableString: selectNextAvailableExpressCareWindowString(
-      state,
-      moment(),
-    ),
-    allowRequests: !!activeWindows?.length,
-    useNewFlow: selectFeatureExpressCareNewRequest(state),
-    hasWindow: !!selectExpressCareFacilities(state)?.length,
-    hasRequests: state.appointments.pending?.some(
-      appt => appt.vaos.isExpressCare,
-    ),
-    windowsStatus: state.appointments.expressCareWindowsStatus,
-  };
-}
 
 export function selectAppointmentById(state, id, types = null) {
   const { appointmentDetails, past, confirmed, pending } = state.appointments;

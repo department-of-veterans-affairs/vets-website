@@ -194,8 +194,8 @@ describe('ClaimsAndAppeals component', () => {
             }),
           ).to.be.false;
         });
-        it('should render a loading spinner but no section headline while loading data', () => {
-          expect(view.queryByRole('progressbar', { label: /loading/i })).to
+        it('should render a loading spinner but no section headline while loading data', async () => {
+          expect(await view.findByRole('progressbar', { label: /loading/i })).to
             .exist;
           expect(view.queryByRole('heading', { name: /^claims & appeals$/i }))
             .to.not.exist;
@@ -246,8 +246,8 @@ describe('ClaimsAndAppeals component', () => {
             }),
           ).to.be.true;
         });
-        it('should render a loading spinner but no section headline while loading data', () => {
-          expect(view.queryByRole('progressbar', { label: /loading/i })).to
+        it('should render a loading spinner but no section headline while loading data', async () => {
+          expect(await view.findByRole('progressbar', { label: /loading/i })).to
             .exist;
           expect(view.queryByRole('heading', { name: /^claims & appeals$/i }))
             .to.not.exist;
@@ -290,8 +290,8 @@ describe('ClaimsAndAppeals component', () => {
             }),
           ).to.be.true;
         });
-        it('should render a loading spinner but no section headline while loading data', () => {
-          expect(view.queryByRole('progressbar', { label: /loading/i })).to
+        it('should render a loading spinner but no section headline while loading data', async () => {
+          expect(await view.findByRole('progressbar', { label: /loading/i })).to
             .exist;
           expect(view.queryByRole('heading', { name: /^claims & appeals$/i }))
             .to.not.exist;
