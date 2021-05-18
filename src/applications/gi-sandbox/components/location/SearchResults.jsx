@@ -7,11 +7,10 @@ import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstima
 import SearchAccordion from '../SearchAccordion';
 
 export default function SearchResults({ search }) {
-  const [setMap] = useState(null);
+  const [map, setMap] = useState(null);
   const mapboxGlContainer = 'mapbox-gl-container';
+
   const setupMap = () => {
-    const mapContainerElement = document.getElementById(mapboxGlContainer);
-    mapContainerElement.setAttribute('tabindex', 0);
     mapboxgl.accessToken = mapboxToken;
     const mapInit = new mapboxgl.Map({
       container: mapboxGlContainer,
@@ -36,8 +35,11 @@ export default function SearchResults({ search }) {
     });
     return mapInit;
   };
+
   useEffect(() => {
-    setMap(setupMap());
+    if (document.getElementById(mapboxGlContainer)) {
+      setMap(setupMap());
+    }
   }, []); // <-- empty array means 'run once'
 
   return (
