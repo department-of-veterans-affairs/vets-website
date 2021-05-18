@@ -3,19 +3,19 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import formConfig from '../../config/form';
-import manifest from '../../manifest.json';
+import formConfig from '../../../config/form';
+import manifest from '../../../manifest.json';
 
-import basicUser from './fixtures/users/user-basic.js';
+import basicUser from '../fixtures/users/user-basic.js';
 
-import { setSessionStorage } from '../../../shared/test-data/e2e/session.storage.mock';
+import { setSessionStorage } from '../../../../shared/test-data/e2e/session.storage.mock';
 
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 
-import featureToggles from './fixtures/mocks/feature-toggles.enabled.json';
+import featureToggles from '../fixtures/mocks/feature-toggles.enabled.json';
 
-import sipPutData from './fixtures/sip/put.json';
-import sipDeleteData from './fixtures/sip/delete.json';
+import sipPutData from '../fixtures/sip/put.json';
+import sipDeleteData from '../fixtures/sip/delete.json';
 
 const testConfig = createTestConfig(
   {
@@ -58,11 +58,9 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/Answer/i, {
-            selector: '.vads-c-action-link--green',
-          })
-            .first()
-            .click({ waitForAnimations: true });
+          cy.get('.vads-c-action-link--green > span').click({
+            waitForAnimations: true,
+          });
         });
       },
       demographics: ({ afterHook }) => {
@@ -86,8 +84,6 @@ const testConfig = createTestConfig(
         cy.get('.usa-alert-heading').contains('has been sen');
       },
     },
-    // disable all tests until we out of proof of concept stage
-    skip: true,
   },
   manifest,
   formConfig,
