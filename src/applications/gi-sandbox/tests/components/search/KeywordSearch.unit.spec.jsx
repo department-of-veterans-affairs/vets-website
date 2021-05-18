@@ -9,7 +9,7 @@ describe('<KeywordSearch>', () => {
   it('should render', () => {
     const tree = mount(
       <KeywordSearch
-        label="test"
+        placeholder="test"
         location={{ query: 'test' }}
         autocomplete={{
           searchTerm: 'hello',
@@ -28,17 +28,16 @@ describe('<KeywordSearch>', () => {
   });
 
   it('should open suggestion list when input is filled with text', () => {
-    const onChange = sinon.spy();
     const validateSearchQuery = sinon.spy();
     const tree = mount(
       <KeywordSearch
-        label="test"
+        placeholder="test"
         location={{ query: 'test' }}
         autocomplete={{
           searchTerm: '',
           suggestions: [{ label: 'item1' }, { label: 'item2' }],
         }}
-        onChange={onChange}
+        onChange={() => {}}
         onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
         onSelection={() => {}}
@@ -58,18 +57,17 @@ describe('<KeywordSearch>', () => {
   });
 
   it('should call on select when an suggestion is selected', () => {
-    const onChange = sinon.spy();
     const onSelection = sinon.spy();
     const validateSearchQuery = sinon.spy();
     const tree = mount(
       <KeywordSearch
-        label="test"
+        placeholder="test"
         location={{ query: 'test' }}
         autocomplete={{
           searchTerm: '',
           suggestions: [{ label: 'item1' }, { label: 'item2' }],
         }}
-        onChange={onChange}
+        onChange={() => {}}
         onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
         onSelection={onSelection}
@@ -90,18 +88,17 @@ describe('<KeywordSearch>', () => {
   });
 
   it('should not call on select when a suggestion is not selected', () => {
-    const onChange = sinon.spy();
     const onSelection = sinon.spy();
     const validateSearchQuery = sinon.spy();
     const tree = mount(
       <KeywordSearch
-        label="test"
+        placeholder="test"
         location={{ query: 'test' }}
         autocomplete={{
           searchTerm: '',
           suggestions: [{ label: 'item1' }, { label: 'item2' }],
         }}
-        onChange={onChange}
+        onChange={() => {}}
         onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
         onSelection={onSelection}
