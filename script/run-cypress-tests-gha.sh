@@ -12,6 +12,6 @@ else
   # Use mocha-junit-reporter and save results in './test-results'.
   reporterArgs="--reporter cypress-multi-reporters --reporter-options \"configFile=config/cypress-reporters.json\""
 
-  # Start the web server & run Cypress tests.
+  # Run Cypress tests.
   yarn cy:run $reporterArgs
 fi

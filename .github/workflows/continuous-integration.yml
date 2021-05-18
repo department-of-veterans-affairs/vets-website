@@ -301,14 +301,20 @@ jobs:
         working-directory: content-build
 
       - name: Curl content-build
-        run: curl localhost:3002
+        run: curl -s --fail localhost:3002 > /dev/null
         working-directory: content-build
 
       - name: Start vets-website
         run: yarn watch --verbose &
 
       - name: Curl vets-website
-        run: curl localhost:3001
+        run: curl -s --fail localhost:3001 > /dev/null
 
       - name: Start Cypress tests
-        run: yarn cy:test:circle
+        run: yarn cy:test:gha
+
+      - name: Archive Cypress test artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-artifacts
+          path: logs/pact.log
