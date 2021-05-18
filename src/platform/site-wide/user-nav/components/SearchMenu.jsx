@@ -419,7 +419,7 @@ SearchMenu.propTypes = {
 };
 
 SearchMenu.defaultProps = {
-  debounceRate: 100,
+  debounceRate: 200,
 };
 
 const mapStateToProps = store => ({
