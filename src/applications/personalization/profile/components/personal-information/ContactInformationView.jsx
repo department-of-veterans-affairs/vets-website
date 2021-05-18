@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { formatAddress } from '~/platform/forms/address/helpers';
-import ReceiveAppointmentReminders from '~/platform/user/profile/vap-svc/containers/ReceiveAppointmentReminders';
 
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import * as VAP_SERVICE from '@@vap-svc/constants';
@@ -12,6 +11,8 @@ import {
   addresses,
   phoneNumbers,
 } from '@@profile/util/contact-information/getContactInfoFieldAttributes';
+
+import ReceiveAppointmentReminders from './ReceiveAppointmentReminders';
 
 const ContactInformationView = props => {
   const { data, fieldName } = props;
