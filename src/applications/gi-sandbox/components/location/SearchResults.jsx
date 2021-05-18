@@ -1,52 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import SearchResultCard from '../SearchResultCard';
-import mapboxgl from 'mapbox-gl';
-import { mapboxToken } from '../../utils/mapboxToken';
-import { MapboxInit } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import SearchAccordion from '../SearchAccordion';
 
 export default function SearchResults({ search }) {
-  const [map, setMap] = useState(null);
-  const mapboxGlContainer = 'mapbox-gl-container';
-
-  const setupMap = () => {
-    mapboxgl.accessToken = mapboxToken;
-    const mapInit = new mapboxgl.Map({
-      container: mapboxGlContainer,
-      style: 'mapbox://styles/mapbox/outdoors-v11',
-      center: [MapboxInit.centerInit.lng, MapboxInit.centerInit.lat],
-      zoom: MapboxInit.zoomInit,
-    });
-    mapInit.addControl(
-      new mapboxgl.NavigationControl({
-        // Hide rotation control.
-        showCompass: false,
-      }),
-      'top-left',
-    );
-    // Remove mapbox logo from tab order
-    const mapBoxLogo = document.querySelector(
-      'a.mapboxgl-ctrl-logo.mapboxgl-compact',
-    );
-    if (mapBoxLogo) mapBoxLogo.setAttribute('tabIndex', -1);
-    mapInit.on('load', () => {
-      mapInit.resize();
-    });
-    return mapInit;
-  };
-
-  useEffect(() => {
-    if (document.getElementById(mapboxGlContainer)) {
-      setMap(setupMap());
-    }
-  }, []); // <-- empty array means 'run once'
-
   return (
     <>
-      {search.count > 0 && (
+      {search.location.count > 0 && (
         <div>
-          <div className={'usa-width-one-third'}>
+          <div>
             <TuitionAndHousingEstimates />
             <SearchAccordion
               button={'Refine your search'}
@@ -67,28 +29,6 @@ export default function SearchResults({ search }) {
                 ))}
               </div>
             </div>
-          </div>
-          <div className={'usa-width-two-thirds'}>
-            <map
-              id={mapboxGlContainer}
-              aria-label="Find VA locations on an interactive map"
-              aria-describedby="map-instructions"
-              className={'desktop-map-container'}
-            >
-              <div
-                id="search-area-control-container"
-                className={'mapboxgl-ctrl-top-center'}
-              >
-                <button
-                  id="search-area-control"
-                  className={'usa-button'}
-                  onClick={() => {}}
-                  aria-live="assertive"
-                >
-                  Search this area of the map
-                </button>
-              </div>
-            </map>
           </div>
         </div>
       )}
