@@ -40,7 +40,7 @@ node('vetsgov-general-purpose') {
             commonStages.slackNotify()
             throw error
           }
-        }
+        },
 
         buildDev: {
           if (commonStages.shouldBail()) { return }
