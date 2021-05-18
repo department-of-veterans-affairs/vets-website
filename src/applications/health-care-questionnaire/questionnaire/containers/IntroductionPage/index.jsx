@@ -107,13 +107,13 @@ const IntroductionPage = props => {
   return (
     <div className="schemaform-intro healthcare-experience">
       <FormTitle title={title} subTitle={subTitle} />
-      <h2 className="better-prepare-yours">
+      <p className="better-prepare-yours">
         Please try to fill out this questionnaire before your appointment. When
         you tell us about your symptoms and concerns, we can better prepare to
         meet your needs.
-      </h2>
+      </p>
       <section className="after-details">
-        <h3>What happens after I answer the questions?</h3>
+        <h2>What happens after I answer the questions?</h2>
         <p>
           We’ll send your completed questionnaire to your provider through a
           secure electronic communication. We’ll also add the questionnaire to
@@ -127,10 +127,10 @@ const IntroductionPage = props => {
         </p>
       </section>
       <section className="personal-information">
-        <h3>
+        <h2>
           How will VA protect my personal and health information if I answer
           these questions?
-        </h3>
+        </h2>
         <p>
           We keep all of the information in your medical record private and
           secure. This includes any information you share in this questionnaire.
