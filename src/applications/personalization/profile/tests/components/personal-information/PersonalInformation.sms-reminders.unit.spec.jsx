@@ -51,7 +51,7 @@ context('When enrolled in health care', () => {
   });
   context('and signed up to get text message reminders', () => {
     beforeEach(() => {
-      initialState.user.profile.vapContactInfo.mobilePhone.isTextable = true;
+      initialState.user.profile.vapContactInfo.mobilePhone.isTextPermitted = true;
       view = renderWithProfileReducers(ui, {
         initialState,
       });
@@ -71,7 +71,7 @@ context('When enrolled in health care', () => {
   });
   context('and not signed up to get text message reminders', () => {
     beforeEach(() => {
-      initialState.user.profile.vapContactInfo.mobilePhone.isTextable = false;
+      initialState.user.profile.vapContactInfo.mobilePhone.isTextPermitted = false;
       view = renderWithProfileReducers(ui, {
         initialState,
       });

@@ -33,7 +33,9 @@ const ContactInformationView = props => {
         />
 
         {fieldName === FIELD_NAMES.MOBILE_PHONE && (
-          <ReceiveAppointmentReminders isReceivingReminders={data.isTextable} />
+          <ReceiveAppointmentReminders
+            isReceivingReminders={data.isTextPermitted}
+          />
         )}
       </div>
     );
