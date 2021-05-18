@@ -915,8 +915,8 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    const cancelButton = tree.find('button');
-    expect(cancelButton.hasClass('usa-button-secondary')).to.equal(true);
+    const cancelButton = tree.find('button.usa-button-secondary');
+    expect(cancelButton).to.equal(true);
     expect(cancelButton.text()).to.equal('Cancel');
     tree.unmount();
   });
