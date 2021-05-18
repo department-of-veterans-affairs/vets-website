@@ -27,7 +27,12 @@ export const requireIssue = (
 
 export const areaOfDisagreementRequired = (
   errors,
-  { disagreementOptions, otherEntry } = {},
+  // added index to get around arrayIndex being null
+  { disagreementOptions, otherEntry, index } = {},
+  _formData,
+  _schema,
+  _uiSchema,
+  arrayIndex, // always null?!
 ) => {
   const keys = Object.keys(disagreementOptions || {});
   const hasSelection = keys.some(key => disagreementOptions[key]);
@@ -39,7 +44,7 @@ export const areaOfDisagreementRequired = (
   }
 
   // work-around for error message not showing :(
-  areaOfDisagreementWorkAround(hasSelection);
+  areaOfDisagreementWorkAround(hasSelection, arrayIndex || index);
 };
 
 export const optInValidation = (errors, value) => {
