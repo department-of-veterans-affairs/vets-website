@@ -22,26 +22,6 @@ node('vetsgov-general-purpose') {
       parallel (
         failFast: true,
 
-        startReviewInstance {
-          if (commonStages.shouldBail()) { return }
-
-          try {
-            if (!commonStages.isReviewable()) {
-              return
-            }
-            build job: 'deploys/vets-review-instance-deploy', parameters: [
-              stringParam(name: 'devops_branch', value: 'master'),
-              stringParam(name: 'api_branch', value: 'master'),
-              stringParam(name: 'web_branch', value: env.BRANCH_NAME),
-              stringParam(name: 'content_branch', value: env.BRANCH_NAME),
-              stringParam(name: 'source_repo', value: 'vets-website'),
-            ], wait: false
-          } catch (error) {
-            commonStages.slackNotify()
-            throw error
-          }
-        },
-
         buildDev: {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovdev'
@@ -98,6 +78,26 @@ node('vetsgov-general-purpose') {
             sh "/cc-test-reporter before-build"
             sh "cd /application && npm --no-color run test:unit -- --coverage"
             sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
+          }
+        },
+
+        startReviewInstance: {
+          if (commonStages.shouldBail()) { return }
+
+          try {
+            if (!commonStages.isReviewable()) {
+              return
+            }
+            build job: 'deploys/vets-review-instance-deploy', parameters: [
+              stringParam(name: 'devops_branch', value: 'master'),
+              stringParam(name: 'api_branch', value: 'master'),
+              stringParam(name: 'web_branch', value: env.BRANCH_NAME),
+              stringParam(name: 'content_branch', value: env.BRANCH_NAME),
+              stringParam(name: 'source_repo', value: 'vets-website'),
+            ], wait: false
+          } catch (error) {
+            commonStages.slackNotify()
+            throw error
           }
         },
 
