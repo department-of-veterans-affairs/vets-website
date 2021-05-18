@@ -8,7 +8,7 @@ const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-  // const ENV = 'localhost';
+  // const ENV = 'LOCALHOST';
 
   // const options = {
   //   webpackOptions: {
@@ -27,13 +27,26 @@ module.exports = (on, config) => {
   console.log('config:', config);
   const bundler = createBundler({
     define: {
-      'process.env.NODE_ENV': '"development"',
+      'process.env.NODE_ENV': '"localhost"',
+      BUILDTYPE: '"localhost"',
       // nodePaths: ['platform'],
       // plugins: [
       //   alias({
       //     import: getAbsolutePath(),
       //   }),
       // ],
+      // env: { buildtype: 'LOCALHOST' },
+      // buildOptions: {
+      //   api: '',
+      //   buildtype,
+      //   host: LOCALHOST,
+      //   port: 3001,
+      //   scaffold: false,
+      //   watch: false,
+      //   setPublicPath: false,
+      //   destination: buildtype,
+      //   ...env,
+      // },
     },
     inject: ['src/platform/testing/e2e/cypress/plugins/react-shim.js'],
     loader: { '.js': 'jsx' },

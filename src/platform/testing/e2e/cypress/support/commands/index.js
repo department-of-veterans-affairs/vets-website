@@ -8,3 +8,4 @@ import './viewportPreset';
 import './hasCount';
 import 'cy-mobile-commands';
 import 'cypress-wait-until';
+import './injectAxe';
