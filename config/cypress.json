@@ -2,6 +2,7 @@
   "baseUrl": "http://localhost:3001",
   "viewportWidth": 1920,
   "viewportHeight": 1080,
+  "pageLoadTimeout": 12000,
   "integrationFolder": "./src",
   "modifyObstructiveCode": false,
   "nodeVersion": "system",
