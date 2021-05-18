@@ -49,6 +49,20 @@ const INITIAL_STATE = {
   location: {
     count: null,
     results: [],
+    version: {},
+    facets: {
+      category: {},
+      type: {},
+      state: {},
+      country: [],
+      cautionFlag: {},
+      studentVetGroup: {},
+      yellowRibbonScholarship: {},
+      principlesOfExcellence: {},
+      eightKeysToVeteranSuccess: {},
+      stem: {},
+      provider: [],
+    },
   },
   tab: 'name',
 };

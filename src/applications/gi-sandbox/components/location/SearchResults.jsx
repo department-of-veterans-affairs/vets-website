@@ -15,7 +15,7 @@ export default function SearchResults({ search }) {
     const mapInit = new mapboxgl.Map({
       container: mapboxGlContainer,
       style: 'mapbox://styles/mapbox/outdoors-v11',
-      center: [MapboxInit.centerInit.lng, MapboxInit.centerInit.lat],
+      center: [MapboxInit.centerInit.longitude, MapboxInit.centerInit.latitude],
       zoom: MapboxInit.zoomInit,
     });
     mapInit.addControl(
@@ -45,7 +45,7 @@ export default function SearchResults({ search }) {
   return (
     <>
       {search.location.count > 0 && (
-        <div>
+        <div className={'location-search'}>
           <div className={'usa-width-one-third'}>
             <TuitionAndHousingEstimates />
             <SearchAccordion
@@ -53,7 +53,7 @@ export default function SearchResults({ search }) {
               buttonLabel="Update results"
               buttonOnClick={() => {}}
             />
-            <div className="usa-grid vads-u-padding--1">
+            <div className="location-search-results usa-grid vads-u-padding--1p5">
               <p>
                 Showing <strong>{search.location.count} search results</strong>{' '}
                 for '<strong>{search.query.location}</strong>'
@@ -69,16 +69,13 @@ export default function SearchResults({ search }) {
             </div>
           </div>
           <div className={'usa-width-two-thirds'}>
-            {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
             <map
               id={mapboxGlContainer}
               aria-label="Find VA locations on an interactive map"
               aria-describedby="map-instructions"
               className={'desktop-map-container'}
-              role={'application'}
-              tabIndex="0"
+              role="region"
             >
-              {/* eslint-enable jsx-a11y/no-noninteractive-tabindex */}
               <div
                 id="search-area-control-container"
                 className={'mapboxgl-ctrl-top-center'}

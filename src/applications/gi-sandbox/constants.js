@@ -24,10 +24,10 @@ export const KEY_CODES = Object.freeze({
  * Mapbox init values
  */
 export const MapboxInit = {
-  zoomInit: 3,
+  zoomInit: 10,
   centerInit: {
-    lng: -99.27246093750001,
-    lat: 40.17887331434698,
+    latitude: 38.90050102184789,
+    longitude: -77.03530622695227,
   },
 };
 
