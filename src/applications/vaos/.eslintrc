@@ -2,6 +2,7 @@
   "rules": {
     "no-restricted-imports": [
       "error",
+      "raven",
       "react-router",
       "history",
       "lodash/fp"
