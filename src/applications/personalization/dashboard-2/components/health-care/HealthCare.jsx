@@ -230,6 +230,14 @@ const mapStateToProps = state => {
     hasAppointmentsError,
     isCernerPatient: selectIsCernerPatient(state),
     shouldFetchMessages,
+    // TODO: We might want to rewrite this component so that we default to
+    // showing the loading indicator until all required API calls have either
+    // resolved or failed. Right now we only set this flag to true _after_ an
+    // API call has started. This means that on first render, before `useEffect`
+    // hooks fire, the component is going to be showing the UI with all of the
+    // IconCTALinks before the supporting data has been loaded. It only switches
+    // to showing the loading indicator _after_ the useEffect hooks have run and
+    // API requests have started.
     shouldShowLoadingIndicator: fetchingAppointments || fetchingInbox,
     shouldShowPrescriptions,
     unreadMessagesCount: selectUnreadMessagesCount(state),

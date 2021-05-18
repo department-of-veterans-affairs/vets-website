@@ -21,6 +21,22 @@ describe('Covid19PhoneLink', () => {
     wrapper.unmount();
   });
 
+  it('Should render correct labelText', () => {
+    const phone = {
+      number: '999-456-7890',
+    };
+    const wrapper = shallow(
+      <Covid19PhoneLink phone={phone} showCovidVaccineSchedulingLink />,
+    );
+    expect(
+      wrapper
+        .find('strong')
+        .text()
+        .trim(),
+    ).to.equal('Or call to schedule:');
+    wrapper.unmount();
+  });
+
   it('Should render with number and extension', () => {
     const phone = {
       number: '999-456-7890',

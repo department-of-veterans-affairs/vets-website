@@ -1,7 +1,13 @@
 import React from 'react';
 import SearchResultCard from './SearchResultCard';
+import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 export default function SearchResults({ search }) {
+  if (search.inProgress) {
+    return <LoadingIndicator message="Loading search results..." />;
+  }
+
   return (
     <>
       {search.count > 0 && (
@@ -11,9 +17,9 @@ export default function SearchResults({ search }) {
             <strong>{search.query.name}</strong>'
           </p>
           <div className="usa-width-one-third">
-            <h3>Filter Panel</h3>
+            <TuitionAndHousingEstimates />
           </div>
-          <div className="usa-width-two-thirds vads-u-margin-right--neg2">
+          <div className="usa-width-two-thirds ">
             <div className="vads-l-row vads-u-flex-wrap--wrap">
               {search.results.map(institution => (
                 <SearchResultCard
