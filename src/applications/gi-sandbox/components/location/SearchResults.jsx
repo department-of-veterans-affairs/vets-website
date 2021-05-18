@@ -69,12 +69,16 @@ export default function SearchResults({ search }) {
             </div>
           </div>
           <div className={'usa-width-two-thirds'}>
+            {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
             <map
               id={mapboxGlContainer}
               aria-label="Find VA locations on an interactive map"
               aria-describedby="map-instructions"
               className={'desktop-map-container'}
+              role={'application'}
+              tabIndex="0"
             >
+              {/* eslint-enable jsx-a11y/no-noninteractive-tabindex */}
               <div
                 id="search-area-control-container"
                 className={'mapboxgl-ctrl-top-center'}
