@@ -177,7 +177,7 @@ const formConfig = {
   getHelp: GetFormHelp,
   errorText: ErrorText,
   // Don't show error links on the review page in production
-  showReviewErrors: () => !environment.isProduction(),
+  showReviewErrors: !environment.isProduction(),
   reviewErrors,
   defaultDefinitions: {
     ...fullSchema.definitions,

@@ -234,7 +234,7 @@ describe('Schemaform review: <ValidationError />', () => {
     };
 
     const formConfig = getFormConfig();
-    formConfig.showReviewErrors = () => true;
+    formConfig.showReviewErrors = true;
 
     const formReducer = createformReducer({
       formConfig: form,

@@ -28,8 +28,7 @@ function ValidationError(props) {
   const [hadErrors, setHadErrors] = useState(false);
 
   // error links need evaluation & testing before production
-  const renderErrors =
-    (errorsLen > 0 && formConfig.showReviewErrors?.()) || false;
+  const renderErrors = (errorsLen > 0 && formConfig.showReviewErrors) || false;
 
   useEffect(
     () => {
