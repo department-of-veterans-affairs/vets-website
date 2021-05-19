@@ -119,7 +119,9 @@ module.exports = (env = {}) => {
 
   // Set the publicPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
-    buildtype !== LOCALHOST && buildtype !== VAGOVDEV
+    buildtype !== LOCALHOST &&
+    buildtype !== VAGOVDEV &&
+    buildtype !== VAGOVSTAGING
       ? `${BUCKETS[buildtype]}/generated/`
       : '/generated/';
 
