@@ -6,8 +6,11 @@ import MobileLinks from './MobileLinks';
 import LanguageSupport from './LanguageSupport';
 import { createLinkGroups } from '../helpers';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
+import { connect } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
-export default class Footer extends React.Component {
+class Footer extends React.Component {
   constructor(props) {
     super(props);
     this.linkObj = createLinkGroups(props.footerData);
@@ -37,8 +40,17 @@ export default class Footer extends React.Component {
       <div>
         <div className="footer-inner">
           <DesktopLinks visible={!this.state.isMobile} links={this.linkObj} />
-          <MobileLinks visible={this.state.isMobile} links={this.linkObj} />
-          {!this.state.isMobile && <LanguageSupport isDesktop />}
+          <MobileLinks
+            visible={this.state.isMobile}
+            links={this.linkObj}
+            showLangSupport={this.props.showLangSupport}
+          />
+          {!this.state.isMobile && (
+            <LanguageSupport
+              showLangSupport={this.props.showLangSupport}
+              isDesktop
+            />
+          )}
 
           <div className="usa-grid usa-grid-full footer-banner">
             <a href="/" className="va-footer-logo" title="Go to VA.gov">
@@ -59,3 +71,9 @@ export default class Footer extends React.Component {
     );
   }
 }
+
+const mapStateToProps = store => ({
+  showLangSupport: toggleValues(store)[FEATURE_FLAG_NAMES.languageSupport],
+});
+
+export default connect(mapStateToProps)(Footer);

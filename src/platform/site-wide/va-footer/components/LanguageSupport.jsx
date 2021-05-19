@@ -34,7 +34,9 @@ function LanguagesListTemplate() {
     </ul>
   );
 }
-export default function LanguageSupport({ isDesktop }) {
+export default function LanguageSupport({ isDesktop, showLangSupport }) {
+  if (showLangSupport !== true) return null;
+
   if (isDesktop) {
     return (
       <div className="usa-grid usa-grid-full va-footer-links-bottom">
