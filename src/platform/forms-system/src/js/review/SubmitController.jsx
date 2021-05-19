@@ -126,12 +126,7 @@ class SubmitController extends Component {
   };
 
   render() {
-    const {
-      form,
-      formConfig,
-      renderErrorMessage,
-      formErrors = {},
-    } = this.props;
+    const { form, formConfig, formErrors = {} } = this.props;
 
     return (
       <SubmitButtons
@@ -139,7 +134,6 @@ class SubmitController extends Component {
         onBack={this.goBack}
         onSubmit={this.handleSubmit}
         submission={form.submission}
-        renderErrorMessage={renderErrorMessage}
         formErrors={formErrors}
       />
     );
