@@ -81,10 +81,10 @@ const CalendarCell = ({
   const dateDay = momentDate.format('D');
   const ariaDate = momentDate.format('dddd, MMMM Do');
   const buttonLabel = inSelectedArray
-    ? `${ariaDate}. ${
+    ? `${ariaDate}, ${
         renderSelectedLabel
           ? renderSelectedLabel(date, selectedDates)
-          : 'Date selected.'
+          : 'selected.'
       }`
     : ariaDate;
 
