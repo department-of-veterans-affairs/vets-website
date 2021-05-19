@@ -22,6 +22,8 @@ export const KEY_CODES = Object.freeze({
 
 /**
  * Mapbox init values
+ * Lat/long are for Turkey Creek, NE
+ * This combined with zoomInit value cause map to show continental USA before user searches
  */
 export const MapboxInit = {
   zoomInit: 3,
