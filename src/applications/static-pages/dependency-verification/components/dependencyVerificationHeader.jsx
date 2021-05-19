@@ -1,26 +1,13 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 const DependencyVerificationHeader = () => {
   return (
     <header>
-      <h1 className="vads-u-font-size--h2">Dependents on your VA benefits</h1>
       <p>
-        Our records show the following dependents on your VA benefits. Please
-        let us know if a dependent's status has changed.
+        We have the dependents below on your VA benefits. We need to make sure
+        our records are right so your benefits pay is correct. If you skip this
+        for now, we’ll ask you again later.
       </p>
-      <AdditionalInfo triggerText="When should I notify VA about dependents on my benefits?">
-        <p>
-          You need to let VA know when there is a change in a dependent's
-          status. Changes in status could include:
-        </p>
-        <ul>
-          <li>The birth or adoption of a child</li>
-          <li>If you get married or divorced</li>
-          <li>The death of a dependent</li>
-          <li>If your child is over 18 and is not attending school</li>
-        </ul>
-      </AdditionalInfo>
     </header>
   );
 };

@@ -5,6 +5,7 @@ import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
 import { FormApp } from '../../containers/FormApp';
+import { SELECTED } from '../../constants';
 
 const profile = {
   vapContactInfo: {
@@ -86,6 +87,8 @@ describe('FormApp', () => {
   it('should render WIP alert', () => {
     const { props } = getData({ showNod: false });
     const tree = shallow(<FormApp {...props} />);
+
+    tree.setProps();
     // FormTitle rendered separately in WIP page
     const title = tree.find('FormTitle');
     expect(title).to.exist;
@@ -108,7 +111,7 @@ describe('FormApp', () => {
       </Provider>,
     );
 
-    expect(tree.find('#form-10182').length).to.equal(1);
+    tree.setProps();
     expect(getIssues.called).to.be.true;
 
     tree.unmount();
@@ -122,7 +125,7 @@ describe('FormApp', () => {
       </Provider>,
     );
 
-    expect(tree.find('#form-10182').length).to.equal(1);
+    tree.setProps();
     expect(getIssues.notCalled).to.be.true;
 
     tree.unmount();
@@ -157,7 +160,7 @@ describe('FormApp', () => {
       </Provider>,
     );
 
-    expect(tree.find('#form-10182').length).to.equal(1);
+    tree.setProps();
     expect(setFormData.called).to.be.true;
 
     const formData = setFormData.args[0][0];
@@ -168,6 +171,54 @@ describe('FormApp', () => {
     };
     expect(formData.veteran).to.deep.equal(result);
     expect(formData.contestableIssues).to.deep.equal(contestableIssues.issues);
+
+    tree.unmount();
+  });
+
+  it('should update areaOfDisagreement from selected issues', () => {
+    const setFormData = sinon.spy();
+    const { props, mockStore } = getData();
+    const contestableIssues = {
+      status: 'done', // any truthy value to skip get contestable issues action
+      issues: [
+        {
+          type: 'contestableIssue',
+          attributes: {
+            ratingIssueSubjectText: 'tinnitus',
+          },
+          [SELECTED]: true,
+        },
+      ],
+    };
+    const formData = {
+      contestableIssues: contestableIssues.issues,
+      additionalIssues: [{ issue: 'other issue', [SELECTED]: true }],
+      veteran: {
+        email: profile.vapContactInfo.email.emailAddress,
+        phone: profile.vapContactInfo.homePhone,
+        address: profile.vapContactInfo.mailingAddress,
+      },
+    };
+    const tree = mount(
+      <Provider store={mockStore}>
+        <FormApp
+          {...props}
+          setFormData={setFormData}
+          formData={formData}
+          contestableIssues={contestableIssues}
+        />
+      </Provider>,
+    );
+
+    tree.setProps();
+    expect(setFormData.called).to.be.true;
+
+    const updatedFormData = setFormData.args[0][0];
+    expect(updatedFormData.areaOfDisagreement.length).to.eq(2);
+    expect(updatedFormData.areaOfDisagreement).to.deep.equal([
+      { ...formData.contestableIssues[0], index: 0 },
+      { ...formData.additionalIssues[0], index: 1 },
+    ]);
 
     tree.unmount();
   });

@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchDebts } from '../actions';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -13,15 +12,11 @@ const formatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,
 });
 
-const BenefitCard = ({ received, total, title }) => {
+const BenefitCard = ({ received, title }) => {
   return (
     <div className="usa-alert background-color-only">
       <div className="vads-u-margin-bottom--1">
         <h4 className="vads-u-margin--0">{title}</h4>
-      </div>
-      <div className="vads-u-margin-bottom--1">
-        <strong>Total amount: </strong>
-        {formatter.format(parseFloat(total))}
       </div>
       <div className="vads-u-margin-bottom--1">
         <strong>Amount received last month: </strong>
@@ -49,22 +44,7 @@ const NoBenefits = () => {
   );
 };
 
-const Benefits = ({ pending, income, debts, getDebts }) => {
-  useEffect(
-    () => {
-      getDebts();
-    },
-    [getDebts],
-  );
-
-  const eduDebtsTotal = debts
-    .filter(debt => debt.deductionCode !== '30')
-    .reduce((a, b) => a + Number(b.currentAr), 0);
-
-  const compDebtsTotal = debts
-    .filter(debt => debt.deductionCode === '30')
-    .reduce((a, b) => a + Number(b.currentAr), 0);
-
+const Benefits = ({ pending, income }) => {
   const eduReceived = income.reduce((a, b) => a + Number(b.education), 0);
   const compReceived = income.reduce(
     (a, b) => a + Number(b.compensationAndPension),
@@ -75,15 +55,10 @@ const Benefits = ({ pending, income, debts, getDebts }) => {
     <>
       <p>This is the VA benefit information we have on file for you.</p>
       <BenefitCard
-        total={compDebtsTotal}
-        received={compReceived}
         title={'Disability compensation and pension benefits'}
+        received={compReceived}
       />
-      <BenefitCard
-        total={eduDebtsTotal}
-        received={eduReceived}
-        title={'Education benefits'}
-      />
+      <BenefitCard title={'Education benefits'} received={eduReceived} />
       <p>
         <strong>Note:</strong> If this information isn’t right, call our VA
         benefits hotline at <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
@@ -98,20 +73,15 @@ const Benefits = ({ pending, income, debts, getDebts }) => {
 
 Benefits.propTypes = {
   income: PropTypes.array,
-  debts: PropTypes.array,
+  pending: PropTypes.bool,
 };
 
 const mapStateToProps = ({ form, fsr }) => ({
   income: form.data.income,
   pending: fsr.pending,
-  debts: fsr.debts,
 });
-
-const mapDispatchToProps = {
-  getDebts: fetchDebts,
-};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  null,
 )(Benefits);

@@ -18,10 +18,6 @@ const ALERT_ID = 'not-all-data-available-error';
 // Returns the Redux state needed by the Profile and its child components
 function createBasicInitialState() {
   return {
-    // TODO: delete the `featureToggles` when DD4EDU is no longer behind a
-    // feature flag
-    // eslint-disable-next-line camelcase
-    featureToggles: { ch33_dd_profile: true },
     scheduledDowntime: {
       globalDowntime: null,
       isReady: true,

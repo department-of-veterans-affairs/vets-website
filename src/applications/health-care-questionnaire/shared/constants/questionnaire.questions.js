@@ -22,7 +22,7 @@ const lifeEvents = {
 const additionalQuestions = {
   linkId: QUESTION_IDS.ADDITIONAL_QUESTIONS,
   text:
-    'Do you have a question you want to ask your provider? Please enter your most important question first.',
+    'Do you have any questions you want to ask your provider? Please enter your most important question first.',
 };
 const AllQuestions = [
   reasonForVisit,

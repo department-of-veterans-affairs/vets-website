@@ -19,7 +19,7 @@ const ENTER_KEY = 13;
 export class SearchMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.debouncedSuggestions = debounce(
+    this.debouncedGetSuggestions = debounce(
       this.props.debounceRate,
       this.getSuggestions,
     );
@@ -38,7 +38,7 @@ export class SearchMenu extends React.Component {
     // if userInput has changed, fetch suggestions for the typeahead experience
     const inputChanged = prevState.userInput !== userInput;
     if (inputChanged && searchTypeaheadEnabled) {
-      this.debouncedSuggestions();
+      this.debouncedGetSuggestions();
     }
 
     // event logging for phased typeahead rollout
@@ -83,10 +83,7 @@ export class SearchMenu extends React.Component {
 
     // end early / clear suggestions if user input is too short
     if (userInput?.length <= 2) {
-      if (this.state.suggestions.length > 0) {
-        this.setState({ suggestions: [], savedSuggestions: [] });
-      }
-
+      this.setState({ suggestions: [], savedSuggestions: [] });
       return;
     }
 
@@ -113,6 +110,12 @@ export class SearchMenu extends React.Component {
       this.setState({ suggestions, savedSuggestions: [] });
       // if we fail to fetch suggestions
     } catch (error) {
+      if (error?.error?.code === 'OVER_RATE_LIMIT') {
+        Sentry.captureException(
+          new Error(`"OVER_RATE_LIMIT" - Search Typeahead`),
+        );
+        return;
+      }
       Sentry.captureException(error);
     }
   };
@@ -232,7 +235,7 @@ export class SearchMenu extends React.Component {
     const { suggestions, userInput } = this.state;
     const { searchTypeaheadEnabled } = this.props;
     const {
-      debouncedSuggestions,
+      debouncedGetSuggestions,
       handelDownshiftStateChange,
       handleInputChange,
       handleSearchEvent,
@@ -243,10 +246,10 @@ export class SearchMenu extends React.Component {
     } = this;
 
     const highlightedSuggestion =
-      'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
+      'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     const regularSuggestion =
-      'suggestion vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
+      'suggestion vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     // default search experience
     if (!searchTypeaheadEnabled) {
@@ -315,7 +318,7 @@ export class SearchMenu extends React.Component {
                 className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1 vads-u-padding-left--1 vads-u-width--full"
                 name="query"
                 aria-controls={isOpen ? 'suggestions-list' : undefined}
-                onFocus={debouncedSuggestions}
+                onFocus={debouncedGetSuggestions}
                 onKeyUp={handleKeyUp}
                 {...getInputProps({
                   type: 'text',
@@ -416,7 +419,7 @@ SearchMenu.propTypes = {
 };
 
 SearchMenu.defaultProps = {
-  debounceRate: 300,
+  debounceRate: 200,
 };
 
 const mapStateToProps = store => ({

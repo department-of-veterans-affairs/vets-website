@@ -4,9 +4,12 @@ import { SELECTED } from '../../constants';
 import {
   someSelected,
   hasSomeSelected,
+  getSelected,
+  getIssueName,
   showAddIssueQuestion,
   isEmptyObject,
   setInitialEditMode,
+  issuesNeedUpdating,
 } from '../../utils/helpers';
 
 describe('someSelected', () => {
@@ -45,6 +48,60 @@ describe('hasSomeSelected', () => {
     expect(
       testIssues([{}, { [SELECTED]: false }], [{}, {}, { [SELECTED]: false }]),
     ).to.be.false;
+  });
+});
+
+describe('getSelected', () => {
+  it('should return selected contestable issues', () => {
+    expect(
+      getSelected({
+        contestableIssues: [
+          { type: 'no', [SELECTED]: false },
+          { type: 'ok', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([{ type: 'ok', [SELECTED]: true, index: 0 }]);
+  });
+  it('should return selected additional issues', () => {
+    expect(
+      getSelected({
+        additionalIssues: [
+          { type: 'no', [SELECTED]: false },
+          { type: 'ok', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([{ type: 'ok', [SELECTED]: true, index: 0 }]);
+  });
+  it('should return all selected issues', () => {
+    expect(
+      getSelected({
+        contestableIssues: [
+          { type: 'no1', [SELECTED]: false },
+          { type: 'ok1', [SELECTED]: true },
+        ],
+        additionalIssues: [
+          { type: 'no2', [SELECTED]: false },
+          { type: 'ok2', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([
+      { type: 'ok1', [SELECTED]: true, index: 0 },
+      { type: 'ok2', [SELECTED]: true, index: 1 },
+    ]);
+  });
+});
+
+describe('getIssueName', () => {
+  it('should return undefined', () => {
+    expect(getIssueName()).to.be.undefined;
+  });
+  it('should return a contestable issue name', () => {
+    expect(
+      getIssueName({ attributes: { ratingIssueSubjectText: 'test' } }),
+    ).to.eq('test');
+  });
+  it('should return an added issue name', () => {
+    expect(getIssueName({ issue: 'test2' })).to.eq('test2');
   });
 });
 
@@ -105,5 +162,40 @@ describe('setInitialEditMode', () => {
         { issue: 'test2', decisionDate: '2000-01-02' },
       ]),
     ).to.deep.equal([false, false]);
+  });
+});
+
+describe('issuesNeedUpdating', () => {
+  const createEntry = (ratingIssueSubjectText, approxDecisionDate) => ({
+    attributes: {
+      ratingIssueSubjectText,
+      approxDecisionDate,
+    },
+  });
+  it('should return true if array lengths are different', () => {
+    expect(issuesNeedUpdating([], [''])).to.be.true;
+    expect(issuesNeedUpdating([''], ['', ''])).to.be.true;
+  });
+  it('should return true if content is different', () => {
+    expect(
+      issuesNeedUpdating(
+        [createEntry('test', '123'), createEntry('test2', '345')],
+        [createEntry('test', '123'), createEntry('test2', '346')],
+      ),
+    ).to.be.true;
+    expect(
+      issuesNeedUpdating(
+        [createEntry('test', '123'), createEntry('test3', '345')],
+        [createEntry('test', '123'), createEntry('test', '345')],
+      ),
+    ).to.be.true;
+  });
+  it('should return true if arrays are the same', () => {
+    expect(
+      issuesNeedUpdating(
+        [createEntry('test', '123'), createEntry('test2', '345')],
+        [createEntry('test', '123'), createEntry('test2', '345')],
+      ),
+    ).to.be.false;
   });
 });

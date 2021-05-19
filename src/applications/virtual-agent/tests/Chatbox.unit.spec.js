@@ -20,12 +20,13 @@ export const CHATBOT_ERROR_MESSAGE =
 describe('App', () => {
   let oldWindow;
   let directLineSpy;
+  let createStoreSpy;
 
   function loadWebChat() {
     global.window = Object.create(global.window);
     Object.assign(global.window, {
       WebChat: {
-        createStore: () => {},
+        createStore: createStoreSpy,
         createDirectLine: directLineSpy,
         ReactWebChat: () => {
           return <div />;
@@ -35,6 +36,7 @@ describe('App', () => {
   }
 
   beforeEach(() => {
+    createStoreSpy = sinon.spy();
     directLineSpy = sinon.spy();
     resetFetch();
     oldWindow = global.window;
@@ -59,6 +61,23 @@ describe('App', () => {
       });
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+    });
+
+    it('should not create a store more than once', async () => {
+      loadWebChat();
+      mockApiRequest({});
+
+      const { getByTestId } = renderInReduxProvider(<Chatbox />, {
+        initialState: {
+          featureToggles: {
+            loading: false,
+          },
+        },
+      });
+
+      await waitFor(() => expect(getByTestId('webchat')).to.exist);
+
+      expect(createStoreSpy.callCount).to.equal(1);
     });
   });
 

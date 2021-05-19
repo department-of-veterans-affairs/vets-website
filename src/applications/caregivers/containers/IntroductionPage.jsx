@@ -57,8 +57,7 @@ const IntroductionPage = ({
   const ProcessTimeline = () => (
     <div>
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2p5">
-        Follow the steps below to apply for the Program of Comprehensive
-        Assistance for Family Caregivers:
+        Follow these steps to get started:
       </h2>
 
       <div className="process schemaform-process">
@@ -189,7 +188,7 @@ const IntroductionPage = ({
           </li>
 
           {/* Next steps */}
-          <li className="process-step list-three">
+          <li className="process-step list-three vads-u-padding-bottom--0">
             <h3 className="vads-u-font-size--h4">Next steps</h3>
             <p>
               A member of the Caregiver Support Program at the VA medical center
@@ -244,27 +243,24 @@ const IntroductionPage = ({
         <p>
           Equal to VA Form 10-10CG (Application for Family Caregiver Benefits)
         </p>
+
         <p className="va-introtext">
           We recognize the important role of family caregivers in supporting the
           health and wellness of Veterans.
         </p>
 
-        <button
-          style={{ display: 'inherit ' }}
-          className="usa-button vads-u-margin-y--3"
-          onClick={startForm}
-        >
+        <a className="vads-c-action-link--green" href="#" onClick={startForm}>
           Start your application
-        </button>
+        </a>
+
         <ProcessTimeline />
-        <button
-          className="usa-button vads-u-margin-bottom--3"
-          onClick={startForm}
-        >
+
+        <a className="vads-c-action-link--green" href="#" onClick={startForm}>
           Start your application
-        </button>
-        <div className="omb-info--container vads-u-padding-left--0">
-          <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="09/30/2021" />
+        </a>
+
+        <div className="omb-info--container vads-u-padding-left--0  vads-u-margin-top--4">
+          <OMBInfo resBurden={15} ombNumber="2900-0768" expDate="04/30/2024" />
         </div>
       </DowntimeNotification>
     </div>

@@ -165,6 +165,8 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
 
     // Should show 6th facility
     expect(screen.baseElement).to.contain.text('Fake facility name 6');
+    expect(screen.baseElement).to.contain.text('Fake street');
+    expect(screen.baseElement).to.contain.text('Fake city 6, FA fake zip');
     await waitFor(() =>
       expect(document.activeElement.id).to.equal('root_vaFacility_6'),
     );
@@ -177,7 +179,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     // Should validation message if no facility selected
     fireEvent.click(screen.getByText(/Continue/));
     expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
+      'Please select a location for your appointment',
     );
   });
 
@@ -529,16 +531,16 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /Sorry, we could not find any available slots for your booking/i,
+      /We’re sorry. We couldn’t find any available slots for your appointment./i,
     );
     const closeButton = screen.container.querySelector('.va-modal-close');
     fireEvent.click(closeButton);
     expect(screen.baseElement).not.to.contain.text(
-      /Sorry, we could not find any available slots for your booking/i,
+      /We’re sorry. We couldn’t find any available slots for your appointment./i,
     );
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(
-      /Sorry, we could not find any available slots for your booking/i,
+      /We’re sorry. We couldn’t find any available slots for your appointment./i,
     );
   });
 

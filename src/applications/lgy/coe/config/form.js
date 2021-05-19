@@ -136,7 +136,7 @@ const formConfig = {
       title: 'Your VA loan history',
       pages: {
         loanScreener: {
-          path: 'exising-loan-screener',
+          path: 'existing-loan-screener',
           title: 'Existing loans',
           uiSchema: loanScreener.uiSchema,
           schema: loanScreener.schema,

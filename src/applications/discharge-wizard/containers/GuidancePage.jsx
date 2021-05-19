@@ -1,6 +1,7 @@
 // Dependencies
 import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 
@@ -14,82 +15,70 @@ import StepTwo from '../components/gpSteps/StepTwo';
 import StepThree from '../components/gpSteps/StepThree';
 import Warnings from '../components/gpMinorComponents/Warnings';
 
-export class GuidancePage extends Component {
-  constructor(props) {
-    super(props);
+export const GuidancePage = ({ formValues }) => {
+  const [accordionQuestionsState, setAccordionQuestionsState] = useState({
+    q1: false,
+    q2: false,
+  });
 
-    this.state = {};
-  }
+  useEffect(
+    () => {
+      // This effect hook only runs on mount OR if formValues dependency changes (Which is a new render/ or props to the component)
+      localStorage.setItem('dw-viewed-guidance', true);
+      localStorage.setItem('dw-formValues', JSON.stringify(formValues));
+      window.scrollTo(0, 0);
+    },
+    [formValues],
+  );
 
-  componentDidMount() {
-    localStorage.setItem('dw-viewed-guidance', true);
-    localStorage.setItem(
-      'dw-formValues',
-      JSON.stringify(this.props.formValues),
-    );
-
-    if (sessionStorage.getItem('dw-session-started')) {
-      sessionStorage.removeItem('dw-session-started');
-    } else {
-      this.props.router.push('/');
-    }
-
-    const el = document.getElementById('dw-home-link');
-    if (el) {
-      el.focus();
-    }
-
-    window.scrollTo(0, 0);
-  }
-
-  handleFAQToggle = e => {
+  const handleFAQToggle = e => {
     e.preventDefault();
     recordEvent({ event: 'discharge-upgrade-faq-toggle' });
-    this.setState({
-      [e.target.name]: !this.state[e.target.name],
+    setAccordionQuestionsState({
+      ...accordionQuestionsState,
+      [e.target.name]: !accordionQuestionsState[e.target.name],
     });
   };
 
-  handlePrint(e) {
+  const handlePrint = e => {
     e.preventDefault();
     recordEvent({ event: 'discharge-upgrade-print' });
     if (window.print) {
       window.print();
     }
-  }
+  };
 
-  render() {
-    return (
-      <article className="dw-guidance">
-        <h1>Your Steps for Upgrading Your Discharge</h1>
-        <div className="medium-8">
-          <ResultsSummary formValues={this.props.formValues} />
-          <CarefulConsiderationStatement formValues={this.props.formValues} />
-          <Warnings formValues={this.props.formValues} />
-          <OptionalStep formValues={this.props.formValues} />
-          <ul className="steps-list vertical-list-group more-bottom-cushion numbered">
-            <StepOne formValues={this.props.formValues} />
-            <StepTwo formValues={this.props.formValues} />
-            <StepThree
-              formValues={this.props.formValues}
-              handlePrint={this.handlePrint}
-            />
-          </ul>
-          <AdditionalInstructions
-            formValues={this.props.formValues}
-            handleFAQToggle={this.handleFAQToggle}
-            parentState={this.state}
-          />
-        </div>
-      </article>
-    );
-  }
-}
+  return (
+    <article className="dw-guidance">
+      <h1>Your Steps for Upgrading Your Discharge</h1>
+      <div className="medium-8">
+        <ResultsSummary formValues={formValues} />
+        <CarefulConsiderationStatement formValues={formValues} />
+        <Warnings formValues={formValues} />
+        <OptionalStep formValues={formValues} />
+        <ul className="steps-list vertical-list-group more-bottom-cushion numbered">
+          <StepOne formValues={formValues} />
+          <StepTwo formValues={formValues} />
+          <StepThree formValues={formValues} handlePrint={handlePrint} />
+        </ul>
+        <AdditionalInstructions
+          formValues={formValues}
+          handleFAQToggle={handleFAQToggle}
+          parentState={accordionQuestionsState}
+        />
+      </div>
+    </article>
+  );
+};
 
 const mapStateToProps = state => ({
   formValues: state.dischargeWizard.form,
 });
 const mapDispatchToProps = {};
+
+GuidancePage.propTypes = {
+  formValues: PropTypes.object.isRequired,
+};
 
 export default connect(
   mapStateToProps,

@@ -28,12 +28,6 @@ import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
-import environment from 'platform/utilities/environment';
-
-import mapboxClient from '../components/MapboxClient';
-import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-
-const mbxClient = mbxGeo(mapboxClient);
 
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import {
@@ -506,30 +500,83 @@ const FacilitiesMap = props => {
     );
   };
 
-  const genLocationFromCoords = position => {
-    mbxClient
-      .reverseGeocode({
-        query: [position.longitude, position.latitude],
-        types: ['address'],
-      })
-      .send()
-      .then(({ body: { features } }) => {
-        const placeName = features[0].place_name;
-        const zipCode =
-          features[0].context.find(v => v.id.includes('postcode')).text || '';
+  const searchCurrentArea = () => {
+    const { currentQuery } = props;
+    const { searchArea, context, searchString } = currentQuery;
+    const coords = currentQuery.position;
+    const radius = currentQuery.radius;
+    const center = [coords.latitude, coords.longitude];
+    if (searchArea) {
+      updateUrlParams({
+        context,
+        searchString,
+      });
+      props.searchWithBounds({
+        bounds: props.currentQuery.bounds,
+        facilityType: props.currentQuery.facilityType,
+        serviceType: props.currentQuery.serviceType,
+        page: props.currentQuery.currentPage,
+        center,
+        radius,
+      });
+    }
+  };
 
-        props.updateSearchQuery({
-          searchString: placeName,
-          context: zipCode,
-          position,
-        });
+  const setUpResizeEventListener = () => {
+    const setMobile = () => {
+      setIsMobile(window.innerWidth <= 481);
+    };
 
-        updateUrlParams({
-          address: placeName,
-          context: zipCode,
+    searchWithUrl();
+
+    const debouncedResize = vaDebounce(250, setMobile);
+    window.addEventListener('resize', debouncedResize);
+    return () => {
+      window.removeEventListener('resize', debouncedResize);
+    };
+  };
+
+  const handleSearchOnQueryChange = () => {
+    if (isSearching) {
+      updateUrlParams({
+        context: props.currentQuery.context,
+        address: props.currentQuery.searchString,
+      });
+      const { currentQuery } = props;
+      const coords = currentQuery.position;
+      const radius = currentQuery.radius;
+      const center = [coords.latitude, coords.longitude];
+      const resultsPage = currentQuery.currentPage;
+
+      if (!props.searchBoundsInProgress) {
+        props.searchWithBounds({
+          bounds: props.currentQuery.bounds,
+          facilityType: props.currentQuery.facilityType,
+          serviceType: props.currentQuery.serviceType,
+          page: resultsPage,
+          center,
+          radius,
         });
-      })
-      .catch(error => error);
+        setIsSearching(false);
+      }
+    }
+  };
+
+  const handleMapOnNoResultsFound = () => {
+    if (
+      props.results &&
+      props.results.length === 0 &&
+      map &&
+      props.currentQuery.searchCoords
+    ) {
+      const { searchCoords } = props.currentQuery;
+      const locationBounds = new mapboxgl.LngLatBounds();
+      addMapMarker(searchCoords);
+      locationBounds.extend(
+        new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
+      );
+      map.fitBounds(locationBounds, { maxZoom: 12 });
+    }
   };
 
   useEffect(
@@ -543,87 +590,23 @@ const FacilitiesMap = props => {
 
   useEffect(
     () => {
-      const { currentQuery } = props;
-      const { searchArea, context, searchString } = currentQuery;
-      const coords = currentQuery.position;
-      const radius = currentQuery.radius;
-      const center = [coords.latitude, coords.longitude];
-      // Search current area
-      if (searchArea) {
-        updateUrlParams({
-          context,
-          searchString,
-        });
-        props.searchWithBounds({
-          bounds: props.currentQuery.bounds,
-          facilityType: props.currentQuery.facilityType,
-          serviceType: props.currentQuery.serviceType,
-          page: props.currentQuery.currentPage,
-          center,
-          radius,
-        });
-      }
+      searchCurrentArea();
     },
     [props.currentQuery.searchArea],
   );
 
   useEffect(() => {
     setMap(setupMap());
-
-    const setMobile = () => {
-      setIsMobile(window.innerWidth <= 481);
-    };
-
-    searchWithUrl();
-
-    // TODO - remove environment flag once the Use My Location link has been approved on staging
-    if (environment.isProduction() && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(currentPosition => {
-        const input = document.getElementById('street-city-state-zip');
-        if (input && !input.value) {
-          genLocationFromCoords(currentPosition.coords);
-        }
-      });
-    }
-
-    const debouncedResize = vaDebounce(250, setMobile);
-    window.addEventListener('resize', debouncedResize);
-    return () => {
-      window.removeEventListener('resize', debouncedResize);
-    };
+    setUpResizeEventListener();
   }, []); // <-- empty array means 'run once'
 
-  // Handle search when query changes
   useEffect(
     () => {
-      if (isSearching) {
-        updateUrlParams({
-          context: props.currentQuery.context,
-          address: props.currentQuery.searchString,
-        });
-        const { currentQuery } = props;
-        const coords = currentQuery.position;
-        const radius = currentQuery.radius;
-        const center = [coords.latitude, coords.longitude];
-        const resultsPage = currentQuery.currentPage;
-
-        if (!props.searchBoundsInProgress) {
-          props.searchWithBounds({
-            bounds: props.currentQuery.bounds,
-            facilityType: props.currentQuery.facilityType,
-            serviceType: props.currentQuery.serviceType,
-            page: resultsPage,
-            center,
-            radius,
-          });
-          setIsSearching(false);
-        }
-      }
+      handleSearchOnQueryChange();
     },
     [props.currentQuery.id],
   );
 
-  // Handle build markers when we get results
   useEffect(
     () => {
       if (!map) return;
@@ -632,23 +615,9 @@ const FacilitiesMap = props => {
     [props.results, map],
   );
 
-  // Handle no results found map transition
   useEffect(
     () => {
-      if (
-        props.results &&
-        props.results.length === 0 &&
-        map &&
-        props.currentQuery.searchCoords
-      ) {
-        const { searchCoords } = props.currentQuery;
-        const locationBounds = new mapboxgl.LngLatBounds();
-        addMapMarker(searchCoords);
-        locationBounds.extend(
-          new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
-        );
-        map.fitBounds(locationBounds, { maxZoom: 12 });
-      }
+      handleMapOnNoResultsFound();
     },
     [props.currentQuery.searchCoords, props.results],
   );
