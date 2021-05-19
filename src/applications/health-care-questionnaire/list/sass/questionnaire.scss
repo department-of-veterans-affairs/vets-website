@@ -149,7 +149,9 @@ ol.questionnaire-list {
       margin-top: 1rem;
     }
     .due-date{
-      padding-top: 0.75rem;
+      span{
+        display: initial;
+      }
       p{
         margin: 0;
       }
@@ -207,3 +209,4 @@ a.vads-c-action-link--white {
 .loading-message{
   text-align: center;
 }
+

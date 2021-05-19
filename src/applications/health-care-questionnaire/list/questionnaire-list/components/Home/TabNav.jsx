@@ -14,7 +14,7 @@ export default function TabNav() {
     : `${location.pathname}/`;
 
   return (
-    <nav className="questionnaire-list-tabs-container">
+    <section className="questionnaire-list-tabs-container">
       <ul className="va-tabs questionnaire-list-tabs" role="tablist">
         <TabItem
           tabPath={todoPath}
@@ -45,6 +45,6 @@ export default function TabNav() {
           }}
         />
       </ul>
-    </nav>
+    </section>
   );
 }

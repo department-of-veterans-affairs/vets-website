@@ -3,7 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { createId } from '../utils/helpers';
 
-class AccordionDropdown extends React.Component {
+class SearchAccordion extends React.Component {
   static propTypes = {
     expanded: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
@@ -116,4 +116,4 @@ class AccordionDropdown extends React.Component {
   }
 }
 
-export default AccordionDropdown;
+export default SearchAccordion;

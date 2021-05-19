@@ -57,8 +57,7 @@ const IntroductionPage = ({
   const ProcessTimeline = () => (
     <div>
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2p5">
-        Follow the steps below to apply for the Program of Comprehensive
-        Assistance for Family Caregivers:
+        Follow these steps to get started:
       </h2>
 
       <div className="process schemaform-process">
@@ -249,12 +248,12 @@ const IntroductionPage = ({
           health and wellness of Veterans.
         </p>
 
-        <a className="vads-c-action-link--blue" href="#" onClick={startForm}>
+        <a className="vads-c-action-link--green" href="#" onClick={startForm}>
           Start your application
         </a>
         <ProcessTimeline />
 
-        <a className="vads-c-action-link--blue" href="#" onClick={startForm}>
+        <a className="vads-c-action-link--green" href="#" onClick={startForm}>
           Start your application
         </a>
         <div className="omb-info--container vads-u-padding-left--0  vads-u-margin-top--3">

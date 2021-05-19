@@ -172,21 +172,24 @@ article[data-location="representative-info"] {
 }
 
 /* Area of disagreement */
-#area-of-disagreement-label {
+.area-of-disagreement-label {
   margin-top: 0;
 }
-#area-of-disagreement-label .hide { display: none; }
-#area-of-disagreement-label:not(.usa-input-error) {
-  margin: 2rem 0;
+.area-of-disagreement-label .usa-input-error-message {
+  display: none;
 }
-#area-of-disagreement-label.usa-input-error {
+.area-of-disagreement-label[data-submitted="true"].usa-input-error {
+  .usa-input-error-message {
+    display: block;
+  }
   .input-section {
     margin-bottom: 0;
   }
-  .hide {
-    display: block;
-  }
 }
+.area-of-disagreement-label:not(.usa-input-error) {
+  margin: 2rem 0;
+}
+
 article[data-location^="area-of-disagreement"] {
   .schemaform-block-header,
   .schemaform-block-header + .usa-input-error {
@@ -200,6 +203,16 @@ article[data-location^="area-of-disagreement"] {
 }
 .usa-input-error > label {
   margin-top: 0;
+}
+
+/* Opt in */
+.capitalize {
+  text-transform: capitalize;
+}
+/* hide duplicate "required" checkbox label & error message above checkbox */
+#root_socOptIn-label,
+#root_socOptIn-label + span {
+  display: none;
 }
 
 /* additional evidence */
