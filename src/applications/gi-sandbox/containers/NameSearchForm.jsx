@@ -20,9 +20,9 @@ export function NameSearchForm({
   const [searchError, setSearchError] = useState(false);
   const { version } = preview;
 
-  const doSearch = () => {
+  const doSearch = searchTerm => {
     fetchSearchByName(
-      autocomplete.searchTerm,
+      searchTerm,
       {
         category: filters.category,
       },
@@ -32,7 +32,7 @@ export function NameSearchForm({
 
   const handleSubmit = event => {
     event.preventDefault();
-    doSearch();
+    doSearch(autocomplete.searchTerm);
   };
 
   const validateSearchQuery = searchQuery => {
