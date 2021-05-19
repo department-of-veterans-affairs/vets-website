@@ -5,8 +5,7 @@ import { api } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
 import { rubyifyKeys } from '../utils/helpers';
-import { BOUNDING_RADIUS, TypeList } from '../constants';
-import { radiusFromBoundingBox } from '../utils/mapHelpers';
+import { TypeList } from '../constants';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../components/MapboxClient';
 
@@ -36,7 +35,6 @@ export const FILTER_TOGGLED = 'FILTER_TOGGLED';
 export const GEOCODE_STARTED = 'GEOCODE_STARTED';
 export const GEOCODE_FAILED = 'GEOCODE_FAILED';
 export const GEOCODE_COMPLETE = 'GEOCODE_COMPLETE';
-export const GEOCODE_UPDATED = 'GEOCODE_COMPLETE';
 export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const SEARCH_BY_NAME_SUCCEEDED = 'SEARCH_BY_NAME_SUCCEEDED';
 export const SEARCH_BY_LOCATION_SUCCEEDED = 'SEARCH_BY_LOCATION_SUCCEEDED';
@@ -285,67 +283,6 @@ export function changeSearchTab(tab) {
 }
 
 /**
- * Calculates a bounding box (±BOUNDING_RADIUS°) centering on the current
- * address string as typed by the user.
- *
- * @param features object from MapBox call
- * @returns {Function<T>} A thunk for Redux to process OR a failure action object on bad input
- */
-export const genBBoxFromGeocode = features => {
-  const zip = features[0].context.find(v => v.id.includes('postcode')) || {};
-  const coordinates = features[0].center;
-  const latitude = coordinates[1];
-  const longitude = coordinates[0];
-  const zipCode = zip.text || features[0].place_name;
-  const featureBox = features[0].box;
-
-  let minBounds = [
-    longitude - BOUNDING_RADIUS,
-    latitude - BOUNDING_RADIUS,
-    longitude + BOUNDING_RADIUS,
-    latitude + BOUNDING_RADIUS,
-  ];
-
-  if (featureBox) {
-    minBounds = [
-      Math.min(featureBox[0], longitude - BOUNDING_RADIUS),
-      Math.min(featureBox[1], latitude - BOUNDING_RADIUS),
-      Math.max(featureBox[2], longitude + BOUNDING_RADIUS),
-      Math.max(featureBox[3], latitude + BOUNDING_RADIUS),
-    ];
-  }
-
-  const radius = radiusFromBoundingBox(features);
-
-  return dispatch => {
-    dispatch({
-      type: GEOCODE_UPDATED,
-      payload: {
-        radius,
-        context: zipCode,
-        id: Date.now(),
-        position: {
-          latitude,
-          longitude,
-        },
-        searchCoords: {
-          lat: features[0].geometry.coordinates[1],
-          lng: features[0].geometry.coordinates[0],
-        },
-        bounds: minBounds,
-        zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,
-        mapBoxQuery: {
-          placeName: features[0].place_name,
-          placeType: features[0].place_type[0],
-        },
-        searchArea: null,
-        results: [],
-      },
-    });
-  };
-};
-
-/**
  * Finds results based on parameters for action SEARCH_BY_LOCATION_SUCCEEDED
  */
 export function fetchSearchByLocationResults(query, distance, tab) {
@@ -378,8 +315,7 @@ export function fetchSearchByLocationResults(query, distance, tab) {
       })
       .send()
       .then(({ body: { features } }) => {
-        dispatch({ type: GEOCODE_COMPLETE });
-        genBBoxFromGeocode(features);
+        dispatch({ type: GEOCODE_COMPLETE, payload: features });
 
         const coordinates = features[0].center;
         const latitude = coordinates[1];
