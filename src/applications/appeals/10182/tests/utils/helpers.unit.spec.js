@@ -60,7 +60,7 @@ describe('getSelected', () => {
           { type: 'ok', [SELECTED]: true },
         ],
       }),
-    ).to.deep.equal([{ type: 'ok', [SELECTED]: true }]);
+    ).to.deep.equal([{ type: 'ok', [SELECTED]: true, index: 0 }]);
   });
   it('should return selected additional issues', () => {
     expect(
@@ -70,7 +70,7 @@ describe('getSelected', () => {
           { type: 'ok', [SELECTED]: true },
         ],
       }),
-    ).to.deep.equal([{ type: 'ok', [SELECTED]: true }]);
+    ).to.deep.equal([{ type: 'ok', [SELECTED]: true, index: 0 }]);
   });
   it('should return all selected issues', () => {
     expect(
@@ -85,8 +85,8 @@ describe('getSelected', () => {
         ],
       }),
     ).to.deep.equal([
-      { type: 'ok1', [SELECTED]: true },
-      { type: 'ok2', [SELECTED]: true },
+      { type: 'ok1', [SELECTED]: true, index: 0 },
+      { type: 'ok2', [SELECTED]: true, index: 1 },
     ]);
   });
 });
