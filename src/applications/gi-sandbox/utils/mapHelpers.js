@@ -58,9 +58,8 @@ const BOUNDING_RADIUS = 0.5;
  * Calculates a bounding box (±BOUNDING_RADIUS°) centering on the current
  * address string as typed by the user.
  *
- * @param features
- * @return {{searchCoords: {lng: *, lat: *}, zoomLevel: number, context: *, bounds: (number|*)[], id: number, position: {latitude: *, longitude: *}, searchArea: null, radius: number, results: [], mapBoxQuery: {placeType: *, placeName: *}}}
- */
+ * @param features object from MapBox call
+ * @return {{searchCoords: {lng: *, lat: *}, zoomLevel: number, context: *, bounds: (number|*)[], id: number, position: {latitude: *, longitude: *}, searchArea: null, radius: number, results: [], mapBoxQuery: {placeType: *, placeName: *}}} */
 export const genBBoxFromGeocode = features => {
   const zip = features[0].context.find(v => v.id.includes('postcode')) || {};
   const coordinates = features[0].center;
@@ -100,7 +99,7 @@ export const genBBoxFromGeocode = features => {
       lng: features[0].geometry.coordinates[0],
     },
     bounds: minBounds,
-    zoom: features[0].id.split('.')[0] === 'region' ? 7 : 9,
+    zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,
     mapBoxQuery: {
       placeName: features[0].place_name,
       placeType: features[0].place_type[0],
@@ -109,3 +108,4 @@ export const genBBoxFromGeocode = features => {
     results: [],
   };
 };
+

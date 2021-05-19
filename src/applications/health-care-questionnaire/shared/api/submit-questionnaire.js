@@ -130,7 +130,6 @@ const transformForSubmit = (_formConfig, form) => {
     lifeEvents,
     questions,
   } = form.data;
-  const additionalQuestions = questions || [];
   return {
     appointment,
     questionnaire: { ...questionnaire, title },
@@ -153,11 +152,7 @@ const transformForSubmit = (_formConfig, form) => {
       {
         linkId: QUESTION_IDS.ADDITIONAL_QUESTIONS,
         text: getQuestionTextById(QUESTION_IDS.ADDITIONAL_QUESTIONS),
-        answer: [
-          ...additionalQuestions
-            .filter(answer => answer.additionalQuestions)
-            .map(answer => createAnAnswer(answer.additionalQuestions)),
-        ],
+        answer: createAnswerArray(questions),
       },
     ],
   };

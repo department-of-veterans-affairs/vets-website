@@ -29,16 +29,17 @@ export const scrollAndFocus = ({ selector, offset = 50, timer }) => {
 };
 
 // work-around for error message not showing :(
-export const areaOfDisagreementWorkAround = hasSelection => {
+export const areaOfDisagreementWorkAround = (hasSelection, index) => {
   // we can't target the fieldset because it doesn't get re-rendered on other
   // pages by React
   // see https://dsva.slack.com/archives/CBU0KDSB1/p1620840904269500
-  const label = $('#area-of-disagreement-label');
+  const label = $(`#area-of-disagreement-label-${index}`);
   if (label) {
-    label.classList.toggle('usa-input-error', !hasSelection);
+    const showError = label.dataset.submitted === 'true' && !hasSelection;
+    label.classList.toggle('usa-input-error', showError);
     label.parentElement.nextElementSibling.classList.toggle(
       'usa-input-error',
-      !hasSelection,
+      showError,
     );
   }
 };

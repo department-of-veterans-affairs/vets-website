@@ -71,6 +71,7 @@ const testSecondaryTwo = createTestConfig(
       'twoSecondaryCaregivers',
       'signAsRepresentativeNoRep',
       'signAsRepresentativeNo',
+      'signAsRepresentativeYes',
     ],
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
