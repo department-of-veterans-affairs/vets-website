@@ -13,16 +13,10 @@ Once you have the site set up locally, these are some common commands you might 
 | I want to... | Then you should... |
 | :--- | :--- |
 | fetch all dependencies | `yarn install`; run this any time `package.json` changes |
-| build both static HTML pages and applications | `yarn build` |
+| build applications | `yarn build` |
 | run the webpack dev server | `yarn watch` |
 
 ## Building `vets-website`
-
-The `vets-website` build has two main functions:
-
-1. Build the application assets (JS, CSS)
-1. Create the static HTML pages
-
 ### Building applications
 
 `vets-website` uses [Webpack](https://webpack.js.org) to bundle application
@@ -31,7 +25,7 @@ assets.
 To **build all applications**, run the following:
 
 ```sh
-yarn build:webpack
+yarn build
 ```
 
 To **recompile your application when you make changes**, run:
@@ -62,39 +56,6 @@ You will need to disable CORS in your browser when using a non-local API. Here a
 **Note:** If you try to log on, ID.me will redirect you to the environment that
 the API is set up for. So in the above example, you'd be **redirected back to
 dev.va.gov.**
-
-### Building static content
-
-VA.gov contains many pages that include content generated from a Drupal-based content model.
-When testing changes to static pages, or to see what your application looks like
-on VA.gov, you'll need to build these static pages using the following commands:
-
-```yarn build``` (add ```—pull-drupal``` to get the latest content from production - needs active socks proxy connection)
-- run once to pull the latest Drupal content and build the static HTML files
-- need to run this again when adding new templates based on new Drupal entities
-
-```yarn watch:content```
-- watches for changes to liquid templates or CSS
-- separated from ```yarn watch``` because of JS memory issues
-
-```yarn preview```
-- You can run this concurrently with `yarn watch`. It adds local routes needed to preview Drupal nodes
-(e.g. `/preview?nodeId=XX`).
-
-If you do not have access to the SOCKS proxy, you can **fetch the latest cached version
-of the content** with the following:
-
-```sh
-yarn fetch-drupal-cache
-```
-
-### Building both together
-
-CI will build both applications and content with the following:
-
-```sh
-yarn build
-```
 
 ## Running tests
 
