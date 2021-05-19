@@ -1030,7 +1030,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens[7]).to.equal('\t\\n\\n2360 East Pershing Boulevard\\n');
       expect(tokens[8]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
       expect(tokens[9]).to.equal('\t307-778-7550\\n');
-      expect(tokens[10]).to.equal('\t\\nYou’ll be meeting with CHY PC VAR2\\n'); // TODO: Verify meeting with whom
+      expect(tokens[10]).to.equal("\t\\nYou'll be meeting with Meg Smith\\n");
       expect(tokens[11]).to.equal(
         `\t\\nSign in to VA.gov to get details about this appointment\\n`,
       );
@@ -1163,8 +1163,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens[9]).to.equal(
         '\t\\nYour appointment code is 7VBBCA. Use this code to find your appointment ',
       );
-      expect(tokens[10]).to.equal('\ton the computer at Meg Smith.\\n');
-      expect(tokens[11]).to.equal(`\t\\nYou'll be meeting with Meg Smith\\n`);
+      expect(tokens[10]).to.equal(
+        '\ton the computer at the ATLAS facility.\\n',
+      );
+      expect(tokens[11]).to.equal("\t\\nYou'll be meeting with Meg Smith\\n");
 
       expect(tokens[12]).to.equal(
         'LOCATION:114 Dewey Ave\\, Eureka\\, MT 59917',
@@ -1279,7 +1281,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens[6]).to.equal(
         'DESCRIPTION:Join this video meeting using a device provided by VA.',
       );
-      expect(tokens[7]).to.contains('\t\\nYou’ll be meeting with'); // TODO: Verify meeting with whom
+      expect(tokens[7]).to.equal(
+        "\t\\nYou'll be meeting with Test T+90 Test\\n",
+      );
 
       expect(tokens[8]).to.equal('LOCATION:');
       expect(tokens[9]).to.equal(

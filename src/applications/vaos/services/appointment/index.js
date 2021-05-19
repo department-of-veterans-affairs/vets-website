@@ -26,7 +26,7 @@ import {
   VIDEO_TYPES,
   GA_PREFIX,
 } from '../../utils/constants';
-import { formatFacilityAddress, formatFacilityPhone } from '../location';
+import { formatFacilityAddress, getFacilityPhone } from '../location';
 import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
@@ -697,6 +697,7 @@ export function getCalendarData({ appointment, facility }) {
   const isCommunityCare = appointment?.vaos.isCommunityCare;
   const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
+  const signinText = 'Sign in to VA.gov to get details about this appointment';
 
   if (isPhone) {
     data = {
@@ -705,20 +706,16 @@ export function getCalendarData({ appointment, facility }) {
       text: `A provider will call you at ${moment
         .parseZone(appointment.start)
         .format('h:mm a')}`,
-      phone: formatFacilityPhone(facility),
-      additionalText: [
-        'Sign in to VA.gov to get details about this appointment',
-      ],
+      phone: getFacilityPhone(facility),
+      additionalText: [signinText],
     };
   } else if (isInPersonVAAppointment) {
     data = {
       summary: `Appointment at ${facility?.name}`,
       location: formatFacilityAddress(facility),
       text: `You have a health care appointment at ${facility?.name}`,
-      phone: formatFacilityPhone(facility),
-      additionalText: [
-        'Sign in to VA.gov to get details about this appointment',
-      ],
+      phone: getFacilityPhone(facility),
+      additionalText: [signinText],
     };
   } else if (isCommunityCare) {
     const { providerName, practiceName } =
@@ -730,14 +727,15 @@ export function getCalendarData({ appointment, facility }) {
       location: `${formatFacilityAddress(appointment.communityCareProvider)}`,
       text:
         'You have a health care appointment with a community care provider. Please don’t go to your local VA health facility.',
-      phone: `${formatFacilityPhone(appointment.communityCareProvider)}`,
-      additionalText: [
-        'Sign in to VA.gov to get details about this appointment',
-      ],
+      phone: `${getFacilityPhone(appointment.communityCareProvider)}`,
+      additionalText: [signinText],
     };
   } else if (isVideo) {
     const providerName = appointment.videoData?.providers
       ? appointment.videoData.providers[0]?.display
+      : '';
+    const providerText = providerName
+      ? `You'll be meeting with ${providerName}`
       : '';
 
     if (isHome) {
@@ -761,8 +759,8 @@ export function getCalendarData({ appointment, facility }) {
           additionalText: [
             `Your appointment code is ${
               appointment.videoData.atlasConfirmationCode
-            }. Use this code to find your appointment on the computer at ${providerName}.`,
-            `You'll be meeting with ${providerName}`,
+            }. Use this code to find your appointment on the computer at the ATLAS facility.`,
+            providerText,
           ],
         };
       }
@@ -774,21 +772,16 @@ export function getCalendarData({ appointment, facility }) {
         providerName: appointment.location.clinicName,
         location: formatFacilityAddress(facility),
         text: 'You need to join this video meeting from:',
-        phone: `${formatFacilityPhone(facility)}`,
-        additionalText: [
-          `You’ll be meeting with ${appointment.location.clinicName}`, // TODO: Verify this
-          'Sign in to VA.gov to get details about this appointment',
-        ],
+        phone: `${getFacilityPhone(facility)}`,
+        additionalText: [providerText, signinText],
       };
     } else if (videoKind === VIDEO_TYPES.gfe) {
       data = {
         summary: 'VA Video Connect appointment using a VA device',
-        providerName: '',
+        // providerName: '',
         location: '',
         text: 'Join this video meeting using a device provided by VA.',
-        additionalText: [
-          `You’ll be meeting with ${appointment.location.clinicName}.`,
-        ],
+        additionalText: [providerText],
       };
     }
   }

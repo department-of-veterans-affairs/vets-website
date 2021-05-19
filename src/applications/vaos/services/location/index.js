@@ -246,13 +246,13 @@ export function formatFacilityAddress(facility) {
 }
 
 /**
- * Returns formatted facility phone number.
+ * Returns facility phone number.
  *
  * @export
  * @param {*} facility - facility details object
- * @returns Formatted facility phone number.
+ * @returns Facility phone number.
  */
-export function formatFacilityPhone(facility) {
+export function getFacilityPhone(facility) {
   return facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 }
 

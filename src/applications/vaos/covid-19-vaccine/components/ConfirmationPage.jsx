@@ -12,7 +12,7 @@ import { selectConfirmationPage } from '../redux/selectors.js';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
 import {
   formatFacilityAddress,
-  formatFacilityPhone,
+  getFacilityPhone,
 } from 'applications/vaos/services/location';
 
 const pageTitle = 'We’ve scheduled your appointment';
@@ -76,7 +76,7 @@ function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
               text: `You have a health care appointment at ${
                 facilityDetails.name
               }`,
-              phone: formatFacilityPhone(facilityDetails),
+              phone: getFacilityPhone(facilityDetails),
               additionalText: [
                 'Sign in to VA.gov to get details about this appointment',
               ],

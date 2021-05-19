@@ -7,7 +7,7 @@ import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import AddToCalendar from '../../../components/AddToCalendar';
 import {
   formatFacilityAddress,
-  formatFacilityPhone,
+  getFacilityPhone,
 } from '../../../services/location';
 import {
   getTimezoneAbbrBySystemId,
@@ -93,7 +93,7 @@ export default function ConfirmationDirectScheduleInfoV2({
           summary={`Appointment at ${clinic.serviceName}`}
           description={{
             text: `You have a health care appointment at ${clinic.serviceName}`,
-            phone: formatFacilityPhone(facilityDetails),
+            phone: getFacilityPhone(facilityDetails),
             additionalText: [
               'Sign in to VA.gov to get details about this appointment',
             ],
