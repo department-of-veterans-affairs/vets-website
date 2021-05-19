@@ -44,6 +44,8 @@ jobs:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: stable
 
       - name: Print Chrome version
         run: chrome --version
