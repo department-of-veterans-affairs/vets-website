@@ -82,7 +82,6 @@ function ValidationError(props) {
                         true, // enable edit mode
                         error.index || null,
                       );
-                      // props.formContext.onError();
                       focusAndScrollToReviewElement(error);
                     }}
                   >
