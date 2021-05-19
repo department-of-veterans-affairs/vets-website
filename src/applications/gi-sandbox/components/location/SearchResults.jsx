@@ -35,9 +35,11 @@ export default function SearchResults({ search }) {
       'a.mapboxgl-ctrl-logo.mapboxgl-compact',
     );
     if (mapBoxLogo) mapBoxLogo.setAttribute('tabIndex', -1);
+
     mapInit.on('load', () => {
       mapInit.resize();
     });
+
     return mapInit;
   };
 
@@ -47,15 +49,29 @@ export default function SearchResults({ search }) {
     }
   }, []); // <-- empty array means 'run once'
 
+  const buildMarker = letter => {
+    return <div>{letter}</div>;
+  };
+
+  const addMapMarker = (institution, letter) => {
+    const { latitude, longitude } = institution;
+    const markerElement = buildMarker(letter);
+    new mapboxgl.Marker(markerElement)
+      .setLngLat([longitude, latitude])
+      .addTo(map);
+  };
+
   const results = search.location.results.map((institution, index) => {
     const { name, city, state, distance } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
+    const letter = numberToLetter(index + 1);
+    addMapMarker(institution, letter);
 
     const header = (
       <>
         <div className="location-header vads-u-display--flex vads-u-padding-top--1">
           <span className="location-header-letter vads-u-font-size--sm">
-            {numberToLetter(index + 1)}
+            {letter}
           </span>
           <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
             <strong>{miles} miles</strong>
