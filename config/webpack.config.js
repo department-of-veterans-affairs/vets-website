@@ -117,18 +117,12 @@ module.exports = (env = {}) => {
     'generated',
   );
 
-  // Set the publicPath conditional so we can get dynamic modules loading from S3
-  const publicAssetPath =
-    buildtype !== LOCALHOST
-      ? `${BUCKETS[buildtype]}/generated/`
-      : '/generated/';
-
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
       path: outputPath,
-      publicPath: publicAssetPath,
+      publicPath: '/generated/',
       filename: '[name].entry.js',
       chunkFilename: '[name].entry.js',
     },
