@@ -1,4 +1,4 @@
-import { BOUNDING_RADIUS, MIN_RADIUS } from '../constants';
+import { MIN_RADIUS } from '../constants';
 
 function toRadians(value) {
   return (value * Math.PI) / 180;
@@ -53,6 +53,7 @@ export const numberToLetter = number => {
   return letter;
 };
 
+const BOUNDING_RADIUS = 0.5;
 /**
  * Calculates a bounding box (±BOUNDING_RADIUS°) centering on the current
  * address string as typed by the user.
@@ -99,7 +100,7 @@ export const genBBoxFromGeocode = features => {
       lng: features[0].geometry.coordinates[0],
     },
     bounds: minBounds,
-    zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,
+    zoom: features[0].id.split('.')[0] === 'region' ? 7 : 9,
     mapBoxQuery: {
       placeName: features[0].place_name,
       placeType: features[0].place_type[0],

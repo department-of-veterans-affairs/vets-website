@@ -47,11 +47,6 @@ export const MAX_SEARCH_AREA = 500;
  */
 export const MIN_RADIUS = 10;
 
-/**
- * Defines the ± change in bounding box size for the map when changing zoom
- */
-export const BOUNDING_RADIUS = 0.75;
-
 export const TABS = Object.freeze({
   name: 'name',
   location: 'location',
