@@ -30,14 +30,11 @@ const ConfirmationPage = props => {
 
   return (
     <div className="healthcare-questionnaire-confirm">
-      <div className="usa-alert usa-alert-success schemaform-sip-alert">
-        <div className="usa-alert-body">
-          <h2 className="usa-alert-heading">
-            Your information has been sent to your provider.
-          </h2>
-        </div>
-      </div>
-
+      <va-alert status="success">
+        <h3 slot="headline">
+          Your information has been sent to your provider.
+        </h3>
+      </va-alert>
       <div className="inset">
         <h2 data-testid="appointment-type-header">
           Your provider will discuss the information on your questionnaire
