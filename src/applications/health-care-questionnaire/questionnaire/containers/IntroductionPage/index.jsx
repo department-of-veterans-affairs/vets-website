@@ -63,19 +63,10 @@ const IntroductionPage = props => {
         event: `hcq-questionnaire-expired-loaded`,
       });
       return (
-        <div>
-          <div className="usa-alert usa-alert-warning background-color-only schemaform-sip-alert">
-            <div className="schemaform-sip-alert-title">
-              <strong>Your questionnaire has expired</strong>
-            </div>
-            <div className="saved-form-metadata-container">
-              <span className="saved-form-metadata">
-                {props.route?.formConfig.saveInProgress.messages.expired}
-              </span>
-            </div>
-          </div>
-          <br />
-        </div>
+        <va-alert status="warning">
+          <h3 slot="headline">Your questionnaire has expired</h3>
+          <div> {props.route?.formConfig.saveInProgress.messages.expired}</div>
+        </va-alert>
       );
     } else if (savedForm) {
       return (
@@ -164,10 +155,10 @@ const IntroductionPage = props => {
         </section>
       </section>
       <section className="emergency-call-out">
-        <header>
+        <p>
           <strong>Note:</strong> If you need to talk to someone right away or
           need emergency care,
-        </header>
+        </p>
         <ul>
           <li>
             Call <Telephone contact="911" />, <strong>or</strong>
