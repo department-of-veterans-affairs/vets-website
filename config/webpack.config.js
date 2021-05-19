@@ -20,7 +20,7 @@ const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
 const facilitySidebar = require('../src/site/layouts/tests/vamc/fixtures/health_care_region_page.json')
   .facilitySidebar;
 
-const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
+const { VAGOVSTAGING, VAGOVPROD, LOCALHOST, VAGOVDEV } = ENVIRONMENTS;
 
 const {
   getAppManifests,
@@ -119,7 +119,7 @@ module.exports = (env = {}) => {
 
   // Set the publicPath conditional so we can get dynamic modules loading from S3
   const publicAssetPath =
-    buildtype !== LOCALHOST
+    buildtype !== LOCALHOST && buildtype !== VAGOVDEV
       ? `${BUCKETS[buildtype]}/generated/`
       : '/generated/';
 
