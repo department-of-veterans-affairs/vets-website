@@ -5,6 +5,7 @@ import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import SearchAccordion from '../SearchAccordion';
+import { numberToLetter } from '../../utils/mapHelpers';
 
 export default function SearchResults({ search }) {
   const [map, setMap] = useState(null);
@@ -41,27 +42,6 @@ export default function SearchResults({ search }) {
       setMap(setupMap());
     }
   }, []); // <-- empty array means 'run once'
-
-  /**
-   * Recursively convert number to A to AA to AAA to... to ZZZZZZZZZZZ
-   * Uses https://en.wikipedia.org/wiki/Base36 to convert numbers to alphanumeric values
-   *
-   * @param number
-   * @returns {string}
-   */
-  const numberToLetter = number => {
-    // handle multiples of 26 when modding
-    // since 0 and 26 both have a remainder of 0 need to handle special case
-    const numberToConvert =
-      number !== 0 && number % 26 === 0 ? 26 : number % 26;
-    const letter = (numberToConvert + 9).toString(36).toUpperCase();
-
-    if (number / 26 > 1) {
-      // Use Math.floor as a float returns incorrect letter string
-      return `${numberToLetter(Math.floor(number / 26))}${letter}`;
-    }
-    return letter;
-  };
 
   const results = search.location.results.map((institution, index) => {
     const { name, city, state, distance } = institution;
