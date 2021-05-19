@@ -1,3 +1,4 @@
+import autocomplete from './autocomplete';
 import calculator from './calculator';
 import constants from './constants';
 import eligibility from './eligibility';
@@ -8,6 +9,7 @@ import profile from './profile';
 import search from './search';
 
 const rootReducer = {
+  autocomplete,
   calculator,
   constants,
   eligibility,

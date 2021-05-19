@@ -49,12 +49,15 @@ export default {
       multiple: false,
       fileUploadUrl: `${environment.API_URL}/v0/form1010cg/attachments`,
       fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
-      maxSize: 1024 * 1024 * 10,
+      maxSize: 1024 * 1024 * 25,
       hideLabelText: true,
       createPayload,
       parseResponse,
       attachmentName: {
         'ui:title': 'Document name',
+        'ui:options': {
+          useDlWrap: true,
+        },
       },
     }),
   },

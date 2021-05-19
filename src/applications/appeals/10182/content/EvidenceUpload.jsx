@@ -4,9 +4,12 @@ import { SUPPORTED_UPLOAD_TYPES, MAX_FILE_SIZE_MB } from '../constants';
 
 export const evidenceUploadTitle = 'Additional evidence';
 
-const fileTypes = `.${SUPPORTED_UPLOAD_TYPES.slice(0, -1).join(
-  ', .',
-)} or .${SUPPORTED_UPLOAD_TYPES.slice(-1)}`;
+const fileTypes =
+  SUPPORTED_UPLOAD_TYPES.length > 1
+    ? `.${SUPPORTED_UPLOAD_TYPES.slice(0, -1).join(
+        ', .',
+      )} or .${SUPPORTED_UPLOAD_TYPES.slice(-1)}`
+    : `.${SUPPORTED_UPLOAD_TYPES}`;
 
 export const EvidenceUploadLabel = (
   <h3 className="vads-u-font-size--h4 vads-u-display--inline">

@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatAddress } from 'platform/forms/address/helpers';
-import ReceiveTextMessages from 'platform/user/profile/vap-svc/containers/ReceiveTextMessages';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+
+import { formatAddress } from '~/platform/forms/address/helpers';
+
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import * as VAP_SERVICE from '@@vap-svc/constants';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import {
   addresses,
   phoneNumbers,
-} from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
+} from '@@profile/util/contact-information/getContactInfoFieldAttributes';
+
+import ReceiveAppointmentReminders from './ReceiveAppointmentReminders';
 
 const ContactInformationView = props => {
   const { data, fieldName } = props;
@@ -31,7 +34,9 @@ const ContactInformationView = props => {
         />
 
         {fieldName === FIELD_NAMES.MOBILE_PHONE && (
-          <ReceiveTextMessages fieldName={FIELD_NAMES.MOBILE_PHONE} />
+          <ReceiveAppointmentReminders
+            isReceivingReminders={data.isTextPermitted}
+          />
         )}
       </div>
     );

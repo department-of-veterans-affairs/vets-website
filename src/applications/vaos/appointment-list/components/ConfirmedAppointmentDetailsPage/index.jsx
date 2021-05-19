@@ -156,6 +156,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = appointment.vaos.isVideo;
   const videoKind = appointment.videoData.kind;
+  const isPastAppointment = appointment.vaos.isPastAppointment;
   const isPhone = isVAPhoneAppointment(appointment);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
@@ -290,32 +291,33 @@ export default function ConfirmedAppointmentDetailsPage() {
                   </button>
                 </div>
 
-                {showCancelButton && (
-                  <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-                    <i
-                      aria-hidden="true"
-                      className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
-                    />
-                    <button
-                      onClick={() =>
-                        dispatch(startAppointmentCancel(appointment))
-                      }
-                      aria-label={`Cancel appointment on ${formatAppointmentDate(
-                        moment.parseZone(appointment.start),
-                      )}`}
-                      className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-                    >
-                      Cancel appointment
-                      <span className="sr-only">
-                        {' '}
-                        on{' '}
-                        {formatAppointmentDate(
+                {showCancelButton &&
+                  !isPastAppointment && (
+                    <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
+                      <i
+                        aria-hidden="true"
+                        className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
+                      />
+                      <button
+                        onClick={() =>
+                          dispatch(startAppointmentCancel(appointment))
+                        }
+                        aria-label={`Cancel appointment on ${formatAppointmentDate(
                           moment.parseZone(appointment.start),
-                        )}
-                      </span>
-                    </button>
-                  </div>
-                )}
+                        )}`}
+                        className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                      >
+                        Cancel appointment
+                        <span className="sr-only">
+                          {' '}
+                          on{' '}
+                          {formatAppointmentDate(
+                            moment.parseZone(appointment.start),
+                          )}
+                        </span>
+                      </button>
+                    </div>
+                  )}
               </>
             )}
           </>

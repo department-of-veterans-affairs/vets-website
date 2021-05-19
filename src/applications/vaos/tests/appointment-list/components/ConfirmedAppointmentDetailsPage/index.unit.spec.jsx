@@ -133,6 +133,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
+    expect(screen.getByText(/Cancel appointment/)).to.be.ok;
 
     const button = screen.getByRole('button', {
       name: /Go back to appointments/,
@@ -169,6 +170,100 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
     userEvent.click(VAOSHomepageLink);
     expect(await screen.findAllByText(/Detail/)).to.be.ok;
+  });
+
+  it('should show past confirmed appointments detail page', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      clinicFriendlyName: "Jennie's Lab",
+      facilityId: '983',
+      sta6aid: '983GC',
+      startDate: moment().subtract(1, 'day'),
+      vdsAppointments: [
+        {
+          bookingNote: 'New issue: ASAP',
+        },
+      ],
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+      isHomepageRefresh: true,
+    });
+
+    mockSingleAppointmentFetch({
+      appointment,
+    });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Fort Collins VA Clinic',
+        phone: {
+          main: '970-224-1550',
+        },
+      },
+    };
+
+    mockFacilityFetch('vha_442GC', facility);
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    // Verify document title and content...
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `VA appointment on ${moment()
+          .subtract(1, 'day')
+          .tz('America/Denver')
+          .format('dddd, MMMM D, YYYY')}`,
+      );
+    });
+
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          moment()
+            .subtract(1, 'day')
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+    expect(await screen.findByText(/Fort Collins VA Clinic/)).to.be.ok;
+    expect(screen.getByText(/Jennie's Lab/)).to.be.ok;
+    expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
+      .ok;
+    expect(screen.getByRole('heading', { level: 2, name: /New issue/ })).to.be
+      .ok;
+    expect(
+      screen.getByRole('link', {
+        name: new RegExp(
+          moment()
+            .subtract(1, 'day')
+            .tz('America/Denver')
+            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
+    expect(screen.baseElement).not.to.contain.text('Cancel appointment');
   });
 
   it('should allow cancellation', async () => {
