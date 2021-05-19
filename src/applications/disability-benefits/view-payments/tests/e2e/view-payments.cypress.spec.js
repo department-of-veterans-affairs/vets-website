@@ -78,10 +78,9 @@ const testApiError = (errCode = '500') => {
     }).as('clientError');
     testLoadingState();
     cy.wait('@clientError');
-    cy.get('.usa-alert-info').contains(
-      'We don’t have a record of VA payments for you',
-    );
-    cy.get('.usa-alert-info').contains('800-827-1000');
+    cy.findByText(/We don’t have a record of VA payments made to you/i, {
+      selector: 'h2',
+    });
   } else {
     cy.intercept(PAYMENTS_API_ENDPOINT, {
       body: mockServerError,

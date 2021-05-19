@@ -21,6 +21,7 @@ import {
 import { getAllPayments } from '../../actions';
 import {
   isClientError,
+  ClientErrorAlertContent,
   ServerErrorAlertContent,
   NoPaymentsContent,
 } from '../../utils';
@@ -119,7 +120,7 @@ class ViewPaymentsLists extends Component {
       // if there was an error, show an AlertBox
       const status = isClientError(this.props.error.code) ? 'info' : 'error';
       const alertContent = isClientError(this.props.error.code)
-        ? NoPaymentsContent
+        ? ClientErrorAlertContent
         : ServerErrorAlertContent;
       content = <AlertBox content={alertContent} status={status} isVisible />;
     } else {
