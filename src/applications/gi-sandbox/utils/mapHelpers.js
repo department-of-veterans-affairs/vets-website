@@ -61,12 +61,20 @@ const BOUNDING_RADIUS = 0.5;
  * @param features object from MapBox call
  * @return {{searchCoords: {lng: *, lat: *}, zoomLevel: number, context: *, bounds: (number|*)[], id: number, position: {latitude: *, longitude: *}, searchArea: null, radius: number, results: [], mapBoxQuery: {placeType: *, placeName: *}}} */
 export const genBBoxFromGeocode = features => {
-  const zip = features[0].context.find(v => v.id.includes('postcode')) || {};
-  const coordinates = features[0].center;
+  const {
+    bbox,
+    center: coordinates,
+    context,
+    // geometry,
+    place_name: placeName,
+    // place_type,
+    // relevance,
+  } = features[0];
+  const zip = context.find(v => v.id.includes('postcode')) || {};
   const latitude = coordinates[1];
   const longitude = coordinates[0];
-  const zipCode = zip.text || features[0].place_name;
-  const featureBox = features[0].box;
+  const zipCode = zip.text || placeName;
+  const featureBox = bbox;
 
   let minBounds = [
     longitude - BOUNDING_RADIUS,
@@ -108,4 +116,3 @@ export const genBBoxFromGeocode = features => {
     results: [],
   };
 };
-

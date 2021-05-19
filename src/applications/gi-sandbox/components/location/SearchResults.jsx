@@ -5,7 +5,7 @@ import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import SearchAccordion from '../SearchAccordion';
-import { numberToLetter, genBBoxFromGeocode } from '../../utils/mapHelpers';
+import { numberToLetter } from '../../utils/mapHelpers';
 
 export default function SearchResults({ search }) {
   const [map, setMap] = useState(null);
@@ -14,9 +14,7 @@ export default function SearchResults({ search }) {
   const setupMap = () => {
     mapboxgl.accessToken = mapboxToken;
 
-    const bounds = search.geocode
-      ? genBBoxFromGeocode(search.geocode)?.bounds
-      : null;
+    const bounds = search.geocode ? search.geocode[0].bbox : null;
 
     const mapInit = new mapboxgl.Map({
       container: mapboxGlContainer,
