@@ -43,20 +43,24 @@ export default function SearchResults({ search }) {
   }, []); // <-- empty array means 'run once'
 
   /**
-   * Convert index number to A to Z and then AA to ZZ when index is higher than 25
+   * Recursively convert number to A to AA to AAA to... to ZZZZZZZZZZZ
+   * Uses https://en.wikipedia.org/wiki/Base36 to convert numbers to alphanumeric values
+   *
    * @param number
    * @returns {string}
    */
   const numberToLetter = number => {
-    // starts at 0 count
-    const letter0 = ((number % 26) + 10).toString(36).toUpperCase();
-    const divisor = Math.floor(number / 26);
-    if (divisor >= 1) {
-      // starts at 1 count
-      const letter1 = (divisor + 9).toString(36).toUpperCase();
-      return `${letter1}${letter0}`;
+    // handle multiples of 26 when modding
+    // since 0 and 26 both have a remainder of 0 need to handle special case
+    const numberToConvert =
+      number !== 0 && number % 26 === 0 ? 26 : number % 26;
+    const letter = (numberToConvert + 9).toString(36).toUpperCase();
+
+    if (number / 26 > 1) {
+      // Use Math.floor as a float returns incorrect letter string
+      return `${numberToLetter(Math.floor(number / 26))}${letter}`;
     }
-    return letter0;
+    return letter;
   };
 
   const results = search.location.results.map((institution, index) => {
@@ -67,7 +71,7 @@ export default function SearchResults({ search }) {
       <>
         <div className="location-header vads-u-display--flex vads-u-padding-top--1">
           <span className="location-header-letter vads-u-font-size--sm">
-            {numberToLetter(index)}
+            {numberToLetter(index + 1)}
           </span>
           <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
             <strong>{miles} miles</strong>
