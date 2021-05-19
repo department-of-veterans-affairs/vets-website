@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import SearchResultCard from '../SearchResultCard';
 import mapboxgl from 'mapbox-gl';
 import { mapboxToken } from '../../utils/mapboxToken';
@@ -8,16 +8,18 @@ import SearchAccordion from '../SearchAccordion';
 import { numberToLetter } from '../../utils/mapHelpers';
 
 export default function SearchResults({ search }) {
-  const [map, setMap] = useState(null);
-  const mapboxGlContainer = 'mapbox-gl-container';
+  const map = useRef(null);
+  const mapContainer = useRef(null);
 
   const setupMap = () => {
+    if (map.current) return; // initialize map only once
+
     mapboxgl.accessToken = mapboxToken;
 
     const bounds = search.geocode ? search.geocode[0].bbox : null;
 
     const mapInit = new mapboxgl.Map({
-      container: mapboxGlContainer,
+      container: mapContainer.current,
       style: 'mapbox://styles/mapbox/outdoors-v11',
       center: [MapboxInit.centerInit.longitude, MapboxInit.centerInit.latitude],
       bounds,
@@ -40,32 +42,30 @@ export default function SearchResults({ search }) {
       mapInit.resize();
     });
 
-    return mapInit;
+    map.current = mapInit;
   };
 
   useEffect(() => {
-    if (document.getElementById(mapboxGlContainer)) {
-      setMap(setupMap());
+    if (mapContainer.current) {
+      setupMap();
     }
   }, []); // <-- empty array means 'run once'
 
-  const buildMarker = letter => {
-    return <div>{letter}</div>;
-  };
-
   const addMapMarker = (institution, letter) => {
     const { latitude, longitude } = institution;
-    const markerElement = buildMarker(letter);
-    new mapboxgl.Marker(markerElement)
-      .setLngLat([longitude, latitude])
-      .addTo(map);
+    // const markerElement = buildMarker(letter);
+    // create a HTML element for each feature
+    const el = document.createElement('div');
+    el.className = 'marker';
+    el.innerText = letter;
+
+    new mapboxgl.Marker(el).setLngLat([longitude, latitude]).addTo(map.current);
   };
 
   const results = search.location.results.map((institution, index) => {
     const { name, city, state, distance } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
     const letter = numberToLetter(index + 1);
-    addMapMarker(institution, letter);
 
     const header = (
       <>
@@ -93,6 +93,18 @@ export default function SearchResults({ search }) {
       />
     );
   });
+
+  useEffect(
+    () => {
+      if (!map.current) return; // wait for map to initialize
+
+      search.location.results.forEach((institution, index) => {
+        const letter = numberToLetter(index + 1);
+        addMapMarker(institution, letter);
+      });
+    },
+    [search.location.results],
+  );
 
   return (
     <>
@@ -131,7 +143,8 @@ export default function SearchResults({ search }) {
 
         <div className={'usa-width-two-thirds'}>
           <map
-            id={mapboxGlContainer}
+            ref={mapContainer}
+            id="mapbox-gl-container"
             aria-label="Find VA locations on an interactive map"
             aria-describedby="map-instructions"
             className={'desktop-map-container'}
