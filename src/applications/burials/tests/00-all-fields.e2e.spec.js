@@ -104,7 +104,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
       Timeouts.normal,
     );
     PageHelpers.completeBurialAllowance(client, testData.data);
-    client.axeCheck('.main').click('.form-panel .usa-button-primary');
+    client
+      .axeCheck('.main', {
+        rules: {
+          'color-contrast': {
+            enabled: false,
+          },
+        },
+      })
+      .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/burial-allowance');
   }
 
@@ -115,7 +123,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
       Timeouts.normal,
     );
     PageHelpers.completePlotAllowance(client, testData.data);
-    client.axeCheck('.main').click('.form-panel .usa-button-primary');
+    client
+      .axeCheck('.main', {
+        rules: {
+          'color-contrast': {
+            enabled: false,
+          },
+        },
+      })
+      .click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/benefits/plot-allowance');
   }
 
@@ -161,7 +177,13 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Submit message
   client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
 
-  client.axeCheck('.main');
+  client.axeCheck('.main', {
+    rules: {
+      'color-contrast': {
+        enabled: false,
+      },
+    },
+  });
 
   client.end();
 });
