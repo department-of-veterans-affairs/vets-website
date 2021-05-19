@@ -26,6 +26,35 @@ export function SearchResultCard({
     facilityCode,
   } = institution;
 
+  const resultCardClasses = classNames(
+    'result-card vads-u-background-color--gray-lightest vads-u-margin-bottom--2',
+    { 'vads-u-margin-left--2p5': location },
+  );
+
+  const nameCityStateHeader = (
+    <>
+      <div className="card-title-section">
+        <h3 className="vads-u-margin-top--2">{name}</h3>
+      </div>
+      <p className="vads-u-padding--0">{`${city}, ${state}`}</p>
+    </>
+  );
+
+  const hideAccreditationType = accreditationType !== 'regional';
+  const accreditationTypeClassNames = classNames(
+    'accreditation-tag vads-u-background-color--white vads-u-margin--0 vads-u-border--2px vads-u-border-color--black vads-u-display--blocks',
+    { 'vads-u-visibility--hidden': hideAccreditationType },
+  );
+
+  const accreditationTypeElement =
+    location && hideAccreditationType ? null : (
+      <div className={accreditationTypeClassNames}>Regionally accredited</div>
+    );
+
+  const noSchoolRatingClasses = classNames({
+    'vads-u-padding-bottom--3': !location,
+  });
+
   const estimate = ({ qualifier, value }) => {
     if (qualifier === '% of instate tuition') {
       return <span>{value}% in-state</span>;
@@ -40,31 +69,12 @@ export function SearchResultCard({
 
   const profileLink = appendQuery(`/profile/${facilityCode}`);
 
-  const accreditationTypeClassNames = classNames(
-    'accreditation-tag vads-u-background-color--white vads-u-margin--0 vads-u-border--2px vads-u-border-color--black vads-u-display--blocks',
-    { 'vads-u-visibility--hidden': accreditationType !== 'regional' },
-  );
-
-  const nameCityStateHeader = (
-    <>
-      <div className="card-title-section">
-        <h3 className="vads-u-margin-top--2">{name}</h3>
-      </div>
-      <p className="vads-u-padding--0">{`${city}, ${state}`}</p>
-    </>
-  );
-
-  const resultCardClasses = classNames(
-    'result-card vads-u-background-color--gray-lightest vads-u-margin-bottom--2',
-    { 'vads-u-margin-left--2p5': location },
-  );
-
   return (
     <div className={resultCardClasses}>
       <div className="vads-u-padding-x--2">
         {header || nameCityStateHeader}
 
-        <div className={accreditationTypeClassNames}>Regionally accredited</div>
+        {accreditationTypeElement}
 
         <p>
           <strong>GI Bill Students:</strong> {studentCount}
@@ -80,7 +90,7 @@ export function SearchResultCard({
             </div>
           </div>
         ) : (
-          <div className="vads-u-padding-bottom--3">
+          <div className={noSchoolRatingClasses}>
             <p>
               <strong>School rating:</strong> Not yet rated
             </p>

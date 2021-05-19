@@ -2,14 +2,19 @@
 
   .result-card {
     width: 100%;
-    .location-header-letter {
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
 
-      background: $color-base;
-      color: $color-gray-lightest;
-      text-align: center;
+    .location-header {
+      flex-wrap: wrap;
+
+      .location-header-letter {
+        border-radius: 50%;
+        width: 28px;
+        height: 24px;
+
+        background: $color-base;
+        color: $color-gray-lightest;
+        text-align: center;
+      }
     }
   }
 

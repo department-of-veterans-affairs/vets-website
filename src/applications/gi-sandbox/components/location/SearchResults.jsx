@@ -42,21 +42,39 @@ export default function SearchResults({ search }) {
     }
   }, []); // <-- empty array means 'run once'
 
+  /**
+   * Convert index number to A to Z and then AA to ZZ when index is higher than 25
+   * @param number
+   * @returns {string}
+   */
+  const numberToLetter = number => {
+    // starts at 0 count
+    const letter0 = ((number % 26) + 10).toString(36).toUpperCase();
+    const divisor = Math.floor(number / 26);
+    if (divisor >= 1) {
+      // starts at 1 count
+      const letter1 = (divisor + 9).toString(36).toUpperCase();
+      return `${letter1}${letter0}`;
+    }
+    return letter0;
+  };
+
   const results = search.location.results.map((institution, index) => {
     const { name, city, state, distance } = institution;
-    const letter = (index + 10).toString(36).toUpperCase();
     const miles = Number.parseFloat(distance).toFixed(2);
 
     const header = (
       <>
-        <div className="vads-u-display--flex vads-u-padding-top--1">
-          <span className="location-header-letter">{letter}</span>
-          <span className="vads-u-padding-x--1">
+        <div className="location-header vads-u-display--flex vads-u-padding-top--1">
+          <span className="location-header-letter vads-u-font-size--sm">
+            {numberToLetter(index)}
+          </span>
+          <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
             <strong>{miles} miles</strong>
           </span>
-          <span>{`${city}, ${state}`}</span>
+          <span className="vads-u-font-size--sm">{`${city}, ${state}`}</span>
         </div>
-        <div className="card-title-section">
+        <div>
           <h3 className="vads-u-margin-top--2">{name}</h3>
         </div>
       </>
@@ -74,50 +92,63 @@ export default function SearchResults({ search }) {
 
   return (
     <>
-      {search.location.count > 0 && (
-        <div className={'location-search'}>
-          <div className={'usa-width-one-third'}>
-            <TuitionAndHousingEstimates />
-            <SearchAccordion
-              button={'Refine your search'}
-              buttonLabel="Update results"
-              buttonOnClick={() => {}}
-            />
-            <div className="location-search-results-container usa-grid vads-u-padding--1p5">
-              <p>
-                Showing <strong>{search.location.count} search results</strong>{' '}
-                for '<strong>{search.query.location}</strong>'
-              </p>
-              <div className="location-search-results vads-l-row vads-u-flex-wrap--wrap">
-                {results}
+      <div className={'location-search'}>
+        <div className={'usa-width-one-third'}>
+          {search.location.count > 0 && (
+            <>
+              <TuitionAndHousingEstimates />
+              <SearchAccordion
+                button={'Refine your search'}
+                buttonLabel="Update results"
+                buttonOnClick={() => {}}
+              />
+              <div className="location-search-results-container usa-grid vads-u-padding--1p5">
+                <p>
+                  Showing{' '}
+                  <strong>{search.location.count} search results</strong> for '
+                  <strong>{search.query.location}</strong>'
+                </p>
+                <div className="location-search-results vads-l-row vads-u-flex-wrap--wrap">
+                  {results}
+                </div>
               </div>
+            </>
+          )}
+          {search.location.count === 0 && (
+            <div>We didn't find any facilities near you.</div>
+          )}
+          {search.location.count === null && (
+            <div>
+              Please enter a location (street, city, state, or postal code) then
+              click search above to find institutions.
             </div>
-          </div>
-          <div className={'usa-width-two-thirds'}>
-            <map
-              id={mapboxGlContainer}
-              aria-label="Find VA locations on an interactive map"
-              aria-describedby="map-instructions"
-              className={'desktop-map-container'}
-              role="region"
-            >
-              <div
-                id="search-area-control-container"
-                className={'mapboxgl-ctrl-top-center'}
-              >
-                <button
-                  id="search-area-control"
-                  className={'usa-button'}
-                  onClick={() => {}}
-                  aria-live="assertive"
-                >
-                  Search this area of the map
-                </button>
-              </div>
-            </map>
-          </div>
+          )}
         </div>
-      )}
+
+        <div className={'usa-width-two-thirds'}>
+          <map
+            id={mapboxGlContainer}
+            aria-label="Find VA locations on an interactive map"
+            aria-describedby="map-instructions"
+            className={'desktop-map-container'}
+            role="region"
+          >
+            <div
+              id="search-area-control-container"
+              className={'mapboxgl-ctrl-top-center'}
+            >
+              <button
+                id="search-area-control"
+                className={'usa-button'}
+                onClick={() => {}}
+                aria-live="assertive"
+              >
+                Search this area of the map
+              </button>
+            </div>
+          </map>
+        </div>
+      </div>
     </>
   );
 }
