@@ -84,6 +84,9 @@ const testConfig = createTestConfig(
         cy.get('.usa-alert-heading').contains('has been sen');
       },
     },
+    // Skip tests in CI until the form is released.
+    // Remove this setting when the form has a content page in production.
+    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,
