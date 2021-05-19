@@ -21,6 +21,9 @@ const initialSchema = {
 const uiSchema = {
   clinicId: {
     'ui:widget': 'radio',
+    'ui:errorMessages': {
+      required: 'Please select a clinic for your appointment',
+    },
   },
 };
 const pageKey = 'clinicChoice';

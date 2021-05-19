@@ -27,7 +27,7 @@ export default function PlanAheadPage() {
   return (
     <div>
       <h1>{pageTitle}</h1>
-      <p>Here’s what to know:</p>
+      <p>Here’s what you should know:</p>
       <div className="vads-u-padding-y--1p5">
         <div className="vads-l-row vads-u-padding-bottom--2p5">
           {/* icon */}

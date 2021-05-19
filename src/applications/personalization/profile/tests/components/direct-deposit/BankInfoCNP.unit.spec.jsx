@@ -179,13 +179,6 @@ describe('DirectDepositCNP', () => {
         view.queryByLabelText(/account number/i),
       );
 
-      // shows a save succeeded alert
-      expect(
-        view.findByRole('alert', {
-          name: /We’ve updated your bank account information/i,
-        }),
-      ).to.exist;
-
       // and the bank info from the mocked call should be shown
       expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))
         .to.exist;
@@ -222,13 +215,6 @@ describe('DirectDepositCNP', () => {
       await waitForElementToBeRemoved(() =>
         view.queryByLabelText(/account number/i),
       );
-
-      // shows a save succeeded alert
-      expect(
-        view.findByRole('alert', {
-          name: /We’ve updated your bank account information/i,
-        }),
-      ).to.exist;
 
       // and the bank info from the mocked call should be shown
       expect(view.getByText(mocks.newPaymentAccount.financialInstitutionName))

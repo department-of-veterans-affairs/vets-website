@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
 import FormButtons from '../../components/FormButtons';
 
 import { getCovid19VaccineFormPageInfo } from '../redux/selectors';
@@ -26,6 +27,7 @@ const initialSchema = {
 };
 
 const phoneConfig = phoneUI('Your phone number');
+const emailConfig = emailUI('Your email address');
 const uiSchema = {
   'ui:description': (
     <>
@@ -50,9 +52,7 @@ const uiSchema = {
         'Please enter a valid 10-digit phone number (with or without dashes)',
     },
   },
-  email: {
-    'ui:title': 'Your email address',
-  },
+  email: emailConfig,
 };
 
 const pageKey = 'contactInfo';

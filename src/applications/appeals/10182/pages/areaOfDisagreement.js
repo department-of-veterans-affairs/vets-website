@@ -32,15 +32,27 @@ export default {
         disagreementOptions: {
           serviceConnection: {
             'ui:title': serviceConnection,
+            'ui:options': {
+              hideEmptyValueInReview: true,
+            },
           },
           effectiveDate: {
             'ui:title': effectiveDate,
+            'ui:options': {
+              hideEmptyValueInReview: true,
+            },
           },
           evaluation: {
             'ui:title': evaluation,
+            'ui:options': {
+              hideEmptyValueInReview: true,
+            },
           },
           other: {
             'ui:title': other,
+            'ui:options': {
+              hideEmptyValueInReview: true,
+            },
           },
         },
         otherEntry: {
