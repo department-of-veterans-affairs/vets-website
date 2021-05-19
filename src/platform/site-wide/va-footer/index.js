@@ -6,6 +6,8 @@
  */
 
 import React from 'react';
+import { Provider } from 'react-redux';
+
 import startReactApp from '../../startup/react';
 import Footer from './components/Footer';
 
@@ -18,11 +20,12 @@ export const footerElemementId = 'footerNav';
  */
 export default function startVAFooter(footerData, handleFooterDidMount, store) {
   startReactApp(
-    <Footer
-      handleFooterDidMount={handleFooterDidMount}
-      footerData={footerData}
-      store={store}
-    />,
+    <Provider store={store}>
+      <Footer
+        handleFooterDidMount={handleFooterDidMount}
+        footerData={footerData}
+      />
+    </Provider>,
     document.getElementById(footerElemementId),
   );
 }
