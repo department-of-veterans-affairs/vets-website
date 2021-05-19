@@ -15,10 +15,11 @@ export default function EligibilityModal({
     title = 'We’re sorry. We’ve run into a problem';
     content = 'Something went wrong on our end. Please try again later.';
   } else {
-    title = 'Sorry, we could not find any available slots for your booking';
+    title =
+      'We’re sorry. We couldn’t find any available slots for your appointment.';
     content = (
       <div>
-        We could not find any available slots for your booking. Please{' '}
+        Please{' '}
         {facilityDetails && (
           <>
             call your medical facility:

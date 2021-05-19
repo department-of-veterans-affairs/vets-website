@@ -9,7 +9,10 @@ export default function PhoneNumberView({ number }) {
   const phone = formatPhoneNumber(fullPhone);
   return (
     <p className="vads-u-margin--1px" data-testid="phoneNumber">
-      <span data-testid={`${number.label.toLowerCase()}Phone-label`}>
+      <span
+        data-testid={`${number.label.toLowerCase()}Phone-label`}
+        className="vads-u-font-weight--bold"
+      >
         {number.label} phone:{' '}
       </span>
       <span data-testid={`${number.label.toLowerCase()}Phone`}>{phone}</span>

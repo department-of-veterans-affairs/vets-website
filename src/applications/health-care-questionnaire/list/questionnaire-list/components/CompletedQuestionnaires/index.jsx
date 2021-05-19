@@ -27,9 +27,11 @@ const index = props => {
               }
             />
           ) : (
+            // eslint-disable-next-line jsx-a11y/no-redundant-roles
             <ol
               data-testid="questionnaire-list"
               className="questionnaire-list completed"
+              role="list"
             >
               {questionnaires.map(data => {
                 const { questionnaire, appointment, organization } = data;
@@ -59,15 +61,21 @@ const index = props => {
                         return <p className="completed-date" />;
                       } else {
                         return (
-                          <p className="completed-date">
-                            Submitted on
-                            <br />
-                            <span className={`vads-u-font-weight--bold`}>
-                              {moment(qr.submittedOn).format(
-                                'dddd, MMMM D, YYYY',
-                              )}
-                            </span>
-                          </p>
+                          <>
+                            <dt className="vads-u-margin-top--1p5">
+                              Submitted on
+                            </dt>
+                            <dd>
+                              {moment(qr.submittedOn).format('dddd')}{' '}
+                              <time
+                                dateTime={moment(qr.submittedOn).format(
+                                  'YYYY-MM-DDTHH:MM',
+                                )}
+                              >
+                                {moment(qr.submittedOn).format('MMMM D, YYYY')}
+                              </time>
+                            </dd>
+                          </>
                         );
                       }
                     }}
