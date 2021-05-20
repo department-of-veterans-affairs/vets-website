@@ -26,7 +26,7 @@ describe('Dependency Verification', () => {
     sessionStorage.removeItem(RETRIEVE_DIARIES);
   });
 
-  it('should render a dependency verification modal', () => {
+  it.skip('should render a dependency verification modal', () => {
     cy.login();
     cy.intercept('GET', DEPENDENTS_ENDPOINT, mockDependents).as(
       'mockDependents',
