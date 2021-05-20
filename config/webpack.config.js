@@ -214,19 +214,25 @@ async function generateHtmlFiles(buildPath) {
       scriptLoading: 'defer',
       template: 'src/platform/landing-pages/dev-template.ejs',
       templateParameters: {
-        entryName,
+        // Menu and navigation content
         headerFooterData,
+        facilitySidebar,
+
+        // Helper functions
         loadInlineScript,
         modifyScriptTags,
         modifyStyleTags,
-        widgetType,
-        widgetTemplate,
-        facilitySidebar,
-        rootUrl,
+
         // Default template metadata.
         breadcrumbs_override: [], // eslint-disable-line camelcase
         includeBreadcrumbs: false,
         loadingMessage: 'Please wait while we load the application for you.',
+
+        // App-specific config
+        entryName,
+        widgetType,
+        widgetTemplate,
+        rootUrl,
         ...template, // Unpack any template metadata from the registry entry.
       },
       title:
