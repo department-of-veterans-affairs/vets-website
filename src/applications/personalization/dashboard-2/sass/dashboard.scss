@@ -4,19 +4,20 @@
   outline: 0;
 }
 
-.dashboard {
-  .health-care {
-    .cta-link:nth-of-type(1) {
-      border-top: 1px solid $color-primary-alt-light;
-    }
+.cta-link:nth-of-type(1) {
+  border-top: 1px solid $color-primary-alt-light;
 
-    .cta-link {
-      border-bottom: 1px solid $color-primary-alt-light;
+  @media (max-width: $small-screen) {
+    margin-top: units(2.5);
+  }
+}
 
-      &:hover {
-        background-color: $color-gray-lightest;
-        cursor: pointer;
-      }
-    }
+.cta-link {
+  display: block;
+  border-bottom: 1px solid $color-primary-alt-light;
+
+  &:hover {
+    background-color: $color-gray-lightest;
+    cursor: pointer;
   }
 }

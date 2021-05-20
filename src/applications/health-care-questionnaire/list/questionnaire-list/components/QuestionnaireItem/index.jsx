@@ -2,8 +2,9 @@ import React from 'react';
 
 import { isAppointmentCancelled } from '../../../utils';
 import {
-  appointment as appointmentSelector,
-  location as locationSelector,
+  appointmentSelector,
+  locationSelector,
+  organizationSelector,
 } from '../../../../shared/utils/selectors';
 
 import Status from '../Shared/Labels/Status';
@@ -18,21 +19,25 @@ const index = props => {
   });
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
-  const clinic = location;
-  const facility = organization;
+  const facilityName = organizationSelector.getName(organization);
+  const clinicName = locationSelector.getName(location);
   return (
     <li data-request-id={appointment.id} className="card">
       <Status data={data} />
-      <header data-testid="appointment-type-header">
+      <h3 data-testid="appointment-type-header">
         {appointmentType} questionnaire
-      </header>
-      <p className="appointment-location" data-testid="appointment-location">
-        for your {isCancelled ? 'canceled or rescheduled ' : ''}
-        appointment at {clinic.name}, {facility.name}
-        {extraText && `. ${extraText}`}
-      </p>
-      <section className="due-details">{DueDate && <DueDate />}</section>
-
+      </h3>
+      <dl className="vads-u-margin-bottom--0p5">
+        <dt data-testid="appointment-status">
+          For your {isCancelled ? 'canceled or rescheduled ' : ''}
+          appointment at
+        </dt>
+        <dd data-testid="appointment-location">
+          {clinicName}, {facilityName}
+          {extraText && `. ${extraText}`}
+        </dd>
+        {DueDate && <DueDate />}
+      </dl>
       {Actions && <Actions />}
     </li>
   );

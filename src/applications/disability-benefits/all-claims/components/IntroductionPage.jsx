@@ -30,6 +30,7 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
+    const { formConfig, pageList } = this.props.route;
     const services = selectAvailableServices(this.props) || [];
     const allowOriginalClaim =
       this.props.allowOriginalClaim || this.props.testOriginalClaim;
@@ -46,7 +47,7 @@ class IntroductionPage extends React.Component {
     if (!allowContinue) {
       return (
         <div className="schemaform-intro">
-          <FormTitle title={pageTitle} />
+          <FormTitle title={pageTitle} subTitle={formConfig.subTitle} />
           <fileOriginalClaimPage.component props={this.props} />
         </div>
       );
@@ -84,12 +85,12 @@ class IntroductionPage extends React.Component {
         )}
         <SaveInProgressIntro
           hideUnauthedStartLink
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          prefillEnabled={formConfig.prefillEnabled}
           formId={this.props.formId}
-          pageList={this.props.route.pageList}
+          pageList={pageList}
           startText={startText}
           retentionPeriod="1 year"
-          downtime={this.props.route.formConfig.downtime}
+          downtime={formConfig.downtime}
         />
         {itfNotice}
         <h2 className="vads-u-font-size--h4">{subwayTitle}</h2>
@@ -115,10 +116,10 @@ class IntroductionPage extends React.Component {
           <ol>
             <li className="process-step list-one">
               <h3 className="vads-u-font-size--h4">Prepare</h3>
-              <h4 className="vads-u-font-size--h6">
+              <p>
                 When you file a disability claim, you’ll have a chance to
                 provide evidence to support your claim. Evidence could include:
-              </h4>
+              </p>
               <ul>
                 <li>
                   {isBDDForm ? 'Service treatment records, ' : ''}
@@ -209,10 +210,10 @@ class IntroductionPage extends React.Component {
               <h3 className="vads-u-font-size--h4">Apply</h3>
               {isBDDForm ? (
                 <>
-                  <h4 className="vads-u-font-size--h6">
+                  <p>
                     Complete the Benefits Delivery at Discharge form. These are
                     the steps you can expect:
-                  </h4>
+                  </p>
                   <ul>
                     <li>Provide your service member information</li>
                     <li>Provide your military history</li>
@@ -252,11 +253,11 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro
           hideUnauthedStartLink
           buttonOnly
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          prefillEnabled={formConfig.prefillEnabled}
           formId={this.props.formId}
-          pageList={this.props.route.pageList}
+          pageList={pageList}
           startText={startText}
-          downtime={this.props.route.formConfig.downtime}
+          downtime={formConfig.downtime}
         />
         {itfNotice}
         <div className="omb-info--container">

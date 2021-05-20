@@ -14,7 +14,7 @@ const noVaMemorandum = ({ setPageState, state = {} }) => (
     label={
       <p>
         Are you in the Integrated Disability Evaluation System (IDES){' '}
-        <strong>or</strong> going through Physical Evaluation Board process?
+        <strong>or</strong> going through the Physical Evaluation Board process?
       </p>
     }
     id={`${serviceMemberPathPageNames.noVaMemorandum}-option`}

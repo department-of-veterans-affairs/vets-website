@@ -34,8 +34,8 @@ export default function FacilitiesNotShown({
 
   const nearbyUnsupportedFacilities = facilities?.filter(
     facility =>
-      !facility.legacyVAR.directSchedulingSupported[typeOfCareId] &&
-      !facility.legacyVAR.requestSupported[typeOfCareId] &&
+      !facility.legacyVAR.settings[typeOfCareId]?.direct.enabled &&
+      !facility.legacyVAR.settings[typeOfCareId]?.request.enabled &&
       facility.legacyVAR[sortMethod] < UNSUPPORTED_FACILITY_RANGE,
   );
 
@@ -98,7 +98,6 @@ export default function FacilitiesNotShown({
                     <br />
                   </>
                 )}
-                Main phone:{' '}
                 <FacilityPhone
                   contact={
                     facility.telecom.find(t => t.system === 'phone')?.value

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-redundant-roles */
 // Node modules.
 import React from 'react';
 // Relative imports.
@@ -22,7 +23,10 @@ export default () => (
       claim and applying for the GI Bill or VA health care. We&apos;ll walk you
       through the process step-by-step.
     </p>
-    <ul className="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
+    <ul
+      role="list"
+      className="usa-grid usa-grid-full vads-u-margin-top--3 vads-u-margin-bottom--4 vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row"
+    >
       <li className="featured-content-list-item vads-u-background-color--primary-alt-lightest  vads-u-padding-y--1p5 vads-u-padding-x--1p5 vads-u-margin-bottom--2 medium-screen:vads-u-margin-bottom--0 vads-u-display--flex vads-u-flex-direction--column">
         <b>File a VA disability claim</b>
         <hr
@@ -43,7 +47,10 @@ export default () => (
             <span className="vads-u-visibility--screen-reader">
               about filing a VA disability claim
             </span>
-            <i className="fa fa-chevron-right vads-facility-hub-cta-arrow" />
+            <i
+              className="fa fa-chevron-right vads-facility-hub-cta-arrow"
+              aria-hidden="true"
+            />
           </span>
         </a>
       </li>
@@ -69,7 +76,10 @@ export default () => (
             <span className="vads-u-visibility--screen-reader">
               about applying for the GI Bill and other education benefits
             </span>
-            <i className="fa fa-chevron-right vads-facility-hub-cta-arrow" />
+            <i
+              className="fa fa-chevron-right vads-facility-hub-cta-arrow"
+              aria-hidden="true"
+            />
           </span>
         </a>
       </li>
@@ -91,7 +101,10 @@ export default () => (
             <span className="vads-u-visibility--screen-reader">
               about applying for VA health care benefits
             </span>
-            <i className="fa fa-chevron-right vads-facility-hub-cta-arrow" />
+            <i
+              className="fa fa-chevron-right vads-facility-hub-cta-arrow"
+              aria-hidden="true"
+            />
           </span>
         </a>
       </li>

@@ -29,7 +29,6 @@ import {
 
 const initialState = {
   featureToggles: {
-    vaOnlineSchedulingVSPAppointmentNew: false,
     vaOnlineSchedulingDirect: true,
   },
   user: {
@@ -735,7 +734,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     expect(screen.baseElement).not.to.contain.text(
       /This facility doesn’t accept online scheduling for this care/,
     );
-    fireEvent.click(screen.getByText(/Continue/));
+    fireEvent.click(await screen.findByText(/Continue/));
     await screen.findByText(
       /This facility doesn’t accept online scheduling for this care/i,
     );
@@ -1179,5 +1178,68 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     });
 
     expect(await screen.findAllByRole('radio')).to.have.length(2);
+  });
+
+  it('should continue to requests if DS is disabled by flag and enabled in VATS', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(
+      parentSiteIds,
+      directFacilities.map(f => ({
+        ...f,
+        attributes: {
+          ...f.attributes,
+          coreSettings: [
+            {
+              ...f.attributes.coreSettings[0],
+              id: '502',
+              typeOfCare: 'Outpatient Mental Health',
+            },
+          ],
+        },
+      })),
+    );
+    mockRequestEligibilityCriteria(
+      parentSiteIds,
+      requestFacilities.map(f => ({
+        ...f,
+        attributes: {
+          ...f.attributes,
+          requestSettings: [
+            {
+              ...f.attributes.requestSettings[0],
+              id: '502',
+              typeOfCare: 'Outpatient Mental Health',
+            },
+          ],
+        },
+      })),
+    );
+    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '502',
+      limit: true,
+      requestPastVisits: true,
+      directPastVisits: true,
+    });
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {},
+    });
+    await setTypeOfCare(store, /mental health/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
+    fireEvent.click(screen.getByText(/Continue/));
+
+    await waitFor(() =>
+      expect(screen.history.push.firstCall.args[0]).to.equal(
+        '/new-appointment/request-date',
+      ),
+    );
   });
 });

@@ -1,10 +1,6 @@
-[{
-        "title": "My VA",
-        "href": "/my-va/",
-        "className": "my-va-top-nav"
-    },
-    {
-        "title": "My Health",
-        "href": "/health-care/my-health-account-validation/"
-    }
+[
+  {
+    "href": "/health-care/my-health-account-validation/",
+    "title": "My Health"
+  }
 ]

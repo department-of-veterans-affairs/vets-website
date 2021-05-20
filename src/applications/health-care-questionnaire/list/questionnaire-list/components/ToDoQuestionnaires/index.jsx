@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 
 import EmptyMessage from '../Messages/EmptyMessage';
 import ServiceDown from '../Messages/ServiceDown';
-
 import ToDoQuestionnaireItem from './ToDoQuestionnaireItem';
 
-const index = props => {
+const Index = props => {
   const { questionnaires } = props;
+
   return (
     <div id="tabpanel_toDo">
       <h2 className="questionnaire-list-header">To-do questionnaires</h2>
@@ -20,14 +20,16 @@ const index = props => {
               }
             />
           ) : (
-            <ul
+            // eslint-disable-next-line jsx-a11y/no-redundant-roles
+            <ol
               data-testid="questionnaire-list"
               className="questionnaire-list toDo"
+              role="list"
             >
               {questionnaires.map((data, i) => {
                 return <ToDoQuestionnaireItem data={data} key={i} />;
               })}
-            </ul>
+            </ol>
           )}
         </>
       ) : (
@@ -43,4 +45,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(index);
+export default connect(mapStateToProps)(Index);

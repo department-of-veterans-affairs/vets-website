@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
@@ -109,6 +110,19 @@ export const Form526Entry = ({
       setPageFocus('.va-nav-breadcrumbs-list');
     }
   });
+
+  // showWizard feature flag loads _after_ page has render causing the full page
+  // content to render, then the wizard to render if this flag is true, so we
+  // show a loading indicator until the feature flags are available. This can be
+  // removed once the feature flag is removed
+  if (typeof showWizard === 'undefined') {
+    return wrapInBreadcrumb(
+      title,
+      <LoadingIndicator message="Please wait while we load the application for you." />,
+    );
+  }
+
+  // showWizard feature flag is initially undefined
   if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
     return wrapInBreadcrumb(
       title,

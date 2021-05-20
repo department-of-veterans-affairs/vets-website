@@ -10,6 +10,7 @@ import {
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import { showReviewField } from '../helpers';
+import { isReactComponent } from 'platform/utilities/ui';
 
 /*
  * This is largely copied from the react-jsonschema-form library,
@@ -32,7 +33,16 @@ class ObjectField extends React.Component {
     this.isRequired = this.isRequired.bind(this);
     this.orderAndFilterProperties = _.flow(
       properties =>
-        orderProperties(properties, _.get('ui:order', this.props.uiSchema)),
+        orderProperties(
+          properties,
+          this.props.uiSchema['ui:order']?.filter(prop =>
+            // `view:*` properties will have been removed from the schema and
+            // values by the time they reach this component. This removes them
+            // from the ui:order so we don't trigger an error in the
+            // react-json-schema library for having "extraneous properties."
+            Object.keys(this.props.schema.properties).includes(prop),
+          ),
+        ),
       _.groupBy(item => {
         const expandUnderField = _.get(
           [item, 'ui:options', 'expandUnder'],
@@ -150,7 +160,7 @@ class ObjectField extends React.Component {
       const editLabel = (itemName && `Edit ${itemName}`) || `Edit ${title}`;
 
       const Tag = divWrapper ? 'div' : 'dl';
-      const objectViewField = uiSchema?.['ui:objectViewField'];
+      const ObjectViewField = uiSchema?.['ui:objectViewField'];
 
       const defaultEditButton = ({
         label = editLabel,
@@ -167,13 +177,13 @@ class ObjectField extends React.Component {
         </button>
       );
 
-      return typeof objectViewField === 'function' ? (
-        objectViewField({
-          ...this.props,
-          renderedProperties,
-          title,
-          defaultEditButton,
-        })
+      return isReactComponent(ObjectViewField) ? (
+        <ObjectViewField
+          {...this.props}
+          renderedProperties={renderedProperties}
+          title={title}
+          defaultEditButton={defaultEditButton}
+        />
       ) : (
         <>
           {!formContext.hideHeaderRow && (

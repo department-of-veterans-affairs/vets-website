@@ -8,12 +8,70 @@ import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { SERVICE_BADGE_IMAGE_PATHS } from '../profile/constants';
 import { getServiceBranchDisplayName } from '../profile/helpers';
 
+const DisabilityRatingContent = ({ rating }) => {
+  const disabilityRatingClasses = prefixUtilityClasses([
+    'margin-top--1p5',
+    'color--white',
+    'text-align--center',
+    'line-height--3',
+  ]);
+
+  const disabilityRatingClassesMedium = prefixUtilityClasses(
+    ['margin-top--1', 'text-align--left'],
+    'medium',
+  );
+
+  const classes = [
+    ...disabilityRatingClasses,
+    ...disabilityRatingClassesMedium,
+  ].join(' ');
+
+  return (
+    <>
+      <dt className="sr-only">your disability rating</dt>
+      <dd className={classes}>
+        {rating ? <>Your disability rating: </> : null}
+        <a
+          href="/disability/view-disability-rating/rating"
+          aria-label="view your disability rating"
+          className="vads-u-color--white"
+          style={{ whiteSpace: 'nowrap' }}
+        >
+          {rating ? (
+            <>{rating}% Service connected </>
+          ) : (
+            <>View disability rating </>
+          )}
+          <i
+            aria-hidden="true"
+            role="img"
+            className="fas fa-angle-double-right vads-u-padding-left--0p5"
+          />
+        </a>
+      </dd>
+    </>
+  );
+};
+
+const DisabilityRating = ({ rating, showFallbackLink }) => {
+  if (showFallbackLink) {
+    return <DisabilityRatingContent />;
+  }
+
+  if (rating) {
+    return <DisabilityRatingContent rating={rating} />;
+  }
+
+  return null;
+};
+
 const NameTag = ({
   userFullName: { first, middle, last, suffix },
   latestBranchOfService,
   showBadgeImage,
-  totalDisabilityRating,
   showUpdatedNameTag,
+  totalDisabilityRating,
+  totalDisabilityRatingServerError,
 }) => {
   const fullName = [first, middle, last, suffix]
     .filter(name => !!name)
@@ -44,9 +102,10 @@ const NameTag = ({
     'display--flex',
     'flex-direction--column',
     'width--full',
+    'padding-x--2',
   ]);
   const innerWrapperClassesMedium = prefixUtilityClasses(
-    ['flex-direction--row', 'padding-left--2'],
+    ['flex-direction--row'],
     'medium',
   );
 
@@ -72,11 +131,10 @@ const NameTag = ({
     'font-weight--bold',
     'line-height--3',
     'margin-top--0',
-    'margin-bottom--0p5',
     'text-align--center',
   ]);
   const fullNameClassesMedium = prefixUtilityClasses(
-    ['text-align--left', 'margin-bottom--1p5'],
+    ['text-align--left'],
     'medium',
   );
 
@@ -138,26 +196,12 @@ const NameTag = ({
                 {getServiceBranchDisplayName(latestBranchOfService)}
               </dd>
             )}
-            {showUpdatedNameTag &&
-              totalDisabilityRating && (
-                <>
-                  <dt className="sr-only">total disability rating</dt>
-                  <dd className="vads-u-margin-top--0p5">
-                    <a
-                      href="/disability/view-disability-rating/rating"
-                      aria-label="view your disability rating"
-                      className="vads-u-color--white font-weight--bold"
-                    >
-                      {totalDisabilityRating}% Service connected{' '}
-                      <i
-                        aria-hidden="true"
-                        role="img"
-                        className="fas fa-chevron-right vads-u-padding-left--0p5"
-                      />
-                    </a>
-                  </dd>
-                </>
-              )}
+            {showUpdatedNameTag ? (
+              <DisabilityRating
+                rating={totalDisabilityRating}
+                showFallbackLink={totalDisabilityRatingServerError}
+              />
+            ) : null}
           </dl>
         </div>
       </div>
@@ -198,6 +242,9 @@ NameTag.propTypes = {
     suffix: PropTypes.string,
   }).isRequired,
   latestBranchOfService: PropTypes.string.isRequired,
+  showUpdatedNameTag: PropTypes.bool,
+  totalDisabilityRating: PropTypes.number,
+  totalDisabilityRatingServerError: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(NameTag);

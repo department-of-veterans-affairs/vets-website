@@ -406,7 +406,8 @@ export const validateSeparationDate = (
   const { allowBDD, servicePeriods = [] } = appStateData;
   const branch = servicePeriods[currentIndex]?.serviceBranch || '';
   const isReserves = reservesList.some(match => branch.includes(match));
-  if (!allowBDD && !isReserves && moment(dateString).isAfter(moment())) {
+  const in90Days = moment().add(90, 'days');
+  if (!allowBDD && !isReserves && moment(dateString).isSameOrAfter(in90Days)) {
     errors.addError('Your separation date must be in the past');
   } else if (
     allowBDD &&

@@ -12,14 +12,14 @@ describe('health care questionnaire - display an appointment -- ', () => {
     );
     expect(
       mountedComponent.find('[data-testid="appointment-location"]').text(),
-      'TEM MH PSO TRS IND93EH 2, NEW AMSTERDAM CBOC',
+      'LOM ACC TRAINING CLINIC, Loma Linda VA Clinic',
     );
     expect(
       mountedComponent.find('[data-testid="appointment-time"]').text(),
     ).to.match(/([\d]|[\d][\d]):[\d][\d]\s[a|p].m./);
     expect(
       mountedComponent.find('[data-testid="appointment-date"]').text(),
-    ).to.equal('Thursday, November 25th, 2021');
+    ).to.equal('Sunday, June 6, 2021');
 
     mountedComponent.unmount();
   });
@@ -41,8 +41,9 @@ describe('health care questionnaire - display an appointment -- ', () => {
     const mountedComponent = mount(
       <AppointmentDisplay appointmentData={testData} bold />,
     );
-    const classes = mountedComponent.find('.appointment-details').props('class')
-      .className;
+    const classes = mountedComponent
+      .find('[data-testid="date-label"]')
+      .props('class').className;
     expect(classes).to.contain('vads-u-font-weight--bold');
 
     mountedComponent.unmount();
@@ -51,8 +52,9 @@ describe('health care questionnaire - display an appointment -- ', () => {
     const mountedComponent = mount(
       <AppointmentDisplay appointmentData={testData} bold={false} />,
     );
-    const classes = mountedComponent.find('.appointment-details').props('class')
-      .className;
+    const classes = mountedComponent
+      .find('[data-testid="date-label"]')
+      .props('class').className;
     expect(classes).to.not.contain('vads-u-font-weight--bold');
 
     mountedComponent.unmount();

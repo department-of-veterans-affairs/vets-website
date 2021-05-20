@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import { selectProfile, selectVAPContactInfo } from 'platform/user/selectors';
+import { selectQuestionnaireContext } from '../../../shared/redux-selectors';
 
 import AppointmentDisplay from '../appointment-display/AppointmentDisplay';
 import { autoSaveForm } from 'platform/forms/save-in-progress/actions';
@@ -80,7 +81,7 @@ const mapStateToProps = state => {
       { label: 'Work', data: vapContactInfo?.workPhone },
       { label: 'Temporary', data: vapContactInfo?.temporaryPhone },
     ],
-    appointmentData: state.questionnaireData?.context,
+    appointmentData: selectQuestionnaireContext(state),
   };
 };
 

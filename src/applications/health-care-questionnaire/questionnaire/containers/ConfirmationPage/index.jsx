@@ -7,36 +7,43 @@ import {
 } from '../../../shared/utils';
 import ConfirmationPageFooter from '../../components/confirmation-page-footer/ConfirmationPageFooter';
 import AppointmentDisplay from '../../components/appointment-display/AppointmentDisplay';
+import {
+  selectQuestionnaireContext,
+  selectQuestionnaireResponseFromResponse,
+} from '../../../shared/redux-selectors';
 
 import PrintButton from '../../../shared/components/print/PrintButton';
+import { focusElement } from 'platform/utilities/ui';
 
 const ConfirmationPage = props => {
-  const { context } = props;
-  const { appointment } = context;
+  const { context, response } = props;
 
-  useEffect(() => {
-    clearCurrentSession(window);
-    clearSelectedAppointmentData(window, appointment.id);
-  }, []);
+  const { appointment } = context;
+  useEffect(
+    () => {
+      clearCurrentSession(window);
+      clearSelectedAppointmentData(window, appointment.id);
+      focusElement('h2.usa-alert-heading');
+    },
+    [appointment.id, response.id],
+  );
 
   return (
     <div className="healthcare-questionnaire-confirm">
-      <div className="usa-alert usa-alert-success schemaform-sip-alert">
-        <div className="usa-alert-body">
-          <h2 className="usa-alert-heading">
-            Your information has been sent to your provider.
-          </h2>
-        </div>
-      </div>
-
+      <va-alert status="success">
+        <h3 slot="headline">
+          Your information has been sent to your provider.
+        </h3>
+      </va-alert>
       <div className="inset">
         <h2 data-testid="appointment-type-header">
           Your provider will discuss the information on your questionnaire
           during your appointment:
         </h2>
-        <AppointmentDisplay appointmentData={context} bold={false} />
+        <AppointmentDisplay appointmentData={context} />
         <p>We look forward to seeing you at your upcoming appointment.</p>
         <PrintButton
+          questionnaireResponseId={response.id}
           displayArrow={false}
           ErrorCallToAction={() => {
             return (
@@ -62,7 +69,8 @@ const ConfirmationPage = props => {
 function mapStateToProps(state) {
   return {
     form: state.form,
-    context: state?.questionnaireData?.context,
+    context: selectQuestionnaireContext(state),
+    response: selectQuestionnaireResponseFromResponse(state),
   };
 }
 

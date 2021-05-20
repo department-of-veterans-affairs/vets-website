@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { focusElement } from 'platform/utilities/ui';
+import Scroll from 'react-scroll';
 import Back from './Back';
 import ProgressButton from '../../components/ProgressButton';
 import PropTypes from 'prop-types';
@@ -8,11 +10,29 @@ import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection'
 
 export default function ClientError(props) {
   const { buttonText, formConfig, onBack, onSubmit, testId } = props;
+  const Element = Scroll.Element;
+  const scroller = Scroll.scroller;
+  const scrollToError = () => {
+    scroller.scrollTo(
+      'errorScrollElement',
+      window.VetsGov?.scroll || {
+        duration: 500,
+        delay: 0,
+        smooth: true,
+      },
+    );
+  };
+
+  useEffect(() => {
+    focusElement('.schemaform-failure-alert');
+    scrollToError();
+  }, []);
 
   return (
     <>
       <Row>
         <Column role="alert" testId={testId}>
+          <Element name="errorScrollElement" />
           <ErrorMessage
             active
             title="We’re sorry, there was an error connecting to VA.gov."

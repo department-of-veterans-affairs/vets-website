@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { organization } from '../index';
+import { organizationSelector as organization } from '../index';
 
 describe('health care questionnaire -- utils -- organization selector --', () => {
   describe('getName', () => {

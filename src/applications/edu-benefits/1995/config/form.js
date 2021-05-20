@@ -24,6 +24,7 @@ const {
   date,
   dateRange,
   serviceBefore1977,
+  usaPhone,
 } = fullSchema1995.definitions;
 
 const formConfig = {
@@ -59,6 +60,7 @@ const formConfig = {
     serviceBefore1977,
     date,
     dateRange,
+    usaPhone,
   },
   title: 'Change your education benefits',
   subTitle: 'Form 22-1995',

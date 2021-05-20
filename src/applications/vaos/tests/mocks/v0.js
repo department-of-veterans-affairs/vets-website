@@ -19,6 +19,7 @@ export function getVAAppointmentMock() {
     id: '21cdc6741c00ac67b6cbf6b972d084c1',
     type: 'appointment',
     attributes: {
+      uniqueId: '21cdc6741c00ac67b6cbf6b972d084c1',
       clinicFriendlyName: 'Fake',
       clinicId: 'fake',
       facilityId: 'fake',
@@ -333,6 +334,7 @@ export function getRequestEligibilityCriteriaMock({
   id = 'fake',
   typeOfCareId = 'fake',
   patientHistoryRequired = 'No',
+  patientHistoryDuration = 365,
 } = {}) {
   return {
     id,
@@ -344,7 +346,7 @@ export function getRequestEligibilityCriteriaMock({
           id: typeOfCareId,
           typeOfCare: 'fake',
           patientHistoryRequired,
-          patientHistoryDuration: 0,
+          patientHistoryDuration,
           submittedRequestLimit: 1,
           enterpriseSubmittedRequestLimit: 1,
         },

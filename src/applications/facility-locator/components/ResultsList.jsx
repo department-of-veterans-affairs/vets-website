@@ -13,6 +13,7 @@ import {
   PHARMACY_RETAIL_SERVICE,
   LocationType,
   Error,
+  Covid19Vaccine,
 } from '../constants';
 
 import { setFocus } from '../utils/helpers';
@@ -24,7 +25,9 @@ import VaFacilityResult from './search-results-items/VaFacilityResult';
 import CCProviderResult from './search-results-items/CCProviderResult';
 import PharmacyResult from './search-results-items/PharmacyResult';
 import UrgentCareResult from './search-results-items/UrgentCareResult';
+import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
+import { covidVaccineSchedulingFrontend } from '../utils/selectors';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 
@@ -62,14 +65,24 @@ class ResultsList extends Component {
         case 'cemetery':
         case 'benefits':
         case 'vet_center':
-          item = (
-            <VaFacilityResult
-              location={r}
-              query={query}
-              key={r.id}
-              index={index}
-            />
-          );
+          item =
+            query.serviceType === Covid19Vaccine ? (
+              <Covid19Result
+                location={r}
+                key={r.id}
+                index={index}
+                showCovidVaccineSchedulingLinks={
+                  this.props.showCovidVaccineSchedulingLinks
+                }
+              />
+            ) : (
+              <VaFacilityResult
+                location={r}
+                query={query}
+                key={r.id}
+                index={index}
+              />
+            );
           break;
         case 'provider':
           // Support non va urgent care search through ccp option
@@ -149,7 +162,7 @@ class ResultsList extends Component {
           />
         );
       }
-    } else if (currentQuery.error && error.type === 'mapBox') {
+    } else if (currentQuery.error && currentQuery.error.type === 'mapBox') {
       return (
         <SearchResultMessage
           facilityType={facilityTypeName}
@@ -234,6 +247,7 @@ function mapStateToProps(state) {
     searchString,
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
+    showCovidVaccineSchedulingLinks: covidVaccineSchedulingFrontend(state),
   };
 }
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { location as locationSelector } from '../../../shared/utils/selectors';
+import { locationSelector } from '../../../shared/utils/selectors';
+
+import { selectCurrentLocation } from '../../../shared/redux-selectors';
 
 const BreadCrumbs = props => {
   const { location } = props;
@@ -43,7 +45,7 @@ const BreadCrumbs = props => {
 };
 
 const mapStateToProps = state => ({
-  location: state.questionnaireData?.context.location,
+  location: selectCurrentLocation(state),
 });
 
 export default connect(

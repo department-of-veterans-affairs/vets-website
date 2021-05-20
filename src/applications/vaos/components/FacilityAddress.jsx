@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
 import FacilityPhone from './FacilityPhone';
 import State from './State';
+import { hasValidCovidPhoneNumber } from '../services/appointment';
 
 export default function FacilityAddress({
   name,
@@ -10,12 +11,16 @@ export default function FacilityAddress({
   showDirectionsLink,
   clinicName,
   showPhone = true,
-  level = '4',
+  level = 4,
+  showCovidPhone,
 }) {
   const address = facility?.address;
-  const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+  const phone =
+    showCovidPhone && hasValidCovidPhoneNumber(facility)
+      ? facility?.telecom?.find(tele => tele.system === 'covid')?.value
+      : facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const extraInfoClasses = classNames({
-    'vads-u-margin-top--1p5': !!clinicName || !!phone,
+    'vads-u-margin-top--1p5': !!clinicName || (showPhone && !!phone),
   });
   const Heading = `h${level}`;
   const HeadingSub = `h${parseInt(level, 10) + 1}`;
@@ -61,10 +66,7 @@ export default function FacilityAddress({
           !!phone && (
             <>
               {!!clinicName && <br />}
-              <Heading className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
-                Main phone:
-              </Heading>{' '}
-              <FacilityPhone contact={phone} />
+              <FacilityPhone contact={phone} level={level + 1} />
             </>
           )}
       </div>

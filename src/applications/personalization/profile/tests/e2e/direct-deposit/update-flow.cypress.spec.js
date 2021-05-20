@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import mockUserInEVSS from '@@profile/tests/fixtures/users/user-36.json';
@@ -10,19 +9,6 @@ const TEST_ACCOUNT = {
   NUMBER: '123123123',
   ROUTING: '321321321',
   TYPE: 'Checking',
-};
-
-// TODO: remove this when we are no longer gating DD4EDU with a feature flag
-const dd4eduEnabled = {
-  data: {
-    type: 'feature_toggles',
-    features: [
-      {
-        name: 'ch33_dd_profile',
-        value: true,
-      },
-    ],
-  },
 };
 
 function fillInBankInfoForm(id) {
@@ -76,9 +62,7 @@ function saveSuccessAlertRemoved() {
 
 describe('Direct Deposit', () => {
   beforeEach(() => {
-    disableFTUXModals();
     cy.login(mockUserInEVSS);
-    cy.intercept('GET', '/v0/feature_toggles*', dd4eduEnabled);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);

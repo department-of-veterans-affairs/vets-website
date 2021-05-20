@@ -169,7 +169,12 @@ describe('DebtLettersSummary', () => {
   });
   it('renders correct number of debt cards', () => {
     const wrapper = shallow(<DebtCardsList store={fakeStore} />);
-    expect(wrapper.dive().find(`Connect(DebtLetterCard)`).length).to.equal(4);
+    expect(
+      wrapper
+        .dive()
+        .dive()
+        .find(`Connect(DebtLetterCard)`).length,
+    ).to.equal(4);
     wrapper.unmount();
   });
   it('renders correct empty state', () => {
@@ -195,6 +200,7 @@ describe('DebtLettersSummary', () => {
     expect(wrapper.dive().find(`Connect(DebtLetterCard)`).length).to.equal(0);
     expect(
       wrapper
+        .dive()
         .dive()
         .find('h3')
         .at(0)

@@ -12,7 +12,6 @@ import {
 } from '../../redux/selectors';
 import {
   selectFutureAppointments,
-  selectExpressCareAvailability,
   selectFutureStatus,
 } from '../redux/selectors';
 import {
@@ -33,8 +32,7 @@ function FutureAppointmentsList({
   futureStatus,
   facilityData,
   requestMessages,
-  expressCare,
-  cancelAppointment,
+  startAppointmentCancel,
   fetchRequestMessages,
   startNewAppointmentFlow,
 }) {
@@ -48,7 +46,8 @@ function FutureAppointmentsList({
     );
   } else if (futureStatus === FETCH_STATUS.succeeded && future?.length > 0) {
     content = (
-      <ul className="usa-unstyled-list" id="appointments-list">
+      // eslint-disable-next-line jsx-a11y/no-redundant-roles
+      <ul role="list" className="usa-unstyled-list" id="appointments-list">
         {future.map((appt, index) => {
           const facilityId = getVAAppointmentLocationId(appt);
 
@@ -62,7 +61,7 @@ function FutureAppointmentsList({
                   appointment={appt}
                   facility={facilityData[facilityId]}
                   showCancelButton={showCancelButton}
-                  cancelAppointment={cancelAppointment}
+                  cancelAppointment={startAppointmentCancel}
                 />
               );
             case APPOINTMENT_TYPES.request:
@@ -75,7 +74,7 @@ function FutureAppointmentsList({
                   facility={facilityData[facilityId]}
                   facilityId={facilityId}
                   showCancelButton={showCancelButton}
-                  cancelAppointment={cancelAppointment}
+                  cancelAppointment={startAppointmentCancel}
                   fetchMessages={fetchRequestMessages}
                   messages={requestMessages}
                 />
@@ -111,28 +110,20 @@ function FutureAppointmentsList({
     );
   }
 
-  const header = !expressCare.hasRequests && (
-    <h2 className="vads-u-margin-bottom--4 vads-u-font-size--h3">
-      Upcoming appointments
-    </h2>
-  );
-
   return (
     <div role="tabpanel" aria-labelledby="tabupcoming" id="tabpanelupcoming">
-      {header}
       {content}
     </div>
   );
 }
 
 FutureAppointmentsList.propTypes = {
-  cancelAppointment: PropTypes.func,
+  startAppointmentCancel: PropTypes.func,
   isCernerOnlyPatient: PropTypes.bool,
   fetchRequestMessages: PropTypes.func,
   fetchFutureAppointments: PropTypes.func,
   showCancelButton: PropTypes.bool,
   showScheduleButton: PropTypes.bool,
-  showExpressCare: PropTypes.bool,
   startNewAppointmentFlow: PropTypes.func,
 };
 
@@ -145,12 +136,11 @@ function mapStateToProps(state) {
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showCancelButton: selectFeatureCancel(state),
     showScheduleButton: selectFeatureRequests(state),
-    expressCare: selectExpressCareAvailability(state),
   };
 }
 
 const mapDispatchToProps = {
-  cancelAppointment: actions.cancelAppointment,
+  startAppointmentCancel: actions.startAppointmentCancel,
   fetchFutureAppointments: actions.fetchFutureAppointments,
   fetchRequestMessages: actions.fetchRequestMessages,
   startNewAppointmentFlow: actions.startNewAppointmentFlow,

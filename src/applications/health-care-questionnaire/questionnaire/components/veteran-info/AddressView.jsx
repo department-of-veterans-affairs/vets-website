@@ -9,12 +9,16 @@ export default function AddressView({ address }) {
     .filter(f => f)
     .join(' ');
   return (
-    <>
+    <span
+      aria-label={`Veterans Address ${display}  ${address.city}, ${
+        address.stateCode
+      } ${address.zipCode} `}
+    >
       <span className="address">{display}</span>
       <br />
       <span className="city-state-zip">
         {address.city}, {address.stateCode} {address.zipCode}
       </span>
-    </>
+    </span>
   );
 }

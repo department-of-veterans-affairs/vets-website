@@ -3,16 +3,16 @@ import React from 'react';
 import { isAppointmentCancelled } from '../../../../utils';
 
 import {
-  appointment as appointmentSelectors,
-  questionnaireResponse as questionnaireResponseSelectors,
+  appointmentSelector,
+  questionnaireResponseSelector,
 } from '../../../../../shared/utils/selectors';
 
 export default function Status(props) {
   const { appointment, questionnaire } = props.data;
-  const questionnaireStatus = questionnaireResponseSelectors.getStatus(
+  const questionnaireStatus = questionnaireResponseSelector.getStatus(
     questionnaire[0].questionnaireResponse,
   );
-  const appointmentStatus = appointmentSelectors.getStatus(appointment);
+  const appointmentStatus = appointmentSelector.getStatus(appointment);
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
   if (isCancelled) {

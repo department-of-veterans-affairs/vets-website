@@ -1,4 +1,3 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
 
 import { mockUser } from '@@profile/tests/fixtures/users/user-vap-error.js';
@@ -6,15 +5,15 @@ import mockPersonalInformation from '@@profile/tests/fixtures/personal-informati
 import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
 import mockPaymentInfoNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
+import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
 
 const setup = () => {
-  disableFTUXModals();
-
   cy.login(mockUser);
-  cy.route('GET', 'v0/profile/personal_information', mockPersonalInformation);
-  cy.route('GET', 'v0/profile/service_history', mockServiceHistory);
-  cy.route('GET', 'v0/profile/full_name', mockFullName);
-  cy.route('GET', 'v0/ppiu/payment_information', mockPaymentInfoNotEligible);
+  cy.intercept('v0/profile/personal_information', mockPersonalInformation);
+  cy.intercept('v0/profile/service_history', mockServiceHistory);
+  cy.intercept('v0/profile/full_name', mockFullName);
+  cy.intercept('v0/ppiu/payment_information', mockPaymentInfoNotEligible);
+  cy.intercept('v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
 
   // should show a loading indicator

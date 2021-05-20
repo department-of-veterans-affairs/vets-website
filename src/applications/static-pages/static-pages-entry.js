@@ -10,6 +10,7 @@ import './analytics';
 import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
+import createVetCentersHours from './facilities/createVetCentersHours';
 
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
@@ -58,6 +59,7 @@ import createChapter31CTA from './vre-chapter31/createChapter31CTA';
 import createViewDependentsCTA from './view-modify-dependents/view-dependents-cta/createViewDependentsCTA';
 import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
 import createI18Select from './i18Select/createI18Select';
+import createSharableLink from './sharable-links/createSharableLink';
 
 // School resources widgets
 import {
@@ -73,6 +75,8 @@ import createThirdPartyApps, {
 
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
 import dependencyVerificationReducer from './dependency-verification/reducers/index';
+
+import createCOEAccess from './coe-access/createCOEAccess';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -145,6 +149,7 @@ createResourcesAndSupportSearchWidget(
   widgetTypes.RESOURCES_AND_SUPPORT_SEARCH,
 );
 
+createVetCentersHours(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
@@ -194,6 +199,10 @@ createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
+
+createCOEAccess(store, widgetTypes.COE_ACCESS);
+
+createSharableLink(store, widgetTypes.SHARABLE_LINK);
 
 // homepage widgets
 if (location.pathname === '/') {

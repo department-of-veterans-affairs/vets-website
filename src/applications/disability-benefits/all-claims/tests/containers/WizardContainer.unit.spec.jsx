@@ -15,7 +15,7 @@ describe('Wizard Container', () => {
 
   it('should render', () => {
     const tree = shallow(<WizardContainer {...props} />);
-    expect(tree.find('h1')).to.have.lengthOf(1);
+    expect(tree.find('FormTitle')).to.have.lengthOf(1);
     expect(tree.find('.wizard-container')).to.have.lengthOf(1);
     expect(tree.find('FormFooter')).to.have.lengthOf(1);
     tree.unmount();

@@ -15,7 +15,12 @@ describe('Edu 1990 contactInformation', () => {
   } = formConfig.chapters.personalInformation.pages.contactInformation;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
     const formDOM = getFormDOM(form);
 
@@ -24,7 +29,12 @@ describe('Edu 1990 contactInformation', () => {
 
   it('should not submit form without information', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
     const formDOM = getFormDOM(form);
     formDOM.submitForm();
@@ -34,7 +44,12 @@ describe('Edu 1990 contactInformation', () => {
 
   it('should submit form with information', () => {
     const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester schema={schema} data={{}} uiSchema={uiSchema} />,
+      <DefinitionTester
+        schema={schema}
+        data={{}}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+      />,
     );
     const formDOM = getFormDOM(form);
 

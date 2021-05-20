@@ -1,11 +1,9 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import {
-  term,
-  like,
-  eachLike,
-  iso8601DateTime,
-} from '@pact-foundation/pact/dsl/matchers';
+import { Matchers } from '@pact-foundation/pact';
+
+const { term, like, eachLike, iso8601DateTime } = Matchers;
+
 import { fetchInquiries } from '../../actions/';
 
 import contractTest from 'platform/testing/contract';

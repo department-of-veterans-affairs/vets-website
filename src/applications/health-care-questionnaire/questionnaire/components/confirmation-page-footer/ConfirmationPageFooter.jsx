@@ -2,8 +2,8 @@ import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import {
-  location as locationSelector,
-  organization as organizationSelector,
+  locationSelector,
+  organizationSelector,
 } from '../../../shared/utils/selectors';
 
 export default function ConfirmationPageFooter(props) {

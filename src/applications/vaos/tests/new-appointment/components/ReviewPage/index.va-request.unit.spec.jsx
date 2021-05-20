@@ -38,6 +38,15 @@ const initialState = {
   },
 };
 
+const initialStateHomepageRefresh = {
+  featureToggles: {
+    vaOnlineSchedulingCancel: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
+    vaOnlineSchedulingHomepageRefresh: true,
+  },
+};
+
 describe('VAOS <ReviewPage> VA request', () => {
   let store;
   let start;
@@ -52,7 +61,7 @@ describe('VAOS <ReviewPage> VA request', () => {
         data: {
           facilityType: FACILITY_TYPES.VAMC,
           typeOfCareId: '323',
-          phoneNumber: '1234567890',
+          phoneNumber: '2234567890',
           email: 'joeblow@gmail.com',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'I need an appt',
@@ -146,7 +155,7 @@ describe('VAOS <ReviewPage> VA request', () => {
 
     expect(contactHeading).to.contain.text('Your contact details');
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
-    expect(screen.baseElement).to.contain.text('1234567890');
+    expect(screen.baseElement).to.contain.text('223-456-7890');
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
     const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
@@ -212,6 +221,7 @@ describe('VAOS <ReviewPage> VA request', () => {
       'error-key': undefined,
       appointmentType: undefined,
       facilityType: undefined,
+      'facility-id': undefined,
       'health-express-care-reason': undefined,
       'vaos-item-type': undefined,
       'vaos-number-of-items': undefined,
@@ -268,12 +278,102 @@ describe('VAOS <ReviewPage> VA request', () => {
       'error-key': undefined,
       appointmentType: undefined,
       facilityType: undefined,
+      'facility-id': undefined,
       'health-express-care-reason': undefined,
       'vaos-item-type': undefined,
       'vaos-number-of-items': undefined,
       'tab-text': undefined,
       alertBoxHeading: undefined,
       'vaos-number-of-preferred-providers': undefined,
+    });
+  });
+});
+
+describe('VAOS <ReviewPage> VA request: Homepage Refresh', () => {
+  let store;
+  let start;
+
+  beforeEach(() => {
+    mockFetch();
+    start = moment();
+    store = createTestStore({
+      ...initialStateHomepageRefresh,
+      newAppointment: {
+        pages: {},
+        data: {
+          facilityType: FACILITY_TYPES.VAMC,
+          typeOfCareId: '323',
+          phoneNumber: '1234567890',
+          email: 'joeblow@gmail.com',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'I need an appt',
+          vaParent: '983',
+          vaFacility: '983',
+          visitType: 'telehealth',
+          bestTimeToCall: {
+            morning: true,
+            afternoon: true,
+            evening: true,
+          },
+        },
+        clinics: {},
+        parentFacilities: [
+          {
+            id: '983',
+            identifier: [
+              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+              {
+                system: 'http://med.va.gov/fhir/urn',
+                value: 'urn:va:facility:983',
+              },
+            ],
+          },
+        ],
+        facilities: {
+          '323': [
+            {
+              id: '983',
+              name: 'Cheyenne VA Medical Center',
+              identifier: [
+                { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+              ],
+              address: {
+                postalCode: '82001-5356',
+                city: 'Cheyenne',
+                state: 'WY',
+                line: ['2360 East Pershing Boulevard'],
+              },
+              telecom: [{ system: 'phone', value: '307-778-7550' }],
+            },
+          ],
+        },
+      },
+    });
+    store.dispatch(startRequestAppointmentFlow());
+    store.dispatch(
+      onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
+    );
+  });
+  afterEach(() => resetFetch());
+
+  it('should submit successfully and route to appointment details page', async () => {
+    mockRequestSubmit('va', {
+      id: 'fake_id',
+    });
+    mockPreferences(null);
+    mockMessagesFetch('fake_id', {});
+
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
+    await screen.findByText(/requesting a primary care appointment/i);
+
+    userEvent.click(screen.getByText(/Request appointment/i));
+    await waitFor(() => {
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/requests/fake_id?confirmMsg=true',
+      );
     });
   });
 });

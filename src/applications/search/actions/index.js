@@ -5,7 +5,7 @@ export const FETCH_SEARCH_RESULTS_FAILURE = 'FETCH_SEARCH_RESULTS_FAILURE';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 
-export function fetchSearchResults(query, page, analyticsMetaInfo) {
+export function fetchSearchResults(query, page, options) {
   return dispatch => {
     dispatch({ type: FETCH_SEARCH_RESULTS, query });
 
@@ -17,24 +17,22 @@ export function fetchSearchResults(query, page, analyticsMetaInfo) {
 
     return apiRequest(queryString)
       .then(response => {
-        if (analyticsMetaInfo) {
+        if (options?.trackEvent) {
           recordEvent({
-            event: analyticsMetaInfo?.eventName,
-            'search-page-path': analyticsMetaInfo?.path,
-            'search-query': analyticsMetaInfo?.userInput,
+            event: options?.eventName,
+            'search-page-path': options?.path,
+            'search-query': options?.userInput,
             'search-results-total-count':
               response?.meta?.pagination?.totalEntries,
             'search-results-total-pages':
               response?.meta?.pagination?.totalPages,
             'search-selection': 'All VA.gov',
-            'search-typeahead-enabled': analyticsMetaInfo?.typeaheadEnabled,
-            'sitewide-search-app-used': analyticsMetaInfo?.sitewideSearch,
-            'type-ahead-option-keyword-selected':
-              analyticsMetaInfo?.keywordSelected,
-            'type-ahead-option-position': analyticsMetaInfo?.keywordPosition,
-            'type-ahead-options-list': analyticsMetaInfo?.suggestionsList,
-            'type-ahead-options-count':
-              analyticsMetaInfo?.suggestionsList?.length,
+            'search-typeahead-enabled': options?.typeaheadEnabled,
+            'sitewide-search-app-used': options?.sitewideSearch,
+            'type-ahead-option-keyword-selected': options?.keywordSelected,
+            'type-ahead-option-position': options?.keywordPosition,
+            'type-ahead-options-list': options?.suggestionsList,
+            'type-ahead-options-count': options?.suggestionsList?.length,
           });
         }
         dispatch({

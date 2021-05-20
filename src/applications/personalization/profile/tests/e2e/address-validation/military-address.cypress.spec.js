@@ -9,11 +9,11 @@ describe('Personal and contact information', () => {
         name: /I live on a.*military base/i,
       }).check();
 
-      cy.findByLabelText(/^street address/i)
+      cy.findByLabelText(/^street address \(/i)
         .clear()
         .type('PSC 808 Box 37');
-      cy.findByLabelText(/^line 2/i).clear();
-      cy.findByLabelText(/^line 3/i).clear();
+      cy.findByLabelText(/^street address line 2/i).clear();
+      cy.findByLabelText(/^street address line 3/i).clear();
 
       cy.get('#root_city').select('FPO');
 

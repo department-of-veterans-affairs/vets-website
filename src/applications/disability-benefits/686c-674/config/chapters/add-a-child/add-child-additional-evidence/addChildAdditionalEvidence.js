@@ -11,6 +11,12 @@ export const uiSchema = {
   'view:additionalEvidenceDescription': {
     'ui:description': AdditionalEvidence(childStatusDescription),
   },
+  childEvidenceDocumentType: {
+    'ui:title': 'Type of evidence',
+    'ui:options': {
+      hideOnReview: true,
+    },
+  },
   supportingDocuments: fileUploadUI('Additional Evidence needed', {
     buttonText: 'Upload supporting documents',
     fileUploadUrl: `${environment.API_URL}/v0/claim_attachments`,

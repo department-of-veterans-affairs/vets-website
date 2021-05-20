@@ -1,6 +1,6 @@
 import { daysAgo } from '../helpers';
 
-const appealsSuccess = () => {
+const appealsSuccess = (updatedDaysAgo = 10) => {
   return {
     data: [
       {
@@ -42,7 +42,7 @@ const appealsSuccess = () => {
             { type: 'nod', date: '2012-02-02' },
             { type: 'soc', date: '2012-03-03' },
             { type: 'form9', date: '2012-04-04' },
-            { type: 'hearing_held', date: daysAgo(10) },
+            { type: 'hearing_held', date: daysAgo(updatedDaysAgo) },
           ],
           evidence: [],
         },

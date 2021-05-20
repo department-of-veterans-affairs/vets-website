@@ -13,10 +13,11 @@ function SignInProfileMenu({ greeting, clickHandler, isOpen, disabled }) {
       <DropDownPanel
         buttonText={greeting}
         clickHandler={clickHandler}
-        id="account-menu"
-        icon={icon}
-        isOpen={isOpen}
+        cssClass="sign-in-drop-down-panel-button"
         disabled={disabled}
+        icon={icon}
+        id="account-menu"
+        isOpen={isOpen}
       >
         <PersonalizationDropdown />
       </DropDownPanel>

@@ -7,7 +7,7 @@ export default function ScheduleNewAppointment({
   startNewAppointmentFlow,
 }) {
   return (
-    <div className="vads-u-padding-y--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
+    <div className="vads-u-padding-y--3 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter">
       <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
         {showDirectScheduling
           ? 'Create a new appointment'

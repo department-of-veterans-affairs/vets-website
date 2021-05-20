@@ -4,6 +4,7 @@ import moment from 'moment';
 import { getCCAppointmentMock, getVAAppointmentMock } from '../../mocks/v0';
 import { mockAppointmentInfo } from '../../mocks/helpers';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
+import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
 
 import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
 
@@ -14,6 +15,12 @@ const initialState = {
 };
 
 describe('VAOS integration: upcoming CC appointments', () => {
+  beforeEach(() => {
+    mockFetch();
+  });
+  afterEach(() => {
+    resetFetch();
+  });
   it('should show information', async () => {
     const appointmentTime = moment().add(1, 'days');
     const appointment = getCCAppointmentMock();

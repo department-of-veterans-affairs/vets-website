@@ -24,6 +24,7 @@ export default function UpdateAddressAlert({ onClickUpdateAddress }) {
           </NewTabAnchor>
         </p>
       }
+      disableAnalytics
     />
   );
 }

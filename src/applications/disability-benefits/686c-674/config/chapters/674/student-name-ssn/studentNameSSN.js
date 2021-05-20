@@ -17,7 +17,7 @@ export const uiSchema = {
       'ui:description': NotificationText,
     },
     fullName: {
-      'ui:validation': [validateName],
+      'ui:validations': [validateName],
       first: {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'report674'),
@@ -54,6 +54,11 @@ export const uiSchema = {
         'ui:required': formData =>
           isChapterFieldRequired(formData, 'report674'),
       },
+    },
+    isParent: {
+      'ui:title': "Are you this child's parent?",
+      'ui:widget': 'yesNo',
+      'ui:required': formData => isChapterFieldRequired(formData, 'report674'),
     },
     dependentIncome: {
       'ui:title': 'Did this dependent earn an income in the last 365 days?',

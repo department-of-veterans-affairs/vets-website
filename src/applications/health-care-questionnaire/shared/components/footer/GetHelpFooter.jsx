@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import {
-  location as locationSelector,
-  organization as organizationSelector,
+  locationSelector,
+  organizationSelector,
 } from '../../../shared/utils/selectors';
+import { selectQuestionnaireContext } from '../../../shared/redux-selectors';
 
 const GetHelpFooter = props => {
   const { currentLocation, context } = props;
@@ -50,13 +51,22 @@ const GetHelpFooter = props => {
           .
         </span>
       );
-    } else {
+    } else if (facilityId) {
       return (
         <>
           <a
             href={`/find-locations/facility/${facilityId}`}
-            data-testid="default-details"
+            data-testid="default-details-with-id"
           >
+            Contact your VA provider
+          </a>
+          .
+        </>
+      );
+    } else {
+      return (
+        <>
+          <a href={`/find-locations`} data-testid="default-details">
             Contact your VA provider
           </a>
           .
@@ -94,13 +104,13 @@ const GetHelpFooter = props => {
         </p>
         <p>
           If you have hearing loss, call{' '}
-          <Telephone contact={TTY_NUMBER}>TTY: {TTY_NUMBER}</Telephone>
+          <Telephone contact={TTY_NUMBER}>TTY: {TTY_NUMBER}</Telephone>.
         </p>
       </div>
     </div>
   );
 };
 const mapStateToProps = state => ({
-  context: state?.questionnaireData?.context,
+  context: selectQuestionnaireContext(state),
 });
 export default connect(mapStateToProps)(GetHelpFooter);

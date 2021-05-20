@@ -8,7 +8,6 @@ import {
   upcomingVAAppointment,
   upcomingCCAppointment,
   upcomingVideoAppointment,
-  farFutureAppointments,
 } from '~/applications/personalization/dashboard-2/utils/appointments';
 
 describe('Appointments', () => {
@@ -21,7 +20,7 @@ describe('Appointments', () => {
 
     it('should render all necessary elements', () => {
       expect(wrapper.text()).to.contain('Cheyenne VA Medical Center');
-      expect(wrapper.text()).to.contain('Manage all appointments');
+      expect(wrapper.text()).to.contain('Schedule and view your appointments');
       wrapper.unmount();
     });
   });
@@ -36,7 +35,7 @@ describe('Appointments', () => {
 
     it('should render all necessary elements', () => {
       expect(wrapper.text()).to.contain('Jeckle and Hyde');
-      expect(wrapper.text()).to.contain('Manage all appointments');
+      expect(wrapper.text()).to.contain('Schedule and view your appointments');
       wrapper.unmount();
     });
   });
@@ -50,36 +49,7 @@ describe('Appointments', () => {
 
     it('should render all necessary elements', () => {
       expect(wrapper.text()).to.contain('VA Video Connect at home');
-      expect(wrapper.text()).to.contain('Manage all appointments');
-      wrapper.unmount();
-    });
-  });
-
-  describe('when we do not have any scheduled appointments', () => {
-    const props = {
-      authenticatedWithSSOe: true,
-      appointments: [],
-    };
-    const wrapper = mount(<Appointments {...props} />);
-
-    it('should render all necessary elements', () => {
-      expect(wrapper.text()).not.to.contain('Appointments');
-      wrapper.unmount();
-    });
-  });
-
-  describe('when we have appointments after 30 days', () => {
-    const props = {
-      authenticatedWithSSOe: true,
-      appointments: farFutureAppointments,
-    };
-    const wrapper = mount(<Appointments {...props} />);
-
-    it('should render all necessary elements', () => {
-      expect(wrapper.text()).to.contain(
-        'You have no appointments scheduled in the next 30 days.',
-      );
-      expect(wrapper.text()).to.contain('Manage all appointments');
+      expect(wrapper.text()).to.contain('Schedule and view your appointments');
       wrapper.unmount();
     });
   });

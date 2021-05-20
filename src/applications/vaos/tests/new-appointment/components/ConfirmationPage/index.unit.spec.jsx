@@ -3,92 +3,86 @@ import { waitFor } from '@testing-library/dom';
 import { expect } from 'chai';
 import moment from 'moment';
 import React from 'react';
-import sinon from 'sinon';
-import ConfirmationPage, * as noConnect from '../../../../new-appointment/components/ConfirmationPage';
+import ConfirmationPage from '../../../../new-appointment/components/ConfirmationPage';
 import { FETCH_STATUS, FLOW_TYPES } from '../../../../utils/constants';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../mocks/setup';
 
-const initialState = {
+const getInitialState = start => ({
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
   },
-};
-
-const closeConfirmationPage = sinon.spy();
-const fetchFacilityDetails = sinon.spy();
-const startNewAppointmentFlow = sinon.spy();
+  newAppointment: {
+    submitStatus: FETCH_STATUS.succeeded,
+    flowType: FLOW_TYPES.DIRECT,
+    data: {
+      typeOfCareId: '323',
+      phoneNumber: '1234567890',
+      email: 'joeblow@gmail.com',
+      reasonForAppointment: 'routine-follow-up',
+      reasonAdditionalInfo: 'Additional info',
+      vaParent: '983',
+      vaFacility: '983',
+      clinicId: '455',
+      selectedDates: [start.format()],
+    },
+    availableSlots: [
+      {
+        start: start.format(),
+        end: start
+          .clone()
+          .add(30, 'minutes')
+          .format(),
+      },
+    ],
+    parentFacilities: [
+      {
+        id: '983',
+        identifier: [
+          { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+          {
+            system: 'http://med.va.gov/fhir/urn',
+            value: 'urn:va:facility:983',
+          },
+        ],
+      },
+    ],
+    clinics: {
+      '983_323': [
+        {
+          id: '455',
+        },
+      ],
+    },
+    facilities: {
+      '323': [
+        {
+          id: '983',
+          name: 'Cheyenne VA Medical Center',
+          identifier: [
+            { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+          ],
+          address: {
+            postalCode: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            line: ['2360 East Pershing Boulevard'],
+          },
+          telecom: [{ system: 'phone', value: '307-778-7550' }],
+        },
+      ],
+    },
+  },
+});
 
 describe('VAOS <ConfirmationPage>', () => {
   it('should render appointment direct schedule view', async () => {
     const start = moment();
-    const store = createTestStore({
-      newAppointment: {
-        submitStatus: FETCH_STATUS.succeeded,
-        flowType: FLOW_TYPES.DIRECT,
-        data: {
-          typeOfCareId: '323',
-          phoneNumber: '1234567890',
-          email: 'joeblow@gmail.com',
-          reasonForAppointment: 'routine-follow-up',
-          reasonAdditionalInfo: 'Additional info',
-          vaParent: '983',
-          vaFacility: '983',
-          clinicId: '455',
-          selectedDates: [start.format()],
-        },
-        availableSlots: [
-          {
-            start: start.format(),
-            end: start
-              .clone()
-              .add(30, 'minutes')
-              .format(),
-          },
-        ],
-        parentFacilities: [
-          {
-            id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
-          },
-        ],
-        clinics: {
-          '983_323': [
-            {
-              id: '455',
-            },
-          ],
-        },
-        facilities: {
-          '323': [
-            {
-              id: '983',
-              name: 'Cheyenne VA Medical Center',
-              identifier: [
-                { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              ],
-              address: {
-                postalCode: '82001-5356',
-                city: 'Cheyenne',
-                state: 'WY',
-                line: ['2360 East Pershing Boulevard'],
-              },
-              telecom: [{ system: 'phone', value: '307-778-7550' }],
-            },
-          ],
-        },
-      },
-    });
+    const store = createTestStore(getInitialState(start));
 
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
       store,
@@ -115,8 +109,8 @@ describe('VAOS <ConfirmationPage>', () => {
   });
 
   it('should render VA appointment request view', async () => {
-    const flowType = FLOW_TYPES.REQUEST;
-    const data = {
+    const initialState = getInitialState(moment());
+    initialState.newAppointment.data = {
       typeOfCareId: '323',
       bestTimeToCall: {
         morning: true,
@@ -125,7 +119,8 @@ describe('VAOS <ConfirmationPage>', () => {
       selectedDates: ['2019-12-20T00:00:00.000'],
       vaFacility: '983',
     };
-    const facilityDetails = {
+    initialState.newAppointment.flowType = FLOW_TYPES.REQUEST;
+    initialState.newAppointment.facilities['323'][0] = {
       name: 'CHYSHR-Sidney VA Clinic',
       id: '983',
       address: {
@@ -135,20 +130,14 @@ describe('VAOS <ConfirmationPage>', () => {
         line: ['2360 East Pershing Boulevard'],
       },
     };
+    const store = createTestStore(initialState);
 
-    const screen = renderWithStoreAndRouter(
-      <noConnect.ConfirmationPage
-        submitStatus={FETCH_STATUS.succeeded}
-        facilityDetails={facilityDetails}
-        flowType={flowType}
-        data={data}
-      />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
 
-    expect(screen.getByText(/We’re reviewing your request/i)).to.be.ok;
+    expect(await screen.findByText(/We’re reviewing your request/i)).to.be.ok;
+
     expect(screen.getByText(/VA appointment/i)).to.be.ok;
     expect(screen.getByText(/Primary care appointment/i)).to.be.ok;
     expect(screen.getByText(/Pending/i)).to.be.ok;
@@ -158,8 +147,8 @@ describe('VAOS <ConfirmationPage>', () => {
   });
 
   it('should render CC appointment request view', async () => {
-    const flowType = FLOW_TYPES.REQUEST;
-    const data = {
+    const initialState = getInitialState(moment());
+    initialState.newAppointment.data = {
       typeOfCareId: '323',
       facilityType: 'communityCare',
       distanceWillingToTravel: '25',
@@ -183,30 +172,14 @@ describe('VAOS <ConfirmationPage>', () => {
       },
       selectedDates: ['2019-12-20T00:00:00.000'],
     };
-    const facilityDetails = {
-      name: 'CHYSHR-Sidney VA Clinic',
-      id: '983',
-      address: {
-        postalCode: '82001-5356',
-        city: 'Cheyenne',
-        state: 'WY',
-        line: ['2360 East Pershing Boulevard'],
-      },
-    };
+    initialState.newAppointment.flowType = FLOW_TYPES.REQUEST;
+    const store = createTestStore(initialState);
 
-    const screen = renderWithStoreAndRouter(
-      <noConnect.ConfirmationPage
-        submitStatus={FETCH_STATUS.succeeded}
-        facilityDetails={facilityDetails}
-        flowType={flowType}
-        data={data}
-      />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
 
-    expect(screen.getByText(/We’re reviewing your request/i)).to.be.ok;
+    expect(await screen.findByText(/We’re reviewing your request/i)).to.be.ok;
     expect(screen.getByText(/Community Care/i)).to.be.ok;
     expect(screen.getByText(/Primary care appointment/i)).to.be.ok;
     expect(screen.getByText(/Pending/i)).to.be.ok;
@@ -217,9 +190,9 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(screen.getByText(/December 20, 2019 in the morning/i)).to.be.ok;
   });
 
-  it('should render CC appointment request view without provider', () => {
-    const flowType = FLOW_TYPES.REQUEST;
-    const data = {
+  it('should render CC appointment request view without provider', async () => {
+    const initialState = getInitialState(moment());
+    initialState.newAppointment.data = {
       typeOfCareId: '323',
       facilityType: 'communityCare',
       distanceWillingToTravel: '25',
@@ -232,7 +205,8 @@ describe('VAOS <ConfirmationPage>', () => {
       hasCommunityCareProvider: false,
       selectedDates: ['2019-12-20T00:00:00.000'],
     };
-    const facilityDetails = {
+    initialState.newAppointment.flowType = FLOW_TYPES.REQUEST;
+    initialState.newAppointment.facilities['323'][0] = {
       name: 'CHYSHR-Sidney VA Clinic',
       id: '983',
       address: {
@@ -242,20 +216,13 @@ describe('VAOS <ConfirmationPage>', () => {
         line: ['2360 East Pershing Boulevard'],
       },
     };
+    const store = createTestStore(initialState);
 
-    const screen = renderWithStoreAndRouter(
-      <noConnect.ConfirmationPage
-        submitStatus={FETCH_STATUS.succeeded}
-        facilityDetails={facilityDetails}
-        flowType={flowType}
-        data={data}
-      />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
 
-    expect(screen.getByText(/We’re reviewing your request/i)).to.be.ok;
+    expect(await screen.findByText(/We’re reviewing your request/i)).to.be.ok;
     expect(screen.getByText(/Community Care/i)).to.be.ok;
     expect(screen.getByText(/Primary care appointment/i)).to.be.ok;
     expect(screen.getByText(/Pending/i)).to.be.ok;
@@ -265,10 +232,10 @@ describe('VAOS <ConfirmationPage>', () => {
   });
 
   it('should render addtional information when "Show more" button is clicked', async () => {
-    const flowType = FLOW_TYPES.REQUEST;
-    const data = {
+    const initialState = getInitialState(moment());
+    initialState.newAppointment.data = {
       typeOfCareId: '323',
-      phoneNumber: '1234567890',
+      phoneNumber: '2234567890',
       email: 'joeblow@gmail.com',
       reasonForAppointment: 'routine-follow-up',
       reasonAdditionalInfo: 'Additional info',
@@ -278,7 +245,8 @@ describe('VAOS <ConfirmationPage>', () => {
         afternoon: false,
       },
     };
-    const facilityDetails = {
+    initialState.newAppointment.flowType = FLOW_TYPES.REQUEST;
+    initialState.newAppointment.facilities['323'][0] = {
       name: 'CHYSHR-Sidney VA Clinic',
       id: '983',
       address: {
@@ -288,21 +256,14 @@ describe('VAOS <ConfirmationPage>', () => {
         line: ['2360 East Pershing Boulevard'],
       },
     };
+    const store = createTestStore(initialState);
 
-    const screen = renderWithStoreAndRouter(
-      <noConnect.ConfirmationPage
-        submitStatus={FETCH_STATUS.succeeded}
-        facilityDetails={facilityDetails}
-        flowType={flowType}
-        data={data}
-      />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
 
     // Simulate user clicking the "Show more" button
-    const button = screen.getByRole('button', { name: 'Show more' });
+    const button = await screen.findByRole('button', { name: 'Show more' });
     userEvent.click(button);
 
     // Button text should change to "Show less"
@@ -312,13 +273,13 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(screen.getByText(/Follow-up\/Routine/i)).to.be.ok;
     expect(screen.getByText(/Additional info/i)).to.be.ok;
     expect(screen.getByText(/joeblow@gmail.com/i)).to.be.ok;
-    expect(screen.getByText(/1234567890/i)).to.be.ok;
+    expect(screen.getByText(/223-456-7890/i)).to.be.ok;
     expect(screen.getByText(/Evening/i)).to.be.ok;
   });
 
   it('should format the best time to call correctly when 2 times are selected', async () => {
-    const flowType = FLOW_TYPES.REQUEST;
-    const data = {
+    const initialState = getInitialState(moment());
+    initialState.newAppointment.data = {
       typeOfCareId: '323',
       bestTimeToCall: {
         evening: true,
@@ -326,23 +287,15 @@ describe('VAOS <ConfirmationPage>', () => {
         afternoon: false,
       },
     };
-    const facilityDetails = {
-      address: {},
-    };
-    const screen = renderWithStoreAndRouter(
-      <noConnect.ConfirmationPage
-        submitStatus={FETCH_STATUS.succeeded}
-        facilityDetails={facilityDetails}
-        flowType={flowType}
-        data={data}
-      />,
-      {
-        initialState,
-      },
-    );
+    initialState.newAppointment.flowType = FLOW_TYPES.REQUEST;
+    const store = createTestStore(initialState);
+
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
 
     // Simulate user clicking the "Show more" button
-    const button = screen.getByRole('button', { name: 'Show more' });
+    const button = await screen.findByRole('button', { name: 'Show more' });
     userEvent.click(button);
 
     // Button text should change to "Show less"
@@ -352,8 +305,8 @@ describe('VAOS <ConfirmationPage>', () => {
   });
 
   it('should format the best time to call correctly when 3 times are selected', async () => {
-    const flowType = FLOW_TYPES.REQUEST;
-    const data = {
+    const initialState = getInitialState(moment());
+    initialState.newAppointment.data = {
       typeOfCareId: '323',
       bestTimeToCall: {
         evening: true,
@@ -361,23 +314,15 @@ describe('VAOS <ConfirmationPage>', () => {
         afternoon: true,
       },
     };
-    const facilityDetails = {
-      address: {},
-    };
-    const screen = renderWithStoreAndRouter(
-      <noConnect.ConfirmationPage
-        submitStatus={FETCH_STATUS.succeeded}
-        facilityDetails={facilityDetails}
-        flowType={flowType}
-        data={data}
-      />,
-      {
-        initialState,
-      },
-    );
+    initialState.newAppointment.flowType = FLOW_TYPES.REQUEST;
+    const store = createTestStore(initialState);
+
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
 
     // Simulate user clicking the "Show more" button
-    const button = screen.getByRole('button', { name: 'Show more' });
+    const button = await screen.findByRole('button', { name: 'Show more' });
     userEvent.click(button);
 
     // Button text should change to "Show less"
@@ -387,24 +332,17 @@ describe('VAOS <ConfirmationPage>', () => {
   });
 
   it('should render new appointment page when "New appointment" button is clicked', () => {
-    const flowType = FLOW_TYPES.REQUEST;
-    const data = {
+    const initialState = getInitialState(moment());
+    initialState.newAppointment.data = {
       typeOfCareId: '323',
       vaFacility: '983',
     };
+    initialState.newAppointment.flowType = FLOW_TYPES.REQUEST;
+    const store = createTestStore(initialState);
 
-    const screen = renderWithStoreAndRouter(
-      <noConnect.ConfirmationPage
-        submitStatus={FETCH_STATUS.succeeded}
-        fetchFacilityDetails={fetchFacilityDetails}
-        startNewAppointmentFlow={startNewAppointmentFlow}
-        flowType={flowType}
-        data={data}
-      />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
 
     // Simulate user clicking button
     const button = screen.getByText(/New appointment/i);
@@ -416,28 +354,17 @@ describe('VAOS <ConfirmationPage>', () => {
   });
 
   it('should render appointment list page when "View your appointments" button is clicked', () => {
-    const start = moment().tz('America/Denver');
-    const end = start;
-    const flowType = FLOW_TYPES.DIRECT;
-    const data = {
+    const initialState = getInitialState(moment());
+    initialState.newAppointment.data = {
       typeOfCareId: '323',
       vaFacility: '983',
     };
+    initialState.newAppointment.flowType = FLOW_TYPES.REQUEST;
+    const store = createTestStore(initialState);
 
-    const screen = renderWithStoreAndRouter(
-      <noConnect.ConfirmationPage
-        submitStatus={FETCH_STATUS.succeeded}
-        fetchFacilityDetails={fetchFacilityDetails}
-        closeConfirmationPage={closeConfirmationPage}
-        flowType={flowType}
-        data={data}
-        startNewAppointmentFlow={startNewAppointmentFlow}
-        slot={{ start, end }}
-      />,
-      {
-        initialState,
-      },
-    );
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
 
     // Simulate user clicking button
     const button = screen.getByText(/View your appointments/i);
@@ -448,7 +375,9 @@ describe('VAOS <ConfirmationPage>', () => {
     expect(screen.history.push.getCall(0).args[0]).to.equal('/');
   });
 
-  it('should redirect to new appointment page if no form data', async () => {
+  it('should redirect to new appointment page if not succeeded', async () => {
+    const initialState = getInitialState(moment());
+    initialState.newAppointment.submitStatus = FETCH_STATUS.notStarted;
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
       store,

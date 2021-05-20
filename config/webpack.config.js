@@ -16,6 +16,8 @@ const WebpackBar = require('webpackbar');
 const headerFooterData = require('../src/platform/landing-pages/header-footer-data.json');
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
+const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
+const facilitySidebar = require('../src/platform/landing-pages/facility-sidebar.json');
 
 const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
 
@@ -91,7 +93,6 @@ module.exports = (env = {}) => {
     port: 3001,
     scaffold: false,
     watch: false,
-    setPublicPath: false,
     destination: buildtype,
     ...env,
   };
@@ -115,22 +116,17 @@ module.exports = (env = {}) => {
     'generated',
   );
 
-  // Set the publicPath conditional so we can get dynamic modules loading from S3
-  const publicAssetPath =
-    buildOptions.setPublicPath && buildtype !== LOCALHOST
-      ? `${BUCKETS[buildtype]}/generated/`
-      : '/generated/';
-
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
       path: outputPath,
-      publicPath: publicAssetPath,
+      publicPath: '/generated/',
       filename: '[name].entry.js',
       chunkFilename: '[name].entry.js',
     },
     module: {
+      strictExportPresence: true,
       rules: [
         {
           test: /\.jsx?$/,
@@ -276,9 +272,22 @@ module.exports = (env = {}) => {
     baseConfig.plugins.push(
       new ManifestPlugin({
         fileName: 'file-manifest.json',
+        filter: ({ path: filePath }) => !filePath.includes('/generated/..'),
       }),
     );
   }
+
+  // Copy over image assets for when metalsmith is removed
+  baseConfig.plugins.push(
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'src/site/assets',
+          to: path.join(outputPath, '..', ''),
+        },
+      ],
+    }),
+  );
 
   // Optionally generate landing pages in the absence of a content build.
   if (buildOptions.scaffold) {
@@ -292,7 +301,9 @@ module.exports = (env = {}) => {
     ].reduce(
       (scripts, filename) => ({
         ...scripts,
-        [filename]: fs.readFileSync(path.join('src/site/assets/js', filename)),
+        [filename]: fs.readFileSync(
+          path.join('../content-build/src/site/assets/js', filename),
+        ),
       }),
       {},
     );
@@ -330,37 +341,24 @@ module.exports = (env = {}) => {
         }, [])
         .join('');
 
-    const appRegistryPath = 'src/applications/registry.json';
+    const appRegistryPath = '../content-build/src/applications/registry.json';
     let appRegistry;
 
     if (fs.existsSync(appRegistryPath)) {
       appRegistry = JSON.parse(fs.readFileSync(appRegistryPath));
     }
 
-    // If more widgets need to be added to `widgetRegistry`,
-    // we can move this into a file.
-    const widgetRegistry = [
-      {
-        appName: 'Schedule And View VA Appointments Online',
-        rootUrl: '/health-care/schedule-view-va-appointments',
-        widgetType: 'schedule-view-va-appointments-page',
-      },
-      {
-        appName: 'Find Forms',
-        rootUrl: '/find-forms',
-        widgetType: 'find-va-forms',
-      },
-    ];
-
+    /* eslint-disable no-nested-ternary */
     const generateLandingPage = ({
       appName,
       entryName = 'static-pages',
       rootUrl,
       template = {},
       widgetType,
+      widgetTemplate,
     }) =>
       new HtmlPlugin({
-        chunks: ['polyfills', 'vendor', 'style', entryName],
+        chunks: ['polyfills', 'web-components', 'vendor', 'style', entryName],
         filename: landingPagePath(rootUrl),
         inject: false,
         scriptLoading: 'defer',
@@ -372,15 +370,25 @@ module.exports = (env = {}) => {
           modifyScriptTags,
           modifyStyleTags,
           widgetType,
-
+          widgetTemplate,
+          facilitySidebar,
+          rootUrl,
           // Default template metadata.
           breadcrumbs_override: [], // eslint-disable-line camelcase
           includeBreadcrumbs: false,
           loadingMessage: 'Please wait while we load the application for you.',
           ...template, // Unpack any template metadata from the registry entry.
         },
-        title: template.title || appName ? `${appName} | VA.gov` : 'VA.gov',
+        title:
+          typeof template !== 'undefined' && template.title
+            ? `${template.title} | Veterans Affairs`
+            : typeof appName !== 'undefined'
+              ? appName
+                ? `${appName} | Veterans Affairs`
+                : null
+              : 'VA.gov Home | Veterans Affairs',
       });
+    /* eslint-enable no-nested-ternary */
 
     baseConfig.plugins = baseConfig.plugins.concat(
       // Fall back to using app manifests if app registry no longer exists.
@@ -389,29 +397,20 @@ module.exports = (env = {}) => {
       (appRegistry || getAppManifests())
         .filter(({ rootUrl }) => rootUrl)
         .map(generateLandingPage),
-      widgetRegistry.map(generateLandingPage),
-    );
-
-    // Create a placeholder home page.
-    baseConfig.plugins.push(
-      new HtmlPlugin({
-        filename: path.join(outputPath, '..', 'index.html'),
-        inject: false,
-        title: 'VA.gov',
-      }),
+      scaffoldRegistry.map(generateLandingPage),
     );
 
     // Copy over image assets to fill in the header and other content.
-    baseConfig.plugins.push(
-      new CopyPlugin({
-        patterns: [
-          {
-            from: 'src/site/assets/img',
-            to: path.join(outputPath, '..', 'img'),
-          },
-        ],
-      }),
-    );
+    // baseConfig.plugins.push(
+    //   new CopyPlugin({
+    //     patterns: [
+    //       {
+    //         from: 'src/site/assets/img',
+    //         to: path.join(outputPath, '..', 'img'),
+    //       },
+    //     ],
+    //   }),
+    // );
 
     // Open the browser to either --env.openTo or one of the root URLs of the
     // apps we're scaffolding

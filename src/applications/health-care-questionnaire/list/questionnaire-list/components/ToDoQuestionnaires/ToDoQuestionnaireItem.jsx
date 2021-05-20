@@ -5,22 +5,24 @@ import AnswerQuestions from '../Shared/Buttons/AnswerQuestions';
 import PrintButton from '../../../../shared/components/print/PrintButton';
 import { isAppointmentCancelled } from '../../../utils';
 import {
-  appointment as appointmentSelectors,
-  questionnaireResponse as questionnaireResponseSelector,
+  appointmentSelector,
+  questionnaireResponseSelector,
+  organizationSelector,
 } from '../../../../shared/utils/selectors';
 
 import QuestionnaireItem from '../QuestionnaireItem';
 
 export default function ToDoQuestionnaireItem({ data }) {
   const { appointment, questionnaire, organization } = data;
-  const appointmentStatus = appointmentSelectors.getStatus(appointment);
+  const appointmentStatus = appointmentSelector.getStatus(appointment);
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
-  const facility = organization;
-  const appointmentTime = appointmentSelectors.getStartTime(appointment);
-  const questionnaireResponseStatus = questionnaireResponseSelector.getStatus(
+  const facilityName = organizationSelector.getName(organization);
+  const appointmentTime = appointmentSelector.getStartDateTime(appointment);
+  const questionnaireResponse = questionnaireResponseSelector.getQuestionnaireResponse(
     questionnaire[0].questionnaireResponse,
   );
+  const questionnaireResponseStatus = questionnaireResponse?.status;
   return (
     <QuestionnaireItem
       data={data}
@@ -31,37 +33,57 @@ export default function ToDoQuestionnaireItem({ data }) {
       }
       Actions={() =>
         isCancelled ? (
-          <PrintButton />
+          <PrintButton
+            facilityName={facilityName}
+            appointmentTime={appointmentTime}
+            questionnaireResponseId={questionnaireResponse?.id}
+          />
         ) : (
           <AnswerQuestions
             fullData={data}
             id={appointment.id}
-            facilityName={facility.name}
+            facilityName={facilityName}
             appointmentTime={appointmentTime}
             status={questionnaireResponseStatus}
+            useActionLink
           />
         )
       }
       DueDate={() => {
+        if (!appointmentTime)
+          return (
+            <section className="due-date" data-testid="due-date">
+              <p />
+            </section>
+          );
+        const displayTime = appointmentSelector.getStartTimeInTimeZone(
+          appointment,
+        );
+
         const dueDate = moment(appointmentTime);
-        const guess = moment.tz.guess();
-        const formattedTimezone = moment.tz(guess).format('z');
-        const meridiem = dueDate.hours() > 12 ? 'p.m.' : 'a.m.';
         return (
-          <section className="due-date" data-testid="due-date">
-            <p>{isCancelled ? 'Access until' : 'Complete by'}</p>
-            <p className="vads-u-font-weight--bold">
-              {dueDate.format('dddd, MMMM D, YYYY')}
-            </p>
-            {!isCancelled && (
-              <p
-                className="vads-u-font-weight--bold"
-                data-testid="due-by-timestamp"
-              >
-                {dueDate.format(`H:MM`)} {meridiem} {formattedTimezone}
-              </p>
-            )}
-          </section>
+          <>
+            <dt
+              className="vads-u-margin-top--1p5"
+              data-testid="due-instructions"
+            >
+              {isCancelled ? 'Access until' : 'Complete by'}
+            </dt>
+            <dd className="due-date">
+              <dd data-testid="due-date">
+                {dueDate.format('dddd')}{' '}
+                <time dateTime={dueDate.format('YYYY-MM-DDTHH:MM')}>
+                  {dueDate.format('MMMM D, YYYY')}
+                  {!isCancelled && (
+                    <span data-testid="due-by-timestamp">
+                      {' '}
+                      at {displayTime}
+                    </span>
+                  )}
+                </time>
+              </dd>
+            </dd>
+          </>
         );
       }}
     />

@@ -150,6 +150,7 @@ export class VAFacilityPage extends React.Component {
             eligibility={eligibility}
             facility={facility}
             typeOfCare={typeOfCare}
+            typeOfCareName={typeOfCare?.name}
           />
           <div className="vads-u-margin-top--2">
             <FormButtons
@@ -226,6 +227,8 @@ export class VAFacilityPage extends React.Component {
               <EligibilityCheckMessage
                 facilityDetails={facilityDetails}
                 eligibility={eligibility}
+                typeOfCare={typeOfCare}
+                typeOfCareName={typeOfCare.name}
               />
             </div>
           )}

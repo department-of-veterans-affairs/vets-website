@@ -1,5 +1,6 @@
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
+import CustomReviewField from '../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
 import {
@@ -21,15 +22,18 @@ export const uiSchema = {
         doNotScroll: true,
         showSave: true,
         itemName: 'income',
+        keepInPageOnReview: true,
       },
       items: {
         'ui:options': {
-          classNames: 'horizonal-field-container no-wrap',
+          classNames: 'horizontal-field-container no-wrap',
         },
         name: {
           'ui:title': 'Type of income',
           'ui:field': Typeahead,
+          'ui:reviewField': CustomReviewField,
           'ui:options': {
+            idPrefix: 'other_income',
             classNames: 'input-size-4',
             getOptions: () => formatOptions(incomeTypes),
           },
@@ -53,7 +57,6 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
-            title: 'Additional income',
             required: ['name', 'amount'],
             properties: {
               name: {

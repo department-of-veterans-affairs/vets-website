@@ -69,6 +69,3 @@ if [ "${assetSource}" = "local" ]; then
 else
     echo "Will fetch application assets from the content build script"
 fi
-
-# Always build the content
-yarn build:content $args

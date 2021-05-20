@@ -14,7 +14,6 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
 import FormButtons from '../../../components/FormButtons';
 import NoValidVAFacilities from './NoValidVAFacilitiesV2';
-import NoVASystems from './NoVASystems';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
 import ResidentialAddress from './ResidentialAddress';
 import LoadingOverlay from '../../../components/LoadingOverlay';
@@ -52,11 +51,9 @@ function VAFacilityPageV2({
   hasDataFetchingError,
   hideEligibilityModal,
   loadingEligibilityStatus,
-  noValidVAParentFacilities,
   noValidVAFacilities,
   openFacilityPageV2,
   pageChangeInProgress,
-  parentFacilitiesStatus,
   requestLocationStatus,
   routeToPreviousAppointmentPage,
   routeToNextAppointmentPage,
@@ -71,7 +68,6 @@ function VAFacilityPageV2({
 }) {
   const history = useHistory();
   const loadingEligibility = loadingEligibilityStatus === FETCH_STATUS.loading;
-  const loadingParents = parentFacilitiesStatus === FETCH_STATUS.loading;
   const loadingFacilities =
     childFacilitiesStatus === FETCH_STATUS.loading ||
     childFacilitiesStatus === FETCH_STATUS.notStarted;
@@ -81,9 +77,7 @@ function VAFacilityPageV2({
         typeOfCare?.name,
       )} appointment`;
   const isLoading =
-    loadingParents ||
-    loadingFacilities ||
-    (singleValidVALocation && loadingEligibility);
+    loadingFacilities || (singleValidVALocation && loadingEligibility);
 
   useEffect(
     () => {
@@ -131,23 +125,6 @@ function VAFacilityPageV2({
     );
   }
 
-  if (noValidVAParentFacilities) {
-    return (
-      <div>
-        {pageHeader}
-        <NoVASystems />
-        <div className="vads-u-margin-top--2">
-          <FormButtons
-            onBack={goBack}
-            disabled
-            pageChangeInProgress={pageChangeInProgress}
-            loadingText="Page change in progress"
-          />
-        </div>
-      </div>
-    );
-  }
-
   if (noValidVAFacilities) {
     return (
       <div>
@@ -177,7 +154,8 @@ function VAFacilityPageV2({
         <SingleFacilityEligibilityCheckMessage
           eligibility={eligibility}
           facility={selectedFacility}
-          typeOfCare={typeOfCare?.name}
+          typeOfCare={typeOfCare}
+          typeOfCareName={typeOfCare?.name}
         />
         <div className="vads-u-margin-top--2">
           <FormButtons
@@ -313,7 +291,6 @@ function VAFacilityPageV2({
               pageChangeInProgress={pageChangeInProgress}
               onBack={goBack}
               disabled={
-                loadingParents ||
                 loadingFacilities ||
                 loadingEligibility ||
                 (schema.properties.vaFacility.enum?.length === 1 &&
@@ -335,7 +312,7 @@ function VAFacilityPageV2({
           onClose={hideEligibilityModal}
           eligibility={eligibility}
           facilityDetails={selectedFacility}
-          typeOfCare={typeOfCare?.name}
+          typeOfCare={typeOfCare}
         />
       )}
     </div>

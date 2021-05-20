@@ -25,15 +25,7 @@ export const schema = {
 export const uiSchema = {
   'ui:title': 'Additional Information',
   yearsOfEducation: {
-    'ui:title': 'How many years of education do you have?',
-    'ui:description': (
-      <p className="vads-u-margin--0">
-        (include K-12 and each year of college)
-      </p>
-    ),
-    'ui:errorMessages': {
-      pattern: 'Please enter a number',
-    },
+    'ui:title': 'What’s your level of education?',
     'ui:required': () => true,
   },
   isMoving: {
@@ -55,6 +47,13 @@ export const uiSchema = {
     'ui:options': {
       expandUnder: 'isMoving',
       expandUnderCondition: true,
+      updateSchema: (formData, formSchema) => {
+        // Clear out required fields here to avoid silent validation errors for hidden fields.
+        if (!formData.isMoving && formData.newAddress) {
+          return { ...formSchema, required: [] };
+        }
+        return formSchema;
+      },
     },
   },
 };

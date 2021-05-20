@@ -15,7 +15,13 @@ export default function RadioWidget({
     labels = {},
     nestedContent = {},
     widgetProps = {},
+    selectedProps = {},
   } = options;
+
+  const getProps = (key, checked) => ({
+    ...(widgetProps[key] || {}),
+    ...((checked && selectedProps[key]) || {}),
+  });
 
   // nested content could be a component or just jsx/text
   let content = nestedContent[value];
@@ -38,7 +44,7 @@ export default function RadioWidget({
               value={option.value}
               disabled={disabled}
               onChange={_ => onChange(option.value)}
-              {...widgetProps[option.value] || {}}
+              {...getProps(option.value, checked)}
             />
             <label htmlFor={`${id}_${i}`}>
               {labels[option.value] || option.label}

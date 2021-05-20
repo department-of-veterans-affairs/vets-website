@@ -1,31 +1,30 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import { focusElement } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import IntroductionPageHelpers from '../../components/introduction-page';
+import NeedHelpSmall from '../../../shared/components/footer/NeedHelpSmall';
 
 import environment from 'platform/utilities/environment';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 
+import { selectQuestionnaireContext } from '../../../shared/redux-selectors';
 import {
-  location as locationSelector,
-  appointment as appointmentSelector,
+  organizationSelector,
+  appointmentSelector,
+  locationSelector,
 } from '../../../shared/utils/selectors';
 
 const IntroductionPage = props => {
-  useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
-  }, []);
   const { isLoggedIn, route, savedForms, formId } = props;
-  const { appointment, location, organization } = props?.questionnaire?.context;
+  const { appointment, location, organization } = props?.context;
   if (!appointment?.id) {
     return (
       <>
@@ -34,8 +33,8 @@ const IntroductionPage = props => {
     );
   }
 
-  const facilityName = organization.name;
-  const appointmentTime = appointmentSelector.getStartTime(appointment);
+  const facilityName = organizationSelector.getName(organization);
+  const appointmentTime = appointmentSelector.getStartDateTime(appointment);
   let expirationTime = appointmentTime;
 
   if (expirationTime) {
@@ -60,20 +59,14 @@ const IntroductionPage = props => {
     );
 
     if (appointmentInPast) {
+      recordEvent({
+        event: `hcq-questionnaire-expired-loaded`,
+      });
       return (
-        <div>
-          <div className="usa-alert usa-alert-warning background-color-only schemaform-sip-alert">
-            <div className="schemaform-sip-alert-title">
-              <strong>Your questionnaire has expired</strong>
-            </div>
-            <div className="saved-form-metadata-container">
-              <span className="saved-form-metadata">
-                {props.route?.formConfig.saveInProgress.messages.expired}
-              </span>
-            </div>
-          </div>
-          <br />
-        </div>
+        <va-alert status="warning">
+          <h3 slot="headline">Your questionnaire has expired</h3>
+          <div> {props.route?.formConfig.saveInProgress.messages.expired}</div>
+        </va-alert>
       );
     } else if (savedForm) {
       return (
@@ -105,13 +98,13 @@ const IntroductionPage = props => {
   return (
     <div className="schemaform-intro healthcare-experience">
       <FormTitle title={title} subTitle={subTitle} />
-      <h2 className="better-prepare-yours">
+      <p className="better-prepare-yours">
         Please try to fill out this questionnaire before your appointment. When
         you tell us about your symptoms and concerns, we can better prepare to
         meet your needs.
-      </h2>
+      </p>
       <section className="after-details">
-        <h3>What happens after I answer the questions?</h3>
+        <h2>What happens after I answer the questions?</h2>
         <p>
           We’ll send your completed questionnaire to your provider through a
           secure electronic communication. We’ll also add the questionnaire to
@@ -125,10 +118,10 @@ const IntroductionPage = props => {
         </p>
       </section>
       <section className="personal-information">
-        <h3>
+        <h2>
           How will VA protect my personal and health information if I answer
           these questions?
-        </h3>
+        </h2>
         <p>
           We keep all of the information in your medical record private and
           secure. This includes any information you share in this questionnaire.
@@ -161,26 +154,12 @@ const IntroductionPage = props => {
           </p>
         </section>
       </section>
-      <section className="emergency-call-out">
-        <header>
-          <strong>Note:</strong> If you need to talk to someone right away or
-          need emergency care,
-        </header>
-        <ul>
-          <li>
-            Call <Telephone contact="911" />, <strong>or</strong>
-          </li>
-          <li>
-            Call the Veterans Crisis hotline at{' '}
-            <Telephone contact="800-273-8255" /> and select 1
-          </li>
-        </ul>
-      </section>
+      <NeedHelpSmall />
       {getWelcomeMessage()}
       <div className="omb-info--container">
         <OMBInfo expDate={expirationTime} />
       </div>
-      {!environment.isProduction() && (
+      {environment.isLocalhost() && (
         <>
           <button
             onClick={() => {
@@ -199,7 +178,7 @@ const mapStateToProps = state => {
   return {
     pages: state?.form?.pages,
     isLoggedIn: state?.user?.login?.currentlyLoggedIn,
-    questionnaire: state?.questionnaireData,
+    context: selectQuestionnaireContext(state),
     savedForms: state?.user?.profile?.savedForms,
     formId: state.form.formId,
     form: state.form,

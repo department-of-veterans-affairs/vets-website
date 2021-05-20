@@ -1,5 +1,7 @@
 import React from 'react';
 
+import useLastWord from '../useLastWord';
+
 const IconCTALink = ({
   ariaLabel,
   href,
@@ -10,7 +12,9 @@ const IconCTALink = ({
   boldText,
   newTab,
 }) => {
-  const linkClass = `vads-u-text-decoration--none vads-u-padding-y--2p5 vads-u-padding-x--1 cta-link vads-u-font-weight--${
+  const [lastWord, firstWords] = useLastWord(text);
+
+  const linkClass = `vads-u-text-decoration--none vads-u-padding-y--2p5 cta-link vads-u-font-weight--${
     boldText ? 'bold' : 'normal'
   }`;
 
@@ -26,18 +30,25 @@ const IconCTALink = ({
       onClick={onClick || undefined}
       className={linkClass}
     >
-      <span className="fa-stack fa-sm vads-u-margin-right--1">
-        <i
-          aria-hidden="true"
-          className="fas fa-circle fa-stack-2x vads-u-color--primary-alt-lightest"
-        />
-        <i aria-hidden="true" className={`fas fa-${icon} fa-stack-1x`} />
+      <span className="vads-u-display--flex">
+        <span className="fa-stack fa-sm vads-u-height--full vads-u-margin-right--1">
+          <i
+            aria-hidden="true"
+            className="fas fa-circle fa-stack-2x vads-u-color--primary-alt-lightest"
+          />
+          <i aria-hidden="true" className={`fas fa-${icon} fa-stack-1x`} />
+        </span>
+        <span>
+          {`${firstWords} `}
+          <span style={{ whiteSpace: 'nowrap' }}>
+            {lastWord}
+            <i
+              aria-hidden="true"
+              className="fas fa-xs fa-chevron-right vads-u-margin-left--1"
+            />
+          </span>
+        </span>
       </span>
-      {text}
-      <i
-        aria-hidden="true"
-        className="fas fa-xs fa-chevron-right vads-u-margin-x--1"
-      />
     </a>
   );
 };

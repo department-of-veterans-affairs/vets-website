@@ -21,10 +21,7 @@ export function totalRating(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        error: {
-          code: action.response.errors[0].code,
-          detail: action.response.errors[0].detail,
-        },
+        error: action.error,
       };
     case FETCH_TOTAL_RATING_SUCCEEDED:
       return {

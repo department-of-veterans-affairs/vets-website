@@ -47,9 +47,15 @@ describe('DebtLettersDownload', () => {
   };
   it('renders correct number of debt rows', () => {
     const wrapper = shallow(<DebtLettersDownload store={fakeStore} />);
-    expect(wrapper.dive().find(`DebtLettersTable`).length).to.equal(1);
     expect(
       wrapper
+        .dive()
+        .dive()
+        .find(`DebtLettersTable`).length,
+    ).to.equal(1);
+    expect(
+      wrapper
+        .dive()
         .dive()
         .find('DebtLettersTable')
         .dive()
@@ -59,6 +65,7 @@ describe('DebtLettersDownload', () => {
     ).to.equal('May 29, 2020');
     expect(
       wrapper
+        .dive()
         .dive()
         .find('DebtLettersTable')
         .dive()

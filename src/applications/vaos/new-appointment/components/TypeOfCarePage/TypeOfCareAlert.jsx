@@ -33,6 +33,7 @@ export default function TypeOfCareAlert() {
             </NewTabAnchor>
           </p>
         }
+        disableAnalytics
       />
     </PostFormFieldContent>
   );

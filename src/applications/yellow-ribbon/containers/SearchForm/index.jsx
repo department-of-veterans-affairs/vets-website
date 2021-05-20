@@ -173,6 +173,7 @@ export class SearchForm extends Component {
         <AdditionalInfo
           triggerText={TOOL_TIP_LABEL}
           onClick={onClickToolTipHandler}
+          disableAnalytics
         >
           <p>{TOOL_TIP_CONTENT}</p>
         </AdditionalInfo>

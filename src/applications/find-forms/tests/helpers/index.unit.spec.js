@@ -8,7 +8,7 @@ import {
   correctSearchTerm,
 } from '../../helpers';
 import { deriveLatestIssue } from '../../components/SearchResult';
-import { INITIAL_SORT_STATE, SORT_OPTIONS } from '../../constants';
+import { INITIAL_SORT_STATE, FAF_SORT_OPTIONS } from '../../constants';
 
 describe('Find VA Forms helpers', () => {
   const results = [
@@ -81,7 +81,7 @@ describe('Find VA Forms helpers', () => {
     ];
 
     const sortedResultsByNewestRevisionDate = results
-      .sort((a, b) => sortTheResults(SORT_OPTIONS[2], a, b))
+      .sort((a, b) => sortTheResults(FAF_SORT_OPTIONS[2], a, b))
       .map(form =>
         deriveLatestIssue(
           form?.attributes?.firstIssuedOn,
@@ -89,7 +89,7 @@ describe('Find VA Forms helpers', () => {
         ),
       );
 
-    // Sort By 'Last Updated (Newest)'
+    // Sort By 'Last updated (newest)'
     expect(sortedResultsByNewestRevisionDate).to.eql(
       sortedResultsNodesTextByLatestRevisionNewest,
     );
@@ -104,7 +104,7 @@ describe('Find VA Forms helpers', () => {
     ];
 
     const sortedResultsByOldestRevisionDate = results
-      .sort((a, b) => sortTheResults(SORT_OPTIONS[3], a, b))
+      .sort((a, b) => sortTheResults(FAF_SORT_OPTIONS[3], a, b))
       .map(form =>
         deriveLatestIssue(
           form?.attributes?.firstIssuedOn,
@@ -112,7 +112,7 @@ describe('Find VA Forms helpers', () => {
         ),
       );
 
-    // SORT BY 'Last Updated (Oldest)'
+    // SORT BY 'Last updated (oldest)'
     expect(sortedResultsByOldestRevisionDate).to.eql(
       sortedResultsNodesTextByLatestRevisionOldest,
     );
