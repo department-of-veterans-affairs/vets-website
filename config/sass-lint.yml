@@ -92,9 +92,6 @@ rules:
   property-sort-order:
     - 0
     - ignore-custom-properties: false
-  quotes:
-    - 1
-    - style: double
   shorthand-values:
     - 0
   single-line-per-selector: 0 # TODO - Change this back to 1 later.
