@@ -83,9 +83,6 @@ rules:
   no-important: 0 # TODO - Change this back to 1 later.
   no-invalid-hex: 1
   no-mergeable-selectors: 0 # TODO - Change this back to 1 later.
-  no-misspelled-properties:
-    - 1
-    - extra-properties: []
   no-qualifying-elements: # TODO - Change this back to 1 later.
     - 0
     - allow-element-with-attribute: false
