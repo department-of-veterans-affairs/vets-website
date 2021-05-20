@@ -1,6 +1,9 @@
+/* eslint-disable no-console */
+
 require('core-js/stable');
 require('regenerator-runtime/runtime');
-const fs = require('fs');
+const fs = require('fs-extra');
+const fetch = require('node-fetch');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -85,7 +88,151 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-module.exports = (env = {}) => {
+async function scaffoldBuild(baseConfig) {
+  const TMP_SCAFFOLD_PATH = 'tmp/scaffold';
+  fs.ensureDirSync(TMP_SCAFFOLD_PATH);
+
+  const CONTENT_BUILD_ROOT =
+    'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master';
+
+  const APP_REGISTRY_PATH = path.join(TMP_SCAFFOLD_PATH, 'registry.json');
+
+  const scaffoldScripts = [
+    'incompatible-browser.js',
+    'record-event.js',
+    'static-page-widgets.js',
+  ];
+
+  // Mapping of local scaffold asset paths to their content-build paths.
+  const scaffoldAssets = scaffoldScripts.reduce(
+    (acc, cur) => ({
+      ...acc,
+      [path.join(TMP_SCAFFOLD_PATH, cur)]: path.join('src/site/assets/js', cur),
+    }),
+    {
+      [APP_REGISTRY_PATH]: 'src/applications/registry.json',
+    },
+  );
+
+  // Download any missing assets used for the scaffold.
+  await Promise.all(
+    Object.entries(scaffoldAssets).map(async ([tmpPath, contentBuildPath]) => {
+      // Skip download for existing assets.
+      if (fs.existsSync(tmpPath)) return;
+
+      const fileUrl = new URL(path.join(CONTENT_BUILD_ROOT, contentBuildPath));
+      console.log(`Downloading ${fileUrl.toString()}`);
+
+      const response = await fetch(fileUrl);
+      if (!response.ok)
+        throw new Error(
+          `Failed to fetch ${fileUrl}.\n\n${response.status}: ${
+            response.statusText
+          }`,
+        );
+
+      // Cache downloaded asset for later reuse.
+      try {
+        const fileContents = await response.buffer();
+        fs.writeFileSync(tmpPath, fileContents);
+      } catch (error) {
+        throw new Error(`Failed to write ${tmpPath}.\n\n${error}`);
+      }
+    }),
+  );
+
+  const inlineScripts = scaffoldScripts.reduce(
+    (scripts, filename) => ({
+      ...scripts,
+      [filename]: fs.readFileSync(path.join(TMP_SCAFFOLD_PATH, filename)),
+    }),
+    {},
+  );
+
+  // Modifies the style tags output from HTML Webpack Plugin
+  // to match the order and attributes of style tags from real content.
+  const modifyStyleTags = pluginStyleTags =>
+    pluginStyleTags
+      .reduce(
+        (tags, tag) =>
+          // Puts style.css before the app-specific stylesheet.
+          tag.attributes.href.match(/style/) ? [tag, ...tags] : [...tags, tag],
+        [],
+      )
+      .join('');
+
+  // Modifies the script tags output from HTML Webpack Plugin
+  // to match the order and attributes of script tags from real content.
+  const modifyScriptTags = pluginScriptTags =>
+    pluginScriptTags
+      .reduce((tags, tag) => {
+        // Exclude style.entry.js, which gets included with the style chunk.
+        if (tag.attributes.src.match(/style/)) return tags;
+
+        // Force polyfills.entry.js to be first (and set `nomodules`), since
+        // vendor.entry.js gets put first even with chunksSortMode: 'manual'.
+        return tag.attributes.src.match(/polyfills/)
+          ? [
+              { ...tag, attributes: { ...tag.attributes, nomodule: true } },
+              ...tags,
+            ]
+          : [...tags, tag];
+      }, [])
+      .join('');
+
+  const landingPagePath = rootUrl =>
+    path.join(baseConfig.output.path, '..', rootUrl, 'index.html');
+
+  /* eslint-disable no-nested-ternary */
+  const generateLandingPage = ({
+    appName,
+    entryName = 'static-pages',
+    rootUrl,
+    template = {},
+    widgetType,
+    widgetTemplate,
+  }) =>
+    new HtmlPlugin({
+      chunks: ['polyfills', 'web-components', 'vendor', 'style', entryName],
+      filename: landingPagePath(rootUrl),
+      inject: false,
+      scriptLoading: 'defer',
+      template: 'src/platform/landing-pages/dev-template.ejs',
+      templateParameters: {
+        entryName,
+        headerFooterData,
+        inlineScripts,
+        modifyScriptTags,
+        modifyStyleTags,
+        widgetType,
+        widgetTemplate,
+        facilitySidebar,
+        rootUrl,
+        // Default template metadata.
+        breadcrumbs_override: [], // eslint-disable-line camelcase
+        includeBreadcrumbs: false,
+        loadingMessage: 'Please wait while we load the application for you.',
+        ...template, // Unpack any template metadata from the registry entry.
+      },
+      title:
+        typeof template !== 'undefined' && template.title
+          ? `${template.title} | Veterans Affairs`
+          : typeof appName !== 'undefined'
+            ? appName
+              ? `${appName} | Veterans Affairs`
+              : null
+            : 'VA.gov Home | Veterans Affairs',
+    });
+  /* eslint-enable no-nested-ternary */
+
+  const appRegistry = fs.readJsonSync(APP_REGISTRY_PATH);
+
+  return [...appRegistry, ...scaffoldRegistry]
+    .filter(({ rootUrl }) => rootUrl)
+    .map(generateLandingPage);
+}
+
+module.exports = async (env = {}) => {
   const { buildtype = LOCALHOST } = env;
   const buildOptions = {
     api: '',
@@ -292,126 +439,8 @@ module.exports = (env = {}) => {
 
   // Optionally generate landing pages in the absence of a content build.
   if (buildOptions.scaffold) {
-    const landingPagePath = rootUrl =>
-      path.join(outputPath, '../', rootUrl, 'index.html');
-
-    const inlineScripts = [
-      'incompatible-browser.js',
-      'record-event.js',
-      'static-page-widgets.js',
-    ].reduce(
-      (scripts, filename) => ({
-        ...scripts,
-        [filename]: fs.readFileSync(
-          path.join('../content-build/src/site/assets/js', filename),
-        ),
-      }),
-      {},
-    );
-
-    // Modifies the style tags output from HTML Webpack Plugin
-    // to match the order and attributes of style tags from real content.
-    const modifyStyleTags = pluginStyleTags =>
-      pluginStyleTags
-        .reduce(
-          (tags, tag) =>
-            // Puts style.css before the app-specific stylesheet.
-            tag.attributes.href.match(/style/)
-              ? [tag, ...tags]
-              : [...tags, tag],
-          [],
-        )
-        .join('');
-
-    // Modifies the script tags output from HTML Webpack Plugin
-    // to match the order and attributes of script tags from real content.
-    const modifyScriptTags = pluginScriptTags =>
-      pluginScriptTags
-        .reduce((tags, tag) => {
-          // Exclude style.entry.js, which gets included with the style chunk.
-          if (tag.attributes.src.match(/style/)) return tags;
-
-          // Force polyfills.entry.js to be first (and set `nomodules`), since
-          // vendor.entry.js gets put first even with chunksSortMode: 'manual'.
-          return tag.attributes.src.match(/polyfills/)
-            ? [
-                { ...tag, attributes: { ...tag.attributes, nomodule: true } },
-                ...tags,
-              ]
-            : [...tags, tag];
-        }, [])
-        .join('');
-
-    const appRegistryPath = '../content-build/src/applications/registry.json';
-    let appRegistry;
-
-    if (fs.existsSync(appRegistryPath)) {
-      appRegistry = JSON.parse(fs.readFileSync(appRegistryPath));
-    }
-
-    /* eslint-disable no-nested-ternary */
-    const generateLandingPage = ({
-      appName,
-      entryName = 'static-pages',
-      rootUrl,
-      template = {},
-      widgetType,
-      widgetTemplate,
-    }) =>
-      new HtmlPlugin({
-        chunks: ['polyfills', 'web-components', 'vendor', 'style', entryName],
-        filename: landingPagePath(rootUrl),
-        inject: false,
-        scriptLoading: 'defer',
-        template: 'src/platform/landing-pages/dev-template.ejs',
-        templateParameters: {
-          entryName,
-          headerFooterData,
-          inlineScripts,
-          modifyScriptTags,
-          modifyStyleTags,
-          widgetType,
-          widgetTemplate,
-          facilitySidebar,
-          rootUrl,
-          // Default template metadata.
-          breadcrumbs_override: [], // eslint-disable-line camelcase
-          includeBreadcrumbs: false,
-          loadingMessage: 'Please wait while we load the application for you.',
-          ...template, // Unpack any template metadata from the registry entry.
-        },
-        title:
-          typeof template !== 'undefined' && template.title
-            ? `${template.title} | Veterans Affairs`
-            : typeof appName !== 'undefined'
-              ? appName
-                ? `${appName} | Veterans Affairs`
-                : null
-              : 'VA.gov Home | Veterans Affairs',
-      });
-    /* eslint-enable no-nested-ternary */
-
-    baseConfig.plugins = baseConfig.plugins.concat(
-      // Fall back to using app manifests if app registry no longer exists.
-      // The app registry is used primarily to get the template metadata
-      // so the landing pages can resemble real content more closely.
-      (appRegistry || getAppManifests())
-        .filter(({ rootUrl }) => rootUrl)
-        .map(generateLandingPage),
-      scaffoldRegistry.map(generateLandingPage),
-    );
-
-    // Copy over image assets to fill in the header and other content.
-    // baseConfig.plugins.push(
-    //   new CopyPlugin({
-    //     patterns: [
-    //       {
-    //         from: 'src/site/assets/img',
-    //         to: path.join(outputPath, '..', 'img'),
-    //       },
-    //     ],
-    //   }),
-    // );
+    const scaffoldedPages = await scaffoldBuild(baseConfig);
+    baseConfig.plugins.push(...scaffoldedPages);
 
     // Open the browser to either --env.openTo or one of the root URLs of the
     // apps we're scaffolding
