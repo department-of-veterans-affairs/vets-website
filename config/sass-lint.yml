@@ -43,10 +43,6 @@ rules:
   force-attribute-nesting: 0 # TODO - Change this back to 1 later.
   force-element-nesting: 0 # TODO - Change this back to 1 later.
   force-pseudo-nesting: 0 # TODO - Change this back to 1 later.
-  function-name-format:
-    - 1
-    - allow-leading-underscore: true
-      convention: hyphenatedlowercase
   hex-notation: # TODO - Change this back to 1 later.
     - 0
     - style: lowercase
