@@ -20,6 +20,40 @@ export const KEY_CODES = Object.freeze({
   enterKey: 13,
 });
 
+/**
+ * Mapbox init values
+ * Lat/long are for Turkey Creek, NE
+ * This combined with zoomInit value cause map to show continental USA before user searches
+ */
+export const MapboxInit = {
+  zoomInit: 3,
+  centerInit: {
+    lng: -99.27246093750001,
+    lat: 40.17887331434698,
+  },
+};
+
+/**
+ * Mapbox api request types
+ */
+
+export const TypeList = ['place', 'region', 'postcode', 'locality'];
+
+/**
+ * Max search area in miles
+ */
+export const MAX_SEARCH_AREA = 500;
+
+/**
+ * Min radius search area in miles
+ */
+export const MIN_RADIUS = 10;
+
+export const TABS = Object.freeze({
+  name: 'name',
+  location: 'location',
+});
+
 export const ariaLabels = Object.freeze({
   learnMore: {
     giBillBenefits: 'Learn more about VA education and training programs',

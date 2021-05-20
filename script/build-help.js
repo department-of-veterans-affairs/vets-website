@@ -58,7 +58,7 @@ const helpSections = [
     header: 'Pro tips',
     content: [
       {
-        desc: '2. Serve the website to devices on your local network',
+        desc: '1. Serve the website to devices on your local network',
         example: '$ yarn watch --env.host 0.0.0.0 --env.public 192.168.0.111',
       },
     ],
