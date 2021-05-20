@@ -89,9 +89,6 @@ rules:
     - additional-identifiers: []
       excluded-identifiers: []
   placeholder-in-extend: 0 # TODO - Change this back to 1 later.
-  placeholder-name-format:
-    - 1
-    - convention: hyphenatedlowercase
   property-sort-order:
     - 0
     - ignore-custom-properties: false
