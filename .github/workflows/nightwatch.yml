@@ -45,7 +45,7 @@ jobs:
 
       - uses: browser-actions/setup-chrome@latest
         with:
-          chrome-version: 563702
+          chrome-version: latest
 
       - name: Cache dependencies
         id: cache-dependencies
