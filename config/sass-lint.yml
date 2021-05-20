@@ -107,9 +107,6 @@ rules:
   space-before-brace: # TODO - Change this back to 1 later.
     - 0
     - include: true
-  space-before-colon: 
-    - 1
-    - include: false
   space-between-parens: # TODO - Change this back to 1 later.
     - 0
     - include: false
