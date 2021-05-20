@@ -31,9 +31,6 @@ jobs:
           repository: department-of-veterans-affairs/content-build
           path: content-build
 
-      - name: Check Java version
-        run: java -version
-
       - name: Get Node version
         id: get-node-version
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
@@ -86,14 +83,14 @@ jobs:
         working-directory: content-build
 
       - name: Curl content-build
-        run: curl localhost:3002
+        run: curl -s --fail localhost:3002 > /dev/null
         working-directory: content-build
 
       - name: Start vets-website
         run: yarn watch &
 
       - name: Curl vets-website
-        run: curl localhost:3001
+        run: curl -s --fail localhost:3001 > /dev/null
 
       - name: Start Nightwatch tests
         run: yarn test:e2e:headless
