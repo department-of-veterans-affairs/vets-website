@@ -15,12 +15,6 @@ jobs:
         with:
           path: vets-website
 
-      # - name: Checkout vagov-content
-      #   uses: actions/checkout@v2
-      #   with:
-      #     repository: department-of-veterans-affairs/vagov-content
-      #     path: vagov-content
-
       - name: Checkout content-build
         uses: actions/checkout@v2
         with:
@@ -46,11 +40,11 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      # - name: Install content-build dependencies
-      #   run: yarn install --frozen-lockfile --prefer-offline
-      #   working-directory: content-build
-      #   env:
-      #     YARN_CACHE_FOLDER: ~/.cache/yarn
+      - name: Install content-build dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        working-directory: content-build
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Build vets-website
         run: yarn build:webpack --env.scaffold
@@ -62,23 +56,11 @@ jobs:
         run: yarn fetch-drupal-cache
         working-directory: content-build
 
-      # - name: Build content-build
-      #   run: yarn build
-      #   working-directory: content-build
-
       - name: Start vets-website
         run: yarn watch --verbose &
 
       - name: Curl vets-website
         run: curl -s --fail localhost:3001 > /dev/null
-
-      # - name: Start content-build
-      #   run: yarn watch --verbose &
-      #   working-directory: content-build
-
-      # - name: Curl content-build
-      #   run: curl -s --fail localhost:3002 > /dev/null
-      #   working-directory: content-build
 
       - name: Start Cypress tests
         run: yarn cy:test:gha
