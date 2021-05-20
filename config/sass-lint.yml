@@ -66,10 +66,6 @@ rules:
   leading-zero: # TODO - Change this back to 1 later.
     - 0
     - include: false
-  mixin-name-format:
-    - 1
-    - allow-leading-underscore: true
-      convention: hyphenatedlowercase
   mixins-before-declarations:
     - 2
     -
