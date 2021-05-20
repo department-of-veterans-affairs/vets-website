@@ -384,6 +384,7 @@ SaveInProgressIntro.propTypes = {
       appType: PropTypes.string,
     }),
   }),
+  headingLevel: PropTypes.string,
 };
 
 SaveInProgressIntro.defaultProps = {

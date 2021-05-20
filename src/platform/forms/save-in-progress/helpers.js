@@ -29,8 +29,6 @@ export function changeSaveInProgressHeadingLevel(headingLevel, appType) {
       return <h1 className={headingClass}>{content}</h1>;
     case 'h2':
       return <h2 className={headingClass}>{content}</h2>;
-    case 'h3':
-      return <h3 className={headingClass}>{content}</h3>;
     default:
       return <h3 className={headingClass}>{content}</h3>;
   }
