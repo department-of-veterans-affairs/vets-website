@@ -1,0 +1,16 @@
+.desktop-map-container {
+  min-height: 78vh;
+  padding-left: 0;
+  flex-direction: row;
+
+  .mapboxgl-canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+}
+.mapboxgl-ctrl-top-center {
+  position: absolute;
+  pointer-events: none;
+  margin: 15px 0 0 15px;
+}
