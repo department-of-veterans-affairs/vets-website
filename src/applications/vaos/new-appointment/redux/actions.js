@@ -56,8 +56,8 @@ import {
   transformFormToVARequest,
   transformFormToCCRequest,
   transformFormToAppointment,
-  transformFormToVAOSCCRequest,
 } from './helpers/formSubmitTransformers';
+import { transformFormToVAOSCCRequest } from './helpers/formSubmitTransformers.vaos';
 import {
   resetDataLayer,
   recordItemsRetrieved,
