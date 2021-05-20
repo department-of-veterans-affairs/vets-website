@@ -12,7 +12,7 @@ const INITIAL_STATE = {
   results: [],
   count: null,
   version: {},
-  query: { name: '', location: '' },
+  query: { name: '', location: '', distance: '10' },
   pagination: {
     currentPage: 1,
     totalPages: 1,

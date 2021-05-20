@@ -16,6 +16,7 @@ Once you have the site set up locally, these are some common commands you might 
 | build applications | `yarn build` |
 | run the webpack dev server | `yarn watch` |
 
+## Building `vets-website`
 ### Building applications
 
 `vets-website` uses [Webpack](https://webpack.js.org) to bundle application
@@ -24,7 +25,7 @@ assets.
 To **build all applications**, run the following:
 
 ```sh
-yarn build:webpack
+yarn build
 ```
 
 To **recompile your application when you make changes**, run:

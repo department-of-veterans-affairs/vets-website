@@ -5,7 +5,7 @@
   "scripts": {
     "apps": "./script/app-list.sh",
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
-    "build": "./script/build.sh",
+    "build": "./script/build.sh --scaffold",
     "build-analyze": "NODE_ENV=production npm run build -- --buildtype vagovprod --analyzer; npm run analyze",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=4096 webpack --config config/webpack.config.js",
     "build:webpack:prod": "NODE_ENV=production yarn build:webpack --env.buildtype vagovprod",
@@ -56,8 +56,6 @@
     "test:contract": "BUILDTYPE=localhost npm run test:unit -- --reporter mocha-junit-reporter 'src/**/tests/**/*.pact.spec.js'",
     "test:coverage": "npm run test:unit -- --coverage --log-level debug",
     "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
-    "test:puppeteer": "./script/run-puppeteer-tests.sh",
-    "test:puppeteer:docker": "IN_DOCKER=true jest -c=config/jest-puppeteer.config.js",
     "test:sauce": "./script/run-nightwatch.sh --sauce",
     "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
     "test:sauce:mobile": "./script/run-nightwatch.sh --sauce -e ios,android",
@@ -320,7 +318,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#4089b6b4390f05738e0dcef402c56978565a626c",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ae2902bf06f05ef43c934a7d9cd7f8d207e0a30d",
     "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.6.1",
     "whatwg-fetch": "^2.0.3"
   },

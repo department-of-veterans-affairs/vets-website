@@ -1,21 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import {
-  fetchSearchByLocationResults,
-  fetchSearchByNameResults,
-  setPageTitle,
-} from '../actions';
+import { setPageTitle } from '../actions';
 import { PAGE_TITLE } from '../constants';
-import SearchForm from '../components/SearchForm';
 import SearchResults from '../components/SearchResults';
+import SearchTabs from '../components/search/SearchTabs';
 
-export function LandingPage({
-  search,
-  dispatchSetPageTitle,
-  dispatchFetchSearchByLocationResults,
-  dispatchFetchSearchByNameResults,
-}) {
+export function LandingPage({ search, dispatchSetPageTitle }) {
   useEffect(() => {
     dispatchSetPageTitle(`${PAGE_TITLE}: VA.gov`);
   }, []);
@@ -30,11 +21,7 @@ export function LandingPage({
               can pay for your education.
             </p>
           </div>
-          <SearchForm
-            search={search}
-            fetchSearchByLocation={dispatchFetchSearchByLocationResults}
-            fetchSearchByName={dispatchFetchSearchByNameResults}
-          />
+          <SearchTabs />
         </div>
         <div>
           <SearchResults search={search} />
@@ -52,8 +39,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchSetPageTitle: setPageTitle,
-  dispatchFetchSearchByLocationResults: fetchSearchByLocationResults,
-  dispatchFetchSearchByNameResults: fetchSearchByNameResults,
 };
 
 export default connect(
