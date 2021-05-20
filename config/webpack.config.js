@@ -87,7 +87,7 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-async function buildAppPages(buildPath) {
+async function generateHtmlFiles(buildPath) {
   const TMP_SCAFFOLD_PATH = 'tmp/scaffold';
   fs.ensureDirSync(TMP_SCAFFOLD_PATH);
 
@@ -147,8 +147,7 @@ async function buildAppPages(buildPath) {
     }),
   );
 
-  const landingPagePath = rootUrl =>
-    path.join(buildPath, rootUrl, 'index.html');
+  const indexPath = rootUrl => path.join(buildPath, rootUrl, 'index.html');
 
   const loadInlineScript = filename =>
     fs.readFileSync(path.join(TMP_SCAFFOLD_PATH, filename));
@@ -185,7 +184,7 @@ async function buildAppPages(buildPath) {
       .join('');
 
   /* eslint-disable no-nested-ternary */
-  const generateLandingPage = ({
+  const generateHtmlFile = ({
     appName,
     entryName = 'static-pages',
     rootUrl,
@@ -195,7 +194,7 @@ async function buildAppPages(buildPath) {
   }) =>
     new HtmlPlugin({
       chunks: ['polyfills', 'web-components', 'vendor', 'style', entryName],
-      filename: landingPagePath(rootUrl),
+      filename: indexPath(rootUrl),
       inject: false,
       scriptLoading: 'defer',
       template: 'src/platform/landing-pages/dev-template.ejs',
@@ -230,7 +229,7 @@ async function buildAppPages(buildPath) {
 
   return [...appRegistry, ...scaffoldRegistry]
     .filter(({ rootUrl }) => rootUrl)
-    .map(generateLandingPage);
+    .map(generateHtmlFile);
 }
 
 module.exports = async (env = {}) => {
@@ -437,10 +436,10 @@ module.exports = async (env = {}) => {
     }),
   );
 
-  // Optionally build mocked HTML pages for apps without running content build.
+  // Optionally generate mocked HTML pages for apps without running content build.
   if (buildOptions.scaffold) {
-    const scaffoldedPages = await buildAppPages(buildPath);
-    baseConfig.plugins.push(...scaffoldedPages);
+    const scaffoldedHtml = await generateHtmlFiles(buildPath);
+    baseConfig.plugins.push(...scaffoldedHtml);
 
     // Open the browser to either --env.openTo or one of the root URLs of the
     // apps we're scaffolding
