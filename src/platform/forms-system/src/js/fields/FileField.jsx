@@ -297,7 +297,7 @@ class FileField extends React.Component {
                       <ProgressBar percent={this.state.progress} />
                       <button
                         type="button"
-                        className="va-button-link"
+                        className="usa-button-secondary vads-u-width--auto"
                         onClick={() => {
                           this.cancelUpload(index);
                         }}

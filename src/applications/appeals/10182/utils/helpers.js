@@ -12,6 +12,8 @@ export const needsHearingType = formData =>
 export const wantsToUploadEvidence = formData =>
   canUploadEvidence(formData) && formData['view:additionalEvidence'];
 export const showAddIssues = formData => formData['view:hasIssuesToAdd'];
+export const otherTypeSelected = ({ areaOfDisagreement } = {}, index) =>
+  areaOfDisagreement?.[index]?.disagreementOptions?.other;
 
 export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);
@@ -22,6 +24,16 @@ export const showAddIssueQuestion = ({ contestableIssues }) =>
   // SHOW: if contestable issues selected. HIDE: if no contestable issues are
   // selected or, there are no contestable issues
   contestableIssues?.length ? someSelected(contestableIssues) : false;
+
+export const getSelected = ({ contestableIssues, additionalIssues } = {}) =>
+  (contestableIssues || [])
+    .filter(issue => issue[SELECTED])
+    .concat((additionalIssues || []).filter(issue => issue[SELECTED]))
+    // include index to help with error messaging
+    .map((issue, index) => ({ ...issue, index }));
+
+export const getIssueName = (entry = {}) =>
+  entry.issue || entry.attributes?.ratingIssueSubjectText;
 
 // Simple one level deep check
 export const isEmptyObject = obj =>
