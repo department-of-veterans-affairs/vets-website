@@ -8,15 +8,14 @@ import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
 import { handleScrollOnInputFocus } from '../../utils/helpers';
 
 export function KeywordSearch({
-  autocomplete,
   className,
   inputLabelledBy,
+  inputValue,
   onFetchAutocompleteSuggestions,
   onSelection,
   onUpdateAutocompleteSearchTerm,
   placeholder,
-  searchError,
-  validateSearchQuery,
+  suggestions,
   version,
 }) {
   const handleFetchSuggestion = debounce(
@@ -29,20 +28,20 @@ export function KeywordSearch({
     },
   );
 
-  const handleSuggestionSelected = searchQuery => {
+  const handleSuggestionSelected = selected => {
     recordEvent({
       event: 'gibct-autosuggest',
-      'gibct-autosuggest-value': searchQuery,
+      'gibct-autosuggest-value': selected.label,
     });
 
-    onUpdateAutocompleteSearchTerm(searchQuery);
-    onSelection(searchQuery);
+    onUpdateAutocompleteSearchTerm(selected.label);
+    onSelection(selected);
   };
 
   const handleEnterPress = e => {
     if ((e.which || e.keyCode) === KEY_CODES.enterKey) {
       e.target.blur();
-      onSelection(autocomplete.searchTerm);
+      onSelection(inputValue);
     }
   };
 
@@ -50,7 +49,7 @@ export function KeywordSearch({
     handleScrollOnInputFocus('keyword-search');
   };
 
-  const handleChange = (e, searchQuery) => {
+  const handleChange = e => {
     if (e) {
       let value;
       if (typeof e === 'string') {
@@ -59,37 +58,19 @@ export function KeywordSearch({
         value = e.target.value;
       }
       onUpdateAutocompleteSearchTerm(value);
-      handleFetchSuggestion({ value });
+      if (value !== '') {
+        handleFetchSuggestion({ value });
+      }
     }
-    if (searchQuery) {
-      onUpdateAutocompleteSearchTerm(searchQuery);
-      handleFetchSuggestion({ searchQuery });
-    }
-    validateSearchQuery(searchQuery);
   };
 
-  const { suggestions, searchTerm } = autocomplete;
-  let errorSpan = '';
-  let searchClassName = 'keyword-search';
-  if (searchError) {
-    searchClassName = 'usa-input-error';
-    errorSpan = (
-      <span
-        className="usa-input-error-message"
-        role="alert"
-        id="search-error-message"
-      >
-        <span className="sr-only">Error</span>
-        Please enter a city, school, or employer name.
-      </span>
-    );
-  }
-
   return (
-    <div className={searchClassName} id="keyword-search">
-      {errorSpan}
+    <div
+      className={'keyword-search vads-u-display--inline-block'}
+      id="keyword-search"
+    >
       <Downshift
-        inputValue={searchTerm}
+        inputValue={inputValue}
         onSelect={item => handleSuggestionSelected(item)}
         itemToString={item => {
           if (typeof item === 'string' || !item) {
@@ -129,7 +110,7 @@ export function KeywordSearch({
                     className={classNames('suggestion', {
                       'suggestion-highlighted': highlightedIndex === index,
                     })}
-                    {...getItemProps({ item: item.label })}
+                    {...getItemProps({ item })}
                   >
                     {item.label}
                   </div>
@@ -146,7 +127,6 @@ export function KeywordSearch({
 KeywordSearch.defaultProps = {
   placeholder: '',
   onSelection: () => {},
-  validateSearchQuery: () => {},
 };
 
 KeywordSearch.propTypes = {
@@ -156,7 +136,6 @@ KeywordSearch.propTypes = {
   onFetchAutocompleteSuggestions: PropTypes.func,
   onSelection: PropTypes.func,
   onUpdateAutocompleteSearchTerm: PropTypes.func,
-  searchError: PropTypes.bool,
   validateSearchQuery: PropTypes.func,
 };
 

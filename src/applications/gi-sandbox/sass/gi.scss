@@ -205,7 +205,8 @@
     }
 
     input.name-search {
-      max-width: 690px;
+      width: 690px;
+      max-width: none;
     }
 
     select {

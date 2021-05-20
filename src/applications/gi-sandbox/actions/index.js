@@ -13,9 +13,6 @@ const mbxClient = mbxGeo(mapboxClient);
 
 export const AUTOCOMPLETE_STARTED = 'AUTOCOMPLETE_STARTED';
 export const AUTOCOMPLETE_FAILED = 'AUTOCOMPLETE_FAILED';
-export const AUTOCOMPLETE_SUCCEEDED = 'AUTOCOMPLETE_SUCCEEDED';
-export const AUTOCOMPLETE_CLEARED = 'AUTOCOMPLETE_CLEARED';
-export const AUTOCOMPLETE_TERM_CHANGED = 'AUTOCOMPLETE_TERM_CHANGED';
 export const BENEFICIARY_ZIP_CODE_CHANGED = 'BENEFICIARY_ZIP_CODE_CHANGED';
 export const CALCULATOR_INPUTS_CHANGED = 'CALCULATOR_INPUTS_CHANGED';
 export const DISPLAY_MODAL = 'DISPLAY_MODAL';
@@ -36,11 +33,16 @@ export const GEOCODE_STARTED = 'GEOCODE_STARTED';
 export const GEOCODE_FAILED = 'GEOCODE_FAILED';
 export const GEOCODE_COMPLETE = 'GEOCODE_COMPLETE';
 export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
+export const LOCATION_AUTOCOMPLETE_SUCCEEDED =
+  'LOCATION_AUTOCOMPLETE_SUCCEEDED';
+export const NAME_AUTOCOMPLETE_SUCCEEDED = 'NAME_AUTOCOMPLETE_SUCCEEDED';
 export const SEARCH_BY_NAME_SUCCEEDED = 'SEARCH_BY_NAME_SUCCEEDED';
 export const SEARCH_BY_LOCATION_SUCCEEDED = 'SEARCH_BY_LOCATION_SUCCEEDED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
+export const UPDATE_AUTOCOMPLETE_NAME = 'UPDATE_AUTOCOMPLETE_NAME';
+export const UPDATE_AUTOCOMPLETE_LOCATION = 'UPDATE_AUTOCOMPLETE_LOCATION';
 export const UPDATE_CURRENT_SEARCH_TAB = 'UPDATE_CURRENT_TAB';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
@@ -241,24 +243,28 @@ export function fetchSearchByNameResults(name, filterFields, version, tab) {
   };
 }
 
-export function clearAutocompleteSuggestions() {
-  return { type: AUTOCOMPLETE_CLEARED };
-}
-
-export function updateAutocompleteSearchTerm(searchTerm) {
+export function updateAutocompleteName(name) {
   return {
-    type: AUTOCOMPLETE_TERM_CHANGED,
-    searchTerm,
+    type: UPDATE_AUTOCOMPLETE_NAME,
+    payload: name,
   };
 }
 
-export function fetchNameAutocompleteSuggestions(term, filterFields, version) {
+export function updateAutocompleteLocation(location) {
+  return {
+    type: UPDATE_AUTOCOMPLETE_LOCATION,
+    payload: location,
+  };
+}
+
+export function fetchNameAutocompleteSuggestions(name, filterFields, version) {
   const url = appendQuery(`${api.url}/institutions/autocomplete`, {
-    term,
+    term: name,
     ...rubyifyKeys(filterFields),
     version,
   });
-  return dispatch =>
+  return dispatch => {
+    dispatch({ type: AUTOCOMPLETE_STARTED });
     fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
@@ -269,10 +275,36 @@ export function fetchNameAutocompleteSuggestions(term, filterFields, version) {
           throw new Error(errors[0].title);
         });
       })
-      .then(payload => dispatch({ type: AUTOCOMPLETE_SUCCEEDED, payload }))
+      .then(res =>
+        dispatch({ type: NAME_AUTOCOMPLETE_SUCCEEDED, payload: res.data }),
+      )
       .catch(err => {
         dispatch({ type: AUTOCOMPLETE_FAILED, err });
       });
+  };
+}
+
+export function fetchLocationAutocompleteSuggestions(location) {
+  return dispatch => {
+    dispatch({ type: AUTOCOMPLETE_STARTED });
+
+    mbxClient
+      .forwardGeocode({
+        types: location.match(/^\s*\d{5}\s*$/) ? ['postcode'] : TypeList,
+        autocomplete: true,
+        query: location,
+      })
+      .send()
+      .then(({ body: { features } }) => {
+        dispatch({ type: LOCATION_AUTOCOMPLETE_SUCCEEDED, payload: features });
+      })
+      .catch(err => {
+        dispatch({
+          type: AUTOCOMPLETE_FAILED,
+          payload: err.message,
+        });
+      });
+  };
 }
 
 export function changeSearchTab(tab) {
@@ -282,10 +314,51 @@ export function changeSearchTab(tab) {
   };
 }
 
+export function fetchSearchByLocationCoords(
+  location,
+  coordinates,
+  distance,
+  filters,
+) {
+  const latitude = coordinates[1];
+  const longitude = coordinates[0];
+  const url = appendQuery(
+    `${api.url}/institutions/search`,
+    rubyifyKeys({ latitude, longitude, distance, filters }),
+  );
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+      payload: { location, latitude, longitude },
+    });
+
+    return fetch(url, api.settings)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        throw new Error(res.statusText);
+      })
+      .then(payload => {
+        dispatch({
+          type: SEARCH_BY_LOCATION_SUCCEEDED,
+          payload,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: SEARCH_FAILED,
+          payload: err.message,
+        });
+      });
+  };
+}
+
 /**
  * Finds results based on parameters for action SEARCH_BY_LOCATION_SUCCEEDED
  */
-export function fetchSearchByLocationResults(query, distance, tab) {
+export function fetchSearchByLocationResults(query, distance) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
   if (!query) {
@@ -317,39 +390,7 @@ export function fetchSearchByLocationResults(query, distance, tab) {
       .then(({ body: { features } }) => {
         dispatch({ type: GEOCODE_COMPLETE, payload: features });
 
-        const coordinates = features[0].center;
-        const latitude = coordinates[1];
-        const longitude = coordinates[0];
-        const url = appendQuery(
-          `${api.url}/institutions/search`,
-          rubyifyKeys({ latitude, longitude, distance, tab }),
-        );
-
-        dispatch({
-          type: SEARCH_STARTED,
-          payload: { latitude, longitude },
-        });
-
-        return fetch(url, api.settings)
-          .then(res => {
-            if (res.ok) {
-              return res.json();
-            }
-
-            throw new Error(res.statusText);
-          })
-          .then(payload => {
-            dispatch({
-              type: SEARCH_BY_LOCATION_SUCCEEDED,
-              payload,
-            });
-          })
-          .catch(err => {
-            dispatch({
-              type: SEARCH_FAILED,
-              payload: err.message,
-            });
-          });
+        fetchSearchByLocationCoords(features[0].center, distance);
       })
       .catch(err => {
         dispatch({

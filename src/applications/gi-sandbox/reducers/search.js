@@ -124,7 +124,13 @@ export default function(state = INITIAL_STATE, action) {
     case SEARCH_STARTED:
       return {
         ...state,
-        query: { ...state.query, ...action.payload },
+        query: {
+          ...state.query,
+          name: action.payload.name,
+          location: action.payload.location,
+          latitude: action.payload.latitude,
+          longitude: action.payload.longitude,
+        },
         inProgress: true,
       };
 

@@ -15,7 +15,6 @@ describe('<KeywordSearch>', () => {
           searchTerm: 'hello',
           suggestions: [{ a: 1 }, { b: 2 }],
         }}
-        onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
         onSelection={() => {}}
         onUpdateAutocompleteSearchTerm={() => {}}
@@ -38,7 +37,6 @@ describe('<KeywordSearch>', () => {
           suggestions: [{ label: 'item1' }, { label: 'item2' }],
         }}
         onChange={() => {}}
-        onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
         onSelection={() => {}}
         onUpdateAutocompleteSearchTerm={() => {}}
@@ -68,7 +66,6 @@ describe('<KeywordSearch>', () => {
           suggestions: [{ label: 'item1' }, { label: 'item2' }],
         }}
         onChange={() => {}}
-        onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
         onSelection={onSelection}
         onUpdateAutocompleteSearchTerm={() => {}}
@@ -99,7 +96,6 @@ describe('<KeywordSearch>', () => {
           suggestions: [{ label: 'item1' }, { label: 'item2' }],
         }}
         onChange={() => {}}
-        onClearAutocompleteSuggestions={() => {}}
         onFetchAutocompleteSuggestions={() => {}}
         onSelection={onSelection}
         onUpdateAutocompleteSearchTerm={() => {}}
