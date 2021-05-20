@@ -256,9 +256,10 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
             pageList,
             name,
           );
-          // message returns null if we don't want a link to show up
-          // happens for 526's when a new disability is missing (has error), and
-          // the nested required condition (also has an error) is also missing
+          // `message` is null if we don't want a link to show up.
+          // For example, this happens for the 526 when a new disability is
+          // missing (has error), and the nested required condition (also has
+          // an error) is also missing.
           const message = getErrorMessage(reviewErrors[name], errorIndex);
           if (message !== null) {
             processedErrors.push({
