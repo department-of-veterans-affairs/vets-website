@@ -1,14 +1,18 @@
-name: E2E Tests
+name: Nightwatch
+
 on: [push]
+
 jobs:
   build:
-    name: E2E Tests
+    name: Build
     runs-on: self-hosted
     defaults:
       run:
         working-directory: vets-website
+
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
     steps:
       - name: Checkout vets-website
         uses: actions/checkout@v2
@@ -27,10 +31,18 @@ jobs:
           repository: department-of-veterans-affairs/content-build
           path: content-build
 
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: latest
 
       - name: Cache dependencies
         id: cache-dependencies
@@ -66,33 +78,19 @@ jobs:
       #   run: yarn build
       #   working-directory: content-build
 
-      - name: Start vets-website
-        run: yarn watch --verbose &
-
-      - name: Curl vets-website
-        run: curl -s --fail localhost:3001 > /dev/null
-
       # - name: Start content-build
-      #   run: yarn watch --verbose &
+      #   run: yarn watch &
       #   working-directory: content-build
 
       # - name: Curl content-build
       #   run: curl -s --fail localhost:3002 > /dev/null
       #   working-directory: content-build
 
-      - name: Start Cypress tests
-        run: yarn cy:test:gha
+      - name: Start vets-website
+        run: yarn watch &
 
-      - name: Archive Cypress test videos
-        uses: actions/upload-artifact@v2
-        if: ${{ failure() }}
-        with:
-          name: cypress-video-artifacts
-          path: vets-website/**/cypress/videos
+      - name: Curl vets-website
+        run: curl -s --fail localhost:3001 > /dev/null
 
-      - name: Archive Cypress test screenshots
-        uses: actions/upload-artifact@v2
-        if: ${{ failure() }}
-        with:
-          name: cypress-screenshot-artifacts
-          path: vets-website/**/cypress/screenshots
+      - name: Start Nightwatch tests
+        run: yarn test:e2e:headless
