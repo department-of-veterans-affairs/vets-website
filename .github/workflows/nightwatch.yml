@@ -47,9 +47,6 @@ jobs:
         with:
           chrome-version: 563702
 
-      - name: Print Chrome version
-        run: chrome --version
-
       - name: Cache dependencies
         id: cache-dependencies
         uses: actions/cache@v2
