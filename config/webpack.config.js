@@ -89,9 +89,13 @@ function getEntryPoints(entry) {
 
 async function generateHtmlFiles(buildPath) {
   const TMP_SCAFFOLD_PATH = 'tmp/scaffold';
+  fs.removeSync(TMP_SCAFFOLD_PATH);
   fs.ensureDirSync(TMP_SCAFFOLD_PATH);
+  console.log(`Created directory for scaffold assets: ${TMP_SCAFFOLD_PATH}`);
 
-  const CONTENT_BUILD_ROOT =
+  const LOCAL_CONTENT_BUILD_ROOT = '../content-build';
+
+  const REMOTE_CONTENT_BUILD_ROOT =
     'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master';
 
   const APP_REGISTRY_PATH = path.join(TMP_SCAFFOLD_PATH, 'registry.json');
@@ -102,7 +106,7 @@ async function generateHtmlFiles(buildPath) {
     'static-page-widgets.js',
   ];
 
-  // Map local scaffold asset paths to their content-build paths.
+  // Map temporary scaffold asset paths to their content-build paths.
   const scaffoldAssets = INLINE_SCRIPTS.reduce(
     (assetsMap, filename) => ({
       ...assetsMap,
@@ -116,16 +120,28 @@ async function generateHtmlFiles(buildPath) {
     },
   );
 
-  // Download any missing assets used for the scaffold.
+  // Load assets needed for the scaffold into a temp directory.
+  // First check for the file in a locally checked out `content-build`.
+  // If found, create a symlink to the file in the temp scaffold path.
+  // Otherwise, download the file from the master branch of `content-build`.
   await Promise.all(
     Object.entries(scaffoldAssets).map(async ([tmpPath, contentBuildPath]) => {
-      // Skip download for existing assets.
-      if (fs.existsSync(tmpPath)) return;
-      console.log(`Missing scaffold asset at ${tmpPath.toString()}`);
+      const localPath = path.resolve(
+        LOCAL_CONTENT_BUILD_ROOT,
+        contentBuildPath,
+      );
 
-      const fileUrl = new URL(path.join(CONTENT_BUILD_ROOT, contentBuildPath));
-      console.log(`Downloading asset from ${fileUrl.toString()}`);
+      if (fs.existsSync(localPath)) {
+        fs.symlinkSync(localPath, tmpPath);
+        console.log(`Linked to local asset found at ${localPath}.`);
+        return;
+      }
 
+      const fileUrl = new URL(
+        path.join(REMOTE_CONTENT_BUILD_ROOT, contentBuildPath),
+      );
+
+      console.log(`Downloading asset from ${fileUrl.toString()}.`);
       const response = await fetch(fileUrl);
 
       if (!response.ok) {
@@ -136,11 +152,10 @@ async function generateHtmlFiles(buildPath) {
         );
       }
 
-      // Cache downloaded asset for later reuse.
       try {
         const fileContents = await response.buffer();
         fs.writeFileSync(tmpPath, fileContents);
-        console.log(`Saved asset to ${tmpPath}`);
+        console.log(`Saved asset to ${tmpPath}.`);
       } catch (error) {
         throw new Error(`Failed to write ${tmpPath}.\n\n${error}`);
       }
