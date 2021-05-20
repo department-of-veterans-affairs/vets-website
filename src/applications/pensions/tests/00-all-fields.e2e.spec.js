@@ -52,7 +52,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeApplicantInformation(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/applicant-information');
 
   // Military History page
@@ -65,7 +73,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeMilitaryHistory(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/military/history');
 
   client.waitForElementVisible(
@@ -77,7 +93,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeGeneralMilitaryInfo(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/military/general');
 
   client.waitForElementVisible(
@@ -89,7 +113,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeNationalGuard(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/military/reserve-national-guard');
 
   client.waitForElementVisible(
@@ -101,7 +133,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completePOW(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/military/pow-severance');
 
   // Work History page
@@ -115,7 +155,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeDisabilityHistory(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/disability/history');
 
   client.waitForElementVisible(
@@ -127,7 +175,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeWorkHistory(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/employment/history');
 
   // marriage info
@@ -140,7 +196,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeMaritalStatus(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/household/marriage-info');
 
   // first marriage
@@ -153,7 +217,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeMarriage(client, testData.data, 0);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/household/marriages/0');
 
   // second marriage
@@ -166,7 +238,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeMarriage(client, testData.data, 1);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/household/marriages/1');
 
   // spouse info
@@ -179,7 +259,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeSpouseInfo(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/household/spouse-info');
 
   // spouse marriage
@@ -192,7 +280,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeSpouseMarriage(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/household/spouse-marriages/0');
 
   // dependents
@@ -205,7 +301,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeDependents(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
 
   // dependent info
   client.waitForElementVisible(
@@ -217,7 +321,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeDependentInfo(client, testData.data, 0);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/household/dependents/children/information/0',
@@ -233,7 +345,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeDependentAddressInfo(client, testData.data, 0);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/household/dependents/children/address/0',
@@ -249,7 +369,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeDependentInfo(client, testData.data, 1);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/household/dependents/children/information/1',
@@ -265,7 +393,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeDependentAddressInfo(client, testData.data, 1);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/household/dependents/children/address/0',
@@ -282,7 +418,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeNetWorthInfo(client, testData.data.netWorth);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/financial-disclosure/net-worth');
 
   // monthly income info
@@ -295,7 +439,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeMonthlyIncomeInfo(client, testData.data.monthlyIncome);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/monthly-income',
@@ -311,7 +463,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeExpectedIncomeInfo(client, testData.data.expectedIncome);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/expected-income',
@@ -331,7 +491,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     testData.data['view:hasOtherExpenses'],
   );
   PageHelpers.completeOtherExpensesInfo(client, testData.data.otherExpenses[0]);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/other-expenses',
@@ -347,7 +515,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeNetWorthInfo(client, testData.data.spouseNetWorth);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/net-worth/spouse',
@@ -366,7 +542,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     testData.data.spouseMonthlyIncome,
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/monthly-income/spouse',
@@ -385,7 +569,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     testData.data.spouseExpectedIncome,
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/expected-income/spouse',
@@ -409,7 +601,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     testData.data.spouseOtherExpenses[0],
     'spouseOther',
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/other-expenses/spouse',
@@ -428,7 +628,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     testData.data.dependents[0].netWorth,
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/net-worth/dependents/0',
@@ -447,7 +655,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     testData.data.dependents[0].monthlyIncome,
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/monthly-income/dependents/0',
@@ -466,7 +682,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     testData.data.dependents[0].expectedIncome,
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/expected-income/dependents/0',
@@ -489,7 +713,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     testData.data.dependents[0].otherExpenses[0],
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/other-expenses/dependents/0',
@@ -508,7 +740,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     testData.data.dependents[1].netWorth,
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/net-worth/dependents/1',
@@ -527,7 +767,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     testData.data.dependents[1].monthlyIncome,
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/monthly-income/dependents/1',
@@ -546,7 +794,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     testData.data.dependents[1].expectedIncome,
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/expected-income/dependents/1',
@@ -569,7 +825,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client,
     testData.data.dependents[1].otherExpenses[0],
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/financial-disclosure/other-expenses/dependents/1',
@@ -586,7 +850,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeDirectDepositInfo(client, testData.data.bankAccount);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/additional-information/direct-deposit',
@@ -602,7 +874,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeContactInfo(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/additional-information/contact');
 
   // Benefits selection page
@@ -611,7 +891,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     '.progress-bar-segmented div.progress-segment:nth-child(1)',
     'progress-segment-complete',
   );
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(
     client,
     '/additional-information/aid-attendance',
@@ -634,7 +922,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     client.waitForElementVisible('.va-button-link', Timeouts.slow);
   }
 
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/documents');
 
   // FDC page
@@ -647,7 +943,15 @@ const runTest = E2eHelpers.createE2eTest(client => {
     'progress-segment-complete',
   );
   PageHelpers.completeExpeditedInfo(client, testData.data);
-  client.axeCheck('.main').click('.form-panel .usa-button-primary');
+  client
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
+    .click('.form-panel .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/additional-information/fdc');
 
   // Review and Submit page
@@ -658,7 +962,13 @@ const runTest = E2eHelpers.createE2eTest(client => {
     )
     .pause(1000)
     .click('input[type="checkbox"]')
-    .axeCheck('.main')
+    .axeCheck('.main', {
+      rules: {
+        'color-contrast': {
+          enabled: false,
+        },
+      },
+    })
     .click('.form-progress-buttons .usa-button-primary');
   E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
   client.expect
@@ -670,7 +980,13 @@ const runTest = E2eHelpers.createE2eTest(client => {
   // Submit message
   client.waitForElementVisible('.confirmation-page-title', Timeouts.normal);
 
-  client.axeCheck('.main');
+  client.axeCheck('.main', {
+    rules: {
+      'color-contrast': {
+        enabled: false,
+      },
+    },
+  });
   client.end();
 });
 
