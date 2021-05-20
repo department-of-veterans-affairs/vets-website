@@ -31,7 +31,7 @@ export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
 export const GEOCODE_STARTED = 'GEOCODE_STARTED';
 export const GEOCODE_FAILED = 'GEOCODE_FAILED';
-export const GEOCODE_COMPLETE = 'GEOCODE_COMPLETE';
+export const GEOCODE_SUCCEEDED = 'GEOCODE_SUCCEEDED';
 export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const LOCATION_AUTOCOMPLETE_SUCCEEDED =
   'LOCATION_AUTOCOMPLETE_SUCCEEDED';
@@ -379,7 +379,7 @@ export function fetchSearchByLocationResults(location, distance, filters) {
       })
       .send()
       .then(({ body: { features } }) => {
-        dispatch({ type: GEOCODE_COMPLETE, payload: features });
+        dispatch({ type: GEOCODE_SUCCEEDED, payload: features });
 
         dispatch(
           fetchSearchByLocationCoords(

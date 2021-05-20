@@ -14,7 +14,6 @@ export function NameSearchForm({
   dispatchUpdateAutocompleteName,
   filters,
   preview,
-  search,
 }) {
   const { version } = preview;
 
@@ -25,7 +24,6 @@ export function NameSearchForm({
         category: filters.category,
       },
       version,
-      search.tab,
     );
   };
 
@@ -76,7 +74,6 @@ const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   filters: state.filters,
   preview: state.preview,
-  search: state.search,
 });
 
 const mapDispatchToProps = {

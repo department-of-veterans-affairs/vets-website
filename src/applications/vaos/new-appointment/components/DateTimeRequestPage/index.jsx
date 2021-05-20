@@ -13,7 +13,7 @@ import FormButtons from '../../../components/FormButtons';
 import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import { getFormPageInfo } from '../../redux/selectors';
 import DateTimeRequestOptions from './DateTimeRequestOptions';
-import SelectedIndicator from './SelectedIndicator';
+import SelectedIndicator, { getSelectedLabel } from './SelectedIndicator';
 
 const pageKey = 'requestDateTime';
 const pageTitle = 'Choose an appointment day and time';
@@ -81,6 +81,7 @@ export default function DateTimeRequestPage() {
         id="optionTime"
         renderIndicator={props => <SelectedIndicator {...props} />}
         renderOptions={props => <DateTimeRequestOptions {...props} />}
+        renderSelectedLabel={getSelectedLabel}
         required
         requiredMessage="Please select at least one preferred date for your appointment. You can select up to three dates."
         showValidation={submitted && !userSelectedSlot(selectedDates)}

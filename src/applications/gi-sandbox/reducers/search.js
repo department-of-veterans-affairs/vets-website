@@ -5,7 +5,7 @@ import {
   SEARCH_FAILED,
   SEARCH_BY_LOCATION_SUCCEEDED,
   SEARCH_BY_NAME_SUCCEEDED,
-  GEOCODE_COMPLETE,
+  GEOCODE_SUCCEEDED,
   GEOCODE_STARTED,
   GEOCODE_FAILED,
   UPDATE_CURRENT_SEARCH_TAB,
@@ -148,7 +148,7 @@ export default function(state = INITIAL_STATE, action) {
         geocodeInProgress: true,
       };
 
-    case GEOCODE_COMPLETE:
+    case GEOCODE_SUCCEEDED:
       return { ...state, geocode: action.payload, geocodeInProgress: false };
 
     case GEOCODE_FAILED:
