@@ -88,7 +88,7 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-async function scaffoldBuild(baseConfig) {
+async function buildAppPages(baseConfig) {
   const TMP_SCAFFOLD_PATH = 'tmp/scaffold';
   fs.ensureDirSync(TMP_SCAFFOLD_PATH);
 
@@ -439,9 +439,9 @@ module.exports = async (env = {}) => {
     }),
   );
 
-  // Optionally generate landing pages in the absence of a content build.
+  // Optionally build mocked HTML pages for apps without running content build.
   if (buildOptions.scaffold) {
-    const scaffoldedPages = await scaffoldBuild(baseConfig);
+    const scaffoldedPages = await buildAppPages(baseConfig);
     baseConfig.plugins.push(...scaffoldedPages);
 
     // Open the browser to either --env.openTo or one of the root URLs of the
