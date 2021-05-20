@@ -251,17 +251,15 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       .ok;
     expect(screen.getByRole('heading', { level: 2, name: /New issue/ })).to.be
       .ok;
-    expect(
-      screen.getByRole('link', {
-        name: new RegExp(
-          moment()
-            .subtract(1, 'day')
-            .tz('America/Denver')
-            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
-          'i',
-        ),
-      }),
-    ).to.be.ok;
+    expect(screen.baseElement).not.to.contain.text(
+      new RegExp(
+        moment()
+          .subtract(1, 'day')
+          .tz('America/Denver')
+          .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+        'i',
+      ),
+    );
     expect(screen.getByText(/Print/)).to.be.ok;
     expect(screen.baseElement).not.to.contain.text('Cancel appointment');
   });

@@ -124,13 +124,7 @@ export const SecondaryCaregiverInfo = ({
 }) => (
   <>
     {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
-    {headerInfo && (
-      <p className="vads-u-margin-top--2">
-        Please complete the following information about the Secondary Family
-        Caregiver.
-      </p>
-    )}
-
+    {headerInfo && <p className="vads-u-margin-top--2"> {headerInfo} </p>}
     {additionalInfo && <SecondaryCaregiverLegal />}
   </>
 );
@@ -138,6 +132,7 @@ export const SecondaryCaregiverInfo = ({
 SecondaryCaregiverInfo.propTypes = {
   additionalInfo: PropTypes.bool,
   pageTitle: PropTypes.string,
+  headerInfo: PropTypes.string,
 };
 
 export const FacilityInfo = () => (

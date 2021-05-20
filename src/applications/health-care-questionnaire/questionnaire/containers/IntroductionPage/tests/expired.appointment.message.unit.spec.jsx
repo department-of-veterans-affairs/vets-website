@@ -15,7 +15,7 @@ describe('health care questionnaire - introduction page  -', () => {
     });
     const wrapper = mount(<IntroductionPage store={fakeStore} />);
 
-    expect(wrapper.find('.schemaform-sip-alert-title').text()).to.contain(
+    expect(wrapper.find('va-alert').text()).to.contain(
       'Your questionnaire has expired',
     );
     wrapper.unmount();

@@ -17,8 +17,7 @@ const headerFooterData = require('../src/platform/landing-pages/header-footer-da
 const BUCKETS = require('../src/site/constants/buckets');
 const ENVIRONMENTS = require('../src/site/constants/environments');
 const scaffoldRegistry = require('../src/applications/registry.scaffold.json');
-const facilitySidebar = require('../src/site/layouts/tests/vamc/fixtures/health_care_region_page.json')
-  .facilitySidebar;
+const facilitySidebar = require('../src/platform/landing-pages/facility-sidebar.json');
 
 const { VAGOVSTAGING, VAGOVPROD, LOCALHOST } = ENVIRONMENTS;
 
@@ -117,18 +116,12 @@ module.exports = (env = {}) => {
     'generated',
   );
 
-  // Set the publicPath conditional so we can get dynamic modules loading from S3
-  const publicAssetPath =
-    buildtype !== LOCALHOST
-      ? `${BUCKETS[buildtype]}/generated/`
-      : '/generated/';
-
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
       path: outputPath,
-      publicPath: publicAssetPath,
+      publicPath: '/generated/',
       filename: '[name].entry.js',
       chunkFilename: '[name].entry.js',
     },
