@@ -154,7 +154,9 @@ const findTargets = (error, { getLabel = true } = {}) => {
   }
   // Find all visible elements within the form
   const form = el?.closest('.form-review-panel-page')?.querySelectorAll('form');
-  const formElements = getFocusableElements(form[error.index] || form[0]);
+  const formElements = form
+    ? getFocusableElements(form[error.index] || form[0])
+    : [];
   // narrow down search to a matching id (if possible)
   const firstElement =
     formElements.filter(elm => elm.id.includes(`_${error.name}`))[0] ||
