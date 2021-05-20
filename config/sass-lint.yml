@@ -115,8 +115,4 @@ rules:
   variable-for-property:
     - 0
     - properties: []
-  variable-name-format:
-    - 1
-    - allow-leading-underscore: true
-      convention: hyphenatedlowercase
   zero-unit: 0 # TODO - Change this back to 1 later.
