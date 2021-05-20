@@ -43,10 +43,9 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Download and install Chrome
-        run: wget --no-verbose -O /tmp/chrome.deb archive.ubuntu.com/ubuntu/pool/universe/c/chromium-browser/chromium-browser_65.0.3325.181-0ubuntu1_amd64.deb \
-          && apt install -y /tmp/chrome.deb \
-          && rm /tmp/chrome.deb
+      - uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: 658883
 
       - name: Print Chrome version
         run: chrome --version
