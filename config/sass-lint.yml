@@ -98,9 +98,6 @@ rules:
   space-after-bang: # TODO - Change this back to 1 later.
     - 0
     - include: false
-  space-after-colon:
-    - 1 
-    - include: true
   space-after-comma: # TODO - Change this back to 1 later.
     - 0
     - include: true
