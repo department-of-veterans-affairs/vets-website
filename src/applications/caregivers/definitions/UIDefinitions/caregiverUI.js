@@ -15,7 +15,7 @@ export const hasHealthInsurance = {
 };
 
 export const secondaryTwoChapterTitle =
-  'Secondary Family Caregiver\u2019s (2) applicant information';
+  'Secondary Family Caregiver (2) applicant information';
 
 export const hasSecondaryCaregiverTwoUI = {
   'ui:title': ' ',

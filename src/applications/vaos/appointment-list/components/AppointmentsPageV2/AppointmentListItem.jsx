@@ -143,7 +143,7 @@ export default function AppointmentListItem({ appointment, facility }) {
           </Link>
           <i
             aria-hidden="true"
-            className="fas fa-chevron-right vads-u-margin-left--1"
+            className="fas fa-chevron-right vads-u-color--link-default vads-u-margin-left--1"
           />
         </div>
       </div>

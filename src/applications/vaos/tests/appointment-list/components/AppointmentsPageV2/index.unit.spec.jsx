@@ -9,11 +9,6 @@ import {
   resetFetch,
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
-import { getDirectBookingEligibilityCriteriaMock } from '../../../mocks/v0';
-import {
-  mockDirectBookingEligibilityCriteria,
-  mockRequestEligibilityCriteria,
-} from '../../../mocks/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -162,16 +157,6 @@ describe('VAOS <AppointmentsPageV2>', () => {
       },
       user: userState,
     };
-    mockDirectBookingEligibilityCriteria(
-      ['983'],
-      [
-        getDirectBookingEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: 'covid',
-        }),
-      ],
-    );
-    mockRequestEligibilityCriteria(['983'], []);
 
     const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
       initialState: defaultState,
@@ -210,16 +195,6 @@ describe('VAOS <AppointmentsPageV2>', () => {
       },
       user: userState,
     };
-    mockDirectBookingEligibilityCriteria(
-      ['983'],
-      [
-        getDirectBookingEligibilityCriteriaMock({
-          id: '983',
-          typeOfCareId: 'covid',
-        }),
-      ],
-    );
-    mockRequestEligibilityCriteria(['983'], []);
 
     const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
       initialState: defaultState,
@@ -249,38 +224,6 @@ describe('VAOS <AppointmentsPageV2>', () => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
         '/new-covid-19-vaccine-booking',
       ),
-    );
-  });
-
-  it('should render schedule radio list without COVID-19 vaccine option when call fails', async () => {
-    const defaultState = {
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingCheetah: true,
-      },
-      user: userState,
-    };
-
-    const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
-      initialState: defaultState,
-    });
-    expect(
-      await screen.findByRole('heading', {
-        level: 2,
-        name: /Schedule a new appointment/,
-      }),
-    );
-
-    expect(await screen.findByText(/start scheduling/i)).be.ok;
-
-    expect(screen.queryByRole('radio')).not.to.exist;
-
-    userEvent.click(
-      await screen.findByRole('button', { name: /Start scheduling/i }),
-    );
-
-    await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/new-appointment'),
     );
   });
 });

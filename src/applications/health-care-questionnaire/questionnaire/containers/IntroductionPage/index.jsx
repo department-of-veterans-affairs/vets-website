@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -11,6 +10,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import IntroductionPageHelpers from '../../components/introduction-page';
+import NeedHelpSmall from '../../../shared/components/footer/NeedHelpSmall';
 
 import environment from 'platform/utilities/environment';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
@@ -63,19 +63,10 @@ const IntroductionPage = props => {
         event: `hcq-questionnaire-expired-loaded`,
       });
       return (
-        <div>
-          <div className="usa-alert usa-alert-warning background-color-only schemaform-sip-alert">
-            <div className="schemaform-sip-alert-title">
-              <strong>Your questionnaire has expired</strong>
-            </div>
-            <div className="saved-form-metadata-container">
-              <span className="saved-form-metadata">
-                {props.route?.formConfig.saveInProgress.messages.expired}
-              </span>
-            </div>
-          </div>
-          <br />
-        </div>
+        <va-alert status="warning">
+          <h3 slot="headline">Your questionnaire has expired</h3>
+          <div> {props.route?.formConfig.saveInProgress.messages.expired}</div>
+        </va-alert>
       );
     } else if (savedForm) {
       return (
@@ -163,21 +154,7 @@ const IntroductionPage = props => {
           </p>
         </section>
       </section>
-      <section className="emergency-call-out">
-        <header>
-          <strong>Note:</strong> If you need to talk to someone right away or
-          need emergency care,
-        </header>
-        <ul>
-          <li>
-            Call <Telephone contact="911" />, <strong>or</strong>
-          </li>
-          <li>
-            Call the Veterans Crisis hotline at{' '}
-            <Telephone contact="800-273-8255" /> and select 1
-          </li>
-        </ul>
-      </section>
+      <NeedHelpSmall />
       {getWelcomeMessage()}
       <div className="omb-info--container">
         <OMBInfo expDate={expirationTime} />

@@ -31,6 +31,10 @@ export const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
 export const representativeLabel = `Representative\u2019s`;
 export const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
 export const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
+export const secondaryOneHeaderInfo =
+  'Please complete the following information about the Secondary Family Caregiver.';
+export const secondaryTwoHeaderInfo =
+  'Please complete the following information about the Secondary Family Caregiver (2).';
 
 export const veteranSignatureContent = [
   'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
