@@ -1,5 +1,5 @@
 const oneDayInMS = 24 * 60 * 60 * 1000;
-const fourtyDays = Date.now() + oneDayInMS * 40;
+const fortyDays = Date.now() + oneDayInMS * 40;
 const tomorrow = Date.now() + oneDayInMS;
 const dayAfterTomorrow = Date.now() + oneDayInMS * 2;
 const nextWeek = Date.now() + oneDayInMS * 7;
@@ -71,7 +71,7 @@ export const upcomingCCAppointment = [
 ];
 
 export const farFutureAppointments = [
-  ccAppointment(fourtyDays),
-  videoAppointment(fourtyDays),
-  vaInPersonAppointment(fourtyDays),
+  ccAppointment(fortyDays),
+  videoAppointment(fortyDays),
+  vaInPersonAppointment(fortyDays),
 ];

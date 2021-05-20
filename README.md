@@ -2,7 +2,7 @@
 
 ## What is this?
 
-This is the front end repository for VA.gov. It contains application code and templates used across the site.
+This is the front end repository for VA.gov. It contains application code used across the site.
 
 There are several repositories that contain the code and content used to build VA.gov. If you're looking to get started running VA.gov locally, you should read the [Getting Started](https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/getting-started) documentation.
 
@@ -56,6 +56,14 @@ You will need to disable CORS in your browser when using a non-local API. Here a
 **Note:** If you try to log on, ID.me will redirect you to the environment that
 the API is set up for. So in the above example, you'd be **redirected back to
 dev.va.gov.**
+
+### Building static content
+
+Static pages are created from the [content-build](https://github.com/department-of-veterans-affairs/content-build) repository. See the [building static content](https://github.com/department-of-veterans-affairs/content-build#building-static-content) documentation.
+
+### Building both together
+
+After [building the applications](#building-applications), running `yarn build` in the `../content-build` directory will build content using the generated app bundles from `vets-website/build/localhost/generated`. The full build can be seen in `../content-build/build/localhost`.
 
 ## Running tests
 
@@ -234,12 +242,10 @@ for doing very specific things.
 | :--- | :--- |
 | build the production site (dev features disabled). | `yarn build:production` |
 | deploy the production site (dev features disabled). | `node src/platform/testing/e2e/test-server.js --buildtype=vagovprod` |
-| fetch the latest content cache from S3 | `yarn fetch-drupal-cache` (does not require SOCKS proxy access) |
 | reset local environment (clean out node modules, Babel cache, and runs `npm install`) | `yarn reset:env` |
-| run only the app pages on the site for local development without building content. | `yarn watch --env.scaffold` |
+| run the app pages on the site for local development | `yarn watch --env.scaffold` |
 | run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps | `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `--env.buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run the site for local development with automatic rebuilding of code and styles for specific **apps** | `yarn watch --env.entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName` |
-| run the site for local development with automatic rebuilding of code and styles for static **content** | `yarn watch:static` |
 | run the site so that devices on your local network can access it | `yarn watch --host 0.0.0.0 --public 198.162.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all unit tests and watch | `yarn test:watch` |
 | run only e2e tests | Make sure the site is running locally (`yarn watch`) and run the tests with `yarn test:e2e` |
@@ -250,14 +256,13 @@ for doing very specific things.
 | run lint on JS and fix anything that changed | `yarn lint:js:changed:fix` |
 | run automated accessibility tests | `yarn build && yarn test:accessibility` |
 | run visual regression testing | Start the site. Generate your baseline image set using `yarn test:visual:baseline`. Make your changes. Then run `yarn test:visual`. |
-| test for broken links | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on _build_ not watch. |
 | add new npm modules | `yarn add my-module`. Use the `--dev` flag for modules that are build or test related. |
 | get the latest json schema | `yarn update:schema`. This updates our [vets-json-schema](https://github.com/department-of-veterans-affairs/vets-json-schema) vets-json-schema https://github.com/department-of-veterans-affairs/ to the most recent commit. |
 | check test coverage | `yarn test:coverage` |
 | run bundle analyzer on our production JS bundles | `yarn build-analyze` |
-| generate a stats file for analysis by bundle analyzer | `NODE_ENV=production yarn build:webpack --env.buildtype=vagovprod --env.analyzer`. Note that if you get an error like `FetchError: request to http://prod.cms.va.gov/graphql failed` you need to be on the SOCKS proxy |
+| generate a stats file for analysis by bundle analyzer | `NODE_ENV=production yarn build:webpack --env.buildtype=vagovprod --env.analyzer`. |
 | load the analyzer tool on a stats file | `yarn analyze` |
-| add a new React app | `yarn new:app` (make sure you have [`vagov-content`](https://github.com/department-of-veterans-affairs/vagov-content/) sibling to `vets-website`) |
+| add a new React app | `yarn new:app` (make sure you have [`vagov-content`](https://github.com/department-of-veterans-affairs/vagov-content/) and [`content-build`](https://github.com/department-of-veterans-affairs/content-build/) sibling to `vets-website`) |
 
 ## Supported Browsers
 
