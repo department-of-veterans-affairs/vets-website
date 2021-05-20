@@ -18,19 +18,21 @@ export function transformFormToVAOSCCRequest(state) {
     ];
   }
 
-  let preferredCity;
+  let preferredLocation;
 
   if (
     residentialAddress &&
     residentialAddress.addressType !== 'MILITARY OVERSEAS'
   ) {
-    preferredCity = `${residentialAddress.city}, ${
-      residentialAddress.stateCode
-    }`;
-  } else {
-    preferredCity = `${parentFacility.address?.city}, ${
-      parentFacility.address?.state
-    }`;
+    preferredLocation = {
+      city: residentialAddress.city,
+      state: residentialAddress.stateCode,
+    };
+  } else if (parentFacility.address) {
+    preferredLocation = {
+      city: parentFacility.address.city,
+      state: parentFacility.address.state,
+    };
   }
 
   const typeOfCare = getTypeOfCare(data);
@@ -69,7 +71,7 @@ export function transformFormToVAOSCCRequest(state) {
     preferredLanguage: LANGUAGES.find(
       lang => lang.id === data.preferredLanguage,
     )?.value,
-    preferredCity,
+    preferredLocation,
     practitioners,
   };
 }

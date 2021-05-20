@@ -734,7 +734,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       ],
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
       preferredLanguage: 'English',
-      preferredCity: 'Cincinnati, OH',
+      preferredLocation: { city: 'Cincinnati', state: 'OH' },
       practitioners: ['ppmsid'],
     });
   });
