@@ -55,7 +55,7 @@ export default function SearchResults({ search }) {
     const { latitude, longitude } = institution;
     // const markerElement = buildMarker(letter);
     // create a HTML element for each feature
-    const el = document.createElement('div');
+    const el = document.createElement('span');
     el.className = 'location-letter';
     el.innerText = letter;
 
