@@ -2,6 +2,7 @@ import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToW
 
 // Link text for review & submit page errors
 // key = "name" from `form.formErrors.errors`
+// see src/platform/forms-system/docs/reviewErrors.md
 export default {
   servicePeriods:
     'Military service history (fill in any missing information for branch of service or service start and end dates)',
