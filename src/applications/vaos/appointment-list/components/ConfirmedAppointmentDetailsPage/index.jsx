@@ -262,22 +262,23 @@ export default function ConfirmedAppointmentDetailsPage() {
               )}
             {!canceled && (
               <>
-                <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-                  <i
-                    aria-hidden="true"
-                    className="far fa-calendar vads-u-margin-right--1"
-                  />
-                  <AddToCalendar
-                    summary={`${header}`}
-                    description={calendarDescription}
-                    location={
-                      isPhone ? 'Phone call' : formatFacilityAddress(facility)
-                    }
-                    duration={appointment.minutesDuration}
-                    startDateTime={appointment.start}
-                  />
-                </div>
-
+                {!isPastAppointment && (
+                  <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
+                    <i
+                      aria-hidden="true"
+                      className="far fa-calendar vads-u-margin-right--1"
+                    />
+                    <AddToCalendar
+                      summary={`${header}`}
+                      description={calendarDescription}
+                      location={
+                        isPhone ? 'Phone call' : formatFacilityAddress(facility)
+                      }
+                      duration={appointment.minutesDuration}
+                      startDateTime={appointment.start}
+                    />
+                  </div>
+                )}
                 <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
                   <i
                     aria-hidden="true"
