@@ -14,6 +14,7 @@ export function KeywordSearch({
   onFetchAutocompleteSuggestions,
   onSelection,
   onUpdateAutocompleteSearchTerm,
+  onPressEnter,
   placeholder,
   suggestions,
   version,
@@ -41,7 +42,12 @@ export function KeywordSearch({
   const handleEnterPress = e => {
     if ((e.which || e.keyCode) === KEY_CODES.enterKey) {
       e.target.blur();
-      onSelection(inputValue);
+
+      if (onPressEnter) {
+        onPressEnter(e, inputValue);
+      } else {
+        onSelection(inputValue);
+      }
     }
   };
 

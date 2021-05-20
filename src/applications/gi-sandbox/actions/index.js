@@ -257,6 +257,13 @@ export function updateAutocompleteLocation(location) {
   };
 }
 
+export function changeSearchTab(tab) {
+  return {
+    type: UPDATE_CURRENT_SEARCH_TAB,
+    tab,
+  };
+}
+
 export function fetchNameAutocompleteSuggestions(name, filterFields, version) {
   const url = appendQuery(`${api.url}/institutions/autocomplete`, {
     term: name,
@@ -307,13 +314,6 @@ export function fetchLocationAutocompleteSuggestions(location) {
   };
 }
 
-export function changeSearchTab(tab) {
-  return {
-    type: UPDATE_CURRENT_SEARCH_TAB,
-    tab,
-  };
-}
-
 export function fetchSearchByLocationCoords(
   location,
   coordinates,
@@ -358,10 +358,10 @@ export function fetchSearchByLocationCoords(
 /**
  * Finds results based on parameters for action SEARCH_BY_LOCATION_SUCCEEDED
  */
-export function fetchSearchByLocationResults(query, distance) {
+export function fetchSearchByLocationResults(location, distance, filters) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
-  if (!query) {
+  if (!location) {
     return {
       type: SEARCH_FAILED,
       payload: 'Empty search string/address. Search cancelled.',
@@ -369,28 +369,26 @@ export function fetchSearchByLocationResults(query, distance) {
   }
 
   return dispatch => {
-    dispatch({ type: GEOCODE_STARTED, payload: { location: query, distance } });
-
-    // commas can be stripped from query if Mapbox is returning unexpected results
-    let types = TypeList;
-    // check for postcode search
-    const isPostcode = query.match(/^\s*\d{5}\s*$/);
-
-    if (isPostcode) {
-      types = ['postcode'];
-    }
+    dispatch({ type: GEOCODE_STARTED, payload: { location, distance } });
 
     mbxClient
       .forwardGeocode({
-        types,
+        types: location.match(/^\s*\d{5}\s*$/) ? ['postcode'] : TypeList,
         autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
-        query,
+        query: location,
       })
       .send()
       .then(({ body: { features } }) => {
         dispatch({ type: GEOCODE_COMPLETE, payload: features });
 
-        fetchSearchByLocationCoords(features[0].center, distance);
+        dispatch(
+          fetchSearchByLocationCoords(
+            location,
+            features[0].center,
+            distance,
+            filters,
+          ),
+        );
       })
       .catch(err => {
         dispatch({

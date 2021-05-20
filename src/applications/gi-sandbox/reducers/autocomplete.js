@@ -60,7 +60,7 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         locationSuggestions: camelCaseKeysRecursive(action.payload).map(
           item => {
-            return { label: item.placeName, coords: item.geometry.coordinates };
+            return { label: item.placeName, coords: item.center };
           },
         ),
         inProgress: false,

@@ -13,8 +13,8 @@ export function LocationSearchForm({
   autocomplete,
   dispatchFetchLocationAutocompleteSuggestions,
   dispatchFetchSearchByLocationCoords,
+  dispatchFetchSearchByLocationResults,
   dispatchUpdateAutocompleteLocation,
-  fetchSearchByLocation,
   filters,
   preview,
   search,
@@ -22,9 +22,13 @@ export function LocationSearchForm({
   const [distance, setDistance] = useState(search.query.distance);
   const { version } = preview;
 
-  const doSearch = () => {
+  const doSearch = event => {
     event.preventDefault();
-    fetchSearchByLocation(autocomplete.location, distance, search.tab);
+    dispatchFetchSearchByLocationResults(
+      autocomplete.location,
+      distance,
+      filters,
+    );
   };
 
   const handleSelection = selected => {
@@ -39,6 +43,10 @@ export function LocationSearchForm({
     dispatchFetchLocationAutocompleteSuggestions(value);
   };
 
+  const handleEnterPress = e => {
+    doSearch(e);
+  };
+
   return (
     <div>
       <form onSubmit={doSearch}>
@@ -51,6 +59,7 @@ export function LocationSearchForm({
               inputValue={autocomplete.location}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onSelection={handleSelection}
+              onPressEnter={handleEnterPress}
               onUpdateAutocompleteSearchTerm={
                 dispatchUpdateAutocompleteLocation
               }
@@ -93,7 +102,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  fetchSearchByLocation: fetchSearchByLocationResults,
+  dispatchFetchSearchByLocationResults: fetchSearchByLocationResults,
   dispatchFetchLocationAutocompleteSuggestions: fetchLocationAutocompleteSuggestions,
   dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
   dispatchUpdateAutocompleteLocation: updateAutocompleteLocation,
