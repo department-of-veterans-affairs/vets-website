@@ -2,6 +2,7 @@ import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
 import { secondaryOneFields } from 'applications/caregivers/definitions/constants';
 import { secondaryOneInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import { secondaryOneHeaderInfo } from 'applications/caregivers/definitions/content';
 import {
   dateOfBirthUI,
   fullNameUI,
@@ -14,7 +15,9 @@ const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;
 
 const secondaryCaregiverInfoPage = {
   uiSchema: {
-    'ui:description': SecondaryCaregiverInfo({ headerInfo: true }),
+    'ui:description': SecondaryCaregiverInfo({
+      headerInfo: secondaryOneHeaderInfo,
+    }),
     // secondaryOne UI
     [secondaryOneFields.fullName]: fullNameUI(secondaryOneInputLabel),
     [secondaryOneFields.ssn]: ssnUI(secondaryOneInputLabel),
