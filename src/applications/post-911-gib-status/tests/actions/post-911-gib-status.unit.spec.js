@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
+  mockFetch,
+  setFetchJSONFailure,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
+import {
   getEnrollmentData,
   getServiceAvailability,
 } from '../../actions/post-911-gib-status';
@@ -13,19 +18,11 @@ import {
   SET_SERVICE_UPTIME_REMAINING,
 } from '../../utils/constants';
 
-let oldFetch;
 let oldWindow;
 const setup = () => {
-  oldFetch = global.fetch;
   oldWindow = global.window;
-  global.fetch = sinon.stub();
-  global.fetch.returns(
-    Promise.resolve({
-      headers: { get: () => 'application/json' },
-      ok: true,
-      json: () => Promise.resolve({}),
-    }),
-  );
+  mockFetch();
+  setFetchJSONResponse(global.fetch.onCall(0), {});
   global.window = Object.create(global.window);
   Object.assign(global.window, {
     dataLayer: [],
@@ -37,7 +34,6 @@ const setup = () => {
 };
 
 const teardown = () => {
-  global.fetch = oldFetch;
   global.window = oldWindow;
 };
 
@@ -109,13 +105,7 @@ describe('getEnrollmentData', () => {
   afterEach(teardown);
 
   it('dispatches GET_ENROLLMENT_DATA_SUCCESS on successful fetch', done => {
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/json' },
-        ok: true,
-        json: () => Promise.resolve(successResponse),
-      }),
-    );
+    setFetchJSONResponse(global.fetch.onCall(0), successResponse);
     const thunk = getEnrollmentData();
     const dispatch = sinon.spy();
     thunk(dispatch)
@@ -128,8 +118,9 @@ describe('getEnrollmentData', () => {
   });
 
   it('dispatches GET_ENROLLMENT_DATA_FAILURE on unspecified failure', done => {
-    global.fetch.returns(
-      Promise.reject(new Error('Unknown error in apiRequest')),
+    setFetchJSONFailure(
+      global.fetch.onCall(0),
+      new Error('Unknown error in apiRequest'),
     );
     const thunk = getEnrollmentData();
     const dispatch = sinon.spy();
@@ -142,7 +133,7 @@ describe('getEnrollmentData', () => {
   });
 
   it('dispatches GET_ENROLLMENT_DATA_FAILURE on unexpected error without code', done => {
-    global.fetch.returns(Promise.reject({}));
+    setFetchJSONFailure(global.fetch.onCall(0), Promise.reject({}));
     const thunk = getEnrollmentData();
     const dispatch = sinon.spy();
     thunk(dispatch)
@@ -154,11 +145,9 @@ describe('getEnrollmentData', () => {
   });
 
   it('dispatches GET_ENROLLMENT_DATA_FAILURE on unexpected error code', done => {
-    global.fetch.returns(
-      Promise.reject({
-        errors: [{ status: '500' }],
-      }),
-    );
+    setFetchJSONFailure(global.fetch.onCall(0), {
+      errors: [{ status: '500' }],
+    });
     const thunk = getEnrollmentData();
     const dispatch = sinon.spy();
     thunk(dispatch)
@@ -170,11 +159,9 @@ describe('getEnrollmentData', () => {
   });
 
   it('dispatches matching error action on known error code', done => {
-    global.fetch.returns(
-      Promise.reject({
-        errors: [{ status: '503' }],
-      }),
-    );
+    setFetchJSONFailure(global.fetch.onCall(0), {
+      errors: [{ status: '503' }],
+    });
     const thunk = getEnrollmentData();
     const dispatch = sinon.spy();
     thunk(dispatch)
@@ -223,7 +210,7 @@ describe('getServiceAvailability', () => {
   });
 
   it('should dispatch SET_SERVICE_AVAILABILITY with a status of `up`', done => {
-    global.fetch.returns(apiResponse(true));
+    setFetchJSONResponse(global.fetch.onCall(0), apiResponse(true));
     const thunk = getServiceAvailability();
     const dispatch = sinon.spy();
 
@@ -240,7 +227,7 @@ describe('getServiceAvailability', () => {
   });
 
   it('should dispatch SET_SERVICE_AVAILABILITY with a status of `down`', done => {
-    global.fetch.returns(apiResponse(false));
+    setFetchJSONResponse(global.fetch.onCall(0), apiResponse(false));
     const thunk = getServiceAvailability();
     const dispatch = sinon.spy();
 
@@ -257,7 +244,7 @@ describe('getServiceAvailability', () => {
   });
 
   it('should dispatch SET_SERVICE_UPTIME_REMAINING with the seconds until the next scheduled downtime', done => {
-    global.fetch.returns(apiResponse(false, 300));
+    setFetchJSONResponse(apiResponse(false, 300));
     const thunk = getServiceAvailability();
     const dispatch = sinon.spy();
 
