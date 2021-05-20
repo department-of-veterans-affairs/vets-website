@@ -45,7 +45,7 @@ jobs:
 
       - uses: browser-actions/setup-chrome@latest
         with:
-          chrome-version: 658883
+          chrome-version: 656325
 
       - name: Print Chrome version
         run: chrome --version
