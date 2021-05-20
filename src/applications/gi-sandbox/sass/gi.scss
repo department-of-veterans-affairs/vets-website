@@ -170,8 +170,17 @@
   .search-form {
     margin-top: 50px;
 
+    button {
+      margin-top:.5em;
+      width: auto;
+    }
+
     .usa-button i {
       padding-left: 16px;
+    }
+
+    .suggestions-list {
+      position: absolute;
     }
 
     .search-box {

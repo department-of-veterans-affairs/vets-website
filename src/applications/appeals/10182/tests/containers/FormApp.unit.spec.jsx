@@ -216,8 +216,8 @@ describe('FormApp', () => {
     const updatedFormData = setFormData.args[0][0];
     expect(updatedFormData.areaOfDisagreement.length).to.eq(2);
     expect(updatedFormData.areaOfDisagreement).to.deep.equal([
-      formData.contestableIssues[0],
-      formData.additionalIssues[0],
+      { ...formData.contestableIssues[0], index: 0 },
+      { ...formData.additionalIssues[0], index: 1 },
     ]);
 
     tree.unmount();

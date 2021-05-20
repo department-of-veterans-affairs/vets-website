@@ -17,10 +17,6 @@ do
       buildLog="${2}"
       shift 2
       ;;
-    --omitdebug)
-      omitdebug="${1}"
-      shift
-      ;;
     *)    # unknown option
       shift # past argument
       ;;
@@ -31,6 +27,6 @@ done
 # exit code.  In this case, if the build command fails, the tee
 # command won't trick Jenkins into thinking the step passed.
 set -o pipefail
-npm --no-color run build -- --verbose --scaffold --buildtype="$envName" "$omitdebug" 2>&1 | tee "$buildLog"
+npm --no-color run build -- --verbose --buildtype="$envName" 2>&1 | tee "$buildLog"
 
 exit $?

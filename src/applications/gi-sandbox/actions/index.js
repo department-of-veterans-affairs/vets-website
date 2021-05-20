@@ -33,7 +33,6 @@ export const SEARCH_BY_LOCATION_SUCCEEDED = 'SEARCH_BY_LOCATION_SUCCEEDED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
-export const SET_VERSION = 'SET_VERSION';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 
@@ -68,23 +67,6 @@ export function hideModal() {
   return showModal(null);
 }
 
-function withPreview(dispatch, action) {
-  const version = action.payload.meta.version;
-  if (version.preview) {
-    dispatch({
-      type: ENTER_PREVIEW_MODE,
-      version,
-    });
-  } else if (version.createdAt) {
-    dispatch({
-      type: SET_VERSION,
-      version,
-    });
-  }
-
-  dispatch(action);
-}
-
 export function fetchProfile(facilityCode, version) {
   const queryString = version ? `?version=${version}` : '';
   const url = `${api.url}/institutions/${facilityCode}${queryString}`;
@@ -101,7 +83,7 @@ export function fetchProfile(facilityCode, version) {
       })
       .then(institution => {
         const { AVGVABAH, AVGDODBAH } = getState().constants.constants;
-        return withPreview(dispatch, {
+        return dispatch({
           type: FETCH_PROFILE_SUCCEEDED,
           payload: {
             ...institution,
@@ -132,7 +114,7 @@ export function fetchConstants(version) {
         throw new Error(res.statusText);
       })
       .then(payload => {
-        withPreview(dispatch, { type: FETCH_CONSTANTS_SUCCEEDED, payload });
+        dispatch({ type: FETCH_CONSTANTS_SUCCEEDED, payload });
       })
       .catch(err => {
         dispatch({
@@ -216,11 +198,12 @@ export function updateEstimatedBenefits(estimatedBenefits) {
   return { type: UPDATE_ESTIMATED_BENEFITS, estimatedBenefits };
 }
 
-export function fetchSearchByNameResults(name) {
-  const url = appendQuery(
-    `${api.url}/institutions/search`,
-    rubyifyKeys({ name }),
-  );
+export function fetchSearchByNameResults(name, filterFields, version) {
+  const url = appendQuery(`${api.url}/institutions/search`, {
+    name,
+    ...rubyifyKeys(filterFields),
+    version,
+  });
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, payload: { name } });
@@ -233,12 +216,12 @@ export function fetchSearchByNameResults(name) {
 
         throw new Error(res.statusText);
       })
-      .then(payload =>
-        withPreview(dispatch, {
+      .then(payload => {
+        dispatch({
           type: SEARCH_BY_NAME_SUCCEEDED,
           payload,
-        }),
-      )
+        });
+      })
       .catch(err => {
         dispatch({
           type: SEARCH_FAILED,
@@ -250,4 +233,38 @@ export function fetchSearchByNameResults(name) {
 
 export function fetchSearchByLocationResults(location, distance) {
   return { type: SEARCH_STARTED, payload: { location, distance } };
+}
+
+export function clearAutocompleteSuggestions() {
+  return { type: AUTOCOMPLETE_CLEARED };
+}
+
+export function updateAutocompleteSearchTerm(searchTerm) {
+  return {
+    type: AUTOCOMPLETE_TERM_CHANGED,
+    searchTerm,
+  };
+}
+
+export function fetchNameAutocompleteSuggestions(term, filterFields, version) {
+  const url = appendQuery(`${api.url}/institutions/autocomplete`, {
+    term,
+    ...rubyifyKeys(filterFields),
+    version,
+  });
+  return dispatch =>
+    fetch(url, api.settings)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return res.json().then(({ errors }) => {
+          throw new Error(errors[0].title);
+        });
+      })
+      .then(payload => dispatch({ type: AUTOCOMPLETE_SUCCEEDED, payload }))
+      .catch(err => {
+        dispatch({ type: AUTOCOMPLETE_FAILED, err });
+      });
 }

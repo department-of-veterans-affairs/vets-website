@@ -43,7 +43,7 @@ const ConfirmationPage = props => {
           Your provider will discuss the information on your questionnaire
           during your appointment:
         </h2>
-        <AppointmentDisplay appointmentData={context} bold={false} />
+        <AppointmentDisplay appointmentData={context} />
         <p>We look forward to seeing you at your upcoming appointment.</p>
         <PrintButton
           questionnaireResponseId={response.id}

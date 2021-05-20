@@ -26,7 +26,7 @@ describe('health care questionnaire -- constants -- get questionnaire text by id
   it('addition questions', () => {
     const text = getQuestionTextById(QUESTION_IDS.ADDITIONAL_QUESTIONS);
     expect(text).equal(
-      'Do you have a question you want to ask your provider? Please enter your most important question first.',
+      'Do you have any questions you want to ask your provider? Please enter your most important question first.',
     );
   });
 });
