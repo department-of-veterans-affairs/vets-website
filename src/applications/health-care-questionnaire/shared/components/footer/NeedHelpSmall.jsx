@@ -4,9 +4,10 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 export default function NeedHelpSmall() {
   return (
     <section className="emergency-call-out">
-      <header>
-        Note: If you need to talk to someone right away or need emergency care,
-      </header>
+      <p>
+        <strong>Note:</strong> If you need to talk to someone right away or need
+        emergency care,
+      </p>
       <ul>
         <li>
           Call <Telephone contact="911" />, or
