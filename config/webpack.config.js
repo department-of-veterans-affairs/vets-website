@@ -88,7 +88,7 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-async function buildAppPages(baseConfig) {
+async function buildAppPages(buildPath) {
   const TMP_SCAFFOLD_PATH = 'tmp/scaffold';
   fs.ensureDirSync(TMP_SCAFFOLD_PATH);
 
@@ -149,7 +149,7 @@ async function buildAppPages(baseConfig) {
   );
 
   const landingPagePath = rootUrl =>
-    path.join(baseConfig.output.path, '..', rootUrl, 'index.html');
+    path.join(buildPath, rootUrl, 'index.html');
 
   const loadInlineScript = filename =>
     fs.readFileSync(path.join(TMP_SCAFFOLD_PATH, filename));
@@ -258,19 +258,18 @@ module.exports = async (env = {}) => {
     buildOptions['local-css-sourcemaps'] ||
     !!buildOptions.entry;
 
-  const outputPath = path.resolve(
+  const buildPath = path.resolve(
     __dirname,
     '../',
     'build',
     buildOptions.destination,
-    'generated',
   );
 
   const baseConfig = {
     mode: 'development',
     entry: entryFiles,
     output: {
-      path: outputPath,
+      path: path.resolve(buildPath, 'generated'),
       publicPath: '/generated/',
       filename: '[name].entry.js',
       chunkFilename: '[name].entry.js',
@@ -433,7 +432,7 @@ module.exports = async (env = {}) => {
       patterns: [
         {
           from: 'src/site/assets',
-          to: path.join(outputPath, '..', ''),
+          to: buildPath,
         },
       ],
     }),
@@ -441,7 +440,7 @@ module.exports = async (env = {}) => {
 
   // Optionally build mocked HTML pages for apps without running content build.
   if (buildOptions.scaffold) {
-    const scaffoldedPages = await buildAppPages(baseConfig);
+    const scaffoldedPages = await buildAppPages(buildPath);
     baseConfig.plugins.push(...scaffoldedPages);
 
     // Open the browser to either --env.openTo or one of the root URLs of the
