@@ -3,6 +3,8 @@
   "rules": {
     "color-hex-length": "short",
     "property-no-unknown": true,
-    "scss/at-mixin-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$"
+    "scss/at-mixin-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
+    "scss/at-import-no-partial-leading-underscore": true,
+    "scss/at-import-partial-extension-blacklist": ["scss"]
   }
 }

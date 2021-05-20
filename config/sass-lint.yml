@@ -32,10 +32,6 @@ rules:
   class-name-format: # TODO - Change this back to 1 later.
     - 0
     - convention: hyphenatedlowercase
-  clean-import-paths:
-    - 1
-    - filename-extension: false
-      leading-underscore: false
   empty-line-between-blocks: # TODO - Change this back to 1 later.
     - 0
     - ignore-single-line-rulesets: true
