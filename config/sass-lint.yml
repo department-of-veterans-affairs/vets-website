@@ -51,9 +51,6 @@ rules:
     - 1
     - allow-leading-underscore: true
       convention: hyphenatedlowercase
-  hex-length:
-    - 1
-    - style: short
   hex-notation: # TODO - Change this back to 1 later.
     - 0
     - style: lowercase
