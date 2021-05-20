@@ -18,12 +18,11 @@ const INITIAL_STATE = {
 
 const buildNameSuggestions = (suggestions, mapper, searchTerm) => {
   const mapped = suggestions.map(mapper);
-  if (searchTerm) {
+  if (searchTerm && suggestions.length && searchTerm !== suggestions[0].label) {
     mapped.unshift({
       label: searchTerm,
     });
   }
-
   return mapped;
 };
 
