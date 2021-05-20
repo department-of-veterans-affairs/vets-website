@@ -60,38 +60,52 @@ class SaveInProgressIntro extends React.Component {
 
         if (!isExpired) {
           const lastSavedDateTime = savedAt.format('M/D/YYYY [at] h:mm a');
-
-          alert = (
-            <div>
-              <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
-                <div className="schemaform-sip-alert-title">
-                  <strong>Your {appType} is in progress</strong>
-                </div>
-                <div className="saved-form-metadata-container">
-                  {inProgressMessage && (
-                    <>
-                      <span className="saved-form-item-metadata">
-                        {inProgressMessage}
-                      </span>
-                      <br />
-                    </>
-                  )}
-                  <span className="saved-form-item-metadata">
-                    Your {appType} was last saved on {lastSavedDateTime}
-                  </span>
-                  <div className="expires-container">
-                    You can continue {appAction} now, or come back later to
-                    finish your {appType}. Your {appType}{' '}
-                    <span className="expires">
-                      will expire on {expirationDate}.
-                    </span>
+          if (formConfig.saveInProgress?.messages?.inProgressAlert) {
+            const InProgressAlert =
+              formConfig.saveInProgress.messages.inProgressAlert;
+            alert = (
+              <InProgressAlert
+                {...this.props}
+                appType={appType}
+                inProgressMessage={inProgressMessage}
+                lastSavedDateTime={lastSavedDateTime}
+                appAction={appAction}
+                expirationDate={expirationDate}
+              />
+            );
+          } else {
+            alert = (
+              <div>
+                <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
+                  <div className="schemaform-sip-alert-title">
+                    <strong>Your {appType} is in progress</strong>
                   </div>
+                  <div className="saved-form-metadata-container">
+                    {inProgressMessage && (
+                      <>
+                        <span className="saved-form-item-metadata">
+                          {inProgressMessage}
+                        </span>
+                        <br />
+                      </>
+                    )}
+                    <span className="saved-form-item-metadata">
+                      Your {appType} was last saved on {lastSavedDateTime}
+                    </span>
+                    <div className="expires-container">
+                      You can continue {appAction} now, or come back later to
+                      finish your {appType}. Your {appType}{' '}
+                      <span className="expires">
+                        will expire on {expirationDate}.
+                      </span>
+                    </div>
+                  </div>
+                  <div>{this.props.children}</div>
                 </div>
-                <div>{this.props.children}</div>
+                <br />
               </div>
-              <br />
-            </div>
-          );
+            );
+          }
         } else {
           alert = (
             <div>

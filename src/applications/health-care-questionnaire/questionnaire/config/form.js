@@ -44,6 +44,7 @@ const formConfig = {
     resumeOnly: true,
     messages: {
       inProgress: '',
+      inProgressAlert: Messages.InProgressMessage,
       expired: 'Your saved upcoming appointment questionnaire has expired.',
       saved: 'Your questionnaire has been saved.',
     },
