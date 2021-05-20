@@ -97,17 +97,20 @@ async function scaffoldBuild(baseConfig) {
 
   const APP_REGISTRY_PATH = path.join(TMP_SCAFFOLD_PATH, 'registry.json');
 
-  const scaffoldScripts = [
+  const INLINE_SCRIPTS = [
     'incompatible-browser.js',
     'record-event.js',
     'static-page-widgets.js',
   ];
 
-  // Mapping of local scaffold asset paths to their content-build paths.
-  const scaffoldAssets = scaffoldScripts.reduce(
-    (acc, cur) => ({
-      ...acc,
-      [path.join(TMP_SCAFFOLD_PATH, cur)]: path.join('src/site/assets/js', cur),
+  // Map local scaffold asset paths to their content-build paths.
+  const scaffoldAssets = INLINE_SCRIPTS.reduce(
+    (assetsMap, filename) => ({
+      ...assetsMap,
+      [path.join(TMP_SCAFFOLD_PATH, filename)]: path.join(
+        'src/site/assets/js',
+        filename,
+      ),
     }),
     {
       [APP_REGISTRY_PATH]: 'src/applications/registry.json',
@@ -119,35 +122,37 @@ async function scaffoldBuild(baseConfig) {
     Object.entries(scaffoldAssets).map(async ([tmpPath, contentBuildPath]) => {
       // Skip download for existing assets.
       if (fs.existsSync(tmpPath)) return;
+      console.log(`Missing scaffold asset at ${tmpPath.toString()}`);
 
       const fileUrl = new URL(path.join(CONTENT_BUILD_ROOT, contentBuildPath));
-      console.log(`Downloading ${fileUrl.toString()}`);
+      console.log(`Downloading asset from ${fileUrl.toString()}`);
 
       const response = await fetch(fileUrl);
-      if (!response.ok)
+
+      if (!response.ok) {
         throw new Error(
           `Failed to fetch ${fileUrl}.\n\n${response.status}: ${
             response.statusText
           }`,
         );
+      }
 
       // Cache downloaded asset for later reuse.
       try {
         const fileContents = await response.buffer();
         fs.writeFileSync(tmpPath, fileContents);
+        console.log(`Saved asset to ${tmpPath}`);
       } catch (error) {
         throw new Error(`Failed to write ${tmpPath}.\n\n${error}`);
       }
     }),
   );
 
-  const inlineScripts = scaffoldScripts.reduce(
-    (scripts, filename) => ({
-      ...scripts,
-      [filename]: fs.readFileSync(path.join(TMP_SCAFFOLD_PATH, filename)),
-    }),
-    {},
-  );
+  const landingPagePath = rootUrl =>
+    path.join(baseConfig.output.path, '..', rootUrl, 'index.html');
+
+  const loadInlineScript = filename =>
+    fs.readFileSync(path.join(TMP_SCAFFOLD_PATH, filename));
 
   // Modifies the style tags output from HTML Webpack Plugin
   // to match the order and attributes of style tags from real content.
@@ -180,9 +185,6 @@ async function scaffoldBuild(baseConfig) {
       }, [])
       .join('');
 
-  const landingPagePath = rootUrl =>
-    path.join(baseConfig.output.path, '..', rootUrl, 'index.html');
-
   /* eslint-disable no-nested-ternary */
   const generateLandingPage = ({
     appName,
@@ -201,7 +203,7 @@ async function scaffoldBuild(baseConfig) {
       templateParameters: {
         entryName,
         headerFooterData,
-        inlineScripts,
+        loadInlineScript,
         modifyScriptTags,
         modifyStyleTags,
         widgetType,
