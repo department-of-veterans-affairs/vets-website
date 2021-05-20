@@ -5,16 +5,6 @@
 
     .location-header {
       flex-wrap: wrap;
-
-      .location-header-letter {
-        border-radius: 50%;
-        width: 28px;
-        height: 24px;
-
-        background: $color-base;
-        color: $color-gray-lightest;
-        text-align: center;
-      }
     }
   }
 
@@ -52,4 +42,15 @@
     border: solid 4px $color-white;
     background-color: $color-red-dark;
   }
+
+  .location-letter {
+    border-radius: 50%;
+    width: 28px;
+    height: 24px;
+
+    background: $color-base;
+    color: $color-gray-lightest;
+    text-align: center;
+  }
+
 }

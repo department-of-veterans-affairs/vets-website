@@ -56,7 +56,7 @@ export default function SearchResults({ search }) {
     // const markerElement = buildMarker(letter);
     // create a HTML element for each feature
     const el = document.createElement('div');
-    el.className = 'marker';
+    el.className = 'location-letter';
     el.innerText = letter;
 
     new mapboxgl.Marker(el).setLngLat([longitude, latitude]).addTo(map.current);
@@ -70,9 +70,7 @@ export default function SearchResults({ search }) {
     const header = (
       <>
         <div className="location-header vads-u-display--flex vads-u-padding-top--1">
-          <span className="location-header-letter vads-u-font-size--sm">
-            {letter}
-          </span>
+          <span className="location-letter vads-u-font-size--sm">{letter}</span>
           <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
             <strong>{miles} miles</strong>
           </span>
