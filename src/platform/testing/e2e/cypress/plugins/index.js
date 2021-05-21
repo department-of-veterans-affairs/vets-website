@@ -1,3 +1,6 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-useless-escape */
+/* eslint-disable no-console */
 const fs = require('fs-extra');
 const path = require('path');
 // const webpackPreprocessor = require('@cypress/webpack-preprocessor');
@@ -35,12 +38,18 @@ module.exports = (on, config) => {
     setup(build) {
       build.onLoad({ filter: /.jsx?$/ }, ({ path: filePath }) => {
         if (!filePath.match(nodeModules)) {
+          const regex = /.*\/vets-website\/(.+)/;
+          const [, relativePath] = filePath.match(regex);
           let contents = fs.readFileSync(filePath, 'utf8');
           const loader = path.extname(filePath).substring(1);
-          const dirname = path.dirname(filePath);
-          console.log('dirname: ', dirname);
-          console.log('contents: ', contents);
-          console.log('loader: ', loader);
+          const dirname = path.dirname(relativePath);
+          if (/.+.cypress.spec.js$/.test(filePath)) {
+            console.log('filePath: ', filePath);
+            console.log('dirname: ', dirname);
+            console.log('__dirname: ', __dirname);
+            console.log('contents: ', contents);
+            console.log('loader: ', loader);
+          }
           const injectedStuff = `const __dirname = '${dirname}';`;
           contents = `${injectedStuff}\n\n${contents}`;
           return {
