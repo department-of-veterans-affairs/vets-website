@@ -33,7 +33,7 @@ export function LocationSearchForm({
 
   const handleSelection = selected => {
     dispatchFetchSearchByLocationCoords(
-      autocomplete.location,
+      selected.label,
       selected.coords,
       filters,
     );
