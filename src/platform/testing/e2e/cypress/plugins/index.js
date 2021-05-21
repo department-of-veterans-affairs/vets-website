@@ -5,11 +5,11 @@ const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 module.exports = on => {
   const ENV = 'localhost';
 
+  // Import our own Webpack config.
   require('../../../../../../config/webpack.config.js')(ENV).then(
     webpackConfig => {
       const options = {
         webpackOptions: {
-          // Import our own Webpack config.
           ...webpackConfig,
 
           // Expose some Node globals.
