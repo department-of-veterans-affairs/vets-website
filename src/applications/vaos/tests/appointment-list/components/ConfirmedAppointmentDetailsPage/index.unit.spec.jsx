@@ -244,6 +244,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(document.activeElement).to.have.tagName('h1');
     });
 
+    expect(await screen.findByText(/This appointment occurred in the past./i))
+      .to.be.ok;
+
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Fort Collins VA Clinic/)).to.be.ok;
     expect(screen.getByText(/Jennie's Lab/)).to.be.ok;
