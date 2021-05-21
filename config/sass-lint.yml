@@ -71,7 +71,6 @@ rules:
   no-extends: 2
   no-ids: 0 # TODO - Change this back to 1 later.
   no-important: 0 # TODO - Change this back to 1 later.
-  no-invalid-hex: 1
   no-mergeable-selectors: 0 # TODO - Change this back to 1 later.
   no-qualifying-elements: # TODO - Change this back to 1 later.
     - 0

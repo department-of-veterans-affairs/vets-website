@@ -4,6 +4,7 @@
     "at-rule-disallowed-list": "debug",
     "color-hex-length": "short",
     "color-named": "never",
+    "color-no-invalid-hex": true,
     "declaration-colon-space-after": "always-single-line",
     "declaration-colon-space-before": "never",
     "property-no-unknown": true,
