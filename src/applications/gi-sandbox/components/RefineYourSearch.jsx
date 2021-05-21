@@ -184,7 +184,6 @@ export function RefineYourSearch({
           }
           onChange={handleCheckboxChange}
         />
-        {/* TODO: Update learn more content for this one only */}
         <Checkbox
           checked={filters.accredited}
           name="accredited"
