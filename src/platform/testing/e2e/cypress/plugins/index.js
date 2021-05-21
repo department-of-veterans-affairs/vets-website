@@ -5,6 +5,7 @@ const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
 
 // module.exports = on => {
 
+// eslint-disable-next-line no-unused-vars
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
@@ -57,10 +58,6 @@ module.exports = (on, config) => {
     },
     inject: ['src/platform/testing/e2e/cypress/plugins/react-shim.js'],
     loader: { '.js': 'jsx' },
-    node: {
-      __dirname: true,
-      __filename: true,
-    },
     // plugins: [dirnamePlugin],
   });
   on('file:preprocessor', bundler);
