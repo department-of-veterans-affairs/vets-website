@@ -1,47 +1,44 @@
 import React, { useEffect } from 'react';
 import { setLangAttribute } from 'applications/static-pages/i18Select/hooks';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 function LanguagesListTemplate({ langSelected }) {
   return (
-    <Router>
-      <ul>
-        {[
-          {
-            onThisPage: 'En esta página',
-            label: 'Español',
-            suffix: '-esp/',
-            lang: 'es',
-            href: '',
-          },
-          {
-            suffix: '-tag/',
-            label: 'Tagalog',
-            onThisPage: 'Sa pahinang ito',
-            lang: 'tl',
-            href: '/coronavirus-veteran-frequently-asked-questions-esp/',
-          },
-          {
-            label: 'Other languages',
-            suffix: '/',
-            lang: 'en',
-            href: '',
-          },
-        ].map((link, i) => (
-          <li key={i}>
-            <Link
-              to={link.href}
-              onClick={() => {
-                langSelected(link.lang);
-              }}
-            >
-              {' '}
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </Router>
+    <ul>
+      {[
+        {
+          onThisPage: 'En esta página',
+          label: 'Español',
+          suffix: '-esp/',
+          lang: 'es',
+          href: '',
+        },
+        {
+          suffix: '-tag/',
+          label: 'Tagalog',
+          onThisPage: 'Sa pahinang ito',
+          lang: 'tl',
+          href: '/coronavirus-veteran-frequently-asked-questions-tag',
+        },
+        {
+          label: 'Other languages',
+          suffix: '/',
+          lang: 'en',
+          href: '',
+        },
+      ].map((link, i) => (
+        <li key={i}>
+          <a
+            href={link.href}
+            onClick={() => {
+              langSelected(link.lang);
+            }}
+          >
+            {' '}
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
   );
 }
 export default function LanguageSupport({
@@ -52,12 +49,12 @@ export default function LanguageSupport({
 }) {
   useEffect(
     () => {
-      const mainUrlLang = document?.getElementById('content')?.lang;
-      if (mainUrlLang !== 'en') {
-        setLangAttribute(mainUrlLang);
-      } else {
-        setLangAttribute(languageCode);
+      const isEnglish = document.getElementById('content').lang === 'en';
+      if (isEnglish) {
+        setLangAttribute('en');
+        return;
       }
+      setLangAttribute(languageCode);
     },
     [languageCode],
   );

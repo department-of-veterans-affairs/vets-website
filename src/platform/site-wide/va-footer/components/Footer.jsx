@@ -36,8 +36,6 @@ class Footer extends React.Component {
     }
   }
   render() {
-    console.log(this.props, 'FFFLAG');
-
     return (
       <div>
         <div className="footer-inner">
