@@ -438,7 +438,7 @@ const FacilitiesMap = props => {
   //   );
   // };
 
-  const renderDesktopView = () => {
+  const renderView = () => {
     // This block is needed to ensure that the desktop map gets re-loaded when
     // resizing from mobile to desktop.
     const {
@@ -481,7 +481,6 @@ const FacilitiesMap = props => {
 
     return (
       <div className={!isMobile ? 'desktop-container' : undefined}>
-        {/* <div className={!isMobile && "desktop-container"}> */}
         <SearchControls
           geolocateUser={props.geolocateUser}
           clearGeocodeError={props.clearGeocodeError}
@@ -688,8 +687,7 @@ const FacilitiesMap = props => {
             <strong>Coronavirus update:</strong> {coronavirusUpdate}
           </p>
         </div>
-        {renderDesktopView()}
-        {/* {isMobile ? renderMobileView() : renderDesktopView()} */}
+        {renderView()}
       </div>
       {props.results && props.results.length > 0 && otherToolsLink()}
     </>

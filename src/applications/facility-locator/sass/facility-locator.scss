@@ -11,12 +11,6 @@ $facility-locator-color-info-bubble-text: #818a8d;
 $facility-locator-color-gray: #ccc;
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
-#testing {
-  border-width: 20px;
-  background-color: 'red';
-  // border-color: 'red';
-}
-
 .facility-locator {
   @media (max-width: $large-screen) {
     margin: 0 12px;
