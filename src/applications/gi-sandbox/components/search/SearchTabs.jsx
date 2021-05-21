@@ -4,7 +4,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import NameSearchForm from '../../containers/NameSearchForm';
 import LocationSearchForm from '../../containers/LocationSearchForm';
 import SearchResults from './SearchResults';
-import LocationSearchResults from './LocationSearchResults';
+import LocationSearchResults from '../location/SearchResults';
 import { TABS } from '../../constants';
 
 export default function SearchTabs({ onChange, search }) {
