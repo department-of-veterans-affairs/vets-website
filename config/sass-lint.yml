@@ -64,7 +64,6 @@ rules:
   nesting-depth: # TODO - Change this back to 1 later.
     - 0
     - max-depth: 3
-  no-color-keywords: 1
   no-color-literals: 1
   no-css-comments: 0 # TODO - Change this back to 1 later.
   no-debug: 1
