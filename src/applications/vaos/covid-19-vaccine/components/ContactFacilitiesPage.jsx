@@ -130,7 +130,7 @@ function ContactFacilitiesPage({
                   ? facility.telecom.find(t => t.system === 'covid')?.value
                   : facility.telecom.find(t => t.system === 'phone')?.value
               }
-              level="3"
+              level={3}
             />
           </li>
         ))}

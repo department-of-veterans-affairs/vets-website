@@ -16,6 +16,7 @@ export function NameSearchForm({
   fetchSearchByName,
   preview,
   updateNameAutocomplete,
+  search,
 }) {
   const [searchError, setSearchError] = useState(false);
   const { version } = preview;
@@ -29,6 +30,7 @@ export function NameSearchForm({
         vettec: filters.vettec,
       },
       version,
+      search.tab,
     );
   };
 
@@ -85,6 +87,7 @@ const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   filters: state.filters,
   preview: state.preview,
+  search: state.search,
 });
 
 const mapDispatchToProps = {

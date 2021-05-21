@@ -6,7 +6,6 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { connect } from 'react-redux';
 import OMBInfo from '../content/OMBInfo';
 import CallToActionWidget from 'platform/site-wide/cta-widget';
-import environment from 'platform/utilities/environment';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -114,14 +113,7 @@ class IntroductionPage extends React.Component {
             </li>
           </ol>
         </div>
-        <div
-          // Prod Flag bah-23496
-          className={
-            !this.props.isLoggedIn && !environment.isProduction()
-              ? 'vads-u-padding-bottom--1p5'
-              : ''
-          }
-        >
+        <div className={!this.props.isLoggedIn && 'vads-u-padding-bottom--1p5'}>
           <SaveInProgressIntro
             buttonOnly={!this.props.isLoggedIn}
             prefillEnabled={this.props.route.formConfig.prefillEnabled}

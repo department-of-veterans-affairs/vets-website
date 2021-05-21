@@ -302,7 +302,7 @@ export class IntroductionPage extends React.Component {
               <OMBInfo
                 resBurden={15}
                 ombNumber="2900-0862"
-                expDate="02/28/2022"
+                expDate="04/30/2024"
               />
             </div>
           </>
