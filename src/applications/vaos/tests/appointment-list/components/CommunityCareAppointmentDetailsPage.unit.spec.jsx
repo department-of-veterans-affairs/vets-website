@@ -40,7 +40,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     MockDate.reset();
   });
 
-  it.skip('should navigate to community care appointments detail page', async () => {
+  it('should navigate to community care appointments detail page', async () => {
     // CC appointment id from confirmed_cc.json
     const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
     const startDate = moment().add(1, 'day');
@@ -193,7 +193,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Rick Katz/)).to.be.ok;
   });
 
-  it.skip('should fire a print request when print button clicked', async () => {
+  it('should fire a print request when print button clicked', async () => {
     // CC appointment id from confirmed_cc.json
     const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
     const startDate = moment().add(1, 'day');
