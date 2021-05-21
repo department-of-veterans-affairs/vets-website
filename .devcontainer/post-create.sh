@@ -21,10 +21,6 @@ yarn install
 printf "\n\n##### Downloading content repo #####\n"
 yarn install-repos
 
-# download drupal cache
-printf "\n\n##### Downloading Drupal cache #####\n"
-yarn fetch-drupal-cache
-
 # build content
 # yarn build
 
