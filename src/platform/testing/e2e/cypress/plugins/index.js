@@ -24,17 +24,44 @@ module.exports = (on, config) => {
   // };
 
   // eslint-disable-next-line no-console
-  console.log('config:', config);
+  // console.log('config:', config);
+
+  // const nodeModules = new RegExp(/^(?:.*[\\\/])?node_modules(?:[\\\/].*)?$/);
+
+  // const dirnamePlugin = {
+  //   name: 'dirname',
+
+  //   setup(build) {
+  //     build.onLoad({ filter: /.*/ }, ({ path: filePath }) => {
+  //       if (!filePath.match(nodeModules)) {
+  //         let contents = fs.readFileSync(filePath, 'utf8');
+  //         const loader = path.extname(filePath).substring(1);
+  //         const dirname = path.dirname(filePath);
+  //         contents = contents
+  //           .replace('__dirname', `"${dirname}"`)
+  //           .replace('__filename', `"${filePath}"`);
+  //         console.log('contents: ', contents);
+  //         console.log('loader: ', loader);
+  //         return {
+  //           contents,
+  //           loader,
+  //         };
+  //       }
+  //     });
+  //   },
+  // };
   const bundler = createBundler({
     define: {
-      // 'process.env.NODE_ENV': '"localhost"',
-      // 'BUILDTYPE': '"localhost"',
       __BUILDTYPE__: '"localhost"',
       __API__: null,
     },
     inject: ['src/platform/testing/e2e/cypress/plugins/react-shim.js'],
     loader: { '.js': 'jsx' },
-    // outfile: 'out.js',
+    node: {
+      __dirname: true,
+      __filename: true,
+    },
+    // plugins: [dirnamePlugin],
   });
   on('file:preprocessor', bundler);
   // on('file:preprocessor', webpackPreprocessor(options));
