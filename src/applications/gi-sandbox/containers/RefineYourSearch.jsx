@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import SearchAccordion from '../components/SearchAccordion';
-import Checkbox from './Checkbox';
-import Dropdown from './Dropdown';
-import LearnMoreLabel from './LearnMoreLabel';
+import Checkbox from '../components/Checkbox';
+import Dropdown from '../components/Dropdown';
+import LearnMoreLabel from '../components/LearnMoreLabel';
 
 import {
   getStateNameForCode,

@@ -2,7 +2,7 @@ import React from 'react';
 import SearchResultCard from './SearchResultCard';
 import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import RefineYourSearch from './RefineYourSearch';
+import RefineYourSearch from '../containers/RefineYourSearch';
 import { TABS } from '../constants';
 import LocationSearchResults from './location/SearchResults';
 
@@ -17,7 +17,7 @@ export default function SearchResults({ search }) {
 
   return (
     <>
-      {(search.query.name !== '' || search.query.location !== '') && (
+      {search.query.name !== '' && (
         <div className="usa-grid vads-u-padding--1">
           <p>
             Showing <strong>{search.count} search results</strong> for '
