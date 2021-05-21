@@ -5,7 +5,7 @@
     "block-no-empty": true,
     "color-hex-length": "short",
     "color-named": "never",
-    "color-no-invalid-hex": true,
+    "color-no-hex": true,
     "declaration-colon-space-after": "always-single-line",
     "declaration-colon-space-before": "never",
     "function-url-scheme-disallowed-list": ["ftp", "/^http/"],
