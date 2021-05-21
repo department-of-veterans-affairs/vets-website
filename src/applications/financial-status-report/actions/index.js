@@ -1,13 +1,4 @@
-import {
-  fetchAndUpdateSessionExpiration as fetch,
-  apiRequest,
-} from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import {
-  FSR_API_ERROR,
-  FSR_RESET_ERRORS,
-  FSR_API_CALL_INITIATED,
-} from '../constants/actionTypes';
 import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import moment from 'moment';
 import head from 'lodash/head';
@@ -15,6 +6,24 @@ import localStorage from 'platform/utilities/storage/localStorage';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
 import { debtLettersSuccess } from '../../debt-letters/utils/mockResponses';
+import {
+  fetchAndUpdateSessionExpiration as fetch,
+  apiRequest,
+} from 'platform/utilities/api';
+import {
+  FSR_API_ERROR,
+  FSR_RESET_ERRORS,
+  FSR_API_CALL_INITIATED,
+} from '../constants/actionTypes';
+
+const fetchDebtLettersSuccess = debts => ({
+  type: DEBTS_FETCH_SUCCESS,
+  debts,
+});
+
+const initiateApiCall = () => ({
+  type: FSR_API_CALL_INITIATED,
+});
 
 const handleError = error => ({
   type: FSR_API_ERROR,
@@ -23,10 +32,6 @@ const handleError = error => ({
 
 const resetError = () => ({
   type: FSR_RESET_ERRORS,
-});
-
-const initiateApiCall = () => ({
-  type: FSR_API_CALL_INITIATED,
 });
 
 export const fetchFormStatus = () => async dispatch => {
@@ -63,13 +68,12 @@ export const fetchFormStatus = () => async dispatch => {
   return null;
 };
 
-const fetchDebtLettersSuccess = debts => ({
-  type: DEBTS_FETCH_SUCCESS,
-  debts,
-});
-
 export const fetchDebts = () => async (dispatch, getState) => {
-  try {
+  const state = getState();
+  const { currentlyLoggedIn } = state.user.login;
+  const fetchApiData = currentlyLoggedIn && isVAProfileServiceConfigured();
+
+  const getDebts = () => {
     const options = {
       method: 'GET',
       credentials: 'include',
@@ -80,23 +84,24 @@ export const fetchDebts = () => async (dispatch, getState) => {
       },
     };
 
-    const state = getState();
+    return fetchApiData
+      ? apiRequest(`${environment.API_URL}/v0/debts`, options)
+      : debtLettersSuccess();
+  };
 
-    const response =
-      isVAProfileServiceConfigured() && state.user.login.currentlyLoggedIn
-        ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
-        : await debtLettersSuccess();
-
+  try {
+    const response = await getDebts();
     const approvedDeductionCodes = Object.keys(deductionCodes);
-    // remove any debts that do not have approved deductionCodes or
-    // that have a current amount owed of 0
+    // filter approved deductionCodes &&
+    // remove debts that have a current amount owed of 0
     const filteredResponse = response.debts
-      .filter(res => approvedDeductionCodes.includes(res.deductionCode))
+      .filter(debt => approvedDeductionCodes.includes(debt.deductionCode))
       .filter(debt => debt.currentAr > 0)
       .map((debt, index) => ({ ...debt, id: index }));
+
     return dispatch(fetchDebtLettersSuccess(filteredResponse));
-  } catch (error) {
-    return null;
+  } catch (err) {
+    throw new Error(err);
   }
 };
 
@@ -110,6 +115,7 @@ export const downloadPDF = () => {
       'Source-App-Name': window.appName,
     },
   };
+
   return fetch(
     `${environment.API_URL}/v0/financial_status_reports/download_pdf`,
     options,
