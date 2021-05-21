@@ -49,11 +49,6 @@ export default function LanguageSupport({
 }) {
   useEffect(
     () => {
-      const isEnglish = document.getElementById('content').lang === 'en';
-      if (isEnglish) {
-        setLangAttribute('en');
-        return;
-      }
       setLangAttribute(languageCode);
     },
     [languageCode],
