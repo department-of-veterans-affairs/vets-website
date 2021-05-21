@@ -2,6 +2,7 @@
   "plugins": ["stylelint-scss"],
   "rules": {
     "at-rule-disallowed-list": "debug",
+    "block-no-empty": true,
     "color-hex-length": "short",
     "color-named": "never",
     "color-no-invalid-hex": true,

@@ -67,7 +67,6 @@ rules:
   no-color-literals: 1
   no-css-comments: 0 # TODO - Change this back to 1 later.
   no-duplicate-properties: 0 # TODO - Change this back to 1 later.
-  no-empty-rulesets: 1
   no-extends: 2
   no-ids: 0 # TODO - Change this back to 1 later.
   no-important: 0 # TODO - Change this back to 1 later.
