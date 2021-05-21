@@ -226,16 +226,16 @@ export default function RequestedAppointmentDetailsPage() {
           </li>
         ))}
       </ul>
-      <>
+      <div className="vaos-u-word-break--break-word">
         <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
           {appointment.reason}
         </h2>
         <div>{message}</div>
-      </>
+      </div>
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
         Your contact details
       </h2>
-      <div>
+      <div className="vaos-u-word-break--break-word">
         {getPatientTelecom(appointment, 'email')}
         <br />
         <Telephone
