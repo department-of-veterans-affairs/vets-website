@@ -1,7 +1,7 @@
 {
   "plugins": ["stylelint-scss"],
   "rules": {
-    "at-rule-disallowed-list": "debug",
+    "at-rule-disallowed-list": ["debug", "extend"],
     "block-no-empty": true,
     "color-hex-length": "short",
     "color-named": "never",
