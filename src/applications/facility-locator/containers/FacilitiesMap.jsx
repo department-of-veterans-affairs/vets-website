@@ -351,96 +351,9 @@ const FacilitiesMap = props => {
     </>
   );
 
-  // const renderMobileView = () => {
-  //   const {
-  //     currentQuery,
-  //     selectedResult,
-  //     results,
-  //     pagination: { currentPage, totalPages },
-  //   } = props;
-  //   const facilityType = currentQuery.facilityType;
-  //   const serviceType = currentQuery.serviceType;
-  //   const queryContext = currentQuery.context;
-
-  //   return (
-  //     <>
-  //      {/* <div id="testing">  */}
-  //       <SearchControls
-  //         geolocateUser={props.geolocateUser}
-  //         clearGeocodeError={props.clearGeocodeError}
-  //         currentQuery={currentQuery}
-  //         onChange={props.updateSearchQuery}
-  //         onSubmit={handleSearch}
-  //         suppressCCP={props.suppressCCP}
-  //         suppressPharmacies={props.suppressPharmacies}
-  //         searchCovid19Vaccine={props.searchCovid19Vaccine}
-  //         clearSearchText={props.clearSearchText}
-  //       />
-  //       <div id="search-results-title" ref={searchResultTitleRef}>
-  //         <SearchResultsHeader
-  //           results={props.results}
-  //           facilityType={facilityType}
-  //           serviceType={serviceType}
-  //           context={queryContext}
-  //           specialtyMap={props.specialties}
-  //           inProgress={currentQuery.inProgress}
-  //         />
-  //       </div>
-
-  //       <div className="columns small-12">
-  //         <Tabs>
-  //           <TabList>
-  //             <Tab className="small-6 tab">View List</Tab>
-  //             <Tab
-  //               onClick={() => {
-  //                 setMapResize();
-  //               }}
-  //               className="small-6 tab"
-  //             >
-  //               View Map
-  //             </Tab>
-  //           </TabList>
-  //           <TabPanel>
-  //             <div className="facility-search-results">
-  //               <ResultsList
-  //                 updateUrlParams={updateUrlParams}
-  //                 query={currentQuery}
-  //               />
-  //             </div>
-
-  //             <PaginationWrapper
-  //               handlePageSelect={handlePageSelect}
-  //               currentPage={currentPage}
-  //               totalPages={totalPages}
-  //               results={results}
-  //               inProgress={currentQuery.inProgress}
-  //             />
-  //           </TabPanel>
-  //           <TabPanel>
-  //             {renderMap(true)}
-  //             {selectedResult && (
-  //               <div className="mobile-search-result">
-  //                 {currentQuery.serviceType === Covid19Vaccine ? (
-  //                   <Covid19Result location={selectedResult} />
-  //                 ) : (
-  //                   <SearchResult
-  //                     result={selectedResult}
-  //                     query={currentQuery}
-  //                   />
-  //                 )}
-  //               </div>
-  //             )}
-  //           </TabPanel>
-  //         </Tabs>
-  //       </div>
-  //       {/* </div> */}
-  //     </>
-  //   );
-  // };
-
   const renderView = () => {
-    // This block is needed to ensure that the desktop map gets re-loaded when
-    // resizing from mobile to desktop.
+    // This block renders the desktop and mobile view. It ensures that the desktop map
+    // gets re-loaded when resizing from mobile to desktop.
     const {
       currentQuery,
       selectedResult,
