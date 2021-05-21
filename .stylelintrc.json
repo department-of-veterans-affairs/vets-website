@@ -8,6 +8,7 @@
     "color-no-invalid-hex": true,
     "declaration-colon-space-after": "always-single-line",
     "declaration-colon-space-before": "never",
+    "function-url-scheme-disallowed-list": ["ftp", "/^http/"],
     "property-no-unknown": true,
     "scss/at-function-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
     "scss/at-mixin-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
