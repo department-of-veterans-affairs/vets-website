@@ -54,27 +54,10 @@ function formatHeader(appointment) {
   } else if (isVideoHome(appointment)) {
     return 'VA Video Connect at home';
   } else if (isVAPhoneAppointment(appointment)) {
-    return 'VA Appointment over the phone';
+    return 'VA appointment over the phone';
   } else {
-    return 'VA Appointment';
+    return 'VA appointment';
   }
-}
-
-function formatInstructions(instructions) {
-  if (!instructions) {
-    return null;
-  }
-
-  const strParts = instructions.split(': ');
-
-  if (strParts[0] && strParts[1]) {
-    return {
-      header: strParts[0],
-      body: strParts[1],
-    };
-  }
-
-  return null;
 }
 
 export default function ConfirmedAppointmentDetailsPage() {
@@ -166,7 +149,6 @@ export default function ConfirmedAppointmentDetailsPage() {
     : facility?.name || 'Facility';
 
   const header = formatHeader(appointment);
-  const instructions = formatInstructions(appointment.comment);
 
   const showInstructions =
     isInPersonVAAppointment &&
@@ -254,25 +236,23 @@ export default function ConfirmedAppointmentDetailsPage() {
               showCovidPhone={showCovidPhone}
             />
 
-            {showInstructions &&
-              isInPersonVAAppointment &&
-              instructions && (
-                <div className="vads-u-margin-top--3 vaos-appts__block-label">
-                  <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
-                    <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-                      {instructions.header}
-                    </h2>
-                    <div>{instructions.body}</div>
-                  </div>
+            {showInstructions && (
+              <div className="vads-u-margin-top--3 vaos-appts__block-label">
+                <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
+                  <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+                    You shared these details about your concern
+                  </h2>
+                  <div>{appointment.comment}</div>
                 </div>
-              )}
+              </div>
+            )}
             {!canceled && (
               <>
                 {!isPastAppointment && (
                   <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
                     <i
                       aria-hidden="true"
-                      className="far fa-calendar vads-u-margin-right--1"
+                      className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
                     />
                     <AddToCalendar
                       summary={`${header}`}
@@ -288,7 +268,7 @@ export default function ConfirmedAppointmentDetailsPage() {
                 <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
                   <i
                     aria-hidden="true"
-                    className="fas fa-print vads-u-margin-right--1"
+                    className="fas fa-print vads-u-margin-right--1 vads-u-color--link-default"
                   />
                   <button
                     className="va-button-link"
@@ -303,7 +283,7 @@ export default function ConfirmedAppointmentDetailsPage() {
                     <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
                       <i
                         aria-hidden="true"
-                        className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
+                        className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg vads-u-color--link-default"
                       />
                       <button
                         onClick={() =>
