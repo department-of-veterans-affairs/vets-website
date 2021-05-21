@@ -55,12 +55,6 @@ rules:
   leading-zero: # TODO - Change this back to 1 later.
     - 0
     - include: false
-  mixins-before-declarations:
-    - 2
-    -
-      exclude:
-        - media
-        - media-maxwidth
   nesting-depth: # TODO - Change this back to 1 later.
     - 0
     - max-depth: 3
