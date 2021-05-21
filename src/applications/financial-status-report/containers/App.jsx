@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
+  WIZARD_STATUS_RESTARTED,
+  restartShouldRedirect,
 } from 'platform/site-wide/wizard';
 
 import formConfig from '../config/form';
@@ -24,6 +26,7 @@ const App = ({
   getFormStatus,
   showWizard,
   showFSR,
+  router,
 }) => {
   const [wizardState, setWizardState] = useState(
     sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
@@ -33,6 +36,18 @@ const App = ({
     sessionStorage.setItem(WIZARD_STATUS, value);
     setWizardState(value);
   };
+
+  const hasRestarted = () => {
+    setWizardStatus(WIZARD_STATUS_RESTARTED);
+    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_RESTARTED);
+    router.push('/');
+  };
+
+  useEffect(() => {
+    if (restartShouldRedirect(WIZARD_STATUS)) {
+      hasRestarted();
+    }
+  });
 
   useEffect(
     () => {

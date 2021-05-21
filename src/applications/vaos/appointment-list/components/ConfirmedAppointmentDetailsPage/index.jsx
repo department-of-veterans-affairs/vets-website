@@ -204,6 +204,12 @@ export default function ConfirmedAppointmentDetailsPage() {
         />
       </h1>
 
+      {isPastAppointment && (
+        <AlertBox status="warning" backgroundOnly>
+          This appointment occurred in the past.
+        </AlertBox>
+      )}
+
       {canceled && (
         <AlertBox
           status="error"
