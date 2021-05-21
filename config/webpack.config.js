@@ -120,47 +120,44 @@ async function generateHtmlFiles(buildPath) {
     },
   );
 
-  // Load assets needed for the scaffold into a temp directory.
+  // Loads an asset needed for the scaffold into a temp directory.
   // First check for the file in a locally checked out `content-build`.
   // If found, create a symlink to the file in the temp scaffold path.
   // Otherwise, download the file from the master branch of `content-build`.
-  await Promise.all(
-    Object.entries(scaffoldAssets).map(async ([tmpPath, contentBuildPath]) => {
-      const localPath = path.resolve(
-        LOCAL_CONTENT_BUILD_ROOT,
-        contentBuildPath,
+  const loadAsset = async ([tmpPath, contentBuildPath]) => {
+    const localPath = path.resolve(LOCAL_CONTENT_BUILD_ROOT, contentBuildPath);
+
+    if (fs.existsSync(localPath)) {
+      fs.symlinkSync(localPath, tmpPath);
+      console.log(`Linked to local asset found at ${localPath}.`);
+      return;
+    }
+
+    const fileUrl = new URL(
+      path.join(REMOTE_CONTENT_BUILD_ROOT, contentBuildPath),
+    );
+
+    console.log(`Downloading asset from ${fileUrl.toString()}.`);
+    const response = await fetch(fileUrl);
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch ${fileUrl}.\n\n${response.status}: ${
+          response.statusText
+        }`,
       );
+    }
 
-      if (fs.existsSync(localPath)) {
-        fs.symlinkSync(localPath, tmpPath);
-        console.log(`Linked to local asset found at ${localPath}.`);
-        return;
-      }
+    try {
+      const fileContents = await response.buffer();
+      fs.writeFileSync(tmpPath, fileContents);
+      console.log(`Saved asset to ${tmpPath}.`);
+    } catch (error) {
+      throw new Error(`Failed to write ${tmpPath}.\n\n${error}`);
+    }
+  };
 
-      const fileUrl = new URL(
-        path.join(REMOTE_CONTENT_BUILD_ROOT, contentBuildPath),
-      );
-
-      console.log(`Downloading asset from ${fileUrl.toString()}.`);
-      const response = await fetch(fileUrl);
-
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch ${fileUrl}.\n\n${response.status}: ${
-            response.statusText
-          }`,
-        );
-      }
-
-      try {
-        const fileContents = await response.buffer();
-        fs.writeFileSync(tmpPath, fileContents);
-        console.log(`Saved asset to ${tmpPath}.`);
-      } catch (error) {
-        throw new Error(`Failed to write ${tmpPath}.\n\n${error}`);
-      }
-    }),
-  );
+  await Promise.all(Object.entries(scaffoldAssets).map(loadAsset));
 
   const indexPath = rootUrl => path.join(buildPath, rootUrl, 'index.html');
 
