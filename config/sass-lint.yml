@@ -75,7 +75,6 @@ rules:
     - allow-element-with-attribute: false
       allow-element-with-class: false
       allow-element-with-id: false
-  no-trailing-whitespace: 1
   no-trailing-zero: 0 # TODO - Change this back to 1 later.
   no-transition-all: 0
   no-vendor-prefixes: # TODO - Change this back to 1 later.
