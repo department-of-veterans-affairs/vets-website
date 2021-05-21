@@ -16,7 +16,6 @@ import {
   schema as addressSchema,
 } from 'platform/forms/definitions/address';
 import _ from 'lodash';
-import environment from 'platform/utilities/environment';
 
 const {
   veteranFullName,
@@ -41,9 +40,8 @@ const hasNotSelectedProgram = form =>
 const path = 'apply';
 const title = 'VRRAP application';
 const uiSchema = {
-  // Prod Flag bah-23496
   'view:alert': {
-    'ui:title': !environment.isProduction() ? PrefillAlert : '',
+    'ui:title': PrefillAlert,
   },
   'view:applicantInformation': {
     'ui:title': 'Applicant information',
@@ -67,19 +65,11 @@ const uiSchema = {
       mobilePhone: phoneUI('Mobile phone number'),
       alternatePhone: phoneUI('Home phone number'),
       email: emailUI(),
-      'view:confirmEmail': _.merge(
-        // Prod Flag bah-23496
-        emailUI(
-          environment.isProduction()
-            ? 'Re-enter email address'
-            : 'Confirm email address',
-        ),
-        {
-          'ui:options': {
-            hideOnReview: true,
-          },
+      'view:confirmEmail': _.merge(emailUI('Confirm email address'), {
+        'ui:options': {
+          hideOnReview: true,
         },
-      ),
+      }),
     },
     address: {
       ...addressUiSchema,
