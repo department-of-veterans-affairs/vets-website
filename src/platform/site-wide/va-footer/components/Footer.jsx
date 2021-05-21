@@ -36,7 +36,7 @@ class Footer extends React.Component {
     }
   }
   render() {
-    console.log(this.props.showLangSupport, 'FFFLAG');
+    console.log(this.props, 'FFFLAG');
 
     return (
       <div>
@@ -45,12 +45,18 @@ class Footer extends React.Component {
           <MobileLinks
             visible={this.state.isMobile}
             links={this.linkObj}
-            showLangSupport={this.props.showLangSupport}
+            langConfig={{
+              showLangSupport: this.props.showLangSupport,
+              langSelected: this.props.langSelected,
+              languageCode: this.props.languageCode,
+            }}
           />
           {!this.state.isMobile && (
             <LanguageSupport
               showLangSupport={this.props.showLangSupport}
               isDesktop
+              langSelected={this.props.langSelected}
+              languageCode={this.props.languageCode}
             />
           )}
 
@@ -73,9 +79,16 @@ class Footer extends React.Component {
     );
   }
 }
-
-const mapStateToProps = store => ({
-  showLangSupport: toggleValues(store)[FEATURE_FLAG_NAMES.languageSupport],
+const mapDispatchToProps = dispatch => ({
+  langSelected: lang => dispatch({ type: 'LANG_SELECTED', lang }),
 });
 
-export default connect(mapStateToProps)(Footer);
+const mapStateToProps = state => ({
+  showLangSupport: toggleValues(state)[FEATURE_FLAG_NAMES.languageSupport],
+  languageCode: state.i18State.lang,
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Footer);

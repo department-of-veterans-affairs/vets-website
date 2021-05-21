@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { setLangAttribute } from 'applications/static-pages/i18Select/hooks';
 
-function LanguagesListTemplate() {
+function LanguagesListTemplate({ langSelected }) {
   return (
     <ul>
       {[
@@ -25,7 +26,10 @@ function LanguagesListTemplate() {
         <li key={i}>
           <a
             href={link.href}
-            // onClick={analyticsEvent}
+            onClick={() => {
+              //  analyticsEvent
+              langSelected(link.lang);
+            }}
           >
             {link.label}
           </a>
@@ -34,14 +38,27 @@ function LanguagesListTemplate() {
     </ul>
   );
 }
-export default function LanguageSupport({ isDesktop, showLangSupport }) {
-  if (showLangSupport !== true) return null;
+export default function LanguageSupport({
+  isDesktop,
+  // showLangSupport,
+  langSelected,
+  languageCode,
+}) {
+  useEffect(
+    () => {
+      console.log(languageCode, 'THE LANGUAGE CODE');
+      // set language attribute to previous value in redux store
+      setLangAttribute(languageCode);
+    },
+    [languageCode],
+  );
+  // if (showLangSupport !== true) return null;
 
   if (isDesktop) {
     return (
       <div className="usa-grid usa-grid-full va-footer-links-bottom">
         <h2 className="va-footer-linkgroup-title"> Language support </h2>
-        <LanguagesListTemplate />
+        <LanguagesListTemplate langSelected={langSelected} />
       </div>
     );
   }
@@ -62,7 +79,7 @@ export default function LanguageSupport({ isDesktop, showLangSupport }) {
         aria-hidden="true"
       >
         <div className="usa-grid usa-grid-full va-footer-links-bottom">
-          <LanguagesListTemplate />
+          <LanguagesListTemplate langSelected={langSelected} />
         </div>
       </div>
     </li>

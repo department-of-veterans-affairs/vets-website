@@ -3,7 +3,7 @@ import React from 'react';
 import { FOOTER_COLUMNS } from '../helpers';
 import LanguageSupport from './LanguageSupport';
 
-export default function MobileLinks({ links, visible, showLangSupport }) {
+export default function MobileLinks({ links, visible, langConfig }) {
   return (
     <div
       aria-hidden={visible ? 'false' : 'true'}
@@ -81,7 +81,11 @@ export default function MobileLinks({ links, visible, showLangSupport }) {
             {links[FOOTER_COLUMNS.CONNECT]}
           </div>
         </li>
-        <LanguageSupport showLangSupport={showLangSupport} />
+        <LanguageSupport
+          showLangSupport={langConfig.showLangSupport}
+          langSelected={langConfig.langSelected}
+          languageCode={langConfig.languageCode}
+        />
       </ul>
     </div>
   );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
+import { onThisPageHook } from './hooks';
 
 const LANGS_TO_LINK_SUFFIXES = {
   es: '-esp/',
@@ -13,6 +14,7 @@ const I18Select = ({ baseUrls, content }) => {
     if (contentDiv) {
       contentDiv.setAttribute('lang', 'en');
     }
+    // this logic is specific to the temporary covid faq page url structures and cannot be abstracted
     for (const [langCode, suffix] of Object.entries(LANGS_TO_LINK_SUFFIXES)) {
       if (document?.location.href.endsWith(suffix)) {
         setLang(langCode);
@@ -26,10 +28,7 @@ const I18Select = ({ baseUrls, content }) => {
 
   useEffect(
     () => {
-      if (lang && lang !== 'en') {
-        const onThisPageEl = document?.getElementById('on-this-page');
-        onThisPageEl.innerText = content[lang].onThisPage;
-      }
+      onThisPageHook(content, lang);
     },
     [lang, content],
   );
