@@ -320,8 +320,7 @@ export function fetchSearchByLocationCoords(
   distance,
   filters,
 ) {
-  const latitude = coordinates[1];
-  const longitude = coordinates[0];
+  const [longitude, latitude] = coordinates;
   const url = appendQuery(
     `${api.url}/institutions/search`,
     rubyifyKeys({ latitude, longitude, distance, filters }),

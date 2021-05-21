@@ -4,10 +4,10 @@ import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox
 import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
-import { renderStars } from '../../gi/utils/render';
+import { renderStars } from '../../../gi/utils/render';
 
-import { estimatedBenefits } from '../selectors/estimator';
-import { formatCurrency } from '../utils/helpers';
+import { estimatedBenefits } from '../../selectors/estimator';
+import { formatCurrency } from '../../utils/helpers';
 
 export function SearchResultCard({ institution, estimated }) {
   const {

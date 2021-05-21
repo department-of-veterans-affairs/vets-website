@@ -1,9 +1,9 @@
 import React from 'react';
-import SearchResultCard from '../SearchResultCard';
+import SearchResultCard from './SearchResultCard';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import SearchAccordion from '../SearchAccordion';
 
-export default function SearchResults({ search }) {
+export default function LocationSearchResults({ search }) {
   return (
     <>
       {search.location.count > 0 && (
