@@ -49,7 +49,7 @@ export function LocationSearchForm({
 
   return (
     <div>
-      <form onSubmit={doSearch}>
+      <form onSubmit={doSearch} className="vads-u-margin-y--0">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--10">
             <KeywordSearch

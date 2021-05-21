@@ -44,7 +44,7 @@ export function NameSearchForm({
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="vads-u-margin-y--0">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--10">
             <KeywordSearch
