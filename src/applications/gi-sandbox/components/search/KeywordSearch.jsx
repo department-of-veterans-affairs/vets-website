@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { debounce } from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import Downshift from 'downshift';
@@ -19,14 +19,25 @@ export function KeywordSearch({
   suggestions,
   version,
 }) {
-  const handleFetchSuggestion = debounce(
-    ({ value }) => {
-      onFetchAutocompleteSuggestions(value, version);
+  const fetchSuggestion = () => {
+    if (inputValue !== '') {
+      onFetchAutocompleteSuggestions(inputValue, version);
+    }
+  };
+
+  const debouncedFetchSuggestion = useCallback(
+    debounce(fetchSuggestion, WAIT_INTERVAL),
+    [inputValue],
+  );
+
+  useEffect(
+    () => {
+      debouncedFetchSuggestion();
+
+      // Cancel previous debounce calls during useEffect cleanup.
+      return debouncedFetchSuggestion.cancel;
     },
-    WAIT_INTERVAL,
-    {
-      trailing: true,
-    },
+    [inputValue, debouncedFetchSuggestion],
   );
 
   const handleSuggestionSelected = selected => {
@@ -65,7 +76,7 @@ export function KeywordSearch({
       }
       onUpdateAutocompleteSearchTerm(value);
       if (value !== '') {
-        handleFetchSuggestion({ value });
+        debouncedFetchSuggestion(value);
       }
     }
   };
