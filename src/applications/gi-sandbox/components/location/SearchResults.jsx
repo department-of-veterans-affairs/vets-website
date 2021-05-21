@@ -27,7 +27,7 @@ export default function SearchResults({ search }) {
                 {results.map(institution => (
                   <SearchResultCard
                     institution={institution}
-                    key={institution.id}
+                    key={institution.facilityCode}
                   />
                 ))}
               </div>
