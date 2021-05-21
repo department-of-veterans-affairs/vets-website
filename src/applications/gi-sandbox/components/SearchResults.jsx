@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchResultCard from './SearchResultCard';
+import SearchResultCard from './search/SearchResultCard';
 import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { TABS } from '../constants';

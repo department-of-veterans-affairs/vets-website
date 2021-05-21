@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import SearchResultCard from '../SearchResultCard';
+import SearchResultCard from '../search/SearchResultCard';
 import mapboxgl from 'mapbox-gl';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit } from '../../constants';
@@ -8,6 +8,8 @@ import SearchAccordion from '../SearchAccordion';
 import { numberToLetter } from '../../utils/mapHelpers';
 
 export default function SearchResults({ search }) {
+  const { count, results } = search.location;
+  const { location } = search.query;
   const map = useRef(null);
   const mapContainer = useRef(null);
 
@@ -62,7 +64,7 @@ export default function SearchResults({ search }) {
     new mapboxgl.Marker(el).setLngLat([longitude, latitude]).addTo(map.current);
   };
 
-  const results = search.location.results.map((institution, index) => {
+  const resultCards = results.map((institution, index) => {
     const { name, city, state, distance } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
     const letter = numberToLetter(index + 1);
@@ -85,7 +87,7 @@ export default function SearchResults({ search }) {
     return (
       <SearchResultCard
         institution={institution}
-        key={institution.id}
+        key={institution.facilityCode}
         header={header}
         location
       />
@@ -96,19 +98,19 @@ export default function SearchResults({ search }) {
     () => {
       if (!map.current) return; // wait for map to initialize
 
-      search.location.results.forEach((institution, index) => {
+      results.forEach((institution, index) => {
         const letter = numberToLetter(index + 1);
         addMapMarker(institution, letter);
       });
     },
-    [search.location.results],
+    [results],
   );
 
   return (
     <>
       <div className={'location-search'}>
         <div className={'usa-width-one-third'}>
-          {search.location.count > 0 && (
+          {count > 0 && (
             <>
               <TuitionAndHousingEstimates />
               <SearchAccordion
@@ -118,20 +120,19 @@ export default function SearchResults({ search }) {
               />
               <div className="location-search-results-container usa-grid vads-u-padding--1p5">
                 <p>
-                  Showing{' '}
-                  <strong>{search.location.count} search results</strong> for '
-                  <strong>{search.query.location}</strong>'
+                  Showing <strong>{count} search results</strong> for '
+                  <strong>{location}</strong>'
                 </p>
                 <div className="location-search-results vads-l-row vads-u-flex-wrap--wrap">
-                  {results}
+                  {resultCards}
                 </div>
               </div>
             </>
           )}
-          {search.location.count === 0 && (
-            <div>We didn't find any facilities near you.</div>
+          {count === 0 && (
+            <div>We didn't find any facilities near the location.</div>
           )}
-          {search.location.count === null && (
+          {count === null && (
             <div>
               Please enter a location (street, city, state, or postal code) then
               click search above to find institutions.
