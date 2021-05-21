@@ -57,8 +57,10 @@ export const uiSchema = {
       'ui:validations': [
         (errors, fieldData, formData) => {
           if (
-            formData?.veteranContactInformation?.emailAddress !==
-            formData?.veteranContactInformation?.['view:confirmEmail']
+            formData?.veteranContactInformation?.emailAddress.toLowerCase() !==
+            formData?.veteranContactInformation?.[
+              'view:confirmEmail'
+            ].toLowerCase()
           ) {
             errors.addError('Please ensure your emails match');
           }
