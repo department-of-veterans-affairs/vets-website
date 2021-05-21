@@ -35,6 +35,15 @@ export class SearchMenu extends React.Component {
     const { userInput } = this.state;
     const { searchTypeaheadEnabled, isOpen } = this.props;
 
+    // focus the query input when the search menu is opened
+    const inputField = document.getElementById('query');
+    if (isOpen && !prevProps.isOpen && inputField) {
+      inputField.focus();
+    }
+    if (userInput.length <= 2 && prevState.userInput.length > 2) {
+      this.clearSuggestions();
+    }
+
     // if userInput has changed, fetch suggestions for the typeahead experience
     const inputChanged = prevState.userInput !== userInput;
     if (inputChanged && searchTypeaheadEnabled) {
@@ -57,13 +66,11 @@ export class SearchMenu extends React.Component {
         sessionStorage.setItem('searchTypeaheadLogged', JSON.stringify(true));
       }
     }
-
-    // focus the query input when the search menu is opened
-    const inputField = document.getElementById('query');
-    if (isOpen && !prevProps.isOpen && inputField) {
-      inputField.focus();
-    }
   }
+
+  clearSuggestions = () => {
+    this.setState({ suggestions: [], savedSuggestions: [] });
+  };
 
   isUserInputValid = () => {
     const { userInput } = this.state;
@@ -83,7 +90,7 @@ export class SearchMenu extends React.Component {
 
     // end early / clear suggestions if user input is too short
     if (userInput?.length <= 2) {
-      this.setState({ suggestions: [], savedSuggestions: [] });
+      this.clearSuggestions();
       return;
     }
 
