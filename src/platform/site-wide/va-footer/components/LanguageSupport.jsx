@@ -1,41 +1,50 @@
 import React, { useEffect } from 'react';
 import { setLangAttribute } from 'applications/static-pages/i18Select/hooks';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
+
+/* eslint-disable-next-line  react-hooks/rules-of-hooks */
+// const history = useRouterHistory(hashHistory)();
 
 function LanguagesListTemplate({ langSelected }) {
   return (
-    <ul>
-      {[
-        {
-          onThisPage: 'En esta página',
-          label: 'Español',
-          suffix: '-esp/',
-          lang: 'es',
-        },
-        {
-          suffix: '-tag/',
-          label: 'Tagalog',
-          onThisPage: 'Sa pahinang ito',
-          lang: 'tl',
-        },
-        {
-          label: 'Other languages',
-          suffix: '/',
-          lang: 'en',
-        },
-      ].map((link, i) => (
-        <li key={i}>
-          <a
-            href={link.href}
-            onClick={() => {
-              //  analyticsEvent
-              langSelected(link.lang);
-            }}
-          >
-            {link.label}
-          </a>
-        </li>
-      ))}
-    </ul>
+    <Router>
+      <ul>
+        {[
+          {
+            onThisPage: 'En esta página',
+            label: 'Español',
+            suffix: '-esp/',
+            lang: 'es',
+            href: '',
+          },
+          {
+            suffix: '-tag/',
+            label: 'Tagalog',
+            onThisPage: 'Sa pahinang ito',
+            lang: 'tl',
+            href: '/coronavirus-veteran-frequently-asked-questions-esp/',
+          },
+          {
+            label: 'Other languages',
+            suffix: '/',
+            lang: 'en',
+            href: '',
+          },
+        ].map((link, i) => (
+          <li key={i}>
+            <Link
+              to={link.href}
+              onClick={() => {
+                langSelected(link.lang);
+              }}
+            >
+              {' '}
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </Router>
   );
 }
 export default function LanguageSupport({
@@ -46,9 +55,12 @@ export default function LanguageSupport({
 }) {
   useEffect(
     () => {
-      console.log(languageCode, 'THE LANGUAGE CODE');
-      // set language attribute to previous value in redux store
-      setLangAttribute(languageCode);
+      const mainUrlLang = document?.getElementById('content')?.lang;
+      if (mainUrlLang !== 'en') {
+        setLangAttribute(mainUrlLang);
+      } else {
+        setLangAttribute(languageCode);
+      }
     },
     [languageCode],
   );
