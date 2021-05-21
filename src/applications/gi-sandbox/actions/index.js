@@ -300,6 +300,7 @@ export function fetchLocationAutocompleteSuggestions(location) {
         types: location.match(/^\s*\d{5}\s*$/) ? ['postcode'] : TypeList,
         autocomplete: true,
         query: location,
+        limit: 6,
       })
       .send()
       .then(({ body: { features } }) => {
@@ -373,7 +374,7 @@ export function fetchSearchByLocationResults(location, distance, filters) {
     mbxClient
       .forwardGeocode({
         types: location.match(/^\s*\d{5}\s*$/) ? ['postcode'] : TypeList,
-        autocomplete: false, // set this to true when build the predictive search UI (feature-flipped)
+        autocomplete: false,
         query: location,
       })
       .send()
