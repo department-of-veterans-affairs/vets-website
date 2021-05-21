@@ -2,9 +2,6 @@ import React, { useEffect } from 'react';
 import { setLangAttribute } from 'applications/static-pages/i18Select/hooks';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
-/* eslint-disable-next-line  react-hooks/rules-of-hooks */
-// const history = useRouterHistory(hashHistory)();
-
 function LanguagesListTemplate({ langSelected }) {
   return (
     <Router>
