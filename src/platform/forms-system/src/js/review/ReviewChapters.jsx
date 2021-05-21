@@ -84,7 +84,7 @@ class ReviewChapters extends React.Component {
               chapterFormConfig={chapter.formConfig}
               chapterKey={chapter.name}
               form={form}
-              reviewErrors={formConfig.reviewErrors}
+              reviewErrors={formConfig?.reviewErrors}
               formContext={formContext}
               key={chapter.name}
               onEdit={this.handleEdit}

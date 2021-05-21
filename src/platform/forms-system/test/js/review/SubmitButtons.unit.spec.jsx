@@ -73,7 +73,7 @@ describe('Schemaform review: <SubmitButtons>', () => {
       <SubmitButtons submission={submission} formConfig={formConfig} />,
     );
 
-    expect(tree.everySubTree('Connect(ValidationError)')[0].type).to.exist;
+    expect(tree.everySubTree('ValidationError')[0].type).to.exist;
   });
 
   it('renders throttled error', () => {
