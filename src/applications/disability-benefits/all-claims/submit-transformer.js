@@ -283,6 +283,33 @@ export const cleanUpPersonsInvolved = incident => {
   };
 };
 
+// Remove extra data that may be included
+// see https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423
+export const cleanUpMailingAddress = formData => {
+  const validKeys = [
+    'country',
+    'addressLine1',
+    'addressLine2',
+    'addressLine3',
+    'city',
+    'state',
+    'zipCode',
+  ];
+  const mailingAddress = Object.entries(formData.mailingAddress).reduce(
+    (address, [key, value]) => {
+      if (value && validKeys.includes(key)) {
+        return {
+          ...address,
+          [key]: value,
+        };
+      }
+      return address;
+    },
+    {},
+  );
+  return { ...formData, mailingAddress };
+};
+
 export function transform(formConfig, form) {
   // Grab isBDD before things are changed/deleted
   const isBDDForm = isBDD(form.data);
@@ -675,6 +702,7 @@ export function transform(formConfig, form) {
     filterRatedViewFields, // Must be run after setActionTypes
     filterServicePeriods,
     removeExtraData, // Removed data EVSS does't want
+    cleanUpMailingAddress,
     addPOWSpecialIssues,
     addPTSDCause,
     addClassificationCodeToNewDisabilities,

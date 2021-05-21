@@ -1,4 +1,6 @@
 /* istanbul ignore file */
+/* eslint-disable camelcase */
+const delay = require('mocker-api/lib/delay');
 
 // var
 const confirmedVA = require('./var/confirmed_va.json');
@@ -13,7 +15,6 @@ const facilities983A6 = require('./var/facilities_983A6.json');
 const clinicList983 = require('./var/clinicList983.json');
 const clinicList612 = require('./var/clinicList612.json');
 const facilityDetails983 = require('./var/facility_details_983.json');
-const facilityDetails984 = require('./var/facility_details_984.json');
 const facilityData = require('./var/facility_data.json');
 const ccProviders = require('./var/cc_providers.json');
 const sitesSupportingVAR = require('./var/sites-supporting-var.json');
@@ -25,21 +26,9 @@ const generateMockSlots = require('./var/slots.js');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 
-/*
- * Handler definition:
- *
- * path: Can be a string or a regex. Strings match from the end of a url
- * delay: Value in ms to delay the response by
- * response: Can be a json object or a function
- * 
- * response function params:
- * url: the full url of the request
- * options.requestData: Parsed body data
- * options.groups: Any matched regex groups from the url
- */
-module.exports = {
+const responses = {
   'GET /vaos/v0/appointments': (req, res) => {
-    if (req.params.type === 'cc') {
+    if (req.query.type === 'cc') {
       return res.json(confirmedCC);
     } else {
       return res.json(confirmedVA);
@@ -70,9 +59,9 @@ module.exports = {
   },
   'GET /vaos/v0/facilities': parentFacilities,
   'GET /vaos/v0/systems/:id/direct_scheduling_facilities': (req, res) => {
-    if (req.params.parent_code === '984') {
+    if (req.query.parent_code === '984') {
       return res.json(facilities984);
-    } else if (req.params.parent_code === '983A6') {
+    } else if (req.query.parent_code === '983A6') {
       return res.json(facilities983A6);
     } else {
       return res.json(facilities983);
@@ -139,11 +128,11 @@ module.exports = {
     });
   },
   'GET /v1/facilities/va/:id': (req, res) => {
-    if (req.params.id === 'vha_552') {
-      return res.json(facilityDetails984);
-    }
+    const facility = facilityData.data.find(f => f.id === req.params.id);
 
-    return res.json(facilityDetails983);
+    return res.json({
+      data: facility || facilityDetails983,
+    });
   },
   'GET /v1/facilities/va': facilityData,
   'GET /v1/facilities/ccp': ccProviders,
@@ -181,4 +170,106 @@ module.exports = {
     },
   },
   'PUT /vaos/v0/preferences': { data: { attributes: {} } },
+  'POST /vaos/v2/appointments': (req, res) => {
+    return res.json({
+      data: {
+        id: '8a4886886e4c8e22016e6613216d001g',
+        attributes: {
+          ...req.body,
+        },
+      },
+    });
+  },
+  'GET /v0/user': {
+    data: {
+      attributes: {
+        profile: {
+          sign_in: {
+            service_name: 'idme',
+          },
+          email: 'fake@fake.com',
+          loa: { current: 3 },
+          first_name: 'Jane',
+          middle_name: '',
+          last_name: 'Doe',
+          gender: 'F',
+          birth_date: '1985-01-01',
+          verified: true,
+        },
+        veteran_status: {
+          status: 'OK',
+          is_veteran: true,
+          served_in_military: true,
+        },
+        in_progress_forms: [],
+        prefills_available: ['21-526EZ'],
+        services: [
+          'facilities',
+          'hca',
+          'edu-benefits',
+          'evss-claims',
+          'form526',
+          'user-profile',
+          'health-records',
+          'rx',
+          'messaging',
+        ],
+        va_profile: {
+          status: 'OK',
+          birth_date: '19511118',
+          family_name: 'Hunter',
+          gender: 'M',
+          given_names: ['Julio', 'E'],
+          active_status: 'active',
+          facilities: [
+            {
+              facility_id: '983',
+              is_cerner: false,
+            },
+            {
+              facility_id: '984',
+              is_cerner: false,
+            },
+          ],
+        },
+      },
+    },
+    meta: { errors: null },
+  },
+
+  'OPTIONS /v0/maintenance_windows': 'OK',
+  'GET /v0/maintenance_windows': { data: [] },
+
+  'GET /v0/feature_toggles': {
+    data: {
+      type: 'feature_toggles',
+      features: [
+        { name: 'facilityLocatorShowCommunityCares', value: true },
+        { name: 'profile_show_profile_2.0', value: false },
+        { name: 'vaOnlineScheduling', value: true },
+        { name: 'vaOnlineSchedulingCancel', value: true },
+        { name: 'vaOnlineSchedulingRequests', value: true },
+        { name: 'vaOnlineSchedulingCommunityCare', value: true },
+        { name: 'vaOnlineSchedulingDirect', value: true },
+        { name: 'vaOnlineSchedulingPast', value: true },
+        { name: 'vaOnlineSchedulingExpressCare', value: true },
+        { name: 'vaOnlineSchedulingExpressCareNew', value: true },
+        { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
+        { name: 'vaOnlineSchedulingProviderSelection', value: true },
+        { name: 'vaOnlineSchedulingCheetah', value: true },
+        { name: 'vaOnlineSchedulingHomepageRefresh', value: true },
+        { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
+        { name: 'vaGlobalDowntimeNotification', value: false },
+        { name: 'ssoe', value: true },
+        { name: 'ssoeInbound', value: false },
+        { name: 'ssoeEbenefitsLinks', value: false },
+        { name: 'edu_section_103', value: true },
+        { name: 'form526OriginalClaims', value: false },
+        { name: 'vaViewDependentsAccess', value: false },
+        { name: 'gibctEybBottomSheet', value: true },
+      ],
+    },
+  },
 };
+
+module.exports = delay(responses, 1000);

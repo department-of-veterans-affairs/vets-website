@@ -1,24 +1,31 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import {
-  fetchSearchByLocationResults,
-  fetchSearchByNameResults,
-  setPageTitle,
-} from '../actions';
+import { setPageTitle, changeSearchTab } from '../actions';
 import { PAGE_TITLE } from '../constants';
-import SearchForm from '../components/SearchForm';
 import SearchResults from '../components/SearchResults';
+import SearchTabs from '../components/search/SearchTabs';
+import { useQueryParams } from '../utils/helpers';
+import { useHistory } from 'react-router-dom';
 
 export function LandingPage({
   search,
   dispatchSetPageTitle,
-  dispatchFetchSearchByLocationResults,
-  dispatchFetchSearchByNameResults,
+  dispatchChangeSearchTab,
 }) {
   useEffect(() => {
     dispatchSetPageTitle(`${PAGE_TITLE}: VA.gov`);
   }, []);
+  const queryParams = useQueryParams();
+  const history = useHistory();
+
+  const tabChange = tab => {
+    dispatchChangeSearchTab(tab);
+
+    queryParams.set('search', tab);
+    history.push({ pathname: '/', search: queryParams.toString() });
+  };
+
   return (
     <span className="landing-page">
       <div className="vads-u-min-height--viewport row">
@@ -30,11 +37,7 @@ export function LandingPage({
               can pay for your education.
             </p>
           </div>
-          <SearchForm
-            search={search}
-            fetchSearchByLocation={dispatchFetchSearchByLocationResults}
-            fetchSearchByName={dispatchFetchSearchByNameResults}
-          />
+          <SearchTabs onChange={tabChange} tab={search.tab} />
         </div>
         <div>
           <SearchResults search={search} />
@@ -52,8 +55,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchSetPageTitle: setPageTitle,
-  dispatchFetchSearchByLocationResults: fetchSearchByLocationResults,
-  dispatchFetchSearchByNameResults: fetchSearchByNameResults,
+  dispatchChangeSearchTab: changeSearchTab,
 };
 
 export default connect(

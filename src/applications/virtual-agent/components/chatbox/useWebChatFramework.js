@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
+import * as Sentry from '@sentry/browser';
 
 function checkForWebchat(
   setLoading,
@@ -15,6 +16,7 @@ function checkForWebchat(
       setError(false);
       clearInterval(intervalId);
     } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
+      Sentry.captureException(new Error('Failed to load webchat framework'));
       setError(true);
       setLoading(false);
       clearInterval(intervalId);
