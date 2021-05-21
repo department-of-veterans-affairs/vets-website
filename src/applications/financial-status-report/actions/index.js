@@ -5,7 +5,7 @@ import head from 'lodash/head';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
-import { debtLettersSuccess } from '../../debt-letters/utils/mockResponses';
+import { debtMockResponse } from '../../debt-letters/utils/mockResponses';
 import {
   fetchAndUpdateSessionExpiration as fetch,
   apiRequest,
@@ -86,7 +86,7 @@ export const fetchDebts = () => async (dispatch, getState) => {
 
     return fetchApiData
       ? apiRequest(`${environment.API_URL}/v0/debts`, options)
-      : debtLettersSuccess();
+      : debtMockResponse();
   };
 
   try {
