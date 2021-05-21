@@ -3,45 +3,66 @@ import React from 'react';
 export default function Disclaimer() {
   return (
     <>
-      <h1>About this study</h1>
+      <h1>Welcome to the VA.gov chatbot study</h1>
+
+      <p>Thank you for being part of this study. We appreciate your time.</p>
+
+      <h2>Why we’re doing this study</h2>
 
       <p>
-        Thank you for participating in this study. We know your time is
-        valuable, and your feedback will help us build better products to serve
-        you.
+        We want to explore how a chatbot (or “virtual agent”) can help you find
+        answers on VA.gov. <br /> <br /> We created a preview of this bot for
+        you to try. Your participation and feedback will help us understand if
+        this chatbot is helpful. It will also help us find ways to improve the
+        bot.
       </p>
 
+      <h2>How to take part in this study</h2>
+
       <p>
-        We are exploring how a virtual agent/chatbot may help you find answers
-        on Va.gov. To help us understand this, we created this prototype for you
-        to test. You can try a question like “Is healthcare covered?” or ask any
-        other question you like. Because this virtual agent is still in
-        development (beta), it will not have answers to all your questions, and
-        cannot do the following:
+        To start, type any question in the <b>Type your message</b> section of
+        the bot. You can type questions like these:
       </p>
 
       <ul>
-        <li>Assess, detect, or provide a medical or mental health diagnosis</li>
-        <li>
-          Provide medical or mental health advice, treatment, or counseling
-        </li>
-        <li>Escalate an emergency</li>
-        <li>Escalate directly to VA.gov support personnel</li>
-        <li>Troubleshoot login issues</li>
+        <li>Does VA health care cover cosmetic surgery?</li>
+        <li>How do I help a Veteran who is at risk of homelessness?</li>
+        <li>How do I appeal a VA decision on my claim?</li>
       </ul>
 
       <p>
-        Please do not enter personal information that someone can use to
-        identify you personally.
+        When you're finished, click on the link included in your recruitment
+        email and tell us what you think about the chatbot.
       </p>
+
+      <h2>What to know before you start</h2>
 
       <p>
-        We have created a survey to help you help us build a better bot. When
-        you're ready, please tell us about your experience and how we can
-        improve.
+        We’re still building this chatbot. So the bot may be slow to respond.
+        And the bot won’t have answers to every question.
       </p>
 
-      <p>As always, we thank you for your service.</p>
+      <p>The bot can’t do any of these things:</p>
+
+      <ul>
+        <li>Tell you if you have a medical or mental health condition</li>
+        <li>
+          Provide medical or mental health advice, treatment, or counseling
+        </li>
+        <li>
+          Answer questions or take reports about prescription medicines or side
+          effects
+        </li>
+        <li>Help you with a personal, medical, or mental health emergency</li>
+        <li>Transfer you directly to a VA call center agent</li>
+        <li>Help you with issues signing in to VA.gov</li>
+      </ul>
+
+      <p>
+        <b>Note:</b> Please don’t enter personal information into the bot. This
+        includes your name, address, or anything else that someone could use to
+        identify you.
+      </p>
 
       <va-accordion>
         <va-accordion-item header="If you need immediate help">
