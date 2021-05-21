@@ -1,6 +1,7 @@
 {
   "plugins": ["stylelint-scss"],
   "rules": {
+    "at-rule-disallowed-list": "debug",
     "color-hex-length": "short",
     "color-named": "never",
     "declaration-colon-space-after": "always-single-line",
