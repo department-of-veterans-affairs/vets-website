@@ -27,38 +27,42 @@ module.exports = (on, config) => {
   // eslint-disable-next-line no-console
   // console.log('config:', config);
 
-  // const nodeModules = new RegExp(/^(?:.*[\\\/])?node_modules(?:[\\\/].*)?$/);
+  const nodeModules = new RegExp(/^(?:.*[\\\/])?node_modules(?:[\\\/].*)?$/);
 
-  // const dirnamePlugin = {
-  //   name: 'dirname',
+  const dirnamePlugin = {
+    name: 'dirname',
 
-  //   setup(build) {
-  //     build.onLoad({ filter: /.*/ }, ({ path: filePath }) => {
-  //       if (!filePath.match(nodeModules)) {
-  //         let contents = fs.readFileSync(filePath, 'utf8');
-  //         const loader = path.extname(filePath).substring(1);
-  //         const dirname = path.dirname(filePath);
-  //         contents = contents
-  //           .replace('__dirname', `"${dirname}"`)
-  //           .replace('__filename', `"${filePath}"`);
-  //         console.log('contents: ', contents);
-  //         console.log('loader: ', loader);
-  //         return {
-  //           contents,
-  //           loader,
-  //         };
-  //       }
-  //     });
-  //   },
-  // };
+    setup(build) {
+      build.onLoad({ filter: /.jsx?$/ }, ({ path: filePath }) => {
+        if (!filePath.match(nodeModules)) {
+          let contents = fs.readFileSync(filePath, 'utf8');
+          const loader = path.extname(filePath).substring(1);
+          const dirname = path.dirname(filePath);
+          console.log('dirname: ', dirname);
+          console.log('contents: ', contents);
+          console.log('loader: ', loader);
+          const injectedStuff = `const __dirname = '${dirname}';`;
+          contents = `${injectedStuff}\n\n${contents}`;
+          return {
+            contents,
+            loader,
+          };
+        }
+      });
+    },
+  };
   const bundler = createBundler({
     define: {
       __BUILDTYPE__: '"localhost"',
       __API__: null,
     },
-    inject: ['src/platform/testing/e2e/cypress/plugins/react-shim.js'],
-    loader: { '.js': 'jsx' },
-    // plugins: [dirnamePlugin],
+    // inject: ['src/platform/testing/e2e/cypress/plugins/react-shim.js'],
+    loader: {
+      '.js': 'jsx',
+      '.json': 'json',
+    },
+    // platform: 'node',
+    plugins: [dirnamePlugin],
   });
   on('file:preprocessor', bundler);
   // on('file:preprocessor', webpackPreprocessor(options));

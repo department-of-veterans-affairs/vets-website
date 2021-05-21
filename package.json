@@ -113,6 +113,9 @@
     "Safari 10",
     "ie 11"
   ],
+  "browser": {
+    "path": "path-browserify"
+  },
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
@@ -237,6 +240,7 @@
     "node-sass": "^4.14.1",
     "null-loader": "^0.1.1",
     "nyc": "^15.1.0",
+    "path-browserify": "^1.0.1",
     "polyfill-function-prototype-bind": "0.0.1",
     "postcss-loader": "^3.0.0",
     "prettier": "^1.14.3",
