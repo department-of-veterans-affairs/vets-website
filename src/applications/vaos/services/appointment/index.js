@@ -64,6 +64,7 @@ const CONFIRMED_APPOINTMENT_TYPES = new Set([
 
 // Appointments in these "HIDDEN_SET"s should not be shown in appointment lists at all
 export const FUTURE_APPOINTMENTS_HIDDEN_SET = new Set(['NO-SHOW', 'DELETED']);
+const DEFAULT_VIDEO_STATUS = 'FUTURE';
 
 const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
   'FUTURE',
@@ -263,16 +264,25 @@ export function hasValidCovidPhoneNumber(facility) {
 }
 
 /**
- * Checks to see if a past appointment has a valid status
+ * Checks to see if an appointment should be shown in the past appointment
+ * list
  *
  * @param {Appointment} appt A FHIR appointment resource
  * @returns {boolean} Whether or not the appt should be shown
  */
 export function isValidPastAppointment(appt) {
   return (
-    appt.vaos.appointmentType !== APPOINTMENT_TYPES.vaAppointment ||
-    (!PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-      !appt.vaos.isExpressCare)
+    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
+    // Show confirmed appointments that don't have vista statuses in the exclude
+    // list
+    (!PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) ||
+      // Show video appointments that have the default FUTURE status,
+      // since we can't infer anything about the video appt from that status
+      (appt.videoData?.isVideo && appt.description === DEFAULT_VIDEO_STATUS) ||
+      // Some CC appointments can have a null status because they're not from VistA
+      // And we want to show those
+      (appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment &&
+        !appt.description))
   );
 }
 
