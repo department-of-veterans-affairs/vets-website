@@ -103,7 +103,6 @@ const formConfig = {
               },
               telephoneNumber: '',
               emailAddress: '',
-              confirmationEmail: '',
             },
           },
           path: 'contact-information',

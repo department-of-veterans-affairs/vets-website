@@ -208,29 +208,6 @@ export const uiSchema = {
         classNames: 'input-size-7',
       },
     },
-    confirmationEmail: {
-      ...emailUI('Re-enter email address'),
-      'ui:description': (
-        <p className="formfield-subtitle">
-          To receive a confirmation email when you submit your request, you must
-          re-enter your email address.
-        </p>
-      ),
-      'ui:options': {
-        classNames: 'input-size-7',
-        hideOnReview: true,
-      },
-      'ui:validations': [
-        {
-          validator: (errors, fieldData, formData) => {
-            const { emailAddress, confirmationEmail } = formData.personalData;
-            if (emailAddress !== confirmationEmail) {
-              errors.addError('Email does not match');
-            }
-          },
-        },
-      ],
-    },
   },
 };
 
@@ -265,7 +242,6 @@ export const schema = {
         },
         telephoneNumber: SCHEMA_DEFINITIONS.telephoneNumber,
         emailAddress: SCHEMA_DEFINITIONS.emailAddress,
-        confirmationEmail: SCHEMA_DEFINITIONS.emailAddress,
       },
     },
   },

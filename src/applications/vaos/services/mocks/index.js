@@ -15,7 +15,6 @@ const facilities983A6 = require('./var/facilities_983A6.json');
 const clinicList983 = require('./var/clinicList983.json');
 const clinicList612 = require('./var/clinicList612.json');
 const facilityDetails983 = require('./var/facility_details_983.json');
-const facilityDetails984 = require('./var/facility_details_984.json');
 const facilityData = require('./var/facility_data.json');
 const ccProviders = require('./var/cc_providers.json');
 const sitesSupportingVAR = require('./var/sites-supporting-var.json');
@@ -29,7 +28,7 @@ varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 
 const responses = {
   'GET /vaos/v0/appointments': (req, res) => {
-    if (req.params.type === 'cc') {
+    if (req.query.type === 'cc') {
       return res.json(confirmedCC);
     } else {
       return res.json(confirmedVA);
@@ -60,9 +59,9 @@ const responses = {
   },
   'GET /vaos/v0/facilities': parentFacilities,
   'GET /vaos/v0/systems/:id/direct_scheduling_facilities': (req, res) => {
-    if (req.params.parent_code === '984') {
+    if (req.query.parent_code === '984') {
       return res.json(facilities984);
-    } else if (req.params.parent_code === '983A6') {
+    } else if (req.query.parent_code === '983A6') {
       return res.json(facilities983A6);
     } else {
       return res.json(facilities983);
@@ -129,11 +128,11 @@ const responses = {
     });
   },
   'GET /v1/facilities/va/:id': (req, res) => {
-    if (req.params.id === 'vha_552') {
-      return res.json(facilityDetails984);
-    }
+    const facility = facilityData.data.find(f => f.id === req.params.id);
 
-    return res.json(facilityDetails983);
+    return res.json({
+      data: facility || facilityDetails983,
+    });
   },
   'GET /v1/facilities/va': facilityData,
   'GET /v1/facilities/ccp': ccProviders,
