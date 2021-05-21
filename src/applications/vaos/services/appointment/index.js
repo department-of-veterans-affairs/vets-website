@@ -313,6 +313,21 @@ export function isUpcomingAppointmentOrRequest(appt) {
       (appt.status === APPOINTMENT_STATUS.cancelled && hasValidDate))
   );
 }
+/**
+ * Returns cancelled and pending requests, which should be visible to users
+ *
+ * @export
+ * @param {Appointment} appt The appointment to check
+ * @returns {Boolean} If the appointment should be shown or not
+ */
+export function isPendingOrCancelledRequest(appt) {
+  return (
+    !appt.vaos.isExpressCare &&
+    (appt.status === APPOINTMENT_STATUS.proposed ||
+      appt.status === APPOINTMENT_STATUS.pending ||
+      appt.status === APPOINTMENT_STATUS.cancelled)
+  );
+}
 
 /**
  * Returns true if the given Appointment is a confirmed appointment
