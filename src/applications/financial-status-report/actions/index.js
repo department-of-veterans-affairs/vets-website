@@ -101,6 +101,7 @@ export const fetchDebts = () => async (dispatch, getState) => {
 
     return dispatch(fetchDebtLettersSuccess(filteredResponse));
   } catch (err) {
+    dispatch(handleError('FSR_SERVER_ERROR'));
     throw new Error(err);
   }
 };
