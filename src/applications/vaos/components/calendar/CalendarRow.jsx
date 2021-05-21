@@ -50,6 +50,7 @@ export default function CalendarRow({
   minDate,
   renderIndicator,
   renderOptions,
+  renderSelectedLabel,
   rowNumber,
   selectedDates,
   id,
@@ -84,6 +85,7 @@ export default function CalendarRow({
             onClick={() => handleSelectDate(date, rowNumber)}
             selectedDates={selectedDates}
             renderIndicator={renderIndicator}
+            renderSelectedLabel={renderSelectedLabel}
             renderOptions={renderOptions}
             id={id}
             timezone={timezone}
