@@ -6,7 +6,6 @@
   "rules": {
     "at-rule-disallowed-list": ["debug", "extend"],
     "block-no-empty": true,
-    "color-hex-length": "short",
     "color-named": "never",
     "color-no-hex": true,
     "declaration-colon-space-after": "always-single-line",
