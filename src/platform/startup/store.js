@@ -63,7 +63,7 @@ export default function createCommonStore(
     compose(
       applyMiddleware(thunk, createAnalyticsMiddleware(analyticsEvents)),
       useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
-      persistState(),
+      persistState('state.i18State'),
     ),
   );
 
