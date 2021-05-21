@@ -5,6 +5,7 @@ import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstima
 export default function SearchResults({ search }) {
   const { count, results } = search.name;
   const { name } = search.query;
+
   return (
     <>
       {count > 0 && (

@@ -4,9 +4,12 @@ import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstima
 import SearchAccordion from '../SearchAccordion';
 
 export default function SearchResults({ search }) {
+  const { count, results } = search.location;
+  const { location } = search.query;
+
   return (
     <>
-      {search.location.count > 0 && (
+      {count > 0 && (
         <div>
           <div>
             <TuitionAndHousingEstimates />
@@ -17,11 +20,11 @@ export default function SearchResults({ search }) {
             />
             <div className="usa-grid vads-u-padding--1">
               <p>
-                Showing <strong>{search.location.count} search results</strong>{' '}
-                for '<strong>{search.query.location}</strong>'
+                Showing <strong>{count} search results</strong> for '
+                <strong>{location}</strong>'
               </p>
               <div className="vads-l-row vads-u-flex-wrap--wrap">
-                {search.location.results.map(institution => (
+                {results.map(institution => (
                   <SearchResultCard
                     institution={institution}
                     key={institution.id}

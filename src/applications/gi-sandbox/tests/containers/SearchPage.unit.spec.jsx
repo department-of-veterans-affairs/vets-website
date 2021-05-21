@@ -4,13 +4,11 @@ import sinon from 'sinon';
 import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '../helpers';
 
-import LandingPageContainer, {
-  LandingPage,
-} from '../../containers/LandingPage';
+import SearchPageContainer, { SearchPage } from '../../containers/SearchPage';
 
-describe('<LandingPage>', () => {
+describe('<SearchPage>', () => {
   it('should render', async () => {
-    const screen = renderWithStoreAndRouter(<LandingPageContainer />, {});
+    const screen = renderWithStoreAndRouter(<SearchPageContainer />, {});
 
     await waitFor(() => {
       expect(screen.getByRole('heading', { 'aria-level': 1 })).to.be.ok;
@@ -21,7 +19,7 @@ describe('<LandingPage>', () => {
     const dispatchSetPageTitle = sinon.spy();
 
     const screen = renderWithStoreAndRouter(
-      <LandingPage
+      <SearchPage
         dispatchSetPageTitle={dispatchSetPageTitle}
         search={{ inProgress: true }}
       />,

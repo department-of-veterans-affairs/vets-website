@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 
 import { setPageTitle, changeSearchTab } from '../actions';
 import { PAGE_TITLE } from '../constants';
-import SearchResults from '../components/search/SearchResults';
 import SearchTabs from '../components/search/SearchTabs';
 import { useQueryParams } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
 
-export function LandingPage({
+export function SearchPage({
   search,
   dispatchSetPageTitle,
   dispatchChangeSearchTab,
@@ -39,9 +38,6 @@ export function LandingPage({
           </div>
           <SearchTabs onChange={tabChange} search={search} />
         </div>
-        <div>
-          <SearchResults search={search} />
-        </div>
       </div>
     </span>
   );
@@ -61,4 +57,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LandingPage);
+)(SearchPage);
