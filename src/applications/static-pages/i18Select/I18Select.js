@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { onThisPageHook } from './hooks';
+import { connect } from 'react-redux';
 
 const LANGS_TO_LINK_SUFFIXES = {
   es: '-esp/',
   tl: '-tag/',
 };
-const I18Select = ({ baseUrls, content }) => {
+const I18Select = ({ baseUrls, content, langSelected }) => {
   const [lang, setLang] = useState('en');
   useEffect(() => {
     const contentDiv = document?.getElementById('content');
@@ -53,6 +54,7 @@ const I18Select = ({ baseUrls, content }) => {
                     event: 'nav-pipe-delimited-list-click',
                     'pipe-delimited-list-header': languageConfig.lang,
                   });
+                  langSelected(languageConfig.lang);
                 }}
                 href={baseUrls[languageCode]}
                 hrefLang={languageConfig.lang}
@@ -75,5 +77,12 @@ const I18Select = ({ baseUrls, content }) => {
     </div>
   );
 };
+// TODO abstract this re used action
+const mapDispatchToProps = dispatch => ({
+  langSelected: lang => dispatch({ type: 'LANG_SELECTED', lang }),
+});
 
-export default I18Select;
+export default connect(
+  null,
+  mapDispatchToProps,
+)(I18Select);

@@ -49,7 +49,6 @@ export default function LanguageSupport({
 }) {
   useEffect(
     () => {
-      console.log(languageCode, 'THE LANGUAGE COUDE');
       setLangAttribute(languageCode);
     },
     [languageCode],
