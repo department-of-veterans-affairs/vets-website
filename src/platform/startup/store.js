@@ -62,8 +62,8 @@ export default function createCommonStore(
     combineReducers(reducer),
     compose(
       applyMiddleware(thunk, createAnalyticsMiddleware(analyticsEvents)),
+      persistState('i18State'),
       useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
-      persistState('state.i18State'),
     ),
   );
 
