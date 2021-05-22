@@ -3,23 +3,36 @@ import compact from 'lodash/compact';
 import { LocationType, FacilityType } from './constants';
 import manifest from './manifest.json';
 
-// Base URL to be used in API requests.
-export const api = {
+const apiSettings = {
+  credentials: 'include',
+  headers: {
+    'X-Key-Inflection': 'camel',
+
+    // Pull app name directly from manifest since this config is defined
+    // before startApp, and using window.appName here would result in
+    // undefined for all requests that use this config.
+    'Source-App-Name': manifest.entryName,
+  },
+};
+
+// Base endpoints to be used in API requests.
+const legacyApi = {
   baseUrl: `${environment.API_URL}/v1/facilities`,
   url: `${environment.API_URL}/v1/facilities/va`,
   ccUrl: `${environment.API_URL}/v1/facilities/ccp`,
-  settings: {
-    credentials: 'include',
-    headers: {
-      'X-Key-Inflection': 'camel',
-
-      // Pull app name directly from manifest since this config is defined
-      // before startApp, and using window.appName here would result in
-      // undefined for all requests that use this config.
-      'Source-App-Name': manifest.entryName,
-    },
-  },
+  settings: apiSettings,
 };
+
+// New endpoints for use with the Rails engine on the backend.
+// Once this has been hardened in production, this should replace the legacy api config above.
+const railsEngineApi = {
+  baseUrl: `${environment.API_URL}/facilities_api/v1`,
+  url: `${environment.API_URL}/facilities_api/v1/va`,
+  ccUrl: `${environment.API_URL}/facilities_api/v1/ccp`,
+  settings: apiSettings,
+};
+
+export const getAPI = useEngine => (useEngine ? railsEngineApi : legacyApi);
 
 /**
  * Build parameters and URL for facilities API calls
@@ -34,8 +47,11 @@ export const resolveParamsWithUrl = (
   center,
   radius,
   allUrgentCare = false,
+  useRailsEngine = false,
 ) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
+  const api = getAPI(useRailsEngine);
+
   let facility;
   let service;
   let url = api.url;
