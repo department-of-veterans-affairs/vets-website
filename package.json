@@ -4,8 +4,18 @@
   "description": "Department of Veterans Affairs forms library.",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^17.0.5",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "formik": "^2.2.6",
+    "react": "^17.0.2"
+  }
 }
