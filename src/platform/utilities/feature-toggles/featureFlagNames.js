@@ -25,6 +25,7 @@ export default Object.freeze({
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilityLocatorLighthouseCovidVaccineQuery: 'facilityLocatorLighthouseCovidVaccineQuery',
   facilityLocatorPredictiveLocationSearch: 'facilityLocatorPredictiveLocationSearch',
+  facilityLocatorRailsEngine: 'facilityLocatorRailsEngine',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilityLocatorShowOperationalHoursSpecialInstructions: 'facilityLocatorShowOperationalHoursSpecialInstructions',
   findFormsEnhancements: 'find_forms_mvp_enhancement',

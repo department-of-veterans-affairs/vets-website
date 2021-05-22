@@ -113,7 +113,15 @@ export const fetchProviderDetail = id => async dispatch => {
  * @returns {Object} An Object response (locations/providers)
  */
 const returnAllUrgentCare = async params => {
-  const { address, bounds, locationType, page, center, radius } = params;
+  const {
+    address,
+    bounds,
+    locationType,
+    page,
+    center,
+    radius,
+    useRailsEngine,
+  } = params;
   const urgentCareVaData = await LocatorApi.searchWithBounds(
     address,
     bounds,
@@ -123,6 +131,7 @@ const returnAllUrgentCare = async params => {
     center,
     radius,
     true,
+    useRailsEngine,
   );
 
   const urgentCareNonVaData = await LocatorApi.searchWithBounds(
@@ -134,6 +143,7 @@ const returnAllUrgentCare = async params => {
     center,
     radius,
     true,
+    useRailsEngine,
   );
 
   return {
@@ -178,7 +188,7 @@ const returnAllUrgentCare = async params => {
  * @param {Function} dispatch Redux's dispatch method
  * @param {number} api version number
  */
-export const fetchLocations = async (
+export const fetchLocations = async ({
   address = null,
   bounds,
   locationType,
@@ -187,7 +197,8 @@ export const fetchLocations = async (
   dispatch,
   center,
   radius,
-) => {
+  useRailsEngine,
+}) => {
   let data = {};
 
   try {
@@ -202,10 +213,11 @@ export const fetchLocations = async (
         page,
         center,
         radius,
+        useRailsEngine,
       });
       data = allUrgentCareList;
     } else {
-      const dataList = await LocatorApi.searchWithBounds(
+      const dataList = await LocatorApi.searchWithBounds({
         address,
         bounds,
         locationType,
@@ -213,7 +225,8 @@ export const fetchLocations = async (
         page,
         center,
         radius,
-      );
+        useRailsEngine,
+      });
       data = { ...dataList };
       data.data = dataList.data
         .map(location => {
@@ -256,6 +269,7 @@ export const searchWithBounds = ({
   page = 1,
   center,
   radius,
+  useRailsEngine,
 }) => {
   const needsAddress = [
     LocationType.CC_PROVIDER,
@@ -283,7 +297,7 @@ export const searchWithBounds = ({
           return;
         }
 
-        fetchLocations(
+        fetchLocations({
           address,
           bounds,
           facilityType,
@@ -292,11 +306,11 @@ export const searchWithBounds = ({
           dispatch,
           center,
           radius,
-        );
+          useRailsEngine,
+        });
       });
     } else {
-      fetchLocations(
-        null,
+      fetchLocations({
         bounds,
         facilityType,
         serviceType,
@@ -304,7 +318,8 @@ export const searchWithBounds = ({
         dispatch,
         center,
         radius,
-      );
+        useRailsEngine,
+      });
     }
   };
 };
@@ -483,11 +498,13 @@ export const genSearchAreaFromCenter = query => {
  * Preloads all specialties available from CC Providers
  * for the type-ahead component.
  */
-export const getProviderSpecialties = () => async dispatch => {
+export const getProviderSpecialties = (
+  useRailsEngine = false,
+) => async dispatch => {
   dispatch({ type: FETCH_SPECIALTIES });
 
   try {
-    const data = await LocatorApi.getProviderSpecialties();
+    const data = await LocatorApi.getProviderSpecialties(useRailsEngine);
     if (data.errors) {
       dispatch({ type: FETCH_SPECIALTIES_FAILED, error: data.errors });
       return [];
