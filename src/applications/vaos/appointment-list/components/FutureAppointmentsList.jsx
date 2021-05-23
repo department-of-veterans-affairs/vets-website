@@ -124,7 +124,6 @@ FutureAppointmentsList.propTypes = {
   fetchFutureAppointments: PropTypes.func,
   showCancelButton: PropTypes.bool,
   showScheduleButton: PropTypes.bool,
-  showExpressCare: PropTypes.bool,
   startNewAppointmentFlow: PropTypes.func,
 };
 

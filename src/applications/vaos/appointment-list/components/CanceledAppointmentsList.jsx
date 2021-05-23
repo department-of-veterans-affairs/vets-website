@@ -15,7 +15,6 @@ import {
 } from '../../utils/constants';
 import { getVAAppointmentLocationId } from '../../services/appointment';
 import AppointmentListItem from './AppointmentsPageV2/AppointmentListItem';
-import ExpressCareListItem from './AppointmentsPageV2/ExpressCareListItem';
 import NoAppointments from './NoAppointments';
 import moment from 'moment';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -106,8 +105,6 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
                       facility={facilityData[facilityId]}
                     />
                   );
-                } else if (appt.vaos.isExpressCare) {
-                  return <ExpressCareListItem key={index} appointment={appt} />;
                 }
                 return null;
               })}

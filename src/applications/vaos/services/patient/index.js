@@ -356,7 +356,7 @@ export async function fetchFlowEligibilityAndClinics({
   ) {
     eligibility.direct = false;
     eligibility.directReasons.push(ELIGIBILITY_REASONS.error);
-  } else {
+  } else if (directSchedulingEnabled) {
     if (!results.patientEligibility.direct.hasRequiredAppointmentHistory) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noRecentVisit);

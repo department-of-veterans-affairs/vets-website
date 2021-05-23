@@ -115,6 +115,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       name: 'AM appointment',
     });
     userEvent.click(checkbox);
+    expect(buttons[0].getAttribute('aria-label')).to.contain('AM selected');
 
     // 3. Simulate user selecting another time
     checkbox = screen.getByRole('checkbox', {
@@ -124,6 +125,9 @@ describe('VAOS <DateTimeRequestPage>', () => {
 
     expect(buttons[0]).to.contain.text('AM');
     expect(buttons[0]).to.contain.text('PM');
+    expect(buttons[0].getAttribute('aria-label')).to.contain(
+      'AM and PM selected',
+    );
     // checks that the selected day matches the button used
     expect(
       screen.baseElement.querySelector('.vaos-calendar__day--selected'),

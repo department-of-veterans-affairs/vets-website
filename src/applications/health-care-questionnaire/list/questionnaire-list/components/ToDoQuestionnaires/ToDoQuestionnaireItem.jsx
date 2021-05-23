@@ -62,20 +62,24 @@ export default function ToDoQuestionnaireItem({ data }) {
 
         const dueDate = moment(appointmentTime);
         return (
-          <section className="due-date" data-testid="due-date">
-            <p>{isCancelled ? 'Access until' : 'Complete by'}</p>
-            <p className="vads-u-font-weight--bold">
-              {dueDate.format('dddd, MMMM D, YYYY')}
-            </p>
-            {!isCancelled && (
-              <p
-                className="vads-u-font-weight--bold"
-                data-testid="due-by-timestamp"
-              >
-                {displayTime}
-              </p>
-            )}
-          </section>
+          <>
+            <dt
+              className="vads-u-margin-top--1p5"
+              data-testid="due-instructions"
+            >
+              {isCancelled ? 'Access until' : 'Complete by'}
+            </dt>
+
+            <dd data-testid="due-date" className="due-date">
+              {dueDate.format('dddd')}{' '}
+              <time dateTime={dueDate.format('YYYY-MM-DDTHH:MM')}>
+                {dueDate.format('MMMM D, YYYY')}
+                {!isCancelled && (
+                  <span data-testid="due-by-timestamp"> at {displayTime}</span>
+                )}
+              </time>
+            </dd>
+          </>
         );
       }}
     />

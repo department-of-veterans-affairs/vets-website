@@ -5,6 +5,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
+import debounce from 'platform/utilities/data/debounce';
 import Downshift from 'downshift';
 import * as Sentry from '@sentry/browser';
 
@@ -18,6 +19,10 @@ const ENTER_KEY = 13;
 export class SearchMenu extends React.Component {
   constructor(props) {
     super(props);
+    this.debouncedGetSuggestions = debounce(
+      this.props.debounceRate,
+      this.getSuggestions,
+    );
     this.state = {
       userInput: '',
       suggestions: [],
@@ -30,10 +35,19 @@ export class SearchMenu extends React.Component {
     const { userInput } = this.state;
     const { searchTypeaheadEnabled, isOpen } = this.props;
 
+    // focus the query input when the search menu is opened
+    const inputField = document.getElementById('query');
+    if (isOpen && !prevProps.isOpen && inputField) {
+      inputField.focus();
+    }
+    if (userInput.length <= 2 && prevState.userInput.length > 2) {
+      this.clearSuggestions();
+    }
+
     // if userInput has changed, fetch suggestions for the typeahead experience
     const inputChanged = prevState.userInput !== userInput;
     if (inputChanged && searchTypeaheadEnabled) {
-      this.getSuggestions();
+      this.debouncedGetSuggestions();
     }
 
     // event logging for phased typeahead rollout
@@ -52,13 +66,11 @@ export class SearchMenu extends React.Component {
         sessionStorage.setItem('searchTypeaheadLogged', JSON.stringify(true));
       }
     }
-
-    // focus the query input when the search menu is opened
-    const inputField = document.getElementById('query');
-    if (isOpen && !prevProps.isOpen && inputField) {
-      inputField.focus();
-    }
   }
+
+  clearSuggestions = () => {
+    this.setState({ suggestions: [], savedSuggestions: [] });
+  };
 
   isUserInputValid = () => {
     const { userInput } = this.state;
@@ -78,10 +90,7 @@ export class SearchMenu extends React.Component {
 
     // end early / clear suggestions if user input is too short
     if (userInput?.length <= 2) {
-      if (this.state.suggestions.length > 0) {
-        this.setState({ suggestions: [], savedSuggestions: [] });
-      }
-
+      this.clearSuggestions();
       return;
     }
 
@@ -233,7 +242,7 @@ export class SearchMenu extends React.Component {
     const { suggestions, userInput } = this.state;
     const { searchTypeaheadEnabled } = this.props;
     const {
-      getSuggestions,
+      debouncedGetSuggestions,
       handelDownshiftStateChange,
       handleInputChange,
       handleSearchEvent,
@@ -316,7 +325,7 @@ export class SearchMenu extends React.Component {
                 className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1 vads-u-padding-left--1 vads-u-width--full"
                 name="query"
                 aria-controls={isOpen ? 'suggestions-list' : undefined}
-                onFocus={getSuggestions}
+                onFocus={debouncedGetSuggestions}
                 onKeyUp={handleKeyUp}
                 {...getInputProps({
                   type: 'text',
@@ -417,7 +426,7 @@ SearchMenu.propTypes = {
 };
 
 SearchMenu.defaultProps = {
-  debounceRate: 100, // not currently used
+  debounceRate: 200,
 };
 
 const mapStateToProps = store => ({
