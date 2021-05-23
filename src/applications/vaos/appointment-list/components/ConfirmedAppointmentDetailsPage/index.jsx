@@ -258,6 +258,7 @@ export default function ConfirmedAppointmentDetailsPage() {
                     summary={calendarData.summary}
                     description={{
                       text: calendarData.text,
+                      providerName: calendarData.providerName,
                       phone: calendarData.phone,
                       additionalText: calendarData.additionalText,
                     }}

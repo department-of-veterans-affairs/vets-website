@@ -19,7 +19,14 @@ export default function VideoVisitLocation({ appointment, facility }) {
   const [showMoreOpen, setShowMoreOpen] = useState(false);
   const name = facility?.name;
 
-  const { summary, location, text, phone, additionalText } = getCalendarData({
+  const {
+    summary,
+    providerName,
+    location,
+    text,
+    phone,
+    additionalText,
+  } = getCalendarData({
     facility,
     appointment,
   });
@@ -97,6 +104,7 @@ export default function VideoVisitLocation({ appointment, facility }) {
             summary={summary}
             description={{
               text,
+              providerName,
               phone,
               additionalText,
             }}

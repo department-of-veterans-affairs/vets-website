@@ -31,8 +31,14 @@ function formatDescription(description, location = '') {
       chunked.push(text);
     }
 
+    if (description.providerName) {
+      chunked.push(`\\n\\n${description.providerName}`);
+    }
+
     if (location) {
-      const loc = `\\n\\n${location}`;
+      const loc = description.providerName
+        ? `\\n${location}`
+        : `\\n\\n${location}`;
       const index = loc.indexOf(',');
 
       if (index !== -1) {
@@ -44,7 +50,7 @@ function formatDescription(description, location = '') {
     }
 
     const phone = description.phone?.replace(/\r/g, '').replace(/\n/g, '\\n');
-    if (phone) {
+    if (phone && phone !== 'undefined') {
       chunked.push(`${phone}\\n`);
     }
 
@@ -58,18 +64,6 @@ function formatDescription(description, location = '') {
         chunked.push(`${line}\\n`);
       });
     }
-  } else {
-    // TODO: Remove else block when verified
-    const descWithEscapedBreaks = description
-      .replace(/\r/g, '')
-      .replace(/\n/g, '\\n');
-
-    let restOfDescription = `DESCRIPTION:${descWithEscapedBreaks}`;
-    while (restOfDescription.length > ICS_LINE_LIMIT) {
-      chunked.push(restOfDescription.substring(0, ICS_LINE_LIMIT));
-      restOfDescription = restOfDescription.substring(ICS_LINE_LIMIT);
-    }
-    chunked.push(restOfDescription);
   }
 
   return chunked.join('\r\n\t').replace(/,/g, '\\,');

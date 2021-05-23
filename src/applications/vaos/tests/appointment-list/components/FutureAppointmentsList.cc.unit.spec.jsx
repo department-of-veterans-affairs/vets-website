@@ -215,33 +215,37 @@ describe('VAOS integration: upcoming CC appointments', () => {
     expect(tokens[7]).to.equal(
       '\tder. Please don’t go to your local VA health facility.',
     );
-    expect(tokens[8]).to.equal('\t\\n\\n123 Big Sky st\\n');
-    expect(tokens[9]).to.equal('\tBozeman\\, MT 59715\\n');
-    expect(tokens[10]).to.equal('\t4065555555\\n');
-    expect(tokens[11]).to.equal(
-      '\t\\nSign in to VA.gov to get details about this appointment\\n',
-    );
-
+    expect(tokens[8]).to.equal('\t\\n\\nJane Doctor');
+    expect(tokens[9]).to.equal('\t\\n123 Big Sky st\\n');
+    expect(tokens[10]).to.equal('\tBozeman\\, MT 59715\\n');
+    expect(tokens[11]).to.equal('\t4065555555\\n');
     expect(tokens[12]).to.equal(
-      'LOCATION:123 Big Sky st\\, Bozeman\\, MT 59715',
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
     );
     expect(tokens[13]).to.equal(
+      '\tintments to get details about this appointment\\n',
+    );
+
+    expect(tokens[14]).to.equal(
+      'LOCATION:123 Big Sky st\\, Bozeman\\, MT 59715',
+    );
+    expect(tokens[15]).to.equal(
       `DTSTAMP:${moment(appointment.attributes.appointmentTime)
         // .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[14]).to.equal(
+    expect(tokens[16]).to.equal(
       `DTSTART:${moment(appointment.attributes.appointmentTime)
         // .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[15]).to.equal(
+    expect(tokens[17]).to.equal(
       `DTEND:${moment(appointment.attributes.appointmentTime)
         .add(60, 'minutes')
         // .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[16]).to.equal('END:VEVENT');
-    expect(tokens[17]).to.equal('END:VCALENDAR');
+    expect(tokens[18]).to.equal('END:VEVENT');
+    expect(tokens[19]).to.equal('END:VCALENDAR');
   });
 });

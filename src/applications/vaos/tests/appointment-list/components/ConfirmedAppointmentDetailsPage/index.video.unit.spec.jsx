@@ -994,8 +994,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         expect(screen.history.push.lastCall.args[0]).to.equal(url),
       );
 
-      // screen.debug();
-
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
@@ -1019,7 +1017,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       // TODO: location name???
       expect(tokens[5]).to.equal(
-        'SUMMARY:VA Video Connect appointment at CHY PC VAR2',
+        'SUMMARY:VA Video Connect appointment at Cheyenne VA Medical Center',
       );
 
       // Description text longer than 74 characters should start on newline beginning
@@ -1027,36 +1025,40 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens[6]).to.equal(
         'DESCRIPTION:You need to join this video meeting from:',
       );
-      expect(tokens[7]).to.equal('\t\\n\\n2360 East Pershing Boulevard\\n');
-      expect(tokens[8]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
-      expect(tokens[9]).to.equal('\t307-778-7550\\n');
-      expect(tokens[10]).to.equal("\t\\nYou'll be meeting with Meg Smith\\n");
-      expect(tokens[11]).to.equal(
-        `\t\\nSign in to VA.gov to get details about this appointment\\n`,
-      );
-
+      expect(tokens[7]).to.equal('\t\\n\\nCheyenne VA Medical Center');
+      expect(tokens[8]).to.equal('\t\\n2360 East Pershing Boulevard\\n');
+      expect(tokens[9]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
+      expect(tokens[10]).to.equal('\t307-778-7550\\n');
+      expect(tokens[11]).to.equal("\t\\nYou'll be meeting with Meg Smith\\n");
       expect(tokens[12]).to.equal(
-        'LOCATION:2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
+        `\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo`,
       );
       expect(tokens[13]).to.equal(
+        '\tintments to get details about this appointment\\n',
+      );
+
+      expect(tokens[14]).to.equal(
+        'LOCATION:2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
+      );
+      expect(tokens[15]).to.equal(
         `DTSTAMP:${moment(startDate)
           .utc()
           .format('YYYYMMDDTHHmmss[Z]')}`,
       );
-      expect(tokens[14]).to.equal(
+      expect(tokens[16]).to.equal(
         `DTSTART:${moment(startDate)
           .utc()
           .format('YYYYMMDDTHHmmss[Z]')}`,
       );
-      expect(tokens[15]).to.equal(
+      expect(tokens[17]).to.equal(
         `DTEND:${startDate
           .clone()
           .add(20, 'minutes') // Default duration
           .utc()
           .format('YYYYMMDDTHHmmss[Z]')}`,
       );
-      expect(tokens[16]).to.equal('END:VEVENT');
-      expect(tokens[17]).to.equal('END:VCALENDAR');
+      expect(tokens[18]).to.equal('END:VEVENT');
+      expect(tokens[19]).to.equal('END:VCALENDAR');
     });
 
     it('should verify Video Connect at ATLAS calendar ics file format', async () => {
@@ -1126,8 +1128,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         expect(screen.history.push.lastCall.args[0]).to.equal(url),
       );
 
-      // screen.debug();
-
       const ics = decodeURIComponent(
         screen
           .getByRole('link', {
@@ -1148,7 +1148,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens[2]).to.equal('PRODID:VA');
       expect(tokens[3]).to.equal('BEGIN:VEVENT');
       expect(tokens[4]).to.contain('UID:');
-      // TODO: location name???
+
       expect(tokens[5]).to.equal(
         'SUMMARY:VA Video Connect appointment at an ATLAS facility',
       );

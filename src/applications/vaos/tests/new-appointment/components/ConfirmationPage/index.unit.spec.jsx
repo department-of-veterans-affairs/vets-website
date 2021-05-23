@@ -465,8 +465,6 @@ describe('VAOS <ConfirmationPage>', () => {
       ),
     ).to.be.ok;
 
-    // screen.debug();
-
     const ics = decodeURIComponent(
       screen
         .getByRole('link', {

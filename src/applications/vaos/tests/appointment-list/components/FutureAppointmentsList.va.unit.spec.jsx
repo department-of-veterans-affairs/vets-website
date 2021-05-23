@@ -426,31 +426,34 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(tokens[8]).to.equal('\tFake city\\, FA fake zip\\n');
     expect(tokens[9]).to.equal('\t970-224-1550\\n');
     expect(tokens[10]).to.equal(
-      '\t\\nSign in to VA.gov to get details about this appointment\\n',
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
     );
 
     expect(tokens[11]).to.equal(
-      'LOCATION:Fake street\\, Fake city\\, FA fake zip',
+      '\tintments to get details about this appointment\\n',
     );
     expect(tokens[12]).to.equal(
+      'LOCATION:Fake street\\, Fake city\\, FA fake zip',
+    );
+    expect(tokens[13]).to.equal(
       `DTSTAMP:${moment(startDate)
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[13]).to.equal(
+    expect(tokens[14]).to.equal(
       `DTSTART:${moment(startDate)
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[14]).to.equal(
+    expect(tokens[15]).to.equal(
       `DTEND:${startDate
         .clone()
         .add(60, 'minutes')
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[15]).to.equal('END:VEVENT');
-    expect(tokens[16]).to.equal('END:VCALENDAR');
+    expect(tokens[16]).to.equal('END:VEVENT');
+    expect(tokens[17]).to.equal('END:VCALENDAR');
   });
 
   it('should verify VA phone calendar ics file format', async () => {
@@ -488,7 +491,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
 
     mockFacilitiesFetch('vha_442GC', [facility]);
 
-    const { findByText, getByRole, debug } = renderWithStoreAndRouter(
+    const { findByText, getByRole } = renderWithStoreAndRouter(
       <AppointmentsPage />,
       {
         initialState,
@@ -501,7 +504,6 @@ describe('VAOS integration: upcoming VA appointments', () => {
         'i',
       ),
     );
-    debug();
 
     const ics = decodeURIComponent(
       getByRole('link', {
@@ -533,31 +535,35 @@ describe('VAOS integration: upcoming VA appointments', () => {
         .tz('America/Denver')
         .format('h:mm a')}`,
     );
-    expect(tokens[7]).to.equal('\t\\n\\n2360 East Pershing Boulevard\\n');
-    expect(tokens[8]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
-    expect(tokens[9]).to.equal('\t970-224-1550\\n');
-    expect(tokens[10]).to.equal(
-      '\t\\nSign in to VA.gov to get details about this appointment\\n',
+    expect(tokens[7]).to.equal('\t\\n\\nCheyenne VA Medical Center');
+    expect(tokens[8]).to.equal('\t\\n2360 East Pershing Boulevard\\n');
+    expect(tokens[9]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
+    expect(tokens[10]).to.equal('\t970-224-1550\\n');
+    expect(tokens[11]).to.equal(
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
     );
 
-    expect(tokens[11]).to.equal('LOCATION:Phone call');
     expect(tokens[12]).to.equal(
+      '\tintments to get details about this appointment\\n',
+    );
+    expect(tokens[13]).to.equal('LOCATION:Phone call');
+    expect(tokens[14]).to.equal(
       `DTSTAMP:${moment(appointment.attributes.startDate)
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[13]).to.equal(
+    expect(tokens[15]).to.equal(
       `DTSTART:${moment(appointment.attributes.startDate)
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[14]).to.equal(
+    expect(tokens[16]).to.equal(
       `DTEND:${moment(appointment.attributes.startDate)
         .add(60, 'minutes')
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[15]).to.equal('END:VEVENT');
-    expect(tokens[16]).to.equal('END:VCALENDAR');
+    expect(tokens[17]).to.equal('END:VEVENT');
+    expect(tokens[18]).to.equal('END:VCALENDAR');
   });
 });

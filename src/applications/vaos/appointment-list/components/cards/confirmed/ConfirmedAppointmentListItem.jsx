@@ -186,6 +186,7 @@ export default function ConfirmedAppointmentListItem({
               summary={calendarData.summary}
               description={{
                 text: calendarData.text,
+                providerName: calendarData.providerName,
                 phone: calendarData.phone,
                 additionalText: calendarData.additionalText,
               }}
