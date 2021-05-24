@@ -77,8 +77,6 @@ function setupJSDom() {
     url: 'http://localhost',
   });
 
-  resetFetch();
-
   const { window } = dom;
 
   global.dom = dom;
@@ -166,5 +164,8 @@ chai.use(chaiAxe);
 export const mochaHooks = {
   beforeEach() {
     setupJSDom();
+  },
+  afterEach() {
+    resetFetch();
   },
 };
