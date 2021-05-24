@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { renderStars } from '../../../gi/utils/render';
 
 import { estimatedBenefits } from '../../selectors/estimator';
-import { formatCurrency } from '../../utils/helpers';
+import { formatCurrency, createId } from '../../utils/helpers';
 
 export function SearchResultCard({
   institution,
@@ -70,7 +70,7 @@ export function SearchResultCard({
   const profileLink = appendQuery(`/profile/${facilityCode}`);
 
   return (
-    <div className={resultCardClasses}>
+    <div className={resultCardClasses} id={`${createId(name)}-result-card`}>
       <div className="vads-u-padding-x--2">
         {header || nameCityStateHeader}
 

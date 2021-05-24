@@ -1,12 +1,16 @@
 import React, { useEffect, useRef } from 'react';
-import SearchResultCard from '../search/SearchResultCard';
+import { scroller } from 'react-scroll';
 import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+// import { renderToString } from 'react-dom/server';
+import { getScrollOptions } from 'platform/utilities/ui';
+
+import SearchResultCard from '../search/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import SearchAccordion from '../SearchAccordion';
-import { numberToLetter } from '../../utils/helpers';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import { numberToLetter, createId } from '../../utils/helpers';
 
 export default function SearchResults({ search }) {
   const { count, results } = search.location;
@@ -52,29 +56,18 @@ export default function SearchResults({ search }) {
     }
   }, []); // <-- empty array means 'run once'
 
-  const addMapMarker = (institution, index, locationBounds) => {
-    const { latitude, longitude } = institution;
-    const letter = numberToLetter(index + 1);
-
-    // const markerElement = buildMarker(letter);
-    // create a HTML element for each feature
-    const el = document.createElement('div');
-    el.className = 'location-letter';
-    el.innerText = letter;
-
-    locationBounds.extend(new mapboxgl.LngLat(longitude, latitude));
-    new mapboxgl.Marker(el).setLngLat([longitude, latitude]).addTo(map.current);
-  };
-
-  const resultCards = results.map((institution, index) => {
+  const resultCardHeader = (institution, index = null) => {
     const { name, city, state, distance } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
-    const letter = numberToLetter(index + 1);
-
-    const header = (
+    const letter = index ? numberToLetter(index + 1) : null;
+    return (
       <>
         <div className="location-header vads-u-display--flex vads-u-padding-top--1">
-          <span className="location-letter vads-u-font-size--sm">{letter}</span>
+          {letter && (
+            <span className="location-letter vads-u-font-size--sm">
+              {letter}
+            </span>
+          )}
           <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
             <strong>{miles} miles</strong>
           </span>
@@ -85,16 +78,34 @@ export default function SearchResults({ search }) {
         </div>
       </>
     );
+  };
 
-    return (
-      <SearchResultCard
-        institution={institution}
-        key={institution.facilityCode}
-        header={header}
-        location
-      />
-    );
-  });
+  const addMapMarker = (institution, index, locationBounds) => {
+    const { latitude, longitude, name } = institution;
+    const letter = numberToLetter(index + 1);
+
+    // const markerElement = buildMarker(letter);
+    // create a HTML element for each feature
+    const el = document.createElement('div');
+    el.className = 'location-letter';
+    el.innerText = letter;
+
+    // const popup = new mapboxgl.Popup({ offset: 25 })
+    //   .setHTML(renderToString(resultCardHeader(institution)));
+    const popup = new mapboxgl.Popup();
+    popup.on('open', () => {
+      scroller.scrollTo(
+        `${createId(name)}-result-card`,
+        getScrollOptions({ containerId: 'location-search-results' }),
+      );
+    });
+
+    locationBounds.extend(new mapboxgl.LngLat(longitude, latitude));
+    new mapboxgl.Marker(el)
+      .setLngLat([longitude, latitude])
+      .setPopup(popup)
+      .addTo(map.current);
+  };
 
   useEffect(
     () => {
@@ -128,8 +139,18 @@ export default function SearchResults({ search }) {
                   Showing <strong>{count} search results</strong> for '
                   <strong>{location}</strong>'
                 </p>
-                <div className="location-search-results vads-l-row vads-u-flex-wrap--wrap">
-                  {resultCards}
+                <div
+                  id="location-search-results"
+                  className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
+                >
+                  {results.map((institution, index) => (
+                    <SearchResultCard
+                      institution={institution}
+                      key={institution.facilityCode}
+                      header={resultCardHeader(institution, index)}
+                      location
+                    />
+                  ))}
                 </div>
               </div>
             </>
