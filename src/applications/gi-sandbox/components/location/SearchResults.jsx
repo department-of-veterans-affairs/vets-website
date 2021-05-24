@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { scroller } from 'react-scroll';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-// import { renderToString } from 'react-dom/server';
 import { getScrollOptions } from 'platform/utilities/ui';
 
 import SearchResultCard from '../search/SearchResultCard';
@@ -56,30 +55,6 @@ export default function SearchResults({ search }) {
     }
   }, []); // <-- empty array means 'run once'
 
-  const resultCardHeader = (institution, index = null) => {
-    const { name, city, state, distance } = institution;
-    const miles = Number.parseFloat(distance).toFixed(2);
-    const letter = index ? numberToLetter(index + 1) : null;
-    return (
-      <>
-        <div className="location-header vads-u-display--flex vads-u-padding-top--1">
-          {letter && (
-            <span className="location-letter vads-u-font-size--sm">
-              {letter}
-            </span>
-          )}
-          <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
-            <strong>{miles} miles</strong>
-          </span>
-          <span className="vads-u-font-size--sm">{`${city}, ${state}`}</span>
-        </div>
-        <div>
-          <h3 className="vads-u-margin-top--2">{name}</h3>
-        </div>
-      </>
-    );
-  };
-
   const addMapMarker = (institution, index, locationBounds) => {
     const { latitude, longitude, name } = institution;
     const letter = numberToLetter(index + 1);
@@ -90,8 +65,6 @@ export default function SearchResults({ search }) {
     el.className = 'location-letter';
     el.innerText = letter;
 
-    // const popup = new mapboxgl.Popup({ offset: 25 })
-    //   .setHTML(renderToString(resultCardHeader(institution)));
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
       scroller.scrollTo(
@@ -122,6 +95,40 @@ export default function SearchResults({ search }) {
     [results],
   );
 
+  const resultCards = results.map((institution, index) => {
+    const { name, city, state, distance } = institution;
+    const miles = Number.parseFloat(distance).toFixed(2);
+    const letter = index ? numberToLetter(index + 1) : null;
+
+    const header = (
+      <>
+        <div className="location-header vads-u-display--flex vads-u-padding-top--1">
+          {letter && (
+            <span className="location-letter vads-u-font-size--sm">
+              {letter}
+            </span>
+          )}
+          <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
+            <strong>{miles} miles</strong>
+          </span>
+          <span className="vads-u-font-size--sm">{`${city}, ${state}`}</span>
+        </div>
+        <div>
+          <h3 className="vads-u-margin-top--2">{name}</h3>
+        </div>
+      </>
+    );
+
+    return (
+      <SearchResultCard
+        institution={institution}
+        key={institution.facilityCode}
+        header={header}
+        location
+      />
+    );
+  });
+
   return (
     <>
       <div className={'location-search'}>
@@ -143,14 +150,7 @@ export default function SearchResults({ search }) {
                   id="location-search-results"
                   className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
                 >
-                  {results.map((institution, index) => (
-                    <SearchResultCard
-                      institution={institution}
-                      key={institution.facilityCode}
-                      header={resultCardHeader(institution, index)}
-                      location
-                    />
-                  ))}
+                  {resultCards}
                 </div>
               </div>
             </>
