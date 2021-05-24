@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
-import { setLangAttribute } from 'applications/static-pages/i18Select/hooks';
+import {
+  setLangAttribute,
+  adaptLinksWithLangCode,
+} from 'applications/static-pages/i18Select/hooks';
 
 function LanguagesListTemplate({ langSelected }) {
   return (
@@ -29,6 +32,7 @@ function LanguagesListTemplate({ langSelected }) {
         <li key={i}>
           <a
             href={link.href}
+            hrefLang={link.lang}
             onClick={() => {
               langSelected(link.lang);
             }}
@@ -49,9 +53,16 @@ export default function LanguageSupport({
 }) {
   useEffect(
     () => {
+      if (langSelected) {
+        adaptLinksWithLangCode(langSelected);
+      }
+    },
+    [langSelected],
+  );
+
+  useEffect(
+    () => {
       setLangAttribute(languageCode);
-      // TODO: set lang code as `en` for all links on the current page
-      // unless it follows the old IA lang patterns
     },
     [languageCode],
   );
