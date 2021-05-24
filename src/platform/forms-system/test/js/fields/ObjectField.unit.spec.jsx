@@ -443,6 +443,87 @@ describe('Schemaform: ObjectField', () => {
     expect(id0).to.equal('root_test__title');
     expect(id1).to.equal('root_test2__title');
   });
+  it('should render unique IDs for array items on review & submit page', () => {
+    // This occurs on form 526 when "ratedDisabilities" &
+    // "unempolyabilityDisabilities" both render the same list of rated
+    // disabilities
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+    const schema = {
+      properties: {
+        type: 'object',
+        nested: {
+          type: 'object',
+          properties: {
+            testA: {
+              type: 'boolean',
+            },
+            testB: {
+              type: 'boolean',
+            },
+          },
+        },
+      },
+    };
+    const uiSchema = {
+      'ui:title': 'Blah',
+      nested: {
+        testA: {
+          'ui:title': 'test A',
+        },
+        testB: {
+          'ui:title': 'test B',
+        },
+      },
+    };
+    const idSchema = {
+      $id: 'root',
+      nested: {
+        testA: {
+          $id: 'root_testA',
+        },
+        testB: {
+          $id: 'root_testB',
+        },
+      },
+    };
+    const form = ReactTestUtils.renderIntoDocument(
+      <div>
+        <ObjectField
+          formContext={{
+            onReviewPage: true,
+            pagePerItemIndex: 0,
+          }}
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={idSchema}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+        <ObjectField
+          formContext={{
+            onReviewPage: true,
+            pagePerItemIndex: 1,
+          }}
+          uiSchema={uiSchema}
+          schema={schema}
+          idSchema={idSchema}
+          formData={{}}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      </div>,
+    );
+    const formDOM = getFormDOM(form);
+    const ids = formDOM.querySelectorAll('input');
+    expect(ids).to.have.length(4);
+    expect(ids[0].id).to.equal('root_testA_0');
+    expect(ids[1].id).to.equal('root_testB_0');
+    expect(ids[2].id).to.equal('root_testA_1');
+    expect(ids[3].id).to.equal('root_testB_1');
+  });
+
   it('should render with a fieldset and legend when forceDivWrapper is false', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();
