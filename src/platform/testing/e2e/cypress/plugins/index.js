@@ -54,7 +54,7 @@ module.exports = (on, config) => {
           contents = `${injectedStuff}\n\n${contents}`;
           return {
             contents,
-            loader: 'jsx'
+            loader: 'jsx',
           };
         }
       });
