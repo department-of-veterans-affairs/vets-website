@@ -16,7 +16,7 @@ const INITIAL_STATE = {
   locationSuggestions: [],
 };
 
-const buildNameSuggestions = (suggestions, mapper, searchTerm) => {
+const buildSuggestions = (suggestions, mapper, searchTerm) => {
   const mapped = suggestions.map(mapper);
   if (searchTerm && suggestions.length && searchTerm !== suggestions[0].label) {
     mapped.unshift({
@@ -45,7 +45,7 @@ export default function(state = INITIAL_STATE, action) {
     case NAME_AUTOCOMPLETE_SUCCEEDED:
       return {
         ...state,
-        nameSuggestions: buildNameSuggestions(
+        nameSuggestions: buildSuggestions(
           camelCaseKeysRecursive(action.payload),
           item => {
             return { label: item.label };
@@ -57,10 +57,12 @@ export default function(state = INITIAL_STATE, action) {
     case LOCATION_AUTOCOMPLETE_SUCCEEDED:
       return {
         ...state,
-        locationSuggestions: camelCaseKeysRecursive(action.payload).map(
+        locationSuggestions: buildSuggestions(
+          camelCaseKeysRecursive(action.payload),
           item => {
             return { label: item.placeName, coords: item.center };
           },
+          state.location,
         ),
         inProgress: false,
       };

@@ -32,11 +32,19 @@ export function LocationSearchForm({
   };
 
   const handleSelection = selected => {
-    dispatchFetchSearchByLocationCoords(
-      selected.label,
-      selected.coords,
-      filters,
-    );
+    if (selected.coords) {
+      dispatchFetchSearchByLocationCoords(
+        selected.label,
+        selected.coords,
+        filters,
+      );
+    } else {
+      dispatchFetchSearchByLocationResults(
+        autocomplete.location,
+        distance,
+        filters,
+      );
+    }
   };
 
   const doAutocompleteSuggestionsSearch = value => {
