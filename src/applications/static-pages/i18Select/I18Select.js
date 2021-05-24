@@ -13,6 +13,7 @@ const I18Select = ({ baseUrls, content, langSelected }) => {
   useEffect(() => {
     const contentDiv = document?.getElementById('content');
     setLang('en');
+    langSelected('en');
     if (contentDiv) {
       contentDiv.setAttribute('lang', 'en');
     }
@@ -20,6 +21,7 @@ const I18Select = ({ baseUrls, content, langSelected }) => {
     for (const [langCode, suffix] of Object.entries(LANGS_TO_LINK_SUFFIXES)) {
       if (document?.location.href.endsWith(suffix)) {
         setLang(langCode);
+        langSelected(langCode);
         if (contentDiv) {
           contentDiv.setAttribute('lang', langCode);
         }
