@@ -56,7 +56,7 @@ function formatHeader(appointment) {
   } else if (isVideoHome(appointment)) {
     return 'VA Video Connect at home';
   } else if (isVAPhoneAppointment(appointment)) {
-    return 'VA Appointment over the phone';
+    return 'VA appointment over the phone';
   } else if (appointment.vaos.isCOVIDVaccine) {
     return 'COVID-19 vaccine';
   } else {
