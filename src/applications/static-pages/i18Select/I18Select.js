@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
+import { onThisPageHook } from './hooks';
+import { connect } from 'react-redux';
+import { langSelectedAction } from './actions';
 
 const LANGS_TO_LINK_SUFFIXES = {
   es: '-esp/',
   tl: '-tag/',
 };
-const I18Select = ({ baseUrls, content }) => {
+const I18Select = ({ baseUrls, content, langSelected }) => {
   const [lang, setLang] = useState('en');
   useEffect(() => {
     const contentDiv = document?.getElementById('content');
     setLang('en');
+    langSelected('en');
     if (contentDiv) {
       contentDiv.setAttribute('lang', 'en');
     }
+    // this logic is specific to the temporary covid faq page url structures and cannot be abstracted
     for (const [langCode, suffix] of Object.entries(LANGS_TO_LINK_SUFFIXES)) {
       if (document?.location.href.endsWith(suffix)) {
         setLang(langCode);
+        langSelected(langCode);
         if (contentDiv) {
           contentDiv.setAttribute('lang', langCode);
         }
@@ -26,10 +32,7 @@ const I18Select = ({ baseUrls, content }) => {
 
   useEffect(
     () => {
-      if (lang && lang !== 'en') {
-        const onThisPageEl = document?.getElementById('on-this-page');
-        onThisPageEl.innerText = content[lang].onThisPage;
-      }
+      onThisPageHook(content, lang);
     },
     [lang, content],
   );
@@ -54,6 +57,7 @@ const I18Select = ({ baseUrls, content }) => {
                     event: 'nav-pipe-delimited-list-click',
                     'pipe-delimited-list-header': languageConfig.lang,
                   });
+                  langSelected(languageConfig.lang);
                 }}
                 href={baseUrls[languageCode]}
                 hrefLang={languageConfig.lang}
@@ -77,4 +81,13 @@ const I18Select = ({ baseUrls, content }) => {
   );
 };
 
-export default I18Select;
+const mapDispatchToProps = dispatch => ({
+  langSelected: lang => {
+    return dispatch(langSelectedAction(lang));
+  },
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(I18Select);
