@@ -78,7 +78,7 @@ export const submitTransform = (formConfig, form) => {
       if (key === 'signAsRepresentativeDocumentUpload') {
         /* if user submits a document via upload page, add the guid to the formData
           otherwise delete object and move on to next keys */
-        if (isEmpty(data[key])) {
+        if (isEmpty(data[key]) || data.signAsRepresentativeYesNo !== 'yes') {
           return delete sortedDataByChapter.poaAttachmentId;
         }
 

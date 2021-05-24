@@ -12,6 +12,7 @@ import {
   selectIsCernerOnlyPatient,
   selectUseFlatFacilityPage,
   selectFeatureHomepageRefresh,
+  selectFeatureVAOSServiceRequests,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -29,6 +30,7 @@ import {
   getSitesSupportingVAR,
   getCommunityCare,
 } from '../../services/var';
+import { createAppointment } from '../../services/appointment';
 import {
   getOrganizations,
   getIdOfRootOrganization,
@@ -55,6 +57,7 @@ import {
   transformFormToCCRequest,
   transformFormToAppointment,
 } from './helpers/formSubmitTransformers';
+import { transformFormToVAOSCCRequest } from './helpers/formSubmitTransformers.vaos';
 import {
   resetDataLayer,
   recordItemsRetrieved,
@@ -938,6 +941,7 @@ export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
     const isFeatureHomepageRefresh = selectFeatureHomepageRefresh(state);
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -1018,7 +1022,10 @@ export function submitAppointmentOrRequest(history) {
 
       try {
         let requestData;
-        if (isCommunityCare) {
+        if (featureVAOSServiceRequests && isCommunityCare) {
+          requestBody = transformFormToVAOSCCRequest(getState());
+          requestData = await createAppointment({ appointment: requestBody });
+        } else if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
         } else {
@@ -1026,24 +1033,26 @@ export function submitAppointmentOrRequest(history) {
           requestData = await submitRequest('va', requestBody);
         }
 
-        try {
-          const requestMessage = data.reasonAdditionalInfo;
-          if (requestMessage) {
-            await sendRequestMessage(requestData.id, requestMessage);
+        if (!featureVAOSServiceRequests) {
+          try {
+            const requestMessage = data.reasonAdditionalInfo;
+            if (requestMessage) {
+              await sendRequestMessage(requestData.id, requestMessage);
+            }
+            await buildPreferencesDataAndUpdate(data.email);
+          } catch (error) {
+            // These are ancillary updates, the request went through if the first submit
+            // succeeded
+            captureError(error, false, 'Request message failure', {
+              messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
+              hasLineBreak: newAppointment?.data?.reasonAdditionalInfo?.includes(
+                '\r\n',
+              ),
+              hasNewLine: newAppointment?.data?.reasonAdditionalInfo?.includes(
+                '\n',
+              ),
+            });
           }
-          await buildPreferencesDataAndUpdate(data.email);
-        } catch (error) {
-          // These are ancillary updates, the request went through if the first submit
-          // succeeded
-          captureError(error, false, 'Request message failure', {
-            messageLength: newAppointment?.data?.reasonAdditionalInfo?.length,
-            hasLineBreak: newAppointment?.data?.reasonAdditionalInfo?.includes(
-              '\r\n',
-            ),
-            hasNewLine: newAppointment?.data?.reasonAdditionalInfo?.includes(
-              '\n',
-            ),
-          });
         }
 
         dispatch({

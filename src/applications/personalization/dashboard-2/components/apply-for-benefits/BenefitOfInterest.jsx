@@ -22,7 +22,7 @@ const BenefitOfInterest = ({
         `space-between`, so this first child will be pinned to the top of the
         parent div and the following anchor tag will be pinned to the bottom of
         the parent */}
-        <div>
+        <div className="vads-u-width--full">
           <div className="vads-u-display--flex">
             <i
               className={`icon-small icon-heading hub-icon-${icon} hub-background-${icon} white vads-u-margin-right--1 vads-u-flex--auto`}

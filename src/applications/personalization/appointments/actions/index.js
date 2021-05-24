@@ -108,28 +108,28 @@ export function fetchConfirmedFutureAppointments() {
 
         // This catches partial errors on the meta object
         if (
-          vaAppointmentsResponse?.meta?.errors?.length > 0 ||
-          ccAppointmentsResponse?.meta?.errors?.length > 0
+          vaAppointmentsResponse.meta?.errors?.length > 0 ||
+          ccAppointmentsResponse.meta?.errors?.length > 0
         ) {
           dispatch({
             type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
             errors: [
-              ...(vaAppointmentsResponse?.meta?.errors || []),
-              ...(ccAppointmentsResponse?.meta?.errors || []),
+              ...(vaAppointmentsResponse.meta?.errors || []),
+              ...(ccAppointmentsResponse.meta?.errors || []),
             ],
           });
           return;
         }
 
-        vaAppointments = vaAppointmentsResponse?.data;
-        ccAppointments = ccAppointmentsResponse?.data;
+        vaAppointments = vaAppointmentsResponse.data;
+        ccAppointments = ccAppointmentsResponse.data;
       }
 
       const facilityIDs = uniq(
         vaAppointments?.map(
           appointment =>
-            getStagingID(appointment?.attributes?.sta6aid)
-              ? `vha_${getStagingID(appointment?.attributes?.sta6aid)}`
+            getStagingID(appointment.attributes?.sta6aid)
+              ? `vha_${getStagingID(appointment.attributes?.sta6aid)}`
               : undefined,
         ),
       );
@@ -153,22 +153,19 @@ export function fetchConfirmedFutureAppointments() {
         {},
       );
     } catch (error) {
+      const errors = error.errors ?? [error];
       dispatch({
         type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
-        errors: [
-          ...(vaAppointmentsResponse?.errors || []),
-          ...(ccAppointmentsResponse?.errors || []),
-          ...(facilitiesResponse?.data?.errors || []),
-        ],
+        errors,
       });
     }
 
     const formattedVAAppointments = vaAppointments?.reduce(
       (accumulator, appointment) => {
-        const startDate = moment(appointment?.attributes?.startDate);
+        const startDate = moment(appointment.attributes?.startDate);
         const now = moment();
         const appointmentStatus =
-          appointment?.attributes?.vdsAppointments?.[0]?.currentStatus;
+          appointment.attributes?.vdsAppointments?.[0]?.currentStatus;
 
         // Past appointments should be filtered out already on the api side, this is a safe guard.
         if (startDate.isBefore(now)) {
@@ -182,7 +179,7 @@ export function fetchConfirmedFutureAppointments() {
 
         // Derive the facility.
         const facility =
-          facilitiesLookup[getStagingID(appointment?.attributes?.facilityId)];
+          facilitiesLookup[getStagingID(appointment.attributes?.facilityId)];
 
         accumulator.push({
           additionalInfo: getAdditionalInfo(appointment),
@@ -204,7 +201,7 @@ export function fetchConfirmedFutureAppointments() {
 
     const formattedCCAppointments = ccAppointments?.reduce(
       (accumulator, appointment) => {
-        const startDate = moment(appointment?.attributes?.appointmentTime);
+        const startDate = moment(appointment.attributes?.appointmentTime);
         const now = moment();
 
         // Escape early if the appointment is in the past.
