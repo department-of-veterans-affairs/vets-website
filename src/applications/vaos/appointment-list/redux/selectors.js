@@ -16,6 +16,7 @@ import {
   isCanceledConfirmed,
   isUpcomingAppointment,
   sortByCreatedDateDescending,
+  isPendingOrCancelledRequest,
 } from '../../services/appointment';
 import {
   selectFeatureCovid19Vaccine,
@@ -120,7 +121,7 @@ export const selectPendingAppointments = createSelector(
   state => state.appointments.pending,
   pending =>
     pending
-      ?.filter(a => !a.vaos.isExpressCare)
+      ?.filter(isPendingOrCancelledRequest)
       .sort(sortByCreatedDateDescending) || null,
 );
 

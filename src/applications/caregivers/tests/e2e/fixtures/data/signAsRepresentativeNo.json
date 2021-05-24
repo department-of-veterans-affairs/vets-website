@@ -41,5 +41,11 @@
   "secondaryTwoFullName": {},
   "secondaryTwoAddress": {},
   "AGREED": false,
-  "signAsRepresentativeYesNo": "no"
+  "signAsRepresentativeYesNo": "no",
+  "signAsRepresentativeDocumentUpload": [
+    {
+      "guid": "85b7edad-0f51-41d2-9eab-dffcc8dabb79",
+      "name": "fake_poa_9_25_15.pdf"
+    }
+  ]
 }

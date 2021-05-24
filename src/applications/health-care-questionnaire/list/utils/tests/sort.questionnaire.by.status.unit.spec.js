@@ -130,6 +130,85 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
     expect(result.toDo).to.exist;
     expect(result.toDo.length).to.equal(1);
   });
+  describe('todo - filter - appointment is in the past', () => {
+    it('appointment in the past with completed questionnaire - shows in completed list', () => {
+      const data = [
+        {
+          appointment: new AppointmentData().withStatus(booked).inPast(10),
+          questionnaire: [
+            {
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(completed),
+              ],
+            },
+          ],
+        },
+      ];
+      const result = sortQuestionnairesByStatus(data);
+      expect(result.completed).to.exist;
+      expect(result.toDo).to.exist;
+      expect(result.completed.length).to.equal(1);
+      expect(result.toDo.length).to.equal(0);
+    });
+    it('appointment in the past with not completed questionnaire - does not show', () => {
+      const data = [
+        {
+          appointment: new AppointmentData().withStatus(booked).inPast(10),
+          questionnaire: [
+            {
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(),
+              ],
+            },
+          ],
+        },
+      ];
+      const result = sortQuestionnairesByStatus(data);
+      expect(result.completed).to.exist;
+      expect(result.toDo).to.exist;
+      expect(result.completed.length).to.equal(0);
+      expect(result.toDo.length).to.equal(0);
+    });
+    it('3 appointments in the past - one complete, one not shown, one todo', () => {
+      const data = [
+        {
+          appointment: new AppointmentData().withStatus(booked).inPast(10),
+          questionnaire: [
+            {
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(completed),
+              ],
+            },
+          ],
+        },
+        {
+          appointment: new AppointmentData().withStatus(booked).inPast(10),
+          questionnaire: [
+            {
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(),
+              ],
+            },
+          ],
+        },
+        {
+          appointment: new AppointmentData().withStatus(booked).inFuture(10),
+          questionnaire: [
+            {
+              questionnaireResponse: [
+                new QuestionnaireResponseData().withStatus(),
+              ],
+            },
+          ],
+        },
+      ];
+      const result = sortQuestionnairesByStatus(data);
+      expect(result.completed).to.exist;
+      expect(result.toDo).to.exist;
+      expect(result.completed.length).to.equal(1);
+      expect(result.toDo.length).to.equal(1);
+    });
+  });
   describe('appointment status use cases --', () => {
     it('appointment is CANCELLED and questionnaire is NOT STARTED -- should not be in the list', () => {
       const data = [
@@ -151,7 +230,7 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
     it('appointment is CANCELLED and questionnaire is IN PROGRESS -- should the todo list', () => {
       const data = [
         {
-          appointment: new AppointmentData().withStatus(cancelled),
+          appointment: new AppointmentData().withStatus(cancelled).isToday(),
           questionnaire: [
             {
               questionnaireResponse: [
@@ -191,7 +270,7 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
     it('appointment is FUTURE and questionnaire is NOT STARTED -- should be in toDo list', () => {
       const data = [
         {
-          appointment: new AppointmentData().withStatus(booked),
+          appointment: new AppointmentData().withStatus(booked).isToday(),
           questionnaire: [
             {
               questionnaireResponse: [new QuestionnaireResponseData()],
@@ -209,7 +288,7 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
     it('appointment is FUTURE and questionnaire is NOT STARTED -- status of arrived -- should be in toDo list', () => {
       const data = [
         {
-          appointment: new AppointmentData().withStatus(arrived),
+          appointment: new AppointmentData().withStatus(arrived).isToday(),
           questionnaire: [
             {
               questionnaireResponse: [new QuestionnaireResponseData()],
@@ -227,7 +306,7 @@ describe('health care questionnaire -- utils -- questionnaire list -- sorting by
     it('appointment is FUTURE and questionnaire is IN PROGRESS -- should be in toDo list', () => {
       const data = [
         {
-          appointment: new AppointmentData().withStatus(booked),
+          appointment: new AppointmentData().withStatus(booked).isToday(),
           questionnaire: [
             {
               questionnaireResponse: [
