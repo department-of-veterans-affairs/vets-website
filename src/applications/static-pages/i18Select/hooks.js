@@ -26,8 +26,10 @@ export const adaptLinksWithLangCode = setLangAttributeInReduxStore => {
         if (origOnClick != null && !origOnClick()) {
           return false;
         }
-        // the link already has the appropriate lang attribute, do nothing
-        if (link.hreflang) return true;
+        if (link.hreflang) {
+          setLangAttributeInReduxStore(link.hreflang);
+          return true;
+        }
         // respect the temp IA i18 structure
         if (link.href.endsWith('-esp/')) {
           setLangAttributeInReduxStore('es');
