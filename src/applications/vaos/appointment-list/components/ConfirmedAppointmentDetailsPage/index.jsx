@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import AlertBox, {
+  ALERT_TYPE,
+} from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import AddToCalendar from '../../../components/AddToCalendar';
@@ -55,6 +57,8 @@ function formatHeader(appointment) {
     return 'VA Video Connect at home';
   } else if (isVAPhoneAppointment(appointment)) {
     return 'VA Appointment over the phone';
+  } else if (appointment.vaos.isCOVIDVaccine) {
+    return 'COVID-19 vaccine';
   } else {
     return 'VA Appointment';
   }
@@ -161,6 +165,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
   const isInPersonVAAppointment = !isVideo;
+  const isCovid = appointment.vaos.isCOVIDVaccine;
   const canceler = appointment.description?.includes('CANCELLED BY PATIENT')
     ? 'You'
     : facility?.name || 'Facility';
@@ -179,8 +184,6 @@ export default function ConfirmedAppointmentDetailsPage() {
     appointment.comment &&
     videoKind !== VIDEO_TYPES.clinic &&
     videoKind !== VIDEO_TYPES.gfe;
-
-  const showCovidPhone = appointment.vaos.isCOVIDVaccine;
 
   let calendarDescription = 'VA appointment';
   if (showInstructions) {
@@ -251,7 +254,7 @@ export default function ConfirmedAppointmentDetailsPage() {
               facilityId={facilityId}
               isHomepageRefresh
               clinicFriendlyName={appointment.location?.clinicName}
-              showCovidPhone={showCovidPhone}
+              showCovidPhone={isCovid}
             />
 
             {showInstructions &&
@@ -299,7 +302,7 @@ export default function ConfirmedAppointmentDetailsPage() {
                 </div>
 
                 {showCancelButton &&
-                  !isPastAppointment && (
+                  (!isPastAppointment && !isCovid) && (
                     <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
                       <i
                         aria-hidden="true"
@@ -325,6 +328,18 @@ export default function ConfirmedAppointmentDetailsPage() {
                       </button>
                     </div>
                   )}
+
+                {isCovid && (
+                  <AlertBox
+                    status={ALERT_TYPE.INFO}
+                    className="vads-u-display--block"
+                    headline="Need to make changes?"
+                    backgroundOnly
+                  >
+                    Contact this provider if you need to reschedule or cancel
+                    your appointment.
+                  </AlertBox>
+                )}
               </>
             )}
           </>
