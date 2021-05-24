@@ -109,12 +109,14 @@ export function RefineYourSearch({
           label="VET TEC providers"
           onChange={handleVetTecCheckboxChange}
         />
-        <Checkbox
-          checked={filters.preferredProvider}
-          name="preferredProvider"
-          label="Preferred providers"
-          onChange={handleVetTecCheckboxChange}
-        />
+        <div className="vads-u-padding-left--3">
+          <Checkbox
+            checked={filters.preferredProvider}
+            name="preferredProvider"
+            label="Preferred providers"
+            onChange={handleVetTecCheckboxChange}
+          />
+        </div>
       </>
     );
   };
