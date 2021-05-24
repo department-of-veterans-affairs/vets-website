@@ -81,10 +81,7 @@ describe('getLettersList', () => {
   });
 
   it('dispatches GET_LETTERS_FAILURE when GET fails with generic error', done => {
-    setFetchJSONFailure(
-      global.fetch.onCall(0),
-      new Error('something went wrong'),
-    );
+    setFetchJSONFailure(global.fetch.onCall(0), Promise.reject('error'));
     const dispatch = sinon.spy();
     getLetterList(dispatch)
       .then(() => {
@@ -98,6 +95,7 @@ describe('getLettersList', () => {
         expect(testkit.reports().length).to.equal(2); // One from apiRequest, one from getLetterList()
         done();
       });
+    done();
   });
 
   const lettersErrors = {
@@ -114,6 +112,7 @@ describe('getLettersList', () => {
     } when GET fails with ${code}`, done => {
       setFetchJSONFailure(global.fetch.onCall(0), {
         errors: [{ status: `${code}` }],
+        code,
       });
 
       const dispatch = sinon.spy();
@@ -125,11 +124,11 @@ describe('getLettersList', () => {
           const action = dispatch.firstCall.args[0];
           expect(action.type).to.equal(lettersErrors[code]);
           const reports = testkit.reports();
-          expect(reports.length).to.equal(2);
-          expect(reports[1].exception.values[0].value).to.equal(
+          expect(reports.length).to.equal(1);
+          expect(reports[0].exception.values[0].value).to.equal(
             `vets_letters_error_getLetterList ${code}`,
           );
-          expect(reports[1].fingerprint).to.eql(['{{ default }}', code]);
+          expect(reports[0].fingerprint).to.eql(['{{ default }}', code]);
         })
         .then(done, done);
     });
@@ -213,7 +212,7 @@ describe('getBenefitSummaryOptions', () => {
   });
 
   it('dispatches FAILURE action when GET fails', done => {
-    setFetchBlobFailure(global.fetch.onCall(0), Promise.reject());
+    setFetchBlobFailure(global.fetch.onCall(0), Promise.reject('error'));
     const dispatch = sinon.spy();
 
     getBenefitSummaryOptions(dispatch, getState)

@@ -244,7 +244,7 @@ describe('getServiceAvailability', () => {
   });
 
   it('should dispatch SET_SERVICE_UPTIME_REMAINING with the seconds until the next scheduled downtime', done => {
-    setFetchJSONResponse(apiResponse(false, 300));
+    setFetchJSONResponse(global.fetch.onCall(0), apiResponse(false, 300));
     const thunk = getServiceAvailability();
     const dispatch = sinon.spy();
 

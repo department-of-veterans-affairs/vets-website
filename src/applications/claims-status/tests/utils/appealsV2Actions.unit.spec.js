@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockFetch } from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { getAppealsV2 } from '../../actions';
 
@@ -65,7 +65,8 @@ describe('getAppealsV2', () => {
     it(`Dispatches ${
       appealsErrors[code]
     } when GET fails with ${code}`, done => {
-      mockFetch(
+      setFetchJSONResponse(
+        global.fetch.onCall(0),
         Promise.reject({
           errors: [{ status: `${code}` }],
         }),

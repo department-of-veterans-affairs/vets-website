@@ -674,7 +674,6 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       },
     });
   });
-  afterEach(() => resetFetch());
 
   it('should submit successfully', async () => {
     mockAppointmentSubmit({

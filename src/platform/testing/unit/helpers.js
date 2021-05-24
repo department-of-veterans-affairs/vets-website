@@ -138,7 +138,7 @@ export function setFetchBlobResponse(stub, data) {
 
 export function setFetchBlobFailure(stub, error) {
   const response = new Response();
-  response.ok = true;
+  response.ok = false;
   response.url = 'https://dev-api.va.gov';
   response.blob = () => Promise.reject(new Error(error));
   stub.resolves(response);
