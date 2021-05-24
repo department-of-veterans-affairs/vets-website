@@ -39,20 +39,17 @@ export const MapboxInit = {
 
 export const TypeList = ['place', 'region', 'postcode', 'locality'];
 
-/**
- * Max search area in miles
- */
-export const MAX_SEARCH_AREA = 500;
-
-/**
- * Min radius search area in miles
- */
-export const MIN_RADIUS = 10;
-
 export const TABS = Object.freeze({
   name: 'name',
   location: 'location',
 });
+
+export const DISTANCE_OPTIONS = [
+  { optionValue: '5', optionLabel: 'within 5 miles', magicBounds: 0.005 },
+  { optionValue: '25', optionLabel: 'within 25 miles', magicBounds: 0.025 },
+  { optionValue: '50', optionLabel: 'within 50 miles', magicBounds: 0.05 },
+  { optionValue: '75', optionLabel: 'within 75 miles', magicBounds: 0.08 },
+];
 
 export const ariaLabels = Object.freeze({
   learnMore: {

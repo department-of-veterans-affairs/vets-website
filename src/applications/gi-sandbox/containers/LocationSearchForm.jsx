@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Dropdown from '../components/Dropdown';
 import { fetchSearchByLocationResults } from '../actions';
+import { DISTANCE_OPTIONS } from '../constants';
 
 export function LocationSearchForm({ fetchSearchByLocation, search }) {
   const [searchLocation, setSearchLocation] = useState(search.query.location);
@@ -30,12 +31,7 @@ export function LocationSearchForm({ fetchSearchByLocation, search }) {
                 className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-left--4"
                 selectClassName="vads-u-font-style--italic vads-u-color--gray"
                 name="distance"
-                options={[
-                  { optionValue: '5', optionLabel: 'within 5 miles' },
-                  { optionValue: '25', optionLabel: 'within 25 miles' },
-                  { optionValue: '50', optionLabel: 'within 50 miles' },
-                  { optionValue: '75', optionLabel: 'within 75 miles' },
-                ]}
+                options={DISTANCE_OPTIONS}
                 value={distance}
                 alt="distance"
                 visible

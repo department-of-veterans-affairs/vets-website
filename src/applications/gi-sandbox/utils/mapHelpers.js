@@ -1,4 +1,4 @@
-import { MIN_RADIUS } from '../constants';
+import { DISTANCE_OPTIONS } from '../constants';
 
 function toRadians(value) {
   return (value * Math.PI) / 180;
@@ -20,19 +20,6 @@ export function distBetween(lat1, lng1, lat2, lng2) {
   return R * c;
 }
 
-export const radiusFromBoundingBox = fbox => {
-  let radius = distBetween(
-    fbox[0].bbox[1],
-    fbox[0].bbox[0],
-    fbox[0].bbox[3],
-    fbox[0].bbox[2],
-  );
-
-  if (radius < MIN_RADIUS) radius = MIN_RADIUS;
-
-  return Math.max(radius, MIN_RADIUS);
-};
-
 /**
  * Recursively convert number to A to AA to AAA to... to ZZZZZZZZZZZ
  * Uses https://en.wikipedia.org/wiki/Base36 to convert numbers to alphanumeric values
@@ -53,35 +40,25 @@ export const numberToLetter = number => {
   return letter;
 };
 
-const BOUNDING_RADIUS = 0.5;
-
 /**
  * Calculates a bounding box based on the latitude and longitude
  */
 export const getBoundingBox = search => {
-  const { latitude, longitude } = search.query;
-  const { geocode } = search;
+  const { latitude, longitude, distance } = search.query;
+  const { results } = search.location;
 
   if (latitude === null || longitude === null) return null;
 
-  let boundingBox = [
-    longitude - BOUNDING_RADIUS,
-    latitude - BOUNDING_RADIUS,
-    longitude + BOUNDING_RADIUS,
-    latitude + BOUNDING_RADIUS,
+  const latitudes = results.map(result => result.latitude);
+  const longitudes = results.map(result => result.longitude);
+  const magicRadius = DISTANCE_OPTIONS.find(
+    ({ optionValue }) => optionValue === distance.toString(),
+  ).magicBounds;
+
+  return [
+    Math.min(...longitudes) - magicRadius,
+    Math.min(...latitudes),
+    Math.max(...longitudes) + magicRadius,
+    Math.max(...latitudes),
   ];
-
-  const { bbox } = geocode[0];
-  if (bbox) {
-    boundingBox = [
-      Math.min(bbox[0], longitude - BOUNDING_RADIUS),
-      Math.min(bbox[1], latitude - BOUNDING_RADIUS),
-      Math.max(bbox[2], longitude + BOUNDING_RADIUS),
-      Math.max(bbox[3], latitude + BOUNDING_RADIUS),
-    ];
-  }
-
-  // const radius = radiusFromBoundingBox(geocode);
-
-  return boundingBox;
 };
