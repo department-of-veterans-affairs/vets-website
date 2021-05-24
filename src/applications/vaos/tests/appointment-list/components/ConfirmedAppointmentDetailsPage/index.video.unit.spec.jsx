@@ -516,7 +516,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         ...appointment.attributes,
         facilityId: '983',
         clinicId: '123',
-        sta6aid: '983',
+        // This should be different from facilityId to test that correct facility
+        // is used
+        sta6aid: '983GD',
         startDate: startDate.format(),
         clinicFriendlyName: 'CHY PC VAR2',
       };
@@ -543,10 +545,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       });
 
       const facility = {
-        id: 'vha_442',
+        id: 'vha_442GD',
         attributes: {
           ...getVAFacilityMock().attributes,
-          uniqueId: '442',
+          uniqueId: '442GD',
           name: 'Cheyenne VA Medical Center',
           address: {
             physical: {
@@ -561,7 +563,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
           },
         },
       };
-      mockFacilitiesFetch('vha_442', [facility]);
+      mockFacilitiesFetch('vha_442GD', [facility]);
 
       const screen = renderWithStoreAndRouter(
         <AppointmentList featureHomepageRefresh />,

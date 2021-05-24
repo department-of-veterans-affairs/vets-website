@@ -234,7 +234,8 @@ export function isVAPhoneAppointment(appointment) {
 export function getVAAppointmentLocationId(appointment) {
   if (
     appointment?.vaos.isVideo &&
-    appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment
+    appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
+    appointment?.videoData.kind !== VIDEO_TYPES.clinic
   ) {
     return appointment?.location.vistaId;
   }
