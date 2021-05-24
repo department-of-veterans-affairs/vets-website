@@ -50,7 +50,7 @@ jobs:
         with:
           check_name: 'Cypress Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'vets-website/**/test-results/e2e-test-output-*.xml'
+          report_paths: 'test-results/e2e-test-output-*.xml'
 
       - name: Archive Cypress test videos
         uses: actions/upload-artifact@v2
