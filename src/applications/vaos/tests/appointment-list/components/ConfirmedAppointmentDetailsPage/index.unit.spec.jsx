@@ -28,6 +28,7 @@ import { fireEvent, waitFor } from '@testing-library/react';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
+    vaOnlineSchedulingCheetah: true,
     vaOnlineSchedulingRequests: true,
     vaOnlineSchedulingPast: true,
     // eslint-disable-next-line camelcase
@@ -378,6 +379,52 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
     expect(screen.baseElement).to.contain.text(
       'You canceled this appointment.',
+    );
+  });
+
+  it('should not allow cancelation of COVID-19 vaccine appointments', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      char4: 'CDQC', // COVID vaccine char4 code
+      clinicId: '308',
+      facilityId: '983',
+      sta6aid: '983GC',
+      startDate: moment(),
+      vdsAppointments: [{ clinic: { name: 'CHY OPT VAR1' } }],
+    };
+
+    mockSingleAppointmentFetch({
+      appointment,
+    });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Fort Collins VA Clinic',
+      },
+    };
+
+    mockFacilityFetch('vha_442GC', facility);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+    expect(await screen.findByText(/COVID-19 vaccine/i)).to.exist;
+
+    expect(screen.baseElement).to.contain.text(
+      'Contact this provider if you need to reschedule or cancel your appointment.',
     );
   });
 
