@@ -28,7 +28,7 @@ export function SearchResultCard({
 
   const resultCardClasses = classNames(
     'result-card vads-u-background-color--gray-lightest vads-u-margin-bottom--2',
-    { 'vads-u-margin-left--2p5': location },
+    { 'vads-u-margin-left--2p5': !location },
   );
 
   const nameCityStateHeader = (
