@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { onThisPageHook } from './hooks';
 import { connect } from 'react-redux';
+import { langSelectedAction } from './actions';
 
 const LANGS_TO_LINK_SUFFIXES = {
   es: '-esp/',
@@ -77,9 +78,11 @@ const I18Select = ({ baseUrls, content, langSelected }) => {
     </div>
   );
 };
-// TODO abstract this re used action
+
 const mapDispatchToProps = dispatch => ({
-  langSelected: lang => dispatch({ type: 'LANG_SELECTED', lang }),
+  langSelected: lang => {
+    return dispatch(langSelectedAction(lang));
+  },
 });
 
 export default connect(

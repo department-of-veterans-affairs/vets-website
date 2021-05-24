@@ -9,6 +9,7 @@ import { replaceWithStagingDomain } from '../../../utilities/environment/staging
 import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { langSelectedAction } from 'applications/static-pages/i18Select/actions';
 
 class Footer extends React.Component {
   constructor(props) {
@@ -78,7 +79,9 @@ class Footer extends React.Component {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  langSelected: lang => dispatch({ type: 'LANG_SELECTED', lang }),
+  langSelected: lang => {
+    return dispatch(langSelectedAction(lang));
+  },
 });
 
 const mapStateToProps = state => ({
