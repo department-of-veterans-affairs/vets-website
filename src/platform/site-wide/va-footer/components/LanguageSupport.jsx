@@ -47,7 +47,7 @@ function LanguagesListTemplate({ langSelected }) {
 }
 export default function LanguageSupport({
   isDesktop,
-  // showLangSupport,
+  showLangSupport,
   langSelected,
   languageCode,
 }) {
@@ -66,7 +66,7 @@ export default function LanguageSupport({
     },
     [languageCode],
   );
-  // if (showLangSupport !== true) return null;
+  if (showLangSupport !== true) return null;
 
   if (isDesktop) {
     return (
