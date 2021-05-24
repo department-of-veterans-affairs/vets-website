@@ -13,6 +13,7 @@ import {
   updateAppointment,
   updateRequest,
 } from '../var';
+import { postAppointment } from '../vaos';
 import {
   transformConfirmedAppointment,
   transformConfirmedAppointments,
@@ -26,6 +27,7 @@ import {
   VIDEO_TYPES,
   GA_PREFIX,
 } from '../../utils/constants';
+import { transformVAOSAppointment } from './transformers.vaos';
 import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
@@ -518,6 +520,12 @@ export function groupAppointmentsByMonth(appointments) {
   });
 
   return appointmentsByMonth;
+}
+
+export async function createAppointment({ appointment }) {
+  const result = await postAppointment(appointment);
+
+  return transformVAOSAppointment(result);
 }
 
 const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;

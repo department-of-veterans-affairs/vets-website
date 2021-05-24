@@ -170,6 +170,16 @@ const responses = {
     },
   },
   'PUT /vaos/v0/preferences': { data: { attributes: {} } },
+  'POST /vaos/v2/appointments': (req, res) => {
+    return res.json({
+      data: {
+        id: '8a4886886e4c8e22016e6613216d001g',
+        attributes: {
+          ...req.body,
+        },
+      },
+    });
+  },
   'GET /v0/user': {
     data: {
       attributes: {

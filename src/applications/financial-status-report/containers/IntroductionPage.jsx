@@ -8,6 +8,9 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import formConfig from '../config/form';
 import UnverifiedPrefillAlert from '../components/UnverifiedPrefillAlert';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import recordEvent from 'platform/monitoring/record-event';
+import { WIZARD_STATUS } from '../wizard/constants';
+import { rootUrl } from '../manifest.json';
 
 const IntroductionPage = props => {
   useEffect(() => {
@@ -37,6 +40,19 @@ const IntroductionPage = props => {
       <h2 className="vads-u-font-size--h3">
         Follow these steps to request help with a VA debt payment
       </h2>
+      <p>
+        If you don’t think this is the right form for you,{' '}
+        <a
+          href={rootUrl}
+          onClick={() => {
+            sessionStorage.removeItem(WIZARD_STATUS);
+            recordEvent({ event: 'howToWizard-start-over' });
+          }}
+        >
+          go back and answer questions again
+        </a>
+        .
+      </p>
       <div className="process schemaform-process">
         <ol>
           <li className="process-step list-one">

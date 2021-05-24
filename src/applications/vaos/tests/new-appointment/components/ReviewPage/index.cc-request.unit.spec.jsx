@@ -30,6 +30,8 @@ import {
   mockPreferences,
   mockRequestSubmit,
 } from '../../../mocks/helpers';
+
+import { mockAppointmentSubmit } from '../../../mocks/helpers.vaos';
 import { getVAFacilityMock } from '../../../mocks/v0';
 
 const initialState = {
@@ -46,6 +48,17 @@ const initialStateHomepageRefresh = {
     // eslint-disable-next-line camelcase
     show_new_schedule_view_appointments_page: true,
     vaOnlineSchedulingHomepageRefresh: true,
+  },
+};
+
+const initialStateVAOSService = {
+  featureToggles: {
+    vaOnlineSchedulingCancel: true,
+    // eslint-disable-next-line camelcase
+    show_new_schedule_view_appointments_page: true,
+    vaOnlineSchedulingHomepageRefresh: true,
+    vaOnlineSchedulingVAOSServiceRequests: true,
+    vaOnlineSchedulingProviderSelection: true,
   },
 };
 
@@ -585,6 +598,175 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     );
 
     const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
+    await screen.findByText(/requesting a community care appointment/i);
+
+    userEvent.click(screen.getByText(/Request appointment/i));
+
+    await screen.findByText('We couldn’t schedule this appointment');
+
+    expect(screen.baseElement).contain.text(
+      'Something went wrong when we tried to submit your request and you’ll need to start over. We suggest you wait a day',
+    );
+
+    expect(screen.history.push.called).to.be.false;
+  });
+});
+
+describe('VAOS <ReviewPage> CC request with VAOS service', () => {
+  let store;
+
+  beforeEach(() => {
+    mockFetch();
+    store = createTestStore({
+      ...initialStateVAOSService,
+      user: {
+        profile: {
+          facilities: [{ facilityId: '983', isCerner: false }],
+          vapContactInfo: {
+            residentialAddress: {
+              addressLine1: '123 big sky st',
+              city: 'Cincinnati',
+              stateCode: 'OH',
+              zipCode: '45220',
+              latitude: 39.1,
+              longitude: -84.6,
+            },
+          },
+        },
+      },
+      newAppointment: {
+        pages: {},
+        data: {
+          facilityType: FACILITY_TYPES.COMMUNITY_CARE,
+          typeOfCareId: '323',
+          phoneNumber: '1234567890',
+          email: 'joeblow@gmail.com',
+          reasonAdditionalInfo: 'I need an appt',
+          communityCareSystemId: '983',
+          preferredLanguage: 'english',
+          hasCommunityCareProvider: true,
+          selectedDates: ['2020-05-25T00:00:00.000', '2020-05-26T12:00:00.000'],
+          communityCareProvider: {
+            resourceType: 'Location',
+            identifier: [
+              {
+                system: 'PPMS',
+                value: 'ppmsid',
+              },
+            ],
+            address: {
+              line: ['1012 14TH ST NW STE 700'],
+              city: 'WASHINGTON',
+              state: 'DC',
+              postalCode: '20005-3477',
+            },
+            name: 'CAMPBELL, WILLIAM',
+          },
+          bestTimeToCall: {
+            morning: true,
+            afternoon: true,
+            evening: true,
+          },
+        },
+        clinics: {},
+        ccEnabledSystems: [
+          {
+            id: '983',
+          },
+        ],
+        facilities: {},
+      },
+    });
+  });
+  afterEach(() => resetFetch());
+
+  it('should submit successfully', async () => {
+    mockAppointmentSubmit({
+      id: 'fake_id',
+    });
+    mockPreferences(null);
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText(/requesting a community care appointment/i);
+
+    userEvent.click(screen.getByText(/Request appointment/i));
+    await waitFor(() => {
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/requests/fake_id?confirmMsg=true',
+      );
+    });
+
+    const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
+
+    expect(submitData).to.deep.equal({
+      kind: 'cc',
+      status: 'proposed',
+      locationId: '983',
+      serviceType: 'CCPRMYRTNE',
+      reason: 'I need an appt',
+      contact: {
+        telecom: [
+          {
+            type: 'phone',
+            value: '1234567890',
+          },
+          {
+            type: 'email',
+            value: 'joeblow@gmail.com',
+          },
+        ],
+      },
+      requestedPeriods: [
+        {
+          start: '2020-05-25T00:00:00Z',
+          end: '2020-05-25T11:59:00Z',
+        },
+        {
+          start: '2020-05-26T12:00:00Z',
+          end: '2020-05-26T23:59:00Z',
+        },
+      ],
+      preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
+      preferredLanguage: 'English',
+      preferredLocation: { city: 'Cincinnati', state: 'OH' },
+      practitioners: ['ppmsid'],
+    });
+  });
+
+  it('should show error message on failure', async () => {
+    mockFacilityFetch('vha_442', {
+      id: 'vha_442',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '307-778-7550',
+        },
+      },
+    });
+    setFetchJSONFailure(
+      global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
+      {
+        errors: [{}],
+      },
+    );
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
     });
 
