@@ -65,7 +65,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
   return (
     <>
       <div>
-        <VideoLink appointment={appointment} />
+        <VideoLink appointment={appointment} hasFacility={!!facility} />
         {isHome && (
           <>
             <div className="vads-u-margin-top--2">

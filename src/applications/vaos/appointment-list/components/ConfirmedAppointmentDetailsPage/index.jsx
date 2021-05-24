@@ -164,6 +164,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const canceler = appointment.description?.includes('CANCELLED BY PATIENT')
     ? 'You'
     : facility?.name || 'Facility';
+  const address = facility ? formatFacilityAddress(facility) : 'VA facility';
 
   const header = formatHeader(appointment);
   const instructions = formatInstructions(appointment.comment);
@@ -236,99 +237,96 @@ export default function ConfirmedAppointmentDetailsPage() {
         </>
       )}
 
-      {!!facility &&
-        !isVideo && (
-          <>
-            <h2
-              className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
-              data-cy="va-appointment-details-header"
-            >
-              {header}
-            </h2>
-            <VAFacilityLocation
-              facility={facility}
-              facilityName={facility?.name}
-              facilityId={facilityId}
-              isHomepageRefresh
-              clinicFriendlyName={appointment.location?.clinicName}
-              showCovidPhone={showCovidPhone}
-            />
+      {!isVideo && (
+        <>
+          <h2
+            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+            data-cy="va-appointment-details-header"
+          >
+            {header}
+          </h2>
+          <VAFacilityLocation
+            facility={facility}
+            facilityName={facility?.name}
+            facilityId={facilityId}
+            isHomepageRefresh
+            clinicFriendlyName={appointment.location?.clinicName}
+            showCovidPhone={showCovidPhone}
+          />
 
-            {showInstructions &&
-              isInPersonVAAppointment &&
-              instructions && (
-                <div className="vads-u-margin-top--3 vaos-appts__block-label">
-                  <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
-                    <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-                      {instructions.header}
-                    </h2>
-                    <div>{instructions.body}</div>
-                  </div>
+          {showInstructions &&
+            isInPersonVAAppointment &&
+            instructions && (
+              <div className="vads-u-margin-top--3 vaos-appts__block-label">
+                <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
+                  <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+                    {instructions.header}
+                  </h2>
+                  <div>{instructions.body}</div>
                 </div>
-              )}
-            {!canceled && (
-              <>
-                {!isPastAppointment && (
-                  <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-                    <i
-                      aria-hidden="true"
-                      className="far fa-calendar vads-u-margin-right--1"
-                    />
-                    <AddToCalendar
-                      summary={`${header}`}
-                      description={calendarDescription}
-                      location={
-                        isPhone ? 'Phone call' : formatFacilityAddress(facility)
-                      }
-                      duration={appointment.minutesDuration}
-                      startDateTime={appointment.start}
-                    />
-                  </div>
-                )}
-                <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
+              </div>
+            )}
+          {!canceled && (
+            <>
+              {!isPastAppointment && (
+                <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
                   <i
                     aria-hidden="true"
-                    className="fas fa-print vads-u-margin-right--1"
+                    className="far fa-calendar vads-u-margin-right--1"
                   />
-                  <button
-                    className="va-button-link"
-                    onClick={() => window.print()}
-                  >
-                    Print
-                  </button>
+                  <AddToCalendar
+                    summary={`${header}`}
+                    description={calendarDescription}
+                    location={isPhone ? 'Phone call' : address}
+                    duration={appointment.minutesDuration}
+                    startDateTime={appointment.start}
+                  />
                 </div>
+              )}
+              <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
+                <i
+                  aria-hidden="true"
+                  className="fas fa-print vads-u-margin-right--1"
+                />
+                <button
+                  className="va-button-link"
+                  onClick={() => window.print()}
+                >
+                  Print
+                </button>
+              </div>
 
-                {showCancelButton &&
-                  !isPastAppointment && (
-                    <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-                      <i
-                        aria-hidden="true"
-                        className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
-                      />
-                      <button
-                        onClick={() =>
-                          dispatch(startAppointmentCancel(appointment))
-                        }
-                        aria-label={`Cancel appointment on ${formatAppointmentDate(
+              {showCancelButton &&
+                !isPastAppointment && (
+                  <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
+                    <i
+                      aria-hidden="true"
+                      className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
+                    />
+                    <button
+                      onClick={() =>
+                        dispatch(startAppointmentCancel(appointment))
+                      }
+                      aria-label={`Cancel appointment on ${formatAppointmentDate(
+                        moment.parseZone(appointment.start),
+                      )}`}
+                      className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                    >
+                      Cancel appointment
+                      <span className="sr-only">
+                        {' '}
+                        on{' '}
+                        {formatAppointmentDate(
                           moment.parseZone(appointment.start),
-                        )}`}
-                        className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-                      >
-                        Cancel appointment
-                        <span className="sr-only">
-                          {' '}
-                          on{' '}
-                          {formatAppointmentDate(
-                            moment.parseZone(appointment.start),
-                          )}
-                        </span>
-                      </button>
-                    </div>
-                  )}
-              </>
-            )}
-          </>
-        )}
+                        )}
+                      </span>
+                    </button>
+                  </div>
+                )}
+            </>
+          )}
+        </>
+      )}
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
         <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
