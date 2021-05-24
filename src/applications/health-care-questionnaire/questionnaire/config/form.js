@@ -138,9 +138,7 @@ const formConfig = {
             },
             lifeEvents: {
               'ui:widget': 'textarea',
-              'ui:title': (
-                <span>{getQuestionTextById(QUESTION_IDS.LIFE_EVENTS)}</span>
-              ),
+              'ui:title': <>{getQuestionTextById(QUESTION_IDS.LIFE_EVENTS)}</>,
               'ui:validations': [preventLargeFields],
             },
             questions: {
