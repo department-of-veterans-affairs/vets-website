@@ -45,13 +45,14 @@ const NoBenefits = () => {
 };
 
 const Benefits = ({ pending, income }) => {
-  const eduReceived = income.reduce((a, b) => a + Number(b.education), 0);
-  const compReceived = income.reduce(
-    (a, b) => a + Number(b.compensationAndPension),
+  // if no benefits on file return 0
+  const eduReceived = income?.reduce((a, b) => a + Number(b.education) || 0, 0);
+  const compReceived = income?.reduce(
+    (a, b) => a + Number(b.compensationAndPension) || 0,
     0,
   );
 
-  return !pending && income.length ? (
+  return !pending && income?.length ? (
     <>
       <p>This is the VA benefit information we have on file for you.</p>
       <BenefitCard
