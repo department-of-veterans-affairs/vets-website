@@ -396,6 +396,7 @@ SaveInProgressIntro.defaultProps = {
       appType: '',
     },
   },
+  headingLevel: 'h3',
 };
 
 function mapStateToProps(state) {

@@ -17,21 +17,13 @@ import SaveInProgressErrorPage from './SaveInProgressErrorPage';
  *
  */
 export function changeSaveInProgressHeadingLevel(headingLevel, appType) {
-  const content = (
-    <>
+  const H = `${headingLevel}`;
+  return (
+    <H className="usa-alert-heading">
       Save time—and save your work in progress—by signing in before starting
       your {appType}
-    </>
+    </H>
   );
-  const headingClass = 'usa-alert-heading';
-  switch (headingLevel) {
-    case 'h1':
-      return <h1 className={headingClass}>{content}</h1>;
-    case 'h2':
-      return <h2 className={headingClass}>{content}</h2>;
-    default:
-      return <h3 className={headingClass}>{content}</h3>;
-  }
 }
 
 export function createRoutesWithSaveInProgress(formConfig) {
