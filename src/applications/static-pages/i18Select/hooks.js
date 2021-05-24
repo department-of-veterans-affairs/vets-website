@@ -19,20 +19,17 @@ export const setLangAttribute = lang => {
 
 export const adaptLinksWithLangCode = setLangAttributeInReduxStore => {
   const links = document.links;
-  for (let i = 0; i !== links.length; i++) {
-    links[i].onclick = (function() {
-      const origOnClick = links[i].onclick;
+  for (const link of links) {
+    link.onclick = (function() {
+      const origOnClick = link.onclick;
       return function() {
         if (origOnClick != null && !origOnClick()) {
           return false;
         }
         // the link already has the appropriate lang attribute, do nothing
-        if (links[i].hreflang) return true;
+        if (link.hreflang) return true;
         // respect the temp IA i18 structure
-        if (
-          !links[i].href.endsWith('-esp/') &&
-          !links[i].href.endsWith('-tag/')
-        ) {
+        if (!link.href.endsWith('-esp/') && !link.href.endsWith('-tag/')) {
           setLangAttributeInReduxStore('en');
         }
         return true;
