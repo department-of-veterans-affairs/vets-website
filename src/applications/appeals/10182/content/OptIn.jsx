@@ -1,15 +1,16 @@
 import React from 'react';
 
-import { getSelected } from '../utils/helpers';
-import { ShowIssuesList } from '../components/ShowIssuesList';
+// import { getSelected } from '../utils/helpers';
+// import { ShowIssuesList } from '../components/ShowIssuesList';
 
-export const OptInDescription = ({ formData }) => {
+export const OptInDescription = () => {
+  // Hidden until future implementing of legacy issues
   // Change this once we figure out which issues are legacy, switch to getLegacyAppeals
-  const issues = getSelected(formData); // getLegacyAppeals(formData);
+  // const issues = getSelected(formData); // getLegacyAppeals(formData);
   return (
     <div id="opt-in-description">
-      The issue(s) listed here may be in our old appeals process:
-      {ShowIssuesList({ issues })}
+      {/* The issue(s) listed here may be in our old appeals process:
+      {ShowIssuesList({ issues })} */}
       <p>
         If you’re requesting a Board Appeal on an issue in an older claim,
         you’ll need to opt in to the new decision review process by checking the
