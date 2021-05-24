@@ -59,7 +59,7 @@
       "type": "va_appointments",
       "attributes": {
         "startDate": "2021-11-14T12:52:00Z",
-        "sta6aid": null,
+        "sta6aid": "983",
         "clinicId": "848",
         "clinicFriendlyName": "CHY PC VAR2",
         "facilityId": "983",
