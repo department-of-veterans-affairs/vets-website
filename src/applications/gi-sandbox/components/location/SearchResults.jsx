@@ -5,7 +5,7 @@ import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import SearchAccordion from '../SearchAccordion';
-import { numberToLetter, getBoundingBox } from '../../utils/mapHelpers';
+import { numberToLetter } from '../../utils/helpers';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 export default function SearchResults({ search }) {
@@ -19,13 +19,10 @@ export default function SearchResults({ search }) {
 
     mapboxgl.accessToken = mapboxToken;
 
-    const bounds = getBoundingBox(search);
-
     const mapInit = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/outdoors-v11',
       center: [MapboxInit.centerInit.longitude, MapboxInit.centerInit.latitude],
-      bounds,
       zoom: MapboxInit.zoomInit,
     });
     mapInit.addControl(
@@ -55,14 +52,17 @@ export default function SearchResults({ search }) {
     }
   }, []); // <-- empty array means 'run once'
 
-  const addMapMarker = (institution, letter) => {
+  const addMapMarker = (institution, index, locationBounds) => {
     const { latitude, longitude } = institution;
+    const letter = numberToLetter(index + 1);
+
     // const markerElement = buildMarker(letter);
     // create a HTML element for each feature
     const el = document.createElement('div');
     el.className = 'location-letter';
     el.innerText = letter;
 
+    locationBounds.extend(new mapboxgl.LngLat(longitude, latitude));
     new mapboxgl.Marker(el).setLngLat([longitude, latitude]).addTo(map.current);
   };
 
@@ -98,12 +98,15 @@ export default function SearchResults({ search }) {
 
   useEffect(
     () => {
-      if (!map.current) return; // wait for map to initialize
+      if (!map.current || results.length === 0) return; // wait for map to initialize
+
+      const locationBounds = new mapboxgl.LngLatBounds();
 
       results.forEach((institution, index) => {
-        const letter = numberToLetter(index + 1);
-        addMapMarker(institution, letter);
+        addMapMarker(institution, index, locationBounds);
       });
+
+      map.current.fitBounds(locationBounds, { padding: 20 });
     },
     [results],
   );

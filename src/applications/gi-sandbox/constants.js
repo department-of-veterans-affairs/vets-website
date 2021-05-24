@@ -44,13 +44,6 @@ export const TABS = Object.freeze({
   location: 'location',
 });
 
-export const DISTANCE_OPTIONS = [
-  { optionValue: '5', optionLabel: 'within 5 miles', magicBounds: 0.005 },
-  { optionValue: '25', optionLabel: 'within 25 miles', magicBounds: 0.025 },
-  { optionValue: '50', optionLabel: 'within 50 miles', magicBounds: 0.05 },
-  { optionValue: '75', optionLabel: 'within 75 miles', magicBounds: 0.08 },
-];
-
 export const ariaLabels = Object.freeze({
   learnMore: {
     giBillBenefits: 'Learn more about VA education and training programs',
