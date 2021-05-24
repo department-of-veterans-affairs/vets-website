@@ -3,10 +3,7 @@ import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
 import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 
-import {
-  debtLettersSuccess,
-  debtLettersSuccessVBMS,
-} from '../utils/mockResponses';
+import { debtMockResponse, debtMockResponseVBMS } from '../utils/mockResponses';
 import { deductionCodes } from '../const/deduction-codes';
 
 export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
@@ -59,7 +56,7 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
     };
     const response = isVAProfileServiceConfigured()
       ? await apiRequest(`${environment.API_URL}/v0/debt_letters`, options)
-      : await debtLettersSuccessVBMS();
+      : await debtMockResponseVBMS();
 
     // Remove DMC  -  prefixing added by VBMS
     const filteredResponse = response.map(debtLetter => {
@@ -94,7 +91,7 @@ export const fetchDebtLetters = () => async dispatch => {
     };
     const response = isVAProfileServiceConfigured()
       ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
-      : await debtLettersSuccess();
+      : await debtMockResponse();
 
     if (Object.keys(response).includes('errors')) {
       recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });

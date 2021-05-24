@@ -13,6 +13,7 @@ import {
   updateAppointment,
   updateRequest,
 } from '../var';
+import { postAppointment } from '../vaos';
 import {
   transformConfirmedAppointment,
   transformConfirmedAppointments,
@@ -26,6 +27,7 @@ import {
   VIDEO_TYPES,
   GA_PREFIX,
 } from '../../utils/constants';
+import { transformVAOSAppointment } from './transformers.vaos';
 import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
@@ -313,6 +315,21 @@ export function isUpcomingAppointmentOrRequest(appt) {
       (appt.status === APPOINTMENT_STATUS.cancelled && hasValidDate))
   );
 }
+/**
+ * Returns cancelled and pending requests, which should be visible to users
+ *
+ * @export
+ * @param {Appointment} appt The appointment to check
+ * @returns {Boolean} If the appointment should be shown or not
+ */
+export function isPendingOrCancelledRequest(appt) {
+  return (
+    !appt.vaos.isExpressCare &&
+    (appt.status === APPOINTMENT_STATUS.proposed ||
+      appt.status === APPOINTMENT_STATUS.pending ||
+      appt.status === APPOINTMENT_STATUS.cancelled)
+  );
+}
 
 /**
  * Returns true if the given Appointment is a confirmed appointment
@@ -503,6 +520,12 @@ export function groupAppointmentsByMonth(appointments) {
   });
 
   return appointmentsByMonth;
+}
+
+export async function createAppointment({ appointment }) {
+  const result = await postAppointment(appointment);
+
+  return transformVAOSAppointment(result);
 }
 
 const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;

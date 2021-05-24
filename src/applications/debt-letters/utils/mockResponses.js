@@ -197,8 +197,8 @@ function asyncReturn(returnValue, delay = 300) {
   });
 }
 
-export const debtLettersSuccess = () => asyncReturn(data);
-export const debtLettersSuccessVBMS = () => asyncReturn(debtLettersVBMS);
+export const debtMockResponse = () => asyncReturn(data);
+export const debtMockResponseVBMS = () => asyncReturn(debtLettersVBMS);
 
 export const debtLettersFailure = () =>
   asyncReturn(
