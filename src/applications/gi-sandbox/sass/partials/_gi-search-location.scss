@@ -26,7 +26,7 @@
     background-color: $color-red-dark;
   }
 
-  .location-letter {
+  .location-letter, .location-letter-marker {
     border-radius: 50%;
     width: 28px;
     height: 24px;
@@ -34,6 +34,10 @@
     background: $color-base;
     color: $color-gray-lightest;
     text-align: center;
+  }
+
+  .location-letter-marker:active {
+    background: $color-gray;
   }
 
   #mapbox-gl-container {

@@ -60,7 +60,7 @@ export default function SearchResults({ search }) {
     const letter = numberToLetter(index + 1);
 
     const markerElement = document.createElement('div');
-    markerElement.className = 'location-letter';
+    markerElement.className = 'location-letter-marker';
     markerElement.innerText = letter;
 
     const popup = new mapboxgl.Popup();
