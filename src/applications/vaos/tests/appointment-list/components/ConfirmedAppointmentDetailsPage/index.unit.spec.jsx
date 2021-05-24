@@ -125,8 +125,13 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Jennie's Lab/)).to.be.ok;
     expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
       .ok;
-    expect(screen.getByRole('heading', { level: 2, name: /New issue/ })).to.be
-      .ok;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'You shared these details about your concern',
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/New issue: ASAP/)).to.be.ok;
     expect(
       screen.getByRole('link', {
         name: new RegExp(
@@ -258,8 +263,13 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Jennie's Lab/)).to.be.ok;
     expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
       .ok;
-    expect(screen.getByRole('heading', { level: 2, name: /New issue/ })).to.be
-      .ok;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'You shared these details about your concern',
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/New issue: ASAP/)).to.be.ok;
     expect(screen.baseElement).not.to.contain.text(
       new RegExp(
         moment()

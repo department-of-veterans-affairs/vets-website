@@ -20,7 +20,7 @@ import {
   canUploadEvidence,
   wantsToUploadEvidence,
   showAddIssueQuestion,
-  showAddIssues,
+  showAddIssuesPage,
   needsHearingType,
   appStateSelector,
   getIssueName,
@@ -151,14 +151,10 @@ const formConfig = {
         additionalIssues: {
           title: 'Add issues for review',
           path: 'additional-issues',
-          depends: showAddIssues,
+          depends: showAddIssuesPage,
           uiSchema: additionalIssues.uiSchema,
           schema: additionalIssues.schema,
           appStateSelector,
-          initialData: {
-            'view:hasIssuesToAdd': true,
-            additionalIssues: [{}],
-          },
         },
         areaOfDisagreementFollowUp: {
           title: getIssueName,
