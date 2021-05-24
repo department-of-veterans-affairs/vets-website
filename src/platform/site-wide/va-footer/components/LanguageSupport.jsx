@@ -50,6 +50,8 @@ export default function LanguageSupport({
   useEffect(
     () => {
       setLangAttribute(languageCode);
+      // TODO: set lang code as `en` for all links on the current page
+      // unless it follows the old IA lang patterns
     },
     [languageCode],
   );
