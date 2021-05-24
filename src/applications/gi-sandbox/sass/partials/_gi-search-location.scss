@@ -37,14 +37,12 @@
   }
 
   #mapbox-gl-container {
-    max-height: 55vh;
-    height: 55vh;
     display: flex;
     justify-content: center;
   }
 
   .desktop-map-container {
-    min-height: 78vh;
+    min-height: 55vh;
     padding-left: 0;
     display: flex;
     flex-direction: row;
