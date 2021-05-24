@@ -311,6 +311,7 @@
     "react-transition-group": "1",
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
+    "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.7",
     "reselect": "^2.5.4",
