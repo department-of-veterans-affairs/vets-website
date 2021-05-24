@@ -5,7 +5,8 @@ import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import SearchAccordion from '../SearchAccordion';
-import { numberToLetter } from '../../utils/mapHelpers';
+import { numberToLetter, getBoundingBox } from '../../utils/mapHelpers';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 export default function SearchResults({ search }) {
   const { count, results } = search.location;
@@ -18,7 +19,7 @@ export default function SearchResults({ search }) {
 
     mapboxgl.accessToken = mapboxToken;
 
-    const bounds = search.geocode ? search.geocode[0].bbox : null;
+    const bounds = getBoundingBox(search);
 
     const mapInit = new mapboxgl.Map({
       container: mapContainer.current,
@@ -34,6 +35,7 @@ export default function SearchResults({ search }) {
       }),
       'top-left',
     );
+
     // Remove mapbox logo from tab order
     const mapBoxLogo = document.querySelector(
       'a.mapboxgl-ctrl-logo.mapboxgl-compact',

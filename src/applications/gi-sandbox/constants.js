@@ -26,7 +26,7 @@ export const KEY_CODES = Object.freeze({
  * This combined with zoomInit value cause map to show continental USA before user searches
  */
 export const MapboxInit = {
-  zoomInit: 2,
+  zoomInit: 3,
   centerInit: {
     longitude: -99.27246093750001,
     latitude: 40.17887331434698,

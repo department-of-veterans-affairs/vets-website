@@ -54,65 +54,34 @@ export const numberToLetter = number => {
 };
 
 const BOUNDING_RADIUS = 0.5;
-/**
- * Calculates a bounding box (±BOUNDING_RADIUS°) centering on the current
- * address string as typed by the user.
- *
- * @param features object from MapBox call
- * @return {{searchCoords: {lng: *, lat: *}, zoomLevel: number, context: *, bounds: (number|*)[], id: number, position: {latitude: *, longitude: *}, searchArea: null, radius: number, results: [], mapBoxQuery: {placeType: *, placeName: *}}} */
-export const genBBoxFromGeocode = features => {
-  const {
-    bbox,
-    center: coordinates,
-    context,
-    // geometry,
-    place_name: placeName,
-    // place_type,
-    // relevance,
-  } = features[0];
-  const zip = context.find(v => v.id.includes('postcode')) || {};
-  const latitude = coordinates[1];
-  const longitude = coordinates[0];
-  const zipCode = zip.text || placeName;
-  const featureBox = bbox;
 
-  let minBounds = [
+/**
+ * Calculates a bounding box based on the latitude and longitude
+ */
+export const getBoundingBox = search => {
+  const { latitude, longitude } = search.query;
+  const { geocode } = search;
+
+  if (latitude === null || longitude === null) return null;
+
+  let boundingBox = [
     longitude - BOUNDING_RADIUS,
     latitude - BOUNDING_RADIUS,
     longitude + BOUNDING_RADIUS,
     latitude + BOUNDING_RADIUS,
   ];
 
-  if (featureBox) {
-    minBounds = [
-      Math.min(featureBox[0], longitude - BOUNDING_RADIUS),
-      Math.min(featureBox[1], latitude - BOUNDING_RADIUS),
-      Math.max(featureBox[2], longitude + BOUNDING_RADIUS),
-      Math.max(featureBox[3], latitude + BOUNDING_RADIUS),
+  const { bbox } = geocode[0];
+  if (bbox) {
+    boundingBox = [
+      Math.min(bbox[0], longitude - BOUNDING_RADIUS),
+      Math.min(bbox[1], latitude - BOUNDING_RADIUS),
+      Math.max(bbox[2], longitude + BOUNDING_RADIUS),
+      Math.max(bbox[3], latitude + BOUNDING_RADIUS),
     ];
   }
 
-  const radius = radiusFromBoundingBox(features);
+  // const radius = radiusFromBoundingBox(geocode);
 
-  return {
-    radius,
-    context: zipCode,
-    id: Date.now(),
-    position: {
-      latitude,
-      longitude,
-    },
-    searchCoords: {
-      lat: features[0].geometry.coordinates[1],
-      lng: features[0].geometry.coordinates[0],
-    },
-    bounds: minBounds,
-    zoomLevel: features[0].id.split('.')[0] === 'region' ? 7 : 9,
-    mapBoxQuery: {
-      placeName: features[0].place_name,
-      placeType: features[0].place_type[0],
-    },
-    searchArea: null,
-    results: [],
-  };
+  return boundingBox;
 };
