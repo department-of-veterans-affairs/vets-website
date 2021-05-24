@@ -41,6 +41,9 @@ jobs:
       - name: Curl vets-website
         run: curl -s --fail localhost:3001 > /dev/null
 
+      - name: Create test results directory
+        run: mkdir -p test-results
+
       - name: Start Cypress tests
         run: yarn cy:test:gha
 
@@ -51,9 +54,6 @@ jobs:
           check_name: 'Cypress Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: '**/e2e-test-output-*.xml'
-      
-      - name: Find XML files
-        run: cd .. && find . -name "e2e*.xml"
 
       - name: Archive Cypress test videos
         uses: actions/upload-artifact@v2
