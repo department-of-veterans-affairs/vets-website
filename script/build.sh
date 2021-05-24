@@ -43,10 +43,6 @@ for o in "$@"; do
             destination="${o#*=}"
             shift
             ;;
-        --force-content-build)
-            forceContentBuild=true
-            shift
-            ;;
         *)
             ;;
     esac

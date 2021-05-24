@@ -195,4 +195,38 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       ),
     ).to.be.ok;
   });
+
+  it('should not show resolved requests', async () => {
+    const startDate = moment.utc();
+    const appointment = getVARequestMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      status: 'Resolved',
+      optionDate1: startDate,
+      optionTime1: 'AM',
+      purposeOfVisit: 'New Issue',
+      bestTimetoCall: ['Morning'],
+      email: 'patient.test@va.gov',
+      phoneNumber: '5555555566',
+      typeOfCareId: '323',
+      reasonForVisit: 'Back pain',
+      friendlyLocationName: 'Some VA medical center',
+      appointmentType: 'Primary Care',
+      comment: 'loss of smell',
+      facility: {
+        ...appointment.attributes.facility,
+        facilityCode: '983GC',
+      },
+    };
+    appointment.id = '1234';
+    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+
+    const screen = renderWithStoreAndRouter(<RequestedAppointmentsList />, {
+      initialState,
+      reducers,
+    });
+
+    expect(await screen.findByText(/You don’t have any appointments/i)).to
+      .exist;
+  });
 });

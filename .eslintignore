@@ -4,5 +4,6 @@ build/*
 src/applications/**/README.md
 coverage/*
 temp/*
+tmp/*
 .nyc_output/*
 script/mocha.js

@@ -2,10 +2,16 @@ import React from 'react';
 import SearchResultCard from './SearchResultCard';
 import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { TABS } from '../constants';
+import LocationSearchResults from './location/SearchResults';
 
 export default function SearchResults({ search }) {
   if (search.inProgress) {
     return <LoadingIndicator message="Loading search results..." />;
+  }
+
+  if (search.tab === TABS.location) {
+    return <LocationSearchResults search={search} />;
   }
 
   return (
