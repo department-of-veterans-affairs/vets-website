@@ -59,11 +59,9 @@ export default function SearchResults({ search }) {
     const { latitude, longitude, name } = institution;
     const letter = numberToLetter(index + 1);
 
-    // const markerElement = buildMarker(letter);
-    // create a HTML element for each feature
-    const el = document.createElement('div');
-    el.className = 'location-letter';
-    el.innerText = letter;
+    const markerElement = document.createElement('div');
+    markerElement.className = 'location-letter';
+    markerElement.innerText = letter;
 
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
@@ -74,7 +72,7 @@ export default function SearchResults({ search }) {
     });
 
     locationBounds.extend(new mapboxgl.LngLat(longitude, latitude));
-    new mapboxgl.Marker(el)
+    new mapboxgl.Marker(markerElement)
       .setLngLat([longitude, latitude])
       .setPopup(popup)
       .addTo(map.current);
@@ -98,16 +96,12 @@ export default function SearchResults({ search }) {
   const resultCards = results.map((institution, index) => {
     const { name, city, state, distance } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
-    const letter = index ? numberToLetter(index + 1) : null;
+    const letter = numberToLetter(index + 1);
 
     const header = (
       <>
         <div className="location-header vads-u-display--flex vads-u-padding-top--1">
-          {letter && (
-            <span className="location-letter vads-u-font-size--sm">
-              {letter}
-            </span>
-          )}
+          <span className="location-letter vads-u-font-size--sm">{letter}</span>
           <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
             <strong>{miles} miles</strong>
           </span>
