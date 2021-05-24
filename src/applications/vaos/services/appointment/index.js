@@ -706,11 +706,14 @@ export function getCalendarData({ appointment, facility }) {
       additionalText: [signinText],
     };
   } else if (isCommunityCare) {
-    const { providerName, practiceName } =
+    let { providerName, practiceName } =
       appointment.communityCareProvider || {};
     let summary = 'Community care appointment';
+
     // Check if providerName is all spaces.
-    if (providerName?.trim().length || practiceName) {
+    providerName = providerName?.trim().length ? providerName : '';
+    practiceName = practiceName?.trim().length ? practiceName : '';
+    if (providerName || practiceName) {
       summary = `Appointment at ${providerName || practiceName}`;
     }
 

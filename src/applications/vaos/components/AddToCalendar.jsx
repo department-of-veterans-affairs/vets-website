@@ -54,7 +54,7 @@ function formatDescription(description, location = '') {
       chunked.push(`${phone}\\n`);
     }
 
-    if (description.additionalText?.length > 0) {
+    if (description.additionalText) {
       description.additionalText.forEach(val => {
         let line = `\\n${val}`;
         while (line.length > ICS_LINE_LIMIT) {
