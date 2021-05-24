@@ -36,25 +36,25 @@ module.exports = (on, config) => {
     name: 'dirname',
 
     setup(build) {
-      build.onLoad({ filter: /.jsx?$/ }, ({ path: filePath }) => {
+      build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
         if (!filePath.match(nodeModules)) {
           const regex = /.*\/vets-website\/(.+)/;
           const [, relativePath] = filePath.match(regex);
           let contents = fs.readFileSync(filePath, 'utf8');
-          const loader = path.extname(filePath).substring(1);
+          // const loader = path.extname(filePath).substring(1);
           const dirname = path.dirname(relativePath);
           if (/.+.cypress.spec.js$/.test(filePath)) {
             console.log('filePath: ', filePath);
             console.log('dirname: ', dirname);
             console.log('__dirname: ', __dirname);
             console.log('contents: ', contents);
-            console.log('loader: ', loader);
+            // console.log('loader: ', loader);
           }
           const injectedStuff = `const __dirname = '${dirname}';`;
           contents = `${injectedStuff}\n\n${contents}`;
           return {
             contents,
-            loader,
+            loader: 'jsx'
           };
         }
       });
@@ -65,12 +65,9 @@ module.exports = (on, config) => {
       __BUILDTYPE__: '"localhost"',
       __API__: null,
     },
-    // inject: ['src/platform/testing/e2e/cypress/plugins/react-shim.js'],
-    loader: {
-      '.js': 'jsx',
-      '.json': 'json',
-    },
-    // platform: 'node',
+    inject: ['src/platform/testing/e2e/cypress/plugins/react-shim.js'],
+    loader: { '.js': 'jsx' },
+    outfile: 'out.js',
     plugins: [dirnamePlugin],
   });
   on('file:preprocessor', bundler);
