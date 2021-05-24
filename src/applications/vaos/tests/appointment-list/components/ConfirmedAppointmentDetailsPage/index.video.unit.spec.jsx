@@ -14,7 +14,7 @@ import {
   getTimezoneTestDate,
 } from '../../../mocks/setup';
 import { waitFor } from '@testing-library/dom';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { AppointmentList } from '../../../../appointment-list';
 import sinon from 'sinon';
 
@@ -38,7 +38,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       MockDate.set(sameDayDate);
     });
     afterEach(() => {
-      resetFetch();
       MockDate.reset();
     });
     it('should show info and disabled link if ad hoc and more than 30 minutes in the future', async () => {

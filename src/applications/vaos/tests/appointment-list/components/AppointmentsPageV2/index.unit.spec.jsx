@@ -4,11 +4,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import environment from 'platform/utilities/environment';
-import {
-  mockFetch,
-  resetFetch,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -33,7 +29,6 @@ describe('VAOS <AppointmentsPageV2>', () => {
     MockDate.set(getTimezoneTestDate());
   });
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
 
