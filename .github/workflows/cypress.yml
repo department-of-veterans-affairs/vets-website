@@ -53,7 +53,7 @@ jobs:
           report_paths: '**/e2e-test-output-*.xml'
       
       - name: Find XML files
-        run: sudo find / -name "e2e*.xml"
+        run: cd .. && find . -name "e2e*.xml"
 
       - name: Archive Cypress test videos
         uses: actions/upload-artifact@v2
