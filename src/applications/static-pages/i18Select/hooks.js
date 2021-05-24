@@ -13,7 +13,7 @@ export const setLangAttribute = lang => {
 };
 
 // set lang code as `en` for all links on the current page
-// unless it follows the old IA lang patterns
+// unless it follows the old IA lang patterns or already has an hreflang attribute
 // without overwriting existing onclick events
 // reference: https://stackoverflow.com/questions/891989/javascript-adding-an-onclick-handler-without-overwriting-the-existing-one
 
