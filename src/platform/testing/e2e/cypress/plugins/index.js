@@ -1,5 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
+const del = require('del')
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 
 module.exports = on => {
@@ -23,6 +24,13 @@ module.exports = on => {
       on('file:preprocessor', webpackPreprocessor(options));
     },
   );
+
+  // eslint-disable-next-line consistent-return
+  on('after:spec', (spec, results) => {
+    if (results.stats.failures === 0 && results.video) {
+      return del(results.video);
+    }
+  });
 
   on('task', {
     /* eslint-disable no-console */
