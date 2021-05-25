@@ -283,7 +283,7 @@ export const RepresentativeDocumentUploadDescription = () => {
       <p>Guidelines for uploading a file:</p>
       <ul>
         <li>You can upload a .pdf, .jpeg, or .png file</li>
-        <li>Your file should be no larger than 25MB</li>
+        <li>Your file should be no larger than 10MB</li>
       </ul>
 
       <p>

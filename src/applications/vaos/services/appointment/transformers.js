@@ -73,7 +73,10 @@ function isVideoVisit(appt) {
  * @returns {String} Status
  */
 function getVistaStatus(appointment) {
-  if (getAppointmentType(appointment) === APPOINTMENT_TYPES.vaAppointment) {
+  if (
+    appointment.vdsAppointments?.length ||
+    appointment.vvsAppointments?.length
+  ) {
     return isVideoVisit(appointment)
       ? appointment.vvsAppointments?.[0]?.status?.code
       : appointment.vdsAppointments?.[0]?.currentStatus;
@@ -119,10 +122,7 @@ function getRequestStatus(request, isExpressCare) {
  * @returns {String} Appointment status
  */
 function getConfirmedStatus(appointment, isPast) {
-  const currentStatus =
-    getAppointmentType(appointment) === APPOINTMENT_TYPES.ccAppointment
-      ? appointment.vdsAppointments?.[0]?.currentStatus
-      : getVistaStatus(appointment);
+  const currentStatus = getVistaStatus(appointment);
 
   if (
     (isPast && PAST_APPOINTMENTS_HIDE_STATUS_SET.has(currentStatus)) ||
