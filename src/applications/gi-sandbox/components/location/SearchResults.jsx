@@ -65,9 +65,16 @@ export default function SearchResults({ search }) {
 
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
+      const locationSearchResults = document.getElementById(
+        'location-search-results',
+      );
+
       scroller.scrollTo(
-        `${createId(name)}-result-card`,
-        getScrollOptions({ containerId: 'location-search-results' }),
+        `${createId(name)}-result-card-placeholder`,
+        getScrollOptions({
+          containerId: 'location-search-results',
+          offset: -locationSearchResults.getBoundingClientRect().top,
+        }),
       );
     });
 

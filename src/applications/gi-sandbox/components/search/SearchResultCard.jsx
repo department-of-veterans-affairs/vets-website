@@ -71,6 +71,7 @@ export function SearchResultCard({
 
   return (
     <div className={resultCardClasses} id={`${createId(name)}-result-card`}>
+      {location && <span id={`${createId(name)}-result-card-placeholder`} />}
       <div className="vads-u-padding-x--2">
         {header || nameCityStateHeader}
 
