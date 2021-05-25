@@ -141,6 +141,11 @@ class SearchApp extends React.Component {
   };
 
   onSearchResultClick = ({ bestBet, title, index, url }) => () => {
+    window.history.replaceState(
+      null,
+      document.title,
+      `${window.location.href.replace('&t=true', '')}`,
+    );
     if (bestBet) {
       recordEvent({
         event: 'nav-searchresults',
