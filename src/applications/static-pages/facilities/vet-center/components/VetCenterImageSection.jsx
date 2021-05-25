@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function PublishedVetCenterImageSection(props) {
+function VetCenterImageSection(props) {
+  if (!props.vetCenter.fieldMedia) return null;
   return (
     <a
       href={props.vetCenter.path}
@@ -16,8 +17,8 @@ function PublishedVetCenterImageSection(props) {
   );
 }
 
-PublishedVetCenterImageSection.propTypes = {
+VetCenterImageSection.propTypes = {
   vetCenter: PropTypes.object,
 };
 
-export default PublishedVetCenterImageSection;
+export default VetCenterImageSection;

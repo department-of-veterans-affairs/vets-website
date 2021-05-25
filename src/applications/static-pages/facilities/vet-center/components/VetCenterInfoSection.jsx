@@ -2,19 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
-function PublishedVetCenterInfoSection(props) {
-  const address = `${props.vetCenter.fieldAddress.addressLine1}', '${
+function VetCenterInfoSection(props) {
+  const addressDirections = `${props.vetCenter.fieldAddress.addressLine1}, ${
     props.vetCenter.fieldAddress.locality
-  }', '${props.vetCenter.fieldAddress.administrativeArea}', '${
+  }, ${props.vetCenter.fieldAddress.administrativeArea}, ${
     props.vetCenter.fieldAddress.postalCode
   }`;
 
   const renderPhone = phoneNumber => {
     return (
       <div className="main-phone">
-        <strong>
-          <a href={`tel:${phoneNumber}`}>{phoneNumber}</a>
-        </strong>
+        <strong />
+        <a href={`tel:${phoneNumber}`}>{phoneNumber}</a>
       </div>
     );
   };
@@ -37,8 +36,8 @@ function PublishedVetCenterInfoSection(props) {
           <div>{props.vetCenter.fieldAddress.addressLine1}</div>
           <div>
             {props.vetCenter.fieldAddress.locality}
-            {','}
-            {props.vetCenter.fieldAddress.administrativeArea}
+            {', '}
+            {props.vetCenter.fieldAddress.administrativeArea}{' '}
             {props.vetCenter.fieldAddress.postalCode}
           </div>
         </address>
@@ -50,7 +49,7 @@ function PublishedVetCenterInfoSection(props) {
                 'vet-center-facility-name': props.vetCenter.title,
               });
             }}
-            href={`https://maps.google.com?saddr=Current+Location&amp;daddr=${address}`}
+            href={`https://www.google.com/maps?saddr=Current+Location&daddr=${addressDirections}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -70,9 +69,9 @@ function PublishedVetCenterInfoSection(props) {
   );
 }
 
-PublishedVetCenterInfoSection.propTypes = {
+VetCenterInfoSection.propTypes = {
   vetCenter: PropTypes.object,
   mainVetCenterPhone: PropTypes.string,
 };
 
-export default PublishedVetCenterInfoSection;
+export default VetCenterInfoSection;
