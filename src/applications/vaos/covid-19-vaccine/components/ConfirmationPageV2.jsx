@@ -7,18 +7,23 @@ import AlertBox, {
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { getTimezoneAbbrBySystemId } from '../../utils/timezone.js';
+import {
+  getTimezoneAbbrBySystemId,
+  getTimezoneBySystemId,
+} from '../../utils/timezone.js';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import { selectConfirmationPage } from '../redux/selectors.js';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
-import { formatFacilityAddress } from 'applications/vaos/services/location';
+import {
+  formatFacilityAddress,
+  getFacilityPhone,
+} from 'applications/vaos/services/location';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
 function ConfirmationPageV2({
   clinic,
-  data,
   systemId,
   facilityDetails,
   slot,
@@ -33,16 +38,19 @@ function ConfirmationPageV2({
     return <Redirect to="/" />;
   }
 
-  const appointmentDateString =
-    moment(data.date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
-      'dddd, MMMM D, YYYY [at] h:mm a ',
-    ) + getTimezoneAbbrBySystemId(systemId);
+  const timezone = getTimezoneBySystemId(systemId);
+  const momentDate = timezone
+    ? moment(slot.start).tz(timezone.timezone, true)
+    : moment(slot.start);
 
   const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{appointmentDateString}</h1>
+      <h1 className="vads-u-font-size--h2">
+        {momentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}
+        {` ${getTimezoneAbbrBySystemId(systemId)}`}
+      </h1>
       <AlertBox status="success" backgroundOnly>
         <strong>Your appointment has been scheduled and is confirmed.</strong>
         <br />
@@ -87,10 +95,18 @@ function ConfirmationPageV2({
           className="far fa-calendar vads-u-margin-right--1"
         />
         <AddToCalendar
-          summary="VA Appointment"
-          description=""
+          summary={`Appointment at ${clinic?.serviceName}`}
+          description={{
+            text: `You have a health care appointment at ${
+              clinic?.serviceName
+            }`,
+            phone: getFacilityPhone(facilityDetails),
+            additionalText: [
+              'Sign in to VA.gov to get details about this appointment',
+            ],
+          }}
           location={formatFacilityAddress(facilityDetails)}
-          startDateTime={appointmentDateString}
+          startDateTime={momentDate.format()}
           duration={appointmentLength}
         />
       </div>
