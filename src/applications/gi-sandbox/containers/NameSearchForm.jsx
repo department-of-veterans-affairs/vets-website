@@ -18,15 +18,7 @@ export function NameSearchForm({
   const { version } = preview;
 
   const doSearch = name => {
-    dispatchFetchSearchByNameResults(
-      name,
-      {
-        schools: filters.schools,
-        employers: filters.employers,
-        vettec: filters.vettec,
-      },
-      version,
-    );
+    dispatchFetchSearchByNameResults(name, filters, version);
   };
 
   const handleSubmit = event => {
