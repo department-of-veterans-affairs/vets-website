@@ -21,15 +21,18 @@ export function NameSearchForm({
   const [searchError, setSearchError] = useState(false);
   const { version } = preview;
 
+  const updateFilters = () => {
+    const searchFilters = filters;
+    for (const [key, value] of Object.entries(filters)) {
+      if (value === 'ALL') {
+        delete searchFilters[key];
+      }
+    }
+    return searchFilters;
+  };
+
   const doSearch = searchTerm => {
-    fetchSearchByName(
-      searchTerm,
-      {
-        category: filters.category,
-      },
-      version,
-      search.tab,
-    );
+    fetchSearchByName(searchTerm, updateFilters(), version, search.tab);
   };
 
   const handleSubmit = event => {
@@ -42,13 +45,7 @@ export function NameSearchForm({
   };
 
   const doAutocompleteSuggestionsSearch = value => {
-    fetchNameAutocomplete(
-      value,
-      {
-        category: filters.category,
-      },
-      version,
-    );
+    fetchNameAutocomplete(value, updateFilters(), version);
   };
 
   return (

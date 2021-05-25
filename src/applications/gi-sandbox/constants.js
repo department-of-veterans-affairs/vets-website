@@ -28,8 +28,8 @@ export const KEY_CODES = Object.freeze({
 export const MapboxInit = {
   zoomInit: 3,
   centerInit: {
-    lng: -99.27246093750001,
-    lat: 40.17887331434698,
+    longitude: -99.27246093750001,
+    latitude: 40.17887331434698,
   },
 };
 
@@ -38,16 +38,6 @@ export const MapboxInit = {
  */
 
 export const TypeList = ['place', 'region', 'postcode', 'locality'];
-
-/**
- * Max search area in miles
- */
-export const MAX_SEARCH_AREA = 500;
-
-/**
- * Min radius search area in miles
- */
-export const MIN_RADIUS = 10;
 
 export const TABS = Object.freeze({
   name: 'name',

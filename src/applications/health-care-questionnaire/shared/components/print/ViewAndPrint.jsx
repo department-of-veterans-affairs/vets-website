@@ -5,7 +5,6 @@ export default function ViewAndPrint({
   displayArrow = true,
   useSecondary = true,
   onClick = () => {},
-  facilityName,
   appointmentTime,
 }) {
   const className = `usa-button${
@@ -16,7 +15,7 @@ export default function ViewAndPrint({
       className={className}
       onClick={onClick}
       data-testid="print-button"
-      aria-label={`Download your response to the questionnaire you submitted for your appointment at ${facilityName} that was on ${moment(
+      aria-label={`View and print your answers as a PDF for your visit on ${moment(
         appointmentTime,
       ).format('MMMM, D, YYYY')}`}
     >
