@@ -257,7 +257,6 @@ export default function appointmentsReducer(state = initialState, action) {
         confirmed,
         pending,
         appointmentDetails,
-        pendingStatus: FETCH_STATUS.notStarted,
         cancelAppointmentStatus: FETCH_STATUS.succeeded,
         cancelAppointmentStatusVaos400: false,
       };
