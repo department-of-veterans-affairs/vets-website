@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
 import FormApp from './containers/FormApp.jsx';
