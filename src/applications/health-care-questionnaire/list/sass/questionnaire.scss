@@ -83,6 +83,14 @@
 
 }
 
+ol.questionnaire-list.completed {
+  .card{
+    h3{
+      margin-top: 0.5em;
+    }
+  }
+}
+
 ol.questionnaire-list {
   list-style: none;
   margin: 0;
@@ -92,6 +100,9 @@ ol.questionnaire-list {
   .card{
     background-color: $color-gray-lightest;
     width: 100%;
+    h3{
+      margin-top: 1em;
+    }
     .usa-label{
       width: max-content;
       font-size: 1.5rem;
