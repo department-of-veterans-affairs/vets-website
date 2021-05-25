@@ -8,7 +8,7 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
 
     <script nonce="**CSP_NONCE**">
-      <%= loadInlineScript('record-event.js') %>
+      <%= inlineScripts['record-event.js'] %>
     </script>
 
 
@@ -121,7 +121,7 @@
     <script nonce="**CSP_NONCE**" type="text/javascript">
     (function() {
       var module = {};
-      <%= loadInlineScript('incompatible-browser.js') %>
+      <%= inlineScripts['incompatible-browser.js'] %>
       checkBrowserCompatibility();
     })();
     </script>
@@ -212,7 +212,7 @@
     <script nonce="**CSP_NONCE**" type="text/javascript">
       (function() {
       var module = {};
-      <%= loadInlineScript('static-page-widgets.js') %>
+      <%= inlineScripts['static-page-widgets.js'] %>
       mountWidgets(document.querySelectorAll('[data-widget-type]'), 6000);
       })();
     </script>
