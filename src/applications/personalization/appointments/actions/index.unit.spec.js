@@ -352,7 +352,7 @@ describe('fetchConfirmedFutureAppointments', () => {
       const { appointments } = dispatch.secondCall.args[0];
       // Midnight Jan 1 UTC is 7PM Dec 31 Florida time
       expect(appointments[0].startsAt).to.equal(
-        `${thisYear()}-12-31T19:00:00-0500`,
+        `${thisYear()}-12-31T19:00:00-05:00`,
       );
     });
   });

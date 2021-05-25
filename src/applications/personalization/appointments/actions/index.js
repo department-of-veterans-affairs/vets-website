@@ -5,6 +5,7 @@ import { apiRequest } from '~/platform/utilities/api';
 import {
   getCCTimeZone,
   getVATimeZone,
+  getTimezoneBySystemId,
 } from '~/applications/personalization/dashboard-2/utils/timezone';
 import {
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
@@ -16,6 +17,34 @@ import {
 import MOCK_FACILITIES from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_FACILITIES.json';
 import MOCK_VA_APPOINTMENTS from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
 import MOCK_CC_APPOINTMENTS from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
+
+function isVideoVisit(appt) {
+  return !!appt.vvsAppointments?.length;
+}
+
+/**
+ * Finds the datetime of the appointment depending on the appointment type
+ * and returns it as a moment object
+ *
+ * @param {string} type 'cc' or 'va'
+ * @param {Object} appt VAR appointment object
+ * @returns {Object} Returns appointment datetime as moment object
+ */
+function getMomentConfirmedDate(type, appt) {
+  if (type === 'cc') {
+    const zoneSplit = appt.timeZone.split(' ');
+    const offset = zoneSplit.length > 1 ? zoneSplit[0] : '+0:00';
+    return moment
+      .utc(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss')
+      .utcOffset(offset);
+  }
+
+  const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
+  const date = isVideoVisit(appt)
+    ? appt.vvsAppointments[0].dateTime
+    : appt.startDate;
+  return timezone ? moment(date).tz(timezone) : moment(date);
+}
 
 function isAtlasLocation(appointment) {
   return appointment.attributes?.vvsAppointments?.some(
@@ -211,10 +240,13 @@ export function fetchConfirmedFutureAppointments() {
 
         accumulator.push({
           additionalInfo: getAdditionalInfo(appointment),
-          id: appointment?.id,
+          id: appointment.id,
           isVideo: false,
-          providerName: appointment?.attributes?.providerPractice,
-          startsAt: startDate.toISOString(),
+          providerName: appointment.attributes?.providerPractice,
+          startsAt: getMomentConfirmedDate(
+            'cc',
+            appointment.attributes,
+          ).format(),
           timeZone: getCCTimeZone(appointment),
           type: 'cc',
         });
