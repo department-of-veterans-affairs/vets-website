@@ -26,7 +26,6 @@ import {
   UNAUTH_SIGN_IN_DEFAULT_MESSAGE,
   APP_ACTION_DEFAULT,
 } from '../../forms-system/src/js/constants';
-import { changeSaveInProgressHeadingLevel } from './helpers';
 
 class SaveInProgressIntro extends React.Component {
   getAlert = savedForm => {
@@ -144,10 +143,7 @@ class SaveInProgressIntro extends React.Component {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
       // If you pass in a headingLevel prop it will change what is rendered by the changeSaveInProgressHeadingLevel helper
-      const saveInProgressHeader = changeSaveInProgressHeadingLevel(
-        this.props.headingLevel,
-        appType,
-      );
+      const H = `${this.props.headingLevel}`;
       const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
       const unauthStartButton = (
         <button className="usa-button-primary" onClick={this.openLoginModal}>
@@ -171,7 +167,10 @@ class SaveInProgressIntro extends React.Component {
       ) : (
         <div className="usa-alert usa-alert-info schemaform-sip-alert">
           <div className="usa-alert-body">
-            {saveInProgressHeader}
+            <H className="usa-alert-heading">
+              Save time—and save your work in progress—by signing in before
+              starting your {appType}
+            </H>
             <div className="usa-alert-text">
               <p>When you’re signed in to your VA.gov account:</p>
               <ul>

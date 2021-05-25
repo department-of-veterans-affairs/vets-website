@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   createPageList,
   createFormPageList,
@@ -8,23 +7,6 @@ import RoutedSavablePage from './RoutedSavablePage';
 import RoutedSavableReviewPage from './RoutedSavableReviewPage';
 import FormSaved from './FormSaved';
 import SaveInProgressErrorPage from './SaveInProgressErrorPage';
-
-/**
- * Change the heading level that is rendered inside the saveInProgressIntro.
- * This is used inside the SaveInProgressIntro component
- * @param headingLevel {string} - The string of what heading level you want ('h1', 'h2', etc). If you want default h3 pass in null
- * @param appType {string} - The App Type for your application. This is set in the formConfig file for your form
- *
- */
-export function changeSaveInProgressHeadingLevel(headingLevel, appType) {
-  const H = `${headingLevel}`;
-  return (
-    <H className="usa-alert-heading">
-      Save time—and save your work in progress—by signing in before starting
-      your {appType}
-    </H>
-  );
-}
 
 export function createRoutesWithSaveInProgress(formConfig) {
   const protectedRoutes = new Set([
