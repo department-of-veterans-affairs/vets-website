@@ -94,7 +94,7 @@ describe('VAOS appointment list refresh', () => {
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
-        .contains('VA Appointment');
+        .contains('VA appointment');
       cy.axeCheckBestPractice();
     });
 
@@ -108,7 +108,7 @@ describe('VAOS appointment list refresh', () => {
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
-        .contains('VA Appointment over the phone');
+        .contains('VA appointment over the phone');
       cy.axeCheckBestPractice();
     });
 

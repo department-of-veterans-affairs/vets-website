@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchResultCard from '../SearchResultCard';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
-import SearchAccordion from '../SearchAccordion';
+import RefineYourSearch from '../../containers/RefineYourSearch';
 
 export default function SearchResults({ search }) {
   return (
@@ -10,11 +10,7 @@ export default function SearchResults({ search }) {
         <div>
           <div>
             <TuitionAndHousingEstimates />
-            <SearchAccordion
-              button={'Refine your search'}
-              buttonLabel="Update results"
-              buttonOnClick={() => {}}
-            />
+            <RefineYourSearch />
             <div className="usa-grid vads-u-padding--1">
               <p>
                 Showing <strong>{search.location.count} search results</strong>{' '}
