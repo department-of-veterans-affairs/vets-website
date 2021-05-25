@@ -381,7 +381,7 @@ describe('fetchConfirmedFutureAppointments', () => {
       const { appointments } = dispatch.secondCall.args[0];
       // Midnight Jan 1 UTC is 5PM Dec 31 Cheyenne (Mountain) time
       expect(appointments[0].startsAt).to.equal(
-        `${thisYear()}-12-31T17:00:00-0700`,
+        `${thisYear()}-12-31T17:00:00-07:00`,
       );
     });
   });

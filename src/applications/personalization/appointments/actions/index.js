@@ -1,7 +1,9 @@
-import moment from 'moment';
-import { replace, uniq, isEmpty } from 'lodash';
+import { replace, uniq } from 'lodash';
+
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
+
+import moment from '~/applications/personalization/dashboard-2/lib/moment-tz';
 import {
   getCCTimeZone,
   getVATimeZone,
@@ -208,15 +210,18 @@ export function fetchConfirmedFutureAppointments() {
 
         // Derive the facility.
         const facility =
-          facilitiesLookup[getStagingID(appointment.attributes?.facilityId)];
+          facilitiesLookup[getStagingID(appointment.attributes.facilityId)];
 
         accumulator.push({
           additionalInfo: getAdditionalInfo(appointment),
           facility,
-          id: appointment?.id,
-          isVideo: !isEmpty(appointment?.attributes?.vvsAppointments),
+          id: appointment.id,
+          isVideo: isVideoVisit(appointment.attributes),
           providerName: facility?.attributes?.name,
-          startsAt: startDate.toISOString(),
+          startsAt: getMomentConfirmedDate(
+            'va',
+            appointment.attributes,
+          ).format(),
           type: 'va',
           timeZone: getVATimeZone(
             getStagingID(appointment?.attributes?.facilityId),
