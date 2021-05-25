@@ -11,6 +11,7 @@ import {
   issuesNeedUpdating,
   getSelected,
   getIssueName,
+  copyAreaOfDisagreementOptions,
 } from '../utils/helpers';
 
 import { showWorkInProgress } from '../content/WorkInProgressMessage';
@@ -68,7 +69,11 @@ export const FormApp = ({
         ) {
           setFormData({
             ...formData,
-            areaOfDisagreement,
+            // save existing settings
+            areaOfDisagreement: copyAreaOfDisagreementOptions(
+              areaOfDisagreement,
+              formData.areaOfDisagreement,
+            ),
           });
         }
       }
