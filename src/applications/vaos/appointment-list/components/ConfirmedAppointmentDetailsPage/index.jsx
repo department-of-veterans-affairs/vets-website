@@ -150,7 +150,6 @@ export default function ConfirmedAppointmentDetailsPage() {
   const canceler = appointment.description?.includes('CANCELLED BY PATIENT')
     ? 'You'
     : facility?.name || 'Facility';
-  const address = facility ? formatFacilityAddress(facility) : 'VA facility';
 
   const header = formatHeader(appointment);
 

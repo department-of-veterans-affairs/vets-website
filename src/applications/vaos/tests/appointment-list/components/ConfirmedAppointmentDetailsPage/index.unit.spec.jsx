@@ -219,9 +219,13 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       'This appointment occurred in the past.',
     );
 
-    expect(screen.getByRole('heading', { level: 2, name: /New issue/ })).to.be
-      .ok;
-    expect(screen.getByText(/ASAP/)).to.be.ok;
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /You shared these details about your concern/,
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/New issue: ASAP/)).to.be.ok;
     expect(
       screen.getByRole('link', {
         name: new RegExp(
