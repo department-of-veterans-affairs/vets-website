@@ -20,14 +20,16 @@ export default function SearchResults({ search }) {
             <RefineYourSearch />
           </div>
           <div className="usa-width-two-thirds ">
-            <div className="vads-l-row vads-u-flex-wrap--wrap">
-              {results.map(institution => (
-                <SearchResultCard
-                  institution={institution}
-                  key={institution.facilityCode}
-                />
-              ))}
-            </div>
+            {count > 0 && (
+              <div className="vads-l-row vads-u-flex-wrap--wrap">
+                {results.map(institution => (
+                  <SearchResultCard
+                    institution={institution}
+                    key={institution.facilityCode}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
