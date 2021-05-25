@@ -261,7 +261,7 @@ export function fetchFutureAppointments() {
       if (
         data[0]
           ?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic)
-          .some(appt => !appt.sta6aid)
+          .some(appt => !appt.location?.stationId)
       ) {
         Sentry.captureMessage('VAOS clinic based appointment missing sta6aid');
       }
