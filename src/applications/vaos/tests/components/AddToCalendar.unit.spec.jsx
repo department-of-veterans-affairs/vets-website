@@ -13,7 +13,7 @@ describe('VAOS <AddToCalendar>', () => {
     const screen = render(
       <AddToCalendar
         summary="VA Appointment"
-        description="Follow-up/Routine: some description"
+        description={{ text: 'Follow-up/Routine: some description' }}
         location="123 main street, bozeman, MT"
         duration={60}
         startDateTime={startDateTime.toDate()}
@@ -64,7 +64,7 @@ describe('VAOS <AddToCalendar>', () => {
     const screen = render(
       <AddToCalendar
         summary="VA Appointment"
-        description="Follow-up/Routine: some description"
+        description={{ text: 'Follow-up/Routine: some description' }}
         location="Phone call"
         duration={60}
         startDateTime={startDateTime.toDate()}
@@ -115,7 +115,10 @@ describe('VAOS <AddToCalendar>', () => {
     const screen = render(
       <AddToCalendar
         summary="VA Appointment"
-        description="Testing long line descriptions Testing long descriptions Testing long descriptions Testing long descriptions Testing long descriptions Testing long descriptions Testing long descriptions Testing long descriptions"
+        description={{
+          text:
+            'Testing long line descriptions Testing long descriptions Testing long descriptions Testing long descriptions Testing long descriptions Testing long descriptions Testing long descriptions Testing long descriptions',
+        }}
         location="A location"
         duration={60}
         startDateTime={startDateTime.toDate()}
