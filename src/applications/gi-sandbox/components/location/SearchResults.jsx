@@ -8,7 +8,7 @@ import SearchResultCard from '../search/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
-import SearchAccordion from '../SearchAccordion';
+import RefineYourSearch from '../../containers/RefineYourSearch';
 import { numberToLetter, createId } from '../../utils/helpers';
 
 export default function SearchResults({ search }) {
@@ -130,11 +130,7 @@ export default function SearchResults({ search }) {
           {count > 0 && (
             <>
               <TuitionAndHousingEstimates />
-              <SearchAccordion
-                button={'Refine your search'}
-                buttonLabel="Update results"
-                buttonOnClick={() => {}}
-              />
+              <RefineYourSearch />
               <div className="location-search-results-container usa-grid vads-u-padding--1p5">
                 <p>
                   Showing <strong>{count} search results</strong> for '

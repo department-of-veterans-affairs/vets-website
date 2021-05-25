@@ -6,6 +6,7 @@ import {
   hasSomeSelected,
   getSelected,
   getIssueName,
+  showAddIssuesPage,
   showAddIssueQuestion,
   isEmptyObject,
   setInitialEditMode,
@@ -102,6 +103,42 @@ describe('getIssueName', () => {
   });
   it('should return an added issue name', () => {
     expect(getIssueName({ issue: 'test2' })).to.eq('test2');
+  });
+});
+
+describe('showAddIssuesPage', () => {
+  it('should show add issue page when no contestable issues selected', () => {
+    expect(showAddIssuesPage({})).to.be.true;
+    expect(showAddIssuesPage({ contestableIssues: [{}] })).to.be.true;
+  });
+  it('should show add issue page when question is set to "yes"', () => {
+    expect(showAddIssuesPage({ 'view:hasIssuesToAdd': true })).to.be.true;
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': true,
+        contestableIssues: [{ [SELECTED]: true }],
+      }),
+    ).to.be.true;
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': true,
+        contestableIssues: [{}],
+      }),
+    ).to.be.true;
+  });
+  it('should not show issue page when "no" is chosen', () => {
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': false,
+        contestableIssues: [{ [SELECTED]: true }],
+      }),
+    ).to.be.false;
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': false,
+        contestableIssues: [{}],
+      }),
+    ).to.be.false;
   });
 });
 

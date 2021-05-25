@@ -240,7 +240,8 @@ for doing very specific things.
 
 | I want to... | Then you should... |
 | :--- | :--- |
-| build the production site (dev features disabled). | `NODE_ENV=production yarn build --env.buildtype vagovprod --env.scaffold` |
+| build the production site (dev features disabled). | `yarn build:production` |
+| deploy the production site (dev features disabled). | `node src/platform/testing/e2e/test-server.js --buildtype=vagovprod` |
 | reset local environment (clean out node modules, Babel cache, and runs `npm install`) | `yarn reset:env` |
 | run the app pages on the site for local development | `yarn watch --env.scaffold` |
 | run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps | `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `--env.buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |

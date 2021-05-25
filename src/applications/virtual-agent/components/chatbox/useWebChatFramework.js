@@ -16,7 +16,7 @@ function checkForWebchat(
       setError(false);
       clearInterval(intervalId);
     } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
-      Sentry.captureException('Failed to load webchat framework');
+      Sentry.captureException(new Error('Failed to load webchat framework'));
       setError(true);
       setLoading(false);
       clearInterval(intervalId);

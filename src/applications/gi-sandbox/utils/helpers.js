@@ -143,6 +143,11 @@ export const handleInputFocusWithPotentialOverLap = (
   }
 };
 
+export const addAllOption = options => [
+  { optionValue: 'ALL', optionLabel: 'ALL' },
+  ...options,
+];
+
 /**
  * Recursively convert number to A to AA to AAA to... to ZZZZZZZZZZZ
  * Uses https://en.wikipedia.org/wiki/Base36 to convert numbers to alphanumeric values

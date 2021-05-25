@@ -32,7 +32,7 @@ const ApplicationInProgress = ({
         data-testid="application-in-progress"
       >
         <div className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-background-color--gray-lightest vads-u-padding--2p5">
-          <div>
+          <div className="vads-u-width--full">
             <p className="vads-u-text-transform--uppercase vads-u-margin-y--0">
               {presentableFormId}
             </p>
