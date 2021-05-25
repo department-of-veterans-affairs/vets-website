@@ -152,4 +152,100 @@ describe('VAOS integration: upcoming CC appointments', () => {
     );
     expect(dateHeader).to.contain.text('UTC');
   });
+
+  it('should verify community care calendar ics file format', async () => {
+    const appointmentTime = moment().add(1, 'days');
+    const appointment = getCCAppointmentMock();
+
+    appointment.attributes = {
+      ...appointment.attributes,
+      appointmentTime: appointmentTime
+        .clone()
+        .add(5, 'hours')
+        .format('MM/DD/YYYY HH:mm:ss'),
+      timeZone: '-05:00 EST',
+      instructionsToVeteran: 'Bring your glasses',
+      address: {
+        street: '123 Big Sky st',
+        city: 'Bozeman',
+        state: 'MT',
+        zipCode: '59715',
+      },
+      name: { firstName: 'Jane', lastName: 'Doctor' },
+      providerPractice: 'Big sky medical',
+      providerPhone: '4065555555',
+    };
+
+    mockAppointmentInfo({ cc: [appointment] });
+    const { findByText, getByRole } = renderWithStoreAndRouter(
+      <AppointmentsPage />,
+      {
+        initialState,
+      },
+    );
+
+    await findByText(
+      new RegExp(appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'), 'i'),
+    );
+
+    const ics = decodeURIComponent(
+      getByRole('link', {
+        name: `Add ${moment(appointmentTime).format(
+          'MMMM D, YYYY',
+        )} appointment to your calendar`,
+      })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = ics.split('\r\n');
+
+    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
+    expect(tokens[1]).to.equal('VERSION:2.0');
+    expect(tokens[2]).to.equal('PRODID:VA');
+    expect(tokens[3]).to.equal('BEGIN:VEVENT');
+    expect(tokens[4]).to.contain('UID:');
+
+    // TODO: Should this be provider practice instead of name???
+    expect(tokens[5]).to.equal('SUMMARY:Appointment at Jane Doctor');
+
+    // The description text longer than 74 characters should start newlines with a tab character
+    expect(tokens[6]).to.equal(
+      'DESCRIPTION:You have a health care appointment with a community care provi',
+    );
+    expect(tokens[7]).to.equal(
+      '\tder. Please don’t go to your local VA health facility.',
+    );
+    expect(tokens[8]).to.equal('\t\\n\\nJane Doctor');
+    expect(tokens[9]).to.equal('\t\\n123 Big Sky st\\n');
+    expect(tokens[10]).to.equal('\tBozeman\\, MT 59715\\n');
+    expect(tokens[11]).to.equal('\t4065555555\\n');
+    expect(tokens[12]).to.equal(
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    );
+    expect(tokens[13]).to.equal(
+      '\tintments to get details about this appointment\\n',
+    );
+
+    expect(tokens[14]).to.equal(
+      'LOCATION:123 Big Sky st\\, Bozeman\\, MT 59715',
+    );
+    expect(tokens[15]).to.equal(
+      `DTSTAMP:${moment(appointment.attributes.appointmentTime)
+        // .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[16]).to.equal(
+      `DTSTART:${moment(appointment.attributes.appointmentTime)
+        // .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[17]).to.equal(
+      `DTEND:${moment(appointment.attributes.appointmentTime)
+        .add(60, 'minutes')
+        // .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[18]).to.equal('END:VEVENT');
+    expect(tokens[19]).to.equal('END:VCALENDAR');
+  });
 });

@@ -142,3 +142,8 @@ export const handleInputFocusWithPotentialOverLap = (
     }
   }
 };
+
+export const addAllOption = options => [
+  { optionValue: 'ALL', optionLabel: 'ALL' },
+  ...options,
+];

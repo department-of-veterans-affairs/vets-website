@@ -12,6 +12,7 @@ import {
   getVAAppointmentLocationId,
   isVAPhoneAppointment,
   isVideoHome,
+  getCalendarData,
 } from '../../../services/appointment';
 import {
   APPOINTMENT_STATUS,
@@ -22,8 +23,6 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import AppointmentDateTime from './AppointmentDateTime';
 import VideoVisitSection from './VideoVisitSection';
-import { getVideoInstructionText } from './VideoInstructions';
-import { formatFacilityAddress } from 'applications/vaos/services/location';
 import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
@@ -54,27 +53,10 @@ function formatHeader(appointment) {
   } else if (isVideoHome(appointment)) {
     return 'VA Video Connect at home';
   } else if (isVAPhoneAppointment(appointment)) {
-    return 'VA Appointment over the phone';
+    return 'VA appointment over the phone';
   } else {
-    return 'VA Appointment';
+    return 'VA appointment';
   }
-}
-
-function formatInstructions(instructions) {
-  if (!instructions) {
-    return null;
-  }
-
-  const strParts = instructions.split(': ');
-
-  if (strParts[0] && strParts[1]) {
-    return {
-      header: strParts[0],
-      body: strParts[1],
-    };
-  }
-
-  return null;
 }
 
 export default function ConfirmedAppointmentDetailsPage() {
@@ -91,6 +73,7 @@ export default function ConfirmedAppointmentDetailsPage() {
     shallowEqual,
   );
   const appointmentDate = moment.parseZone(appointment?.start);
+  const locationId = getVAAppointmentLocationId(appointment);
 
   useEffect(() => {
     dispatch(fetchConfirmedAppointmentDetails(id, 'va'));
@@ -155,9 +138,7 @@ export default function ConfirmedAppointmentDetailsPage() {
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = appointment.vaos.isVideo;
-  const videoKind = appointment.videoData.kind;
   const isPastAppointment = appointment.vaos.isPastAppointment;
-  const isPhone = isVAPhoneAppointment(appointment);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
   const isInPersonVAAppointment = !isVideo;
@@ -166,7 +147,6 @@ export default function ConfirmedAppointmentDetailsPage() {
     : facility?.name || 'Facility';
 
   const header = formatHeader(appointment);
-  const instructions = formatInstructions(appointment.comment);
 
   const showInstructions =
     isInPersonVAAppointment &&
@@ -174,22 +154,12 @@ export default function ConfirmedAppointmentDetailsPage() {
       appointment?.comment?.startsWith(purpose.short),
     );
 
-  const showVideoInstructions =
-    isVideo &&
-    appointment.comment &&
-    videoKind !== VIDEO_TYPES.clinic &&
-    videoKind !== VIDEO_TYPES.gfe;
+  const calendarData = getCalendarData({
+    appointment,
+    facility: facilityData[locationId],
+  });
 
   const showCovidPhone = appointment.vaos.isCOVIDVaccine;
-
-  let calendarDescription = 'VA appointment';
-  if (showInstructions) {
-    calendarDescription = appointment.comment;
-  } else if (showVideoInstructions) {
-    calendarDescription = getVideoInstructionText(appointment.comment);
-  } else if (isVideo) {
-    calendarDescription = 'VA video appointment';
-  }
 
   return (
     <PageLayout>
@@ -254,32 +224,33 @@ export default function ConfirmedAppointmentDetailsPage() {
               showCovidPhone={showCovidPhone}
             />
 
-            {showInstructions &&
-              isInPersonVAAppointment &&
-              instructions && (
-                <div className="vads-u-margin-top--3 vaos-appts__block-label">
-                  <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
-                    <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-                      {instructions.header}
-                    </h2>
-                    <div>{instructions.body}</div>
-                  </div>
+            {showInstructions && (
+              <div className="vads-u-margin-top--3 vaos-appts__block-label">
+                <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
+                  <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+                    You shared these details about your concern
+                  </h2>
+                  <div>{appointment.comment}</div>
                 </div>
-              )}
+              </div>
+            )}
             {!canceled && (
               <>
                 {!isPastAppointment && (
                   <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
                     <i
                       aria-hidden="true"
-                      className="far fa-calendar vads-u-margin-right--1"
+                      className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
                     />
                     <AddToCalendar
-                      summary={`${header}`}
-                      description={calendarDescription}
-                      location={
-                        isPhone ? 'Phone call' : formatFacilityAddress(facility)
-                      }
+                      summary={calendarData.summary}
+                      description={{
+                        text: calendarData.text,
+                        providerName: calendarData.providerName,
+                        phone: calendarData.phone,
+                        additionalText: calendarData.additionalText,
+                      }}
+                      location={calendarData.location}
                       duration={appointment.minutesDuration}
                       startDateTime={appointment.start}
                     />
@@ -288,7 +259,7 @@ export default function ConfirmedAppointmentDetailsPage() {
                 <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
                   <i
                     aria-hidden="true"
-                    className="fas fa-print vads-u-margin-right--1"
+                    className="fas fa-print vads-u-margin-right--1 vads-u-color--link-default"
                   />
                   <button
                     className="va-button-link"
@@ -303,7 +274,7 @@ export default function ConfirmedAppointmentDetailsPage() {
                     <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
                       <i
                         aria-hidden="true"
-                        className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
+                        className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg vads-u-color--link-default"
                       />
                       <button
                         onClick={() =>

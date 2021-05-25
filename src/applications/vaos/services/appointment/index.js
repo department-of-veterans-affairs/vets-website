@@ -27,6 +27,7 @@ import {
   VIDEO_TYPES,
   GA_PREFIX,
 } from '../../utils/constants';
+import { formatFacilityAddress, getFacilityPhone } from '../location';
 import { transformVAOSAppointment } from './transformers.vaos';
 import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
@@ -469,7 +470,7 @@ export function sortMessages(a, b) {
  * @return {boolean} Returns whether or not the appointment is a home video appointment.
  */
 export function isVideoHome(appointment) {
-  const { isAtlas, kind } = appointment.videoData || {};
+  const { isAtlas, kind } = appointment?.videoData || {};
   return (
     !isAtlas && (kind === VIDEO_TYPES.mobile || kind === VIDEO_TYPES.adhoc)
   );
@@ -662,4 +663,124 @@ export async function cancelAppointment({ appointment }) {
   } else {
     return cancelRequestedAppointment(appointment);
   }
+}
+
+/**
+ * Get scheduled appointment information needed for generating
+ * an .ics file.
+ *
+ * @export
+ * @param {Appointment} Appointment object, facility object
+ * @param {Facility} Facility object
+ * @returns An object containing appointment information.
+ */
+export function getCalendarData({ appointment, facility }) {
+  let data = {};
+  const isAtlas = appointment?.videoData.isAtlas;
+  const isHome = isVideoHome(appointment);
+  const videoKind = appointment?.videoData.kind;
+  const isVideo = appointment?.vaos.isVideo;
+  const isCommunityCare = appointment?.vaos.isCommunityCare;
+  const isPhone = isVAPhoneAppointment(appointment);
+  const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
+  const signinText =
+    'Sign in to https://va.gov/health-care/schedule-view-va-appointments/appointments to get details about this appointment';
+
+  if (isPhone) {
+    data = {
+      summary: 'Phone appointment',
+      providerName: facility?.name,
+      location: formatFacilityAddress(facility),
+      text: `A provider will call you at ${moment
+        .parseZone(appointment.start)
+        .format('h:mm a')}`,
+      phone: getFacilityPhone(facility),
+      additionalText: [signinText],
+    };
+  } else if (isInPersonVAAppointment) {
+    data = {
+      summary: `Appointment at ${facility?.name}`,
+      location: formatFacilityAddress(facility),
+      text: `You have a health care appointment at ${facility?.name}`,
+      phone: getFacilityPhone(facility),
+      additionalText: [signinText],
+    };
+  } else if (isCommunityCare) {
+    let { providerName, practiceName } =
+      appointment.communityCareProvider || {};
+    let summary = 'Community care appointment';
+
+    // Check if providerName is all spaces.
+    providerName = providerName?.trim().length ? providerName : '';
+    practiceName = practiceName?.trim().length ? practiceName : '';
+    if (providerName || practiceName) {
+      summary = `Appointment at ${providerName || practiceName}`;
+    }
+
+    data = {
+      summary,
+      providerName: `${providerName || practiceName}`,
+      location: `${formatFacilityAddress(appointment?.communityCareProvider)}`,
+      text:
+        'You have a health care appointment with a community care provider. Please don’t go to your local VA health facility.',
+      phone: `${getFacilityPhone(appointment?.communityCareProvider)}`,
+      additionalText: [signinText],
+    };
+  } else if (isVideo) {
+    const providerName = appointment.videoData?.providers
+      ? appointment.videoData.providers[0]?.display
+      : '';
+    const providerText = providerName
+      ? `You'll be meeting with ${providerName}`
+      : '';
+
+    if (isHome) {
+      data = {
+        summary: 'VA Video Connect appointment',
+        text:
+          'You can join this meeting up to 30 minutes before the start time.',
+        location: 'VA Video Connect at home',
+        additionalText: ['Sign in to VA.gov to join this meeting'],
+      };
+    } else if (isAtlas) {
+      const { atlasLocation } = appointment.videoData;
+
+      if (atlasLocation?.address) {
+        data = {
+          summary: `VA Video Connect appointment at an ATLAS facility`,
+          location: formatFacilityAddress(atlasLocation),
+          text: 'Join this video meeting from this ATLAS (non-VA) location:',
+          additionalText: [
+            `Your appointment code is ${
+              appointment.videoData.atlasConfirmationCode
+            }. Use this code to find your appointment on the computer at the ATLAS facility.`,
+          ],
+        };
+
+        if (providerName)
+          data.additionalText.push(`You'll be meeting with ${providerName}`);
+      }
+    } else if (videoKind === VIDEO_TYPES.clinic) {
+      data = {
+        summary: `VA Video Connect appointment at ${facility?.name}`,
+        providerName: facility?.name,
+        location: formatFacilityAddress(facility),
+        text: 'You need to join this video meeting from:',
+        phone: `${getFacilityPhone(facility)}`,
+      };
+
+      if (providerName) data.additionalText = [providerText, signinText];
+      else data.additionalText = [signinText];
+    } else if (videoKind === VIDEO_TYPES.gfe) {
+      data = {
+        summary: 'VA Video Connect appointment using a VA device',
+        location: '',
+        text: 'Join this video meeting using a device provided by VA.',
+      };
+
+      if (providerName) data.additionalText = [providerText];
+    }
+  }
+
+  return data;
 }
