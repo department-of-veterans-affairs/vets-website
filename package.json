@@ -136,7 +136,6 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^23.4.2",
     "babel-loader": "^8.0.0",
-    "babel-preset-react-native": "^4.0.1",
     "babel-plugin-dynamic-import-node": "^1.2.0",
     "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-lodash": "^3.2.8",
