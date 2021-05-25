@@ -11,6 +11,7 @@ import {
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { scrollToFirstError } from 'platform/utilities/ui';
+import { setData } from 'platform/forms-system/src/js/actions';
 
 import { scrollAndFocus } from '../utils/ui';
 import { isEmptyObject, someSelected } from '../utils/helpers';
@@ -31,9 +32,17 @@ const AddIssuesField = props => {
     registry,
     formContext,
     onBlur,
+    fullFormData,
   } = props;
 
   const uiOptions = uiSchema['ui:options'] || {};
+
+  if (!fullFormData['view:hasIssuesToAdd']) {
+    props.setFormData({
+      ...fullFormData,
+      'view:hasIssuesToAdd': true,
+    });
+  }
 
   const initialEditingState = uiOptions.setInitialEditMode?.(formData);
   // Editing state: 1 = new edit, true = update edit & false = view state
@@ -164,7 +173,7 @@ const AddIssuesField = props => {
   // first issue does not have a header or grey card background
   const singleIssue = items.length === 1;
   const hasSelected =
-    someSelected(formData) || someSelected(props.contestableIssues);
+    someSelected(formData) || someSelected(fullFormData.contestableIssues);
   const showError = formContext.submitted && !hasSelected;
 
   const content = items.map((item, index) => {
@@ -298,10 +307,17 @@ AddIssuesField.propTypes = {
   }),
 };
 
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
 const mapStateToProps = state => ({
-  contestableIssues: state.form.data?.contestableIssues || [],
+  fullFormData: state.form.data || {},
 });
 
 export { AddIssuesField };
 
-export default connect(mapStateToProps)(AddIssuesField);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AddIssuesField);

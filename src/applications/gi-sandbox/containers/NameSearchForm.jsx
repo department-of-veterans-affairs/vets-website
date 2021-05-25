@@ -21,7 +21,9 @@ export function NameSearchForm({
     dispatchFetchSearchByNameResults(
       name,
       {
-        category: filters.category,
+        schools: filters.schools,
+        employers: filters.employers,
+        vettec: filters.vettec,
       },
       version,
     );
