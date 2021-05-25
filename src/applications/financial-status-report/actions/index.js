@@ -1,7 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
 import moment from 'moment';
-import head from 'lodash/head';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
@@ -16,26 +15,10 @@ import {
   FSR_API_CALL_INITIATED,
 } from '../constants/actionTypes';
 
-const fetchDebtLettersSuccess = debts => ({
-  type: DEBTS_FETCH_SUCCESS,
-  debts,
-});
-
-const initiateApiCall = () => ({
-  type: FSR_API_CALL_INITIATED,
-});
-
-const handleError = error => ({
-  type: FSR_API_ERROR,
-  error,
-});
-
-const resetError = () => ({
-  type: FSR_RESET_ERRORS,
-});
-
 export const fetchFormStatus = () => async dispatch => {
-  dispatch(initiateApiCall());
+  dispatch({
+    type: FSR_API_CALL_INITIATED,
+  });
   const sessionExpiration = localStorage.getItem('sessionExpiration');
   const remainingSessionTime = moment(sessionExpiration).diff(moment());
   if (!remainingSessionTime) {
@@ -43,7 +26,9 @@ export const fetchFormStatus = () => async dispatch => {
     // the API returns the same response if a user is missing data OR is not logged in
     // so we need a way to differentiate those - a falsey remaining session will
     // always result in that error so we can go ahead and return
-    return dispatch(resetError());
+    return dispatch({
+      type: FSR_RESET_ERRORS,
+    });
   }
   fetch(`${environment.API_URL}/v0/in_progress_forms/5655`, {
     credentials: 'include',
@@ -56,16 +41,15 @@ export const fetchFormStatus = () => async dispatch => {
     .then(res => res.json())
     .then(body => {
       if (body.errors) {
-        // handle the possibility of multiple errors
-        const firstError = head(body.errors);
-        if (firstError.code === '500') {
-          return dispatch(handleError('FSR_SERVER_ERROR'));
-        }
-        return dispatch(handleError(firstError.code.toUpperCase()));
+        dispatch({
+          type: FSR_API_ERROR,
+          error: body,
+        });
       }
-      return dispatch(resetError());
     });
-  return null;
+  return dispatch({
+    type: FSR_RESET_ERRORS,
+  });
 };
 
 export const fetchDebts = () => async (dispatch, getState) => {
@@ -99,10 +83,16 @@ export const fetchDebts = () => async (dispatch, getState) => {
       .filter(debt => debt.currentAr > 0)
       .map((debt, index) => ({ ...debt, id: index }));
 
-    return dispatch(fetchDebtLettersSuccess(filteredResponse));
-  } catch (err) {
-    dispatch(handleError('FSR_SERVER_ERROR'));
-    throw new Error(err);
+    return dispatch({
+      type: DEBTS_FETCH_SUCCESS,
+      debts: filteredResponse,
+    });
+  } catch (error) {
+    dispatch({
+      type: FSR_API_ERROR,
+      error,
+    });
+    throw new Error(error);
   }
 };
 
