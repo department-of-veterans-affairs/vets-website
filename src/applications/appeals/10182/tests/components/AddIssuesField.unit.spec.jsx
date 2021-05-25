@@ -27,6 +27,9 @@ const getProps = ({
   errorSchema,
   idSchema: { $id: 'additionalIssues' },
   formData,
+  fullFormData: {
+    'view:hasIssuesToAdd': true,
+  },
   registry: {
     definitions: {},
     fields: {
@@ -42,6 +45,7 @@ const getProps = ({
   },
   onBlur: f => f,
   onChange,
+  setFormData: () => {},
 });
 
 describe('<AddIssuesField>', () => {
@@ -195,5 +199,18 @@ describe('<AddIssuesField>', () => {
       );
       wrapper.unmount();
     });
+  });
+  it('should set view additional issues flag when visible', () => {
+    const setFormData = sinon.spy();
+    const wrapper = shallow(
+      <AddIssuesField
+        {...getProps()}
+        setFormData={setFormData}
+        fullFormData={{}}
+      />,
+    );
+    expect(setFormData.called).to.be.true;
+    expect(setFormData.args[0][0]['view:hasIssuesToAdd']).to.be.true;
+    wrapper.unmount();
   });
 });
