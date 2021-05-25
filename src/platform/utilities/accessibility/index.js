@@ -1,4 +1,5 @@
-const TAB = 91;
+/* eslint-disable no-console */
+const TAB = 9;
 const ESCAPE = 27;
 const ENTER = 13;
 
