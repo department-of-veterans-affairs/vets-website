@@ -56,6 +56,7 @@ jobs:
           report_paths: 'test-results/e2e-test-output-*.xml'
 
       - name: Find XML files
+      if: ${{ always() }}
         run: cd ../.. && find . -name "*.xml"
 
       - name: Archive Cypress test videos
