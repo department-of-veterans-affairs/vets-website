@@ -4,7 +4,7 @@ import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox
 import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
-import { renderStars } from '../../../gi/utils/render';
+import { renderStars } from '../../utils/render';
 
 import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency, createId } from '../../utils/helpers';
