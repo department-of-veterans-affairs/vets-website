@@ -5,6 +5,7 @@ import reducers from '~/applications/personalization/dashboard/reducers';
 import HealthCare from '~/applications/personalization/dashboard-2/components/health-care/HealthCare';
 import {
   farFutureAppointments,
+  upcomingCCAppointment,
   upcomingVAAppointment,
 } from '~/applications/personalization/dashboard-2/utils/appointments';
 
@@ -12,7 +13,7 @@ describe('HealthCare component', () => {
   let view;
   let initialState;
 
-  describe('when the user has an appointment scheduled within the next 30 days', () => {
+  describe('when the user has a VA appointment scheduled within the next 30 days', () => {
     it('should render "Next appointment"', async () => {
       initialState = {
         user: {
@@ -52,6 +53,51 @@ describe('HealthCare component', () => {
       });
 
       expect(view.getByText(/next appointment/i));
+      expect(view.getByText(/6:00 p.m. MT/i));
+    });
+  });
+
+  describe('when the user has a CC appointment scheduled within the next 30 days', () => {
+    it('should render "Next appointment"', async () => {
+      initialState = {
+        user: {
+          profile: {
+            services: [],
+          },
+        },
+        health: {
+          appointments: {
+            fetching: false,
+            data: upcomingCCAppointment,
+          },
+          msg: {
+            folders: {
+              data: {
+                currentItem: {
+                  attributes: {
+                    unreadCount: null,
+                  },
+                  fetching: false,
+                },
+              },
+              ui: {
+                nav: {
+                  foldersExpanded: false,
+                  visible: false,
+                },
+              },
+            },
+          },
+        },
+      };
+
+      view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
+        initialState,
+        reducers,
+      });
+
+      expect(view.getByText(/next appointment/i));
+      expect(view.getByText(/6:00 p.m. MT/i));
     });
   });
 
