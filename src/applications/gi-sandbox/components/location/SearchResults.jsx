@@ -1,5 +1,5 @@
 import React from 'react';
-import SearchResultCard from '../SearchResultCard';
+import SearchResultCard from '../search/SearchResultCard';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import RefineYourSearch from '../../containers/RefineYourSearch';
 
