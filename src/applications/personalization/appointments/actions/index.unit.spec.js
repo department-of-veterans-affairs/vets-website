@@ -8,10 +8,7 @@ import environment from '~/platform/utilities/environment';
 
 import {
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
-  // FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
-  // FUTURE_APPOINTMENTS_HIDDEN_SET,
-  // VIDEO_TYPES,
 } from '~/applications/personalization/dashboard-2/constants';
 
 import { fetchConfirmedFutureAppointments } from './index';

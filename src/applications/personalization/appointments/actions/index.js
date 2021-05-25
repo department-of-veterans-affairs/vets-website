@@ -32,7 +32,7 @@ function isVideoVisit(appt) {
  * @param {Object} appt VAR appointment object
  * @returns {Object} Returns appointment datetime as moment object
  */
-function getMomentConfirmedDate(type, appt) {
+function getLocalAppointmentDate(type, appt) {
   if (type === 'cc') {
     const zoneSplit = appt.timeZone.split(' ');
     const offset = zoneSplit.length > 1 ? zoneSplit[0] : '+0:00';
@@ -218,7 +218,7 @@ export function fetchConfirmedFutureAppointments() {
           id: appointment.id,
           isVideo: isVideoVisit(appointment.attributes),
           providerName: facility?.attributes?.name,
-          startsAt: getMomentConfirmedDate(
+          startsAt: getLocalAppointmentDate(
             'va',
             appointment.attributes,
           ).format(),
@@ -248,7 +248,7 @@ export function fetchConfirmedFutureAppointments() {
           id: appointment.id,
           isVideo: false,
           providerName: appointment.attributes?.providerPractice,
-          startsAt: getMomentConfirmedDate(
+          startsAt: getLocalAppointmentDate(
             'cc',
             appointment.attributes,
           ).format(),
