@@ -37,6 +37,7 @@ class Footer extends React.Component {
     }
   }
   render() {
+    console.log('LANG SUPPORT FEATURE FLAG', this.props.showLangSupport);
     return (
       <div>
         <div className="footer-inner">

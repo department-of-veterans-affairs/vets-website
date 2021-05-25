@@ -72,6 +72,7 @@ export default function LanguageSupport({
     },
     [languageCode],
   );
+  console.log(showLangSupport, 'SHOWING LANG SUPPORT');
   if (showLangSupport !== true) return null;
 
   if (isDesktop) {

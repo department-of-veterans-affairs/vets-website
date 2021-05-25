@@ -35,6 +35,7 @@ export default Object.freeze({
   gibctEybBottomSheet: 'gibctEybBottomSheet',
   gibctSchoolRatings: 'gibctSchoolRatings',
   manageDependents: 'dependents_management',
+  languageSupport: 'language_support',
   preEntryCovid19Screener: 'preEntryCovid19Screener',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
