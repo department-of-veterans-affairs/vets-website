@@ -15,7 +15,7 @@ import * as Sentry from '@sentry/browser';
 import chaiAxe from './axe-plugin';
 
 import { sentryTransport } from './sentry';
-import { resetFetch } from './helpers';
+// import { resetFetch } from './helpers';
 
 Sentry.init({
   dsn: 'http://one@fake/dsn',
@@ -164,8 +164,8 @@ chai.use(chaiAxe);
 export const mochaHooks = {
   beforeEach() {
     setupJSDom();
-  },
-  afterEach() {
-    resetFetch();
+    if (global.fetch.isSinonProxy) {
+      global.fetch.restore();
+    }
   },
 };
