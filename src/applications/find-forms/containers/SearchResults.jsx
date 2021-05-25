@@ -79,15 +79,15 @@ export const SearchResults = ({
 
   const onPageSelect = p => {
     // Derive the new start index.
-    let startI = p * MAX_PAGE_LIST_LENGTH - MAX_PAGE_LIST_LENGTH;
+    let startIn = p * MAX_PAGE_LIST_LENGTH - MAX_PAGE_LIST_LENGTH;
 
     // Ensure the start index is not greater than the total amount of results.
-    if (startI >= results.length) {
-      startI = results.length - 1;
+    if (startIn >= results.length) {
+      startIn = results.length - 1;
     }
 
     // Update the page and the new start index.
-    updatePagination(p, startI);
+    updatePagination(p, startIn);
 
     focusElement('[data-forms-focus]');
   };

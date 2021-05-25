@@ -19,14 +19,12 @@ export const SearchForm = ({
   const queryParams = new URLSearchParams(window.location.search);
   // Derive the query.
   const query = queryParams.get('q') || '';
-  const [queryState, setQueryState] = useState({
-    query,
-  });
+  const [queryState, setQueryState] = useState(query);
 
   useEffect(() => {
     // On mount Fetch the forms with their query if it's on the URL.
-    if (queryState.query) {
-      fetchForms(queryState.query, { useLighthouseSearchAlgo });
+    if (queryState) {
+      fetchForms(queryState, { useLighthouseSearchAlgo });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -36,12 +34,12 @@ export const SearchForm = ({
     const q = event.target.value;
 
     // Update our query in state.
-    setQueryState({ query: q });
+    setQueryState(q);
   };
 
   const onSubmitHandler = event => {
     event.preventDefault();
-    fetchForms(queryState.query, { useLighthouseSearchAlgo });
+    fetchForms(queryState, { useLighthouseSearchAlgo });
   };
 
   return (
@@ -61,7 +59,7 @@ export const SearchForm = ({
             id="va-form-query"
             onChange={onQueryChange}
             type="text"
-            value={queryState.query}
+            value={queryState}
           />
         </div>
         <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto">
