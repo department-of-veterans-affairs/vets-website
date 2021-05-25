@@ -1,5 +1,4 @@
 import React from 'react';
-import 'mapbox-gl/dist/mapbox-gl.css';
 
 import SearchResultCard from '../search/SearchResultCard';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
