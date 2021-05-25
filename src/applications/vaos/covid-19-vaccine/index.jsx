@@ -98,12 +98,12 @@ export function NewBookingSection() {
     facilitySettingsStatus === FETCH_STATUS.notStarted
   ) {
     return (
-      <div className="vads-u-margin-y--8">
+      <FormLayout>
         <LoadingIndicator
           setFocus
           message="Checking for online appointment availability"
         />
-      </div>
+      </FormLayout>
     );
   }
 

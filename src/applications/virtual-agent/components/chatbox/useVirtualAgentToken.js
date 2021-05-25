@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { apiRequest } from 'platform/utilities/api';
 import retryOnce from './retryOnce';
 import { useSelector } from 'react-redux';
+import * as Sentry from '@sentry/browser';
 
 export default function useVirtualAgentToken() {
   const [token, setToken] = useState('');
@@ -26,6 +27,9 @@ export default function useVirtualAgentToken() {
           setTokenLoading(false);
           setToken(response.token);
         } catch (ex) {
+          Sentry.captureException(
+            new Error('Could not retrieve virtual agent token'),
+          );
           setTokenLoading(false);
           setError(true);
         }

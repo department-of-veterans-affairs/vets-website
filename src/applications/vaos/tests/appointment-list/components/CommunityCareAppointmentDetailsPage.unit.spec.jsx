@@ -43,6 +43,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
   it('should navigate to community care appointments detail page', async () => {
     // CC appointment id from confirmed_cc.json
     const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
+    const startDate = moment().add(1, 'day');
 
     const appointment = getCCAppointmentMock();
     appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
@@ -60,7 +61,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
         zipCode: '20151',
       },
       instructionsToVeteran: 'Bring your glasses',
-      appointmentTime: '05/20/2021 14:15:00',
+      appointmentTime: startDate.format('MM/DD/YYYY HH:mm:ss'),
       timeZone: 'UTC',
     };
 
@@ -90,7 +91,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /^Thursday, May 20, 2021/,
+        name: new RegExp(startDate.format('dddd, MMMM D, YYYY'), 'i'),
       }),
     ).to.be.ok;
 
@@ -105,7 +106,12 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Bring your glasses/)).to.be.ok;
     expect(
       screen.getByRole('link', {
-        name: /^Add May 20, 2021 appointment to your calendar/,
+        name: new RegExp(
+          `Add ${startDate.format(
+            'MMMM D, YYYY',
+          )} appointment to your calendar`,
+          'i',
+        ),
       }),
     ).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
@@ -129,7 +135,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /^Thursday, May 20, 2021/,
+        name: new RegExp(startDate.format('dddd, MMMM D, YYYY'), 'i'),
       }),
     ).to.be.ok;
 
@@ -190,6 +196,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
   it('should fire a print request when print button clicked', async () => {
     // CC appointment id from confirmed_cc.json
     const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
+    const startDate = moment().add(1, 'day');
 
     const appointment = getCCAppointmentMock();
     appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
@@ -207,7 +214,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
         zipCode: '20151',
       },
       instructionsToVeteran: 'Bring your glasses',
-      appointmentTime: '05/20/2021 14:15:00',
+      appointmentTime: startDate.format('MM/DD/YYYY HH:mm:ss'),
       timeZone: 'UTC',
     };
 
@@ -237,15 +244,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     const detailLink = detailLinks.find(l => l.getAttribute('href') === url);
     userEvent.click(detailLink);
 
-    // Verify page content...
-    expect(
-      await screen.findByRole('heading', {
-        level: 1,
-        name: /^Thursday, May 20, 2021/,
-      }),
-    ).to.be.ok;
-
-    expect(screen.getByText(/Community care/)).to.be.ok;
+    expect(await screen.findByText(/Community care/)).to.be.ok;
 
     expect(printSpy.notCalled).to.be.true;
     fireEvent.click(await screen.findByText(/Print/i));

@@ -30,9 +30,7 @@ export default function AnswerQuestions(props) {
       <section className="action-link-container">
         <SecondaryActionLink
           testId="answer-button"
-          ariaLabel={`Select to ${
-            status ? 'continue' : 'start'
-          } your pre-appointment questionnaire for your primary care visit at ${facilityName} on ${moment(
+          ariaLabel={`Answer questions for your visit on ${moment(
             appointmentTime,
           ).format('MMMM, D, YYYY')}`}
           onClick={onClick}

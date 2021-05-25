@@ -240,13 +240,14 @@ describe('VAOS appointment list refresh', () => {
       cy.axeCheckBestPractice();
     });
 
-    it.skip('should navigate to requested appointment details', () => {
+    it('should navigate to past appointment details', () => {
       cy.get('[data-cy=appointment-list-item]')
         .first()
         .findByText(/Details/i)
         .focus()
         .click();
-      cy.findByText(/Request detail/i).should('exist');
+      cy.findByText(/Appointment detail/i).should('exist');
+      cy.axeCheckBestPractice();
     });
 
     it('should select an updated date range', () => {
