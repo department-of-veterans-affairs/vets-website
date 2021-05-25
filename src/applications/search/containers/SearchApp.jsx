@@ -141,11 +141,14 @@ class SearchApp extends React.Component {
   };
 
   onSearchResultClick = ({ bestBet, title, index, url }) => () => {
+    // clear the &t query param which is used to track typeahead searches
+    // removing this will better reflect how many typeahead searches result in at least one click
     window.history.replaceState(
       null,
       document.title,
       `${window.location.href.replace('&t=true', '')}`,
     );
+
     if (bestBet) {
       recordEvent({
         event: 'nav-searchresults',
