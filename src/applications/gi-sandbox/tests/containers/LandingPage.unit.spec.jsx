@@ -9,7 +9,7 @@ import LandingPageContainer, {
 } from '../../containers/LandingPage';
 
 describe('<LandingPage>', () => {
-  it.skip('should render', async () => {
+  it('should render', async () => {
     const screen = renderWithStoreAndRouter(<LandingPageContainer />, {});
 
     await waitFor(() => {
@@ -17,7 +17,7 @@ describe('<LandingPage>', () => {
     });
   });
 
-  it.skip('should set page title', async () => {
+  it('should set page title', async () => {
     const dispatchSetPageTitle = sinon.spy();
 
     const screen = renderWithStoreAndRouter(

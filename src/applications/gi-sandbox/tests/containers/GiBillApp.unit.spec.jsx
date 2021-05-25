@@ -6,7 +6,7 @@ import { mockConstants, renderWithStoreAndRouter } from '../helpers';
 import GiBillApp from '../../containers/GiBillApp';
 
 describe('<GiBillApp>', () => {
-  it.skip('should render', async () => {
+  it('should render', async () => {
     const screen = renderWithStoreAndRouter(<GiBillApp />, {
       initialState: {
         constants: mockConstants(),

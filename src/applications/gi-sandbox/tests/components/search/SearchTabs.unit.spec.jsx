@@ -7,7 +7,7 @@ import { waitFor } from '@testing-library/react';
 import SearchTabs from '../../../components/search/SearchTabs';
 
 describe('<SearchTabs>', () => {
-  it.skip('should render', async () => {
+  it('should render', async () => {
     const screen = renderWithStoreAndRouter(
       <SearchTabs />,
 

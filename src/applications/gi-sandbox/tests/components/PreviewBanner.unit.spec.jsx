@@ -7,7 +7,7 @@ import { fireEvent, waitFor } from '@testing-library/react';
 import PreviewBanner from '../../components/PreviewBanner';
 
 describe('<PreviewBanner>', () => {
-  it.skip('should render', async () => {
+  it('should render', async () => {
     const screen = renderWithStoreAndRouter(<PreviewBanner />, {});
 
     await waitFor(() => {
@@ -15,7 +15,7 @@ describe('<PreviewBanner>', () => {
     });
   });
 
-  it.skip('should redirect to live version', async () => {
+  it('should redirect to live version', async () => {
     const screen = renderWithStoreAndRouter(<PreviewBanner />, {
       path: '/?version=TEST_ID&other=test',
     });

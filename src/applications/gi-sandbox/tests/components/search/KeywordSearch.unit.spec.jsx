@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import KeywordSearch from '../../../components/search/KeywordSearch';
 
 describe('<KeywordSearch>', () => {
-  it.skip('should render', () => {
+  it('should render', () => {
     const tree = mount(
       <KeywordSearch
         placeholder="test"
@@ -27,7 +27,7 @@ describe('<KeywordSearch>', () => {
     tree.unmount();
   });
 
-  it.skip('should open suggestion list when input is filled with text', () => {
+  it('should open suggestion list when input is filled with text', () => {
     const validateSearchQuery = sinon.spy();
     const tree = mount(
       <KeywordSearch
@@ -56,7 +56,7 @@ describe('<KeywordSearch>', () => {
     tree.unmount();
   });
 
-  it.skip('should call on select when an suggestion is selected', () => {
+  it('should call on select when an suggestion is selected', () => {
     const onSelection = sinon.spy();
     const validateSearchQuery = sinon.spy();
     const tree = mount(
@@ -87,7 +87,7 @@ describe('<KeywordSearch>', () => {
     tree.unmount();
   });
 
-  it.skip('should not call on select when a suggestion is not selected', () => {
+  it('should not call on select when a suggestion is not selected', () => {
     const onSelection = sinon.spy();
     const validateSearchQuery = sinon.spy();
     const tree = mount(
