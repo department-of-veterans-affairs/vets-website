@@ -64,7 +64,17 @@ export default function prefillTransformer(pages, formData, metadata) {
         newData.phoneAndEmail.primaryPhone = primaryPhone;
       }
       if (mailingAddress) {
-        newData.mailingAddress = mailingAddress;
+        newData.mailingAddress = {
+          // strip out any extra data. Maybe left over from v1?
+          // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423
+          country: mailingAddress.country || '',
+          addressLine1: mailingAddress.addressLine1 || '',
+          addressLine2: mailingAddress.addressLine2 || '',
+          addressLine3: mailingAddress.addressLine3 || '',
+          city: mailingAddress.city || '',
+          state: mailingAddress.state || '',
+          zipCode: mailingAddress.zipCode || '',
+        };
       }
     }
 

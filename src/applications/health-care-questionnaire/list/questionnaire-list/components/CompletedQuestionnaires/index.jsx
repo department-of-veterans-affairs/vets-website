@@ -10,6 +10,7 @@ import PrintButton from '../../../../shared/components/print/PrintButton';
 import {
   appointmentSelector,
   organizationSelector,
+  questionnaireResponseSelector,
 } from '../../../../shared/utils/selectors';
 
 const index = props => {
@@ -26,16 +27,23 @@ const index = props => {
               }
             />
           ) : (
+            // eslint-disable-next-line jsx-a11y/no-redundant-roles
             <ol
               data-testid="questionnaire-list"
               className="questionnaire-list completed"
+              role="list"
             >
               {questionnaires.map(data => {
                 const { questionnaire, appointment, organization } = data;
                 const facilityName = organizationSelector.getName(organization);
-                const appointmentTime = appointmentSelector.getStartTime(
+                const appointmentTime = appointmentSelector.getStartDateTime(
                   appointment,
                 );
+
+                const qr = questionnaireResponseSelector.getQuestionnaireResponse(
+                  questionnaire[0].questionnaireResponse,
+                );
+
                 return (
                   <QuestionnaireItem
                     key={appointment.id}
@@ -45,19 +53,32 @@ const index = props => {
                         displayArrow={false}
                         facilityName={facilityName}
                         appointmentTime={appointmentTime}
+                        questionnaireResponseId={qr.id}
                       />
                     )}
-                    DueDate={() => (
-                      <p className="completed-date">
-                        Submitted on
-                        <br />
-                        <span className={`vads-u-font-weight--bold`}>
-                          {moment(
-                            questionnaire[0].questionnaireResponse.submittedOn,
-                          ).format('dddd, MMMM D, YYYY')}
-                        </span>
-                      </p>
-                    )}
+                    DueDate={() => {
+                      if (!qr.submittedOn) {
+                        return <p className="completed-date" />;
+                      } else {
+                        return (
+                          <>
+                            <dt className="vads-u-margin-top--1p5">
+                              Submitted on
+                            </dt>
+                            <dd>
+                              {moment(qr.submittedOn).format('dddd')}{' '}
+                              <time
+                                dateTime={moment(qr.submittedOn).format(
+                                  'YYYY-MM-DDTHH:MM',
+                                )}
+                              >
+                                {moment(qr.submittedOn).format('MMMM D, YYYY')}
+                              </time>
+                            </dd>
+                          </>
+                        );
+                      }
+                    }}
                   />
                 );
               })}

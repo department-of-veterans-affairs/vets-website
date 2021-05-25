@@ -3,12 +3,17 @@
  * @module services/Appointment
  */
 import moment from 'moment';
+import * as Sentry from '@sentry/browser';
 import {
+  getCancelReasons,
   getConfirmedAppointment,
   getConfirmedAppointments,
   getPendingAppointment,
   getPendingAppointments,
+  updateAppointment,
+  updateRequest,
 } from '../var';
+import { postAppointment } from '../vaos';
 import {
   transformConfirmedAppointment,
   transformConfirmedAppointments,
@@ -20,7 +25,13 @@ import {
   APPOINTMENT_TYPES,
   APPOINTMENT_STATUS,
   VIDEO_TYPES,
+  GA_PREFIX,
 } from '../../utils/constants';
+import { formatFacilityAddress, getFacilityPhone } from '../location';
+import { transformVAOSAppointment } from './transformers.vaos';
+import recordEvent from 'platform/monitoring/record-event';
+import { captureError, has400LevelError } from '../../utils/error';
+import { resetDataLayer } from '../../utils/events';
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
@@ -183,6 +194,10 @@ export async function fetchBookedAppointment(id, type) {
           .toISOString(),
       );
       appointment = data.find(appt => appt.id === id);
+
+      if (!appointment) {
+        appointment = await getConfirmedAppointment(id, 'va');
+      }
     }
 
     if (!appointment) {
@@ -207,51 +222,7 @@ export async function fetchBookedAppointment(id, type) {
  * @returns {Boolean} Whether or not the appointment is by phone
  */
 export function isVAPhoneAppointment(appointment) {
-  return appointment.vaos.isPhoneAppointment;
-}
-
-/**
- * Gets legacy VAR facility id from HealthcareService reference
- *
- * @param {Appointment} appointment VAR Appointment in FHIR schema
- * @returns {string} Legacy VAR facility id
- */
-export function getVARFacilityId(appointment) {
-  if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    if (appointment.vaos?.isVideo) {
-      return appointment.legacyVAR.apiData.facilityId;
-    }
-
-    const id = appointment.participant?.[0]?.actor?.reference
-      ?.split('/')?.[1]
-      ?.split('_')?.[0];
-
-    if (id) {
-      return id;
-    }
-
-    return null;
-  }
-
-  return null;
-}
-
-/**
- * Gets legacy var clinic id from HealthcareService reference
- *
- * @param {Appointment} appointment VAR Appointment in FHIR schema
- * @returns {string} Legacy VAR clinic id
- */
-export function getVARClinicId(appointment) {
-  if (appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment) {
-    const id = appointment.participant?.[0]?.actor?.reference
-      ?.split('/')?.[1]
-      ?.split('_')?.[1];
-
-    return id || null;
-  }
-
-  return null;
+  return appointment?.vaos.isPhoneAppointment;
 }
 
 /**
@@ -266,18 +237,10 @@ export function getVAAppointmentLocationId(appointment) {
     appointment?.vaos.isVideo &&
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment
   ) {
-    return appointment.videoData.facilityId;
+    return appointment?.location.vistaId;
   }
 
-  const locationReference = appointment?.participant?.find(p =>
-    p.actor.reference?.startsWith('Location'),
-  )?.actor?.reference;
-
-  if (locationReference) {
-    return locationReference.split('/')[1];
-  }
-
-  return null;
+  return appointment?.location.stationId;
 }
 /**
  * Returns the patient telecom info in a VA appointment
@@ -285,12 +248,21 @@ export function getVAAppointmentLocationId(appointment) {
  * @export
  * @param {Appointment} appointment A FHIR appointment resource
  * @param {string} system A FHIR telecom system id
- * @returns {string} The patient telecome value
+ * @returns {string} The patient telecom value
  */
 export function getPatientTelecom(appointment, system) {
-  return appointment?.contained
-    .find(res => res.resourceType === 'Patient')
-    ?.telecom?.find(t => t.system === system)?.value;
+  return appointment?.contact?.telecom.find(t => t.system === system)?.value;
+}
+
+/**
+ * Returns whether or not the facility has a COVID vaccine phone line
+ *
+ * @export
+ * @param {Object} facility A facility resource
+ * @returns {Boolean} Whether or not the facility has a COVID vaccine phone line
+ */
+export function hasValidCovidPhoneNumber(facility) {
+  return !!facility?.telecom?.find(tele => tele.system === 'covid')?.value;
 }
 
 /**
@@ -302,31 +274,8 @@ export function getPatientTelecom(appointment, system) {
 export function isValidPastAppointment(appt) {
   return (
     appt.vaos.appointmentType !== APPOINTMENT_TYPES.vaAppointment ||
-    !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)
-  );
-}
-
-/**
- * Checks to see if the appointment is either an appointment that does
- * not have one of the excluded statuses for past appointments or an
- * Express Care request that is either resolved or old enough to show
- *
- * @param {Appointment} appt A FHIR appointment resource
- * @returns {boolean} Whether or not the appt should be shown
- */
-export function isValidPastAppointmentOrExpressCare(appt) {
-  return (
-    // Show any fulfilled EC request
-    (appt.vaos.isExpressCare && appt.status === APPOINTMENT_STATUS.fulfilled) ||
-    // Only show non-fulfilled EC requests if they're more than 2 days old
-    (appt.vaos.isExpressCare &&
-      appt.status !== APPOINTMENT_STATUS.fulfilled &&
-      moment(appt.created).isBefore(moment().subtract(2, 'days'))) ||
-    // Show any VA appointment that doesn't have a status in our hidden list
-    (appt.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
-      !PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description)) ||
-    // Show any booked community care appointment
-    appt.vaos.appointmentType === APPOINTMENT_TYPES.ccAppointment
+    (!PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
+      !appt.vaos.isExpressCare)
   );
 }
 
@@ -361,23 +310,37 @@ export function isUpcomingAppointmentOrRequest(appt) {
   });
 
   return (
-    appt.status === APPOINTMENT_STATUS.proposed ||
-    appt.status === APPOINTMENT_STATUS.pending ||
-    (appt.status === APPOINTMENT_STATUS.cancelled &&
-      (hasValidDate || appt.vaos.isExpressCare))
+    !appt.vaos.isExpressCare &&
+    (appt.status === APPOINTMENT_STATUS.proposed ||
+      appt.status === APPOINTMENT_STATUS.pending ||
+      (appt.status === APPOINTMENT_STATUS.cancelled && hasValidDate))
+  );
+}
+/**
+ * Returns cancelled and pending requests, which should be visible to users
+ *
+ * @export
+ * @param {Appointment} appt The appointment to check
+ * @returns {Boolean} If the appointment should be shown or not
+ */
+export function isPendingOrCancelledRequest(appt) {
+  return (
+    !appt.vaos.isExpressCare &&
+    (appt.status === APPOINTMENT_STATUS.proposed ||
+      appt.status === APPOINTMENT_STATUS.pending ||
+      appt.status === APPOINTMENT_STATUS.cancelled)
   );
 }
 
 /**
  * Returns true if the given Appointment is a confirmed appointment
- * or an Express Care request
  *
  * @export
  * @param {Appointment} appt The FHIR Appointment to check
  * @returns {boolean} Whether or not the appointment is a valid upcoming
- *  appointment or Express Care request
+ *  appointment
  */
-export function isUpcomingAppointmentOrExpressCare(appt) {
+export function isUpcomingAppointment(appt) {
   if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
     const apptDateTime = moment(appt.start);
 
@@ -394,34 +357,21 @@ export function isUpcomingAppointmentOrExpressCare(appt) {
     );
   }
 
-  return (
-    appt.vaos.isExpressCare &&
-    appt.status !== APPOINTMENT_STATUS.fulfilled &&
-    moment(appt.start).isAfter(
-      // going one day back to account for late in the day EC requests
-      moment()
-        .startOf('day')
-        .add(-1, 'day'),
-    )
-  );
+  return false;
 }
 
 /**
  * Returns true if the given Appointment is a canceled confirmed appointment
- * or a canceled Express Care request
  *
  * @export
  * @param {Appointment} appt The FHIR Appointment to check
  * @returns {boolean} Whether or not the appointment is a canceled
- *  appointment or Express Care request
+ *  appointment
  */
-export function isCanceledConfirmedOrExpressCare(appt) {
+export function isCanceledConfirmed(appt) {
   const today = moment();
 
-  if (
-    CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) ||
-    appt.vaos.isExpressCare
-  ) {
+  if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
     const apptDateTime = moment(appt.start);
 
     return (
@@ -520,42 +470,26 @@ export function sortMessages(a, b) {
  * @return {boolean} Returns whether or not the appointment is a home video appointment.
  */
 export function isVideoHome(appointment) {
-  const { isAtlas, kind } = appointment.videoData || {};
+  const { isAtlas, kind } = appointment?.videoData || {};
   return (
     !isAtlas && (kind === VIDEO_TYPES.mobile || kind === VIDEO_TYPES.adhoc)
   );
 }
 
 /**
- * Method to check for the existence of a practitioner
- * @param {Appointment} appointment An appointment resource
- * @return {boolean} Returns whether or not the appointment has a practitioner.
+ * Get the name of the first preferred community care provider, or generic text
+ *
+ * @param {Appointment} appointment An appointment object
+ * @return {String} Returns the community care provider name
  */
-export function hasPractitioner(appointment) {
-  return !!appointment?.participant?.some(item =>
-    item.actor?.reference?.includes('Practitioner'),
-  );
-}
+export function getPreferredCommunityCareProviderName(appointment) {
+  const provider = appointment?.preferredCommunityCareProviders?.[0];
 
-/**
- * Method to parse out the appointment practitioner of participants array
- * @param {Array} participants An array of appointment participants
- * @return {string} Returns the appointment practitioner display value.
- */
-export function getPractitionerDisplay(participants) {
-  return participants?.find(p => p.actor.reference.includes('Practitioner'))
-    .actor.display;
-}
+  if (provider) {
+    return provider.practiceName || provider.providerName;
+  }
 
-/**
- * Method to parse out the appointment practitioner location display in contained array
- * @param {Array} participants An array of appointment participants
- * @return {Object} Returns the appointment practitioner object.
- */
-export function getPractitionerLocationDisplay(appointment) {
-  return appointment.contained?.find(c =>
-    c.resourceType.includes('Practitioner'),
-  )?.practitionerRole?.[0]?.location?.[0]?.display;
+  return 'Community care';
 }
 
 /**
@@ -587,4 +521,266 @@ export function groupAppointmentsByMonth(appointments) {
   });
 
   return appointmentsByMonth;
+}
+
+export async function createAppointment({ appointment }) {
+  const result = await postAppointment(appointment);
+
+  return transformVAOSAppointment(result);
+}
+
+const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
+const CANCELLED_REQUEST = 'Cancelled';
+async function cancelRequestedAppointment(request) {
+  const additionalEventData = {
+    appointmentType: 'pending',
+    facilityType: request.vaos?.isCommunityCare ? 'cc' : 'va',
+  };
+
+  recordEvent({
+    event: eventPrefix,
+    ...additionalEventData,
+  });
+
+  try {
+    const updatedRequest = await updateRequest({
+      ...request.vaos.apiData,
+      status: CANCELLED_REQUEST,
+      appointmentRequestDetailCode: ['DETCODE8'],
+    });
+
+    recordEvent({
+      event: `${eventPrefix}-successful`,
+      ...additionalEventData,
+    });
+    resetDataLayer();
+
+    return transformPendingAppointment(updatedRequest);
+  } catch (e) {
+    captureError(e, true);
+    recordEvent({
+      event: `${eventPrefix}-failed`,
+      ...additionalEventData,
+    });
+    resetDataLayer();
+
+    throw e;
+  }
+}
+
+const UNABLE_TO_KEEP_APPT = '5';
+const VALID_CANCEL_CODES = new Set(['4', '5', '6']);
+async function cancelBookedAppointment(appointment) {
+  const additionalEventData = {
+    appointmentType: 'confirmed',
+    facilityType: 'va',
+  };
+
+  recordEvent({
+    event: eventPrefix,
+    ...additionalEventData,
+  });
+  let cancelReasons;
+  let cancelReason;
+
+  try {
+    const cancelData = {
+      appointmentTime: moment
+        .parseZone(appointment.start)
+        .format('MM/DD/YYYY HH:mm:ss'),
+      clinicId: appointment.location.clinicId,
+      facilityId: appointment.location.vistaId,
+      remarks: '',
+      // Grabbing this from the api data because it's not clear if
+      // we have to send the real name or if the friendly name is ok
+      clinicName: appointment.vaos.apiData.vdsAppointments[0].clinic.name,
+      cancelCode: 'PC',
+    };
+
+    cancelReasons = await getCancelReasons(appointment.location.vistaId);
+
+    if (cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)) {
+      cancelReason = UNABLE_TO_KEEP_APPT;
+      await updateAppointment({
+        ...cancelData,
+        cancelReason,
+      });
+    } else if (
+      cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason.number))
+    ) {
+      cancelReason = cancelReasons.find(reason =>
+        VALID_CANCEL_CODES.has(reason.number),
+      );
+      await updateAppointment({
+        ...cancelData,
+        cancelReason: cancelReason.number,
+      });
+    } else {
+      throw new Error('Unable to find valid cancel reason');
+    }
+
+    recordEvent({
+      event: `${eventPrefix}-successful`,
+      ...additionalEventData,
+    });
+    resetDataLayer();
+  } catch (e) {
+    const isVaos400Error = has400LevelError(e);
+    if (isVaos400Error) {
+      Sentry.withScope(scope => {
+        scope.setExtra('error', e);
+        scope.setExtra('cancelReasons', cancelReasons);
+        scope.setExtra('cancelReason', cancelReason);
+        Sentry.captureMessage('Cancel failed due to bad request');
+      });
+    } else {
+      captureError(e, true);
+    }
+
+    recordEvent({
+      event: `${eventPrefix}-failed`,
+      ...additionalEventData,
+    });
+    resetDataLayer();
+
+    throw e;
+  }
+}
+/**
+ * Cancels an appointment or request
+ *
+ * @export
+ * @param {Object} params
+ * @param {Appointment} params.appointment The appointment to cancel
+ * @returns {?Appointment} Returns either null or the updated appointment data
+ */
+export async function cancelAppointment({ appointment }) {
+  const isConfirmedAppointment =
+    appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
+
+  if (isConfirmedAppointment) {
+    return cancelBookedAppointment(appointment);
+  } else {
+    return cancelRequestedAppointment(appointment);
+  }
+}
+
+/**
+ * Get scheduled appointment information needed for generating
+ * an .ics file.
+ *
+ * @export
+ * @param {Appointment} Appointment object, facility object
+ * @param {Facility} Facility object
+ * @returns An object containing appointment information.
+ */
+export function getCalendarData({ appointment, facility }) {
+  let data = {};
+  const isAtlas = appointment?.videoData.isAtlas;
+  const isHome = isVideoHome(appointment);
+  const videoKind = appointment?.videoData.kind;
+  const isVideo = appointment?.vaos.isVideo;
+  const isCommunityCare = appointment?.vaos.isCommunityCare;
+  const isPhone = isVAPhoneAppointment(appointment);
+  const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
+  const signinText =
+    'Sign in to https://va.gov/health-care/schedule-view-va-appointments/appointments to get details about this appointment';
+
+  if (isPhone) {
+    data = {
+      summary: 'Phone appointment',
+      providerName: facility?.name,
+      location: formatFacilityAddress(facility),
+      text: `A provider will call you at ${moment
+        .parseZone(appointment.start)
+        .format('h:mm a')}`,
+      phone: getFacilityPhone(facility),
+      additionalText: [signinText],
+    };
+  } else if (isInPersonVAAppointment) {
+    data = {
+      summary: `Appointment at ${facility?.name}`,
+      location: formatFacilityAddress(facility),
+      text: `You have a health care appointment at ${facility?.name}`,
+      phone: getFacilityPhone(facility),
+      additionalText: [signinText],
+    };
+  } else if (isCommunityCare) {
+    let { providerName, practiceName } =
+      appointment.communityCareProvider || {};
+    let summary = 'Community care appointment';
+
+    // Check if providerName is all spaces.
+    providerName = providerName?.trim().length ? providerName : '';
+    practiceName = practiceName?.trim().length ? practiceName : '';
+    if (providerName || practiceName) {
+      summary = `Appointment at ${providerName || practiceName}`;
+    }
+
+    data = {
+      summary,
+      providerName: `${providerName || practiceName}`,
+      location: `${formatFacilityAddress(appointment?.communityCareProvider)}`,
+      text:
+        'You have a health care appointment with a community care provider. Please don’t go to your local VA health facility.',
+      phone: `${getFacilityPhone(appointment?.communityCareProvider)}`,
+      additionalText: [signinText],
+    };
+  } else if (isVideo) {
+    const providerName = appointment.videoData?.providers
+      ? appointment.videoData.providers[0]?.display
+      : '';
+    const providerText = providerName
+      ? `You'll be meeting with ${providerName}`
+      : '';
+
+    if (isHome) {
+      data = {
+        summary: 'VA Video Connect appointment',
+        text:
+          'You can join this meeting up to 30 minutes before the start time.',
+        location: 'VA Video Connect at home',
+        additionalText: ['Sign in to VA.gov to join this meeting'],
+      };
+    } else if (isAtlas) {
+      const { atlasLocation } = appointment.videoData;
+
+      if (atlasLocation?.address) {
+        data = {
+          summary: `VA Video Connect appointment at an ATLAS facility`,
+          location: formatFacilityAddress(atlasLocation),
+          text: 'Join this video meeting from this ATLAS (non-VA) location:',
+          additionalText: [
+            `Your appointment code is ${
+              appointment.videoData.atlasConfirmationCode
+            }. Use this code to find your appointment on the computer at the ATLAS facility.`,
+          ],
+        };
+
+        if (providerName)
+          data.additionalText.push(`You'll be meeting with ${providerName}`);
+      }
+    } else if (videoKind === VIDEO_TYPES.clinic) {
+      data = {
+        summary: `VA Video Connect appointment at ${facility?.name}`,
+        providerName: facility?.name,
+        location: formatFacilityAddress(facility),
+        text: 'You need to join this video meeting from:',
+        phone: `${getFacilityPhone(facility)}`,
+      };
+
+      if (providerName) data.additionalText = [providerText, signinText];
+      else data.additionalText = [signinText];
+    } else if (videoKind === VIDEO_TYPES.gfe) {
+      data = {
+        summary: 'VA Video Connect appointment using a VA device',
+        location: '',
+        text: 'Join this video meeting using a device provided by VA.',
+      };
+
+      if (providerName) data.additionalText = [providerText];
+    }
+  }
+
+  return data;
 }

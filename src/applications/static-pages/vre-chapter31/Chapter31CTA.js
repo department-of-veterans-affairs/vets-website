@@ -29,10 +29,10 @@ const Chapter31CTA = props => {
     content = (
       <>
         <a
-          href="/careers-employment/vocational-rehabilitation/apply"
+          href="/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900"
           className="usa-button-primary va-button-primary"
         >
-          Apply for Veteran Readiness and Employment
+          Apply for VR&E benefits
         </a>
       </>
     );

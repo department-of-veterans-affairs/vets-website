@@ -56,6 +56,9 @@ describe('Schemaform <FileField>', () => {
         .first()
         .text(),
     ).to.contain('Upload');
+    expect(tree.find('span[role="button"]').props()['aria-label']).to.contain(
+      'Upload Files',
+    );
     tree.unmount();
   });
   it('should render files', () => {
@@ -377,7 +380,7 @@ describe('Schemaform <FileField>', () => {
     expect(tree.find('label').exists()).to.be.false;
     tree.unmount();
   });
-  it('should not render upload button on review & submit page while in review mode', () => {
+  it('should not render upload or delete button on review & submit page while in review mode', () => {
     const idSchema = {
       $id: 'field',
     };
@@ -415,6 +418,48 @@ describe('Schemaform <FileField>', () => {
     );
 
     expect(tree.find('label').exists()).to.be.false;
+    expect(tree.find('button.usa-button-secondary').exists()).to.be.false;
+    tree.unmount();
+  });
+  it('should render upload or delete button on review & submit page while in edit mode', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files');
+    const formData = [
+      {
+        confirmationCode: 'asdfds',
+        name: 'Test file name',
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={{ reviewMode: false }}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.find('label').exists()).to.be.true;
+    expect(tree.find('button.usa-button-secondary').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -794,6 +839,84 @@ describe('Schemaform <FileField>', () => {
 
     // expect dl wrapper on review page
     expect(tree.find('dl.review').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should render schema title', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      title: 'schema title',
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI(<p>uiSchema title</p>);
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    expect(tree.find('span[role="button"]').props()['aria-label']).to.contain(
+      'schema title',
+    );
+    tree.unmount();
+  });
+
+  it('should render cancel button with secondary class', () => {
+    const idSchema = {
+      $id: 'field',
+    };
+    const schema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+    };
+    const uiSchema = fileUploadUI('Files');
+    const formData = [
+      {
+        uploading: true,
+      },
+    ];
+    const registry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+    const tree = shallow(
+      <FileField
+        registry={registry}
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={idSchema}
+        formData={formData}
+        formContext={formContext}
+        onChange={f => f}
+        requiredSchema={requiredSchema}
+      />,
+    );
+
+    const cancelButton = tree.find('button.usa-button-secondary');
+    expect(cancelButton.text()).to.equal('Cancel');
     tree.unmount();
   });
 });

@@ -437,37 +437,17 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('accredited')}
         elementToFocusOnClose="accredited-button"
       >
-        <h3>Is your school accredited</h3>
+        <h3>Accreditation and why it matters</h3>
+        <p>
+          The goal of accreditation is to ensure that the education provided by
+          institutions of higher education meets acceptable levels of quality.
+          Schools can be accredited by private educational associations of
+          regional or national scope.
+        </p>
         <p>
           Accreditation matters if you plan to start school at one institution
           and transfer to another to complete your degree. Be sure to ask any
-          potential school about their credit transfer policy. The U.S.
-          Department of Education (ED) maintains a&nbsp;
-          <a
-            href="http://ope.ed.gov/accreditation/"
-            id="anch_384"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            database
-          </a>
-          &nbsp;of accredited postsecondary institutions and programs.
-          Accreditation is a recognized credential for schools and some
-          programs. As stated by the ED, the goal of accreditation is to ensure
-          that the education provided by institutions of higher education meets
-          acceptable levels of quality.
-        </p>
-        <p>
-          To learn more about accreditation, visit the{' '}
-          <a
-            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {' '}
-            about this tool
-          </a>{' '}
-          page.{' '}
+          potential school about their credit transfer policy.
         </p>
       </Modal>
 

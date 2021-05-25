@@ -1,19 +1,11 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
-import recordEvent from 'platform/monitoring/record-event';
-
-import * as actions from '../../redux/actions';
-import { selectExpressCareAvailability } from '../../redux/selectors';
 import {
   selectFeatureRequests,
   selectIsWelcomeModalDismissed,
-  selectIsCernerOnlyPatient,
 } from '../../../redux/selectors';
-import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import RequestExpressCare from './RequestExpressCareV2';
 import RequestedAppointmentsList from '../RequestedAppointmentsList';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
 import PastAppointmentsListV2 from '../PastAppointmentsListV2';
@@ -53,25 +45,16 @@ function getDropdownValueFromLocation(pathname) {
   }
 }
 
-function AppointmentsPageV2({
-  expressCare,
-  fetchExpressCareWindows,
-  isCernerOnlyPatient,
-  isWelcomeModalDismissed,
-  showScheduleButton,
-  startNewExpressCareFlow,
-}) {
+export default function AppointmentsPageV2() {
   const location = useLocation();
+  const [hasTypeChanged, setHasTypeChanged] = useState(false);
+  const showScheduleButton = useSelector(state => selectFeatureRequests(state));
+  const isWelcomeModalDismissed = useSelector(state =>
+    selectIsWelcomeModalDismissed(state),
+  );
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
-
-    if (
-      expressCare.useNewFlow &&
-      expressCare.windowsStatus === FETCH_STATUS.notStarted
-    ) {
-      fetchExpressCareWindows();
-    }
   }, []);
 
   useEffect(
@@ -84,15 +67,6 @@ function AppointmentsPageV2({
   );
   const history = useHistory();
 
-  const routes = (
-    <Switch>
-      <Route exact path="/" component={UpcomingAppointmentsList} />
-      <Route path="/requested" component={RequestedAppointmentsList} />
-      <Route path="/past" component={PastAppointmentsListV2} />
-      <Route path="/canceled" component={CanceledAppointmentsList} />
-    </Switch>
-  );
-
   function onDropdownChange(e) {
     const value = e.target.value;
     if (value === DROPDOWN_VALUES.upcoming) {
@@ -104,7 +78,10 @@ function AppointmentsPageV2({
     } else if (value === DROPDOWN_VALUES.canceled) {
       history.push('/canceled');
     }
+    setHasTypeChanged(true);
   }
+
+  const dropdownValue = getDropdownValueFromLocation(location.pathname);
 
   return (
     <>
@@ -117,21 +94,7 @@ function AppointmentsPageV2({
           <WarningNotification {...props}>{childContent}</WarningNotification>
         )}
       />
-
       {showScheduleButton && <ScheduleNewAppointmentRadioButtons />}
-
-      {expressCare.useNewFlow &&
-        !isCernerOnlyPatient && (
-          <RequestExpressCare
-            {...expressCare}
-            startNewExpressCareFlow={() => {
-              recordEvent({
-                event: `${GA_PREFIX}-express-care-request-button-clicked`,
-              });
-              startNewExpressCareFlow();
-            }}
-          />
-        )}
       <h2 className="vads-u-margin-y--3">Your appointments</h2>
       <label
         htmlFor="type-dropdown"
@@ -143,33 +106,22 @@ function AppointmentsPageV2({
         options={options}
         onChange={onDropdownChange}
         id="type-dropdown"
-        value={getDropdownValueFromLocation(location.pathname)}
+        value={dropdownValue}
       />
-      {routes}
+      <Switch>
+        <Route exact path="/">
+          <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
+        </Route>
+        <Route path="/requested">
+          <RequestedAppointmentsList hasTypeChanged={hasTypeChanged} />
+        </Route>
+        <Route path="/past">
+          <PastAppointmentsListV2 hasTypeChanged={hasTypeChanged} />
+        </Route>
+        <Route path="/canceled">
+          <CanceledAppointmentsList hasTypeChanged={hasTypeChanged} />
+        </Route>
+      </Switch>
     </>
   );
 }
-
-AppointmentsPageV2.propTypes = {
-  isCernerOnlyPatient: PropTypes.bool.isRequired,
-  isWelcomeModalDismissed: PropTypes.bool.isRequired,
-};
-
-function mapStateToProps(state) {
-  return {
-    showScheduleButton: selectFeatureRequests(state),
-    isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    expressCare: selectExpressCareAvailability(state),
-  };
-}
-
-const mapDispatchToProps = {
-  fetchExpressCareWindows: actions.fetchExpressCareWindows,
-  startNewExpressCareFlow: actions.startNewExpressCareFlow,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AppointmentsPageV2);

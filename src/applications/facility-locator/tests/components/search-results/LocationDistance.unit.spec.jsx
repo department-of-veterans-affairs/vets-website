@@ -35,4 +35,12 @@ describe('LocationDistance', () => {
 
     wrapper.unmount();
   });
+
+  it('renders nothing if neither distance nor marketText is provided', () => {
+    const wrapper = shallow(<LocationDistance />);
+
+    expect(wrapper.html()).to.be.null;
+
+    wrapper.unmount();
+  });
 });

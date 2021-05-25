@@ -14,7 +14,6 @@ import parentFacilities from '../../services/mocks/var/facilities.json';
 
 import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES } from '../../utils/constants';
-import { waitFor } from '@testing-library/dom';
 
 const userState = {
   user: {
@@ -156,11 +155,6 @@ describe('VAOS newAppointmentFlow', () => {
           state,
           dispatch,
         );
-
-        await waitFor(() => {
-          const dataLayer = global.window.dataLayer;
-          expect(dataLayer[0].event).to.not.equal('vaos-cc-eligible-yes');
-        });
 
         expect(nextState).to.equal('typeOfCare');
       });
@@ -370,10 +364,7 @@ describe('VAOS newAppointmentFlow', () => {
             ...defaultState.newAppointment,
             eligibility: {
               '983_323': {
-                directSupported: true,
-                directPastVisit: true,
-                directPACT: true,
-                directClinics: true,
+                direct: true,
               },
             },
           },
@@ -398,13 +389,8 @@ describe('VAOS newAppointmentFlow', () => {
             ...defaultState.newAppointment,
             eligibility: {
               '983_323': {
-                directSupported: false,
-                directPastVisit: true,
-                directPACT: true,
-                directClinics: true,
-                requestSupported: false,
-                requestPastVisit: true,
-                requestLimit: true,
+                direct: false,
+                request: false,
               },
             },
           },
@@ -428,13 +414,8 @@ describe('VAOS newAppointmentFlow', () => {
             ...defaultState.newAppointment,
             eligibility: {
               '983_323': {
-                directSupported: true,
-                directPastVisit: false,
-                directPACT: true,
-                directClinics: true,
-                requestSupported: true,
-                requestPastVisit: true,
-                requestLimit: true,
+                direct: false,
+                request: true,
               },
             },
           },

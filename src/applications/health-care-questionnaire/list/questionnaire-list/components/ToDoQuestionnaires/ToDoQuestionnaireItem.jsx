@@ -18,10 +18,11 @@ export default function ToDoQuestionnaireItem({ data }) {
   const isCancelled = isAppointmentCancelled(appointmentStatus);
 
   const facilityName = organizationSelector.getName(organization);
-  const appointmentTime = appointmentSelector.getStartTime(appointment);
-  const questionnaireResponseStatus = questionnaireResponseSelector.getStatus(
+  const appointmentTime = appointmentSelector.getStartDateTime(appointment);
+  const questionnaireResponse = questionnaireResponseSelector.getQuestionnaireResponse(
     questionnaire[0].questionnaireResponse,
   );
+  const questionnaireResponseStatus = questionnaireResponse?.status;
   return (
     <QuestionnaireItem
       data={data}
@@ -35,6 +36,7 @@ export default function ToDoQuestionnaireItem({ data }) {
           <PrintButton
             facilityName={facilityName}
             appointmentTime={appointmentTime}
+            questionnaireResponseId={questionnaireResponse?.id}
           />
         ) : (
           <AnswerQuestions
@@ -43,29 +45,48 @@ export default function ToDoQuestionnaireItem({ data }) {
             facilityName={facilityName}
             appointmentTime={appointmentTime}
             status={questionnaireResponseStatus}
+            useActionLink
           />
         )
       }
       DueDate={() => {
+        if (!appointmentTime)
+          return (
+            <section className="due-date" data-testid="due-date">
+              <p />
+            </section>
+          );
+        const displayTime = appointmentSelector.getStartTimeInTimeZone(
+          appointment,
+        );
+
+        const timeTagTime = appointmentSelector.getStartTimeInTimeZone(
+          appointment,
+          {
+            timeZone: 'America/Los_Angeles',
+            momentFormat: `YYYY-MM-DDTh:mm`,
+          },
+        );
         const dueDate = moment(appointmentTime);
-        const guess = moment.tz.guess();
-        const formattedTimezone = moment.tz(guess).format('z');
-        const meridiem = dueDate.hours() > 12 ? 'p.m.' : 'a.m.';
         return (
-          <section className="due-date" data-testid="due-date">
-            <p>{isCancelled ? 'Access until' : 'Complete by'}</p>
-            <p className="vads-u-font-weight--bold">
-              {dueDate.format('dddd, MMMM D, YYYY')}
-            </p>
-            {!isCancelled && (
-              <p
-                className="vads-u-font-weight--bold"
-                data-testid="due-by-timestamp"
-              >
-                {dueDate.format(`h:mm`)} {meridiem} {formattedTimezone}
-              </p>
-            )}
-          </section>
+          <>
+            <dt
+              className="vads-u-margin-top--1p5"
+              data-testid="due-instructions"
+            >
+              {isCancelled ? 'Access until' : 'Complete by'}
+            </dt>
+
+            <dd data-testid="due-date" className="due-date">
+              {dueDate.format('dddd')}{' '}
+              <time dateTime={timeTagTime}>
+                {dueDate.format('MMMM D, YYYY')}
+                {!isCancelled && (
+                  <span data-testid="due-by-timestamp"> at {displayTime}</span>
+                )}
+              </time>
+            </dd>
+          </>
         );
       }}
     />

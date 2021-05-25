@@ -11,10 +11,13 @@ const DebtError = () => {
   }, []);
 
   return (
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
-      <p className="vads-u-margin-top--0">
+    <div className=" vads-u-padding--2 vads-u-margin-top--2">
+      <h2
+        className="vads-u-margin-top--0 vads-u-font-size--h6 vads-u-font-weight--normal vads-u-font-family--sans"
+        id="wizard-results"
+      >
         Based on the information you provided, this isn’t the form you need.
-      </p>
+      </h2>
       <p>
         <strong>
           If you think your debt or the amount of your debt is due to an error,

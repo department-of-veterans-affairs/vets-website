@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 const SubmitLoadingIndicator = ({ submission }) => {
@@ -39,8 +39,8 @@ const SubmitLoadingIndicator = ({ submission }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  submission: state.form.submission,
-});
+SubmitLoadingIndicator.propTypes = {
+  submission: PropTypes.object.isRequired,
+};
 
-export default connect(mapStateToProps)(SubmitLoadingIndicator);
+export default SubmitLoadingIndicator;

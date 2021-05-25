@@ -19,6 +19,7 @@ export const uiSchema = {
         hideLabelText: true,
       },
       'ui:reviewWidget': ReviewWidget,
+      'ui:required': () => true,
     },
   },
 };

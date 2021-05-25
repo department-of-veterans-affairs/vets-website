@@ -75,9 +75,9 @@ describe('<NameTag>', () => {
     },
   );
   context(
-    'when `showUpdatedNameTag` flag is `true` and `totalDisabilityRating` is not set',
+    "when `showUpdatedNameTag` flag is `true`, `totalDisabilityRating` is not set and there isn't a server error",
     () => {
-      it('should not render the disability rating', () => {
+      it('should not render the disability rating or a fallback link', () => {
         const initialState = getInitialState();
         const view = render(
           <NameTag showUpdatedNameTag totalDisabilityRating={null} />,
@@ -94,12 +94,16 @@ describe('<NameTag>', () => {
     },
   );
   context(
-    'when `showUpdatedNameTag` flag is `true` and `totalDisabilityRatingError` is `true`',
+    'when `showUpdatedNameTag` flag is `true`, `totalDisabilityRating` is not set and there is a server error',
     () => {
       it('should render a fallback link', () => {
         const initialState = getInitialState();
         const view = render(
-          <NameTag showUpdatedNameTag totalDisabilityRatingError />,
+          <NameTag
+            showUpdatedNameTag
+            totalDisabilityRating={null}
+            totalDisabilityRatingServerError
+          />,
           { initialState },
         );
         expect(view.queryByText(/your disability rating:/i)).to.not.exist;

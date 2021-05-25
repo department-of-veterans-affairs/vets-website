@@ -7,7 +7,7 @@ import { selectCurrentAppointment } from '../../../shared/redux-selectors';
 
 const ExpiresAt = props => {
   const { onChange, appointment } = props;
-  const time = appointmentSelector.getStartTime(appointment);
+  const time = appointmentSelector.getStartDateTime(appointment);
   const currentValue = time;
   const [diff, setDiff] = useState(60);
   useEffect(

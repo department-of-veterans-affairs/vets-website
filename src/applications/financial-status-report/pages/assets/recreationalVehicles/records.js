@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
+import CustomReviewField from '../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
@@ -35,11 +36,13 @@ export const uiSchema = {
         doNotScroll: true,
         showSave: true,
         itemName: 'trailer, camper, or boat',
+        keepInPageOnReview: true,
       },
       items: {
         recreationalVehicleType: {
           'ui:title': 'Type of vehicle',
           'ui:field': Typeahead,
+          'ui:reviewField': CustomReviewField,
           'ui:options': {
             idPrefix: 'rec_vehicles',
             classNames:
@@ -72,7 +75,6 @@ export const schema = {
           type: 'array',
           items: {
             type: 'object',
-            title: 'Recreational vehicle',
             required: ['recreationalVehicleType', 'recreationalVehicleAmount'],
             properties: {
               recreationalVehicleType: {

@@ -69,7 +69,7 @@ describe('Report 674 student personal information', () => {
     fillData(form, 'input#root_studentNameAndSsn_ssn', '555-55-5551');
     changeDropdown(form, 'select#root_studentNameAndSsn_birthDateMonth', 1);
     changeDropdown(form, 'select#root_studentNameAndSsn_birthDateDay', 1);
-    selectRadio(form, 'root_studentNameAndSsn_isParentOrGuardian', 'N');
+    selectRadio(form, 'root_studentNameAndSsn_isParent', 'N');
     fillData(form, 'input#root_studentNameAndSsn_birthDateYear', '2002');
 
     form.find('form').simulate('submit');

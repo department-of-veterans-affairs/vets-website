@@ -30,21 +30,22 @@ export class ConfirmationPage extends React.Component {
         </p>
         <h2>When can I get a COVID-19 at VA?</h2>
         <p>
-          At this time, we still have a limited amount of vaccines. We’re
-          working to determine how quickly we can begin to offer vaccines
-          to people other than Veterans who are already enrolled in VA health
-          care. We appreciate your patience as we prepare to offer more
-          vaccines.
+          At this time, some VA health facilities have a limited amount of
+          vaccines. We’re working to determine how quickly we can begin to offer
+          vaccines to people other than Veterans who are already enrolled in VA
+          health care. This may vary by facility. Some facilities may be able to
+          offer vaccines to these groups now, while others may not.
         </p>
         <p>
-          Your employer, pharmacy, healthcare provider’s office, or local public
-          health officials may offer you a COVID-19 vaccine. We encourage you to
-          take the first opportunity you have to get a vaccine at the most
-          convenient location for you.
+          Your employer, pharmacy, health care provider’s office, or local
+          public health officials may offer you a COVID-19 vaccine. We encourage
+          you to take the first opportunity you have to get a vaccine at the
+          most convenient location for you.
         </p>
         <p>
-          <strong>Note:</strong> We’ll contact you when you can get a vaccine.
-          You don’t need to call or go in person to a VA health facility.
+          <strong>Note:</strong> Your safety is our priority. Please don't come
+          to a VA health facility to request a COVID-19 vaccine unless you have
+          an appointment or received an invite to a vaccine clinic.
         </p>
         <h2>How will VA contact me when I can get a COVID-19 vaccine?</h2>
         <p>

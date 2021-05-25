@@ -69,8 +69,9 @@ describe('HealthCare component', () => {
         reducers,
       });
       expect(view.queryByRole('progressbar')).not.to.exist;
-      expect(await view.findByText(new RegExp(`you have 3 new messages`, 'i')))
-        .to.exist;
+      expect(
+        await view.findByRole('link', { name: /you have 3 unread messages/i }),
+      ).to.exist;
     });
 
     it('should render the unread messages count with 1 message', async () => {
@@ -79,8 +80,9 @@ describe('HealthCare component', () => {
         initialState,
         reducers,
       });
-      expect(await view.findByText(new RegExp(`you have 1 new message`, 'i')))
-        .to.exist;
+      expect(
+        await view.findByRole('link', { name: /you have 1 unread message/i }),
+      ).to.exist;
     });
 
     it('should render the unread messages count with 0 messages', async () => {
@@ -89,8 +91,9 @@ describe('HealthCare component', () => {
         initialState,
         reducers,
       });
-      expect(await view.findByText(new RegExp(`you have 0 new messages`, 'i')))
-        .to.exist;
+      expect(
+        await view.findByRole('link', { name: /you have 0 unread messages/i }),
+      ).to.exist;
     });
   });
 
@@ -145,17 +148,17 @@ describe('HealthCare component', () => {
       ).to.be.false;
     });
 
-    it('should render a generic message when the number of unread messages was not fetched', async () => {
+    it('should not render a messaging CTA', () => {
       initialState.health.msg.folders.data.currentItem.attributes.unreadCount = null;
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
         reducers,
       });
       expect(
-        await view.findByText(
-          new RegExp(`Send a secure message to your health care team`, 'i'),
-        ),
-      ).to.exist;
+        view.queryByRole('link', {
+          name: /message/i,
+        }),
+      ).not.to.exist;
     });
   });
 });

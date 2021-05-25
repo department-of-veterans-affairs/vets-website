@@ -60,6 +60,9 @@ export const uiSchema = {
         widgetClassNames: 'usa-input-medium',
         hideEmptyValueInReview: true,
       },
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid VA file number',
+      },
     },
     dob: {
       ...currentOrPastDateUI('Date of birth'),

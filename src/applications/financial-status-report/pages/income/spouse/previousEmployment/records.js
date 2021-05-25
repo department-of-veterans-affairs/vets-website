@@ -10,7 +10,7 @@ export const uiSchema = {
         classNames: 'vads-u-margin-top--2',
       },
       spouse: {
-        previousEmployment: {
+        spousePreviousEmployment: {
           'ui:field': ItemLoop,
           'ui:description':
             'Tell us about your spouse’s other jobs in the past 2 years.',
@@ -19,6 +19,7 @@ export const uiSchema = {
             doNotScroll: true,
             showSave: true,
             itemName: 'a job',
+            keepInPageOnReview: true,
           },
           items: {
             'ui:options': {
@@ -57,11 +58,10 @@ export const schema = {
             spouse: {
               type: 'object',
               properties: {
-                previousEmployment: {
+                spousePreviousEmployment: {
                   type: 'array',
                   items: {
                     type: 'object',
-                    title: 'Previous employment',
                     required: ['type', 'from', 'to'],
                     properties: {
                       type: {

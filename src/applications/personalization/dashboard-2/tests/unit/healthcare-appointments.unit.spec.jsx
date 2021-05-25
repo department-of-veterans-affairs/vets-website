@@ -164,7 +164,11 @@ describe('HealthCare component', () => {
     });
 
     it('should render "Schedule and view your appointments"', () => {
-      expect(view.getByText(/schedule and view your appointments/i));
+      expect(
+        view.getByRole('link', {
+          name: /schedule and view your appointments/i,
+        }),
+      );
     });
   });
 });

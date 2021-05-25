@@ -47,11 +47,14 @@ const WizardContainer = ({ setWizardStatus }) => {
               learn how to request financial hardship assistance.
             </a>
           </p>
-          <Wizard
-            pages={pages}
-            expander={false}
-            setWizardStatus={setWizardStatus}
-          />
+
+          <section aria-live="polite">
+            <Wizard
+              pages={pages}
+              expander={false}
+              setWizardStatus={setWizardStatus}
+            />
+          </section>
         </div>
         <div className="help-container">
           <h2 className="help-heading">Need help?</h2>

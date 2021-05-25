@@ -1,15 +1,24 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import {
+  selectVAPEmailAddress,
+  selectVAPHomePhoneString,
+  selectVAPMobilePhoneString,
+} from 'platform/user/selectors';
 import FormButtons from '../../components/FormButtons';
 
-import { getFormPageInfo } from '../redux/selectors';
+import { getFormData, selectPageChangeInProgress } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { useHistory } from 'react-router-dom';
-import * as actions from '../redux/actions';
+import {
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+} from '../redux/actions';
 import NewTabAnchor from '../../components/NewTabAnchor';
+import useFormState from '../../hooks/useFormState';
 
 const initialSchema = {
   type: 'object',
@@ -17,7 +26,7 @@ const initialSchema = {
   properties: {
     phoneNumber: {
       type: 'string',
-      pattern: '^[0-9]{10}$',
+      pattern: '^[2-9][0-9]{9}$',
     },
     bestTimeToCall: {
       type: 'object',
@@ -40,6 +49,7 @@ const initialSchema = {
   },
 };
 
+const phoneConfig = phoneUI('Your phone number');
 const uiSchema = {
   'ui:description': (
     <>
@@ -56,7 +66,14 @@ const uiSchema = {
       </p>
     </>
   ),
-  phoneNumber: phoneUI('Your phone number'),
+  phoneNumber: {
+    ...phoneConfig,
+    'ui:errorMessages': {
+      ...phoneConfig['ui:errorMessages'],
+      pattern:
+        'Please enter a valid 10-digit phone number (with or without dashes)',
+    },
+  },
   bestTimeToCall: {
     'ui:title': 'What are the best times for us to call you?',
     'ui:validations': [validateBooleanGroup],
@@ -91,21 +108,27 @@ const uiSchema = {
 const pageKey = 'contactInfo';
 const pageTitle = 'Your contact information';
 
-export function ContactInfoPage({
-  schema,
-  data,
-  pageChangeInProgress,
-  openFormPage,
-  updateFormData,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-}) {
-  const history = useHistory();
+export default function ContactInfoPage() {
   useEffect(() => {
-    openFormPage(pageKey, uiSchema, initialSchema);
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
   }, []);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const pageChangeInProgress = useSelector(selectPageChangeInProgress);
+  const userData = useSelector(getFormData);
+  const email = useSelector(selectVAPEmailAddress);
+  const homePhone = useSelector(selectVAPHomePhoneString);
+  const mobilePhone = useSelector(selectVAPMobilePhoneString);
+  const { data, schema, setData } = useFormState({
+    initialSchema,
+    uiSchema,
+    initialData: {
+      ...userData,
+      email: userData.email || email,
+      phoneNumber: userData.phoneNumber || mobilePhone || homePhone,
+    },
+  });
 
   return (
     <div>
@@ -116,12 +139,16 @@ export function ContactInfoPage({
           title="Contact info"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
-          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
+          onSubmit={() =>
+            dispatch(routeToNextAppointmentPage(history, pageKey, data))
+          }
+          onChange={newData => setData(newData)}
           data={data}
         >
           <FormButtons
-            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
+            onBack={() =>
+              dispatch(routeToPreviousAppointmentPage(history, pageKey, data))
+            }
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
           />
@@ -130,19 +157,3 @@ export function ContactInfoPage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return getFormPageInfo(state, pageKey);
-}
-
-const mapDispatchToProps = {
-  openFormPage: actions.openFormPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  updateFormData: actions.updateFormData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ContactInfoPage);

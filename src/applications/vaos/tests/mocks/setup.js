@@ -9,23 +9,19 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import userEvent from '@testing-library/user-event';
 
 import { commonReducer } from 'platform/startup/store';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '../../redux/reducer';
 import newAppointmentReducer from '../../new-appointment/redux/reducer';
-import expressCareReducer from '../../express-care/redux/reducer';
-import projectCheetahReducer from '../../project-cheetah/redux/reducer';
-import { fetchExpressCareWindows } from '../../appointment-list/redux/actions';
+import covid19VaccineReducer from '../../covid-19-vaccine/redux/reducer';
+import unenrolledVaccineReducer from '../../unenrolled-vaccine/redux/reducer';
 
 import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
-import ExpressCareInfoPage from '../../express-care/components/ExpressCareInfoPage';
-import ExpressCareReasonPage from '../../express-care/components/ExpressCareReasonPage';
 import { cleanup } from '@testing-library/react';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
-import VaccineClinicChoicePage from '../../project-cheetah/components/ClinicChoicePage';
+import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
 import {
   getDirectBookingEligibilityCriteriaMock,
@@ -44,8 +40,8 @@ import createRoutesWithStore from '../../routes';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
-import VaccineFacilityPage from '../../project-cheetah/components/VAFacilityPage';
-import { TYPE_OF_CARE_ID } from '../../project-cheetah/utils';
+import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPage';
+import { TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -60,8 +56,8 @@ export function createTestStore(initialState) {
       ...commonReducer,
       ...reducers,
       newAppointment: newAppointmentReducer,
-      expressCare: expressCareReducer,
-      projectCheetah: projectCheetahReducer,
+      covid19Vaccine: covid19VaccineReducer,
+      unenrolledVaccine: unenrolledVaccineReducer,
     }),
     initialState,
     applyMiddleware(thunk),
@@ -461,48 +457,4 @@ export async function setPreferredDate(store, preferredDate) {
   await cleanup();
 
   return screen.history.push.firstCall.args[0];
-}
-
-/**
- * Renders the Express Care info page and continues on
- *
- * @export
- * @async
- * @param {Object} params The Redux store to use to render the page
- * @param {ReduxStore} params.store The Redux store to use to render the page
- */
-export async function setExpressCareFacility({ store }) {
-  const windowsThunk = fetchExpressCareWindows();
-  await windowsThunk(store.dispatch, store.getState);
-  const screen = renderWithStoreAndRouter(<ExpressCareInfoPage />, {
-    store,
-  });
-
-  await screen.findByText(/How Express Care Works/i);
-  fireEvent.click(screen.getByText(/^Continue/));
-  await waitFor(() => expect(screen.history.push.called).to.be.true);
-  await cleanup();
-}
-
-/**
- * Renders the Express Care reason page and selects a reason
- *
- * @export
- * @async
- * @param {Object} params The Redux store to use to render the page
- * @param {ReduxStore} params.store The Redux store to use to render the page
- * @param {string|RegExp} params.label The label of the reason option to choose
- */
-export async function setExpressCareReason({ store, label }) {
-  const screen = renderWithStoreAndRouter(<ExpressCareReasonPage />, {
-    store,
-  });
-
-  userEvent.click(await screen.findByLabelText(label));
-
-  await waitFor(() => expect(screen.getByLabelText(label).checked).to.be.true);
-
-  userEvent.click(screen.getByText(/^Continue/));
-  await waitFor(() => expect(screen.history.push.called).to.be.true);
-  await cleanup();
 }

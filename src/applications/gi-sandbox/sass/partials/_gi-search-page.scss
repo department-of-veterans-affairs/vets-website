@@ -276,3 +276,31 @@
 .exclude-warnings-closings-checkbox {
   padding-left: 0.2em;
 }
+
+.result-card {
+  border-radius: 5px;
+  width: 45%;
+}
+
+.card-title-section {
+  height: 100px;
+}
+
+.accreditation-tag {
+  border-radius: 15px;
+  font-size: 14px;
+  height: auto;
+  padding-left: 10px;
+  width: 157px;
+}
+
+.secondary-info-label {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.card-bottom-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

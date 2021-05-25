@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -10,29 +10,30 @@ import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import moment from '../../../lib/moment-tz';
 import {
   getVAAppointmentLocationId,
-  getVARFacilityId,
   isVAPhoneAppointment,
   isVideoHome,
+  getCalendarData,
 } from '../../../services/appointment';
 import {
   APPOINTMENT_STATUS,
-  APPOINTMENT_TYPES,
   FETCH_STATUS,
   PURPOSE_TEXT,
   VIDEO_TYPES,
 } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import * as actions from '../../redux/actions';
 import AppointmentDateTime from './AppointmentDateTime';
-import { getCancelInfo, selectAppointmentById } from '../../redux/selectors';
-import { selectFeatureCancel } from '../../../redux/selectors';
 import VideoVisitSection from './VideoVisitSection';
-import { getVideoInstructionText } from './VideoInstructions';
-import { formatFacilityAddress } from 'applications/vaos/services/location';
 import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import Breadcrumbs from '../../../components/Breadcrumbs';
+import {
+  startAppointmentCancel,
+  closeCancelAppointment,
+  confirmCancelAppointment,
+  fetchConfirmedAppointmentDetails,
+} from '../../redux/actions';
+import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 
 function formatAppointmentDate(date) {
   if (!date.isValid()) {
@@ -52,45 +53,30 @@ function formatHeader(appointment) {
   } else if (isVideoHome(appointment)) {
     return 'VA Video Connect at home';
   } else if (isVAPhoneAppointment(appointment)) {
-    return 'VA Appointment over the phone';
+    return 'VA appointment over the phone';
   } else {
-    return 'VA Appointment';
+    return 'VA appointment';
   }
 }
 
-function formatInstructions(instructions) {
-  if (!instructions) {
-    return null;
-  }
-
-  const strParts = instructions.split(': ');
-
-  if (strParts[0] && strParts[1]) {
-    return {
-      header: strParts[0],
-      body: strParts[1],
-    };
-  }
-
-  return null;
-}
-
-function ConfirmedAppointmentDetailsPage({
-  appointment,
-  appointmentDetailsStatus,
-  cancelAppointment,
-  cancelInfo,
-  closeCancelAppointment,
-  confirmCancelAppointment,
-  facilityData,
-  fetchConfirmedAppointmentDetails,
-  showCancelButton,
-}) {
+export default function ConfirmedAppointmentDetailsPage() {
+  const dispatch = useDispatch();
   const { id } = useParams();
+  const {
+    appointment,
+    appointmentDetailsStatus,
+    cancelInfo,
+    facilityData,
+    showCancelButton,
+  } = useSelector(
+    state => getConfirmedAppointmentDetailsInfo(state, id),
+    shallowEqual,
+  );
   const appointmentDate = moment.parseZone(appointment?.start);
+  const locationId = getVAAppointmentLocationId(appointment);
 
   useEffect(() => {
-    fetchConfirmedAppointmentDetails(id, 'va');
+    dispatch(fetchConfirmedAppointmentDetails(id, 'va'));
 
     scrollAndFocus();
   }, []);
@@ -152,14 +138,15 @@ function ConfirmedAppointmentDetailsPage({
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = appointment.vaos.isVideo;
-  const videoKind = appointment.videoData.kind;
-  const isPhone = isVAPhoneAppointment(appointment);
+  const isPastAppointment = appointment.vaos.isPastAppointment;
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
   const isInPersonVAAppointment = !isVideo;
+  const canceler = appointment.description?.includes('CANCELLED BY PATIENT')
+    ? 'You'
+    : facility?.name || 'Facility';
 
   const header = formatHeader(appointment);
-  const instructions = formatInstructions(appointment.comment);
 
   const showInstructions =
     isInPersonVAAppointment &&
@@ -167,20 +154,12 @@ function ConfirmedAppointmentDetailsPage({
       appointment?.comment?.startsWith(purpose.short),
     );
 
-  const showVideoInstructions =
-    isVideo &&
-    appointment.comment &&
-    videoKind !== VIDEO_TYPES.clinic &&
-    videoKind !== VIDEO_TYPES.gfe;
+  const calendarData = getCalendarData({
+    appointment,
+    facility: facilityData[locationId],
+  });
 
-  let calendarDescription = 'VA appointment';
-  if (showInstructions) {
-    calendarDescription = appointment.comment;
-  } else if (showVideoInstructions) {
-    calendarDescription = getVideoInstructionText(appointment.comment);
-  } else if (isVideo) {
-    calendarDescription = 'VA video appointment';
-  }
+  const showCovidPhone = appointment.vaos.isCOVIDVaccine;
 
   return (
     <PageLayout>
@@ -191,9 +170,15 @@ function ConfirmedAppointmentDetailsPage({
       <h1>
         <AppointmentDateTime
           appointmentDate={moment.parseZone(appointment.start)}
-          facilityId={getVARFacilityId(appointment)}
+          facilityId={appointment.location.vistaId}
         />
       </h1>
+
+      {isPastAppointment && (
+        <AlertBox status="warning" backgroundOnly>
+          This appointment occurred in the past.
+        </AlertBox>
+      )}
 
       {canceled && (
         <AlertBox
@@ -201,13 +186,16 @@ function ConfirmedAppointmentDetailsPage({
           className="vads-u-display--block vads-u-margin-bottom--2"
           backgroundOnly
         >
-          This appointment has been canceled
+          {`${canceler} canceled this appointment.`}
         </AlertBox>
       )}
 
       {isVideo && (
         <>
-          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+          <h2
+            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+            data-cy="va-video-appointment-details-header"
+          >
             {header}
           </h2>
           <VideoVisitSection
@@ -221,7 +209,10 @@ function ConfirmedAppointmentDetailsPage({
       {!!facility &&
         !isVideo && (
           <>
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+              data-cy="va-appointment-details-header"
+            >
               {header}
             </h2>
             <VAFacilityLocation
@@ -229,43 +220,46 @@ function ConfirmedAppointmentDetailsPage({
               facilityName={facility?.name}
               facilityId={facilityId}
               isHomepageRefresh
-              clinicFriendlyName={appointment.participant[0].actor.display}
+              clinicFriendlyName={appointment.location?.clinicName}
+              showCovidPhone={showCovidPhone}
             />
 
-            {showInstructions &&
-              isInPersonVAAppointment &&
-              instructions && (
-                <div className="vads-u-margin-top--3 vaos-appts__block-label">
-                  <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
-                    <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-                      {instructions.header}
-                    </h2>
-                    <div>{instructions.body}</div>
-                  </div>
+            {showInstructions && (
+              <div className="vads-u-margin-top--3 vaos-appts__block-label">
+                <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
+                  <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+                    You shared these details about your concern
+                  </h2>
+                  <div>{appointment.comment}</div>
                 </div>
-              )}
+              </div>
+            )}
             {!canceled && (
               <>
-                <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-                  <i
-                    aria-hidden="true"
-                    className="far fa-calendar vads-u-margin-right--1"
-                  />
-                  <AddToCalendar
-                    summary={`${header}`}
-                    description={calendarDescription}
-                    location={
-                      isPhone ? 'Phone call' : formatFacilityAddress(facility)
-                    }
-                    duration={appointment.minutesDuration}
-                    startDateTime={appointment.start}
-                  />
-                </div>
-
+                {!isPastAppointment && (
+                  <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
+                    <i
+                      aria-hidden="true"
+                      className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
+                    />
+                    <AddToCalendar
+                      summary={calendarData.summary}
+                      description={{
+                        text: calendarData.text,
+                        providerName: calendarData.providerName,
+                        phone: calendarData.phone,
+                        additionalText: calendarData.additionalText,
+                      }}
+                      location={calendarData.location}
+                      duration={appointment.minutesDuration}
+                      startDateTime={appointment.start}
+                    />
+                  </div>
+                )}
                 <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
                   <i
                     aria-hidden="true"
-                    className="fas fa-print vads-u-margin-right--1"
+                    className="fas fa-print vads-u-margin-right--1 vads-u-color--link-default"
                   />
                   <button
                     className="va-button-link"
@@ -275,38 +269,33 @@ function ConfirmedAppointmentDetailsPage({
                   </button>
                 </div>
 
-                <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-                  <i
-                    aria-hidden="true"
-                    className="fas fa-clock vads-u-margin-right--1"
-                  />
-                  <a href="#">Reschedule</a>
-                </div>
-
-                {showCancelButton && (
-                  <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-                    <i
-                      aria-hidden="true"
-                      className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg"
-                    />
-                    <button
-                      onClick={() => cancelAppointment(appointment)}
-                      aria-label={`Cancel appointment on ${formatAppointmentDate(
-                        moment.parseZone(appointment.start),
-                      )}`}
-                      className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
-                    >
-                      Cancel appointment
-                      <span className="sr-only">
-                        {' '}
-                        on{' '}
-                        {formatAppointmentDate(
+                {showCancelButton &&
+                  !isPastAppointment && (
+                    <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
+                      <i
+                        aria-hidden="true"
+                        className="fas fa-times vads-u-margin-right--1 vads-u-font-size--lg vads-u-color--link-default"
+                      />
+                      <button
+                        onClick={() =>
+                          dispatch(startAppointmentCancel(appointment))
+                        }
+                        aria-label={`Cancel appointment on ${formatAppointmentDate(
                           moment.parseZone(appointment.start),
-                        )}
-                      </span>
-                    </button>
-                  </div>
-                )}
+                        )}`}
+                        className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                      >
+                        Cancel appointment
+                        <span className="sr-only">
+                          {' '}
+                          on{' '}
+                          {formatAppointmentDate(
+                            moment.parseZone(appointment.start),
+                          )}
+                        </span>
+                      </button>
+                    </div>
+                  )}
               </>
             )}
           </>
@@ -319,35 +308,9 @@ function ConfirmedAppointmentDetailsPage({
       </div>
       <CancelAppointmentModal
         {...cancelInfo}
-        onConfirm={confirmCancelAppointment}
-        onClose={closeCancelAppointment}
+        onConfirm={() => dispatch(confirmCancelAppointment())}
+        onClose={() => dispatch(closeCancelAppointment())}
       />
     </PageLayout>
   );
 }
-
-function mapStateToProps(state, ownProps) {
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
-
-  return {
-    appointment: selectAppointmentById(state, ownProps.match.params.id, [
-      APPOINTMENT_TYPES.vaAppointment,
-    ]),
-    appointmentDetailsStatus,
-    cancelInfo: getCancelInfo(state),
-    facilityData,
-    showCancelButton: selectFeatureCancel(state),
-  };
-}
-
-const mapDispatchToProps = {
-  cancelAppointment: actions.cancelAppointment,
-  closeCancelAppointment: actions.closeCancelAppointment,
-  confirmCancelAppointment: actions.confirmCancelAppointment,
-  fetchConfirmedAppointmentDetails: actions.fetchConfirmedAppointmentDetails,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConfirmedAppointmentDetailsPage);

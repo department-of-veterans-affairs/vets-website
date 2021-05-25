@@ -12,15 +12,14 @@ import * as Sentry from '@sentry/browser';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import DropDownPanel from '@department-of-veterans-affairs/component-library/DropDownPanel';
-
-export const searchGovSuggestionEndpoint = 'https://search.usa.gov/sayt';
+import { apiRequest } from 'platform/utilities/api';
 
 const ENTER_KEY = 13;
 
 export class SearchMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.getSuggestions = debounce(
+    this.debouncedGetSuggestions = debounce(
       this.props.debounceRate,
       this.getSuggestions,
     );
@@ -36,10 +35,19 @@ export class SearchMenu extends React.Component {
     const { userInput } = this.state;
     const { searchTypeaheadEnabled, isOpen } = this.props;
 
+    // focus the query input when the search menu is opened
+    const inputField = document.getElementById('query');
+    if (isOpen && !prevProps.isOpen && inputField) {
+      inputField.focus();
+    }
+    if (userInput.length <= 2 && prevState.userInput.length > 2) {
+      this.clearSuggestions();
+    }
+
     // if userInput has changed, fetch suggestions for the typeahead experience
     const inputChanged = prevState.userInput !== userInput;
     if (inputChanged && searchTypeaheadEnabled) {
-      this.getSuggestions();
+      this.debouncedGetSuggestions();
     }
 
     // event logging for phased typeahead rollout
@@ -58,13 +66,11 @@ export class SearchMenu extends React.Component {
         sessionStorage.setItem('searchTypeaheadLogged', JSON.stringify(true));
       }
     }
-
-    // focus the query input when the search menu is opened
-    const inputField = document.getElementById('query');
-    if (isOpen && !prevProps.isOpen && inputField) {
-      inputField.focus();
-    }
   }
+
+  clearSuggestions = () => {
+    this.setState({ suggestions: [], savedSuggestions: [] });
+  };
 
   isUserInputValid = () => {
     const { userInput } = this.state;
@@ -84,10 +90,7 @@ export class SearchMenu extends React.Component {
 
     // end early / clear suggestions if user input is too short
     if (userInput?.length <= 2) {
-      if (this.state.suggestions.length > 0) {
-        this.setState({ suggestions: [], savedSuggestions: [] });
-      }
-
+      this.clearSuggestions();
       return;
     }
 
@@ -96,10 +99,14 @@ export class SearchMenu extends React.Component {
 
     // fetch suggestions
     try {
-      const response = await fetch(
-        `${searchGovSuggestionEndpoint}?name=va&q=${encodedInput}`,
+      const apiRequestOptions = {
+        method: 'GET',
+      };
+      const suggestions = await apiRequest(
+        `/search_typeahead?query=${encodedInput}`,
+        apiRequestOptions,
       );
-      const suggestions = await response.json();
+
       if (suggestions.length !== 0) {
         const sortedSuggestions = suggestions.sort(function(a, b) {
           return a.length - b.length;
@@ -110,6 +117,12 @@ export class SearchMenu extends React.Component {
       this.setState({ suggestions, savedSuggestions: [] });
       // if we fail to fetch suggestions
     } catch (error) {
+      if (error?.error?.code === 'OVER_RATE_LIMIT') {
+        Sentry.captureException(
+          new Error(`"OVER_RATE_LIMIT" - Search Typeahead`),
+        );
+        return;
+      }
       Sentry.captureException(error);
     }
   };
@@ -193,12 +206,15 @@ export class SearchMenu extends React.Component {
       'type-ahead-options-count': suggestionsList.length,
     });
 
+    const typeaheadUsed = !!suggestion;
     // unifier to let the same function be used if we are searching from a userInput or a suggestion
     const query = suggestion || userInput;
 
     // create a search url
     const searchUrl = replaceWithStagingDomain(
-      `https://www.va.gov/search/?query=${encodeURIComponent(query)}`,
+      `https://www.va.gov/search/?query=${encodeURIComponent(
+        query,
+      )}&t=${typeaheadUsed}`,
     );
 
     // relocate to search results, preserving history
@@ -226,7 +242,7 @@ export class SearchMenu extends React.Component {
     const { suggestions, userInput } = this.state;
     const { searchTypeaheadEnabled } = this.props;
     const {
-      getSuggestions,
+      debouncedGetSuggestions,
       handelDownshiftStateChange,
       handleInputChange,
       handleSearchEvent,
@@ -237,10 +253,10 @@ export class SearchMenu extends React.Component {
     } = this;
 
     const highlightedSuggestion =
-      'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
+      'suggestion-highlighted vads-u-background-color--primary-alt-light vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0  vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     const regularSuggestion =
-      'suggestion vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
+      'suggestion vads-u-color--gray-dark vads-u-margin-x--0 vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-padding--1 vads-u-width--full vads-u-padding-left--2';
 
     // default search experience
     if (!searchTypeaheadEnabled) {
@@ -309,7 +325,7 @@ export class SearchMenu extends React.Component {
                 className="usagov-search-autocomplete  vads-u-flex--4 vads-u-margin-left--1 vads-u-margin-right--0p5 vads-u-margin-y--1 vads-u-padding-left--1 vads-u-width--full"
                 name="query"
                 aria-controls={isOpen ? 'suggestions-list' : undefined}
-                onFocus={getSuggestions}
+                onFocus={debouncedGetSuggestions}
                 onKeyUp={handleKeyUp}
                 {...getInputProps({
                   type: 'text',

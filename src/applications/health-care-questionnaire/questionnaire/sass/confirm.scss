@@ -11,7 +11,11 @@
 
 div.healthcare-questionnaire-confirm{
   margin-top: 3.5rem;
-
+.emergency-call-out{
+  p{
+    margin: 0;
+  }
+}
 .usa-alert-success{
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -40,4 +44,8 @@ div.healthcare-questionnaire-confirm{
 
 div.usa-alert.usa-alert-error.print-error-message{
   background-color: $color-white;
+}
+
+.loading-message{
+  text-align: center;
 }

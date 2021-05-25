@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { isVideoHome } from '../../../services/appointment';
+import { isVideoHome, getCalendarData } from '../../../services/appointment';
 import { VIDEO_TYPES } from '../../../utils/constants';
 import VideoLink from './VideoLink';
 import AtlasLocation from './AtlasLocation';
@@ -11,37 +11,25 @@ import VideoVisitProvider from './VideoVisitProvider';
 import { VideoVisitInstructions } from './VideoInstructions';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
 import moment from 'applications/vaos/lib/moment-tz';
-import { formatFacilityAddress } from 'applications/vaos/services/location';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-function getLocation(isAtlas, isVideo, videoKind, facility, appointment) {
-  if (isAtlas) {
-    const { atlasLocation } = appointment.videoData;
-    if (atlasLocation?.address) {
-      return formatFacilityAddress(atlasLocation);
-    }
-  } else if (videoKind === VIDEO_TYPES.clinic) {
-    return facility ? formatFacilityAddress(facility) : null;
-  } else if (videoKind === VIDEO_TYPES.gfe || isVideo) {
-    return 'Video conference';
-  }
-  return '';
-}
-
-export default function VideoVisitLocation({ header, appointment, facility }) {
+export default function VideoVisitLocation({ appointment, facility }) {
   const { kind, isAtlas, providers } = appointment.videoData;
   const isHome = isVideoHome(appointment);
   const [showMoreOpen, setShowMoreOpen] = useState(false);
-  const phone = facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const name = facility?.name;
 
-  const location = getLocation(
-    isAtlas,
-    appointment.vaos.isVideo,
-    kind,
+  const {
+    summary,
+    providerName,
+    location,
+    text,
+    phone,
+    additionalText,
+  } = getCalendarData({
     facility,
     appointment,
-  );
+  });
 
   const showVideoInstructions =
     appointment.vaos.isVideo &&
@@ -100,8 +88,9 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             <div className="vads-u-margin-top--2">
               <VAFacilityLocation
                 facility={facility}
-                facilityId={appointment.videoData.facilityId}
-                clinicFriendlyName={appointment.participant[0].actor.display}
+                facilityId={appointment.location.stationId}
+                clinicFriendlyName={appointment.location.clinicName}
+                isHomepageRefresh
               />
             </div>
           )}
@@ -112,8 +101,13 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
             className="far fa-calendar vads-u-margin-right--1"
           />
           <AddToCalendar
-            summary={`${header}`}
-            description={`instructionText`}
+            summary={summary}
+            description={{
+              text,
+              providerName,
+              phone,
+              additionalText,
+            }}
             location={location}
             duration={appointment.minutesDuration}
             startDateTime={moment.parseZone(appointment.start)}
@@ -132,6 +126,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
         <AlertBox
           status={ALERT_TYPE.INFO}
           className="vads-u-display--block"
+          headline=" Need to make changes?"
           backgroundOnly
         >
           Contact this facility if you need to reschedule or cancel your
@@ -144,7 +139,7 @@ export default function VideoVisitLocation({ header, appointment, facility }) {
                 {phone && (
                   <>
                     <br />
-                    <FacilityPhone contact={phone} />
+                    <FacilityPhone contact={phone} level={3} />
                   </>
                 )}
               </span>

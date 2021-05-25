@@ -43,7 +43,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Click to detail view
   client
-    .click('.claim-list-item-container:first-child a.usa-button-primary')
+    .click('.claim-list-item-container:first-child a.vads-c-action-link--blue')
     .assert.urlContains('/your-claims/11/status');
 
   client.end();

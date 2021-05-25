@@ -2,7 +2,10 @@ import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { validateIfHasEvidence } from '../validations';
 import get from 'platform/utilities/data/get';
 
-import { evidenceTypeHelp } from '../content/evidenceTypesBDD';
+import {
+  evidenceTypeTitle,
+  evidenceTypeHelp,
+} from '../content/evidenceTypesBDD';
 
 export const uiSchema = {
   'view:hasEvidence': {
@@ -16,9 +19,7 @@ export const uiSchema = {
     },
     'ui:required': formData => get('view:hasEvidence', formData, false),
     'view:selectableEvidenceTypes': {
-      'ui:title':
-        'What type of evidence do you want us to review as part of your claim?',
-      'ui:options': { showFieldLabel: true },
+      'ui:title': evidenceTypeTitle,
       'ui:validations': [
         {
           validator: validateIfHasEvidence,
@@ -39,6 +40,9 @@ export const uiSchema = {
     'view:evidenceTypeHelp': {
       'ui:title': ' ',
       'ui:description': evidenceTypeHelp,
+      'ui:options': {
+        forceDivWrapper: true,
+      },
     },
   },
 };

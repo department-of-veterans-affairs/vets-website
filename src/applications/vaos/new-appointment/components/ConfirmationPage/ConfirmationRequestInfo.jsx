@@ -6,6 +6,7 @@ import { getTypeOfCare } from '../../redux/selectors';
 import { FACILITY_TYPES, PURPOSE_TEXT } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
 import State from '../../../components/State';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 function formatBestTime(bestTime) {
   const times = [];
@@ -139,12 +140,14 @@ export default function ConfirmationRequestInfo({
                     <div>
                       {data.communityCareProvider.name}
                       <br />
-                      {data.communityCareProvider.address.line.map(line => (
-                        <>
-                          {line}
-                          <br />
-                        </>
-                      ))}
+                      {data.communityCareProvider.address.line.map(
+                        (line, index) => (
+                          <React.Fragment key={index}>
+                            {line}
+                            <br />
+                          </React.Fragment>
+                        ),
+                      )}
                       {data.communityCareProvider.address.city},{' '}
                       <State state={data.communityCareProvider.address.state} />{' '}
                       {data.communityCareProvider.address.postalCode}
@@ -206,7 +209,7 @@ export default function ConfirmationRequestInfo({
                 <div>
                   {data.email}
                   <br />
-                  {data.phoneNumber}
+                  <Telephone notClickable contact={data.phoneNumber} />
                   <br />
                   {formatBestTime(data.bestTimeToCall)}{' '}
                 </div>

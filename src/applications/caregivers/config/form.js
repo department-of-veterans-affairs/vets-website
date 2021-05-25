@@ -29,6 +29,7 @@ import vetMedicalCenterPage from './chapters/veteran/vetMedicalCenter';
 
 // sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
+import uploadPOADocument from './chapters/signAsRepresentative/uploadPOADocument';
 
 // primary pages
 import hasPrimaryCaregiverPage from './chapters/primary/hasPrimaryCaregiver';
@@ -52,6 +53,8 @@ const {
   vetRelationship,
   ssn,
   fullName,
+  uuid,
+  signature,
 } = fullSchema.definitions;
 
 /* Chapters
@@ -89,15 +92,17 @@ const formConfig = {
     'Apply for the Program of Comprehensive Assistance for Family Caregivers',
   subTitle: 'Form 10-10CG',
   defaultDefinitions: {
-    address,
-    addressWithoutCountryUI,
-    date,
-    email,
     fullName,
+    ssn,
+    date,
     gender,
     phone,
-    ssn,
+    address,
+    addressWithoutCountryUI,
+    email,
     vetRelationship,
+    uuid,
+    signature,
   },
   chapters: {
     veteranChapter: {
@@ -186,7 +191,7 @@ const formConfig = {
       pages: {
         secondaryCaregiverTwo: {
           path: 'secondary-two-1',
-          title: 'Secondary Family Caregiver (2) applicant information',
+          title: secondaryTwoChapterTitle,
           depends: formData => hasSecondaryCaregiverTwo(formData),
           uiSchema: secondaryTwoInfoPage.uiSchema,
           schema: secondaryTwoInfoPage.schema,
@@ -201,18 +206,29 @@ const formConfig = {
       },
     },
     signAsRepresentativeChapter: {
-      title: 'Representative documentation',
+      title: 'Representative document',
       pages: {
         signAsRepresentative: {
+          path: 'representative-document',
+          title: 'Representative document',
           depends: formData => formData['view:canUpload1010cgPOA'],
-          path: 'representative-documentation',
-          title: 'Representative documentation',
           uiSchema: signAsRepresentativeYesNo.uiSchema,
           schema: signAsRepresentativeYesNo.schema,
+        },
+        documentUpload: {
+          path: 'representative-document-upload',
+          title: 'Representative document',
+          depends: formData => formData.signAsRepresentativeYesNo === 'yes',
+          editModeOnReviewPage: false,
+          uiSchema: uploadPOADocument.uiSchema,
+          schema: uploadPOADocument.schema,
         },
       },
     },
   },
 };
+
+/* TODO Need to change editModeOnReviewPage for document upload to true 
+when platform bug is fixed and upload button appears with this feature enabled */
 
 export default formConfig;

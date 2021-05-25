@@ -3,9 +3,7 @@ import React from 'react';
 export default function AppointmentRequestCommunityCareLocation({
   appointment,
 }) {
-  const providers = appointment.contained.filter(
-    res => res.resourceType === 'Practitioner',
-  );
+  const providers = appointment.preferredCommunityCareProviders;
 
   return (
     <>
@@ -15,9 +13,7 @@ export default function AppointmentRequestCommunityCareLocation({
         {!!providers.length && (
           <ul className="usa-unstyled-list">
             {providers.map(provider => {
-              const practiceName =
-                provider.practitionerRole?.[0].location?.[0].display;
-              const providerName = provider.name?.text;
+              const { practiceName, providerName } = provider;
 
               return (
                 <li key={provider.id}>

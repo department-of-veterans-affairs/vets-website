@@ -1,5 +1,6 @@
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
+import CustomReviewField from '../../../components/CustomReviewField';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
 import {
@@ -20,16 +21,18 @@ export const uiSchema = {
       doNotScroll: true,
       showSave: true,
       itemName: 'utility',
+      keepInPageOnReview: true,
     },
     items: {
       'ui:options': {
-        classNames: 'horizonal-field-container no-wrap',
+        classNames: 'horizontal-field-container no-wrap',
       },
       utilityType: {
         'ui:title': 'Type of utility',
         'ui:field': Typeahead,
+        'ui:reviewField': CustomReviewField,
         'ui:options': {
-          idPrefix: 'utilites',
+          idPrefix: 'utilities',
           classNames: 'input-size-3',
           getOptions: () => formatOptions(utilityTypes),
         },
@@ -50,7 +53,6 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        title: 'Utility',
         required: ['utilityType', 'monthlyUtilityAmount'],
         properties: {
           utilityType: {

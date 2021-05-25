@@ -89,7 +89,8 @@ function getInitialBlankCells(momentDate, showWeekends) {
     return blanks;
   }
 
-  for (let i = 0; i < firstDay; i++) {
+  const weekStart = showWeekends ? 0 : 1;
+  for (let i = weekStart; i < firstDay; i++) {
     blanks.push(null);
   }
 
@@ -240,6 +241,7 @@ function handleNext(onClickNext, months, setMonths) {
  * @param {Function} props.onPreviousMonth
  * @param {Function} props.renderOptions
  * @param {Function} props.renderIndicator
+ * @param {Function} props.renderSelectedLabel
  * @param {boolean} props.required
  * @param {string} props.requiredMessage
  * @param {boolean} props.showValidation
@@ -263,6 +265,7 @@ function CalendarWidget({
   onPreviousMonth,
   renderOptions,
   renderIndicator,
+  renderSelectedLabel,
   required,
   requiredMessage = 'Please select a date',
   showValidation,
@@ -384,6 +387,7 @@ function CalendarWidget({
                           selectedDates={value}
                           renderIndicator={renderIndicator}
                           renderOptions={renderOptions}
+                          renderSelectedLabel={renderSelectedLabel}
                           disabled={disabled}
                           showWeekends={showWeekends}
                         />

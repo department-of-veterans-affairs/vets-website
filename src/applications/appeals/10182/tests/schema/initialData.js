@@ -1,26 +1,24 @@
-// Test data for NOD
 export default {
   veteran: {
     ssnLastFour: '9876',
     vaFileLastFour: '8765',
+    // email, address & phone from profile data
   },
   homeless: false,
-  // 'view:hasRep': true,
-  // representative: {
-  //   name: '',
-  //   email: '',
-  // },
+  'view:hasRep': true,
+  representativeName: 'George Jetson',
   boardReviewOption: '',
   hearingTypePreference: '',
   socOptIn: true,
+  'view:additionalEvidence': '',
 
   // Leave 'view:selected' set to false for unit testing
-  contestedIssues: [
+  contestableIssues: [
     {
       type: 'contestableIssue',
       attributes: {
         ratingIssueSubjectText: 'Tinnitus',
-        description: `Rinnging in the ears. More intese in right ear. This is
+        description: `Rinnging in the ears. More intense in right ear. This is
           more text so the description goes into the second line.`,
         ratingIssuePercentNumber: 10,
         approxDecisionDate: '2020-11-01',
@@ -43,17 +41,23 @@ export default {
       },
       'view:selected': false,
     },
-    // {
-    //   type: 'contestableIssue',
-    //   attributes: {
-    //     ratingIssueSubjectText: 'Back sprain',
-    //     ratingIssuePercentNumber: 5,
-    //     approxDecisionDate: '2020-11-15',
-    //     decisionIssueId: 1,
-    //     ratingIssueReferenceId: '2',
-    //     ratingDecisionReferenceId: '',
-    //   },
-    // },
   ],
-  additionalIssues: [],
+  additionalIssues: [
+    {
+      issue: 'Back sprain',
+      decisionDate: '2020-11-15',
+      'view:selected': false,
+    },
+    {
+      issue: 'Ankle sprain',
+      decisionDate: '2020-11-16',
+      'view:selected': false,
+    },
+  ],
+  evidence: [
+    {
+      name: 'file.pdf',
+      confirmationCode: 'UUID',
+    },
+  ],
 };
