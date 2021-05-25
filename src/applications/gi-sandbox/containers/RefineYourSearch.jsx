@@ -175,8 +175,8 @@ export function RefineYourSearch({
         <h3>School attributes</h3>
         <p>About the school</p>
         <Checkbox
-          checked={filters.excludeWarnings}
-          name="excludeWarnings"
+          checked={filters.cautionFlag}
+          name="cautionFlag"
           label={
             <LearnMoreLabel
               text="Has no cautionary warnings"
