@@ -950,12 +950,9 @@ export function submitAppointmentOrRequest(history) {
       type: FORM_SUBMIT,
     });
 
-    const additionalEventData = {
+    let additionalEventData = {
       'health-TypeOfCare': typeOfCare,
       'health-ReasonForAppointment': data?.reasonForAppointment,
-      'vaos-number-of-preferred-providers': data.hasCommunityCareProvider
-        ? 1
-        : 0,
     };
 
     if (newAppointment.flowType === FLOW_TYPES.DIRECT) {
@@ -1012,12 +1009,22 @@ export function submitAppointmentOrRequest(history) {
       const eventType = isCommunityCare ? 'community-care' : 'request';
       const flow = isCommunityCare ? GA_FLOWS.CC_REQUEST : GA_FLOWS.VA_REQUEST;
       let requestBody;
+      if (isCommunityCare) {
+        additionalEventData = {
+          ...additionalEventData,
+          'vaos-community-care-preferred-language': data.preferredLanguage,
+          'vaos-number-of-preferred-providers':
+            data.hasCommunityCareProvider ||
+            data.communityCareProvider?.identifier
+              ? 1
+              : 0,
+        };
+      }
 
       recordEvent({
         event: `${GA_PREFIX}-${eventType}-submission`,
         flow,
         ...additionalEventData,
-        'vaos-community-care-preferred-language': data.preferredLanguage,
       });
 
       try {
