@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { scroller } from 'react-scroll';
-import 'mapbox-gl/dist/mapbox-gl.css';
+// import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { getScrollOptions } from 'platform/utilities/ui';
 
