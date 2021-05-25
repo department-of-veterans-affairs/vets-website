@@ -38,7 +38,6 @@ const renderMedicalRecordInfo = formValues => {
             submitting VA Form 10-5345 to your local VA Medical Center.{' '}
             <a
               download
-              target="_blank"
               rel="noopener noreferrer"
               href="https://www.va.gov/vaforms/medical/pdf/VHA%20Form%2010-5345%20Fill-revision.pdf"
             >
