@@ -1,19 +1,14 @@
 import { INSTITUTION_FILTERS_CHANGED } from '../actions';
 
 const INITIAL_STATE = Object.freeze({
-  category: 'school',
+  category: 'ALL',
+  schools: true,
+  employers: true,
+  vettec: true,
   type: 'ALL',
   country: 'ALL',
   state: 'ALL',
   institutionType: 'ALL',
-  excludeWarningsAndCautionFlags: true,
-  levelOfDegree: 'ALL',
-  levelOfInstitution: {
-    fourYear: true,
-    twoYear: true,
-  },
-  major: '',
-  inPersonClasses: 'yes',
 });
 
 export default function(state = INITIAL_STATE, action) {

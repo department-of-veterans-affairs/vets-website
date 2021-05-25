@@ -3,6 +3,9 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { SELECTED } from '../constants';
 
+export const someSelected = issues =>
+  (issues || []).some(issue => issue[SELECTED]);
+
 // checks
 export const hasRepresentative = formData => formData['view:hasRep'];
 export const canUploadEvidence = formData =>
@@ -11,12 +14,14 @@ export const needsHearingType = formData =>
   formData.boardReviewOption === 'hearing';
 export const wantsToUploadEvidence = formData =>
   canUploadEvidence(formData) && formData['view:additionalEvidence'];
-export const showAddIssues = formData => formData['view:hasIssuesToAdd'];
+export const showAddIssuesPage = formData =>
+  formData['view:hasIssuesToAdd'] !== false &&
+  (formData.constestableIssues?.length
+    ? !someSelected(formData.contestableIssues)
+    : true);
 export const otherTypeSelected = ({ areaOfDisagreement } = {}, index) =>
   areaOfDisagreement?.[index]?.disagreementOptions?.other;
 
-export const someSelected = issues =>
-  (issues || []).some(issue => issue[SELECTED]);
 export const hasSomeSelected = ({ contestableIssues, additionalIssues } = {}) =>
   someSelected(contestableIssues) || someSelected(additionalIssues);
 export const showAddIssueQuestion = ({ contestableIssues }) =>
@@ -54,6 +59,23 @@ export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
       attributes.ratingIssueSubjectText === existing.ratingIssueSubjectText &&
       attributes.approxDecisionDate === existing.approxDecisionDate
     );
+  });
+};
+
+export const copyAreaOfDisagreementOptions = (newIssues, existingIssues) => {
+  return newIssues.map(issue => {
+    const foundIssue = (existingIssues || []).find(
+      entry => getIssueName(entry) === getIssueName(issue),
+    );
+    if (foundIssue) {
+      const { disagreementOptions = {}, otherEntry = '' } = foundIssue;
+      return {
+        ...issue,
+        disagreementOptions,
+        otherEntry,
+      };
+    }
+    return issue;
   });
 };
 

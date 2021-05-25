@@ -1,4 +1,4 @@
-import timezones from '~/applications/vaos/utils/timezones.json';
+import timezones from './timezones.json';
 
 export const stripDST = abbr => {
   if (/^[PMCE][DS]T$/.test(abbr)) {
