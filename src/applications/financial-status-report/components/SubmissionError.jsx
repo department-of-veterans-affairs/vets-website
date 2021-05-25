@@ -1,18 +1,25 @@
 import React from 'react';
+import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
-const SubmissionError = () => {
-  return (
-    <div className="usa-alert usa-alert-error">
-      <div className="usa-alert-body">
-        <h4>We can’t submit your application right now</h4>
-        <p className="usa-alert-text">
-          We’re sorry. Something went wrong and we can't submit your
-          application. The information you’ve entered so far has been saved. If
-          you’re having trouble, please try again later.
+const SubmissionError = () => (
+  <AlertBox
+    status="error"
+    headline="We’re sorry. Your request wasn’t submitted."
+    content={
+      <>
+        <p>
+          Your request for financial help wasn’t submitted because something
+          went wrong on our end. We’re working to fix the problem, but it may
+          take us a while.
         </p>
-      </div>
-    </div>
-  );
-};
+        <h5 className="vads-u-margin-top--0">What you can do</h5>
+        <p className="vads-u-margin-top--0">
+          We've saved your progress. Please try to submit your request again
+          tomorrow.
+        </p>
+      </>
+    }
+  />
+);
 
 export default SubmissionError;
