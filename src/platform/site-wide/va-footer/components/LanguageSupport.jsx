@@ -53,18 +53,20 @@ export default function LanguageSupport({
 }) {
   useEffect(
     () => {
-      if (langSelected) {
+      if (langSelected && showLangSupport) {
         adaptLinksWithLangCode(langSelected);
       }
     },
-    [langSelected],
+    [langSelected, showLangSupport],
   );
 
   useEffect(
     () => {
-      setLangAttribute(languageCode);
+      if (showLangSupport && languageCode) {
+        setLangAttribute(languageCode);
+      }
     },
-    [languageCode],
+    [languageCode, showLangSupport],
   );
   if (showLangSupport !== true) return null;
 
