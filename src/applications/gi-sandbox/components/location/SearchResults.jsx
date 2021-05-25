@@ -134,7 +134,13 @@ export default function SearchResults({ search }) {
     <>
       <div className={'location-search'}>
         <div className={'usa-width-one-third'}>
-          {count > 0 && (
+          {count === null && (
+            <div>
+              Please enter a location (street, city, state, or postal code) then
+              click search above to find institutions.
+            </div>
+          )}
+          {location !== '' && (
             <>
               <TuitionAndHousingEstimates />
               <RefineYourSearch />
@@ -154,12 +160,6 @@ export default function SearchResults({ search }) {
           )}
           {count === 0 && (
             <div>We didn't find any facilities near the location.</div>
-          )}
-          {count === null && (
-            <div>
-              Please enter a location (street, city, state, or postal code) then
-              click search above to find institutions.
-            </div>
           )}
         </div>
 
