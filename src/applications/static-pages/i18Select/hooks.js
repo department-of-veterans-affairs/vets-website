@@ -20,28 +20,19 @@ export const setLangAttribute = lang => {
 export const adaptLinksWithLangCode = setLangAttributeInReduxStore => {
   const links = document.links;
   for (const link of links) {
-    link.onclick = (function() {
-      const origOnClick = link.onclick;
-      return function() {
-        if (origOnClick != null && !origOnClick()) {
-          return false;
-        }
-        if (link.hreflang) {
-          setLangAttributeInReduxStore(link.hreflang);
-          return true;
-        }
-        // respect the temp IA i18 structure
-        if (link.href.endsWith('-esp/')) {
-          setLangAttributeInReduxStore('es');
-          return true;
-        }
-        if (link.href.endsWith('-tag/')) {
-          setLangAttributeInReduxStore('tl');
-          return true;
-        }
-        setLangAttributeInReduxStore('en');
-        return true;
-      };
-    })();
+    link.addEventListener('click', () => {
+      setLangAttributeInReduxStore('en');
+
+      if (link.hreflang) {
+        setLangAttributeInReduxStore(link.hreflang);
+      }
+      // respect the temp IA i18 structure
+      if (link.href.endsWith('-esp/')) {
+        setLangAttributeInReduxStore('es');
+      }
+      if (link.href.endsWith('-tag/')) {
+        setLangAttributeInReduxStore('tl');
+      }
+    });
   }
 };

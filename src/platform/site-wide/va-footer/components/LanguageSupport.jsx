@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {
   setLangAttribute,
-  // adaptLinksWithLangCode,
+  adaptLinksWithLangCode,
 } from 'applications/static-pages/i18Select/hooks';
 
 function LanguagesListTemplate({ langSelected }) {
@@ -53,18 +53,20 @@ export default function LanguageSupport({
 }) {
   useEffect(
     () => {
-      if (langSelected) {
-        // adaptLinksWithLangCode(langSelected);
+      if (langSelected && showLangSupport) {
+        adaptLinksWithLangCode(langSelected);
       }
     },
-    [langSelected],
+    [langSelected, showLangSupport],
   );
 
   useEffect(
     () => {
-      setLangAttribute(languageCode);
+      if (showLangSupport && languageCode) {
+        setLangAttribute(languageCode);
+      }
     },
-    [languageCode],
+    [languageCode, showLangSupport],
   );
   if (showLangSupport !== true) return null;
 
