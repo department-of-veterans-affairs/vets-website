@@ -3,6 +3,8 @@ import {
   setLangAttribute,
   adaptLinksWithLangCode,
 } from 'applications/static-pages/i18Select/hooks';
+import { FOOTER_EVENTS } from '../helpers';
+import recordEvent from '../../../monitoring/record-event';
 
 function LanguagesListTemplate({ langSelected }) {
   return (
@@ -35,6 +37,10 @@ function LanguagesListTemplate({ langSelected }) {
             hrefLang={link.lang}
             onClick={() => {
               langSelected(link.lang);
+              recordEvent({
+                event: FOOTER_EVENTS.LANGUAGE_SUPPORT,
+                lang: link.lang,
+              });
             }}
           >
             {' '}
