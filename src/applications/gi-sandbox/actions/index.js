@@ -4,7 +4,7 @@ import { api } from '../config';
 
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
-import { rubyifyKeys } from '../utils/helpers';
+import { buildSearchFilters, rubyifyKeys } from '../utils/helpers';
 import { TypeList } from '../constants';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../components/MapboxClient';
@@ -209,12 +209,11 @@ export function updateEstimatedBenefits(estimatedBenefits) {
   return { type: UPDATE_ESTIMATED_BENEFITS, estimatedBenefits };
 }
 
-export function fetchSearchByNameResults(name, filterFields, version, tab) {
+export function fetchSearchByNameResults(name, filters, version) {
   const url = appendQuery(`${api.url}/institutions/search`, {
     name,
-    ...rubyifyKeys(filterFields),
+    ...rubyifyKeys(buildSearchFilters(filters)),
     version,
-    tab,
   });
 
   return dispatch => {
@@ -320,11 +319,18 @@ export function fetchSearchByLocationCoords(
   coordinates,
   distance,
   filters,
+  version,
 ) {
   const [longitude, latitude] = coordinates;
   const url = appendQuery(
     `${api.url}/institutions/search`,
-    rubyifyKeys({ latitude, longitude, distance, filters }),
+    rubyifyKeys({
+      latitude,
+      longitude,
+      distance,
+      ...buildSearchFilters(filters),
+      version,
+    }),
   );
   return dispatch => {
     dispatch({
@@ -358,7 +364,12 @@ export function fetchSearchByLocationCoords(
 /**
  * Finds results based on parameters for action SEARCH_BY_LOCATION_SUCCEEDED
  */
-export function fetchSearchByLocationResults(location, distance, filters) {
+export function fetchSearchByLocationResults(
+  location,
+  distance,
+  filters,
+  version,
+) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
   if (!location) {
@@ -387,6 +398,7 @@ export function fetchSearchByLocationResults(location, distance, filters) {
             features[0].center,
             distance,
             filters,
+            version,
           ),
         );
       })
@@ -396,5 +408,26 @@ export function fetchSearchByLocationResults(location, distance, filters) {
           payload: err.message,
         });
       });
+  };
+}
+
+export function updateFiltersAndDoNameSearch(name, filters, version) {
+  return dispatch => {
+    dispatch(institutionFilterChange(filters));
+    dispatch(fetchSearchByNameResults(name, filters, version));
+  };
+}
+
+export function updateFiltersAndDoLocationSearch(
+  location,
+  distance,
+  filters,
+  version,
+) {
+  return dispatch => {
+    dispatch(institutionFilterChange(filters));
+    dispatch(
+      fetchSearchByLocationResults(location, distance, filters, version),
+    );
   };
 }

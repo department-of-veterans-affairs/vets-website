@@ -1,6 +1,7 @@
 import { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
+import constants from 'vets-json-schema/dist/constants.json';
 import { SMALL_SCREEN_WIDTH } from '../constants';
 
 /**
@@ -147,3 +148,54 @@ export const addAllOption = options => [
   { optionValue: 'ALL', optionLabel: 'ALL' },
   ...options,
 ];
+
+export const getStateNameForCode = stateCode => {
+  const stateLabel = constants.states.USA.find(
+    state => state.value.toUpperCase() === stateCode.toUpperCase(),
+  );
+  return stateLabel !== undefined ? stateLabel.label : stateCode.toUpperCase();
+};
+
+export const sortOptionsByStateName = (stateA, stateB) => {
+  if (stateA.label < stateB.label) {
+    return -1;
+  }
+  if (stateA.label > stateB.label) {
+    return 1;
+  }
+  return 0;
+};
+
+export const buildSearchFilters = filters => {
+  const reversed = {
+    schools: true,
+    employers: true,
+    vettec: true,
+    preferredProvider: true,
+  };
+  const searchFilters = {};
+  const boolFields = Object.entries(filters).filter(([field, value]) => {
+    return (
+      (value === !reversed[field] && value === true) ||
+      (reversed[field] && value === false)
+    );
+  });
+
+  boolFields.forEach(([field]) => {
+    searchFilters[field] = true;
+  });
+
+  if (filters.country !== 'ALL') {
+    searchFilters.country = filters.country;
+  }
+
+  if (filters.state !== 'ALL') {
+    searchFilters.state = filters.state;
+  }
+
+  if (filters.type !== 'ALL') {
+    searchFilters.type = filters.type;
+  }
+
+  return searchFilters;
+};

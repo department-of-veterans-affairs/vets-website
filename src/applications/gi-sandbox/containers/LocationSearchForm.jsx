@@ -51,10 +51,6 @@ export function LocationSearchForm({
     dispatchFetchLocationAutocompleteSuggestions(value);
   };
 
-  const handleEnterPress = e => {
-    doSearch(e);
-  };
-
   return (
     <div>
       <form onSubmit={doSearch} className="vads-u-margin-y--0">
@@ -66,8 +62,8 @@ export function LocationSearchForm({
               className="location-search"
               inputValue={autocomplete.location}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
+              onPressEnter={e => doSearch(e)}
               onSelection={handleSelection}
-              onPressEnter={handleEnterPress}
               onUpdateAutocompleteSearchTerm={
                 dispatchUpdateAutocompleteLocation
               }

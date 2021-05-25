@@ -11,6 +11,7 @@ import {
   UPDATE_CURRENT_SEARCH_TAB,
 } from '../actions';
 import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
+import { TABS } from '../constants';
 
 const INITIAL_STATE = {
   error: null,
@@ -63,7 +64,7 @@ const INITIAL_STATE = {
     latitude: null,
     longitude: null,
   },
-  tab: 'name',
+  tab: TABS.name,
 };
 
 function uppercaseKeys(obj) {

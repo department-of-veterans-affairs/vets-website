@@ -17,13 +17,9 @@ export function NameSearchForm({
 }) {
   const { version } = preview;
 
-  const doSearch = name => {
-    dispatchFetchSearchByNameResults(name, filters, version);
-  };
-
-  const handleSubmit = event => {
+  const doSearch = event => {
     event.preventDefault();
-    doSearch(autocomplete.searchTerm);
+    dispatchFetchSearchByNameResults(autocomplete.name, filters, version);
   };
 
   const doAutocompleteSuggestionsSearch = name => {
@@ -38,7 +34,7 @@ export function NameSearchForm({
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="vads-u-margin-y--0">
+      <form onSubmit={doSearch} className="vads-u-margin-y--0">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--10">
             <KeywordSearch
@@ -46,6 +42,7 @@ export function NameSearchForm({
               className="name-search"
               inputValue={autocomplete.name}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
+              onPressEnter={e => doSearch(e)}
               onSelection={selected => doSearch(selected.label)}
               onUpdateAutocompleteSearchTerm={dispatchUpdateAutocompleteName}
               placeholder="school, employer, or training provider"
