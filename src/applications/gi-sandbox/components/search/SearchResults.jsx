@@ -2,7 +2,6 @@ import React from 'react';
 import SearchResultCard from './SearchResultCard';
 import RefineYourSearch from '../../containers/RefineYourSearch';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
-import RefineYourSearch from '../../containers/RefineYourSearch';
 
 export default function SearchResults({ search }) {
   const { count, results } = search.name;
