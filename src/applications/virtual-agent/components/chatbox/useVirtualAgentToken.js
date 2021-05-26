@@ -4,7 +4,7 @@ import retryOnce from './retryOnce';
 import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 
-function useFeatureToggles() {
+function useFeatureToggles(props) {
   const togglesLoading = useSelector(state => state.featureToggles.loading);
   const [togglesLoadingError, setTogglesLoadingError] = useState(false);
 
@@ -13,17 +13,17 @@ function useFeatureToggles() {
       if (togglesLoading) {
         setTogglesLoadingError(true);
       }
-    }, 100);
+    }, props.timeout);
   });
 
   return [togglesLoading, togglesLoadingError];
 }
 
-export default function useVirtualAgentToken() {
+export default function useVirtualAgentToken(props) {
   const [token, setToken] = useState('');
   const [tokenLoading, setTokenLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [togglesLoading, togglesLoadingError] = useFeatureToggles();
+  const [togglesLoading, togglesLoadingError] = useFeatureToggles(props);
 
   useEffect(
     () => {

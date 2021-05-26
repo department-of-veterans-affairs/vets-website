@@ -47,7 +47,7 @@ export default function useWebChatFramework(props) {
   const [isLoading, setLoading] = useState(!window.WebChat);
   const [error, setError] = useState(false);
 
-  const MAX_INTERVAL_CALL_COUNT = props.defaultTimeout / TIMEOUT_DURATION_MS;
+  const MAX_INTERVAL_CALL_COUNT = props.timeout / TIMEOUT_DURATION_MS;
 
   if (isLoading) {
     checkForWebchat(

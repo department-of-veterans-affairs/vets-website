@@ -7,7 +7,7 @@ import WebChat from '../webchat/WebChat';
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
-  const token = useVirtualAgentToken();
+  const token = useVirtualAgentToken(props);
 
   return {
     loading: webchatFramework.isLoading || token.tokenLoading,
@@ -17,7 +17,8 @@ function useWebChat(props) {
   };
 }
 
-export default function Chatbox(props = { defaultTimeout: 1 * 60 * 1000 }) {
+export default function Chatbox(props) {
+  const ONE_MINUTE = 1 * 60 * 1000;
   return (
     <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
       <div className="vads-u-background-color--primary-darkest vads-u-padding--1p5">
@@ -25,7 +26,7 @@ export default function Chatbox(props = { defaultTimeout: 1 * 60 * 1000 }) {
           VA Virtual Agent (beta)
         </h2>
       </div>
-      <App {...props} />
+      <App timeout={props.timeout || ONE_MINUTE} />
     </div>
   );
 }
