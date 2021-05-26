@@ -3,12 +3,13 @@ import React from 'react';
 export const RepIntroTitle = (
   <div>
     <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-      Do you have a representative—like an accredited attorney, a claims agent,
-      Veterans Service Officer (VSO)—helping you file this decision review?
+      Do you have a Veterans Service organization or accredited representative
+      helping you file this decision review?
     </p>
     <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-      <strong>Note:</strong> These professionals are trained and certified in
-      the VA claims and appeals processes.
+      <strong>Note:</strong> An accredited representative is a professional,
+      like an attorney, a claims agent, or a Veterans Service Officer, who is
+      trained and certified in the VA claims and appeals processes.
     </p>
   </div>
 );
