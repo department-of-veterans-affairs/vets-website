@@ -132,6 +132,11 @@ legend.schemaform-block-title {
   width: 100%;
 }
 
+/* empty header on additional-issues-intro page */
+.schemaform-block-header:empty {
+  margin: 0;
+}
+
 .additional-issues {
   .schemaform-label,
   .usa-input-error {

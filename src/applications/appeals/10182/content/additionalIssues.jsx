@@ -12,16 +12,8 @@ export const missingIssuesErrorMessage = (
   </span>
 );
 
-export const AddIssuesIntroTitle = (
-  <p>
-    If the issue you were looking for was not in our system, you can add it
-    manually. You can only add an issue that you’ve already received a VA
-    decision notice for.
-  </p>
-);
-
 export const addIssuesIntroLabel =
-  'Would you like to add any additional issues for review?';
+  'Would you like to add any more issues for review?';
 
 export const AdditionalIssuesLabel = (
   <span className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans">
