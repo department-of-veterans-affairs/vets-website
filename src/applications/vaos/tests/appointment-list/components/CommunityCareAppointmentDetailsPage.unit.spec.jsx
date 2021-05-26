@@ -106,7 +106,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: /You shared these details about your concern/,
+        name: /Special instructions/,
       }),
     ).to.be.ok;
     expect(screen.getByText(/Bring your glasses/)).to.be.ok;
