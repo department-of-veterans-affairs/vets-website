@@ -20,7 +20,7 @@ const BenefitCard = ({ received, title }) => {
       </div>
 
       <div className="vads-u-margin-bottom--1">
-        <p>Amount received last month: </p>
+        <span>Amount received last month: </span>
         {formatter.format(parseFloat(received))}
       </div>
     </section>
