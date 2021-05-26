@@ -9,7 +9,7 @@ import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
 
 const initialState = {
   isError: false,
-  errorCode: '',
+  errorCode: {},
   pending: true,
   pendingDebts: true,
   debts: [],
