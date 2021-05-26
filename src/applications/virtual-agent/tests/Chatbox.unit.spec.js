@@ -22,6 +22,7 @@ describe('App', () => {
   let oldWindow;
   let directLineSpy;
   let createStoreSpy;
+  const sandbox = sinon.createSandbox();
   const defaultProps = { timeout: 10 };
 
   function loadWebChat() {
@@ -38,15 +39,17 @@ describe('App', () => {
   }
 
   beforeEach(() => {
-    createStoreSpy = sinon.spy();
-    directLineSpy = sinon.spy();
+    createStoreSpy = sandbox.spy();
+    directLineSpy = sandbox.spy();
     resetFetch();
     oldWindow = global.window;
+    sandbox.spy(Sentry, 'captureException');
   });
 
   afterEach(() => {
     resetFetch();
     global.window = oldWindow;
+    sandbox.restore();
   });
 
   describe('web chat script is already loaded', () => {
@@ -179,7 +182,6 @@ describe('App', () => {
     });
 
     it('should display error after loading feature toggles has not finished within timeout', async () => {
-      sinon.spy(Sentry, 'captureException');
       loadWebChat();
 
       const wrapper = renderInReduxProvider(<Chatbox timeout={100} />, {
@@ -197,6 +199,9 @@ describe('App', () => {
       );
 
       expect(Sentry.captureException.called).to.be.true;
+      expect(Sentry.captureException.getCall(0).args[0].message).equals(
+        'Could not load feature toggles within timeout',
+      );
     });
 
     it('should call token api after loading feature toggles', async () => {
