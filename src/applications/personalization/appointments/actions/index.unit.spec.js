@@ -339,21 +339,21 @@ describe('fetchConfirmedFutureAppointments', () => {
         },
       ),
     );
-    return fetchConfirmedFutureAppointments()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
-      );
-      const { appointments } = dispatch.secondCall.args[0];
-      // Midnight Jan 1 UTC is 7PM Dec 31 Florida time
-      expect(appointments[0].startsAt).to.equal(
-        `${thisYear()}-12-31T19:00:00-05:00`,
-      );
-    });
+    await fetchConfirmedFutureAppointments()(dispatch);
+
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
+    );
+    expect(dispatch.secondCall.args[0].type).to.equal(
+      FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
+    );
+    const { appointments } = dispatch.secondCall.args[0];
+    // Midnight Jan 1 UTC is 7PM Dec 31 Florida time
+    expect(appointments[0].startsAt).to.equal(
+      `${thisYear()}-12-31T19:00:00-05:00`,
+    );
   });
-  it('correctly adds a timezone offset to the start date/time of VA appointments', () => {
+  it('correctly adds a timezone offset to the start date/time of VA appointments', async () => {
     const dispatch = sinon.spy();
     // mock the appointments API, making sure to return no CC appointments
     server.use(
@@ -368,18 +368,18 @@ describe('fetchConfirmedFutureAppointments', () => {
         },
       ),
     );
-    return fetchConfirmedFutureAppointments()(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(
-        FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
-      );
-      expect(dispatch.secondCall.args[0].type).to.equal(
-        FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
-      );
-      const { appointments } = dispatch.secondCall.args[0];
-      // Midnight Jan 1 UTC is 5PM Dec 31 Cheyenne (Mountain) time
-      expect(appointments[0].startsAt).to.equal(
-        `${thisYear()}-12-31T17:00:00-07:00`,
-      );
-    });
+    await fetchConfirmedFutureAppointments()(dispatch);
+
+    expect(dispatch.firstCall.args[0].type).to.equal(
+      FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
+    );
+    expect(dispatch.secondCall.args[0].type).to.equal(
+      FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
+    );
+    const { appointments } = dispatch.secondCall.args[0];
+    // Midnight Jan 1 UTC is 5PM Dec 31 Cheyenne (Mountain) time
+    expect(appointments[0].startsAt).to.equal(
+      `${thisYear()}-12-31T17:00:00-07:00`,
+    );
   });
 });
