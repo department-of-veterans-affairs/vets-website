@@ -1,4 +1,5 @@
 import moment from 'moment';
+import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   GA_PREFIX,
@@ -255,6 +256,14 @@ export function fetchFutureAppointments() {
         }
       } catch (error) {
         captureError(error);
+      }
+
+      if (
+        data[0]
+          ?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic)
+          .some(appt => !appt.location?.stationId)
+      ) {
+        Sentry.captureMessage('VAOS clinic based appointment missing sta6aid');
       }
     } catch (error) {
       captureError(error);

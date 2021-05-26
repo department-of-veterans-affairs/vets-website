@@ -240,17 +240,17 @@ export function getTestFacilityId(facilityId) {
  */
 export function formatFacilityAddress(facility) {
   if (
-    facility &&
-    facility.address &&
-    facility.address.line.length > 0 &&
-    facility.address.city &&
-    facility.address.state &&
-    facility.address.postalCode
-  )
+    facility?.address?.line.length > 0 &&
+    facility?.address?.city &&
+    facility?.address?.state &&
+    facility?.address?.postalCode
+  ) {
     return `${facility.address.line.join(', ')}, ${facility.address.city}, ${
       facility.address.state
     } ${facility.address.postalCode}`;
-  else return '';
+  }
+
+  return '';
 }
 
 /**

@@ -1,14 +1,20 @@
 import { INSTITUTION_FILTERS_CHANGED } from '../actions';
 
 const INITIAL_STATE = Object.freeze({
-  category: 'ALL',
-  schools: true,
-  employers: true,
-  vettec: true,
-  type: 'ALL',
+  accredited: false,
+  excludeCautionFlags: false,
   country: 'ALL',
+  employers: true,
+  hbcu: false,
+  isRelaffil: false,
+  preferredProvider: true,
+  schools: true,
+  singleGenderSchool: false,
   state: 'ALL',
-  institutionType: 'ALL',
+  studentVeteranGroup: false,
+  type: 'ALL',
+  yellowRibbonScholarship: false,
+  vettec: true,
 });
 
 export default function(state = INITIAL_STATE, action) {

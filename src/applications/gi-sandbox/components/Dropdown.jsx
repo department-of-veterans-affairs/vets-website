@@ -48,10 +48,10 @@ const Dropdown = ({
           onFocus={() => onFocus(dropdownId)}
         >
           {options.map(
-            ({ optionValue, optionLabel }) =>
+            ({ optionValue, optionLabel }, index) =>
               optionLabel && (
                 <option
-                  key={optionValue}
+                  key={index}
                   value={optionValue}
                   className={
                     optionValue === value
