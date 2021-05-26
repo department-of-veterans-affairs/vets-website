@@ -3,12 +3,6 @@
 @import "~leaflet/dist/leaflet.css";
 @import "~react-tabs/style/react-tabs";
 
-// TODO: These colors are not close enough to anything that already exists in
-// Formation. Perhaps the design should be reevaluated to see if Formation
-// colors could be used in place of these
-$facility-locator-color-info-bubble-border: #6495a3;
-$facility-locator-color-info-bubble-text: #818a8d;
-$facility-locator-color-gray: #ccc;
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .facility-locator {
@@ -477,47 +471,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   background-color: $color-red-dark;
 }
 
-#infoBubble {
-  background-color: $color-aqua-lightest;
-  color: inherit;
-  text-align: left;
-  width: 115%;
-  position: absolute;
-  top: -7.1rem;
-  right: -7.1rem;
-  padding: 0.7rem;
-  box-shadow: 0px 0px 4px $color-gray-medium;
-  border-radius: 4px;
-  border: 1px solid $facility-locator-color-info-bubble-border;
-  z-index: 9999;
-
-  span {
-    float: right;
-    margin: 0px 0px 2px 4px;
-    font-size: 1.9rem;
-    font-family: Arial, sans-serif;
-    cursor: pointer;
-    color: $facility-locator-color-info-bubble-text;
-  }
-
-  h6 {
-    font-size: 1.6rem !important;
-    line-height: 1.9rem;
-    margin: 0 0 0.5rem 0;
-  }
-
-  p {
-    margin: 0 !important;
-    font-size: 1.3rem;
-    line-height: 1.7rem;
-  }
-
-  a {
-    font-size: 1.1rem;
-    float: right;
-  }
-}
-
 .no-marg-top {
   margin-top: 0 !important;
 }
@@ -594,7 +547,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 // Override design system default
 // because it will cause an axe failure
-.fl-disabled  {
+.fl-disabled {
   background-color: $color-gray-medium !important;
 }
 
@@ -636,10 +589,10 @@ canvas.mapboxgl-canvas:focus {
   width: 44px;
   height: 44px;
   background-color: transparent;
-  color: black;
+  color: $color-black;
   padding: 0;
   margin: 0;
-  font-family: 'Font Awesome 5 Free';
+  font-family: "Font Awesome 5 Free";
 
   &:hover {
     background-color: unset;
@@ -651,8 +604,6 @@ canvas.mapboxgl-canvas:focus {
   font-weight: bold;
   padding-right: 36px !important;
 }
-
-
 
 // Make focus styles on the Medallia 'Feedback' button consistent with focus styles in the survey
 .nebula_image_button.wcagOutline:focus {
