@@ -91,7 +91,7 @@ describe('App', () => {
     it('should not render webchat until webchat framework is loaded', async () => {
       mockApiRequest({});
 
-      const wrapper = renderInReduxProvider(<Chatbox webchatTimeout={1000} />, {
+      const wrapper = renderInReduxProvider(<Chatbox defaultTimeout={1000} />, {
         initialState: {
           featureToggles: {
             loading: false,
@@ -112,7 +112,7 @@ describe('App', () => {
     it('should display error if webchat does not load after x milliseconds', async () => {
       mockApiRequest({});
 
-      const wrapper = renderInReduxProvider(<Chatbox webchatTimeout={1500} />, {
+      const wrapper = renderInReduxProvider(<Chatbox defaultTimeout={1500} />, {
         initialState: {
           featureToggles: {
             loading: false,
@@ -299,7 +299,7 @@ describe('App', () => {
     it('loads the webchat framework via script tag', () => {
       expect(screen.queryByTestId('webchat-framework-script')).to.not.exist;
 
-      const wrapper = renderInReduxProvider(<Chatbox webchatTimeout={10} />);
+      const wrapper = renderInReduxProvider(<Chatbox defaultTimeout={10} />);
 
       expect(wrapper.getByTestId('webchat-framework-script')).to.exist;
     });
@@ -325,7 +325,7 @@ describe('App', () => {
       expect(window.React).to.not.exist;
       expect(window.ReactDOM).to.not.exist;
 
-      renderInReduxProvider(<Chatbox webchatTimeout={10} />);
+      renderInReduxProvider(<Chatbox defaultTimeout={10} />);
 
       expect(window.React).to.eql(React);
       expect(window.ReactDOM).to.eql(ReactDOM);

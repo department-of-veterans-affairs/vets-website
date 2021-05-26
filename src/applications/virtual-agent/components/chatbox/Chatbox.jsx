@@ -17,7 +17,7 @@ function useWebChat(props) {
   };
 }
 
-export default function Chatbox(props) {
+export default function Chatbox(props = { defaultTimeout: 1 * 60 * 1000 }) {
   return (
     <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
       <div className="vads-u-background-color--primary-darkest vads-u-padding--1p5">
