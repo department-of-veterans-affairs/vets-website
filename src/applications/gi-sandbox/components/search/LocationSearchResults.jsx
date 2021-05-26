@@ -5,14 +5,14 @@ import mapboxgl from 'mapbox-gl';
 import { getScrollOptions } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import SearchResultCard from '../search/SearchResultCard';
+import SearchResultCard from './SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import RefineYourSearch from '../../containers/RefineYourSearch';
 import { numberToLetter, createId } from '../../utils/helpers';
 
-export default function SearchResults({ search }) {
+export default function LocationSearchResults({ search }) {
   const { inProgress } = search;
   const { count, results } = search.location;
   const { location } = search.query;
