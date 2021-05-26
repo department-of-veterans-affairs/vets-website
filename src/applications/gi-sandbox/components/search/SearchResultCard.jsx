@@ -4,12 +4,17 @@ import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox
 import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
-import { renderStars } from '../../../gi/utils/render';
+import { renderStars } from '../../utils/render';
 
 import { estimatedBenefits } from '../../selectors/estimator';
-import { formatCurrency } from '../../utils/helpers';
+import { formatCurrency, createId } from '../../utils/helpers';
 
-export function SearchResultCard({ institution, estimated }) {
+export function SearchResultCard({
+  institution,
+  estimated,
+  header,
+  location = false,
+}) {
   const {
     name,
     city,
@@ -20,6 +25,35 @@ export function SearchResultCard({ institution, estimated }) {
     accreditationType,
     facilityCode,
   } = institution;
+
+  const resultCardClasses = classNames(
+    'result-card vads-u-background-color--gray-lightest vads-u-margin-bottom--2',
+    { 'vads-u-margin-left--2p5': !location },
+  );
+
+  const nameCityStateHeader = (
+    <>
+      <div className="card-title-section">
+        <h3 className="vads-u-margin-top--2">{name}</h3>
+      </div>
+      <p className="vads-u-padding--0">{`${city}, ${state}`}</p>
+    </>
+  );
+
+  const hideAccreditationType = accreditationType !== 'regional';
+  const accreditationTypeClassNames = classNames(
+    'accreditation-tag vads-u-background-color--white vads-u-margin--0 vads-u-border--2px vads-u-border-color--black vads-u-display--blocks',
+    { 'vads-u-visibility--hidden': hideAccreditationType },
+  );
+
+  const accreditationTypeElement =
+    location && hideAccreditationType ? null : (
+      <div className={accreditationTypeClassNames}>Regionally accredited</div>
+    );
+
+  const noSchoolRatingClasses = classNames({
+    'vads-u-padding-bottom--3': !location,
+  });
 
   const estimate = ({ qualifier, value }) => {
     if (qualifier === '% of instate tuition') {
@@ -35,20 +69,13 @@ export function SearchResultCard({ institution, estimated }) {
 
   const profileLink = appendQuery(`/profile/${facilityCode}`);
 
-  const accreditationTypeClassNames = classNames(
-    'accreditation-tag vads-u-background-color--white vads-u-margin--0 vads-u-border--2px vads-u-border-color--black vads-u-display--blocks',
-    { 'vads-u-visibility--hidden': accreditationType !== 'regional' },
-  );
-
   return (
-    <div className="result-card vads-u-background-color--gray-lightest vads-u-margin-bottom--2 vads-u-margin-left--2p5">
+    <div className={resultCardClasses} id={`${createId(name)}-result-card`}>
+      {location && <span id={`${createId(name)}-result-card-placeholder`} />}
       <div className="vads-u-padding-x--2">
-        <div className="card-title-section">
-          <h3 className="vads-u-margin-top--2">{name}</h3>
-        </div>
-        <p className="vads-u-padding--0">{`${city}, ${state}`}</p>
+        {header || nameCityStateHeader}
 
-        <div className={accreditationTypeClassNames}>Regionally accredited</div>
+        {accreditationTypeElement}
 
         <p>
           <strong>GI Bill Students:</strong> {studentCount}
@@ -64,7 +91,7 @@ export function SearchResultCard({ institution, estimated }) {
             </div>
           </div>
         ) : (
-          <div className="vads-u-padding-bottom--3">
+          <div className={noSchoolRatingClasses}>
             <p>
               <strong>School rating:</strong> Not yet rated
             </p>
@@ -76,7 +103,7 @@ export function SearchResultCard({ institution, estimated }) {
           <strong>You may be eligible for up to:</strong>
         </p>
         <div className="vads-u-display--flex vads-u-text-align--center vads-u-margin-top--0 vads-u-margin-bottom--2">
-          <div className="vads-u-flex--1 ">
+          <div className="vads-u-flex--1">
             <p className="secondary-info-label">Tuition benefit:</p>
             <p className="vads-u-margin-y--0">{tuition}</p>
           </div>
