@@ -21,15 +21,14 @@ export const fetchFormStatus = () => async dispatch => {
   });
   const sessionExpiration = localStorage.getItem('sessionExpiration');
   const remainingSessionTime = moment(sessionExpiration).diff(moment());
+
   if (!remainingSessionTime) {
-    // bail if there isn't a current session
-    // the API returns the same response if a user is missing data OR is not logged in
-    // so we need a way to differentiate those - a falsey remaining session will
-    // always result in that error so we can go ahead and return
+    // reset errors if user is not logged in or session has expired
     return dispatch({
       type: FSR_RESET_ERRORS,
     });
   }
+
   fetch(`${environment.API_URL}/v0/in_progress_forms/5655`, {
     credentials: 'include',
     headers: {
@@ -38,12 +37,12 @@ export const fetchFormStatus = () => async dispatch => {
       'Source-App-Name': window.appName,
     },
   })
-    .then(res => res.json())
-    .then(body => {
-      if (body.errors) {
+    .then(response => response.json())
+    .then(response => {
+      if (response.errors) {
         dispatch({
           type: FSR_API_ERROR,
-          error: body,
+          error: response,
         });
       }
     });
@@ -110,7 +109,7 @@ export const downloadPDF = () => {
   return fetch(
     `${environment.API_URL}/v0/financial_status_reports/download_pdf`,
     options,
-  ).catch(err => {
-    throw new Error(err);
+  ).catch(error => {
+    throw new Error(error);
   });
 };
