@@ -14,12 +14,16 @@ export const FeatureToggleReducer = (state = INITIAL_STATE, action) => {
         loading: true,
       };
     case FETCH_TOGGLE_VALUES_SUCCEEDED:
+      window.VetsGov = window.VetsGov || {};
+      window.VetsGov.featureToggles = action.payload;
       return {
         ...state,
         ...action.payload,
         loading: false,
       };
     case TOGGLE_VALUES_SET:
+      window.VetsGov = window.VetsGov || {};
+      window.VetsGov.featureToggles = action.newToggleValues;
       return {
         ...state,
         ...action.newToggleValues,
