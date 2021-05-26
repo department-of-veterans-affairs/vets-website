@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 
 chai.use(chaiAsPromised);
@@ -61,28 +61,15 @@ function wrapWithRouterContext(component) {
 function fillDate(formDOM, partialId, dateString) {
   const date = dateString.split('-');
   const inputs = Array.from(formDOM.querySelectorAll('input, select'));
-
-  ReactTestUtils.Simulate.change(
+  userEvent.selectOptions(
     inputs.find(i => i.id === `${partialId}Month`),
-    {
-      target: {
-        value: date[1],
-      },
-    },
+    date[1],
   );
-  ReactTestUtils.Simulate.change(inputs.find(i => i.id === `${partialId}Day`), {
-    target: {
-      value: date[2],
-    },
-  });
-  ReactTestUtils.Simulate.change(
-    inputs.find(i => i.id === `${partialId}Year`),
-    {
-      target: {
-        value: date[0],
-      },
-    },
+  userEvent.selectOptions(
+    inputs.find(i => i.id === `${partialId}Day`),
+    date[2],
   );
+  userEvent.type(inputs.find(i => i.id === `${partialId}Year`), date[0]);
 }
 
 /**
