@@ -4,14 +4,33 @@ import retryOnce from './retryOnce';
 import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 
+function useFeatureToggles() {
+  const togglesLoading = useSelector(state => state.featureToggles.loading);
+  const [togglesLoadingError, setTogglesLoadingError] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (togglesLoading) {
+        setTogglesLoadingError(true);
+      }
+    }, 100);
+  });
+
+  return [togglesLoading, togglesLoadingError];
+}
+
 export default function useVirtualAgentToken() {
   const [token, setToken] = useState('');
   const [tokenLoading, setTokenLoading] = useState(true);
   const [error, setError] = useState(false);
-  const togglesLoading = useSelector(state => state.featureToggles.loading);
+  const [togglesLoading, togglesLoadingError] = useFeatureToggles();
 
   useEffect(
     () => {
+      if (togglesLoadingError) {
+        setError(true);
+        setTokenLoading(false);
+      }
       if (togglesLoading) return;
 
       async function callVirtualAgentTokenApi() {
@@ -36,7 +55,7 @@ export default function useVirtualAgentToken() {
       }
       getToken();
     },
-    [togglesLoading],
+    [togglesLoading, togglesLoadingError],
   );
 
   return { token, tokenLoading, error };

@@ -173,6 +173,24 @@ describe('App', () => {
       expect(wrapper.queryByTestId('webchat')).to.not.exist;
     });
 
+    it('should display error after loading feature toggles has not finished for 1 minute', async () => {
+      loadWebChat();
+
+      const wrapper = renderInReduxProvider(<Chatbox />, {
+        initialState: {
+          featureToggles: {
+            loading: true,
+          },
+        },
+      });
+
+      expect(wrapper.getByRole('progressbar')).to.exist;
+
+      await waitFor(
+        () => expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist,
+      );
+    });
+
     it('should call token api after loading feature toggles', async () => {
       loadWebChat();
 
