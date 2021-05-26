@@ -47,3 +47,9 @@ h1:focus {
     top: 40%;
   }
 }
+
+.vaos__form-button {
+  @media (max-width: $xsmall-screen - 1) {
+    width: 100%;
+  }
+}
