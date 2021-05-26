@@ -1,9 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-const sassLintData = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '../../sasslint-report.json')),
-);
+const sassLintReport = path.join(__dirname, '../../sasslint-report.json');
+
+if (!fs.existsSync(sassLintReport)) {
+  console.log('No sass-lint report found. Skipping.'); // eslint-disable-line no-console
+  return;
+}
+
+const sassLintData = JSON.parse(fs.readFileSync(sassLintReport));
 
 sassLintData.forEach(fileMessages => {
   if (!fileMessages.warningCount && !fileMessages.errorCount) return;
