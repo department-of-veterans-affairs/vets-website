@@ -8,8 +8,11 @@ export const stripDST = abbr => {
   return abbr;
 };
 
+export const getTimezoneBySystemId = id =>
+  timezones.find(z => z.id === `dfn-${id}`);
+
 export const getVATimeZone = id => {
-  const matchingZone = timezones.find(z => z.id === `dfn-${id}`);
+  const matchingZone = getTimezoneBySystemId(id);
 
   if (!matchingZone) {
     return null;

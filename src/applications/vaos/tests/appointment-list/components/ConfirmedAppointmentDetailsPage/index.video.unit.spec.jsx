@@ -6,6 +6,7 @@ import { fireEvent } from '@testing-library/react';
 import {
   mockAppointmentInfo,
   mockFacilitiesFetch,
+  mockSingleAppointmentFetch,
 } from '../../../mocks/helpers';
 import { getVAFacilityMock, getVideoAppointmentMock } from '../../../mocks/v0';
 import {
@@ -507,6 +508,64 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text(
         'Contact this facility if you need to reschedule or cancel your appointment.',
       );
+    });
+
+    it('should direct user to VA facility if we are missing facility details', async () => {
+      const appointment = getVideoAppointmentMock();
+      const startDate = moment.utc().add(3, 'days');
+      appointment.attributes = {
+        ...appointment.attributes,
+        facilityId: '983',
+        clinicId: '123',
+        sta6aid: null,
+        startDate: startDate.format(),
+        clinicFriendlyName: 'CHY PC VAR2',
+      };
+      appointment.attributes.vvsAppointments[0] = {
+        ...appointment.attributes.vvsAppointments[0],
+        dateTime: startDate.format(),
+        bookingNotes: 'Some random note',
+        appointmentKind: 'CLINIC_BASED',
+        status: { description: 'F', code: 'FUTURE' },
+        providers: [
+          {
+            clinic: {
+              ien: '455',
+              name: 'Testing',
+            },
+          },
+        ],
+      };
+      mockSingleAppointmentFetch({
+        appointment,
+      });
+
+      const screen = renderWithStoreAndRouter(
+        <AppointmentList featureHomepageRefresh />,
+        {
+          initialState,
+          path: '/va/05760f00c80ae60ce49879cf37a05fc8',
+        },
+      );
+
+      await screen.findByText(
+        new RegExp(
+          startDate
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      );
+
+      expect(screen.queryByText(/You don’t have any appointments/i)).not.to
+        .exist;
+      expect(screen.baseElement).to.contain.text(
+        'VA Video Connect at VA location',
+      );
+      expect(screen.baseElement).to.contain.text(
+        'You must join this video meeting from the VA location where the appointment was scheduled.',
+      );
+      expect(screen.queryByText(/join appointment/i)).to.not.exist;
     });
 
     it('should show address info for clinic based appointment', async () => {
