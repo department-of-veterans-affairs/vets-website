@@ -48,8 +48,20 @@ h1:focus {
   }
 }
 
-.vaos__form-button {
-  @media (max-width: $xsmall-screen - 1) {
-    width: 100%;
+.vaos__form-button-back {
+  order: 2;
+  width: 100%;
+  @media (min-width: $xsmall-screen) {
+    order: 1;
+    width: auto;
+  }
+}
+
+.vaos__form-button-next {
+  order: 1;
+  width: 100%;
+  @media (min-width: $xsmall-screen) {
+    order: 2;
+    width: auto;
   }
 }
