@@ -9,8 +9,8 @@ else
   export CYPRESS_CI=$CI
 
   # Use mocha-junit-reporter and save results in './test-results'.
-  reporterArgs="--reporter cypress-multi-reporters --reporter-options \"configFile=config/cypress-reporters.json\""
+
 
   # Run Cypress tests.
-  yarn cy:run $reporterArgs
+  yarn cy:run --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
 fi
