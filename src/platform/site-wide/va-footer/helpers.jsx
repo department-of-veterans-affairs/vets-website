@@ -20,6 +20,7 @@ export const FOOTER_EVENTS = {
   [FOOTER_COLUMNS.CONTACT]: 'nav-footer-contact',
   [FOOTER_COLUMNS.SUPERLINKS]: 'nav-footer-superlinks',
   CRISIS_LINE: 'nav-footer-crisis',
+  LANGUAGE_SUPPORT: 'nav-footer-language-support',
 };
 
 const renderInnerTag = (link, captureEvent) => (

@@ -4,7 +4,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import NameSearchForm from '../../containers/NameSearchForm';
 import LocationSearchForm from '../../containers/LocationSearchForm';
 import SearchResults from './SearchResults';
-import LocationSearchResults from '../location/SearchResults';
+import LocationSearchResults from './LocationSearchResults';
 import { TABS } from '../../constants';
 
 export default function SearchTabs({ onChange, search }) {
@@ -15,7 +15,12 @@ export default function SearchTabs({ onChange, search }) {
   };
 
   const tabbedResults = {
-    [TABS.name]: <SearchResults search={search} />,
+    [TABS.name]: (
+      <>
+        {inProgress && <LoadingIndicator message="Loading search results..." />}
+        {!inProgress && <SearchResults search={search} />}
+      </>
+    ),
     [TABS.location]: <LocationSearchResults search={search} />,
   };
 
@@ -53,8 +58,7 @@ export default function SearchTabs({ onChange, search }) {
         </div>
         <div className="search-box">{tabbedSearch[tab]}</div>
       </div>
-      {inProgress && <LoadingIndicator message="Loading search results..." />}
-      {!inProgress && tabbedResults[tab]}
+      {tabbedResults[tab]}
     </div>
   );
 }
