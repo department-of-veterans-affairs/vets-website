@@ -3,6 +3,7 @@ import { scroller } from 'react-scroll';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { getScrollOptions } from 'platform/utilities/ui';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import SearchResultCard from '../search/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
@@ -12,6 +13,7 @@ import RefineYourSearch from '../../containers/RefineYourSearch';
 import { numberToLetter, createId } from '../../utils/helpers';
 
 export default function SearchResults({ search }) {
+  const { inProgress } = search;
   const { count, results } = search.location;
   const { location } = search.query;
   const map = useRef(null);
@@ -132,34 +134,41 @@ export default function SearchResults({ search }) {
 
   return (
     <>
-      <div className={'location-search'}>
+      <div className={'location-search vads-u-padding-top--1'}>
         <div className={'usa-width-one-third'}>
-          {count === null && (
-            <div>
-              Please enter a location (street, city, state, or postal code) then
-              click search above to find institutions.
-            </div>
+          {inProgress && (
+            <LoadingIndicator message="Loading search results..." />
           )}
-          {location !== '' && (
+          {!inProgress && (
             <>
-              <TuitionAndHousingEstimates />
-              <RefineYourSearch />
-              <div className="location-search-results-container usa-grid vads-u-padding--1p5">
-                <p>
-                  Showing <strong>{count} search results</strong> for '
-                  <strong>{location}</strong>'
-                </p>
-                <div
-                  id="location-search-results"
-                  className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
-                >
-                  {resultCards}
+              {count === null && (
+                <div>
+                  Please enter a location (street, city, state, or postal code)
+                  then click search above to find institutions.
                 </div>
-              </div>
+              )}
+              {location !== '' && (
+                <>
+                  <TuitionAndHousingEstimates />
+                  <RefineYourSearch />
+                  <div className="location-search-results-container usa-grid vads-u-padding--1p5">
+                    <p>
+                      Showing <strong>{count} search results</strong> for '
+                      <strong>{location}</strong>'
+                    </p>
+                    <div
+                      id="location-search-results"
+                      className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
+                    >
+                      {resultCards}
+                    </div>
+                  </div>
+                </>
+              )}
+              {count === 0 && (
+                <div>We didn't find any institutions near the location.</div>
+              )}
             </>
-          )}
-          {count === 0 && (
-            <div>We didn't find any facilities near the location.</div>
           )}
         </div>
 
