@@ -1,19 +1,20 @@
 import { INSTITUTION_FILTERS_CHANGED } from '../actions';
 
 const INITIAL_STATE = Object.freeze({
-  category: 'school',
-  type: 'ALL',
+  accredited: false,
+  excludeCautionFlags: false,
   country: 'ALL',
+  employers: true,
+  hbcu: false,
+  isRelaffil: false,
+  preferredProvider: true,
+  schools: true,
+  singleGenderSchool: false,
   state: 'ALL',
-  institutionType: 'ALL',
-  excludeWarningsAndCautionFlags: true,
-  levelOfDegree: 'ALL',
-  levelOfInstitution: {
-    fourYear: true,
-    twoYear: true,
-  },
-  major: '',
-  inPersonClasses: 'yes',
+  studentVeteranGroup: false,
+  type: 'ALL',
+  yellowRibbonScholarship: false,
+  vettec: true,
 });
 
 export default function(state = INITIAL_STATE, action) {

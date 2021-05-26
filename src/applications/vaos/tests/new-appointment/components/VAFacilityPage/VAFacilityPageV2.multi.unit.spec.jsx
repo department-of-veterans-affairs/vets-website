@@ -847,6 +847,14 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     fireEvent.click(screen.getByText(/Continue/));
     await screen.findByText(/We can’t find a recent appointment for you/i);
     expect(screen.getByRole('alertdialog')).to.be.ok;
+    fireEvent.click(screen.getByRole('button', { name: 'Close this modal' }));
+
+    await waitFor(
+      () =>
+        expect(
+          screen.queryByText(/We can’t find a recent appointment for you/i),
+        ).to.not.exist,
+    );
   });
 
   it('should show additional info link if there are unsupported facilities within 100 miles', async () => {
