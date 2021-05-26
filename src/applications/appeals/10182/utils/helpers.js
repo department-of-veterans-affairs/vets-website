@@ -62,6 +62,23 @@ export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
   });
 };
 
+export const copyAreaOfDisagreementOptions = (newIssues, existingIssues) => {
+  return newIssues.map(issue => {
+    const foundIssue = (existingIssues || []).find(
+      entry => getIssueName(entry) === getIssueName(issue),
+    );
+    if (foundIssue) {
+      const { disagreementOptions = {}, otherEntry = '' } = foundIssue;
+      return {
+        ...issue,
+        disagreementOptions,
+        otherEntry,
+      };
+    }
+    return issue;
+  });
+};
+
 export const appStateSelector = state => ({
   // Validation functions are provided the pageData and not the
   // formData on the review & submit page. For more details
