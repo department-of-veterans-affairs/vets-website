@@ -1,5 +1,5 @@
 import GiBillApp from './containers/GiBillApp';
-import LandingPage from './containers/LandingPage';
+import LandingPage from './containers/SearchPage';
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 import ProfilePage from './containers/ProfilePage';
