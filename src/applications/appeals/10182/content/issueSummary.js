@@ -12,8 +12,8 @@ export const SummaryTitle = ({ formData }) => {
   return (
     <>
       <p>
-        Below is a list of the issues that you are requesting the Board to
-        review. If an issue is missing, please{' '}
+        These are the issues you’re asking the Board to review. If an issue is
+        missing, please{' '}
         <Link
           aria-label="go back and add any missing issues for review"
           to={{
