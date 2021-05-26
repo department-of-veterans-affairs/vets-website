@@ -31,7 +31,7 @@ export const boardReviewContent = {
       <p className="hide-on-review">
         You can request a hearing with a Veterans Law Judge. You can also submit
         more evidence to be reviewed, either at the hearing or within 90 days
-        after the hearing. Adding evidence is optional. The evidence submission
+        after the hearing. Adding evidence is optional. The hearing request
         option will take <strong>more than 1 year</strong> for the Board to
         complete.
       </p>
