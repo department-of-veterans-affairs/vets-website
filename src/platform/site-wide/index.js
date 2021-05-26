@@ -53,5 +53,6 @@ export default function startSitewideComponents(commonStore) {
   startVAFooter(
     window.VetsGov.headerFooter.footerData,
     addFocusBehaviorToCrisisLineModal,
+    commonStore,
   );
 }

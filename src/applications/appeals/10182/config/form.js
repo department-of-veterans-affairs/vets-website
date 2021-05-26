@@ -20,7 +20,7 @@ import {
   canUploadEvidence,
   wantsToUploadEvidence,
   showAddIssueQuestion,
-  showAddIssues,
+  showAddIssuesPage,
   needsHearingType,
   appStateSelector,
   getIssueName,
@@ -72,7 +72,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_10182,
   version: migrations.length - 1,
   title: 'Request a Board Appeal',
-  subTitle: 'Equal to VA Form 10182 (Notice of Disagreement)',
+  subTitle: 'VA Form 10182 (Notice of Disagreement)',
 
   prefillEnabled: true,
   prefillTransformer,
@@ -151,14 +151,10 @@ const formConfig = {
         additionalIssues: {
           title: 'Add issues for review',
           path: 'additional-issues',
-          depends: showAddIssues,
+          depends: showAddIssuesPage,
           uiSchema: additionalIssues.uiSchema,
           schema: additionalIssues.schema,
           appStateSelector,
-          initialData: {
-            'view:hasIssuesToAdd': true,
-            additionalIssues: [{}],
-          },
         },
         areaOfDisagreementFollowUp: {
           title: getIssueName,

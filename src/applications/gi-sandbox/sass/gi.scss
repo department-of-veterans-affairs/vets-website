@@ -172,7 +172,7 @@
     margin-top: 50px;
 
     button {
-      margin-top:.5em;
+      margin-top: 0.5em;
       width: auto;
     }
 
@@ -205,7 +205,8 @@
     }
 
     input.name-search {
-      max-width: 690px;
+      width: 690px;
+      max-width: none;
     }
 
     select {

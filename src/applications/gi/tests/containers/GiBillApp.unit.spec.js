@@ -17,7 +17,7 @@ const defaultProps = {
 };
 
 describe('<GiBillApp>', () => {
-  it('should render', () => {
+  it.skip('should render', () => {
     const tree = mount(
       <MemoryRouter>
         <Provider store={defaultStore}>
