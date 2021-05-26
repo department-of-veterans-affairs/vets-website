@@ -17,7 +17,13 @@ import {
 
 const pageTitle = 'We’ve scheduled your appointment';
 
-function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
+function ConfirmationPage({
+  data,
+  systemId,
+  slot,
+  facilityDetails,
+  submitStatus,
+}) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -32,6 +38,8 @@ function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
     moment(data.date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
       'dddd, MMMM D, YYYY [at] h:mm a ',
     ) + getTimezoneAbbrBySystemId(systemId);
+
+  const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
   return (
     <div>
@@ -83,7 +91,7 @@ function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
             }}
             location={formatFacilityAddress(facilityDetails)}
             startDateTime={data.date1[0]}
-            duration={30}
+            duration={appointmentLength}
           />
         </div>
       </div>
