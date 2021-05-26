@@ -15,20 +15,20 @@ function LanguagesListTemplate({ langSelected }) {
           label: 'Español',
           suffix: '-esp/',
           lang: 'es',
-          href: '',
+          href: '/asistencia-y-recursos-en-espanol',
         },
         {
           suffix: '-tag/',
           label: 'Tagalog',
           onThisPage: 'Sa pahinang ito',
           lang: 'tl',
-          href: '/coronavirus-veteran-frequently-asked-questions-tag',
+          href: '/tagalog-wika-mapagkukunan-at-tulong',
         },
         {
           label: 'Other languages',
           suffix: '/',
           lang: 'en',
-          href: '',
+          href: '/resources/how-to-get-free-language-assistance-from-va/',
         },
       ].map((link, i) => (
         <li key={i}>
