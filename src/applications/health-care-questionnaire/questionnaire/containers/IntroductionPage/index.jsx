@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import OMBInfo from '../../components/legal/OMBInfo';
+import PrivacyAct from '../../components/legal/PrivacyAct';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -142,7 +142,7 @@ const IntroductionPage = props => {
       <NeedHelpSmall />
       {getWelcomeMessage()}
       <div className="omb-info--container">
-        <OMBInfo expDate={expirationTime} />
+        <PrivacyAct expDate={expirationTime} />
       </div>
       {environment.isLocalhost() && (
         <>

@@ -5,8 +5,8 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 const modalContents = () => (
   <div>
-    <h3>Privacy Act Statement</h3>
-    <p>
+    <h3 className="privacy-heading">Privacy Act Statement</h3>
+    <p className="privacy-content">
       We ask you to provide the information in this questionnaire to help with
       your medical care (under law 38 U.S.C. Chapter 17). It’s your choice if
       you want to provide this information. If you choose not to provide this
@@ -21,7 +21,7 @@ const modalContents = () => (
   </div>
 );
 
-class OMBInfo extends React.Component {
+class PrivacyAct extends React.Component {
   constructor(props) {
     super(props);
 
@@ -52,7 +52,7 @@ class OMBInfo extends React.Component {
         <Modal
           cssClass="va-modal-large"
           contents={modalContents()}
-          id="omb-modal"
+          id="privacy-act-modal"
           visible={this.state.modalOpen}
           onClose={this.closeModal}
         />
@@ -61,11 +61,11 @@ class OMBInfo extends React.Component {
   }
 }
 
-OMBInfo.propTypes = {
+PrivacyAct.propTypes = {
   /**
    * form expiration date
    */
   expDate: PropTypes.string,
 };
 
-export default OMBInfo;
+export default PrivacyAct;
