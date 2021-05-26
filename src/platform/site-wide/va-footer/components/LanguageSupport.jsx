@@ -72,7 +72,7 @@ export default function LanguageSupport({
     },
     [languageCode],
   );
-  if (showLangSupport !== true) return null;
+  // if (showLangSupport !== true) return null;
 
   if (isDesktop) {
     return (
