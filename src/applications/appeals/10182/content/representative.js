@@ -20,9 +20,9 @@ export const repLabel = 'Representative or VSO name';
 export const repDescription = (
   <div>
     <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
-      Please enter your representative’s first and last name. If you don’t have
-      a specific representative but are instead working with a Veteran Service
-      Organization, you can specify the organization in the field below.
+      Enter the name of the accredited representative or Veterans Service
+      Organization (VSO) you’re working with (use the name you provided on Form
+      21-22 or Form 21-22a).
     </p>
   </div>
 );
