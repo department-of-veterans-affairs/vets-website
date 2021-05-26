@@ -7,7 +7,7 @@ import SearchTabs from '../components/search/SearchTabs';
 import { useQueryParams } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
 
-export function LandingPage({
+export function SearchPage({
   search,
   dispatchSetPageTitle,
   dispatchChangeSearchTab,
@@ -57,4 +57,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LandingPage);
+)(SearchPage);
