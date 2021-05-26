@@ -10,8 +10,8 @@ function useWebChat(props) {
   const token = useVirtualAgentToken(props);
 
   return {
-    loading: webchatFramework.isLoading || token.tokenLoading,
-    error: webchatFramework.error || token.error,
+    loading: webchatFramework.isLoading || token.loadingStatus === 'loading',
+    error: webchatFramework.error || token.loadingStatus === 'error',
     token: token.token,
     WebChatFramework: webchatFramework.WebChatFramework,
   };

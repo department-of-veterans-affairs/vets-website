@@ -24,16 +24,18 @@ function useWaitForCsrfToken(props) {
 }
 
 export default function useVirtualAgentToken(props) {
+  const LOADING = 'loading';
+  const COMPLETE = 'complete';
+  const ERROR = 'error';
+
   const [token, setToken] = useState('');
-  const [tokenLoading, setTokenLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [csrfTokenLoading, csrfTokenLoadingError] = useWaitForCsrfToken(props);
+  const [loadingStatus, setLoadingStatus] = useState(LOADING);
 
   useEffect(
     () => {
       if (csrfTokenLoadingError) {
-        setError(true);
-        setTokenLoading(false);
+        setLoadingStatus(ERROR);
       }
       if (csrfTokenLoading) return;
 
@@ -47,14 +49,13 @@ export default function useVirtualAgentToken(props) {
         try {
           const response = await retryOnce(callVirtualAgentTokenApi);
 
-          setTokenLoading(false);
           setToken(response.token);
+          setLoadingStatus(COMPLETE);
         } catch (ex) {
           Sentry.captureException(
             new Error('Could not retrieve virtual agent token'),
           );
-          setTokenLoading(false);
-          setError(true);
+          setLoadingStatus(ERROR);
         }
       }
       getToken();
@@ -62,5 +63,5 @@ export default function useVirtualAgentToken(props) {
     [csrfTokenLoading, csrfTokenLoadingError],
   );
 
-  return { token, tokenLoading, error };
+  return { token, loadingStatus };
 }
