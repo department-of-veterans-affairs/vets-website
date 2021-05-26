@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mockConstants, renderWithStoreAndRouter } from '../../helpers';
+import { renderWithStoreAndRouter } from '../../helpers';
 
 import { waitFor } from '@testing-library/react';
 
@@ -9,13 +9,8 @@ import SearchTabs from '../../../components/search/SearchTabs';
 describe('<SearchTabs>', () => {
   it('should render', async () => {
     const screen = renderWithStoreAndRouter(
-      <SearchTabs />,
-
-      {
-        initialState: {
-          constants: mockConstants(),
-        },
-      },
+      <SearchTabs search={{ inProgress: false }} />,
+      {},
     );
 
     await waitFor(() => {
