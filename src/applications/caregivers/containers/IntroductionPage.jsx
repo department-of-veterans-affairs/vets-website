@@ -110,6 +110,16 @@ const IntroductionPage = ({
               </li>
             </ul>
 
+            {canUpload1010cgPOA && (
+              <p>
+                <strong>Note:</strong> A legal representative, or someone with
+                power of attorney, can fill out this application on behalf of
+                the Veteran. They’ll need to sign the application. They'll also
+                have a chance to submit documentation to show their status as a
+                legal representative.
+              </p>
+            )}
+
             <div>
               <h4 className="vads-u-font-size--h6">
                 What if I have questions or need help filling out the form?
