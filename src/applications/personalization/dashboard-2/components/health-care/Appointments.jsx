@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
+import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import CTALink from '../CTALink';
 
 export const Appointments = ({ appointments, hasError }) => {
   const nextAppointment = appointments?.[0];
-  const start = new Date(nextAppointment?.startsAt);
+  const start = moment.parseZone(nextAppointment?.startsAt);
   let locationName;
 
   if (nextAppointment?.isVideo) {
@@ -55,10 +55,10 @@ export const Appointments = ({ appointments, hasError }) => {
           Next appointment
         </h4>
         <p className="vads-u-margin-bottom--1">
-          {format(start, 'EEEE, MMMM do, yyyy')}
+          {start.format('dddd, MMMM Do, YYYY')}
         </p>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
-          {`Time: ${format(start, 'h:mm aaaa')} ${nextAppointment?.timeZone}`}
+          {`Time: ${start.format('h:mm a')} ${nextAppointment?.timeZone}`}
         </p>
         <p className="vads-u-margin-top--1">{locationName}</p>
         <CTALink

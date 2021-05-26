@@ -239,9 +239,29 @@ export function getTestFacilityId(facilityId) {
  * @param {*} facility - facility details object
  */
 export function formatFacilityAddress(facility) {
-  return `${facility.address?.line.join(', ')}, ${facility.address?.city}, ${
-    facility.address?.state
-  } ${facility.address?.postalCode}`;
+  if (
+    facility?.address?.line.length > 0 &&
+    facility?.address?.city &&
+    facility?.address?.state &&
+    facility?.address?.postalCode
+  ) {
+    return `${facility.address.line.join(', ')}, ${facility.address.city}, ${
+      facility.address.state
+    } ${facility.address.postalCode}`;
+  }
+
+  return '';
+}
+
+/**
+ * Returns facility phone number.
+ *
+ * @export
+ * @param {*} facility - facility details object
+ * @returns Facility phone number.
+ */
+export function getFacilityPhone(facility) {
+  return facility?.telecom?.find(tele => tele.system === 'phone')?.value;
 }
 
 /**

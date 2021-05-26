@@ -25,6 +25,7 @@ import {
   routeToPreviousAppointmentPage,
   updateFacilitySortMethod,
   updateFormData,
+  hideEligibilityModal,
 } from '../../redux/actions';
 
 const initialSchema = {
@@ -58,7 +59,6 @@ export default function VAFacilityPageV2() {
     eligibility,
     facilities,
     hasDataFetchingError,
-    hideEligibilityModal,
     loadingEligibilityStatus,
     noValidVAFacilities,
     pageChangeInProgress,
@@ -326,7 +326,7 @@ export default function VAFacilityPageV2() {
 
       {showEligibilityModal && (
         <EligibilityModal
-          onClose={hideEligibilityModal}
+          onClose={() => dispatch(hideEligibilityModal())}
           eligibility={eligibility}
           facilityDetails={selectedFacility}
           typeOfCare={typeOfCare}
