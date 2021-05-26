@@ -4,14 +4,15 @@ import retryOnce from './retryOnce';
 import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 
-function useFeatureToggles(props) {
-  const togglesLoading = useSelector(state => state.featureToggles.loading);
-  const [togglesLoadingError, setTogglesLoadingError] = useState(false);
+function useWaitForCsrfToken(props) {
+  // Once the feature toggles have loaded, the csrf token updates
+  const csrfTokenLoading = useSelector(state => state.featureToggles.loading);
+  const [csrfTokenLoadingError, setCsrfTokenLoadingError] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
-      if (togglesLoading) {
-        setTogglesLoadingError(true);
+      if (csrfTokenLoading) {
+        setCsrfTokenLoadingError(true);
         Sentry.captureException(
           new Error('Could not load feature toggles within timeout'),
         );
@@ -19,22 +20,22 @@ function useFeatureToggles(props) {
     }, props.timeout);
   }, []);
 
-  return [togglesLoading, togglesLoadingError];
+  return [csrfTokenLoading, csrfTokenLoadingError];
 }
 
 export default function useVirtualAgentToken(props) {
   const [token, setToken] = useState('');
   const [tokenLoading, setTokenLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [togglesLoading, togglesLoadingError] = useFeatureToggles(props);
+  const [csrfTokenLoading, csrfTokenLoadingError] = useWaitForCsrfToken(props);
 
   useEffect(
     () => {
-      if (togglesLoadingError) {
+      if (csrfTokenLoadingError) {
         setError(true);
         setTokenLoading(false);
       }
-      if (togglesLoading) return;
+      if (csrfTokenLoading) return;
 
       async function callVirtualAgentTokenApi() {
         return apiRequest('/virtual_agent_token', {
@@ -58,7 +59,7 @@ export default function useVirtualAgentToken(props) {
       }
       getToken();
     },
-    [togglesLoading, togglesLoadingError],
+    [csrfTokenLoading, csrfTokenLoadingError],
   );
 
   return { token, tokenLoading, error };
