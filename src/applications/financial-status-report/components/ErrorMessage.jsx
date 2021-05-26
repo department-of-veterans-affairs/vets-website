@@ -31,8 +31,8 @@ const ServerError = () => (
       content={
         <>
           <p>
-            You can't submit a Financial Status Report (5655) because something
-            went wrong on our end.
+            You're unable to submit a Financial Status Report (VA Form 5655)
+            because something went wrong on our end. Please try again later.
           </p>
         </>
       }
