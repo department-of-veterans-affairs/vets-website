@@ -3,7 +3,7 @@ import React from 'react';
 export default function Disclaimer() {
   return (
     <>
-      <h1>Welcome to the VA.gov chatbot study</h1>
+      <h1>Welcome to the VA.gov virtual agent study</h1>
 
       <p>Thank you for being part of this study. We appreciate your time.</p>
 

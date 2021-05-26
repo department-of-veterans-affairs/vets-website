@@ -120,6 +120,11 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       }),
     );
 
+    expect(screen.baseElement).to.contain('.usa-alert-info');
+    expect(screen.baseElement).to.contain.text(
+      'The time and date of this appointment are still to be determined.',
+    );
+
     expect(screen.getByText('Cheyenne VA Medical Center')).to.be.ok;
     expect(screen.baseElement).to.contain.text(
       'Pending primary care appointment',
@@ -287,9 +292,10 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: 'Follow-up/Routine',
+        name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
+    expect(screen.getByText('Follow-up/Routine')).to.be.ok;
 
     expect(
       screen.getByRole('heading', {

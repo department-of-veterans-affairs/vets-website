@@ -388,4 +388,143 @@ describe('VAOS <ConfirmationPage>', () => {
       expect(screen.history.location.pathname).to.equal('/new-appointment');
     });
   });
+
+  it('should verify in person calendar ics file format', async () => {
+    const start = moment();
+    const store = createTestStore({
+      newAppointment: {
+        submitStatus: FETCH_STATUS.succeeded,
+        flowType: FLOW_TYPES.DIRECT,
+        data: {
+          typeOfCareId: '323',
+          phoneNumber: '1234567890',
+          email: 'joeblow@gmail.com',
+          reasonForAppointment: 'routine-follow-up',
+          reasonAdditionalInfo: 'Additional info',
+          vaParent: '983',
+          vaFacility: '983',
+          clinicId: '455',
+          selectedDates: [start.format()],
+        },
+        availableSlots: [
+          {
+            start: start.format(),
+            end: moment(start)
+              .add(30, 'minutes')
+              .format(),
+          },
+        ],
+        parentFacilities: [
+          {
+            id: '983',
+            identifier: [
+              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+              {
+                system: 'http://med.va.gov/fhir/urn',
+                value: 'urn:va:facility:983',
+              },
+            ],
+          },
+        ],
+        clinics: {
+          '983_323': [
+            {
+              id: '455',
+            },
+          ],
+        },
+        facilities: {
+          '323': [
+            {
+              id: '983',
+              name: 'Cheyenne VA Medical Center',
+              identifier: [
+                { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+              ],
+              address: {
+                postalCode: '82001-5356',
+                city: 'Cheyenne',
+                state: 'WY',
+                line: ['2360 East Pershing Boulevard'],
+              },
+              telecom: [{ system: 'phone', value: '307-778-7550' }],
+            },
+          ],
+        },
+      },
+    });
+
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      store,
+    });
+
+    expect(await screen.findByText(/Your appointment is confirmed/i)).to.be.ok;
+    expect(
+      screen.getByText(
+        new RegExp(start.format('MMMM D, YYYY [at] h:mm a'), 'i'),
+      ),
+    ).to.be.ok;
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link', {
+          name: `Add ${start.format(
+            'MMMM D, YYYY',
+          )} appointment to your calendar`,
+        })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = ics.split('\r\n');
+
+    // TODO: Debugging
+    // console.log(tokens);
+
+    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
+    expect(tokens[1]).to.equal('VERSION:2.0');
+    expect(tokens[2]).to.equal('PRODID:VA');
+    expect(tokens[3]).to.equal('BEGIN:VEVENT');
+    expect(tokens[4]).to.contain('UID:');
+    expect(tokens[5]).to.equal(
+      'SUMMARY:Appointment at Cheyenne VA Medical Center',
+    );
+
+    // Description text longer than 74 characters should start on newline beginning
+    // with a tab character
+    expect(tokens[6]).to.equal(
+      'DESCRIPTION:You have a health care appointment at Cheyenne VA Medical Cent',
+    );
+    expect(tokens[7]).to.equal('\ter');
+    expect(tokens[8]).to.equal('\t\\n\\n2360 East Pershing Boulevard\\n');
+    expect(tokens[9]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
+    expect(tokens[10]).to.equal('\t307-778-7550\\n');
+    expect(tokens[11]).to.equal(
+      '\t\\nSign in to VA.gov to get details about this appointment\\n',
+    );
+
+    expect(tokens[12]).to.equal(
+      'LOCATION:2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
+    );
+    expect(tokens[13]).to.equal(
+      `DTSTAMP:${moment(start)
+        .tz('America/Denver', true) // Only change the timezone and not the time
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[14]).to.equal(
+      `DTSTART:${moment(start)
+        .tz('America/Denver', true) // Only change the timezone and not the time
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[15]).to.equal(
+      `DTEND:${moment(start)
+        .tz('America/Denver', true) // Only change the timezone and not the time
+        .utc()
+        .add(30, 'minutes')
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[16]).to.equal('END:VEVENT');
+    expect(tokens[17]).to.equal('END:VCALENDAR');
+  });
 });
