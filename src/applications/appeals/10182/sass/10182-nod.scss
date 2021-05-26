@@ -121,6 +121,13 @@ dl.review {
   }
 }
 
+/* IE11 hack to fix edit button placement, see
+ * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
+ */
+ _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
+  width: calc(100% - 125px); /* 125px ~= width of the edit button x2 */
+}
+
 .additional-issues {
   .schemaform-label,
   .usa-input-error {

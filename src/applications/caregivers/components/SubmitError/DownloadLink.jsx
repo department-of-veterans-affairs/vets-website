@@ -29,7 +29,7 @@ const DownLoadLink = ({ form }) => {
         body: transformedData,
         headers: {
           'Content-Type': 'application/json',
-          'Source-App-Name': 'caregivers-10-10cg-',
+          'Source-App-Name': window.appName,
         },
       },
     )
