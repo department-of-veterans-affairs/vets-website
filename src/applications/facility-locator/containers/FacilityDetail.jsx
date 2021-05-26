@@ -15,10 +15,7 @@ import ServicesAtFacility from '../components/ServicesAtFacility';
 import AppointmentInfo from '../components/AppointmentInfo';
 import { OperatingStatus, FacilityType } from '../constants';
 import VABenefitsCall from '../components/VABenefitsCall';
-import {
-  facilityLocatorShowOperationalHoursSpecialInstructions,
-  facilityLocatorRailsEngine,
-} from '../utils/featureFlagSelectors';
+import { facilityLocatorShowOperationalHoursSpecialInstructions } from '../utils/featureFlagSelectors';
 
 class FacilityDetail extends Component {
   // eslint-disable-next-line camelcase
@@ -204,7 +201,6 @@ function mapStateToProps(state) {
     showHoursSpecialInstructions: facilityLocatorShowOperationalHoursSpecialInstructions(
       state,
     ),
-    useRailsEngine: facilityLocatorRailsEngine(state),
   };
 }
 
