@@ -20,7 +20,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-const IntroductionPage = ({
+export const IntroductionPage = ({
   route,
   router,
   formData,
@@ -111,7 +111,7 @@ const IntroductionPage = ({
             </ul>
 
             {canUpload1010cgPOA && (
-              <p>
+              <p data-testid="poa-info-note">
                 <strong>Note:</strong> A legal representative, or someone with
                 power of attorney, can fill out this application on behalf of
                 the Veteran. They’ll need to sign the application. They'll also
