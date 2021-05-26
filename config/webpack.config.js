@@ -87,7 +87,14 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-async function generateHtmlFiles(buildPath) {
+/**
+ * Creates a mapping of scaffold asset filenames to file contents.
+ * Tries first to read from a local content-build by default and
+ * falls back to downloading from a remote content-build.
+ *
+ * @return {Object} - Map of scaffold asset filenames to file contents.
+ */
+async function getScaffoldAssets() {
   const LOCAL_CONTENT_BUILD_ROOT = '../content-build';
 
   const REMOTE_CONTENT_BUILD_ROOT =
@@ -99,9 +106,6 @@ async function generateHtmlFiles(buildPath) {
     'static-page-widgets.js',
   ];
 
-  // Loads an asset for the scaffold from either a local or remote content-build
-  // and returns a pairing of the filename and file contents.
-  // If it exists locally, reads the file. Otherwise, downloads the file.
   const loadAsset = async contentBuildPath => {
     const filename = path.basename(contentBuildPath);
     const localPath = path.join(LOCAL_CONTENT_BUILD_ROOT, contentBuildPath);
@@ -131,7 +135,6 @@ async function generateHtmlFiles(buildPath) {
     return [filename, fileContents];
   };
 
-  // Map scaffold asset filenames to their resolved file contents.
   const loadedAssets = await Promise.all(
     [
       ...INLINE_SCRIPTS.map(filename =>
@@ -141,7 +144,19 @@ async function generateHtmlFiles(buildPath) {
     ].map(loadAsset),
   );
 
-  const scaffoldAssets = Object.fromEntries(loadedAssets);
+  return Object.fromEntries(loadedAssets);
+}
+
+/**
+ * Generates HTML files for each app and widget.
+ *
+ * @param {String} buildPath - Path to the overall build destination.
+ *
+ * @return {HtmlWebpackPlugin[]} - List of HtmlWebpackPlugin instances,
+ *   representing the HTML files to generate for each app and widget.
+ */
+async function generateHtmlFiles(buildPath) {
+  const scaffoldAssets = await getScaffoldAssets();
   const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
   const loadInlineScript = filename => scaffoldAssets[filename];
 
