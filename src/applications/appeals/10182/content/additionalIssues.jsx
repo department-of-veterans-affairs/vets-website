@@ -2,11 +2,12 @@ import React from 'react';
 
 export const missingIssueErrorMessage = 'Please add the name of an issue';
 
+export const missingIssuesErrorMessageText =
+  'Please add and select an issue, or select an eligible issue on the previous page';
 export const missingIssuesErrorMessage = (
   <span className="usa-input-error-message" role="alert">
     <span className="sr-only">Error</span>
-    Please add and select an issue, or select an eligible issue on the previous
-    page
+    {missingIssuesErrorMessageText}
   </span>
 );
 
