@@ -11,7 +11,6 @@ import * as actions from '../redux/actions';
 import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
 import AddToCalendar from '../../components/AddToCalendar';
 import FacilityAddress from '../../components/FacilityAddress';
-import { formatFacilityAddress } from '../../services/location';
 import PageLayout from './AppointmentsPage/PageLayout';
 import ErrorMessage from '../../components/ErrorMessage';
 import { selectAppointmentById } from '../redux/selectors';
@@ -20,6 +19,7 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
+import { getCalendarData } from '../../services/appointment';
 
 function CommunityCareAppointmentDetailsPage({
   appointment,
@@ -79,6 +79,10 @@ function CommunityCareAppointmentDetailsPage({
   const header = 'Community care';
   const { providerName, practiceName } =
     appointment.communityCareProvider || {};
+  const calendarData = getCalendarData({
+    facility: appointment.communityCareProvider,
+    appointment,
+  });
 
   return (
     <PageLayout>
@@ -132,9 +136,13 @@ function CommunityCareAppointmentDetailsPage({
           className="far fa-calendar vads-u-margin-right--1"
         />
         <AddToCalendar
-          summary={header}
-          description={appointment.comment}
-          location={formatFacilityAddress(appointment.communityCareProvider)}
+          summary={calendarData.summary}
+          description={{
+            text: calendarData.text,
+            phone: calendarData.phone,
+            additionalText: calendarData.additionalText,
+          }}
+          location={calendarData.location}
           duration={appointment.minutesDuration}
           startDateTime={moment.parseZone(appointment.start)}
         />
