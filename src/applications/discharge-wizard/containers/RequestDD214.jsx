@@ -80,7 +80,7 @@ const RequestDD214 = ({ router }) => {
               to the {board(formValues, true)?.abbr} for the{' '}
               {branchOfService(formValues?.['1_branchOfService'])}.
             </p>
-            <p>Unfortunately, there isn’t a way to submit this form online.</p>
+            <p>At this time, there isn’t a way to submit this form online.</p>
             <p>
               Mail your completed form and all supporting documents to the{' '}
               {board(formValues, true)?.abbr} at:
