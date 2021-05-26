@@ -1,6 +1,7 @@
 import React from 'react';
 
 export const missingIssueErrorMessage = 'Please add the name of an issue';
+export const noneSelected = 'Please add and select at least one issue';
 
 export const missingIssuesErrorMessageText =
   'Please add and select an issue, or select an eligible issue on the previous page';
