@@ -59,7 +59,7 @@ const NearByVetCenters = props => {
     mainVetCenterPhone,
   ) => {
     const publishedVetCenters = vetCenters
-      .filter(v => !v.entity.fieldFacilityLocatorApiId)
+      .filter(v => v.entity.entityPublished)
       .map(v => v.entity);
     const unPublishedVetCenters = facilitiesVetCenters.map(vc => ({
       entityBundle: vc.attributes.facilityType,
