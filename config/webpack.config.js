@@ -100,12 +100,6 @@ async function getScaffoldAssets() {
   const REMOTE_CONTENT_BUILD_ROOT =
     'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master';
 
-  const INLINE_SCRIPTS = [
-    'incompatible-browser.js',
-    'record-event.js',
-    'static-page-widgets.js',
-  ];
-
   const loadAsset = async contentBuildPath => {
     const filename = path.basename(contentBuildPath);
     const localPath = path.join(LOCAL_CONTENT_BUILD_ROOT, contentBuildPath);
@@ -135,13 +129,16 @@ async function getScaffoldAssets() {
     return [filename, fileContents];
   };
 
+  const inlineScripts = [
+    'incompatible-browser.js',
+    'record-event.js',
+    'static-page-widgets.js',
+  ].map(filename => path.join('src/site/assets/js', filename));
+
+  const appRegistry = path.join('src/applications', 'registry.json');
+
   const loadedAssets = await Promise.all(
-    [
-      ...INLINE_SCRIPTS.map(filename =>
-        path.join('src/site/assets/js', filename),
-      ),
-      path.join('src/applications', 'registry.json'),
-    ].map(loadAsset),
+    [...inlineScripts, appRegistry].map(loadAsset),
   );
 
   return Object.fromEntries(loadedAssets);
