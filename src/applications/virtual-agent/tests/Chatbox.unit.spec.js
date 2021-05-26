@@ -139,6 +139,10 @@ describe('App', () => {
       );
 
       expect(wrapper.queryByRole('progressbar')).to.not.exist;
+      expect(Sentry.captureException.called).to.be.true;
+      expect(Sentry.captureException.getCall(0).args[0].message).equals(
+        'Failed to load webchat framework',
+      );
     });
   });
 
@@ -285,6 +289,11 @@ describe('App', () => {
       await waitFor(
         () => expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist,
       );
+
+      expect(Sentry.captureException.called).to.be.true;
+      expect(Sentry.captureException.getCall(0).args[0].message).equals(
+        'Could not retrieve virtual agent token',
+      );
     });
   });
 
@@ -305,6 +314,8 @@ describe('App', () => {
       });
 
       await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+
+      expect(Sentry.captureException.called).to.be.false;
     });
   });
 

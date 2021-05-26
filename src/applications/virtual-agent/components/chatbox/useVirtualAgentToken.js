@@ -17,7 +17,7 @@ function useFeatureToggles(props) {
         );
       }
     }, props.timeout);
-  });
+  }, []);
 
   return [togglesLoading, togglesLoadingError];
 }
