@@ -10,11 +10,17 @@ function VetCenterInfoSection(props) {
   }`;
 
   const renderPhone = phoneNumber => {
+    if (!phoneNumber) return null;
     return (
-      <div className="main-phone">
-        <strong />
-        <a href={`tel:${phoneNumber}`}>{phoneNumber}</a>
-      </div>
+      <>
+        <h4 className="force-small-header vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
+          Phone
+        </h4>
+        <div className="main-phone">
+          <strong />
+          <a href={`tel:${phoneNumber}`}>{phoneNumber}</a>
+        </div>
+      </>
     );
   };
 
@@ -57,14 +63,9 @@ function VetCenterInfoSection(props) {
           </a>
         </div>
       </div>
-      <h4 className="force-small-header vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
-        Phone
-      </h4>
-      <div>
-        {props.vetCenter.entityBundle === 'vet_center_cap'
-          ? renderPhone(props.mainVetCenterPhone)
-          : renderPhone(props.vetCenter.fieldPhoneNumber)}
-      </div>
+      {props.vetCenter.entityBundle === 'vet_center_cap'
+        ? renderPhone(props.mainVetCenterPhone)
+        : renderPhone(props.vetCenter.fieldPhoneNumber)}
     </>
   );
 }
