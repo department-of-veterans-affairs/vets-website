@@ -4,17 +4,31 @@ import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
 import useVirtualAgentToken from './useVirtualAgentToken';
 import WebChat from '../webchat/WebChat';
-import { ERROR, LOADING } from './loadingStatus';
+import { COMPLETE, ERROR, LOADING } from './loadingStatus';
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
   const token = useVirtualAgentToken(props);
 
+  const error = webchatFramework.error || token.loadingStatus === ERROR;
+  const loading = token.loadingStatus === LOADING || webchatFramework.isLoading;
+
+  let loadingStatus = LOADING;
+
+  if (error) {
+    loadingStatus = ERROR;
+  } else if (loading) {
+    loadingStatus = LOADING;
+  } else {
+    loadingStatus = COMPLETE;
+  }
+
   return {
-    loading: webchatFramework.isLoading || token.loadingStatus === LOADING,
-    error: webchatFramework.error || token.loadingStatus === ERROR,
+    loading,
+    error,
     token: token.token,
     WebChatFramework: webchatFramework.WebChatFramework,
+    loadingStatus,
   };
 }
 
@@ -33,15 +47,16 @@ export default function Chatbox(props) {
 }
 
 function App(props) {
-  const { loading, error, token, WebChatFramework } = useWebChat(props);
+  const { token, WebChatFramework, loadingStatus } = useWebChat(props);
 
-  if (loading) {
-    return <LoadingIndicator message={'Loading Virtual Agent'} />;
+  switch (loadingStatus) {
+    case ERROR:
+      return <ChatbotError />;
+    case LOADING:
+      return <LoadingIndicator message={'Loading Virtual Agent'} />;
+    case COMPLETE:
+      return <WebChat token={token} WebChatFramework={WebChatFramework} />;
+    default:
+      throw new Error(`Invalid loading status: ${loadingStatus}`);
   }
-
-  if (error) {
-    return <ChatbotError />;
-  }
-
-  return <WebChat token={token} WebChatFramework={WebChatFramework} />;
 }
