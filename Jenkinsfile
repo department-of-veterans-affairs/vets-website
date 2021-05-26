@@ -77,7 +77,7 @@ node('vetsgov-general-purpose') {
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
             sh "/cc-test-reporter before-build"
             if (commonStages.isReviewable()) {
-                sh "cd /application && npm --no-color run test:unit -- --coverage--log-level trace"
+                sh "cd /application && npm --no-color run test:unit -- --coverage --log-level trace"
             } else {
                 sh "cd /application && npm --no-color run test:unit -- --coverage"
             }
