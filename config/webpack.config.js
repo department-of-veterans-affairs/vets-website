@@ -149,7 +149,7 @@ async function getScaffoldAssets() {
  *
  * @param {String} buildPath - Path to the overall build destination.
  *
- * @return {HtmlWebpackPlugin[]} - List of HtmlWebpackPlugin instances,
+ * @return {HtmlWebpackPlugin[]} - Array of HtmlWebpackPlugin instances,
  *   representing the HTML files to generate for each app and widget.
  */
 async function generateHtmlFiles(buildPath) {
