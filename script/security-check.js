@@ -45,15 +45,21 @@ function processAuditResults(audit) {
 
   if (validAdvisories.length) {
     validAdvisories.forEach(adv => {
-      console.log(`
-Security advisory:
-  Title: ${adv.data.advisory.title}
-  Module name: ${adv.data.advisory.module_name}
-  Dependency: ${getAffectedModule(adv.data)}
-  Path: ${adv.data.resolution.path}
-  Severity: ${adv.data.advisory.severity}
-  Details: ${adv.data.advisory.url}
-      `);
+      const output = `Security advisory: \n Title: ${
+        adv.data.advisory.title
+      } \n Module name: ${
+        adv.data.advisory.module_name
+      } \n Dependency: ${getAffectedModule(adv.data)} \n Path: ${
+        adv.data.resolution.path
+      } \n Severity: ${adv.data.advisory.severity} \n Details: ${
+        adv.data.advisory.url
+      } \n`;
+
+      if (process.env.CI) {
+        console.log(`::error::${output.replace(/\n/g, '%0A')}`);
+      } else {
+        console.log(output);
+      }
     });
   } else {
     console.log(
