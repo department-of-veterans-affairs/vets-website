@@ -3,6 +3,7 @@ import { apiRequest } from 'platform/utilities/api';
 import retryOnce from './retryOnce';
 import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
+import { COMPLETE, ERROR, LOADING } from './loadingStatus';
 
 function useWaitForCsrfToken(props) {
   // Once the feature toggles have loaded, the csrf token updates
@@ -24,10 +25,6 @@ function useWaitForCsrfToken(props) {
 }
 
 export default function useVirtualAgentToken(props) {
-  const LOADING = 'loading';
-  const COMPLETE = 'complete';
-  const ERROR = 'error';
-
   const [token, setToken] = useState('');
   const [csrfTokenLoading, csrfTokenLoadingError] = useWaitForCsrfToken(props);
   const [loadingStatus, setLoadingStatus] = useState(LOADING);

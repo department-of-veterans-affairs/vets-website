@@ -4,14 +4,15 @@ import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
 import useVirtualAgentToken from './useVirtualAgentToken';
 import WebChat from '../webchat/WebChat';
+import { ERROR, LOADING } from './loadingStatus';
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
   const token = useVirtualAgentToken(props);
 
   return {
-    loading: webchatFramework.isLoading || token.loadingStatus === 'loading',
-    error: webchatFramework.error || token.loadingStatus === 'error',
+    loading: webchatFramework.isLoading || token.loadingStatus === LOADING,
+    error: webchatFramework.error || token.loadingStatus === ERROR,
     token: token.token,
     WebChatFramework: webchatFramework.WebChatFramework,
   };
