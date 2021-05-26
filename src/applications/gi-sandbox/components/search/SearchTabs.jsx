@@ -1,26 +1,20 @@
 import React from 'react';
 import classNames from 'classnames';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import NameSearchForm from '../../containers/NameSearchForm';
 import LocationSearchForm from '../../containers/LocationSearchForm';
-import SearchResults from './SearchResults';
+import NameResults from './NameResults';
 import LocationSearchResults from './LocationSearchResults';
 import { TABS } from '../../constants';
 
 export default function SearchTabs({ onChange, search }) {
-  const { inProgress, tab } = search;
+  const { tab } = search;
   const tabbedSearch = {
     [TABS.name]: <NameSearchForm />,
     [TABS.location]: <LocationSearchForm />,
   };
 
   const tabbedResults = {
-    [TABS.name]: (
-      <>
-        {inProgress && <LoadingIndicator message="Loading search results..." />}
-        {!inProgress && <SearchResults search={search} />}
-      </>
-    ),
+    [TABS.name]: <NameResults search={search} />,
     [TABS.location]: <LocationSearchResults search={search} />,
   };
 

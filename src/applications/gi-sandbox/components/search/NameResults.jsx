@@ -4,7 +4,7 @@ import SearchResultCard from './SearchResultCard';
 import RefineYourSearch from '../../containers/RefineYourSearch';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 
-export default function SearchResults({ search }) {
+export default function NameResults({ search }) {
   const { inProgress } = search;
   const { count, results } = search.name;
   const { name } = search.query;
