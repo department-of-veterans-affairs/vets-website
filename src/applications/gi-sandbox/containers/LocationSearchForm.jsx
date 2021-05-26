@@ -36,6 +36,7 @@ export function LocationSearchForm({
       dispatchFetchSearchByLocationCoords(
         selected.label,
         selected.coords,
+        distance,
         filters,
       );
     } else {

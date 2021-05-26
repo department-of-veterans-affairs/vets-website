@@ -210,11 +210,11 @@ export function updateEstimatedBenefits(estimatedBenefits) {
 }
 
 export function fetchSearchByNameResults(name, filters, version) {
-  const url = appendQuery(`${api.url}/institutions/search`, {
-    name,
-    ...rubyifyKeys(buildSearchFilters(filters)),
-    version,
-  });
+  const params = { name, ...rubyifyKeys(buildSearchFilters(filters)) };
+  if (version) {
+    params.version = version;
+  }
+  const url = appendQuery(`${api.url}/institutions/search`, params);
 
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, payload: { name } });
@@ -322,16 +322,17 @@ export function fetchSearchByLocationCoords(
   version,
 ) {
   const [longitude, latitude] = coordinates;
-  const url = appendQuery(
-    `${api.url}/institutions/search`,
-    rubyifyKeys({
-      latitude,
-      longitude,
-      distance,
-      ...buildSearchFilters(filters),
-      version,
-    }),
-  );
+
+  const params = {
+    latitude,
+    longitude,
+    distance,
+    ...rubyifyKeys(buildSearchFilters(filters)),
+  };
+  if (version) {
+    params.version = version;
+  }
+  const url = appendQuery(`${api.url}/institutions/search`, params);
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
