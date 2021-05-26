@@ -12,6 +12,9 @@ function useFeatureToggles(props) {
     setTimeout(() => {
       if (togglesLoading) {
         setTogglesLoadingError(true);
+        Sentry.captureException(
+          new Error('Could not load feature toggles within timeout'),
+        );
       }
     }, props.timeout);
   });

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { expect } from 'chai';
 import { waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
+import * as Sentry from '@sentry/browser';
 
 import Chatbox from '../components/chatbox/Chatbox';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -178,6 +179,7 @@ describe('App', () => {
     });
 
     it('should display error after loading feature toggles has not finished within timeout', async () => {
+      sinon.spy(Sentry, 'captureException');
       loadWebChat();
 
       const wrapper = renderInReduxProvider(<Chatbox timeout={100} />, {
@@ -193,6 +195,8 @@ describe('App', () => {
       await waitFor(
         () => expect(wrapper.getByText(CHATBOT_ERROR_MESSAGE)).to.exist,
       );
+
+      expect(Sentry.captureException.called).to.be.true;
     });
 
     it('should call token api after loading feature toggles', async () => {
