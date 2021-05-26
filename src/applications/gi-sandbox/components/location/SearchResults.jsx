@@ -1,13 +1,104 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { scroller } from 'react-scroll';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from 'mapbox-gl';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 import SearchResultCard from '../search/SearchResultCard';
+import { mapboxToken } from '../../utils/mapboxToken';
+import { MapboxInit } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import RefineYourSearch from '../../containers/RefineYourSearch';
-import { numberToLetter } from '../../utils/helpers';
+import { numberToLetter, createId } from '../../utils/helpers';
 
 export default function SearchResults({ search }) {
   const { count, results } = search.location;
   const { location } = search.query;
+  const map = useRef(null);
+  const mapContainer = useRef(null);
+
+  const setupMap = () => {
+    if (map.current) return; // initialize map only once
+
+    mapboxgl.accessToken = mapboxToken;
+
+    const mapInit = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/outdoors-v11',
+      center: [MapboxInit.centerInit.longitude, MapboxInit.centerInit.latitude],
+      zoom: MapboxInit.zoomInit,
+    });
+    mapInit.addControl(
+      new mapboxgl.NavigationControl({
+        // Hide rotation control.
+        showCompass: false,
+      }),
+      'top-left',
+    );
+
+    // Remove mapbox logo from tab order
+    const mapBoxLogo = document.querySelector(
+      'a.mapboxgl-ctrl-logo.mapboxgl-compact',
+    );
+    if (mapBoxLogo) mapBoxLogo.setAttribute('tabIndex', -1);
+
+    mapInit.on('load', () => {
+      mapInit.resize();
+    });
+
+    map.current = mapInit;
+  };
+
+  useEffect(() => {
+    if (mapContainer.current) {
+      setupMap();
+    }
+  }, []); // <-- empty array means 'run once'
+
+  const addMapMarker = (institution, index, locationBounds) => {
+    const { latitude, longitude, name } = institution;
+    const letter = numberToLetter(index + 1);
+
+    const markerElement = document.createElement('div');
+    markerElement.className = 'location-letter-marker';
+    markerElement.innerText = letter;
+
+    const popup = new mapboxgl.Popup();
+    popup.on('open', () => {
+      const locationSearchResults = document.getElementById(
+        'location-search-results',
+      );
+
+      scroller.scrollTo(
+        `${createId(name)}-result-card-placeholder`,
+        getScrollOptions({
+          containerId: 'location-search-results',
+          offset: -locationSearchResults.getBoundingClientRect().top,
+        }),
+      );
+    });
+
+    locationBounds.extend(new mapboxgl.LngLat(longitude, latitude));
+    new mapboxgl.Marker(markerElement)
+      .setLngLat([longitude, latitude])
+      .setPopup(popup)
+      .addTo(map.current);
+  };
+
+  useEffect(
+    () => {
+      if (!map.current || results.length === 0) return; // wait for map to initialize
+
+      const locationBounds = new mapboxgl.LngLatBounds();
+
+      results.forEach((institution, index) => {
+        addMapMarker(institution, index, locationBounds);
+      });
+
+      map.current.fitBounds(locationBounds, { padding: 20 });
+    },
+    [results],
+  );
 
   const resultCards = results.map((institution, index) => {
     const { name, city, state, distance } = institution;
@@ -72,7 +163,30 @@ export default function SearchResults({ search }) {
           )}
         </div>
 
-        <div className={'usa-width-two-thirds'} />
+        <div className={'usa-width-two-thirds'}>
+          <map
+            ref={mapContainer}
+            id="mapbox-gl-container"
+            aria-label="Find VA locations on an interactive map"
+            aria-describedby="map-instructions"
+            className={'desktop-map-container'}
+            role="region"
+          >
+            <div
+              id="search-area-control-container"
+              className={'mapboxgl-ctrl-top-center'}
+            >
+              <button
+                id="search-area-control"
+                className={'usa-button'}
+                onClick={() => {}}
+                aria-live="assertive"
+              >
+                Search this area of the map
+              </button>
+            </div>
+          </map>
+        </div>
       </div>
     </>
   );
