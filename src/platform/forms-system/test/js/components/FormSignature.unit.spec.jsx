@@ -12,14 +12,12 @@ describe('Forms library - Forms signature component', () => {
     showError: true,
   };
 
-  it('should render inputs', () => {
+  it('should render inputs with default labels', () => {
     const { getByLabelText } = render(<FormSignature {...signatureProps} />);
     expect(getByLabelText('Veteran’s full name')).to.exist;
   });
 
-  it('should render default content', () => {});
-
-  it('should render custom content', () => {});
+  it('should render inputs with custom labels', () => {});
 
   it('should render "on behalf of" text', () => {});
 

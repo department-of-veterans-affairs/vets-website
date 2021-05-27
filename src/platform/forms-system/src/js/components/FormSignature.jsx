@@ -8,14 +8,17 @@ import { setData } from 'platform/forms-system/src/js/actions';
  *
  * Example usage in formConfig:
  * preSubmitInfo: {
- *   CustomComponent: (props) => (
- *     <FormSignature
- *       {...props}
- *       content={contentElements}
- *       onBehalfOf={`${props.formData.veteran.firstName} ${
- *         props.formData.veteran.lastName
- *       }`}
- *     />
+ *   CustomComponent: (signatureProps) => (
+ *     <>
+ *       <h3>Veteran’s statement of truth</h3>
+ *       <p>I solemnly swear I am up to no good.</p>
+ *       <FormSignature
+ *         {...signatureProps}
+ *         onBehalfOf={`${props.formData.veteran.firstName} ${
+ *           props.formData.veteran.lastName
+ *         }`}
+ *       />
+ *     </>
  *   );
  * }
  */
@@ -32,6 +35,8 @@ export const FormSignature = () =>
     // TODO: Handle the inputs
     return (
       <>
+        <h3>Veteran’s statement of truth</h3>
+        <p>I certify that this information will be custom for each form.</p>
         <label htmlFor="signature">Veteran’s full name</label>
         <input id="signature" type="text" />
       </>
