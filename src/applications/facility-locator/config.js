@@ -2,7 +2,6 @@ import environment from 'platform/utilities/environment';
 import compact from 'lodash/compact';
 import { LocationType, FacilityType } from './constants';
 import manifest from './manifest.json';
-import store from './facility-locator-entry';
 import { facilityLocatorRailsEngine } from './utils/featureFlagSelectors';
 
 const apiSettings = {
@@ -34,16 +33,14 @@ const railsEngineApi = {
   settings: apiSettings,
 };
 
-export const getAPI = () => {
-  const useRailsEngine = facilityLocatorRailsEngine(store.getState());
-  return useRailsEngine ? railsEngineApi : legacyApi;
-};
+export const getAPI = useRailsEngine =>
+  useRailsEngine ? railsEngineApi : legacyApi;
 
 /**
  * Build parameters and URL for facilities API calls
  *
  */
-export const resolveParamsWithUrl = (
+export const resolveParamsWithUrl = ({
   address,
   locationType,
   serviceType,
@@ -52,15 +49,19 @@ export const resolveParamsWithUrl = (
   center,
   radius,
   allUrgentCare = false,
-) => {
+  store,
+}) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
-  const api = getAPI();
+  const reduxStore = store || require('./facility-locator-entry');
+  const useRailsEngine = facilityLocatorRailsEngine(reduxStore.getState());
+  const api = getAPI(useRailsEngine);
 
   let facility;
   let service;
   let url = api.url;
   let roundRadius;
   let perPage = 20;
+  let communityServiceType = false;
 
   switch (locationType) {
     case 'urgent_care':
@@ -70,10 +71,12 @@ export const resolveParamsWithUrl = (
       } else if (serviceType === 'NonVAUrgentCare' && allUrgentCare) {
         facility = 'urgent_care';
         url = api.ccUrl;
+        communityServiceType = true;
         perPage = 40;
       } else if (serviceType === 'NonVAUrgentCare' && !allUrgentCare) {
         facility = 'urgent_care';
         url = api.ccUrl;
+        communityServiceType = true;
       }
       break;
     case 'pharmacy':
@@ -81,6 +84,7 @@ export const resolveParamsWithUrl = (
       facility = locationType;
       service = serviceType;
       url = api.ccUrl;
+      communityServiceType = true;
       break;
     default:
       facility = locationType;
@@ -89,14 +93,18 @@ export const resolveParamsWithUrl = (
 
   if (radius) roundRadius = Math.max(1, radius.toFixed());
 
+  if (useRailsEngine && facility) {
+    url = `${url}/${facility}`;
+  }
+
   return {
     url,
     params: compact([
       address ? `address=${address}` : null,
       ...bounds.map(c => `bbox[]=${c}`),
-      facility ? `type=${facility}` : null,
+      facility && !useRailsEngine ? `type=${facility}` : null,
       filterableLocations.includes(facility) && service
-        ? `${url === api.ccUrl ? 'specialties' : 'services'}[]=${service}`
+        ? `${communityServiceType ? 'specialties' : 'services'}[]=${service}`
         : null,
       `page=${page}`,
       `per_page=${perPage}`,
