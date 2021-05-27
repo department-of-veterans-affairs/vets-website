@@ -6,25 +6,28 @@ import useVirtualAgentToken from './useVirtualAgentToken';
 import WebChat from '../webchat/WebChat';
 import { COMPLETE, ERROR, LOADING } from './loadingStatus';
 
+function combineLoadingStatus(statusA, statusB) {
+  if (statusA === ERROR || statusB === ERROR) {
+    return ERROR;
+  } else if (statusA === LOADING || statusB === LOADING) {
+    return LOADING;
+  } else if (statusA === COMPLETE && statusB === COMPLETE) {
+    return COMPLETE;
+  } else {
+    throw new Error(
+      `Invalid loading status statusA: ${statusA} statusB: ${statusB}`,
+    );
+  }
+}
+
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
   const token = useVirtualAgentToken(props);
 
-  const error =
-    webchatFramework.loadingStatus === ERROR || token.loadingStatus === ERROR;
-  const loading =
-    webchatFramework.loadingStatus === LOADING ||
-    token.loadingStatus === LOADING;
-
-  let loadingStatus = LOADING;
-
-  if (error) {
-    loadingStatus = ERROR;
-  } else if (loading) {
-    loadingStatus = LOADING;
-  } else {
-    loadingStatus = COMPLETE;
-  }
+  const loadingStatus = combineLoadingStatus(
+    webchatFramework.loadingStatus,
+    token.loadingStatus,
+  );
 
   return {
     token: token.token,
