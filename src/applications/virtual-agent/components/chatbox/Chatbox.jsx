@@ -4,21 +4,12 @@ import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
 import useVirtualAgentToken from './useVirtualAgentToken';
 import WebChat from '../webchat/WebChat';
-import { COMPLETE, ERROR, LOADING } from './loadingStatus';
-
-function combineLoadingStatus(statusA, statusB) {
-  if (statusA === ERROR || statusB === ERROR) {
-    return ERROR;
-  } else if (statusA === LOADING || statusB === LOADING) {
-    return LOADING;
-  } else if (statusA === COMPLETE && statusB === COMPLETE) {
-    return COMPLETE;
-  } else {
-    throw new Error(
-      `Invalid loading status statusA: ${statusA} statusB: ${statusB}`,
-    );
-  }
-}
+import {
+  combineLoadingStatus,
+  COMPLETE,
+  ERROR,
+  LOADING,
+} from './loadingStatus';
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
