@@ -37,7 +37,7 @@ export const Appointments = ({ appointments, hasError }) => {
               </p>
               <p>
                 <CTALink
-                  text="Schedule and view your appointments"
+                  text="Schedule and manage your appointments"
                   href="/health-care/schedule-view-va-appointments/appointments"
                 />
               </p>
@@ -62,7 +62,7 @@ export const Appointments = ({ appointments, hasError }) => {
         </p>
         <p className="vads-u-margin-top--1">{locationName}</p>
         <CTALink
-          text="Schedule and view your appointments"
+          text="Schedule and manage your appointments"
           href="/health-care/schedule-view-va-appointments/appointments"
         />
       </div>
