@@ -87,7 +87,7 @@ export default function VAFacilityPageV2() {
       document.title = `${pageTitle} | Veterans Affairs`;
       dispatch(openFacilityPageV2(pageKey, uiSchema, initialSchema));
     },
-    [openFacilityPageV2],
+    [dispatch, pageTitle],
   );
 
   useEffect(

@@ -33,7 +33,7 @@ function CommunityCareAppointmentDetailsPage({
     () => {
       fetchConfirmedAppointmentDetails(id, 'cc');
     },
-    [id],
+    [id, fetchConfirmedAppointmentDetails],
   );
 
   useEffect(

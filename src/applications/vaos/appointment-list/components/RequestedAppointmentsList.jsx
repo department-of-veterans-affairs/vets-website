@@ -39,7 +39,7 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
         scrollAndFocus('h3');
       }
     },
-    [fetchPendingAppointments, pendingStatus, hasTypeChanged, dispatch],
+    [pendingStatus, hasTypeChanged, dispatch],
   );
 
   if (

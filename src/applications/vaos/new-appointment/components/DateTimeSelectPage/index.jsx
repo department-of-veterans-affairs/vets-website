@@ -107,7 +107,7 @@ export default function DateTimeSelectPage() {
       );
       document.title = `${pageTitle} | Veterans Affairs`;
     },
-    [dispatch],
+    [dispatch, preferredDate],
   );
 
   useEffect(

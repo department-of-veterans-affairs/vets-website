@@ -100,7 +100,7 @@ function PastAppointmentsList({
         );
       }
     },
-    [dateRangeOptions, pastSelectedIndex, pastStatus],
+    [dateRangeOptions, pastSelectedIndex, pastStatus, fetchPastAppointments],
   );
   useEffect(
     () => {

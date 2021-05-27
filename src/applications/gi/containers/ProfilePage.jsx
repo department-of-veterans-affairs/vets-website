@@ -63,7 +63,7 @@ export function ProfilePage({
     () => {
       dispatchFetchProfile(facilityCode, version);
     },
-    [version, facilityCode],
+    [version, facilityCode, dispatchFetchProfile],
   );
 
   let content;

@@ -88,7 +88,7 @@ export default function ClinicChoicePage() {
       scrollAndFocus();
       document.title = `${getPageTitle(schema, typeOfCare)} | Veterans Affairs`;
     },
-    [schemaAndFacilityReady],
+    [schemaAndFacilityReady, schema, typeOfCare],
   );
 
   if (!schemaAndFacilityReady) {

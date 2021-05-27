@@ -40,7 +40,7 @@ export default function UpcomingAppointmentsList() {
         scrollAndFocus('h3');
       }
     },
-    [fetchFutureAppointments, futureStatus, hasTypeChanged, dispatch],
+    [futureStatus, hasTypeChanged, dispatch],
   );
 
   if (

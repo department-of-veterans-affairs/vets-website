@@ -70,7 +70,13 @@ function ProviderSelectionField({
         scrollAndFocus('#providerSelectionHeader');
       }
     },
-    [sortMethod, address, communityCareProviderList, currentLocation],
+    [
+      sortMethod,
+      address,
+      communityCareProviderList,
+      currentLocation,
+      requestProvidersList,
+    ],
   );
 
   useEffect(
@@ -125,7 +131,12 @@ function ProviderSelectionField({
         scrollAndFocus('#providerSelectionHeader');
       }
     },
-    [loadingProviders, loadingLocations, requestLocationStatus],
+    [
+      loadingProviders,
+      loadingLocations,
+      requestLocationStatus,
+      showProvidersList,
+    ],
   );
 
   if (!showProvidersList) {

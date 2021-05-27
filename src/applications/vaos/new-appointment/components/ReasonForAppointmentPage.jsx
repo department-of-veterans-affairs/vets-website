@@ -98,7 +98,7 @@ export default function ReasonForAppointmentPage() {
         openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
       );
     },
-    [pageInitialSchema, pageTitle, pageUISchema],
+    [pageInitialSchema, pageTitle, pageUISchema, dispatch],
   );
 
   return (

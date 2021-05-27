@@ -155,6 +155,7 @@ function VetTecSearchPage({
       queryFilterFields.institutionFilter,
       queryFilterFields.query,
       search.inProgress,
+      dispatchInstitutionFilterChange,
     ],
   );
 

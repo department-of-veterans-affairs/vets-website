@@ -61,7 +61,7 @@ export default function RequestedAppointmentDetailsPage() {
     () => {
       dispatch(fetchRequestDetails(id));
     },
-    [dispatch],
+    [dispatch, id],
   );
 
   useEffect(

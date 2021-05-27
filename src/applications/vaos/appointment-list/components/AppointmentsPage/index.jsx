@@ -57,7 +57,7 @@ function AppointmentsPage({
         fetchFutureAppointments();
       }
     },
-    [futureStatus],
+    [futureStatus, fetchFutureAppointments],
   );
 
   useEffect(

@@ -50,7 +50,13 @@ export default function ConfirmationPage() {
       document.title = `${pageTitle} | Veterans Affairs`;
       scrollAndFocus();
     },
-    [data?.facilityType, data?.vaFacility, dispatch, facilityDetails],
+    [
+      data?.facilityType,
+      data?.vaFacility,
+      dispatch,
+      facilityDetails,
+      pageTitle,
+    ],
   );
 
   if (submitStatus !== FETCH_STATUS.succeeded) {

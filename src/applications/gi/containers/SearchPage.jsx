@@ -125,6 +125,7 @@ export function SearchPage({
       dispatchFetchInstitutionSearchResults,
       queryParams,
       search.inProgress,
+      dispatchInstitutionFilterChange,
     ],
   );
 
