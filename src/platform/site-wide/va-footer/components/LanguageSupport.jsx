@@ -64,12 +64,12 @@ export default function LanguageSupport({
 
   useEffect(
     () => {
-      if (languageCode) {
+      if (languageCode && showLangSupport) {
         setLangAttribute(languageCode);
         onThisPageHook(languageCode);
       }
     },
-    [languageCode],
+    [languageCode, showLangSupport],
   );
   if (showLangSupport !== true) return null;
 
