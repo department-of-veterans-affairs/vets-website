@@ -38,7 +38,7 @@ const IntroductionPage = ({
         'view:canUpload1010cgPOA': canUpload1010cgPOA,
       });
     },
-    [setFormData, canUpload1010cgPOA],
+    [setFormData, canUpload1010cgPOA, formData],
   );
 
   useEffect(

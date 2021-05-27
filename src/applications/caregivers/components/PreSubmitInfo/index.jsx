@@ -97,7 +97,7 @@ const PreSubmitCheckboxGroup = ({
         ...transformSignatures(signatures),
       });
     },
-    [setFormData, signatures],
+    [setFormData, signatures, formData, hasSubmittedForm, transformSignatures],
   );
 
   // when there is no unsigned signatures set AGREED (onSectionComplete) to true
