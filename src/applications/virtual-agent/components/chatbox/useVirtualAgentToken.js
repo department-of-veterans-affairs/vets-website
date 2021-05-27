@@ -11,7 +11,7 @@ function useWaitForCsrfToken(props) {
   const [csrfTokenLoadingError, setCsrfTokenLoadingError] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       if (csrfTokenLoading) {
         setCsrfTokenLoadingError(true);
         Sentry.captureException(
@@ -19,6 +19,9 @@ function useWaitForCsrfToken(props) {
         );
       }
     }, props.timeout);
+    return function cleanup() {
+      clearTimeout(timeout);
+    };
   }, []);
 
   return [csrfTokenLoading, csrfTokenLoadingError];
