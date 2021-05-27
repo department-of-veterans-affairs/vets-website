@@ -8,7 +8,6 @@ import sinon from 'sinon';
 chai.use(chaiAsPromised);
 
 const expect = chai.expect;
-const sandbox = sinon.createSandbox();
 
 /**
  * Wraps the given children with a new component with context from
@@ -80,7 +79,7 @@ function fillDate(formDOM, partialId, dateString) {
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
  */
 export function mockFetch(returnVal, shouldResolve = true) {
-  const fetchStub = sandbox.stub(global, 'fetch');
+  const fetchStub = sinon.stub(global, 'fetch');
   fetchStub.callsFake(url => {
     let response = returnVal;
     if (!response) {
@@ -137,7 +136,7 @@ export function setFetchBlobFailure(stub, error) {
  */
 export function resetFetch() {
   if (global.fetch.isSinonProxy) {
-    sandbox.restore();
+    global.fetch.restore();
   }
 }
 

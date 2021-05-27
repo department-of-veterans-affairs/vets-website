@@ -15,7 +15,6 @@ import * as Sentry from '@sentry/browser';
 import chaiAxe from './axe-plugin';
 
 import { sentryTransport } from './sentry';
-import { resetFetch } from './helpers';
 
 Sentry.init({
   dsn: 'http://one@fake/dsn',
@@ -77,7 +76,9 @@ function setupJSDom() {
     url: 'http://localhost',
   });
 
-  resetFetch();
+  if (global.fetch.isSinonProxy) {
+    global.fetch.restore();
+  }
 
   const { window } = dom;
 
