@@ -69,7 +69,7 @@ export const chapters = {
         hideHeaderRow: true,
       },
       programDetails: {
-        title: 'STEM degree and school details',
+        title: 'STEM degree and institution details',
         path: 'benefits/program-details',
         uiSchema: programDetails.uiSchema,
         schema: programDetails.schema,

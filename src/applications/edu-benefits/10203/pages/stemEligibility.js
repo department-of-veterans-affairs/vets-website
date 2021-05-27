@@ -5,6 +5,7 @@ import { eligiblePrograms, checkBenefit } from '../content/stemEligibility';
 const {
   isEnrolledStem,
   isPursuingTeachingCert,
+  isPursuingClinicalTraining,
   benefitLeft,
 } = fullSchema10203.properties;
 
@@ -16,16 +17,32 @@ export const uiSchema = {
     'ui:description': eligiblePrograms,
     'ui:widget': 'yesNo',
   },
-  isPursuingTeachingCert: {
-    'ui:title':
-      'Do you have a STEM undergraduate degree and are now pursuing a teaching certification?',
-    'ui:widget': 'yesNo',
-    'ui:required': formData => !formData.isEnrolledStem,
+
+  'view:teachingCertClinicalTraining': {
+    isPursuingTeachingCert: {
+      'ui:title':
+        'Do you have a STEM undergraduate degree and are now working toward a teaching certification?',
+      'ui:widget': 'yesNo',
+      'ui:required': formData => !formData.isEnrolledStem,
+    },
+    isPursuingClinicalTraining: {
+      'ui:title':
+        "Do you have a STEM bachelor's or graduate degree and are now pursuing a covered clinical training program for health care professionals?",
+      'ui:description': eligiblePrograms,
+      'ui:widget': 'yesNo',
+      'ui:required': formData =>
+        !formData['view:teachingCertClinicalTraining'].isPursuingTeachingCert,
+      'ui:options': {
+        expandUnder: 'isPursuingTeachingCert',
+        expandUnderCondition: false,
+      },
+    },
     'ui:options': {
       expandUnder: 'isEnrolledStem',
       expandUnderCondition: false,
     },
   },
+
   benefitLeft: {
     'ui:title': 'About how much of your education benefit do you have left?',
     'ui:description': checkBenefit,
@@ -45,7 +62,14 @@ export const schema = {
   required: ['isEnrolledStem', 'benefitLeft'],
   properties: {
     isEnrolledStem,
-    isPursuingTeachingCert,
+
     benefitLeft,
+    'view:teachingCertClinicalTraining': {
+      type: 'object',
+      properties: {
+        isPursuingTeachingCert,
+        isPursuingClinicalTraining,
+      },
+    },
   },
 };

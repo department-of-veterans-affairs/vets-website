@@ -39,6 +39,9 @@ class StemClaimStatusPage extends React.Component {
           deniedAt={claimAttributes.deniedAt}
           isEnrolledStem={claimAttributes.isEnrolledStem}
           isPursuingTeachingCert={claimAttributes.isPursuingTeachingCert}
+          isPursuingClinicalTraining={
+            claimAttributes.isPursuingClinicalTraining
+          }
         />
       );
     } else {
