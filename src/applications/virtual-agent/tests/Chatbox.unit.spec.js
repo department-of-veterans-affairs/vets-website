@@ -15,8 +15,7 @@ import {
 import { createTestStore } from '../../vaos/tests/mocks/setup';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 
-export const CHATBOT_ERROR_MESSAGE =
-  'We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk at 800-698-2411 (TTY: 711).';
+export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
 
 describe('App', () => {
   let oldWindow;
@@ -51,6 +50,12 @@ describe('App', () => {
     global.window = oldWindow;
     sandbox.restore();
   });
+
+  async function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
 
   describe('web chat script is already loaded', () => {
     it('renders web chat', async () => {
@@ -90,12 +95,6 @@ describe('App', () => {
   });
 
   describe('web chat script has not loaded', () => {
-    async function wait(timeout) {
-      return new Promise(resolve => {
-        setTimeout(resolve, timeout);
-      });
-    }
-
     it('should not render webchat until webchat framework is loaded', async () => {
       mockApiRequest({});
 
@@ -206,6 +205,34 @@ describe('App', () => {
       expect(Sentry.captureException.getCall(0).args[0].message).equals(
         'Could not load feature toggles within timeout',
       );
+    });
+
+    it('should not rerender if feature toggles load before timeout', async () => {
+      loadWebChat();
+
+      mockApiRequest({});
+
+      const store = createTestStore({
+        featureToggles: {
+          loading: true,
+        },
+      });
+
+      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+        store,
+      });
+
+      expect(getTokenCalled()).to.equal(false);
+
+      expect(wrapper.getByRole('progressbar')).to.exist;
+
+      store.dispatch({ type: FETCH_TOGGLE_VALUES_SUCCEEDED, payload: {} });
+
+      wait(100);
+
+      await waitFor(() => expect(getTokenCalled()).to.equal(true));
+
+      expect(Sentry.captureException.called).to.be.false;
     });
 
     it('should call token api after loading feature toggles', async () => {

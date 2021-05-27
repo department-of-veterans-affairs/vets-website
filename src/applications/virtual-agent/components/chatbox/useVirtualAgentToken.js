@@ -22,7 +22,7 @@ function useWaitForCsrfToken(props) {
     return function cleanup() {
       clearTimeout(timeout);
     };
-  }, []);
+  });
 
   return [csrfTokenLoading, csrfTokenLoadingError];
 }
