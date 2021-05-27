@@ -36,7 +36,7 @@ export const areaOfDisagreementRequired = (
   appStateData,
 ) => {
   const data = Object.keys(appStateData || {}).length ? appStateData : formData;
-  const { disagreementOptions, otherEntry, index } = data;
+  const { disagreementOptions, otherEntry, index } = data || {};
   const hasSelection = Object.keys(disagreementOptions || {}).some(
     key => disagreementOptions[key],
   );

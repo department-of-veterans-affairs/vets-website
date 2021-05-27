@@ -17,6 +17,11 @@ describe('requireIssue validation', () => {
     addError: message => {
       errorMessage = message || '';
     },
+    additionalIssues: {
+      addError: message => {
+        errorMessage = message || '';
+      },
+    },
   };
 
   beforeEach(() => {
@@ -81,12 +86,14 @@ describe('areaOfDisagreementRequired', () => {
   });
   it('should not show an error with a single selection', () => {
     const errors = { addError: sinon.spy() };
-    areaOfDisagreementRequired(errors, { disagreementOptions: { foo: true } });
+    areaOfDisagreementRequired(errors, null, {
+      disagreementOptions: { foo: true },
+    });
     expect(errors.addError.called).to.be.false;
   });
   it('should not show an error with other selected with entry text', () => {
     const errors = { addError: sinon.spy() };
-    areaOfDisagreementRequired(errors, {
+    areaOfDisagreementRequired(errors, null, {
       disagreementOptions: { other: true },
       otherEntry: 'foo',
     });

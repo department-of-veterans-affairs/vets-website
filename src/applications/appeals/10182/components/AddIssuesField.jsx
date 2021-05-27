@@ -178,7 +178,7 @@ const AddIssuesField = props => {
   const singleIssue = items.length === 1;
   const hasSelected =
     someSelected(formData) || someSelected(fullFormData.contestableIssues);
-  const hasSubmitted = formContext.submitted || submission.hasAttemptedSubmit;
+  const hasSubmitted = formContext.submitted || submission?.hasAttemptedSubmit;
   const showError = hasSubmitted && !hasSelected;
 
   const content = items.map((item, index) => {
