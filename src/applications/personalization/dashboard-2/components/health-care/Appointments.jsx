@@ -33,11 +33,11 @@ export const Appointments = ({ appointments, hasError }) => {
               <p>
                 We’re sorry. Something went wrong on our end, and we can’t
                 access your appointment information. Please try again later or
-                go to the appointments tool:
+                go to the appointments tool.
               </p>
               <p>
                 <CTALink
-                  text="Schedule and view your appointments"
+                  text="Schedule and manage your appointments"
                   href="/health-care/schedule-view-va-appointments/appointments"
                 />
               </p>
@@ -62,7 +62,7 @@ export const Appointments = ({ appointments, hasError }) => {
         </p>
         <p className="vads-u-margin-top--1">{locationName}</p>
         <CTALink
-          text="Schedule and view your appointments"
+          text="Schedule and manage your appointments"
           href="/health-care/schedule-view-va-appointments/appointments"
         />
       </div>
