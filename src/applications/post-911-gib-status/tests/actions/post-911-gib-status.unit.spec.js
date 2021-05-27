@@ -22,7 +22,6 @@ let oldWindow;
 const setup = () => {
   oldWindow = global.window;
   mockFetch();
-  setFetchJSONResponse(global.fetch.onCall(0), {});
   global.window = Object.create(global.window);
   Object.assign(global.window, {
     dataLayer: [],
@@ -210,7 +209,7 @@ describe('getServiceAvailability', () => {
   });
 
   it('should dispatch SET_SERVICE_AVAILABILITY with a status of `up`', done => {
-    setFetchJSONResponse(global.fetch.onCall(0), apiResponse(true));
+    global.fetch.returns(apiResponse(true));
     const thunk = getServiceAvailability();
     const dispatch = sinon.spy();
 
@@ -227,7 +226,7 @@ describe('getServiceAvailability', () => {
   });
 
   it('should dispatch SET_SERVICE_AVAILABILITY with a status of `down`', done => {
-    setFetchJSONResponse(global.fetch.onCall(0), apiResponse(false));
+    global.fetch.returns(apiResponse(false));
     const thunk = getServiceAvailability();
     const dispatch = sinon.spy();
 
@@ -244,7 +243,7 @@ describe('getServiceAvailability', () => {
   });
 
   it('should dispatch SET_SERVICE_UPTIME_REMAINING with the seconds until the next scheduled downtime', done => {
-    setFetchJSONResponse(global.fetch.onCall(0), apiResponse(false, 300));
+    global.fetch.returns(apiResponse(false, 300));
     const thunk = getServiceAvailability();
     const dispatch = sinon.spy();
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { render, fireEvent } from '@testing-library/react';
+import ReactTestUtils from 'react-dom/test-utils';
 
 import {
   DefinitionTester,
@@ -15,7 +15,7 @@ describe('Pensions service periods', () => {
     uiSchema,
   } = formConfig.chapters.militaryHistory.pages.servicePeriods;
   it('should render', () => {
-    const form = render(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -29,7 +29,7 @@ describe('Pensions service periods', () => {
 
   it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -48,7 +48,7 @@ describe('Pensions service periods', () => {
 
   it('should display warning if the veteran did not serve during a wartime period', () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -74,7 +74,7 @@ describe('Pensions service periods', () => {
 
   it('should not display warning if the veteran did serve during a wartime period', () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -100,7 +100,7 @@ describe('Pensions service periods', () => {
 
   it('should add another service period', () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -123,14 +123,18 @@ describe('Pensions service periods', () => {
       '2003-1-1',
     );
 
-    fireEvent.click(formDOM.querySelector('.va-growable-add-btn'));
+    ReactTestUtils.Simulate.click(
+      formDOM.querySelector('.va-growable-add-btn'),
+    );
 
-    expect(formDOM.querySelector('.va-growable-background')).to.contain('Army');
+    expect(
+      formDOM.querySelector('.va-growable-background').textContent,
+    ).to.contain('Army');
   });
 
   it('should submit with valid data', () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
