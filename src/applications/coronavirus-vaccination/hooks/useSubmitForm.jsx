@@ -22,7 +22,7 @@ export default function useSubmitForm() {
 
     setSubmitStatus(requestStates.pending);
     sendToApi();
-  });
+  }, []);
 
   return [status, submit];
 }

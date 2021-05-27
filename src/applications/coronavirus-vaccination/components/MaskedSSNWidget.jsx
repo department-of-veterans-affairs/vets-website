@@ -28,7 +28,7 @@ export default function MaskedSSNWidget({ value, onChange, onBlur, ...props }) {
       setVisibleValue(nextValue);
       onChange(nextValue);
     },
-    [setVisibleValue],
+    [setVisibleValue, onChange],
   );
 
   return (

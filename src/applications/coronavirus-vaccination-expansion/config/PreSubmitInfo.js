@@ -53,7 +53,12 @@ const PreSubmitCheckboxes = ({ showError, onSectionComplete }) => {
         privacyAgreementAccepted && truthfullnessAgreementAccepted,
       );
     },
-    [privacyAgreementAccepted, truthfullnessAgreementAccepted, showError],
+    [
+      privacyAgreementAccepted,
+      truthfullnessAgreementAccepted,
+      showError,
+      onSectionComplete,
+    ],
   );
 
   return (

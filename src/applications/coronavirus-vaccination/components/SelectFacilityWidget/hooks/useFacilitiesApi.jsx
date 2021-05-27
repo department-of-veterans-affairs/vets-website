@@ -28,7 +28,7 @@ export default function useFacilitiesApi(facilityIds = []) {
       setStatus(requestStates.pending);
       getFacilities();
     },
-    [setStatus, setFacilities],
+    [setStatus, setFacilities, apiUrl],
   );
 
   return [facilities, status];
