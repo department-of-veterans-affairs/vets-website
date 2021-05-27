@@ -2,6 +2,8 @@ import environment from 'platform/utilities/environment';
 import compact from 'lodash/compact';
 import { LocationType, FacilityType } from './constants';
 import manifest from './manifest.json';
+import store from './facility-locator-entry';
+import { facilityLocatorRailsEngine } from './utils/featureFlagSelectors';
 
 const apiSettings = {
   credentials: 'include',
@@ -32,10 +34,10 @@ const railsEngineApi = {
   settings: apiSettings,
 };
 
-export const getAPI = () =>
-  window.VetsGov?.featureToggles?.facilityLocatorRailsEngine
-    ? railsEngineApi
-    : legacyApi;
+export const getAPI = () => {
+  const useRailsEngine = facilityLocatorRailsEngine(store.getState());
+  return useRailsEngine ? railsEngineApi : legacyApi;
+};
 
 /**
  * Build parameters and URL for facilities API calls
