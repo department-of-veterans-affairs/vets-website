@@ -64,7 +64,6 @@ export function RefineYourSearch({
   const handleVetTecChange = checked => {
     setVettec({
       vettec: checked,
-      preferredProvider: checked,
     });
   };
 
