@@ -53,7 +53,14 @@ export const resolveParamsWithUrl = ({
 }) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
   const reduxStore = store || require('./facility-locator-entry');
-  const useRailsEngine = facilityLocatorRailsEngine(reduxStore.getState());
+  let useRailsEngine = false;
+
+  try {
+    useRailsEngine = facilityLocatorRailsEngine(reduxStore.default.getState());
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('error getting redux state from store', reduxStore, e);
+  }
   const api = getAPI(useRailsEngine);
 
   let facility;
