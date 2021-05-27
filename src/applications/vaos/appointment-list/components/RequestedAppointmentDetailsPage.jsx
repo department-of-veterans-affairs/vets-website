@@ -201,10 +201,14 @@ export default function RequestedAppointmentDetailsPage() {
           )}
         </AlertBox>
       )}
-      <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-        {!isCCRequest && isVideoRequest && 'VA Video Connect'}
-        {!isCCRequest && !isVideoRequest && 'VA Appointment'}
-      </h2>
+      {!isCCRequest && (
+        <>
+          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+            {isVideoRequest && 'VA Video Connect'}
+            {!isVideoRequest && 'VA Appointment'}
+          </h2>
+        </>
+      )}
 
       {!!facility &&
         !isCC && (
@@ -243,27 +247,33 @@ export default function RequestedAppointmentDetailsPage() {
         <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
           You shared these details about your concern
         </h2>
-        <div>{apptDetails}</div>
+        {!isCCRequest && apptDetails}
+        {isCCRequest && <>{message || 'none'}</>}
       </div>
-      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
-        Your contact details
-      </h2>
-      <div className="vaos-u-word-break--break-word">
-        {getPatientTelecom(appointment, 'email')}
+      <div>
+        <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
+          Your contact details
+        </h2>
+        <h3 className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
+          Email:{' '}
+        </h3>
+        <span>{getPatientTelecom(appointment, 'email')}</span>
         <br />
+        <h3 className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
+          Phone number:{' '}
+        </h3>
         <Telephone
           notClickable
           contact={getPatientTelecom(appointment, 'phone')}
         />
         <br />
-        <span className="vads-u-font-style--italic">
-          <ListBestTimeToCall
-            timesToCall={appointment.preferredTimesForPhoneCall}
-          />
-        </span>
+        <ListBestTimeToCall
+          timesToCall={appointment.preferredTimesForPhoneCall}
+        />
+      </div>
+      <div className="vaos-u-word-break--break-word">
         {!canceled && (
           <>
-            <br />
             <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3">
               <i
                 aria-hidden="true"
