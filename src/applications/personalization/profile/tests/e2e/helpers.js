@@ -72,7 +72,7 @@ function nameTagRenders() {
 export function nameTagRendersWithDisabilityRating() {
   nameTagRenders();
   cy.findByText('Your disability rating:').should('exist');
-  cy.findByText('90% Service connected').should('exist');
+  cy.findByText('90% service connected').should('exist');
   cy.findByText(/View disability rating/i).should('not.exist');
 }
 

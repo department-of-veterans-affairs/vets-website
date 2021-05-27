@@ -8,7 +8,16 @@ describe('ErrorMessage', () => {
     const fakeStore = {
       getState: () => ({
         fsr: {
-          errorCode: 'FSR_SERVER_ERROR',
+          errorCode: {
+            errors: [
+              {
+                title: 'Internal server error',
+                detail: 'Internal server error',
+                code: '500',
+                status: '500',
+              },
+            ],
+          },
         },
       }),
       subscribe: () => {},

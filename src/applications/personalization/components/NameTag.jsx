@@ -38,7 +38,7 @@ const DisabilityRatingContent = ({ rating }) => {
           style={{ whiteSpace: 'nowrap' }}
         >
           {rating ? (
-            <>{rating}% Service connected </>
+            <>{rating}% service connected </>
           ) : (
             <>View disability rating </>
           )}

@@ -11,6 +11,17 @@ const StepComponent = props => {
   if (data.isVideoStep) {
     content = (
       <>
+        {data.subTitle()}
+
+        <iframe
+          width="325px"
+          height="185px"
+          src={`https://www.youtube.com/embed/${data.path}`}
+          title={data.title}
+          frameBorder="0"
+          allowFullScreen
+          key={data.path}
+        />
         <p>{data.desc}</p>
         <ul>
           {data.list.map((item, index) => {
@@ -89,56 +100,3 @@ const StepComponent = props => {
 };
 
 export default StepComponent;
-
-/*
-Youtube videos
-Re-Employment
-<iframe
-  width="744"
-  height="422"
-  src="https://www.youtube.com/embed/1Yh6fTxvBPw"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-/>;
-
-Rapid Access
-<iframe
-  width="744"
-  height="422"
-  src="https://www.youtube.com/embed/4DVbOy8iJbU"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-/>;
-
-Self-Employment
-<iframe
-  width="744"
-  height="422"
-  src="https://www.youtube.com/embed/xkqhMmWzt74"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-/>;
-
-Long Term Services
-<iframe
-    width="744"
-    height="422"
-    src="https://www.youtube.com/embed/IXlJndX93R8"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen
-/>;
-
-Independent Living
-<iframe
-    width="744"
-    height="422"
-    src="https://www.youtube.com/embed/hHgPTZNAMxo"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen
-/>
-*/

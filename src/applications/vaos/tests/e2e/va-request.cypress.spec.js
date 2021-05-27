@@ -104,6 +104,7 @@ function fillOutForm(facilitySelection) {
     .click();
   cy.findByText('Follow-up/Routine');
   cy.findByText('cough');
+  cy.axeCheckBestPractice();
 }
 
 describe('VAOS request flow', () => {

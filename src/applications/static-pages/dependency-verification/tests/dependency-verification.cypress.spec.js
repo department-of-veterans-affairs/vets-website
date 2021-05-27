@@ -35,7 +35,6 @@ describe('Dependency Verification', () => {
       'mockDiaries',
     );
     cy.visit(rootUrl);
-    cy.wait('@mockDiaries');
     cy.findByRole('heading', {
       name: /Dependents on your VA benefits/i,
     }).should('exist');
@@ -55,7 +54,6 @@ describe('Dependency Verification', () => {
       body: { updateDiaries: 'true' },
     });
     cy.visit(rootUrl);
-    cy.wait('@mockDiaries');
     cy.findByRole('heading', {
       name: /Please make sure your dependents are correct/i,
     }).should('exist');
@@ -80,7 +78,6 @@ describe('Dependency Verification', () => {
       body: { updateDiaries: 'true' },
     });
     cy.visit(rootUrl);
-    cy.wait('@mockDiaries');
     cy.findByRole('heading', {
       name: /Dependents on your VA benefits/i,
     }).should('exist');

@@ -11,6 +11,10 @@ eslintConfig.rules = {
         '@department-of-veterans-affairs/component-library/CollapsiblePanel',
       use: '<va-accordion>',
     },
+    {
+      name: '@department-of-veterans-affairs/component-library/AlertBox',
+      use: '<va-alert>',
+    },
   ],
 };
 
