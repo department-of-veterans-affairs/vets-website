@@ -10,8 +10,11 @@ function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
   const token = useVirtualAgentToken(props);
 
-  const error = webchatFramework.error || token.loadingStatus === ERROR;
-  const loading = token.loadingStatus === LOADING || webchatFramework.isLoading;
+  const error =
+    webchatFramework.loadingStatus === ERROR || token.loadingStatus === ERROR;
+  const loading =
+    webchatFramework.loadingStatus === LOADING ||
+    token.loadingStatus === LOADING;
 
   let loadingStatus = LOADING;
 

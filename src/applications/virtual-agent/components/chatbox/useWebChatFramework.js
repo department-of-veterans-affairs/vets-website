@@ -14,15 +14,15 @@ function checkForWebchat(
   const intervalId = setInterval(() => {
     intervalCallCount++;
     if (window.WebChat) {
+      setLoadingStatus(COMPLETE);
       setLoading(false);
       setError(false);
-      setLoadingStatus(COMPLETE);
       clearInterval(intervalId);
     } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
       Sentry.captureException(new Error('Failed to load webchat framework'));
+      setLoadingStatus(ERROR);
       setError(true);
       setLoading(false);
-      setLoadingStatus(ERROR);
       clearInterval(intervalId);
     }
   }, timeout);
@@ -50,7 +50,9 @@ export default function useWebChatFramework(props) {
 
   const [isLoading, setLoading] = useState(!window.WebChat);
   const [error, setError] = useState(false);
-  const [loadingStatus, setLoadingStatus] = useState(LOADING);
+  const [loadingStatus, setLoadingStatus] = useState(
+    window.WebChat ? COMPLETE : LOADING,
+  );
 
   const MAX_INTERVAL_CALL_COUNT = props.timeout / TIMEOUT_DURATION_MS;
 
