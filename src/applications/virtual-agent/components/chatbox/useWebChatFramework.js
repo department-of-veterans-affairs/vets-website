@@ -3,26 +3,16 @@ import ReactDOM from 'react-dom';
 import * as Sentry from '@sentry/browser';
 import { COMPLETE, ERROR, LOADING } from './loadingStatus';
 
-function checkForWebchat(
-  setLoading,
-  setError,
-  setLoadingStatus,
-  MAX_INTERVAL_CALL_COUNT,
-  timeout,
-) {
+function checkForWebchat(setLoadingStatus, MAX_INTERVAL_CALL_COUNT, timeout) {
   let intervalCallCount = 0;
   const intervalId = setInterval(() => {
     intervalCallCount++;
     if (window.WebChat) {
       setLoadingStatus(COMPLETE);
-      setLoading(false);
-      setError(false);
       clearInterval(intervalId);
     } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
       Sentry.captureException(new Error('Failed to load webchat framework'));
       setLoadingStatus(ERROR);
-      setError(true);
-      setLoading(false);
       clearInterval(intervalId);
     }
   }, timeout);
@@ -48,23 +38,19 @@ export default function useWebChatFramework(props) {
     loadWebChat();
   }, []);
 
-  const [isLoading, setLoading] = useState(!window.WebChat);
-  const [error, setError] = useState(false);
   const [loadingStatus, setLoadingStatus] = useState(
     window.WebChat ? COMPLETE : LOADING,
   );
 
   const MAX_INTERVAL_CALL_COUNT = props.timeout / TIMEOUT_DURATION_MS;
 
-  if (isLoading) {
+  if (loadingStatus === LOADING) {
     checkForWebchat(
-      setLoading,
-      setError,
       setLoadingStatus,
       MAX_INTERVAL_CALL_COUNT,
       TIMEOUT_DURATION_MS,
     );
   }
 
-  return { isLoading, error, loadingStatus, WebChatFramework: window.WebChat };
+  return { loadingStatus, WebChatFramework: window.WebChat };
 }

@@ -27,8 +27,6 @@ function useWebChat(props) {
   }
 
   return {
-    loading,
-    error,
     token: token.token,
     WebChatFramework: webchatFramework.WebChatFramework,
     loadingStatus,
