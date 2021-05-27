@@ -3,7 +3,7 @@ import React from 'react';
 export default function Disclaimer() {
   return (
     <>
-      <h1>Welcome to the VA.gov chatbot study</h1>
+      <h1>Welcome to the VA.gov virtual agent study</h1>
 
       <p>Thank you for being part of this study. We appreciate your time.</p>
 
@@ -69,7 +69,7 @@ export default function Disclaimer() {
       <va-accordion>
         <va-accordion-item header="What to know if you need help now">
           <p>
-            <b>If you’re a Veteran in crisis or concerned about one</b>, call
+            <b>If you’re a Veteran in crisis or concerned about one,</b> call
             the Veterans Crisis Line at{' '}
             <a aria-label="8 0 0. 2 7 3. 8 2 5 5." href="tel:800-273-8255">
               800-273-8255
@@ -95,7 +95,7 @@ export default function Disclaimer() {
             </a>
           </p>
           <p>
-            <b>If you have other questions about VA benefits and services,</b>,
+            <b>If you have other questions about VA benefits and services,</b>{' '}
             contact us or access our online resources and support.
           </p>
           <a href="/contact-us">Contact Us</a>

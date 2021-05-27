@@ -8,7 +8,7 @@ import {
   getTotalAssets,
 } from '../utils/helpers';
 
-export const transform = ({ data }) => {
+export const transform = (formConfig, form) => {
   const {
     questions,
     personalData,
@@ -20,13 +20,13 @@ export const transform = ({ data }) => {
     additionalData,
     selectedDebts,
     realEstateRecords,
-  } = data;
+  } = form.data;
 
-  const totalIncome = getMonthlyIncome(data);
-  const totalExpenses = getMonthlyExpenses(data);
-  const employmentHistory = getEmploymentHistory(data);
-  const totalAssets = getTotalAssets(data);
-  const income = getIncome(data);
+  const totalIncome = getMonthlyIncome(form.data);
+  const totalExpenses = getMonthlyExpenses(form.data);
+  const employmentHistory = getEmploymentHistory(form.data);
+  const totalAssets = getTotalAssets(form.data);
+  const income = getIncome(form.data);
 
   const totalAmountCanBePaidTowardDebt = selectedDebts
     .filter(item => item.resolution.offerToPay !== undefined)

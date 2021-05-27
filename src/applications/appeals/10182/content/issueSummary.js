@@ -10,19 +10,22 @@ export const SummaryTitle = ({ formData }) => {
   const issues = getSelected(formData);
 
   return (
-    <p>
-      Below is a list of the issues that you are requesting the Board to review.
-      If an issue is missing, please{' '}
-      <Link
-        aria-label="go back and add any missing issues for review"
-        to={{
-          pathname: path,
-          search: '?redirect',
-        }}
-      >
-        go back and add it
-      </Link>
-      .{ShowIssuesList({ issues })}
-    </p>
+    <>
+      <p>
+        These are the issues you’re asking the Board to review. If an issue is
+        missing, please{' '}
+        <Link
+          aria-label="go back and add any missing issues for review"
+          to={{
+            pathname: path,
+            search: '?redirect',
+          }}
+        >
+          go back and add it
+        </Link>
+        .
+      </p>
+      {ShowIssuesList({ issues })}
+    </>
   );
 };

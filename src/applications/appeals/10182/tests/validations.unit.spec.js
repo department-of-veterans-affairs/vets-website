@@ -17,6 +17,11 @@ describe('requireIssue validation', () => {
     addError: message => {
       errorMessage = message || '';
     },
+    additionalIssues: {
+      addError: message => {
+        errorMessage = message || '';
+      },
+    },
   };
 
   beforeEach(() => {
