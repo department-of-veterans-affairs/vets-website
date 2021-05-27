@@ -44,9 +44,9 @@
 /**
  * @typedef {Object} Location
  *
- * @property {string} id The full identifier of the location, usually a VA facility id, PPMS id, or ATLAS site code
+ * @property {string} id The full identifier of the location, usually a VA facility id, vets-api CCP id, or ATLAS site code
  * @property {?string} vistaId The three digit VistA id, if the Location is a VA location
- * @property {Array} identifier TODO
+ * @property {Array<Identifier>} identifier Contains identifiers for the PPMS provider, VA facility, others
  * @property {string} name The name of the location (either the PPMS provider/practice name or the VA facility name)
  * @property {Array<Telecom>} telecom Telecom array that contains the main phone number for a VA facility or PPMS provider.
  *   Also contains an entry for the covid vaccine phone number if available for a VA facility
