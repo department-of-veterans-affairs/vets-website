@@ -17,11 +17,11 @@ class ServiceTypeAhead extends Component {
   }
 
   componentDidMount() {
-    this.getServices(this.props.useRailsEngine);
+    this.getServices();
   }
 
-  getServices = async useRailsEngine => {
-    const services = await this.props.getProviderSpecialties(useRailsEngine);
+  getServices = async () => {
+    const services = await this.props.getProviderSpecialties();
     this.setState({
       services,
       defaultSelectedItem:
@@ -149,7 +149,6 @@ ServiceTypeAhead.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onBlur: PropTypes.func,
   showError: PropTypes.bool,
-  useRailsEngine: PropTypes.bool,
 };
 
 const mapDispatch = { getProviderSpecialties };

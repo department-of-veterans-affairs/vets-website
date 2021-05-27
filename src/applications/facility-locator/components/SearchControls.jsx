@@ -22,7 +22,6 @@ const SearchControls = props => {
     clearSearchText,
     geolocateUser,
     clearGeocodeError,
-    useRailsEngine,
   } = props;
 
   const locationInputFieldRef = useRef(null);
@@ -302,7 +301,6 @@ const SearchControls = props => {
             onBlur={handleServiceTypeBlur}
             initialSelectedServiceType={serviceType}
             showError={showError}
-            useRailsEngine={useRailsEngine}
           />
         );
       default:
