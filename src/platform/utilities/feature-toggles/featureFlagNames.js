@@ -34,6 +34,7 @@ export default Object.freeze({
   form996HigherLevelReview: 'form996HigherLevelReview',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
   gibctSchoolRatings: 'gibctSchoolRatings',
+  languageSupport: 'language_support',
   manageDependents: 'dependents_management',
   preEntryCovid19Screener: 'preEntryCovid19Screener',
   requestLockedPdfPassword: 'request_locked_pdf_password',

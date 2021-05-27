@@ -1,47 +1,91 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Dropdown from '../components/Dropdown';
-import { fetchSearchByLocationResults } from '../actions';
+import {
+  fetchLocationAutocompleteSuggestions,
+  fetchSearchByLocationCoords,
+  fetchSearchByLocationResults,
+  updateAutocompleteLocation,
+} from '../actions';
+import KeywordSearch from '../components/search/KeywordSearch';
 
-export function LocationSearchForm({ fetchSearchByLocation, search }) {
-  const [searchLocation, setSearchLocation] = useState(search.query.location);
+export function LocationSearchForm({
+  autocomplete,
+  dispatchFetchLocationAutocompleteSuggestions,
+  dispatchFetchSearchByLocationCoords,
+  dispatchFetchSearchByLocationResults,
+  dispatchUpdateAutocompleteLocation,
+  filters,
+  preview,
+  search,
+}) {
   const [distance, setDistance] = useState(search.query.distance);
+  const { version } = preview;
 
   const doSearch = event => {
     event.preventDefault();
-    fetchSearchByLocation(searchLocation, distance, search.tab);
+    dispatchFetchSearchByLocationResults(
+      autocomplete.location,
+      distance,
+      filters,
+    );
+  };
+
+  const handleSelection = selected => {
+    if (selected.coords) {
+      dispatchFetchSearchByLocationCoords(
+        selected.label,
+        selected.coords,
+        distance,
+        filters,
+      );
+    } else {
+      dispatchFetchSearchByLocationResults(
+        autocomplete.location,
+        distance,
+        filters,
+      );
+    }
+  };
+
+  const doAutocompleteSuggestionsSearch = value => {
+    dispatchFetchLocationAutocompleteSuggestions(value);
   };
 
   return (
     <div>
-      <form onSubmit={doSearch}>
+      <form onSubmit={doSearch} className="vads-u-margin-y--0">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--10">
-            <div>
-              <input
-                type="text"
-                name="locationSearch"
-                className="vads-u-display--inline-block location-search"
-                placeholder="city, state, or postal code"
-                value={searchLocation}
-                onChange={e => setSearchLocation(e.target.value)}
-              />
-              <Dropdown
-                className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-left--4"
-                selectClassName="vads-u-font-style--italic vads-u-color--gray"
-                name="distance"
-                options={[
-                  { optionValue: '5', optionLabel: 'within 5 miles' },
-                  { optionValue: '25', optionLabel: 'within 25 miles' },
-                  { optionValue: '50', optionLabel: 'within 50 miles' },
-                  { optionValue: '75', optionLabel: 'within 75 miles' },
-                ]}
-                value={distance}
-                alt="distance"
-                visible
-                onChange={e => setDistance(e.target.value)}
-              />
-            </div>
+            <KeywordSearch
+              version={version}
+              name="locationSearch"
+              className="location-search"
+              inputValue={autocomplete.location}
+              onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
+              onPressEnter={e => doSearch(e)}
+              onSelection={handleSelection}
+              onUpdateAutocompleteSearchTerm={
+                dispatchUpdateAutocompleteLocation
+              }
+              placeholder="city, state, or postal code"
+              suggestions={[...autocomplete.locationSuggestions]}
+            />
+            <Dropdown
+              className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-left--4"
+              selectClassName="vads-u-font-style--italic vads-u-color--gray"
+              name="distance"
+              options={[
+                { optionValue: '5', optionLabel: 'within 5 miles' },
+                { optionValue: '25', optionLabel: 'within 25 miles' },
+                { optionValue: '50', optionLabel: 'within 50 miles' },
+                { optionValue: '75', optionLabel: 'within 75 miles' },
+              ]}
+              value={distance}
+              alt="distance"
+              visible
+              onChange={e => setDistance(e.target.value)}
+            />
           </div>
           <div className="medium-screen:vads-l-col--2 vads-u-text-align--right">
             <button type="submit" className="usa-button">
@@ -57,11 +101,16 @@ export function LocationSearchForm({ fetchSearchByLocation, search }) {
 
 const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
+  filters: state.filters,
   search: state.search,
+  preview: state.preview,
 });
 
 const mapDispatchToProps = {
-  fetchSearchByLocation: fetchSearchByLocationResults,
+  dispatchFetchSearchByLocationResults: fetchSearchByLocationResults,
+  dispatchFetchLocationAutocompleteSuggestions: fetchLocationAutocompleteSuggestions,
+  dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
+  dispatchUpdateAutocompleteLocation: updateAutocompleteLocation,
 };
 
 export default connect(

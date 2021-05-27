@@ -121,6 +121,22 @@ dl.review {
   }
 }
 
+/* IE11 hack to fix edit button placement, see
+ * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
+ */
+ _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
+  width: calc(100% - 125px); /* 125px ~= width of the edit button x2 */
+}
+/* IE11 fix legend not wrapping on small screens */
+legend.schemaform-block-title {
+  width: 100%;
+}
+
+/* empty header on additional-issues-intro page */
+.schemaform-block-header:empty {
+  margin: 0;
+}
+
 .additional-issues {
   .schemaform-label,
   .usa-input-error {

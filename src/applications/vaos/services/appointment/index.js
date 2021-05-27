@@ -236,7 +236,8 @@ export function isVAPhoneAppointment(appointment) {
 export function getVAAppointmentLocationId(appointment) {
   if (
     appointment?.vaos.isVideo &&
-    appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment
+    appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
+    appointment?.videoData.kind !== VIDEO_TYPES.clinic
   ) {
     return appointment?.location.vistaId;
   }
@@ -709,9 +710,10 @@ export function getCalendarData({ appointment, facility }) {
     };
   } else if (isInPersonVAAppointment) {
     data = {
-      summary: `Appointment at ${facility?.name}`,
+      summary: `Appointment at ${facility?.name || 'the VA'}`,
       location: formatFacilityAddress(facility),
-      text: `You have a health care appointment at ${facility?.name}`,
+      text: `You have a health care appointment at ${facility?.name ||
+        'a VA location.'}`,
       phone: getFacilityPhone(facility),
       additionalText: [signinText],
     };
@@ -730,10 +732,10 @@ export function getCalendarData({ appointment, facility }) {
     data = {
       summary,
       providerName: `${providerName || practiceName}`,
-      location: `${formatFacilityAddress(appointment?.communityCareProvider)}`,
+      location: formatFacilityAddress(appointment?.communityCareProvider),
       text:
         'You have a health care appointment with a community care provider. Please don’t go to your local VA health facility.',
-      phone: `${getFacilityPhone(appointment?.communityCareProvider)}`,
+      phone: getFacilityPhone(appointment?.communityCareProvider),
       additionalText: [signinText],
     };
   } else if (isVideo) {
@@ -772,11 +774,16 @@ export function getCalendarData({ appointment, facility }) {
       }
     } else if (videoKind === VIDEO_TYPES.clinic) {
       data = {
-        summary: `VA Video Connect appointment at ${facility?.name}`,
+        summary: `VA Video Connect appointment at ${facility?.name ||
+          'a VA location'}`,
         providerName: facility?.name,
         location: formatFacilityAddress(facility),
-        text: 'You need to join this video meeting from:',
-        phone: `${getFacilityPhone(facility)}`,
+        text: `You need to join this video meeting from${
+          facility
+            ? ':'
+            : ' the VA location where you scheduled the appointment.'
+        }`,
+        phone: getFacilityPhone(facility),
       };
 
       if (providerName) data.additionalText = [providerText, signinText];

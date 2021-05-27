@@ -536,7 +536,6 @@ body.va-pos-fixed {
   [class^="vetnav-controller"] {
     position: relative !important;
   }
-
 }
 
 // Safari needs this to correctly display megamenu
@@ -544,7 +543,7 @@ body.va-pos-fixed {
   .login-container {
     .row {
       &.va-flex {
-        display:  grid;
+        display: grid;
       }
     }
   }

@@ -132,7 +132,7 @@ const HealthCare = ({
                   href="/health-care/schedule-view-va-appointments/appointments"
                   icon="calendar-check"
                   newTab
-                  text="Schedule and view your appointments"
+                  text="Schedule and manage your appointments"
                 />
               </>
             )}

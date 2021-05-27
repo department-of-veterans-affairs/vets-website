@@ -1,69 +1,56 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import {
-  clearAutocompleteSuggestions,
   fetchNameAutocompleteSuggestions,
   fetchSearchByNameResults,
-  updateAutocompleteSearchTerm,
+  updateAutocompleteName,
 } from '../actions';
 import KeywordSearch from '../components/search/KeywordSearch';
 
 export function NameSearchForm({
   autocomplete,
-  clearNameAutocompleteSuggestions,
-  fetchNameAutocomplete,
+  dispatchFetchNameAutocompleteSuggestions,
+  dispatchFetchSearchByNameResults,
+  dispatchUpdateAutocompleteName,
   filters,
-  fetchSearchByName,
   preview,
-  updateNameAutocomplete,
-  search,
 }) {
-  const [searchError, setSearchError] = useState(false);
   const { version } = preview;
 
-  const updateFilters = () => {
-    const searchFilters = filters;
-    for (const [key, value] of Object.entries(filters)) {
-      if (value === 'ALL') {
-        delete searchFilters[key];
-      }
-    }
-    return searchFilters;
-  };
-
-  const doSearch = searchTerm => {
-    fetchSearchByName(searchTerm, updateFilters(), version, search.tab);
+  const doSearch = name => {
+    dispatchFetchSearchByNameResults(name, filters, version);
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    doSearch(autocomplete.searchTerm);
+    doSearch(autocomplete.name);
   };
 
-  const validateSearchQuery = searchQuery => {
-    setSearchError(searchQuery === '');
-  };
-
-  const doAutocompleteSuggestionsSearch = value => {
-    fetchNameAutocomplete(value, updateFilters(), version);
+  const doAutocompleteSuggestionsSearch = name => {
+    dispatchFetchNameAutocompleteSuggestions(
+      name,
+      {
+        category: filters.category,
+      },
+      version,
+    );
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="vads-u-margin-y--0">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--10">
             <KeywordSearch
               version={version}
               className="name-search"
-              placeholder="school, employer, or training provider"
-              autocomplete={autocomplete}
-              onClearAutocompleteSuggestions={clearNameAutocompleteSuggestions}
+              inputValue={autocomplete.name}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
-              onSelection={doSearch}
-              onUpdateAutocompleteSearchTerm={updateNameAutocomplete}
-              searchError={searchError}
-              validateSearchQuery={validateSearchQuery}
+              onPressEnter={e => handleSubmit(e)}
+              onSelection={selected => doSearch(selected.label)}
+              onUpdateAutocompleteSearchTerm={dispatchUpdateAutocompleteName}
+              placeholder="school, employer, or training provider"
+              suggestions={[...autocomplete.nameSuggestions]}
             />
           </div>
           <div className="medium-screen:vads-l-col--2 vads-u-text-align--right">
@@ -82,14 +69,12 @@ const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   filters: state.filters,
   preview: state.preview,
-  search: state.search,
 });
 
 const mapDispatchToProps = {
-  clearNameAutocompleteSuggestions: clearAutocompleteSuggestions,
-  fetchNameAutocomplete: fetchNameAutocompleteSuggestions,
-  fetchSearchByName: fetchSearchByNameResults,
-  updateNameAutocomplete: updateAutocompleteSearchTerm,
+  dispatchFetchNameAutocompleteSuggestions: fetchNameAutocompleteSuggestions,
+  dispatchUpdateAutocompleteName: updateAutocompleteName,
+  dispatchFetchSearchByNameResults: fetchSearchByNameResults,
 };
 
 export default connect(

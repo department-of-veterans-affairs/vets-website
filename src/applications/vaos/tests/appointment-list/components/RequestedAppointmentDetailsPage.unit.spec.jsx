@@ -120,6 +120,11 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       }),
     );
 
+    expect(screen.baseElement).to.contain('.usa-alert-info');
+    expect(screen.baseElement).to.contain.text(
+      'The time and date of this appointment are still to be determined.',
+    );
+
     expect(screen.getByText('Cheyenne VA Medical Center')).to.be.ok;
     expect(screen.baseElement).to.contain.text(
       'Pending primary care appointment',
@@ -243,6 +248,14 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       requests: [ccAppointmentRequest],
       isHomepageRefresh: true,
     });
+
+    const message = getMessageMock();
+    message.attributes = {
+      ...message.attributes,
+      messageText: 'A message from the patient',
+    };
+    mockMessagesFetch('1234', [message]);
+
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: '/requested',
@@ -266,6 +279,12 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
 
+    // show alert message
+    expect(screen.baseElement).to.contain('.usa-alert-info');
+    expect(screen.baseElement).to.contain.text(
+      'The time and date of this appointment are still to be determined.',
+    );
+
     // Should be able to cancel appointment
     expect(screen.getByRole('button', { name: /Cancel request/ })).to.be.ok;
     expect(
@@ -287,9 +306,10 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: 'Follow-up/Routine',
+        name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
+    expect(screen.getByText('A message from the patient')).to.be.ok;
 
     expect(
       screen.getByRole('heading', {
@@ -306,6 +326,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
   it('should allow cancellation', async () => {
     const appointment = getVARequestMock();
+    const alertText =
+      'The time and date of this appointment are still to be determined.';
 
     appointment.id = '1234';
     appointment.attributes = {
@@ -332,6 +354,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     expect(await screen.findByText('Pending primary care appointment')).to.be
       .ok;
+
+    expect(screen.baseElement).to.contain.text(alertText);
 
     expect(screen.baseElement).not.to.contain.text('Canceled');
 
@@ -361,6 +385,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
     expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).not.to.contain.text(alertText);
   });
 
   it('should show error message when single fetch errors', async () => {
