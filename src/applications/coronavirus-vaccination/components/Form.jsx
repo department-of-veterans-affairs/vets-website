@@ -62,7 +62,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
     nextFormData => {
       updateFormData(formState.formSchema, formState.uiSchema, nextFormData);
     },
-    [formState],
+    [formState, updateFormData],
   );
 
   const onFormSubmit = useCallback(
@@ -70,7 +70,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
       recordEvent({ event: 'covid-vaccination--submission' });
       submitToApi(formState.formData);
     },
-    [router, formState],
+    [router, formState, submitToApi],
   );
 
   if (submitStatus === requestStates.pending) {

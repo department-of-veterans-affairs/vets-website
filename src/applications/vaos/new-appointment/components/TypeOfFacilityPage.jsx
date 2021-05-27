@@ -66,11 +66,14 @@ export default function TypeOfFacilityPage() {
     shallowEqual,
   );
   const history = useHistory();
-  useEffect(() => {
-    dispatch(openFormPage(pageKey, uiSchema, initialSchema));
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
+  useEffect(
+    () => {
+      dispatch(openFormPage(pageKey, uiSchema, initialSchema));
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+    },
+    [dispatch],
+  );
 
   return (
     <div className="vaos-form__facility-type vaos-form__detailed-radio">

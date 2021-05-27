@@ -138,7 +138,7 @@ function VetTecSearchPage({
     () => {
       dispatchSetPageTitle(title);
     },
-    [title],
+    [title, dispatchSetPageTitle],
   );
 
   const queryFilterFields = getQueryFilterFields();
@@ -149,7 +149,13 @@ function VetTecSearchPage({
         dispatchFetchProgramSearchResults(queryFilterFields.query);
       }
     },
-    [!_.isEqual(search.query, queryFilterFields.query)],
+    [
+      !_.isEqual(search.query, queryFilterFields.query),
+      dispatchFetchProgramSearchResults,
+      queryFilterFields.institutionFilter,
+      queryFilterFields.query,
+      search.inProgress,
+    ],
   );
 
   useEffect(
@@ -167,7 +173,7 @@ function VetTecSearchPage({
         focusElement('.search-results-count > h1');
       }
     },
-    [search.results],
+    [search.results, search.inProgress],
   );
 
   const buildSearchResults = () => {

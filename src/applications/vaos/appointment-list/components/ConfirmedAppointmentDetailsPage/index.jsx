@@ -79,11 +79,14 @@ export default function ConfirmedAppointmentDetailsPage() {
   const appointmentDate = moment.parseZone(appointment?.start);
   const locationId = getVAAppointmentLocationId(appointment);
 
-  useEffect(() => {
-    dispatch(fetchConfirmedAppointmentDetails(id, 'va'));
+  useEffect(
+    () => {
+      dispatch(fetchConfirmedAppointmentDetails(id, 'va'));
 
-    scrollAndFocus();
-  }, []);
+      scrollAndFocus();
+    },
+    [dispatch, id],
+  );
 
   useEffect(
     () => {
@@ -118,7 +121,7 @@ export default function ConfirmedAppointmentDetailsPage() {
         scrollAndFocus();
       }
     },
-    [appointmentDetailsStatus],
+    [appointmentDetailsStatus, appointment],
   );
 
   if (

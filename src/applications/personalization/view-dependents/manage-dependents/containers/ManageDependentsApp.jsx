@@ -35,7 +35,7 @@ const ManageDependents = props => {
         stateKey,
       );
     },
-    [dependentsState],
+    [dependentsState, stateKey, updateFormData],
   );
 
   const handleFormClose = () => {
@@ -56,9 +56,12 @@ const ManageDependents = props => {
     }
   };
 
-  useEffect(() => {
-    initialize();
-  }, []);
+  useEffect(
+    () => {
+      initialize();
+    },
+    [initialize],
+  );
 
   useEffect(
     () => {

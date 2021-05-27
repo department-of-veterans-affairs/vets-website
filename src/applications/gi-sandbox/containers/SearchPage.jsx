@@ -12,9 +12,12 @@ export function SearchPage({
   dispatchSetPageTitle,
   dispatchChangeSearchTab,
 }) {
-  useEffect(() => {
-    dispatchSetPageTitle(`${PAGE_TITLE}: VA.gov`);
-  }, []);
+  useEffect(
+    () => {
+      dispatchSetPageTitle(`${PAGE_TITLE}: VA.gov`);
+    },
+    [dispatchSetPageTitle],
+  );
   const queryParams = useQueryParams();
   const history = useHistory();
 

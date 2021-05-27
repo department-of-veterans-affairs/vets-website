@@ -37,18 +37,21 @@ export default function ConfirmationPage() {
   const pageTitle = isDirectSchedule
     ? 'Your appointment has been scheduled'
     : 'Your appointment request has been submitted';
-  useEffect(() => {
-    if (
-      !facilityDetails &&
-      data?.vaFacility &&
-      data?.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
-    ) {
-      dispatch(fetchFacilityDetails(data.vaFacility));
-    }
+  useEffect(
+    () => {
+      if (
+        !facilityDetails &&
+        data?.vaFacility &&
+        data?.facilityType !== FACILITY_TYPES.COMMUNITY_CARE
+      ) {
+        dispatch(fetchFacilityDetails(data.vaFacility));
+      }
 
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+    },
+    [data?.facilityType, data?.vaFacility, dispatch, facilityDetails],
+  );
 
   if (submitStatus !== FETCH_STATUS.succeeded) {
     return <Redirect to="/new-appointment" />;

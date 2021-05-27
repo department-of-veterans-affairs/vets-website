@@ -33,11 +33,14 @@ export function ProfilePage({
   const version = queryParams.get('version');
   const institutionName = _.get(profile, 'attributes.name');
 
-  useEffect(() => {
-    return () => {
-      dispatchHideModal();
-    };
-  }, []);
+  useEffect(
+    () => {
+      return () => {
+        dispatchHideModal();
+      };
+    },
+    [dispatchHideModal],
+  );
 
   useEffect(
     () => {
@@ -45,7 +48,7 @@ export function ProfilePage({
         dispatchSetPageTitle(`${institutionName} - GI Bill® Comparison Tool`);
       }
     },
-    [institutionName],
+    [institutionName, dispatchSetPageTitle],
   );
 
   useEffect(
@@ -60,7 +63,7 @@ export function ProfilePage({
     () => {
       dispatchFetchProfile(facilityCode, version);
     },
-    [version],
+    [version, dispatchFetchProfile],
   );
 
   let content;

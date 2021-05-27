@@ -46,7 +46,16 @@ export function GiBillApp({
         dispatchChangeSearchTab(tab);
       }
     },
-    [shouldExitPreviewMode, shouldEnterPreviewMode],
+    [
+      shouldExitPreviewMode,
+      shouldEnterPreviewMode,
+      dispatchChangeSearchTab,
+      dispatchEnterPreviewMode,
+      dispatchExitPreviewMode,
+      dispatchFetchConstants,
+      tab,
+      version,
+    ],
   );
 
   return (

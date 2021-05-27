@@ -23,10 +23,13 @@ export default function ClientError(props) {
     );
   };
 
-  useEffect(() => {
-    focusElement('.schemaform-failure-alert');
-    scrollToError();
-  }, []);
+  useEffect(
+    () => {
+      focusElement('.schemaform-failure-alert');
+      scrollToError();
+    },
+    [scrollToError],
+  );
 
   return (
     <>

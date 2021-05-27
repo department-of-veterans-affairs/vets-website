@@ -29,9 +29,12 @@ function CommunityCareAppointmentDetailsPage({
   const { id } = useParams();
   const appointmentDate = moment.parseZone(appointment?.start);
 
-  useEffect(() => {
-    fetchConfirmedAppointmentDetails(id, 'cc');
-  }, []);
+  useEffect(
+    () => {
+      fetchConfirmedAppointmentDetails(id, 'cc');
+    },
+    [id],
+  );
 
   useEffect(
     () => {
@@ -54,7 +57,7 @@ function CommunityCareAppointmentDetailsPage({
         scrollAndFocus();
       }
     },
-    [appointmentDetailsStatus],
+    [appointmentDetailsStatus, appointment],
   );
 
   if (

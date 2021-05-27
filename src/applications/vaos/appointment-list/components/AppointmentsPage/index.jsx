@@ -49,13 +49,16 @@ function AppointmentsPage({
   showScheduleButton,
   startNewAppointmentFlow,
 }) {
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
 
-    if (futureStatus === FETCH_STATUS.notStarted) {
-      fetchFutureAppointments();
-    }
-  }, []);
+      if (futureStatus === FETCH_STATUS.notStarted) {
+        fetchFutureAppointments();
+      }
+    },
+    [futureStatus],
+  );
 
   useEffect(
     () => {

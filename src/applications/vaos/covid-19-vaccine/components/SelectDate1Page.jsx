@@ -97,21 +97,24 @@ export default function SelectDate1Page() {
     appointmentSlotsStatus === FETCH_STATUS.notStarted;
   const isInitialLoad = useIsInitialLoad(loadingSlots);
 
-  useEffect(() => {
-    dispatch(
-      getAppointmentSlots(
-        moment()
-          .startOf('month')
-          .format('YYYY-MM-DD'),
-        moment()
-          .add(1, 'months')
-          .endOf('month')
-          .format('YYYY-MM-DD'),
-        true,
-      ),
-    );
-    document.title = `${pageTitle} | Veterans Affairs`;
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        getAppointmentSlots(
+          moment()
+            .startOf('month')
+            .format('YYYY-MM-DD'),
+          moment()
+            .add(1, 'months')
+            .endOf('month')
+            .format('YYYY-MM-DD'),
+          true,
+        ),
+      );
+      document.title = `${pageTitle} | Veterans Affairs`;
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -130,7 +133,7 @@ export default function SelectDate1Page() {
     },
     // Intentionally leaving isInitialLoad off, because it should trigger updates, it just
     // determines which update is made
-    [loadingSlots, appointmentSlotsStatus],
+    [loadingSlots, appointmentSlotsStatus, isInitialLoad],
   );
 
   useEffect(

@@ -43,11 +43,14 @@ export default function TypeOfVisitPage() {
   );
   const dispatch = useDispatch();
   const history = useHistory();
-  useEffect(() => {
-    dispatch(openFormPage(pageKey, uiSchema, initialSchema));
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
+  useEffect(
+    () => {
+      dispatch(openFormPage(pageKey, uiSchema, initialSchema));
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+    },
+    [dispatch],
+  );
 
   return (
     <div>

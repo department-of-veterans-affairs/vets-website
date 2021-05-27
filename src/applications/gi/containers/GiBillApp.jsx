@@ -31,7 +31,7 @@ export function GiBillApp({
     () => {
       dispatchFetchConstants(version);
     },
-    [version],
+    [version, dispatchFetchConstants],
   );
 
   useEffect(() => {

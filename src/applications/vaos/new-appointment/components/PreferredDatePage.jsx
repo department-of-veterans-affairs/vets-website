@@ -56,11 +56,14 @@ export default function PreferredDatePage() {
     shallowEqual,
   );
   const history = useHistory();
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-    dispatch(openFormPage(pageKey, uiSchema, initialSchema));
-  }, []);
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+      dispatch(openFormPage(pageKey, uiSchema, initialSchema));
+    },
+    [dispatch],
+  );
 
   return (
     <div>

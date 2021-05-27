@@ -39,7 +39,7 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
         scrollAndFocus('h3');
       }
     },
-    [fetchFutureAppointments, futureStatus, hasTypeChanged],
+    [fetchFutureAppointments, futureStatus, hasTypeChanged, dispatch],
   );
 
   if (

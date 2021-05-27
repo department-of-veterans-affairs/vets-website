@@ -585,14 +585,14 @@ const FacilitiesMap = props => {
         setMapEventHandlers();
       }
     },
-    [map, props.currentQuery.searchCoords],
+    [map, props.currentQuery.searchCoords, setMapEventHandlers],
   );
 
   useEffect(
     () => {
       searchCurrentArea();
     },
-    [props.currentQuery.searchArea],
+    [props.currentQuery.searchArea, searchCurrentArea],
   );
 
   useEffect(() => {
@@ -604,7 +604,7 @@ const FacilitiesMap = props => {
     () => {
       handleSearchOnQueryChange();
     },
-    [props.currentQuery.id],
+    [props.currentQuery.id, handleSearchOnQueryChange],
   );
 
   useEffect(
@@ -612,14 +612,14 @@ const FacilitiesMap = props => {
       if (!map) return;
       renderMarkers(props.results);
     },
-    [props.results, map],
+    [props.results, map, renderMarkers],
   );
 
   useEffect(
     () => {
       handleMapOnNoResultsFound();
     },
-    [props.currentQuery.searchCoords, props.results],
+    [props.currentQuery.searchCoords, props.results, handleMapOnNoResultsFound],
   );
 
   return (

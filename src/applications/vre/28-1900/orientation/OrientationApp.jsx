@@ -28,7 +28,7 @@ const OrientationApp = props => {
         scrollToTop();
       }
     },
-    [step],
+    [step, isFirstRender],
   );
 
   return (

@@ -70,11 +70,14 @@ export default function TypeOfEyeCarePage() {
     shallowEqual,
   );
   const history = useHistory();
-  useEffect(() => {
-    dispatch(openFormPage(pageKey, uiSchema, initialSchema));
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
+  useEffect(
+    () => {
+      dispatch(openFormPage(pageKey, uiSchema, initialSchema));
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+    },
+    [dispatch],
+  );
 
   return (
     <div className="vaos-form__detailed-radio">

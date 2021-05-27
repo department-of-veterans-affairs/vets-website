@@ -36,9 +36,12 @@ export function LandingPage({
   eligibility,
   filters,
 }) {
-  useEffect(() => {
-    dispatchSetPageTitle(`GI Bill® Comparison Tool: VA.gov`);
-  }, []);
+  useEffect(
+    () => {
+      dispatchSetPageTitle(`GI Bill® Comparison Tool: VA.gov`);
+    },
+    [dispatchSetPageTitle],
+  );
 
   const location = useLocation();
   const history = useHistory();

@@ -44,7 +44,7 @@ function ContactFacilitiesPage({
       document.title = `${pageTitle} | Veterans Affairs`;
       openContactFacilitiesPage();
     },
-    [openContactFacilitiesPage],
+    [openContactFacilitiesPage, pageTitle],
   );
 
   useEffect(

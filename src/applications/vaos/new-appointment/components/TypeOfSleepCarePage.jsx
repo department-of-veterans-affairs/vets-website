@@ -70,11 +70,14 @@ export default function TypeOfSleepCarePage() {
     state => getFormPageInfo(state, pageKey),
     shallowEqual,
   );
-  useEffect(() => {
-    dispatch(openFormPage(pageKey, uiSchema, initialSchema));
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
+  useEffect(
+    () => {
+      dispatch(openFormPage(pageKey, uiSchema, initialSchema));
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+    },
+    [dispatch],
+  );
 
   return (
     <div className="vaos-form__detailed-radio">

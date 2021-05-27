@@ -48,11 +48,14 @@ export function NewBookingSection() {
   const facilitySettingsStatus = useSelector(selectFacilitySettingsStatus);
   const featureHomepageRefresh = useSelector(selectFeatureHomepageRefresh);
 
-  useEffect(() => {
-    if (facilitySettingsStatus === FETCH_STATUS.notStarted) {
-      dispatch(fetchFacilitySettings());
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (facilitySettingsStatus === FETCH_STATUS.notStarted) {
+        dispatch(fetchFacilitySettings());
+      }
+    },
+    [dispatch, facilitySettingsStatus],
+  );
 
   useEffect(
     () => {

@@ -61,7 +61,7 @@ export function SearchPage({
     () => {
       dispatchSetPageTitle(title);
     },
-    [title],
+    [title, dispatchSetPageTitle],
   );
 
   useEffect(
@@ -120,7 +120,12 @@ export function SearchPage({
         dispatchFetchInstitutionSearchResults(query);
       }
     },
-    [location.search],
+    [
+      location.search,
+      dispatchFetchInstitutionSearchResults,
+      queryParams,
+      search.inProgress,
+    ],
   );
 
   useEffect(
@@ -138,7 +143,7 @@ export function SearchPage({
         focusElement('.search-results-count > h1');
       }
     },
-    [search.results],
+    [search.results, search.inProgress],
   );
 
   const handleAutocompleteUpdate = (value, version) => {

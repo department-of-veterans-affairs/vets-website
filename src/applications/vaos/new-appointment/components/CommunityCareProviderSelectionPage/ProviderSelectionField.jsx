@@ -70,7 +70,7 @@ function ProviderSelectionField({
         scrollAndFocus('#providerSelectionHeader');
       }
     },
-    [sortMethod],
+    [sortMethod, address, communityCareProviderList, currentLocation],
   );
 
   useEffect(
@@ -83,7 +83,7 @@ function ProviderSelectionField({
         scrollAndFocus('#providerPostSelectionHeader');
       }
     },
-    [showProvidersList],
+    [showProvidersList, mounted, providerSelected],
   );
 
   useEffect(
@@ -92,7 +92,7 @@ function ProviderSelectionField({
         scrollAndFocus('.va-button-link');
       }
     },
-    [formData],
+    [formData, mounted],
   );
 
   useEffect(
@@ -108,7 +108,7 @@ function ProviderSelectionField({
         );
       }
     },
-    [providersListLength],
+    [providersListLength, idSchema.$id, showProvidersList],
   );
 
   useEffect(
@@ -125,7 +125,7 @@ function ProviderSelectionField({
         scrollAndFocus('#providerSelectionHeader');
       }
     },
-    [loadingProviders, loadingLocations],
+    [loadingProviders, loadingLocations, requestLocationStatus],
   );
 
   if (!showProvidersList) {
