@@ -48,7 +48,7 @@ function Form({ formState, updateFormData, router, isLoggedIn, profile }) {
         });
       }
     },
-    [submitStatus],
+    [submitStatus, router],
   );
 
   const [previouslySubmittedFormData] = useInitializeForm(

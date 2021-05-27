@@ -52,7 +52,7 @@ export function DynamicRadioWidget(props) {
           });
       }
     },
-    [props.zipcode],
+    [props.zipcode, onChange],
   );
 
   if (loading === true) {

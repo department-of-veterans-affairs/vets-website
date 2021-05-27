@@ -49,7 +49,7 @@ export default function MultiQuestionForm({
         });
       }
     },
-    [questionState, formState],
+    [questionState, formState, customId],
   );
 
   // sets enabled status of questions in state
@@ -64,7 +64,7 @@ export default function MultiQuestionForm({
         setQuestionState(newQuestionState);
       }
     },
-    [questionState],
+    [questionState, customId],
   );
 
   // records startTime and log to GA

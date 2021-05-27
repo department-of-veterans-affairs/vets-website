@@ -6,15 +6,18 @@ import { focusElement } from 'platform/utilities/ui';
 import { ContactRules } from './VerbiageHelper';
 
 function Confirmation({ router, formData }) {
-  useEffect(() => {
-    focusElement('#covid-vaccination-heading-confirmation');
+  useEffect(
+    () => {
+      focusElement('#covid-vaccination-heading-confirmation');
 
-    if (!formData) {
-      // Redirect to the homepage if there isn't any form data in state.
-      // This is the case for direct navigation to "/confirmation/".
-      router.replace('/');
-    }
-  }, []);
+      if (!formData) {
+        // Redirect to the homepage if there isn't any form data in state.
+        // This is the case for direct navigation to "/confirmation/".
+        router.replace('/');
+      }
+    },
+    [formData, router],
+  );
 
   return (
     <>
