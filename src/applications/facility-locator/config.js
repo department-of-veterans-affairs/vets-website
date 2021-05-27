@@ -32,10 +32,7 @@ const railsEngineApi = {
   settings: apiSettings,
 };
 
-export const getAPI = () =>
-  window.VetsGov?.featureToggles?.facilityLocatorRailsEngine
-    ? railsEngineApi
-    : legacyApi;
+export const getAPI = useEngine => (useEngine ? railsEngineApi : legacyApi);
 
 /**
  * Build parameters and URL for facilities API calls
@@ -50,9 +47,10 @@ export const resolveParamsWithUrl = (
   center,
   radius,
   allUrgentCare = false,
+  useRailsEngine = false,
 ) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
-  const api = getAPI();
+  const api = getAPI(useRailsEngine);
 
   let facility;
   let service;

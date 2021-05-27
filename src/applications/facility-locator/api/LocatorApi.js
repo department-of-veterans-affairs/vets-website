@@ -15,7 +15,7 @@ class LocatorApi {
    * @param {number} page Which page of results to start with?
    * @returns {Promise} Promise object
    */
-  static searchWithBounds(
+  static searchWithBounds({
     address = null,
     bounds,
     locationType,
@@ -24,7 +24,8 @@ class LocatorApi {
     center,
     radius,
     allUrgentCare,
-  ) {
+    useRailsEngine = false,
+  }) {
     const { params, url } = resolveParamsWithUrl(
       address,
       locationType,
@@ -34,9 +35,10 @@ class LocatorApi {
       center,
       radius,
       allUrgentCare,
+      useRailsEngine,
     );
 
-    const api = getAPI();
+    const api = getAPI(useRailsEngine);
     const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
       fetch(`${url}?${params}`, api.settings)
@@ -55,8 +57,8 @@ class LocatorApi {
    *
    * @param {string} id The ID of the Facility
    */
-  static fetchVAFacility(id) {
-    const api = getAPI();
+  static fetchVAFacility(id, useRailsEngine) {
+    const api = getAPI(useRailsEngine);
     const url = `${api.url}/${id}`;
 
     return new Promise((resolve, reject) => {
@@ -71,8 +73,8 @@ class LocatorApi {
    *
    * @param {string} id The ID of the CC Provider
    */
-  static fetchProviderDetail(id) {
-    const api = getAPI();
+  static fetchProviderDetail(id, useRailsEngine) {
+    const api = getAPI(useRailsEngine);
     const url = `${api.baseUrl}/ccp/${id}`;
 
     return new Promise((resolve, reject) => {
@@ -85,8 +87,8 @@ class LocatorApi {
   /**
    * Get all known specialties available from all CC Providers.
    */
-  static getProviderSpecialties() {
-    const api = getAPI();
+  static getProviderSpecialties(useRailsEngine) {
+    const api = getAPI(useRailsEngine);
     const url = `${api.baseUrl}/ccp/specialties`;
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)

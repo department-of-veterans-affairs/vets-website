@@ -21,6 +21,7 @@ import {
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
   facilityLocatorLighthouseCovidVaccineQuery,
+  facilityLocatorRailsEngine,
 } from '../utils/featureFlagSelectors';
 import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
@@ -203,7 +204,7 @@ const FacilitiesMap = props => {
 
   const handlePageSelect = page => {
     resetMapElements();
-    const { currentQuery } = props;
+    const { currentQuery, useRailsEngine } = props;
     const coords = currentQuery.position;
     const radius = currentQuery.radius;
     const center = [coords.latitude, coords.longitude];
@@ -214,6 +215,7 @@ const FacilitiesMap = props => {
       page,
       center,
       radius,
+      useRailsEngine,
     });
   };
 
@@ -501,7 +503,7 @@ const FacilitiesMap = props => {
   };
 
   const searchCurrentArea = () => {
-    const { currentQuery } = props;
+    const { currentQuery, useRailsEngine } = props;
     const { searchArea, context, searchString } = currentQuery;
     const coords = currentQuery.position;
     const radius = currentQuery.radius;
@@ -518,6 +520,7 @@ const FacilitiesMap = props => {
         page: props.currentQuery.currentPage,
         center,
         radius,
+        useRailsEngine,
       });
     }
   };
@@ -542,7 +545,7 @@ const FacilitiesMap = props => {
         context: props.currentQuery.context,
         address: props.currentQuery.searchString,
       });
-      const { currentQuery } = props;
+      const { currentQuery, useRailsEngine } = props;
       const coords = currentQuery.position;
       const radius = currentQuery.radius;
       const center = [coords.latitude, coords.longitude];
@@ -556,6 +559,7 @@ const FacilitiesMap = props => {
           page: resultsPage,
           center,
           radius,
+          useRailsEngine,
         });
         setIsSearching(false);
       }
@@ -655,6 +659,7 @@ const mapStateToProps = state => ({
   pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,
   specialties: state.searchQuery.specialties,
+  useRailsEngine: facilityLocatorRailsEngine(state),
 });
 
 const mapDispatchToProps = {
