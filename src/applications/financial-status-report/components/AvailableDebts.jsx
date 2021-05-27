@@ -6,6 +6,7 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import ErrorMessage from '../components/ErrorMessage';
 
 const NoDebts = () => (
   <div className="usa-alert background-color-only">
@@ -20,13 +21,15 @@ const NoDebts = () => (
   </div>
 );
 
-const AvailableDebts = ({ pendingDebts, debts, getDebts }) => {
+const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
   useEffect(
     () => {
       getDebts();
     },
     [getDebts],
   );
+
+  if (isError) return <ErrorMessage />;
 
   if (pendingDebts) {
     return (
@@ -36,7 +39,7 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts }) => {
     );
   }
 
-  return !pendingDebts && debts.length ? (
+  return debts.length ? (
     <>
       <p>
         Select one or more debts below. We’ll help you choose a debt repayment
@@ -70,6 +73,7 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts }) => {
 const mapStateToProps = ({ fsr }) => ({
   debts: fsr.debts,
   pendingDebts: fsr.pendingDebts,
+  isError: fsr.isError,
 });
 
 const mapDispatchToProps = {
