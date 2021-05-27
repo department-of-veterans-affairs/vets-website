@@ -182,6 +182,68 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(await screen.findAllByText(/Detail/)).to.be.ok;
   });
 
+  it('should show confirmed appointment without facility information', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      clinicFriendlyName: "Jennie's Lab",
+      facilityId: '983',
+      sta6aid: null,
+      vdsAppointments: [
+        {
+          bookingNote: 'New issue: ASAP',
+        },
+      ],
+    };
+
+    mockAppointmentInfo({
+      va: [appointment],
+      isHomepageRefresh: true,
+    });
+
+    mockSingleAppointmentFetch({
+      appointment,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    expect(await screen.findByText(/Find facility information/)).to.be.ok;
+
+    expect(screen.baseElement).not.to.contain.text(
+      'This appointment occurred in the past.',
+    );
+
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /You shared these details about your concern/,
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/New issue: ASAP/)).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: new RegExp(
+          moment()
+            .tz('America/Denver')
+            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+    expect(screen.getByText(/Print/)).to.be.ok;
+    expect(screen.getByText(/Cancel appointment/)).to.be.ok;
+
+    const button = screen.getByRole('button', {
+      name: /Go back to appointments/,
+    });
+    expect(button).to.be.ok;
+  });
   it('should show past confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
 

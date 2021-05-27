@@ -49,9 +49,9 @@ const ReviewDescription = ({ profile }) => {
           target="_blank"
           rel="noopener noreferrer"
           className="vads-u-margin-right--1"
-          aria-label="Edit contact information on profile"
+          aria-label="Edit contact information in your profile"
         >
-          Edit on Profile
+          Edit Profile
         </a>
       </div>
       <dl className="review">

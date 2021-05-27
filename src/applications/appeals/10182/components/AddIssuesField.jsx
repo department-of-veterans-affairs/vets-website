@@ -17,7 +17,10 @@ import { scrollAndFocus } from '../utils/ui';
 import { isEmptyObject, someSelected } from '../utils/helpers';
 import { SELECTED, MAX_NEW_CONDITIONS } from '../constants';
 import { IssueCard } from './IssueCard';
-import { missingIssuesErrorMessage } from '../content/additionalIssues';
+import {
+  missingIssuesErrorMessage,
+  noneSelected,
+} from '../content/additionalIssues';
 
 const Element = Scroll.Element;
 
@@ -33,6 +36,7 @@ const AddIssuesField = props => {
     formContext,
     onBlur,
     fullFormData,
+    submission,
   } = props;
 
   const uiOptions = uiSchema['ui:options'] || {};
@@ -174,7 +178,8 @@ const AddIssuesField = props => {
   const singleIssue = items.length === 1;
   const hasSelected =
     someSelected(formData) || someSelected(fullFormData.contestableIssues);
-  const showError = formContext.submitted && !hasSelected;
+  const hasSubmitted = formContext.submitted || submission?.hasAttemptedSubmit;
+  const showError = hasSubmitted && !hasSelected;
 
   const content = items.map((item, index) => {
     const itemSchema = getItemSchema(index);
@@ -269,6 +274,7 @@ const AddIssuesField = props => {
 
   return isReviewMode ? (
     <>
+      {!showError && !hasSelected && noneSelected}
       {showError && missingIssuesErrorMessage}
       {content}
     </>
@@ -312,6 +318,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
+  submission: state.form.submission || {},
   fullFormData: state.form.data || {},
 });
 
