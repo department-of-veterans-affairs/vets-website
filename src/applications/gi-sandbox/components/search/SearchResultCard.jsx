@@ -36,7 +36,10 @@ export function SearchResultCard({
       <div className="card-title-section">
         <h3 className="vads-u-margin-top--2">{name}</h3>
       </div>
-      <p className="vads-u-padding--0">{`${city}, ${state}`}</p>
+      <p className="vads-u-padding--0">
+        {city}
+        {state && `, ${state}`}
+      </p>
     </>
   );
 
