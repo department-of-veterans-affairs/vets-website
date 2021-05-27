@@ -108,7 +108,7 @@ describe('The My VA Dashboard', () => {
     );
     cy.findByText(/problems with the claims or appeals tool/i).should('exist');
     cy.findByRole('link', {
-      name: /manage all your claims and appeals/i,
+      name: /check your claim or appeal status/i,
     }).should('not.exist');
   });
   it('should show an alert in place of Claims and Appeals data if there is active appeals service downtime', () => {
@@ -137,7 +137,7 @@ describe('The My VA Dashboard', () => {
     );
     cy.findByText(/problems with the claims or appeals tool/i).should('exist');
     cy.findByRole('link', {
-      name: /manage all your claims and appeals/i,
+      name: /check your claim or appeal status/i,
     }).should('not.exist');
   });
   it('should show Claims and Appeals data when there are appeals and MHV downtimes a day in the future', () => {
@@ -184,7 +184,7 @@ describe('The My VA Dashboard', () => {
       name: /Claims & appeals/i,
     }).should('exist');
     cy.findByRole('link', {
-      name: /manage all your claims and appeals/i,
+      name: /check your claim or appeal status/i,
     }).should('exist');
   });
 });

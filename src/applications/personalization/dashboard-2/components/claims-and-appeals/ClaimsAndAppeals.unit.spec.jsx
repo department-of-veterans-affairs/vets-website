@@ -331,7 +331,7 @@ describe('ClaimsAndAppeals component', () => {
       it('should not show a CTA', () => {
         expect(
           view.queryByRole('link', {
-            name: /manage all your claims and appeals/i,
+            name: /check your claim or appeal status/i,
           }),
         ).to.not.exist;
       });
@@ -368,7 +368,7 @@ describe('ClaimsAndAppeals component', () => {
       it('should not show a CTA', () => {
         expect(
           view.queryByRole('link', {
-            name: /manage all your claims and appeals/i,
+            name: /check your claim or appeal status/i,
           }),
         ).to.not.exist;
       });
@@ -440,7 +440,7 @@ describe('ClaimsAndAppeals component', () => {
             .exist;
           expect(
             view.getByRole('link', {
-              name: /manage all your claims and appeals/i,
+              name: /check your claim or appeal status/i,
             }),
           ).to.exist;
         });
@@ -491,7 +491,7 @@ describe('ClaimsAndAppeals component', () => {
             .exist;
           expect(
             view.getByRole('link', {
-              name: /manage all your claims and appeals/i,
+              name: /check your claim or appeal status/i,
             }),
           ).to.exist;
         });
@@ -542,7 +542,7 @@ describe('ClaimsAndAppeals component', () => {
             .exist;
           expect(
             view.getByRole('link', {
-              name: /manage all your claims and appeals/i,
+              name: /check your claim or appeal status/i,
             }),
           ).to.exist;
         });
@@ -588,7 +588,7 @@ describe('ClaimsAndAppeals component', () => {
         it('shows the CTA', () => {
           expect(
             view.getByRole('link', {
-              name: /manage all your claims and appeals/i,
+              name: /check your claim or appeal status/i,
             }),
           ).to.exist;
         });
@@ -629,7 +629,7 @@ describe('ClaimsAndAppeals component', () => {
             .exist;
           expect(
             view.getByRole('link', {
-              name: /manage all your claims and appeals/i,
+              name: /check your claim or appeal status/i,
             }),
           ).to.exist;
         });
