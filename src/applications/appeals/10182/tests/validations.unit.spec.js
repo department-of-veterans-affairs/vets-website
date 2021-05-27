@@ -86,14 +86,12 @@ describe('areaOfDisagreementRequired', () => {
   });
   it('should not show an error with a single selection', () => {
     const errors = { addError: sinon.spy() };
-    areaOfDisagreementRequired(errors, null, {
-      disagreementOptions: { foo: true },
-    });
+    areaOfDisagreementRequired(errors, { disagreementOptions: { foo: true } });
     expect(errors.addError.called).to.be.false;
   });
   it('should not show an error with other selected with entry text', () => {
     const errors = { addError: sinon.spy() };
-    areaOfDisagreementRequired(errors, null, {
+    areaOfDisagreementRequired(errors, {
       disagreementOptions: { other: true },
       otherEntry: 'foo',
     });

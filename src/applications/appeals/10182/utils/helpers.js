@@ -87,9 +87,5 @@ export const appStateSelector = state => ({
   additionalIssues: state.form?.data?.additionalIssues || [],
 });
 
-export const appStateSelectorDisagreement = state => ({
-  areaOfDisagreement: state.form?.data?.areaOfDisagreement || [],
-});
-
 export const noticeOfDisagreementFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.form10182Nod];
