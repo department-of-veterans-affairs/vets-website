@@ -134,7 +134,7 @@ function CommunityCareAppointmentDetailsPage({
         {!!appointment.comment && (
           <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-              You shared these details about your concern
+              Special instructions
             </h2>
             <div>{appointment.comment}</div>
           </div>
@@ -145,7 +145,7 @@ function CommunityCareAppointmentDetailsPage({
         <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
           <i
             aria-hidden="true"
-            className="far fa-calendar vads-u-margin-right--1"
+            className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
           />
           <AddToCalendar
             summary={calendarData.summary}
@@ -162,11 +162,26 @@ function CommunityCareAppointmentDetailsPage({
       )}
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-        <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
+        <i
+          aria-hidden="true"
+          className="fas fa-print vads-u-margin-right--1 vads-u-color--link-default"
+        />
         <button className="va-button-link" onClick={() => window.print()}>
           Print
         </button>
       </div>
+
+      {!isPastAppointment && (
+        <AlertBox
+          status={ALERT_TYPE.INFO}
+          className="vads-u-display--block"
+          headline="Need to make changes?"
+          backgroundOnly
+        >
+          Contact this provider if you need to reschedule or cancel your
+          appointment.
+        </AlertBox>
+      )}
 
       <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
         <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
