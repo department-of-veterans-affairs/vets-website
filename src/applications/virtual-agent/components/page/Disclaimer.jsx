@@ -95,7 +95,7 @@ export default function Disclaimer() {
             </a>
           </p>
           <p>
-            <b>If you have other questions about VA benefits and services,</b>
+            <b>If you have other questions about VA benefits and services,</b>{' '}
             contact us or access our online resources and support.
           </p>
           <a href="/contact-us">Contact Us</a>
