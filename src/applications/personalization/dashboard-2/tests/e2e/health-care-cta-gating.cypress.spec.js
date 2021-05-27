@@ -37,7 +37,7 @@ describe('MyVA Dashboard - CTA Links', () => {
     it('should show the rx and messaging CTAs', () => {
       cy.visit('my-va/');
       cy.findByRole('link', {
-        name: /schedule and view.*appointments/i,
+        name: /schedule and manage.*appointments/i,
       }).should('exist');
       cy.findByRole('link', { name: /unread message/i }).should('exist');
       cy.findByRole('link', {
@@ -69,7 +69,7 @@ describe('MyVA Dashboard - CTA Links', () => {
     it('should not show the rx and messaging CTAs', () => {
       cy.visit('my-va/');
       cy.findByRole('link', {
-        name: /schedule and view.*appointments/i,
+        name: /schedule and manage.*appointments/i,
       }).should('exist');
       cy.findByRole('link', { name: /send a.*message/i }).should('not.exist');
       cy.findByRole('link', {
