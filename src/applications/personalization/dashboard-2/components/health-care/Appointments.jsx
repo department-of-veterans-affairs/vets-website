@@ -33,7 +33,7 @@ export const Appointments = ({ appointments, hasError }) => {
               <p>
                 We’re sorry. Something went wrong on our end, and we can’t
                 access your appointment information. Please try again later or
-                go to the appointments tool:
+                go to the appointments tool.
               </p>
               <p>
                 <CTALink
