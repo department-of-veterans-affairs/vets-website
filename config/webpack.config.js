@@ -2,7 +2,7 @@
 
 require('core-js/stable');
 require('regenerator-runtime/runtime');
-const fs = require('fs-extra');
+const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
 const webpack = require('webpack');
@@ -87,50 +87,26 @@ function getEntryPoints(entry) {
   return getWebpackEntryPoints(manifestsToBuild);
 }
 
-async function generateHtmlFiles(buildPath) {
-  const TMP_SCAFFOLD_PATH = 'tmp/scaffold';
-  fs.removeSync(TMP_SCAFFOLD_PATH);
-  fs.ensureDirSync(TMP_SCAFFOLD_PATH);
-  console.log(`Created directory for scaffold assets: ${TMP_SCAFFOLD_PATH}`);
-
+/**
+ * Creates a mapping of scaffold asset filenames to file contents.
+ * Tries first to read from a local content-build by default and
+ * falls back to downloading from a remote content-build.
+ *
+ * @return {Object} - Map of scaffold asset filenames to file contents.
+ */
+async function getScaffoldAssets() {
   const LOCAL_CONTENT_BUILD_ROOT = '../content-build';
 
   const REMOTE_CONTENT_BUILD_ROOT =
     'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master';
 
-  const APP_REGISTRY_PATH = path.join(TMP_SCAFFOLD_PATH, 'registry.json');
-
-  const INLINE_SCRIPTS = [
-    'incompatible-browser.js',
-    'record-event.js',
-    'static-page-widgets.js',
-  ];
-
-  // Map temporary scaffold asset paths to their content-build paths.
-  const scaffoldAssets = INLINE_SCRIPTS.reduce(
-    (assetsMap, filename) => ({
-      ...assetsMap,
-      [path.join(TMP_SCAFFOLD_PATH, filename)]: path.join(
-        'src/site/assets/js',
-        filename,
-      ),
-    }),
-    {
-      [APP_REGISTRY_PATH]: 'src/applications/registry.json',
-    },
-  );
-
-  // Loads an asset needed for the scaffold into a temp directory.
-  // First check for the file in a locally checked out `content-build`.
-  // If found, create a symlink to the file in the temp scaffold path.
-  // Otherwise, download the file from the master branch of `content-build`.
-  const loadAsset = async ([tmpPath, contentBuildPath]) => {
-    const localPath = path.resolve(LOCAL_CONTENT_BUILD_ROOT, contentBuildPath);
+  const loadAsset = async contentBuildPath => {
+    const filename = path.basename(contentBuildPath);
+    const localPath = path.join(LOCAL_CONTENT_BUILD_ROOT, contentBuildPath);
 
     if (fs.existsSync(localPath)) {
-      fs.symlinkSync(localPath, tmpPath);
-      console.log(`Linked to local asset found at ${localPath}.`);
-      return;
+      console.log(`Found local asset at ${localPath}.`);
+      return [filename, fs.readFileSync(localPath)];
     }
 
     const fileUrl = new URL(
@@ -148,21 +124,38 @@ async function generateHtmlFiles(buildPath) {
       );
     }
 
-    try {
-      const fileContents = await response.buffer();
-      fs.writeFileSync(tmpPath, fileContents);
-      console.log(`Saved asset to ${tmpPath}.`);
-    } catch (error) {
-      throw new Error(`Failed to write ${tmpPath}.\n\n${error}`);
-    }
+    const fileContents = await response.text();
+    console.log(`Successfully downloaded ${filename}.`);
+    return [filename, fileContents];
   };
 
-  await Promise.all(Object.entries(scaffoldAssets).map(loadAsset));
+  const inlineScripts = [
+    'incompatible-browser.js',
+    'record-event.js',
+    'static-page-widgets.js',
+  ].map(filename => path.join('src/site/assets/js', filename));
 
-  const indexPath = rootUrl => path.join(buildPath, rootUrl, 'index.html');
+  const appRegistry = path.join('src/applications', 'registry.json');
 
-  const loadInlineScript = filename =>
-    fs.readFileSync(path.join(TMP_SCAFFOLD_PATH, filename));
+  const loadedAssets = await Promise.all(
+    [...inlineScripts, appRegistry].map(loadAsset),
+  );
+
+  return Object.fromEntries(loadedAssets);
+}
+
+/**
+ * Generates HTML files for each app and widget.
+ *
+ * @param {String} buildPath - Path to the overall build destination.
+ *
+ * @return {HtmlWebpackPlugin[]} - Array of HtmlWebpackPlugin instances,
+ *   representing the HTML files to generate for each app and widget.
+ */
+async function generateHtmlFiles(buildPath) {
+  const scaffoldAssets = await getScaffoldAssets();
+  const appRegistry = JSON.parse(scaffoldAssets['registry.json']);
+  const loadInlineScript = filename => scaffoldAssets[filename];
 
   // Modifies the style tags output from HTML Webpack Plugin
   // to match the order and attributes of style tags from real content.
@@ -206,7 +199,7 @@ async function generateHtmlFiles(buildPath) {
   }) =>
     new HtmlPlugin({
       chunks: ['polyfills', 'web-components', 'vendor', 'style', entryName],
-      filename: indexPath(rootUrl),
+      filename: path.join(buildPath, rootUrl, 'index.html'),
       inject: false,
       scriptLoading: 'defer',
       template: 'src/platform/landing-pages/dev-template.ejs',
@@ -242,8 +235,6 @@ async function generateHtmlFiles(buildPath) {
             : 'VA.gov Home | Veterans Affairs',
     });
   /* eslint-enable no-nested-ternary */
-
-  const appRegistry = fs.readJsonSync(APP_REGISTRY_PATH);
 
   return [...appRegistry, ...scaffoldRegistry]
     .filter(({ rootUrl }) => rootUrl)

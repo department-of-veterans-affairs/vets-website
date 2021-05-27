@@ -11,6 +11,7 @@ import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
 import createVetCentersHours from './facilities/createVetCentersHours';
+import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
 
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
@@ -150,6 +151,7 @@ createResourcesAndSupportSearchWidget(
 );
 
 createVetCentersHours(store);
+createNearByVetCenters(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);

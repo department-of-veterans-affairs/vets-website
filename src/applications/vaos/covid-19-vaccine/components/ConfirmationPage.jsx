@@ -10,11 +10,20 @@ import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
 import FacilityAddress from '../../components/FacilityAddress.jsx';
 import { selectConfirmationPage } from '../redux/selectors.js';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
-import { formatFacilityAddress } from 'applications/vaos/services/location';
+import {
+  formatFacilityAddress,
+  getFacilityPhone,
+} from 'applications/vaos/services/location';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
-function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
+function ConfirmationPage({
+  data,
+  systemId,
+  slot,
+  facilityDetails,
+  submitStatus,
+}) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -29,6 +38,8 @@ function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
     moment(data.date1, 'YYYY-MM-DDTHH:mm:ssZ').format(
       'dddd, MMMM D, YYYY [at] h:mm a ',
     ) + getTimezoneAbbrBySystemId(systemId);
+
+  const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
 
   return (
     <div>
@@ -68,9 +79,19 @@ function ConfirmationPage({ data, systemId, facilityDetails, submitStatus }) {
         )}
         <div className="vads-u-margin-top--3 vaos-appts__block-label">
           <AddToCalendar
-            summary={appointmentType.concat(' Appointment')}
+            summary={`Appointment at ${facilityDetails.name}`}
+            description={{
+              text: `You have a health care appointment at ${
+                facilityDetails.name
+              }`,
+              phone: getFacilityPhone(facilityDetails),
+              additionalText: [
+                'Sign in to VA.gov to get details about this appointment',
+              ],
+            }}
             location={formatFacilityAddress(facilityDetails)}
             startDateTime={data.date1[0]}
+            duration={appointmentLength}
           />
         </div>
       </div>

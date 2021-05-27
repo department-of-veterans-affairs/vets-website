@@ -41,7 +41,7 @@ const ReviewDescription = ({ profile }) => {
   return (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
-        <h4 className="vads-u-font-size--h4 vads-u-margin--0">
+        <h4 className="vads-u-font-size--h5 vads-u-margin--0">
           Contact information
         </h4>
         <a
@@ -49,9 +49,9 @@ const ReviewDescription = ({ profile }) => {
           target="_blank"
           rel="noopener noreferrer"
           className="vads-u-margin-right--1"
-          aria-label="Edit contact information on profile"
+          aria-label="Edit contact information in your profile"
         >
-          Edit on Profile
+          Edit Profile
         </a>
       </div>
       <dl className="review">

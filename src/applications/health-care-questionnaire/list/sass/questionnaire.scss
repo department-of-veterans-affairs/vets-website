@@ -1,6 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
-@import '../../shared/sass/ie.scss';
+@import "../../shared/sass/ie";
 
 .questionnaire-list-tabs-container{
   border-bottom: 1px solid $color-gray-light;
@@ -92,6 +92,9 @@ ol.questionnaire-list {
   .card{
     background-color: $color-gray-lightest;
     width: 100%;
+    h3{
+      margin-top: 0.5em;
+    }
     .usa-label{
       width: max-content;
       font-size: 1.5rem;

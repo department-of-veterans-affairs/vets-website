@@ -27,7 +27,7 @@ export default function VideoVisitLocation({ appointment, facility }) {
         How to join your video appointment
       </h4>
       <div>
-        <VideoLink appointment={appointment} />
+        <VideoLink appointment={appointment} hasFacility={!!facility} />
         {isAtlas && (
           <div className="vads-u-margin-top--2">
             <AtlasLocation appointment={appointment} />
