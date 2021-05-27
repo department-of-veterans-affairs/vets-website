@@ -50,7 +50,7 @@ export async function getAvailableHealthcareServices({
  * @param {string} locationParams.siteId The VistA site id of the services being pulled
  * @param {string} locationParams.parentId An id for the parent organization of the facilities being pulled
  * @param {string} locationParams.typeOfCareId An id for the type of care to check for the chosen organization
- * @returns {Array} An array of Location resources
+ * @returns {Array<Location>} An array of Location resources
  */
 export async function getSupportedHealthcareServicesAndLocations({
   siteId,

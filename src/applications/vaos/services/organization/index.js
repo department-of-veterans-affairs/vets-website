@@ -8,13 +8,31 @@ import { transformParentFacilities } from './transformers';
 import { mapToFHIRErrors } from '../utils';
 
 /**
+ * @summary
+ * A parent site object, very similar to the Location format
+ *
+ * @typedef {Object} Organization
+ *
+ * @global
+ * @property {string} id The id of the parent site, either an sta3n or sta6aid
+ * @property {Array} identifier TODO
+ * @property {string} name The name of the parent site
+ * @property {Array<Address>} address The parent site's address, though for sites pulled
+ *   from var-resources, there is no street
+ * @property {Object} partOf If this parent site is an integrated site and isn't a root
+ *   VistA instance, this will point to the VistA instance
+ * @property {string} partOf.reference Reference to VistA site, in Organization/<site id> format
+ */
+
+/**
  * Fetch details about the facilities given, typically the VistA sites
  * where a user is registered
  *
  * @export
  * @async
- * @param {Array} params.siteIds A list of three digit site ids
- * @returns {Array} A FHIR searchset of Organization resources
+ * @param {Object} params
+ * @param {Array<string>} params.siteIds A list of three digit site ids
+ * @returns {Array<Organization>} A list of Organization resources
  */
 export async function getOrganizations({ siteIds }) {
   try {
@@ -41,8 +59,8 @@ export async function getOrganizations({ siteIds }) {
  * Pulls the VistA id from an Organization resource
  *
  * @export
- * @param {Object} organization The organization to get an id for
- * @returns {String} Three digit VistA id
+ * @param {Organization} organization The organization to get an id for
+ * @returns {string} Three digit VistA id
  */
 export function getSiteIdFromOrganization(organization) {
   return organization?.identifier.find(id => id.system === VHA_FHIR_ID)?.value;
@@ -54,9 +72,9 @@ export function getSiteIdFromOrganization(organization) {
  * are only two levels of nesting
  *
  * @export
- * @param {Array} organizations List of organizations
- * @param {String} organizationId Id of the organization to find the root for
- * @returns {Object} The organization data for the chosen id or its parent
+ * @param {Array<Organization>} organizations List of organizations
+ * @param {string} organizationId Id of the organization to find the root for
+ * @returns {Organization} The organization data for the chosen id or its parent
  */
 export function getRootOrganization(organizations, organizationId) {
   let organization = organizations?.find(
@@ -75,9 +93,9 @@ export function getRootOrganization(organizations, organizationId) {
  * Returns the organization given a VistA site id
  *
  * @export
- * @param {Array} organizations The list of organizations to search
- * @param {String} siteId The site id to use
- * @returns {Object} The matching organization
+ * @param {Array<Organization>} organizations The list of organizations to search
+ * @param {string} siteId The site id to use
+ * @returns {Organization} The matching organization
  */
 export function getOrganizationBySiteId(organizations, siteId) {
   return organizations.find(org =>
@@ -89,9 +107,9 @@ export function getOrganizationBySiteId(organizations, siteId) {
  * Returns the root site id given a list of organizations and the parent organization
  *
  * @export
- * @param {Array} organizations Parent organizations
- * @param {String} organizationId Chosen parent organization
- * @returns {String} The organization id
+ * @param {Array<Organization>} organizations Parent organizations
+ * @param {string} organizationId Chosen parent organization
+ * @returns {string} The organization id
  */
 export function getIdOfRootOrganization(organizations, organizationId) {
   const parentOrg = organizations.find(parent => parent.id === organizationId);

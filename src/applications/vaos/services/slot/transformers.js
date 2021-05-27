@@ -10,8 +10,8 @@ import { FREE_BUSY_TYPES } from '../../utils/constants';
  * /Slot?status=free
  *
  * @export
- * @param {Array} slots A list of appointment slots from var-resources
- * @returns {Array} A list of Slot resources in FHIR format
+ * @param {Array<VARSlot>} slots A list of appointment slots from var-resources
+ * @returns {Array<Slot>} A list of Slot resources in FHIR format
  */
 export function transformSlots(slots) {
   return (
