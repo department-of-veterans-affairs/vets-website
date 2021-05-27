@@ -28,18 +28,14 @@ export const requireIssue = (
 export const areaOfDisagreementRequired = (
   errors,
   // added index to get around arrayIndex being null
-  _fieldData,
+  { disagreementOptions, otherEntry, index } = {},
   formData,
   _schema,
   _uiSchema,
   arrayIndex, // always null?!
-  appStateData,
 ) => {
-  const data = Object.keys(appStateData || {}).length ? appStateData : formData;
-  const { disagreementOptions, otherEntry, index } = data || {};
-  const hasSelection = Object.keys(disagreementOptions || {}).some(
-    key => disagreementOptions[key],
-  );
+  const keys = Object.keys(disagreementOptions || {});
+  const hasSelection = keys.some(key => disagreementOptions[key]);
 
   if (!hasSelection) {
     errors.addError(missingAreaOfDisagreementErrorMessage);

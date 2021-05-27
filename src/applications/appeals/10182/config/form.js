@@ -23,7 +23,6 @@ import {
   showAddIssuesPage,
   needsHearingType,
   appStateSelector,
-  appStateSelectorDisagreement,
   getIssueName,
 } from '../utils/helpers';
 
@@ -164,7 +163,6 @@ const formConfig = {
           arrayPath: 'areaOfDisagreement',
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
           schema: areaOfDisagreementFollowUp.schema,
-          appStateSelectorDisagreement,
         },
         optIn: {
           title: 'Opt in',
