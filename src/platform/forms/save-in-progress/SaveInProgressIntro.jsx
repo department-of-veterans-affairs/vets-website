@@ -142,8 +142,7 @@ class SaveInProgressIntro extends React.Component {
     } else if (renderSignInMessage) {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
-      // If you pass in a headingLevel prop it will change what is rendered by the changeSaveInProgressHeadingLevel helper
-      const H = `${this.props.headingLevel}`;
+      const H = `h${this.props.headingLevel}`;
       const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
       const unauthStartButton = (
         <button className="usa-button-primary" onClick={this.openLoginModal}>
@@ -383,7 +382,7 @@ SaveInProgressIntro.propTypes = {
       appType: PropTypes.string,
     }),
   }),
-  headingLevel: PropTypes.string,
+  headingLevel: PropTypes.number,
 };
 
 SaveInProgressIntro.defaultProps = {
@@ -395,7 +394,7 @@ SaveInProgressIntro.defaultProps = {
       appType: '',
     },
   },
-  headingLevel: 'h3',
+  headingLevel: 3,
 };
 
 function mapStateToProps(state) {
