@@ -176,8 +176,8 @@ For an example of how `dataDir` and `dataSets` interact, consider the following 
 
 ```
 tests
-|-- some-folder
-|   |-- another-folder
+|-- data
+|   |-- some-folder
 |   |   |-- c-test.json
 |   |   `-- d-test.json
 |   |-- a-test.json
@@ -189,9 +189,9 @@ If you wanted to run a suite of tests based on data from `a-test.json`, `b-test.
 
 ```js
 // `__dirname` can be used to return the current directory path relative to project root.
-dataDir: path.join(__dirname, 'some-folder'), // => 'src/applications/some-form-app/tests/some-folder'
+dataDir: path.join(__dirname, 'data'), // => 'src/applications/some-form-app/tests/data'
 
-dataSets: ['a-test', 'b-test', 'another-folder/c-test', 'another-folder/d-test'],
+dataSets: ['a-test', 'b-test', 'some-folder/c-test', 'some-folder/d-test'],
 ```
 
 #### `fixtures` (deprecated)
@@ -330,11 +330,11 @@ There are various use cases for the `pageHooks` setting, but a couple of common 
    ```js
    pageHooks: {
      'upload/pdf': () => {
-         const filePath = path.join(__dirname, 'fixtures', 'data', 'example-upload.pdf');
-         cy.get('input[type="file"]')
-           .upload(filePath, 'application/pdf')
-           .get('.schemaform-file-uploading')
-           .should('not.exist');
+       const filePath = path.join(__dirname, 'fixtures', 'data', 'example-upload.pdf');
+       cy.get('input[type="file"]')
+         .upload(filePath, 'application/pdf')
+         .get('.schemaform-file-uploading')
+         .should('not.exist');
      },
    },
    ```
@@ -489,6 +489,7 @@ setupPerTest: () => {
 ```
 
 ## Accessibility
+
 An aXe check is automatically performed on every page before and after the page is processed (either running a page hook or filling the page automatically).
 
 For now, violations will be skipped to unblock test execution. Violations will be allowed to fail tests once we have determined a plan and timeline for resolving the aXe issues that the tests encounter.
@@ -520,13 +521,9 @@ const testConfig = createTestConfig(
 
     dataPrefix: 'data',
 
-    dataSets: ['minimal-test', 'maximal-test'],
+    dataDir: path.join(__dirname, 'data'),
 
-    fixtures: {
-      data: path.join(__dirname, 'fixtures'),
-      'sample-file': path.join(__dirname, 'some-folder/some-file.json'),
-      'sample-folder': path.join(__dirname, 'other-folder'),
-    },
+    dataSets: ['minimal-test', 'maximal-test'],
 
     pageHooks: {
       // Due to automatic path resolution, this URL expands to:
@@ -549,20 +546,21 @@ const testConfig = createTestConfig(
         cy.fillPage();
       },
 
-      // Use files synced to fixtures, either individually or from folders.
       'fun-with-fixtures': () => {
-        cy.fixture('sample-file').then(fileContent => {
+        const sampleA = path.join(__dirname, 'sample-folder', 'sample-a.json');
+        cy.fixture(sampleA).then(fileContent => {
         });
 
-        cy.fixture('sample-folder/json-file').then(({ attrA, attrB }) => {
+        const sampleB = path.join(__dirname, 'sample-folder', 'sample-b.json');
+        cy.fixture(sampleB).then(({ attrA, attrB }) => {
         });
 
         // Example of uploading a fixture. For general uploading purposes,
-        // 'example-file.png' is already included in the form tester by default,
-        // and `cy.fillPage()` automatically fills upload fields with that file.
-        // Use those if you have no specific requirements for file upload data.
+        // `cy.fillPage()` autofills upload fields with `example-upload.png`.
+        // Use that if you have no specific requirements for file upload data.
+        const pdf = path.join(__dirname, 'fixtures', 'example-upload.pdf');
         cy.get(`input[id="root_upload_field"]`)
-          .upload('sample-folder/png-file', 'image/png')
+          .upload(pdf, 'application/pdf')
           .get('.schemaform-file-uploading')
           .should('not.exist');
       },
