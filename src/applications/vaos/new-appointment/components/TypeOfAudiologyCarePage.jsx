@@ -70,10 +70,13 @@ export default function TypeOfAudiologyCarePage() {
     shallowEqual,
   );
   const history = useHistory();
-  useEffect(() => {
-    dispatch(openFormPage(pageKey, uiSchema, initialSchema));
-    scrollAndFocus();
-  }, []);
+  useEffect(
+    () => {
+      dispatch(openFormPage(pageKey, uiSchema, initialSchema));
+      scrollAndFocus();
+    },
+    [dispatch],
+  );
 
   return (
     <div className="vaos-form__detailed-radio">

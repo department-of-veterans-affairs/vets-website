@@ -69,12 +69,15 @@ export function ContactInfoPage({
   updateFormData,
 }) {
   const history = useHistory();
-  useEffect(() => {
-    prefillContactInfo();
-    openFormPage(pageKey, uiSchema, initialSchema);
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
+  useEffect(
+    () => {
+      prefillContactInfo();
+      openFormPage(pageKey, uiSchema, initialSchema);
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+    },
+    [openFormPage, prefillContactInfo],
+  );
 
   return (
     <div>

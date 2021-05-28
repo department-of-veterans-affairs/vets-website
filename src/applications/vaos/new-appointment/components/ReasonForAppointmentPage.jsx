@@ -90,13 +90,16 @@ export default function ReasonForAppointmentPage() {
   const pageTitle = isCommunityCare
     ? 'Tell us the reason for this appointment'
     : 'Choose a reason for your appointment';
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-    dispatch(
-      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
-    );
-  }, []);
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+      dispatch(
+        openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
+      );
+    },
+    [pageInitialSchema, pageTitle, pageUISchema, dispatch],
+  );
 
   return (
     <div>

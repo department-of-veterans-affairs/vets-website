@@ -42,7 +42,7 @@ export default function FacilitiesRadioWidget({
         scrollAndFocus(`#${id}_${INITIAL_FACILITY_DISPLAY_COUNT + 1}`);
       }
     },
-    [displayedOptions.length, displayAll],
+    [displayedOptions.length, displayAll, id],
   );
 
   return (

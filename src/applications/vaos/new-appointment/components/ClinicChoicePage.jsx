@@ -76,16 +76,19 @@ export default function ClinicChoicePage() {
     data.clinicId === 'NONE' && !canMakeRequests;
   const schemaAndFacilityReady =
     schema && facilityDetailsStatus !== FETCH_STATUS.loading;
-  useEffect(() => {
-    dispatch(openClinicPage(pageKey, uiSchema, initialSchema));
-  }, []);
+  useEffect(
+    () => {
+      dispatch(openClinicPage(pageKey, uiSchema, initialSchema));
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
       scrollAndFocus();
       document.title = `${getPageTitle(schema, typeOfCare)} | Veterans Affairs`;
     },
-    [schemaAndFacilityReady],
+    [schemaAndFacilityReady, schema, typeOfCare],
   );
 
   if (!schemaAndFacilityReady) {

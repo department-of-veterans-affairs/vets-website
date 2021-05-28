@@ -52,11 +52,14 @@ export default function ReceivedDoseScreenerPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const userData = useSelector(selectCovid19VaccineFormData);
-  useEffect(() => {
-    dispatch(openFormPage(pageKey, uiSchema, initialSchema));
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-  }, []);
+  useEffect(
+    () => {
+      dispatch(openFormPage(pageKey, uiSchema, initialSchema));
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+    },
+    [dispatch],
+  );
 
   return (
     <div>

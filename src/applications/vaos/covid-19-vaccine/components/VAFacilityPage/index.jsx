@@ -54,7 +54,7 @@ function VAFacilityPage({
       scrollAndFocus();
       openFacilityPage();
     },
-    [openFacilityPage],
+    [openFacilityPage, pageTitle],
   );
 
   const previouslyShowingModal = usePrevious(showEligibilityModal);

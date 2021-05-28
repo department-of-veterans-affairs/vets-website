@@ -101,18 +101,21 @@ export default function PastAppointmentsListNew() {
     hasTypeChanged,
   } = useSelector(state => getPastAppointmentListInfo(state), shallowEqual);
 
-  useEffect(() => {
-    if (pastStatus === FETCH_STATUS.notStarted) {
-      const selectedDateRange = dateRangeOptions[pastSelectedIndex];
-      dispatch(
-        fetchPastAppointments(
-          selectedDateRange.startDate,
-          selectedDateRange.endDate,
-          pastSelectedIndex,
-        ),
-      );
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (pastStatus === FETCH_STATUS.notStarted) {
+        const selectedDateRange = dateRangeOptions[pastSelectedIndex];
+        dispatch(
+          fetchPastAppointments(
+            selectedDateRange.startDate,
+            selectedDateRange.endDate,
+            pastSelectedIndex,
+          ),
+        );
+      }
+    },
+    [dateRangeOptions, dispatch, pastSelectedIndex, pastStatus],
+  );
   useEffect(
     () => {
       if (pastStatus === FETCH_STATUS.succeeded && !isInitialMount) {

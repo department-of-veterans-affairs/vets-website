@@ -91,21 +91,24 @@ export default function DateTimeSelectPage() {
 
   const isInitialLoad = useIsInitialLoad(loadingSlots);
 
-  useEffect(() => {
-    dispatch(
-      getAppointmentSlots(
-        moment(preferredDate)
-          .startOf('month')
-          .format('YYYY-MM-DD'),
-        moment(preferredDate)
-          .add(1, 'months')
-          .endOf('month')
-          .format('YYYY-MM-DD'),
-        true,
-      ),
-    );
-    document.title = `${pageTitle} | Veterans Affairs`;
-  }, []);
+  useEffect(
+    () => {
+      dispatch(
+        getAppointmentSlots(
+          moment(preferredDate)
+            .startOf('month')
+            .format('YYYY-MM-DD'),
+          moment(preferredDate)
+            .add(1, 'months')
+            .endOf('month')
+            .format('YYYY-MM-DD'),
+          true,
+        ),
+      );
+      document.title = `${pageTitle} | Veterans Affairs`;
+    },
+    [dispatch, preferredDate],
+  );
 
   useEffect(
     () => {
@@ -124,7 +127,7 @@ export default function DateTimeSelectPage() {
     },
     // Intentionally leaving isInitialLoad off, because it should trigger updates, it just
     // determines which update is made
-    [loadingSlots, appointmentSlotsStatus],
+    [loadingSlots, appointmentSlotsStatus, isInitialLoad],
   );
 
   const selectedDates = data.selectedDates;

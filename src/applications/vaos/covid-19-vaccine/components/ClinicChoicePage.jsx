@@ -39,11 +39,14 @@ export function ClinicChoicePage({
   routeToPreviousAppointmentPage,
 }) {
   const history = useHistory();
-  useEffect(() => {
-    openClinicPage(pageKey, uiSchema, initialSchema);
-    scrollAndFocus();
-    document.title = `${pageTitle} | Veterans Affairs`;
-  }, []);
+  useEffect(
+    () => {
+      openClinicPage(pageKey, uiSchema, initialSchema);
+      scrollAndFocus();
+      document.title = `${pageTitle} | Veterans Affairs`;
+    },
+    [openClinicPage],
+  );
 
   return (
     <div>

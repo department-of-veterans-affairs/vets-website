@@ -57,9 +57,12 @@ export default function RequestedAppointmentDetailsPage() {
     shallowEqual,
   );
 
-  useEffect(() => {
-    dispatch(fetchRequestDetails(id));
-  }, []);
+  useEffect(
+    () => {
+      dispatch(fetchRequestDetails(id));
+    },
+    [dispatch, id],
+  );
 
   useEffect(
     () => {
@@ -102,7 +105,7 @@ export default function RequestedAppointmentDetailsPage() {
         scrollAndFocus();
       }
     },
-    [appointmentDetailsStatus],
+    [appointmentDetailsStatus, appointment],
   );
 
   if (

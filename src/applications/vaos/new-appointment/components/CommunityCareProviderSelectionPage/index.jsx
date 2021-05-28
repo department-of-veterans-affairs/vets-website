@@ -56,14 +56,17 @@ function CommunityCareProviderSelectionPage({
   openCommunityCareProviderSelectionPage,
 }) {
   const history = useHistory();
-  useEffect(() => {
-    document.title = `${pageTitle} | Veterans Affairs`;
-    scrollAndFocus();
-    openCommunityCareProviderSelectionPage(pageKey, uiSchema, initialSchema);
-    recordEvent({
-      event: `${GA_PREFIX}-community-care-provider-selection-page`,
-    });
-  }, []);
+  useEffect(
+    () => {
+      document.title = `${pageTitle} | Veterans Affairs`;
+      scrollAndFocus();
+      openCommunityCareProviderSelectionPage(pageKey, uiSchema, initialSchema);
+      recordEvent({
+        event: `${GA_PREFIX}-community-care-provider-selection-page`,
+      });
+    },
+    [openCommunityCareProviderSelectionPage],
+  );
 
   return (
     <div>
