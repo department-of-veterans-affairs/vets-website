@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import { checkInExperienceEnabled, loadingFeatureFlags } from '../selectors';
 
-import LandingPage from '../components/LandingPage';
+import LandingPage from '../pages/LandingPage';
 
 const App = ({ isCheckInEnabled, isLoadingFeatureFlags }) => {
   if (isLoadingFeatureFlags) {
