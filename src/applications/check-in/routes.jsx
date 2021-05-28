@@ -1,7 +1,14 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 import App from './containers/App.jsx';
 
-const routes = <Route path="/" component={App} />;
+const landingPagePath = `/:token`;
 
-export default routes;
+const createRoutesWithStore = () => {
+  return (
+    <Switch>
+      <Route path={landingPagePath} exact component={App} />
+    </Switch>
+  );
+};
+export default createRoutesWithStore;

@@ -5,6 +5,8 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import { checkInExperienceEnabled, loadingFeatureFlags } from '../selectors';
 
+import LandingPage from '../components/LandingPage';
+
 const App = ({ isCheckInEnabled, isLoadingFeatureFlags }) => {
   if (isLoadingFeatureFlags) {
     return (
@@ -19,7 +21,7 @@ const App = ({ isCheckInEnabled, isLoadingFeatureFlags }) => {
     return (
       <>
         <meta name="robots" content="noindex" />
-        <h1>Check in to your appointment</h1>
+        <LandingPage />
       </>
     );
   }
