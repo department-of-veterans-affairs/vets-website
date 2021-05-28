@@ -21,10 +21,10 @@ const AssetInfo = (
 
 export const uiSchema = {
   'ui:title': 'Other living expenses',
+  'ui:description':
+    'Enter each expense separately below. For each, include an estimate of how much you pay for that expense each month.',
   otherExpenses: {
     'ui:field': ItemLoop,
-    'ui:description':
-      'Enter each expense separately below. For each, include an estimate of how much you pay for that expense each month.',
     'ui:options': {
       viewType: 'table',
       viewField: TableDetailsView,

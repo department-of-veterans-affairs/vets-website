@@ -7,7 +7,7 @@ const INITIAL_STATE = Object.freeze({
   employers: true,
   hbcu: false,
   isRelaffil: false,
-  preferredProvider: true,
+  preferredProvider: false,
   schools: true,
   singleGenderSchool: false,
   state: 'ALL',

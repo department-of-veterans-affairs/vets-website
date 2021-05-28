@@ -4,6 +4,7 @@ import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 
 export const uiSchema = {
   'ui:title': 'Your work history',
+  'ui:description': 'Tell us about your other jobs in the past 2 years.',
   personalData: {
     employmentHistory: {
       'ui:options': {
@@ -12,8 +13,6 @@ export const uiSchema = {
       veteran: {
         vetPreviousEmployment: {
           'ui:field': ItemLoop,
-          'ui:description':
-            'Tell us about your other jobs in the past 2 years.',
           'ui:options': {
             viewField: CardDetailsView,
             doNotScroll: true,
