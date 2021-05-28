@@ -92,9 +92,9 @@ export default function LocationSearchResults({ search }) {
 
   useEffect(
     () => {
-      if (!map.current || results.length === 0) return; // wait for map to initialize
-
       markers.current.forEach(marker => marker.remove());
+
+      if (!map.current || results.length === 0) return; // wait for map to initialize
 
       const locationBounds = new mapboxgl.LngLatBounds();
 
