@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export default function LandingPage() {
-  const onClick = () => {};
+  const [didCheckIn, setDidCheckIn] = useState(false);
+  const onClick = () => {
+    setDidCheckIn(true);
+  };
+
+  if (didCheckIn) {
+    return <Redirect to="/check-in/confirm" />;
+  }
+
   const TTY_NUMBER = '711';
   const GET_HELP_NUMBER = '800-698-2411';
+
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
       <h1>Appointment details</h1>
