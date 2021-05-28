@@ -20,9 +20,9 @@ Cypress.on('window:before:load', window => {
 });
 
 // Allows paths passed to `cy.fixture` to start from project root because
-// the `fixtureFolder` needs to be set to "./src" in the configuration.
+// the `fixtureFolder` needs to be set to "src" in the configuration.
 // Setting it to "." causes Cypress to fail to find the spec files,
-// presumably because it has to be inside the `integrationFolder` ("./src").
+// presumably because it can't contain the `integrationFolder` ("src").
 Cypress.Commands.overwrite('fixture', (originalFn, path, options) =>
   originalFn(join('..', path), options),
 );
