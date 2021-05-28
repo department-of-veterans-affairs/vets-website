@@ -23,10 +23,7 @@ const url = new URL(
 url.searchParams.append(
   'json',
   JSON.stringify({
-    parameter: [
-      { name: 'cmsEnvBuildOverride', value: 'none' },
-      { name: 'cancelBuild', value: 'false' },
-    ],
+    parameter: [{ name: 'cancelBuild', value: 'false' }],
   }),
 );
 
