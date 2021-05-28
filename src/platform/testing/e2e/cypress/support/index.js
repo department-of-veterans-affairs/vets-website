@@ -44,12 +44,12 @@ beforeEach(() => {
   });
 });
 
-// return filePath to addContext to mochawesome reporter
-Cypress.on('test:after:run', (test, runnable) => {
+// Link to video of failed test in mochawesome report
+Cypress.on('test:after:run', test => {
   if (test.state === 'failed') {
-    const screenshot = `${Cypress.config('screenshotsFolder')}/${
-      Cypress.spec.name
-    }/${runnable.parent.title} -- ${test.title} (failed).png`;
-    addContext({ test }, screenshot);
+    let videoName = Cypress.spec.name;
+    videoName = videoName.replace('/.js.*', '.js');
+    const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
+    addContext({ test }, videoPath);
   }
 });
