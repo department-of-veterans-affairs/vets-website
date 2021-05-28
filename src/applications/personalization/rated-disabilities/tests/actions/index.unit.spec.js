@@ -71,7 +71,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
 });
 
 describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
-  beforeEach(mockFetch);
+  beforeEach(() => mockFetch());
 
   it('should fetch the total rating', () => {
     const total = { userPercentOfDisability: 80 };

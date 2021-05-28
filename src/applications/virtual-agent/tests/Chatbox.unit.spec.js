@@ -39,7 +39,6 @@ describe('App', () => {
   beforeEach(() => {
     createStoreSpy = sandbox.spy();
     directLineSpy = sandbox.spy();
-    resetFetch();
     oldWindow = global.window;
     sandbox.spy(Sentry, 'captureException');
   });
