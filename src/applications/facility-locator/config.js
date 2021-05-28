@@ -100,7 +100,7 @@ export const resolveParamsWithUrl = ({
 
   if (radius) roundRadius = Math.max(1, radius.toFixed());
 
-  if (useRailsEngine && facility) {
+  if (useRailsEngine && facility && communityServiceType) {
     url = `${url}/${facility}`;
   }
 
@@ -109,7 +109,9 @@ export const resolveParamsWithUrl = ({
     params: compact([
       address ? `address=${address}` : null,
       ...bounds.map(c => `bbox[]=${c}`),
-      facility && !useRailsEngine ? `type=${facility}` : null,
+      facility && (!useRailsEngine || !communityServiceType)
+        ? `type=${facility}`
+        : null,
       filterableLocations.includes(facility) && service
         ? `${communityServiceType ? 'specialties' : 'services'}[]=${service}`
         : null,
