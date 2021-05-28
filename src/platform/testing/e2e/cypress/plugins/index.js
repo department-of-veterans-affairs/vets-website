@@ -1,6 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
-const del = require('del')
+const del = require('del');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 
 module.exports = on => {
