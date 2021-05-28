@@ -1,3 +1,4 @@
+import _ from 'platform/utilities/data';
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 
 import { eligiblePrograms, checkBenefit } from '../content/stemEligibility';
@@ -31,7 +32,12 @@ export const uiSchema = {
       'ui:description': eligiblePrograms,
       'ui:widget': 'yesNo',
       'ui:required': formData =>
-        !formData['view:teachingCertClinicalTraining'].isPursuingTeachingCert,
+        _.get(
+          'view:teachingCertClinicalTraining.isPursuingTeachingCert',
+          formData,
+          false,
+        ) === false,
+
       'ui:options': {
         expandUnder: 'isPursuingTeachingCert',
         expandUnderCondition: false,
@@ -62,8 +68,6 @@ export const schema = {
   required: ['isEnrolledStem', 'benefitLeft'],
   properties: {
     isEnrolledStem,
-
-    benefitLeft,
     'view:teachingCertClinicalTraining': {
       type: 'object',
       properties: {
@@ -71,5 +75,6 @@ export const schema = {
         isPursuingClinicalTraining,
       },
     },
+    benefitLeft,
   },
 };
