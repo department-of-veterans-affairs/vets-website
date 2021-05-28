@@ -37,7 +37,7 @@ const SignatureCheckbox = ({
 
       <section>
         <SignatureInput
-          ariaDescribedby={`${label}-signature-label`}
+          ariaDescribedBy={`${label}-signature-label`}
           label={label}
           fullName={fullName}
           required={isRequired}
