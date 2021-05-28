@@ -5,7 +5,6 @@ import App from './containers/App.jsx';
 const createRoutesWithStore = () => {
   return (
     <Switch>
-      <Route path="/" exact component={App} />
       <Route path="/*" exact component={App} />
     </Switch>
   );
