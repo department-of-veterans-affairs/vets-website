@@ -191,7 +191,6 @@ export const buildSearchFilters = filters => {
     schools: true,
     employers: true,
     vettec: true,
-    preferredProvider: true,
   };
   const searchFilters = {};
   const boolFields = Object.entries(filters).filter(([field, value]) => {
