@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Switch, Route, Router } from 'react-router-dom';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
@@ -21,7 +22,11 @@ const App = ({ isCheckInEnabled, isLoadingFeatureFlags }) => {
     return (
       <>
         <meta name="robots" content="noindex" />
-        <LandingPage />
+        <Router>
+          <Switch>
+            <Route path="/" component={LandingPage} />
+          </Switch>
+        </Router>
       </>
     );
   }
