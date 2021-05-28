@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import moment from '../../lib/moment-tz.js';
 import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -17,13 +17,11 @@ import {
 
 const pageTitle = 'We’ve scheduled your appointment';
 
-function ConfirmationPage({
-  data,
-  systemId,
-  slot,
-  facilityDetails,
-  submitStatus,
-}) {
+export default function ConfirmationPage() {
+  const { data, systemId, slot, facilityDetails, submitStatus } = useSelector(
+    selectConfirmationPage,
+    shallowEqual,
+  );
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -111,5 +109,3 @@ function ConfirmationPage({
     </div>
   );
 }
-
-export default connect(selectConfirmationPage)(ConfirmationPage);
