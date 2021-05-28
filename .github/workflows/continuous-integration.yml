@@ -261,6 +261,17 @@ jobs:
           name: build-${{ matrix.buildtype }}
           path: ${{ matrix.buildtype }}
 
+      - name: Generate build details
+        run: |
+          cat > ${{ matrix.buildtype }}/BUILD.txt <<EOF
+          BUILDTYPE=${{ matrix.buildtype }}
+          NODE_ENV=production
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          RUN_ID=${{ github.run_id }}
+          REF=${{ github.sha }}
+          BUILDTIME=$(date +%s)
+          EOF
+
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
         with:
