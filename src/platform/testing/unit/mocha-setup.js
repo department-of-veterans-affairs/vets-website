@@ -42,6 +42,12 @@ function filterStackTrace(trace) {
     .join(os.EOL);
 }
 
+function resetFetch() {
+  if (global.fetch.isSinonProxy) {
+    global.fetch.restore();
+  }
+}
+
 /**
  * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
  */
@@ -75,10 +81,6 @@ function setupJSDom() {
   const dom = new JSDOM('<!doctype html><html><body></body></html>', {
     url: 'http://localhost',
   });
-
-  if (global.fetch.isSinonProxy) {
-    global.fetch.restore();
-  }
 
   const { window } = dom;
 
@@ -167,5 +169,6 @@ chai.use(chaiAxe);
 export const mochaHooks = {
   beforeEach() {
     setupJSDom();
+    resetFetch();
   },
 };
