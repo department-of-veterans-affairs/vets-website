@@ -1,15 +1,10 @@
 import React, { useEffect } from 'react';
-import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import {
-  openClinicPage,
-  routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage,
-  updateFormData,
-} from '../redux/actions';
+import * as actions from '../redux/actions';
 
 import { getClinicPageInfo } from '../redux/selectors';
 
@@ -33,16 +28,19 @@ const uiSchema = {
 };
 const pageKey = 'clinicChoice';
 const pageTitle = 'Choose a clinic';
-
-export default function ClinicChoicePage() {
+export function ClinicChoicePage({
+  schema,
+  data,
+  facilityDetails,
+  openClinicPage,
+  updateFormData,
+  pageChangeInProgress,
+  routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage,
+}) {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const { schema, data, facilityDetails, pageChangeInProgress } = useSelector(
-    state => getClinicPageInfo(state, pageKey),
-    shallowEqual,
-  );
   useEffect(() => {
-    dispatch(openClinicPage(pageKey, uiSchema, initialSchema));
+    openClinicPage(pageKey, uiSchema, initialSchema);
     scrollAndFocus();
     document.title = `${pageTitle} | Veterans Affairs`;
   }, []);
@@ -59,18 +57,12 @@ export default function ClinicChoicePage() {
           title="Clinic choice"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() =>
-            dispatch(routeToNextAppointmentPage(history, pageKey))
-          }
-          onChange={newData =>
-            dispatch(updateFormData(pageKey, uiSchema, newData))
-          }
+          onSubmit={() => routeToNextAppointmentPage(history, pageKey)}
+          onChange={newData => updateFormData(pageKey, uiSchema, newData)}
           data={data}
         >
           <FormButtons
-            onBack={() =>
-              dispatch(routeToPreviousAppointmentPage(history, pageKey))
-            }
+            onBack={() => routeToPreviousAppointmentPage(history, pageKey)}
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
           />
@@ -79,3 +71,19 @@ export default function ClinicChoicePage() {
     </div>
   );
 }
+
+function mapStateToProps(state) {
+  return getClinicPageInfo(state, pageKey);
+}
+
+const mapDispatchToProps = {
+  openClinicPage: actions.openClinicPage,
+  updateFormData: actions.updateFormData,
+  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
+  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ClinicChoicePage);
