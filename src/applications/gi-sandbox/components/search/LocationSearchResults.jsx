@@ -18,6 +18,7 @@ export default function LocationSearchResults({ search }) {
   const { location } = search.query;
   const map = useRef(null);
   const mapContainer = useRef(null);
+  const markers = useRef([]);
 
   const setupMap = () => {
     if (map.current) return; // initialize map only once
@@ -85,11 +86,15 @@ export default function LocationSearchResults({ search }) {
       .setLngLat([longitude, latitude])
       .setPopup(popup)
       .addTo(map.current);
+
+    markers.current.push(markerElement);
   };
 
   useEffect(
     () => {
       if (!map.current || results.length === 0) return; // wait for map to initialize
+
+      markers.current.forEach(marker => marker.remove());
 
       const locationBounds = new mapboxgl.LngLatBounds();
 
