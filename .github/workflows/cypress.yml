@@ -33,7 +33,7 @@ jobs:
         run: curl -s --fail localhost:3001 > /dev/null
 
       - name: Create test results directory
-        run: mkdir -p test-results && sleep 35
+        run: mkdir -p test-results
 
       - name: Start Cypress tests
         run: yarn cy:test:gha
