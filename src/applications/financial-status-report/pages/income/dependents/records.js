@@ -3,10 +3,10 @@ import CardDetailsView from '../../../components/CardDetailsView';
 
 export const uiSchema = {
   'ui:title': 'Your dependents',
+  'ui:description': 'Enter each dependent’s age separately below.',
   personalData: {
     agesOfOtherDependents: {
       'ui:field': ItemLoop,
-      'ui:description': 'Enter each dependent’s age separately below.',
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,
