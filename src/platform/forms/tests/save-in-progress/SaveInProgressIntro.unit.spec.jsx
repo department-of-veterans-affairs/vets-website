@@ -455,6 +455,46 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     tree.unmount();
   });
 
+  it('should render a different heading level when passed in as a prop', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          {
+            form: VA_FORM_IDS.FORM_10_10EZ,
+            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+          },
+        ],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+    const renderSpy = sinon.stub().returns(<div>Render prop info</div>);
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        downtime={{}}
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        renderSignInMessage={renderSpy}
+        toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
+        headingLevel="h1"
+      />,
+    );
+
+    expect(tree.find('h1')).to.exist;
+    tree.unmount();
+  });
+
   it('should not render downtime notification when logged in', () => {
     const user = {
       profile: {
