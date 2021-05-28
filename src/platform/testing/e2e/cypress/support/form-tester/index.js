@@ -347,7 +347,7 @@ Cypress.Commands.add('enterData', field => {
 
     case 'file': {
       cy.get(`#${Cypress.$.escapeSelector(field.key)}`)
-        .upload(`../platform/testing/example-upload.png`, 'image/png')
+        .upload('src/platform/testing/example-upload.png', 'image/png')
         .get('.schemaform-file-uploading')
         .should('not.exist');
       break;
@@ -507,11 +507,7 @@ const testForm = testConfig => {
         throw new Error('Required data fixture is undefined.');
       }
 
-      cy.syncFixtures({
-        // Load example upload data as a fixture.
-        'example-upload.png': join(__dirname, '../../../../example-upload.png'),
-        ...fixtures,
-      }).then(setup);
+      setup();
     });
 
     // Aliases and the stub server reset before each test,
@@ -540,7 +536,7 @@ const testForm = testConfig => {
       testCase(testKey, () => {
         beforeEach(() => {
           cy.wrap(testKey).as('testKey');
-          cy.fixture(`data/${testKey}`)
+          cy.fixture(`${fixtures.data}/${testKey}`)
             .then(extractTestData)
             .as('testData')
             .then(setupPerTest);
