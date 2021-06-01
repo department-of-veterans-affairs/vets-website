@@ -103,6 +103,32 @@ function generateICS(
   ].join('\r\n');
 }
 
+export function getICSTokens(buffer) {
+  const map = new Map();
+  let tokens = buffer.split('\r\n');
+
+  // Split tokens into key/value pairs
+  tokens = tokens.map(t => t.split(':'));
+
+  tokens.forEach(token => {
+    // Store duplicate keys values in an array...
+    if (map.has(token[0])) {
+      const value = map.get(token[0]);
+      if (Array.isArray(value)) {
+        value.push(token[1]);
+      } else {
+        map.set(token[0], [value, token[1]]);
+      }
+    } else if (token[0].startsWith('\t')) {
+      map.set('FORMATTED_TEXT', token[0]);
+    } else {
+      map.set(token[0], token[1]);
+    }
+  });
+  console.log(map);
+  return map;
+}
+
 export default function AddToCalendar({
   summary = '',
   description,
