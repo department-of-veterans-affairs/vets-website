@@ -1,6 +1,5 @@
 const fs = require('fs-extra');
 const path = require('path');
-const del = require('del');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 
 module.exports = on => {
@@ -28,7 +27,7 @@ module.exports = on => {
   // eslint-disable-next-line consistent-return
   on('after:spec', (spec, results) => {
     if (results.stats.failures === 0 && results.video) {
-      return del(results.video);
+      return fs.unlinkSync(results.video);
     }
   });
 
