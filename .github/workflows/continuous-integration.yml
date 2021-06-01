@@ -66,6 +66,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: echo
+        run: echo "${{ github.event }}"
+
       - name: Get Node version
         id: get-node-version
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
@@ -90,7 +93,7 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: echo
-        run: echo ${{ github.event.base_ref }}
+        run: echo "${{ github.event.base_ref }}"
 
       - name: Get files changed
         id: get-files-changed
