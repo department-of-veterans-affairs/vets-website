@@ -87,19 +87,14 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Get file changes
-        uses: jitterbit/get-changed-files@v1
+      - name: Get files changed
         id: get-files-changed
-        continue-on-error: true
+        uses: trilom/file-changes-action@v1.2.3
         with:
-          format: space-delimited
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Printing
-        run: echo "${{ steps.abc.outputs.all }}"
+          githubToken: ${{ secrets.BOT_TOKEN }}
 
       - name: Annotate ESLint results
-        run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-files-changed.outputs.all }}
+        run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-files-changed.outputs.files }}
 
       - name: Run Sass lint
         run: yarn run sass-lint --format json --verbose --output sasslint-report.json
