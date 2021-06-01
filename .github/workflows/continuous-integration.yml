@@ -66,8 +66,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: echo
-        run: echo "${{ github.size }}"
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
 
       - name: Get Node version
         id: get-node-version
