@@ -91,7 +91,7 @@ jobs:
         id: get-files-changed
         uses: trilom/file-changes-action@v1.2.3
         with:
-          githubToken: ${{ secrets.BOT_TOKEN }}
+          output: ' '
 
       - name: Annotate ESLint results
         run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-files-changed.outputs.files }}
