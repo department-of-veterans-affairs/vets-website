@@ -60,12 +60,15 @@ class SaveInProgressIntro extends React.Component {
 
         if (!isExpired) {
           const lastSavedDateTime = savedAt.format('M/D/YYYY [at] h:mm a');
-
+          const H = `h${this.props.headingLevel}`;
+          const message = `Your ${appType} is in progress`;
           alert = (
             <div>
               <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
-                  <strong>Your {appType} is in progress</strong>
+                  <H className="usa-alert-heading vads-u-font-size--base">
+                    <strong>{message}</strong>
+                  </H>
                 </div>
                 <div className="saved-form-metadata-container">
                   {inProgressMessage && (
