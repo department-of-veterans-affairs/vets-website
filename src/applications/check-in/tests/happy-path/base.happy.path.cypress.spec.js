@@ -1,6 +1,8 @@
+import features from './mocks/enabled.json';
+
 describe('Check In Experience -- ', () => {
-  before(function() {
-    if (Cypress.env('CI')) this.skip();
+  beforeEach(() => {
+    cy.intercept('GET', '/v0/feature_toggles*', features);
   });
   it('Does the button check us in', () => {
     cy.visit('/check-in/welcome');
