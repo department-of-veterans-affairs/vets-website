@@ -69,8 +69,8 @@ export default function prefillTransformer(pages, formData, metadata) {
           // see https://github.com/department-of-veterans-affairs/va.gov-team/issues/19423
           country: mailingAddress.country || '',
           addressLine1: mailingAddress.addressLine1 || '',
-          addressLine2: mailingAddress.addressLine2 || '',
-          addressLine3: mailingAddress.addressLine3 || '',
+          addressLine2: mailingAddress.addressLine2 || null,
+          addressLine3: mailingAddress.addressLine3 || null,
           city: mailingAddress.city || '',
           state: mailingAddress.state || '',
           zipCode: mailingAddress.zipCode || '',
