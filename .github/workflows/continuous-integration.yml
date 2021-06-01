@@ -88,7 +88,7 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: echo
-        run: echo ${{ github.event.pull_request.base }}
+        run: echo ${{ github.event.pull_request.base.sha }}
 
       - name: Get files changed
         id: get-files-changed
