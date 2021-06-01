@@ -92,9 +92,11 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
         with:
           output: ' '
+          pushBefore: ${{ github.base_ref }}
+          pushAfter: ${{ github.head_ref }}
 
       - name: echo
-        run: echo '${{ steps.get-files-changed.outputs.files }}'
+        run: echo ${{ github.base_ref }}
 
       - name: Annotate ESLint results
         run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-files-changed.outputs.files }}
