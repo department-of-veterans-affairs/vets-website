@@ -24,6 +24,13 @@ module.exports = on => {
     },
   );
 
+  // eslint-disable-next-line consistent-return
+  on('after:spec', (spec, results) => {
+    if (results.stats.failures === 0 && results.video) {
+      return fs.unlinkSync(results.video);
+    }
+  });
+
   on('task', {
     /* eslint-disable no-console */
     log: message => console.log(message) || null,

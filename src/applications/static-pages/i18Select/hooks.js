@@ -8,7 +8,9 @@ const onThisPageDict = {
 export const onThisPageHook = lang => {
   if (lang && lang !== 'en') {
     const onThisPageEl = document?.getElementById('on-this-page');
-    onThisPageEl.innerText = onThisPageDict[lang].onThisPage;
+    if (onThisPageEl) {
+      onThisPageEl.innerText = onThisPageDict[lang].onThisPage;
+    }
   }
 };
 
