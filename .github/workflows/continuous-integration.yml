@@ -87,16 +87,13 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: echo
-        run: echo $GITHUB_SHA
-
       - name: Get files changed
-        id: get-files-changed
-        uses: trilom/file-changes-action@v1.2.3
+        uses: lots0logs/gh-action-get-changed-files@2.1.4
         with:
-          output: ' '
-          pushBefore: $GITHUB_BASE_REF
-          pushAfter: $GITHUB_HEAD_REF
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: echo
+        run: cat ${HOME}/files.json
 
       - name: Annotate ESLint results
         run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-files-changed.outputs.files }}
