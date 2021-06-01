@@ -63,6 +63,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # Check for changes
+      - name: Check for changes
+        id: checkForChanges
+        run: |
+          echo "git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -c '^proxy'"
 
       - name: Get Node version
         id: get-node-version
