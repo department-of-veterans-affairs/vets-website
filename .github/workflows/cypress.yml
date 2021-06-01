@@ -30,7 +30,7 @@ jobs:
         run: yarn watch --verbose &
 
       - name: Curl vets-website
-        run: curl -s --fail localhost:3001 > /dev/null
+        run: curl -s --fail localhost:3001 > /dev/null && sleep 35
 
       - name: Create test results directory
         run: mkdir -p test-results
@@ -52,11 +52,11 @@ jobs:
         if: ${{ failure() }}
         with:
           name: cypress-video-artifacts
-          path: '~/_work/vets-website/vets-website/cypress/videos'
+          path: cypress/videos
 
       - name: Archive Cypress test screenshots
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}
         with:
           name: cypress-screenshot-artifacts
-          path: '~/_work/vets-website/vets-website/cypress/screenshots'
+          path: cypress/screenshots
