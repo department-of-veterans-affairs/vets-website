@@ -90,6 +90,7 @@ jobs:
       - name: Get file changes
         uses: jitterbit/get-changed-files@v1
         id: get-files-changed
+        continue-on-error: true
         with:
           format: space-delimited
           token: ${{ secrets.GITHUB_TOKEN }}
