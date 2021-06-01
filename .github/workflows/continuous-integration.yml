@@ -93,6 +93,9 @@ jobs:
         with:
           output: ' '
 
+      - name: echo
+        run: echo '${{ steps.file_changes.outputs.files}}'
+
       - name: Annotate ESLint results
         run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-files-changed.outputs.files }}
 
