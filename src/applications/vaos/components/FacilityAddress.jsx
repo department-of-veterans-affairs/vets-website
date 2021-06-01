@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import FacilityDirectionsLink from '../components/FacilityDirectionsLink';
 import FacilityPhone from './FacilityPhone';
 import State from './State';
-import { hasValidCovidPhoneNumber } from '../services/appointment';
+import { hasTransformedCovidPhoneNumber } from '../services/appointment';
 
 export default function FacilityAddress({
   name,
@@ -15,9 +15,10 @@ export default function FacilityAddress({
   showCovidPhone,
 }) {
   const address = facility?.address;
-  const phone = showCovidPhone
-    ? facility?.telecom?.find(tele => tele.system === 'covid')?.value
-    : facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+  const phone =
+    showCovidPhone && hasTransformedCovidPhoneNumber(facility)
+      ? facility?.telecom?.find(tele => tele.system === 'covid')?.value
+      : facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const extraInfoClasses = classNames({
     'vads-u-margin-top--1p5': !!clinicName || (showPhone && !!phone),
   });

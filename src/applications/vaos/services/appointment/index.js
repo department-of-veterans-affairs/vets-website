@@ -270,6 +270,17 @@ export function hasValidCovidPhoneNumber(facility) {
 }
 
 /**
+ * Returns whether or not the facility has a COVID vaccine phone line
+ *
+ * @export
+ * @param {Object} facility A facility resource
+ * @returns {Boolean} Whether or not the facility has a transform COVID vaccine phone line
+ */
+export function hasTransformedCovidPhoneNumber(facility) {
+  return !!facility?.telecom?.find(tele => tele.system === 'covid')?.value;
+}
+
+/**
  * Checks to see if an appointment should be shown in the past appointment
  * list
  *
