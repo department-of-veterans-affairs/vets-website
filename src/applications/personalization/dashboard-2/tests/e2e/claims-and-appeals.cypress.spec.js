@@ -34,7 +34,9 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
 
         // make sure that the Claims and Appeals section is shown
         cy.findByTestId('dashboard-section-claims-and-appeals').should('exist');
-        cy.findByRole('link', { name: /claims and appeals/ }).should('exist');
+        cy.findByRole('link', { name: /claim or appeal status/ }).should(
+          'exist',
+        );
         cy.findByRole('heading', { name: /dependency claim received/i }).should(
           'exist',
         );
@@ -62,7 +64,7 @@ describe('The My VA Dashboard Claims and Appeals section', () => {
 
         // make sure that the Claims and Appeals section and CTA is shown
         cy.findByTestId('dashboard-section-claims-and-appeals').should('exist');
-        cy.findByRole('link', { name: /all your claims and appeals/ }).should(
+        cy.findByRole('link', { name: /your claim or appeal/i }).should(
           'exist',
         );
         cy.findByText(

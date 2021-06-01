@@ -258,7 +258,7 @@ function logEligibilityExplanation(
  * @global
  *
  * @property {FlowEligibility} eligibility The eligibility info for the patient
- * @property {Array<HealthcareService>} clinics An array of clinics pulled when checking eligibility
+ * @property {Array<HealthCareService>} clinics An array of clinics pulled when checking eligibility
  * @property {Array<MASAppointment>} pastAppointments An array of untransformed appointments pulled
  *   when checking eligibility
  */

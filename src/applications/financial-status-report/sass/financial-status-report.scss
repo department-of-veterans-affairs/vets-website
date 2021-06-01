@@ -8,6 +8,11 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "../../../platform/forms/sass/m-schemaform";
 
+// adds spacing to form titles
+#root__title {
+  min-height: 40px;
+}
+
 .schemaform-title > h1 {
   @include media($small-desktop-screen) {
     white-space: nowrap;
@@ -44,10 +49,6 @@
 .schemaform-subtitle {
   width: 100%;
   margin-top: 10px;
-}
-
-#root__title {
-  height: 35px;
 }
 
 .item-loop-container {

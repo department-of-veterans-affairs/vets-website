@@ -33,10 +33,11 @@ export const issusDescription = ({ formContext }) => {
       className="area-of-disagreement-label vads-u-font-size--base vads-u-font-weight--normal"
       data-submitted={submitted}
     >
-      Please specify the area(s) of disagreement for this issue:
+      Tell us why you disagree with our decision. You can choose more than one.
       <span className="vads-u-font-weight--normal schemaform-required-span">
         (*Required)
       </span>
+      <p>I disagree with:</p>
       <span
         className="usa-input-error-message"
         role="alert"
@@ -49,9 +50,9 @@ export const issusDescription = ({ formContext }) => {
   );
 };
 
-export const serviceConnection = 'I disagree with the service connection';
-export const effectiveDate = 'I disagree with the effective date of award';
-export const evaluation = 'I disagree with the evaluation of the disability';
-export const other = 'Other reason';
+export const serviceConnection = 'The service connection';
+export const effectiveDate = 'The effective date of award';
+export const evaluation = 'The evaluation of my condition';
+export const other = 'Something else';
 
-export const otherLabel = 'Please specify';
+export const otherLabel = 'Tell us what you disagree with:';

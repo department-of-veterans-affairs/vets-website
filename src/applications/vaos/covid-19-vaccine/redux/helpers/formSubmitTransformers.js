@@ -10,7 +10,7 @@ import {
   findCharacteristic,
   getClinicId,
   getSiteCode,
-} from '../../../services/healthcare-service/transformers';
+} from '../../../services/healthcare-service';
 
 export function transformFormToAppointment(state) {
   const clinic = getChosenClinicInfo(state);

@@ -1,6 +1,6 @@
 import { hasSomeSelected } from './utils/helpers';
 import { optInErrorMessage } from './content/OptIn';
-import { missingIssuesErrorMessage } from './content/additionalIssues';
+import { missingIssuesErrorMessageText } from './content/additionalIssues';
 import {
   missingAreaOfDisagreementErrorMessage,
   missingAreaOfDisagreementOtherErrorMessage,
@@ -20,8 +20,8 @@ export const requireIssue = (
   // formData. see https://github.com/department-of-veterans-affairs/vsp-support/issues/162
   // Fall back to formData for unit testing
   const data = Object.keys(appStateData || {}).length ? appStateData : formData;
-  if (!hasSomeSelected(data)) {
-    errors.addError(missingIssuesErrorMessage);
+  if (errors && errors?.additionalIssues?.addError && !hasSomeSelected(data)) {
+    errors.additionalIssues.addError(missingIssuesErrorMessageText);
   }
 };
 
@@ -29,7 +29,7 @@ export const areaOfDisagreementRequired = (
   errors,
   // added index to get around arrayIndex being null
   { disagreementOptions, otherEntry, index } = {},
-  _formData,
+  formData,
   _schema,
   _uiSchema,
   arrayIndex, // always null?!
