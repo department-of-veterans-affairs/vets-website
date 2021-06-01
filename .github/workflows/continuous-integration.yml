@@ -95,6 +95,9 @@ jobs:
           format: space-delimited
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Printing
+        run: echo "${{ steps.abc.outputs.all }}"
+
       - name: Annotate ESLint results
         run: yarn run eslint ${{ steps.get-files-changed.outputs.all }} --format ./script/github-actions/eslint-annotation-format.js
 
