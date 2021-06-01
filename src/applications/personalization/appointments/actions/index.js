@@ -20,8 +20,21 @@ import MOCK_FACILITIES from '~/applications/personalization/dashboard-2/utils/mo
 import MOCK_VA_APPOINTMENTS from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
 import MOCK_CC_APPOINTMENTS from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
 
+const CANCELLED_APPOINTMENT_SET = new Set([
+  'CANCELLED BY CLINIC & AUTO RE-BOOK',
+  'CANCELLED BY CLINIC',
+  'CANCELLED BY PATIENT & AUTO-REBOOK',
+  'CANCELLED BY PATIENT',
+]);
+
 function isVideoVisit(appt) {
   return !!appt.vvsAppointments?.length;
+}
+
+function isCanceled(appt) {
+  return CANCELLED_APPOINTMENT_SET.has(
+    appt.attributes?.vdsAppointments?.[0]?.currentStatus,
+  );
 }
 
 /**
@@ -200,6 +213,11 @@ export function fetchConfirmedFutureAppointments() {
 
         // Past appointments should be filtered out already on the api side, this is a safe guard.
         if (startDate.isBefore(now)) {
+          return accumulator;
+        }
+
+        // Filter out appointments that have been cancelled.
+        if (isCanceled(appointment)) {
           return accumulator;
         }
 

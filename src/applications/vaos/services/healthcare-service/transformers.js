@@ -8,10 +8,10 @@
  * to
  * /HealthcareService
  *
- * @param {String} facilityId
- * @param {Object} clinic Clinic object to transform to HealthcareService object
+ * @param {string} facilityId
+ * @param {VARClinic} clinic Clinic object to transform to HealthcareService object
  *
- * @returns {Object} A FHIR HealthcareService object
+ * @returns {HealthCareService} A FHealthCareService resource
  */
 export function transformAvailableClinic(facilityId, typeOfCareId, clinic) {
   return {
@@ -139,55 +139,13 @@ export function transformAvailableClinic(facilityId, typeOfCareId, clinic) {
  * to
  * /HealthcareService
  *
- * @param {String} facilityId
- * @param {Array} clinics Array of clinic objects to transform to HealthcareService objects
+ * @param {string} facilityId
+ * @param {Array<VARClinic>} clinics Array of clinic objects to transform to HealthcareService objects
  *
- * @returns {Array} An array of FHIR HealthcareService objects
+ * @returns {Array<HealthCareService>} An array of FHIR HealthcareService objects
  */
 export function transformAvailableClinics(facilityId, typeOfCareId, clinics) {
   return clinics.map(clinic =>
     transformAvailableClinic(facilityId, typeOfCareId, clinic),
   );
-}
-
-/**
- * Method to find a particular characteristic of a clinic.
- *
- * @param {Object} clinic
- * @param {String} characteristic The characteristic to search for.
- *
- * @returns {String} The display name of the characteristic search for or an empty string.
- */
-export function findCharacteristic(clinic, characteristic) {
-  const result = clinic?.characteristic.find(element => {
-    return element.text === characteristic;
-  });
-
-  return result?.coding?.code || result?.coding?.display;
-}
-
-function getIdentifierToken(clinic, index) {
-  // The FHIR clinic identifier format is, 'urn:va:healthcareservice:983:983:308'
-  // where the last 3 tokens represent the site id, facility id, and clinic id.
-  return clinic?.identifier[0].value.split(':')[index];
-}
-
-/**
- * Method to get the clinic id.
- *
- * @param {Object} clinic
- * @returns {String} The clinic id or empty string.
- */
-export function getClinicId(clinic) {
-  return getIdentifierToken(clinic, 5);
-}
-
-/**
- * Method to get the site code.
- *
- * @param {Object} clinic
- * @returns {String} The clinic site code or empty string.
- */
-export function getSiteCode(clinic) {
-  return getIdentifierToken(clinic, 3);
 }

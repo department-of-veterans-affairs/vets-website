@@ -5,7 +5,7 @@ import IconCTALink from '../IconCTALink';
 const ClaimsAndAppealsCTA = () => {
   return (
     <IconCTALink
-      text="Manage all your claims and appeals"
+      text="Check your claim or appeal status"
       href="/claim-or-appeal-status/"
       icon="clipboard"
     />

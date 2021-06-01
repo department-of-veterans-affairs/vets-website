@@ -27,7 +27,7 @@ import {
   findCharacteristic,
   getClinicId,
   getSiteCode,
-} from '../../../services/healthcare-service/transformers';
+} from '../../../services/healthcare-service';
 
 const CC_PURPOSE = 'other';
 

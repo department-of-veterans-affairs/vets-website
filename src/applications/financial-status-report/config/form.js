@@ -7,14 +7,14 @@ import FormFooter from 'platform/forms/components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import PreSubmitSignature from '../components/PreSubmitSignature';
 import * as pages from '../pages';
-import submit from '../utils/submitForm';
+import { transform } from '../utils/transform';
 import { SubmissionError } from '../components/ErrorMessage';
 import { WIZARD_STATUS } from '../wizard/constants';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submit,
+  transformForSubmit: transform,
   submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
   submissionError: SubmissionError,
   trackingPrefix: 'fsr-5655-',

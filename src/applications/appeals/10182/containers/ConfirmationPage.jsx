@@ -9,7 +9,8 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { SELECTED, FORMAT_READABLE } from '../constants';
+import { FORMAT_READABLE } from '../constants';
+import { getSelected, getIssueName } from '../utils/helpers';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -29,13 +30,11 @@ export class ConfirmationPage extends React.Component {
   render() {
     const { name = {}, form } = this.props;
     const { submission, formId } = form;
-    const issues = (form.data?.contestableIssues || [])
-      .filter(el => el[SELECTED])
-      .map((issue, index) => (
-        <li key={index} className="vads-u-margin-bottom--0">
-          {issue.attributes.ratingIssueSubjectText}
-        </li>
-      ));
+    const issues = getSelected(form.data || []).map((issue, index) => (
+      <li key={index} className="vads-u-margin-bottom--0">
+        {getIssueName(issue)}
+      </li>
+    ));
     const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
     const submitDate = moment(submission?.timestamp);
 
