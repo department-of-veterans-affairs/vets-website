@@ -71,19 +71,21 @@ function activateHeaderFooter() {
   document.body.appendChild(footerContainer);
 }
 
-function renderFooter(data) {
+function renderFooter(data, commonStore) {
   const subFooter = document.querySelectorAll('#sub-footer .small-print');
   const lastUpdated = subFooter && subFooter.item(0).textContent;
 
-  startVAFooter(data, () => {
-    addOverlayTriggers();
-    addFocusBehaviorToCrisisLineModal();
+  startVAFooter(
+    data,
+    () => {
+      addOverlayTriggers();
+      addFocusBehaviorToCrisisLineModal();
 
-    if (lastUpdated) {
-      const lastUpdatedPanel = document.createElement('div');
-      const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
+      if (lastUpdated) {
+        const lastUpdatedPanel = document.createElement('div');
+        const lastUpdatedDate = lastUpdated.replace('Last updated ', '');
 
-      lastUpdatedPanel.innerHTML = `
+        lastUpdatedPanel.innerHTML = `
         <div class="footer-lastupdated">
           <div class="usa-grid">
             <div class="col-md-3"></div>
@@ -94,11 +96,13 @@ function renderFooter(data) {
         </div>
       `;
 
-      const footer = document.getElementById(footerElemementId);
+        const footer = document.getElementById(footerElemementId);
 
-      footer.parentElement.insertBefore(lastUpdatedPanel, footer);
-    }
-  });
+        footer.parentElement.insertBefore(lastUpdatedPanel, footer);
+      }
+    },
+    commonStore,
+  );
 }
 
 function mountReactComponents(headerFooterData, commonStore) {
@@ -121,7 +125,7 @@ function mountReactComponents(headerFooterData, commonStore) {
   startMobileMenuButton(commonStore);
   // startLRNHealthCarWidget(commonStore);
   // startAnnouncementWidget(commonStore);
-  renderFooter(headerFooterData.footerData);
+  renderFooter(headerFooterData.footerData, commonStore);
 }
 
 function getContentHostName() {
