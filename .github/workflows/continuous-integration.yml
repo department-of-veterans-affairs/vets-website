@@ -70,7 +70,7 @@ jobs:
       - name: Check for changes
         id: checkForChanges
         run: |
-          echo "git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -c '^proxy'"
+          echo "git diff --name-only ${{ github.event.base_ref }} ${{ github.sha }} | grep -c '^proxy'"
 
       - name: Get Node version
         id: get-node-version
