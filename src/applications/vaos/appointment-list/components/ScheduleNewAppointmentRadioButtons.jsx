@@ -9,11 +9,6 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import NewTabAnchor from '../../components/NewTabAnchor';
 import { selectFeatureCovid19Vaccine } from '../../redux/selectors';
 
-/**
- * React component used to conditionally render radio call-to-action buttons and start applicable workflow.
- *
- * @module appointment-list/components
- */
 export default function ScheduleNewAppointmentRadioButtons() {
   const history = useHistory();
   const dispatch = useDispatch();

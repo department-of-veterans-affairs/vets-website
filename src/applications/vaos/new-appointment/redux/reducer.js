@@ -75,7 +75,7 @@ import {
 import { getTypeOfCare } from './selectors';
 import { distanceBetween } from '../../utils/address';
 import { getSiteIdFromFacilityId } from '../../services/location';
-import { getClinicId } from '../../services/healthcare-service/transformers';
+import { getClinicId } from '../../services/healthcare-service';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
   request:

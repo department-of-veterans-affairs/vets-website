@@ -1,7 +1,14 @@
-export const onThisPageHook = (content, lang) => {
+const onThisPageDict = {
+  es: { onThisPage: 'En esta página' },
+  tl: {
+    onThisPage: 'Sa pahinang ito',
+  },
+};
+
+export const onThisPageHook = lang => {
   if (lang && lang !== 'en') {
     const onThisPageEl = document?.getElementById('on-this-page');
-    onThisPageEl.innerText = content[lang].onThisPage;
+    onThisPageEl.innerText = onThisPageDict[lang].onThisPage;
   }
 };
 

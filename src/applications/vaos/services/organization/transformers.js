@@ -9,8 +9,8 @@ import { VHA_FHIR_ID } from '../../utils/constants';
  * /Organization?identifier=983,984
  *
  * @export
- * @param {Array} parentFacilities A list of parent facilities from var-resources
- * @returns {Object} A FHIR searchset of Organization resources
+ * @param {Array<VARFacility>} parentFacilities A list of parent facilities from var-resources
+ * @returns {Array<Organization>} A list of Organization resources
  */
 export function transformParentFacilities(parentFacilities) {
   return parentFacilities.map(facility => {

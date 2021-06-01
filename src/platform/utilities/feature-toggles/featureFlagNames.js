@@ -42,8 +42,6 @@ export default Object.freeze({
   searchTypeaheadEnabled: 'search_typeahead_enabled',
   sharableLinks: 'sharable_link',
   show526Wizard: 'show526Wizard',
-  showChapter31: 'show_chapter_31',
-  showChapter36: 'show_chapter_36',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990NWizard: 'show_edu_benefits_1990n_wizard',
