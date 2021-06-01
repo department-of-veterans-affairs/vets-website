@@ -11,7 +11,7 @@ export default Object.freeze({
   cernerOverride687: 'cerner_override_687',
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
-  checkInExperienceEnabled:'check_in_experience_enabled',
+  checkInExperienceEnabled:'enable_check_in_experience',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',

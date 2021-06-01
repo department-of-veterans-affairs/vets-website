@@ -3,7 +3,7 @@
      "type":"feature_toggles",
      "features":[
         {
-           "name":"check_in_experience_enabled",
+           "name":"enable_check_in_experience",
            "value":true
         }
      ]

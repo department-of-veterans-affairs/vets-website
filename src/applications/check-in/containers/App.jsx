@@ -27,7 +27,7 @@ const App = ({ isCheckInEnabled, isLoadingFeatureFlags }) => {
         <meta name="robots" content="noindex" />
         <Router>
           <Switch>
-            <Route path={landingPath} component={LandingPage} />
+            <Route path={landingPath} exact component={LandingPage} />
             <Route path={confirmPath} exact component={ConfirmationPage} />
           </Switch>
         </Router>
