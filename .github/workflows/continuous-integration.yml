@@ -87,6 +87,9 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
+      - name: echo
+        run: echo ${{ github.event.base_ref }}
+
       - name: Get files changed
         id: get-files-changed
         uses: trilom/file-changes-action@v1.2.3
