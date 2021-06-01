@@ -27,10 +27,12 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
           You can't download your debt letters because something went wrong on
           our end.
         </p>
+
         <h4>What you can do</h4>
+
         <p className="vads-u-font-family--sans vads-u-margin-y--0">
-          You can check back later or call the Debt Management Center at{' '}
-          <Telephone contact="8008270648" />
+          You can check back later or call the Debt Management Center at
+          <Telephone className="vads-u-margin-x--0p25" contact="8008270648" />
           to find out more information about how to resolve your debt.
         </p>
       </div>
