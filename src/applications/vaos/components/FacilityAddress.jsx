@@ -15,10 +15,9 @@ export default function FacilityAddress({
   showCovidPhone,
 }) {
   const address = facility?.address;
-  const phone =
-    showCovidPhone && hasValidCovidPhoneNumber(facility)
-      ? facility?.telecom?.find(tele => tele.system === 'covid')?.value
-      : facility?.telecom?.find(tele => tele.system === 'phone')?.value;
+  const phone = showCovidPhone
+    ? facility?.telecom?.find(tele => tele.system === 'covid')?.value
+    : facility?.telecom?.find(tele => tele.system === 'phone')?.value;
   const extraInfoClasses = classNames({
     'vads-u-margin-top--1p5': !!clinicName || (showPhone && !!phone),
   });
