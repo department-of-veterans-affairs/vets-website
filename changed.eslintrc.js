@@ -5,7 +5,7 @@ eslintConfig.plugins = [...eslintConfig.plugins, 'deprecate'];
 eslintConfig.rules = {
   ...eslintConfig.rules,
   'deprecate/import': [
-    'error',
+    'warn',
     {
       name:
         '@department-of-veterans-affairs/component-library/CollapsiblePanel',
