@@ -140,8 +140,8 @@ describe('526v2 prefill transformer', () => {
         mailingAddress: {
           country: 'USA',
           addressLine1: '123 Any Street',
-          addressLine2: '',
-          addressLine3: '',
+          addressLine2: null,
+          addressLine3: null,
           city: 'Anyville',
           state: 'AK',
           zipCode: '12345',
