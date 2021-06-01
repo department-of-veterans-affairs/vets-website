@@ -263,7 +263,7 @@ jobs:
 
       - name: Generate build details
         run: |
-          cat > ${{ matrix.buildtype }}/BUILD.txt <<EOF
+          cat > ${{ matrix.buildtype }}/BUILD.txt << EOF
           BUILDTYPE=${{ matrix.buildtype }}
           BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
           RUN_ID=${{ github.run_id }}
