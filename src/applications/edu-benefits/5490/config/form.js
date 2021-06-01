@@ -507,7 +507,9 @@ const formConfig = {
                     'Died from a service-connected disability while a member of the Selected Reserve',
                   powOrMia: 'Listed as MIA or POW',
                 },
-                hideIf: formData => _.get('benefit', formData) !== 'chapter33',
+                hideIf: formData =>
+                  _.get('benefit', formData) !== 'chapter33' ||
+                  !environment.isProduction(),
               },
             },
             'view:sponsorDateOfDeath': {
@@ -515,7 +517,9 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'sponsorStatus',
                 expandUnderCondition: status => status && status !== 'powOrMia',
-                hideIf: formData => _.get('benefit', formData) !== 'chapter33',
+                hideIf: formData =>
+                  _.get('benefit', formData) !== 'chapter33' ||
+                  environment.isProduction(),
               },
             },
             'view:sponsorDateListedMiaOrPow': {
@@ -523,7 +527,9 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'sponsorStatus',
                 expandUnderCondition: status => status && status === 'powOrMia',
-                hideIf: formData => _.get('benefit', formData) !== 'chapter33',
+                hideIf: formData =>
+                  _.get('benefit', formData) !== 'chapter33' ||
+                  environment.isProduction(),
               },
             },
           },
