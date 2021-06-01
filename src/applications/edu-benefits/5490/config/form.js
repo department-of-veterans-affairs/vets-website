@@ -493,7 +493,9 @@ const formConfig = {
                 "Sponsor's date of death or date listed as MIA or POW",
               ),
               'ui:options': {
-                hideIf: formData => _.get('benefit', formData) !== 'chapter35',
+                hideIf: formData =>
+                  _.get('benefit', formData) !== 'chapter35' &&
+                  !environment.isProduction(),
               },
             },
             sponsorStatus: {
@@ -509,7 +511,7 @@ const formConfig = {
                 },
                 hideIf: formData =>
                   _.get('benefit', formData) !== 'chapter33' ||
-                  !environment.isProduction(),
+                  environment.isProduction(),
               },
             },
             'view:sponsorDateOfDeath': {
