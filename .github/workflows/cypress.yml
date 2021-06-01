@@ -21,7 +21,7 @@ jobs:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Build Docker image
-        run: ocker build -t vets-website:vets-website-test .
+        run: docker build -t vets-website:vets-website-test .
 
       # - name: Install vets-website dependencies
       #   run: yarn install --frozen-lockfile --prefer-offline
