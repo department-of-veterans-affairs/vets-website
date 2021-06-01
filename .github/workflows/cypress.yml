@@ -20,48 +20,51 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Install vets-website dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+      - name: Build Docker image
+        run: ocker build -t vets-website:vets-website-test .
 
-      - name: Build vets-website
-        run: yarn build:webpack --env.scaffold
-        timeout-minutes: 15
-        env:
-          NODE_ENV: production
+      # - name: Install vets-website dependencies
+      #   run: yarn install --frozen-lockfile --prefer-offline
+      #   env:
+      #     YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Start vets-website
-        run: yarn watch --verbose &
+      # - name: Build vets-website
+      #   run: yarn build:webpack --env.scaffold
+      #   timeout-minutes: 15
+      #   env:
+      #     NODE_ENV: production
 
-      - name: Curl vets-website
-        run: curl -s --fail localhost:3001 > /dev/null
+      # - name: Start vets-website
+      #   run: yarn watch --verbose &
 
-      - name: Create test results directory
-        run: mkdir -p test-results
+      # - name: Curl vets-website
+      #   run: curl -s --fail localhost:3001 > /dev/null
 
-      - name: Start Cypress tests
-        run: yarn cy:test:gha
-        timeout-minutes: 60
+      # - name: Create test results directory
+      #   run: mkdir -p test-results
 
-      - name: Publish test results
-        if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2.4.0
-        with:
-          check_name: 'Cypress Tests Summary'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'test-results/e2e-test-output-*.xml'
+      # - name: Start Cypress tests
+      #   run: yarn cy:test:gha
+      #   timeout-minutes: 60
 
-      - name: Archive Cypress test videos
-        uses: actions/upload-artifact@v2
-        if: ${{ failure() }}
-        with:
-          name: cypress-video-artifacts
-          path: cypress/videos
+      # - name: Publish test results
+      #   if: ${{ always() }}
+      #   uses: mikepenz/action-junit-report@v2.4.0
+      #   with:
+      #     check_name: 'Cypress Tests Summary'
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     report_paths: 'test-results/e2e-test-output-*.xml'
 
-      - name: Archive Cypress test screenshots
-        uses: actions/upload-artifact@v2
-        if: ${{ failure() }}
-        with:
-          name: cypress-screenshot-artifacts
-          path: cypress/screenshots
+      # - name: Archive Cypress test videos
+      #   uses: actions/upload-artifact@v2
+      #   if: ${{ failure() }}
+      #   with:
+      #     name: cypress-video-artifacts
+      #     path: cypress/videos
+
+      # - name: Archive Cypress test screenshots
+      #   uses: actions/upload-artifact@v2
+      #   if: ${{ failure() }}
+      #   with:
+      #     name: cypress-screenshot-artifacts
+      #     path: cypress/screenshots
