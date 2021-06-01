@@ -767,6 +767,7 @@ export function getCalendarData({ appointment, facility }) {
               appointment.videoData.atlasConfirmationCode
             }. Use this code to find your appointment on the computer at the ATLAS facility.`,
           ],
+          phone: getFacilityPhone(facility),
         };
 
         if (providerName)
