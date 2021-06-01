@@ -63,14 +63,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      # Check for changes
-      - name: Check for changes
-        id: checkForChanges
-        run: |
-          echo "git diff --name-only ${{ github.event.base_ref }} ${{ github.sha }} | grep -c '^proxy'"
 
       - name: Get Node version
         id: get-node-version
@@ -96,12 +88,13 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Get files changed
-        uses: lots0logs/gh-action-get-changed-files@2.1.4
+        id: get-files-changed
+        uses: trilom/file-changes-action@v1.2.3
+        continue-on-error: true
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: echo
-        run: cat ${HOME}/files.json
+          output: ' '
+          pushBefore: ${{ github.event.base_ref }}
+          pushAfter: $GITHUB_SHA
 
       - name: Annotate ESLint results
         run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-files-changed.outputs.files }}
