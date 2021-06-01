@@ -6327,7 +6327,7 @@ del@^4.1.1:
 
 del@^6.0.0:
   version "6.0.0"
-  resolved "https://registry.yarnpkg.com/del/-/del-6.0.0.tgz#0b40d0332cea743f1614f818be4feb717714c952"
+  resolved "https://registry.npmjs.org/del/-/del-6.0.0.tgz"
   integrity sha512-1shh9DQ23L16oXSZKB2JxpL7iMy2E0S9d517ptA1P8iw0alkPtQcrKH7ru31rYtKwF499HkTu+DRzq3TCKDFRQ==
   dependencies:
     globby "^11.0.1"

@@ -163,7 +163,6 @@
     "cypress-plugin-tab": "^1.0.5",
     "cypress-testrail-reporter": "^1.2.3",
     "cypress-wait-until": "^1.7.1",
-    "del": "^6.0.0",
     "docdash": "^1.2.0",
     "enhanced-resolve": "^0.7.6",
     "enzyme": "^3.11.0",

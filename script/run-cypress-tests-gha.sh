@@ -12,5 +12,5 @@ else
 
 
   # Run Cypress tests.
-  yarn cy:run --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec "src/applications/coronavirus-vaccination/tests/e2e/signup.cypress.spec.js,src/applications/coronavirus-vaccination/tests/e2e/unsubscribe.cypress.spec.js"
+  yarn cy:run --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
 fi

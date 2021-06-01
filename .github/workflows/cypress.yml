@@ -30,7 +30,7 @@ jobs:
         run: yarn watch --verbose &
 
       - name: Curl vets-website
-        run: curl -s --fail localhost:3001 > /dev/null && sleep 35
+        run: curl -s --fail localhost:3001 > /dev/null
 
       - name: Create test results directory
         run: mkdir -p test-results
