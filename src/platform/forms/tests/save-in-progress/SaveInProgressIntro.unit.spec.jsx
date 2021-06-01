@@ -114,7 +114,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
-        headingLevel="h1"
+        headingLevel={1}
       />,
     );
 
