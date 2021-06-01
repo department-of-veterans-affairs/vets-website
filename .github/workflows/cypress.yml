@@ -37,6 +37,7 @@ jobs:
 
       - name: Start Cypress tests
         run: yarn cy:test:gha
+        timeout-minutes: 60
 
       - name: Publish test results
         if: ${{ always() }}
