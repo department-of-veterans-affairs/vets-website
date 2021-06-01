@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+/* eslint-disable deprecate/import */
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -314,12 +315,6 @@ export default function ConfirmedAppointmentDetailsPage() {
           )}
         </>
       )}
-
-      <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-        <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
-          « Go back to appointments
-        </Link>
-      </div>
       <CancelAppointmentModal
         {...cancelInfo}
         onConfirm={() => dispatch(confirmCancelAppointment())}

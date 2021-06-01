@@ -16,6 +16,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 import { selectAppointmentById } from '../redux/selectors';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import Breadcrumbs from '../../components/Breadcrumbs';
+/* eslint-disable deprecate/import */
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -164,12 +165,6 @@ function CommunityCareAppointmentDetailsPage({
         Contact this facility if you need to reschedule or cancel your
         appointment.
       </AlertBox>
-
-      <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-        <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
-          « Go back to appointments
-        </Link>
-      </div>
     </PageLayout>
   );
 }
