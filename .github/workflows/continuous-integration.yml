@@ -88,7 +88,7 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: echo
-        run: echo ${{ GITHUB_SHA }}
+        run: echo $GITHUB_SHA
 
       - name: Get files changed
         id: get-files-changed
