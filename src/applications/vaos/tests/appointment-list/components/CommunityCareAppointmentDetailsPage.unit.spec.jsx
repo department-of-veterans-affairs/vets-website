@@ -119,13 +119,8 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     ).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
 
-    const button = screen.getByRole('button', {
-      name: /Go back to appointments/,
-    });
-    expect(button).to.be.ok;
-
     // Verify back button works...
-    userEvent.click(button);
+    userEvent.click(screen.getByText(/VA online scheduling/i));
     detailLinks = await screen.findAllByRole('link', {
       name: /Detail/i,
     });
