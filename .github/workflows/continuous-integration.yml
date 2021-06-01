@@ -87,6 +87,9 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
+      - name: echo
+        run: echo ${{ github.event.pull_request.base.ref }}
+
       - name: Get files changed
         id: get-files-changed
         uses: trilom/file-changes-action@v1.2.3
@@ -94,9 +97,6 @@ jobs:
           output: ' '
           pushBefore: $GITHUB_BASE_REF
           pushAfter: $GITHUB_HEAD_REF
-
-      - name: echo
-        run: echo $GITHUB_HEAD_REF
 
       - name: Annotate ESLint results
         run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-files-changed.outputs.files }}
