@@ -67,7 +67,7 @@ jobs:
           fetch-depth: 0
 
       - name: echo
-        run: echo "${{ github.event.size }}"
+        run: echo "${{ github.size }}"
 
       - name: Get Node version
         id: get-node-version
