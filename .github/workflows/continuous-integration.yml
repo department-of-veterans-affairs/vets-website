@@ -99,7 +99,7 @@ jobs:
         run: echo "${{ steps.abc.outputs.all }}"
 
       - name: Annotate ESLint results
-        run: yarn run eslint ${{ steps.get-files-changed.outputs.all }} --format ./script/github-actions/eslint-annotation-format.js
+        run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-files-changed.outputs.all }}
 
       - name: Run Sass lint
         run: yarn run sass-lint --format json --verbose --output sasslint-report.json
