@@ -118,7 +118,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('.usa-alert').text()).to.contain(
+    expect(tree.find('h1.usa-alert-heading').text()).to.contain(
       'Your application is in progress',
     );
     expect(tree.find('h1')).to.exist;
