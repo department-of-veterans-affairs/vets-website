@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { isChapter33 } from '../helpers';
 import captureEvents from '../analytics-functions';
 import { ExitApplicationButton } from '../components/ExitApplicationButton';
+import environment from 'platform/utilities/environment';
 
 export class ConfirmEligibilityView extends React.Component {
   onChange = property => {
@@ -64,26 +65,41 @@ export class ConfirmEligibilityView extends React.Component {
     const check =
       isEnrolledStem || isPursuingTeachingCert || isPursuingClinicalTraining;
     const text = (
-      <ul className="circle">
-        <li>
-          Enrolled in a bachelor’s degree program for science, technology,
-          engineering, or math (STEM), <b>or</b>
-        </li>
-        <li>
-          Have already earned a STEM bachelor’s degree and are working toward a
-          teaching certification, <b>or</b>
-        </li>
-        <li>
-          Have already earned a STEM bachelor's or graduate degree and are
-          pursuing a covered clinical training program for health care
-          professionals
-        </li>
-      </ul>
+      <div>
+        Are enrolled in a bachelor’s degree program for science, technology,
+        engineering, or math (STEM), <b>or</b> have already earned a STEM
+        bachelor’s degree and are pursuing a teaching certification
+      </div>
+    );
+    const prodFlagText = (
+      <div>
+        <p>Are:</p>
+        <ul className="circle">
+          <li>
+            Enrolled in a bachelor’s degree program for science, technology,
+            engineering, or math (STEM), <b>or</b>
+          </li>
+          <li>
+            Have already earned a STEM bachelor’s degree and are working toward
+            a teaching certification, <b>or</b>
+          </li>
+          <li>
+            Have already earned a STEM bachelor's or graduate degree and are
+            pursuing a covered clinical training program for health care
+            professionals
+          </li>
+        </ul>
+      </div>
     );
     const title = this.iconText(check);
     const iconTitle = `${title} ${text}`;
-
-    return this.renderCheck(this.iconClass(check), iconTitle, title, text);
+    // prod flag 24612
+    return this.renderCheck(
+      this.iconClass(check),
+      iconTitle,
+      title,
+      environment.isProduction() ? text : prodFlagText,
+    );
   };
 
   renderChecks = () => (
@@ -126,20 +142,40 @@ export class ConfirmEligibilityView extends React.Component {
           this.props.remainingEntitlement.totalDays > 180 && (
             <div>
               <div className="usa-alert usa-alert-warning vads-u-background-color--white">
-                <div className="usa-alert-body">
-                  <strong>You may not be eligible</strong>
-                  <div className="usa-alert-text">
-                    <p>
-                      You must have less than 6 months left of Post-9/11 GI Bill
-                      benefits when you submit your application. Our system
-                      shows you have{' '}
-                      <b>{this.props.remainingEntitlement.months} months</b>,{' '}
-                      <b>{this.props.remainingEntitlement.days} days</b>{' '}
-                      remaining of GI Bill benefits.
-                    </p>{' '}
-                    <p> If you apply now, your application will be denied.</p>
+                {environment.isProduction() ? (
+                  <div className="usa-alert-body">
+                    <strong>Your remaining education benefits</strong>
+                    <div className="usa-alert-text">
+                      <p>
+                        Our entitlement system shows that you have more than 6
+                        months of education benefits remaining. You should apply
+                        when you have less than 6 months of entitlement left.
+                      </p>
+                      <p>
+                        Months you have left to use:{' '}
+                        <strong>
+                          {this.props.remainingEntitlement.months} months,{' '}
+                          {this.props.remainingEntitlement.days} days{' '}
+                        </strong>
+                      </p>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="usa-alert-body">
+                    <strong>Your remaining education benefits</strong>
+                    <div className="usa-alert-text">
+                      <p>
+                        You must have less than 6 months left of Post-9/11 GI
+                        Bill benefits when you submit your application. Our
+                        system shows you have{' '}
+                        <b>{this.props.remainingEntitlement.months} months</b>,{' '}
+                        <b>{this.props.remainingEntitlement.days} days</b>{' '}
+                        remaining of GI Bill benefits.
+                      </p>{' '}
+                      <p> If you apply now, your application will be denied.</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -203,10 +239,10 @@ const mapStateToProps = (state, ownProps) => {
     isEnrolledStem: state?.form?.data.isEnrolledStem,
     isPursuingTeachingCert:
       state?.form?.data['view:teachingCertClinicalTraining']
-        .isPursuingTeachingCert || false,
+        ?.isPursuingTeachingCert || false,
     isPursuingClinicalTraining:
       state?.form?.data['view:teachingCertClinicalTraining']
-        .isPursuingClinicalTraining || false,
+        ?.isPursuingClinicalTraining || false,
     confirmEligibility,
     errors,
     showErrors:

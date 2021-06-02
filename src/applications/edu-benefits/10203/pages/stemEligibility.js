@@ -1,5 +1,6 @@
 import _ from 'platform/utilities/data';
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
+import environment from 'platform/utilities/environment';
 
 import { eligiblePrograms, checkBenefit } from '../content/stemEligibility';
 
@@ -9,7 +10,7 @@ const {
   isPursuingClinicalTraining,
   benefitLeft,
 } = fullSchema10203.properties;
-
+// prod flags 24612
 export const uiSchema = {
   'ui:title': 'Rogers STEM Scholarship eligibility',
   isEnrolledStem: {
@@ -21,8 +22,9 @@ export const uiSchema = {
 
   'view:teachingCertClinicalTraining': {
     isPursuingTeachingCert: {
-      'ui:title':
-        'Do you have a STEM undergraduate degree and are now working toward a teaching certification?',
+      'ui:title': environment.isProduction()
+        ? 'Do you have a STEM undergraduate degree and are now pursuing a teaching certification'
+        : 'Do you have a STEM undergraduate degree and are now working toward a teaching certification?',
       'ui:widget': 'yesNo',
       'ui:required': formData => !formData.isEnrolledStem,
     },
@@ -36,9 +38,12 @@ export const uiSchema = {
           'view:teachingCertClinicalTraining.isPursuingTeachingCert',
           formData,
           false,
-        ) === false,
+        ) === false &&
+        !formData.isEnrolledStem &&
+        !environment.isProduction(),
 
       'ui:options': {
+        hideIf: () => environment.isProduction(),
         expandUnder: 'isPursuingTeachingCert',
         expandUnderCondition: false,
       },
