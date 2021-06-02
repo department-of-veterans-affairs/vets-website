@@ -36,7 +36,7 @@ import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
   getTimezoneDescBySystemId,
-  getTimezoneDescFromAbbr,
+  getTimezoneNameFromAbbr,
   getUserTimezone,
   getUserTimezoneAbbr,
   stripDST,
@@ -832,7 +832,7 @@ export function getAppointmentTimezone(appointment) {
     return {
       identifier: null,
       abbreviation,
-      description: getTimezoneDescFromAbbr(abbreviation),
+      description: getTimezoneNameFromAbbr(abbreviation),
     };
   }
 
@@ -841,6 +841,6 @@ export function getAppointmentTimezone(appointment) {
   return {
     identifier: getUserTimezone(),
     abbreviation,
-    description: getTimezoneDescFromAbbr(abbreviation),
+    description: getTimezoneNameFromAbbr(abbreviation),
   };
 }

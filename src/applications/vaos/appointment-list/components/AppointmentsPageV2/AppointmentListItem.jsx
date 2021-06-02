@@ -3,7 +3,7 @@ import moment from '../../../lib/moment-tz';
 import { isVAPhoneAppointment } from '../../../services/appointment';
 import {
   getTimezoneAbbrBySystemId,
-  getTimezoneDescFromAbbr,
+  getTimezoneNameFromAbbr,
   stripDST,
 } from '../../../utils/timezone';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
@@ -22,7 +22,7 @@ function getAppointmentTimezoneAbbreviation(timezone, facilityId) {
 function getAppointmentTimezoneDescription(timezone, facilityId) {
   const abbr = getAppointmentTimezoneAbbreviation(timezone, facilityId);
 
-  return getTimezoneDescFromAbbr(abbr);
+  return getTimezoneNameFromAbbr(abbr);
 }
 
 function VideoAppointmentDescription({ appointment }) {
