@@ -190,36 +190,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.history.push.lastCall.args[0]).to.equal('/');
   });
 
-  it('should go back to requests page when clicking go back to appointments button', async () => {
-    const appointment = getVARequestMock();
-
-    appointment.attributes = {
-      ...appointment.attributes,
-      appointmentType: 'Primary care',
-      optionDate1: moment(testDate)
-        .add(3, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-    };
-
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: '/requested',
-    });
-
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
-    });
-
-    fireEvent.click(detailLinks[0]);
-
-    expect(await screen.findByText('Pending primary care appointment')).to.be
-      .ok;
-    fireEvent.click(await screen.findByText(/Go back to appointments/));
-    expect(screen.history.push.lastCall.args[0]).to.equal('/requested');
-  });
-
   it('should render CC request details', async () => {
     const ccAppointmentRequest = getCCRequestMock();
     ccAppointmentRequest.attributes = {

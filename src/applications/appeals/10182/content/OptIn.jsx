@@ -13,13 +13,13 @@ export const OptInDescription = () => {
       {ShowIssuesList({ issues })} */}
       <p>
         If you’re requesting a Board Appeal on an issue in an initial claim we
-        decided before Februray 19,2019, you’ll need to opt in to the new
+        decided before Februray 19, 2019, you’ll need to opt in to the new
         decision review process. To do this, please check the box here. We’ll
         move your issue from the old appeals process to the new decision review
         process.
       </p>
       <p>
-        Our decision reveiw process is part of the Appeals Modernization Act.
+        Our decision review process is part of the Appeals Modernization Act.
         When you opt in, you’re likely to get a faster decision.
       </p>
     </div>

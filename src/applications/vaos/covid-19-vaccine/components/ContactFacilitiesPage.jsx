@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 
-import * as actions from '../redux/actions';
+import {
+  openContactFacilitiesPage,
+  routeToPreviousAppointmentPage,
+} from '../redux/actions';
 import { selectContactFacilitiesPageInfo } from '../redux/selectors';
 import {
   FACILITY_SORT_METHODS,
@@ -24,14 +27,15 @@ import { hasValidCovidPhoneNumber } from '../../services/appointment';
 
 const pageKey = 'contactFacilities';
 
-function ContactFacilitiesPage({
-  openContactFacilitiesPage,
-  facilitiesStatus,
-  facilities,
-  routeToPreviousAppointmentPage,
-  sortMethod,
-  canUseVaccineFlow,
-}) {
+export default function ContactFacilitiesPage() {
+  const dispatch = useDispatch();
+  const {
+    facilitiesStatus,
+    facilities,
+    sortMethod,
+    canUseVaccineFlow,
+  } = useSelector(selectContactFacilitiesPageInfo, shallowEqual);
+
   const history = useHistory();
   const loadingFacilities =
     facilitiesStatus === FETCH_STATUS.loading ||
@@ -42,7 +46,7 @@ function ContactFacilitiesPage({
   useEffect(
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
-      openContactFacilitiesPage();
+      dispatch(openContactFacilitiesPage());
     },
     [openContactFacilitiesPage],
   );
@@ -53,8 +57,6 @@ function ContactFacilitiesPage({
     },
     [facilitiesStatus],
   );
-
-  const goBack = () => routeToPreviousAppointmentPage(history, pageKey);
 
   if (facilitiesStatus === FETCH_STATUS.failed) {
     return <ErrorMessage level="1" />;
@@ -165,7 +167,9 @@ function ContactFacilitiesPage({
         </AlertBox>
       )}
       <ProgressButton
-        onButtonClick={goBack}
+        onButtonClick={() =>
+          dispatch(routeToPreviousAppointmentPage(history, pageKey))
+        }
         buttonText="Back"
         buttonClass="usa-button-secondary"
         beforeText="«"
@@ -173,18 +177,3 @@ function ContactFacilitiesPage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return selectContactFacilitiesPageInfo(state);
-}
-
-const mapDispatchToProps = {
-  openContactFacilitiesPage: actions.openContactFacilitiesPage,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ContactFacilitiesPage);

@@ -33,11 +33,11 @@ import { calculateBoundingBox } from '../../utils/address';
  *
  * @export
  * @async
- * @param {Object} locationsParams Parameters needed for fetching locations
+ * @param {Object} locationParams Parameters needed for fetching locations
  * @param {String} locationParams.siteId A VistA site id for the locations being pulled
  * @param {String} locationParams.parentId An id for the parent organization of the facilities being pulled
  * @param {String} locationParams.typeOfCareId An id for the type of care to check for the chosen organization
- * @returns {Array} A FHIR searchset of Location resources
+ * @returns {Array<Location>} A FHIR searchset of Location resources
  */
 export async function getSupportedLocationsByTypeOfCare({
   siteId,
@@ -71,9 +71,9 @@ export async function getSupportedLocationsByTypeOfCare({
  *
  * @export
  * @async
- * @param {Object} locationsParams Parameters needed for fetching locations
- * @param {Array} locationParams.facilityIds A list of va facility ids to fetch
- * @returns {Object} A FHIR searchset of Location resources
+ * @param {Object} locationParams Parameters needed for fetching locations
+ * @param {Array<string>} locationParams.facilityIds A list of va facility ids to fetch
+ * @returns {Array<Location>} A FHIR searchset of Location resources
  */
 export async function getLocations({ facilityIds }) {
   try {
@@ -94,9 +94,9 @@ export async function getLocations({ facilityIds }) {
  *
  * @export
  * @async
- * @param {Object} locationsParams Parameters needed for fetching locations
- * @param {Array} locationParams.facilityId An id for the facility to fetch info for
- * @returns {Object} A FHIR Location resource
+ * @param {Object} locationParams Parameters needed for fetching locations
+ * @param {Array<string>} locationParams.facilityId An id for the facility to fetch info for
+ * @returns {Location} A FHIR Location resource
  */
 export async function getLocation({ facilityId }) {
   try {
@@ -145,7 +145,7 @@ export async function getLocationSettings({ siteIds }) {
  * @export
  * @async
  * @param {Object} params
- * @param {Array<string>} siteIds A list of 3 digit site ids to retrieve the settings for
+ * @param {Array<string>} params.siteIds A list of 3 digit site ids to retrieve the settings for
  * @returns {Array<Location>} An array of Locations with settings included
  */
 export async function getLocationsByTypeOfCareAndSiteIds({ siteIds }) {
@@ -188,9 +188,9 @@ export async function getLocationsByTypeOfCareAndSiteIds({ siteIds }) {
  * Get the parent organization of a given location
  *
  * @export
- * @param {Arrray} organizations The organizations to search through
- * @param {Object} location The location resource to find the parent of
- * @returns {Object} The parent organization
+ * @param {Array<Organization>} organizations The organizations to search through
+ * @param {Location} location The location resource to find the parent of
+ * @returns {Organization} The parent organization
  */
 export function getParentOfLocation(organizations, location) {
   const orgId = location.managingOrganization.reference.split('/')[1];
@@ -201,7 +201,7 @@ export function getParentOfLocation(organizations, location) {
  * Pulls the VistA id from an Location resource
  *
  * @export
- * @param {Object} location The location to get an id for
+ * @param {Location} location The location to get an id for
  * @returns {String} Three digit or 5 digit VistA id
  */
 export function getFacilityIdFromLocation(location) {
@@ -222,8 +222,8 @@ export function getSiteIdFromFacilityId(id) {
  * in lower environments
  *
  * @export
- * @param {String} facilityId - facility id to convert
- * @returns A facility id with either 442 or 552 replaced with 983 or 984
+ * @param {string} facilityId - facility id to convert
+ * @returns {string} A facility id with either 442 or 552 replaced with 983 or 984
  */
 export function getTestFacilityId(facilityId) {
   if (!environment.isProduction() && facilityId) {
@@ -236,7 +236,8 @@ export function getTestFacilityId(facilityId) {
 /**
  * Returns formatted address from facility details object
  *
- * @param {*} facility - facility details object
+ * @param {Location} facility A location, or object with an Address field
+ * @returns {string} The address, formatted as a string
  */
 export function formatFacilityAddress(facility) {
   if (
@@ -257,8 +258,8 @@ export function formatFacilityAddress(facility) {
  * Returns facility phone number.
  *
  * @export
- * @param {*} facility - facility details object
- * @returns Facility phone number.
+ * @param {Location} facility The location to find the phone number of
+ * @returns {string} Location phone number.
  */
 export function getFacilityPhone(facility) {
   return facility?.telecom?.find(tele => tele.system === 'phone')?.value;
@@ -269,12 +270,12 @@ export function getFacilityPhone(facility) {
  *
  * @export
  * @async
- * @param {Object} locationsParams Parameters needed for fetching providers
- * @param {Object} locationParams.address The address in VA Profile format to search nearby
+ * @param {Object} locationParams Parameters needed for fetching providers
+ * @param {VAFacilityAddress} locationParams.address The address in VA Profile format to search nearby
  * @param {Object} locationParams.typeOfCare Type of care data to use when searching for providers
  * @param {Number} locationParams.radius The radius to search for providers within, defaulted to 60
  * @param {Number} locationParams.maxResults The max number of results to return from the search
- * @returns {Array} A FHIR searchset of Location resources
+ * @returns {Array<Location>} A FHIR searchset of Location resources
  */
 export async function getCommunityProvidersByTypeOfCare({
   address,

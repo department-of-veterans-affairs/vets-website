@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   setLangAttribute,
   adaptLinksWithLangCode,
+  onThisPageHook,
 } from 'applications/static-pages/i18Select/hooks';
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
@@ -11,22 +12,17 @@ function LanguagesListTemplate({ langSelected }) {
     <ul>
       {[
         {
-          onThisPage: 'En esta página',
           label: 'Español',
-          suffix: '-esp/',
           lang: 'es',
           href: '/asistencia-y-recursos-en-espanol',
         },
         {
-          suffix: '-tag/',
           label: 'Tagalog',
-          onThisPage: 'Sa pahinang ito',
           lang: 'tl',
           href: '/tagalog-wika-mapagkukunan-at-tulong',
         },
         {
           label: 'Other languages',
-          suffix: '/',
           lang: 'en',
           href: '/resources/how-to-get-free-language-assistance-from-va/',
         },
@@ -68,8 +64,9 @@ export default function LanguageSupport({
 
   useEffect(
     () => {
-      if (showLangSupport && languageCode) {
+      if (languageCode && showLangSupport) {
         setLangAttribute(languageCode);
+        onThisPageHook(languageCode);
       }
     },
     [languageCode, showLangSupport],
