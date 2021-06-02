@@ -946,6 +946,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       await waitFor(() =>
         expect(screen.history.push.lastCall.args[0]).to.equal(url),
       );
+      await screen.findByText(/at home/);
 
       const ics = decodeURIComponent(
         screen
@@ -1328,6 +1329,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       await waitFor(() =>
         expect(screen.history.push.lastCall.args[0]).to.equal(url),
       );
+      await screen.findByText(/using VA device/);
 
       const ics = decodeURIComponent(
         screen
