@@ -5,7 +5,7 @@ services:
     build:
       context: .
     volumes:
-      - test_volume:/application
+      - .:/application:rw
     environment:
       WEB_HOST: 'vets-website'
       WEB_PORT: 3001
