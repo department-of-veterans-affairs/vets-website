@@ -23,6 +23,9 @@ jobs:
       - name: Build Docker image
         run: docker build -t vets-website:vets-website-test .
 
+      - name: Run Cypress tests
+        run: docker-compose -p cypress-1 run --rm --entrypoint=npm -e CI=true -e STEP=0 vets-website run cy:test:docker
+
       # - name: Install vets-website dependencies
       #   run: yarn install --frozen-lockfile --prefer-offline
       #   env:
