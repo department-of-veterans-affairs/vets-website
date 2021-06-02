@@ -98,7 +98,7 @@ function PastAppointmentsList({
         pastSelectedIndex,
       );
     }
-  }, [dateRangeOptions]);
+  }, []);
   useEffect(
     () => {
       if (pastStatus === FETCH_STATUS.succeeded && !isInitialMount) {
