@@ -23,7 +23,7 @@ import {
   VIDEO_TYPES,
 } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import AppointmentDateTime from './AppointmentDateTime';
+import AppointmentDateTime from '../AppointmentDateTime';
 import VideoVisitSection from './VideoVisitSection';
 import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
@@ -171,10 +171,7 @@ export default function ConfirmedAppointmentDetailsPage() {
       </Breadcrumbs>
 
       <h1>
-        <AppointmentDateTime
-          appointmentDate={moment.parseZone(appointment.start)}
-          facilityId={appointment.location.vistaId}
-        />
+        <AppointmentDateTime appointment={appointment} />
       </h1>
 
       {isPastAppointment && (

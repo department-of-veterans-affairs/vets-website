@@ -32,6 +32,15 @@ import { transformVAOSAppointment } from './transformers.vaos';
 import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
+import {
+  getTimezoneAbbrBySystemId,
+  getTimezoneBySystemId,
+  getTimezoneDescBySystemId,
+  getTimezoneDescFromAbbr,
+  getUserTimezone,
+  getUserTimezoneAbbr,
+  stripDST,
+} from '../../utils/timezone';
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
@@ -801,4 +810,37 @@ export function getCalendarData({ appointment, facility }) {
   }
 
   return data;
+}
+
+export function getAppointmentTimezone(appointment) {
+  // Most VA appointments will use this, since they're associated with a facility
+  if (appointment.location.vistaId) {
+    return {
+      identifier: getTimezoneBySystemId(appointment.location.vistaId)
+        ?.currentTZ,
+      abbreviation: getTimezoneAbbrBySystemId(appointment.location.vistaId),
+      description: getTimezoneDescBySystemId(appointment.location.vistaId),
+    };
+  }
+
+  // Community Care appointments with timezone included
+  if (appointment.vaos.timeZone) {
+    const abbreviation = stripDST(
+      appointment.vaos.timeZone?.split(' ')?.[1] || appointment.vaos.timeZone,
+    );
+
+    return {
+      identifier: null,
+      abbreviation,
+      description: getTimezoneDescFromAbbr(abbreviation),
+    };
+  }
+
+  // Everything else will use the local timezone
+  const abbreviation = stripDST(getUserTimezoneAbbr());
+  return {
+    identifier: getUserTimezone(),
+    abbreviation,
+    description: getTimezoneDescFromAbbr(abbreviation),
+  };
 }
