@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import PreferredDatePage from '../../../new-appointment/components/PreferredDatePage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
@@ -25,7 +25,6 @@ const initialState = {
 
 describe('VAOS integration: preferred date page with a single-site user', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should render', async () => {
     const store = createTestStore(initialState);
@@ -79,10 +78,7 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     userEvent.selectOptions(screen.getByRole('combobox', { name: /day/i }), [
       '2',
     ]);
-    await userEvent.type(
-      screen.getByRole('spinbutton', { name: /year/i }),
-      '2016',
-    );
+    userEvent.type(screen.getByRole('spinbutton', { name: /year/i }), '2016');
     fireEvent.click(screen.getByText(/Continue/));
     expect(await screen.findByRole('alert')).to.contain.text(
       'Please enter a future date ',
@@ -104,10 +100,7 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     userEvent.selectOptions(screen.getByRole('combobox', { name: /day/i }), [
       '2',
     ]);
-    await userEvent.type(
-      screen.getByRole('spinbutton', { name: /year/i }),
-      '2050',
-    );
+    userEvent.type(screen.getByRole('spinbutton', { name: /year/i }), '2050');
     fireEvent.click(screen.getByText(/Continue/));
     expect(await screen.findByRole('alert')).to.contain.text(
       'Please enter a date less than 395 days in the future ',
@@ -140,10 +133,7 @@ describe('VAOS integration: preferred date page with a single-site user', () => 
     userEvent.selectOptions(screen.getByRole('combobox', { name: /day/i }), [
       maxDay,
     ]);
-    await userEvent.type(
-      screen.getByRole('spinbutton', { name: /year/i }),
-      maxYear,
-    );
+    userEvent.type(screen.getByRole('spinbutton', { name: /year/i }), maxYear);
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() => expect(screen.history.push.called).to.be.true);
   });

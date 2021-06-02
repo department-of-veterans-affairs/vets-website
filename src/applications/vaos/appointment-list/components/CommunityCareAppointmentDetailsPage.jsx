@@ -83,6 +83,7 @@ function CommunityCareAppointmentDetailsPage({
     facility: appointment.communityCareProvider,
     appointment,
   });
+  const isPastAppointment = appointment.vaos.isPastAppointment;
 
   return (
     <PageLayout>
@@ -97,6 +98,16 @@ function CommunityCareAppointmentDetailsPage({
           facilityId={appointment.location.vistaId}
         />
       </h1>
+
+      {isPastAppointment && (
+        <AlertBox
+          status={ALERT_TYPE.WARNING}
+          className="vads-u-display--block"
+          backgroundOnly
+        >
+          This appointment occurred in the past.
+        </AlertBox>
+      )}
 
       <h2
         className="vads-u-font-size--base vads-u-font-family--sans"
@@ -130,46 +141,47 @@ function CommunityCareAppointmentDetailsPage({
         )}
       </div>
 
-      <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-        <i
-          aria-hidden="true"
-          className="far fa-calendar vads-u-margin-right--1"
-        />
-        <AddToCalendar
-          summary={calendarData.summary}
-          description={{
-            text: calendarData.text,
-            phone: calendarData.phone,
-            additionalText: calendarData.additionalText,
-          }}
-          location={calendarData.location}
-          duration={appointment.minutesDuration}
-          startDateTime={moment.parseZone(appointment.start)}
-        />
-      </div>
+      {!isPastAppointment && (
+        <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
+          <i
+            aria-hidden="true"
+            className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
+          />
+          <AddToCalendar
+            summary={calendarData.summary}
+            description={{
+              text: calendarData.text,
+              phone: calendarData.phone,
+              additionalText: calendarData.additionalText,
+            }}
+            location={calendarData.location}
+            duration={appointment.minutesDuration}
+            startDateTime={moment.parseZone(appointment.start)}
+          />
+        </div>
+      )}
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-        <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
+        <i
+          aria-hidden="true"
+          className="fas fa-print vads-u-margin-right--1 vads-u-color--link-default"
+        />
         <button className="va-button-link" onClick={() => window.print()}>
           Print
         </button>
       </div>
 
-      <AlertBox
-        status={ALERT_TYPE.INFO}
-        className="vads-u-display--block"
-        headline="Need to make changes?"
-        backgroundOnly
-      >
-        Contact this facility if you need to reschedule or cancel your
-        appointment.
-      </AlertBox>
-
-      <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-        <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
-          « Go back to appointments
-        </Link>
-      </div>
+      {!isPastAppointment && (
+        <AlertBox
+          status={ALERT_TYPE.INFO}
+          className="vads-u-display--block"
+          headline="Need to make changes?"
+          backgroundOnly
+        >
+          Contact this provider if you need to reschedule or cancel your
+          appointment.
+        </AlertBox>
+      )}
     </PageLayout>
   );
 }

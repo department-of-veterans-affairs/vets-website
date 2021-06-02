@@ -2,7 +2,7 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   getVAAppointmentMock,
   getVAFacilityMock,
@@ -43,7 +43,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     MockDate.set(getTimezoneTestDate());
   });
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
 
@@ -145,13 +144,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Print/)).to.be.ok;
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
 
-    const button = screen.getByRole('button', {
-      name: /Go back to appointments/,
-    });
-    expect(button).to.be.ok;
-
     // Verify back button works...
-    userEvent.click(button);
+    userEvent.click(screen.getByText(/VA online scheduling/i));
     const detailLinks = await screen.findAllByRole('link', {
       name: /Detail/i,
     });
@@ -238,11 +232,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     ).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
-
-    const button = screen.getByRole('button', {
-      name: /Go back to appointments/,
-    });
-    expect(button).to.be.ok;
   });
   it('should show past confirmed appointments detail page', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
@@ -730,7 +719,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(document.activeElement).to.have.tagName('h1');
     });
 
-    userEvent.click(screen.getByText(/go back to appointments/i));
+    userEvent.click(screen.getByText(/VA online scheduling/i));
     expect(screen.baseElement).to.contain.text('Your appointments');
   });
 

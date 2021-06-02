@@ -9,7 +9,8 @@ export const PROFILE_URL = '/profile';
 export const DECISION_REVIEWS_URL = '/decision-reviews/';
 export const FACILITY_LOCATOR_URL = '/find-locations';
 export const CONTESTED_CLAIMS_URL = '/decision-reviews/contested-claims';
-export const BOARD_APPEAL_OPTIONS_URL = '/decision-reviews/board-appeal/';
+export const BOARD_APPEAL_OPTIONS_URL =
+  '/decision-reviews/board-appeal/#what-are-my-board-appeal-optio';
 export const GET_HELP_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
 

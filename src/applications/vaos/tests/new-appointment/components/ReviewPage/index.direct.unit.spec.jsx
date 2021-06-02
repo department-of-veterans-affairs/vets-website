@@ -5,11 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
-import {
-  setFetchJSONFailure,
-  mockFetch,
-  resetFetch,
-} from 'platform/testing/unit/helpers';
+import { setFetchJSONFailure, mockFetch } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
 import {
@@ -141,7 +137,6 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     store.dispatch(startDirectScheduleFlow());
     store.dispatch(onCalendarChange([start.format()]));
   });
-  afterEach(() => resetFetch());
 
   it('should show form information for review', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
