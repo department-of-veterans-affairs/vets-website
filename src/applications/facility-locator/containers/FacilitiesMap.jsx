@@ -21,7 +21,7 @@ import {
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
   facilityLocatorLighthouseCovidVaccineQuery,
-} from '../utils/selectors';
+} from '../utils/featureFlagSelectors';
 import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
 import SearchControls from '../components/SearchControls';

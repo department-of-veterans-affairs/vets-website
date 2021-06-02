@@ -11,6 +11,7 @@ export default Object.freeze({
   cernerOverride687: 'cerner_override_687',
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
+  checkInExperienceEnabled:'check_in_experience_enabled',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
@@ -25,6 +26,7 @@ export default Object.freeze({
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilityLocatorLighthouseCovidVaccineQuery: 'facilityLocatorLighthouseCovidVaccineQuery',
   facilityLocatorPredictiveLocationSearch: 'facilityLocatorPredictiveLocationSearch',
+  facilityLocatorRailsEngine: 'facilityLocatorRailsEngine',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilityLocatorShowOperationalHoursSpecialInstructions: 'facilityLocatorShowOperationalHoursSpecialInstructions',
   findFormsEnhancements: 'find_forms_mvp_enhancement',

@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   mockFetch,
-  resetFetch,
   setFetchJSONFailure as setFetchFailure,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers.js';
@@ -61,7 +60,6 @@ describe('schoolSearch actions', () => {
           payload,
           institutionQuery: 'testQuery',
         });
-        resetFetch();
         done();
       }, 0);
     });
@@ -102,7 +100,6 @@ describe('schoolSearch actions', () => {
           error,
           institutionQuery: 'testQuery',
         });
-        resetFetch();
         done();
       }, 0);
     });
@@ -145,7 +142,6 @@ describe('schoolSearch actions', () => {
           payload,
           institutionQuery: 'testQuery',
         });
-        resetFetch();
         done();
       }, 0);
     });
@@ -178,7 +174,6 @@ describe('schoolSearch actions', () => {
           error,
           institutionQuery: 'testQuery',
         });
-        resetFetch();
         done();
       }, 0);
     });

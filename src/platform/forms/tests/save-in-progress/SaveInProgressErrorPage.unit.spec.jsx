@@ -7,24 +7,14 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { SaveInProgressErrorPage } from '../../save-in-progress/SaveInProgressErrorPage';
 import { LOAD_STATUSES } from '../../save-in-progress/actions';
-
-let oldFetch;
-const setup = () => {
-  oldFetch = global.fetch;
-  global.fetch = sinon.stub();
-  global.fetch.returns(Promise.resolve({ ok: true }));
-};
-const teardown = () => {
-  global.fetch = oldFetch;
-};
+import { mockFetch } from '../../../testing/unit/helpers';
 
 describe('<SaveInProgressErrorPage>', () => {
   let formConfigDefaultData;
   beforeEach(() => {
-    setup();
+    mockFetch();
     formConfigDefaultData = {};
   });
-  afterEach(teardown);
 
   const route = {
     formConfig: {
