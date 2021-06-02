@@ -20,12 +20,6 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Docker version
-        run: docker -v
-
-      - name: Docker-compose version
-        run: docker-compose -v
-
       - name: Build Docker image
         run: docker build -t vets-website:vets-website-test .
 
@@ -39,7 +33,7 @@ jobs:
         run: chmod -R 755 ~/_work/vets-website/vets-website/.cache/Cypress
 
       - name: Run Cypress tests
-        run: docker-compose -p cypress-1 run --rm --entrypoint=yarn -e CI=true -e STEP=0 vets-website run cy:test:docker
+        run: docker-compose -p cypress-1 run --rm --entrypoint=yarn -u root -e CI=true -e STEP=0 vets-website run cy:test:docker
 
 
       # - name: Build vets-website
