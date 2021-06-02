@@ -23,7 +23,7 @@ import {
   mockAppointmentSlotFetch,
 } from '../../../mocks/helpers';
 import { getClinicMock, getAppointmentSlotMock } from '../../../mocks/v0';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 const initialState = {
   featureToggles: {
@@ -42,7 +42,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
     MockDate.set(moment('2020-01-26T14:00:00'));
   });
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
   it('should not submit form with validation error', async () => {
@@ -184,9 +183,6 @@ describe('VAOS <DateTimeSelectPage>', () => {
   });
 
   it('should display error message if slots call fails', async () => {
-    // Initial global fetch
-    mockFetch();
-
     const clinics = [
       {
         id: '308',

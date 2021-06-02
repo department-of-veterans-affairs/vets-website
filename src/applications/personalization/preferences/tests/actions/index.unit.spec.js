@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import {
   mockFetch,
-  resetFetch,
   setFetchJSONFailure as setFetchFailure,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers.js';
@@ -33,9 +32,6 @@ describe('preferences actions', () => {
   describe('fetchUserSelectedBenefits', () => {
     beforeEach(() => {
       mockFetch();
-    });
-    afterEach(() => {
-      resetFetch();
     });
     let dispatch;
     let getState;
@@ -141,9 +137,6 @@ describe('preferences actions', () => {
   describe('fetchAvailableBenefits', () => {
     beforeEach(() => {
       mockFetch();
-    });
-    afterEach(() => {
-      resetFetch();
     });
     let dispatch;
     let getState;
@@ -287,9 +280,6 @@ describe('preferences actions', () => {
     beforeEach(() => {
       mockFetch();
     });
-    afterEach(() => {
-      resetFetch();
-    });
     it(`should immediately dispatch the SAVE_USER_PREFERENCES_STARTED action`, done => {
       const dispatch = sinon.spy();
 
@@ -379,9 +369,6 @@ describe('preferences actions', () => {
   describe('deletePreferences', () => {
     beforeEach(() => {
       mockFetch();
-    });
-    afterEach(() => {
-      resetFetch();
     });
     it(`should immediately dispatch the SAVE_USER_PREFERENCES_STARTED action`, done => {
       const dispatch = sinon.spy();

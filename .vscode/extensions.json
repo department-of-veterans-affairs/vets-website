@@ -1,7 +1,7 @@
 {
   "recommendations": [
     "dbaeumer.vscode-eslint",
-    "glen-84.sass-lint",
+    "stylelint.vscode-stylelint",
     "msjsdiag.debugger-for-chrome"
   ]
 }

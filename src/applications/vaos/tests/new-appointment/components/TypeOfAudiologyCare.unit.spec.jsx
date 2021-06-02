@@ -5,7 +5,7 @@ import { waitFor } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { cleanup } from '@testing-library/react';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 import {
   createTestStore,
@@ -28,7 +28,6 @@ const initialState = {
 
 describe('VAOS <TypeOfAudiologyCarePage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /audiology/i);
