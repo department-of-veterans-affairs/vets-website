@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   vets-website:
     image: vets-website:${IMAGE_TAG:-latest}
