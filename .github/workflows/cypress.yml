@@ -29,9 +29,6 @@ jobs:
           YARN_CACHE_FOLDER: ~/_work/vets-website/vets-website/.cache/yarn
           CYPRESS_CACHE_FOLDER: ~/_work/vets-website/vets-website/.cache/Cypress
 
-      - name: Docker copy test
-        run: docker cp ~/_work/vets-website/vets-website/.cache/Cypress $(docker ps -aqf "name=vets-website-test"):/application/.cache/Cypress/6.9.1/Cypress
-
       - name: Run Cypress tests
         run: docker-compose -p cypress-1 run --rm --entrypoint=yarn -e CI=true -e STEP=0 vets-website run cy:test:docker
 
