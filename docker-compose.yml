@@ -5,7 +5,7 @@ services:
     build:
       context: .
     volumes:
-      - .:/application
+      - test_volume:/application
     environment:
       WEB_HOST: 'vets-website'
       WEB_PORT: 3001
@@ -26,3 +26,5 @@ services:
       GRID_BROWSER_TIMEOUT: 10000
       GRID_TIMEOUT: 12000
       DBUS_SESSION_BUS_ADDRESS: /dev/null
+volumes:
+  test_volume:
