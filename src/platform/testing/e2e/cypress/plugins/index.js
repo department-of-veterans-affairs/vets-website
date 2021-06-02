@@ -1,3 +1,4 @@
+const fs = require('fs');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 
 module.exports = on => {
@@ -22,10 +23,9 @@ module.exports = on => {
     },
   );
 
-  // eslint-disable-next-line consistent-return
   on('after:spec', (spec, results) => {
     if (results.stats.failures === 0 && results.video) {
-      return fs.unlinkSync(results.video);
+      fs.unlinkSync(results.video);
     }
   });
 
