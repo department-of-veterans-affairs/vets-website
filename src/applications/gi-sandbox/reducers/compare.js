@@ -1,10 +1,7 @@
 import _ from 'lodash';
 import {
-  ACCEPT_COMPARE_INSTITUTION_REMOVAL_PROMPT,
   ADD_COMPARE_INSTITUTION,
-  CANCEL_COMPARE_INSTITUTION_REMOVAL_PROMPT,
   REMOVE_COMPARE_INSTITUTION,
-  PROMPT_TO_REMOVE_COMPARE_INSTITUTION,
 } from '../actions';
 
 const INITIAL_STATE = Object.freeze({
@@ -34,27 +31,6 @@ export default function(state = INITIAL_STATE, action) {
       institutions: {
         ..._.omit(newState.institutions, action.payload),
       },
-    };
-  }
-
-  if (action.type === PROMPT_TO_REMOVE_COMPARE_INSTITUTION) {
-    newState = {
-      ...newState,
-      promptingToRemove: action.payload.facilityCode,
-    };
-  }
-
-  if (action.type === ACCEPT_COMPARE_INSTITUTION_REMOVAL_PROMPT) {
-    newState = {
-      ...newState,
-      promptingToRemove: null,
-    };
-  }
-
-  if (action.type === CANCEL_COMPARE_INSTITUTION_REMOVAL_PROMPT) {
-    newState = {
-      ...newState,
-      promptingToRemove: null,
     };
   }
 
