@@ -38,8 +38,6 @@ RUN openssl x509 -inform DER -in /usr/local/share/ca-certificates/VA-Internal-S2
 RUN update-ca-certificates
 
 RUN mkdir -p /application
-RUN mkdir -p /application/.cache/yarn
-RUN chmod 755 /application/.cache/yarn
 WORKDIR /application
 
 USER vets-website
