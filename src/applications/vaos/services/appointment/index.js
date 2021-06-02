@@ -261,7 +261,7 @@ export function getPatientTelecom(appointment, system) {
  *
  * @export
  * @param {Object} facility A facility resource
- * @returns {Boolean} Whether or not the facility has a transform COVID vaccine phone line
+ * @returns {Boolean} Whether or not the facility has a COVID vaccine phone line
  */
 export function hasValidCovidPhoneNumber(facility) {
   return !!facility?.telecom?.find(tele => tele.system === 'covid')?.value;

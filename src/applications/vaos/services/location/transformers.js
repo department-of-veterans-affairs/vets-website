@@ -163,6 +163,18 @@ function getTestFacilityId(facilityId) {
 }
 
 /**
+ * Returns whether or not the facility has a COVID vaccine phone line
+ *
+ * @param {Location} facility A facility resource
+ * @returns {Boolean} Whether or not the facility has a COVID vaccine phone line
+ */
+function hasCovidPhoneNumber(facility) {
+  return !!facility.detailedServices?.find(
+    service => service.name === 'COVID-19 vaccines',
+  )?.appointmentPhones[0]?.number;
+}
+
+/**
  * Transforms a facility object from the VA facilities api into our
  * VAOS Location format
  *
@@ -214,12 +226,8 @@ export function transformFacility(facility) {
       reference: `Organization/${id.substr(0, 3)}`,
     },
   };
-  // check for facility COVID phone line
-  if (
-    facility.detailedServices?.find(
-      service => service.name === 'COVID-19 vaccines',
-    )?.appointmentPhones[0]?.number
-  ) {
+
+  if (hasCovidPhoneNumber(facility)) {
     facilityObj.telecom.push({
       system: 'covid',
       value: facility.detailedServices?.find(
