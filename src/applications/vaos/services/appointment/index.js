@@ -752,7 +752,7 @@ export function getCalendarData({ appointment, facility }) {
         text:
           'You can join this meeting up to 30 minutes before the start time.',
         location: 'VA Video Connect at home',
-        additionalText: ['Sign in to VA.gov to join this meeting'],
+        additionalText: [signinText],
       };
     } else if (isAtlas) {
       const { atlasLocation } = appointment.videoData;
@@ -767,6 +767,7 @@ export function getCalendarData({ appointment, facility }) {
               appointment.videoData.atlasConfirmationCode
             }. Use this code to find your appointment on the computer at the ATLAS facility.`,
           ],
+          phone: getFacilityPhone(facility),
         };
 
         if (providerName)

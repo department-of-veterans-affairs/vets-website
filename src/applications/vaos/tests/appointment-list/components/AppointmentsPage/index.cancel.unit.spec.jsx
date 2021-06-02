@@ -8,7 +8,6 @@ import {
   setFetchJSONResponse,
   setFetchJSONFailure,
   mockFetch,
-  resetFetch,
 } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
@@ -37,7 +36,6 @@ const initialState = {
 
 describe('VAOS integration appointment cancellation:', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
   it('video appointments should display modal with facility information', async () => {
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {

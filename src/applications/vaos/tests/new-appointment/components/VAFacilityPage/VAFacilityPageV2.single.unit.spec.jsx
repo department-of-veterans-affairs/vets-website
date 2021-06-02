@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import {
@@ -120,8 +120,6 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
     mockRequestEligibilityCriteria(siteIds, requestFacilities);
     mockFacilitiesFetch('vha_442', facilities);
   });
-
-  afterEach(() => resetFetch());
 
   it('should show alert when only one facility is supported', async () => {
     mockEligibilityFetches({

@@ -182,12 +182,6 @@ function CommunityCareAppointmentDetailsPage({
           appointment.
         </AlertBox>
       )}
-
-      <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-        <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
-          « Go back to appointments
-        </Link>
-      </div>
     </PageLayout>
   );
 }

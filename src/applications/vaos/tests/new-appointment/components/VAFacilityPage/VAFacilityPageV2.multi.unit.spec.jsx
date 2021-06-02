@@ -2,7 +2,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
@@ -134,7 +134,6 @@ closestFacility.attributes.long = -84.3164749;
 
 describe('VAOS integration: VA flat facility page - multiple facilities', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should display list of facilities with show more button', async () => {
     mockParentSites(parentSiteIds, [parentSite983, parentSite984]);

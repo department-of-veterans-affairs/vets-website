@@ -8,6 +8,7 @@ import moment from 'moment';
 import { ITFWrapper } from '../../containers/ITFWrapper';
 import { itfStatuses } from '../../constants';
 import { requestStates } from 'platform/utilities/constants';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 const fetchITF = sinon.spy();
 const createITF = sinon.spy();
@@ -32,7 +33,7 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should not make an api call on the intro page', () => {
-    global.fetch = sinon.spy();
+    mockFetch();
     const tree = mount(
       <ITFWrapper location={{ pathname: '/introduction' }}>
         <p>It worked!</p>
@@ -44,7 +45,7 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should not make an api call on the intro page with a trailing slash', () => {
-    global.fetch = sinon.spy();
+    mockFetch();
     const tree = mount(
       <ITFWrapper location={{ pathname: '/introduction/' }}>
         <p>It worked!</p>
@@ -56,7 +57,7 @@ describe('526 ITFWrapper', () => {
   });
 
   it('should not make an api call on the confirmation page', () => {
-    global.fetch = sinon.spy();
+    mockFetch();
     const tree = mount(
       <ITFWrapper location={{ pathname: '/confirmation' }}>
         <p>It worked!</p>

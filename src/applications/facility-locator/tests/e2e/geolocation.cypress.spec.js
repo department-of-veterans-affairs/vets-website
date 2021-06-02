@@ -1,4 +1,3 @@
-import path from 'path';
 import mockLaLocation from '../../constants/mock-la-location.json';
 
 Cypress.Commands.add(
@@ -15,12 +14,6 @@ Cypress.Commands.add(
 );
 
 describe('Facility geolocation', () => {
-  before(function() {
-    cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', 'constants'),
-    });
-  });
-
   it('geolocates the user(', () => {
     // Mock the call to Mapbox
     cy.intercept('GET', '/geocoding/**/*', mockLaLocation).as('caLocation');
