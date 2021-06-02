@@ -4,7 +4,6 @@ import { mount, shallow } from 'enzyme';
 
 import {
   mockFetch,
-  resetFetch,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
 
@@ -25,10 +24,6 @@ describe('<SearchMenu>', () => {
       'sample 4',
       'sample 5',
     ]);
-  });
-
-  afterEach(() => {
-    resetFetch();
   });
 
   it('should hide the search bar', () => {

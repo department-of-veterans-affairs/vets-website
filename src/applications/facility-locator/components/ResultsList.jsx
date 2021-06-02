@@ -27,7 +27,7 @@ import PharmacyResult from './search-results-items/PharmacyResult';
 import UrgentCareResult from './search-results-items/UrgentCareResult';
 import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
-import { covidVaccineSchedulingFrontend } from '../utils/selectors';
+import { covidVaccineSchedulingFrontend } from '../utils/featureFlagSelectors';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 

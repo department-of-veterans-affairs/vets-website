@@ -77,13 +77,13 @@ export default function CommunityCareAppointmentDetailsPage() {
   }
 
   const header = 'Community care';
-  const isPastAppointment = appointment.vaos.isPastAppointment;
   const { providerName, practiceName } =
     appointment.communityCareProvider || {};
   const calendarData = getCalendarData({
     facility: appointment.communityCareProvider,
     appointment,
   });
+  const isPastAppointment = appointment.vaos.isPastAppointment;
 
   return (
     <PageLayout>
@@ -100,7 +100,11 @@ export default function CommunityCareAppointmentDetailsPage() {
       </h1>
 
       {isPastAppointment && (
-        <AlertBox status="warning" backgroundOnly>
+        <AlertBox
+          status={ALERT_TYPE.WARNING}
+          className="vads-u-display--block"
+          backgroundOnly
+        >
           This appointment occurred in the past.
         </AlertBox>
       )}
@@ -141,7 +145,7 @@ export default function CommunityCareAppointmentDetailsPage() {
         <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
           <i
             aria-hidden="true"
-            className="far fa-calendar vads-u-margin-right--1"
+            className="far fa-calendar vads-u-margin-right--1 vads-u-color--link-default"
           />
           <AddToCalendar
             summary={calendarData.summary}
@@ -161,7 +165,7 @@ export default function CommunityCareAppointmentDetailsPage() {
         <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
           <i
             aria-hidden="true"
-            className="fas fa-print vads-u-margin-right--1"
+            className="fas fa-print vads-u-margin-right--1 vads-u-color--link-default"
           />
           <button className="va-button-link" onClick={() => window.print()}>
             Print
@@ -176,7 +180,7 @@ export default function CommunityCareAppointmentDetailsPage() {
           headline="Need to make changes?"
           backgroundOnly
         >
-          Contact this facility if you need to reschedule or cancel your
+          Contact this provider if you need to reschedule or cancel your
           appointment.
         </AlertBox>
       )}

@@ -24,3 +24,6 @@ export const facilityLocatorShowOperationalHoursSpecialInstructions = state =>
 
 export const covidVaccineSchedulingFrontend = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.covidVaccineSchedulingFrontend];
+
+export const facilityLocatorRailsEngine = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorRailsEngine];

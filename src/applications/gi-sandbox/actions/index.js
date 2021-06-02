@@ -36,6 +36,8 @@ export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const LOCATION_AUTOCOMPLETE_SUCCEEDED =
   'LOCATION_AUTOCOMPLETE_SUCCEEDED';
 export const NAME_AUTOCOMPLETE_SUCCEEDED = 'NAME_AUTOCOMPLETE_SUCCEEDED';
+export const SEARCH_BY_FACILITY_CODES_SUCCEEDED =
+  'SEARCH_BY_FACILITY_CODES_SUCCEEDED';
 export const SEARCH_BY_NAME_SUCCEEDED = 'SEARCH_BY_NAME_SUCCEEDED';
 export const SEARCH_BY_LOCATION_SUCCEEDED = 'SEARCH_BY_LOCATION_SUCCEEDED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
@@ -430,5 +432,41 @@ export function updateFiltersAndDoLocationSearch(
     dispatch(
       fetchSearchByLocationResults(location, distance, filters, version),
     );
+  };
+}
+
+export function fetchSearchByFacilityCodes(facilityCodes, filters, version) {
+  const params = rubyifyKeys({
+    facilityCodes,
+    ...buildSearchFilters(filters),
+  });
+  if (version) {
+    params.version = version;
+  }
+  const url = appendQuery(`${api.url}/institutions/search`, params);
+
+  return dispatch => {
+    dispatch({ type: SEARCH_STARTED, payload: { name } });
+
+    return fetch(url, api.settings)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        throw new Error(res.statusText);
+      })
+      .then(payload => {
+        dispatch({
+          type: SEARCH_BY_FACILITY_CODES_SUCCEEDED,
+          payload,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: SEARCH_FAILED,
+          payload: err.message,
+        });
+      });
   };
 }

@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import moment from 'moment';
 import { minYear, maxYear } from 'platform/forms-system/src/js/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import {
   SAVED_SEPARATION_DATE,
@@ -295,25 +296,13 @@ describe('526 helpers', () => {
   });
 
   describe('queryForFacilities', () => {
-    const originalFetch = global.fetch;
     beforeEach(() => {
-      // Replace fetch with a spy
-      global.fetch = sinon.stub();
-      global.fetch.catch = sinon.stub();
-      global.fetch.resolves({
-        ok: true,
-        headers: { get: () => 'application/json' },
-        json: () => ({
-          data: [
-            { id: 0, attributes: { name: 'first' } },
-            { id: 1, attributes: { name: 'second' } },
-          ],
-        }),
-      });
-    });
-
-    afterEach(() => {
-      global.fetch = originalFetch;
+      mockFetch();
+      const response = [
+        { id: 0, attributes: { name: 'first' } },
+        { id: 1, attributes: { name: 'second' } },
+      ];
+      setFetchJSONResponse(global.fetch.onCall(0), response);
     });
 
     /* un-skip these once we get a new enpoint in place; see #14028 */

@@ -8,9 +8,6 @@ else
   # and also that they are running in CircleCI specifically.
   export CYPRESS_CI=$CI
 
-  # Use mocha-junit-reporter and save results in './test-results'.
-
-
   # Run Cypress tests.
   yarn cy:run --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json"
 fi
