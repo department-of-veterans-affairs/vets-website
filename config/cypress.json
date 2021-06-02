@@ -2,7 +2,7 @@
   "baseUrl": "http://localhost:3001",
   "viewportWidth": 1920,
   "viewportHeight": 1080,
-  "integrationFolder": "./src",
+  "integrationFolder": "src",
   "modifyObstructiveCode": false,
   "nodeVersion": "system",
   "pluginsFile": "src/platform/testing/e2e/cypress/plugins/index.js",
