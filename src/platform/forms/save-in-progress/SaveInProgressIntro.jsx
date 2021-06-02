@@ -67,7 +67,7 @@ class SaveInProgressIntro extends React.Component {
               <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
                   <H className="usa-alert-heading vads-u-font-size--base">
-                    <strong>{message}</strong>
+                    {message}
                   </H>
                 </div>
                 <div className="saved-form-metadata-container">
