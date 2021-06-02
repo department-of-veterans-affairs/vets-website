@@ -164,6 +164,25 @@ export default function ConfirmedAppointmentDetailsPage() {
     facility: facilityData[locationId],
   });
 
+  let alertBox = null;
+  if (isPastAppointment) {
+    alertBox = (
+      <AlertBox status="warning" backgroundOnly>
+        This appointment occurred in the past.
+      </AlertBox>
+    );
+  } else if (canceled) {
+    alertBox = (
+      <AlertBox
+        status="error"
+        className="vads-u-display--block vads-u-margin-bottom--2"
+        backgroundOnly
+      >
+        {`${canceler} canceled this appointment.`}
+      </AlertBox>
+    );
+  }
+
   return (
     <PageLayout>
       <Breadcrumbs>
@@ -177,21 +196,7 @@ export default function ConfirmedAppointmentDetailsPage() {
         />
       </h1>
 
-      {isPastAppointment && (
-        <AlertBox status="warning" backgroundOnly>
-          This appointment occurred in the past.
-        </AlertBox>
-      )}
-
-      {canceled && (
-        <AlertBox
-          status="error"
-          className="vads-u-display--block vads-u-margin-bottom--2"
-          backgroundOnly
-        >
-          {`${canceler} canceled this appointment.`}
-        </AlertBox>
-      )}
+      {alertBox}
 
       {isVideo && (
         <>

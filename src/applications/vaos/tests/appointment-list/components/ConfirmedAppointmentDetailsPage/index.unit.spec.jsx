@@ -550,6 +550,58 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     ).to.exist;
   });
 
+  it('should display past appointment', async () => {
+    const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
+
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      clinicId: '308',
+      facilityId: '983',
+      sta6aid: '983GC',
+      startDate: moment().subtract(1, 'day'),
+      vdsAppointments: [
+        {
+          currentStatus: 'CANCELLED BY CLINIC',
+        },
+      ],
+    };
+    mockSingleAppointmentFetch({
+      appointment,
+    });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Fort Collins VA Clinic',
+      },
+    };
+
+    mockFacilityFetch('vha_442GC', facility);
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: url,
+    });
+
+    await waitFor(() => {
+      expect(document.activeElement).to.have.tagName('h1');
+    });
+
+    // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
+    expect(await screen.findByText(/This appointment occurred in the past./i))
+      .to.exist;
+
+    // The past appointment and canceled appointment alerts are mutually exclusive.
+    // So, the past appointment alert should display only when the appointment start date
+    // is in the past even when the appointment has a status of 'cancelled'.
+    expect(
+      screen.queryByText('Fort Collins VA Clinic canceled this appointment.'),
+    ).not.to.exist;
+  });
+
   it('should fire a print request when print button clicked', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
 
