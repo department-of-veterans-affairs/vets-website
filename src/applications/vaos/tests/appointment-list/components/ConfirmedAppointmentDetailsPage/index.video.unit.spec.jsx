@@ -83,6 +83,27 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         requests: [],
         isHomepageRefresh: true,
       });
+      mockFacilitiesFetch('vha_442', [
+        {
+          id: 'vha_442',
+          attributes: {
+            ...getVAFacilityMock().attributes,
+            uniqueId: '442',
+            name: 'Cheyenne VA Medical Center',
+            address: {
+              physical: {
+                zip: '82001-5356',
+                city: 'Cheyenne',
+                state: 'WY',
+                address1: '2360 East Pershing Boulevard',
+              },
+            },
+            phone: {
+              main: '307-778-7550',
+            },
+          },
+        },
+      ]);
 
       const screen = renderWithStoreAndRouter(
         <AppointmentList featureHomepageRefresh />,
@@ -142,8 +163,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text('Prepare for video visit');
 
       expect(screen.baseElement).to.contain.text(
-        'Contact this facility if you need to reschedule or cancel your appointment.',
+        'Contact this facility if you need to reschedule or cancel your appointment',
       );
+      expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     });
 
     it('should show active link if 30 minutes in the future', async () => {
@@ -499,7 +521,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text('Test T+90 Test');
 
       expect(screen.baseElement).to.contain.text(
-        'Contact this facility if you need to reschedule or cancel your appointment.',
+        'To reschedule or cancel this appointment, contact the VA facility where you scheduled it',
       );
     });
 
@@ -1047,6 +1069,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       await waitFor(() =>
         expect(screen.history.push.lastCall.args[0]).to.equal(url),
       );
+      await screen.findByText(/2360 East Pershing Boulevard/);
 
       const ics = decodeURIComponent(
         screen
@@ -1181,6 +1204,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       await waitFor(() =>
         expect(screen.history.push.lastCall.args[0]).to.equal(url),
       );
+      await screen.findByText(/Eureka/);
 
       const ics = decodeURIComponent(
         screen
