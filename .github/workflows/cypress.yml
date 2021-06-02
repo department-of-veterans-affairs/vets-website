@@ -23,6 +23,9 @@ jobs:
       - name: Build Docker image
         run: docker build -t vets-website:vets-website-test .
 
+      - name: Mkdir test
+        run: mkdir -p ~/.cache/yarn && chmod 755 ~/.cache/yarn
+
       - name: Install vets-website dependencies
         run: yarn install --frozen-lockfile
         env:
