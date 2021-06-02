@@ -29,6 +29,9 @@ jobs:
           YARN_CACHE_FOLDER: ~/_work/vets-website/vets-website/.cache/yarn
           CYPRESS_CACHE_FOLDER: ~/_work/vets-website/vets-website/.cache/Cypress
 
+      - name: Chmod test
+        run: chmod -R 755 ~/_work/vets-website/vets-website/.cache/Cypress
+
       - name: Run Cypress tests
         run: docker-compose -p cypress-1 run --rm --entrypoint=npm -e CI=true -e STEP=0 vets-website run cy:test:docker
 
