@@ -4,6 +4,7 @@ import './sass/_m-operating-status.scss';
 
 const ExpandableOperatingStatus = props => {
   const [open, setOpen] = useState(false);
+
   const handleOnclick = e => {
     if (!props.extraInfo) return;
     e.target.classList.toggle('active');
@@ -22,6 +23,19 @@ const ExpandableOperatingStatus = props => {
     if (extraInfo && !open) return ' fa-angle-down close';
     return null;
   };
+
+  const outputLinks = data => {
+    const replacePattern = /((\d{3}-))?\d{3}-\d{3}-\d{4}(?!([^<]*>)|(((?!<a).)*<\/a>))/g;
+    if (data) {
+      return data.replace(
+        replacePattern,
+        '<a target="_blank" href="tel:$&">$&</a>',
+      );
+    }
+
+    return data;
+  };
+  const contentString = `<p class="more-info">${props.extraInfo}</p>`;
 
   return (
     <>
@@ -47,9 +61,11 @@ const ExpandableOperatingStatus = props => {
           )}  more-icon vads-u-padding-left--0p5`}
         />
       </button>
-      <div className={`content ${props.operatingStatusFacility}`}>
-        <p className="more-info">{props.extraInfo}</p>
-      </div>
+      {/* eslint-disable react/no-danger */}
+      <div
+        className={`content ${props.operatingStatusFacility}`}
+        dangerouslySetInnerHTML={{ __html: outputLinks(contentString) }}
+      />
     </>
   );
 };
