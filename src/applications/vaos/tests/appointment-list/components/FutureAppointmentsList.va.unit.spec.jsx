@@ -2,11 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import {
-  mockFetch,
-  resetFetch,
-  setFetchJSONFailure,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import { getVAAppointmentMock, getVAFacilityMock } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
@@ -21,9 +17,6 @@ const initialState = {
 describe('VAOS integration: upcoming VA appointments', () => {
   beforeEach(() => {
     mockFetch();
-  });
-  afterEach(() => {
-    resetFetch();
   });
   it('should show information without facility details', async () => {
     const startDate = moment.utc();

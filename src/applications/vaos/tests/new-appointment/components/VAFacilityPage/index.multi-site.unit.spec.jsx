@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { Route } from 'react-router-dom';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
@@ -63,7 +63,6 @@ const parentSite984 = {
 
 describe('VAOS integration: VA facility page with a multi-site user', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should show form with required questions for both sites and facilities', async () => {
     mockParentSites(['983', '984'], [parentSite983, parentSite984]);

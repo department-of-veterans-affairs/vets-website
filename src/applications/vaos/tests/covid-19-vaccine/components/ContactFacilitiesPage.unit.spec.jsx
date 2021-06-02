@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import ContactFacilitiesPage from '../../../covid-19-vaccine/components/ContactFacilitiesPage';
 import {
   getVAFacilityMock,
@@ -49,7 +49,6 @@ const parentSiteIds = ['983', '984'];
 
 describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should show closest two registered facilities', async () => {
     mockDirectBookingEligibilityCriteria(parentSiteIds, [

@@ -2,7 +2,7 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   getVAAppointmentMock,
   getVAFacilityMock,
@@ -43,7 +43,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     MockDate.set(getTimezoneTestDate());
   });
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
 

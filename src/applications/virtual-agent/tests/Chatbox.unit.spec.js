@@ -9,7 +9,6 @@ import Chatbox from '../components/chatbox/Chatbox';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import {
   mockApiRequest,
-  resetFetch,
   mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
 import { createTestStore } from '../../vaos/tests/mocks/setup';
@@ -40,13 +39,11 @@ describe('App', () => {
   beforeEach(() => {
     createStoreSpy = sandbox.spy();
     directLineSpy = sandbox.spy();
-    resetFetch();
     oldWindow = global.window;
     sandbox.spy(Sentry, 'captureException');
   });
 
   afterEach(() => {
-    resetFetch();
     global.window = oldWindow;
     sandbox.restore();
   });
