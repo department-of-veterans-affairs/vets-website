@@ -14,6 +14,11 @@ export default async function createExpandableOperatingStatus() {
     } = await import('../../shared/ExpandableOperatingStatus');
 
     statusWidgets.forEach(el => {
+      if (
+        !el.attributes.status.nodeValue ||
+        el.attributes.status.nodeValue === 'normal'
+      )
+        return;
       let status;
       let iconType;
 
