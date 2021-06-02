@@ -48,7 +48,7 @@ class IntroductionPage extends React.Component {
         <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
         <SaveInProgressIntro {...sipOptions} />
         <h2 className="vads-u-font-size--h3">
-          Follow these steps to request a Board Appeal.
+          Follow these steps to request a Board Appeal
         </h2>
         <AdditionalInfo triggerText="Find out about opting in if you have an older claim">
           <p>
@@ -118,18 +118,12 @@ class IntroductionPage extends React.Component {
                 <p>
                   A Veterans Law Judge at the Board of Veterans’ Appeals will
                   review your case. The amount of time it takes the Board to
-                  complete its review depends on which review option you choose.
+                  complete its review depends on which review option you choose.{' '}
                   <a href={BOARD_APPEAL_OPTIONS_URL}>
-                    Read more about the 3 Board Appeal options
+                    Read about the 3 Board Appeal options
                   </a>
-                  .
                 </p>
               </AdditionalInfo>
-              <p className="vads-u-margin-top--2">
-                Complete this Board Appeal application form. After you submit
-                the application, you’ll get a confirmation message. You can
-                print this for your records.
-              </p>
             </li>
           </ol>
         </div>

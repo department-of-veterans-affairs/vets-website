@@ -9,13 +9,14 @@
       1. [`appName`](#appname-required)
       2. [`arrayPages`](#arraypages-optional)
       3. [`dataPrefix`](#dataprefix-optional)
-      4. [`dataSets`](#datasets-required)
-      5. [`fixtures`](#fixtures-required)
-      6. [`pageHooks`](#pagehooks-required)
-      7. [`rootUrl`](#rooturl-required)
-      8. [`setup`](#setup-optional)
-      9. [`setupPerTest`](#setuppertest-optional)
-      10. [`skip`](#skip-optional)
+      4. [`dataDir`](#datadir-required)
+      5. [`dataSets`](#datasets-required)
+      6. [`fixtures`](#fixtures-deprecated)
+      7. [`pageHooks`](#pagehooks-required)
+      8. [`rootUrl`](#rooturl-required)
+      9. [`setup`](#setup-optional)
+      10. [`setupPerTest`](#setuppertest-optional)
+      11. [`skip`](#skip-optional)
 3. [Aliases](#aliases)
   1. [`arrayPages`](#arraypages)
   2. [`pageHooks`](#pagehooks)
@@ -57,16 +58,10 @@ The test config has settings or properties that are summarized by this typedef:
     test data. For example, if the test data looks like
     { data: { field1: 'value' } }, dataPrefix should be set to 'data'.
 
-@property {string[]} dataSets - Array of fixture file paths to test data
-    relative to the "data" path loaded into fixtures. For example,
-    if the fixtures object maps the "data" path to "some/folder/path",
-    which contains a "test.json" file, dataSets can be set to ['test']
-    to use that file as a data set. A test is generated for each data set
-    and uses that data to fill out fields during the form flow.
+@property {string} dataDir - Path to test data directory.
 
-@property {Object} fixtures - Paths to files or directories (relative to
-    project root) to load as fixtures, with object keys as fixture paths.
-    The "data" fixture path is _required_ to properly set up "dataSets".
+@property {string[]} dataSets - Test data file paths relative to dataDir.
+    A test is generated for each data set and uses that data to fill out fields.
 
 @property {Object.<function>} [pageHooks] - Functions (hooks) that override
     the automatic form filling on specified pages. Each object key is the
@@ -165,25 +160,50 @@ On the other hand, this setting does not need to be defined if the data looks li
 }
 ```
 
+#### `dataDir` (required)
+
+This is the path to the directory where the test can find the [data sets](#datasets-required) for the test.
+
 #### `dataSets` (required)
 
 This is an array of file paths for the JSON (test data) files to be included in the test suite.
 
-The file paths are relative to the path that the `data` fixture points to. File extensions are optional.
+The file paths are relative to the `dataDir`. File extensions are optional.
 
 Each file represents a separate test with its own set of data to fill the form. Effectively, the values in this array determine which tests to run.
 
-[See the following section on the `fixtures` setting](#fixtures-required) for more details and an example of how the `dataSets` and `fixtures` settings interact.
+For an example of how `dataDir` and `dataSets` interact, consider the following structure for your test directory.
 
-#### `fixtures` (required)
+```
+tests
+|-- data
+|   |-- some-folder
+|   |   |-- c-test.json
+|   |   `-- d-test.json
+|   |-- a-test.json
+|   `-- b-test.json
+`-- some-form-app.cypress.spec.js
+```
 
-This object sets up arbitrary paths as Cypress fixtures.
+If you wanted to run a suite of tests based on data from `a-test.json`, `b-test.json`, `c-test.json`, and `d-test.json`, you may write your test configuration as such:
 
-The object values are file or directory paths, relative to the project root, to set as fixtures. As fixtures, they can be accessed dynamically during a test via `cy.fixtures` by passing the corresponding object key as the fixture path.
+```js
+// `__dirname` can be used to return the current directory path relative to project root.
+dataDir: path.join(__dirname, 'data'), // => 'src/applications/some-form-app/tests/data'
 
-Fixtures are shared across all tests in the suite and do not reset in between.
+dataSets: ['a-test', 'b-test', 'some-folder/c-test', 'some-folder/d-test'],
+```
 
-**The `data` fixture path is special and required for the `dataSets` setting to work properly, which is necessary for any tests to run at all.**
+#### `fixtures` (deprecated)
+
+**This feature is deprecated, and only the `data` fixture path can still be used. If possible, use the `dataDir` property instead.**
+
+**To otherwise use Cypress fixtures, you may use `cy.fixture` with a path starting from the project root.**
+
+```js
+const myData = path.join(__dirname, 'fixtures', 'mocks', 'my-data.json');
+cy.fixtures(myData).then(data => { ... });
+```
 
 For a more involved example of the interaction with the `dataSets` setting, consider the following `tests` directory structure containing the spec file:
 
@@ -206,45 +226,8 @@ fixtures: {
   // `__dirname` can be used to return the current directory path
   // relative to the project root.
 
-  data: path.join(__dirname, 'some-folder'), // => 'src/applications/some-form-app/tests/data'
+  data: path.join(__dirname, 'some-folder'), // => 'src/applications/some-form-app/tests/some-folder'
 },
-```
-
-**It is possible to set other fixtures when needed for special cases**, but the `data` fixture path is generally the only requirement for this setting.
-
-```js
-// testConfig
-
-fixtures: {
-  data: path.join(__dirname, 'data'),
-  'example-file': 'src/platform/testing/e2e/file.txt',
-  'example-folder': 'src/platform/testing/e2e/folder',
-},
-
-// Fixtures can then be accessed from setup functions or page hooks.
-setup: () => {
-  cy.fixtures('example-file').then(file => { ... });
-  cy.fixtures('example-folder/some-file').then(file => { ... });
-  cy.fixtures('example-folder/subfolder/another-file').then(file => { ... });
-},
-```
-
-**When the object value is a path that points to a directory,** all of the files within it (and within subdirectories) can be accessed as fixtures with `cy.fixtures` by passing in their paths relative to that directory, prefixed by the fixture path for the directory.
-
-In this example, if `src/platform/testing/e2e/folder` contains `some-file.txt`, it can be accessed with `cy.fixtures('example-folder/some-file')`.
-
-This can also work for files that exist deeper within the directory structure: `cy.fixtures('example-folder/subfolder/another-file')`.
-
-**To provide a default behavior for simulating file uploads, the form tester automatically includes an `example-upload.png` fixture.** No extra configuration is needed to simulate file uploads.
-
-```js
-// form-tester/index.js
-
-cy.syncFixtures({
-  // Load example upload data as a fixture.
-  'example-upload.png': 'src/platform/testing/example-upload.png',
-  ...fixtures,
-}).then(setup);
 ```
 
 #### `pageHooks` (required)
@@ -298,7 +281,7 @@ The functions **all have access to a context object as a first argument**, which
    - Note that the second aXe check is still guaranteed to run before this override.
 
    ##### Examples for using the after hook
-   
+
    ```js
    pageHooks: {
     introduction: ({ afterHook }) => {
@@ -338,6 +321,20 @@ There are various use cases for the `pageHooks` setting, but a couple of common 
      '/some-form-app-url/some-page': () => {
        cy.get('.expand-button').click();
        cy.fillPage();
+     },
+   },
+   ```
+
+3. Uploading a custom file. By default, file uploads automatically use `src/platform/testing/example-upload.png`. No extra configuration is needed to simulate file uploads, but you can use a page hook to upload a different file.
+
+   ```js
+   pageHooks: {
+     'upload/pdf': () => {
+       const filePath = path.join(__dirname, 'fixtures', 'data', 'example-upload.pdf');
+       cy.get('input[type="file"]')
+         .upload(filePath, 'application/pdf')
+         .get('.schemaform-file-uploading')
+         .should('not.exist');
      },
    },
    ```
@@ -492,6 +489,7 @@ setupPerTest: () => {
 ```
 
 ## Accessibility
+
 An aXe check is automatically performed on every page before and after the page is processed (either running a page hook or filling the page automatically).
 
 For now, violations will be skipped to unblock test execution. Violations will be allowed to fail tests once we have determined a plan and timeline for resolving the aXe issues that the tests encounter.
@@ -523,13 +521,9 @@ const testConfig = createTestConfig(
 
     dataPrefix: 'data',
 
-    dataSets: ['minimal-test', 'maximal-test'],
+    dataDir: path.join(__dirname, 'data'),
 
-    fixtures: {
-      data: path.join(__dirname, 'fixtures'),
-      'sample-file': path.join(__dirname, 'some-folder/some-file.json'),
-      'sample-folder': path.join(__dirname, 'other-folder'),
-    },
+    dataSets: ['minimal-test', 'maximal-test'],
 
     pageHooks: {
       // Due to automatic path resolution, this URL expands to:
@@ -552,20 +546,21 @@ const testConfig = createTestConfig(
         cy.fillPage();
       },
 
-      // Use files synced to fixtures, either individually or from folders.
       'fun-with-fixtures': () => {
-        cy.fixture('sample-file').then(fileContent => {
+        const sampleA = path.join(__dirname, 'sample-folder', 'sample-a.json');
+        cy.fixture(sampleA).then(fileContent => {
         });
 
-        cy.fixture('sample-folder/json-file').then(({ attrA, attrB }) => {
+        const sampleB = path.join(__dirname, 'sample-folder', 'sample-b.json');
+        cy.fixture(sampleB).then(({ attrA, attrB }) => {
         });
 
         // Example of uploading a fixture. For general uploading purposes,
-        // 'example-file.png' is already included in the form tester by default,
-        // and `cy.fillPage()` automatically fills upload fields with that file.
-        // Use those if you have no specific requirements for file upload data.
+        // `cy.fillPage()` autofills upload fields with `example-upload.png`.
+        // Use that if you have no specific requirements for file upload data.
+        const pdf = path.join(__dirname, 'fixtures', 'example-upload.pdf');
         cy.get(`input[id="root_upload_field"]`)
-          .upload('sample-folder/png-file', 'image/png')
+          .upload(pdf, 'application/pdf')
           .get('.schemaform-file-uploading')
           .should('not.exist');
       },

@@ -102,7 +102,6 @@ export default function AppointmentRequestListItem({
             </ul>
           </div>
         </div>
-        )}
       </div>
       <div className="vads-u-margin-top--2 vads-u-display--flex vads-u-flex-wrap--wrap">
         <AdditionalInfoRow

@@ -11,11 +11,11 @@ import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your other income',
+  'ui:description':
+    'Tell us how much you get each month for each type of income.',
   additionalIncome: {
     additionalIncomeRecords: {
       'ui:field': ItemLoop,
-      'ui:description':
-        'Tell us how much you get each month for each type of income.',
       'ui:options': {
         viewType: 'table',
         viewField: TableDetailsView,

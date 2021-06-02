@@ -148,9 +148,9 @@ const responses = {
       attributes: {},
     },
   },
-  'PUT /vaos/v0/appointment_requests': (req, res) => {
+  'PUT /vaos/v0/appointment_requests/:id': (req, res) => {
     const requestAttributes = requests.data.find(
-      item => item.id === req.body.id,
+      item => item.id === req.params.id,
     ).attributes;
 
     return res.json({

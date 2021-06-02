@@ -1,5 +1,4 @@
 import React from 'react';
-import ResolutionComments from '../../components/ResolutionComments';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 export const uiSchema = {
@@ -9,7 +8,7 @@ export const uiSchema = {
       customTitle: ' ',
     },
     additionalComments: {
-      'ui:title': <ResolutionComments />,
+      'ui:title': 'Please tell us more about why you need help with this debt',
       'ui:description': (
         <AdditionalInfo triggerText="Why do I need to share this information?">
           We want to fully understand your situation so we can make the best

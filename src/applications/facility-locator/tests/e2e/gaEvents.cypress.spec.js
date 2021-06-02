@@ -1,4 +1,3 @@
-import path from 'path';
 import {
   assertDataLayerEvent,
   assertDataLayerLastItems,
@@ -6,12 +5,6 @@ import {
 } from './analyticsUtils';
 
 describe('Google Analytics FL Events', () => {
-  before(() => {
-    cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', 'constants'),
-    });
-  });
-
   it('should search, pan map, click marker, zoom in and out and verify ga events related', () => {
     cy.visit('/find-locations');
 

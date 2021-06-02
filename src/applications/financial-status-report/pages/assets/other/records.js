@@ -26,11 +26,11 @@ const AssetInfo = (
 
 export const uiSchema = {
   'ui:title': 'Your other assets',
+  'ui:description':
+    'Enter each type of asset separately below. For each, include an estimated value.',
   assets: {
     otherAssets: {
       'ui:field': ItemLoop,
-      'ui:description':
-        'Enter each type of asset separately below. For each, include an estimated value.',
       'ui:options': {
         viewType: 'table',
         viewField: TableDetailsView,

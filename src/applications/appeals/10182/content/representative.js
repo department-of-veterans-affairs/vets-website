@@ -3,7 +3,7 @@ import React from 'react';
 export const RepIntroTitle = (
   <div>
     <p className="vads-u-margin-top--0 vads-u-margin-bottom--1">
-      Do you have a Veterans Service organization or accredited representative
+      Do you have a Veterans Service Organization or accredited representative
       helping you file this decision review?
     </p>
     <p className="vads-u-margin-top--0 vads-u-margin-bottom--1 hide-on-review">
