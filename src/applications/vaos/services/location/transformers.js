@@ -6,7 +6,6 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { arrayToObject, dedupeArray } from '../../utils/data';
-import { hasValidCovidPhoneNumber } from '../appointment';
 
 /**
  * Transforms /vaos/systems/983/direct_scheduling_facilities?type_of_care_id=323&parent_code=983GB to
@@ -164,6 +163,19 @@ function getTestFacilityId(facilityId) {
 }
 
 /**
+ * Returns whether or not the facility has a COVID vaccine phone line
+ *
+ * @export
+ * @param {Object} facility A facility resource
+ * @returns {Boolean} Whether or not the facility has a COVID vaccine phone line
+ */
+export function hasCovidPhoneNumber(facility) {
+  return !!facility.detailedServices?.find(
+    service => service.name === 'COVID-19 vaccines',
+  )?.appointmentPhones[0]?.number;
+}
+
+/**
  * Transforms a facility object from the VA facilities api into our
  * VAOS Location format
  *
@@ -216,7 +228,7 @@ export function transformFacility(facility) {
     },
   };
 
-  if (hasValidCovidPhoneNumber(facility)) {
+  if (hasCovidPhoneNumber(facility)) {
     facilityObj.telecom.push({
       system: 'covid',
       value: facility.detailedServices?.find(
