@@ -23,13 +23,10 @@ jobs:
       - name: Build Docker image
         run: docker build -t vets-website:vets-website-test .
 
-      - name: Mkdir test
-        run: mkdir -p ~/.cache/yarn && chmod 755 ~/.cache/yarn
-
       - name: Install vets-website dependencies
         run: yarn install --frozen-lockfile
         env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+          YARN_CACHE_FOLDER: ~/_work/vets-website/vets-website/.cache/yarn
 
       - name: Run Cypress tests
         run: docker-compose -p cypress-1 run --rm --entrypoint=npm -e CI=true -e STEP=0 vets-website run cy:test:docker
