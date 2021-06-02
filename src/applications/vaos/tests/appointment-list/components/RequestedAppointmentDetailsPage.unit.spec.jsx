@@ -3,7 +3,7 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 import {
   mockMessagesFetch,
@@ -40,7 +40,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   });
 
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
 
@@ -188,36 +187,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     fireEvent.click(screen.getByText('VA online scheduling'));
     expect(screen.history.push.lastCall.args[0]).to.equal('/');
-  });
-
-  it('should go back to requests page when clicking go back to appointments button', async () => {
-    const appointment = getVARequestMock();
-
-    appointment.attributes = {
-      ...appointment.attributes,
-      appointmentType: 'Primary care',
-      optionDate1: moment(testDate)
-        .add(3, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-    };
-
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: '/requested',
-    });
-
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
-    });
-
-    fireEvent.click(detailLinks[0]);
-
-    expect(await screen.findByText('Pending primary care appointment')).to.be
-      .ok;
-    fireEvent.click(await screen.findByText(/Go back to appointments/));
-    expect(screen.history.push.lastCall.args[0]).to.equal('/requested');
   });
 
   it('should render CC request details', async () => {

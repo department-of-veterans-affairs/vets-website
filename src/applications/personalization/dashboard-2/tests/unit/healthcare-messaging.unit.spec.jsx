@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
+import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import reducers from '~/applications/personalization/dashboard/reducers';
 import { wait } from '@@profile/tests/unit-test-helpers';
@@ -43,9 +43,6 @@ describe('HealthCare component', () => {
           },
         },
       };
-    });
-    afterEach(() => {
-      resetFetch();
     });
 
     it('should attempt to get messaging data', async () => {
@@ -129,9 +126,6 @@ describe('HealthCare component', () => {
           },
         },
       };
-    });
-    afterEach(() => {
-      resetFetch();
     });
     it('should not attempt to get messaging data', async () => {
       view = renderInReduxProvider(<HealthCare />, {

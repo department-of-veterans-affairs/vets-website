@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import {
   mockFetch,
-  resetFetch,
   setFetchJSONFailure as setFetchFailure,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers.js';
@@ -123,8 +122,6 @@ describe('beneficiaryZIPCodeChanged', () => {
       done();
     }, 0);
   });
-
-  afterEach(() => resetFetch());
 });
 
 describe('fetchProfile', () => {
@@ -249,7 +246,6 @@ describe('fetchProfile', () => {
       done();
     }, 0);
   });
-  afterEach(() => resetFetch());
 });
 
 describe('institution autocomplete', () => {

@@ -108,7 +108,6 @@ describe('VAOS Healthcare service', () => {
     });
 
     it('should return OperationOutcome error', async () => {
-      mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],
       });
@@ -145,7 +144,6 @@ describe('VAOS Healthcare service', () => {
     });
 
     it('should return OperationOutcome error', async () => {
-      mockFetch();
       setFetchJSONFailure(global.fetch, {
         errors: [],
       });

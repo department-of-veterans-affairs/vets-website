@@ -13,7 +13,7 @@ import userEvent from '@testing-library/user-event';
 import ClinicChoicePage from '../../../new-appointment/components/ClinicChoicePage';
 import { mockEligibilityFetches, mockFacilityFetch } from '../../mocks/helpers';
 import { getClinicMock, getVAFacilityMock } from '../../mocks/v0';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 const initialState = {
   featureToggles: {
@@ -28,7 +28,6 @@ const initialState = {
 
 describe('VAOS <ClinicChoicePage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
   it('should display multiple clinics and require one to be chosen', async () => {
     const clinics = [
       {

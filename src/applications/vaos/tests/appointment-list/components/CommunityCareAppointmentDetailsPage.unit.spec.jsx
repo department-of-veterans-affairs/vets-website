@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { getCCAppointmentMock, getVAAppointmentMock } from '../../mocks/v0';
 import {
   mockAppointmentInfo,
@@ -36,7 +36,6 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     MockDate.set(getTimezoneTestDate());
   });
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
 
@@ -104,7 +103,10 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(screen.getByRole('link', { name: /7 0 3. 5 5 5. 1 2 6 4./ })).to.be
       .ok;
     expect(
-      screen.getByRole('heading', { level: 2, name: /Special instructions/ }),
+      screen.getByRole('heading', {
+        level: 2,
+        name: /Special instructions/,
+      }),
     ).to.be.ok;
     expect(screen.getByText(/Bring your glasses/)).to.be.ok;
     expect(
@@ -116,13 +118,8 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     ).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
 
-    const button = screen.getByRole('button', {
-      name: /Go back to appointments/,
-    });
-    expect(button).to.be.ok;
-
     // Verify back button works...
-    userEvent.click(button);
+    userEvent.click(screen.getByText(/VA online scheduling/i));
     detailLinks = await screen.findAllByRole('link', {
       name: /Detail/i,
     });
@@ -370,7 +367,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
 
   it('should verify community care calendar ics file format', async () => {
     const url = '/cc/8a4885896a22f88f016a2cb7f5de0062';
-
+    const appointmentTime = moment().add(1, 'days');
     const appointment = getCCAppointmentMock();
     appointment.id = '8a4885896a22f88f016a2cb7f5de0062';
     appointment.attributes = {
@@ -386,7 +383,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
         state: 'VA',
         zipCode: '20151',
       },
-      appointmentTime: '05/20/2021 14:15:00',
+      appointmentTime: appointmentTime.format('MM/DD/YYYY HH:mm:ss'),
       timeZone: 'UTC',
     };
 
@@ -407,14 +404,26 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(
       await screen.findByRole('heading', {
         level: 1,
-        name: /^Thursday, May 20, 2021/,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: `Add ${appointmentTime.format(
+          'MMMM D, YYYY',
+        )} appointment to your calendar`,
       }),
     ).to.be.ok;
 
     const ics = decodeURIComponent(
       screen
         .getByRole('link', {
-          name: 'Add May 20, 2021 appointment to your calendar',
+          name: `Add ${appointmentTime.format(
+            'MMMM D, YYYY',
+          )} appointment to your calendar`,
         })
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),

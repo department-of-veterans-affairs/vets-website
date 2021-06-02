@@ -7,7 +7,6 @@ import environment from 'platform/utilities/environment';
 import {
   setFetchJSONFailure,
   mockFetch,
-  resetFetch,
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import {
@@ -36,7 +35,6 @@ const initialState = {
 
 describe('VAOS integration: appointment list', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should sort appointments by date, with requests at the end', async () => {
     const firstDate = moment().add(3, 'days');

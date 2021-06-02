@@ -26,7 +26,10 @@ export const EligibleIssuesTitle = ({ formData } = {}) =>
 export const EligibleIssuesDescription = props => (
   <>
     <EligibleIssuesTitle {...props} />
-    <div>These issues are in your VA record.</div>
+    <div>
+      These issues are in your VA record. If an issue is missing from this list,
+      you can add it on the next step.
+    </div>
   </>
 );
 

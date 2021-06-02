@@ -2,30 +2,45 @@ import environment from 'platform/utilities/environment';
 import compact from 'lodash/compact';
 import { LocationType, FacilityType } from './constants';
 import manifest from './manifest.json';
+import { facilityLocatorRailsEngine } from './utils/featureFlagSelectors';
 
-// Base URL to be used in API requests.
-export const api = {
+const apiSettings = {
+  credentials: 'include',
+  headers: {
+    'X-Key-Inflection': 'camel',
+
+    // Pull app name directly from manifest since this config is defined
+    // before startApp, and using window.appName here would result in
+    // undefined for all requests that use this config.
+    'Source-App-Name': manifest.entryName,
+  },
+};
+
+// Base endpoints to be used in API requests.
+const legacyApi = {
   baseUrl: `${environment.API_URL}/v1/facilities`,
   url: `${environment.API_URL}/v1/facilities/va`,
   ccUrl: `${environment.API_URL}/v1/facilities/ccp`,
-  settings: {
-    credentials: 'include',
-    headers: {
-      'X-Key-Inflection': 'camel',
-
-      // Pull app name directly from manifest since this config is defined
-      // before startApp, and using window.appName here would result in
-      // undefined for all requests that use this config.
-      'Source-App-Name': manifest.entryName,
-    },
-  },
+  settings: apiSettings,
 };
+
+// New endpoints for use with the Rails engine on the backend.
+// Once this has been hardened in production, this should replace the legacy api config above.
+const railsEngineApi = {
+  baseUrl: `${environment.API_URL}/facilities_api/v1`,
+  url: `${environment.API_URL}/facilities_api/v1/va`,
+  ccUrl: `${environment.API_URL}/facilities_api/v1/ccp`,
+  settings: apiSettings,
+};
+
+export const getAPI = useRailsEngine =>
+  useRailsEngine ? railsEngineApi : legacyApi;
 
 /**
  * Build parameters and URL for facilities API calls
  *
  */
-export const resolveParamsWithUrl = (
+export const resolveParamsWithUrl = ({
   address,
   locationType,
   serviceType,
@@ -34,13 +49,26 @@ export const resolveParamsWithUrl = (
   center,
   radius,
   allUrgentCare = false,
-) => {
+  store,
+}) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
+  const reduxStore = store || require('./facility-locator-entry');
+  let useRailsEngine = false;
+
+  try {
+    useRailsEngine = facilityLocatorRailsEngine(reduxStore.default.getState());
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('error getting redux state from store', reduxStore, e);
+  }
+  const api = getAPI(useRailsEngine);
+
   let facility;
   let service;
   let url = api.url;
   let roundRadius;
   let perPage = 20;
+  let communityServiceType = false;
 
   switch (locationType) {
     case 'urgent_care':
@@ -50,10 +78,12 @@ export const resolveParamsWithUrl = (
       } else if (serviceType === 'NonVAUrgentCare' && allUrgentCare) {
         facility = 'urgent_care';
         url = api.ccUrl;
+        communityServiceType = true;
         perPage = 40;
       } else if (serviceType === 'NonVAUrgentCare' && !allUrgentCare) {
         facility = 'urgent_care';
         url = api.ccUrl;
+        communityServiceType = true;
       }
       break;
     case 'pharmacy':
@@ -61,6 +91,7 @@ export const resolveParamsWithUrl = (
       facility = locationType;
       service = serviceType;
       url = api.ccUrl;
+      communityServiceType = true;
       break;
     default:
       facility = locationType;
@@ -69,14 +100,20 @@ export const resolveParamsWithUrl = (
 
   if (radius) roundRadius = Math.max(1, radius.toFixed());
 
+  if (useRailsEngine && facility && communityServiceType) {
+    url = `${url}/${facility}`;
+  }
+
   return {
     url,
     params: compact([
       address ? `address=${address}` : null,
       ...bounds.map(c => `bbox[]=${c}`),
-      facility ? `type=${facility}` : null,
+      facility && (!useRailsEngine || !communityServiceType)
+        ? `type=${facility}`
+        : null,
       filterableLocations.includes(facility) && service
-        ? `${url === api.ccUrl ? 'specialties' : 'services'}[]=${service}`
+        ? `${communityServiceType ? 'specialties' : 'services'}[]=${service}`
         : null,
       `page=${page}`,
       `per_page=${perPage}`,
