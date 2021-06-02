@@ -35,7 +35,6 @@ import { resetDataLayer } from '../../utils/events';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneBySystemId,
-  getTimezoneDescBySystemId,
   getTimezoneNameFromAbbr,
   getUserTimezone,
   getUserTimezoneAbbr,
@@ -815,11 +814,15 @@ export function getCalendarData({ appointment, facility }) {
 export function getAppointmentTimezone(appointment) {
   // Most VA appointments will use this, since they're associated with a facility
   if (appointment.location.vistaId) {
+    const abbreviation = getTimezoneAbbrBySystemId(
+      appointment.location.vistaId,
+    );
+
     return {
       identifier: getTimezoneBySystemId(appointment.location.vistaId)
         ?.currentTZ,
-      abbreviation: getTimezoneAbbrBySystemId(appointment.location.vistaId),
-      description: getTimezoneDescBySystemId(appointment.location.vistaId),
+      abbreviation,
+      description: getTimezoneNameFromAbbr(abbreviation),
     };
   }
 
