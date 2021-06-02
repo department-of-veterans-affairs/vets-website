@@ -14,7 +14,7 @@ import {
   getTimezoneTestDate,
 } from '../../../mocks/setup';
 import { waitFor } from '@testing-library/dom';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { AppointmentList } from '../../../../appointment-list';
 import sinon from 'sinon';
 
@@ -38,7 +38,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       MockDate.set(sameDayDate);
     });
     afterEach(() => {
-      resetFetch();
       MockDate.reset();
     });
     it('should show info and disabled link if ad hoc and more than 30 minutes in the future', async () => {
@@ -145,12 +144,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text(
         'Contact this facility if you need to reschedule or cancel your appointment.',
       );
-
-      expect(
-        screen.getByRole('button', {
-          name: /Go back to appointments/,
-        }),
-      ).to.be.ok;
     });
 
     it('should show active link if 30 minutes in the future', async () => {
@@ -962,29 +955,32 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens[7]).to.equal('\tme.');
       expect(tokens[8]).to.equal('\t\\n\\nVA Video Connect at home\\n');
       expect(tokens[9]).to.equal(
-        `\t\\nSign in to VA.gov to join this meeting\\n`,
+        `\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo`,
       );
 
-      expect(tokens[10]).to.equal('LOCATION:VA Video Connect at home');
-      expect(tokens[11]).to.equal(
+      expect(tokens[10]).to.equal(
+        '\tintments to get details about this appointment\\n',
+      );
+      expect(tokens[11]).to.equal('LOCATION:VA Video Connect at home');
+      expect(tokens[12]).to.equal(
         `DTSTAMP:${moment(startDate)
           .utc()
           .format('YYYYMMDDTHHmmss[Z]')}`,
       );
-      expect(tokens[12]).to.equal(
+      expect(tokens[13]).to.equal(
         `DTSTART:${moment(startDate)
           .utc()
           .format('YYYYMMDDTHHmmss[Z]')}`,
       );
-      expect(tokens[13]).to.equal(
+      expect(tokens[14]).to.equal(
         `DTEND:${startDate
           .clone()
           .add(20, 'minutes') // Default duration
           .utc()
           .format('YYYYMMDDTHHmmss[Z]')}`,
       );
-      expect(tokens[14]).to.equal('END:VEVENT');
-      expect(tokens[15]).to.equal('END:VCALENDAR');
+      expect(tokens[15]).to.equal('END:VEVENT');
+      expect(tokens[16]).to.equal('END:VCALENDAR');
     });
 
     it('should verify Video Connect at VA location calendar ics file format', async () => {

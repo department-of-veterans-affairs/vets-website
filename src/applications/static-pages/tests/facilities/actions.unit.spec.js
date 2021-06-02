@@ -9,7 +9,7 @@ import {
   fetchFacilityFailed,
   fetchFacility,
 } from '../../facilities/actions';
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { mockFacilityLocatorApiResponse } from './mockFacilitiesData';
 
 const getState = () => ({
@@ -56,7 +56,6 @@ describe('Facilities actions', () => {
       thunk(dispatch, getState)
         .then(() => {
           expect(dispatch.calledWith(fetchFacilityStarted())).to.be.true;
-          resetFetch();
           done();
         })
         .catch(err => {
@@ -72,7 +71,6 @@ describe('Facilities actions', () => {
           expect(global.fetch.args[0][0]).to.contain(
             '/v1/facilities/va/vha_646',
           );
-          resetFetch();
           done();
         })
         .catch(err => {
@@ -95,7 +93,6 @@ describe('Facilities actions', () => {
           expect(dispatch.secondCall.args[0].type).to.equal(
             FETCH_FACILITY_SUCCESS,
           );
-          resetFetch();
           done();
         })
         .catch(err => {
@@ -110,7 +107,6 @@ describe('Facilities actions', () => {
       thunk(dispatch, getState)
         .then(() => {
           expect(dispatch.calledWith(fetchFacilityFailed())).to.be.true;
-          resetFetch();
           done();
         })
         .catch(err => {

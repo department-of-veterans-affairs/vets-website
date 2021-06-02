@@ -26,11 +26,11 @@ const RecVehicleInfo = (
 
 export const uiSchema = {
   'ui:title': 'Your trailers, campers, and boats',
+  'ui:description':
+    'Enter each of your trailers, campers, and boats separately below.',
   assets: {
     trailersBoatsCampers: {
       'ui:field': ItemLoop,
-      'ui:description':
-        'Enter each of your trailers, campers, and boats separately below.',
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,

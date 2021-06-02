@@ -3,6 +3,7 @@ import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import {
   SEARCH_STARTED,
   SEARCH_FAILED,
+  SEARCH_BY_FACILITY_CODES_SUCCEEDED,
   SEARCH_BY_LOCATION_SUCCEEDED,
   SEARCH_BY_NAME_SUCCEEDED,
   GEOCODE_SUCCEEDED,
@@ -63,6 +64,10 @@ const INITIAL_STATE = {
     distance: '50',
     latitude: null,
     longitude: null,
+  },
+  compare: {
+    results: [],
+    count: null,
   },
   tab: TABS.name,
 };
@@ -171,6 +176,14 @@ export default function(state = INITIAL_STATE, action) {
         error: action.payload,
         geocodeInProgress: false,
         geolocationInProgress: false,
+      };
+
+    case SEARCH_BY_FACILITY_CODES_SUCCEEDED:
+      return {
+        ...state,
+        compare: buildSearchResults(action.payload, false),
+        inProgress: false,
+        error: null,
       };
 
     default:

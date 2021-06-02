@@ -85,25 +85,27 @@ export class ConfirmationPage extends React.Component {
           </button>
         </div>
 
-        <h2 className="vads-u-font-size--h3">After you request an appeal</h2>
+        <h2 className="vads-u-font-size--h3">
+          After you request a decision review
+        </h2>
         <p>
           When we’ve completed your review, we will mail you a decision packet
           that includes details about our decision.{' '}
           <a href="/decision-reviews/after-you-request-review/">
-            Learn more about what happens after you request an appeal
+            Learn more about what happens after you request a review
           </a>
           .
         </p>
 
         <h2 className="vads-u-font-size--h3">What should I do while I wait?</h2>
         <p>
-          You don’t need to do anything unless VA sends you a letter asking for
-          more information. If VA schedules any exams for you, be sure not to
+          You don’t need to do anything unless we send you a letter asking for
+          more information. If we schedule any exams for you, be sure not to
           miss them.
         </p>
         <p>
-          If you requested an appeal and haven’t heard back from VA yet, please
-          don’t request another appeal. Call VA at{' '}
+          If you requested an appeal and haven’t heard back from us yet, please
+          don’t request another review. Call us at{' '}
           <Telephone contact={CONTACTS.VA_BENEFITS} />.
         </p>
         <br />

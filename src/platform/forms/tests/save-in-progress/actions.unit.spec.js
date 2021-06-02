@@ -23,16 +23,16 @@ import {
 
 import { logOut } from '../../../user/authentication/actions';
 import { inProgressApi } from '../../helpers';
+import {
+  mockFetch,
+  setFetchJSONFailure,
+  setFetchJSONResponse,
+} from '../../../testing/unit/helpers';
 
-let oldFetch;
 const setup = () => {
-  oldFetch = global.fetch;
-  global.fetch = sinon.stub();
-  global.fetch.returns(Promise.resolve({ ok: true }));
+  mockFetch();
 };
-const teardown = () => {
-  global.fetch = oldFetch;
-};
+
 const getState = () => ({ form: { trackingPrefix: 'test' } });
 
 describe('Schemaform save / load actions:', () => {
@@ -133,7 +133,6 @@ describe('Schemaform save / load actions:', () => {
   });
   describe('saveAndRedirectToReturnUrl', () => {
     beforeEach(setup);
-    afterEach(teardown);
 
     it('dispatches a pending', done => {
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -185,24 +184,19 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a success if the form is saved', done => {
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
-          ok: true,
-          json: () => ({
-            data: {
-              attributes: {
-                metadata: {
-                  expiresAt: 1507504729,
-                  lastUpdated: 1502320729,
-                  returnUrl: '/veteran-information/personal-information',
-                  savedAt: 1502320728979,
-                  version: 0,
-                },
-              },
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        data: {
+          attributes: {
+            metadata: {
+              expiresAt: 1507504729,
+              lastUpdated: 1502320729,
+              returnUrl: '/veteran-information/personal-information',
+              savedAt: 1502320728979,
+              version: 0,
             },
-          }),
-        }),
-      );
+          },
+        },
+      });
 
       thunk(dispatch, getState)
         .then(() => {
@@ -221,13 +215,12 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a no-auth if the api returns a 401', done => {
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.reset();
       global.fetch.returns(
-        Promise.resolve(
-          new Response(null, {
-            status: 401,
-          }),
-        ),
+        Promise.resolve({
+          url: 'https://dev-api.va.gov',
+          ok: false,
+          status: 401,
+        }),
       );
 
       thunk(dispatch, getState)
@@ -250,6 +243,7 @@ describe('Schemaform save / load actions:', () => {
       global.fetch.returns(
         Promise.resolve(
           new Response(null, {
+            url: 'https://dev-api.va.gov',
             status: 404,
           }),
         ),
@@ -289,17 +283,11 @@ describe('Schemaform save / load actions:', () => {
   });
   describe('fetchInProgressForm', () => {
     beforeEach(setup);
-    afterEach(teardown);
 
     it('dispatches a pending', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
-          // Only testing for pending status, so failing is the quickest way
-          ok: false,
-        }),
-      );
+      setFetchJSONFailure(global.fetch.onCall(0));
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledWith(setFetchFormPending(false))).to.be.true;
@@ -318,17 +306,12 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a success if the form is loaded', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
-          ok: true,
-          json: () => ({
-            formData: { field: 'foo' },
-            metadata: {
-              version: 0,
-            },
-          }),
-        }),
-      );
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        formData: { field: 'foo' },
+        metadata: {
+          version: 0,
+        },
+      });
 
       return thunk(dispatch, getState).then(() => {
         expect(global.fetch.args[0][0]).to.contain(
@@ -339,17 +322,12 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a success from the form 526-specific api on form load', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_21_526EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
-          ok: true,
-          json: () => ({
-            formData: { field: 'foo' },
-            metadata: {
-              version: 0,
-            },
-          }),
-        }),
-      );
+      setFetchJSONResponse(global.fetch.onCall(0), {
+        formData: { field: 'foo' },
+        metadata: {
+          version: 0,
+        },
+      });
 
       return thunk(dispatch, getState).then(() => {
         expect(global.fetch.args[0][0]).to.contain(
@@ -362,6 +340,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
+          url: 'https://dev-api.va.gov',
           ok: false,
           status: 401,
         }),
@@ -379,6 +358,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
+          url: 'https://dev-api.va.gov',
           ok: false,
           status: 404,
         }),
@@ -393,12 +373,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a not-found if the api returns an empty object', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
-          ok: true,
-          json: () => ({}), // Return an empty object
-        }),
-      );
+      setFetchJSONResponse(global.fetch.onCall(0), {});
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
@@ -409,12 +384,7 @@ describe('Schemaform save / load actions:', () => {
     it("dispatches an invalid-data if the data returned from the api isn't an object", () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
-          ok: true,
-          json: () => [], // Return not an object
-        }),
-      );
+      setFetchJSONResponse(global.fetch.onCall(0), []); // return not an object
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
@@ -426,12 +396,9 @@ describe('Schemaform save / load actions:', () => {
     it("dispatches an invalid-data if the api doesn't return valid json", () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
-          ok: true,
-          // if res.json() fails, it rejects with a SyntaxError
-          json: () => Promise.reject(new SyntaxError('Error parsing json')),
-        }),
+      setFetchJSONResponse(
+        global.fetch.onCall(0),
+        Promise.reject(new SyntaxError('Error parsing json')),
       );
 
       return thunk(dispatch, getState).then(() => {
@@ -444,12 +411,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a failure on api response error', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
-          ok: false,
-          status: 500,
-        }),
-      );
+      setFetchJSONFailure(global.fetch.onCall(0));
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
@@ -460,7 +422,10 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a failure on network error', () => {
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(Promise.reject(new Error('No network connection')));
+      setFetchJSONResponse(
+        global.fetch.onCall(0),
+        Promise.reject(new Error('No network connection')),
+      );
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledTwice).to.be.true;
@@ -475,6 +440,7 @@ describe('Schemaform save / load actions:', () => {
         const dispatch = sinon.spy();
         global.fetch.returns(
           Promise.resolve({
+            url: 'https://dev-api.va.gov',
             ok: false,
             status: 401,
           }),
@@ -490,6 +456,7 @@ describe('Schemaform save / load actions:', () => {
         const dispatch = sinon.spy();
         global.fetch.returns(
           Promise.resolve({
+            url: 'https://dev-api.va.gov',
             ok: false,
             status: 404,
           }),
@@ -502,12 +469,7 @@ describe('Schemaform save / load actions:', () => {
       it('dispatches a success if the api returns an empty object', () => {
         const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
         const dispatch = sinon.spy();
-        global.fetch.returns(
-          Promise.resolve({
-            ok: true,
-            json: () => ({}), // Return an empty object
-          }),
-        );
+        setFetchJSONResponse(global.fetch.onCall(0), {});
 
         return thunk(dispatch, getState).then(() => {
           expect(dispatch.calledWith(setPrefillComplete())).to.be.true;
@@ -522,17 +484,12 @@ describe('Schemaform save / load actions:', () => {
           prefillTransformer,
         );
         const dispatch = sinon.spy();
-        global.fetch.returns(
-          Promise.resolve({
-            ok: true,
-            json: () => ({
-              formData: {},
-              metadata: {
-                prefill: true,
-              },
-            }),
-          }),
-        );
+        setFetchJSONResponse(global.fetch.onCall(0), {
+          formData: {},
+          metadata: {
+            prefill: true,
+          },
+        });
 
         return thunk(dispatch, getState).then(() => {
           expect(prefillTransformer.called).to.be.true;
@@ -543,17 +500,12 @@ describe('Schemaform save / load actions:', () => {
   });
   describe('removeInProgressForm', () => {
     beforeEach(setup);
-    afterEach(teardown);
     window.dataLayer = [];
 
     it('dispatches a start over action', () => {
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
-          ok: false,
-        }),
-      );
+      setFetchJSONFailure(global.fetch.onCall(0));
 
       return thunk(dispatch, getState).then(() => {
         expect(dispatch.calledWith(setStartOver())).to.be.true;
@@ -573,12 +525,7 @@ describe('Schemaform save / load actions:', () => {
     it('removes a form and fetches prefill data', () => {
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.reset();
-      global.fetch.onCall(0).returns(
-        Promise.resolve({
-          ok: true,
-        }),
-      );
+      setFetchJSONResponse(global.fetch.onCall(0));
 
       return thunk(dispatch, getState).then(() => {
         expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
@@ -588,12 +535,7 @@ describe('Schemaform save / load actions:', () => {
     it('handles remove error and fetches prefill data', () => {
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
       const dispatch = sinon.spy();
-      global.fetch.returns(
-        Promise.resolve({
-          ok: false,
-          status: 400,
-        }),
-      );
+      setFetchJSONFailure(global.fetch.onCall(0));
 
       return thunk(dispatch, getState).then(() => {
         expect(global.fetch.firstCall.args[1].method).to.equal('DELETE');
@@ -606,6 +548,7 @@ describe('Schemaform save / load actions:', () => {
       global.fetch.returns(
         Promise.resolve({
           ok: false,
+          url: 'https://dev-api.va.gov',
           status: 401,
         }),
       );

@@ -26,10 +26,10 @@ const VehicleInfo = (
 
 export const uiSchema = {
   'ui:title': 'Your cars or other vehicles',
+  'ui:description': 'Enter information for each vehicle separately below.',
   assets: {
     automobiles: {
       'ui:field': ItemLoop,
-      'ui:description': 'Enter information for each vehicle separately below.',
       'ui:options': {
         viewField: CardDetailsView,
         doNotScroll: true,

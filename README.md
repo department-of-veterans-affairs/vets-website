@@ -93,10 +93,10 @@ To **run all tests in a directory**, you can use a glob pattern:
 yarn test:unit src/applications/path/to/tests/**/*.unit.spec.js*
 ```
 
-To **run tests with some extra debugging info**, you can pass a log-level:
+To **run tests with stack traces**, pass log-level `trace`:
 
 ```sh
-yarn test:unit --log-level debug
+yarn test:unit --log-level trace
 ```
 
 To **run tests with coverage output**, you can pass the coverage option:
