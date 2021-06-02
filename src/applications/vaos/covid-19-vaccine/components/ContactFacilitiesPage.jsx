@@ -137,34 +137,27 @@ export default function ContactFacilitiesPage() {
           </li>
         ))}
       </ul>
-      <p className="vads-u-margin-y--3">
-        <NewTabAnchor href="/find-locations">
-          Search for more facilities
-        </NewTabAnchor>
-      </p>
       {!canUseVaccineFlow && (
-        <AlertBox
-          className="vads-u-margin-bottom--1p5"
-          level="2"
-          status="info"
-          backgroundOnly
-          headline="Sign up to stay informed"
-        >
+        <div className="feature">
+          <h2 className="vads-u-font-size--h3">
+            Find a vaccine walk-in clinic near you
+          </h2>
           <p>
-            We’re working to provide COVID-19 vaccines to Veterans as quickly
-            and safely as we can, based on CDC guidelines and available supply.
+            You can go to a VA facility's vaccine clinic during walk-in hours to
+            get the COVID-19 vaccine. You don't need an appointment, but be sure
+            to check the facility's walk-in hours before you go.
           </p>
           <a
-            href="/health-care/covid-19-vaccine"
+            href="/find-locations/?facilityType=health&serviceType=Covid19Vaccine"
             onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-COVID-19-vaccines-at-VA-link-clicked`,
               });
             }}
           >
-            Learn how to stay informed about COVID-19 vaccines at VA.
+            Find VA facilities near you that offer COVID-19 vaccines
           </a>
-        </AlertBox>
+        </div>
       )}
       <ProgressButton
         onButtonClick={() =>
