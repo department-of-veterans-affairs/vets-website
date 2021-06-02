@@ -20,6 +20,12 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+      - name: Docker version
+        run: docker -v
+
+      - name: Docker-compose version
+        run: docker-compose -v
+
       - name: Build Docker image
         run: docker build -t vets-website:vets-website-test .
 
