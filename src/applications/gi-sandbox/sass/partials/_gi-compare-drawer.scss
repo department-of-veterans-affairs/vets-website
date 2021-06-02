@@ -1,0 +1,34 @@
+.compare-drawer {
+  .compare-header{
+    background-color: $color-primary;
+    color: $color-white;
+    text-align: center;
+    height: 2.5em;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding-top: .5em;
+    font-weight: bold;
+  }
+  .compare-body {
+    background-color: $color-white;
+    border: 1px solid $color-gray-light;
+    height: 10em;
+    padding-left: .5em;
+    padding-right: .5em;
+  }
+  .compare-name {
+    height: 6em;
+    padding-top: .5em;
+    padding-right: 1.5em;
+  }
+  .blank {
+    border: 2px dashed $color-gray-light;
+    height: 6em;
+    border-radius: 5px;
+  }
+  position: fixed;
+  bottom: 0;
+  display: block;
+  z-index: 2000;
+  margin-left: 100px;
+}
