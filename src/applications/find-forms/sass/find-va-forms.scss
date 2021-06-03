@@ -26,4 +26,14 @@
       }
     }
   }
+
+  .find-forms-max-content {
+    width: max-content;
+  }
+
+  dl dt:first-of-type {
+    border-width: 1px 0 0 0;
+    border-color: $color-gray-lighter;
+    border-style: solid;
+  }
 }
