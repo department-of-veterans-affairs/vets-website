@@ -35,11 +35,11 @@ const Disagree = () => {
               recordEvent({
                 event: 'howToWizard-alert-link-click',
                 'howToWizard-alert-link-click-label':
-                  'Learn more about the VA appeals process',
+                  'Learn more about decision reviews and appeals',
               });
             }}
           >
-            Learn more about the VA appeals process
+            Learn more about decision reviews and appeals
           </a>
         </p>
         <p className="vads-u-margin-bottom--0">

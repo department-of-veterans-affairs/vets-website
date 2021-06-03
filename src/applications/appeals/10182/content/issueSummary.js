@@ -1,12 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router';
 
 import formConfig from '../config/form';
 import { getSelected } from '../utils/helpers';
 import { ShowIssuesList } from '../components/ShowIssuesList';
 
 export const SummaryTitle = ({ formData }) => {
-  const { path } = formConfig.chapters.conditions.pages.contestableIssues;
+  const { pages } = formConfig.chapters.conditions;
+  const pathname = formData.contestableIssues?.length
+    ? pages.contestableIssues.path
+    : pages.additionalIssues.path;
   const issues = getSelected(formData);
 
   return (
@@ -14,15 +16,12 @@ export const SummaryTitle = ({ formData }) => {
       <p>
         These are the issues you’re asking the Board to review. If an issue is
         missing, please{' '}
-        <Link
+        <a
           aria-label="go back and add any missing issues for review"
-          to={{
-            pathname: path,
-            search: '?redirect',
-          }}
+          href={`${pathname}?redirect`}
         >
           go back and add it
-        </Link>
+        </a>
         .
       </p>
       {ShowIssuesList({ issues })}
