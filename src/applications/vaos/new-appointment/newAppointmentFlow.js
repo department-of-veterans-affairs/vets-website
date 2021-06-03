@@ -9,7 +9,12 @@ import {
   getTypeOfCare,
   selectEligibility,
 } from './redux/selectors';
-import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  GA_PREFIX,
+  TYPES_OF_CARE,
+} from '../utils/constants';
 import { getSiteIdFromFacilityId } from '../services/location';
 import {
   checkEligibility,
@@ -20,6 +25,8 @@ import {
   updateFacilityType,
   checkCommunityCareEligibility,
 } from './redux/actions';
+import recordEvent from 'platform/monitoring/record-event';
+import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -123,6 +130,10 @@ export default {
     url: '/new-appointment',
     async next(state, dispatch) {
       if (isCovidVaccine(state)) {
+        recordEvent({
+          event: `${GA_PREFIX}-schedule-covid19-button-clicked`,
+        });
+        dispatch(startNewVaccineFlow());
         return 'vaccineFlow';
       } else if (isSleepCare(state)) {
         dispatch(updateFacilityType(FACILITY_TYPES.VAMC));

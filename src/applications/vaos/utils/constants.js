@@ -58,6 +58,7 @@ export const PURPOSE_TEXT = [
 ];
 
 export const PODIATRY_ID = 'tbd-podiatry';
+export const COVID_VACCINE_ID = 'covid';
 
 /**
  * @typedef TypeOfCare
@@ -142,7 +143,7 @@ export const TYPES_OF_CARE = [
     group: 'specialty',
   },
   {
-    id: 'covid',
+    id: COVID_VACCINE_ID,
     name: 'COVID-19 vaccine',
   },
 ];
