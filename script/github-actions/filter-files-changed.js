@@ -1,5 +1,12 @@
 const args = process.argv.slice(2);
-const FILES = args[0];
+const FILES = args[0].slice(1, -1).split(','); // remove unnecessary characters
+let lintFiles = '';
 
-console.log('files', FILES); // eslint-disable-line no-console
-console.log('typeof', typeof FILES); // eslint-disable-line no-console
+FILES.forEach(file => {
+  const fileExt = file.split('.').pop();
+  if (fileExt === 'js' || fileExt === 'jsx') {
+    lintFiles += `${file} `;
+  }
+});
+
+console.log(`::set-output name=FILES::${lintFiles}`); // eslint-disable-line no-console
