@@ -33,6 +33,7 @@ function LanguagesListTemplate({ langSelected }) {
           <a
             href={link.href}
             hrefLang={link.lang}
+            lang={link.lang}
             onClick={() => {
               langSelected(link.lang);
               recordEvent({
