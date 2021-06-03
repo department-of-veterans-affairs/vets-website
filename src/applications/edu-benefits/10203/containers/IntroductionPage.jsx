@@ -150,7 +150,7 @@ export class IntroductionPage extends React.Component {
                           {' '}
                           You've already earned a STEM bachelor's or graduate
                           degree and are pursuing a covered clinical training
-                          program for health care professionals.{' '}
+                          program for health care professionals. <br />
                           <a
                             aria-label="See eligible degree programs, opening in new tab"
                             href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
