@@ -187,8 +187,10 @@ export const sortOptionsByStateName = (stateA, stateB) => {
 };
 
 export const buildSearchFilters = filters => {
+  // default state is checked so these will only be present if their corresponding boxes are unchecked
   const excludeBooleanFlip = ['schools', 'employers', 'vettec'];
-  const hasAllValues = ['country', 'state', 'type'];
+
+  const hasAllValue = ['country', 'state', 'type'];
   const searchFilters = {};
 
   // boolean fields
@@ -199,7 +201,7 @@ export const buildSearchFilters = filters => {
       searchFilters[field] = filters[field];
     });
 
-  hasAllValues.filter(field => filters[field] !== 'ALL').forEach(field => {
+  hasAllValue.filter(field => filters[field] !== 'ALL').forEach(field => {
     searchFilters[field] = filters[field];
   });
 
