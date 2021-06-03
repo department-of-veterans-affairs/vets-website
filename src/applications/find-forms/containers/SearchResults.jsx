@@ -207,12 +207,8 @@ export const SearchResults = ({
         >
           {/* eslint-disable-next-line jsx-a11y/aria-role */}
           <span role="text">
-            Showing{' '}
-            <span className="vads-u-font-weight--bold">{startLabel}</span>{' '}
-            &ndash;{' '}
-            <span className="vads-u-font-weight--bold">{lastLabel}</span> of{' '}
-            <span className="vads-u-font-weight--bold">{results.length}</span>{' '}
-            results for "
+            Showing <span>{startLabel}</span> &ndash; <span>{lastLabel}</span>{' '}
+            of <span>{results.length}</span> results for "
             <span className="vads-u-font-weight--bold">{query}</span>"
           </span>
         </h2>

@@ -7,23 +7,27 @@ const FormTitle = ({ id, formUrl, title, lang, recordGAEvent }) => (
     data-e2e-id="result-title"
   >
     {formUrl ? (
-      <a
-        href={formUrl}
-        className="vads-u-text-decoration--none"
-        onClick={() => recordGAEvent(title, formUrl, 'title')}
-        lang={lang}
-      >
-        {id} {title}{' '}
-        <i
-          aria-hidden="true"
-          role="presentation"
-          className="fas fa-angle-right vads-u-margin-left--0p25"
-          style={{ verticalAlign: 'middle' }}
-        />
-      </a>
+      <>
+        <p className="vads-u-font-weight--normal vads-u-margin--0">Form {id}</p>
+        <a
+          href={formUrl}
+          className="vads-u-text-decoration--none vads-u-margin-top--1"
+          onClick={() => recordGAEvent(title, formUrl, 'title')}
+          lang={lang}
+        >
+          {title}{' '}
+          <i
+            aria-hidden="true"
+            role="presentation"
+            className="fas fa-angle-right vads-u-margin-left--0p25"
+            style={{ verticalAlign: 'middle' }}
+          />
+        </a>
+      </>
     ) : (
       <>
-        {id} {title}
+        <p className="vads-u-font-weight--normal vads-u-margin--0">Form {id}</p>
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">{title}</p>
       </>
     )}
   </dt>

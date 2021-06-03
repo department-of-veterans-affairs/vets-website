@@ -49,13 +49,16 @@ export const SearchForm = ({
       name="find-va-form"
       onSubmit={onSubmitHandler}
     >
-      <label htmlFor="va-form-query" className="vads-u-margin--0">
+      <label
+        htmlFor="va-form-query"
+        className="vads-u-margin--0 vads-u-margin-bottom--1"
+      >
         Enter a keyword, form name, or number
       </label>
       <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-u-margin-right--2 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
+        <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
           <input
-            className="usa-input vads-u-max-width--100 vads-u-width--full"
+            className="usa-input vads-u-margin--0 vads-u-max-width--100 vads-u-width--full"
             id="va-form-query"
             onChange={onQueryChange}
             type="text"
@@ -64,7 +67,7 @@ export const SearchForm = ({
         </div>
         <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto">
           <button
-            className="usa-button vads-u-margin--0 vads-u-margin-y--1 vads-u-width--full medium-screen:vads-u-width--auto"
+            className="usa-button vads-u-margin--0 vads-u-width--full vads-u-height--full medium-screen:vads-u-width--auto"
             type="submit"
             disabled={fetching}
           >
