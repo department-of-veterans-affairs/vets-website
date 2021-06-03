@@ -8,14 +8,7 @@ const ExpandableOperatingStatus = props => {
   const handleOnclick = e => {
     if (!props.extraInfo) return;
     e.target.classList.toggle('active');
-    const content = e.target.nextElementSibling;
-    if (content.style.display === 'block') {
-      content.style.display = 'none';
-      setOpen(false);
-    } else {
-      content.style.display = 'block';
-      setOpen(true);
-    }
+    setOpen(!open);
   };
 
   const iconIndicator = extraInfo => {
@@ -63,7 +56,9 @@ const ExpandableOperatingStatus = props => {
       </button>
       {/* eslint-disable react/no-danger */}
       <div
-        className={`content ${props.operatingStatusFacility}`}
+        className={`content ${props.operatingStatusFacility} ${
+          open ? 'vads-u-display--block' : 'vads-u-display--none'
+        }`}
         dangerouslySetInnerHTML={{ __html: outputLinks(contentString) }}
       />
     </>
