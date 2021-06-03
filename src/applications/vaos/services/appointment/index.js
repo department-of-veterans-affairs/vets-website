@@ -811,6 +811,16 @@ export function getCalendarData({ appointment, facility }) {
   return data;
 }
 
+/**
+ * Returns an object with timezone identifiers for a given appointment
+ *
+ * @export
+ * @param {Appointment} appointment The appointment to get a timezone for
+ * @returns {Object} An object with:
+ *   - identifier: The full timezone identifier (like America/New_York)
+ *   - abbreviation: The timezone abbreviation (e.g. ET)
+ *   - description: The written out description (e.g. Eastern time)
+ */
 export function getAppointmentTimezone(appointment) {
   // Most VA appointments will use this, since they're associated with a facility
   if (appointment.location.vistaId) {
