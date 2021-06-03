@@ -196,6 +196,7 @@ const formConfig = {
           schema: pages.spouseEmploymentRecords.schema,
           depends: formData =>
             formData.questions.isMarried && formData.questions.spouseIsEmployed,
+          editModeOnReviewPage: true,
         },
         spousePreviousEmployment: {
           path: 'spouse-previous-employment',
