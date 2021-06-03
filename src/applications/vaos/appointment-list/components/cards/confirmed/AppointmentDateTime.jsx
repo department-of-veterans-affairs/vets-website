@@ -3,6 +3,7 @@ import {
   getTimezoneAbbrBySystemId,
   getTimezoneDescFromAbbr,
   stripDST,
+  getUserTimezoneAbbr,
 } from '../../../../utils/timezone';
 
 export function getAppointmentTimezoneAbbreviation(timezone, facilityId) {
@@ -10,7 +11,7 @@ export function getAppointmentTimezoneAbbreviation(timezone, facilityId) {
     return getTimezoneAbbrBySystemId(facilityId);
   }
 
-  const tzAbbr = timezone?.split(' ')?.[1] || timezone;
+  const tzAbbr = timezone?.split(' ')?.[1] || timezone || getUserTimezoneAbbr();
   return stripDST(tzAbbr);
 }
 
@@ -24,7 +25,6 @@ export default function AppointmentDateTime({
   appointmentDate,
   timezone,
   facilityId,
-  twoLineFormat,
 }) {
   if (!appointmentDate.isValid()) {
     return null;
@@ -32,15 +32,7 @@ export default function AppointmentDateTime({
 
   return (
     <>
-      {!twoLineFormat && (
-        <>{appointmentDate.format('dddd, MMMM D, YYYY [at] h:mm a')} </>
-      )}
-      {twoLineFormat && (
-        <>
-          {appointmentDate.format('dddd, MMMM D, YYYY')} <br />
-          {appointmentDate.format('h:mm a')}{' '}
-        </>
-      )}
+      <>{appointmentDate.format('dddd, MMMM D, YYYY [at] h:mm a')} </>
       <span aria-hidden="true">
         {getAppointmentTimezoneAbbreviation(timezone, facilityId)}
       </span>

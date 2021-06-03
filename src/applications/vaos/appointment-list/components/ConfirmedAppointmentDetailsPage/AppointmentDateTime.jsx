@@ -2,16 +2,18 @@ import React from 'react';
 import {
   getTimezoneAbbrBySystemId,
   getTimezoneDescFromAbbr,
+  getUserTimezoneAbbr,
+  stripDST,
 } from '../../../utils/timezone';
 
-export function getAppointmentTimezoneAbbreviation(facilityId) {
+function getAppointmentTimezoneAbbreviation(facilityId) {
   if (!facilityId) {
-    return null;
+    return stripDST(getUserTimezoneAbbr());
   }
   return getTimezoneAbbrBySystemId(facilityId);
 }
 
-export function getAppointmentTimezoneDescription(facilityId) {
+function getAppointmentTimezoneDescription(facilityId) {
   const abbr = getAppointmentTimezoneAbbreviation(facilityId);
 
   return getTimezoneDescFromAbbr(abbr);
