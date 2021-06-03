@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import { DebtLettersTable } from './DebtLettersTable';
-import { MobileTableView } from './MobileTableView';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { setPageFocus } from '../utils/page';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+
+import { setPageFocus } from '../utils/page';
+import { MobileTableView } from './MobileTableView';
+import { DebtLettersTable } from './DebtLettersTable';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
   useEffect(() => {
