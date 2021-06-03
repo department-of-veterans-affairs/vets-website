@@ -66,12 +66,38 @@
 
 .limited {
   background-color: $color-gold-lightest !important;
+
+  span.status-label:hover {
+    background-color: $color-gold-lighter !important;
+  }
+
+  span.status-label:active {
+    background-color: $color-gold-lighter !important;
+  }
+
 }
 
 .closed {
   background-color: $color-red-lightest !important;
+
+  span.status-label:hover {
+    background-color: $color-secondary-light !important;
+  }
+
+  span.status-label:active {
+    background-color: $color-secondary-light !important;
+  }
+
 }
 
 .notice {
   background-color: $color-aqua-lightest !important;
+
+  span.status-label:hover {
+    background-color: $color-primary-alt-light !important;
+  }
+
+  span.status-label:active {
+    background-color: $color-primary-alt-light !important;
+  }
 }
