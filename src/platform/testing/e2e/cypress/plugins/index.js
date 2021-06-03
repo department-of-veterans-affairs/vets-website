@@ -12,7 +12,6 @@ const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-  // const ENV = 'LOCALHOST';
 
   // const options = {
   //   webpackOptions: {
@@ -44,10 +43,10 @@ module.exports = (on, config) => {
           // const loader = path.extname(filePath).substring(1);
           const dirname = path.dirname(relativePath);
           if (/.+.cypress.spec.js$/.test(filePath)) {
-            console.log('filePath: ', filePath);
-            console.log('dirname: ', dirname);
-            console.log('__dirname: ', __dirname);
-            console.log('contents: ', contents);
+            // console.log('filePath: ', filePath);
+            // console.log('dirname: ', dirname);
+            // console.log('__dirname: ', __dirname);
+            // console.log('contents: ', contents);
             // console.log('loader: ', loader);
           }
           const injectedStuff = `const __dirname = '${dirname}';`;
@@ -64,11 +63,16 @@ module.exports = (on, config) => {
     define: {
       __BUILDTYPE__: '"localhost"',
       __API__: null,
+      global: '"window"',
     },
-    inject: ['src/platform/testing/e2e/cypress/plugins/react-shim.js'],
+    inject: [
+      'src/platform/testing/e2e/cypress/plugins/react-shim.js',
+      // 'src/platform/testing/e2e/cypress/plugins/esbuild-require-workaround.js',
+    ],
     loader: { '.js': 'jsx' },
     outfile: 'out.js',
     plugins: [dirnamePlugin],
+    // 'process.env.NODE_ENV': 'LOCALHOST',
   });
   on('file:preprocessor', bundler);
   // on('file:preprocessor', webpackPreprocessor(options));
