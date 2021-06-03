@@ -315,6 +315,12 @@ describe('VAOS integration: upcoming VA appointments', () => {
         phone: {
           main: '307-778-7550',
         },
+        detailedServices: [
+          {
+            name: 'COVID-19 vaccines',
+            appointmentPhones: [{ number: '307-778-7580' }],
+          },
+        ],
       },
     };
     mockFacilitiesFetch('vha_442GC', [facility]);
@@ -342,7 +348,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('2360 East Pershing Boulevard');
     expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
-    expect(screen.baseElement).to.contain.text('307-778-7550');
+    expect(screen.baseElement).to.contain.text('307-778-7580');
     expect(screen.baseElement.querySelector('h4')).to.be.ok;
   });
 

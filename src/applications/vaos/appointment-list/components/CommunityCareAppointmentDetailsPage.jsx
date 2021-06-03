@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import moment from '../../lib/moment-tz';
 
-import { APPOINTMENT_TYPES, FETCH_STATUS } from '../../utils/constants';
+import { FETCH_STATUS } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import * as actions from '../redux/actions';
+import { fetchConfirmedAppointmentDetails } from '../redux/actions';
 import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
 import AddToCalendar from '../../components/AddToCalendar';
 import FacilityAddress from '../../components/FacilityAddress';
 import PageLayout from './AppointmentsPage/PageLayout';
 import ErrorMessage from '../../components/ErrorMessage';
-import { selectAppointmentById } from '../redux/selectors';
+import { selectCommunityCareDetailsInfo } from '../redux/selectors';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import AlertBox, {
@@ -21,16 +21,16 @@ import AlertBox, {
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 import { getCalendarData } from '../../services/appointment';
 
-function CommunityCareAppointmentDetailsPage({
-  appointment,
-  appointmentDetailsStatus,
-  fetchConfirmedAppointmentDetails,
-}) {
+export default function CommunityCareAppointmentDetailsPage() {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const { appointment, appointmentDetailsStatus } = useSelector(state =>
+    selectCommunityCareDetailsInfo(state, id),
+  );
   const appointmentDate = moment.parseZone(appointment?.start);
 
   useEffect(() => {
-    fetchConfirmedAppointmentDetails(id, 'cc');
+    dispatch(fetchConfirmedAppointmentDetails(id, 'cc'));
   }, []);
 
   useEffect(
@@ -110,7 +110,7 @@ function CommunityCareAppointmentDetailsPage({
       )}
 
       <h2
-        className="vads-u-font-size--base vads-u-font-family--sans"
+        className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
         data-cy="community-care-appointment-details-header"
       >
         <span>
@@ -185,23 +185,3 @@ function CommunityCareAppointmentDetailsPage({
     </PageLayout>
   );
 }
-
-function mapStateToProps(state, ownProps) {
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
-  return {
-    appointment: selectAppointmentById(state, ownProps.match.params.id, [
-      APPOINTMENT_TYPES.ccAppointment,
-    ]),
-    appointmentDetailsStatus,
-    facilityData,
-  };
-}
-
-const mapDispatchToProps = {
-  fetchConfirmedAppointmentDetails: actions.fetchConfirmedAppointmentDetails,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(CommunityCareAppointmentDetailsPage);
