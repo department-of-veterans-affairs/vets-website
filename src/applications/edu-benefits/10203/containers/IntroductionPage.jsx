@@ -19,7 +19,7 @@ export class IntroductionPage extends React.Component {
     const totalDays = remaining?.months * 30 + remaining?.days;
     return totalDays > 180;
   };
-  // prod flags 24612
+
   loginPrompt() {
     if (this.props.isLoggedIn) {
       if (
@@ -31,6 +31,7 @@ export class IntroductionPage extends React.Component {
             id="entitlement-remaining-alert"
             className="usa-alert usa-alert-warning schemaform-sip-alert"
           >
+            {/* // prod flags 24612 */}
             {!environment.isProduction() ? (
               <div className="usa-alert-body">
                 <h3 className="usa-alert-heading">You may not be eligible</h3>
@@ -135,6 +136,7 @@ export class IntroductionPage extends React.Component {
                   </li>
                   <li>
                     <b>STEM degree:</b>
+                    {/* // prod flags 24612 */}
                     {!environment.isProduction() ? (
                       <ul id="circle" className="vads-u-margin-bottom--neg2">
                         <li className="li-styling">

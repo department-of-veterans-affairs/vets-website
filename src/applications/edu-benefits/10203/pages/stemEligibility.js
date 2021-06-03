@@ -10,7 +10,7 @@ const {
   isPursuingClinicalTraining,
   benefitLeft,
 } = fullSchema10203.properties;
-// prod flags 24612
+
 export const uiSchema = {
   'ui:title': 'Rogers STEM Scholarship eligibility',
   isEnrolledStem: {
@@ -21,6 +21,7 @@ export const uiSchema = {
   },
 
   'view:teachingCertClinicalTraining': {
+    // prod flags 24612
     isPursuingTeachingCert: {
       'ui:title': environment.isProduction()
         ? 'Do you have a STEM undergraduate degree and are now pursuing a teaching certification'
@@ -28,6 +29,7 @@ export const uiSchema = {
       'ui:widget': 'yesNo',
       'ui:required': formData => !formData.isEnrolledStem,
     },
+    // prod flags 24612
     isPursuingClinicalTraining: {
       'ui:title':
         "Do you have a STEM bachelor's or graduate degree and are now pursuing a covered clinical training program for health care professionals?",
@@ -41,7 +43,7 @@ export const uiSchema = {
         ) === false &&
         !formData.isEnrolledStem &&
         !environment.isProduction(),
-
+      // prod flags 24612
       'ui:options': {
         hideIf: () => environment.isProduction(),
         expandUnder: 'isPursuingTeachingCert',
