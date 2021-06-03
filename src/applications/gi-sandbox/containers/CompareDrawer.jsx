@@ -22,16 +22,19 @@ export function CompareDrawer({
     closed: !open,
   });
 
-  const blanks = [];
-  for (let i = 0; i < 3 - loaded.length; i++) {
-    blanks.push(
-      <div key={i} className="medium-screen:vads-l-col--3">
-        <div className="compare-name">
-          <div className="blank" />
-        </div>
-      </div>,
-    );
-  }
+  const renderBlanks = () => {
+    const blanks = [];
+    for (let i = 0; i < 3 - loaded.length; i++) {
+      blanks.push(
+        <div key={i} className="medium-screen:vads-l-col--3">
+          <div className="compare-name">
+            <div className="blank" />
+          </div>
+        </div>,
+      );
+    }
+    return blanks;
+  };
 
   return (
     <div className="compare-drawer">
@@ -67,7 +70,7 @@ export function CompareDrawer({
       </div>
       {open && (
         <div className="compare-body vads-l-grid-container">
-          <div className="vads-l-row vads-u-padding--1">
+          <div className="vads-l-row vads-u-padding-top--1">
             {loaded.map((facilityCode, index) => {
               return (
                 <div className="medium-screen:vads-l-col--3" key={index}>
@@ -89,7 +92,7 @@ export function CompareDrawer({
               );
             })}
 
-            {blanks}
+            {renderBlanks()}
 
             <div className="medium-screen:vads-l-col--3 action-cell">
               <div className="compare-name">
