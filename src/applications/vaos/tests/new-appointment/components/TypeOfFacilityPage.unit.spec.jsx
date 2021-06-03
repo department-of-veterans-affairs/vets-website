@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import TypeOfFacilityPage from '../../../new-appointment/components/TypeOfFacilityPage';
@@ -24,7 +24,6 @@ const initialState = {
 
 describe('VAOS integration: VA facility page with a single-site user', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should show page', async () => {
     const store = createTestStore(initialState);

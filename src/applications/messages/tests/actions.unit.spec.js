@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 
 import {
   transformInquiries,
@@ -76,10 +76,6 @@ describe('fetchInquiries', () => {
 
   beforeEach(() => {
     mockApiRequest(mockData, true);
-  });
-
-  afterEach(() => {
-    resetFetch();
   });
 
   it('dispatches FETCH_INQUIRIES_SUCCESS when GET succeeds', async () => {

@@ -1,11 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
-import {
-  mockFetch,
-  resetFetch,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { NewBookingSection } from '../../../covid-19-vaccine';
@@ -38,10 +34,6 @@ const initialState = {
 describe('VAOS vaccine flow', () => {
   beforeEach(() => {
     mockFetch();
-  });
-
-  afterEach(() => {
-    resetFetch();
   });
 
   it('should not redirect the user to the Contact Facilities page when facilities are available', async () => {

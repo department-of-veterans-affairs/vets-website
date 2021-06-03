@@ -58,7 +58,8 @@ export const fetchFolder = (id, query = {}) => async dispatch => {
       messages: messagesResponse,
     });
   } catch (error) {
-    dispatch({ type: FETCH_FOLDER_FAILURE, errors: [] });
+    const errors = error.errors ?? [error];
+    dispatch({ type: FETCH_FOLDER_FAILURE, errors });
   }
 };
 

@@ -33,7 +33,7 @@ describe('<VetCenterHours>', () => {
   it('should render hours section', () => {
     const wrapper = shallow(<VetCenterHours hours={hoursTestData} />);
     expect(wrapper.type()).to.not.equal(null);
-    const heading = wrapper.find('h3');
+    const heading = wrapper.find('h4');
     expect(heading.text()).to.contain('Hours');
     wrapper.unmount();
   });
@@ -41,7 +41,7 @@ describe('<VetCenterHours>', () => {
   it('should render hours with null values', () => {
     const wrapper = shallow(<VetCenterHours hours={hoursTestDataSomeNull} />);
     expect(wrapper.type()).to.not.equal(null);
-    const heading = wrapper.find('h3');
+    const heading = wrapper.find('h4');
     expect(heading.text()).to.contain('Hours');
     wrapper.unmount();
   });

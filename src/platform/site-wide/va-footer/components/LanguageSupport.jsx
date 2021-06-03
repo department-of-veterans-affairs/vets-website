@@ -7,6 +7,8 @@ import {
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
 
+const langAssistanceLabel = 'Language Assistance';
+
 function LanguagesListTemplate({ langSelected }) {
   return (
     <ul>
@@ -76,7 +78,7 @@ export default function LanguageSupport({
   if (isDesktop) {
     return (
       <div className="usa-grid usa-grid-full va-footer-links-bottom">
-        <h2 className="va-footer-linkgroup-title"> Language support </h2>
+        <h2 className="va-footer-linkgroup-title"> {langAssistanceLabel} </h2>
         <LanguagesListTemplate langSelected={langSelected} />
       </div>
     );
@@ -90,7 +92,7 @@ export default function LanguageSupport({
         itemProp="name"
         aria-expanded="false"
       >
-        Language Support
+        {langAssistanceLabel}
       </button>
       <div
         className="usa-accordion-content va-footer-accordion-content"
