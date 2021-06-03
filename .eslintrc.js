@@ -12,6 +12,7 @@ module.exports = {
   },
   plugins: [
     'cypress',
+    'deprecate',
     'fp',
     'jest',
     'mocha',
@@ -41,6 +42,19 @@ module.exports = {
   rules: {
     /* || Eslint main rules || */
     camelcase: [2, { properties: 'always' }], // Override airbnb style.
+    'deprecate/import': [
+      'warn',
+      {
+        name:
+          '@department-of-veterans-affairs/component-library/CollapsiblePanel',
+        use: '<va-accordion>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/AlertBox',
+        use: '<va-alert>',
+      },
+    ],
+
     // "func-names": 2,
     'no-console': 2,
     'no-unused-vars': [
