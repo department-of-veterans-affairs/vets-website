@@ -38,7 +38,7 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
         continue-on-error: true
         with:
-          output: ' '
+          output: 'json'
 
       - name: Filter files
         run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files }}
