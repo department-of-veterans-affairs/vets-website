@@ -3,12 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
-import { fetchFolder as fetchInboxAction } from '~/applications/personalization/dashboard/actions/messaging';
-import { FOLDER } from '~/applications/personalization/dashboard-2/constants';
-import {
-  selectUnreadMessagesCount,
-  selectFolder,
-} from '~/applications/personalization/dashboard-2/selectors';
+import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
+import { selectUnreadCount } from '~/applications/personalization/dashboard-2/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
@@ -34,13 +30,13 @@ import IconCTALink from '../IconCTALink';
 const HealthCare = ({
   appointments,
   authenticatedWithSSOe,
-  shouldFetchMessages,
+  shouldFetchUnreadMessages,
   fetchConfirmedFutureAppointments,
   isCernerPatient,
   facilityNames,
-  fetchInbox,
+  fetchUnreadMessages,
   unreadMessagesCount,
-  // TODO: possibly remove this prop in favor of mocking API calls in our unit tests
+  // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
   shouldShowPrescriptions,
@@ -64,11 +60,11 @@ const HealthCare = ({
 
   useEffect(
     () => {
-      if (shouldFetchMessages && !dataLoadingDisabled) {
-        fetchInbox(FOLDER.inbox);
+      if (shouldFetchUnreadMessages && !dataLoadingDisabled) {
+        fetchUnreadMessages();
       }
     },
-    [shouldFetchMessages, fetchInbox, dataLoadingDisabled],
+    [shouldFetchUnreadMessages, fetchUnreadMessages, dataLoadingDisabled],
   );
 
   if (shouldShowLoadingIndicator) {
@@ -96,7 +92,7 @@ const HealthCare = ({
   }
 
   const messagesText =
-    shouldFetchMessages && !hasInboxError
+    shouldFetchUnreadMessages && !hasInboxError
       ? `You have ${unreadMessagesCount} unread message${
           unreadMessagesCount === 1 ? '' : 's'
         }`
@@ -138,7 +134,7 @@ const HealthCare = ({
             )}
 
           {/* Messages */}
-          {shouldFetchMessages ? (
+          {shouldFetchUnreadMessages ? (
             <IconCTALink
               boldText={unreadMessagesCount > 0}
               href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
@@ -207,7 +203,7 @@ const mapStateToProps = state => {
     ]),
   ];
 
-  const shouldFetchMessages = selectAvailableServices(state).includes(
+  const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
   );
   const shouldShowPrescriptions = selectAvailableServices(state).includes(
@@ -215,21 +211,22 @@ const mapStateToProps = state => {
   );
 
   const fetchingAppointments = state.health?.appointments?.fetching;
-  const fetchingInbox = shouldFetchMessages
-    ? selectFolder(state)?.fetching
+  const fetchingUnreadMessages = shouldFetchUnreadMessages
+    ? selectUnreadCount(state)?.fetching
     : false;
 
-  const hasInboxError = selectFolder(state)?.errors?.length > 0;
+  const hasUnreadMessagesCountError =
+    selectUnreadCount(state)?.errors?.length > 0;
   const hasAppointmentsError = state.health?.appointments?.errors?.length > 0;
 
   return {
     appointments: state.health?.appointments?.data,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
     facilityNames,
-    hasInboxError,
+    hasInboxError: hasUnreadMessagesCountError,
     hasAppointmentsError,
     isCernerPatient: selectIsCernerPatient(state),
-    shouldFetchMessages,
+    shouldFetchUnreadMessages,
     // TODO: We might want to rewrite this component so that we default to
     // showing the loading indicator until all required API calls have either
     // resolved or failed. Right now we only set this flag to true _after_ an
@@ -238,14 +235,14 @@ const mapStateToProps = state => {
     // IconCTALinks before the supporting data has been loaded. It only switches
     // to showing the loading indicator _after_ the useEffect hooks have run and
     // API requests have started.
-    shouldShowLoadingIndicator: fetchingAppointments || fetchingInbox,
+    shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     shouldShowPrescriptions,
-    unreadMessagesCount: selectUnreadMessagesCount(state),
+    unreadMessagesCount: selectUnreadCount(state).count,
   };
 };
 
 const mapDispatchToProps = {
-  fetchInbox: fetchInboxAction,
+  fetchUnreadMessages: fetchUnreadMessageCountAction,
   fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
 };
 
