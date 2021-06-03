@@ -63,13 +63,30 @@ export function RefineYourSearch({
     setOpenName(openedName);
   };
 
+  const handleVetTecChange = e => {
+    const checked = e.target.checked;
+    if (!checked) {
+      dispatchInstitutionFilterChange({
+        ...filters,
+        vettec: false,
+        preferredProvider: false,
+      });
+    } else {
+      onChangeCheckbox(e);
+    }
+  };
+
   const handlePreferredProviderChange = e => {
     const checked = e.target.checked;
-    dispatchInstitutionFilterChange({
-      ...filters,
-      vettec: vettec || (checked && !preferredProvider),
-      preferredProvider: checked,
-    });
+    if (checked) {
+      dispatchInstitutionFilterChange({
+        ...filters,
+        vettec: true,
+        preferredProvider: true,
+      });
+    } else {
+      onChangeCheckbox(e);
+    }
   };
 
   const updateResults = () => {
@@ -105,7 +122,7 @@ export function RefineYourSearch({
           checked={vettec}
           name="vettec"
           label="VET TEC providers"
-          onChange={onChangeCheckbox}
+          onChange={handleVetTecChange}
         />
         <div className="vads-u-padding-left--3">
           <Checkbox
