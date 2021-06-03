@@ -26,9 +26,16 @@ export const setLangAttribute = lang => {
 // without overwriting existing onclick events
 // reference: https://stackoverflow.com/questions/891989/javascript-adding-an-onclick-handler-without-overwriting-the-existing-one
 
-export const adaptLinksWithLangCode = setLangAttributeInReduxStore => {
+export const adaptLinksWithLangCode = (
+  setLangAttributeInReduxStore,
+  languageCodeInReduxStore,
+) => {
   const links = document.links;
   for (const link of links) {
+    if (link) {
+      link.setAttribute('lang', languageCodeInReduxStore);
+      link.setAttribute('hreflang', languageCodeInReduxStore);
+    }
     link.addEventListener('click', () => {
       setLangAttributeInReduxStore('en');
       const langAttribute = link.hreflang || link.lang;

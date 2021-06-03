@@ -57,11 +57,11 @@ export default function LanguageSupport({
 }) {
   useEffect(
     () => {
-      if (langSelected && showLangSupport) {
-        adaptLinksWithLangCode(langSelected);
+      if (langSelected && showLangSupport && languageCode) {
+        adaptLinksWithLangCode(langSelected, languageCode);
       }
     },
-    [langSelected, showLangSupport],
+    [langSelected, languageCode, showLangSupport],
   );
 
   useEffect(
