@@ -550,7 +550,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     ).to.exist;
   });
 
-  it('should display past appointment', async () => {
+  it('should display who canceled the appointment for past appointments', async () => {
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
 
     const appointment = getVAAppointmentMock();
@@ -559,7 +559,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       clinicId: '308',
       facilityId: '983',
       sta6aid: '983GC',
-      startDate: moment().subtract(1, 'day'),
+      startDate: moment()
+        .subtract(1, 'day')
+        .format('YYYY-MM-DDThh:mm:[00Z]'),
       vdsAppointments: [
         {
           currentStatus: 'CANCELLED BY CLINIC',
@@ -591,15 +593,18 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
 
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
-    expect(await screen.findByText(/This appointment occurred in the past./i))
-      .to.exist;
-
-    // The past appointment and canceled appointment alerts are mutually exclusive.
-    // So, the past appointment alert should display only when the appointment start date
-    // is in the past even when the appointment has a status of 'cancelled'.
     expect(
-      screen.queryByText('Fort Collins VA Clinic canceled this appointment.'),
-    ).not.to.exist;
+      await screen.findByText(
+        /Fort Collins VA Clinic canceled this appointment./i,
+      ),
+    ).to.exist;
+
+    // The canceled appointment and past appointment alerts are mutually exclusive
+    // with the canceled appointment status having 1st priority. So, the canceled
+    // appointment alert should display even when the appointment is a past
+    // appointment.
+    expect(screen.queryByText('This appointment occurred in the past.')).not.to
+      .exist;
   });
 
   it('should fire a print request when print button clicked', async () => {

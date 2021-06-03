@@ -165,13 +165,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   });
 
   let alertBox = null;
-  if (isPastAppointment) {
-    alertBox = (
-      <AlertBox status="warning" backgroundOnly>
-        This appointment occurred in the past.
-      </AlertBox>
-    );
-  } else if (canceled) {
+  if (canceled) {
     alertBox = (
       <AlertBox
         status="error"
@@ -179,6 +173,12 @@ export default function ConfirmedAppointmentDetailsPage() {
         backgroundOnly
       >
         {`${canceler} canceled this appointment.`}
+      </AlertBox>
+    );
+  } else if (isPastAppointment) {
+    alertBox = (
+      <AlertBox status="warning" backgroundOnly>
+        This appointment occurred in the past.
       </AlertBox>
     );
   }
