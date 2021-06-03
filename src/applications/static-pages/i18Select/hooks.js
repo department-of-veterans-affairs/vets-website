@@ -35,20 +35,21 @@ export const adaptLinksWithLangCode = (
     if (link) {
       link.setAttribute('lang', languageCodeInReduxStore);
       link.setAttribute('hreflang', languageCodeInReduxStore);
+
+      link.addEventListener('click', () => {
+        setLangAttributeInReduxStore('en');
+        const langAttribute = link.lang || link.hreflang;
+        if (langAttribute) {
+          setLangAttributeInReduxStore(langAttribute);
+        }
+        // respect the temp IA i18 structure
+        if (link.href.endsWith('-esp/')) {
+          setLangAttributeInReduxStore('es');
+        }
+        if (link.href.endsWith('-tag/')) {
+          setLangAttributeInReduxStore('tl');
+        }
+      });
     }
-    link.addEventListener('click', () => {
-      setLangAttributeInReduxStore('en');
-      const langAttribute = link.hreflang || link.lang;
-      if (langAttribute) {
-        setLangAttributeInReduxStore(langAttribute);
-      }
-      // respect the temp IA i18 structure
-      if (link.href.endsWith('-esp/')) {
-        setLangAttributeInReduxStore('es');
-      }
-      if (link.href.endsWith('-tag/')) {
-        setLangAttributeInReduxStore('tl');
-      }
-    });
   }
 };
