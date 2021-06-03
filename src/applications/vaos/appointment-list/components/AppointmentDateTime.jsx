@@ -4,9 +4,6 @@ import { getAppointmentTimezone } from '../../services/appointment';
 
 export default function AppointmentDateTime({ appointment }) {
   const appointmentDate = moment.parseZone(appointment.start);
-  if (!appointment.start || !appointmentDate.isValid()) {
-    return null;
-  }
   const { abbreviation, description } = getAppointmentTimezone(appointment);
 
   return (
