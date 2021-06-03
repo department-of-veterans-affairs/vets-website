@@ -219,8 +219,10 @@ const mapStateToProps = state => ({
   selectedDebt: state.debtLetters?.selectedDebt,
 });
 
-DebtDetails.propTypes = {
-  selectedDebt: PropTypes.object.isRequired,
+DebtDetails.defaultProps = {
+  selectedDebt: {
+    debtHistory: [],
+  },
 };
 
 DebtDetails.propTypes = {
@@ -233,7 +235,7 @@ DebtDetails.propTypes = {
     ),
     deductionCode: PropTypes.string,
     originalAr: PropTypes.number,
-  }),
+  }).isRequired,
 };
 
 export default connect(mapStateToProps)(DebtDetails);

@@ -180,9 +180,12 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 contact us through IRIS
               </a>
-              or call us at <ContactDMC className="vads-u-margin-x--0p5" />.
+              or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
               We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
+              <a
+                href="#howDoIPay"
+                className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+              >
                 Review payment options
               </a>
             </p>
@@ -217,9 +220,12 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 contact us through IRIS
               </a>
-              or call us at <ContactDMC className="vads-u-margin-x--0p5" />.
+              or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
               We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
+              <a
+                href="#howDoIPay"
+                className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+              >
                 Review payment options
               </a>
             </p>
@@ -244,8 +250,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               contact us through IRIS
             </a>
-            or call us at <ContactDMC /> to update your address. We’re here
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            or call us at <ContactDMC className="vads-u-margin-x--0p5" /> to
+            update your address. We’re here Monday through Friday, 7:30 a.m. to
+            7:00 p.m. ET.
           </p>
         ),
         status: (
@@ -331,8 +338,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <p>
             Please check your debt balance again soon. If it isn't adjusted to
             reflect your payment within 30 days, call us at
-            <ContactDMC className="vads-u-margin-x--0p5" />. We’re here Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
       };
@@ -346,8 +353,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <p>
             Please check back in 1 week for updates. If your account shows the
             same information then, call us at
-            <ContactDMC className="vads-u-margin-x--0p5" />. We’re here Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
         status: (
@@ -359,8 +366,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             <p>
               Please check back in 30 days for updates. If your account shows
               the same information then, call us at
-              <ContactDMC className="vads-u-margin-x--0p5" />. We’re here Monday
-              through Friday, 7:30 a.m. to 7:00 p.m. ET.
+              <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
+              Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </>
         ),
@@ -378,8 +385,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <p>
             Please check back in 30 days for updates. If your account shows the
             same information then, call us at
-            <ContactDMC className="vads-u-margin-x--0p5" />. We’re here Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
         status: (
@@ -391,8 +398,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             <p>
               Please check back in 30 days for updates. If your account shows
               the same information then, call us at
-              <ContactDMC className="vads-u-margin-x--0p5" />. We’re here Monday
-              through Friday, 7:30 a.m. to 7:00 p.m. ET.
+              <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
+              Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </>
         ),
@@ -457,7 +464,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               <a href="https://www.pay.va.gov/">Pay online now</a>
             </p>
             <p>
-              Or make a payment over the phone at <ContactDMC />. We’re here
+              Or make a payment over the phone at
+              <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
               Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </span>
@@ -486,8 +494,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 contact us through IRIS
               </a>
-              or call us at <ContactDMC />. We’re here Monday through Friday,
-              7:30 a.m. to 7:00 p.m. ET.
+              or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
+              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
               <a
                 className="vads-u-margin-y--2 vads-u-margin-left--0p5"
                 href="#howDoIPay"
@@ -525,7 +533,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             paid in full. If you'd like to pay in full now, please call us first
             to make sure you don't overpay. If you stop receiving VA benefits,
             call us to set up a new payment plan. We're here at
-            <ContactDMC className="vads-u-margin-x--0p5" />, Monday through
+            <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
             Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
@@ -551,9 +559,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               contact us through IRIS
             </a>
-            or call us at <ContactDMC /> to start making payments again to avoid
-            collection actions. We’re here Monday through Friday, 7:30 a.m. to
-            7:00 p.m. ET.
+            or call us at <ContactDMC className="vads-u-margin-x--0p5" /> to
+            start making payments again to avoid collection actions. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
         status: (
@@ -572,8 +580,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             Please continue to make payments. If you begin receiving VA
             benefits, call us to set up an automatic payment plan. We'll keep
             part of your benefit amount each month to pay your debt. We're here
-            at <ContactDMC className="vads-u-margin-x--0p5" />, Monday through
-            Friday, 7:30 a.m. to 7:00 p.m. ET.
+            at <ContactDMC className="vads-u-margin-left--0p5" />, Monday
+            through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
         status: (
@@ -597,8 +605,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             >
               contact us through IRIS
             </a>
-            or call us at <ContactDMC className="vads-u-margin-x--0p5" />. We're
-            here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
+            We're here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             <a
               className="vads-u-margin-y--2 vads-u-margin-left--0p5"
               href="#howDoIPay"
@@ -639,7 +647,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               >
                 frequently asked questions
               </a>
-              or call us at <ContactDMC className="vads-u-margin-x--0p5" />.
+              or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
               We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </>
@@ -664,9 +672,12 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               {dateOfLetter && endDate(dateOfLetter, 30)}
             </strong>
             to avoid late charges, interest, or collection actions. We're here
-            at <ContactDMC className="vads-u-margin-x--0p5" />, Monday through
-            Friday, 7:30 a.m. to 7:00 p.m. ET.
-            <a href="#howDoIPay" className="vads-u-margin-y--2">
+            at <ContactDMC className="vads-u-margin-left--0p5" />, Monday
+            through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            <a
+              href="#howDoIPay"
+              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+            >
               Review payment options
             </a>
           </p>
@@ -776,7 +787,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             <strong>Next step: </strong>
             Please check back in 1 week for updates. If your account shows the
             same information then, call us at
-            <ContactDMC className="vads-u-margin-x--0p5" />, Monday through
+            <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
             Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
@@ -842,7 +853,7 @@ export const renderLetterHistory = diaryCode => {
           </p>
           <p className="vads-u-margin-top--0">
             A letter was sent to inform you that your debt’s balance has
-            increased due to additional benefit overpayments being made to you.
+            increased due to additional benefit over payments being made to you.
           </p>
         </>
       );

@@ -261,7 +261,7 @@ export const CoronaVirusAlert = () => (
       Call us at {<Telephone contact={CONTACTS.DMC || '800-827-0648'} />} (or
       {
         <Telephone
-          className="vads-u-margin-x--0p5"
+          className="vads-u-margin-left--0p5"
           contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
           pattern={PATTERNS.OUTSIDE_US}
         />

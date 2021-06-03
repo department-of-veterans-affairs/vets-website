@@ -22,7 +22,7 @@ const HowDoIPay = () => (
       <p className="vads-u-margin-top--0">
         Pay directly from your bank account or by debit or credit card on the
         secure
-        <a vads-u-margin-left--0p5 href="https://www.pay.va.gov/">
+        <a className="vads-u-margin-x--0p5" href="https://www.pay.va.gov/">
           pay.va.gov
         </a>
         website.
@@ -42,7 +42,6 @@ const HowDoIPay = () => (
           contact="6127136415"
           pattern={PATTERNS.OUTSIDE_US}
         />
-        .
       </p>
     </section>
 
@@ -54,7 +53,6 @@ const HowDoIPay = () => (
         <Link className="vads-u-margin-left--0p5" to="/debt-letters">
           download them online
         </Link>
-        .
       </p>
     </section>
   </article>
