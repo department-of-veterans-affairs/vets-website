@@ -40,6 +40,9 @@ jobs:
         with:
           output: ' '
 
+      - name: Filter files
+        run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files }}
+
       - name: Annotate ESLint results
         run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-files-changed.outputs.files }}
 
