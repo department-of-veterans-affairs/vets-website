@@ -142,43 +142,40 @@ export class ConfirmEligibilityView extends React.Component {
           this.props.remainingEntitlement.totalDays > 180 && (
             <div>
               <div className="usa-alert usa-alert-warning vads-u-background-color--white">
-                <div className="usa-alert-body">
-                  <strong>Your remaining education benefits</strong>
-                  <div className="usa-alert-text">
-                    {environment.isProduction() ? (
-                      <div>
-                        <p>
-                          Our entitlement system shows that you have more than 6
-                          months of education benefits remaining. You should
-                          apply when you have less than 6 months of entitlement
-                          left.
-                        </p>
-                        <p>
-                          Months you have left to use:{' '}
-                          <strong>
-                            {this.props.remainingEntitlement.months} months,{' '}
-                            {this.props.remainingEntitlement.days} days{' '}
-                          </strong>
-                        </p>
-                      </div>
-                    ) : (
-                      <div>
-                        <p>
-                          You must have less than 6 months left of Post-9/11 GI
-                          Bill benefits when you submit your application. Our
-                          system shows you have{' '}
-                          <b>{this.props.remainingEntitlement.months} months</b>
-                          , <b>{this.props.remainingEntitlement.days} days</b>{' '}
-                          remaining of GI Bill benefits.
-                        </p>{' '}
-                        <p>
-                          {' '}
-                          If you apply now, your application will be denied.
-                        </p>
-                      </div>
-                    )}
+                {environment.isProduction() ? (
+                  <div className="usa-alert-body">
+                    <strong>Your remaining education benefits</strong>
+                    <div className="usa-alert-text">
+                      <p>
+                        Our entitlement system shows that you have more than 6
+                        months of education benefits remaining. You should apply
+                        when you have less than 6 months of entitlement left.
+                      </p>
+                      <p>
+                        Months you have left to use:{' '}
+                        <strong>
+                          {this.props.remainingEntitlement.months} months,{' '}
+                          {this.props.remainingEntitlement.days} days{' '}
+                        </strong>
+                      </p>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="usa-alert-body">
+                    <strong>Your remaining education benefits</strong>
+                    <div className="usa-alert-text">
+                      <p>
+                        You must have less than 6 months left of Post-9/11 GI
+                        Bill benefits when you submit your application. Our
+                        system shows you have{' '}
+                        <b>{this.props.remainingEntitlement.months} months</b>,{' '}
+                        <b>{this.props.remainingEntitlement.days} days</b>{' '}
+                        remaining of GI Bill benefits.
+                      </p>{' '}
+                      <p> If you apply now, your application will be denied.</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}

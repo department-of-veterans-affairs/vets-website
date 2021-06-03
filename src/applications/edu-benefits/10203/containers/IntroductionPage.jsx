@@ -31,49 +31,52 @@ export class IntroductionPage extends React.Component {
             id="entitlement-remaining-alert"
             className="usa-alert usa-alert-warning schemaform-sip-alert"
           >
-            <div className="usa-alert-body">
-              <h3 className="usa-alert-heading">You may not be eligible</h3>
-              <div className="usa-alert-text">
-                {/* // prod flags 24612 */}
-                {!environment.isProduction() ? (
-                  <div>
-                    <p>
-                      You must have less than 6 months left of Post-9/11 GI Bill
-                      benefits when you submit your application.
-                    </p>
-                    <p>
-                      Our system shows you have{' '}
-                      <strong>
-                        {this.props?.remainingEntitlement.months} months,{' '}
-                        {this.props?.remainingEntitlement.days} days{' '}
-                      </strong>
-                      remaining of GI Bill benefits.
-                    </p>
-                    <p>If you apply now, your application will be denied.</p>
-                  </div>
-                ) : (
-                  <div>
-                    <p>
-                      To be eligible for the Rogers STEM Scholarship, you must
-                      have less than 6 months of Post-9/11 GI Bill benefits left
-                      when you submit your application.
-                    </p>
-                    <p>
-                      Our entitlement system shows you have the following
-                      benefits remaining:{' '}
-                      <strong>
-                        {this.props?.remainingEntitlement.months} months,{' '}
-                        {this.props?.remainingEntitlement.days} days
-                      </strong>
-                    </p>
-                    <p>
-                      If you apply and you’re not eligible, your application
-                      will be denied.
-                    </p>
-                  </div>
-                )}
+            {/* // prod flags 24612 */}
+            {!environment.isProduction() ? (
+              <div className="usa-alert-body">
+                <h3 className="usa-alert-heading">You may not be eligible</h3>
+                <div className="usa-alert-text">
+                  <p>
+                    You must have less than 6 months left of Post-9/11 GI Bill
+                    benefits when you submit your application.
+                  </p>
+                  <p>
+                    Our system shows you have{' '}
+                    <strong>
+                      {this.props?.remainingEntitlement.months} months,{' '}
+                      {this.props?.remainingEntitlement.days} days{' '}
+                    </strong>
+                    remaining of GI Bill benefits.
+                  </p>
+                  <p>If you apply now, your application will be denied.</p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="usa-alert-body">
+                <h3 className="usa-alert-heading">
+                  It appears you're not eligible
+                </h3>
+                <div className="usa-alert-text">
+                  <p>
+                    To be eligible for the Rogers STEM Scholarship, you must
+                    have less than 6 months of Post-9/11 GI Bill benefits left
+                    when you submit your application.
+                  </p>
+                  <p>
+                    Our entitlement system shows you have the following benefits
+                    remaining:{' '}
+                    <strong>
+                      {this.props?.remainingEntitlement.months} months,{' '}
+                      {this.props?.remainingEntitlement.days} days
+                    </strong>
+                  </p>
+                  <p>
+                    If you apply and you’re not eligible, your application will
+                    be denied.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         );
       }
