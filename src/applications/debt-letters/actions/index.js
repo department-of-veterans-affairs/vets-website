@@ -58,7 +58,7 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
       ? await apiRequest(`${environment.API_URL}/v0/debt_letters`, options)
       : await debtMockResponseVBMS();
 
-    // Remove DMC  -  prefixing added by VBMS
+    // Remove DMC prefixing added by VBMS
     const filteredResponse = response.map(debtLetter => {
       if (debtLetter.typeDescription.includes('DMC - ')) {
         return {

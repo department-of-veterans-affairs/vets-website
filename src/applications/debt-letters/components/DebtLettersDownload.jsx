@@ -9,13 +9,13 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { setPageFocus } from '../utils/page';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
+const DebtLettersDownload = ({ debtLinks, isError, isVBMSError }) => {
   useEffect(() => {
     scrollToTop();
     setPageFocus('h1');
   });
 
-  const renderAlert = () => (
+  const ErrorAlert = () => (
     <div
       className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
       role="alert"
@@ -60,15 +60,14 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
           Download your debt letters, learn your payment options, or find out
           how to get help with your VA debts.
         </p>
-        {isVBMSError && renderAlert()}
-        {!isVBMSError &&
-          debtLinks.length > 0 && (
-            <>
-              <h2 className="vads-u-margin-bottom--0">Your debt letters</h2>
-              <DebtLettersTable debtLinks={debtLinks} />
-              <MobileTableView debtLinks={debtLinks} />
-            </>
-          )}
+        {(isVBMSError || isError) && <ErrorAlert />}
+        {debtLinks.length > 0 && (
+          <>
+            <h2 className="vads-u-margin-bottom--0">Your debt letters</h2>
+            <DebtLettersTable debtLinks={debtLinks} />
+            <MobileTableView debtLinks={debtLinks} />
+          </>
+        )}
         <div className="vads-u-margin-bottom--6 vads-u-margin-top--5">
           <h2 className="vads-u-margin-y--0">
             What if I don't see the letter I'm looking for?
@@ -101,12 +100,14 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
 };
 
 const mapStateToProps = state => ({
+  isError: state.debtLetters.isError,
   isVBMSError: state.debtLetters.isVBMSError,
   debtLinks: state.debtLetters.debtLinks,
 });
 
 DebtLettersDownload.propTypes = {
   isVBMSError: PropTypes.bool.isRequired,
+  isError: PropTypes.bool.isRequired,
   debtLinks: PropTypes.arrayOf(
     PropTypes.shape({
       documentId: PropTypes.string,
@@ -117,6 +118,7 @@ DebtLettersDownload.propTypes = {
 };
 
 DebtLettersDownload.defaultProps = {
+  isError: false,
   isVBMSError: false,
   debtLinks: [],
 };
