@@ -24,7 +24,7 @@ export class IntroductionPage extends React.Component {
     if (this.props.isLoggedIn) {
       if (
         this.props.useEvss &&
-        this.moreThanSixMonths(!this.props?.remainingEntitlement)
+        this.moreThanSixMonths(this.props?.remainingEntitlement)
       ) {
         return (
           <div
@@ -300,9 +300,6 @@ const mapStateToProps = state => {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     remainingEntitlement: state.post911GIBStatus.remainingEntitlement,
     useEvss: toggleValues(state)[FEATURE_FLAG_NAMES.stemSCOEmail],
-    eduForm10203Updates: toggleValues(state)[
-      FEATURE_FLAG_NAMES.eduForm10203Updates
-    ],
   };
 };
 
