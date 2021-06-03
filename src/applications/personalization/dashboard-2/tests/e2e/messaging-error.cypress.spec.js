@@ -6,8 +6,8 @@ import {
   mockLocalStorage,
 } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
-describe('MyVA Dashboard - Messaging', () => {
-  describe.skip('when there is an error fetching the inbox data', () => {
+describe.skip('MyVA Dashboard - Messaging', () => {
+  describe('when there is an error fetching the inbox data', () => {
     beforeEach(() => {
       mockLocalStorage();
       const mockUser = makeUserObject({
@@ -24,7 +24,7 @@ describe('MyVA Dashboard - Messaging', () => {
       });
       mockFeatureToggles();
     });
-    it.skip('should show the messaging link with the generic copy', () => {
+    it('should show the messaging link with the generic copy', () => {
       cy.visit('my-va/');
       cy.findByRole('link', {
         name: /Send a secure message to your health care team/i,
