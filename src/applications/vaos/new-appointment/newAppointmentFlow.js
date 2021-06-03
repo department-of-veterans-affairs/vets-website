@@ -25,6 +25,7 @@ const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
 const EYE_CARE = 'EYE';
 const PODIATRY = 'tbd-podiatry';
+const COVID = 'covid';
 const VA_FACILITY_V1_KEY = 'vaFacility';
 const VA_FACILITY_V2_KEY = 'vaFacilityV2';
 
@@ -56,6 +57,10 @@ function isEyeCare(state) {
 
 function isPodiatry(state) {
   return getFormData(state).typeOfCareId === PODIATRY;
+}
+
+function isCovidVaccine(state) {
+  return getFormData(state).typeOfCareId === COVID;
 }
 
 function getFacilityPageKey(state) {
@@ -111,10 +116,15 @@ export default {
     // Next will direct to type of care or provider once both flows are complete
     next: 'typeOfFacility',
   },
+  vaccineFlow: {
+    url: '/new-covid-19-vaccine-booking',
+  },
   typeOfCare: {
     url: '/new-appointment',
     async next(state, dispatch) {
-      if (isSleepCare(state)) {
+      if (isCovidVaccine(state)) {
+        return 'vaccineFlow';
+      } else if (isSleepCare(state)) {
         dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
         return 'typeOfSleepCare';
       } else if (isEyeCare(state)) {

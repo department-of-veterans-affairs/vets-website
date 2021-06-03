@@ -141,6 +141,10 @@ export const TYPES_OF_CARE = [
     name: 'Eye care',
     group: 'specialty',
   },
+  {
+    id: 'covid',
+    name: 'COVID-19 vaccine',
+  },
 ];
 
 export const TYPES_OF_SLEEP_CARE = [
