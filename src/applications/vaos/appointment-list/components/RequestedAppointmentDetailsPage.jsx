@@ -290,11 +290,6 @@ export default function RequestedAppointmentDetailsPage() {
           </>
         )}
       </div>
-      <Link to="/requested">
-        <button className="usa-button vads-u-margin-top--3">
-          « Go back to appointments
-        </button>
-      </Link>
       <CancelAppointmentModal
         {...cancelInfo}
         onConfirm={() => dispatch(confirmCancelAppointment())}

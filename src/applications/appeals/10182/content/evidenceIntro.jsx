@@ -20,8 +20,7 @@ export const evidenceUploadIntroDescription = (
           <br />
           Washington, D.C. 20038
         </p>
-        You can also send it by fax to{' '}
-        <Telephone notClickable contact="844-678-8979" />
+        You can also fax it to <Telephone notClickable contact="844-678-8979" />
       </AdditionalInfo>
     </div>
   </>

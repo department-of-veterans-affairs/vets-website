@@ -2,31 +2,29 @@ import React, { useEffect } from 'react';
 import {
   setLangAttribute,
   adaptLinksWithLangCode,
+  onThisPageHook,
 } from 'applications/static-pages/i18Select/hooks';
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
+
+const langAssistanceLabel = 'Language Assistance';
 
 function LanguagesListTemplate({ langSelected }) {
   return (
     <ul>
       {[
         {
-          onThisPage: 'En esta página',
           label: 'Español',
-          suffix: '-esp/',
           lang: 'es',
           href: '/asistencia-y-recursos-en-espanol',
         },
         {
-          suffix: '-tag/',
           label: 'Tagalog',
-          onThisPage: 'Sa pahinang ito',
           lang: 'tl',
           href: '/tagalog-wika-mapagkukunan-at-tulong',
         },
         {
           label: 'Other languages',
-          suffix: '/',
           lang: 'en',
           href: '/resources/how-to-get-free-language-assistance-from-va/',
         },
@@ -68,8 +66,9 @@ export default function LanguageSupport({
 
   useEffect(
     () => {
-      if (showLangSupport && languageCode) {
+      if (languageCode && showLangSupport) {
         setLangAttribute(languageCode);
+        onThisPageHook(languageCode);
       }
     },
     [languageCode, showLangSupport],
@@ -79,7 +78,7 @@ export default function LanguageSupport({
   if (isDesktop) {
     return (
       <div className="usa-grid usa-grid-full va-footer-links-bottom">
-        <h2 className="va-footer-linkgroup-title"> Language support </h2>
+        <h2 className="va-footer-linkgroup-title"> {langAssistanceLabel} </h2>
         <LanguagesListTemplate langSelected={langSelected} />
       </div>
     );
@@ -93,7 +92,7 @@ export default function LanguageSupport({
         itemProp="name"
         aria-expanded="false"
       >
-        Language Support
+        {langAssistanceLabel}
       </button>
       <div
         className="usa-accordion-content va-footer-accordion-content"

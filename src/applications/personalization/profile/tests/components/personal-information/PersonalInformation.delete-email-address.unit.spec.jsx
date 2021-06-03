@@ -4,8 +4,6 @@ import { waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
-import { resetFetch } from 'platform/testing/unit/helpers';
-
 import * as mocks from '@@profile/msw-mocks';
 import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
@@ -56,9 +54,6 @@ function deleteEmailAddress() {
 
 describe('Deleting email address', () => {
   before(() => {
-    // before we can use msw, we need to make sure that global.fetch has been
-    // restored and is no longer a sinon stub.
-    resetFetch();
     server = setupServer(...mocks.deleteEmailAddressSuccess);
     server.listen();
   });

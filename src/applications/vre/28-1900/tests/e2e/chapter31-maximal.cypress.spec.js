@@ -20,17 +20,6 @@ const testConfig = createTestConfig(
       window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
       cy.login();
       cy.visit(CHAPTER_31_ROOT_URL);
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          type: 'feature_toggles',
-          features: [
-            {
-              name: 'show_chapter_31',
-              value: true,
-            },
-          ],
-        },
-      });
       cy.get('@testData').then(testData => {
         cy.intercept('GET', '/v0/in_progress_forms/28-1900', testData);
         cy.intercept('PUT', '/v0/in_progress_forms/28-1900', testData);

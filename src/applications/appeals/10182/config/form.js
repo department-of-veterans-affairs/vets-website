@@ -111,13 +111,13 @@ const formConfig = {
           schema: contactInfo.schema,
         },
         homeless: {
-          title: 'Homeless',
+          title: 'Homelessness question',
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
         },
         hasRep: {
-          title: 'Representative',
+          title: 'Representative question',
           path: 'representative',
           uiSchema: hasRep.uiSchema,
           schema: hasRep.schema,

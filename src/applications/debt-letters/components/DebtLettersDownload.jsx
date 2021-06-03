@@ -14,6 +14,7 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
     scrollToTop();
     setPageFocus('h1');
   });
+
   const renderAlert = () => (
     <div
       className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
