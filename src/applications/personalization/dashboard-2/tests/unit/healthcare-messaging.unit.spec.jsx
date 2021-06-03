@@ -25,20 +25,8 @@ describe('HealthCare component', () => {
             data: [],
           },
           msg: {
-            folders: {
-              data: {
-                currentItem: {
-                  attributes: {
-                    unreadCount: 3,
-                  },
-                },
-              },
-              ui: {
-                nav: {
-                  foldersExpanded: false,
-                  visible: false,
-                },
-              },
+            unreadCount: {
+              count: 3,
             },
           },
         },
@@ -72,7 +60,7 @@ describe('HealthCare component', () => {
     });
 
     it('should render the unread messages count with 1 message', async () => {
-      initialState.health.msg.folders.data.currentItem.attributes.unreadCount = 1;
+      initialState.health.msg.unreadCount.count = 1;
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
         reducers,
@@ -83,7 +71,7 @@ describe('HealthCare component', () => {
     });
 
     it('should render the unread messages count with 0 messages', async () => {
-      initialState.health.msg.folders.data.currentItem.attributes.unreadCount = 0;
+      initialState.health.msg.unreadCount.count = 0;
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
         reducers,
@@ -108,21 +96,7 @@ describe('HealthCare component', () => {
             data: [],
           },
           msg: {
-            folders: {
-              data: {
-                currentItem: {
-                  attributes: {
-                    unreadCount: null,
-                  },
-                },
-              },
-              ui: {
-                nav: {
-                  foldersExpanded: false,
-                  visible: false,
-                },
-              },
-            },
+            unreadCount: { count: null },
           },
         },
       };
@@ -143,7 +117,6 @@ describe('HealthCare component', () => {
     });
 
     it('should not render a messaging CTA', () => {
-      initialState.health.msg.folders.data.currentItem.attributes.unreadCount = null;
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
         reducers,
