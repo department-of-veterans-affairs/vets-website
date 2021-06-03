@@ -495,7 +495,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   _.get('benefit', formData) !== 'chapter35' &&
-                  !environment.isProduction(),
+                  !environment.isProduction(), // prod flag #25122
               },
             },
             sponsorStatus: {
@@ -511,7 +511,7 @@ const formConfig = {
                 },
                 hideIf: formData =>
                   _.get('benefit', formData) !== 'chapter33' ||
-                  environment.isProduction(),
+                  environment.isProduction(), // prod flag #25122
               },
             },
             'view:sponsorDateOfDeath': {
@@ -521,7 +521,7 @@ const formConfig = {
                 expandUnderCondition: status => status && status !== 'powOrMia',
                 hideIf: formData =>
                   _.get('benefit', formData) !== 'chapter33' ||
-                  environment.isProduction(),
+                  environment.isProduction(), // prod flag #25122
               },
             },
             'view:sponsorDateListedMiaOrPow': {
@@ -531,7 +531,7 @@ const formConfig = {
                 expandUnderCondition: status => status && status === 'powOrMia',
                 hideIf: formData =>
                   _.get('benefit', formData) !== 'chapter33' ||
-                  environment.isProduction(),
+                  environment.isProduction(), // prod flag #25122
               },
             },
           },

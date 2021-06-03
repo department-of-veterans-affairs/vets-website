@@ -29,6 +29,7 @@ export default function BenefitSelectionWarning(chapter, relationship) {
       );
     } else {
       // spouse
+      // prod flag #25122
       warningText = environment.isProduction() ? (
         <div>
           I understand that I am choosing to receive Fry Scholarship benefits
