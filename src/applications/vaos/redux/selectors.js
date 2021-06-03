@@ -66,6 +66,3 @@ export const selectFeatureVAOSServiceVAAppointments = state =>
 
 export const selectFeatureVAOSServiceCCAppointments = state =>
   toggleValues(state).vaOnlineSchedulingVAOSServiceCCAppointments;
-
-export const selectFeatureVariantTesting = state =>
-  toggleValues(state).vaOnlineSchedulingVariantTesting;
