@@ -301,10 +301,19 @@ jobs:
         run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
 
   deploy:
-    name: Deploy (Dev)
+    name: Deploy
     runs-on: ubuntu-latest
     # if: ${{ github.ref == 'refs/heads/master' }}
     needs: archive
+
+    strategy:
+      matrix:
+        include:
+          - environment: vagovdev
+            bucket: apps.dev.va.gov
+          - environment: vagovstaging
+            bucket: apps.staging.va.gov
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -332,11 +341,11 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      - name: Deploy to dev
+      - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.sha }}/vagovdev.tar.bz2
-          DEST: s3://apps.dev.va.gov
+          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
+          DEST: s3://${{ matrix.bucket }}
 
   jenkins:
     name: Run Jenkins CI
