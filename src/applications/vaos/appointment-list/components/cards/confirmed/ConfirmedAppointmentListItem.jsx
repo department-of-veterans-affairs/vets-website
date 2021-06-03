@@ -138,6 +138,7 @@ export default function ConfirmedAppointmentListItem({
               facility={facility}
               facilityId={getVAAppointmentLocationId(appointment)}
               clinicName={appointment.location?.clinicName}
+              showCovidPhone={appointment.vaos.isCOVIDVaccine}
             />
           )}
         </div>

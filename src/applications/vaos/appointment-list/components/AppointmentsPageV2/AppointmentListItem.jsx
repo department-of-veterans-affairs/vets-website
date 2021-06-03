@@ -56,7 +56,7 @@ export default function AppointmentListItem({ appointment, facility }) {
   const link = isCommunityCare
     ? `cc/${appointment.id}`
     : `va/${appointment.id}`;
-  const idClickable = `id-${appointment.id}`;
+  const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const { abbreviation, description } = getAppointmentTimezone(appointment);
 
   return (

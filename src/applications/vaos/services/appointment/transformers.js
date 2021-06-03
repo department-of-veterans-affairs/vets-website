@@ -299,7 +299,7 @@ function getCommunityCareData(appt) {
         ? {
             firstName: appt.name?.firstName,
             lastName: appt.name?.lastName,
-            providerName: appt.name
+            providerName: appt.name?.lastName
               ? `${appt.name.firstName || ''} ${appt.name.lastName || ''}`
               : null,
             practiceName: appt.providerPractice,
