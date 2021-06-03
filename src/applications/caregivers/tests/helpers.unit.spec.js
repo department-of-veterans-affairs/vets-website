@@ -13,6 +13,7 @@ import requiredOnly from './e2e/fixtures/data/requiredOnly.json';
 import secondaryTwoOnly from './e2e/fixtures/data/secondaryOneOnly.json';
 import oneSecondaryCaregivers from './e2e/fixtures/data/oneSecondaryCaregivers.json';
 import twoSecondaryCaregivers from './e2e/fixtures/data/twoSecondaryCaregivers.json';
+import signAsRepresentativeNo from './e2e/fixtures/data/signAsRepresentativeNo.json';
 
 describe('Caregivers helpers', () => {
   it('should transform required parties correctly (minimal with primary)', () => {
@@ -197,6 +198,44 @@ describe('Caregivers helpers', () => {
       'dateOfBirth',
       'gender',
     ]);
+  });
+
+  it('should remove POA ID if yes/no/no is no', () => {
+    const form = {
+      data: signAsRepresentativeNo,
+    };
+
+    const transformedData = submitTransform(formConfig, form);
+    const payloadData = JSON.parse(transformedData);
+    const payloadObject = JSON.parse(
+      payloadData.caregiversAssistanceClaim.form,
+    );
+
+    const veteranKeys = Object.keys(payloadObject.veteran);
+    const primaryKeys = Object.keys(payloadObject.primaryCaregiver);
+
+    expect(veteranKeys).to.deep.equal([
+      'plannedClinic',
+      'address',
+      'primaryPhoneNumber',
+      'fullName',
+      'signature',
+      'ssnOrTin',
+      'dateOfBirth',
+      'gender',
+    ]);
+    expect(primaryKeys).to.deep.equal([
+      'hasHealthInsurance',
+      'address',
+      'primaryPhoneNumber',
+      'vetRelationship',
+      'fullName',
+      'signature',
+      'dateOfBirth',
+      'gender',
+    ]);
+
+    expect(payloadObject.poaAttachmentId).to.be.undefined;
   });
 
   it('isSSNUnique should not count a party that is not present', () => {

@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import PrivacyAct from '../../components/legal/PrivacyAct';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -11,6 +10,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import IntroductionPageHelpers from '../../components/introduction-page';
+import NeedHelpSmall from '../../../shared/components/footer/NeedHelpSmall';
 
 import environment from 'platform/utilities/environment';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
@@ -63,19 +63,10 @@ const IntroductionPage = props => {
         event: `hcq-questionnaire-expired-loaded`,
       });
       return (
-        <div>
-          <div className="usa-alert usa-alert-warning background-color-only schemaform-sip-alert">
-            <div className="schemaform-sip-alert-title">
-              <strong>Your questionnaire has expired</strong>
-            </div>
-            <div className="saved-form-metadata-container">
-              <span className="saved-form-metadata">
-                {props.route?.formConfig.saveInProgress.messages.expired}
-              </span>
-            </div>
-          </div>
-          <br />
-        </div>
+        <va-alert status="warning">
+          <h3 slot="headline">Your questionnaire has expired</h3>
+          <div> {props.route?.formConfig.saveInProgress.messages.expired}</div>
+        </va-alert>
       );
     } else if (savedForm) {
       return (
@@ -89,6 +80,7 @@ const IntroductionPage = props => {
           resumeOnly={props.route?.formConfig.saveInProgress.resumeOnly}
           renderSignInMessage={UnAuthedWelcomeMessage}
           downtime={props.route.formConfig.downtime}
+          headingLevel={2}
         />
       );
     } else if (isLoggedIn) {
@@ -107,13 +99,13 @@ const IntroductionPage = props => {
   return (
     <div className="schemaform-intro healthcare-experience">
       <FormTitle title={title} subTitle={subTitle} />
-      <h2 className="better-prepare-yours">
+      <p className="better-prepare-yours">
         Please try to fill out this questionnaire before your appointment. When
         you tell us about your symptoms and concerns, we can better prepare to
         meet your needs.
-      </h2>
+      </p>
       <section className="after-details">
-        <h3>What happens after I answer the questions?</h3>
+        <h2>What happens after I answer the questions?</h2>
         <p>
           We’ll send your completed questionnaire to your provider through a
           secure electronic communication. We’ll also add the questionnaire to
@@ -127,60 +119,31 @@ const IntroductionPage = props => {
         </p>
       </section>
       <section className="personal-information">
-        <h3>
-          How will VA protect my personal and health information if I answer
-          these questions?
-        </h3>
+        <h2>Will VA protect my personal health information?</h2>
         <p>
-          We keep all of the information in your medical record private and
-          secure. This includes any information you share in this questionnaire.
+          We make every effort to keep your personal information private and
+          secure.
         </p>
-        <section>
-          <header>
-            <strong>
-              To protect your privacy and your personal and health information,
-              we:
-            </strong>
-          </header>
-          <ul>
-            <li>
-              Share your information with only the people who need it as part of
-              providing your health care
-            </li>
-            <li>
-              Store all information in our secure electronic systems, and
-              encrypt all sensitive data
-            </li>
-            <li>
-              Require all VA employees who handle sensitive data to take
-              required training and ongoing education courses on privacy and
-              data security
-            </li>
-          </ul>
-          <p>
-            If you print or download a copy of your questionnaire, you’ll need
-            to take responsibility for protecting that information.
-          </p>
-        </section>
+        <p>
+          <a href="/privacy-policy/">
+            Read more about privacy and security on VA.gov
+          </a>
+        </p>
+        <p>
+          You're also responsible for protecting your personal health
+          information. If you print or download your information—or share it
+          electronically with others—you’ll need to take steps to protect it.
+        </p>
+        <p>
+          <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information">
+            Get tips for protecting your personal health information
+          </a>
+        </p>
       </section>
-      <section className="emergency-call-out">
-        <header>
-          <strong>Note:</strong> If you need to talk to someone right away or
-          need emergency care,
-        </header>
-        <ul>
-          <li>
-            Call <Telephone contact="911" />, <strong>or</strong>
-          </li>
-          <li>
-            Call the Veterans Crisis hotline at{' '}
-            <Telephone contact="800-273-8255" /> and select 1
-          </li>
-        </ul>
-      </section>
+      <NeedHelpSmall />
       {getWelcomeMessage()}
       <div className="omb-info--container">
-        <OMBInfo expDate={expirationTime} />
+        <PrivacyAct expDate={expirationTime} />
       </div>
       {environment.isLocalhost() && (
         <>

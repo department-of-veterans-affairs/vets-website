@@ -20,6 +20,30 @@ export const KEY_CODES = Object.freeze({
   enterKey: 13,
 });
 
+/**
+ * Mapbox init values
+ * Lat/long are for Turkey Creek, NE
+ * This combined with zoomInit value cause map to show continental USA before user searches
+ */
+export const MapboxInit = {
+  zoomInit: 3,
+  centerInit: {
+    longitude: -99.27246093750001,
+    latitude: 40.17887331434698,
+  },
+};
+
+/**
+ * Mapbox api request types
+ */
+
+export const TypeList = ['place', 'region', 'postcode', 'locality'];
+
+export const TABS = Object.freeze({
+  name: 'name',
+  location: 'location',
+});
+
 export const ariaLabels = Object.freeze({
   learnMore: {
     giBillBenefits: 'Learn more about VA education and training programs',

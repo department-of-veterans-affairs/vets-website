@@ -38,7 +38,7 @@ const DisabilityRatingContent = ({ rating }) => {
           style={{ whiteSpace: 'nowrap' }}
         >
           {rating ? (
-            <>{rating}% Service connected </>
+            <>{rating}% service connected </>
           ) : (
             <>View disability rating </>
           )}
@@ -173,8 +173,16 @@ const NameTag = ({
     ),
   };
 
+  const ariaLabel = showUpdatedNameTag
+    ? 'My status and disability rating'
+    : 'My status';
+
   return (
-    <div className={classes.wrapper} data-testid="name-tag">
+    <section
+      aria-label={ariaLabel}
+      className={classes.wrapper}
+      data-testid="name-tag"
+    >
       <div className={classes.innerWrapper}>
         <div className={classes.serviceBadge}>
           {showBadgeImage && (
@@ -205,7 +213,7 @@ const NameTag = ({
           </dl>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -2,11 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import {
-  mockFetch,
-  resetFetch,
-  setFetchJSONFailure,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import { getVAAppointmentMock, getVAFacilityMock } from '../../mocks/v0';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
@@ -21,9 +17,6 @@ const initialState = {
 describe('VAOS integration: upcoming VA appointments', () => {
   beforeEach(() => {
     mockFetch();
-  });
-  afterEach(() => {
-    resetFetch();
   });
   it('should show information without facility details', async () => {
     const startDate = moment.utc();
@@ -322,6 +315,12 @@ describe('VAOS integration: upcoming VA appointments', () => {
         phone: {
           main: '307-778-7550',
         },
+        detailedServices: [
+          {
+            name: 'COVID-19 vaccines',
+            appointmentPhones: [{ number: '307-778-7580' }],
+          },
+        ],
       },
     };
     mockFacilitiesFetch('vha_442GC', [facility]);
@@ -349,7 +348,221 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('2360 East Pershing Boulevard');
     expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
-    expect(screen.baseElement).to.contain.text('307-778-7550');
+    expect(screen.baseElement).to.contain.text('307-778-7580');
     expect(screen.baseElement.querySelector('h4')).to.be.ok;
+  });
+
+  it('should verify VA in person calendar ics file format', async () => {
+    const startDate = moment.utc();
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: startDate.format(),
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    appointment.attributes.vdsAppointments[0].bookingNote = 'Some random note';
+
+    mockAppointmentInfo({ va: [appointment] });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Fort Collins VA Clinic',
+        phone: {
+          main: '970-224-1550',
+        },
+      },
+    };
+
+    mockFacilitiesFetch('vha_442GC', [facility]);
+
+    const { findByText, getByRole } = renderWithStoreAndRouter(
+      <AppointmentsPage />,
+      {
+        initialState,
+      },
+    );
+
+    await findByText(
+      new RegExp(
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm'),
+        'i',
+      ),
+    );
+
+    const ics = decodeURIComponent(
+      getByRole('link', {
+        name: `Add ${moment(appointment.start)
+          .tz('America/Denver')
+          .format('MMMM D, YYYY')} appointment to your calendar`,
+      })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = ics.split('\r\n');
+
+    // TODO: Debugging
+    // console.log(tokens);
+
+    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
+    expect(tokens[1]).to.equal('VERSION:2.0');
+    expect(tokens[2]).to.equal('PRODID:VA');
+    expect(tokens[3]).to.equal('BEGIN:VEVENT');
+    expect(tokens[4]).to.contain('UID:');
+    expect(tokens[5]).to.equal('SUMMARY:Appointment at Fort Collins VA Clinic');
+
+    // Description text longer than 74 characters should start on newline beginning
+    // with a tab character
+    expect(tokens[6]).to.equal(
+      'DESCRIPTION:You have a health care appointment at Fort Collins VA Clinic',
+    );
+    expect(tokens[7]).to.equal('\t\\n\\nFake street\\n');
+    expect(tokens[8]).to.equal('\tFake city\\, FA fake zip\\n');
+    expect(tokens[9]).to.equal('\t970-224-1550\\n');
+    expect(tokens[10]).to.equal(
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    );
+
+    expect(tokens[11]).to.equal(
+      '\tintments to get details about this appointment\\n',
+    );
+    expect(tokens[12]).to.equal(
+      'LOCATION:Fake street\\, Fake city\\, FA fake zip',
+    );
+    expect(tokens[13]).to.equal(
+      `DTSTAMP:${moment(startDate)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[14]).to.equal(
+      `DTSTART:${moment(startDate)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[15]).to.equal(
+      `DTEND:${startDate
+        .clone()
+        .add(60, 'minutes')
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[16]).to.equal('END:VEVENT');
+    expect(tokens[17]).to.equal('END:VCALENDAR');
+  });
+
+  it('should verify VA phone calendar ics file format', async () => {
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      phoneOnly: true,
+      startDate: '2021-06-20T16:00:00Z',
+      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
+      facilityId: '983',
+      sta6aid: '983GC',
+    };
+    appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
+    mockAppointmentInfo({ va: [appointment] });
+
+    const facility = {
+      id: 'vha_442GC',
+      attributes: {
+        ...getVAFacilityMock().attributes,
+        uniqueId: '442GC',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: {
+          main: '970-224-1550',
+        },
+      },
+    };
+
+    mockFacilitiesFetch('vha_442GC', [facility]);
+
+    const { findByText, getByRole } = renderWithStoreAndRouter(
+      <AppointmentsPage />,
+      {
+        initialState,
+      },
+    );
+
+    await findByText(
+      new RegExp(
+        moment(appointment.attributes.startDate).format('dddd, MMMM D, YYYY'),
+        'i',
+      ),
+    );
+
+    const ics = decodeURIComponent(
+      getByRole('link', {
+        name: `Add ${moment(appointment.attributes.startDate)
+          .tz('America/Denver')
+          .format('MMMM D, YYYY')} appointment to your calendar`,
+      })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = ics.split('\r\n');
+
+    // TODO: Debugging
+    // console.log(tokens);
+
+    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
+    expect(tokens[1]).to.equal('VERSION:2.0');
+    expect(tokens[2]).to.equal('PRODID:VA');
+    expect(tokens[3]).to.equal('BEGIN:VEVENT');
+    expect(tokens[4]).to.contain('UID:');
+    expect(tokens[5]).to.equal('SUMMARY:Phone appointment');
+
+    // Description text longer than 74 characters should start on newline beginning
+    // with a tab character
+    expect(tokens[6]).to.equal(
+      `DESCRIPTION:A provider will call you at ${moment(
+        appointment.attributes.startDate,
+      )
+        .tz('America/Denver')
+        .format('h:mm a')}`,
+    );
+    expect(tokens[7]).to.equal('\t\\n\\nCheyenne VA Medical Center');
+    expect(tokens[8]).to.equal('\t\\n2360 East Pershing Boulevard\\n');
+    expect(tokens[9]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
+    expect(tokens[10]).to.equal('\t970-224-1550\\n');
+    expect(tokens[11]).to.equal(
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    );
+
+    expect(tokens[12]).to.equal(
+      '\tintments to get details about this appointment\\n',
+    );
+    expect(tokens[13]).to.equal('LOCATION:Phone call');
+    expect(tokens[14]).to.equal(
+      `DTSTAMP:${moment(appointment.attributes.startDate)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[15]).to.equal(
+      `DTSTART:${moment(appointment.attributes.startDate)
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[16]).to.equal(
+      `DTEND:${moment(appointment.attributes.startDate)
+        .add(60, 'minutes')
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[17]).to.equal('END:VEVENT');
+    expect(tokens[18]).to.equal('END:VCALENDAR');
   });
 });

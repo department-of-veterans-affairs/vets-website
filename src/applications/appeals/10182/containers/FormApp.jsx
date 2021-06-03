@@ -9,7 +9,11 @@ import formConfig from '../config/form';
 import {
   noticeOfDisagreementFeature,
   issuesNeedUpdating,
+  getSelected,
+  getIssueName,
+  copyAreaOfDisagreementOptions,
 } from '../utils/helpers';
+
 import { showWorkInProgress } from '../content/WorkInProgressMessage';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
@@ -33,6 +37,7 @@ export const FormApp = ({
     () => {
       if (showNod && loggedIn) {
         const { veteran = {} } = formData || {};
+        const areaOfDisagreement = getSelected(formData);
         if (!contestableIssues?.status) {
           getContestableIssues();
         } else if (
@@ -53,6 +58,22 @@ export const FormApp = ({
               email: email?.emailAddress,
             },
             contestableIssues: contestableIssues?.issues || [],
+          });
+        } else if (
+          areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
+          !areaOfDisagreement.every(
+            (entry, index) =>
+              getIssueName(entry) ===
+              getIssueName(formData.areaOfDisagreement[index]),
+          )
+        ) {
+          setFormData({
+            ...formData,
+            // save existing settings
+            areaOfDisagreement: copyAreaOfDisagreementOptions(
+              areaOfDisagreement,
+              formData.areaOfDisagreement,
+            ),
           });
         }
       }

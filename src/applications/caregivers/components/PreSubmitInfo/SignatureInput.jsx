@@ -11,7 +11,7 @@ const SignatureInput = ({
   isRepresentative,
   setSignatures,
   isChecked,
-  ariaDescribedby,
+  ariaDescribedBy,
 }) => {
   const [hasError, setError] = useState(false);
   const firstName = fullName.first || '';
@@ -25,7 +25,7 @@ const SignatureInput = ({
 
   const createInputLabel = inputLabel =>
     isRepresentative
-      ? `Enter your name to sign as the Veteran's representative`
+      ? `Enter your name to sign as the Veteran\u2019s representative`
       : `${inputLabel} full name`;
 
   const firstLetterOfMiddleName =
@@ -117,7 +117,7 @@ const SignatureInput = ({
 
   return (
     <TextInput
-      ariaDescribedby={ariaDescribedby}
+      ariaDescribedBy={ariaDescribedBy}
       additionalClass="signature-input"
       label={createInputLabel(label)}
       required={required}
@@ -136,7 +136,7 @@ SignatureInput.propTypes = {
   hasSubmittedForm: PropTypes.bool.isRequired,
   setSignatures: PropTypes.func.isRequired,
   isRepresentative: PropTypes.bool,
-  ariaDescribedby: PropTypes.string.isRequired,
+  ariaDescribedBy: PropTypes.string.isRequired,
   required: PropTypes.bool,
 };
 

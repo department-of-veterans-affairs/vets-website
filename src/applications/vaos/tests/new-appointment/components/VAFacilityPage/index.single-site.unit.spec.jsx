@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { Route } from 'react-router-dom';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import set from 'platform/utilities/data/set';
 
 import { fireEvent } from '@testing-library/dom';
@@ -30,7 +30,6 @@ const initialState = {
 
 describe('VAOS integration: VA facility page with a single-site user', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should show single disabled radio button option if Cerner only', async () => {
     const parentSite = {

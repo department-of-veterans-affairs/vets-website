@@ -4,10 +4,14 @@ import { SELECTED } from '../../constants';
 import {
   someSelected,
   hasSomeSelected,
+  getSelected,
+  getIssueName,
+  showAddIssuesPage,
   showAddIssueQuestion,
   isEmptyObject,
   setInitialEditMode,
   issuesNeedUpdating,
+  copyAreaOfDisagreementOptions,
 } from '../../utils/helpers';
 
 describe('someSelected', () => {
@@ -45,6 +49,96 @@ describe('hasSomeSelected', () => {
     expect(testIssues([{}], [{}, {}, { [SELECTED]: false }])).to.be.false;
     expect(
       testIssues([{}, { [SELECTED]: false }], [{}, {}, { [SELECTED]: false }]),
+    ).to.be.false;
+  });
+});
+
+describe('getSelected', () => {
+  it('should return selected contestable issues', () => {
+    expect(
+      getSelected({
+        contestableIssues: [
+          { type: 'no', [SELECTED]: false },
+          { type: 'ok', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([{ type: 'ok', [SELECTED]: true, index: 0 }]);
+  });
+  it('should return selected additional issues', () => {
+    expect(
+      getSelected({
+        additionalIssues: [
+          { type: 'no', [SELECTED]: false },
+          { type: 'ok', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([{ type: 'ok', [SELECTED]: true, index: 0 }]);
+  });
+  it('should return all selected issues', () => {
+    expect(
+      getSelected({
+        contestableIssues: [
+          { type: 'no1', [SELECTED]: false },
+          { type: 'ok1', [SELECTED]: true },
+        ],
+        additionalIssues: [
+          { type: 'no2', [SELECTED]: false },
+          { type: 'ok2', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([
+      { type: 'ok1', [SELECTED]: true, index: 0 },
+      { type: 'ok2', [SELECTED]: true, index: 1 },
+    ]);
+  });
+});
+
+describe('getIssueName', () => {
+  it('should return undefined', () => {
+    expect(getIssueName()).to.be.undefined;
+  });
+  it('should return a contestable issue name', () => {
+    expect(
+      getIssueName({ attributes: { ratingIssueSubjectText: 'test' } }),
+    ).to.eq('test');
+  });
+  it('should return an added issue name', () => {
+    expect(getIssueName({ issue: 'test2' })).to.eq('test2');
+  });
+});
+
+describe('showAddIssuesPage', () => {
+  it('should show add issue page when no contestable issues selected', () => {
+    expect(showAddIssuesPage({})).to.be.true;
+    expect(showAddIssuesPage({ contestableIssues: [{}] })).to.be.true;
+  });
+  it('should show add issue page when question is set to "yes"', () => {
+    expect(showAddIssuesPage({ 'view:hasIssuesToAdd': true })).to.be.true;
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': true,
+        contestableIssues: [{ [SELECTED]: true }],
+      }),
+    ).to.be.true;
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': true,
+        contestableIssues: [{}],
+      }),
+    ).to.be.true;
+  });
+  it('should not show issue page when "no" is chosen', () => {
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': false,
+        contestableIssues: [{ [SELECTED]: true }],
+      }),
+    ).to.be.false;
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': false,
+        contestableIssues: [{}],
+      }),
     ).to.be.false;
   });
 });
@@ -141,5 +235,56 @@ describe('issuesNeedUpdating', () => {
         [createEntry('test', '123'), createEntry('test2', '345')],
       ),
     ).to.be.false;
+  });
+});
+
+describe('copyAreaOfDisagreementOptions', () => {
+  it('should return original issues only', () => {
+    const result = [
+      { issue: 'test' },
+      { attributes: { ratingIssueSubjectText: 'test2' } },
+    ];
+    expect(copyAreaOfDisagreementOptions(result, [])).to.deep.equal(result);
+  });
+  it('should return additional issue with included options', () => {
+    const newIssues = [
+      { issue: 'test' },
+      { attributes: { ratingIssueSubjectText: 'test2' } },
+    ];
+    const existingIssues = [
+      { issue: 'test', disagreementOptions: { test: true } },
+    ];
+    const result = [
+      { issue: 'test', disagreementOptions: { test: true }, otherEntry: '' },
+      { attributes: { ratingIssueSubjectText: 'test2' } },
+    ];
+    expect(
+      copyAreaOfDisagreementOptions(newIssues, existingIssues),
+    ).to.deep.equal(result);
+  });
+  it('should return eligible issues with included options', () => {
+    const newIssues = [
+      { issue: 'test' },
+      { attributes: { ratingIssueSubjectText: 'test2' } },
+    ];
+    const existingIssues = [
+      {
+        attributes: { ratingIssueSubjectText: 'test2' },
+        disagreementOptions: { test: true },
+        otherEntry: 'ok',
+      },
+    ];
+    expect(
+      copyAreaOfDisagreementOptions(newIssues, existingIssues),
+    ).to.deep.equal([newIssues[0], existingIssues[0]]);
+  });
+
+  it('should return disagreement options & other entry', () => {
+    const result = [
+      { issue: 'test', disagreementOptions: { test: true }, otherEntry: 'ok' },
+    ];
+    expect(
+      copyAreaOfDisagreementOptions([{ issue: 'test' }], result),
+    ).to.deep.equal(result);
   });
 });

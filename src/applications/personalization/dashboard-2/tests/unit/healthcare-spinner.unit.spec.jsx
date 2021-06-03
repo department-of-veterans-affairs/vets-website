@@ -38,7 +38,8 @@ describe('HealthCare component', () => {
         initialState,
         reducers,
       });
-      expect(view.getByRole('progressbar')).to.exist;
+      expect(await view.findByRole('progressbar', { label: /health care/i })).to
+        .exist;
       expect(
         view.queryByRole('link', {
           name: /Refill and track your prescriptions/i,

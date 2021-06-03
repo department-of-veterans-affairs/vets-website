@@ -31,6 +31,10 @@ export const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
 export const representativeLabel = `Representative\u2019s`;
 export const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
 export const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
+export const secondaryOneHeaderInfo =
+  'Please complete the following information about the Secondary Family Caregiver.';
+export const secondaryTwoHeaderInfo =
+  'Please complete the following information about the Secondary Family Caregiver (2).';
 
 export const veteranSignatureContent = [
   'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
@@ -38,16 +42,16 @@ export const veteranSignatureContent = [
 
 export const primaryCaregiverContent = [
   'I certify that I am at least 18 years of age.',
-  "I certify that either: (1) I am a member of the Veteran's family (including a parent, spouse, a son or daughter, a step-family member, or an extended family member) OR (2) I am not a member of the Veteran's family, and I reside with the Veteran full-time or will do so upon designation as the Veteran's Primary Family Caregiver.",
+  'I certify that either: (1) I am a member of the Veteran\u2019s family (including a parent, spouse, a son or daughter, a step-family member, or an extended family member) OR (2) I am not a member of the Veteran\u2019s family, and I reside with the Veteran full-time or will do so upon designation as the Veteran\u2019s Primary Family Caregiver.',
   'I agree to perform personal care services as the Primary Family Caregiver for the Veteran named on this application.',
-  "I understand that the Veteran or the Veteran's surrogate may request my discharge from the Program of Comprehensive Assistance for Family Caregivers (PCAFC) at any time and that my designation as a Primary Family Caregiver may be revoked or I may be discharged from PCAFC by the Secretary of Veterans Affairs (or designee) as set forth in 38 CFR 71.45.",
+  'I understand that the Veteran or the Veteran\u2019s surrogate may request my discharge from the Program of Comprehensive Assistance for Family Caregivers (PCAFC) at any time and that my designation as a Primary Family Caregiver may be revoked or I may be discharged from PCAFC by the Secretary of Veterans Affairs (or designee) as set forth in 38 CFR 71.45.',
   'I understand that participation in the PCAFC does not create an employment relationship between me and the Department of Veterans Affairs.',
 ];
 export const secondaryCaregiverContent = [
   'I certify that I am at least 18 years of age.',
-  "I certify that either: (1) I am a member of the Veteran's family (including a parent, spouse, a son or daughter, a step-family member, or an extended family member) OR (2) I am not a member of the Veteran's family, and I reside with the Veteran full-time or will do so upon designation as the Veteran's Secondary Family Caregiver.",
+  'I certify that either: (1) I am a member of the Veteran\u2019s family (including a parent, spouse, a son or daughter, a step-family member, or an extended family member) OR (2) I am not a member of the Veteran\u2019s family, and I reside with the Veteran full-time or will do so upon designation as the Veteran\u2019s Secondary Family Caregiver.',
   'I agree to perform personal care services as the Secondary Family Caregiver for the Veteran named on this application.',
-  "I understand that the Veteran or the Veteran's surrogate may request my discharge from the Program of Comprehensive Assistance for Family Caregivers (PCAFC) at any time and that my designation as a Secondary Family Caregiver may be revoked or I may be discharged from PCAFC by the Secretary of Veterans Affairs (or designee) as set forth in 38 CFR 71.45.",
+  'I understand that the Veteran or the Veteran\u2019s surrogate may request my discharge from the Program of Comprehensive Assistance for Family Caregivers (PCAFC) at any time and that my designation as a Secondary Family Caregiver may be revoked or I may be discharged from PCAFC by the Secretary of Veterans Affairs (or designee) as set forth in 38 CFR 71.45.',
   'I understand that participation in the PCAFC does not create an employment relationship between me and the Department of Veterans Affairs.',
 ];
 

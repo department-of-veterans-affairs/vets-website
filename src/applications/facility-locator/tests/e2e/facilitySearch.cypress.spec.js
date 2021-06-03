@@ -1,6 +1,5 @@
-import path from 'path';
-import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
 
 Cypress.Commands.add('verifyOptions', () => {
@@ -32,12 +31,6 @@ Cypress.Commands.add('verifyOptions', () => {
 });
 
 describe('Facility VA search', () => {
-  before(function() {
-    cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', 'constants'),
-    });
-  });
-
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', []);
     cy.intercept('GET', '/v0/maintenance_windows', []);
@@ -88,7 +81,7 @@ describe('Facility VA search', () => {
         cy.intercept(
           'GET',
           '/v1/facilities/va/vha_674BY',
-          'fx:constants/mock-facility-v1',
+          mockFacilityDataV1,
         ).as('fetchFacility');
 
         cy.findByText(/austin va clinic/i, { selector: 'a' })

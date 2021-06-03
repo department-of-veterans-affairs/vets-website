@@ -1,0 +1,62 @@
+name: E2E Tests
+on: [push]
+jobs:
+  build:
+    name: E2E Tests
+    runs-on: self-hosted
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+    steps:
+      - name: Checkout vets-website
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Install vets-website dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Build vets-website
+        run: yarn build:webpack --env.scaffold
+        timeout-minutes: 15
+        env:
+          NODE_ENV: production
+
+      - name: Start vets-website
+        run: yarn watch --verbose &
+
+      - name: Curl vets-website
+        run: curl -s --fail localhost:3001 > /dev/null
+
+      - name: Create test results directory
+        run: mkdir -p test-results
+
+      - name: Start Cypress tests
+        run: yarn cy:test:gha
+        timeout-minutes: 60
+
+      - name: Publish test results
+        if: ${{ always() }}
+        uses: mikepenz/action-junit-report@v2.4.0
+        with:
+          check_name: 'Cypress Tests Summary'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'test-results/e2e-test-output-*.xml'
+
+      - name: Archive Cypress test videos
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: cypress-video-artifacts
+          path: cypress/videos
+
+      - name: Archive Cypress test screenshots
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: cypress-screenshot-artifacts
+          path: cypress/screenshots

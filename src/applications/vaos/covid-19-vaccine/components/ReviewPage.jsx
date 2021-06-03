@@ -87,7 +87,7 @@ export default function ReviewPage() {
             <div>
               {data.email}
               <br />
-              <Telephone contact={data.phoneNumber} />
+              <Telephone notClickable contact={data.phoneNumber} />
             </div>
           </div>
           <Link to={flow.contactInfo.url} aria-label="Edit contact information">

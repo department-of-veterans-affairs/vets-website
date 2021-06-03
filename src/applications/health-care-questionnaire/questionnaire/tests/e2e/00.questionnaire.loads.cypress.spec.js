@@ -19,7 +19,7 @@ describe('health care questionnaire -- ', () => {
     cy.visit(
       '/health-care/health-questionnaires/questionnaires/answer-questions?id=I2-3PYJBEU2DIBW5RZT2XI3PASYGM7YYRD5TFQCLHQXK6YBXREQK5VQ0005',
     );
-    cy.title().should('contain', 'Health care Questionnaire');
+    cy.title().should('contain', 'Questionnaire');
     cy.get('.schemaform-title>h1').contains(
       'Answer primary care questionnaire',
     );

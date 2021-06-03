@@ -25,7 +25,7 @@ describe('health care questionnaire list - display a questionnaire item', () => 
     ).to.contain(clinicName);
     expect(
       component.find('[data-testid="appointment-location"]').text(),
-    ).to.equal(`for your appointment at ${clinicName}, ${facilityName}`);
+    ).to.contain(`${clinicName}, ${facilityName}`);
 
     component.unmount();
   });
@@ -84,8 +84,8 @@ describe('health care questionnaire list - display a questionnaire item', () => 
 
     expect(
       component.find('[data-testid="appointment-location"]').text(),
-    ).to.equal(
-      'for your appointment at Tomorrowland, Magic Kingdom. This is my cool extra message for the that cool cat reading this',
+    ).to.contain(
+      'Tomorrowland, Magic Kingdom. This is my cool extra message for the that cool cat reading this',
     );
     component.unmount();
   });
@@ -98,14 +98,12 @@ describe('health care questionnaire list - display a questionnaire item', () => 
     data.organization.name = facilityName;
     const component = mount(<QuestionnaireItem data={data} />);
     expect(
-      component.find('[data-testid="appointment-location"]').text(),
+      component.find('[data-testid="appointment-status"]').text(),
     ).to.contain('canceled or rescheduled');
 
     expect(
       component.find('[data-testid="appointment-location"]').text(),
-    ).to.equal(
-      'for your canceled or rescheduled appointment at Tomorrowland, Magic Kingdom',
-    );
+    ).to.contain('Tomorrowland, Magic Kingdom');
 
     component.unmount();
   });

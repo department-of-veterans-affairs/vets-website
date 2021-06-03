@@ -36,7 +36,9 @@ const DischargeYearQuestion = ({
 
   const label = (
     <legend className="legend-label">
-      <h4>What year were you discharged from the military?</h4>
+      <h4 className={`${key}_header`}>
+        What year were you discharged from the military?
+      </h4>
     </legend>
   );
 

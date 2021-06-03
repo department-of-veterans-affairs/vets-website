@@ -4,11 +4,7 @@ import { expect } from 'chai';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 
-import {
-  setFetchJSONFailure,
-  mockFetch,
-  resetFetch,
-} from 'platform/testing/unit/helpers';
+import { setFetchJSONFailure, mockFetch } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
@@ -97,7 +93,6 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     });
     store.dispatch(onCalendarChange([start.format()]));
   });
-  afterEach(() => resetFetch());
 
   it('should show form information for review', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage />, {

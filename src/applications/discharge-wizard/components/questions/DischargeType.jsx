@@ -25,7 +25,11 @@ const DischargeType = ({
     return null;
   }
 
-  const label = <h4>Which of the following categories best describes you?</h4>;
+  const label = (
+    <h4 className={`${key}_header`}>
+      Which of the following categories best describes you?
+    </h4>
+  );
   const options = [
     { label: questionLabels[key][1], value: '1' },
     { label: questionLabels[key][2], value: '2' },

@@ -5,7 +5,7 @@ import { isVideoHome } from '../../../../services/appointment';
 import NewTabAnchor from '../../../../components/NewTabAnchor';
 import { VIDEO_TYPES } from '../../../../utils/constants';
 
-export default function VideoLink({ appointment }) {
+export default function VideoLink({ appointment, hasFacility }) {
   if (appointment.videoData.kind === VIDEO_TYPES.gfe) {
     return (
       <span>
@@ -15,7 +15,8 @@ export default function VideoLink({ appointment }) {
   } else if (appointment.videoData.kind === VIDEO_TYPES.clinic) {
     return (
       <span>
-        You must join this video meeting from the VA location listed below.
+        You must join this video meeting from the VA location{' '}
+        {hasFacility ? 'listed below' : 'where the appointment was scheduled'}.
       </span>
     );
   } else if (appointment.videoData.isAtlas) {

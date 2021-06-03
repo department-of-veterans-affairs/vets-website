@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import moment from '../../../../lib/moment-tz';
-import { formatFacilityAddress } from '../../../../services/location';
 import {
   APPOINTMENT_STATUS,
   PURPOSE_TEXT,
@@ -18,12 +17,10 @@ import ConfirmedCommunityCareLocation from './ConfirmedCommunityCareLocation';
 import {
   getVAAppointmentLocationId,
   isVAPhoneAppointment,
+  getCalendarData,
 } from '../../../../services/appointment';
 import AdditionalInfoRow from '../AdditionalInfoRow';
-import {
-  getVideoInstructionText,
-  VideoVisitInstructions,
-} from './VideoInstructions';
+import { VideoVisitInstructions } from './VideoInstructions';
 import VideoVisitProviderSection from './VideoVisitProvider';
 
 function formatAppointmentDate(date) {
@@ -50,6 +47,7 @@ export default function ConfirmedAppointmentListItem({
   const isInPersonVAAppointment = !isVideo && !isCommunityCare;
   const isAtlas = appointment.videoData.isAtlas;
   const videoKind = appointment.videoData.kind;
+
   const showInstructions =
     isCommunityCare ||
     (isInPersonVAAppointment &&
@@ -65,15 +63,6 @@ export default function ConfirmedAppointmentListItem({
 
   const showProvider = isVideo && !!appointment.videoData.providers?.length;
 
-  let instructionText = 'VA appointment';
-  if (showInstructions) {
-    instructionText = appointment.comment;
-  } else if (showVideoInstructions) {
-    instructionText = getVideoInstructionText(appointment.comment);
-  } else if (isVideo) {
-    instructionText = 'VA video appointment';
-  }
-
   const itemClasses = classNames(
     'vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-bottom--3',
     {
@@ -84,45 +73,32 @@ export default function ConfirmedAppointmentListItem({
   );
 
   let header;
-  let location;
   let subHeader = '';
+  const calendarData = getCalendarData({
+    facility,
+    appointment,
+  });
 
   if (isAtlas) {
     header = 'VA Video Connect';
     subHeader = ' at an ATLAS location';
-    const { atlasLocation } = appointment.videoData;
-    if (atlasLocation?.address) {
-      location = formatFacilityAddress(atlasLocation);
-    }
   } else if (videoKind === VIDEO_TYPES.clinic) {
     header = 'VA Video Connect';
     subHeader = ' at a VA location';
-    location = facility ? formatFacilityAddress(facility) : null;
   } else if (videoKind === VIDEO_TYPES.gfe) {
     header = 'VA Video Connect';
     subHeader = ' using a VA device';
-    location = 'Video conference';
   } else if (isVideo) {
     header = 'VA Video Connect';
     subHeader = ' at home';
-    location = 'Video conference';
   } else if (isCommunityCare) {
     header = 'Community Care';
-    const address = appointment.communityCareProvider.address;
-    if (address) {
-      location = `${address.line[0]}, ${address.city}, ${address.state} ${
-        address.postalCode
-      }`;
-    }
   } else if (appointment.vaos.isCOVIDVaccine) {
     header = 'COVID-19 Vaccine';
-    location = facility ? formatFacilityAddress(facility) : null;
   } else {
     header = 'VA Appointment';
-    location = facility ? formatFacilityAddress(facility) : null;
     if (isPhone) {
       subHeader = ' over the phone';
-      location = 'Phone call';
     }
   }
   return (
@@ -166,6 +142,7 @@ export default function ConfirmedAppointmentListItem({
               facility={facility}
               facilityId={getVAAppointmentLocationId(appointment)}
               clinicName={appointment.location?.clinicName}
+              showCovidPhone={appointment.vaos.isCOVIDVaccine}
             />
           )}
         </div>
@@ -207,9 +184,14 @@ export default function ConfirmedAppointmentListItem({
               </AdditionalInfoRow>
             )}
             <AddToCalendar
-              summary={`${header}${subHeader}`}
-              description={instructionText}
-              location={location}
+              summary={calendarData.summary}
+              description={{
+                text: calendarData.text,
+                providerName: calendarData.providerName,
+                phone: calendarData.phone,
+                additionalText: calendarData.additionalText,
+              }}
+              location={calendarData.location}
               duration={appointment.minutesDuration}
               startDateTime={appointment.start}
             />

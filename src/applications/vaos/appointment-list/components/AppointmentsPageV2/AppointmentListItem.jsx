@@ -73,7 +73,7 @@ export default function AppointmentListItem({ appointment, facility }) {
   const link = isCommunityCare
     ? `cc/${appointment.id}`
     : `va/${appointment.id}`;
-  const idClickable = `id-${appointment.id}`;
+  const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
 
   return (
     <li
@@ -143,7 +143,7 @@ export default function AppointmentListItem({ appointment, facility }) {
           </Link>
           <i
             aria-hidden="true"
-            className="fas fa-chevron-right vads-u-margin-left--1"
+            className="fas fa-chevron-right vads-u-color--link-default vads-u-margin-left--1"
           />
         </div>
       </div>

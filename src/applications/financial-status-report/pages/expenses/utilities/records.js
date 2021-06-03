@@ -11,10 +11,10 @@ import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your monthly utility bills',
+  'ui:description':
+    'Enter each type of utility separately below. For each, enter the amount you paid last month.',
   utilityRecords: {
     'ui:field': ItemLoop,
-    'ui:description':
-      'Enter each type of utility separately below. For each, enter the amount you paid last month.',
     'ui:options': {
       viewType: 'table',
       viewField: TableDetailsView,

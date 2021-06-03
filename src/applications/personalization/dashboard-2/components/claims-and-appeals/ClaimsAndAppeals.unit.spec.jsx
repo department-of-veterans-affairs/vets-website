@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
+import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
@@ -121,9 +121,6 @@ describe('ClaimsAndAppeals component', () => {
             reducers,
           });
         });
-        afterEach(() => {
-          resetFetch();
-        });
         it('should not attempt to get claims or appeals data', async () => {
           // Because fetch is called as part of an async Redux thunk, we need to
           // wait here before confirming that fetch was called or not called.
@@ -167,9 +164,6 @@ describe('ClaimsAndAppeals component', () => {
             reducers,
           });
         });
-        afterEach(() => {
-          resetFetch();
-        });
         it('should attempt to get appeals data', async () => {
           // Because fetch is called as part of an async Redux thunk, we need to
           // wait here before confirming that fetch was called or not called.
@@ -194,8 +188,8 @@ describe('ClaimsAndAppeals component', () => {
             }),
           ).to.be.false;
         });
-        it('should render a loading spinner but no section headline while loading data', () => {
-          expect(view.queryByRole('progressbar', { label: /loading/i })).to
+        it('should render a loading spinner but no section headline while loading data', async () => {
+          expect(await view.findByRole('progressbar', { label: /loading/i })).to
             .exist;
           expect(view.queryByRole('heading', { name: /^claims & appeals$/i }))
             .to.not.exist;
@@ -218,9 +212,6 @@ describe('ClaimsAndAppeals component', () => {
             initialState,
             reducers,
           });
-        });
-        afterEach(() => {
-          resetFetch();
         });
         it('should not attempt to get appeals data', async () => {
           // Because fetch is called as part of an async Redux thunk, we need to
@@ -246,8 +237,8 @@ describe('ClaimsAndAppeals component', () => {
             }),
           ).to.be.true;
         });
-        it('should render a loading spinner but no section headline while loading data', () => {
-          expect(view.queryByRole('progressbar', { label: /loading/i })).to
+        it('should render a loading spinner but no section headline while loading data', async () => {
+          expect(await view.findByRole('progressbar', { label: /loading/i })).to
             .exist;
           expect(view.queryByRole('heading', { name: /^claims & appeals$/i }))
             .to.not.exist;
@@ -271,9 +262,6 @@ describe('ClaimsAndAppeals component', () => {
             reducers,
           });
         });
-        afterEach(() => {
-          resetFetch();
-        });
         it('should attempt to get appeals and claims data', async () => {
           // Because fetch is called as part of an async Redux thunk, we need to
           // wait here before confirming that fetch was called or not called.
@@ -290,8 +278,8 @@ describe('ClaimsAndAppeals component', () => {
             }),
           ).to.be.true;
         });
-        it('should render a loading spinner but no section headline while loading data', () => {
-          expect(view.queryByRole('progressbar', { label: /loading/i })).to
+        it('should render a loading spinner but no section headline while loading data', async () => {
+          expect(await view.findByRole('progressbar', { label: /loading/i })).to
             .exist;
           expect(view.queryByRole('heading', { name: /^claims & appeals$/i }))
             .to.not.exist;
@@ -331,7 +319,7 @@ describe('ClaimsAndAppeals component', () => {
       it('should not show a CTA', () => {
         expect(
           view.queryByRole('link', {
-            name: /manage all your claims and appeals/i,
+            name: /check your claim or appeal status/i,
           }),
         ).to.not.exist;
       });
@@ -368,7 +356,7 @@ describe('ClaimsAndAppeals component', () => {
       it('should not show a CTA', () => {
         expect(
           view.queryByRole('link', {
-            name: /manage all your claims and appeals/i,
+            name: /check your claim or appeal status/i,
           }),
         ).to.not.exist;
       });
@@ -440,7 +428,7 @@ describe('ClaimsAndAppeals component', () => {
             .exist;
           expect(
             view.getByRole('link', {
-              name: /manage all your claims and appeals/i,
+              name: /check your claim or appeal status/i,
             }),
           ).to.exist;
         });
@@ -491,7 +479,7 @@ describe('ClaimsAndAppeals component', () => {
             .exist;
           expect(
             view.getByRole('link', {
-              name: /manage all your claims and appeals/i,
+              name: /check your claim or appeal status/i,
             }),
           ).to.exist;
         });
@@ -542,7 +530,7 @@ describe('ClaimsAndAppeals component', () => {
             .exist;
           expect(
             view.getByRole('link', {
-              name: /manage all your claims and appeals/i,
+              name: /check your claim or appeal status/i,
             }),
           ).to.exist;
         });
@@ -588,7 +576,7 @@ describe('ClaimsAndAppeals component', () => {
         it('shows the CTA', () => {
           expect(
             view.getByRole('link', {
-              name: /manage all your claims and appeals/i,
+              name: /check your claim or appeal status/i,
             }),
           ).to.exist;
         });
@@ -629,7 +617,7 @@ describe('ClaimsAndAppeals component', () => {
             .exist;
           expect(
             view.getByRole('link', {
-              name: /manage all your claims and appeals/i,
+              name: /check your claim or appeal status/i,
             }),
           ).to.exist;
         });

@@ -29,12 +29,9 @@ const Dropdown = ({
       <div className="vads-u-margin-top--3">{label}</div>
     );
 
-  const selectClasses = classNames(
-    'vads-u-font-style--italic',
-    'vads-u-color--gray',
-    selectClassName,
-    { hideArrows },
-  );
+  const selectClasses = classNames('vads-u-color--gray', selectClassName, {
+    hideArrows,
+  });
 
   return (
     <div className={classNames(className, { disabled })} id={dropdownId}>
@@ -51,10 +48,10 @@ const Dropdown = ({
           onFocus={() => onFocus(dropdownId)}
         >
           {options.map(
-            ({ optionValue, optionLabel }) =>
+            ({ optionValue, optionLabel }, index) =>
               optionLabel && (
                 <option
-                  key={optionValue}
+                  key={index}
                   value={optionValue}
                   className={
                     optionValue === value

@@ -11,9 +11,9 @@ import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your real estate assets',
+  'ui:description': 'Enter each of your real estate assets below.',
   realEstateRecords: {
     'ui:field': ItemLoop,
-    'ui:description': 'Enter each of your real estate assets below.',
     'ui:options': {
       viewField: CardDetailsView,
       doNotScroll: true,

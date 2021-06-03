@@ -20,17 +20,10 @@ import {
 
 import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import { selectUserGreeting } from '../selectors';
-import Loader from '../components/Loader';
 
-const AutoSSO = React.lazy(() =>
-  import(/* webpackChunkName: "autoSSO" */ './AutoSSO'),
-);
-const SessionTimeoutModal = React.lazy(() =>
-  import(/* webpackChunkName: "sessionTimeout" */ 'platform/user/authentication/components/SessionTimeoutModal'),
-);
-const SignInModal = React.lazy(() =>
-  import(/* webpackChunkName: "signInModal" */ 'platform/user/authentication/components/SignInModal'),
-);
+import AutoSSO from './AutoSSO';
+import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
+import SignInModal from 'platform/user/authentication/components/SignInModal';
 
 export class Main extends React.Component {
   componentDidMount() {
@@ -168,17 +161,15 @@ export class Main extends React.Component {
           onSignIn={this.openLoginModal}
           visible={this.props.showFormSignInModal}
         />
-        <React.Suspense fallback={<Loader />}>
-          <SignInModal
-            onClose={this.closeLoginModal}
-            visible={this.props.showLoginModal}
-          />
-          <SessionTimeoutModal
-            isLoggedIn={this.props.currentlyLoggedIn}
-            onExtendSession={this.props.initializeProfile}
-          />
-          <AutoSSO />
-        </React.Suspense>
+        <SignInModal
+          onClose={this.closeLoginModal}
+          visible={this.props.showLoginModal}
+        />
+        <SessionTimeoutModal
+          isLoggedIn={this.props.currentlyLoggedIn}
+          onExtendSession={this.props.initializeProfile}
+        />
+        <AutoSSO />
       </div>
     );
   }

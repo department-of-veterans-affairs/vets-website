@@ -5,22 +5,17 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import SignInLink from '../../components/SignInLink';
+import { mockFetch } from '../../../testing/unit/helpers';
 
 let oldWindow;
-let oldFetch;
 const response = {
   json: () => ({
     authenticate_via_get: true, // eslint-disable-line camelcase
   }),
 };
-let fetchPromise;
 
 const setup = () => {
-  oldFetch = global.fetch;
-  oldWindow = global.window;
-  fetchPromise = Promise.resolve(response); // Reset it every time.
-
-  global.fetch = sinon.spy(() => fetchPromise);
+  mockFetch(response);
   global.window = Object.create(global.window);
   Object.assign(global.window, {
     dataLayer: [],
@@ -30,7 +25,6 @@ const setup = () => {
 };
 const teardown = () => {
   global.window = oldWindow;
-  global.fetch = oldFetch;
 };
 
 describe('<SignInLink>', () => {

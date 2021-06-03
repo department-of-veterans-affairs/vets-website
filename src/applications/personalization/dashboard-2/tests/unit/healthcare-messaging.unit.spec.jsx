@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
+import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import reducers from '~/applications/personalization/dashboard/reducers';
 import { wait } from '@@profile/tests/unit-test-helpers';
@@ -43,9 +43,6 @@ describe('HealthCare component', () => {
           },
         },
       };
-    });
-    afterEach(() => {
-      resetFetch();
     });
 
     it('should attempt to get messaging data', async () => {
@@ -130,9 +127,6 @@ describe('HealthCare component', () => {
         },
       };
     });
-    afterEach(() => {
-      resetFetch();
-    });
     it('should not attempt to get messaging data', async () => {
       view = renderInReduxProvider(<HealthCare />, {
         initialState,
@@ -148,17 +142,17 @@ describe('HealthCare component', () => {
       ).to.be.false;
     });
 
-    it('should render a generic message when the number of unread messages was not fetched', async () => {
+    it('should not render a messaging CTA', () => {
       initialState.health.msg.folders.data.currentItem.attributes.unreadCount = null;
       view = renderInReduxProvider(<HealthCare dataLoadingDisabled />, {
         initialState,
         reducers,
       });
       expect(
-        await view.findByRole('link', {
-          name: /Send a secure message to your health care team/i,
+        view.queryByRole('link', {
+          name: /message/i,
         }),
-      ).to.exist;
+      ).not.to.exist;
     });
   });
 });

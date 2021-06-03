@@ -3,8 +3,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
-import { resetFetch } from 'platform/testing/unit/helpers';
-
 import * as mocks from '@@profile/msw-mocks';
 import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
@@ -16,9 +14,6 @@ import {
 describe('PersonalInformation', () => {
   let server;
   before(() => {
-    // before we can use msw, we need to make sure that global.fetch has been
-    // restored and is no longer a sinon stub.
-    resetFetch();
     server = setupServer(...mocks.updateDD4CNPSuccess);
     server.listen();
   });

@@ -44,7 +44,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     // Choose Clinic
     cy.url().should('include', '/clinic');
     cy.axeCheckBestPractice();
-    cy.findByText(/Choose a clinic located at/);
+    cy.findByText(/Choose a clinic for your vaccination/);
     cy.get('#root_clinicId_0')
       .focus()
       .click();
@@ -145,7 +145,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     // Choose Clinic
     cy.url().should('include', '/clinic');
     cy.axeCheckBestPractice();
-    cy.findByText(/Choose a clinic located at/);
+    cy.findByText(/Choose a clinic for your vaccination/);
     cy.get('#root_clinicId_0')
       .focus()
       .click();
@@ -253,6 +253,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
 
     // Contact Facility Page
     cy.url().should('include', '/contact-facilities');
+    cy.findByText('Your facilities');
     cy.axeCheckBestPractice();
     cy.findByText(/Continue/i).should('not.exist');
   });

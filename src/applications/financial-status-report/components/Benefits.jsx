@@ -14,51 +14,57 @@ const formatter = new Intl.NumberFormat('en-US', {
 
 const BenefitCard = ({ received, title }) => {
   return (
-    <div className="usa-alert background-color-only">
+    <section className="usa-alert background-color-only">
       <div className="vads-u-margin-bottom--1">
         <h4 className="vads-u-margin--0">{title}</h4>
       </div>
+
       <div className="vads-u-margin-bottom--1">
-        <strong>Amount received last month: </strong>
+        <span>Amount received last month: </span>
         {formatter.format(parseFloat(received))}
       </div>
-    </div>
+    </section>
   );
 };
 
 const NoBenefits = () => {
   return (
-    <div className="usa-alert background-color-only">
+    <section className="usa-alert background-color-only">
       <div className="vads-u-margin-bottom--1">
         <h4 className="vads-u-margin--0">
           Our records show you don't get any monthly benefit payments
         </h4>
       </div>
+
       <p>
         If this information isn’t right, call our VA benefits hotline at{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
         <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />) ,
         Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
-    </div>
+    </section>
   );
 };
 
 const Benefits = ({ pending, income }) => {
-  const eduReceived = income.reduce((a, b) => a + Number(b.education), 0);
-  const compReceived = income.reduce(
+  const eduReceived = income?.reduce((a, b) => a + Number(b.education), 0);
+  const compReceived = income?.reduce(
     (a, b) => a + Number(b.compensationAndPension),
     0,
   );
 
-  return !pending && income.length ? (
+  return !pending && (eduReceived || compReceived) ? (
     <>
       <p>This is the VA benefit information we have on file for you.</p>
-      <BenefitCard
-        title={'Disability compensation and pension benefits'}
-        received={compReceived}
-      />
-      <BenefitCard title={'Education benefits'} received={eduReceived} />
+      {Boolean(compReceived) && (
+        <BenefitCard
+          title={'Disability compensation and pension benefits'}
+          received={compReceived}
+        />
+      )}
+      {Boolean(eduReceived) && (
+        <BenefitCard title={'Education benefits'} received={eduReceived} />
+      )}
       <p>
         <strong>Note:</strong> If this information isn’t right, call our VA
         benefits hotline at <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}

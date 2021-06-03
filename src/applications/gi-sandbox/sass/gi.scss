@@ -9,6 +9,7 @@
 @import "partials/gi-search-page";
 @import "partials/gi-profile-page";
 @import "partials/gi-search-controls";
+@import "partials/gi-search-location";
 
 .gi-app {
   div.military-status-info {
@@ -170,8 +171,17 @@
   .search-form {
     margin-top: 50px;
 
+    button {
+      margin-top: 0.5em;
+      width: auto;
+    }
+
     .usa-button i {
       padding-left: 16px;
+    }
+
+    .suggestions-list {
+      position: absolute;
     }
 
     .search-box {
@@ -195,11 +205,16 @@
     }
 
     input.name-search {
-      max-width: 690px;
+      width: 690px;
+      max-width: none;
     }
 
     select {
       width: 200px;
     }
   }
+}
+
+.section-item, .accordion-item {
+  list-style-type: none !important;
 }

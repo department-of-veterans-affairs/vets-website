@@ -21,7 +21,7 @@ const store = createTestStore({
     newBooking: {
       data: {
         vaFacility: '983',
-        clinicId: '455',
+        clinicId: '983_455',
         date1: [start.format()],
       },
       availableSlots: [
@@ -34,8 +34,9 @@ const store = createTestStore({
         },
       ],
       clinics: {
-        '455': [
+        '983': [
           {
+            id: '983_455',
             serviceName: 'CHY PC CASSIDY',
           },
         ],
@@ -54,6 +55,10 @@ const store = createTestStore({
             {
               system: 'phone',
               value: '307-778-7550',
+            },
+            {
+              system: 'covid',
+              value: '307-778-7580',
             },
           ],
         },
@@ -83,7 +88,7 @@ describe('VAOS vaccine flow <ConfirmationPageV2>', () => {
       'href',
       'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
     );
-    expect(screen.baseElement).to.contain.text('Main phone: 307-778-7550');
+    expect(screen.baseElement).to.contain.text('Main phone: 307-778-7580');
     expect(screen.getByText(/add to calendar/i)).to.have.tagName('a');
   });
 
@@ -111,5 +116,70 @@ describe('VAOS vaccine flow <ConfirmationPageV2>', () => {
     await waitFor(() => {
       expect(screen.history.location.pathname).to.equal('/');
     });
+  });
+
+  it('should verify VA in person calendar ics file format', async () => {
+    const screen = renderWithStoreAndRouter(<ConfirmationPageV2 />, {
+      store,
+    });
+
+    const ics = decodeURIComponent(
+      screen
+        .getByRole('link', {
+          name: `Add ${start.format(
+            'MMMM D, YYYY',
+          )} appointment to your calendar`,
+        })
+        .getAttribute('href')
+        .replace('data:text/calendar;charset=utf-8,', ''),
+    );
+    const tokens = ics.split('\r\n');
+
+    // TODO: Debugging
+    // console.log(tokens);
+
+    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
+    expect(tokens[1]).to.equal('VERSION:2.0');
+    expect(tokens[2]).to.equal('PRODID:VA');
+    expect(tokens[3]).to.equal('BEGIN:VEVENT');
+    expect(tokens[4]).to.contain('UID:');
+    expect(tokens[5]).to.equal('SUMMARY:Appointment at CHY PC CASSIDY');
+
+    // Description text longer than 74 characters should start on newline beginning
+    // with a tab character
+    expect(tokens[6]).to.equal(
+      'DESCRIPTION:You have a health care appointment at CHY PC CASSIDY',
+    );
+    expect(tokens[7]).to.equal('\t\\n\\n2360 East Pershing Boulevard\\n');
+    expect(tokens[8]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
+    expect(tokens[9]).to.equal('\t307-778-7550\\n');
+    expect(tokens[10]).to.equal(
+      '\t\\nSign in to VA.gov to get details about this appointment\\n',
+    );
+
+    expect(tokens[11]).to.equal(
+      'LOCATION:2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
+    );
+    expect(tokens[12]).to.equal(
+      `DTSTAMP:${moment(start)
+        .tz('America/Denver', true) // Only change the timezone and not the time
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[13]).to.equal(
+      `DTSTART:${moment(start)
+        .tz('America/Denver', true) // Only change the timezone and not the time
+        .utc()
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[14]).to.equal(
+      `DTEND:${moment(start)
+        .tz('America/Denver', true) // Only change the timezone and not the time
+        .utc()
+        .add(30, 'minutes')
+        .format('YYYYMMDDTHHmmss[Z]')}`,
+    );
+    expect(tokens[15]).to.equal('END:VEVENT');
+    expect(tokens[16]).to.equal('END:VCALENDAR');
   });
 });

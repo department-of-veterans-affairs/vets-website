@@ -11,6 +11,7 @@ import './alerts-dismiss-view';
 import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
 import createVetCentersHours from './facilities/createVetCentersHours';
+import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
 
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
@@ -75,6 +76,8 @@ import createThirdPartyApps, {
 
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
 import dependencyVerificationReducer from './dependency-verification/reducers/index';
+
+import createCOEAccess from './coe-access/createCOEAccess';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -148,6 +151,7 @@ createResourcesAndSupportSearchWidget(
 );
 
 createVetCentersHours(store);
+createNearByVetCenters(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
 createFacilityPage(store);
@@ -197,6 +201,8 @@ createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
+
+createCOEAccess(store, widgetTypes.COE_ACCESS);
 
 createSharableLink(store, widgetTypes.SHARABLE_LINK);
 

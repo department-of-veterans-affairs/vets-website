@@ -94,7 +94,7 @@ describe('VAOS appointment list refresh', () => {
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
-        .contains('VA Appointment');
+        .contains('VA appointment');
       cy.axeCheckBestPractice();
     });
 
@@ -108,21 +108,7 @@ describe('VAOS appointment list refresh', () => {
       cy.url().should('include', '/appointments/va');
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
-        .contains('VA Appointment over the phone');
-      cy.axeCheckBestPractice();
-    });
-
-    it('express care appointment', () => {
-      cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
-      cy.get('[data-cy=appointment-list-item]')
-        .contains(/Express Care request/i)
-        .parent()
-        .findByText(/Details/i)
-        .click();
-      cy.url().should('include', '/appointments/express-care');
-      cy.get('[data-cy=express-care-appointment-details-header]')
-        .should('exist')
-        .contains('Express Care request');
+        .contains('VA appointment over the phone');
       cy.axeCheckBestPractice();
     });
 
@@ -221,6 +207,7 @@ describe('VAOS appointment list refresh', () => {
       cy.get('[data-cy=requested-appointment-list-item]')
         .first()
         .should('exist');
+      cy.axeCheckBestPractice();
     });
 
     it('should navigate to requested appointment details', () => {
@@ -229,6 +216,7 @@ describe('VAOS appointment list refresh', () => {
         .findByText(/Details/i)
         .click();
       cy.findByText(/Request detail/i).should('exist');
+      cy.axeCheckBestPractice();
     });
   });
 
@@ -254,13 +242,14 @@ describe('VAOS appointment list refresh', () => {
       cy.axeCheckBestPractice();
     });
 
-    it.skip('should navigate to requested appointment details', () => {
+    it('should navigate to past appointment details', () => {
       cy.get('[data-cy=appointment-list-item]')
         .first()
         .findByText(/Details/i)
         .focus()
         .click();
-      cy.findByText(/Request detail/i).should('exist');
+      cy.findByText(/Appointment detail/i).should('exist');
+      cy.axeCheckBestPractice();
     });
 
     it('should select an updated date range', () => {

@@ -20,9 +20,10 @@ import {
   canUploadEvidence,
   wantsToUploadEvidence,
   showAddIssueQuestion,
-  showAddIssues,
+  showAddIssuesPage,
   needsHearingType,
   appStateSelector,
+  getIssueName,
 } from '../utils/helpers';
 
 // Pages
@@ -34,6 +35,9 @@ import repInfo from '../pages/repInfo';
 import contestableIssues from '../pages/contestableIssues';
 import additionalIssuesIntro from '../pages/additionalIssuesIntro';
 import additionalIssues from '../pages/additionalIssues';
+import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
+import optIn from '../pages/optIn';
+import issueSummary from '../pages/issueSummary';
 import boardReview from '../pages/boardReview';
 import evidenceIntro from '../pages/evidenceIntro';
 import evidenceUpload from '../pages/evidenceUpload';
@@ -68,7 +72,7 @@ const formConfig = {
   formId: VA_FORM_IDS.FORM_10182,
   version: migrations.length - 1,
   title: 'Request a Board Appeal',
-  subTitle: 'Equal to VA Form 10182 (Notice of Disagreement)',
+  subTitle: 'VA Form 10182 (Notice of Disagreement)',
 
   prefillEnabled: true,
   prefillTransformer,
@@ -107,13 +111,13 @@ const formConfig = {
           schema: contactInfo.schema,
         },
         homeless: {
-          title: 'Homeless',
+          title: 'Homelessness question',
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
         },
         hasRep: {
-          title: 'Representative',
+          title: 'Representative question',
           path: 'representative',
           uiSchema: hasRep.uiSchema,
           schema: hasRep.schema,
@@ -147,14 +151,30 @@ const formConfig = {
         additionalIssues: {
           title: 'Add issues for review',
           path: 'additional-issues',
-          depends: showAddIssues,
+          depends: showAddIssuesPage,
           uiSchema: additionalIssues.uiSchema,
           schema: additionalIssues.schema,
           appStateSelector,
-          initialData: {
-            'view:hasIssuesToAdd': true,
-            additionalIssues: [{}],
-          },
+        },
+        areaOfDisagreementFollowUp: {
+          title: getIssueName,
+          path: 'area-of-disagreement/:index',
+          showPagePerItem: true,
+          arrayPath: 'areaOfDisagreement',
+          uiSchema: areaOfDisagreementFollowUp.uiSchema,
+          schema: areaOfDisagreementFollowUp.schema,
+        },
+        optIn: {
+          title: 'Opt in',
+          path: 'opt-in',
+          uiSchema: optIn.uiSchema,
+          schema: optIn.schema,
+        },
+        issueSummary: {
+          title: 'Issue summary',
+          path: 'issue-summary',
+          uiSchema: issueSummary.uiSchema,
+          schema: issueSummary.schema,
         },
       },
     },

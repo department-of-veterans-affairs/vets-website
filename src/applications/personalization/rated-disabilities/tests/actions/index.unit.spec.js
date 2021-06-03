@@ -1,5 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import {
+  mockFetch,
+  setFetchJSONFailure,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
 
 import {
   FETCH_RATED_DISABILITIES_SUCCESS,
@@ -10,21 +15,8 @@ import {
   fetchTotalDisabilityRating,
 } from '../../actions';
 
-let fetchMock;
-let oldFetch;
-
-const mockFetch = () => {
-  oldFetch = global.fetch;
-  fetchMock = sinon.stub();
-  global.fetch = fetchMock;
-};
-
-const unMockFetch = () => {
-  global.fetch = oldFetch;
-};
-
 describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
-  beforeEach(mockFetch);
+  beforeEach(() => mockFetch());
 
   it('should fetch rated disabilities', () => {
     const disabilities = [
@@ -40,11 +32,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
       },
     ];
 
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(disabilities) }),
-      }),
-    });
+    setFetchJSONResponse(global.fetch.onCall(0), disabilities);
     const thunk = fetchRatedDisabilities();
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
@@ -67,11 +55,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
         },
       ],
     };
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(response) }),
-      }),
-    });
+    setFetchJSONFailure(global.fetch.onCall(0), response);
     const thunk = fetchRatedDisabilities();
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
@@ -84,20 +68,15 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
     };
     thunk(dispatch);
   });
-  afterEach(unMockFetch);
 });
 
 describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
-  beforeEach(mockFetch);
+  beforeEach(() => mockFetch());
 
   it('should fetch the total rating', () => {
     const total = { userPercentOfDisability: 80 };
 
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(total) }),
-      }),
-    });
+    setFetchJSONResponse(global.fetch.onCall(0), total);
 
     const thunk = fetchTotalDisabilityRating();
     const dispatchSpy = sinon.spy();
@@ -121,11 +100,7 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
         },
       ],
     };
-    fetchMock.returns({
-      catch: () => ({
-        then: fn => fn({ ok: true, json: () => Promise.resolve(response) }),
-      }),
-    });
+    setFetchJSONResponse(global.fetch.onCall(0), response);
     const thunk = fetchTotalDisabilityRating();
     const dispatchSpy = sinon.spy();
     const dispatch = action => {
@@ -138,6 +113,4 @@ describe('Rated Disabilities actions: fetchRatedDisabilities', () => {
     };
     thunk(dispatch);
   });
-
-  afterEach(unMockFetch);
 });

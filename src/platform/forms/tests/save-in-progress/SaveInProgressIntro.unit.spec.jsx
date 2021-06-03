@@ -82,6 +82,47 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     ).to.equal('testing');
     tree.unmount();
   });
+  it('should render in progress message with header', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          {
+            form: VA_FORM_IDS.FORM_10_10EZ,
+            metadata: {
+              lastUpdated: 946684800,
+              expiresAt: moment().unix() + 2000,
+            },
+          },
+        ],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: true,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
+        headingLevel={1}
+      />,
+    );
+
+    expect(tree.find('h1.usa-alert-heading').text()).to.contain(
+      'Your application is in progress',
+    );
+    tree.unmount();
+  });
   it('should pass prefills available prop', () => {
     const user = {
       profile: {
@@ -452,6 +493,46 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
 
     expect(tree.find('Connect(DowntimeNotification)').exists()).to.be.true;
+    tree.unmount();
+  });
+
+  it('should render a different heading level when passed in as a prop', () => {
+    const user = {
+      profile: {
+        savedForms: [
+          {
+            form: VA_FORM_IDS.FORM_10_10EZ,
+            metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+          },
+        ],
+        prefillsAvailable: [],
+      },
+      login: {
+        currentlyLoggedIn: false,
+        loginUrls: {
+          idme: '/mockLoginUrl',
+        },
+      },
+    };
+    const renderSpy = sinon.stub().returns(<div>Render prop info</div>);
+
+    const tree = shallow(
+      <SaveInProgressIntro
+        downtime={{}}
+        saveInProgress={{ formData: {} }}
+        pageList={pageList}
+        formId="1010ez"
+        user={user}
+        fetchInProgressForm={fetchInProgressForm}
+        removeInProgressForm={removeInProgressForm}
+        renderSignInMessage={renderSpy}
+        toggleLoginModal={toggleLoginModal}
+        formConfig={formConfig}
+        headingLevel="h1"
+      />,
+    );
+
+    expect(tree.find('h1')).to.exist;
     tree.unmount();
   });
 

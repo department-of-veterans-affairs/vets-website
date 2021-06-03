@@ -60,12 +60,15 @@ class SaveInProgressIntro extends React.Component {
 
         if (!isExpired) {
           const lastSavedDateTime = savedAt.format('M/D/YYYY [at] h:mm a');
-
+          const H = `h${this.props.headingLevel}`;
+          const message = `Your ${appType} is in progress`;
           alert = (
             <div>
               <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
                 <div className="schemaform-sip-alert-title">
-                  <strong>Your {appType} is in progress</strong>
+                  <H className="usa-alert-heading vads-u-font-size--base">
+                    {message}
+                  </H>
                 </div>
                 <div className="saved-form-metadata-container">
                   {inProgressMessage && (
@@ -142,6 +145,7 @@ class SaveInProgressIntro extends React.Component {
     } else if (renderSignInMessage) {
       alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
+      const H = `h${this.props.headingLevel}`;
       const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
       const unauthStartButton = (
         <button className="usa-button-primary" onClick={this.openLoginModal}>
@@ -165,10 +169,10 @@ class SaveInProgressIntro extends React.Component {
       ) : (
         <div className="usa-alert usa-alert-info schemaform-sip-alert">
           <div className="usa-alert-body">
-            <h3 className="usa-alert-heading">
+            <H className="usa-alert-heading">
               Save time—and save your work in progress—by signing in before
               starting your {appType}
-            </h3>
+            </H>
             <div className="usa-alert-text">
               <p>When you’re signed in to your VA.gov account:</p>
               <ul>
@@ -381,6 +385,7 @@ SaveInProgressIntro.propTypes = {
       appType: PropTypes.string,
     }),
   }),
+  headingLevel: PropTypes.number,
 };
 
 SaveInProgressIntro.defaultProps = {
@@ -392,6 +397,7 @@ SaveInProgressIntro.defaultProps = {
       appType: '',
     },
   },
+  headingLevel: 3,
 };
 
 function mapStateToProps(state) {

@@ -6,11 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
-import {
-  setFetchJSONFailure,
-  mockFetch,
-  resetFetch,
-} from 'platform/testing/unit/helpers';
+import { setFetchJSONFailure, mockFetch } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
 import { FACILITY_TYPES } from '../../../../utils/constants';
@@ -112,7 +108,6 @@ describe('VAOS <ReviewPage> VA request', () => {
       onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
-  afterEach(() => resetFetch());
 
   it('should show form information for review', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -203,15 +198,12 @@ describe('VAOS <ReviewPage> VA request', () => {
       event: 'vaos-request-submission',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
-      'vaos-number-of-preferred-providers': 0,
-      'vaos-community-care-preferred-language': undefined,
       flow: 'va-request',
     });
     expect(dataLayer[2]).to.deep.equal({
       event: 'vaos-request-submission-successful',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
-      'vaos-number-of-preferred-providers': 0,
       flow: 'va-request',
     });
     expect(dataLayer[3]).to.deep.equal({
@@ -269,7 +261,6 @@ describe('VAOS <ReviewPage> VA request', () => {
       flow: 'va-request',
       'health-TypeOfCare': 'Primary care',
       'health-ReasonForAppointment': 'routine-follow-up',
-      'vaos-number-of-preferred-providers': 0,
     });
     expect(global.window.dataLayer[3]).to.deep.equal({
       flow: undefined,
@@ -354,7 +345,6 @@ describe('VAOS <ReviewPage> VA request: Homepage Refresh', () => {
       onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
-  afterEach(() => resetFetch());
 
   it('should submit successfully and route to appointment details page', async () => {
     mockRequestSubmit('va', {

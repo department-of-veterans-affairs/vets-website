@@ -37,7 +37,7 @@ export default {
     'ui:description': RepresentativeDocumentUploadDescription(),
     'ui:title': () => (
       <h3 className="vads-u-font-size--h4 vads-u-margin--0">
-        Upload your legal representative documentation
+        Upload your legal representative document
         <span className="vads-u-margin-left--0p5 vads-u-color--secondary-dark vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           (*Required)
         </span>
@@ -48,13 +48,16 @@ export default {
       classNames: 'poa-document-upload',
       multiple: false,
       fileUploadUrl: `${environment.API_URL}/v0/form1010cg/attachments`,
-      fileTypes: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'rtf', 'png'],
+      fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
       maxSize: 1024 * 1024 * 10,
       hideLabelText: true,
       createPayload,
       parseResponse,
       attachmentName: {
         'ui:title': 'Document name',
+        'ui:options': {
+          useDlWrap: true,
+        },
       },
     }),
   },

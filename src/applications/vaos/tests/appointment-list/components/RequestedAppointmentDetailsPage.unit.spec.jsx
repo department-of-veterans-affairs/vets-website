@@ -3,7 +3,7 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 import {
   mockMessagesFetch,
@@ -40,7 +40,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   });
 
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
 
@@ -120,6 +119,11 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       }),
     );
 
+    expect(screen.baseElement).to.contain('.usa-alert-info');
+    expect(screen.baseElement).to.contain.text(
+      'The time and date of this appointment are still to be determined.',
+    );
+
     expect(screen.getByText('Cheyenne VA Medical Center')).to.be.ok;
     expect(screen.baseElement).to.contain.text(
       'Pending primary care appointment',
@@ -185,36 +189,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.history.push.lastCall.args[0]).to.equal('/');
   });
 
-  it('should go back to requests page when clicking go back to appointments button', async () => {
-    const appointment = getVARequestMock();
-
-    appointment.attributes = {
-      ...appointment.attributes,
-      appointmentType: 'Primary care',
-      optionDate1: moment(testDate)
-        .add(3, 'days')
-        .format('MM/DD/YYYY'),
-      optionTime1: 'AM',
-    };
-
-    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: '/requested',
-    });
-
-    const detailLinks = await screen.findAllByRole('link', {
-      name: /Detail/i,
-    });
-
-    fireEvent.click(detailLinks[0]);
-
-    expect(await screen.findByText('Pending primary care appointment')).to.be
-      .ok;
-    fireEvent.click(await screen.findByText(/Go back to appointments/));
-    expect(screen.history.push.lastCall.args[0]).to.equal('/requested');
-  });
-
   it('should render CC request details', async () => {
     const ccAppointmentRequest = getCCRequestMock();
     ccAppointmentRequest.attributes = {
@@ -243,6 +217,14 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       requests: [ccAppointmentRequest],
       isHomepageRefresh: true,
     });
+
+    const message = getMessageMock();
+    message.attributes = {
+      ...message.attributes,
+      messageText: 'A message from the patient',
+    };
+    mockMessagesFetch('1234', [message]);
+
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
       path: '/requested',
@@ -266,6 +248,12 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
 
+    // show alert message
+    expect(screen.baseElement).to.contain('.usa-alert-info');
+    expect(screen.baseElement).to.contain.text(
+      'The time and date of this appointment are still to be determined.',
+    );
+
     // Should be able to cancel appointment
     expect(screen.getByRole('button', { name: /Cancel request/ })).to.be.ok;
     expect(
@@ -287,9 +275,10 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: 'Follow-up/Routine',
+        name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
+    expect(screen.getByText('A message from the patient')).to.be.ok;
 
     expect(
       screen.getByRole('heading', {
@@ -306,6 +295,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
   it('should allow cancellation', async () => {
     const appointment = getVARequestMock();
+    const alertText =
+      'The time and date of this appointment are still to be determined.';
 
     appointment.id = '1234';
     appointment.attributes = {
@@ -332,6 +323,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     expect(await screen.findByText('Pending primary care appointment')).to.be
       .ok;
+
+    expect(screen.baseElement).to.contain.text(alertText);
 
     expect(screen.baseElement).not.to.contain.text('Canceled');
 
@@ -361,6 +354,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     expect(screen.queryByRole('alertdialog')).to.not.be.ok;
     expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).not.to.contain.text(alertText);
   });
 
   it('should show error message when single fetch errors', async () => {
@@ -547,5 +541,47 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     );
     expect(screen.baseElement).to.contain.text('View your appointments');
     expect(screen.baseElement).to.contain.text('New appointment');
+  });
+
+  it('should handle error when cancelling', async () => {
+    const appointment = getVARequestMock();
+
+    appointment.id = '1234';
+    appointment.attributes = {
+      ...appointment.attributes,
+      appointmentType: 'Primary care',
+      optionDate1: moment(testDate)
+        .add(3, 'days')
+        .format('MM/DD/YYYY'),
+      optionTime1: 'AM',
+    };
+
+    mockAppointmentInfo({ requests: [appointment], isHomepageRefresh: true });
+    // missing cancel request mock
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState,
+      path: '/requested',
+    });
+
+    const detailLinks = await screen.findAllByRole('link', {
+      name: /Detail/i,
+    });
+
+    fireEvent.click(detailLinks[0]);
+
+    expect(await screen.findByText('Pending primary care appointment')).to.be
+      .ok;
+
+    expect(screen.baseElement).not.to.contain.text('Canceled');
+
+    fireEvent.click(screen.getByText(/cancel request/i));
+
+    await screen.findByRole('alertdialog');
+
+    fireEvent.click(screen.getByText(/yes, cancel this request/i));
+
+    await screen.findByText(/We couldn’t cancel your request/i);
+
+    expect(screen.baseElement).not.to.contain.text('Canceled');
   });
 });

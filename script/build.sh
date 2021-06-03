@@ -43,10 +43,6 @@ for o in "$@"; do
             destination="${o#*=}"
             shift
             ;;
-        --force-content-build)
-            forceContentBuild=true
-            shift
-            ;;
         *)
             ;;
     esac
@@ -73,9 +69,3 @@ if [ "${assetSource}" = "local" ]; then
 else
     echo "Will fetch application assets from the content build script"
 fi
-
-# Build the content
-# if [ -n "${forceContentBuild}" ] || [ "${buildtype}" != "vagovdev" ]
-# then
-#     yarn build:content $args
-# fi

@@ -11,12 +11,16 @@ import {
 import { setArrayRecordTouched } from 'platform/forms-system/src/js/helpers';
 import { errorSchemaIsValid } from 'platform/forms-system/src/js/validation';
 import { scrollToFirstError } from 'platform/utilities/ui';
+import { setData } from 'platform/forms-system/src/js/actions';
 
 import { scrollAndFocus } from '../utils/ui';
 import { isEmptyObject, someSelected } from '../utils/helpers';
 import { SELECTED, MAX_NEW_CONDITIONS } from '../constants';
 import { IssueCard } from './IssueCard';
-import { missingIssuesErrorMessage } from '../content/additionalIssues';
+import {
+  missingIssuesErrorMessage,
+  noneSelected,
+} from '../content/additionalIssues';
 
 const Element = Scroll.Element;
 
@@ -31,9 +35,18 @@ const AddIssuesField = props => {
     registry,
     formContext,
     onBlur,
+    fullFormData,
+    submission,
   } = props;
 
   const uiOptions = uiSchema['ui:options'] || {};
+
+  if (!fullFormData['view:hasIssuesToAdd']) {
+    props.setFormData({
+      ...fullFormData,
+      'view:hasIssuesToAdd': true,
+    });
+  }
 
   const initialEditingState = uiOptions.setInitialEditMode?.(formData);
   // Editing state: 1 = new edit, true = update edit & false = view state
@@ -51,7 +64,8 @@ const AddIssuesField = props => {
 
   const onItemChange = (indexToChange, value) => {
     const newItems = formData.map(
-      (item, index) => (index === indexToChange ? value : item),
+      (item, index) =>
+        index === indexToChange ? { ...value, [SELECTED]: true } : item,
     );
     props.onChange(newItems);
   };
@@ -81,8 +95,6 @@ const AddIssuesField = props => {
   const handleUpdate = index => {
     const { issue, decisionDate } = formData[index];
     if (errorSchemaIsValid(errorSchema[index]) && issue && decisionDate) {
-      // check the updated issue
-      toggleSelection(index, true);
       setEditing(editing.map((mode, indx) => (indx === index ? false : mode)));
       scrollAndFocus({
         selector: `dd[data-index="${index}"] .edit`,
@@ -164,8 +176,9 @@ const AddIssuesField = props => {
   // first issue does not have a header or grey card background
   const singleIssue = items.length === 1;
   const hasSelected =
-    someSelected(formData) || someSelected(props.contestableIssues);
-  const showError = formContext.submitted && !hasSelected;
+    someSelected(formData) || someSelected(fullFormData.contestableIssues);
+  const hasSubmitted = formContext.submitted || submission?.hasAttemptedSubmit;
+  const showError = hasSubmitted && !hasSelected;
 
   const content = items.map((item, index) => {
     const itemSchema = getItemSchema(index);
@@ -260,6 +273,7 @@ const AddIssuesField = props => {
 
   return isReviewMode ? (
     <>
+      {!showError && !hasSelected && noneSelected}
       {showError && missingIssuesErrorMessage}
       {content}
     </>
@@ -298,10 +312,18 @@ AddIssuesField.propTypes = {
   }),
 };
 
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
 const mapStateToProps = state => ({
-  contestableIssues: state.form.data?.contestableIssues || [],
+  submission: state.form.submission || {},
+  fullFormData: state.form.data || {},
 });
 
 export { AddIssuesField };
 
-export default connect(mapStateToProps)(AddIssuesField);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(AddIssuesField);

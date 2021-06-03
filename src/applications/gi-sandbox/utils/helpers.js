@@ -1,6 +1,7 @@
 import { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
+import constants from 'vets-json-schema/dist/constants.json';
 import { SMALL_SCREEN_WIDTH } from '../constants';
 
 /**
@@ -141,4 +142,79 @@ export const handleInputFocusWithPotentialOverLap = (
       }
     }
   }
+};
+
+export const addAllOption = options => [
+  { optionValue: 'ALL', optionLabel: 'ALL' },
+  ...options,
+];
+
+/**
+ * Recursively convert number to A to AA to AAA to... to ZZZZZZZZZZZ
+ * Uses https://en.wikipedia.org/wiki/Base36 to convert numbers to alphanumeric values
+ *
+ * @param number
+ * @returns {string}
+ */
+export const numberToLetter = number => {
+  // handle multiples of 26 when modding
+  // since 0 and 26 both have a remainder of 0 need to handle special case
+  const numberToConvert = number !== 0 && number % 26 === 0 ? 26 : number % 26;
+  const letter = (numberToConvert + 9).toString(36).toUpperCase();
+
+  if (number / 26 > 1) {
+    // Use Math.floor as a float returns incorrect letter string
+    return `${numberToLetter(Math.floor(number / 26))}${letter}`;
+  }
+  return letter;
+};
+
+export const getStateNameForCode = stateCode => {
+  const stateLabel = constants.states.USA.find(
+    state => state.value.toUpperCase() === stateCode.toUpperCase(),
+  );
+  return stateLabel !== undefined ? stateLabel.label : stateCode.toUpperCase();
+};
+
+export const sortOptionsByStateName = (stateA, stateB) => {
+  if (stateA.label < stateB.label) {
+    return -1;
+  }
+  if (stateA.label > stateB.label) {
+    return 1;
+  }
+  return 0;
+};
+
+export const buildSearchFilters = filters => {
+  const reversed = {
+    schools: true,
+    employers: true,
+    vettec: true,
+  };
+  const searchFilters = {};
+  const boolFields = Object.entries(filters).filter(([field, value]) => {
+    return (
+      (value === !reversed[field] && value === true) ||
+      (reversed[field] && value === false)
+    );
+  });
+
+  boolFields.forEach(([field]) => {
+    searchFilters[field] = true;
+  });
+
+  if (filters.country !== 'ALL') {
+    searchFilters.country = filters.country;
+  }
+
+  if (filters.state !== 'ALL') {
+    searchFilters.state = filters.state;
+  }
+
+  if (filters.type !== 'ALL') {
+    searchFilters.type = filters.type;
+  }
+
+  return searchFilters;
 };

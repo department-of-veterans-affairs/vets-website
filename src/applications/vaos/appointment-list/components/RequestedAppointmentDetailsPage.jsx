@@ -26,7 +26,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './AppointmentsPage/PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import {
-  cancelAppointment,
+  startAppointmentCancel,
   closeCancelAppointment,
   confirmCancelAppointment,
   fetchRequestDetails,
@@ -136,6 +136,9 @@ export default function RequestedAppointmentDetailsPage() {
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
   const provider = appointment.preferredCommunityCareProviders?.[0];
+  const apptDetails = message
+    ? `${appointment.reason}: ${message}`
+    : appointment.reason;
 
   return (
     <PageLayout>
@@ -146,6 +149,16 @@ export default function RequestedAppointmentDetailsPage() {
       <h1>
         {canceled ? 'Canceled' : 'Pending'} {typeOfCareText} appointment
       </h1>
+      {!showConfirmMsg &&
+        !canceled && (
+          <AlertBox
+            status="info"
+            className="vads-u-display--block vads-u-margin-bottom--2"
+            backgroundOnly
+          >
+            The time and date of this appointment are still to be determined.
+          </AlertBox>
+        )}
       {showConfirmMsg && (
         <AlertBox
           status={canceled ? 'error' : 'success'}
@@ -188,10 +201,14 @@ export default function RequestedAppointmentDetailsPage() {
           )}
         </AlertBox>
       )}
-      <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-        {!isCCRequest && isVideoRequest && 'VA Video Connect'}
-        {!isCCRequest && !isVideoRequest && 'VA Appointment'}
-      </h2>
+      {!isCCRequest && (
+        <>
+          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+            {isVideoRequest && 'VA Video Connect'}
+            {!isVideoRequest && 'VA Appointment'}
+          </h2>
+        </>
+      )}
 
       {!!facility &&
         !isCC && (
@@ -226,28 +243,37 @@ export default function RequestedAppointmentDetailsPage() {
           </li>
         ))}
       </ul>
-      <>
+      <div className="vaos-u-word-break--break-word">
         <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
-          {appointment.reason}
+          You shared these details about your concern
         </h2>
-        <div>{message}</div>
-      </>
-      <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
-        Your contact details
-      </h2>
+        {!isCCRequest && apptDetails}
+        {isCCRequest && <>{message || 'none'}</>}
+      </div>
       <div>
-        {getPatientTelecom(appointment, 'email')}
+        <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
+          Your contact details
+        </h2>
+        <h3 className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
+          Email:{' '}
+        </h3>
+        <span>{getPatientTelecom(appointment, 'email')}</span>
         <br />
-        <Telephone contact={getPatientTelecom(appointment, 'phone')} />
+        <h3 className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
+          Phone number:{' '}
+        </h3>
+        <Telephone
+          notClickable
+          contact={getPatientTelecom(appointment, 'phone')}
+        />
         <br />
-        <span className="vads-u-font-style--italic">
-          <ListBestTimeToCall
-            timesToCall={appointment.preferredTimesForPhoneCall}
-          />
-        </span>
+        <ListBestTimeToCall
+          timesToCall={appointment.preferredTimesForPhoneCall}
+        />
+      </div>
+      <div className="vaos-u-word-break--break-word">
         {!canceled && (
           <>
-            <br />
             <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3">
               <i
                 aria-hidden="true"
@@ -256,7 +282,7 @@ export default function RequestedAppointmentDetailsPage() {
               <button
                 aria-label="Cancel request"
                 className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
-                onClick={() => dispatch(cancelAppointment(appointment))}
+                onClick={() => dispatch(startAppointmentCancel(appointment))}
               >
                 Cancel Request
               </button>
@@ -264,11 +290,6 @@ export default function RequestedAppointmentDetailsPage() {
           </>
         )}
       </div>
-      <Link to="/requested">
-        <button className="usa-button vads-u-margin-top--3">
-          « Go back to appointments
-        </button>
-      </Link>
       <CancelAppointmentModal
         {...cancelInfo}
         onConfirm={() => dispatch(confirmCancelAppointment())}

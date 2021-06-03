@@ -16,7 +16,7 @@ export default function RequestListItem({ appointment, facility }) {
     'MMMM D, YYYY',
   );
   const link = `requests/${appointment.id}`;
-  const idClickable = `id-${appointment.id}`;
+  const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
 
   return (
     <li
@@ -59,7 +59,7 @@ export default function RequestListItem({ appointment, facility }) {
           </Link>
           <i
             aria-hidden="true"
-            className="fas fa-chevron-right vads-u-margin-left--1"
+            className="fas fa-chevron-right vads-u-color--link-default vads-u-margin-left--1"
           />
         </div>
       </div>

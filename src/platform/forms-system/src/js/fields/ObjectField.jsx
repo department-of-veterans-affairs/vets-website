@@ -197,6 +197,27 @@ class ObjectField extends React.Component {
       'schemaform-block': title && !isRoot,
     });
 
+    // Fix array nested ids (one-level deep)
+    const processIds = (originalIds = {}) =>
+      // pagePerItemIndex is zero-based
+      typeof formContext?.pagePerItemIndex !== 'undefined' &&
+      formContext.onReviewPage
+        ? Object.keys(originalIds).reduce(
+            (ids, key) => ({
+              ...ids,
+              [key]: originalIds[key].$id
+                ? {
+                    ...originalIds[key],
+                    $id: `${originalIds[key].$id}_${
+                      formContext.pagePerItemIndex
+                    }`,
+                  }
+                : originalIds[key],
+            }),
+            {},
+          )
+        : originalIds;
+
     const renderProp = propName => (
       <div key={propName}>
         <SchemaField
@@ -205,7 +226,7 @@ class ObjectField extends React.Component {
           schema={schema.properties[propName]}
           uiSchema={uiSchema[propName]}
           errorSchema={errorSchema[propName]}
-          idSchema={idSchema[propName]}
+          idSchema={processIds(idSchema[propName])}
           formData={formData[propName]}
           onChange={this.onPropertyChange(propName)}
           onBlur={onBlur}

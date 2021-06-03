@@ -1,26 +1,18 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
-import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
   GA_PREFIX,
   APPOINTMENT_TYPES,
-  EXPRESS_CARE,
   VIDEO_TYPES,
 } from '../../utils/constants';
-import { recordItemsRetrieved, resetDataLayer } from '../../utils/events';
+import { recordItemsRetrieved } from '../../utils/events';
 import {
   selectSystemIds,
   selectFeatureHomepageRefresh,
 } from '../../redux/selectors';
 
-import {
-  getCancelReasons,
-  getRequestEligibilityCriteria,
-  getRequestMessages,
-  updateAppointment,
-  updateRequest,
-} from '../../services/var';
+import { getRequestMessages } from '../../services/var';
 
 import {
   getLocation,
@@ -35,12 +27,12 @@ import {
   isVideoHome,
   fetchRequestById,
   fetchBookedAppointment,
+  cancelAppointment,
 } from '../../services/appointment';
 
 import { captureError, has400LevelError } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
-  STARTED_NEW_EXPRESS_CARE_FLOW,
   STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
 import { selectAppointmentById } from './selectors';
@@ -88,12 +80,6 @@ export const CANCEL_APPOINTMENT_CONFIRMED_FAILED =
 export const CANCEL_APPOINTMENT_CLOSED = 'vaos/CANCEL_APPOINTMENT_CLOSED';
 export const FETCH_FACILITY_LIST_DATA_SUCCEEDED =
   'vaos/FETCH_FACILITY_LIST_DATA_SUCCEEDED';
-
-export const FETCH_EXPRESS_CARE_WINDOWS = 'vaos/FETCH_EXPRESS_CARE_WINDOWS';
-export const FETCH_EXPRESS_CARE_WINDOWS_FAILED =
-  'vaos/FETCH_EXPRESS_CARE_WINDOWS_FAILED';
-export const FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED =
-  'vaos/FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED';
 export const FETCH_FACILITY_SETTINGS = 'vaos/FETCH_FACILITY_SETTINGS';
 export const FETCH_FACILITY_SETTINGS_FAILED =
   'vaos/FETCH_FACILITY_SETTINGS_FAILED';
@@ -206,11 +192,6 @@ export function fetchFutureAppointments() {
               event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
             });
 
-            recordItemsRetrieved(
-              'express_care',
-              requests.filter(appt => appt.vaos.isExpressCare).length,
-            );
-
             return requests;
           })
           .catch(resp => {
@@ -276,6 +257,14 @@ export function fetchFutureAppointments() {
       } catch (error) {
         captureError(error);
       }
+
+      if (
+        data[0]
+          ?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic)
+          .some(appt => !appt.location?.stationId)
+      ) {
+        Sentry.captureMessage('VAOS clinic based appointment missing sta6aid');
+      }
     } catch (error) {
       captureError(error);
       recordEvent({
@@ -314,11 +303,6 @@ export function fetchPendingAppointments() {
         event: `${GA_PREFIX}-get-pending-appointments-retrieved`,
       });
 
-      recordItemsRetrieved(
-        'express_care',
-        pendingAppointments.filter(appt => appt.vaos.isExpressCare).length,
-      );
-
       try {
         const facilityData = await getAdditionalFacilityInfo(
           pendingAppointments,
@@ -349,7 +333,6 @@ export function fetchPendingAppointments() {
 
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
-    const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
       selectedIndex,
@@ -366,15 +349,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
           endDate,
         }),
       ];
-
-      if (featureHomepageRefresh) {
-        fetches.push(
-          getAppointmentRequests({
-            startDate: moment(startDate).format('YYYY-MM-DD'),
-            endDate: moment(endDate).format('YYYY-MM-DD'),
-          }),
-        );
-      }
 
       const [appointments, requests] = await Promise.all(fetches);
 
@@ -519,121 +493,35 @@ export function fetchConfirmedAppointmentDetails(id, type) {
   };
 }
 
-const UNABLE_TO_KEEP_APPT = '5';
-const VALID_CANCEL_CODES = new Set(['4', '5', '6']);
-
-export function cancelAppointment(appointment) {
+export function startAppointmentCancel(appointment) {
   return {
     type: CANCEL_APPOINTMENT,
     appointment,
   };
 }
 
-const CANCELLED_REQUEST = 'Cancelled';
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     const appointment = getState().appointments.appointmentToCancel;
-    const isConfirmedAppointment =
-      appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
-    const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
-    const additionalEventdata = {
-      appointmentType: !isConfirmedAppointment ? 'pending' : 'confirmed',
-      facilityType:
-        appointment.vaos?.isCommunityCare || appointment.isCommunityCare
-          ? 'cc'
-          : 'va',
-    };
-    let apiData = appointment.vaos.apiData || appointment.apiData;
-    let cancelReasons = null;
-    let cancelReason = null;
 
     try {
-      recordEvent({
-        event: eventPrefix,
-        ...additionalEventdata,
-      });
-
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED,
       });
 
-      if (!isConfirmedAppointment) {
-        apiData = await updateRequest({
-          ...appointment.vaos.apiData,
-          status: CANCELLED_REQUEST,
-          appointmentRequestDetailCode: ['DETCODE8'],
-        });
-      } else {
-        const cancelData = {
-          appointmentTime: moment
-            .parseZone(appointment.start)
-            .format('MM/DD/YYYY HH:mm:ss'),
-          clinicId: appointment.location.clinicId,
-          facilityId: appointment.location.vistaId,
-          remarks: '',
-          // Grabbing this from the api data because it's not clear if
-          // we have to send the real name or if the friendly name is ok
-          clinicName: appointment.vaos.apiData.vdsAppointments[0].clinic.name,
-          cancelCode: 'PC',
-        };
-
-        cancelReasons = await getCancelReasons(appointment.location.vistaId);
-
-        if (
-          cancelReasons.some(reason => reason.number === UNABLE_TO_KEEP_APPT)
-        ) {
-          cancelReason = UNABLE_TO_KEEP_APPT;
-          await updateAppointment({
-            ...cancelData,
-            cancelReason,
-          });
-        } else if (
-          cancelReasons.some(reason => VALID_CANCEL_CODES.has(reason.number))
-        ) {
-          cancelReason = cancelReasons.find(reason =>
-            VALID_CANCEL_CODES.has(reason.number),
-          );
-          await updateAppointment({
-            ...cancelData,
-            cancelReason: cancelReason.number,
-          });
-        } else {
-          throw new Error('Unable to find valid cancel reason');
-        }
-      }
+      const updatedAppointment = await cancelAppointment({ appointment });
 
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
-        apiData,
+        apiData: appointment.vaos.apiData,
+        updatedAppointment,
       });
-
-      recordEvent({
-        event: `${eventPrefix}-successful`,
-        ...additionalEventdata,
-      });
-      resetDataLayer();
     } catch (e) {
       const isVaos400Error = has400LevelError(e);
-      if (isVaos400Error) {
-        Sentry.withScope(scope => {
-          scope.setExtra('error', e);
-          scope.setExtra('cancelReasons', cancelReasons);
-          scope.setExtra('cancelReason', cancelReason);
-          Sentry.captureMessage('Cancel failed due to bad request');
-        });
-      } else {
-        captureError(e, true);
-      }
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_FAILED,
         isVaos400Error,
       });
-
-      recordEvent({
-        event: `${eventPrefix}-failed`,
-        ...additionalEventdata,
-      });
-      resetDataLayer();
     }
   };
 }
@@ -650,64 +538,9 @@ export function startNewAppointmentFlow() {
   };
 }
 
-export function startNewExpressCareFlow() {
-  return {
-    type: STARTED_NEW_EXPRESS_CARE_FLOW,
-  };
-}
-
 export function startNewVaccineFlow() {
   return {
     type: STARTED_NEW_VACCINE_FLOW,
-  };
-}
-
-export function fetchExpressCareWindows() {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: FETCH_EXPRESS_CARE_WINDOWS,
-    });
-
-    const initialState = getState();
-    const userSiteIds = selectSystemIds(initialState) || [];
-    const address = selectVAPResidentialAddress(initialState);
-
-    try {
-      const settings = await getRequestEligibilityCriteria(userSiteIds);
-      let facilityData;
-
-      if (address?.latitude && address?.longitude) {
-        const facilityIds = settings
-          .filter(
-            facility =>
-              facility.customRequestSettings?.find(
-                setting => setting.id === EXPRESS_CARE,
-              )?.supported,
-          )
-          .map(f => f.id);
-        if (facilityIds.length) {
-          try {
-            facilityData = await getLocations({ facilityIds });
-          } catch (error) {
-            // Still allow people into EC if the facility data call fails
-            captureError(error);
-          }
-        }
-      }
-
-      dispatch({
-        type: FETCH_EXPRESS_CARE_WINDOWS_SUCCEEDED,
-        settings,
-        facilityData,
-        address,
-        nowUtc: moment.utc(),
-      });
-    } catch (error) {
-      captureError(error);
-      dispatch({
-        type: FETCH_EXPRESS_CARE_WINDOWS_FAILED,
-      });
-    }
   };
 }
 

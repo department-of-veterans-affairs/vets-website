@@ -20,7 +20,9 @@ describe('Appointments', () => {
 
     it('should render all necessary elements', () => {
       expect(wrapper.text()).to.contain('Cheyenne VA Medical Center');
-      expect(wrapper.text()).to.contain('Schedule and view your appointments');
+      expect(wrapper.text()).to.contain(
+        'Schedule and manage your appointments',
+      );
       wrapper.unmount();
     });
   });
@@ -35,7 +37,9 @@ describe('Appointments', () => {
 
     it('should render all necessary elements', () => {
       expect(wrapper.text()).to.contain('Jeckle and Hyde');
-      expect(wrapper.text()).to.contain('Schedule and view your appointments');
+      expect(wrapper.text()).to.contain(
+        'Schedule and manage your appointments',
+      );
       wrapper.unmount();
     });
   });
@@ -49,7 +53,9 @@ describe('Appointments', () => {
 
     it('should render all necessary elements', () => {
       expect(wrapper.text()).to.contain('VA Video Connect at home');
-      expect(wrapper.text()).to.contain('Schedule and view your appointments');
+      expect(wrapper.text()).to.contain(
+        'Schedule and manage your appointments',
+      );
       wrapper.unmount();
     });
   });

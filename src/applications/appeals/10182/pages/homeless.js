@@ -5,7 +5,8 @@ export default {
       forceDivWrapper: true,
     },
     homeless: {
-      'ui:title': 'Are you currently homeless?',
+      'ui:title':
+        'Are you experiencing homelessness or at risk of becoming homeless?',
       'ui:widget': 'yesNo',
     },
   },
