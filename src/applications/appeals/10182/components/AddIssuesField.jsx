@@ -64,7 +64,8 @@ const AddIssuesField = props => {
 
   const onItemChange = (indexToChange, value) => {
     const newItems = formData.map(
-      (item, index) => (index === indexToChange ? value : item),
+      (item, index) =>
+        index === indexToChange ? { ...value, [SELECTED]: true } : item,
     );
     props.onChange(newItems);
   };
@@ -94,8 +95,6 @@ const AddIssuesField = props => {
   const handleUpdate = index => {
     const { issue, decisionDate } = formData[index];
     if (errorSchemaIsValid(errorSchema[index]) && issue && decisionDate) {
-      // check the updated issue
-      toggleSelection(index, true);
       setEditing(editing.map((mode, indx) => (indx === index ? false : mode)));
       scrollAndFocus({
         selector: `dd[data-index="${index}"] .edit`,
