@@ -1,5 +1,5 @@
-const data = {
-  hasDependentDebts: true,
+const mockDebt = {
+  hasDependentDebts: false,
   debts: [
     {
       fileNumber: '796121200',
@@ -162,7 +162,7 @@ const data = {
   ],
 };
 
-const debtLettersVBMS = [
+const mockDebtVBMS = [
   {
     documentId: '{64B0BDC4-D40C-4C54-86E0-104C987B8D8F}',
     docType: '1213',
@@ -197,8 +197,8 @@ function asyncReturn(returnValue, delay = 300) {
   });
 }
 
-export const debtMockResponse = () => asyncReturn(data);
-export const debtMockResponseVBMS = () => asyncReturn(debtLettersVBMS);
+export const debtMockResponse = () => asyncReturn(mockDebt);
+export const debtMockResponseVBMS = () => asyncReturn(mockDebtVBMS);
 
 export const debtLettersFailure = () =>
   asyncReturn(
