@@ -63,7 +63,7 @@ const responses = {
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
-      features: [{ name: 'enable_check_in_experience', value: true }],
+      features: [{ name: 'check_in_experience_enabled', value: true }],
     },
   },
 };
