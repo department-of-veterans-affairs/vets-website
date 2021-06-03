@@ -34,12 +34,12 @@ export function RefineYourSearch({
   const {
     schools,
     accredited,
-    studentVeteranGroup,
+    studentVeteran,
     yellowRibbonScholarship,
     singleGenderSchool,
     hbcu,
     excludeCautionFlags,
-    isRelaffil,
+    relaffil,
     type,
     country,
     state,
@@ -198,8 +198,8 @@ export function RefineYourSearch({
           onChange={onChangeCheckbox}
         />
         <Checkbox
-          checked={studentVeteranGroup}
-          name="studentVeteranGroup"
+          checked={studentVeteran}
+          name="studentVeteran"
           label="Has a Student Veteran Group"
           onChange={onChangeCheckbox}
         />
@@ -251,8 +251,8 @@ export function RefineYourSearch({
           onChange={onChangeCheckbox}
         />
         <Checkbox
-          checked={isRelaffil}
-          name="isRelaffil"
+          checked={relaffil}
+          name="relaffil"
           label="Religious affiliation"
           onChange={onChangeCheckbox}
         />

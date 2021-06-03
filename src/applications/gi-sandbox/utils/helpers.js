@@ -187,34 +187,25 @@ export const sortOptionsByStateName = (stateA, stateB) => {
 };
 
 export const buildSearchFilters = filters => {
-  const reversed = {
-    schools: true,
-    employers: true,
-    vettec: true,
-  };
+  const excludeBooleanFlip = ['schools', 'employers', 'vettec'];
+  const hasAllValues = ['country', 'state', 'type'];
   const searchFilters = {};
-  const boolFields = Object.entries(filters).filter(([field, value]) => {
-    return (
-      (value === !reversed[field] && value === true) ||
-      (reversed[field] && value === false)
-    );
+
+  // boolean fields
+  Object.entries(filters)
+    .filter(([_field, value]) => value === true)
+    .filter(([field, _value]) => !excludeBooleanFlip.includes(field))
+    .forEach(([field]) => {
+      searchFilters[field] = filters[field];
+    });
+
+  hasAllValues.filter(field => filters[field] !== 'ALL').forEach(field => {
+    searchFilters[field] = filters[field];
   });
 
-  boolFields.forEach(([field]) => {
-    searchFilters[field] = true;
+  excludeBooleanFlip.filter(field => !filters[field]).forEach(field => {
+    searchFilters[`exclude_${field}`] = !filters[field];
   });
-
-  if (filters.country !== 'ALL') {
-    searchFilters.country = filters.country;
-  }
-
-  if (filters.state !== 'ALL') {
-    searchFilters.state = filters.state;
-  }
-
-  if (filters.type !== 'ALL') {
-    searchFilters.type = filters.type;
-  }
 
   return searchFilters;
 };
