@@ -45,7 +45,6 @@ jobs:
         run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files }}
 
       - name: Annotate ESLint results
-        if: ${{ steps.get-lint-files.outputs.FILES }}
         run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.FILES }}
 
       - name: Run Sass lint
