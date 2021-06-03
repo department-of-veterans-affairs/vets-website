@@ -16,14 +16,8 @@
 export function transformAvailableClinic(facilityId, typeOfCareId, clinic) {
   return {
     id: `${clinic.siteCode}_${clinic.clinicId}`,
-    identifier: [
-      {
-        system: 'http://med.va.gov/fhir/urn',
-        value: `urn:va:healthcareservice:${clinic.siteCode}:${facilityId}:${
-          clinic.clinicId
-        }`,
-      },
-    ], // NOTE: KEVIN needed but could break up? Refactor to include individual properties and refactor hasMatchingClinics
+    stationId: facilityId,
+    stationName: clinic.institutionName,
     // Description of service as presented to a consumer while searching
     serviceName: clinic.clinicFriendlyLocationName || clinic.clinicName,
     // Collection of characteristics (attributes)

@@ -180,11 +180,11 @@ function hasMatchingClinics(clinics, pastAppointments) {
   return clinics?.some(
     clinic =>
       !!pastAppointments.find(appt => {
+        const clinicIds = clinic.id.split('_');
         return (
-          clinic.identifier[0].value ===
-          `urn:va:healthcareservice:${appt.facilityId}:${appt.sta6aid}:${
-            appt.clinicId
-          }`
+          clinic.stationId === appt.sta6aid &&
+          clinicIds[0] === appt.facilityId &&
+          clinicIds[1] === appt.clinicId
         );
       }),
   );
