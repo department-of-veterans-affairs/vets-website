@@ -18,7 +18,10 @@ describe('MyVA Dashboard - Messaging', () => {
 
       cy.login(mockUser);
       // login() calls cy.server() so we can now mock routes
-      cy.intercept('GET', '/v0/messaging/health/folders/0', ERROR_400);
+      cy.intercept('GET', '/v0/messaging/health/folders/0', {
+        statusCode: 400,
+        body: ERROR_400,
+      });
       mockFeatureToggles();
     });
     it('should show the messaging link with the generic copy', () => {
