@@ -42,6 +42,7 @@ export function CompareDrawer({
         onClose={() => setPromptingFacilityCode(null)}
         primaryButton={{
           action: () => {
+            setPromptingFacilityCode(null);
             dispatchRemoveCompareInstitution(promptingFacilityCode);
           },
           text: 'Remove',
