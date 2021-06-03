@@ -139,7 +139,7 @@ const ConfirmationPage = props => {
           </p>
 
           <a
-            className="usa-button-primary va-button-primary vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
+            className="vads-u-display--inline-block vads-u-margin-bottom--4"
             href="https://www.va.gov/"
           >
             Go back to VA.gov
