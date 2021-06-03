@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { removeCompareInstitution } from '../actions';
 
@@ -8,15 +9,32 @@ export function CompareDrawer({
   dispatchRemoveCompareInstitution,
   displayed,
 }) {
+  const [open, setOpen] = useState(false);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
+  const { loaded, institutions } = compare;
+
   if (!displayed) {
     return null;
   }
-  const { loaded, institutions } = compare;
 
-  const open = compare.loaded.length > 1;
+  const headerLabelClasses = classNames('header-label', {
+    open,
+    closed: !open,
+  });
+
+  const blanks = [];
+  for (let i = 0; i < 3 - loaded.length; i++) {
+    blanks.push(
+      <div key={i} className="medium-screen:vads-l-col--3">
+        <div className="compare-name">
+          <div className="blank" />
+        </div>
+      </div>,
+    );
+  }
+
   return (
-    <div className="compare-drawer row">
+    <div className="compare-drawer">
       <Modal
         onClose={() => setPromptingFacilityCode(null)}
         primaryButton={{
@@ -39,8 +57,13 @@ export function CompareDrawer({
           </p>
         )}
       </Modal>
-      <div className="compare-header">
-        Compare Institutions ({loaded.length} of 3)
+      <div
+        className="compare-header vads-l-grid-container"
+        onClick={() => setOpen(!open)}
+      >
+        <div className={headerLabelClasses}>
+          Compare Institutions ({loaded.length} of 3)
+        </div>
       </div>
       {open && (
         <div className="compare-body vads-l-grid-container">
@@ -66,22 +89,17 @@ export function CompareDrawer({
               );
             })}
 
-            {loaded.length === 2 && (
-              <div className="medium-screen:vads-l-col--3">
-                <div className="compare-name">
-                  <div className="blank" />
-                </div>
-              </div>
-            )}
+            {blanks}
 
-            <div className="medium-screen:vads-l-col--3">
+            <div className="medium-screen:vads-l-col--3 action-cell">
               <div className="compare-name">
                 You can compare 2 to 3 institutions
               </div>
               <div>
                 <button
                   type="button"
-                  className="usa-button vads-u-width--full "
+                  className="usa-button vads-u-width--full"
+                  disabled={loaded.length < 2}
                 >
                   Compare
                 </button>
