@@ -137,6 +137,10 @@ export default function LocationSearchResults({ search }) {
     );
   });
 
+  const eligibilityAndFilters = location !== '' && location !== undefined;
+  const startMessage = count === null && !eligibilityAndFilters;
+  const noResultsFound = count === 0;
+
   return (
     <>
       <div className={'location-search vads-u-padding-top--1'}>
@@ -146,31 +150,33 @@ export default function LocationSearchResults({ search }) {
           )}
           {!inProgress && (
             <>
-              {count === null && (
+              {startMessage && (
                 <div>
                   Please enter a location (street, city, state, or postal code)
                   then click search above to find institutions.
                 </div>
               )}
-              {location !== '' && (
+              {eligibilityAndFilters && (
                 <>
                   <TuitionAndHousingEstimates />
                   <RefineYourSearch />
-                  <div className="location-search-results-container usa-grid vads-u-padding--1p5">
-                    <p>
-                      Showing <strong>{count} search results</strong> for '
-                      <strong>{location}</strong>'
-                    </p>
-                    <div
-                      id="location-search-results"
-                      className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
-                    >
-                      {resultCards}
+                  {!noResultsFound && (
+                    <div className="location-search-results-container usa-grid vads-u-padding--1p5">
+                      <p>
+                        Showing <strong>{count} search results</strong> for '
+                        <strong>{location}</strong>'
+                      </p>
+                      <div
+                        id="location-search-results"
+                        className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
+                      >
+                        {resultCards}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </>
               )}
-              {count === 0 && (
+              {noResultsFound && (
                 <div>We didn't find any institutions near the location.</div>
               )}
             </>

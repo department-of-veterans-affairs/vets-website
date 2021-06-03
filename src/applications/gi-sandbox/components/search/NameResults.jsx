@@ -13,7 +13,8 @@ export default function NameResults({ search }) {
     <>
       {inProgress && <LoadingIndicator message="Loading search results..." />}
       {!inProgress &&
-        name !== '' && (
+        name !== '' &&
+        name !== null && (
           <div className="usa-grid vads-u-padding--1">
             <p>
               Showing <strong>{count} search results</strong> for '

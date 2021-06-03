@@ -1,6 +1,7 @@
 import { INSTITUTION_FILTERS_CHANGED } from '../actions';
 
 const INITIAL_STATE = Object.freeze({
+  expanded: false,
   accredited: false,
   excludeCautionFlags: false,
   country: 'ALL',

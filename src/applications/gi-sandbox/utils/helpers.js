@@ -1,4 +1,4 @@
-import { snakeCase } from 'lodash';
+import _, { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
 import constants from 'vets-json-schema/dist/constants.json';
@@ -187,6 +187,9 @@ export const sortOptionsByStateName = (stateA, stateB) => {
 };
 
 export const buildSearchFilters = filters => {
+  const clonedFilters = _.cloneDeep(filters);
+  delete clonedFilters.expanded;
+
   // default state is checked so these will only be present if their corresponding boxes are unchecked
   const excludeBooleanFlip = ['schools', 'employers', 'vettec'];
 
@@ -194,19 +197,19 @@ export const buildSearchFilters = filters => {
   const searchFilters = {};
 
   // boolean fields
-  Object.entries(filters)
+  Object.entries(clonedFilters)
     .filter(([_field, value]) => value === true)
     .filter(([field, _value]) => !excludeBooleanFlip.includes(field))
     .forEach(([field]) => {
-      searchFilters[field] = filters[field];
+      searchFilters[field] = clonedFilters[field];
     });
 
-  hasAllValue.filter(field => filters[field] !== 'ALL').forEach(field => {
-    searchFilters[field] = filters[field];
+  hasAllValue.filter(field => clonedFilters[field] !== 'ALL').forEach(field => {
+    searchFilters[field] = clonedFilters[field];
   });
 
-  excludeBooleanFlip.filter(field => !filters[field]).forEach(field => {
-    searchFilters[`exclude_${field}`] = !filters[field];
+  excludeBooleanFlip.filter(field => !clonedFilters[field]).forEach(field => {
+    searchFilters[`exclude_${field}`] = !clonedFilters[field];
   });
 
   return searchFilters;
