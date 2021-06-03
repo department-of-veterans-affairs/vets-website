@@ -8,9 +8,9 @@ env:
 jobs:
   build:
     name: E2E Tests
-    runs-on: self-hosted
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+    runs-on: ubuntu-latest
+    # env:
+    #   NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
     steps:
       - name: Checkout vets-website
         uses: actions/checkout@v2
