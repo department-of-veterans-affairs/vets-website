@@ -99,6 +99,9 @@ jobs:
       - name: Annotate Sass lint results
         run: node ./script/github-actions/sasslint-annotation-format.js
 
+      - name: Annotate Style lint results
+        run: yarn run lint:sass
+
   contract-tests:
     name: Contract Tests
     runs-on: ubuntu-latest
