@@ -19,13 +19,13 @@ const NeedHelpFooter = () => {
       </p>
 
       <p>
-        You can also call our main VA information line at
+        You can also call
         <Telephone
           contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
           className="vads-u-margin-x--0p5"
         />
-        if you have questions about completing your application, or you can
-        contact your local Caregiver Support Coordinator.
+        if you have questions about completing your application, or contact your
+        local Caregiver Support Coordinator.
       </p>
 
       <span>
