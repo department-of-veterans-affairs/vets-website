@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 /**
  * Description of how the component behaves here.
@@ -10,19 +11,23 @@ import TextInput from '@department-of-veterans-affairs/component-library/TextInp
  * Example usage in formConfig:
  * preSubmitInfo: {
  *   CustomComponent: (signatureProps) => (
- *     <>
+ *     <section className="box vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7">
  *       <h3>Statement of truth</h3>
  *       <p>I solemnly swear I am up to no good.</p>
  *       <FormSignature
  *         {...signatureProps}
- *         label="Secret code name"
+ *         signatureLabel="Secret code name"
  *       />
- *       <span>On behalf of: {signatureProps.formData.name}</span>
- *     </>
+ *     <section/>
  *   );
  * }
  */
-export const FormSignature = ({ label }) =>
+export const FormSignature = ({
+  signatureLabel,
+  checkboxLabel,
+  required,
+  showError,
+}) =>
   // {
   //   formData,
   //   onSectionComplete,
@@ -31,13 +36,38 @@ export const FormSignature = ({ label }) =>
   //   submission,
   // },
   {
+    // TODO Add the checkbox
     const [signature, setSignature] = useState({ value: '', dirty: false });
+    const [checked, setChecked] = useState(false);
+    const [signatureError, setSignatureError] = useState(null);
+    const [checkboxError, setCheckboxError] = useState(null);
+
+    useEffect(
+      () => {
+        if (required && !signature.value)
+          setSignatureError(
+            'Your signature must match your first and last name as previously entered',
+          );
+        if (required && !checked)
+          setCheckboxError('Must certify by checking box');
+      },
+      [required, signature, checked],
+    );
+
     return (
       <>
         <TextInput
-          label={label}
+          label={signatureLabel}
           field={signature}
           onValueChange={setSignature}
+          required={required}
+          errorMessage={showError && signatureError}
+        />
+        <Checkbox
+          label={checkboxLabel}
+          required={required}
+          onValueChange={setChecked}
+          errorMessage={showError && checkboxError}
         />
       </>
     );
@@ -53,11 +83,13 @@ FormSignature.propTypes = {
     errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }),
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  signatureLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 };
 
 FormSignature.defaultProps = {
-  label: 'Veteran’s full name',
+  signatureLabel: 'Veteran’s full name',
+  checkboxLabel:
+    'I certify the information above is correct and true to the best of my knowledge and belief.',
   required: true,
 };
 
