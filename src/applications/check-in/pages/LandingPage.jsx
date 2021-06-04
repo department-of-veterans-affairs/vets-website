@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { withFeatureFlip } from '../containers/withFeatureFlip.jsx';
 
-export default function LandingPage() {
+const LandingPage = () => {
   const [didCheckIn, setDidCheckIn] = useState(false);
   const onClick = () => {
     setDidCheckIn(true);
@@ -48,4 +49,6 @@ export default function LandingPage() {
       </footer>
     </div>
   );
-}
+};
+
+export default withFeatureFlip(LandingPage);

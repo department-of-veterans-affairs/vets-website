@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import App from './containers/App.jsx';
 
 import LandingPage from './pages/LandingPage';
 // import ConfirmationPage from './pages/ConfirmationPage';
@@ -8,14 +7,8 @@ import LandingPage from './pages/LandingPage';
 const createRoutesWithStore = () => {
   return (
     <Switch>
-      <Route
-        path="/"
-        component={props => (
-          <App>
-            <LandingPage {...props} />
-          </App>
-        )}
-      />
+      <Route path="/:token" component={props => <LandingPage {...props} />} />
+
       {/* <Route path="/something" exact component={ConfirmationPage} /> */}
     </Switch>
   );
