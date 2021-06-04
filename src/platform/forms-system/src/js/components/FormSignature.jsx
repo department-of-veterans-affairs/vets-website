@@ -25,8 +25,10 @@ import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox
 export const FormSignature = ({
   signatureLabel,
   checkboxLabel,
+  formData,
   required,
   showError,
+  validations,
 }) =>
   // {
   //   formData,
@@ -36,23 +38,36 @@ export const FormSignature = ({
   //   submission,
   // },
   {
-    // TODO Add the checkbox
+    // Input states
     const [signature, setSignature] = useState({ value: '', dirty: false });
     const [checked, setChecked] = useState(false);
+
+    // Validation states
     const [signatureError, setSignatureError] = useState(null);
     const [checkboxError, setCheckboxError] = useState(null);
 
     // Signature input validation
     useEffect(
       () => {
-        let signatureErrorMessage = null;
-        if (required && !signature.value)
-          signatureErrorMessage =
-            'Your signature must match your first and last name as previously entered';
+        // Required validation always comes first
+        if (required)
+          validations.unshift(
+            signatureValue =>
+              !signatureValue
+                ? 'Your signature must match your first and last name as previously entered'
+                : undefined,
+          );
 
-        setSignatureError(signatureErrorMessage);
+        // First validation error in the array gets displayed
+        setSignatureError(
+          validations.reduce(
+            (errorMessage, validator) =>
+              errorMessage || validator(signature.value, formData),
+            null,
+          ),
+        );
       },
-      [required, signature],
+      [required, signature, formData, validations],
     );
 
     // Checkbox validation
@@ -94,6 +109,8 @@ FormSignature.propTypes = {
     status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }),
   signatureLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  checkboxLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  validations: PropTypes.arrayOf(PropTypes.func),
 };
 
 FormSignature.defaultProps = {
@@ -101,6 +118,7 @@ FormSignature.defaultProps = {
   checkboxLabel:
     'I certify the information above is correct and true to the best of my knowledge and belief.',
   required: true,
+  validations: [],
 };
 
 const mapDispatchToProps = {

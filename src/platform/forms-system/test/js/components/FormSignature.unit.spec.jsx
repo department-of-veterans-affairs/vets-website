@@ -2,12 +2,13 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
+import { spy } from 'sinon';
 
 import { FormSignature } from '../../../src/js/components/FormSignature';
 
 describe('Forms library - Forms signature component', () => {
   const signatureProps = {
-    formData: {},
+    formData: { name: 'Foo' },
     onSectionComplete: () => {},
     setFormData: () => {},
     showError: true,
@@ -93,7 +94,29 @@ describe('Forms library - Forms signature component', () => {
       expect(queryByText(/Your signature must match/)).to.not.exist;
       expect(queryByText(/Must certify by checking box/)).to.not.exist;
     });
-    it('should perform data validations if present', () => {});
+
+    it('should perform data validations if present', () => {
+      const validationSpies = [spy(() => 'Example error'), spy()];
+      render(
+        <FormSignature {...signatureProps} validations={validationSpies} />,
+      );
+      expect(validationSpies[0].calledWithExactly('', signatureProps.formData))
+        .to.be.true;
+
+      // Subsequent validation functions don't get run if previous validators
+      // return an error message
+      expect(
+        validationSpies[1].calledWithExactly(null, signatureProps.formData),
+      ).to.be.false;
+    });
+
+    it('should show error messages from validation functions', () => {
+      const validationSpies = [spy(() => 'Example error'), spy()];
+      const { getByText } = render(
+        <FormSignature {...signatureProps} validations={validationSpies} />,
+      );
+      expect(getByText('Example error')).to.exist;
+    });
   });
 
   describe('behavior', () => {
@@ -102,6 +125,8 @@ describe('Forms library - Forms signature component', () => {
       //   - There are no validation errors
       //   - The checkbox has been checked
     });
+
+    it('should NOT call onSectionComplete when the signature is INVALID', () => {});
 
     it('should call setFormData when the name is entered', () => {});
   });
