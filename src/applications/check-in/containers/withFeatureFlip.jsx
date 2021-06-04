@@ -1,4 +1,14 @@
 import React from 'react';
+
+const withFeatureFlip = WrappedComponent => {
+  return props => {
+    return <WrappedComponent {...props} />;
+  };
+};
+
+export { withFeatureFlip };
+
+/* import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -31,3 +41,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(App);
+*/
