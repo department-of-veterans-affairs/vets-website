@@ -185,3 +185,53 @@ jobs:
 
             Review your call to Sentry and see if you can reasonably reduce any
             information that is included, or wait for a VSP review.
+
+  linting:
+    name: Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Get files changed
+        id: get-files-changed
+        uses: trilom/file-changes-action@v1.2.3
+        continue-on-error: true
+        with:
+          output: 'json'
+
+      - name: Filter files
+        id: get-lint-files
+        run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files }}
+
+      - name: Annotate ESLint results
+        run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.FILES }}
+
+      - name: Run Sass lint
+        run: yarn run sass-lint --format json --verbose --output sasslint-report.json
+
+      - name: Annotate Sass lint results
+        run: node ./script/github-actions/sasslint-annotation-format.js
