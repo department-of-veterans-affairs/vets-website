@@ -56,6 +56,11 @@ FormSignature.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 };
 
+FormSignature.defaultProps = {
+  label: 'Veteran’s full name',
+  required: true,
+};
+
 const mapDispatchToProps = {
   setFormData: setData,
 };
