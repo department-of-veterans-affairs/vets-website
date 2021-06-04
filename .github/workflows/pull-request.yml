@@ -7,7 +7,7 @@ env:
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
-  eslint-check:
+  eslint-disable-check:
     name: ESLint Disable Check
     runs-on: ubuntu-latest
     steps:
@@ -218,7 +218,7 @@ jobs:
 
       - name: Get files changed
         id: get-files-changed
-        uses: trilom/file-changes-action@v1.2.3
+        uses: trilom/file-changes-action@v1.2.4
         continue-on-error: true
         with:
           output: 'json'
