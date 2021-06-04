@@ -3,6 +3,7 @@ import hcaEnrollmentStatus from '~/applications/hca/reducers/hca-enrollment-stat
 import prescriptions from './prescriptions';
 import recipients from './recipients';
 import folders from './folders';
+import unreadCount from './unreadCount';
 import preferences from '../../preferences/reducers';
 import appointments from '~/applications/personalization/appointments/reducers';
 import profile from '@@profile/reducers';
@@ -23,6 +24,7 @@ export default {
       prescriptions,
     }),
     msg: combineReducers({
+      unreadCount,
       recipients,
       folders,
     }),
