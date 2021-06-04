@@ -110,7 +110,7 @@ export function transformFormToVAOSVARequest(state) {
         .subtract(1, 'minute')
         .format(),
     })),
-    // These four fields aren't in the current schema, but probably should be
+    // This field isn't in the schema yet
     preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall)
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
