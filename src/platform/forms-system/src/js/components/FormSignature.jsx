@@ -22,7 +22,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
  *   );
  * }
  */
-export const FormSignature = () =>
+export const FormSignature = ({ label }) =>
   // {
   //   formData,
   //   onSectionComplete,
@@ -35,9 +35,7 @@ export const FormSignature = () =>
     // TODO: Handle the inputs
     return (
       <>
-        <h3>Veteran’s statement of truth</h3>
-        <p>I certify that this information will be custom for each form.</p>
-        <label htmlFor="signature">Veteran’s full name</label>
+        <label htmlFor="signature">{label || 'Veteran’s full name'}</label>
         <input id="signature" type="text" />
       </>
     );
@@ -53,6 +51,9 @@ FormSignature.propTypes = {
     errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }),
+
+  onBehalfOf: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 };
 
 const mapDispatchToProps = {
