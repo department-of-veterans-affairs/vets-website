@@ -2,6 +2,9 @@ name: Continuous Integration
 
 on: [push]
 
+env:
+  CHROMEDRIVER_FILEPATH: ${{ env.CHROMEWEBDRIVER }}
+
 jobs:
   unit-tests:
     name: Unit Tests
