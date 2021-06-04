@@ -97,7 +97,6 @@ jobs:
       - name: Annotate Sass lint results
         run: node ./script/github-actions/sasslint-annotation-format.js
 
-
   contract-tests:
     name: Contract Tests
     runs-on: ubuntu-latest
