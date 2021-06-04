@@ -105,9 +105,7 @@ describe('Forms library - Forms signature component', () => {
 
       // Subsequent validation functions don't get run if previous validators
       // return an error message
-      expect(
-        validationSpies[1].calledWithExactly(null, signatureProps.formData),
-      ).to.be.false;
+      expect(validationSpies[1].called).to.be.false;
     });
 
     it('should show error messages from validation functions', () => {
