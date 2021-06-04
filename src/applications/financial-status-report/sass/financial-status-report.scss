@@ -53,6 +53,9 @@
 
 .item-loop-container {
   margin-top: 10px;
+  table {
+    table-layout: fixed;
+  }
   .item-loop {
     padding: 5px 15px 20px;
     background-color: $color-gray-lightest;
