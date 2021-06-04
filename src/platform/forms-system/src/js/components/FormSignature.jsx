@@ -10,12 +10,13 @@ import { setData } from 'platform/forms-system/src/js/actions';
  * preSubmitInfo: {
  *   CustomComponent: (signatureProps) => (
  *     <>
- *       <h3>Veteran’s statement of truth</h3>
+ *       <h3>Statement of truth</h3>
  *       <p>I solemnly swear I am up to no good.</p>
  *       <FormSignature
  *         {...signatureProps}
  *         label="Secret code name"
  *       />
+ *       <span>On behalf of: {signatureProps.formData.name}</span>
  *     </>
  *   );
  * }
