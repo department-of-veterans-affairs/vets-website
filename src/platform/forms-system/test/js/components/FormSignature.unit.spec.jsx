@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
 import { FormSignature } from '../../../src/js/components/FormSignature';
@@ -64,6 +65,37 @@ describe('Forms library - Forms signature component', () => {
     });
   });
 
+  describe('validation', () => {
+    it('should require signature and certification', () => {
+      const { getByText } = render(
+        <FormSignature {...signatureProps} required />,
+      );
+      expect(getByText(/Your signature must match/)).to.exist;
+      expect(getByText(/Must certify by checking box/)).to.exist;
+    });
+
+    it('should not show validation errors when showErrors is false', () => {
+      const { queryByText } = render(
+        <FormSignature {...signatureProps} showError={false} required />,
+      );
+      expect(queryByText(/Your signature must match/)).to.not.exist;
+      expect(queryByText(/Must certify by checking box/)).to.not.exist;
+    });
+
+    it('should dismiss validation errors after resolution', () => {
+      const { queryByText } = render(
+        <FormSignature {...signatureProps} required />,
+      );
+      userEvent.type(queryByText(/Veteran’s full name/), 'Curious George');
+      userEvent.click(
+        queryByText(/I certify the information above is correct/),
+      );
+      expect(queryByText(/Your signature must match/)).to.not.exist;
+      expect(queryByText(/Must certify by checking box/)).to.not.exist;
+    });
+    it('should perform data validations if present', () => {});
+  });
+
   describe('behavior', () => {
     it('should call onSectionComplete when the signature is valid', () => {
       // "Valid" here means:
@@ -72,11 +104,5 @@ describe('Forms library - Forms signature component', () => {
     });
 
     it('should call setFormData when the name is entered', () => {});
-  });
-
-  describe('validation', () => {
-    it('should require signature', () => {});
-    it('should require certification checkbox', () => {});
-    it('should perform data validations if present', () => {});
   });
 });

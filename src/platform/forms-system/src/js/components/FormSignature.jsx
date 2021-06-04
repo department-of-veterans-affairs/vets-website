@@ -42,16 +42,26 @@ export const FormSignature = ({
     const [signatureError, setSignatureError] = useState(null);
     const [checkboxError, setCheckboxError] = useState(null);
 
+    // Signature input validation
     useEffect(
       () => {
+        let signatureErrorMessage = null;
         if (required && !signature.value)
-          setSignatureError(
-            'Your signature must match your first and last name as previously entered',
-          );
-        if (required && !checked)
-          setCheckboxError('Must certify by checking box');
+          signatureErrorMessage =
+            'Your signature must match your first and last name as previously entered';
+
+        setSignatureError(signatureErrorMessage);
       },
-      [required, signature, checked],
+      [required, signature],
+    );
+
+    // Checkbox validation
+    useEffect(
+      () =>
+        setCheckboxError(
+          required && !checked ? 'Must certify by checking box' : null,
+        ),
+      [required, checked],
     );
 
     return (
@@ -61,7 +71,7 @@ export const FormSignature = ({
           field={signature}
           onValueChange={setSignature}
           required={required}
-          errorMessage={showError && signatureError}
+          errorMessage={(showError || signature.dirty) && signatureError}
         />
         <Checkbox
           label={checkboxLabel}
