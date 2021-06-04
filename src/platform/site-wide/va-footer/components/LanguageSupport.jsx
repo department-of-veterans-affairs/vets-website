@@ -7,7 +7,7 @@ import {
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
 
-const langAssistanceLabel = 'Language Assistance';
+const langAssistanceLabel = 'Language assistance';
 
 function LanguagesListTemplate({ langSelected }) {
   return (
@@ -32,6 +32,7 @@ function LanguagesListTemplate({ langSelected }) {
         <li key={i}>
           <a
             href={link.href}
+            lang={link.lang}
             hrefLang={link.lang}
             onClick={() => {
               langSelected(link.lang);
@@ -57,11 +58,11 @@ export default function LanguageSupport({
 }) {
   useEffect(
     () => {
-      if (langSelected && showLangSupport) {
-        adaptLinksWithLangCode(langSelected);
+      if (langSelected && showLangSupport && languageCode) {
+        adaptLinksWithLangCode(langSelected, languageCode);
       }
     },
-    [langSelected, showLangSupport],
+    [langSelected, languageCode, showLangSupport],
   );
 
   useEffect(

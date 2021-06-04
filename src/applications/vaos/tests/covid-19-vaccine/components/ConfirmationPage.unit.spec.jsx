@@ -51,6 +51,10 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
                   system: 'phone',
                   value: '307-778-7550',
                 },
+                {
+                  system: 'covid',
+                  value: '307-778-7580',
+                },
               ],
             },
           ],
@@ -76,7 +80,7 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
       'href',
       'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
     );
-    expect(screen.baseElement).to.contain.text('Main phone: 307-778-7550');
+    expect(screen.baseElement).to.contain.text('Main phone: 307-778-7580');
     expect(screen.getByText(/add to calendar/i)).to.have.tagName('a');
 
     userEvent.click(screen.getByText(/View your appointments/i));
