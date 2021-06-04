@@ -2,11 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import set from 'platform/utilities/data/set';
-import {
-  mockFetch,
-  resetFetch,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
@@ -38,10 +34,6 @@ const initialState = {
 describe('VAOS <VAOSApp>', () => {
   beforeEach(() => {
     mockFetch();
-  });
-
-  afterEach(() => {
-    resetFetch();
   });
 
   it('should render child content', async () => {

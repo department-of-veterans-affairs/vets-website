@@ -136,7 +136,7 @@ SignatureInput.propTypes = {
   hasSubmittedForm: PropTypes.bool.isRequired,
   setSignatures: PropTypes.func.isRequired,
   isRepresentative: PropTypes.bool,
-  ariaDescribedBy: PropTypes.string.isRequired,
+  ariaDescribedBy: PropTypes.string,
   required: PropTypes.bool,
 };
 

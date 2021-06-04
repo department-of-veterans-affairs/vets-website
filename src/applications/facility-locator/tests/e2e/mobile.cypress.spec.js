@@ -1,5 +1,3 @@
-import path from 'path';
-
 const city = 'Austin, TX';
 const randomInput = 'Random Input To be Cleared';
 
@@ -61,12 +59,6 @@ Cypress.Commands.add('checkSearch', () => {
 });
 
 describe('Mobile', () => {
-  before(() => {
-    cy.syncFixtures({
-      constants: path.join(__dirname, '..', '..', 'constants'),
-    });
-  });
-
   it('should render in mobile layouts, clear input checks and tabs actions work', () => {
     cy.visit('/find-locations');
     cy.injectAxe();

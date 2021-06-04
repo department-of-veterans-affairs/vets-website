@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { mockFacilityLocatorApiResponse } from './mockFacilitiesData';
 
 import OtherFacilityListWidget from '../../facilities/OtherFacilityListWidget';
@@ -46,7 +46,6 @@ describe('facilities <OtherFacilityListWidget>', () => {
       const facilityType = tree.find('.facility-type');
       expect(facilityType.text()).to.contain('VA Medical Center (VAMC)');
       tree.unmount();
-      resetFetch();
       done();
     });
   });

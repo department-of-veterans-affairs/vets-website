@@ -1,11 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import {
-  mockFetch,
-  resetFetch,
-  setFetchJSONFailure,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONFailure } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
@@ -81,7 +77,6 @@ closestFacility.attributes.long = -84.3164749;
 
 describe('VAOS vaccine flow: <VAFacilityPage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should display 2 dosages COVID alert', async () => {
     mockDirectBookingEligibilityCriteria(

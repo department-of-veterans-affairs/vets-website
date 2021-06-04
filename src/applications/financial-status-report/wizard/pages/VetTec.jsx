@@ -31,7 +31,10 @@ const VetTec = () => {
         <ul>
           <li>
             <strong>Email: </strong>
-            <a href="mailto:vettec.vbauf@va.gov">VETTEC.VBAUF@va.gov</a>.
+            <a className="email" href="mailto:vettec.vbauf@va.gov">
+              VETTEC.VBAUF@va.gov
+            </a>
+            .
           </li>
           <li>
             <strong>Phone: </strong>
