@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 
 /**
  * Description of how the component behaves here.
@@ -30,12 +31,14 @@ export const FormSignature = ({ label }) =>
   //   submission,
   // },
   {
-    // TODO: Display the content and inputs
-    // TODO: Handle the inputs
+    const [signature, setSignature] = useState({ value: '', dirty: false });
     return (
       <>
-        <label htmlFor="signature">{label || 'Veteran’s full name'}</label>
-        <input id="signature" type="text" />
+        <TextInput
+          label={label}
+          field={signature}
+          onValueChange={setSignature}
+        />
       </>
     );
   };
