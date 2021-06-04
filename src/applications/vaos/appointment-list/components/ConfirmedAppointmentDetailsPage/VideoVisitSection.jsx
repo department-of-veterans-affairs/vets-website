@@ -73,15 +73,20 @@ export default function VideoVisitLocation({ appointment, facility }) {
             )}
           </>
         )}
-        {(kind === VIDEO_TYPES.gfe || isAtlas) && (
+        {kind === VIDEO_TYPES.gfe && (
           <div className="vads-u-margin-top--2">
             <VideoVisitProvider providers={providers} />
           </div>
         )}
         {isAtlas && (
-          <div className="vads-u-margin-top--2">
-            <AtlasLocation appointment={appointment} />
-          </div>
+          <>
+            <div className="vads-u-margin-top--2">
+              <AtlasLocation appointment={appointment} />
+            </div>
+            <div className="vads-u-margin-top--2">
+              <VideoVisitProvider providers={providers} />
+            </div>
+          </>
         )}
         {kind === VIDEO_TYPES.clinic &&
           !isAtlas && (
