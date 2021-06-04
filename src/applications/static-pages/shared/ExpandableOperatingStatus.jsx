@@ -7,7 +7,7 @@ const ExpandableOperatingStatus = props => {
 
   const handleOnclick = e => {
     if (!props.extraInfo) return;
-    e.target.classList.toggle('active');
+    if (e) e.target.classList.toggle('active');
     setOpen(!open);
     if (!open) {
       recordEvent({

@@ -1,36 +1,12 @@
 import React from 'react';
-import sinon from 'sinon';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import ExpandableOperatingStatus from '../../shared/ExpandableOperatingStatus';
 
 describe('<ExpandableOperatingStatus>', () => {
-  //      let status;
-  //       let iconType;
-  //
-  //       switch (el.attributes.status.nodeValue) {
-  //         case 'limited':
-  //           status = 'Limited services and hours';
-  //           iconType = 'triangle';
-  //           break;
-  //         case 'closed':
-  //           status = 'Facility closed';
-  //           iconType = 'circle';
-  //           break;
-  //         case 'notice':
-  //           status = 'Facility notice';
-  //           iconType = 'circle';
-  //           break;
-  //         default:
-  //           status = 'Facility status';
-  //           iconType = 'triangle';
-  //       }
-
-  it('Should render ExpandableOperatingStatus', () => {
-    const eventSpy = sinon.spy();
+  it('Should render ExpandableOperatingStatus and be functional', () => {
     const wrapper = shallow(
       <ExpandableOperatingStatus
-        eventSpy={eventSpy}
         operatingStatusFacility={'limited'}
         iconType={'triangle'}
         statusLabel={'Limited services and hours'}
@@ -51,13 +27,18 @@ describe('<ExpandableOperatingStatus>', () => {
       wrapper.find('.alert-icon-base').hasClass('fa-exclamation-triangle'),
     ).to.equal(true);
 
-    // const div = wrapper.find('div');
-    // const button = div.find('button');
+    const div = wrapper.find('div');
+    const button = div.find('button');
 
-    // console.log(button.debug());
+    expect(wrapper.find('.content').hasClass('vads-u-display--none')).to.equal(
+      true,
+    );
 
-    // button.simulate('click');
-    // expect(eventSpy.calledOnce).toBe(true);
+    button.simulate('click');
+
+    expect(wrapper.find('.content').hasClass('vads-u-display--block')).to.equal(
+      true,
+    );
 
     wrapper.unmount();
   });
