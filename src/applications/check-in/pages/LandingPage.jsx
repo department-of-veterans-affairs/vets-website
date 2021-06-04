@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-import { withFeatureFlip } from '../containers/withFeatureFlip.jsx';
+import withFeatureFlip from '../containers/withFeatureFlip.jsx';
 
-const LandingPage = () => {
+const LandingPage = _props => {
   const [didCheckIn, setDidCheckIn] = useState(false);
   const onClick = () => {
     setDidCheckIn(true);
