@@ -15,9 +15,6 @@ describe('VAOS direct schedule flow', () => {
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
-    // Select primary care appointment type
-    cy.get('#schedule-new-appointment-0').click();
-
     // Start flow
     cy.findByText('Start scheduling').click();
 
@@ -88,9 +85,6 @@ describe('VAOS direct schedule flow', () => {
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
 
-    // Select primary care appointment type
-    cy.get('#schedule-new-appointment-0').click();
-
     // Start flow
     cy.findByText('Start scheduling').click();
 
@@ -158,9 +152,6 @@ describe('VAOS direct schedule flow', () => {
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
-
-    // Select primary care appointment type
-    cy.get('#schedule-new-appointment-0').click();
 
     // Start flow
     cy.findByText('Start scheduling').click();
@@ -230,9 +221,6 @@ describe('VAOS direct schedule flow', () => {
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
-
-    // Select primary care appointment type
-    cy.get('#schedule-new-appointment-0').click();
 
     // Start flow
     cy.findByText('Start scheduling').click();
@@ -304,9 +292,6 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
-    // Select primary care appointment type
-    cy.get('#schedule-new-appointment-0').click();
-
     // Start flow
     cy.findByText('Start scheduling').click();
 
@@ -377,9 +362,6 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
 
-    // Select primary care appointment type
-    cy.get('#schedule-new-appointment-0').click();
-
     // Start flow
     cy.findByText('Start scheduling').click();
 
@@ -448,9 +430,6 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
-
-    // Select primary care appointment type
-    cy.get('#schedule-new-appointment-0').click();
 
     // Start flow
     cy.findByText('Start scheduling').click();
