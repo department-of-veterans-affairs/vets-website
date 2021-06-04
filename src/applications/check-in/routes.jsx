@@ -8,8 +8,6 @@ const createRoutesWithStore = () => {
   return (
     <Switch>
       <Route path="/:token" component={props => <LandingPage {...props} />} />
-
-      {/* <Route path="/something" exact component={ConfirmationPage} /> */}
     </Switch>
   );
 };
