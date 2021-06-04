@@ -89,16 +89,19 @@ function PastAppointmentsList({
   fetchPastAppointments,
 }) {
   const [isInitialMount, setInitialMount] = useState(true);
-  useEffect(() => {
-    if (pastStatus === FETCH_STATUS.notStarted) {
-      const selectedDateRange = dateRangeOptions[pastSelectedIndex];
-      fetchPastAppointments(
-        selectedDateRange.startDate,
-        selectedDateRange.endDate,
-        pastSelectedIndex,
-      );
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (pastStatus === FETCH_STATUS.notStarted) {
+        const selectedDateRange = dateRangeOptions[pastSelectedIndex];
+        fetchPastAppointments(
+          selectedDateRange.startDate,
+          selectedDateRange.endDate,
+          pastSelectedIndex,
+        );
+      }
+    },
+    [dateRangeOptions],
+  );
   useEffect(
     () => {
       if (pastStatus === FETCH_STATUS.succeeded && !isInitialMount) {
