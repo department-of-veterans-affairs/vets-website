@@ -54,10 +54,10 @@ const mapStateToProps = (state, props) => ({
   isEnrolledStem: state?.form?.data.isEnrolledStem,
   isPursuingTeachingCert:
     state?.form?.data['view:teachingCertClinicalTraining']
-      .isPursuingTeachingCert || false,
+      ?.isPursuingTeachingCert || false,
   isPursuingClinicalTraining:
     state?.form?.data['view:teachingCertClinicalTraining']
-      .isPursuingClinicalTraining || false,
+      ?.isPursuingClinicalTraining || false,
   formId: state.form.formId,
   isLoggedIn: state.user.login.currentlyLoggedIn,
 });

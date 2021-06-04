@@ -31,7 +31,12 @@ const testConfig = createTestConfig(
         cy.get('@testKey').then(testKey => {
           if (testKey === 'confirmation-stem-test') {
             cy.get('input[id="root_isEnrolledStemNo"]').click();
-            cy.get('input[id="root_isPursuingTeachingCertNo"]').click();
+            cy.get(
+              'input[id="root_view:teachingCertClinicalTraining_isPursuingTeachingCertNo"]',
+            ).click();
+            cy.get(
+              'input[id="root_view:teachingCertClinicalTraining_isPursuingClinicalTrainingNo"]',
+            ).click();
             cy.get('input[id="root_benefitLeft_0"]').click();
           } else {
             cy.get('input[id="root_isEnrolledStemYes"]').click();
