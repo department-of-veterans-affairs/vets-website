@@ -74,15 +74,6 @@ export const fetchFolder = (id, query = {}) => async dispatch => {
     const folderResponse = await apiRequest(`${baseUrl}${folderUrl}`);
     const messagesResponse = await apiRequest(`${baseUrl}${messagesUrl}`);
 
-    // Escape early if there are errors in either API request.
-    if (folderResponse?.errors || messagesResponse?.errors) {
-      dispatch({
-        type: FETCH_FOLDER_FAILURE,
-        errors: [...folderResponse?.errors, ...messagesResponse?.errors],
-      });
-      return;
-    }
-
     dispatch({
       type: FETCH_FOLDER_SUCCESS,
       folder: folderResponse,
