@@ -9,19 +9,24 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { setPageFocus } from '../utils/page';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-const NoDebtLinks = () => (
-  <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
+const ErrorAlert = () => (
+  <div
+    className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
+    role="alert"
+  >
     <div className="usa-alert-body">
-      <h3 className="usa-alert-heading">You don't have any VA debt letters</h3>
+      <h3 className="usa-alert-heading">
+        Your debt letters are currently unavailable.
+      </h3>
       <p className="vads-u-font-family--sans">
-        Our records show you don’t have any debt letters related to VA benefits.
-        If you think this is an error, please contact the Debt Management Center
-        at <Telephone contact="8008270648" />.
+        You can't download your debt letters because something went wrong on our
+        end.
       </p>
+      <h4>What you can do</h4>
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
-        If you have VA health care copay debt, go to our{' '}
-        <a href="/health-care/pay-copay-bill/">Pay your VA copay bill</a> page
-        to learn about your payment options.
+        You can check back later or call the Debt Management Center at{' '}
+        <Telephone contact="8008270648" /> to find out more information about
+        how to resolve your debt.
       </p>
     </div>
   </div>
@@ -49,60 +54,49 @@ const DependentDebt = () => (
   </div>
 );
 
-const ErrorAlert = () => (
-  <div
-    className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
-    role="alert"
-  >
+const NoDebtLinks = () => (
+  <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
     <div className="usa-alert-body">
-      <h3 className="usa-alert-heading">
-        Your debt letters are currently unavailable.
-      </h3>
+      <h3 className="usa-alert-heading">You don't have any VA debt letters</h3>
       <p className="vads-u-font-family--sans">
-        You can't download your debt letters because something went wrong on our
-        end.
+        Our records show you don’t have any debt letters related to VA benefits.
+        If you think this is an error, please contact the Debt Management Center
+        at <Telephone contact="8008270648" />.
       </p>
-      <h4>What you can do</h4>
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
-        You can check back later or call the Debt Management Center at{' '}
-        <Telephone contact="8008270648" /> to find out more information about
-        how to resolve your debt.
+        If you have VA health care copay debt, go to our{' '}
+        <a href="/health-care/pay-copay-bill/">Pay your VA copay bill</a> page
+        to learn about your payment options.
       </p>
     </div>
   </div>
 );
 
-const DebtLettersView = ({ debtLinks }) => (
-  <>
-    <DebtLettersTable debtLinks={debtLinks} />
-    <MobileTableView debtLinks={debtLinks} />
-  </>
-);
+const DebtLettersDownload = ({
+  debtLinks,
+  isError,
+  isVBMSError,
+  hasDependentDebts,
+}) => {
+  const DebtLetters = () => {
+    const hasDebtLinks = !!debtLinks.length;
 
-const DebtLettersDownload = ({ debtLinks, isError, isVBMSError }) => {
+    if (isError || isVBMSError) return <ErrorAlert />;
+    if (hasDependentDebts) return <DependentDebt />;
+    if (!hasDebtLinks) return <NoDebtLinks />;
+
+    return (
+      <>
+        <DebtLettersTable debtLinks={debtLinks} />
+        <MobileTableView debtLinks={debtLinks} />
+      </>
+    );
+  };
+
   useEffect(() => {
     scrollToTop();
     setPageFocus('h1');
   });
-
-  const DebtLetters = () => {
-    const hasDependentDebts = false;
-    const hasDebtLinks = !!debtLinks.length;
-
-    // console.log('hasDependentDebts: ', hasDependentDebts);
-    // console.log('hasDebtLinks: ', hasDebtLinks);
-
-    if (isError || isVBMSError) {
-      return <ErrorAlert />;
-    }
-    if (hasDependentDebts) {
-      return <DependentDebt />;
-    }
-    if (!hasDebtLinks) {
-      return <NoDebtLinks />;
-    }
-    return <DebtLettersView debtLinks={debtLinks} />;
-  };
 
   return (
     <div className="vads-l-row large-screen:vads-u-margin-x--neg2p5">
@@ -160,13 +154,15 @@ const DebtLettersDownload = ({ debtLinks, isError, isVBMSError }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  isError: state.debtLetters.isError,
-  isVBMSError: state.debtLetters.isVBMSError,
-  debtLinks: state.debtLetters.debtLinks,
+const mapStateToProps = ({ debtLetters }) => ({
+  hasDependentDebts: debtLetters.hasDependentDebts,
+  isError: debtLetters.isError,
+  isVBMSError: debtLetters.isVBMSError,
+  debtLinks: debtLetters.debtLinks,
 });
 
 DebtLettersDownload.propTypes = {
+  hasDependentDebts: PropTypes.bool.isRequired,
   isVBMSError: PropTypes.bool.isRequired,
   isError: PropTypes.bool.isRequired,
   debtLinks: PropTypes.arrayOf(
@@ -179,6 +175,7 @@ DebtLettersDownload.propTypes = {
 };
 
 DebtLettersDownload.defaultProps = {
+  hasDependentDebts: false,
   isError: false,
   isVBMSError: false,
   debtLinks: [],
