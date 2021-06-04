@@ -46,6 +46,10 @@ export default function VideoVisitLocation({ appointment, facility }) {
     );
   }
 
+  if (appointment.vaos.isPastAppointment && isAtlas) {
+    return <AtlasLocation appointment={appointment} />;
+  }
+
   if (appointment.vaos.isPastAppointment) {
     return <span>Video conference</span>;
   }
