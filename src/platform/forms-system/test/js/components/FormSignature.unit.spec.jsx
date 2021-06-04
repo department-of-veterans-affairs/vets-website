@@ -24,7 +24,13 @@ describe('Forms library - Forms signature component', () => {
     expect(getByLabelText('Custom text here')).to.exist;
   });
 
-  it('should render input with custom React element label', () => {});
+  it('should render input with custom React element label', () => {
+    const customLabel = <span>Custom text here</span>;
+    const { getByLabelText } = render(
+      <FormSignature {...signatureProps} label={customLabel} />,
+    );
+    expect(getByLabelText('Custom text here')).to.exist;
+  });
 
   it('should render "on behalf of" text', () => {});
 
