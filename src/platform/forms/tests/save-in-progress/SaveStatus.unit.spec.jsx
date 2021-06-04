@@ -106,7 +106,8 @@ describe('<SaveStatus>', () => {
     const tree = SkinDeep.shallowRender(
       <SaveStatus {...appSavedSuccessfullyMessageProps} />,
     );
-    expect(tree.subTree('.panel').text()).to.include('custom application type');
-    expect(tree.subTree('.panel').text()).to.include('ID number is 98765');
+    expect(tree.subTree('.panel').text()).to.include(
+      'custom application type ID number is 98765',
+    );
   });
 });
