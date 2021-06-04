@@ -11,7 +11,7 @@ const langAssistanceLabel = 'Language assistance';
 
 function LanguagesListTemplate({ langSelected }) {
   return (
-    <ul>
+    <ul className={'vads-u-margin-top--0'}>
       {[
         {
           label: 'Español',
