@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import './sass/_m-operating-status.scss';
+import recordEvent from 'platform/monitoring/record-event';
 
 const ExpandableOperatingStatus = props => {
   const [open, setOpen] = useState(false);
@@ -9,6 +9,17 @@ const ExpandableOperatingStatus = props => {
     if (!props.extraInfo) return;
     e.target.classList.toggle('active');
     setOpen(!open);
+    if (!open) {
+      recordEvent({
+        event: 'int-accordion-expand',
+        'operating-status-heading': props.statusLabel,
+      });
+    } else {
+      recordEvent({
+        event: 'int-accordion-collapse',
+        'operating-status-heading': props.statusLabel,
+      });
+    }
   };
 
   const iconIndicator = extraInfo => {
@@ -31,7 +42,7 @@ const ExpandableOperatingStatus = props => {
   const contentString = `<p class="more-info">${props.extraInfo}</p>`;
 
   return (
-    <>
+    <div>
       <button
         type="button"
         className={`collapsible ${props.operatingStatusFacility}`}
@@ -61,13 +72,13 @@ const ExpandableOperatingStatus = props => {
         }`}
         dangerouslySetInnerHTML={{ __html: outputLinks(contentString) }}
       />
-    </>
+    </div>
   );
 };
 
 ExpandableOperatingStatus.propTypes = {
   statusLabel: PropTypes.string,
-  extraInfo: PropTypes.object,
+  extraInfo: PropTypes.string,
   iconType: PropTypes.string,
   operatingStatusFacility: PropTypes.string,
 };
