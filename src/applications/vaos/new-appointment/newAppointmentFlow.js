@@ -14,6 +14,7 @@ import {
   FLOW_TYPES,
   GA_PREFIX,
   TYPES_OF_CARE,
+  COVID_VACCINE_ID,
 } from '../utils/constants';
 import { getSiteIdFromFacilityId } from '../services/location';
 import {
@@ -32,7 +33,6 @@ const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
 const EYE_CARE = 'EYE';
 const PODIATRY = 'tbd-podiatry';
-const COVID = 'covid';
 const VA_FACILITY_V1_KEY = 'vaFacility';
 const VA_FACILITY_V2_KEY = 'vaFacilityV2';
 
@@ -67,7 +67,7 @@ function isPodiatry(state) {
 }
 
 function isCovidVaccine(state) {
-  return getFormData(state).typeOfCareId === COVID;
+  return getFormData(state).typeOfCareId === COVID_VACCINE_ID;
 }
 
 function getFacilityPageKey(state) {
