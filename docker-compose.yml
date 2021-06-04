@@ -1,11 +1,11 @@
-version: '3.8'
+version: '3'
 services:
   vets-website:
     image: vets-website:${IMAGE_TAG:-latest}
     build:
       context: .
     volumes:
-      - .:/application:rw
+      - .:/application
     environment:
       WEB_HOST: 'vets-website'
       WEB_PORT: 3001
