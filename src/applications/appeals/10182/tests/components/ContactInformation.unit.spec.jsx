@@ -48,4 +48,49 @@ describe('Veteran information review content', () => {
     expect(text).to.contain('Hollywood, CA 90210');
     tree.unmount();
   });
+
+  it('should render note about missing phone', () => {
+    const data = {
+      veteran: {
+        email: 'someone@famous.com',
+        phone: {},
+        address: {
+          addressType: ADDRESS_TYPES.domestic,
+          countryName: 'United States',
+          countryCodeIso3: 'USA',
+          addressLine1: '123 Main Blvd',
+          addressLine2: 'Floor 33',
+          addressLine3: 'Suite 55',
+          city: 'Hollywood',
+          stateCode: 'CA',
+          zipCode: '90210',
+        },
+      },
+    };
+    const ContactInfo = () => <>{ContactInfoDescription(data)}</>;
+    const tree = shallow(<ContactInfo />);
+    const text = tree.text();
+
+    expect(text).to.contain('address is required for this application');
+    tree.unmount();
+  });
+  it('should render note about missing address', () => {
+    const data = {
+      veteran: {
+        email: 'someone@famous.com',
+        phone: {
+          areaCode: '555',
+          phoneNumber: '8001212',
+          extension: '1234',
+        },
+        address: {},
+      },
+    };
+    const ContactInfo = () => <>{ContactInfoDescription(data)}</>;
+    const tree = shallow(<ContactInfo />);
+    const text = tree.text();
+
+    expect(text).to.contain('address is required for this application');
+    tree.unmount();
+  });
 });
