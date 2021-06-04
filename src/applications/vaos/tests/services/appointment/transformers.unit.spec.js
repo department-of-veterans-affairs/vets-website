@@ -616,7 +616,7 @@ describe('VAOS Appointment transformer', () => {
         });
 
         describe('va video appointment', () => {
-          describe('should return false after if video and less than 240 min ago', () => {
+          it('should return false after if video and less than 240 min ago', () => {
             const futureAppt = {
               ...videoAppt,
               vvsAppointments: [
@@ -633,17 +633,12 @@ describe('VAOS Appointment transformer', () => {
             expect(transformed.vaos.isPastAppointment).to.equal(false);
           });
 
-          describe('should return true after if video and greater than 240 min ago', () => {
+          it('should return true after if video and greater than 240 min ago', () => {
             const pastAppt = {
               ...videoAppt,
-              vvsAppointments: [
-                {
-                  ...videoAppt.vvsAppointments[0],
-                  dateTime: moment()
-                    .subtract(245, 'minutes')
-                    .format(),
-                },
-              ],
+              startDate: moment()
+                .subtract(245, 'minutes')
+                .format(),
             };
 
             const transformed = transformConfirmedAppointments([pastAppt])[0];
@@ -740,6 +735,7 @@ describe('VAOS Appointment transformer', () => {
           const nullAppts = [...PAST_APPOINTMENTS_HIDE_STATUS_SET].map(
             code => ({
               ...videoAppt,
+              startDate: dateTime,
               vvsAppointments: [
                 {
                   dateTime,
