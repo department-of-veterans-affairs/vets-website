@@ -73,17 +73,17 @@ export class ConfirmEligibilityView extends React.Component {
     );
     const prodFlagText = (
       <div>
-        <p>Are:</p>
-        <ul className="circle">
-          <li>
+        <p className="vads-u-margin-bottom--neg1px">Are:</p>
+        <ul className="circle vads-u-margin-y--0">
+          <li className="vads-u-margin-y--0">
             Enrolled in a bachelor’s degree program for science, technology,
             engineering, or math (STEM), <b>or</b>
           </li>
-          <li>
+          <li className="vads-u-margin-y--0">
             Have already earned a STEM bachelor’s degree and are working toward
             a teaching certification, <b>or</b>
           </li>
-          <li>
+          <li className="vads-u-margin-y--0">
             Have already earned a STEM bachelor's or graduate degree and are
             pursuing a covered clinical training program for health care
             professionals
