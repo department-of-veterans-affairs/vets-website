@@ -10,12 +10,6 @@
     border: none;
   }
 
-  [data-e2e-id="find-form-search-form"] {
-    button {
-      border-radius: 0px;
-    }
-  }
-
   .find-forms-search-metadata {
     div {
       align-items: center;
@@ -35,5 +29,15 @@
     border-width: 1px 0 0 0;
     border-color: $color-gray-lighter;
     border-style: solid;
+  }
+}
+
+@media (min-width: $medium-screen) {
+  [data-widget-type="find-va-forms"] {
+    [data-e2e-id="find-form-search-form"] {
+      button {
+        border-radius: 0px;
+      }
+    }
   }
 }

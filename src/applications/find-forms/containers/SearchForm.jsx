@@ -45,7 +45,7 @@ export const SearchForm = ({
   return (
     <form
       data-e2e-id="find-form-search-form"
-      className="vads-l-grid-container vads-u-padding--2 medium-screen:vads-u-padding--4 vads-u-background-color--gray-lightest vads-u-margin-bottom--4"
+      className="vads-l-grid-container vads-u-padding--3 vads-u-background-color--gray-lightest vads-u-margin-bottom--4"
       name="find-va-form"
       onSubmit={onSubmitHandler}
     >
@@ -58,7 +58,7 @@ export const SearchForm = ({
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
           <input
-            className="usa-input vads-u-margin--0 vads-u-max-width--100 vads-u-width--full"
+            className="usa-input vads-u-margin--0 vads-u-margin-bottom--2 vads-u-max-width--100 vads-u-width--full medium-screen:vads-u-margin-bottom--0"
             id="va-form-query"
             onChange={onQueryChange}
             type="text"

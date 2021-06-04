@@ -95,7 +95,7 @@ const deriveRelatedTo = ({
 
   if (relatedTo) {
     return (
-      <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
+      <dd className="vads-u-margin-top--1 vads-u-margin-bottom--2">
         <dfn className="vads-u-font-weight--bold">Related to:</dfn> {relatedTo}
       </dd>
     );
@@ -151,7 +151,7 @@ const SearchResult = ({ form, formMetaInfo }) => {
         title={title}
         recordGAEvent={recordGAEvent}
       />
-      <dd className="vads-u-margin-y--1 vads-u-margin-y--1 vsa-from-last-updated">
+      <dd className="vads-u-margin-y--1 vsa-from-last-updated">
         <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
         {lastRevision}
       </dd>
