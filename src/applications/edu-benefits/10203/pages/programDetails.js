@@ -40,7 +40,7 @@ export const uiSchema = {
   // prod flag 24612
   schoolName: {
     'ui:title': environment.isProduction()
-      ? 'What’s the name of the school where you plan on using the Rogers STEM Scholarship'
+      ? 'What’s the name of the school where you plan on using the Rogers STEM Scholarship?'
       : 'What’s the name of the school or training institution where you plan on using the Rogers STEM Scholarship?',
   },
   schoolCity: {
