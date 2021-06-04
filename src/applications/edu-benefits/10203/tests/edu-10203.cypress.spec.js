@@ -6,8 +6,6 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
-const Timeouts = require('platform/testing/e2e/timeouts.js');
-
 Cypress.config('waitForAnimations', true);
 
 const testConfig = createTestConfig(
@@ -34,11 +32,7 @@ const testConfig = createTestConfig(
           if (testKey === 'confirmation-stem-test') {
             cy.get('input[id="root_isEnrolledStemNo"]').click();
             cy.get(
-              'input[id="root_view:teachingCertClinicalTraining_isPursuingTeachingCertNo"]',
-            ).click();
-            cy.get(
-              'input[id="root_view:teachingCertClinicalTraining_isPursuingClinicalTrainingNo"]',
-              { timeout: Timeouts.normal },
+              'input[id="root_view:teachingCertClinicalTraining_isPursuingTeachingCertYes"]',
             ).click();
             cy.get('input[id="root_benefitLeft_0"]').click();
           } else {
@@ -54,7 +48,7 @@ const testConfig = createTestConfig(
           if (testKey === 'confirmation-stem-test') {
             cy.get('.stem-eligibility-ul')
               .find('fa-times')
-              .to.have.lengthOf(3);
+              .to.have.lengthOf(2);
           }
         });
         cy.findByText(/Continue/i, { selector: 'button' }).click();
