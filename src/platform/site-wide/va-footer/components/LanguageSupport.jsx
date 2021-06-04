@@ -96,7 +96,7 @@ export default function LanguageSupport({
         {langAssistanceLabel}
       </button>
       <div
-        className="usa-accordion-content va-footer-accordion-content"
+        className="usa-accordion-content va-footer-accordion-content vads-u-padding-bottom--0 vads-u-padding-left--0p5"
         id="veteran-language-support"
         aria-hidden="true"
       >
