@@ -60,7 +60,7 @@ import {
 import {
   transformFormToVAOSCCRequest,
   transformFormToVAOSVARequest,
-} from './helpers/formSubmitTransformers.vaos';
+} from './helpers/formSubmitTransformers.v2';
 import {
   resetDataLayer,
   recordItemsRetrieved,

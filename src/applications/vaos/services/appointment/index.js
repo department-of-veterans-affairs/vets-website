@@ -29,7 +29,7 @@ import {
   GA_PREFIX,
 } from '../../utils/constants';
 import { formatFacilityAddress, getFacilityPhone } from '../location';
-import { transformVAOSAppointment } from './transformers.vaos';
+import { transformVAOSAppointment } from './transformers.v2';
 import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
