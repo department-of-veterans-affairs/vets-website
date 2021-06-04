@@ -88,19 +88,8 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Get files changed
-        id: get-files-changed
-        uses: trilom/file-changes-action@v1.2.3
-        continue-on-error: true
-        with:
-          output: 'json'
-
-      - name: Filter files
-        id: get-lint-files
-        run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files }}
-
       - name: Annotate ESLint results
-        run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.FILES }}
+        run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
 
       - name: Run Sass lint
         run: yarn run sass-lint --format json --verbose --output sasslint-report.json

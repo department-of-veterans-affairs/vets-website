@@ -1,4 +1,4 @@
-name: Manual Review
+name: Pull Request
 
 on: [pull_request]
 
@@ -8,7 +8,7 @@ env:
 
 jobs:
   eslint-check:
-    name: ESLint Check
+    name: ESLint Disable Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
