@@ -7,7 +7,7 @@ import LandingPage from './pages/LandingPage';
 const createRoutesWithStore = () => {
   return (
     <Switch>
-      <Route path="/:token" component={props => <LandingPage {...props} />} />
+      <Route path="/:token" component={LandingPage} />
     </Switch>
   );
 };
