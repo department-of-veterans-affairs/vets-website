@@ -37,7 +37,10 @@ export default function VideoVisitLocation({ appointment, facility }) {
     kind !== VIDEO_TYPES.clinic &&
     kind !== VIDEO_TYPES.gfe;
 
-  if (appointment.vaos.isPastAppointment && kind === VIDEO_TYPES.clinic) {
+  if (
+    appointment.vaos.isPastAppointment &&
+    (kind === VIDEO_TYPES.clinic || isAtlas)
+  ) {
     return (
       <VAFacilityLocation
         facility={facility}
