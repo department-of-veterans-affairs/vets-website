@@ -32,8 +32,6 @@ describe('Forms library - Forms signature component', () => {
     expect(getByLabelText('Custom text here')).to.exist;
   });
 
-  it('should render "on behalf of" text', () => {});
-
   it('should call setFormData ...when the name is entered..?', () => {});
 
   it('should call onSectionComplete when the checkbox is checked', () => {});

@@ -14,9 +14,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
  *       <p>I solemnly swear I am up to no good.</p>
  *       <FormSignature
  *         {...signatureProps}
- *         onBehalfOf={`${props.formData.veteran.firstName} ${
- *           props.formData.veteran.lastName
- *         }`}
+ *         label="Secret code name"
  *       />
  *     </>
  *   );
@@ -51,8 +49,6 @@ FormSignature.propTypes = {
     errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }),
-
-  onBehalfOf: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
 };
 
