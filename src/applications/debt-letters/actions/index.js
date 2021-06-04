@@ -116,7 +116,7 @@ export const fetchDebtLetters = () => async dispatch => {
         'number-of-current-debt-cards': filteredResponse.length,
       });
     }
-    // suppress VBMS call if they have dependent debt
+    // if a veteran has dependent debt do NOT fetch debt letters
     if (!response.hasDependentDebts) {
       dispatch(fetchDebtLettersVBMS());
     }

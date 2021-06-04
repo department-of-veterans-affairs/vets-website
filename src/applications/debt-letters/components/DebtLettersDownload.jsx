@@ -9,34 +9,100 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { setPageFocus } from '../utils/page';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
+const NoDebtLinks = () => (
+  <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
+    <div className="usa-alert-body">
+      <h3 className="usa-alert-heading">You don't have any VA debt letters</h3>
+      <p className="vads-u-font-family--sans">
+        Our records show you don’t have any debt letters related to VA benefits.
+        If you think this is an error, please contact the Debt Management Center
+        at <Telephone contact="8008270648" />.
+      </p>
+      <p className="vads-u-font-family--sans vads-u-margin-y--0">
+        If you have VA health care copay debt, go to our{' '}
+        <a href="/health-care/pay-copay-bill/">Pay your VA copay bill</a> page
+        to learn about your payment options.
+      </p>
+    </div>
+  </div>
+);
+
+const DependentDebt = () => (
+  <div
+    className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
+    role="alert"
+  >
+    <div className="usa-alert-body">
+      <h3 className="usa-alert-heading">
+        Your debt letters are currently unavailable.
+      </h3>
+      <p className="vads-u-font-family--sans">
+        You can't download your debt letters because something went wrong on our
+        end.
+      </p>
+      <h4>What you can do</h4>
+      <p className="vads-u-font-family--sans vads-u-margin-y--0">
+        If you need to access debt letters that were mailed to you, call the
+        Debt Management Center at <Telephone contact="8008270648" />.
+      </p>
+    </div>
+  </div>
+);
+
+const ErrorAlert = () => (
+  <div
+    className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
+    role="alert"
+  >
+    <div className="usa-alert-body">
+      <h3 className="usa-alert-heading">
+        Your debt letters are currently unavailable.
+      </h3>
+      <p className="vads-u-font-family--sans">
+        You can't download your debt letters because something went wrong on our
+        end.
+      </p>
+      <h4>What you can do</h4>
+      <p className="vads-u-font-family--sans vads-u-margin-y--0">
+        You can check back later or call the Debt Management Center at{' '}
+        <Telephone contact="8008270648" /> to find out more information about
+        how to resolve your debt.
+      </p>
+    </div>
+  </div>
+);
+
+const DebtLettersView = ({ debtLinks }) => (
+  <>
+    <DebtLettersTable debtLinks={debtLinks} />
+    <MobileTableView debtLinks={debtLinks} />
+  </>
+);
+
 const DebtLettersDownload = ({ debtLinks, isError, isVBMSError }) => {
   useEffect(() => {
     scrollToTop();
     setPageFocus('h1');
   });
 
-  const ErrorAlert = () => (
-    <div
-      className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
-      role="alert"
-    >
-      <div className="usa-alert-body">
-        <h3 className="usa-alert-heading">
-          Your debt letters are currently unavailable.
-        </h3>
-        <p className="vads-u-font-family--sans">
-          You can't download your debt letters because something went wrong on
-          our end.
-        </p>
-        <h4>What you can do</h4>
-        <p className="vads-u-font-family--sans vads-u-margin-y--0">
-          You can check back later or call the Debt Management Center at{' '}
-          <Telephone contact="8008270648" />
-          to find out more information about how to resolve your debt.
-        </p>
-      </div>
-    </div>
-  );
+  const DebtLetters = () => {
+    const hasDependentDebts = false;
+    const hasDebtLinks = !!debtLinks.length;
+
+    // console.log('hasDependentDebts: ', hasDependentDebts);
+    // console.log('hasDebtLinks: ', hasDebtLinks);
+
+    if (isError || isVBMSError) {
+      return <ErrorAlert />;
+    }
+    if (hasDependentDebts) {
+      return <DependentDebt />;
+    }
+    if (!hasDebtLinks) {
+      return <NoDebtLinks />;
+    }
+    return <DebtLettersView debtLinks={debtLinks} />;
+  };
 
   return (
     <div className="vads-l-row large-screen:vads-u-margin-x--neg2p5">
@@ -54,20 +120,15 @@ const DebtLettersDownload = ({ debtLinks, isError, isVBMSError }) => {
           className="vads-u-margin-bottom--2"
           tabIndex="-1"
         >
-          Download debt letters{' '}
+          Download debt letters
         </h1>
         <p className="vads-u-font-weight--normal vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-font-size--lg">
           Download your debt letters, learn your payment options, or find out
           how to get help with your VA debts.
         </p>
-        {(isVBMSError || isError) && <ErrorAlert />}
-        {debtLinks.length > 0 && (
-          <>
-            <h2 className="vads-u-margin-bottom--0">Your debt letters</h2>
-            <DebtLettersTable debtLinks={debtLinks} />
-            <MobileTableView debtLinks={debtLinks} />
-          </>
-        )}
+
+        <h2>Your debt letters</h2>
+        <DebtLetters />
         <div className="vads-u-margin-bottom--6 vads-u-margin-top--5">
           <h2 className="vads-u-margin-y--0">
             What if I don't see the letter I'm looking for?
