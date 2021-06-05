@@ -2,7 +2,6 @@ import React from 'react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { resetFetch } from 'platform/testing/unit/helpers';
 import { expect } from 'chai';
 import allPayments from '../../../reducers/index';
 import environment from 'platform/utilities/environment';
@@ -35,7 +34,6 @@ describe('View Payments Lists', () => {
   };
 
   before(() => {
-    resetFetch();
     server = setupServer(
       rest.get(
         `${environment.API_URL}/v0/profile/payment_history`,

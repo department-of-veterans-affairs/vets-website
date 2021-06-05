@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 
-import { mockFetch, resetFetch } from '~/platform/testing/unit/helpers';
+import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
@@ -121,9 +121,6 @@ describe('ClaimsAndAppeals component', () => {
             reducers,
           });
         });
-        afterEach(() => {
-          resetFetch();
-        });
         it('should not attempt to get claims or appeals data', async () => {
           // Because fetch is called as part of an async Redux thunk, we need to
           // wait here before confirming that fetch was called or not called.
@@ -166,9 +163,6 @@ describe('ClaimsAndAppeals component', () => {
             initialState,
             reducers,
           });
-        });
-        afterEach(() => {
-          resetFetch();
         });
         it('should attempt to get appeals data', async () => {
           // Because fetch is called as part of an async Redux thunk, we need to
@@ -219,9 +213,6 @@ describe('ClaimsAndAppeals component', () => {
             reducers,
           });
         });
-        afterEach(() => {
-          resetFetch();
-        });
         it('should not attempt to get appeals data', async () => {
           // Because fetch is called as part of an async Redux thunk, we need to
           // wait here before confirming that fetch was called or not called.
@@ -270,9 +261,6 @@ describe('ClaimsAndAppeals component', () => {
             initialState,
             reducers,
           });
-        });
-        afterEach(() => {
-          resetFetch();
         });
         it('should attempt to get appeals and claims data', async () => {
           // Because fetch is called as part of an async Redux thunk, we need to

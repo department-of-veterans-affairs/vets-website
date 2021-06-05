@@ -22,8 +22,6 @@
 
 /* Contested issue cards (contested issue page & review/submit page) */
 dl.review {
-  border-bottom: 0;
-
   .widget-wrapper {
     position: relative;
 
@@ -150,6 +148,10 @@ legend.schemaform-block-title {
 
 /* issues page */
 article[data-location="eligible-issues"] {
+  dl.review {
+    border-bottom: 0;
+  }
+
   .input-section {
     .schemaform-block-header {
       display: flex;
@@ -166,6 +168,13 @@ article[data-location="eligible-issues"] {
     .schemaform-field-container {
       margin-top: 2rem;
     }
+  }
+}
+
+article[data-location="additional-issues"] {
+  /* remove unnecessary border */
+  dl.review {
+    border-bottom: 0;
   }
 }
 

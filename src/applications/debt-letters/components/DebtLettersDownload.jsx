@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import { DebtLettersTable } from './DebtLettersTable';
-import { MobileTableView } from './MobileTableView';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { setPageFocus } from '../utils/page';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+
+import { setPageFocus } from '../utils/page';
+import { MobileTableView } from './MobileTableView';
+import { DebtLettersTable } from './DebtLettersTable';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
   useEffect(() => {
     scrollToTop();
     setPageFocus('h1');
   });
+
   const renderAlert = () => (
     <div
       className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
@@ -27,10 +29,12 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
           You can't download your debt letters because something went wrong on
           our end.
         </p>
+
         <h4>What you can do</h4>
+
         <p className="vads-u-font-family--sans vads-u-margin-y--0">
-          You can check back later or call the Debt Management Center at{' '}
-          <Telephone contact="8008270648" />
+          You can check back later or call the Debt Management Center at
+          <Telephone className="vads-u-margin-x--0p5" contact="8008270648" />
           to find out more information about how to resolve your debt.
         </p>
       </div>
@@ -47,6 +51,7 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
           Download debt letters
         </a>
       </Breadcrumbs>
+
       <div className="large-screen:vads-l-col--8">
         <h1
           id="downloadDebtLetters"
@@ -59,7 +64,9 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
           Download your debt letters, learn your payment options, or find out
           how to get help with your VA debts.
         </p>
+
         {isVBMSError && renderAlert()}
+
         {!isVBMSError &&
           debtLinks.length > 0 && (
             <>
@@ -68,22 +75,32 @@ const DebtLettersDownload = ({ debtLinks, isVBMSError }) => {
               <MobileTableView debtLinks={debtLinks} />
             </>
           )}
+
         <div className="vads-u-margin-bottom--6 vads-u-margin-top--5">
           <h2 className="vads-u-margin-y--0">
             What if I don't see the letter I'm looking for?
           </h2>
+
           <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
             If you’ve received a letter about a VA debt, but don’t see the
-            letter listed here call the Debt Management Center at{' '}
-            <Telephone contact="8008270648" />
-            {'. '}
-            You can also call the Debt Management Center to get information
+            letter listed here call the Debt Management Center at
+            <Telephone
+              className="vads-u-margin-left--0p5"
+              contact="8008270648"
+            />
+            . You can also call the Debt Management Center to get information
             about your resolved debts.
           </p>
+
           <p className="vads-u-font-family--sans">
-            For medical copay debt, please go to{' '}
-            <a href="/health-care/pay-copay-bill/">pay your VA copay bill</a> to
-            learn about your payment options.
+            For medical copay debt, please go to
+            <a
+              className="vads-u-margin-x--0p5"
+              href="/health-care/pay-copay-bill/"
+            >
+              pay your VA copay bill
+            </a>
+            to learn about your payment options.
           </p>
           <p>
             <Link
