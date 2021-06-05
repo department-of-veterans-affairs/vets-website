@@ -262,7 +262,7 @@ jobs:
 
   nightwatch:
     name: Nightwatch E2E Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [build]
     steps:
       - name: Checkout vets-website
