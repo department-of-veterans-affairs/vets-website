@@ -170,7 +170,7 @@ function testDataDrivenMegamenu(client, path) {
   client
     .click(
       'css selector',
-      '#vetnav-va-benefits-and-health-care > ul li:nth-child(8) button',
+      '#vetnav-va-benefits-and-health-care > ul li:nth-child(7) button',
     )
     .elements(
       'css selector',
@@ -193,7 +193,7 @@ function testDataDrivenMegamenu(client, path) {
   client
     .click(
       'css selector',
-      '#vetnav-va-benefits-and-health-care > ul li:nth-child(7) button',
+      '#vetnav-va-benefits-and-health-care > ul li:nth-child(8) button',
     )
     .elements(
       'css selector',
@@ -277,7 +277,7 @@ function testDataDrivenMegamenu(client, path) {
     'css selector',
     '#vetnav-column-one-col li.mm-link-container',
     results => {
-      client.expect(results.value.length).to.equal(7);
+      client.expect(results.value.length).to.equal(8);
     },
   );
 
