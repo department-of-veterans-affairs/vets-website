@@ -310,6 +310,7 @@ jobs:
         run: yarn test:e2e:headless
         env:
           BUILDTYPE: vagovprod
+          NODE_ENV: production
 
   archive:
     name: Archive
