@@ -244,6 +244,53 @@ jobs:
           name: build-${{ matrix.buildtype }}
           path: build/${{ matrix.buildtype }}
 
+  nightwatch:
+    name: Nightwatch E2E Tests
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Checkout vets-website
+        uses: actions/checkout@v2
+
+      - name: Download production build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build-vagovprod
+          path: build/vagovprod
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: latest
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Start server
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001
+
+      - name: Run Nightwatch tests
+        run: yarn test:e2e:headless
+
   archive:
     name: Archive
     runs-on: ubuntu-latest
@@ -252,7 +299,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    needs: [unit-tests, contract-tests, linting, security-audit, build]
+    needs: [unit-tests, contract-tests, linting, security-audit, nightwatch]
 
     steps:
       - name: Download build artifact
