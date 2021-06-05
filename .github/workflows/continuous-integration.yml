@@ -4,7 +4,6 @@ on: [push]
 
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
-  NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
 jobs:
   unit-tests:
@@ -203,6 +202,10 @@ jobs:
   build:
     name: Build
     runs-on: self-hosted
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
     strategy:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
@@ -259,8 +262,14 @@ jobs:
 
   nightwatch:
     name: Nightwatch E2E Tests
+
     runs-on: self-hosted
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
     needs: [build]
+
     steps:
       - name: Checkout vets-website
         uses: actions/checkout@v2
