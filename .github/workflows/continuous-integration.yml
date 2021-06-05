@@ -241,11 +241,24 @@ jobs:
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
         timeout-minutes: 30
 
+      - name: Generate build details
+        run: |
+          cat > ${{ matrix.buildtype }}/BUILD.txt << EOF
+          BUILDTYPE=${{ matrix.buildtype }}
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          RUN_ID=${{ github.run_id }}
+          REF=${{ github.sha }}
+          BUILDTIME=$(date +%s)
+          EOF
+
+      - name: Compress and archive build
+        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
-          name: build-${{ matrix.buildtype }}
-          path: build/${{ matrix.buildtype }}
+          name: ${{ matrix.buildtype }}
+          path: ${{ matrix.buildtype }}.tar.bz2
 
   nightwatch:
     name: Nightwatch E2E Tests
@@ -258,8 +271,13 @@ jobs:
       - name: Download production build artifact
         uses: actions/download-artifact@v2
         with:
-          name: build-vagovprod
-          path: build/vagovprod
+          name: vagovprod
+          path: vagovprod.tar.bz2
+
+      - name: Unpack build
+        run: |
+          mkdir -p build/vagovprod
+          tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
       - name: Get Node version
         id: get-node-version
@@ -307,18 +325,8 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v2
         with:
-          name: build-${{ matrix.buildtype }}
-          path: ${{ matrix.buildtype }}
-
-      - name: Generate build details
-        run: |
-          cat > ${{ matrix.buildtype }}/BUILD.txt << EOF
-          BUILDTYPE=${{ matrix.buildtype }}
-          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
-          RUN_ID=${{ github.run_id }}
-          REF=${{ github.sha }}
-          BUILDTIME=$(date +%s)
-          EOF
+          name: ${{ matrix.buildtype }}
+          path: ${{ matrix.buildtype }}.tar.bz2
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -342,9 +350,6 @@ jobs:
           role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
-
-      - name: Compress and archive build
-        run: tar -C ${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
       - name: Upload build
         run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
