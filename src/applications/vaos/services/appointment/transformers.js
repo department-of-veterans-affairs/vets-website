@@ -152,10 +152,10 @@ function getMomentConfirmedDate(appt) {
   }
 
   const timezone = getTimezoneBySystemId(appt.facilityId)?.timezone;
-  const date = isVideoVisit(appt)
-    ? appt.vvsAppointments[0].dateTime
-    : appt.startDate;
-  return timezone ? moment(date).tz(timezone) : moment(date);
+
+  return timezone
+    ? moment(appt.startDate).tz(timezone)
+    : moment(appt.startDate);
 }
 
 /**
@@ -299,7 +299,7 @@ function getCommunityCareData(appt) {
         ? {
             firstName: appt.name?.firstName,
             lastName: appt.name?.lastName,
-            providerName: appt.name
+            providerName: appt.name?.lastName
               ? `${appt.name.firstName || ''} ${appt.name.lastName || ''}`
               : null,
             practiceName: appt.providerPractice,

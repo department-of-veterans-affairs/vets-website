@@ -3,7 +3,7 @@ import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 
 import {
   mockMessagesFetch,
@@ -40,7 +40,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   });
 
   afterEach(() => {
-    resetFetch();
     MockDate.reset();
   });
 

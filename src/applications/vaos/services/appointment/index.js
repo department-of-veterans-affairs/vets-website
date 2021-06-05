@@ -4,6 +4,7 @@
  */
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
+import environment from 'platform/utilities/environment';
 import {
   getCancelReasons,
   getConfirmedAppointment,
@@ -77,6 +78,18 @@ const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
   'Deleted',
 ]);
 
+// We want to throw an error for any partial results errors from MAS,
+// but some sites in staging always errors. So, keep those in a list to
+// ignore errors from
+const BAD_STAGING_SITES = new Set(['556']);
+function hasPartialResults(response) {
+  return (
+    response.errors?.length > 0 &&
+    (environment.isProduction() ||
+      response.errors.some(err => !BAD_STAGING_SITES.has(err.source)))
+  );
+}
+
 /**
  * Fetch the logged in user's confirmed appointments that fall between a startDate and endDate
  *
@@ -102,7 +115,7 @@ export async function getBookedAppointments({ startDate, endDate }) {
     ]);
 
     // We might get partial results back from MAS, so throw an error if we do
-    if (appointments[0].errors?.length) {
+    if (hasPartialResults(appointments[0])) {
       throw mapToFHIRErrors(
         appointments[0].errors,
         'MAS returned partial results',
@@ -752,7 +765,8 @@ export function getCalendarData({ appointment, facility }) {
         text:
           'You can join this meeting up to 30 minutes before the start time.',
         location: 'VA Video Connect at home',
-        additionalText: ['Sign in to VA.gov to join this meeting'],
+        additionalText: [signinText],
+        phone: getFacilityPhone(facility),
       };
     } else if (isAtlas) {
       const { atlasLocation } = appointment.videoData;

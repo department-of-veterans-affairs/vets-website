@@ -1,5 +1,10 @@
 name: E2E Tests
+
 on: [push]
+
+env:
+  CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+
 jobs:
   build:
     name: E2E Tests

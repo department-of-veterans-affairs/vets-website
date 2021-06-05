@@ -51,9 +51,7 @@ export const Appointments = ({ appointments, hasError }) => {
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
       <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2p5 vads-u-padding-x--2p5">
-        <h4 className="vads-u-margin-top--0 vads-u-font-size--h3">
-          Next appointment
-        </h4>
+        <h3 className="vads-u-margin-top--0">Next appointment</h3>
         <p className="vads-u-margin-bottom--1">
           {start.format('dddd, MMMM Do, YYYY')}
         </p>

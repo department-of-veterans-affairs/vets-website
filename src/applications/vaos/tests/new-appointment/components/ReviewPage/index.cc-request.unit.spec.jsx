@@ -6,11 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
-import {
-  setFetchJSONFailure,
-  mockFetch,
-  resetFetch,
-} from 'platform/testing/unit/helpers';
+import { setFetchJSONFailure, mockFetch } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
 import { FACILITY_TYPES } from '../../../../utils/constants';
@@ -132,7 +128,6 @@ describe('VAOS <ReviewPage> CC request', () => {
       onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
-  afterEach(() => resetFetch());
 
   it('should show form information for review', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -344,7 +339,6 @@ describe('VAOS <ReviewPage> CC request: homepage refresh', () => {
       onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
-  afterEach(() => resetFetch());
 
   it('should submit successfully', async () => {
     mockRequestSubmit('cc', {
@@ -475,7 +469,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
       onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
-  afterEach(() => resetFetch());
 
   it('should show form information for review', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -681,7 +674,6 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       },
     });
   });
-  afterEach(() => resetFetch());
 
   it('should submit successfully', async () => {
     mockAppointmentSubmit({

@@ -9,13 +9,11 @@ import { setupServer } from 'msw/node';
 import ResourcesAndSupportSearchApp from '../../components/ResourcesAndSupportSearchApp';
 import mockData from './articles.json';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { resetFetch } from 'platform/testing/unit/helpers';
 
 describe('ResourcesAndSupportSearchApp', () => {
   let server = null;
 
   before(() => {
-    resetFetch();
     server = setupServer(
       rest.get(
         `http://localhost/resources/search/articles.json`,

@@ -1546,10 +1546,10 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/formation@6.16.1":
-  version "6.16.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.16.1.tgz#b25b0d1a64638a220c42b36f9671de58b54d48fe"
-  integrity sha512-tsivIl/nbsUFScCdduaDYxqgplPuDw8Xoo7pbq56fou7QBT83BS+5NW307YbtwO8ucsFW6RIOmyQYYB1AE2uyg==
+"@department-of-veterans-affairs/formation@6.16.2":
+  version "6.16.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-6.16.2.tgz#c4f48b6dd861410d581bedb87cd410d178b892a2"
+  integrity sha512-zMND0kayf/m8Ae1Vo5K9HHRQkNnIk+5i6oJIcPb1OSb1hjwieEnnNc1O29Jp0RiwEuLA1/aX+LivAaWYWsgu2g==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -19941,9 +19941,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#dc9443a28e7f26b947ddb6d7b9df486350155f57":
-  version "20.3.5"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#dc9443a28e7f26b947ddb6d7b9df486350155f57"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#a814773c22920674823cf3052d82fbaaf9d4dbad":
+  version "20.5.0"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a814773c22920674823cf3052d82fbaaf9d4dbad"
 
 vfile-message@^2.0.0:
   version "2.0.4"

@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  resetFetch,
   mockFetch,
   setFetchJSONResponse,
   setFetchJSONFailure,
@@ -64,8 +63,6 @@ describe('VAOS newAppointmentFlow', () => {
           dispatch,
         );
         expect(nextState).to.equal('vaFacilityV2');
-
-        resetFetch();
       });
 
       it('should be vaFacility page if CC check has an error', async () => {
@@ -95,8 +92,6 @@ describe('VAOS newAppointmentFlow', () => {
           dispatch,
         );
         expect(nextState).to.equal('vaFacilityV2');
-
-        resetFetch();
       });
 
       it('should be typeOfCare page if CC check has an error and podiatry chosen', async () => {
@@ -126,7 +121,6 @@ describe('VAOS newAppointmentFlow', () => {
           dispatch,
         );
         expect(nextState).to.equal('typeOfCare');
-        resetFetch();
       });
 
       it('should be the current page if no CC support and typeOfCare is podiatry', async () => {
@@ -194,7 +188,6 @@ describe('VAOS newAppointmentFlow', () => {
         expect(dataLayer[0].event).to.equal('vaos-cc-eligible-yes');
 
         expect(nextState).to.equal('requestDateTime');
-        resetFetch();
       });
 
       it('should be typeOfSleepCare if sleep care chosen', async () => {
@@ -250,8 +243,6 @@ describe('VAOS newAppointmentFlow', () => {
           dispatch,
         );
         expect(nextState).to.equal('typeOfFacility');
-
-        resetFetch();
       });
     });
   });
@@ -379,8 +370,6 @@ describe('VAOS newAppointmentFlow', () => {
           'newAppointment/START_DIRECT_SCHEDULE_FLOW',
         );
         expect(nextState).to.equal('clinicChoice');
-
-        resetFetch();
       });
       it('should throw error if not eligible for requests or direct', async () => {
         const state = {
@@ -626,8 +615,6 @@ describe('VAOS newAppointmentFlow', () => {
         dispatch,
       );
       expect(nextState).to.equal('typeOfFacility');
-
-      resetFetch();
     });
 
     it('should be vaFacility page when Ophthalmology selected', async () => {
@@ -662,8 +649,6 @@ describe('VAOS newAppointmentFlow', () => {
         dispatch,
       );
       expect(nextState).to.equal('vaFacilityV2');
-
-      resetFetch();
     });
   });
 });
