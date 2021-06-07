@@ -82,12 +82,6 @@ export function findCharacteristic(clinic, characteristic) {
   return result?.coding?.code || result?.coding?.display;
 }
 
-function getIdentifierToken(clinic, index) {
-  // The FHIR clinic identifier format is, 'urn:va:healthcareservice:983:983:308'
-  // where the last 3 tokens represent the site id, facility id, and clinic id.
-  return clinic?.identifier[0].value.split(':')[index];
-}
-
 /**
  * Method to get the clinic id.
  *
@@ -95,7 +89,7 @@ function getIdentifierToken(clinic, index) {
  * @returns {string} The clinic id or empty string.
  */
 export function getClinicId(clinic) {
-  return getIdentifierToken(clinic, 5);
+  return clinic.id.split('_')[1];
 }
 
 /**
@@ -105,5 +99,5 @@ export function getClinicId(clinic) {
  * @returns {String} The clinic site code or empty string.
  */
 export function getSiteCode(clinic) {
-  return getIdentifierToken(clinic, 3);
+  return clinic.id.split('_')[0];
 }
