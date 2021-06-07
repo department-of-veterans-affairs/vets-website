@@ -53,9 +53,7 @@ export const FormSignature = ({
         if (required)
           validations.unshift(
             signatureValue =>
-              !signatureValue
-                ? 'Your signature must match your first and last name as previously entered'
-                : undefined,
+              !signatureValue ? 'Please sign your name' : undefined,
           );
 
         // First validation error in the array gets displayed
