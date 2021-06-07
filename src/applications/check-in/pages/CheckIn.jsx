@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import withFeatureFlip from '../containers/withFeatureFlip.jsx';
 
-const LandingPage = _props => {
+const CheckIn = _props => {
   const [didCheckIn, setDidCheckIn] = useState(false);
   const onClick = () => {
     setDidCheckIn(true);
@@ -51,4 +51,4 @@ const LandingPage = _props => {
   );
 };
 
-export default withFeatureFlip(LandingPage);
+export default withFeatureFlip(CheckIn);
