@@ -43,7 +43,7 @@ export default function createRoutesWithStore(store) {
             )}
           />
           <EnrolledRoute
-            path="/new-covid-19-vaccine-booking"
+            path="/new-covid-19-vaccine-appointment"
             component={asyncLoader(() =>
               import(/* webpackChunkName: "covid-19-vaccine" */ './covid-19-vaccine')
                 .then(({ NewBookingSection, reducer }) => {

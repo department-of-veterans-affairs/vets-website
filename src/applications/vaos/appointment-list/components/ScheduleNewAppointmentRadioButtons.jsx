@@ -27,7 +27,7 @@ export default function ScheduleNewAppointmentRadioButtons() {
 
   if (canUseVaccineFlow) {
     radioOptions.push({
-      value: 'new-covid-19-vaccine-booking',
+      value: 'new-covid-19-vaccine-appointment',
       label: 'COVID-19 vaccine',
     });
   }

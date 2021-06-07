@@ -56,7 +56,7 @@ describe('VAOS <PlanAheadPage>', () => {
     // Expect router to route to screener page
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-booking/received-dose',
+        '/new-covid-19-vaccine-appointment/confirm-doses-received',
       ),
     );
   });

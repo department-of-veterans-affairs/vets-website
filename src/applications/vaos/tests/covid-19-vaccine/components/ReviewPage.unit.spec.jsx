@@ -144,7 +144,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-booking/confirmation',
+        '/new-covid-19-vaccine-appointment/confirmation',
       );
     });
     const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
