@@ -153,7 +153,6 @@ describe('VAOS <ConfirmationPage>', () => {
       facilityType: 'communityCare',
       distanceWillingToTravel: '25',
       preferredLanguage: 'english',
-      visitType: 'office',
       bestTimeToCall: {
         morning: true,
         afternoon: true,
@@ -197,7 +196,6 @@ describe('VAOS <ConfirmationPage>', () => {
       facilityType: 'communityCare',
       distanceWillingToTravel: '25',
       preferredLanguage: 'english',
-      visitType: 'office',
       bestTimeToCall: {
         morning: true,
         afternoon: true,
