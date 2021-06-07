@@ -140,7 +140,35 @@ describe('Forms library - Forms signature component', () => {
       expect(oscSpy.called).to.be.true;
     });
 
-    it('should NOT call onSectionComplete when the signature is INVALID', () => {});
+    it('should NOT call onSectionComplete when the signature is INVALID', () => {
+      // "Valid" here means:
+      //   - There are no validation errors
+      //   - The checkbox has been checked
+      const oscSpy = spy();
+      const { getByLabelText } = render(
+        <FormSignature
+          {...signatureProps}
+          required
+          onSectionComplete={oscSpy}
+        />,
+      );
+      // Not called on first render
+      expect(oscSpy.called).to.be.false;
+      const checkbox = getByLabelText(
+        /I certify the information above is correct/,
+      );
+
+      // Not called if there are validation errors (required name isn't entered)
+      userEvent.click(checkbox);
+      expect(oscSpy.called).to.be.false;
+
+      // Uncheck box
+      userEvent.click(checkbox);
+
+      // Not called if the box isn't checked
+      userEvent.type(getByLabelText(/Veteran’s full name/), 'asdf');
+      expect(oscSpy.called).to.be.false;
+    });
 
     it('should call setFormData when the name is entered', () => {});
   });
