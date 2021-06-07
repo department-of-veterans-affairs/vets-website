@@ -535,29 +535,6 @@ describe('VAOS data transformation', () => {
               serviceName: 'Green Team Clinic1',
               stationId: '983',
               stationName: 'CHYSHR-Cheyenne VA Medical Center',
-              characteristic: [
-                {
-                  coding: {
-                    code: '983',
-                    userSelected: false,
-                  },
-                  text: 'institutionCode',
-                },
-                {
-                  coding: {
-                    display: 'CHYSHR-Cheyenne VA Medical Center',
-                    userSelected: false,
-                  },
-                  text: 'institutionName',
-                },
-                {
-                  coding: {
-                    display: 'Green Team Clinic1',
-                    userSelected: false,
-                  },
-                  text: 'clinicFriendlyLocationName',
-                },
-              ],
             },
           ],
         },
