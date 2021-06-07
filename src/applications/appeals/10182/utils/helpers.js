@@ -89,3 +89,11 @@ export const appStateSelector = state => ({
 
 export const noticeOfDisagreementFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.form10182Nod];
+
+export const getItemSchema = (schema, index) => {
+  const itemSchema = schema;
+  if (itemSchema.items.length > index) {
+    return itemSchema.items[index];
+  }
+  return itemSchema.additionalItems;
+};
