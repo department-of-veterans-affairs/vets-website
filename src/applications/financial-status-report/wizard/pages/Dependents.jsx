@@ -43,8 +43,9 @@ const Dependents = () => {
               });
             }}
           >
-            Financial Status Report (VA Form 5655).
+            Financial Status Report (VA Form 5655)
           </a>
+          .
         </p>
 
         <p>
