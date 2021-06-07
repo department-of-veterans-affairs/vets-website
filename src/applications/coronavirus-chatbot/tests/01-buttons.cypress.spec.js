@@ -40,7 +40,7 @@ describe('Chatbot buttons', () => {
           .click()
           .should('be.disabled');
       });
-    cy.injectThenAxeCheck();
+    cy.injectAxeThenAxeCheck();
 
     // Note: This test requires the real API. Run locally with yarn watch --env.api=https://dev-api.va.gov
   });
