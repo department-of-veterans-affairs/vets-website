@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       max-parallel: 6
       matrix:
-        containers: [1, 2, 3]
+        containers: [1, 2, 3, 4, 5, 6]
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
     steps:
@@ -48,6 +48,8 @@ jobs:
       - name: Start Cypress tests
         run: yarn cy:test:gha
         timeout-minutes: 60
+        env:
+          STEP: ${{ matrix.container }}
 
       - name: Publish test results
         if: ${{ always() }}
