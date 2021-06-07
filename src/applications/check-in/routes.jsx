@@ -1,11 +1,20 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import App from './containers/App.jsx';
+
+import CheckIn from './pages/CheckIn';
+import Confirmation from './pages/Confirmation';
+import Failed from './pages/Failed';
+import Insurance from './pages/Insurance';
+import Landing from './pages/Landing';
 
 const createRoutesWithStore = () => {
   return (
     <Switch>
-      <Route path="/*" exact component={App} />
+      <Route path="/:token" component={Landing} />
+      <Route path="/:token/insurance" component={Insurance} />
+      <Route path="/:token/details" component={CheckIn} />
+      <Route path="/:token/confirmed" component={Confirmation} />
+      <Route path="/:token/failed" component={Failed} />
     </Switch>
   );
 };

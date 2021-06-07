@@ -1,5 +1,5 @@
-import { debtsReducer as reducer } from '../reducers';
 import { expect } from 'chai';
+import { debtsReducer as reducer } from '../reducers';
 import {
   DEBTS_FETCH_INITIATED,
   DEBTS_FETCH_SUCCESS,

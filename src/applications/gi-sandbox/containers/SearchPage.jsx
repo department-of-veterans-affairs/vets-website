@@ -6,6 +6,7 @@ import { PAGE_TITLE } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
 import { useQueryParams } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
+import CompareDrawer from './CompareDrawer';
 
 export function SearchPage({
   search,
@@ -39,6 +40,7 @@ export function SearchPage({
           <SearchTabs onChange={tabChange} search={search} />
         </div>
       </div>
+      <CompareDrawer />
     </span>
   );
 }

@@ -26,11 +26,13 @@ function SaveStatus({
   }
 
   const formId = loadedData?.metadata?.inProgressFormId;
+  const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
+
   const formIdMessage =
     formId && savedAtMessage ? (
       <>
         {' '}
-        Your application ID number is <strong>{formId}</strong>.
+        Your {appType} ID number is <strong>{formId}</strong>.
       </>
     ) : null;
 
@@ -39,7 +41,6 @@ function SaveStatus({
     ((autoSavedStatus === SAVE_STATUSES.noAuth && !isLoggedIn) ||
       autoSavedStatus !== SAVE_STATUSES.noAuth);
 
-  const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   const appSavedSuccessfullyMessage =
     formConfig?.customText?.appSavedSuccessfullyMessage ||
     APP_SAVED_SUCCESSFULLY_DEFAULT_MESSAGE;

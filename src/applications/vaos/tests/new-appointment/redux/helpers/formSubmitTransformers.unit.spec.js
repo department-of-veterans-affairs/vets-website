@@ -5,7 +5,11 @@ import {
   transformFormToVARequest,
   transformFormToAppointment,
 } from '../../../../new-appointment/redux/helpers/formSubmitTransformers';
-import { FETCH_STATUS, VHA_FHIR_ID } from '../../../../utils/constants';
+import {
+  FETCH_STATUS,
+  FLOW_TYPES,
+  VHA_FHIR_ID,
+} from '../../../../utils/constants';
 
 describe('VAOS data transformation', () => {
   it('should transform form into VA request', () => {
@@ -17,7 +21,7 @@ describe('VAOS data transformation', () => {
             morning: true,
           },
           email: 'test@va.gov',
-          visitType: 'office',
+          visitType: 'clinic',
           reasonForAppointment: 'other',
           reasonAdditionalInfo: 'Testing',
           selectedDates: ['2019-11-20T12:00:00.000'],
@@ -61,6 +65,7 @@ describe('VAOS data transformation', () => {
             },
           ],
         },
+        flowType: FLOW_TYPES.REQUEST,
       },
     };
     const data = transformFormToVARequest(state);
@@ -109,7 +114,7 @@ describe('VAOS data transformation', () => {
             morning: true,
           },
           email: 'test@va.gov',
-          visitType: 'office',
+          visitType: 'clinic',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'Testing',
           selectedDates: ['2019-11-20T12:00:00.000'],
@@ -151,6 +156,7 @@ describe('VAOS data transformation', () => {
             },
           ],
         },
+        flowType: FLOW_TYPES.REQUEST,
       },
     };
     const data = transformFormToVARequest(state);
@@ -607,7 +613,7 @@ describe('VAOS data transformation', () => {
             morning: true,
           },
           email: 'test@va.gov',
-          visitType: 'office',
+          visitType: 'clinic',
           reasonForAppointment: 'routine-follow-up',
           reasonAdditionalInfo: 'Testing',
           selectedDates: ['2019-11-20T12:00:00.000'],
@@ -649,6 +655,7 @@ describe('VAOS data transformation', () => {
             },
           ],
         },
+        flowType: FLOW_TYPES.REQUEST,
       },
     };
     const data = transformFormToVARequest(state);

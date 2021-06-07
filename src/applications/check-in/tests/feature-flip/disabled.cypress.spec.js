@@ -5,7 +5,7 @@ describe('Check In Experience -- ', () => {
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
   it('feature is enabled', () => {
-    const featureRoute = '/check-in/welcome';
+    const featureRoute = '/check-in/some-token';
     cy.visit(featureRoute);
     cy.url().should('not.match', /health-care/);
   });
