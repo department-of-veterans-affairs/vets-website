@@ -22,9 +22,9 @@ const Disagree = () => {
           Based on the information you provided, this isn’t the form you need.
         </h2>
         <p className="vads-u-margin-bottom--0">
-          <strong>
+          <strong className="vads-u-margin-right--0p5">
             If you disagree with the VA decision that resulted in this debt,
-          </strong>{' '}
+          </strong>
           you can submit a Supplemental Claim or request a Higher Level Review
           or board appeal.
         </p>
