@@ -1,6 +1,6 @@
 import React from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import SearchResultCard from './SearchResultCard';
+import SearchResultCard from '../../containers/SearchResultCard';
 import RefineYourSearch from '../../containers/RefineYourSearch';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 

@@ -1,18 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
-import { renderStars } from '../../utils/render';
-
-import { estimatedBenefits } from '../../selectors/estimator';
-import { formatCurrency, createId } from '../../utils/helpers';
+import { renderStars } from '../utils/render';
+import Checkbox from '../components/Checkbox';
+import { estimatedBenefits } from '../selectors/estimator';
+import { formatCurrency, createId } from '../utils/helpers';
+import { addCompareInstitution, removeCompareInstitution } from '../actions';
 
 export function SearchResultCard({
-  institution,
+  compare,
   estimated,
+  dispatchAddCompareInstitution,
+  dispatchRemoveCompareInstitution,
   header,
+  institution,
   location = false,
 }) {
   const {
@@ -25,6 +28,14 @@ export function SearchResultCard({
     accreditationType,
     facilityCode,
   } = institution;
+  const compareChecked = !!compare.institutions[facilityCode];
+  const handleCompareUpdate = e => {
+    if (e.target.checked && !compareChecked) {
+      dispatchAddCompareInstitution(institution);
+    } else {
+      dispatchRemoveCompareInstitution(facilityCode);
+    }
+  };
 
   const resultCardClasses = classNames(
     'result-card vads-u-background-color--gray-lightest vads-u-margin-bottom--2',
@@ -119,7 +130,11 @@ export function SearchResultCard({
       <div className="vads-u-display--flex vads-u-border-top--3px vads-u-border-color--white vads-u-text-align--center">
         <div className="card-bottom-cell vads-u-flex--1 vads-u-border-right--2px vads-u-border-color--white vads-u-margin--0">
           <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
-            <Checkbox label="Compare" />
+            <Checkbox
+              label="Compare"
+              checked={compareChecked}
+              onChange={handleCompareUpdate}
+            />
           </div>
         </div>
         <div className="card-bottom-cell vads-u-flex--1 vads-u-border-left--2px vads-u-border-color--white">
@@ -131,7 +146,16 @@ export function SearchResultCard({
 }
 
 const mapStateToProps = (state, props) => ({
+  compare: state.compare,
   estimated: estimatedBenefits(state, props),
 });
 
-export default connect(mapStateToProps)(SearchResultCard);
+const mapDispatchToProps = {
+  dispatchAddCompareInstitution: addCompareInstitution,
+  dispatchRemoveCompareInstitution: removeCompareInstitution,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchResultCard);
