@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import ContactInfoPage from '../../../new-appointment/components/ContactInfoPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { cleanup, waitFor } from '@testing-library/react';
+import { FLOW_TYPES } from '../../../utils/constants';
 
 describe('VAOS <ContactInfoPage>', () => {
   it('should submit with valid data', async () => {
@@ -55,7 +56,18 @@ describe('VAOS <ContactInfoPage>', () => {
   });
 
   it('should not submit empty form', async () => {
-    const store = createTestStore();
+    let store = createTestStore();
+
+    // Get default state.
+    let state = store.getState();
+    state = {
+      ...state,
+      newAppointment: {
+        ...state.newAppointment,
+        flowType: FLOW_TYPES.REQUEST,
+      },
+    };
+    store = createTestStore(state);
 
     const screen = renderWithStoreAndRouter(<ContactInfoPage />, {
       store,
@@ -99,5 +111,27 @@ describe('VAOS <ContactInfoPage>', () => {
     await screen.findByText(/^Continue/);
     expect(screen.getByLabelText(/phone number/i).value).to.equal('5555555559');
     expect(screen.getByLabelText(/email/i).value).to.equal('test@va.gov');
+  });
+
+  it('should not display "best time to call" for direct schedule appointment', async () => {
+    let store = createTestStore();
+
+    // Get default state.
+    let state = store.getState();
+    state = {
+      ...state,
+      newAppointment: {
+        ...state.newAppointment,
+        flowType: FLOW_TYPES.DIRECT,
+      },
+    };
+    store = createTestStore(state);
+
+    const screen = renderWithStoreAndRouter(<ContactInfoPage />, {
+      store,
+    });
+
+    expect(screen.queryByText('What are the best times for us to call you?')).to
+      .not.exist;
   });
 });

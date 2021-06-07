@@ -5,7 +5,11 @@ import {
   transformFormToVARequest,
   transformFormToAppointment,
 } from '../../../../new-appointment/redux/helpers/formSubmitTransformers';
-import { FETCH_STATUS, VHA_FHIR_ID } from '../../../../utils/constants';
+import {
+  FETCH_STATUS,
+  FLOW_TYPES,
+  VHA_FHIR_ID,
+} from '../../../../utils/constants';
 
 describe('VAOS data transformation', () => {
   it('should transform form into VA request', () => {
@@ -61,6 +65,7 @@ describe('VAOS data transformation', () => {
             },
           ],
         },
+        flowType: FLOW_TYPES.REQUEST,
       },
     };
     const data = transformFormToVARequest(state);
@@ -151,6 +156,7 @@ describe('VAOS data transformation', () => {
             },
           ],
         },
+        flowType: FLOW_TYPES.REQUEST,
       },
     };
     const data = transformFormToVARequest(state);
@@ -649,6 +655,7 @@ describe('VAOS data transformation', () => {
             },
           ],
         },
+        flowType: FLOW_TYPES.REQUEST,
       },
     };
     const data = transformFormToVARequest(state);
