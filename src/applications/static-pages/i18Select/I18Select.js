@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import { onThisPageHook } from './hooks';
+import { onThisPageHook, setLangAttribute } from './hooks';
 import { connect } from 'react-redux';
 import { langSelectedAction } from './actions';
 
@@ -13,11 +13,6 @@ const I18Select = ({ baseUrls, content, langSelected }) => {
   useEffect(
     () => {
       const contentDiv = document?.getElementById('content');
-      setLang('en');
-      langSelected('en');
-      if (contentDiv) {
-        contentDiv.setAttribute('lang', 'en');
-      }
       // this logic is specific to the temporary covid faq page url structures and cannot be abstracted
       for (const [langCode, suffix] of Object.entries(LANGS_TO_LINK_SUFFIXES)) {
         if (document?.location.href.endsWith(suffix)) {
@@ -61,6 +56,7 @@ const I18Select = ({ baseUrls, content, langSelected }) => {
                     'pipe-delimited-list-header': languageConfig.lang,
                   });
                   langSelected(languageConfig.lang);
+                  setLangAttribute(languageConfig.lang);
                 }}
                 href={baseUrls[languageCode]}
                 hrefLang={languageConfig.lang}

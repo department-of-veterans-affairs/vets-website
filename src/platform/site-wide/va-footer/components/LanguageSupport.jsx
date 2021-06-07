@@ -3,6 +3,7 @@ import {
   setLangAttribute,
   adaptLinksWithLangCode,
   onThisPageHook,
+  parseLangCode,
 } from 'applications/static-pages/i18Select/hooks';
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
@@ -40,6 +41,7 @@ function LanguagesListTemplate({ langSelected }) {
             hrefLang={link.lang}
             onClick={() => {
               langSelected(link.lang);
+              setLangAttribute(link.lang);
               recordEvent({
                 event: FOOTER_EVENTS.LANGUAGE_SUPPORT,
                 lang: link.lang,
@@ -62,22 +64,15 @@ export default function LanguageSupport({
 }) {
   useEffect(
     () => {
-      if (langSelected && showLangSupport && languageCode) {
-        adaptLinksWithLangCode(langSelected, languageCode);
-      }
+      const langCode = parseLangCode(document?.location?.pathname);
+      onThisPageHook(langCode);
+      setLangAttribute(langCode);
+      langSelected(langCode);
+      adaptLinksWithLangCode(langSelected, langCode);
     },
     [langSelected, languageCode, showLangSupport],
   );
 
-  useEffect(
-    () => {
-      if (languageCode && showLangSupport) {
-        setLangAttribute(languageCode);
-        onThisPageHook(languageCode);
-      }
-    },
-    [languageCode, showLangSupport],
-  );
   if (showLangSupport !== true) return null;
 
   if (isDesktop) {

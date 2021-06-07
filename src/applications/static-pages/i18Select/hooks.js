@@ -37,11 +37,7 @@ export const adaptLinksWithLangCode = (
       link.setAttribute('hreflang', languageCodeInReduxStore);
 
       link.addEventListener('click', () => {
-        setLangAttributeInReduxStore('en');
         const langAttribute = link.lang || link.hreflang;
-        if (langAttribute) {
-          setLangAttributeInReduxStore(langAttribute);
-        }
         // respect the temp IA i18 structure
         if (link.href.endsWith('-esp/')) {
           setLangAttributeInReduxStore('es');
@@ -49,7 +45,21 @@ export const adaptLinksWithLangCode = (
         if (link.href.endsWith('-tag/')) {
           setLangAttributeInReduxStore('tl');
         }
+        if (langAttribute) {
+          setLangAttributeInReduxStore(langAttribute);
+        }
       });
     }
   }
+};
+
+export const parseLangCode = url => {
+  let langCode = 'en';
+  if (url.includes(`espanol`)) {
+    langCode = 'es';
+  }
+  if (url.includes(`tagalog`)) {
+    langCode = 'tl';
+  }
+  return langCode;
 };
