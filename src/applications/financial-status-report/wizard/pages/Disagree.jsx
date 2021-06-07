@@ -73,7 +73,7 @@ const Disagree = () => {
         </p>
         <p className="vads-u-margin-top--1">
           <a
-            href="https://www.va.gov/debtman/Financial_Status_Report.asp"
+            href="https://www.va.gov/find-forms/about-form-5655/"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-alert-link-click',
