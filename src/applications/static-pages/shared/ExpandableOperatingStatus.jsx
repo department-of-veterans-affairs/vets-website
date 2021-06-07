@@ -9,17 +9,10 @@ const ExpandableOperatingStatus = props => {
     if (!props.extraInfo) return;
     if (e) e.target.classList.toggle('active');
     setOpen(!open);
-    if (!open) {
-      recordEvent({
-        event: 'int-accordion-expand',
-        'operating-status-heading': props.statusLabel,
-      });
-    } else {
-      recordEvent({
-        event: 'int-accordion-collapse',
-        'operating-status-heading': props.statusLabel,
-      });
-    }
+    recordEvent({
+      event: `int-accordion-${open ? 'expand' : 'collapse'}`,
+      'operating-status-heading': props.statusLabel,
+    });
   };
 
   const iconIndicator = extraInfo => {
@@ -28,7 +21,7 @@ const ExpandableOperatingStatus = props => {
     return null;
   };
 
-  const outputLinks = data => {
+  const convertPhoneNumbersToLinks = data => {
     const replacePattern = /((\d{3}-))?\d{3}-\d{3}-\d{4}(?!([^<]*>)|(((?!<a).)*<\/a>))/g;
     if (data) {
       return data.replace(
@@ -39,6 +32,7 @@ const ExpandableOperatingStatus = props => {
 
     return data;
   };
+
   const contentString = `<p class="more-info">${props.extraInfo}</p>`;
 
   return (
@@ -70,7 +64,9 @@ const ExpandableOperatingStatus = props => {
         className={`content ${props.operatingStatusFacility} ${
           open ? 'vads-u-display--block' : 'vads-u-display--none'
         }`}
-        dangerouslySetInnerHTML={{ __html: outputLinks(contentString) }}
+        dangerouslySetInnerHTML={{
+          __html: convertPhoneNumbersToLinks(contentString),
+        }}
       />
     </div>
   );

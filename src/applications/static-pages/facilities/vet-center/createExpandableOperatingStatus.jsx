@@ -15,7 +15,7 @@ export default async function createExpandableOperatingStatus() {
 
     statusWidgets.forEach(el => {
       if (
-        !el.attributes.status.nodeValue ||
+        !el.attributes?.status?.nodeValue ||
         el.attributes?.status?.nodeValue === 'normal'
       )
         return;
