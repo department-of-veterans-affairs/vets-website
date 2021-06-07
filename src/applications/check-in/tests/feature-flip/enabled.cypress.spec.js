@@ -5,7 +5,8 @@ describe('Check In Experience -- ', () => {
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
   it('feature is enabled', () => {
-    cy.visit('/check-in/welcome');
+    const featureRoute = '/check-in/some-token/details';
+    cy.visit(featureRoute);
     cy.get('h1').contains('Appointment details');
   });
 });
