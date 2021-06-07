@@ -97,6 +97,7 @@ jobs:
         run: yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
 
       - name: Annotate Stylelint results
+        if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
 
   contract-tests:
