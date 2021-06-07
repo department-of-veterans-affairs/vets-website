@@ -17,10 +17,10 @@ sassLintData.forEach(fileMessages => {
   for (const [key, value] of Object.entries(fileMessages)) {
     if (key !== 'source' && key !== 'errored' && value.length) {
       fileMessages[key].forEach(fileMessage => {
-        const { severity, column, line, message } = fileMessage;
+        const { severity, column, line, text } = fileMessage;
         const filePath = fileMessages.source;
         const severityTag = severity === 'error' ? '::error' : '::warning';
-        const output = `${severityTag} file=${filePath},line=${line},col=${column}::${message}`;
+        const output = `${severityTag} file=${filePath},line=${line},col=${column}::${text}`;
         console.log(output);
       });
     }
