@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -53,20 +53,6 @@ export const FormSignature = ({
     // Section complete state (so callback isn't called too many times)
     const [sectionComplete, setSectionComplete] = useState(false);
 
-    // Call onCompleteSection with true or false when switching between valid
-    // and invalid states respectively
-    const maybeCompleteSection = useCallback(
-      () => {
-        const isComplete = checked && !signatureError;
-        if (sectionComplete !== isComplete) {
-          // TODO: Figure out why this is firing twice in a row
-          setSectionComplete(isComplete);
-          onSectionComplete(isComplete);
-        }
-      },
-      [checked, signatureError, sectionComplete, onSectionComplete],
-    );
-
     // Signature input validation
     useEffect(
       () => {
@@ -85,10 +71,8 @@ export const FormSignature = ({
             null,
           ),
         );
-
-        maybeCompleteSection();
       },
-      [required, signature, formData, validations, maybeCompleteSection],
+      [required, signature, formData, validations],
     );
 
     // Checkbox validation
@@ -97,9 +81,8 @@ export const FormSignature = ({
         setCheckboxError(
           required && !checked ? 'Must certify by checking box' : null,
         );
-        maybeCompleteSection();
       },
-      [required, checked, maybeCompleteSection],
+      [required, checked],
     );
 
     // Update signature in formData
@@ -110,6 +93,19 @@ export const FormSignature = ({
       // Don't re-execute when formData changes because this changes formData
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [signature, signaturePath],
+    );
+
+    // Call onCompleteSection with true or false when switching between valid
+    // and invalid states respectively
+    useEffect(
+      () => {
+        const isComplete = checked && !signatureError;
+        if (sectionComplete !== isComplete) {
+          setSectionComplete(isComplete);
+          onSectionComplete(isComplete);
+        }
+      },
+      [checked, signatureError, sectionComplete, onSectionComplete],
     );
 
     return (
