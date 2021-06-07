@@ -1,4 +1,4 @@
-import { apiRequestWithUrl, parseApiObject } from '../utils';
+import { apiRequestWithUrl, parseApiList, parseApiObject } from '../utils';
 
 export function postAppointment(appointment) {
   return apiRequestWithUrl('/vaos/v2/appointments', {
@@ -6,4 +6,15 @@ export function postAppointment(appointment) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(appointment),
   }).then(parseApiObject);
+}
+
+export function getAppointments(start, end, statuses = []) {
+  return apiRequestWithUrl(
+    `/vaos/v2/appointments?start=${start}&end=${end}&${statuses
+      .map(status => `statuses[]=${status}`)
+      .join('&')}`,
+    {
+      method: 'GET',
+    },
+  ).then(parseApiList);
 }

@@ -61,3 +61,7 @@ export function transformVAOSAppointment(appt) {
     },
   };
 }
+
+export function transformVAOSAppointments(appts) {
+  return appts.map(appt => transformVAOSAppointment(appt));
+}

@@ -23,6 +23,7 @@ const cancelReasons = require('./var/cancel_reasons.json');
 const requestEligibilityCriteria = require('./var/request_eligibility_criteria.json');
 const directBookingEligibilityCriteria = require('./var/direct_booking_eligibility_criteria.json');
 const generateMockSlots = require('./var/slots.js');
+const appointmentsV2 = require('./v2/appointments.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 
@@ -179,6 +180,18 @@ const responses = {
         },
       },
     });
+  },
+  'GET /vaos/v2/appointments': (req, res) => {
+    if (req.query.statuses?.includes('proposed')) {
+      return res.json({
+        data: appointmentsV2.data.filter(
+          appt => appt.attributes.status === 'proposed',
+        ),
+        meta: appointmentsV2.meta,
+      });
+    }
+
+    return res.json(appointmentsV2);
   },
   'GET /v0/user': {
     data: {

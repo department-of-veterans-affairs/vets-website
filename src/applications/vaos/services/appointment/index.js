@@ -14,7 +14,7 @@ import {
   updateAppointment,
   updateRequest,
 } from '../var';
-import { postAppointment } from '../vaos';
+import { getAppointments, postAppointment } from '../vaos';
 import {
   transformConfirmedAppointment,
   transformConfirmedAppointments,
@@ -29,7 +29,10 @@ import {
   GA_PREFIX,
 } from '../../utils/constants';
 import { formatFacilityAddress, getFacilityPhone } from '../location';
-import { transformVAOSAppointment } from './transformers.v2';
+import {
+  transformVAOSAppointment,
+  transformVAOSAppointments,
+} from './transformers.v2';
 import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
@@ -152,8 +155,20 @@ export async function getBookedAppointments({ startDate, endDate }) {
  * @param {String} endDate Date in YYYY-MM-DD format
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
-export async function getAppointmentRequests({ startDate, endDate }) {
+export async function getAppointmentRequests({
+  startDate,
+  endDate,
+  useV2 = false,
+}) {
   try {
+    if (useV2) {
+      const appointments = await getAppointments(startDate, endDate, [
+        'proposed',
+      ]);
+
+      return transformVAOSAppointments(appointments);
+    }
+
     const appointments = await getPendingAppointments(startDate, endDate);
 
     return transformPendingAppointments(appointments);
