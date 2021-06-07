@@ -15,8 +15,11 @@
  */
 export function transformAvailableClinic(facilityId, typeOfCareId, clinic) {
   return {
+    // ID: VA facility site code and clinic id
     id: `${clinic.siteCode}_${clinic.clinicId}`,
+    // ID of physical VA Facility (sta6id) where the clinic is located
     stationId: facilityId,
+    // Name of VA facility where clinic is located
     stationName: clinic.institutionName,
     // Description of service as presented to a consumer while searching
     serviceName: clinic.clinicFriendlyLocationName || clinic.clinicName,
