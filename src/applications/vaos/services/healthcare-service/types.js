@@ -1,19 +1,4 @@
 /**
- * @typedef {Object} Characteristic
- *
- * @property {string} text The type of characteristic
- * @property {Object} coding
- * @property {string} coding.display The value of the characteristic
- */
-
-/**
- * @typedef {Object} Identifier
- *
- * @property {string} system The type of identifier
- * @property {string} value The value of the identifier
- */
-
-/**
  * @summary
  *
  * The equivalent of a VistA clinic

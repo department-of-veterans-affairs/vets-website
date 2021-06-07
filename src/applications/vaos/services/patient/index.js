@@ -182,9 +182,7 @@ function hasMatchingClinics(clinics, pastAppointments) {
       !!pastAppointments.find(appt => {
         const clinicIds = clinic.id.split('_');
         return (
-          clinic.stationId === appt.sta6aid &&
-          clinicIds[0] === appt.facilityId &&
-          clinicIds[1] === appt.clinicId
+          clinicIds[0] === appt.facilityId && clinicIds[1] === appt.clinicId
         );
       }),
   );
