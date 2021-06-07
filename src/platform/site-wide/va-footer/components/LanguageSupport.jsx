@@ -11,7 +11,11 @@ const langAssistanceLabel = 'Language assistance';
 
 function LanguagesListTemplate({ langSelected }) {
   return (
-    <ul>
+    <ul
+      className={
+        'vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0'
+      }
+    >
       {[
         {
           label: 'Español',
@@ -78,8 +82,10 @@ export default function LanguageSupport({
 
   if (isDesktop) {
     return (
-      <div className="usa-grid usa-grid-full va-footer-links-bottom">
-        <h2 className="va-footer-linkgroup-title"> {langAssistanceLabel} </h2>
+      <div className="usa-grid usa-grid-full va-footer-links-bottom vads-u-border-color--white vads-u-border-bottom--1px vads-u-border-top--1px vads-u-padding-top--1p5 vads-u-padding-bottom--1p5 vads-u-padding-left--0">
+        <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">
+          {langAssistanceLabel}
+        </h2>
         <LanguagesListTemplate langSelected={langSelected} />
       </div>
     );
@@ -96,7 +102,7 @@ export default function LanguageSupport({
         {langAssistanceLabel}
       </button>
       <div
-        className="usa-accordion-content va-footer-accordion-content"
+        className="usa-accordion-content va-footer-accordion-content vads-u-padding-bottom--0 vads-u-padding-left--0p5"
         id="veteran-language-support"
         aria-hidden="true"
       >
