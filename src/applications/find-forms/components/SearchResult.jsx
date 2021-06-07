@@ -166,7 +166,10 @@ const SearchResult = ({ form, formMetaInfo }) => {
               recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
             }
           >
-            <i className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1" />
+            <i
+              className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
+              aria-hidden="true"
+            />
             <span className="vads-u-text-decoration--underline">
               Go to online tool
             </span>
@@ -186,7 +189,10 @@ const SearchResult = ({ form, formMetaInfo }) => {
           }
           {...linkProps}
         >
-          <i className="fas fa-download fa-lg vads-u-margin-right--1" />
+          <i
+            className="fas fa-download fa-lg vads-u-margin-right--1"
+            aria-hidden="true"
+          />
           <span className="vads-u-text-decoration--underline">
             Download VA form {id} {pdfLabel}
           </span>
