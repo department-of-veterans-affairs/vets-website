@@ -33,10 +33,11 @@
 .status-label {
   text-decoration: underline $color-light-blue dotted;
   text-underline-position: under;
-}
 
-.status-label:active {
-  pointer-events: none;
+  &:active {
+    pointer-events: none;
+  }
+
 }
 
 .content {
