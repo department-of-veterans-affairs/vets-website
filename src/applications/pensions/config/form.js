@@ -667,7 +667,7 @@ const formConfig = {
       },
     },
     householdInformation: {
-      title: 'Household Information',
+      title: 'Household information',
       pages: {
         marriageInfo: {
           title: 'Marriage history',
