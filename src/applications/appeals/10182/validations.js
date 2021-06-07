@@ -1,3 +1,11 @@
+import moment from 'moment';
+
+import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import {
+  isValidYear,
+  isValidPartialDate,
+} from 'platform/forms-system/src/js/utilities/validations';
+
 import { hasSomeSelected } from './utils/helpers';
 import { optInErrorMessage } from './content/OptIn';
 import { missingIssuesErrorMessageText } from './content/additionalIssues';
@@ -22,6 +30,30 @@ export const requireIssue = (
   const data = Object.keys(appStateData || {}).length ? appStateData : formData;
   if (errors && errors?.additionalIssues?.addError && !hasSomeSelected(data)) {
     errors.additionalIssues.addError(missingIssuesErrorMessageText);
+  }
+};
+
+const minDate = moment()
+  .subtract(1, 'year')
+  .startOf('day');
+
+const maxDate = moment().endOf('day');
+
+export const validateDate = (errors, dateString) => {
+  const { day, month, year } = parseISODate(dateString);
+  const date = moment(dateString);
+  if (year?.length >= 4 && !isValidYear(year)) {
+    errors.addError(
+      `Please enter a year between ${minDate.year()} and ${maxDate.year()}`,
+    );
+  } else if (!isValidPartialDate(day, month, year)) {
+    errors.addError('Please provide a valid date');
+  } else if (date.isAfter(maxDate)) {
+    errors.addError('Please add a past decision date');
+  } else if (date.isBefore(minDate)) {
+    errors.addError(
+      'Please add an issue with a decision date less than a year old',
+    );
   }
 };
 

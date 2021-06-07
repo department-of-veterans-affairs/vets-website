@@ -7,7 +7,7 @@ import {
 } from '../content/additionalIssues';
 
 import { IssueCard } from '../components/IssueCard';
-import { requireIssue } from '../validations';
+import { requireIssue, validateDate } from '../validations';
 import { SELECTED } from '../constants';
 import { setInitialEditMode, hasSomeSelected } from '../utils/helpers';
 
@@ -37,7 +37,10 @@ export default {
             required: missingIssueErrorMessage,
           },
         },
-        decisionDate: dateUiSchema('Date of decision'),
+        decisionDate: {
+          ...dateUiSchema('Date of decision'),
+          'ui:validations': [validateDate],
+        },
       },
     },
   },

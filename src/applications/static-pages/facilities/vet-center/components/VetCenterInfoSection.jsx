@@ -59,7 +59,7 @@ function VetCenterInfoSection(props) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Get directions
+            Get directions to {props.vetCenter.title} (opens in new tab)
           </a>
         </div>
       </div>
