@@ -259,7 +259,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/component-library": "2.5.3",
-    "@department-of-veterans-affairs/formation": "6.16.1",
+    "@department-of-veterans-affairs/formation": "6.16.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@formatjs/intl-datetimeformat": "^3.2.7",
     "@formatjs/intl-getcanonicallocales": "^1.5.3",
@@ -323,7 +323,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#dc9443a28e7f26b947ddb6d7b9df486350155f57",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a814773c22920674823cf3052d82fbaaf9d4dbad",
     "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.6.1",
     "whatwg-fetch": "^2.0.3"
   },

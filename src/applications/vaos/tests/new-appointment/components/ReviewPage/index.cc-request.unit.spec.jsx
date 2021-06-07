@@ -27,7 +27,7 @@ import {
   mockRequestSubmit,
 } from '../../../mocks/helpers';
 
-import { mockAppointmentSubmit } from '../../../mocks/helpers.vaos';
+import { mockAppointmentSubmit } from '../../../mocks/helpers.v2';
 import { getVAFacilityMock } from '../../../mocks/v0';
 
 const initialState = {

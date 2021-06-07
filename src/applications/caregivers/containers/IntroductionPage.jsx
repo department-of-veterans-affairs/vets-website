@@ -228,7 +228,7 @@ export const IntroductionPage = ({
                 href={links.caregiverHelpPage.link}
                 className="vads-u-margin-left--0p5"
               >
-                www.caregiver.va.gov
+                {links.caregiverHelpPage.label}
               </a>
               , or discuss your options with your local Caregiver Support
               Coordinator.
