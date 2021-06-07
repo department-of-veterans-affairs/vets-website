@@ -9,7 +9,6 @@ import {
   PURPOSE_TEXT,
   TYPE_OF_VISIT,
   LANGUAGES,
-  FLOW_TYPES,
 } from '../../../utils/constants';
 import {
   selectUseFlatFacilityPage,
@@ -23,7 +22,6 @@ import {
   getSiteIdForChosenFacility,
   getChosenCCSystemId,
   getChosenSlot,
-  getFlowType,
 } from '../selectors';
 import {
   findCharacteristic,
@@ -85,7 +83,6 @@ export function transformFormToVARequest(state) {
   const facilityName = isFacilityV2Page
     ? getTestFacilityName(facilityId, facility.name)
     : facility.name;
-  const flowType = getFlowType(state);
 
   return {
     typeOfCare: typeOfCare.id,
@@ -110,12 +107,9 @@ export function transformFormToVARequest(state) {
     ...getRequestedDates(data),
     // The bad camel casing here is intentional, to match downstream
     // system
-    bestTimetoCall:
-      flowType === FLOW_TYPES.REQUEST
-        ? Object.entries(data.bestTimeToCall)
-            .filter(item => item[1])
-            .map(item => titleCase(item[0]))
-        : [],
+    bestTimetoCall: Object.entries(data.bestTimeToCall)
+      .filter(item => item[1])
+      .map(item => titleCase(item[0])),
     emailPreferences: {
       emailAddress: data.email,
       // defaulted values
