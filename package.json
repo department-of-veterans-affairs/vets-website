@@ -17,7 +17,7 @@
     "cy:open": "cypress open --config-file config/cypress.json",
     "cy:run": "cypress run --config-file config/cypress.json",
     "cy:test:docker": "node script/run-cypress-tests-docker.js",
-    "cy:test:gha": "./script/run-cypress-tests-gha.sh",
+    "cy:test:gha": "node script/run-cypress-tests-gha.js",
     "cy:testrail-run": "cypress run --config-file config/cypress-testrail.json --reporter-options host=https://dsvavsp.testrail.io/,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=$TR_RUN_NAME,includeAllInTestRun=$TR_INCLUDE_ALL,groupId=$TR_GROUPID,filter=$TR_FILTER",
     "heroku-serve": "http-server",
     "jsdoc": "jsdoc",
