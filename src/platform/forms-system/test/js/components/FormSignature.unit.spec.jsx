@@ -122,10 +122,30 @@ describe('Forms library - Forms signature component', () => {
       // "Valid" here means:
       //   - There are no validation errors
       //   - The checkbox has been checked
+      const oscSpy = spy();
+      const { getByLabelText } = render(
+        <FormSignature
+          {...signatureProps}
+          required
+          onSectionComplete={oscSpy}
+        />,
+      );
+      expect(oscSpy.called).to.be.false;
+
+      userEvent.type(getByLabelText(/Veteran’s full name/), 'asdf');
+      userEvent.click(
+        getByLabelText(/I certify the information above is correct/),
+      );
+
+      expect(oscSpy.called).to.be.true;
     });
 
     it('should NOT call onSectionComplete when the signature is INVALID', () => {});
 
     it('should call setFormData when the name is entered', () => {});
+  });
+
+  describe('validators', () => {
+    // Placeholder for platform-provided validator functions
   });
 });

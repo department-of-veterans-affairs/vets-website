@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -29,6 +29,7 @@ export const FormSignature = ({
   required,
   showError,
   validations,
+  onSectionComplete,
 }) =>
   // {
   //   formData,
@@ -45,6 +46,23 @@ export const FormSignature = ({
     // Validation states
     const [signatureError, setSignatureError] = useState(null);
     const [checkboxError, setCheckboxError] = useState(null);
+
+    // Section complete state (so callback isn't called too many times)
+    const [sectionComplete, setSectionComplete] = useState(false);
+
+    // Call onCompleteSection with true or false when switching between valid
+    // and invalid states respectively
+    const maybeCompleteSection = useCallback(
+      () => {
+        const isComplete = checked && !signatureError;
+        if (sectionComplete !== isComplete) {
+          // TODO: Figure out why this is firing twice in a row
+          setSectionComplete(isComplete);
+          onSectionComplete(isComplete);
+        }
+      },
+      [checked, signatureError, sectionComplete, onSectionComplete],
+    );
 
     // Signature input validation
     useEffect(
@@ -64,17 +82,21 @@ export const FormSignature = ({
             null,
           ),
         );
+
+        maybeCompleteSection();
       },
-      [required, signature, formData, validations],
+      [required, signature, formData, validations, maybeCompleteSection],
     );
 
     // Checkbox validation
     useEffect(
-      () =>
+      () => {
         setCheckboxError(
           required && !checked ? 'Must certify by checking box' : null,
-        ),
-      [required, checked],
+        );
+        maybeCompleteSection();
+      },
+      [required, checked, maybeCompleteSection],
     );
 
     return (
