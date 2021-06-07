@@ -71,7 +71,7 @@ describe('Forms library - Forms signature component', () => {
       const { getByText } = render(
         <FormSignature {...signatureProps} required />,
       );
-      expect(getByText(/Your signature must match/)).to.exist;
+      expect(getByText(/Please sign your name/)).to.exist;
       expect(getByText(/Must certify by checking box/)).to.exist;
     });
 
@@ -79,7 +79,7 @@ describe('Forms library - Forms signature component', () => {
       const { queryByText } = render(
         <FormSignature {...signatureProps} showError={false} required />,
       );
-      expect(queryByText(/Your signature must match/)).to.not.exist;
+      expect(queryByText(/Please sign your name/)).to.not.exist;
       expect(queryByText(/Must certify by checking box/)).to.not.exist;
     });
 
@@ -91,7 +91,7 @@ describe('Forms library - Forms signature component', () => {
       userEvent.click(
         queryByText(/I certify the information above is correct/),
       );
-      expect(queryByText(/Your signature must match/)).to.not.exist;
+      expect(queryByText(/Please sign your name/)).to.not.exist;
       expect(queryByText(/Must certify by checking box/)).to.not.exist;
     });
 
