@@ -532,14 +532,9 @@ describe('VAOS data transformation', () => {
           '983_323': [
             {
               id: '983_308',
-              resourceType: 'HealthcareService',
-              identifier: [
-                {
-                  system: 'http://med.va.gov/fhir/urn',
-                  value: 'urn:va:healthcareservice:983:983:308',
-                },
-              ],
-              serviceName: 'CHY PC KILPATRICK',
+              serviceName: 'Green Team Clinic1',
+              stationId: '983',
+              stationName: 'CHYSHR-Cheyenne VA Medical Center',
               characteristic: [
                 {
                   coding: {
@@ -573,7 +568,7 @@ describe('VAOS data transformation', () => {
       clinic: {
         siteCode: '983',
         clinicId: '308',
-        clinicName: 'CHY PC KILPATRICK',
+        clinicName: 'Green Team Clinic1',
         clinicFriendlyLocationName: 'Green Team Clinic1',
         institutionName: 'CHYSHR-Cheyenne VA Medical Center',
         institutionCode: '983',
