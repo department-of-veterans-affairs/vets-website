@@ -128,8 +128,29 @@ FormSignature.propTypes = {
     errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     status: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }),
+  /**
+   * The label for the signature input
+   */
   signatureLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+
+  /**
+   * The path in the formData to the signature value
+   */
+  signaturePath: PropTypes.string,
+
+  /**
+   * The label for the checkbox input
+   */
   checkboxLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+
+  /**
+   * An array of validator functions. Each function returns a string for the
+   * validation message if the input is invalid, or undefined if the input is
+   * valid.
+   *
+   * Validator function have the following signature:
+   *   function validator(signatureValue: string, formData: Object): string | undefined
+   */
   validations: PropTypes.arrayOf(PropTypes.func),
 };
 
