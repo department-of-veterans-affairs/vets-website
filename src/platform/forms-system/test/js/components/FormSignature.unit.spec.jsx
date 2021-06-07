@@ -185,8 +185,4 @@ describe('Forms library - Forms signature component', () => {
       ).to.be.true;
     });
   });
-
-  describe('validators', () => {
-    // Placeholder for platform-provided validator functions
-  });
 });
