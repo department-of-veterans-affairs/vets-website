@@ -50,7 +50,8 @@ jobs:
         run: yarn cy:test:gha
         timeout-minutes: 60
         env:
-          STEP: ${{ matrix.container }}
+          STEP: ${{ matrix.ci_node_index }}
+          CI: true
 
       - name: Publish test results
         if: ${{ always() }}
