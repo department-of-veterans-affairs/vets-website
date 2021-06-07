@@ -67,22 +67,6 @@ export async function getSupportedHealthcareServicesAndLocations({
 }
 
 /**
- * Method to find a particular characteristic of a clinic.
- *
- * @param {HealthCareService} clinic
- * @param {string} characteristic The characteristic to search for.
- *
- * @returns {string} The display name of the characteristic search for or an empty string.
- */
-export function findCharacteristic(clinic, characteristic) {
-  const result = clinic?.characteristic.find(element => {
-    return element.text === characteristic;
-  });
-
-  return result?.coding?.code || result?.coding?.display;
-}
-
-/**
  * Method to get the clinic id.
  *
  * @param {HealthCareService} clinic
