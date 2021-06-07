@@ -24,11 +24,11 @@ export const ContactInfoDescription = ({ veteran }) => {
         updates or information about your Board Appeal request to this address.
       </p>
       <p className="vads-u-margin-top--1p5">
-        You can{' '}
+        You can update this contact information in your{' '}
         <a href={PROFILE_URL} target="_blank" rel="noopener noreferrer">
-          update this contact information in your VA.gov profile
-        </a>
-        .
+          VA.gov
+        </a>{' '}
+        profile (opens in new tab).
       </p>
       {(!phoneType || !street) && (
         <p className="vads-u-margin-top--1p5">
