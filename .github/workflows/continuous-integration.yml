@@ -2,6 +2,9 @@ name: Continuous Integration
 
 on: [push]
 
+env:
+  CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+
 jobs:
   unit-tests:
     name: Unit Tests
@@ -58,7 +61,8 @@ jobs:
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
 
   linting:
-    name: Linting
+    name: Linting (All)
+    if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -88,7 +92,7 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Annotate ESLint results
-        run: yarn run eslint --ext .js --ext .jsx  --format ./script/github-actions/eslint-annotation-format.js .
+        run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
 
       - name: Run Sass lint
         run: yarn run sass-lint --format json --verbose --output sasslint-report.json

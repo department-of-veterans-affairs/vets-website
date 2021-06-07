@@ -259,18 +259,13 @@ const ItemLoop = ({
     }, 100);
   };
 
-  const formatEditData = (index, edit) => {
-    return editing.map((item, i) => (index === i ? edit : item));
-  };
-
   const handleChange = (index, value) => {
     const newData = items.map((item, i) => (index === i ? value : item));
     onChange(newData);
   };
 
-  const handleEdit = (e, index) => {
-    const editData = formatEditData(index, true);
-
+  const handleEdit = index => {
+    const editData = editing.map((item, i) => index === i);
     if (editing.length === 1) {
       setShowTable(false);
     }
@@ -282,7 +277,7 @@ const ItemLoop = ({
 
   const handleSave = (e, index) => {
     if (errorSchemaIsValid(errorSchema[index])) {
-      const editData = formatEditData(index, false);
+      const editData = editing.map(() => false);
       setEditing(editData);
       setShowTable(true);
       handleScroll(`table_${idSchema.$id}_${index}`, 0);
@@ -328,7 +323,7 @@ const ItemLoop = ({
       setEditing(editData);
       onChange(filtered);
     } else {
-      const editData = formatEditData(index, false);
+      const editData = editing.map(() => false);
       setEditing(editData);
       onChange(cache);
     }
@@ -414,7 +409,7 @@ const ItemLoop = ({
                     formData={item}
                     index={index}
                     title={title}
-                    onEdit={e => handleEdit(e, index)}
+                    onEdit={() => handleEdit(index)}
                   />
                 );
               })}
@@ -451,7 +446,7 @@ const ItemLoop = ({
                 formData={item}
                 index={index}
                 title={title}
-                onEdit={e => handleEdit(e, index)}
+                onEdit={() => handleEdit(index)}
               />
             );
           })

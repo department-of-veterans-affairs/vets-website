@@ -1,8 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { getDate } from '../utils/dates';
 import {
   requireIssue,
+  validateDate,
   areaOfDisagreementRequired,
   optInValidation,
 } from '../validations';
@@ -68,6 +70,40 @@ describe('requireIssue validation', () => {
     };
     requireIssue(errors, _, _, _, _, _, data);
     expect(errorMessage).to.equal('');
+  });
+});
+
+describe('validateDate', () => {
+  let errorMessage = '';
+  const errors = {
+    addError: message => {
+      errorMessage = message || '';
+    },
+  };
+
+  beforeEach(() => {
+    errorMessage = '';
+  });
+
+  it('should allow valid dates', () => {
+    validateDate(errors, getDate({ offset: { weeks: -1 } }));
+    expect(errorMessage).to.equal('');
+  });
+  it('should throw a invalid date error', () => {
+    validateDate(errors, '200');
+    expect(errorMessage).to.contain('valid date');
+  });
+  it('should throw a range error for dates too old', () => {
+    validateDate(errors, '1899');
+    expect(errorMessage).to.contain('enter a year between');
+  });
+  it('should throw an error for dates in the future', () => {
+    validateDate(errors, getDate({ offset: { weeks: 1 } }));
+    expect(errorMessage).to.contain('past decision date');
+  });
+  it('should throw an error for dates more than a year in the past', () => {
+    validateDate(errors, getDate({ offset: { weeks: -60 } }));
+    expect(errorMessage).to.contain('date less than a year');
   });
 });
 

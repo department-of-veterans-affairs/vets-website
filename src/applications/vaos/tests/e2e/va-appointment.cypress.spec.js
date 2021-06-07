@@ -41,7 +41,7 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.reasonForAppointmentTest(additionalInfo);
 
     // Contact info
-    newApptTests.contactInfoTest();
+    newApptTests.contactInfoDirectScheduleTest();
 
     // Review
     newApptTests.reviewTest();
@@ -111,7 +111,7 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.reasonForAppointmentTest(additionalInfo);
 
     // Contact info
-    newApptTests.contactInfoTest();
+    newApptTests.contactInfoDirectScheduleTest();
 
     // Review
     newApptTests.reviewTest();
@@ -182,7 +182,7 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.reasonForAppointmentTest(additionalInfo);
 
     // Contact info
-    newApptTests.contactInfoTest();
+    newApptTests.contactInfoDirectScheduleTest();
 
     // Review
     newApptTests.reviewTest();
@@ -251,7 +251,7 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.reasonForAppointmentTest(additionalInfo);
 
     // Contact info
-    newApptTests.contactInfoTest();
+    newApptTests.contactInfoDirectScheduleTest();
 
     // Review
     newApptTests.reviewTest();
@@ -318,7 +318,7 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
     newApptTests.reasonForAppointmentTest(additionalInfo);
 
     // Contact info
-    newApptTests.contactInfoTest();
+    newApptTests.contactInfoDirectScheduleTest();
 
     // Review
     newApptTests.reviewTest();
@@ -391,7 +391,7 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
     newApptTests.reasonForAppointmentTest(additionalInfo);
 
     // Contact info
-    newApptTests.contactInfoTest();
+    newApptTests.contactInfoDirectScheduleTest();
 
     // Review
     newApptTests.reviewTest();
@@ -460,7 +460,7 @@ describe('VAOS direct schedule flow with a Cerner site', () => {
     newApptTests.reasonForAppointmentTest(additionalInfo);
 
     // Contact info
-    newApptTests.contactInfoTest();
+    newApptTests.contactInfoDirectScheduleTest();
 
     // Review
     newApptTests.reviewTest();

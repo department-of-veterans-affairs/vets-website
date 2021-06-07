@@ -46,6 +46,10 @@ export default function VideoVisitLocation({ appointment, facility }) {
     );
   }
 
+  if (appointment.vaos.isPastAppointment && isAtlas) {
+    return <AtlasLocation appointment={appointment} />;
+  }
+
   if (appointment.vaos.isPastAppointment) {
     return <span>Video conference</span>;
   }
@@ -79,9 +83,14 @@ export default function VideoVisitLocation({ appointment, facility }) {
           </div>
         )}
         {isAtlas && (
-          <div className="vads-u-margin-top--2">
-            <AtlasLocation appointment={appointment} />
-          </div>
+          <>
+            <div className="vads-u-margin-top--2">
+              <AtlasLocation appointment={appointment} />
+            </div>
+            <div className="vads-u-margin-top--2">
+              <VideoVisitProvider providers={providers} />
+            </div>
+          </>
         )}
         {kind === VIDEO_TYPES.clinic &&
           !isAtlas && (
