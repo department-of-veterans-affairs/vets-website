@@ -1,3 +1,5 @@
+// noinspection HtmlUnknownTarget
+
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
@@ -162,58 +164,58 @@ const Dashboard = ({
               </div>
             )}
             <div className="vads-l-grid-container vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
-              <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
-                <a href="/" key="home">
-                  Home
-                </a>
-                <span className="vads-u-color--black" key="dashboard">
-                  <strong>My VA</strong>
-                </span>
-              </Breadcrumbs>
+              <div className="vads-u-padding-x--1">
+                <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
+                  <a href="/" key="home">
+                    Home
+                  </a>
+                  <a href="/my-va">My VA</a>
+                </Breadcrumbs>
 
-              <DashboardHeader />
+                <DashboardHeader />
 
-              {showMPIConnectionError ? (
-                <div className="vads-l-row">
-                  <MPIConnectionError
-                    className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3"
-                    level={2}
-                  />
-                </div>
-              ) : null}
-
-              {showNotInMPIError ? (
-                <div className="vads-l-row">
-                  <NotInMPIError
-                    className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3"
-                    level={2}
-                  />
-                </div>
-              ) : null}
-
-              {props.showValidateIdentityAlert ? (
-                <div className="vads-l-row">
-                  <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-                    <IdentityNotVerified alertHeadline="Verify your identity to access more VA.gov tools and features" />
+                {showMPIConnectionError ? (
+                  <div className="vads-l-row">
+                    <MPIConnectionError
+                      className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3"
+                      level={2}
+                    />
                   </div>
-                </div>
-              ) : null}
+                ) : null}
 
-              {props.showClaimsAndAppeals ? (
-                <DowntimeNotification
-                  dependencies={[
-                    externalServices.mhv,
-                    externalServices.appeals,
-                  ]}
-                  render={renderWidgetDowntimeNotification}
-                >
-                  <ClaimsAndAppeals />
-                </DowntimeNotification>
-              ) : null}
+                {showNotInMPIError ? (
+                  <div className="vads-l-row">
+                    <NotInMPIError
+                      className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3"
+                      level={2}
+                    />
+                  </div>
+                ) : null}
 
-              {props.showHealthCare ? <HealthCare /> : null}
+                {props.showValidateIdentityAlert ? (
+                  <div className="vads-l-row">
+                    <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+                      <IdentityNotVerified alertHeadline="Verify your identity to access more VA.gov tools and features" />
+                    </div>
+                  </div>
+                ) : null}
 
-              <ApplyForBenefits />
+                {props.showClaimsAndAppeals ? (
+                  <DowntimeNotification
+                    dependencies={[
+                      externalServices.mhv,
+                      externalServices.appeals,
+                    ]}
+                    render={renderWidgetDowntimeNotification}
+                  >
+                    <ClaimsAndAppeals />
+                  </DowntimeNotification>
+                ) : null}
+
+                {props.showHealthCare ? <HealthCare /> : null}
+
+                <ApplyForBenefits />
+              </div>
             </div>
           </div>
         )}
