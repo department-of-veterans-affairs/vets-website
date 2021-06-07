@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import ExpandableOperatingStatus from '../../../shared/ExpandableOperatingStatus';
+import { buildOperatingStatusProps } from '../buildOperatingStatusProps';
 
 function VetCenterInfoSection(props) {
   const addressDirections = `${props.vetCenter.fieldAddress.addressLine1}, ${
@@ -8,6 +10,11 @@ function VetCenterInfoSection(props) {
   }, ${props.vetCenter.fieldAddress.administrativeArea}, ${
     props.vetCenter.fieldAddress.postalCode
   }`;
+
+  const attrs = {
+    opStatus: props.vetCenter.fieldOperatingStatusFacility,
+    opStatusExtra: props.vetCenter.fieldOperatingStatusMoreInfo,
+  };
 
   const renderPhone = phoneNumber => {
     if (!phoneNumber) return null;
@@ -31,6 +38,9 @@ function VetCenterInfoSection(props) {
           {props.vetCenter.title}
         </h3>
       )}
+      <div className="vads-u-margin-bottom--1">
+        <ExpandableOperatingStatus {...buildOperatingStatusProps(attrs)} />
+      </div>
       <h4 className="force-small-header vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
         {props.vetCenter.entityBundle === 'vet_center_cap'
           ? 'Located at'
