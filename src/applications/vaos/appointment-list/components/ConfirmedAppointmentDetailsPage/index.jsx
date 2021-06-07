@@ -198,30 +198,27 @@ export default function ConfirmedAppointmentDetailsPage() {
 
       {alertBox}
 
+      <h2
+        className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+        data-cy={
+          isVideo
+            ? 'va-video-appointment-details-header'
+            : 'va-appointment-details-header'
+        }
+      >
+        {header}
+      </h2>
+
       {isVideo && (
-        <>
-          <h2
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
-            data-cy="va-video-appointment-details-header"
-          >
-            {header}
-          </h2>
-          <VideoVisitSection
-            header={header}
-            facility={facility}
-            appointment={appointment}
-          />
-        </>
+        <VideoVisitSection
+          header={header}
+          facility={facility}
+          appointment={appointment}
+        />
       )}
 
       {!isVideo && (
         <>
-          <h2
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
-            data-cy="va-appointment-details-header"
-          >
-            {header}
-          </h2>
           <VAFacilityLocation
             facility={facility}
             facilityName={facility?.name}

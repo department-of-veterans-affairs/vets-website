@@ -32,7 +32,9 @@ export default function VideoVisitLocation({ appointment, facility }) {
   });
 
   const showVideoInstructions =
-    !!appointment.comment && isHome && !appointment.vaos.isPastAppointment;
+    !!appointment.comment &&
+    (isHome || isAtlas) &&
+    !appointment.vaos.isPastAppointment;
 
   return (
     <>
