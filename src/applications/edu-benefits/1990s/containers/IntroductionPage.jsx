@@ -61,9 +61,9 @@ class IntroductionPage extends React.Component {
                 <li>Not enrolled in a federal or state jobs program</li>
               </ul>
               <p>
-                <strong>Note:</strong>
-                You can't receive VRRAP benefits at the same time you're
-                receiving unemployment benefits (including CARES Act benefits).
+                <strong>Note:</strong> You can't receive VRRAP benefits at the
+                same time you're receiving unemployment benefits (including
+                CARES Act benefits).
               </p>
               <p>
                 Also, at the time you apply for VRRAP you can't be eligible for
@@ -97,10 +97,9 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               <p>
-                <strong>Note:</strong>
-                You can get VRRAP benefits if you were eligible for the
-                Post-9/11 GI Bill at one time but have transferred all of those
-                benefits to family members.
+                <strong>Note:</strong> You can get VRRAP benefits if you were
+                eligible for the Post-9/11 GI Bill at one time but have
+                transferred all of those benefits to family members.
               </p>
             </li>
             <li className="process-step list-two">
