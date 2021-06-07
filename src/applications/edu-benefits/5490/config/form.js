@@ -58,16 +58,17 @@ import manifest from '../manifest.json';
 
 const {
   benefit,
-  highSchool,
+  benefitsRelinquishedDate,
   currentlyActiveDuty,
   currentSameAsPrevious,
+  highSchool,
   outstandingFelony,
   previousBenefits,
   serviceBranch,
+  sponsorStatus,
   spouseInfo,
   veteranDateOfBirth,
   veteranDateOfDeath,
-  benefitsRelinquishedDate,
 } = fullSchema5490.properties;
 
 const {
@@ -486,10 +487,53 @@ const formConfig = {
                 },
               }),
             },
-            veteranDateOfBirth: currentOrPastDateUI("Sponsor's date of birth"),
-            veteranDateOfDeath: currentOrPastDateUI(
-              "Sponsor's date of death or date listed as MIA or POW",
-            ),
+            veteranDateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
+            veteranDateOfDeath: {
+              ...currentOrPastDateUI(
+                "Sponsor's date of death or date listed as MIA or POW",
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  _.get('benefit', formData) !== 'chapter35' &&
+                  !environment.isProduction(), // prod flag #25122
+              },
+            },
+            sponsorStatus: {
+              'ui:title': 'Do any of these situations apply to your sponsor?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  diedOnDuty:
+                    'Died while serving on active duty or duty other than active duty',
+                  diedFromDisabilityOrOnReserve:
+                    'Died from a service-connected disability while a member of the Selected Reserve',
+                  powOrMia: 'Listed as MIA or POW',
+                },
+                hideIf: formData =>
+                  _.get('benefit', formData) !== 'chapter33' ||
+                  environment.isProduction(), // prod flag #25122
+              },
+            },
+            'view:sponsorDateOfDeath': {
+              ...currentOrPastDateUI('Sponsor’s date of death'),
+              'ui:options': {
+                expandUnder: 'sponsorStatus',
+                expandUnderCondition: status => status && status !== 'powOrMia',
+                hideIf: formData =>
+                  _.get('benefit', formData) !== 'chapter33' ||
+                  environment.isProduction(), // prod flag #25122
+              },
+            },
+            'view:sponsorDateListedMiaOrPow': {
+              ...currentOrPastDateUI('Sponsor’s date listed as MIA or POW'),
+              'ui:options': {
+                expandUnder: 'sponsorStatus',
+                expandUnderCondition: status => status && status === 'powOrMia',
+                hideIf: formData =>
+                  _.get('benefit', formData) !== 'chapter33' ||
+                  environment.isProduction(), // prod flag #25122
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -506,6 +550,13 @@ const formConfig = {
               },
               veteranDateOfBirth,
               veteranDateOfDeath,
+              sponsorStatus,
+              'view:sponsorDateOfDeath': {
+                $ref: '#/definitions/date',
+              },
+              'view:sponsorDateListedMiaOrPow': {
+                $ref: '#/definitions/date',
+              },
             },
           },
         },

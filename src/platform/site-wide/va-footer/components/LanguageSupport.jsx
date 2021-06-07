@@ -7,11 +7,15 @@ import {
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
 
-const langAssistanceLabel = 'Language Assistance';
+const langAssistanceLabel = 'Language assistance';
 
 function LanguagesListTemplate({ langSelected }) {
   return (
-    <ul>
+    <ul
+      className={
+        'vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0'
+      }
+    >
       {[
         {
           label: 'Español',
@@ -32,6 +36,7 @@ function LanguagesListTemplate({ langSelected }) {
         <li key={i}>
           <a
             href={link.href}
+            lang={link.lang}
             hrefLang={link.lang}
             onClick={() => {
               langSelected(link.lang);
@@ -57,11 +62,11 @@ export default function LanguageSupport({
 }) {
   useEffect(
     () => {
-      if (langSelected && showLangSupport) {
-        adaptLinksWithLangCode(langSelected);
+      if (langSelected && showLangSupport && languageCode) {
+        adaptLinksWithLangCode(langSelected, languageCode);
       }
     },
-    [langSelected, showLangSupport],
+    [langSelected, languageCode, showLangSupport],
   );
 
   useEffect(
@@ -77,8 +82,10 @@ export default function LanguageSupport({
 
   if (isDesktop) {
     return (
-      <div className="usa-grid usa-grid-full va-footer-links-bottom">
-        <h2 className="va-footer-linkgroup-title"> {langAssistanceLabel} </h2>
+      <div className="usa-grid usa-grid-full va-footer-links-bottom vads-u-border-color--white vads-u-border-bottom--1px vads-u-border-top--1px vads-u-padding-top--1p5 vads-u-padding-bottom--1p5 vads-u-padding-left--0">
+        <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">
+          {langAssistanceLabel}
+        </h2>
         <LanguagesListTemplate langSelected={langSelected} />
       </div>
     );
@@ -95,7 +102,7 @@ export default function LanguageSupport({
         {langAssistanceLabel}
       </button>
       <div
-        className="usa-accordion-content va-footer-accordion-content"
+        className="usa-accordion-content va-footer-accordion-content vads-u-padding-bottom--0 vads-u-padding-left--0p5"
         id="veteran-language-support"
         aria-hidden="true"
       >

@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { expect } from 'chai';
 import DebtLettersDownload from '../components/DebtLettersDownload';
 
@@ -46,29 +46,18 @@ describe('DebtLettersDownload', () => {
     dispatch: () => {},
   };
   it('renders correct number of debt rows', () => {
-    const wrapper = shallow(<DebtLettersDownload store={fakeStore} />);
+    const wrapper = mount(<DebtLettersDownload store={fakeStore} />);
+    expect(wrapper.find(`DebtLetters`).length).to.equal(1);
     expect(
       wrapper
-        .dive()
-        .dive()
-        .find(`DebtLettersTable`).length,
-    ).to.equal(1);
-    expect(
-      wrapper
-        .dive()
-        .dive()
         .find('DebtLettersTable')
-        .dive()
         .find('td')
         .at(0)
         .text(),
     ).to.equal('May 29, 2020');
     expect(
       wrapper
-        .dive()
-        .dive()
         .find('DebtLettersTable')
-        .dive()
         .find('td')
         .at(1)
         .text(),
