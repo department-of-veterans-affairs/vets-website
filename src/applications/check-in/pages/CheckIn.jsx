@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import withFeatureFlip from '../containers/withFeatureFlip.jsx';
@@ -48,4 +47,4 @@ const CheckIn = props => {
   );
 };
 
-export default withRouter(withFeatureFlip(CheckIn));
+export default withFeatureFlip(CheckIn);

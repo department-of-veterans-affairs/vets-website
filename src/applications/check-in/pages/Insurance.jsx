@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router';
 
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
@@ -49,4 +48,4 @@ const Insurance = props => {
   );
 };
 
-export default withRouter(withFeatureFlip(Insurance));
+export default withFeatureFlip(Insurance);
