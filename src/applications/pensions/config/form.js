@@ -706,7 +706,7 @@ const formConfig = {
           },
         },
         marriageHistory: {
-          title: (form, { pagePerItemIndex }) =>
+          title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
             getMarriageTitleWithCurrent(form, pagePerItemIndex),
           path: 'household/marriages/:index',
           showPagePerItem: true,
@@ -939,7 +939,7 @@ const formConfig = {
           },
         },
         spouseMarriageHistory: {
-          title: (form, { pagePerItemIndex }) =>
+          title: (form, { pagePerItemIndex } = { pagePerItemIndex: 0 }) =>
             getSpouseMarriageTitle(pagePerItemIndex),
           path: 'household/spouse-marriages/:index',
           depends: isMarried,
