@@ -11,7 +11,6 @@ const StemDeniedDetails = ({
   deniedAt,
   isEnrolledStem,
   isPursuingTeachingCert,
-  isPursuingClinicalTraining,
 }) => {
   const date = moment(deniedAt).format('MMM D, YYYY');
 
@@ -74,9 +73,7 @@ const StemDeniedDetails = ({
             </li>
           </ul>
         </li>
-        {(isEnrolledStem ||
-          isPursuingTeachingCert ||
-          isPursuingClinicalTraining) && (
+        {(isEnrolledStem || isPursuingTeachingCert) && (
           <li>
             You meet the degree requirements for the Rogers STEM Scholarship.
             <ul className="stem-ad-list-secondary">
