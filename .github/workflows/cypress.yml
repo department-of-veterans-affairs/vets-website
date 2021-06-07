@@ -13,7 +13,8 @@ jobs:
       fail-fast: false
       max-parallel: 6
       matrix:
-        containers: [1, 2, 3, 4, 5, 6]
+        ci_node_total: [6]
+        ci_node_index: [0, 1, 2, 3, 4, 5]
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
     steps:
