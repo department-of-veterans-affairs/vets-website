@@ -4,13 +4,13 @@ describe('Check In Experience -- happy path', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
-  it('Does the button check us in', () => {
+  it('needs to update information', () => {
     cy.visit('/check-in/some-token');
     cy.get('h1').contains('insurance information');
-    cy.get('#errorable-radio-buttons-1-1').click();
+    cy.get('#errorable-radio-buttons-1-0').click();
     cy.get('.usa-button').click();
-    cy.get('h1').contains('Appointment details');
-    cy.get('.usa-button').click();
-    cy.get('h1').contains("You're now checked in");
+    cy.get('.hydrated > h3').contains(
+      'Please see a staff member to complete check-in.',
+    );
   });
 });
