@@ -1,12 +1,13 @@
 import React from 'react';
-import head from 'lodash/head';
 import moment from 'moment';
+import head from 'lodash/head';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+
 import { deductionCodes } from '../const/deduction-codes';
 import { bindActionCreators } from 'redux';
 import { setActiveDebt } from '../actions';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { renderAdditionalInfo } from '../const/diary-codes';
 
 const DebtLetterCard = props => {

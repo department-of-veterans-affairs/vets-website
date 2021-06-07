@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from './HowDoIPay';
