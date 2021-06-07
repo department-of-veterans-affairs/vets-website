@@ -4,38 +4,42 @@ import PropTypes from 'prop-types';
 
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { selectProfile } from 'platform/user/selectors';
 import { ADDRESS_TYPES } from 'platform/forms/address/helpers';
+import titleCase from 'platform/utilities/data/titleCase';
+
 import { PROFILE_URL } from '../constants';
 
-const ReviewDescription = ({ profile }) => {
-  if (!profile) {
+const ReviewDescription = ({ veteran }) => {
+  if (!veteran) {
     return null;
   }
 
-  const { email, homePhone, mailingAddress } = profile.vapContactInfo || {};
-  const isUS = mailingAddress?.addressType !== ADDRESS_TYPES.international;
+  const { email, phone, address } = veteran || {};
+  const isUS = address?.addressType !== ADDRESS_TYPES.international;
   const stateOrProvince = isUS ? 'State' : 'Province';
+  const phoneType = `${titleCase(
+    (phone?.phoneType || '').toLowerCase(),
+  )} phone`;
 
   // Label: formatted value in (design) display order
   const display = {
-    'Phone number': () =>
-      homePhone && (
+    [phoneType]: () =>
+      phone && (
         <Telephone
-          contact={`${homePhone?.areaCode}${homePhone?.phoneNumber}`}
-          extension={homePhone?.extension || ''}
+          contact={`${phone?.areaCode}${phone?.phoneNumber}`}
+          extension={phone?.extension || ''}
           notClickable
         />
       ),
-    'Email address': () => email?.emailAddress,
-    Country: () => (isUS ? '' : mailingAddress?.countryName),
-    'Street address': () => mailingAddress?.addressLine1,
-    'Street address line 2': () => mailingAddress?.addressLine2,
-    'Street address line 3': () => mailingAddress?.addressLine3,
-    City: () => mailingAddress?.city,
-    [stateOrProvince]: () => mailingAddress?.[isUS ? 'stateCode' : 'province'],
+    'Email address': () => email,
+    Country: () => (isUS ? '' : address?.countryName),
+    'Street address': () => address?.addressLine1,
+    'Street address line 2': () => address?.addressLine2,
+    'Street address line 3': () => address?.addressLine3,
+    City: () => address?.city,
+    [stateOrProvince]: () => address?.[isUS ? 'stateCode' : 'province'],
     'Postal code': () =>
-      mailingAddress?.[isUS ? 'zipCode' : 'internationalPostalCode'],
+      address?.[isUS ? 'zipCode' : 'internationalPostalCode'],
   };
 
   return (
@@ -70,13 +74,16 @@ const ReviewDescription = ({ profile }) => {
 };
 
 ReviewDescription.propTypes = {
-  profile: PropTypes.shape({}),
+  veteran: PropTypes.shape({
+    email: PropTypes.string,
+    phone: PropTypes.shape({}),
+    address: PropTypes.shape({}),
+  }),
 };
 
-const mapStateToProps = state => {
-  const profile = selectProfile(state);
-  return { profile };
-};
+const mapStateToProps = state => ({
+  veteran: state.form.data.veteran,
+});
 
 export { ReviewDescription };
 

@@ -10,31 +10,34 @@ const LANGS_TO_LINK_SUFFIXES = {
 };
 const I18Select = ({ baseUrls, content, langSelected }) => {
   const [lang, setLang] = useState('en');
-  useEffect(() => {
-    const contentDiv = document?.getElementById('content');
-    setLang('en');
-    langSelected('en');
-    if (contentDiv) {
-      contentDiv.setAttribute('lang', 'en');
-    }
-    // this logic is specific to the temporary covid faq page url structures and cannot be abstracted
-    for (const [langCode, suffix] of Object.entries(LANGS_TO_LINK_SUFFIXES)) {
-      if (document?.location.href.endsWith(suffix)) {
-        setLang(langCode);
-        langSelected(langCode);
-        if (contentDiv) {
-          contentDiv.setAttribute('lang', langCode);
-        }
-        document.documentElement.setAttribute('lang', langCode);
+  useEffect(
+    () => {
+      const contentDiv = document?.getElementById('content');
+      setLang('en');
+      langSelected('en');
+      if (contentDiv) {
+        contentDiv.setAttribute('lang', 'en');
       }
-    }
-  }, []);
+      // this logic is specific to the temporary covid faq page url structures and cannot be abstracted
+      for (const [langCode, suffix] of Object.entries(LANGS_TO_LINK_SUFFIXES)) {
+        if (document?.location.href.endsWith(suffix)) {
+          setLang(langCode);
+          langSelected(langCode);
+          if (contentDiv) {
+            contentDiv.setAttribute('lang', langCode);
+          }
+          document.documentElement.setAttribute('lang', langCode);
+        }
+      }
+    },
+    [langSelected],
+  );
 
   useEffect(
     () => {
-      onThisPageHook(content, lang);
+      onThisPageHook(lang);
     },
-    [lang, content],
+    [lang],
   );
 
   return (

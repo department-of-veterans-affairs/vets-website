@@ -33,7 +33,7 @@ function ContinueButton({ isLoading }) {
       /* to override the `width: 100%` given to SchemaForm submit buttons */
       style={{ width: 'auto' }}
     >
-      Continue to the Application
+      Continue to the application
       <span className="button-icon">&nbsp;»</span>
     </LoadingButton>
   );

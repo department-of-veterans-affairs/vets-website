@@ -7,7 +7,6 @@ import { fileHelp, submit } from '../helpers.jsx';
 
 import {
   mockFetch,
-  resetFetch,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
 
@@ -152,7 +151,6 @@ describe('Pensions helpers', () => {
       );
     });
     afterEach(() => {
-      resetFetch();
       delete window.URL;
     });
   });

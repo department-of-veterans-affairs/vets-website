@@ -1,7 +1,16 @@
-export const onThisPageHook = (content, lang) => {
+const onThisPageDict = {
+  es: { onThisPage: 'En esta página' },
+  tl: {
+    onThisPage: 'Sa pahinang ito',
+  },
+};
+
+export const onThisPageHook = lang => {
   if (lang && lang !== 'en') {
     const onThisPageEl = document?.getElementById('on-this-page');
-    onThisPageEl.innerText = content[lang].onThisPage;
+    if (onThisPageEl) {
+      onThisPageEl.innerText = onThisPageDict[lang].onThisPage;
+    }
   }
 };
 
@@ -17,22 +26,30 @@ export const setLangAttribute = lang => {
 // without overwriting existing onclick events
 // reference: https://stackoverflow.com/questions/891989/javascript-adding-an-onclick-handler-without-overwriting-the-existing-one
 
-export const adaptLinksWithLangCode = setLangAttributeInReduxStore => {
+export const adaptLinksWithLangCode = (
+  setLangAttributeInReduxStore,
+  languageCodeInReduxStore,
+) => {
   const links = document.links;
   for (const link of links) {
-    link.addEventListener('click', () => {
-      setLangAttributeInReduxStore('en');
-      const langAttribute = link.hreflang || link.lang;
-      if (langAttribute) {
-        setLangAttributeInReduxStore(langAttribute);
-      }
-      // respect the temp IA i18 structure
-      if (link.href.endsWith('-esp/')) {
-        setLangAttributeInReduxStore('es');
-      }
-      if (link.href.endsWith('-tag/')) {
-        setLangAttributeInReduxStore('tl');
-      }
-    });
+    if (link) {
+      link.setAttribute('lang', languageCodeInReduxStore);
+      link.setAttribute('hreflang', languageCodeInReduxStore);
+
+      link.addEventListener('click', () => {
+        setLangAttributeInReduxStore('en');
+        const langAttribute = link.lang || link.hreflang;
+        if (langAttribute) {
+          setLangAttributeInReduxStore(langAttribute);
+        }
+        // respect the temp IA i18 structure
+        if (link.href.endsWith('-esp/')) {
+          setLangAttributeInReduxStore('es');
+        }
+        if (link.href.endsWith('-tag/')) {
+          setLangAttributeInReduxStore('tl');
+        }
+      });
+    }
   }
 };

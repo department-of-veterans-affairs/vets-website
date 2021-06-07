@@ -64,7 +64,8 @@ const AddIssuesField = props => {
 
   const onItemChange = (indexToChange, value) => {
     const newItems = formData.map(
-      (item, index) => (index === indexToChange ? value : item),
+      (item, index) =>
+        index === indexToChange ? { ...value, [SELECTED]: true } : item,
     );
     props.onChange(newItems);
   };
@@ -94,8 +95,6 @@ const AddIssuesField = props => {
   const handleUpdate = index => {
     const { issue, decisionDate } = formData[index];
     if (errorSchemaIsValid(errorSchema[index]) && issue && decisionDate) {
-      // check the updated issue
-      toggleSelection(index, true);
       setEditing(editing.map((mode, indx) => (indx === index ? false : mode)));
       scrollAndFocus({
         selector: `dd[data-index="${index}"] .edit`,
@@ -212,13 +211,15 @@ const AddIssuesField = props => {
         <dd data-index={index}>
           <Element name={`table_${itemIdPrefix}`} />
           <fieldset className="vads-u-text-align--left">
-            <legend className="schemaform-block-header vads-u-font-size--base vads-u-font-weight--normal vads-u-margin-top--0 vads-u-padding-y--0">
+            <legend className="schemaform-block-header vads-u-margin-top--0 vads-u-padding-y--0">
               {first ? (
-                'Please add a new issue for review:'
+                <span className="vads-u-font-size--base vads-u-font-weight--normal">
+                  Please add a new issue for review:
+                </span>
               ) : (
-                <h2 className="vads-u-margin-y--0 vads-u-font-size--h4">
+                <div className="vads-u-font-size--md vads-u-font-family--serif">
                   {`${isEditing === 1 ? 'Add' : 'Update'} issue`}
-                </h2>
+                </div>
               )}
             </legend>
             <div className="input-section vads-u-margin-bottom--0 vads-u-font-weight--normal">

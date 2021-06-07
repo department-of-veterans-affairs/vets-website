@@ -31,6 +31,11 @@ import {
   STATUS_TYPES,
   AOJS,
 } from '../../utils/appeals-v2-helpers';
+import {
+  mockFetch,
+  setFetchJSONFailure,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
 
 describe('Disability benefits helpers: ', () => {
   describe('groupTimelineActivity', () => {
@@ -396,37 +401,22 @@ describe('Disability benefits helpers: ', () => {
   });
 
   describe('makeAuthRequest', () => {
-    let fetchMock = sinon.stub();
-    let oldFetch = global.fetch;
     beforeEach(() => {
-      oldFetch = global.fetch;
-      fetchMock = sinon.stub();
-      global.fetch = fetchMock;
+      mockFetch();
     });
-    afterEach(() => {
-      global.fetch = oldFetch;
-    });
+
     it('should make a fetch request', done => {
-      fetchMock.returns({
-        catch: () => ({
-          then: fn => fn({ ok: true, json: () => Promise.resolve() }),
-        }),
-      });
+      setFetchJSONResponse(global.fetch.onCall(0), 'test');
 
       const onSuccess = () => done();
       makeAuthRequest('/testing', null, sinon.spy(), onSuccess);
 
-      expect(fetchMock.called).to.be.true;
-      expect(fetchMock.firstCall.args[0]).to.contain('/testing');
-      expect(fetchMock.firstCall.args[1].method).to.equal('GET');
+      expect(global.fetch.called).to.be.true;
+      expect(global.fetch.firstCall.args[0]).to.contain('/testing');
+      expect(global.fetch.firstCall.args[1].method).to.equal('GET');
     });
     it('should reject promise when there is an error', done => {
-      fetchMock.returns({
-        catch: () => ({
-          then: fn =>
-            fn({ ok: false, status: 500, json: () => Promise.resolve() }),
-        }),
-      });
+      setFetchJSONFailure(global.fetch.onCall(0));
 
       const onError = resp => {
         expect(resp.ok).to.be.false;
@@ -434,12 +424,12 @@ describe('Disability benefits helpers: ', () => {
       };
       makeAuthRequest('/testing', null, sinon.spy(), sinon.spy(), onError);
 
-      expect(fetchMock.called).to.be.true;
-      expect(fetchMock.firstCall.args[0]).to.contain('/testing');
-      expect(fetchMock.firstCall.args[1].method).to.equal('GET');
+      expect(global.fetch.called).to.be.true;
+      expect(global.fetch.firstCall.args[0]).to.contain('/testing');
+      expect(global.fetch.firstCall.args[1].method).to.equal('GET');
     });
     it('should dispatch auth error', done => {
-      fetchMock.returns({
+      global.fetch.returns({
         catch: () => ({
           then: fn =>
             fn({ ok: false, status: 401, json: () => Promise.resolve() }),

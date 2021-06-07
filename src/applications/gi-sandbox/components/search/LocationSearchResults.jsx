@@ -5,7 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import { getScrollOptions } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import SearchResultCard from './SearchResultCard';
+import SearchResultCard from '../../containers/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';

@@ -11,6 +11,7 @@ export default Object.freeze({
   cernerOverride687: 'cerner_override_687',
   cernerOverride692: 'cerner_override_692',
   cernerOverride757: 'cerner_override_757',
+  checkInExperienceEnabled:'check_in_experience_enabled',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
@@ -25,6 +26,7 @@ export default Object.freeze({
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
   facilityLocatorLighthouseCovidVaccineQuery: 'facilityLocatorLighthouseCovidVaccineQuery',
   facilityLocatorPredictiveLocationSearch: 'facilityLocatorPredictiveLocationSearch',
+  facilityLocatorRailsEngine: 'facilityLocatorRailsEngine',
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilityLocatorShowOperationalHoursSpecialInstructions: 'facilityLocatorShowOperationalHoursSpecialInstructions',
   findFormsEnhancements: 'find_forms_mvp_enhancement',
@@ -42,8 +44,6 @@ export default Object.freeze({
   searchTypeaheadEnabled: 'search_typeahead_enabled',
   sharableLinks: 'sharable_link',
   show526Wizard: 'show526Wizard',
-  showChapter31: 'show_chapter_31',
-  showChapter36: 'show_chapter_36',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990NWizard: 'show_edu_benefits_1990n_wizard',
@@ -81,6 +81,7 @@ export default Object.freeze({
   vaOnlineSchedulingVAOSServiceCCAppointments: 'vaOnlineSchedulingVAOSServiceCCAppointments',
   vaOnlineSchedulingVAOSServiceRequests: 'vaOnlineSchedulingVAOSServiceRequests',
   vaOnlineSchedulingVAOSServiceVAAppointments: 'vaOnlineSchedulingVAOSServiceVAAppointments',
+  vaOnlineSchedulingVariantTesting: 'vaOnlineSchedulingVariantTesting',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });

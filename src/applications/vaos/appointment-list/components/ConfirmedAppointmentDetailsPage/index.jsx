@@ -23,7 +23,7 @@ import {
   VIDEO_TYPES,
 } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import AppointmentDateTime from './AppointmentDateTime';
+import AppointmentDateTime from '../AppointmentDateTime';
 import VideoVisitSection from './VideoVisitSection';
 import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
@@ -164,6 +164,25 @@ export default function ConfirmedAppointmentDetailsPage() {
     facility: facilityData[locationId],
   });
 
+  let alertBox = null;
+  if (canceled) {
+    alertBox = (
+      <AlertBox
+        status="error"
+        className="vads-u-display--block vads-u-margin-bottom--2"
+        backgroundOnly
+      >
+        {`${canceler} canceled this appointment.`}
+      </AlertBox>
+    );
+  } else if (isPastAppointment) {
+    alertBox = (
+      <AlertBox status="warning" backgroundOnly>
+        This appointment occurred in the past.
+      </AlertBox>
+    );
+  }
+
   return (
     <PageLayout>
       <Breadcrumbs>
@@ -171,27 +190,10 @@ export default function ConfirmedAppointmentDetailsPage() {
       </Breadcrumbs>
 
       <h1>
-        <AppointmentDateTime
-          appointmentDate={moment.parseZone(appointment.start)}
-          facilityId={appointment.location.vistaId}
-        />
+        <AppointmentDateTime appointment={appointment} />
       </h1>
 
-      {isPastAppointment && (
-        <AlertBox status="warning" backgroundOnly>
-          This appointment occurred in the past.
-        </AlertBox>
-      )}
-
-      {canceled && (
-        <AlertBox
-          status="error"
-          className="vads-u-display--block vads-u-margin-bottom--2"
-          backgroundOnly
-        >
-          {`${canceler} canceled this appointment.`}
-        </AlertBox>
-      )}
+      {alertBox}
 
       {isVideo && (
         <>
@@ -314,12 +316,6 @@ export default function ConfirmedAppointmentDetailsPage() {
           )}
         </>
       )}
-
-      <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
-        <Link to="/" className="usa-button vads-u-margin-top--2" role="button">
-          « Go back to appointments
-        </Link>
-      </div>
       <CancelAppointmentModal
         {...cancelInfo}
         onConfirm={() => dispatch(confirmCancelAppointment())}

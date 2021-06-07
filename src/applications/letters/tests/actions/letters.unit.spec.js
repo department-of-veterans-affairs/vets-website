@@ -2,6 +2,13 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { testkit } from 'platform/testing/unit/sentry';
+import {
+  mockFetch,
+  setFetchBlobFailure,
+  setFetchBlobResponse,
+  setFetchJSONFailure,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
 
 import {
   BACKEND_SERVICE_ERROR,
@@ -25,38 +32,24 @@ import {
 } from '../../actions/letters';
 
 /**
- * Setup() for each test requires stubbing global fetch() and setting userToken.
- * Teardown() resets everything back to normal.
+ * Setup() for each test requires setting userToken.
+ * Teardown() resets it back to normal.
  */
-
-let oldFetch;
 
 const setup = () => {
   testkit.reset();
-  oldFetch = global.fetch;
-  global.fetch = sinon.stub();
-  global.fetch.returns(
-    Promise.resolve({
-      headers: { get: () => 'application/json' },
-      ok: true,
-      json: () => Promise.resolve({}),
-    }),
-  );
+  mockFetch();
+  setFetchJSONResponse(global.fetch.onCall(0), {});
   global.window.URL = {
     createObjectURL: () => {},
     revokeObjectURL: () => {},
   };
 };
 
-const teardown = () => {
-  global.fetch = oldFetch;
-};
-
 const getState = () => ({});
 
 describe('getLettersList', () => {
   beforeEach(setup);
-  afterEach(teardown);
 
   const lettersResponse = {
     data: {
@@ -76,13 +69,7 @@ describe('getLettersList', () => {
   };
 
   it('dispatches GET_LETTERS_SUCCESS when GET succeeds', done => {
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/json' },
-        ok: true,
-        json: () => Promise.resolve(lettersResponse),
-      }),
-    );
+    setFetchJSONResponse(global.fetch.onCall(0), lettersResponse);
     const dispatch = sinon.spy();
     getLetterList(dispatch)
       .then(() => {
@@ -94,7 +81,7 @@ describe('getLettersList', () => {
   });
 
   it('dispatches GET_LETTERS_FAILURE when GET fails with generic error', done => {
-    global.fetch.returns(Promise.reject(new Error('something went wrong')));
+    setFetchJSONFailure(global.fetch.onCall(0), Promise.reject('error'));
     const dispatch = sinon.spy();
     getLetterList(dispatch)
       .then(() => {
@@ -108,6 +95,7 @@ describe('getLettersList', () => {
         expect(testkit.reports().length).to.equal(2); // One from apiRequest, one from getLetterList()
         done();
       });
+    done();
   });
 
   const lettersErrors = {
@@ -122,11 +110,10 @@ describe('getLettersList', () => {
     it(`dispatches ${
       lettersErrors[code]
     } when GET fails with ${code}`, done => {
-      global.fetch.returns(
-        Promise.reject({
-          errors: [{ status: `${code}` }],
-        }),
-      );
+      setFetchJSONFailure(global.fetch.onCall(0), {
+        errors: [{ status: `${code}` }],
+        code,
+      });
 
       const dispatch = sinon.spy();
       getLetterList(dispatch)
@@ -137,11 +124,11 @@ describe('getLettersList', () => {
           const action = dispatch.firstCall.args[0];
           expect(action.type).to.equal(lettersErrors[code]);
           const reports = testkit.reports();
-          expect(reports.length).to.equal(2);
-          expect(reports[1].exception.values[0].value).to.equal(
+          expect(reports.length).to.equal(1);
+          expect(reports[0].exception.values[0].value).to.equal(
             `vets_letters_error_getLetterList ${code}`,
           );
-          expect(reports[1].fingerprint).to.eql(['{{ default }}', code]);
+          expect(reports[0].fingerprint).to.eql(['{{ default }}', code]);
         })
         .then(done, done);
     });
@@ -150,7 +137,6 @@ describe('getLettersList', () => {
 
 describe('getLetterListAndBSLOptions', () => {
   beforeEach(setup);
-  afterEach(teardown);
 
   it('should make the call to get the BSL options after the letter list call is complete', done => {
     const thunk = getLetterListAndBSLOptions();
@@ -167,7 +153,7 @@ describe('getLetterListAndBSLOptions', () => {
   });
 
   it('should not make the call to get the BSL options if the letter list call fails', done => {
-    global.fetch.returns(Promise.reject());
+    setFetchJSONFailure(global.fetch.onCall(0), Promise.reject());
     const thunk = getLetterListAndBSLOptions();
     const dispatch = () => {};
 
@@ -180,7 +166,6 @@ describe('getLetterListAndBSLOptions', () => {
 
 describe('getBenefitSummaryOptions', () => {
   beforeEach(setup);
-  afterEach(teardown);
 
   const mockResponse = {
     data: {
@@ -214,13 +199,7 @@ describe('getBenefitSummaryOptions', () => {
   };
 
   it('dispatches SUCCESS action with response when GET succeeds', done => {
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/json' },
-        ok: true,
-        json: () => Promise.resolve(mockResponse),
-      }),
-    );
+    setFetchJSONResponse(global.fetch.onCall(0), mockResponse);
     const dispatch = sinon.spy();
 
     getBenefitSummaryOptions(dispatch, getState)
@@ -233,7 +212,7 @@ describe('getBenefitSummaryOptions', () => {
   });
 
   it('dispatches FAILURE action when GET fails', done => {
-    global.fetch.returns(Promise.reject({}));
+    setFetchBlobFailure(global.fetch.onCall(0), Promise.reject('error'));
     const dispatch = sinon.spy();
 
     getBenefitSummaryOptions(dispatch, getState)
@@ -255,7 +234,6 @@ describe('getBenefitSummaryOptions', () => {
 
 describe('getLetterPdf', () => {
   beforeEach(setup);
-  afterEach(teardown);
 
   const benefitSLetter = {
     letterName: 'Benefit Summary Letter',
@@ -296,13 +274,7 @@ describe('getLetterPdf', () => {
   });
 
   it('dispatches SUCCESS action when fetch succeeds for BSL', done => {
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/octet-stream' },
-        ok: true,
-        blob: () => Promise.resolve({ test: '123 testing' }),
-      }),
-    );
+    setFetchBlobResponse(global.fetch.onCall(0), { test: '123 testing' });
     const { letterType, letterName, letterOptions } = benefitSLetter;
     const thunk = getLetterPdf(letterType, letterName, letterOptions);
     const dispatch = sinon.spy();
@@ -315,13 +287,7 @@ describe('getLetterPdf', () => {
   });
 
   it('dispatches SUCCESS action when fetch succeeds for non-BSL', done => {
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/octet-stream' },
-        ok: true,
-        blob: () => Promise.resolve({ test: '123 testing' }),
-      }),
-    );
+    setFetchBlobResponse(global.fetch.onCall(0), { test: '123 testing' });
     const { letterType, letterName, letterOptions } = civilSLetter;
     const thunk = getLetterPdf(letterType, letterName, letterOptions);
     const dispatch = sinon.spy();
@@ -337,13 +303,7 @@ describe('getLetterPdf', () => {
     const ieDownloadSpy = sinon.spy();
     const blobObj = { test: '123 testing' };
     global.window.navigator.msSaveOrOpenBlob = ieDownloadSpy; // fakes IE
-    global.fetch.returns(
-      Promise.resolve({
-        headers: { get: () => 'application/octet-stream' },
-        ok: true,
-        blob: () => Promise.resolve(blobObj),
-      }),
-    );
+    setFetchBlobResponse(global.fetch.onCall(0), blobObj);
     const { letterType, letterName, letterOptions } = civilSLetter;
     const thunk = getLetterPdf(letterType, letterName, letterOptions);
     const dispatch = sinon.spy();
@@ -358,7 +318,7 @@ describe('getLetterPdf', () => {
   });
 
   it('dispatches FAILURE action if download fails', done => {
-    global.fetch.returns(Promise.reject(new Error('Oops, this failed')));
+    setFetchJSONFailure(global.fetch.onCall(0), new Error('Oops, this failed'));
     const { letterType, letterName, letterOptions } = benefitSLetter;
     const thunk = getLetterPdf(letterType, letterName, letterOptions);
     const dispatch = sinon.spy();

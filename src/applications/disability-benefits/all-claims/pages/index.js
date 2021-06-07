@@ -72,7 +72,6 @@ import * as secondaryUploadSourcesChoice from './secondaryUploadSourcesChoice';
 import * as secondaryUploadSources from './secondaryUploadSources';
 import * as separationLocation from './separationLocation';
 import * as separationPay from './separationPay';
-import * as servedInCombatZone from './servedInCombatZone';
 import * as serviceTreatmentRecords from './serviceTreatmentRecords';
 import * as serviceTreatmentRecordsAttachments from './serviceTreatmentRecordsAttachments';
 import * as socialBehaviorChanges from './socialBehaviorChanges';
@@ -173,7 +172,6 @@ export {
   secondaryUploadSourcesChoice,
   separationLocation,
   separationPay,
-  servedInCombatZone,
   serviceTreatmentRecords,
   serviceTreatmentRecordsAttachments,
   socialBehaviorChanges,

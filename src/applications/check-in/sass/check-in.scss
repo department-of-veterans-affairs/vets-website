@@ -1,0 +1,15 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-action-link";
+
+
+dt{
+  font-weight: bold;
+}
+
+dd.appointment-details{
+  font-size: 24px;
+}
+
+.help-heading{
+  border-bottom: 3px solid $color-blue;
+}

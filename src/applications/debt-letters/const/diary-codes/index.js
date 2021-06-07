@@ -85,15 +85,16 @@ export const diaryCodes = Object.freeze({
   '820': 'Your waiver request is being reviewed',
 });
 
-const ContactDMC = () => (
-  <span>
-    {<Telephone contact={CONTACTS.DMC || '800-827-0648'} />} (or{' '}
+const ContactDMC = ({ className }) => (
+  <span className={className}>
+    {<Telephone contact={CONTACTS.DMC || '800-827-0648'} />} (or
     {
       <Telephone
+        className="vads-u-margin-x--0p5"
         contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
         pattern={PATTERNS.OUTSIDE_US}
       />
-    }{' '}
+    }
     from overseas)
   </span>
 );
@@ -111,12 +112,16 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         nextStep: (
           <p>
             <strong>Next step: </strong>
-            Please{' '}
-            <a href="https://iris.custhelp.va.gov/app/ask">
+            Please
+            <a
+              className="vads-u-margin-x--0p5"
+              href="https://iris.custhelp.va.gov/app/ask"
+            >
               contact us through IRIS
-            </a>{' '}
-            or call us at <ContactDMC /> to verify your military status. We’re
-            here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            </a>
+            or call us at <ContactDMC className="vads-u-margin-x--0p5" /> to
+            verify your military status. We’re here Monday through Friday, 7:30
+            a.m. to 7:00 p.m. ET.
           </p>
         ),
         status: (
@@ -137,9 +142,10 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <p>
             <strong>Next step: </strong>
             Please pay or contact us about payment options now to avoid more
-            late charges, interest, or collection actions. We're here at{' '}
-            <ContactDMC />, Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
-            <a href="#howDoIPay" className="vads-u-margin-y--2">
+            late charges, interest, or collection actions. We're here at
+            <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
+            Friday, 7:30 a.m. to 7:00 p.m. ET.
+            <a className="vads-u-margin-left--0p5" href="#howDoIPay">
               Review payment options
             </a>
           </p>
@@ -157,20 +163,29 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <span data-testid="diary-code-117-nextstep">
             <p>
               <strong>Next step: </strong>
-              Please pay now or contact us about payment options by{' '}
-              <strong> {dateOfLetter && endDate(dateOfLetter, 60)} </strong>
+              Please pay now or contact us about payment options by
+              <strong className="vads-u-margin-x--0p5">
+                {dateOfLetter && endDate(dateOfLetter, 60)}
+              </strong>
               to avoid additional collection action. These include having your
               debt reported to credit reporting agencies or referred to the U.S.
               Department of the Treasury.
             </p>
+
             <p>
-              You can{' '}
-              <a href="https://iris.custhelp.va.gov/app/ask">
+              You can
+              <a
+                className="vads-u-margin-x--0p5"
+                href="https://iris.custhelp.va.gov/app/ask"
+              >
                 contact us through IRIS
-              </a>{' '}
-              or call us at <ContactDMC />. We’re here Monday through Friday,
-              7:30 a.m. to 7:00 p.m. ET.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
+              </a>
+              or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
+              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+              <a
+                href="#howDoIPay"
+                className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+              >
                 Review payment options
               </a>
             </p>
@@ -179,7 +194,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         status: (
           <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
-            Your payment is past due.{' '}
+            Your payment is past due.
           </p>
         ),
       };
@@ -189,20 +204,28 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <span data-testid="diary-code-123-nextstep">
             <p>
               <strong>Next step: </strong>
-              Please pay now or contact us about payment options by{' '}
-              <strong> {dateOfLetter && endDate(dateOfLetter, 60)} </strong>
+              Please pay now or contact us about payment options by
+              <strong className="vads-u-margin-x--0p5">
+                {dateOfLetter && endDate(dateOfLetter, 60)}
+              </strong>
               to avoid collection actions. If you don't pay or make other
               arrangements with us by this date, we're required by law to refer
               your debt to the U.S. Department of the Treasury.
             </p>
             <p>
-              You can{' '}
-              <a href="https://iris.custhelp.va.gov/app/ask">
+              You can
+              <a
+                className="vads-u-margin-x--0p5"
+                href="https://iris.custhelp.va.gov/app/ask"
+              >
                 contact us through IRIS
-              </a>{' '}
-              or call us at <ContactDMC />. We’re here Monday through Friday,
-              7:30 a.m. to 7:00 p.m. ET.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
+              </a>
+              or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
+              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+              <a
+                href="#howDoIPay"
+                className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+              >
                 Review payment options
               </a>
             </p>
@@ -211,7 +234,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         status: (
           <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
-            Your payment is past due.{' '}
+            Your payment is past due.
           </p>
         ),
       };
@@ -220,18 +243,22 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         nextStep: (
           <p>
             <strong>Next step: </strong>
-            Please{' '}
-            <a href="https://iris.custhelp.va.gov/app/ask">
+            Please
+            <a
+              className="vads-u-margin-x--0p5"
+              href="https://iris.custhelp.va.gov/app/ask"
+            >
               contact us through IRIS
-            </a>{' '}
-            or call us at <ContactDMC /> to update your address. We’re here
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            </a>
+            or call us at <ContactDMC className="vads-u-margin-x--0p5" /> to
+            update your address. We’re here Monday through Friday, 7:30 a.m. to
+            7:00 p.m. ET.
           </p>
         ),
         status: (
           <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
-            We need your address to update your account.{' '}
+            We need your address to update your account.
           </p>
         ),
       };
@@ -242,8 +269,11 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             <strong>Next step: </strong>
             Please pay the amount you offered as a compromise within
             <strong> 30 days </strong>
-            of the date in your acceptance letter.{' '}
-            <a href="#howDoIPay" className="vads-u-margin-y--2">
+            of the date in your acceptance letter.
+            <a
+              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+              href="#howDoIPay"
+            >
               Review payment options
             </a>
           </p>
@@ -251,7 +281,7 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         status: (
           <p className="vads-u-margin-bottom--0">
             <strong>Status: </strong>
-            We've accepted your compromise payment.{' '}
+            We've accepted your compromise payment.
           </p>
         ),
       };
@@ -272,9 +302,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         ),
         status: (
           <p className="vads-u-margin-bottom--0">
-            <strong>
+            <strong className="vads-u-margin-right--0p5">
               Status: We've paused collection on this debt as you requested.
-            </strong>{' '}
+            </strong>
             We’ll let you know when we start collecting on this debt again. You
             don’t have to do anything until that time.
           </p>
@@ -286,8 +316,11 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         content: (
           <p>
             We'll send you a letter with our decision. Please continue to make
-            payments while we complete our review.{' '}
-            <a href="#howDoIPay" className="vads-u-margin-y--2">
+            payments while we complete our review.
+            <a
+              href="#howDoIPay"
+              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+            >
               Review payment options
             </a>
           </p>
@@ -304,8 +337,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         content: (
           <p>
             Please check your debt balance again soon. If it isn't adjusted to
-            reflect your payment within 30 days, call us at <ContactDMC />.
-            We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            reflect your payment within 30 days, call us at
+            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
       };
@@ -318,8 +352,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         content: (
           <p>
             Please check back in 1 week for updates. If your account shows the
-            same information then, call us at <ContactDMC />. We’re here Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            same information then, call us at
+            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
         status: (
@@ -330,7 +365,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             </p>
             <p>
               Please check back in 30 days for updates. If your account shows
-              the same information then, call us at <ContactDMC />. We’re here
+              the same information then, call us at
+              <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
               Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </>
@@ -348,8 +384,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         content: (
           <p>
             Please check back in 30 days for updates. If your account shows the
-            same information then, call us at <ContactDMC />. We’re here Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            same information then, call us at
+            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
         status: (
@@ -360,7 +397,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             </p>
             <p>
               Please check back in 30 days for updates. If your account shows
-              the same information then, call us at <ContactDMC />. We’re here
+              the same information then, call us at
+              <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
               Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </>
@@ -392,10 +430,13 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         nextStep: (
           <p data-testid="diary-code-080-nextstep">
             <strong>Next step: </strong>
-            Call the U.S. Department of the Treasury's Debt Management Center at{' '}
-            <Telephone contact={CONTACTS.DMC_TREASURY || '888-826-3127'} />,
-            8:30 a.m. to 6:30 p.m. ET. Don't send us payment directly. This will
-            delay posting of payment to your account. And the Treasury
+            Call the U.S. Department of the Treasury's Debt Management Center at
+            <Telephone
+              className="vads-u-margin-left--0p5"
+              contact={CONTACTS.DMC_TREASURY || '888-826-3127'}
+            />
+            , 8:30 a.m. to 6:30 p.m. ET. Don't send us payment directly. This
+            will delay posting of payment to your account. And the Treasury
             Department may continue adding fees and interest.
           </p>
         ),
@@ -423,7 +464,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               <a href="https://www.pay.va.gov/">Pay online now</a>
             </p>
             <p>
-              Or make a payment over the phone at <ContactDMC />. We’re here
+              Or make a payment over the phone at
+              <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
               Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </span>
@@ -445,13 +487,19 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             <p>
               <strong>Next step: </strong>
               Please pay now or contact us to start making payments again to
-              avoid collection actions. You can{' '}
-              <a href="https://iris.custhelp.va.gov/app/ask">
+              avoid collection actions. You can
+              <a
+                className="vads-u-margin-x--0p5"
+                href="https://iris.custhelp.va.gov/app/ask"
+              >
                 contact us through IRIS
-              </a>{' '}
-              or call us at <ContactDMC />. We’re here Monday through Friday,
-              7:30 a.m. to 7:00 p.m. ET.{' '}
-              <a href="#howDoIPay" className="vads-u-margin-y--2">
+              </a>
+              or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
+              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+              <a
+                className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+                href="#howDoIPay"
+              >
                 Review payment options
               </a>
             </p>
@@ -484,13 +532,15 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             We'll keep offsetting your benefits each month until your debt is
             paid in full. If you'd like to pay in full now, please call us first
             to make sure you don't overpay. If you stop receiving VA benefits,
-            call us to set up a new payment plan. We're here at <ContactDMC />,
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            call us to set up a new payment plan. We're here at
+            <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
+            Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
         status: (
           <p className="vads-u-margin-bottom--0">
-            <strong>Status: </strong> We're keeping part of your {benefitType}{' '}
+            <strong>Status: </strong> We're keeping part of your
+            <span className="vads-u-margin-x--0p5">{benefitType}</span>
             payments each month to pay your debt (called monthly offsets).
           </p>
         ),
@@ -502,13 +552,16 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         nextStep: (
           <p>
             <strong>Next step: </strong>
-            Please{' '}
-            <a href="https://iris.custhelp.va.gov/app/ask">
+            Please
+            <a
+              className="vads-u-margin-x--0p5"
+              href="https://iris.custhelp.va.gov/app/ask"
+            >
               contact us through IRIS
-            </a>{' '}
-            or call us at <ContactDMC /> to start making payments again to avoid
-            collection actions. We’re here Monday through Friday, 7:30 a.m. to
-            7:00 p.m. ET.
+            </a>
+            or call us at <ContactDMC className="vads-u-margin-x--0p5" /> to
+            start making payments again to avoid collection actions. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
         status: (
@@ -527,7 +580,8 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
             Please continue to make payments. If you begin receiving VA
             benefits, call us to set up an automatic payment plan. We'll keep
             part of your benefit amount each month to pay your debt. We're here
-            at <ContactDMC />, Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            at <ContactDMC className="vads-u-margin-left--0p5" />, Monday
+            through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
         status: (
@@ -544,13 +598,19 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <p>
             <strong>Next step: </strong>
             Please pay the amount you agreed to in your monthly payment plan. To
-            discuss about other payment options,{' '}
-            <a href="https://iris.custhelp.va.gov/app/ask">
+            discuss about other payment options,
+            <a
+              className="vads-u-margin-x--0p5"
+              href="https://iris.custhelp.va.gov/app/ask"
+            >
               contact us through IRIS
-            </a>{' '}
-            or call us at <ContactDMC />. We're here Monday through Friday, 7:30
-            a.m. to 7:00 p.m. ET.{' '}
-            <a href="#howDoIPay" className="vads-u-margin-y--2">
+            </a>
+            or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
+            We're here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            <a
+              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+              href="#howDoIPay"
+            >
               Review payment options
             </a>
           </p>
@@ -571,18 +631,24 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
               <strong>Next step: </strong>
               Please send us your completed Financial Status Report (VA Form
               5655) now so we can make a decision on your waiver, compromise, or
-              extended monthly payment plan request.{' '}
-              <a href="https://www.va.gov/debtman/Financial_Status_Report.asp">
+              extended monthly payment plan request.
+              <a
+                className="vads-u-margin-left--0p5"
+                href="https://www.va.gov/debtman/Financial_Status_Report.asp"
+              >
                 Download VA Form 5655 (PDF)
               </a>
             </p>
             <p>
-              If you need help with the form, read our{' '}
-              <a href="https://www.va.gov/DEBTMAN/Most_Frequently_Asked_Questions.asp">
+              If you need help with the form, read our
+              <a
+                className="vads-u-margin-x--0p5"
+                href="https://www.va.gov/DEBTMAN/Most_Frequently_Asked_Questions.asp"
+              >
                 frequently asked questions
-              </a>{' '}
-              or call us at <ContactDMC />. We’re here Monday through Friday,
-              7:30 a.m. to 7:00 p.m. ET.
+              </a>
+              or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
+              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           </>
         ),
@@ -601,11 +667,17 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
         nextStep: (
           <p>
             <strong>Next step: </strong>
-            Please pay now or contact us about payment options by{' '}
-            <strong> {dateOfLetter && endDate(dateOfLetter, 30)} </strong>
+            Please pay now or contact us about payment options by
+            <strong className="vads-u-margin-left--0p5">
+              {dateOfLetter && endDate(dateOfLetter, 30)}
+            </strong>
             to avoid late charges, interest, or collection actions. We're here
-            at <ContactDMC />, Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
-            <a href="#howDoIPay" className="vads-u-margin-y--2">
+            at <ContactDMC className="vads-u-margin-left--0p5" />, Monday
+            through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            <a
+              href="#howDoIPay"
+              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+            >
               Review payment options
             </a>
           </p>
@@ -628,8 +700,11 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <p>
             <strong>Next step: </strong>
             We'll send you a letter with our decision. Please continue to make
-            payments while we complete our review.{' '}
-            <a href="#howDoIPay" className="vads-u-margin-y--2">
+            payments while we complete our review.
+            <a
+              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+              href="#howDoIPay"
+            >
               Review payment options
             </a>
           </p>
@@ -646,8 +721,11 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <p>
             <strong>Next step: </strong>
             We'll send you a letter with our decision. Please continue to make
-            payments while we complete our review.{' '}
-            <a href="#howDoIPay" className="vads-u-margin-y--2">
+            payments while we complete our review.
+            <a
+              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+              href="#howDoIPay"
+            >
               Review payment options
             </a>
           </p>
@@ -664,8 +742,11 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <p>
             <strong>Next step: </strong>
             We'll send you a letter with our decision. Please continue to make
-            payments while we complete our review.{' '}
-            <a href="#howDoIPay" className="vads-u-margin-y--2">
+            payments while we complete our review.
+            <a
+              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+              href="#howDoIPay"
+            >
               Review payment options
             </a>
           </p>
@@ -683,8 +764,11 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <p>
             <strong>Next step: </strong>
             We'll send you a letter with our decision. Please continue to make
-            payments while we complete our review.{' '}
-            <a href="#howDoIPay" className="vads-u-margin-y--2">
+            payments while we complete our review.
+            <a
+              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
+              href="#howDoIPay"
+            >
               Review payment options
             </a>
           </p>
@@ -702,8 +786,9 @@ export const renderAdditionalInfo = (diaryCode, dateOfLetter, benefitType) => {
           <p>
             <strong>Next step: </strong>
             Please check back in 1 week for updates. If your account shows the
-            same information then, call us at <ContactDMC />, Monday through
-            Friday, 7:30 a.m. to 7:00 p.m. ET.{' '}
+            same information then, call us at
+            <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
+            Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
         status: (
@@ -768,7 +853,7 @@ export const renderLetterHistory = diaryCode => {
           </p>
           <p className="vads-u-margin-top--0">
             A letter was sent to inform you that your debt’s balance has
-            increased due to additional benefit overpayments being made to you.
+            increased due to additional benefit over payments being made to you.
           </p>
         </>
       );

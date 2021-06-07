@@ -46,6 +46,10 @@ export default function VideoVisitLocation({ appointment, facility }) {
     );
   }
 
+  if (appointment.vaos.isPastAppointment && isAtlas) {
+    return <AtlasLocation appointment={appointment} />;
+  }
+
   if (appointment.vaos.isPastAppointment) {
     return <span>Video conference</span>;
   }
@@ -79,9 +83,14 @@ export default function VideoVisitLocation({ appointment, facility }) {
           </div>
         )}
         {isAtlas && (
-          <div className="vads-u-margin-top--2">
-            <AtlasLocation appointment={appointment} />
-          </div>
+          <>
+            <div className="vads-u-margin-top--2">
+              <AtlasLocation appointment={appointment} />
+            </div>
+            <div className="vads-u-margin-top--2">
+              <VideoVisitProvider providers={providers} />
+            </div>
+          </>
         )}
         {kind === VIDEO_TYPES.clinic &&
           !isAtlas && (
@@ -126,24 +135,25 @@ export default function VideoVisitLocation({ appointment, facility }) {
         <AlertBox
           status={ALERT_TYPE.INFO}
           className="vads-u-display--block"
-          headline=" Need to make changes?"
+          headline="Need to make changes?"
           backgroundOnly
         >
-          Contact this facility if you need to reschedule or cancel your
-          appointment.
+          {!facility &&
+            'To reschedule or cancel this appointment, contact the VA facility where you scheduled it.'}
+          {!!facility &&
+            'Contact this facility if you need to reschedule or cancel your appointment.'}
           <br />
-          {!isAtlas &&
-            !!facility && (
-              <span className="vads-u-display--block vads-u-margin-top--2">
-                {name}
-                {phone && (
-                  <>
-                    <br />
-                    <FacilityPhone contact={phone} level={3} />
-                  </>
-                )}
-              </span>
-            )}
+          {!!facility && (
+            <span className="vads-u-display--block vads-u-margin-top--2">
+              {name}
+              {phone && (
+                <>
+                  <br />
+                  <FacilityPhone contact={phone} level={3} />
+                </>
+              )}
+            </span>
+          )}
         </AlertBox>
       </div>
     </>
