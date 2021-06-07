@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
+import set from 'platform/utilities/data/set';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
@@ -26,6 +27,8 @@ export const FormSignature = ({
   signatureLabel,
   checkboxLabel,
   formData,
+  setFormData,
+  signaturePath,
   required,
   showError,
   validations,
@@ -99,6 +102,16 @@ export const FormSignature = ({
       [required, checked, maybeCompleteSection],
     );
 
+    // Update signature in formData
+    useEffect(
+      () => {
+        setFormData(set(signaturePath, signature.value, formData));
+      },
+      // Don't re-execute when formData changes because this changes formData
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [signature, signaturePath],
+    );
+
     return (
       <>
         <TextInput
@@ -156,6 +169,7 @@ FormSignature.propTypes = {
 
 FormSignature.defaultProps = {
   signatureLabel: 'Veteran’s full name',
+  signaturePath: 'signature',
   checkboxLabel:
     'I certify the information above is correct and true to the best of my knowledge and belief.',
   required: true,

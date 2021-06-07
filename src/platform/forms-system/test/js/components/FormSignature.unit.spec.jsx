@@ -170,7 +170,20 @@ describe('Forms library - Forms signature component', () => {
       expect(oscSpy.called).to.be.false;
     });
 
-    it('should call setFormData when the name is entered', () => {});
+    it('should call setFormData when the name is entered', () => {
+      const sfdSpy = spy();
+      const { getByLabelText } = render(
+        <FormSignature {...signatureProps} setFormData={sfdSpy} />,
+      );
+      userEvent.type(getByLabelText(/Veteran’s full name/), 'asdf');
+
+      expect(
+        sfdSpy.calledWith({
+          ...signatureProps.formData,
+          signature: 'asdf',
+        }),
+      ).to.be.true;
+    });
   });
 
   describe('validators', () => {
