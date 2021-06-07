@@ -57,6 +57,20 @@ export const validateDate = (errors, dateString) => {
   }
 };
 
+/**
+ * Use above validation to set initial edit state
+ */
+export const isValidDate = dateString => {
+  let isValid = true;
+  const errors = {
+    addError: () => {
+      isValid = false;
+    },
+  };
+  validateDate(errors, dateString);
+  return isValid;
+};
+
 export const areaOfDisagreementRequired = (
   errors,
   // added index to get around arrayIndex being null

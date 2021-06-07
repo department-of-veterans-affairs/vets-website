@@ -5,6 +5,7 @@ import { getDate } from '../utils/dates';
 import {
   requireIssue,
   validateDate,
+  isValidDate,
   areaOfDisagreementRequired,
   optInValidation,
 } from '../validations';
@@ -73,7 +74,7 @@ describe('requireIssue validation', () => {
   });
 });
 
-describe('validateDate', () => {
+describe('validateDate & isValidDate', () => {
   let errorMessage = '';
   const errors = {
     addError: message => {
@@ -86,24 +87,32 @@ describe('validateDate', () => {
   });
 
   it('should allow valid dates', () => {
-    validateDate(errors, getDate({ offset: { weeks: -1 } }));
+    const date = getDate({ offset: { weeks: -1 } });
+    validateDate(errors, date);
     expect(errorMessage).to.equal('');
+    expect(isValidDate(date)).to.be.true;
   });
   it('should throw a invalid date error', () => {
     validateDate(errors, '200');
-    expect(errorMessage).to.contain('valid date');
+    expect(errorMessage).to.contain('provide a valid date');
+    expect(isValidDate('200')).to.be.false;
   });
   it('should throw a range error for dates too old', () => {
     validateDate(errors, '1899');
     expect(errorMessage).to.contain('enter a year between');
+    expect(isValidDate('1899')).to.be.false;
   });
   it('should throw an error for dates in the future', () => {
-    validateDate(errors, getDate({ offset: { weeks: 1 } }));
+    const date = getDate({ offset: { weeks: 1 } });
+    validateDate(errors, date);
     expect(errorMessage).to.contain('past decision date');
+    expect(isValidDate(date)).to.be.false;
   });
   it('should throw an error for dates more than a year in the past', () => {
-    validateDate(errors, getDate({ offset: { weeks: -60 } }));
+    const date = getDate({ offset: { weeks: -60 } });
+    validateDate(errors, date);
     expect(errorMessage).to.contain('date less than a year');
+    expect(isValidDate(date)).to.be.false;
   });
 });
 
