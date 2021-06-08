@@ -56,10 +56,9 @@ function VetCenterInfoSection(props) {
               });
             }}
             href={`https://www.google.com/maps?saddr=Current+Location&daddr=${addressDirections}`}
-            target="_blank"
-            rel="noopener noreferrer"
+            aria-label={`Directions to ${props.vetCenter.title} on Google Maps`}
           >
-            Get directions to {props.vetCenter.title} (opens in new tab)
+            Directions on Google Maps
           </a>
         </div>
       </div>

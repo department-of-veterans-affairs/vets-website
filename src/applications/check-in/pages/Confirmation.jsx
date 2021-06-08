@@ -1,7 +1,8 @@
 import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import withFeatureFlip from '../containers/withFeatureFlip.jsx';
 
-export default function ConfirmationPage() {
+const Confirmation = () => {
   const GET_HELP_NUMBER = '307-778-7550';
   const TTY_NUMBER = '711';
   return (
@@ -30,4 +31,6 @@ export default function ConfirmationPage() {
       </footer>
     </div>
   );
-}
+};
+
+export default withFeatureFlip(Confirmation);
