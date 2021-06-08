@@ -267,7 +267,7 @@ export const FLOW_TYPES = {
 
 export const TYPE_OF_VISIT = [
   {
-    id: 'office',
+    id: 'clinic',
     name: 'Office visit',
     serviceName: 'Office Visit',
   },
