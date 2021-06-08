@@ -23,11 +23,7 @@ import {
   getChosenCCSystemId,
   getChosenSlot,
 } from '../selectors';
-import {
-  findCharacteristic,
-  getClinicId,
-  getSiteCode,
-} from '../../../services/healthcare-service';
+import { getClinicId, getSiteCode } from '../../../services/healthcare-service';
 
 const CC_PURPOSE = 'other';
 
@@ -248,12 +244,9 @@ export function transformFormToAppointment(state) {
       siteCode: getSiteCode(clinic),
       clinicId: getClinicId(clinic),
       clinicName: clinic.serviceName,
-      clinicFriendlyLocationName: findCharacteristic(
-        clinic,
-        'clinicFriendlyLocationName',
-      ),
-      institutionName: findCharacteristic(clinic, 'institutionName'),
-      institutionCode: findCharacteristic(clinic, 'institutionCode'),
+      clinicFriendlyLocationName: clinic.serviceName,
+      institutionName: clinic.stationName,
+      institutionCode: clinic.stationId,
     },
 
     // These times are a lie, they're actually in local time, but the upstream

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { connect } from 'react-redux';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
-import { OnThisPageLinks } from './OnThisPageLinks';
 import DebtCardsList from './DebtCardsList';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { OnThisPageLinks } from './OnThisPageLinks';
 
 class DebtLettersSummary extends Component {
   componentDidMount() {
@@ -16,7 +17,7 @@ class DebtLettersSummary extends Component {
 
   render() {
     const renderAlert = () => (
-      <div
+      <section
         className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
         role="alert"
       >
@@ -32,29 +33,40 @@ class DebtLettersSummary extends Component {
           <p className="vads-u-font-family--sans vads-u-margin-y--0">
             If you need help resolving debt, or you would like to get
             information about a debt that has been resolved, call the Debt
-            Management Center at <Telephone contact="8008270648" />
-            {'.'}
+            Management Center at
+            <Telephone
+              className="vads-u-margin-left--0p5"
+              contact="8008270648"
+            />
+            .
           </p>
         </div>
-      </div>
+      </section>
     );
 
     const renderEmptyAlert = () => (
-      <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
+      <section className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
         <h2 className="vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-size--h4">
           Our records show that you don't have any current debts
         </h2>
+
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
           If you believe that you have a debt with the VA, call the Debt
-          Management Center at <Telephone contact="8008270648" />
-          {'.'}
+          Management Center at
+          <Telephone className="vads-u-margin-left--0p5" contact="8008270648" />
+          .
         </p>
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-          For medical copayment debts, visit{' '}
-          <a href="/health-care/pay-copay-bill/">Pay your VA copay bill</a> to
-          learn about your payment options.
+          For medical copayment debts, visit
+          <a
+            className="vads-u-margin-x--0p5"
+            href="/health-care/pay-copay-bill/"
+          >
+            Pay your VA copay bill
+          </a>
+          to learn about your payment options.
         </p>
-      </div>
+      </section>
     );
 
     const { isError, isVBMSError, debts, debtLinks } = this.props;
@@ -68,7 +80,8 @@ class DebtLettersSummary extends Component {
           <a href="/manage-va-debt">Manage your VA debt</a>
           <a href="/manage-va-debt/your-debt">Your VA debt</a>
         </Breadcrumbs>
-        <div className="vads-l-row vads-u-margin-x--neg2p5">
+
+        <section className="vads-l-row vads-u-margin-x--neg2p5">
           <h1 className="vads-u-padding-x--2p5 vads-u-margin-bottom--2">
             Current VA debt
           </h1>
@@ -92,7 +105,7 @@ class DebtLettersSummary extends Component {
               <NeedHelp />
             </div>
           </div>
-        </div>
+        </section>
       </>
     );
   }

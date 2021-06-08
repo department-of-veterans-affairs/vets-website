@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
@@ -28,10 +28,9 @@ export function RefineYourSearch({
   preview,
   search,
 }) {
-  const [openName, setOpenName] = useState('');
-
   const { version } = preview;
   const {
+    expanded,
     schools,
     accredited,
     studentVeteran,
@@ -59,8 +58,8 @@ export function RefineYourSearch({
 
   const onChange = e => updateInstitutionFilters(e.target.name, e.target.value);
 
-  const handleAccordionDropdownOpen = openedName => {
-    setOpenName(openedName);
+  const onAccordionChange = value => {
+    updateInstitutionFilters('expanded', value);
   };
 
   const handleVetTecChange = e => {
@@ -284,9 +283,8 @@ export function RefineYourSearch({
         buttonLabel="Update results"
         buttonOnClick={() => updateResults()}
         name="benefitEstimates"
-        openName={openName}
-        onOpen={handleAccordionDropdownOpen}
-        displayCancel
+        expanded={expanded}
+        onClick={onAccordionChange}
       >
         <br />
         {renderTypeOfInstitution()}

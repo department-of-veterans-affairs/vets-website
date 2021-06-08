@@ -10,6 +10,7 @@ class SearchAccordion extends React.Component {
     buttonLabel: PropTypes.string.isRequired,
     button: PropTypes.string.isRequired,
     buttonOnClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
   };
 
   static defaultProps = {
