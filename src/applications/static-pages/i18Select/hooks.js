@@ -23,10 +23,11 @@ export const setLangAttribute = lang => {
 
 export const parseLangCode = url => {
   let langCode = 'en';
-  if (url.includes(`espanol`)) {
+  // competing URL structures ¯\_(ツ)_/¯
+  if (url.includes(`espanol`) || url.endsWith('-esp/')) {
     langCode = 'es';
   }
-  if (url.includes(`tagalog`)) {
+  if (url.includes(`tagalog`) || url.endsWith('-tag/')) {
     langCode = 'tl';
   }
   return langCode;
@@ -38,22 +39,19 @@ export const adaptLinksWithLangCode = setLangAttributeInReduxStore => {
     if (link) {
       // this sets the overall div#content `lang` to the intended lang when the user
       // clicks on a link with translated content
-      // assumption: any link to translated content has its own hreflang or lang attribute, which is preserved,
+      // since the page refreshes on a link click (we aren't an SPA, and can't avail React Router here)
+      // the lang code is preserved in local storage
+
+      // assumption: any link to translated content has its own hreflang or lang attribute,
+      // which is preserved
       // and can differ from the lang attribute on div#content
 
       link.addEventListener('click', () => {
         const langAttribute = link.lang || link.hreflang;
-        if (link.href.endsWith('-esp/') || parseLangCode(link.href) === 'es') {
-          return setLangAttributeInReduxStore('es');
-        }
-        if (link.href.endsWith('-tag/') || parseLangCode(link.href) === 'tl') {
-          return setLangAttributeInReduxStore('tl');
-        }
         if (langAttribute) {
           return setLangAttributeInReduxStore(langAttribute);
         } else {
-          link.setAttribute('lang', 'en');
-          return setLangAttributeInReduxStore('en');
+          return setLangAttributeInReduxStore(parseLangCode(link.href));
         }
       });
     }
