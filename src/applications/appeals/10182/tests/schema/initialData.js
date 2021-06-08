@@ -21,7 +21,7 @@ export default {
         description: `Rinnging in the ears. More intense in right ear. This is
           more text so the description goes into the second line.`,
         ratingIssuePercentNumber: 10,
-        approxDecisionDate: '2020-11-01',
+        approxDecisionDate: '2021-06-03',
         decisionIssueId: 42,
         ratingIssueReferenceId: '52',
         ratingDecisionReferenceId: '',
@@ -34,7 +34,7 @@ export default {
         ratingIssueSubjectText: 'Headaches',
         description: 'Acute chronic head pain',
         ratingIssuePercentNumber: 50,
-        approxDecisionDate: '2020-11-10',
+        approxDecisionDate: '2021-06-04',
         decisionIssueId: 44,
         ratingIssueReferenceId: '66',
         ratingDecisionReferenceId: '',
@@ -45,12 +45,12 @@ export default {
   additionalIssues: [
     {
       issue: 'Back sprain',
-      decisionDate: '2020-11-15',
+      decisionDate: '2021-06-05',
       'view:selected': false,
     },
     {
       issue: 'Ankle sprain',
-      decisionDate: '2020-11-16',
+      decisionDate: '2021-06-06',
       'view:selected': false,
     },
   ],
