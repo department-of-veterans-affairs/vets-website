@@ -20,13 +20,11 @@ Cypress.Commands.add('fillRatings', input => {
   const { ratings } = input;
   const ratingsLength = ratings.length;
 
-  for (let x = 0; x < ratingsLength; x++) {
-    const currRating = ratings[x];
-    /* eslint-disable prefer-template */
-    const getCurrRowClass = () => '.rating.row-' + (x + 1);
-    /* eslint-enable prefer-template */
+  for (let ratingsIndex = 0; ratingsIndex < ratingsLength; ratingsIndex++) {
+    const currRating = ratings[ratingsIndex];
+    const getCurrRowClass = () => `.rating.row-${ratingsIndex + 1}`;
 
-    if (x > 1) {
+    if (ratingsIndex > 1) {
       cy.addRatingRow();
     }
 
