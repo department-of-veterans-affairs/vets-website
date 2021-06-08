@@ -57,7 +57,10 @@ import {
   transformFormToCCRequest,
   transformFormToAppointment,
 } from './helpers/formSubmitTransformers';
-import { transformFormToVAOSCCRequest } from './helpers/formSubmitTransformers.vaos';
+import {
+  transformFormToVAOSCCRequest,
+  transformFormToVAOSVARequest,
+} from './helpers/formSubmitTransformers.v2';
 import {
   resetDataLayer,
   recordItemsRetrieved,
@@ -1031,6 +1034,9 @@ export function submitAppointmentOrRequest(history) {
         let requestData;
         if (featureVAOSServiceRequests && isCommunityCare) {
           requestBody = transformFormToVAOSCCRequest(getState());
+          requestData = await createAppointment({ appointment: requestBody });
+        } else if (featureVAOSServiceRequests) {
+          requestBody = transformFormToVAOSVARequest(getState());
           requestData = await createAppointment({ appointment: requestBody });
         } else if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());

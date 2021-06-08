@@ -8,7 +8,7 @@ import moment from '../../lib/moment-tz';
 import { FETCH_STATUS } from '../../utils/constants';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { fetchConfirmedAppointmentDetails } from '../redux/actions';
-import AppointmentDateTime from './cards/confirmed/AppointmentDateTime';
+import AppointmentDateTime from './AppointmentDateTime';
 import AddToCalendar from '../../components/AddToCalendar';
 import FacilityAddress from '../../components/FacilityAddress';
 import PageLayout from './AppointmentsPage/PageLayout';
@@ -92,11 +92,7 @@ export default function CommunityCareAppointmentDetailsPage() {
       </Breadcrumbs>
 
       <h1>
-        <AppointmentDateTime
-          appointmentDate={moment.parseZone(appointment.start)}
-          timezone={appointment.vaos.timeZone}
-          facilityId={appointment.location.vistaId}
-        />
+        <AppointmentDateTime appointment={appointment} />
       </h1>
 
       {isPastAppointment && (

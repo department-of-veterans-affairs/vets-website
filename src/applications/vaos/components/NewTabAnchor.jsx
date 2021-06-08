@@ -10,8 +10,9 @@ import PropTypes from 'prop-types';
  * message to announce that the link opens in a new window.
  *
  * @export
- * @param {String} href The URL that the hyperlink points to.
- * @param {String} children Text describing the link destination.
+ * @param {Object} params
+ * @param {String} params.href The URL that the hyperlink points to.
+ * @param {String} params.children Text describing the link destination.
  * @returns Wrapped anchor tag
  */
 function NewTabAnchor({ href, 'aria-label': label, ...props }) {
