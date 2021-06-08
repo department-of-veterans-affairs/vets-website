@@ -12,11 +12,14 @@ import withFeatureFlip from './containers/withFeatureFlip.jsx';
 const createRoutesWithStore = () => {
   return (
     <Switch>
-      <Route path="/:token" component={Landing} />
-      <Route path="/:token/insurance" component={Insurance} />
+      <Route path="/:token" component={withFeatureFlip(Landing)} />
+      <Route path="/:token/insurance" component={withFeatureFlip(Insurance)} />
       <Route path="/:token/details" component={withFeatureFlip(CheckIn)} />
-      <Route path="/:token/confirmed" component={Confirmation} />
-      <Route path="/:token/failed" component={Failed} />
+      <Route
+        path="/:token/confirmed"
+        component={withFeatureFlip(Confirmation)}
+      />
+      <Route path="/:token/failed" component={withFeatureFlip(Failed)} />
     </Switch>
   );
 };

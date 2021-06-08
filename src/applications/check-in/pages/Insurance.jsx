@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
-import withFeatureFlip from '../containers/withFeatureFlip.jsx';
 import { goToNextPageWithToken } from '../utils/navigation';
 
 const Insurance = props => {
@@ -47,4 +46,4 @@ const Insurance = props => {
   );
 };
 
-export default withFeatureFlip(Insurance);
+export default Insurance;

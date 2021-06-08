@@ -1,6 +1,5 @@
 import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-import withFeatureFlip from '../containers/withFeatureFlip.jsx';
 
 const Confirmation = () => {
   const GET_HELP_NUMBER = '307-778-7550';
@@ -33,4 +32,4 @@ const Confirmation = () => {
   );
 };
 
-export default withFeatureFlip(Confirmation);
+export default Confirmation;

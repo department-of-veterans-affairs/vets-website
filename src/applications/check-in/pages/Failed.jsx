@@ -1,5 +1,4 @@
 import React from 'react';
-import withFeatureFlip from '../containers/withFeatureFlip.jsx';
 
 const Failed = () => {
   return (
@@ -11,4 +10,4 @@ const Failed = () => {
   );
 };
 
-export default withFeatureFlip(Failed);
+export default Failed;
