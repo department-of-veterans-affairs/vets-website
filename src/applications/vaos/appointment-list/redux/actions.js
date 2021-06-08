@@ -10,6 +10,7 @@ import { recordItemsRetrieved } from '../../utils/events';
 import {
   selectSystemIds,
   selectFeatureHomepageRefresh,
+  selectFeatureVAOSServiceRequests,
 } from '../../redux/selectors';
 
 import { getRequestMessages } from '../../services/var';
@@ -286,12 +287,16 @@ export function fetchPendingAppointments() {
       });
 
       const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
+      const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+        getState(),
+      );
 
       const pendingAppointments = await getAppointmentRequests({
         startDate: moment()
           .subtract(featureHomepageRefresh ? 120 : 30, 'days')
           .format('YYYY-MM-DD'),
         endDate: moment().format('YYYY-MM-DD'),
+        useV2: featureVAOSServiceRequests,
       });
 
       dispatch({

@@ -1,0 +1,85 @@
+{
+  "data": [
+    {
+      "id": "25956",
+      "type": "appointments",
+      "attributes": {
+        "id": "25956",
+        "kind": "cc",
+        "status": "proposed",
+        "serviceType": "408",
+        "locationId": "983",
+        "clinic": null,
+        "telehealth": null,
+        "practitioners": [
+          { "id": { "value": "1346206547" } },
+          { "id": { "value": "1013006766" } },
+          { "id": { "value": "1992707525" } }
+        ],
+        "reason": "Routine Follow-up",
+        "start": null,
+        "end": null,
+        "minutesDuration": null,
+        "slot": null,
+        "requestedPeriods": [
+          { "start": "2021-12-16T01:30:00Z" },
+          { "start": "2021-12-17T04:00:00Z" },
+          { "start": "2021-12-17T07:00:00Z" }
+        ],
+        "contact": {
+          "telecom": [
+            { "type": "phone", "value": "2125551212" },
+            { "type": "email", "value": "veteranemailtest@va.gov" }
+          ]
+        },
+        "preferredTimesForPhoneCall": ["Morning"],
+        "priority": null,
+        "cancellationReason": null,
+        "description": null,
+        "comment": "I have a headache"
+      }
+    },
+    {
+      "id": "25957",
+      "type": "appointments",
+      "attributes": {
+        "id": "25957",
+        "kind": "clinic",
+        "status": "proposed",
+        "serviceType": "323",
+        "locationId": "983GC",
+        "clinic": null,
+        "telehealth": null,
+        "practitioners": [],
+        "reason": "Routine Follow-up",
+        "start": null,
+        "end": null,
+        "minutesDuration": null,
+        "slot": null,
+        "requestedPeriods": [
+          { "start": "2021-12-16T01:30:00Z" },
+          { "start": "2021-12-17T04:00:00Z" }
+        ],
+        "contact": {
+          "telecom": [
+            { "type": "phone", "value": "2125551212" },
+            { "type": "email", "value": "veteranemailtest@va.gov" }
+          ]
+        },
+        "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
+        "priority": null,
+        "cancellationReason": null,
+        "description": null,
+        "comment": "I have a cold"
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "currentPage": 0,
+      "perPage": 0,
+      "totalPages": 0,
+      "totalEntries": 0
+    }
+  }
+}
