@@ -277,7 +277,7 @@ function testDataDrivenMegamenu(client, path) {
     'css selector',
     '#vetnav-column-one-col li.mm-link-container',
     results => {
-      client.expect(results.value.length).to.equal(8);
+      client.expect(results.value.length).to.equal(7);
     },
   );
 

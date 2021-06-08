@@ -11,6 +11,7 @@ import mapboxClient from '../components/MapboxClient';
 
 const mbxClient = mbxGeo(mapboxClient);
 
+export const ADD_COMPARE_INSTITUTION = 'ADD_COMPARE_INSTITUTION';
 export const AUTOCOMPLETE_STARTED = 'AUTOCOMPLETE_STARTED';
 export const AUTOCOMPLETE_FAILED = 'AUTOCOMPLETE_FAILED';
 export const BENEFICIARY_ZIP_CODE_CHANGED = 'BENEFICIARY_ZIP_CODE_CHANGED';
@@ -36,6 +37,7 @@ export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const LOCATION_AUTOCOMPLETE_SUCCEEDED =
   'LOCATION_AUTOCOMPLETE_SUCCEEDED';
 export const NAME_AUTOCOMPLETE_SUCCEEDED = 'NAME_AUTOCOMPLETE_SUCCEEDED';
+export const REMOVE_COMPARE_INSTITUTION = 'REMOVE_COMPARE_INSTITUTION';
 export const SEARCH_BY_FACILITY_CODES_SUCCEEDED =
   'SEARCH_BY_FACILITY_CODES_SUCCEEDED';
 export const SEARCH_BY_NAME_SUCCEEDED = 'SEARCH_BY_NAME_SUCCEEDED';
@@ -468,5 +470,17 @@ export function fetchSearchByFacilityCodes(facilityCodes, filters, version) {
           payload: err.message,
         });
       });
+  };
+}
+
+export function addCompareInstitution(institution) {
+  return dispatch => {
+    dispatch({ type: ADD_COMPARE_INSTITUTION, payload: institution });
+  };
+}
+
+export function removeCompareInstitution(facilityCode) {
+  return dispatch => {
+    dispatch({ type: REMOVE_COMPARE_INSTITUTION, payload: facilityCode });
   };
 }

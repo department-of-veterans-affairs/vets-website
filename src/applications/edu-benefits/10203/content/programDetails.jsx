@@ -1,9 +1,14 @@
 import React from 'react';
+import environment from 'platform/utilities/environment';
 
+// prod flags 24612
+const studentId = environment.isProduction()
+  ? 'Your school ID and contact details'
+  : 'Your student ID and contact details';
 export const schoolStudentIdTitle = (
   <div className="program-details vads-u-margin-bottom--neg1">
     <p>
-      <strong>Your school ID and contact details</strong>
+      <strong>{studentId}</strong>
     </p>
     <p className="school-details-notice">
       These details will help us review your application faster, but aren't
