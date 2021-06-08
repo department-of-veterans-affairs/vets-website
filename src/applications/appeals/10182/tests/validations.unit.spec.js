@@ -6,6 +6,7 @@ import {
   requireIssue,
   validateDate,
   isValidDate,
+  validAdditionalIssue,
   areaOfDisagreementRequired,
   optInValidation,
 } from '../validations';
@@ -71,6 +72,51 @@ describe('requireIssue validation', () => {
     };
     requireIssue(errors, _, _, _, _, _, data);
     expect(errorMessage).to.equal('');
+  });
+});
+
+describe('validAdditionalIssue', () => {
+  it('should not show an error for valid additional issues', () => {
+    const errors = { addError: sinon.spy() };
+    expect(
+      validAdditionalIssue(errors, {
+        additionalIssues: [
+          { issue: 'foo', decisionDate: getDate({ offset: { months: -1 } }) },
+        ],
+      }),
+    );
+    expect(errors.addError.called).to.be.false;
+  });
+  it('should show an error for additional issues with no name', () => {
+    const errors = { addError: sinon.spy() };
+    expect(
+      validAdditionalIssue(errors, {
+        additionalIssues: [
+          { issue: '', decisionDate: getDate({ offset: { months: -1 } }) },
+        ],
+      }),
+    );
+    expect(errors.addError.called).to.be.true;
+  });
+  it('should show an error for additional issues with an empty decision date', () => {
+    const errors = { addError: sinon.spy() };
+    expect(
+      validAdditionalIssue(errors, {
+        additionalIssues: [{ issue: 'test', decisionDate: '' }],
+      }),
+    );
+    expect(errors.addError.called).to.be.true;
+  });
+  it('should show an error for additional issues with an old decision date', () => {
+    const errors = { addError: sinon.spy() };
+    expect(
+      validAdditionalIssue(errors, {
+        additionalIssues: [
+          { issue: 'test', decisionDate: getDate({ offset: { months: -15 } }) },
+        ],
+      }),
+    );
+    expect(errors.addError.called).to.be.true;
   });
 });
 

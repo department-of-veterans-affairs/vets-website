@@ -71,6 +71,23 @@ export const isValidDate = dateString => {
   return isValid;
 };
 
+export const validAdditionalIssue = (
+  errors,
+  { additionalIssues = [] } = {},
+) => {
+  if (errors.addError) {
+    additionalIssues.forEach(entry => {
+      if (
+        !entry.issue ||
+        !entry.decisionDate ||
+        !isValidDate(entry.decisionDate)
+      ) {
+        errors.addError(missingIssuesErrorMessageText);
+      }
+    });
+  }
+};
+
 export const areaOfDisagreementRequired = (
   errors,
   // added index to get around arrayIndex being null
