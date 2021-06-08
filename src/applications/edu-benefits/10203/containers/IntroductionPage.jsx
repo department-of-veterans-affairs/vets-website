@@ -6,7 +6,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { connect } from 'react-redux';
-
+import environment from 'platform/utilities/environment';
 import { getRemainingEntitlement } from '../actions/post-911-gib-status';
 
 export class IntroductionPage extends React.Component {
@@ -31,30 +31,52 @@ export class IntroductionPage extends React.Component {
             id="entitlement-remaining-alert"
             className="usa-alert usa-alert-warning schemaform-sip-alert"
           >
-            <div className="usa-alert-body">
-              <h3 className="usa-alert-heading">
-                It appears you're not eligible
-              </h3>
-              <div className="usa-alert-text">
-                <p>
-                  To be eligible for the Rogers STEM Scholarship, you must have
-                  less than 6 months of Post-9/11 GI Bill benefits left when you
-                  submit your application.
-                </p>
-                <p>
-                  Our entitlement system shows you have the following benefits
-                  remaining:{' '}
-                  <strong>
-                    {this.props?.remainingEntitlement.months} months,{' '}
-                    {this.props?.remainingEntitlement.days} days
-                  </strong>
-                </p>
-                <p>
-                  If you apply and you’re not eligible, your application will be
-                  denied.
-                </p>
+            {/* // prod flags 24612 */}
+            {!environment.isProduction() ? (
+              <div className="usa-alert-body">
+                <h3 className="usa-alert-heading">You may not be eligible</h3>
+                <div className="usa-alert-text">
+                  <p>
+                    You must have less than 6 months left of Post-9/11 GI Bill
+                    benefits when you submit your application.
+                  </p>
+                  <p>
+                    Our system shows you have{' '}
+                    <strong>
+                      {this.props?.remainingEntitlement.months} months,{' '}
+                      {this.props?.remainingEntitlement.days} days{' '}
+                    </strong>
+                    remaining of GI Bill benefits.
+                  </p>
+                  <p>If you apply now, your application will be denied.</p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="usa-alert-body">
+                <h3 className="usa-alert-heading">
+                  It appears you're not eligible
+                </h3>
+                <div className="usa-alert-text">
+                  <p>
+                    To be eligible for the Rogers STEM Scholarship, you must
+                    have less than 6 months of Post-9/11 GI Bill benefits left
+                    when you submit your application.
+                  </p>
+                  <p>
+                    Our entitlement system shows you have the following benefits
+                    remaining:{' '}
+                    <strong>
+                      {this.props?.remainingEntitlement.months} months,{' '}
+                      {this.props?.remainingEntitlement.days} days
+                    </strong>
+                  </p>
+                  <p>
+                    If you apply and you’re not eligible, your application will
+                    be denied.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         );
       }
@@ -116,26 +138,55 @@ export class IntroductionPage extends React.Component {
                   </li>
                   <li>
                     <b>STEM degree:</b>
-                    <ul id="circle" className="vads-u-margin-bottom--neg2">
-                      <li className="li-styling">
-                        You're enrolled in a bachelor’s degree program for
-                        science, technology, engineering, or math (STEM),{' '}
-                        <b>or</b>
-                      </li>{' '}
-                      <li className="vads-u-margin-bottom--neg2">
-                        {' '}
-                        You've already earned a STEM bachelor’s degree and are
-                        pursuing a teaching certification.{' '}
-                        <a
-                          aria-label="See eligible degree programs, opening in new tab"
-                          href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          See eligible degree programs
-                        </a>
-                      </li>
-                    </ul>
+                    {/* // prod flags 24612 */}
+                    {!environment.isProduction() ? (
+                      <ul id="circle" className="vads-u-margin-bottom--neg2">
+                        <li className="li-styling">
+                          You're enrolled in a bachelor’s degree program for
+                          science, technology, engineering, or math (STEM),{' '}
+                          <b>or</b>
+                        </li>{' '}
+                        <li className="li-styling">
+                          You've already earned a STEM bachelor’s degree and are
+                          working toward a teaching certification, <b>or</b>
+                        </li>{' '}
+                        <li className="vads-u-margin-bottom--neg2">
+                          {' '}
+                          You've already earned a STEM bachelor's or graduate
+                          degree and are pursuing a covered clinical training
+                          program for health care professionals. <br />
+                          <a
+                            aria-label="See eligible degree programs, opening in new tab"
+                            href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                            See eligible degree and clinical training programs
+                          </a>
+                        </li>
+                      </ul>
+                    ) : (
+                      <ul id="circle" className="vads-u-margin-bottom--neg2">
+                        <li className="li-styling">
+                          You're enrolled in a bachelor’s degree program for
+                          science, technology, engineering, or math (STEM),{' '}
+                          <b>or</b>
+                        </li>{' '}
+                        <li className="vads-u-margin-bottom--neg2">
+                          {' '}
+                          You've already earned a STEM bachelor’s degree and are
+                          pursuing a teaching certification.{' '}
+                          <a
+                            aria-label="See eligible degree programs, opening in new tab"
+                            href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                          >
+                            See eligible degree programs
+                          </a>
+                        </li>
+                      </ul>
+                    )}
                   </li>
                   <li>
                     <b>Remaining entitlement:</b> You've used all of your
