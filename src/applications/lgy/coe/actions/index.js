@@ -2,6 +2,7 @@ export const GENERATE_AUTOMATIC_COE_STARTED = 'GENERATE_AUTOMATIC_COE_STARTED';
 export const GENERATE_AUTOMATIC_COE_SUCCEEDED =
   'GENERATE_AUTOMATIC_COE_SUCCEEDED';
 export const GENERATE_AUTOMATIC_COE_FAILED = 'GENERATE_AUTOMATIC_COE_FAILED';
+export const SKIP_AUTOMATIC_COE_CHECK = 'SKIP_AUTOMATIC_COE_CHECK';
 
 const mockApiCall = () => {
   return new Promise(resolve => {
@@ -19,4 +20,8 @@ export const generateCoe = () => async dispatch => {
   } else {
     dispatch({ type: GENERATE_AUTOMATIC_COE_SUCCEEDED, response });
   }
+};
+
+export const skipGenerateCoe = () => dispatch => {
+  dispatch({ type: SKIP_AUTOMATIC_COE_CHECK });
 };
