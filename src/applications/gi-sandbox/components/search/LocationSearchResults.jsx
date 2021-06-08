@@ -79,6 +79,12 @@ export default function LocationSearchResults({ search }) {
           offset: -locationSearchResults.getBoundingClientRect().top,
         }),
       );
+      if (document.getElementById('update-benefits-button') != null) {
+        scroller.scrollTo(
+          'location-search-results-container',
+          getScrollOptions(),
+        );
+      }
     });
 
     locationBounds.extend(new mapboxgl.LngLat(longitude, latitude));
@@ -161,7 +167,10 @@ export default function LocationSearchResults({ search }) {
                   <TuitionAndHousingEstimates />
                   <RefineYourSearch />
                   {!noResultsFound && (
-                    <div className="location-search-results-container usa-grid vads-u-padding--1p5">
+                    <div
+                      id="location-search-results-container"
+                      className="location-search-results-container usa-grid vads-u-padding--1p5"
+                    >
                       <p>
                         Showing <strong>{count} search results</strong> for '
                         <strong>{location}</strong>'
