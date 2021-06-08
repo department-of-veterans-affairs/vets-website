@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 import withFeatureFlip from '../containers/withFeatureFlip.jsx';
+import { goToNextPageWithToken } from '../utils/navigation';
 
 const Insurance = props => {
   const { router } = props;
@@ -10,11 +11,9 @@ const Insurance = props => {
 
   const handleContinueClick = () => {
     if (needToUpdate === 'Yes') {
-      const url = '/some-token/failed';
-      router.push(url);
+      goToNextPageWithToken(router, 'failed');
     } else if (needToUpdate === 'No') {
-      const url = '/some-token/details';
-      router.push(url);
+      goToNextPageWithToken(router, 'details');
     }
   };
 

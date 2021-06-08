@@ -3,10 +3,12 @@ import React from 'react';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import withFeatureFlip from '../containers/withFeatureFlip.jsx';
 
+import { goToNextPageWithToken } from '../utils/navigation';
+
 const CheckIn = props => {
   const { router } = props;
   const onClick = () => {
-    router.push('/some-token/confirmed');
+    goToNextPageWithToken(router, 'confirmed');
   };
 
   const TTY_NUMBER = '711';

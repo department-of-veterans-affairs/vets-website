@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import withFeatureFlip from '../containers/withFeatureFlip.jsx';
 
-const Landing = ({ router }) => {
-  router.push('/some-token/insurance');
+import { goToNextPageWithToken } from '../utils/navigation';
+
+const Landing = props => {
+  const { router } = props;
+  useEffect(
+    () => {
+      goToNextPageWithToken(router, 'insurance');
+    },
+    [router],
+  );
   return <></>;
 };
 
