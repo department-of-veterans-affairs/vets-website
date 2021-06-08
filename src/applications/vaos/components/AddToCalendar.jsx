@@ -1,3 +1,7 @@
+/**
+ * Shared components used by the VAOS application.
+ * @module components
+ */
 import React from 'react';
 import moment from 'moment';
 import guid from 'simple-guid';
@@ -9,11 +13,11 @@ import guid from 'simple-guid';
  * 
  * Additionally, any actual line breaks in the text need to be escaped
  */
-const ICS_LINE_LIMIT = 74;
+export const ICS_LINE_LIMIT = 74;
 
 function formatDescription(description, location = '') {
-  if (!description) {
-    return description;
+  if (!description || !description.text) {
+    return 'DESCRIPTION:';
   }
 
   const chunked = [];
@@ -82,6 +86,11 @@ function generateICS(
   const endDate = moment(endDateTime)
     .utc()
     .format('YYYYMMDDTHHmmss[Z]');
+
+  let loc = '';
+  if (location) {
+    loc = location.replace(/,/g, '\\,');
+  }
   return [
     `BEGIN:VCALENDAR`,
     `VERSION:2.0`,
@@ -90,11 +99,7 @@ function generateICS(
     `UID:${guid()}`,
     `SUMMARY:${summary}`,
     `${formatDescription(description, location)}`,
-    `LOCATION:${
-      summary.startsWith('Phone')
-        ? 'Phone call'
-        : location?.replace(/,/g, '\\,')
-    }`,
+    `LOCATION:${summary.startsWith('Phone') ? 'Phone call' : loc}`,
     `DTSTAMP:${startDate}`,
     `DTSTART:${startDate}`,
     `DTEND:${endDate}`,
@@ -103,6 +108,46 @@ function generateICS(
   ].join('\r\n');
 }
 
+/**
+ * @summary Function that returns a collection of ICS key/value pairs.
+ * @description Only a subset of the ICS object specification is used.
+ * The following properties/keys are allowed:
+ *
+ * <ul>
+ * <li>BEGIN</li>
+ * <li>VERSION</li>
+ * <li>PRODID</li>
+ * <li>BEGIN</li>
+ * <li>UID</li>
+ * <li>SUMMARY</li>
+ * <li>LOCATION</li>
+ * <li>DTSTAMP</li>
+ * <li>DTSTART</li>
+ * <li>DTEND</li>
+ * <li>END</li>
+ * <li>END</li>
+ * </ul>
+ *
+ * Values are retreived from the returned collection using the defined keys. Values returned from
+ * the collection can be of type string or array for keys with multiply values. The following keys have
+ * multiple values:
+ *
+ * <ul>
+ * <li>BEGIN</li>
+ * <li>END</li>
+ * </ul>
+ *
+ * The following key:
+ * <ul>
+ * <li>FORMATTED_TEXT</li>
+ * </ul>
+ *
+ * is a special key used to access the formatted description text.
+ *
+ * @export
+ * @param {string} buffer - ICS calendar string
+ * @returns Returns a collection of ICS key/value pairs.
+ */
 export function getICSTokens(buffer) {
   const map = new Map();
   let tokens = buffer.split('\r\n');
@@ -120,15 +165,32 @@ export function getICSTokens(buffer) {
         map.set(token[0], [value, token[1]]);
       }
     } else if (token[0].startsWith('\t')) {
-      map.set('FORMATTED_TEXT', token[0]);
+      if (map.has('FORMATTED_TEXT')) {
+        // Prepend to exisiting text
+        map.set('FORMATTED_TEXT', `${map.get('FORMATTED_TEXT')}${token[0]}`);
+      } else {
+        map.set('FORMATTED_TEXT', `${token[0]}`);
+      }
     } else {
       map.set(token[0], token[1]);
     }
   });
-  console.log(map);
   return map;
 }
 
+/**
+ * Component to add a link to download a calendar ics file.
+ *
+ * @param {string} summary - Calendar event summary.
+ * @param {Object} description - Calendar event description.
+ * @param {string} description.text - Description text.
+ * @param {string} description.providerName - Provider name
+ * @param {string} description.phone - Provider phone
+ * @param {string} description.additionalText - Additional text
+ * @param {string} [location='']
+ * @param {string} startDateTime - Calendar event start date
+ * @param {string} duration - Calendar event duration.
+ */
 export default function AddToCalendar({
   summary = '',
   description,
