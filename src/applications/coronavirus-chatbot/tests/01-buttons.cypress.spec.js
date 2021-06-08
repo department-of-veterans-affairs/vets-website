@@ -10,13 +10,22 @@ const wearMaskButton = "div#webchat button[aria-label='Should I wear a mask?']";
 const responseBubble =
   "//div[@id='webchat']//div[@class='webchat__bubble__content']//strong[contains(text(), 'What question')]";
 const coronavirusChatbotPath = '/coronavirus-chatbot/';
+const chatbotResponse = require('./config/data/chatbotResponse.json');
 
 describe('Chatbot buttons', () => {
   it.skip('Behaves as expected', () => {
     // Skipped as it is disabled currently in nightwatch
+    cy.intercept('/v0/feature_toggles?&cookie_id=*', {
+      data: chatbotResponse,
+    }).as('getChatbot');
+
     cy.visit(coronavirusChatbotPath);
+
+    cy.wait('@getChatbot');
+
     cy.get('body', { timeout: Timeouts.verySlow }).should('be.visible');
     cy.title().should('eq', 'VA coronavirus chatbot | Veterans Affairs');
+    cy.log('@getChatbot');
     cy.get(vaAvatarMatcher, { timeout: 45000 }).should('be.visible');
     cy.get(webchatBubbleContent).should('contain', 'Before we get started');
     cy.get(covid19PreventionButton)
