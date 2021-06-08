@@ -1,4 +1,4 @@
-import features from './mocks/enabled.json';
+import features from '../mocks/enabled.json';
 
 describe('Check In Experience -- ', () => {
   beforeEach(() => {

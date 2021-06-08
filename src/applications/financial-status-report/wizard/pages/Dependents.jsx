@@ -22,16 +22,19 @@ const Dependents = () => {
         >
           Based on the information you provided, this isn’t the form you need.
         </h2>
+
         <p>
           <strong>
             Here’s how to request help with debt for spouses or dependents:
           </strong>
         </p>
+
         <p>
           To request help with VA education, disability compensation, or pension
-          benefit debt, fill out the PDF version of our{' '}
+          benefit debt, fill out the PDF version of our
           <a
-            href="https://www.va.gov/debtman/Financial_Status_Report.asp"
+            className="vads-u-margin-left--0p5"
+            href="https://www.va.gov/find-forms/about-form-5655/"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-alert-link-click',
@@ -40,15 +43,19 @@ const Dependents = () => {
               });
             }}
           >
-            Financial Status Report (VA Form 5655).
+            Financial Status Report (VA Form 5655)
           </a>
+          .
         </p>
+
         <p>
           You can use this form to request a debt waiver, compromise offer, or
           extended monthly payment plan. You’ll also need to include a personal
           statement to tell us why it’s hard for you to repay the debt.
         </p>
+
         <p>Submit your completed, signed form and statement by mail or fax.</p>
+
         <ul>
           <li>
             <strong>Mail: </strong>
@@ -61,9 +68,11 @@ const Dependents = () => {
             <Telephone contact={'1-612-970-5688'} />
           </li>
         </ul>
+
         <p>
           <strong>If you submitted VA Form 5655 in the past 6 months</strong>
         </p>
+
         <p>
           You don’t need to submit a new request unless you have changes to
           report. <ContactDMC />
