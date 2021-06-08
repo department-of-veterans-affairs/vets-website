@@ -26,7 +26,6 @@ export default function NameResults({ search }) {
               {inProgress && (
                 <LoadingIndicator message="Loading search results..." />
               )}
-
               {!inProgress &&
                 count > 0 && (
                   <div className="vads-l-row vads-u-flex-wrap--wrap">
