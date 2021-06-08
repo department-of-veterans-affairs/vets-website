@@ -35,7 +35,7 @@
 @media (min-width: $medium-screen) {
   [data-widget-type="find-va-forms"] {
     [data-e2e-id="find-form-search-form"] {
-      button {
+      .find-form-button {
         border-radius: 0px;
       }
     }
