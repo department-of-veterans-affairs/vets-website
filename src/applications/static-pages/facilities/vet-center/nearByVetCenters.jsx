@@ -71,6 +71,9 @@ const NearByVetCenters = props => {
         locality: vc.attributes.address.physical.city,
         postalCode: vc.attributes.address.physical.zip,
       },
+      fieldOperatingStatusFacility: vc.attributes.operatingStatus?.code.toLowerCase(),
+      fieldOperatingStatusMoreInfo:
+        vc.attributes.operatingStatus?.additionalInfo,
     }));
     return (
       <div>
