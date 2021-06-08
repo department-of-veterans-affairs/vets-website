@@ -198,6 +198,25 @@ const testConfig = createTestConfig(
         },
       });
 
+      cy.intercept('GET', '/v0/pension_claims/*', {
+        data: {
+          attributes: {
+            state: 'success',
+          },
+        },
+      });
+
+      cy.intercept('POST', '/v0/pension_claims', {
+        data: {
+          attributes: {
+            guid: '1234',
+            regionalOffice: [],
+            confirmationNumber: '123fake-submission-id-456',
+            submittedAt: '2021-06-07',
+          },
+        },
+      });
+
       cy.get('@testData').then(testData => {
         cy.intercept('GET', '/v0/in_progress_forms/21P-527EZ', testData);
         cy.intercept('PUT', '/v0/in_progress_forms/21P-527EZ', testData);
