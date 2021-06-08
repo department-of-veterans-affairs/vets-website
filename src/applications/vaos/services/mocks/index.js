@@ -23,7 +23,6 @@ const cancelReasons = require('./var/cancel_reasons.json');
 const requestEligibilityCriteria = require('./var/request_eligibility_criteria.json');
 const directBookingEligibilityCriteria = require('./var/direct_booking_eligibility_criteria.json');
 const generateMockSlots = require('./var/slots.js');
-const appointmentsV2 = require('./v2/appointments.json');
 const requestsV2 = require('./v2/requests.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
@@ -187,7 +186,7 @@ const responses = {
       return res.json(requestsV2);
     }
 
-    return res.json(appointmentsV2);
+    return res.json({ data: [] });
   },
   'GET /v0/user': {
     data: {
