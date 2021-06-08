@@ -8,7 +8,7 @@ const LANGS_TO_LINK_SUFFIXES = {
   es: '-esp/',
   tl: '-tag/',
 };
-const I18Select = ({ baseUrls, content, langSelected }) => {
+const I18Select = ({ baseUrls, content, dispatchLanguageSelection }) => {
   const [lang, setLang] = useState('en');
   useEffect(
     () => {
@@ -17,7 +17,7 @@ const I18Select = ({ baseUrls, content, langSelected }) => {
       for (const [langCode, suffix] of Object.entries(LANGS_TO_LINK_SUFFIXES)) {
         if (document?.location.href.endsWith(suffix)) {
           setLang(langCode);
-          langSelected(langCode);
+          dispatchLanguageSelection(langCode);
           if (contentDiv) {
             contentDiv.setAttribute('lang', langCode);
           }
@@ -25,7 +25,7 @@ const I18Select = ({ baseUrls, content, langSelected }) => {
         }
       }
     },
-    [langSelected],
+    [dispatchLanguageSelection],
   );
 
   useEffect(
@@ -55,7 +55,7 @@ const I18Select = ({ baseUrls, content, langSelected }) => {
                     event: 'nav-pipe-delimited-list-click',
                     'pipe-delimited-list-header': languageConfig.lang,
                   });
-                  langSelected(languageConfig.lang);
+                  dispatchLanguageSelection(languageConfig.lang);
                   setLangAttribute(languageConfig.lang);
                 }}
                 href={baseUrls[languageCode]}
@@ -81,7 +81,7 @@ const I18Select = ({ baseUrls, content, langSelected }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  langSelected: lang => {
+  dispatchLanguageSelection: lang => {
     return dispatch(langSelectedAction(lang));
   },
 });

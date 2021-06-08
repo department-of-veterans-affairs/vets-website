@@ -10,7 +10,7 @@ import recordEvent from '../../../monitoring/record-event';
 
 const langAssistanceLabel = 'Language assistance';
 
-function LanguagesListTemplate({ langSelected }) {
+function LanguagesListTemplate({ dispatchLanguageSelection }) {
   return (
     <ul
       className={
@@ -40,7 +40,7 @@ function LanguagesListTemplate({ langSelected }) {
             lang={link.lang}
             hrefLang={link.lang}
             onClick={() => {
-              langSelected(link.lang);
+              dispatchLanguageSelection(link.lang);
               setLangAttribute(link.lang);
               recordEvent({
                 event: FOOTER_EVENTS.LANGUAGE_SUPPORT,
@@ -59,21 +59,21 @@ function LanguagesListTemplate({ langSelected }) {
 export default function LanguageSupport({
   isDesktop,
   // showLangSupport,
-  langSelected,
-  // languageCode,
+  dispatchLanguageSelection,
 }) {
+  const showLangSupport = true;
   useEffect(
     () => {
       const langCode = parseLangCode(document?.location?.pathname);
       onThisPageHook(langCode);
       setLangAttribute(langCode);
-      langSelected(langCode);
-      adaptLinksWithLangCode(langSelected);
+      dispatchLanguageSelection(langCode);
+      adaptLinksWithLangCode(dispatchLanguageSelection);
     },
-    [langSelected],
+    [dispatchLanguageSelection, showLangSupport],
   );
 
-  // if (showLangSupport !== true) return null;
+  if (showLangSupport !== true) return null;
 
   if (isDesktop) {
     return (
@@ -81,7 +81,9 @@ export default function LanguageSupport({
         <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">
           {langAssistanceLabel}
         </h2>
-        <LanguagesListTemplate langSelected={langSelected} />
+        <LanguagesListTemplate
+          dispatchLanguageSelection={dispatchLanguageSelection}
+        />
       </div>
     );
   }
@@ -102,7 +104,9 @@ export default function LanguageSupport({
         aria-hidden="true"
       >
         <div className="usa-grid usa-grid-full va-footer-links-bottom">
-          <LanguagesListTemplate langSelected={langSelected} />
+          <LanguagesListTemplate
+            dispatchLanguageSelection={dispatchLanguageSelection}
+          />
         </div>
       </div>
     </li>
