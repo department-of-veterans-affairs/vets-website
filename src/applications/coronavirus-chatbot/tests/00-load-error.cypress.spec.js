@@ -6,9 +6,17 @@ const coronavirusChatbotPath = '/coronavirus-chatbot/';
 
 describe('Chatbot Load Error', () => {
   it('Shows proper error message', () => {
+    cy.intercept('/v0/feature_toggles?&cookie_id=*', {
+      data: {
+        features: [],
+        type: 'feature_toggles',
+      },
+    }).as('getErrorState');
+
     cy.visit(coronavirusChatbotPath);
     cy.get('body', { timeout: Timeouts.verySlow }).should('be.visible');
     cy.title().should('eq', 'VA coronavirus chatbot | Veterans Affairs');
+    cy.wait('@getErrorState');
     cy.get(loadError)
       .should('be.visible')
       .then(() => {
