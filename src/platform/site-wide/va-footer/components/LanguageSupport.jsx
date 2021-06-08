@@ -58,9 +58,9 @@ function LanguagesListTemplate({ langSelected }) {
 }
 export default function LanguageSupport({
   isDesktop,
-  showLangSupport,
+  // showLangSupport,
   langSelected,
-  languageCode,
+  // languageCode,
 }) {
   useEffect(
     () => {
@@ -68,12 +68,12 @@ export default function LanguageSupport({
       onThisPageHook(langCode);
       setLangAttribute(langCode);
       langSelected(langCode);
-      adaptLinksWithLangCode(langSelected, langCode);
+      adaptLinksWithLangCode(langSelected);
     },
-    [langSelected, languageCode, showLangSupport],
+    [langSelected],
   );
 
-  if (showLangSupport !== true) return null;
+  // if (showLangSupport !== true) return null;
 
   if (isDesktop) {
     return (
