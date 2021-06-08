@@ -37,7 +37,7 @@ export function NameSearchForm({
   };
 
   return (
-    <div id="search-form">
+    <div>
       <form onSubmit={handleSubmit} className="vads-u-margin-y--0">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--10">
