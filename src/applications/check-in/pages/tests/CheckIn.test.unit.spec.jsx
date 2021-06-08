@@ -5,18 +5,9 @@ import sinon from 'sinon';
 
 import CheckIn from '../CheckIn';
 
-const createFakeStore = () => {
-  return {
-    getState: () => ({}),
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-};
-
 describe('health care check in -- CheckIn component -- ', () => {
   it('show appointment details progress', () => {
-    const fakeStore = createFakeStore();
-    const component = mount(<CheckIn store={fakeStore} />);
+    const component = mount(<CheckIn />);
 
     expect(component.find('[data-testid="appointment-time"]').exists()).to.be
       .true;
@@ -32,8 +23,8 @@ describe('health care check in -- CheckIn component -- ', () => {
         token: 'token-123',
       },
     };
-    const fakeStore = createFakeStore();
-    const component = mount(<CheckIn router={mockRouter} store={fakeStore} />);
+
+    const component = mount(<CheckIn router={mockRouter} />);
 
     const checkInButton = component.find('[data-testid="check-in-button"]');
     expect(checkInButton.exists()).to.be.true;
