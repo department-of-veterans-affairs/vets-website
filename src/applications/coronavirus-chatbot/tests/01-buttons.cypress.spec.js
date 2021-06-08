@@ -15,7 +15,7 @@ const chatbotResponse = require('./config/data/chatbotResponse.json');
 describe('Chatbot buttons', () => {
   it.skip('Behaves as expected', () => {
     // Skipped as it is disabled currently in nightwatch
-    cy.intercept('/v0/feature_toggles?&cookie_id=*', {
+    cy.intercept('/v0/feature_toggles', {
       data: chatbotResponse,
     }).as('getChatbot');
 
@@ -25,8 +25,7 @@ describe('Chatbot buttons', () => {
 
     cy.get('body', { timeout: Timeouts.verySlow }).should('be.visible');
     cy.title().should('eq', 'VA coronavirus chatbot | Veterans Affairs');
-    cy.log('@getChatbot');
-    cy.get(vaAvatarMatcher, { timeout: 45000 }).should('be.visible');
+    cy.get(vaAvatarMatcher, { timeout: Timeouts.slow }).should('be.visible');
     cy.get(webchatBubbleContent).should('contain', 'Before we get started');
     cy.get(covid19PreventionButton)
       .click()
