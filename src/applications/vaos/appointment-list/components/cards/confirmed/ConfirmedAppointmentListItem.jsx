@@ -9,7 +9,7 @@ import {
 import VideoVisitSection from './VideoVisitSection';
 import AddToCalendar from '../../../../components/AddToCalendar';
 import VAFacilityLocation from '../../../../components/VAFacilityLocation';
-import AppointmentDateTime from './AppointmentDateTime';
+import AppointmentDateTime from '../../AppointmentDateTime';
 import AppointmentInstructions from './AppointmentInstructions';
 import CommunityCareInstructions from './CommunityCareInstructions';
 import AppointmentStatus from '../AppointmentStatus';
@@ -116,11 +116,7 @@ export default function ConfirmedAppointmentListItem({
         <span>{subHeader}</span>
       </div>
       <h3 className="vaos-appts__date-time vads-u-font-size--h3 vads-u-margin-x--0">
-        <AppointmentDateTime
-          appointmentDate={moment.parseZone(appointment.start)}
-          timezone={appointment.vaos.timeZone}
-          facilityId={appointment.location.vistaId}
-        />
+        <AppointmentDateTime appointment={appointment} />
       </h3>
       <AppointmentStatus
         status={appointment.status}
@@ -142,6 +138,7 @@ export default function ConfirmedAppointmentListItem({
               facility={facility}
               facilityId={getVAAppointmentLocationId(appointment)}
               clinicName={appointment.location?.clinicName}
+              showCovidPhone={appointment.vaos.isCOVIDVaccine}
             />
           )}
         </div>

@@ -22,10 +22,10 @@ const Disagree = () => {
           Based on the information you provided, this isn’t the form you need.
         </h2>
         <p className="vads-u-margin-bottom--0">
-          <strong>
+          <strong className="vads-u-margin-right--0p5">
             If you disagree with the VA decision that resulted in this debt,
-          </strong>{' '}
-          you can submit a supplemental claim or request a higher level review
+          </strong>
+          you can submit a Supplemental Claim or request a Higher Level Review
           or board appeal.
         </p>
         <p className="vads-u-margin-top--1">
@@ -35,11 +35,11 @@ const Disagree = () => {
               recordEvent({
                 event: 'howToWizard-alert-link-click',
                 'howToWizard-alert-link-click-label':
-                  'Learn more about the VA appeals process',
+                  'Learn more about decision reviews and appeals',
               });
             }}
           >
-            Learn more about the VA appeals process
+            Learn more about decision reviews and appeals
           </a>
         </p>
         <p className="vads-u-margin-bottom--0">
@@ -73,7 +73,7 @@ const Disagree = () => {
         </p>
         <p className="vads-u-margin-top--1">
           <a
-            href="https://www.va.gov/debtman/Financial_Status_Report.asp"
+            href="https://www.va.gov/find-forms/about-form-5655/"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-alert-link-click',

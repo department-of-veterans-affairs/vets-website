@@ -79,6 +79,15 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'evidence-submission/upload': () => {
+        cy.get('input[type="file"]')
+          .upload(
+            path.join(__dirname, 'fixtures/data/example-upload.pdf'),
+            'application/pdf',
+          )
+          .get('.schemaform-file-uploading')
+          .should('not.exist');
+      },
     },
 
     setupPerTest: () => {

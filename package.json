@@ -28,7 +28,7 @@
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
     "lint:circle": "eslint --ext .js --ext .jsx -c circle.eslint.json .",
     "lint:js:fix": "eslint --fix --quiet --ext .js --ext .jsx .",
-    "lint:js:changed": "LIST=`git diff-index --diff-filter=d --name-only --cached HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --quiet --config changed.eslintrc.js $LIST; fi",
+    "lint:js:changed": "LIST=`git diff-index --diff-filter=d --name-only --cached HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --quiet $LIST; fi",
     "lint:js:changed:fix": "LIST=`git diff-index --diff-filter=d --name-only HEAD | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
     "lint:js:untracked:fix": "LIST=`git ls-files --others --exclude-standard | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
     "lint:sass": "stylelint src/**/*.scss",
@@ -259,7 +259,7 @@
   "private": true,
   "dependencies": {
     "@department-of-veterans-affairs/component-library": "2.5.3",
-    "@department-of-veterans-affairs/formation": "6.16.1",
+    "@department-of-veterans-affairs/formation": "6.16.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@formatjs/intl-datetimeformat": "^3.2.7",
     "@formatjs/intl-getcanonicallocales": "^1.5.3",
@@ -315,6 +315,7 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
     "redux-localstorage": "^0.4.1",
+    "redux-mock-store": "^1.5.4",
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.7",
     "reselect": "^2.5.4",
@@ -323,7 +324,7 @@
     "url-search-params-polyfill": "^8.1.0",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#dc9443a28e7f26b947ddb6d7b9df486350155f57",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a814773c22920674823cf3052d82fbaaf9d4dbad",
     "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.6.1",
     "whatwg-fetch": "^2.0.3"
   },
@@ -348,6 +349,7 @@
     "**/underscore": "^1.12.1",
     "**/url-parse": "^1.5.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
+    "**/meow": "^9.0.0",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1",
     "web-components/**/postcss": "^8.2.10"
   }

@@ -19,7 +19,7 @@ const {
 } = fullSchema10203.properties;
 
 export const uiSchema = {
-  'ui:title': 'STEM degree and school details',
+  'ui:title': 'STEM degree and institution details',
   'ui:options': {
     updateSchema: updateProgramDetailsSchema(),
   },
@@ -37,9 +37,11 @@ export const uiSchema = {
   degreeName: {
     'ui:title': "What's the name of your STEM degree?",
   },
+  // prod flag 24612
   schoolName: {
-    'ui:title':
-      'What’s the name of the school where you plan on using the Rogers STEM Scholarship?',
+    'ui:title': environment.isProduction()
+      ? 'What’s the name of the school where you plan on using the Rogers STEM Scholarship?'
+      : 'What’s the name of the school or training institution where you plan on using the Rogers STEM Scholarship?',
   },
   schoolCity: {
     'ui:title': 'City',
@@ -54,15 +56,18 @@ export const uiSchema = {
     },
   },
   schoolStudentId: {
-    'ui:title': 'Your school student ID number',
+    'ui:title': environment.isProduction()
+      ? 'Your school student ID number'
+      : 'Your student ID number',
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },
   },
   schoolEmailAddress: {
     ...emailUI(),
-    'ui:title':
-      'Your school email address (This email address usually ends with .edu)',
+    'ui:title': environment.isProduction()
+      ? 'Your school email address (This email address usually ends with .edu)'
+      : 'Your student email address (This email address usually ends with .edu)',
   },
   'view:stemApplicantSco': {
     'ui:description': environment.isProduction() ? null : stemApplicantSco,
