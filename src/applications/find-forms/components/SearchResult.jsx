@@ -175,7 +175,7 @@ const SearchResult = ({ form, formMetaInfo, useSearchUIUXEnhancements }) => {
                 pointerEvents="none"
                 role="presentation"
               />
-              <span className="vads-u-text-decoration--underline">
+              <span className="vads-u-text-decoration--underline vads-u-font-weight--bold">
                 Go to online tool
               </span>
               <span className="vads-u-visibility--screen-reader">
