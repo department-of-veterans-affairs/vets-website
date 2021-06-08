@@ -58,10 +58,9 @@ function LanguagesListTemplate({ dispatchLanguageSelection }) {
 }
 export default function LanguageSupport({
   isDesktop,
-  // showLangSupport,
+  showLangSupport,
   dispatchLanguageSelection,
 }) {
-  const showLangSupport = true;
   useEffect(
     () => {
       const langCode = parseLangCode(document?.location?.pathname);
