@@ -7,12 +7,7 @@ const Landing = props => {
   const { router } = props;
   useEffect(
     () => {
-      const timer = setTimeout(() => {
-        goToNextPageWithToken(router, 'insurance');
-      }, 3000);
-      return () => {
-        clearTimeout(timer);
-      };
+      goToNextPageWithToken(router, 'insurance');
     },
     [router],
   );
