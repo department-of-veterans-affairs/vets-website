@@ -170,8 +170,10 @@ const SearchResult = ({ form, formMetaInfo, useSearchUIUXEnhancements }) => {
               }
             >
               <i
-                className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
                 aria-hidden="true"
+                className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
+                pointerEvents="none"
+                role="presentation"
               />
               <span className="vads-u-text-decoration--underline">
                 Go to online tool
@@ -193,8 +195,10 @@ const SearchResult = ({ form, formMetaInfo, useSearchUIUXEnhancements }) => {
             {...linkProps}
           >
             <i
-              className="fas fa-download fa-lg vads-u-margin-right--1"
               aria-hidden="true"
+              className="fas fa-download fa-lg vads-u-margin-right--1"
+              pointerEvents="none"
+              role="presentation"
             />
             <span className="vads-u-text-decoration--underline">
               Download VA form {id} {pdfLabel}

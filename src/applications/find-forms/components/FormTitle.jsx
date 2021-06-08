@@ -29,8 +29,9 @@ const FormTitle = ({
               {title}{' '}
               <i
                 aria-hidden="true"
-                role="presentation"
                 className="fas fa-angle-right vads-u-margin-left--0p25"
+                pointerEvents="none"
+                role="presentation"
                 style={{ verticalAlign: 'middle' }}
               />
             </a>
@@ -61,8 +62,9 @@ const FormTitle = ({
             {id} {title}{' '}
             <i
               aria-hidden="true"
-              role="presentation"
               className="fas fa-angle-right vads-u-margin-left--0p25"
+              pointerEvents="none"
+              role="presentation"
               style={{ verticalAlign: 'middle' }}
             />
           </a>
