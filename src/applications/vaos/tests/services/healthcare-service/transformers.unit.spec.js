@@ -44,38 +44,12 @@ describe('VAOS HealthcareService transformer', () => {
       expect(data[0].id).to.equal('983_308');
     });
 
-    it('should set resourceType', () => {
-      expect(data[0].resourceType).to.equal('HealthcareService');
+    it('should set the facility ID where the clinic is located', () => {
+      expect(data[0].stationId).to.equal('983');
     });
 
-    describe('External identifiers for this item', () => {
-      it('should set system', () => {
-        expect(data[0].identifier[0].system).to.equal(
-          'http://med.va.gov/fhir/urn',
-        );
-      });
-
-      it('should set value', () => {
-        expect(data[0].identifier[0].value).to.equal(
-          'urn:va:healthcareservice:983:983:308',
-        );
-      });
-    });
-
-    it('should set organization that provides this service', () => {
-      expect(data[0].providedBy).to.equal('Organization/983');
-    });
-
-    describe('Specific service delivered or performed', () => {
-      describe('serviceType', () => {
-        it('should set code', () => {
-          expect(data[0].serviceType[0].type.coding.code).to.equal('323');
-        });
-
-        it('should set userSelected', () => {
-          expect(data[0].serviceType[0].type.coding.userSelected).to.be.false;
-        });
-      });
+    it('should set the name of the VA facility where the clinic is located', () => {
+      expect(data[0].stationName).to.equal('CHYSHR-Cheyenne VA Medical Center');
     });
 
     describe('should set description of service as presented to a consumer while searching', () => {
@@ -86,56 +60,6 @@ describe('VAOS HealthcareService transformer', () => {
       it('should use clinic friendly name when present', () => {
         expect(data[0].serviceName).to.equal('Green Team Clinic1');
       });
-    });
-
-    describe('Collection of characteristics (attributes)', () => {
-      it('should contain 5 attributes', () => {
-        expect(data[0].characteristic.length).to.equal(5);
-      });
-
-      describe('directSchedulingFlag', () => {
-        it('should set code', () => {
-          expect(data[0].characteristic[0].coding.code).to.be.undefined;
-        });
-
-        it('should set display', () => {
-          expect(data[0].characteristic[0].coding.display).to.equal('Y');
-        });
-
-        it('should set userSelected', () => {
-          expect(data[0].characteristic[0].coding.userSelected).to.be.false;
-        });
-
-        it('should set text', () => {
-          expect(data[0].characteristic[0].text).to.equal(
-            'directSchedulingFlag',
-          );
-        });
-      });
-
-      describe('displayToPatientFlag', () => {
-        it('should set code', () => {
-          expect(data[0].characteristic[1].coding.code).to.be.undefined;
-        });
-
-        it('should set display', () => {
-          expect(data[0].characteristic[1].coding.display).to.equal('Y');
-        });
-
-        it('should set userSelected', () => {
-          expect(data[0].characteristic[1].coding.userSelected).to.be.false;
-        });
-
-        it('should set text', () => {
-          expect(data[0].characteristic[1].text).to.equal(
-            'displayToPatientFlag',
-          );
-        });
-      });
-    });
-
-    it('should set appointment is required flag for access to this service', () => {
-      expect(data[0].appointmentRequired).to.be.true;
     });
   });
 });

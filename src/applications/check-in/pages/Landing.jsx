@@ -1,8 +1,9 @@
 import React from 'react';
 import withFeatureFlip from '../containers/withFeatureFlip.jsx';
 
-const Landing = () => {
-  return <div>Landing?</div>;
+const Landing = ({ router }) => {
+  router.push('/some-token/insurance');
+  return <></>;
 };
 
 export default withFeatureFlip(Landing);

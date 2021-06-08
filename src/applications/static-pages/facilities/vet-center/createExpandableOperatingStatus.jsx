@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { buildOperatingStatusProps } from './buildOperatingStatusProps';
 
 export default async function createExpandableOperatingStatus() {
   const statusWidgets = Array.from(
@@ -19,35 +20,15 @@ export default async function createExpandableOperatingStatus() {
         el.attributes?.status?.nodeValue === 'normal'
       )
         return;
-      let status;
-      let iconType;
 
-      switch (el.attributes.status.nodeValue) {
-        case 'limited':
-          status = 'Limited services and hours';
-          iconType = 'triangle';
-          break;
-        case 'closed':
-          status = 'Facility closed';
-          iconType = 'circle';
-          break;
-        case 'notice':
-          status = 'Facility notice';
-          iconType = 'circle';
-          break;
-        default:
-          status = 'Facility status';
-          iconType = 'triangle';
-      }
+      const attrs = {
+        opStatus: el.attributes?.status?.nodeValue,
+        opStatusExtra: el.attributes?.info?.nodeValue,
+      };
 
       ReactDOM.render(
         <div className="vads-u-margin-bottom--1">
-          <ExpandableOperatingStatus
-            operatingStatusFacility={el.attributes.status.nodeValue}
-            statusLabel={status}
-            iconType={iconType}
-            extraInfo={el.attributes.info.nodeValue}
-          />
+          <ExpandableOperatingStatus {...buildOperatingStatusProps(attrs)} />
         </div>,
         el,
       );

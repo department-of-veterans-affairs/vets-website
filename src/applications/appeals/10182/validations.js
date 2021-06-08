@@ -57,6 +57,37 @@ export const validateDate = (errors, dateString) => {
   }
 };
 
+/**
+ * Use above validation to set initial edit state
+ */
+export const isValidDate = dateString => {
+  let isValid = true;
+  const errors = {
+    addError: () => {
+      isValid = false;
+    },
+  };
+  validateDate(errors, dateString);
+  return isValid;
+};
+
+export const validAdditionalIssue = (
+  errors,
+  { additionalIssues = [] } = {},
+) => {
+  if (errors.addError) {
+    additionalIssues.forEach(entry => {
+      if (
+        !entry.issue ||
+        !entry.decisionDate ||
+        !isValidDate(entry.decisionDate)
+      ) {
+        errors.addError(missingIssuesErrorMessageText);
+      }
+    });
+  }
+};
+
 export const areaOfDisagreementRequired = (
   errors,
   // added index to get around arrayIndex being null

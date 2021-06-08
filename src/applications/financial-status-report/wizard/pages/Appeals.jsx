@@ -8,7 +8,7 @@ const Appeals = () => {
     recordEvent({
       event: 'howToWizard-alert-displayed',
       'reason-for-alert':
-        'appeal the decision with the board of Veterans Appeals',
+        "appeal the decision with the Board of Veterans' Appeals",
     });
   }, []);
 

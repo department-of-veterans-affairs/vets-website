@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React from 'react';
+
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import withFeatureFlip from '../containers/withFeatureFlip.jsx';
 
-const CheckIn = _props => {
-  const [didCheckIn, setDidCheckIn] = useState(false);
+const CheckIn = props => {
+  const { router } = props;
   const onClick = () => {
-    setDidCheckIn(true);
+    router.push('/some-token/confirmed');
   };
-
-  if (didCheckIn) {
-    return <Redirect to="/check-in/confirm" />;
-  }
 
   const TTY_NUMBER = '711';
   const GET_HELP_NUMBER = '800-698-2411';
