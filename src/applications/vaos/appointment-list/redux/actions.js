@@ -401,6 +401,9 @@ export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
+      const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+        state,
+      );
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
         APPOINTMENT_TYPES.request,
@@ -415,7 +418,10 @@ export function fetchRequestDetails(id) {
       }
 
       if (!request) {
-        request = await fetchRequestById(id);
+        request = await fetchRequestById({
+          id,
+          useV2: featureVAOSServiceRequests,
+        });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
       }
@@ -435,11 +441,13 @@ export function fetchRequestDetails(id) {
         facility,
       });
 
-      const requestMessages = state.appointments.requestMessages;
-      const messages = requestMessages?.[id];
+      if (!featureVAOSServiceRequests) {
+        const requestMessages = state.appointments.requestMessages;
+        const messages = requestMessages?.[id];
 
-      if (!messages) {
-        dispatch(fetchRequestMessages(id));
+        if (!messages) {
+          dispatch(fetchRequestMessages(id));
+        }
       }
     } catch (e) {
       captureError(e);

@@ -14,7 +14,7 @@ import {
   updateAppointment,
   updateRequest,
 } from '../var';
-import { getAppointments, postAppointment } from '../vaos';
+import { getAppointment, getAppointments, postAppointment } from '../vaos';
 import {
   transformConfirmedAppointment,
   transformConfirmedAppointments,
@@ -189,8 +189,14 @@ export async function getAppointmentRequests({
  * @param {string} id Appointment request id
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById(id) {
+export async function fetchRequestById({ id, useV2 }) {
   try {
+    if (useV2) {
+      const appointment = await getAppointment(id);
+
+      return transformVAOSAppointment(appointment);
+    }
+
     const appointment = await getPendingAppointment(id);
 
     return transformPendingAppointment(appointment);

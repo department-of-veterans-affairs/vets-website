@@ -188,6 +188,11 @@ const responses = {
 
     return res.json({ data: [] });
   },
+  'GET /vaos/v2/appointments/:id': (req, res) => {
+    return res.json({
+      data: requestsV2.data.find(appt => appt.id === req.params.id),
+    });
+  },
   'GET /v0/user': {
     data: {
       attributes: {

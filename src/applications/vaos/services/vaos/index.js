@@ -18,3 +18,9 @@ export function getAppointments(start, end, statuses = []) {
     },
   ).then(parseApiList);
 }
+
+export function getAppointment(id) {
+  return apiRequestWithUrl(`/vaos/v2/appointments/${id}`, {
+    method: 'GET',
+  }).then(parseApiObject);
+}

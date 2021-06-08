@@ -136,8 +136,9 @@ export default function RequestedAppointmentDetailsPage() {
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
   const provider = appointment.preferredCommunityCareProviders?.[0];
-  const apptDetails = message
-    ? `${appointment.reason}: ${message}`
+  const comment = message || appointment.comment;
+  const apptDetails = comment
+    ? `${appointment.reason}: ${comment}`
     : appointment.reason;
 
   return (
@@ -248,7 +249,7 @@ export default function RequestedAppointmentDetailsPage() {
           You shared these details about your concern
         </h2>
         {!isCCRequest && apptDetails}
-        {isCCRequest && <>{message || 'none'}</>}
+        {isCCRequest && <>{comment || 'none'}</>}
       </div>
       <div>
         <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">

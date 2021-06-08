@@ -496,7 +496,7 @@ export function transformPendingAppointment(appt) {
     location: setLocation(appt),
     contact: setContact(appt),
     preferredTimesForPhoneCall: appt.bestTimetoCall,
-    comment: appt.additionalInformation,
+    comment: null,
     videoData: {
       isVideo,
     },
