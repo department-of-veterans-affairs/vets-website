@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-import withFeatureFlip from '../containers/withFeatureFlip.jsx';
 
 import { goToNextPageWithToken } from '../utils/navigation';
 
@@ -18,7 +17,10 @@ const CheckIn = props => {
     <div className="vads-l-grid-container vads-u-padding-y--5">
       <h1>Appointment details</h1>
       <dl>
-        <dd className="appointment-details vads-u-font-weight--bold">
+        <dd
+          className="appointment-details vads-u-font-weight--bold"
+          data-testid="appointment-time"
+        >
           Friday, September 25, 2020 9:30 a.m. ET
         </dd>
         <dt className="vads-u-font-weight--bold">VA appointment</dt>
@@ -28,9 +30,14 @@ const CheckIn = props => {
           <div>Cheyenne, WY 82001-5356</div>
         </dd>
         <dt className="vads-u-font-weight--bold">Clinic</dt>
-        <dd>Green Team Clinic1</dd>
+        <dd data-testid="clinic-name">Green Team Clinic1</dd>
       </dl>
-      <button type="button" className="usa-button" onClick={onClick}>
+      <button
+        type="button"
+        className="usa-button"
+        onClick={onClick}
+        data-testid="check-in-button"
+      >
         Check in now
       </button>
       <footer className="row">
@@ -49,4 +56,4 @@ const CheckIn = props => {
   );
 };
 
-export default withFeatureFlip(CheckIn);
+export default CheckIn;
