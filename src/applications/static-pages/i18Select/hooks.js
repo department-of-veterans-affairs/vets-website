@@ -32,25 +32,28 @@ export const parseLangCode = url => {
   return langCode;
 };
 
-// set lang code as `en` for all links on the current page
-// unless it follows the old IA lang patterns or already has a lang attribute
-// without overwriting existing onclick events
-// reference: https://stackoverflow.com/questions/891989/javascript-adding-an-onclick-handler-without-overwriting-the-existing-one
-
 export const adaptLinksWithLangCode = setLangAttributeInReduxStore => {
   const links = document.links;
   for (const link of links) {
     if (link) {
+      // this sets the overall div#content `lang` to the intended lang when the user
+      // clicks on a link with translated content
+      // assumption: any link to translated content has its own hreflang or lang attribute, which is preserved,
+      // and can differ from the lang attribute on div#content
+
       link.addEventListener('click', () => {
         const langAttribute = link.lang || link.hreflang;
         if (link.href.endsWith('-esp/') || parseLangCode(link.href) === 'es') {
-          setLangAttributeInReduxStore('es');
+          return setLangAttributeInReduxStore('es');
         }
         if (link.href.endsWith('-tag/') || parseLangCode(link.href) === 'tl') {
-          setLangAttributeInReduxStore('tl');
+          return setLangAttributeInReduxStore('tl');
         }
         if (langAttribute) {
-          setLangAttributeInReduxStore(langAttribute);
+          return setLangAttributeInReduxStore(langAttribute);
+        } else {
+          link.setAttribute('lang', 'en');
+          return setLangAttributeInReduxStore('en');
         }
       });
     }
