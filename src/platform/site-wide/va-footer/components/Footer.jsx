@@ -46,7 +46,7 @@ class Footer extends React.Component {
             links={this.linkObj}
             langConfig={{
               showLangSupport: this.props.showLangSupport,
-              langSelected: this.props.langSelected,
+              dispatchLanguageSelection: this.props.dispatchLanguageSelection,
               languageCode: this.props.languageCode,
             }}
           />
@@ -54,7 +54,7 @@ class Footer extends React.Component {
             <LanguageSupport
               showLangSupport={this.props.showLangSupport}
               isDesktop
-              langSelected={this.props.langSelected}
+              dispatchLanguageSelection={this.props.dispatchLanguageSelection}
               languageCode={this.props.languageCode}
             />
           )}
@@ -79,7 +79,7 @@ class Footer extends React.Component {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  langSelected: lang => {
+  dispatchLanguageSelection: lang => {
     return dispatch(langSelectedAction(lang));
   },
 });

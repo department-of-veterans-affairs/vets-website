@@ -92,11 +92,11 @@ describe('Find VA Forms <SearchResult />', () => {
     tree.unmount();
   });
 
-  it('should have a button', () => {
+  it('should have "Go to online tool" link', () => {
     const tree = mount(
       <SearchResult formMetaInfo={formMetaInfo} form={form} />,
     );
-    expect(tree.exists('.usa-button')).to.equal(true);
+    expect(tree.html()).to.include('Go to online tool');
     tree.unmount();
   });
 

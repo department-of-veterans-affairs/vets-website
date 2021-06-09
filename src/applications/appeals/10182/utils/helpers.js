@@ -2,6 +2,7 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { SELECTED } from '../constants';
+import { isValidDate } from '../validations';
 
 export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);
@@ -47,7 +48,10 @@ export const isEmptyObject = obj =>
     : false;
 
 export const setInitialEditMode = (formData = []) =>
-  formData.map(({ issue, decisionDate } = {}) => !issue || !decisionDate);
+  formData.map(
+    ({ issue, decisionDate } = {}) =>
+      !issue || !decisionDate || !isValidDate(decisionDate),
+  );
 
 export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
   if (loadedIssues.length !== existingIssues.length) {
