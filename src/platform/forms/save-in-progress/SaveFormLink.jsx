@@ -80,7 +80,7 @@ class SaveFormLink extends React.Component {
         {savedStatus !== SAVE_STATUSES.noAuth && (
           <span>
             <a
-              href="#"
+              href={`${formConfig.rootUrl}/form-saved`}
               className="schemaform-sip-save-link"
               onClick={this.handleSave}
             >
