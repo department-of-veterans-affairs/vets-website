@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { goToNextPageWithToken } from '../utils/navigation';
 
 const Insurance = props => {
   const { router } = props;
   const [needToUpdate, setNeedToUpdate] = useState();
+
+  const contactNumber = '555-867-5309';
 
   const handleContinueClick = () => {
     if (needToUpdate === 'Yes') {
@@ -17,16 +20,9 @@ const Insurance = props => {
   };
 
   return (
-    <div className={'vads-u-margin--1p5'}>
-      <h1>
-        Do you need to update your contact, next of kin, or insurance
-        information?
-      </h1>
-      <div
-        style={{
-          paddingLeft: '1em',
-        }}
-      >
+    <div className={'vads-u-margin--3'}>
+      <h1>Need to update your insurance, contact, or other information?</h1>
+      <div className="vads-u-margin-bottom--3">
         <RadioButtons
           onValueChange={e => {
             setNeedToUpdate(e.value);
@@ -42,6 +38,13 @@ const Insurance = props => {
       >
         Continue
       </button>
+      <footer className="row">
+        <h2 className="help-heading vads-u-font-size--lg">Need help?</h2>
+        <p>
+          Ask a staff member or call us at <Telephone contact={contactNumber} />
+          .
+        </p>
+      </footer>
     </div>
   );
 };

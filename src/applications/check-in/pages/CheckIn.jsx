@@ -9,27 +9,21 @@ const CheckIn = props => {
   const onClick = () => {
     goToNextPageWithToken(router, 'confirmed');
   };
-
-  const TTY_NUMBER = '711';
-  const GET_HELP_NUMBER = '800-698-2411';
+  const contactNumber = '555-867-5309';
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
-      <h1>Appointment details</h1>
-      <dl>
+      <h1>Your appointment</h1>
+      <dl className="appointment-summary">
         <dd
-          className="appointment-details vads-u-font-weight--bold"
+          className="appointment-details vads-u-font-weight--bold vads-u-margin-bottom--3"
           data-testid="appointment-time"
         >
           Friday, September 25, 2020 9:30 a.m. ET
         </dd>
-        <dt className="vads-u-font-weight--bold">VA appointment</dt>
-        <dd>
-          <div> Cheyenne VA Medical Center</div>
-          <div>2360 East Pershing Boulevard</div>
-          <div>Cheyenne, WY 82001-5356</div>
-        </dd>
-        <dt className="vads-u-font-weight--bold">Clinic</dt>
+        <dt className="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--1">
+          Clinic:{' '}
+        </dt>
         <dd data-testid="clinic-name">Green Team Clinic1</dd>
       </dl>
       <button
@@ -41,15 +35,10 @@ const CheckIn = props => {
         Check in now
       </button>
       <footer className="row">
-        <h2 className="help-heading">Need help?</h2>
+        <h2 className="help-heading vads-u-font-size--lg">Need help?</h2>
         <p>
-          If you have questions or need help checking in, please call our
-          MyVA411 main information line at{' '}
-          <Telephone contact={GET_HELP_NUMBER} /> and select 0. We're here 24/7.
-        </p>
-        <p>
-          If you have hearing loss, call{' '}
-          <Telephone contact={TTY_NUMBER}>TTY: {TTY_NUMBER}</Telephone>.
+          Ask a staff member or call us at <Telephone contact={contactNumber} />
+          .
         </p>
       </footer>
     </div>
