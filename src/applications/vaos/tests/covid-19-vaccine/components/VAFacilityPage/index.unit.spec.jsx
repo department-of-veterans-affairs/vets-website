@@ -348,9 +348,12 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     await screen.findAllByRole('radio');
     fireEvent.click(screen.getByText('use your current location'));
     await screen.findAllByRole('radio');
-    expect(screen.baseElement).to.contain.text(
-      'Your browser is blocked from finding your current location',
-    );
+    expect(
+      await screen.findByRole('heading', {
+        level: 3,
+        name: /Your browser is blocked from finding your current location/,
+      }),
+    ).to.be.ok;
   });
 
   it('should not display show more button if < 6 locations', async () => {
@@ -600,7 +603,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     fireEvent.click(await screen.findByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-booking/clinic',
+        '/new-covid-19-vaccine-appointment/choose-clinic',
       ),
     );
   });
@@ -639,7 +642,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     fireEvent.click(await screen.findByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-booking/select-date-1',
+        '/new-covid-19-vaccine-appointment/select-date',
       ),
     );
   });
