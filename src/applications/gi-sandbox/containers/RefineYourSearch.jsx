@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
@@ -46,6 +46,14 @@ export function RefineYourSearch({
     preferredProvider,
     employers,
   } = filters;
+  const [isExpanded, setIsExpanded] = useState(expanded);
+
+  useEffect(
+    () => {
+      setIsExpanded(expanded);
+    },
+    [expanded],
+  );
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
@@ -283,7 +291,7 @@ export function RefineYourSearch({
         buttonLabel="Update results"
         buttonOnClick={() => updateResults()}
         name="benefitEstimates"
-        expanded={expanded}
+        expanded={isExpanded}
         onClick={onAccordionChange}
       >
         <br />

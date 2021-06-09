@@ -11,8 +11,13 @@ import { MapboxInit } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import RefineYourSearch from '../../containers/RefineYourSearch';
 import { numberToLetter, createId } from '../../utils/helpers';
+import { updateEligibilityAndFilters } from '../../actions';
+import { connect } from 'react-redux';
 
-export default function LocationSearchResults({ search }) {
+function LocationSearchResults({
+  search,
+  dispatchUpdateEligibilityAndFilters,
+}) {
   const { inProgress } = search;
   const { count, results } = search.location;
   const { location } = search.query;
@@ -79,12 +84,10 @@ export default function LocationSearchResults({ search }) {
           offset: -locationSearchResults.getBoundingClientRect().top,
         }),
       );
-      if (document.getElementById('update-benefits-button') != null) {
-        scroller.scrollTo(
-          'location-search-results-container',
-          getScrollOptions(),
-        );
-      }
+      dispatchUpdateEligibilityAndFilters(
+        { expanded: false },
+        { expanded: false },
+      );
     });
 
     locationBounds.extend(new mapboxgl.LngLat(longitude, latitude));
@@ -220,3 +223,16 @@ export default function LocationSearchResults({ search }) {
     </>
   );
 }
+
+const mapStateToProps = state => ({
+  search: state.search,
+});
+
+const mapDispatchToProps = {
+  dispatchUpdateEligibilityAndFilters: updateEligibilityAndFilters,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LocationSearchResults);
