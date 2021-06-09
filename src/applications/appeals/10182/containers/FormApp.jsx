@@ -31,7 +31,7 @@ export const FormApp = ({
 }) => {
   const { email = {}, mobilePhone = {}, homePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
-  const phone = mobilePhone.phoneNumber ? mobilePhone : homePhone;
+  const phone = mobilePhone?.phoneNumber ? mobilePhone : homePhone;
 
   // Update profile data changes in the form data dynamically
   useEffect(

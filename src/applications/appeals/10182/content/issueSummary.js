@@ -13,9 +13,10 @@ export const SummaryTitle = ({ formData }) => {
 
   return (
     <>
+      <p>These are the issues you’re asking the Board to review.</p>
+      {ShowIssuesList({ issues })}
       <p>
-        These are the issues you’re asking the Board to review. If an issue is
-        missing, please{' '}
+        If an issue is missing, please{' '}
         <a
           aria-label="go back and add any missing issues for review"
           href={`${pathname}?redirect`}
@@ -24,7 +25,6 @@ export const SummaryTitle = ({ formData }) => {
         </a>
         .
       </p>
-      {ShowIssuesList({ issues })}
     </>
   );
 };

@@ -26,7 +26,8 @@ export const ContactInfoDescription = ({ veteran }) => {
       <p className="vads-u-margin-top--1p5">
         You can{' '}
         <a href={PROFILE_URL} target="_blank" rel="noopener noreferrer">
-          update this contact information in your VA.gov profile
+          update this contact information in your VA.gov profile (opens in new
+          tab)
         </a>
         .
       </p>

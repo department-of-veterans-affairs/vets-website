@@ -14,9 +14,10 @@ export const DEBT_LETTERS_FETCH_INITIATED = 'DEBT_LETTERS_FETCH_INITIATED';
 export const DEBT_LETTERS_FETCH_SUCCESS = 'DEBT_LETTERS_FETCH_SUCCESS';
 export const DEBT_LETTERS_FETCH_FAILURE = 'DEBT_LETTERS_FETCH_FAILURE';
 
-const fetchDebtLettersSuccess = debts => ({
+const fetchDebtLettersSuccess = (debts, hasDependentDebts) => ({
   type: DEBTS_FETCH_SUCCESS,
   debts,
+  hasDependentDebts,
 });
 
 const fetchDebtLettersVBMSSuccess = debtLinks => ({
@@ -58,7 +59,7 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
       ? await apiRequest(`${environment.API_URL}/v0/debt_letters`, options)
       : await debtMockResponseVBMS();
 
-    // Remove DMC  -  prefixing added by VBMS
+    // Remove DMC prefixing added by VBMS
     const filteredResponse = response.map(debtLetter => {
       if (debtLetter.typeDescription.includes('DMC - ')) {
         return {
@@ -98,6 +99,7 @@ export const fetchDebtLetters = () => async dispatch => {
       return dispatch(fetchDebtLettersFailure(response.errors));
     }
 
+    const { hasDependentDebts } = response;
     const approvedDeductionCodes = Object.keys(deductionCodes);
     // remove any debts that do not have approved deductionCodes or
     // that have a current amount owed of 0
@@ -107,7 +109,7 @@ export const fetchDebtLetters = () => async dispatch => {
 
     recordEvent({
       event: 'bam-get-veteran-dmc-info-successful',
-      'veteran-has-dependent-debt': response.hasDependentDebts,
+      'veteran-has-dependent-debt': hasDependentDebts,
     });
 
     if (filteredResponse.length > 0) {
@@ -116,11 +118,13 @@ export const fetchDebtLetters = () => async dispatch => {
         'number-of-current-debt-cards': filteredResponse.length,
       });
     }
-    // suppress VBMS call if they have dependent debt
-    if (!response.hasDependentDebts) {
+    // if a veteran has dependent debt do NOT fetch debt letters
+    if (!hasDependentDebts) {
       dispatch(fetchDebtLettersVBMS());
     }
-    return dispatch(fetchDebtLettersSuccess(filteredResponse));
+    return dispatch(
+      fetchDebtLettersSuccess(filteredResponse, hasDependentDebts),
+    );
   } catch (error) {
     recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });
     return dispatch(fetchDebtLettersFailure(error.errors));

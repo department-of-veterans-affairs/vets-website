@@ -93,6 +93,7 @@ export const IssueCard = ({
 
   const itemIsSelected = item[SELECTED];
   const isEditable = typeof onEdit === 'function';
+  const issueName = item.issue || item.ratingIssueSubjectText;
 
   const wrapperClass = [
     'review-row',
@@ -115,7 +116,7 @@ export const IssueCard = ({
   // item.ratingIssuesSubjectText = eligible issue from API
   const title = (
     <div className="widget-title vads-u-font-size--md vads-u-font-weight--bold vads-u-line-height--1">
-      {item.issue || item.ratingIssueSubjectText}
+      {issueName}
     </div>
   );
 
@@ -124,7 +125,7 @@ export const IssueCard = ({
       <button
         type="button"
         className="usa-button-secondary edit vads-u-flex--auto"
-        aria-label={`Edit issue`}
+        aria-label={`Edit ${issueName}`}
         onClick={onEdit}
       >
         Edit

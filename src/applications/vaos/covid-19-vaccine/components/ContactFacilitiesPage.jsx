@@ -73,14 +73,14 @@ export default function ContactFacilitiesPage() {
     <div>
       {canUseVaccineFlow && (
         <>
+          <h1>{pageTitle}</h1>
           <AlertBox
             className="vads-u-margin-top--0"
-            level="1"
+            level="2"
             status="warning"
             backgroundOnly
-            headline={pageTitle}
+            headline="If you got your first dose:"
           >
-            <strong>If you got your first dose</strong>:
             <ul>
               <li>
                 <strong>At a VA health facility,</strong> call that facility to
