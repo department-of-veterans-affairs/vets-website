@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CertificateDownload = () => (
+export const CertificateDownload = props => (
   <div className="row vads-u-margin-bottom--1">
     <div className="medium-8 columns">
       <va-alert status="success">
@@ -21,7 +21,9 @@ export const CertificateDownload = () => (
         for a restoration of entitlement - you’ll need to complete and submit VA
         Form 26-1880.
       </p>
-      <a>Make changes online COE with VA Form 26-1880</a>
+      <a href="#" onClick={() => props.generateCoe('skip')}>
+        Make changes online COE with VA Form 26-1880
+      </a>
     </div>
   </div>
 );

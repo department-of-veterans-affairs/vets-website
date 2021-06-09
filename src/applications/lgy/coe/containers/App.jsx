@@ -22,33 +22,35 @@ function App(props) {
     children,
     loggedIn,
     router,
-    certificateOfEligibility: { generateAutoCoeStatus },
+    certificateOfEligibility: { generateAutoCoeStatus, profileIsUpdating },
     hasSavedForm,
   } = props;
   const formPath = window.location.pathname.split('/').pop();
   if (!loggedIn && FORM_PATHS.includes(formPath)) {
     router.push('/introduction');
   }
-  // if a user is logged in and doesn't have a saved form, fire off the api call
+
   useEffect(
     () => {
-      if (!hasSavedForm) {
+      if (!profileIsUpdating && loggedIn && !hasSavedForm) {
         props.generateCoe();
+      } else if (!profileIsUpdating && !loggedIn) {
+        props.generateCoe('skip');
       }
     },
-    [hasSavedForm],
+    [loggedIn, profileIsUpdating],
   );
 
   let content;
 
-  if (generateAutoCoeStatus === CALLSTATUS.idle) {
+  if (generateAutoCoeStatus === CALLSTATUS.idle || profileIsUpdating) {
     content = <LoadingIndicator message="Loading application..." />;
   } else if (generateAutoCoeStatus === CALLSTATUS.pending) {
     content = (
       <LoadingIndicator message="Checking automatic COE eligibility..." />
     );
   } else if (generateAutoCoeStatus === CALLSTATUS.success) {
-    content = <CertificateDownload />;
+    content = <CertificateDownload generateCoe={props.generateCoe} />;
   } else {
     content = (
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>

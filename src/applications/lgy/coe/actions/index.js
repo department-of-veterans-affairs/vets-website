@@ -17,16 +17,17 @@ const mockApiCall = () => {
   //   });
 };
 
-export const generateCoe = () => async dispatch => {
-  dispatch({ type: GENERATE_AUTOMATIC_COE_STARTED });
-  const response = await mockApiCall();
-  if (response.errors) {
-    dispatch({ type: GENERATE_AUTOMATIC_COE_FAILED, response });
+export const generateCoe = (skip = '') => async dispatch => {
+  const shouldSkip = !!skip;
+  if (!shouldSkip) {
+    dispatch({ type: GENERATE_AUTOMATIC_COE_STARTED });
+    const response = await mockApiCall();
+    if (response.errors) {
+      dispatch({ type: GENERATE_AUTOMATIC_COE_FAILED, response });
+    } else {
+      dispatch({ type: GENERATE_AUTOMATIC_COE_SUCCEEDED, response });
+    }
   } else {
-    dispatch({ type: GENERATE_AUTOMATIC_COE_SUCCEEDED, response });
+    dispatch({ type: SKIP_AUTOMATIC_COE_CHECK });
   }
-};
-
-export const skipGenerateCoe = () => dispatch => {
-  dispatch({ type: SKIP_AUTOMATIC_COE_CHECK });
 };

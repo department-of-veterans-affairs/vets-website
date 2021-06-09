@@ -1,5 +1,6 @@
 import formConfig from '../config/form';
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
+import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
 
 import { CALLSTATUS } from '../constants';
 
@@ -14,10 +15,13 @@ const initialState = {
   generateAutoCoeStatus: CALLSTATUS.idle,
   coe: null,
   errors: null,
+  profileIsUpdating: true,
 };
 
 const certificateOfEligibility = (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_LOGGEDIN_STATUS:
+      return { ...state, profileIsUpdating: false };
     case SKIP_AUTOMATIC_COE_CHECK:
       return { ...state, generateAutoCoeStatus: CALLSTATUS.skip };
     case GENERATE_AUTOMATIC_COE_STARTED:
