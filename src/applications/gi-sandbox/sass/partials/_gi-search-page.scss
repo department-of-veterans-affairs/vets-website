@@ -280,6 +280,7 @@
 .result-card {
   border-radius: 5px;
   width: 45%;
+  height: fit-content;
 }
 
 .card-title-section {
@@ -296,6 +297,7 @@
 
 .secondary-info-label {
   font-size: 12px;
+  margin-top: 0;
   margin-bottom: 0;
 }
 
