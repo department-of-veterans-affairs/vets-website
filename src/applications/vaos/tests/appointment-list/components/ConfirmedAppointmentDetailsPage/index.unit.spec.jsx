@@ -853,7 +853,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
     expect(tokens.get('VERSION')).to.equal('2.0');
     expect(tokens.get('PRODID')).to.equal('VA');
-    expect(tokens.get('BEGIN')).includes('VEVENT');
+    expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
     expect(tokens.has('UID')).to.be.true;
     expect(tokens.get('SUMMARY')).to.equal(
       'Appointment at Fort Collins VA Clinic',
@@ -862,7 +862,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       'You have a health care appointment at Fort Collins VA Clinic',
     );
     expect(tokens.get('FORMATTED_TEXT')).to.equal(
-      '\tintments to get details about this appointment\\n',
+      '\t\\n\\nFake street\\n\tFake city\\, FA fake zip\\n\t970-224-1550\\n\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo\tintments to get details about this appointment\\n',
     );
     expect(tokens.get('LOCATION')).to.equal(
       'Fake street\\, Fake city\\, FA fake zip',
@@ -886,56 +886,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     );
     expect(tokens.get('END').includes('VEVENT')).to.be.true;
     expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
-
-    //----
-
-    // TODO: Debugging
-    // console.log(tokens);
-
-    // expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
-    // expect(tokens[1]).to.equal('VERSION:2.0');
-    // expect(tokens[2]).to.equal('PRODID:VA');
-    // expect(tokens[3]).to.equal('BEGIN:VEVENT');
-    // expect(tokens[4]).to.contain('UID:');
-    // expect(tokens[5]).to.equal('SUMMARY:Appointment at Fort Collins VA Clinic');
-
-    // // Description text longer than 74 characters should start on newline beginning
-    // // with a tab character
-    // expect(tokens[6]).to.equal(
-    //   'DESCRIPTION:You have a health care appointment at Fort Collins VA Clinic',
-    // );
-    // expect(tokens[7]).to.equal('\t\\n\\nFake street\\n');
-    // expect(tokens[8]).to.equal('\tFake city\\, FA fake zip\\n');
-    // expect(tokens[9]).to.equal('\t970-224-1550\\n');
-    // expect(tokens[10]).to.equal(
-    //   '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
-    // );
-    // expect(tokens[11]).to.equal(
-    //   '\tintments to get details about this appointment\\n',
-    // );
-
-    // expect(tokens[12]).to.equal(
-    //   'LOCATION:Fake street\\, Fake city\\, FA fake zip',
-    // );
-    // expect(tokens[13]).to.equal(
-    //   `DTSTAMP:${moment(startDateTime)
-    //     .utc()
-    //     .format('YYYYMMDDTHHmmss[Z]')}`,
-    // );
-    // expect(tokens[14]).to.equal(
-    //   `DTSTART:${moment(startDateTime)
-    //     .utc()
-    //     .format('YYYYMMDDTHHmmss[Z]')}`,
-    // );
-    // expect(tokens[15]).to.equal(
-    //   `DTEND:${startDateTime
-    //     .clone()
-    //     .add(60, 'minutes')
-    //     .utc()
-    //     .format('YYYYMMDDTHHmmss[Z]')}`,
-    // );
-    // expect(tokens[16]).to.equal('END:VEVENT');
-    // expect(tokens[17]).to.equal('END:VCALENDAR');
   });
 
   it('should verify VA phone calendar ics file format', async () => {
@@ -1005,54 +955,43 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
-    const tokens = ics.split('\r\n');
+    const tokens = getICSTokens(ics);
 
-    // TODO: Debugging
-    // console.log(tokens);
-
-    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
-    expect(tokens[1]).to.equal('VERSION:2.0');
-    expect(tokens[2]).to.equal('PRODID:VA');
-    expect(tokens[3]).to.equal('BEGIN:VEVENT');
-    expect(tokens[4]).to.contain('UID:');
-    expect(tokens[5]).to.equal('SUMMARY:Phone appointment');
+    expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('VERSION')).to.equal('2.0');
+    expect(tokens.get('PRODID')).to.equal('VA');
+    expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+    expect(tokens.has('UID')).to.be.true;
+    expect(tokens.get('SUMMARY')).to.equal('Phone appointment');
 
     // Description text longer than 74 characters should start on newline beginning
     // with a tab character
-    expect(tokens[6]).to.equal(
-      `DESCRIPTION:A provider will call you at ${moment(appointment.start)
+    expect(tokens.get('DESCRIPTION')).to.equal(
+      `A provider will call you at ${moment(appointment.start)
         .tz('America/Denver')
         .format('h:mm a')}`,
     );
-    expect(tokens[7]).to.equal('\t\\n\\nCheyenne VA Medical Center');
-    expect(tokens[8]).to.equal('\t\\nFake street\\n');
-    expect(tokens[9]).to.equal('\tFake city\\, FA fake zip\\n');
-    expect(tokens[10]).to.equal('\t970-224-1550\\n');
-    expect(tokens[11]).to.equal(
-      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    expect(tokens.get('FORMATTED_TEXT')).to.equal(
+      '\t\\n\\nCheyenne VA Medical Center\t\\nFake street\\n\tFake city\\, FA fake zip\\n\t970-224-1550\\n\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo\tintments to get details about this appointment\\n',
     );
-    expect(tokens[12]).to.equal(
-      '\tintments to get details about this appointment\\n',
-    );
-
-    expect(tokens[13]).to.equal('LOCATION:Phone call');
-    expect(tokens[14]).to.equal(
-      `DTSTAMP:${moment(appointment.start)
+    expect(tokens.get('LOCATION')).to.equal('Phone call');
+    expect(tokens.get('DTSTAMP')).to.equal(
+      `${moment(appointment.start)
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[15]).to.equal(
-      `DTSTART:${moment(appointment.start)
+    expect(tokens.get('DTSTART')).to.equal(
+      `${moment(appointment.start)
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[16]).to.equal(
-      `DTEND:${moment(appointment.start)
+    expect(tokens.get('DTEND')).to.equal(
+      `${moment(appointment.start)
         .add(60, 'minutes')
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[17]).to.equal('END:VEVENT');
-    expect(tokens[18]).to.equal('END:VCALENDAR');
+    expect(tokens.get('END').includes('VEVENT')).to.be.true;
+    expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
   });
 });

@@ -277,16 +277,15 @@ describe('VAOS <AddToCalendar>', () => {
     expect(`DESCRIPTION:${tokens.get('DESCRIPTION')}`.length).to.be.equal(
       ICS_LINE_LIMIT,
     );
-    // expect(tokens.get('FORMATTED_TEXT')).to.equal(
-    //   '\tng long descriptions Testing long descriptions Testing long descriptions T\testing long descriptions Testing long descriptions Testing long descriptio\tns\t\\n\\nA location\\n',
-    // );
 
+    // Each folded line should start with a tab character and
+    // should be <= the max line length + 1 75 (to account for the tab character).
     tokens
       .get('FORMATTED_TEXT')
-      .split('\t')
-      .slice(1)
+      .split(/(?=\t)/g) // look ahead include the split character in the results
       .forEach(token => {
-        expect(token.length <= ICS_LINE_LIMIT).to.be.true;
+        expect(token.startsWith('\t')).to.be.true;
+        expect(token.length <= ICS_LINE_LIMIT + 1).to.be.true;
       });
   });
 

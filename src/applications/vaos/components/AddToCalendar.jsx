@@ -120,6 +120,7 @@ function generateICS(
  * <li>BEGIN</li>
  * <li>UID</li>
  * <li>SUMMARY</li>
+ * <li>DESCRIPTION</li>
  * <li>LOCATION</li>
  * <li>DTSTAMP</li>
  * <li>DTSTART</li>
@@ -152,9 +153,14 @@ export function getICSTokens(buffer) {
   const map = new Map();
   let tokens = buffer.split('\r\n');
 
-  // Split tokens into key/value pairs
-  tokens = tokens.map(t => t.split(':'));
-
+  // Split tokens into key/value pairs using lookbehind since it is possible
+  // for other text to contain the split character. The regex looks for a ':'
+  // preceeded by on the keywords.
+  tokens = tokens.map(t =>
+    t.split(
+      /(?<=BEGIN):|(?<=VERSION):|(?<=PRODID):|(?<=UID):|(?<=SUMMARY):|(?<=DESCRIPTION):|(?<=LOCATION):|(?<=DTSTAMP):|(?<=DTSTART):|(?<=DTEND):|(?<=END):/g,
+    ),
+  );
   tokens.forEach(token => {
     // Store duplicate keys values in an array...
     if (map.has(token[0])) {
@@ -169,7 +175,7 @@ export function getICSTokens(buffer) {
         // Prepend to exisiting text
         map.set('FORMATTED_TEXT', `${map.get('FORMATTED_TEXT')}${token[0]}`);
       } else {
-        map.set('FORMATTED_TEXT', `${token[0]}`);
+        map.set('FORMATTED_TEXT', token[0]);
       }
     } else {
       map.set(token[0], token[1]);

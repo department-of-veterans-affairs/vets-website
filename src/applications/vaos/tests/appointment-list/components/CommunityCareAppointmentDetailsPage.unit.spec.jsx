@@ -18,6 +18,7 @@ import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
 import sinon from 'sinon';
 import { fireEvent } from '@testing-library/react';
+import { getICSTokens } from '../../../components/AddToCalendar';
 
 const initialState = {
   featureToggles: {
@@ -428,53 +429,39 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
-    const tokens = ics.split('\r\n');
+    const tokens = getICSTokens(ics);
 
-    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
-    expect(tokens[1]).to.equal('VERSION:2.0');
-    expect(tokens[2]).to.equal('PRODID:VA');
-    expect(tokens[3]).to.equal('BEGIN:VEVENT');
-    expect(tokens[4]).to.contain('UID:');
+    expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('VERSION')).to.equal('2.0');
+    expect(tokens.get('PRODID')).to.equal('VA');
+    expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+    expect(tokens.has('UID')).to.be.true;
 
     // TODO: Should this be provider practice instead of name???
-    expect(tokens[5]).to.equal('SUMMARY:Appointment at Rick Katz');
+    expect(tokens.get('SUMMARY')).to.equal('Appointment at Rick Katz');
 
     // The description text longer than 74 characters should start newlines with a tab character
-    expect(tokens[6]).to.equal(
-      'DESCRIPTION:You have a health care appointment with a community care provi',
+    expect(tokens.get('DESCRIPTION')).to.equal(
+      'You have a health care appointment with a community care provi',
     );
-    expect(tokens[7]).to.equal(
-      '\tder. Please don’t go to your local VA health facility.',
+    expect(tokens.get('FORMATTED_TEXT')).to.equal(
+      '\tder. Please don’t go to your local VA health facility.\t\\n\\n123\\n\tBurke\\, VA 20151\\n\t(703) 555-1264\\n\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo\tintments to get details about this appointment\\n',
     );
-    expect(tokens[8]).to.equal('\t\\n\\n123\\n');
-    expect(tokens[9]).to.equal('\tBurke\\, VA 20151\\n');
-    expect(tokens[10]).to.equal('\t(703) 555-1264\\n');
-    expect(tokens[11]).to.equal(
-      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    expect(tokens.get('LOCATION')).to.equal('123\\, Burke\\, VA 20151');
+    expect(tokens.get('DTSTAMP')).to.equal(
+      `${moment(startDateTime).format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[12]).to.equal(
-      '\tintments to get details about this appointment\\n',
+    expect(tokens.get('DTSTART')).to.equal(
+      `${moment(startDateTime).format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[13]).to.equal('LOCATION:123\\, Burke\\, VA 20151');
-    expect(tokens[14]).to.equal(
-      `DTSTAMP:${moment(startDateTime)
-        // .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
-    );
-    expect(tokens[15]).to.equal(
-      `DTSTART:${moment(startDateTime)
-        // .utc()
-        .format('YYYYMMDDTHHmmss[Z]')}`,
-    );
-    expect(tokens[16]).to.equal(
-      `DTEND:${startDateTime
+    expect(tokens.get('DTEND')).to.equal(
+      `${startDateTime
         .clone()
         .add(60, 'minutes')
-        // .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[17]).to.equal('END:VEVENT');
-    expect(tokens[18]).to.equal('END:VCALENDAR');
+    expect(tokens.get('END').includes('VEVENT')).to.be.true;
+    expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
   });
 
   it('should verify community care calendar ics file format when there is no provider information', async () => {
@@ -521,43 +508,37 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
-    const tokens = ics.split('\r\n');
+    const tokens = getICSTokens(ics);
 
-    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
-    expect(tokens[1]).to.equal('VERSION:2.0');
-    expect(tokens[2]).to.equal('PRODID:VA');
-    expect(tokens[3]).to.equal('BEGIN:VEVENT');
-    expect(tokens[4]).to.contain('UID:');
+    expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('VERSION')).to.equal('2.0');
+    expect(tokens.get('PRODID')).to.equal('VA');
+    expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+    expect(tokens.has('UID')).to.be.true;
 
-    expect(tokens[5]).to.equal('SUMMARY:Community care appointment');
+    expect(tokens.get('SUMMARY')).to.equal('Community care appointment');
 
     // The description text longer than 74 characters should start newlines with a tab character
-    expect(tokens[6]).to.equal(
-      'DESCRIPTION:You have a health care appointment with a community care provi',
+    expect(tokens.get('DESCRIPTION')).to.equal(
+      'You have a health care appointment with a community care provi',
     );
-    expect(tokens[7]).to.equal(
-      '\tder. Please don’t go to your local VA health facility.',
+    expect(tokens.get('FORMATTED_TEXT')).to.equal(
+      '\tder. Please don’t go to your local VA health facility.\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo\tintments to get details about this appointment\\n',
     );
-    expect(tokens[8]).to.equal(
-      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    expect(tokens.get('LOCATION')).to.equal('');
+    expect(tokens.get('DTSTAMP')).to.equal(
+      `${moment(startDateTime).format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[9]).to.equal(
-      '\tintments to get details about this appointment\\n',
+    expect(tokens.get('DTSTART')).to.equal(
+      `${moment(startDateTime).format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[10]).to.equal('LOCATION:');
-    expect(tokens[11]).to.equal(
-      `DTSTAMP:${moment(startDateTime).format('YYYYMMDDTHHmmss[Z]')}`,
-    );
-    expect(tokens[12]).to.equal(
-      `DTSTART:${moment(startDateTime).format('YYYYMMDDTHHmmss[Z]')}`,
-    );
-    expect(tokens[13]).to.equal(
-      `DTEND:${startDateTime
+    expect(tokens.get('DTEND')).to.equal(
+      `${startDateTime
         .clone()
         .add(60, 'minutes')
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[14]).to.equal('END:VEVENT');
-    expect(tokens[15]).to.equal('END:VCALENDAR');
+    expect(tokens.get('END').includes('VEVENT')).to.be.true;
+    expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
   });
 });

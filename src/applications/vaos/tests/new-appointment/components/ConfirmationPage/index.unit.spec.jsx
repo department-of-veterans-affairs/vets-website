@@ -9,6 +9,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../mocks/setup';
+import { getICSTokens } from '../../../../components/AddToCalendar';
 
 const getInitialState = start => ({
   featureToggles: {
@@ -475,56 +476,48 @@ describe('VAOS <ConfirmationPage>', () => {
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
-    const tokens = ics.split('\r\n');
+    const tokens = getICSTokens(ics);
 
-    // TODO: Debugging
-    // console.log(tokens);
-
-    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
-    expect(tokens[1]).to.equal('VERSION:2.0');
-    expect(tokens[2]).to.equal('PRODID:VA');
-    expect(tokens[3]).to.equal('BEGIN:VEVENT');
-    expect(tokens[4]).to.contain('UID:');
-    expect(tokens[5]).to.equal(
-      'SUMMARY:Appointment at Cheyenne VA Medical Center',
+    expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('VERSION')).to.equal('2.0');
+    expect(tokens.get('PRODID')).to.equal('VA');
+    expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+    expect(tokens.has('UID')).to.be.true;
+    expect(tokens.get('SUMMARY')).to.equal(
+      'Appointment at Cheyenne VA Medical Center',
     );
 
     // Description text longer than 74 characters should start on newline beginning
     // with a tab character
-    expect(tokens[6]).to.equal(
-      'DESCRIPTION:You have a health care appointment at Cheyenne VA Medical Cent',
+    expect(tokens.get('DESCRIPTION')).to.equal(
+      'You have a health care appointment at Cheyenne VA Medical Cent',
     );
-    expect(tokens[7]).to.equal('\ter');
-    expect(tokens[8]).to.equal('\t\\n\\n2360 East Pershing Boulevard\\n');
-    expect(tokens[9]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
-    expect(tokens[10]).to.equal('\t307-778-7550\\n');
-    expect(tokens[11]).to.equal(
-      '\t\\nSign in to VA.gov to get details about this appointment\\n',
+    expect(tokens.get('FORMATTED_TEXT')).to.equal(
+      '\ter\t\\n\\n2360 East Pershing Boulevard\\n\tCheyenne\\, WY 82001-5356\\n\t307-778-7550\\n\t\\nSign in to VA.gov to get details about this appointment\\n',
     );
-
-    expect(tokens[12]).to.equal(
-      'LOCATION:2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
+    expect(tokens.get('LOCATION')).to.equal(
+      '2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
     );
-    expect(tokens[13]).to.equal(
-      `DTSTAMP:${moment(start)
+    expect(tokens.get('DTSTAMP')).to.equal(
+      `${moment(start)
         .tz('America/Denver', true) // Only change the timezone and not the time
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[14]).to.equal(
-      `DTSTART:${moment(start)
+    expect(tokens.get('DTSTART')).to.equal(
+      `${moment(start)
         .tz('America/Denver', true) // Only change the timezone and not the time
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[15]).to.equal(
-      `DTEND:${moment(start)
+    expect(tokens.get('DTEND')).to.equal(
+      `${moment(start)
         .tz('America/Denver', true) // Only change the timezone and not the time
         .utc()
         .add(30, 'minutes')
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[16]).to.equal('END:VEVENT');
-    expect(tokens[17]).to.equal('END:VCALENDAR');
+    expect(tokens.get('END').includes('VEVENT')).to.be.true;
+    expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
   });
 });

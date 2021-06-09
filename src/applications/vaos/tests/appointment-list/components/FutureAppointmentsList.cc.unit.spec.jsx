@@ -7,6 +7,7 @@ import { renderWithStoreAndRouter } from '../../mocks/setup';
 import { mockFetch } from 'platform/testing/unit/helpers';
 
 import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
+import { getICSTokens } from '../../../components/AddToCalendar';
 
 const initialState = {
   featureToggles: {
@@ -194,55 +195,44 @@ describe('VAOS integration: upcoming CC appointments', () => {
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
-    const tokens = ics.split('\r\n');
+    const tokens = getICSTokens(ics);
 
-    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
-    expect(tokens[1]).to.equal('VERSION:2.0');
-    expect(tokens[2]).to.equal('PRODID:VA');
-    expect(tokens[3]).to.equal('BEGIN:VEVENT');
-    expect(tokens[4]).to.contain('UID:');
+    expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('VERSION')).to.equal('2.0');
+    expect(tokens.get('PRODID')).to.equal('VA');
+    expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+    expect(tokens.has('UID')).to.be.true;
 
     // TODO: Should this be provider practice instead of name???
-    expect(tokens[5]).to.equal('SUMMARY:Appointment at Jane Doctor');
+    expect(tokens.get('SUMMARY')).to.equal('Appointment at Jane Doctor');
 
     // The description text longer than 74 characters should start newlines with a tab character
-    expect(tokens[6]).to.equal(
-      'DESCRIPTION:You have a health care appointment with a community care provi',
+    expect(tokens.get('DESCRIPTION')).to.equal(
+      'You have a health care appointment with a community care provi',
     );
-    expect(tokens[7]).to.equal(
-      '\tder. Please don’t go to your local VA health facility.',
+    expect(tokens.get('FORMATTED_TEXT')).to.equal(
+      '\tder. Please don’t go to your local VA health facility.\t\\n\\nJane Doctor\t\\n123 Big Sky st\\n\tBozeman\\, MT 59715\\n\t4065555555\\n\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo\tintments to get details about this appointment\\n',
     );
-    expect(tokens[8]).to.equal('\t\\n\\nJane Doctor');
-    expect(tokens[9]).to.equal('\t\\n123 Big Sky st\\n');
-    expect(tokens[10]).to.equal('\tBozeman\\, MT 59715\\n');
-    expect(tokens[11]).to.equal('\t4065555555\\n');
-    expect(tokens[12]).to.equal(
-      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    expect(tokens.get('LOCATION')).to.equal(
+      '123 Big Sky st\\, Bozeman\\, MT 59715',
     );
-    expect(tokens[13]).to.equal(
-      '\tintments to get details about this appointment\\n',
-    );
-
-    expect(tokens[14]).to.equal(
-      'LOCATION:123 Big Sky st\\, Bozeman\\, MT 59715',
-    );
-    expect(tokens[15]).to.equal(
-      `DTSTAMP:${moment(appointment.attributes.appointmentTime)
+    expect(tokens.get('DTSTAMP')).to.equal(
+      `${moment(appointment.attributes.appointmentTime)
         // .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[16]).to.equal(
-      `DTSTART:${moment(appointment.attributes.appointmentTime)
+    expect(tokens.get('DTSTART')).to.equal(
+      `${moment(appointment.attributes.appointmentTime)
         // .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[17]).to.equal(
-      `DTEND:${moment(appointment.attributes.appointmentTime)
+    expect(tokens.get('DTEND')).to.equal(
+      `${moment(appointment.attributes.appointmentTime)
         .add(60, 'minutes')
         // .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[18]).to.equal('END:VEVENT');
-    expect(tokens[19]).to.equal('END:VCALENDAR');
+    expect(tokens.get('END').includes('VEVENT')).to.be.true;
+    expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
   });
 });
