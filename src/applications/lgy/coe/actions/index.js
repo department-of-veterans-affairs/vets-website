@@ -10,6 +10,11 @@ const mockApiCall = () => {
       resolve({ coe: true });
     }, 2000);
   });
+  //   return new Promise(reject => {
+  //     setTimeout(() => {
+  //       reject({ errors: [{ status: '500' }] });
+  //     }, 2000);
+  //   });
 };
 
 export const generateCoe = () => async dispatch => {

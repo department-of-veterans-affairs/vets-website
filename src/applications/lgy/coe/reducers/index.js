@@ -13,6 +13,7 @@ import {
 const initialState = {
   generateAutoCoeStatus: CALLSTATUS.idle,
   coe: null,
+  errors: null,
 };
 
 const certificateOfEligibility = (state = initialState, action) => {
@@ -25,7 +26,7 @@ const certificateOfEligibility = (state = initialState, action) => {
       return {
         ...state,
         generateAutoCoeStatus: CALLSTATUS.failed,
-        errors: action.reponse.errors,
+        errors: action.response.errors,
       };
     case GENERATE_AUTOMATIC_COE_SUCCEEDED:
       return {

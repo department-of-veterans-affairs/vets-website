@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 import { FormApplicationSteps } from '../components/FormApplicationSteps';
@@ -14,8 +13,6 @@ function IntroductionPage(props) {
 
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Apply for Certificate of Eligibility" />
-      <p>Equal to VA Form 26-1880 (Apply for Certificate of Eligibility).</p>
       <SaveInProgressIntro
         prefillEnabled={props.route.formConfig.prefillEnabled}
         messages={props.route.formConfig.savedFormMessages}

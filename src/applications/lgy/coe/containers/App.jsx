@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { isLoggedIn } from 'platform/user/selectors';
+import FormFooter from 'platform/forms/components/FormFooter';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
 import formConfig from '../config/form';
@@ -37,24 +39,32 @@ function App(props) {
     [hasSavedForm],
   );
 
+  let content;
+
   if (generateAutoCoeStatus === CALLSTATUS.idle) {
-    return <LoadingIndicator message="Loading application..." />;
+    content = <LoadingIndicator message="Loading application..." />;
+  } else if (generateAutoCoeStatus === CALLSTATUS.pending) {
+    content = (
+      <LoadingIndicator message="Checking automatic COE eligibility..." />
+    );
+  } else if (generateAutoCoeStatus === CALLSTATUS.success) {
+    content = <CertificateDownload />;
+  } else {
+    content = (
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    );
   }
-
-  // if status is 'pending' show a loading indicator
-  if (generateAutoCoeStatus === CALLSTATUS.pending) {
-    return <LoadingIndicator message="Checking automatic COE eligibility..." />;
-  }
-
-  // if status is 'success' show them certificate download
-  if (generateAutoCoeStatus === CALLSTATUS.success) {
-    return <CertificateDownload />;
-  }
-
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <>
+      <header className="row">
+        <FormTitle title="Apply for a VA home loan Certificate of Eligibility" />
+        <p>Request for a Certificate of Eligibility (VA Form 26-1880)</p>
+      </header>
+      {content}
+      <FormFooter formConfig={formConfig} />
+    </>
   );
 }
 
