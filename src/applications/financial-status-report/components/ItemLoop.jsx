@@ -108,7 +108,7 @@ const InputSection = ({
         <div className="small-12 columns">
           {items?.length &&
             uiSchema['ui:options'].itemName && (
-              <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0 vads-u-margin-top--2">
+              <h3 className="vads-u-font-size--h5 vads-u-margin-top--2">
                 {titlePrefix} {uiSchema['ui:options'].itemName}
               </h3>
             )}
