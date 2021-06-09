@@ -1,6 +1,7 @@
 // Node modules.
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
 import {
@@ -95,7 +96,7 @@ const deriveRelatedTo = ({
 
   if (relatedTo) {
     return (
-      <dd className="vads-u-margin-y--1 vads-u-margin-y--1">
+      <dd className="vads-u-margin-top--1 vads-u-margin-bottom--2">
         <dfn className="vads-u-font-weight--bold">Related to:</dfn> {relatedTo}
       </dd>
     );
@@ -104,7 +105,7 @@ const deriveRelatedTo = ({
   return null;
 };
 
-const SearchResult = ({ form, formMetaInfo }) => {
+const SearchResult = ({ form, formMetaInfo, useSearchUIUXEnhancements }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
     return null;
@@ -142,56 +143,124 @@ const SearchResult = ({ form, formMetaInfo }) => {
   const recordGAEvent = (eventTitle, eventUrl, eventType) =>
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
-  return (
-    <>
-      <FormTitle
-        id={id}
-        formUrl={formDetailsUrl}
-        lang={language}
-        title={title}
-        recordGAEvent={recordGAEvent}
-      />
-      <dd className="vads-u-margin-y--1 vads-u-margin-y--1 vsa-from-last-updated">
-        <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
-        {lastRevision}
-      </dd>
+  if (useSearchUIUXEnhancements) {
+    return (
+      <>
+        <FormTitle
+          id={id}
+          formUrl={formDetailsUrl}
+          lang={language}
+          title={title}
+          recordGAEvent={recordGAEvent}
+          useSearchUIUXEnhancements={useSearchUIUXEnhancements}
+        />
+        <dd className="vads-u-margin-y--1 vsa-from-last-updated">
+          <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
+          {lastRevision}
+        </dd>
 
-      {relatedTo}
-      <dd className="vads-u-margin-bottom--1">
-        <a
-          href={url}
-          rel="noreferrer noopener"
-          onClick={() =>
-            recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf')
-          }
-          {...linkProps}
-        >
-          Download VA form {id} {pdfLabel}
-        </a>
-      </dd>
-      {formToolUrl ? (
-        <dd>
+        {relatedTo}
+        {formToolUrl ? (
+          <dd className="vads-u-margin-bottom--2p5">
+            <a
+              className="find-forms-max-content vads-u-display--flex vads-u-align-items--center vads-u-text-decoration--none"
+              href={formToolUrl}
+              onClick={() =>
+                recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
+              }
+            >
+              <i
+                aria-hidden="true"
+                className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
+                pointerEvents="none"
+                role="presentation"
+              />
+              <span className="vads-u-text-decoration--underline">
+                Go to online tool
+              </span>
+              <span className="vads-u-visibility--screen-reader">
+                for {id} {title}
+              </span>
+            </a>
+          </dd>
+        ) : null}
+        <dd className="vads-u-margin-bottom--3">
           <a
-            className="usa-button usa-button-secondary vads-u-margin-bottom--3"
-            href={formToolUrl}
+            className="find-forms-max-content vads-u-text-decoration--none"
+            href={url}
+            rel="noreferrer noopener"
             onClick={() =>
-              recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
+              recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf')
             }
+            {...linkProps}
           >
-            Go to online tool{' '}
-            <span className="vads-u-visibility--screen-reader">
-              for {id} {title}
+            <i
+              aria-hidden="true"
+              className="fas fa-download fa-lg vads-u-margin-right--1"
+              pointerEvents="none"
+              role="presentation"
+            />
+            <span className="vads-u-text-decoration--underline">
+              Download VA form {id} {pdfLabel}
             </span>
           </a>
         </dd>
-      ) : null}
-    </>
-  );
+      </>
+    );
+  } else {
+    return (
+      <>
+        <FormTitle
+          id={id}
+          formUrl={formDetailsUrl}
+          lang={language}
+          title={title}
+          recordGAEvent={recordGAEvent}
+          useSearchUIUXEnhancements={useSearchUIUXEnhancements}
+        />
+        <dd className="vads-u-margin-y--1 vads-u-margin-y--1 vsa-from-last-updated">
+          <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
+          {lastRevision}
+        </dd>
+
+        {relatedTo}
+        <dd className="vads-u-margin-bottom--1">
+          <a
+            href={url}
+            rel="noreferrer noopener"
+            onClick={() =>
+              recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf')
+            }
+            {...linkProps}
+          >
+            Download VA form {id} {pdfLabel}
+          </a>
+        </dd>
+        {formToolUrl ? (
+          <dd>
+            <a
+              className="usa-button usa-button-secondary vads-u-margin-bottom--3"
+              href={formToolUrl}
+              onClick={() =>
+                recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
+              }
+            >
+              Go to online tool{' '}
+              <span className="vads-u-visibility--screen-reader">
+                for {id} {title}
+              </span>
+            </a>
+          </dd>
+        ) : null}
+      </>
+    );
+  }
 };
 
 SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
+  useSearchUIUXEnhancements: PropTypes.bool,
 };
 
 export default SearchResult;

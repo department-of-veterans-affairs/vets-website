@@ -15,9 +15,9 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
 import Select from '../../../components/Select';
-import ScheduleNewAppointmentRadioButtons from '../ScheduleNewAppointmentRadioButtons';
+import ScheduleNewAppointment from '../ScheduleNewAppointment';
 
-const pageTitle = 'VA appointments';
+const pageTitle = 'VA online scheduling';
 
 const DROPDOWN_VALUES = {
   upcoming: 'upcoming',
@@ -85,7 +85,7 @@ export default function AppointmentsPageV2() {
 
   return (
     <>
-      <h1 className="vads-u-flex--1">{pageTitle}</h1>
+      <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5">{pageTitle}</h1>
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady
@@ -94,7 +94,7 @@ export default function AppointmentsPageV2() {
           <WarningNotification {...props}>{childContent}</WarningNotification>
         )}
       />
-      {showScheduleButton && <ScheduleNewAppointmentRadioButtons />}
+      {showScheduleButton && <ScheduleNewAppointment />}
       <h2 className="vads-u-margin-y--3">Your appointments</h2>
       <label
         htmlFor="type-dropdown"
