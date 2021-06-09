@@ -42,6 +42,8 @@ const testConfig = createTestConfig(
 
       cy.login(mockUser);
 
+      cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
+
       cy.intercept(
         'GET',
         `/v0${CONTESTABLE_ISSUES_API}compensation`,

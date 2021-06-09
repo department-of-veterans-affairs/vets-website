@@ -38,6 +38,7 @@ const checkOpt = {
 describe('HLR wizard', () => {
   beforeEach(() => {
     window.dataLayer = [];
+    cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}*`, []);
     sessionStorage.removeItem(WIZARD_STATUS);
     cy.visit(BASE_URL);
