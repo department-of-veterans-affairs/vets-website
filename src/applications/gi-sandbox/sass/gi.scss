@@ -30,6 +30,32 @@
       padding-right: 0.4em;
     }
   }
+  .use-my-location-container{
+    margin-left: 21em;
+  }
+  .use-my-location-link {
+    text-decoration: none;
+    background-color: transparent;
+    color: $color-link-default;
+    font-weight: normal;
+    padding: 0;
+    margin: 0 0 0 20px;
+
+    @media (max-width: $small-desktop-screen) {
+      margin: 1em 0;
+      text-align: left;
+    }
+  }
+
+  .use-my-location-button {
+    width: 18px;
+    height: 18px;
+    background-image: url("/img/location-arrow-solid.svg");
+    background-repeat: no-repeat;
+    background-color: transparent;
+    padding: 0 1.5em 0 0;
+  }
+
 
   .about-this-tool {
     margin-top: 1em;
