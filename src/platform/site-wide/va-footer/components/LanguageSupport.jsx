@@ -3,15 +3,20 @@ import {
   setLangAttribute,
   adaptLinksWithLangCode,
   onThisPageHook,
+  parseLangCode,
 } from 'applications/static-pages/i18Select/hooks';
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
 
 const langAssistanceLabel = 'Language assistance';
 
-function LanguagesListTemplate({ langSelected }) {
+function LanguagesListTemplate({ dispatchLanguageSelection }) {
   return (
-    <ul>
+    <ul
+      className={
+        'vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0'
+      }
+    >
       {[
         {
           label: 'Español',
@@ -35,7 +40,8 @@ function LanguagesListTemplate({ langSelected }) {
             lang={link.lang}
             hrefLang={link.lang}
             onClick={() => {
-              langSelected(link.lang);
+              dispatchLanguageSelection(link.lang);
+              setLangAttribute(link.lang);
               recordEvent({
                 event: FOOTER_EVENTS.LANGUAGE_SUPPORT,
                 lang: link.lang,
@@ -53,34 +59,30 @@ function LanguagesListTemplate({ langSelected }) {
 export default function LanguageSupport({
   isDesktop,
   showLangSupport,
-  langSelected,
-  languageCode,
+  dispatchLanguageSelection,
 }) {
   useEffect(
     () => {
-      if (langSelected && showLangSupport && languageCode) {
-        adaptLinksWithLangCode(langSelected, languageCode);
-      }
+      const langCode = parseLangCode(document?.location?.pathname);
+      onThisPageHook(langCode);
+      setLangAttribute(langCode);
+      dispatchLanguageSelection(langCode);
+      adaptLinksWithLangCode(dispatchLanguageSelection);
     },
-    [langSelected, languageCode, showLangSupport],
+    [dispatchLanguageSelection, showLangSupport],
   );
 
-  useEffect(
-    () => {
-      if (languageCode && showLangSupport) {
-        setLangAttribute(languageCode);
-        onThisPageHook(languageCode);
-      }
-    },
-    [languageCode, showLangSupport],
-  );
   if (showLangSupport !== true) return null;
 
   if (isDesktop) {
     return (
-      <div className="usa-grid usa-grid-full va-footer-links-bottom">
-        <h2 className="va-footer-linkgroup-title"> {langAssistanceLabel} </h2>
-        <LanguagesListTemplate langSelected={langSelected} />
+      <div className="usa-grid usa-grid-full va-footer-links-bottom vads-u-border-color--white vads-u-border-bottom--1px vads-u-border-top--1px vads-u-padding-top--1p5 vads-u-padding-bottom--1p5 vads-u-padding-left--0">
+        <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">
+          {langAssistanceLabel}
+        </h2>
+        <LanguagesListTemplate
+          dispatchLanguageSelection={dispatchLanguageSelection}
+        />
       </div>
     );
   }
@@ -96,12 +98,14 @@ export default function LanguageSupport({
         {langAssistanceLabel}
       </button>
       <div
-        className="usa-accordion-content va-footer-accordion-content"
+        className="usa-accordion-content va-footer-accordion-content vads-u-padding-bottom--0 vads-u-padding-left--0p5"
         id="veteran-language-support"
         aria-hidden="true"
       >
         <div className="usa-grid usa-grid-full va-footer-links-bottom">
-          <LanguagesListTemplate langSelected={langSelected} />
+          <LanguagesListTemplate
+            dispatchLanguageSelection={dispatchLanguageSelection}
+          />
         </div>
       </div>
     </li>

@@ -12,7 +12,7 @@ const options = [
   },
   {
     value: PAGE_NAMES.appeals,
-    label: 'I want appeal the decision with the board of Veterans Appeals.',
+    label: "I want appeal the decision with the Board of Veterans' Appeals.",
   },
 ];
 

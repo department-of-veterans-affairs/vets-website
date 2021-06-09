@@ -33,13 +33,17 @@ const profile = {
   },
 };
 
-const getData = ({ showNod = true, loggedIn = true } = {}) => ({
+const getData = ({
+  showNod = true,
+  loggedIn = true,
+  mockProfile = profile,
+} = {}) => ({
   props: {
     loggedIn,
     showNod,
     location: { pathname: '/introduction', search: '' },
     children: <div>children</div>,
-    profile,
+    profile: mockProfile,
     formData: {},
     setFormData: () => {},
     getContestableIssues: () => {},
@@ -54,7 +58,7 @@ const getData = ({ showNod = true, loggedIn = true } = {}) => ({
         login: {
           currentlyLoggedIn: loggedIn,
         },
-        profile,
+        profile: mockProfile,
       },
       form: {
         loadedStatus: 'success',
@@ -127,6 +131,28 @@ describe('FormApp', () => {
 
     tree.setProps();
     expect(getIssues.notCalled).to.be.true;
+
+    tree.unmount();
+  });
+  it('should not throw an error if profile is null', () => {
+    const getIssues = sinon.spy();
+    const mockProfile = {
+      vapContactInfo: {
+        email: null,
+        homePhone: null,
+        mobilePhone: null,
+        mailingAddress: null,
+      },
+    };
+    const { props, mockStore } = getData({ mockProfile });
+    const tree = mount(
+      <Provider store={mockStore}>
+        <FormApp {...props} getContestableIssues={getIssues} />,
+      </Provider>,
+    );
+
+    tree.setProps();
+    expect(getIssues.called).to.be.true;
 
     tree.unmount();
   });
