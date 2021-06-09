@@ -172,6 +172,7 @@ const SearchControls = props => {
           ) : (
             <button
               onClick={handleGeolocationButtonClick}
+              type="button"
               className="use-my-location-link"
             >
               <i
