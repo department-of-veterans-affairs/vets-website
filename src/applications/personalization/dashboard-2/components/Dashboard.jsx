@@ -166,9 +166,7 @@ const Dashboard = ({
                 <a href="/" key="home">
                   Home
                 </a>
-                <span className="vads-u-color--black" key="dashboard">
-                  <strong>My VA</strong>
-                </span>
+                <a href="/my-va">My VA</a>
               </Breadcrumbs>
 
               <DashboardHeader />
