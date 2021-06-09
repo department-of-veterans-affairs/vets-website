@@ -16,6 +16,7 @@ import {
 import { getRequestMessages } from '../../services/var';
 
 import {
+  getCommunityProvider,
   getLocation,
   getLocations,
   getLocationSettings,
@@ -432,6 +433,12 @@ export function fetchRequestDetails(id) {
         } catch (e) {
           captureError(e);
         }
+      }
+
+      if (featureVAOSServiceRequests && request.practitioners?.length) {
+        request.provider = await getCommunityProvider(
+          request.practitioners[0].id.value,
+        );
       }
 
       dispatch({

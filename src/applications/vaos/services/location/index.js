@@ -15,6 +15,7 @@ import {
   getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
   getCommunityCareFacilities,
+  getCommunityCareFacility,
 } from '../var';
 import { mapToFHIRErrors } from '../utils';
 import {
@@ -22,6 +23,7 @@ import {
   transformFacilities,
   transformFacility,
   setSupportedSchedulingMethods,
+  transformCommunityProvider,
   transformCommunityProviders,
   transformSettings,
 } from './transformers';
@@ -295,6 +297,19 @@ export async function getCommunityProvidersByTypeOfCare({
     });
 
     return transformCommunityProviders(communityCareProviders);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
+export async function getCommunityProvider(id) {
+  try {
+    const facility = await getCommunityCareFacility(id);
+    return transformCommunityProvider(facility);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
