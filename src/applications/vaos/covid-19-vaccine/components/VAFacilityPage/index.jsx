@@ -263,13 +263,11 @@ function VAFacilityPage({
             className="vads-u-background-color--gold-lightest vads-u-font-size--base"
             level="3"
             content={
-              <>
-                <p>
-                  Make sure your browser’s location feature is turned on. If it
-                  isn’t enabled, we’ll sort your VA facilities using your home
-                  address that’s on file.
-                </p>
-              </>
+              <p>
+                Make sure your browser’s location feature is turned on. If it
+                isn’t enabled, we’ll sort your VA facilities using your home
+                address that’s on file.
+              </p>
             }
           />
         </div>
