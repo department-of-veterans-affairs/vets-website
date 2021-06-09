@@ -15,6 +15,10 @@ describe('Forms library - Forms signature component', () => {
     required: false,
   };
 
+  const checkboxErrorText =
+    'Please check the box to certify the information is correct';
+  const inputErrorText = 'Please enter your name';
+
   describe('signature input', () => {
     it('should render input with default label', () => {
       const { getByLabelText } = render(<FormSignature {...signatureProps} />);
@@ -71,16 +75,16 @@ describe('Forms library - Forms signature component', () => {
       const { getByText } = render(
         <FormSignature {...signatureProps} required />,
       );
-      expect(getByText(/Please sign your name/)).to.exist;
-      expect(getByText(/Must certify by checking box/)).to.exist;
+      expect(getByText(inputErrorText)).to.exist;
+      expect(getByText(checkboxErrorText)).to.exist;
     });
 
     it('should not show validation errors when showErrors is false', () => {
       const { queryByText } = render(
         <FormSignature {...signatureProps} showError={false} required />,
       );
-      expect(queryByText(/Please sign your name/)).to.not.exist;
-      expect(queryByText(/Must certify by checking box/)).to.not.exist;
+      expect(queryByText(inputErrorText)).to.not.exist;
+      expect(queryByText(checkboxErrorText)).to.not.exist;
     });
 
     it('should dismiss validation errors after resolution', () => {
@@ -91,8 +95,8 @@ describe('Forms library - Forms signature component', () => {
       userEvent.click(
         queryByText(/I certify the information above is correct/),
       );
-      expect(queryByText(/Please sign your name/)).to.not.exist;
-      expect(queryByText(/Must certify by checking box/)).to.not.exist;
+      expect(queryByText(inputErrorText)).to.not.exist;
+      expect(queryByText(checkboxErrorText)).to.not.exist;
     });
 
     it('should perform data validations if present', () => {

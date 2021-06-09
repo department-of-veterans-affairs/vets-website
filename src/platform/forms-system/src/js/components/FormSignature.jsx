@@ -60,7 +60,7 @@ export const FormSignature = ({
         if (required)
           validations.unshift(
             signatureValue =>
-              !signatureValue ? 'Please sign your name' : undefined,
+              !signatureValue ? 'Please enter your name' : undefined,
           );
 
         // First validation error in the array gets displayed
@@ -79,7 +79,9 @@ export const FormSignature = ({
     useEffect(
       () => {
         setCheckboxError(
-          required && !checked ? 'Must certify by checking box' : null,
+          required && !checked
+            ? 'Please check the box to certify the information is correct'
+            : null,
         );
       },
       [required, checked],
