@@ -6,7 +6,6 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 import { mockContestableIssues } from './hlr.cypress.helpers';
-import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUser from './fixtures/mocks/user.json';
@@ -42,8 +41,6 @@ const testConfig = createTestConfig(
       window.sessionStorage.removeItem(WIZARD_STATUS);
 
       cy.login(mockUser);
-
-      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
 
       cy.intercept(
         'GET',
