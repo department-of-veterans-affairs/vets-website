@@ -16,10 +16,16 @@ const CheckIn = props => {
       <h1>Your appointment</h1>
       <dl className="appointment-summary">
         <dd
+          className="appointment-details vads-u-font-weight--bold"
+          data-testid="appointment-date"
+        >
+          Friday, September 25, 2020
+        </dd>
+        <dd
           className="appointment-details vads-u-font-weight--bold vads-u-margin-bottom--3"
           data-testid="appointment-time"
         >
-          Friday, September 25, 2020 9:30 a.m. ET
+          9:30 a.m. ET
         </dd>
         <dt className="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--1">
           Clinic:{' '}
