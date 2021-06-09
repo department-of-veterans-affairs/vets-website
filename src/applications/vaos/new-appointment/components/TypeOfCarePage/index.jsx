@@ -18,7 +18,11 @@ import {
 import { selectTypeOfCarePage } from '../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
-import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
+import {
+  COVID_VACCINE_ID,
+  PODIATRY_ID,
+  TYPES_OF_CARE,
+} from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 
 const pageKey = 'typeOfCare';
@@ -34,6 +38,7 @@ export default function TypeOfCarePage() {
     showCommunityCare,
     showDirectScheduling,
     showPodiatryApptUnavailableModal,
+    featureCovid19Vaccine,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
   const history = useHistory();
   const showUpdateAddressAlert =
@@ -53,7 +58,9 @@ export default function TypeOfCarePage() {
   const { data, schema, setData, uiSchema } = useFormState({
     initialSchema: () => {
       const sortedCare = TYPES_OF_CARE.filter(
-        typeOfCare => typeOfCare.id !== PODIATRY_ID || showCommunityCare,
+        typeOfCare =>
+          (typeOfCare.id !== PODIATRY_ID || showCommunityCare) &&
+          (featureCovid19Vaccine || typeOfCare.id !== COVID_VACCINE_ID),
       ).sort(
         (careA, careB) =>
           careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
