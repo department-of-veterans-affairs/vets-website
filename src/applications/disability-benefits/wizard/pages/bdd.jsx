@@ -87,7 +87,7 @@ const isDateInFuture = date => date?.diff(moment()) > 0;
 const isDateLessThanMax = date => date?.isBefore(maxDate);
 
 const BDDPage = ({ setPageState, state = defaultState }) => {
-  const [isNotEligible, setIsNotEligible] = useState(false);
+  const [ariaDescribedby, setAriaDescribedby] = useState('');
 
   const onChange = pageState => {
     saveDischargeDate();
@@ -96,7 +96,12 @@ const BDDPage = ({ setPageState, state = defaultState }) => {
       isDateInFuture(date) && isDateLessThanMax(date)
         ? findNextPage(pageState)
         : null;
+
+    // invalid date & page
+    setPageState(pageState, date && value === null ? 1 : value);
     if (date && value) {
+      // only set when there's a valid date
+      setAriaDescribedby(value);
       recordEvent({
         event: 'howToWizard-formChange',
         // Date component wrapper class name
@@ -104,14 +109,13 @@ const BDDPage = ({ setPageState, state = defaultState }) => {
         'form-field-label': label,
         'form-field-value': date.format('YYYY-MM-DD'),
       });
+    } else {
+      setAriaDescribedby('');
     }
-    // invalid date & page
-    setPageState(pageState, date && value === null ? 1 : value);
-    setIsNotEligible(value === pageNames.unableToFileBDD);
   };
 
   return (
-    <div className="clearfix">
+    <div id={pageNames.bdd} className="clearfix vads-u-margin-top--2">
       <Date
         label={label}
         onValueChange={onChange}
@@ -121,7 +125,7 @@ const BDDPage = ({ setPageState, state = defaultState }) => {
           valid: isDateInFuture(getDate(state)),
           message: 'Your separation date must be in the future',
         }}
-        aria-describedby={isNotEligible ? 'not-eligible-for-bdd' : ''}
+        ariaDescribedby={ariaDescribedby}
       />
     </div>
   );
