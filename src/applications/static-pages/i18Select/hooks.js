@@ -46,13 +46,17 @@ export const adaptLinksWithLangCode = setLangAttributeInReduxStore => {
       // which is preserved
       // and can differ from the lang attribute on div#content
 
+      let langAttribute = link.lang || link.hreflang;
+
+      // the CMS should really be inputting the correct lang code here, but ¯\_(ツ)_/¯
+      const correctLangAttribute = parseLangCode(link.href);
+
+      if (correctLangAttribute !== langAttribute) {
+        langAttribute = correctLangAttribute;
+        link.setAttribute('lang', langAttribute);
+      }
       link.addEventListener('click', () => {
-        const langAttribute = link.lang || link.hreflang;
-        if (langAttribute) {
-          return setLangAttributeInReduxStore(langAttribute);
-        } else {
-          return setLangAttributeInReduxStore(parseLangCode(link.href));
-        }
+        setLangAttributeInReduxStore(langAttribute);
       });
     }
   }
