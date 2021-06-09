@@ -10,7 +10,10 @@ const FileClaimPage = ({ setWizardStatus }) => {
   const linkText = 'Learn about other ways you can file a disability claim';
 
   return (
-    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
+    <div
+      id={pageNames.fileClaim}
+      className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2"
+    >
       <p className="vads-u-margin-top--0">
         Based on your responses, you’ll file for disability benefits using{' '}
         <strong>VA Form 21-526EZ</strong>.
