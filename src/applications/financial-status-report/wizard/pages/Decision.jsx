@@ -11,11 +11,11 @@ const options = [
   },
   {
     value: 'error',
-    label: 'I this this debt is due to an error.',
+    label: 'I think this debt is due to an error.',
   },
   {
     value: 'wrong',
-    label: 'I think the amout of this debt is wrong.',
+    label: 'I think the amount of this debt is wrong.',
   },
 ];
 

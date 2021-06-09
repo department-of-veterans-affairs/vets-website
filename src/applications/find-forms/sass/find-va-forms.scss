@@ -9,15 +9,35 @@
   .find-va-froms-pagination-override {
     border: none;
   }
+
+  .find-forms-search-metadata {
+    div {
+      align-items: center;
+      display: flex;
+      label {
+        margin-top: 0;
+        width: 75px;
+      }
+    }
+  }
+
+  .find-forms-max-content {
+    width: max-content;
+  }
+
+  dl dt:first-of-type {
+    border-width: 1px 0 0 0;
+    border-color: $color-gray-lighter;
+    border-style: solid;
+  }
 }
 
-.find-forms-search-metadata {
-  div {
-    align-items: center;
-    display: flex;
-    label {
-      margin-top: 0;
-      width: 75px;
+@media (min-width: $medium-screen) {
+  [data-widget-type="find-va-forms"] {
+    [data-e2e-id="find-form-search-form"] {
+      .find-form-button {
+        border-radius: 0px;
+      }
     }
   }
 }
