@@ -41,6 +41,8 @@ module.exports = function(results) {
         } file=${filePath},line=${msg.line},col=${msg.column}::${filePath}:${msg.line}:${msg.column}:${msg.message}`;
       })
       .join('\n');
+  } else {
+    output = 'No warning or errors detected!';
   }
 
   return `${output} \n`;

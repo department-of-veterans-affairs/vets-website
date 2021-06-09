@@ -13,11 +13,16 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
-    // Select COVID-19 vaccine appointment type
-    cy.get('#schedule-new-appointment-1').click();
-
     // Start flow
     cy.findByText('Start scheduling').click();
+
+    // Select COVID-19 vaccine appointment type
+    cy.get('input[value="covid"]')
+      .focus()
+      .check();
+
+    // Start vaccine flow
+    cy.findByText(/Continue/).click();
 
     // Plan ahead page
     cy.url().should('include', '/new-covid-19-vaccine-appointment');
@@ -114,11 +119,16 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
 
-    // Select COVID-19 vaccine appointment type
-    cy.get('#schedule-new-appointment-1').click();
-
     // Start flow
     cy.findByText('Start scheduling').click();
+
+    // Select COVID-19 vaccine appointment type
+    cy.get('input[value="covid"]')
+      .focus()
+      .check();
+
+    // Start vaccine flow
+    cy.findByText(/Continue/).click();
 
     // Plan ahead page
     cy.url().should('include', '/new-covid-19-vaccine-appointment');
@@ -215,11 +225,16 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.injectAxe();
     cy.get('.va-modal-body button').click();
     cy.findAllByRole('tab').should('exist');
-    // Select COVID-19 vaccine appointment type
-    cy.get('#schedule-new-appointment-1').click();
-
     // Start flow
     cy.findByText('Start scheduling').click();
+
+    // Select COVID-19 vaccine appointment type
+    cy.get('input[value="covid"]')
+      .focus()
+      .check();
+
+    // Start vaccine flow
+    cy.findByText(/Continue/).click();
 
     // Plan ahead page
     cy.url().should('include', '/new-covid-19-vaccine-appointment');

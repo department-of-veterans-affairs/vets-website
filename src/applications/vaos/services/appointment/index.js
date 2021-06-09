@@ -29,10 +29,18 @@ import {
   GA_PREFIX,
 } from '../../utils/constants';
 import { formatFacilityAddress, getFacilityPhone } from '../location';
-import { transformVAOSAppointment } from './transformers.vaos';
+import { transformVAOSAppointment } from './transformers.v2';
 import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
+import {
+  getTimezoneAbbrBySystemId,
+  getTimezoneBySystemId,
+  getTimezoneNameFromAbbr,
+  getUserTimezone,
+  getUserTimezoneAbbr,
+  stripDST,
+} from '../../utils/timezone';
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
@@ -815,4 +823,51 @@ export function getCalendarData({ appointment, facility }) {
   }
 
   return data;
+}
+
+/**
+ * Returns an object with timezone identifiers for a given appointment
+ *
+ * @export
+ * @param {Appointment} appointment The appointment to get a timezone for
+ * @returns {Object} An object with:
+ *   - identifier: The full timezone identifier (like America/New_York)
+ *   - abbreviation: The timezone abbreviation (e.g. ET)
+ *   - description: The written out description (e.g. Eastern time)
+ */
+export function getAppointmentTimezone(appointment) {
+  // Most VA appointments will use this, since they're associated with a facility
+  if (appointment.location.vistaId) {
+    const abbreviation = getTimezoneAbbrBySystemId(
+      appointment.location.vistaId,
+    );
+
+    return {
+      identifier: getTimezoneBySystemId(appointment.location.vistaId)
+        ?.currentTZ,
+      abbreviation,
+      description: getTimezoneNameFromAbbr(abbreviation),
+    };
+  }
+
+  // Community Care appointments with timezone included
+  if (appointment.vaos.timeZone) {
+    const abbreviation = stripDST(
+      appointment.vaos.timeZone?.split(' ')?.[1] || appointment.vaos.timeZone,
+    );
+
+    return {
+      identifier: null,
+      abbreviation,
+      description: getTimezoneNameFromAbbr(abbreviation),
+    };
+  }
+
+  // Everything else will use the local timezone
+  const abbreviation = stripDST(getUserTimezoneAbbr());
+  return {
+    identifier: getUserTimezone(),
+    abbreviation,
+    description: getTimezoneNameFromAbbr(abbreviation),
+  };
 }
