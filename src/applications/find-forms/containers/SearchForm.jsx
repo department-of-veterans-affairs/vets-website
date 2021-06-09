@@ -7,6 +7,7 @@ import URLSearchParams from 'url-search-params';
 import {
   getFindFormsAppState,
   applyLighthouseFormsSearchLogic,
+  applySearchUIUXEnhancements,
 } from '../helpers/selectors';
 import { fetchFormsThunk } from '../actions';
 
@@ -14,6 +15,7 @@ export const SearchForm = ({
   fetchForms,
   fetching,
   useLighthouseSearchAlgo,
+  useSearchUIUXEnhancements,
 }) => {
   // Derive the current query params.
   const queryParams = new URLSearchParams(window.location.search);
@@ -42,38 +44,82 @@ export const SearchForm = ({
     fetchForms(queryState, { useLighthouseSearchAlgo });
   };
 
-  return (
-    <form
-      data-e2e-id="find-form-search-form"
-      className="vads-l-grid-container vads-u-padding--2 medium-screen:vads-u-padding--4 vads-u-background-color--gray-lightest vads-u-margin-bottom--4"
-      name="find-va-form"
-      onSubmit={onSubmitHandler}
-    >
-      <label htmlFor="va-form-query" className="vads-u-margin--0">
-        Enter a keyword, form name, or number
-      </label>
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-u-margin-right--2 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
-          <input
-            className="usa-input vads-u-max-width--100 vads-u-width--full"
-            id="va-form-query"
-            onChange={onQueryChange}
-            type="text"
-            value={queryState}
-          />
+  if (useSearchUIUXEnhancements) {
+    return (
+      <form
+        data-e2e-id="find-form-search-form"
+        className="vads-l-grid-container vads-u-padding--3 vads-u-background-color--gray-lightest vads-u-margin-bottom--4"
+        name="find-va-form"
+        onSubmit={onSubmitHandler}
+      >
+        <label
+          htmlFor="va-form-query"
+          className="vads-u-margin--0 vads-u-margin-bottom--1"
+        >
+          Enter a keyword, form name, or number
+        </label>
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
+            <input
+              className="usa-input vads-u-margin--0 vads-u-margin-bottom--2 vads-u-max-width--100 vads-u-width--full medium-screen:vads-u-margin-bottom--0"
+              id="va-form-query"
+              onChange={onQueryChange}
+              type="text"
+              value={queryState}
+            />
+          </div>
+          <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto">
+            <button
+              className="usa-button vads-u-margin--0 vads-u-width--full vads-u-height--full find-form-button medium-screen:vads-u-width--auto"
+              type="submit"
+              disabled={fetching}
+            >
+              <i
+                aria-hidden="true"
+                className="fas fa-search vads-u-margin-right--0p5"
+                pointerEvents="none"
+                role="presentation"
+              />
+              Search
+            </button>
+          </div>
         </div>
-        <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto">
-          <button
-            className="usa-button vads-u-margin--0 vads-u-margin-y--1 vads-u-width--full medium-screen:vads-u-width--auto"
-            type="submit"
-            disabled={fetching}
-          >
-            Search
-          </button>
+      </form>
+    );
+  } else {
+    return (
+      <form
+        data-e2e-id="find-form-search-form"
+        className="vads-l-grid-container vads-u-padding--2 medium-screen:vads-u-padding--4 vads-u-background-color--gray-lightest vads-u-margin-bottom--4"
+        name="find-va-form"
+        onSubmit={onSubmitHandler}
+      >
+        <label htmlFor="va-form-query" className="vads-u-margin--0">
+          Enter a keyword, form name, or number
+        </label>
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-u-margin-right--2 medium-screen:vads-u-flex--1 medium-screen:vads-u-width--auto">
+            <input
+              className="usa-input vads-u-max-width--100 vads-u-width--full"
+              id="va-form-query"
+              onChange={onQueryChange}
+              type="text"
+              value={queryState}
+            />
+          </div>
+          <div className="vads-l-col--12 medium-screen:vads-u-flex--auto medium-screen:vads-u-width--auto">
+            <button
+              className="usa-button vads-u-margin--0 vads-u-margin-y--1 vads-u-width--full medium-screen:vads-u-width--auto"
+              type="submit"
+              disabled={fetching}
+            >
+              Search
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
-  );
+      </form>
+    );
+  }
 };
 
 SearchForm.propTypes = {
@@ -87,6 +133,7 @@ SearchForm.propTypes = {
 const mapStateToProps = state => ({
   fetching: getFindFormsAppState(state).fetching,
   useLighthouseSearchAlgo: applyLighthouseFormsSearchLogic(state),
+  useSearchUIUXEnhancements: applySearchUIUXEnhancements(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -258,7 +258,7 @@
   },
   "private": true,
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "2.5.3",
+    "@department-of-veterans-affairs/component-library": "2.5.5",
     "@department-of-veterans-affairs/formation": "6.16.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.0.0",
     "@formatjs/intl-datetimeformat": "^3.2.7",
@@ -315,6 +315,7 @@
     "recompose": "^0.30.0",
     "redux": "^4.0.5",
     "redux-localstorage": "^0.4.1",
+    "redux-mock-store": "^1.5.4",
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.7",
     "reselect": "^2.5.4",
@@ -336,6 +337,7 @@
     "**/http-proxy": "^1.18.1",
     "**/hosted-git-info": "^3.0.8",
     "**/node-forge": "^0.10.0",
+    "**/normalize-url": "^6.0.1",
     "**/axios": "^0.21.1",
     "**/elliptic": "^6.5.4",
     "**/netmask": "^2.0.1",
@@ -348,6 +350,7 @@
     "**/underscore": "^1.12.1",
     "**/url-parse": "^1.5.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
+    "**/meow": "^9.0.0",
     "nightwatch/**/lodash.defaultsdeep": "^4.6.1",
     "web-components/**/postcss": "^8.2.10"
   }
