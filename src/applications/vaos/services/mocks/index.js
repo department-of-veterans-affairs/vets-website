@@ -137,6 +137,12 @@ const responses = {
   },
   'GET /v1/facilities/va': facilityData,
   'GET /v1/facilities/ccp': ccProviders,
+  'GET /v1/facilities/ccp/:id': (req, res) => {
+    const provider = ccProviders.data.find(p => p.id === req.params.id);
+    return res.json({
+      data: provider,
+    });
+  },
   'GET /vaos/v0/facilities/:id/available_appointments': varSlots,
   'GET /vaos/v0/facilities/:id/cancel_reasons': cancelReasons,
   'GET /vaos/v0/request_eligibility_criteria': requestEligibilityCriteria,
