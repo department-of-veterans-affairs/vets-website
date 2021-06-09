@@ -29,6 +29,7 @@ const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => {
   const dateOfLastBDDEligibility = moment()
     .add(daysRemainingToFileBDD, 'days')
     .format('MMMM D, YYYY');
+  const daysLeft = `day${daysRemainingToFileBDD > 1 ? 's' : ''} left`;
 
   return (
     <div
@@ -49,13 +50,13 @@ const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => {
               </>
             ) : (
               <>
-                You have <b>{daysRemainingToFileBDD}</b> day(s) left
+                You have <b>{daysRemainingToFileBDD}</b> {daysLeft}
               </>
             )}{' '}
             to file a BDD claim. You have until{' '}
             <strong>
-              {isLastDayToFileBDD ? '' : dateOfLastBDDEligibility}
-              {' at 11:59 p.m. CST'}
+              {isLastDayToFileBDD ? '' : `${dateOfLastBDDEligibility} at `}
+              {' 11:59 p.m. CST'}
             </strong>{' '}
             to complete and submit the form.
           </p>
