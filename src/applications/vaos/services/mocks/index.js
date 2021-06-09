@@ -228,7 +228,7 @@ const responses = {
             },
             {
               facility_id: '984',
-              is_cerner: true,
+              is_cerner: false,
             },
           ],
         },
