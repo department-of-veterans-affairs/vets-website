@@ -32,8 +32,8 @@ const FileBDDClaim = ({ getPageStateFromPageName, setWizardStatus }) => {
 
   return (
     <div
+      id={pageNames.fileBDD}
       className="usa-alert usa-alert-info background-color-only vads-u-padding--2 vads-u-margin-top--2"
-      aria-live="polite"
     >
       <span className="sr-only">Info: </span>
       {daysRemainingToFileBDD < 0 ? null : (
