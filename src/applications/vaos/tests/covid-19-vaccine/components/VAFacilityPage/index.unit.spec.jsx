@@ -348,9 +348,12 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
     await screen.findAllByRole('radio');
     fireEvent.click(screen.getByText('use your current location'));
     await screen.findAllByRole('radio');
-    expect(screen.baseElement).to.contain.text(
-      'Your browser is blocked from finding your current location',
-    );
+    expect(
+      await screen.findByRole('heading', {
+        level: 3,
+        name: /Your browser is blocked from finding your current location/,
+      }),
+    ).to.be.ok;
   });
 
   it('should not display show more button if < 6 locations', async () => {
