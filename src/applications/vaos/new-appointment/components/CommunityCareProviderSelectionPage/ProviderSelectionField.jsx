@@ -255,7 +255,7 @@ function ProviderSelectionField({
                 <div id="providerSelectionBlockedLocation">
                   <AlertBox
                     status="warning"
-                    headline="Your browser is blocked from finding your current location"
+                    headline="Your browser is blocked from finding your current location."
                     className="vads-u-background-color--gold-lightest vads-u-font-size--base"
                     level="3"
                     content={
