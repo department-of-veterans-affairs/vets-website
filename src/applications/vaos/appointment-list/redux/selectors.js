@@ -278,3 +278,14 @@ export function getPastAppointmentListInfo(state) {
     facilityData: state.appointments.facilityData,
   };
 }
+
+export function selectCommunityCareDetailsInfo(state, id) {
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
+  return {
+    appointment: selectAppointmentById(state, id, [
+      APPOINTMENT_TYPES.ccAppointment,
+    ]),
+    appointmentDetailsStatus,
+    facilityData,
+  };
+}

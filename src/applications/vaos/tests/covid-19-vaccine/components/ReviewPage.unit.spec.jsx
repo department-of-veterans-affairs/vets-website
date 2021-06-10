@@ -34,7 +34,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
           pages: {},
           data: {
             vaFacility: '983',
-            clinicId: '455',
+            clinicId: '983_455',
           },
           facilityDetails: {
             983: {},
@@ -63,28 +63,10 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
           clinics: {
             983: [
               {
-                id: '455',
+                id: '983_455',
                 serviceName: 'Some VA clinic',
-                characteristic: [
-                  {
-                    text: 'clinicFriendlyLocationName',
-                    value: 'Some VA clinic',
-                  },
-                  {
-                    text: 'institutionName',
-                    value: 'Cheyenne VA Medical Center',
-                  },
-                  {
-                    text: 'institutionCode',
-                    value: '983',
-                  },
-                ],
-                identifier: [
-                  {
-                    system: 'http://med.va.gov/fhir/urn',
-                    value: 'urn:va:facility:983:983:455',
-                  },
-                ],
+                stationId: '983',
+                stationName: 'Cheyenne VA Medical Center',
               },
             ],
           },
@@ -144,7 +126,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-booking/confirmation',
+        '/new-covid-19-vaccine-appointment/confirmation',
       );
     });
     const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);

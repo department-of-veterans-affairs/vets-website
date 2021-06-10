@@ -4,6 +4,7 @@
  */
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
+import environment from 'platform/utilities/environment';
 import {
   getCancelReasons,
   getConfirmedAppointment,
@@ -28,10 +29,18 @@ import {
   GA_PREFIX,
 } from '../../utils/constants';
 import { formatFacilityAddress, getFacilityPhone } from '../location';
-import { transformVAOSAppointment } from './transformers.vaos';
+import { transformVAOSAppointment } from './transformers.v2';
 import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
+import {
+  getTimezoneAbbrBySystemId,
+  getTimezoneBySystemId,
+  getTimezoneNameFromAbbr,
+  getUserTimezone,
+  getUserTimezoneAbbr,
+  stripDST,
+} from '../../utils/timezone';
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
@@ -77,6 +86,18 @@ const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
   'Deleted',
 ]);
 
+// We want to throw an error for any partial results errors from MAS,
+// but some sites in staging always errors. So, keep those in a list to
+// ignore errors from
+const BAD_STAGING_SITES = new Set(['556']);
+function hasPartialResults(response) {
+  return (
+    response.errors?.length > 0 &&
+    (environment.isProduction() ||
+      response.errors.some(err => !BAD_STAGING_SITES.has(err.source)))
+  );
+}
+
 /**
  * Fetch the logged in user's confirmed appointments that fall between a startDate and endDate
  *
@@ -102,7 +123,7 @@ export async function getBookedAppointments({ startDate, endDate }) {
     ]);
 
     // We might get partial results back from MAS, so throw an error if we do
-    if (appointments[0].errors?.length) {
+    if (hasPartialResults(appointments[0])) {
       throw mapToFHIRErrors(
         appointments[0].errors,
         'MAS returned partial results',
@@ -752,7 +773,8 @@ export function getCalendarData({ appointment, facility }) {
         text:
           'You can join this meeting up to 30 minutes before the start time.',
         location: 'VA Video Connect at home',
-        additionalText: ['Sign in to VA.gov to join this meeting'],
+        additionalText: [signinText],
+        phone: getFacilityPhone(facility),
       };
     } else if (isAtlas) {
       const { atlasLocation } = appointment.videoData;
@@ -801,4 +823,51 @@ export function getCalendarData({ appointment, facility }) {
   }
 
   return data;
+}
+
+/**
+ * Returns an object with timezone identifiers for a given appointment
+ *
+ * @export
+ * @param {Appointment} appointment The appointment to get a timezone for
+ * @returns {Object} An object with:
+ *   - identifier: The full timezone identifier (like America/New_York)
+ *   - abbreviation: The timezone abbreviation (e.g. ET)
+ *   - description: The written out description (e.g. Eastern time)
+ */
+export function getAppointmentTimezone(appointment) {
+  // Most VA appointments will use this, since they're associated with a facility
+  if (appointment.location.vistaId) {
+    const abbreviation = getTimezoneAbbrBySystemId(
+      appointment.location.vistaId,
+    );
+
+    return {
+      identifier: getTimezoneBySystemId(appointment.location.vistaId)
+        ?.currentTZ,
+      abbreviation,
+      description: getTimezoneNameFromAbbr(abbreviation),
+    };
+  }
+
+  // Community Care appointments with timezone included
+  if (appointment.vaos.timeZone) {
+    const abbreviation = stripDST(
+      appointment.vaos.timeZone?.split(' ')?.[1] || appointment.vaos.timeZone,
+    );
+
+    return {
+      identifier: null,
+      abbreviation,
+      description: getTimezoneNameFromAbbr(abbreviation),
+    };
+  }
+
+  // Everything else will use the local timezone
+  const abbreviation = stripDST(getUserTimezoneAbbr());
+  return {
+    identifier: getUserTimezone(),
+    abbreviation,
+    description: getTimezoneNameFromAbbr(abbreviation),
+  };
 }

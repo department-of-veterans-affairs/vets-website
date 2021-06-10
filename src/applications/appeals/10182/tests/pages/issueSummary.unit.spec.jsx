@@ -13,6 +13,7 @@ describe('NOD selected issues summary page', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.conditions.pages.issueSummary;
+  const data = { contestableIssues: [{}] };
 
   it('should render', () => {
     const form = mount(
@@ -31,7 +32,27 @@ describe('NOD selected issues summary page', () => {
     expect(form.find('li').length).to.equal(2);
     form.unmount();
   });
-  it('should render a link', () => {
+  it('should render a link to the eligible issues page', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={{}}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={data}
+        formData={{}}
+      />,
+    );
+
+    const link = form.find('a');
+
+    expect(link.length).to.equal(1);
+    expect(link.props().children).to.contain('go back and add');
+    expect(link.props().href).to.equal(
+      `${formConfig.chapters.conditions.pages.contestableIssues.path}?redirect`,
+    );
+    form.unmount();
+  });
+  it('should render a link to the additional issues page', () => {
     const form = mount(
       <DefinitionTester
         definitions={{}}
@@ -46,6 +67,9 @@ describe('NOD selected issues summary page', () => {
 
     expect(link.length).to.equal(1);
     expect(link.props().children).to.contain('go back and add');
+    expect(link.props().href).to.equal(
+      `${formConfig.chapters.conditions.pages.additionalIssues.path}?redirect`,
+    );
     form.unmount();
   });
 
@@ -56,7 +80,7 @@ describe('NOD selected issues summary page', () => {
         definitions={{}}
         schema={schema}
         uiSchema={uiSchema}
-        data={{}}
+        data={data}
         formData={{}}
         onSubmit={onSubmit}
       />,

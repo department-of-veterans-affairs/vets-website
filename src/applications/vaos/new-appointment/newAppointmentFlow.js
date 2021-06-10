@@ -9,7 +9,13 @@ import {
   getTypeOfCare,
   selectEligibility,
 } from './redux/selectors';
-import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  GA_PREFIX,
+  TYPES_OF_CARE,
+  COVID_VACCINE_ID,
+} from '../utils/constants';
 import { getSiteIdFromFacilityId } from '../services/location';
 import {
   checkEligibility,
@@ -20,6 +26,8 @@ import {
   updateFacilityType,
   checkCommunityCareEligibility,
 } from './redux/actions';
+import recordEvent from 'platform/monitoring/record-event';
+import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
@@ -56,6 +64,10 @@ function isEyeCare(state) {
 
 function isPodiatry(state) {
   return getFormData(state).typeOfCareId === PODIATRY;
+}
+
+function isCovidVaccine(state) {
+  return getFormData(state).typeOfCareId === COVID_VACCINE_ID;
 }
 
 function getFacilityPageKey(state) {
@@ -111,10 +123,19 @@ export default {
     // Next will direct to type of care or provider once both flows are complete
     next: 'typeOfFacility',
   },
+  vaccineFlow: {
+    url: '/new-covid-19-vaccine-appointment',
+  },
   typeOfCare: {
     url: '/new-appointment',
     async next(state, dispatch) {
-      if (isSleepCare(state)) {
+      if (isCovidVaccine(state)) {
+        recordEvent({
+          event: `${GA_PREFIX}-schedule-covid19-button-clicked`,
+        });
+        dispatch(startNewVaccineFlow());
+        return 'vaccineFlow';
+      } else if (isSleepCare(state)) {
         dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
         return 'typeOfSleepCare';
       } else if (isEyeCare(state)) {

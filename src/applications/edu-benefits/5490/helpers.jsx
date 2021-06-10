@@ -7,6 +7,15 @@ export function transform(formConfig, form) {
   // Clone the form in so we don’t modify the original...because of reasons FP
   const newForm = _.cloneDeep(form);
 
+  if (newForm.data.benefit === 'chapter33' && newForm.data.sponsorStatus) {
+    if (newForm.data.sponsorStatus === 'powOrMia') {
+      newForm.data.veteranDateOfDeath =
+        newForm.data['view:sponsorDateListedMiaOrPow'];
+    } else {
+      newForm.data.veteranDateOfDeath = newForm.data['view:sponsorDateOfDeath'];
+    }
+  }
+
   const formData = transformForSubmit(formConfig, newForm);
   return JSON.stringify({
     educationBenefitsClaim: {

@@ -1,4 +1,5 @@
 import React from 'react';
+import environment from 'platform/utilities/environment';
 
 export default function BenefitSelectionWarning(chapter, relationship) {
   let warningText = '';
@@ -28,7 +29,8 @@ export default function BenefitSelectionWarning(chapter, relationship) {
       );
     } else {
       // spouse
-      warningText = (
+      // prod flag #25122
+      warningText = environment.isProduction() ? (
         <div>
           I understand that I am choosing to receive Fry Scholarship benefits
           instead of any DEA benefits for which I am currently eligible. This
@@ -42,6 +44,25 @@ export default function BenefitSelectionWarning(chapter, relationship) {
             </li>
             <li>
               based on any other criteria as listed in 38 U.S.C. § 3501(a)(1).
+            </li>
+          </ul>
+        </div>
+      ) : (
+        <div>
+          I understand that I am choosing to receive Fry Scholarship benefits
+          instead of any DEA benefits for which I am currently eligible. This
+          includes DEA benefits based on:
+          <ul>
+            <li>
+              the death of the qualifying individual listed in this application
+              and/or the qualifying death of any others not listed, or
+            </li>
+            <li>
+              a spouse who has a permanent and total service-connected
+              disability, or
+            </li>
+            <li>
+              based on any other criteria as listed in 38 U.S.C. § 3501(a)(1) .
             </li>
           </ul>
         </div>

@@ -21,27 +21,39 @@ export const setLangAttribute = lang => {
   }
 };
 
-// set lang code as `en` for all links on the current page
-// unless it follows the old IA lang patterns or already has a lang attribute
-// without overwriting existing onclick events
-// reference: https://stackoverflow.com/questions/891989/javascript-adding-an-onclick-handler-without-overwriting-the-existing-one
+export const parseLangCode = url => {
+  let langCode = 'en';
+  // competing URL structures ¯\_(ツ)_/¯
+  if (url.includes(`espanol`) || url.endsWith('-esp/')) {
+    langCode = 'es';
+  }
+  if (url.includes(`tagalog`) || url.endsWith('-tag/')) {
+    langCode = 'tl';
+  }
+  return langCode;
+};
 
 export const adaptLinksWithLangCode = setLangAttributeInReduxStore => {
   const links = document.links;
   for (const link of links) {
-    link.addEventListener('click', () => {
-      setLangAttributeInReduxStore('en');
-      const langAttribute = link.hreflang || link.lang;
-      if (langAttribute) {
-        setLangAttributeInReduxStore(langAttribute);
-      }
-      // respect the temp IA i18 structure
-      if (link.href.endsWith('-esp/')) {
-        setLangAttributeInReduxStore('es');
-      }
-      if (link.href.endsWith('-tag/')) {
-        setLangAttributeInReduxStore('tl');
-      }
-    });
+    if (link) {
+      // this sets the overall div#content `lang` to the intended lang when the user
+      // clicks on a link with translated content
+      // since the page refreshes on a link click (we aren't an SPA, and can't avail React Router here)
+      // the lang code is preserved in local storage
+
+      // assumption: any link to translated content has its own hreflang or lang attribute,
+      // which is preserved
+      // and can differ from the lang attribute on div#content
+
+      link.addEventListener('click', () => {
+        const langAttribute = link.lang || link.hreflang;
+        if (langAttribute) {
+          return setLangAttributeInReduxStore(langAttribute);
+        } else {
+          return setLangAttributeInReduxStore(parseLangCode(link.href));
+        }
+      });
+    }
   }
 };

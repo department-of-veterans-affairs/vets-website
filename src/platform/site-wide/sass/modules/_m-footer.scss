@@ -188,7 +188,7 @@
           color: $color-white;
         }
       }
-      &:after {
+      &:not(:last-child):after {
         content: "|";
         padding: 0 1rem;
         color: $color-white;

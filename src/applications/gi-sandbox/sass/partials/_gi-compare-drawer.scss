@@ -1,0 +1,65 @@
+.compare-drawer {
+  .compare-header{
+    background-color: $color-primary;
+    color: $color-white;
+    text-align: center;
+    height: 2.5em;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding-top: .5em;
+    font-weight: bold;
+
+    .header-label {
+      display: inline-flex;
+      width: auto;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .header-label::after {
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      font-size: 150%;
+      vertical-align: middle;
+      padding-left: .5em;
+      margin-top: -4px;
+    }
+
+    .header-label.open::after{
+      content: "\F107";
+    }
+
+    .header-label.closed::after{
+      content: "\F106";
+    }
+  }
+  .compare-body {
+    background-color: $color-white;
+    border: 1px solid $color-gray-light;
+    height: 10em;
+    padding-left: .75em;
+    padding-right: .75em;
+
+    .action-cell {
+      padding-left: 1em;
+    }
+
+    .compare-name {
+      height: 6em;
+      padding-top: .5em;
+      padding-right: 1.5em;
+    }
+
+    .blank {
+      border: 2px dashed $color-gray-light;
+      height: 6em;
+      border-radius: 5px;
+      margin-right: 1.5em;
+    }
+  }
+  position: fixed;
+  bottom: 0;
+  display: block;
+  z-index: 2000;
+  width: 100% !important;
+}

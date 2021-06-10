@@ -1,10 +1,10 @@
 import React from 'react';
+import moment from 'moment';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-import moment from 'moment';
 
 export const ErrorMessage = () => (
-  <div
+  <section
     className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
     role="alert"
   >
@@ -20,12 +20,11 @@ export const ErrorMessage = () => (
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
         You're still able to download your debt letters from the list below. If
         you need help resolving a debt, or you would like to get information
-        about a debt that has been resolved, call the Debt Management Center at{' '}
-        <Telephone contact="8008270648" />
-        {'.'}
+        about a debt that has been resolved, call the Debt Management Center at
+        <Telephone className="vads-u-margin-left--0p5" contact="8008270648" />.
       </p>
     </div>
-  </div>
+  </section>
 );
 
 export const DowntimeMessage = () => {
@@ -43,13 +42,16 @@ export const DowntimeMessage = () => {
       <p>Start/End time: 12:30 a.m. to 3:00 a.m. ET</p>
       <h4>What can you do</h4>
       <p>
-        You can still{' '}
-        <a href="/manage-va-debt/your-debt/debt-letters">
+        You can still
+        <a
+          className="vads-u-margin-x--0p5"
+          href="/manage-va-debt/your-debt/debt-letters"
+        >
           Download your debt letters.
-        </a>{' '}
+        </a>
         If you need help resolving a debt, or you would like to get information
-        about a debt that has been resolved, call the Debt Management Center at{' '}
-        <Telephone contact="8008270648" />.
+        about a debt that has been resolved, call the Debt Management Center at
+        <Telephone className="vads-u-margin-left--0p5" contact="8008270648" />.
       </p>
     </AlertBox>
   );

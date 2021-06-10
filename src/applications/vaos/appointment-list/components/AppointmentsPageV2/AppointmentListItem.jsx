@@ -1,29 +1,12 @@
 import React from 'react';
 import moment from '../../../lib/moment-tz';
-import { isVAPhoneAppointment } from '../../../services/appointment';
 import {
-  getTimezoneAbbrBySystemId,
-  getTimezoneDescFromAbbr,
-  stripDST,
-} from '../../../utils/timezone';
+  getAppointmentTimezone,
+  isVAPhoneAppointment,
+} from '../../../services/appointment';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
 import { Link, useHistory } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
-
-function getAppointmentTimezoneAbbreviation(timezone, facilityId) {
-  if (facilityId) {
-    return getTimezoneAbbrBySystemId(facilityId);
-  }
-
-  const tzAbbr = timezone?.split(' ')?.[1] || timezone;
-  return stripDST(tzAbbr);
-}
-
-function getAppointmentTimezoneDescription(timezone, facilityId) {
-  const abbr = getAppointmentTimezoneAbbreviation(timezone, facilityId);
-
-  return getTimezoneDescFromAbbr(abbr);
-}
 
 function VideoAppointmentDescription({ appointment }) {
   const isAtlas = appointment.videoData.isAtlas;
@@ -73,7 +56,8 @@ export default function AppointmentListItem({ appointment, facility }) {
   const link = isCommunityCare
     ? `cc/${appointment.id}`
     : `va/${appointment.id}`;
-  const idClickable = `id-${appointment.id}`;
+  const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
+  const { abbreviation, description } = getAppointmentTimezone(appointment);
 
   return (
     <li
@@ -101,19 +85,8 @@ export default function AppointmentListItem({ appointment, facility }) {
             {appointmentDate.format('dddd, MMMM D')}
           </h4>
           {appointmentDate.format('h:mm a')}{' '}
-          <span aria-hidden="true">
-            {getAppointmentTimezoneAbbreviation(
-              appointment.vaos.timeZone,
-              appointment.location.vistaId,
-            )}
-          </span>
-          <span className="sr-only">
-            {' '}
-            {getAppointmentTimezoneDescription(
-              appointment.vaos.timeZone,
-              appointment.location.vistaId,
-            )}
-          </span>
+          <span aria-hidden="true">{abbreviation}</span>
+          <span className="sr-only"> {description}</span>
           <br />
           {isVideo && <VideoAppointmentDescription appointment={appointment} />}
           {isCommunityCare && (

@@ -193,12 +193,8 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
         'Facility that is also enabled',
         '555-555-5556, ext. 1234',
         '711',
-        'Search for more facilities',
       ],
     );
-    expect(
-      screen.getByRole('link', { name: /search for more facilities/i }),
-    ).to.have.attribute('href', '/find-locations');
   });
 
   it('should show five facilities in alpha order when no residential address', async () => {
@@ -336,7 +332,6 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
         '711',
         'E facility',
         '711',
-        'Search for more facilities',
       ],
     );
   });
@@ -419,12 +414,23 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
       [
         'Facility that is enabled',
         '711',
-        'Search for more facilities',
-        'Learn how to stay informed about COVID-19 vaccines at VA.',
+        'Find VA facilities near you that offer COVID-19 vaccines',
       ],
     );
+    expect(screen.getByText(/Find a vaccine walk-in clinic near you/i)).to.be
+      .ok;
     expect(
-      screen.getByRole('link', { name: /search for more facilities/i }),
-    ).to.have.attribute('href', '/find-locations');
+      screen.getByText(
+        /You can go to a VA facility's vaccine clinic during walk-in hours to get the COVID-19 vaccine. You don't need an appointment, but be sure to check the facility's walk-in hours before you go./i,
+      ),
+    ).to.be.ok;
+    expect(
+      screen.getByRole('link', {
+        name: /Find VA facilities near you that offer COVID-19 vaccines/i,
+      }),
+    ).to.have.attribute(
+      'href',
+      '/find-locations/?facilityType=health&serviceType=Covid19Vaccine',
+    );
   });
 });

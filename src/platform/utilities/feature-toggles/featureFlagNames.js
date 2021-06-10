@@ -33,7 +33,6 @@ export default Object.freeze({
   form10182Nod: 'form10182_nod',
   form526BDD: 'form526BenefitsDeliveryAtDischarge',
   form526OriginalClaims: 'form526OriginalClaims',
-  form996HigherLevelReview: 'form996HigherLevelReview',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
   gibctSchoolRatings: 'gibctSchoolRatings',
   languageSupport: 'language_support',
@@ -81,6 +80,7 @@ export default Object.freeze({
   vaOnlineSchedulingVAOSServiceCCAppointments: 'vaOnlineSchedulingVAOSServiceCCAppointments',
   vaOnlineSchedulingVAOSServiceRequests: 'vaOnlineSchedulingVAOSServiceRequests',
   vaOnlineSchedulingVAOSServiceVAAppointments: 'vaOnlineSchedulingVAOSServiceVAAppointments',
+  vaOnlineSchedulingVariantTesting: 'vaOnlineSchedulingVariantTesting',
   vaViewDependentsAccess: 'vaViewDependentsAccess',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
 });
