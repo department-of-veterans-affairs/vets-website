@@ -58,7 +58,7 @@ export function ComparePage({
   const toggleSticky = useCallback(
     offset => {
       if (!initialTop) {
-        const header = document.getElementById('compare-header');
+        const header = headerRef.current;
         if (header) {
           const checkPos = header.offsetTop;
           if (checkPos) {
