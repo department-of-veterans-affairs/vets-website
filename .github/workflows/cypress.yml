@@ -28,6 +28,11 @@ jobs:
       
       - name: Clean up node modules
         run: rm -rf node_modules
+      
+      - name: Clean yarn cache
+        run: yarn cache clean --all
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Install vets-website dependencies
         run: yarn install --frozen-lockfile
