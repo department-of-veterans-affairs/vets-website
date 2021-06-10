@@ -190,13 +190,17 @@ export function SearchResultCard({
         <p className="secondary-info-label">
           <strong>Approved programs:</strong>
         </p>
-        <p>{programCount}</p>
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
+          {programCount}
+        </p>
       </div>
       <div className="vads-u-flex--1">
         <p className="secondary-info-label">
           <strong>Program length:</strong>
         </p>
-        <p>{programHours()}</p>
+        <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
+          {programHours()}
+        </p>
       </div>
     </>
   );

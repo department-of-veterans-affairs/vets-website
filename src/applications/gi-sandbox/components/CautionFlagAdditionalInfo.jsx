@@ -15,15 +15,15 @@ export const CautionFlagAdditionalInfo = ({
       ? 'This school has 1 cautionary warning'
       : `This school has ${validFlags.length} cautionary warnings`;
   return (
-    <div className="usa-alert usa-alert-warning vads-u-background-color--white">
+    <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--0p5 vads-u-padding-y--2">
       <div className="usa-alert-body " onClick={() => setCount(!expanded)}>
         <div className="vads-u-display--flex">
-          <div className="vads-u-flex--1">
+          <div>
             <h4 className="usa-alert-heading caution-flag-alert-heading">
               {headline}
             </h4>
           </div>
-          <div className="vads-u-flex--1">
+          <div>
             <i
               style={{
                 float: 'right',
@@ -38,7 +38,7 @@ export const CautionFlagAdditionalInfo = ({
         </div>
 
         {expanded && (
-          <ul>
+          <ul className="vads-u-padding-right--4">
             {validFlags
               .sort(
                 (a, b) =>
@@ -46,7 +46,7 @@ export const CautionFlagAdditionalInfo = ({
               )
               .map((flag, index) => (
                 <li
-                  className="headingFlag vads-u-margin-left--1p5"
+                  className="headingFlag"
                   key={`caution-flag-heading-${index}`}
                 >
                   {flag.title}
