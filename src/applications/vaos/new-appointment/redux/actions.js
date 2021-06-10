@@ -27,20 +27,16 @@ import {
   submitRequest,
   submitAppointment,
   sendRequestMessage,
-  getSitesSupportingVAR,
   getCommunityCare,
 } from '../../services/var';
 import { createAppointment } from '../../services/appointment';
-import {
-  getOrganizations,
-  getIdOfRootOrganization,
-  getSiteIdFromOrganization,
-} from '../../services/organization';
 import {
   getLocation,
   getSiteIdFromFacilityId,
   getLocationsByTypeOfCareAndSiteIds,
   getCommunityProvidersByTypeOfCare,
+  fetchParentLocations,
+  fetchCommunityCareSupportedSites,
 } from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
@@ -548,7 +544,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       // If we have the VA parent in our state, we don't need to
       // fetch them again
       if (!parentFacilities) {
-        parentFacilities = await getOrganizations({
+        parentFacilities = await fetchParentLocations({
           siteIds: userSiteIds,
         });
       }
@@ -561,7 +557,8 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId) {
-        siteId = getIdOfRootOrganization(parentFacilities, parentId);
+        siteId = parentFacilities.find(location => location.id === parentId)
+          .vistaId;
       }
 
       locations =
@@ -893,13 +890,10 @@ export function checkCommunityCareEligibility() {
     try {
       // Check if user registered systems support community care...
       const siteIds = selectSystemIds(state);
-      const parentFacilities = await getOrganizations({ siteIds });
-      const ccSites = await getSitesSupportingVAR(
-        parentFacilities.map(parent => getSiteIdFromOrganization(parent)),
-      );
-      const ccEnabledSystems = parentFacilities.filter(parent =>
-        ccSites.some(site => site.id === getSiteIdFromOrganization(parent)),
-      );
+      const parentFacilities = await fetchParentLocations({ siteIds });
+      const ccEnabledSystems = await fetchCommunityCareSupportedSites({
+        locations: parentFacilities,
+      });
       dispatch({
         type: FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
         ccEnabledSystems,

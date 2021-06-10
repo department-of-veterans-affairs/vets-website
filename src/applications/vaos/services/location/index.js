@@ -15,6 +15,8 @@ import {
   getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
   getCommunityCareFacilities,
+  getParentFacilities,
+  getSitesSupportingVAR,
 } from '../var';
 import { mapToFHIRErrors } from '../utils';
 import {
@@ -24,6 +26,7 @@ import {
   setSupportedSchedulingMethods,
   transformCommunityProviders,
   transformSettings,
+  transformParentFacilities,
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
@@ -188,9 +191,9 @@ export async function getLocationsByTypeOfCareAndSiteIds({ siteIds }) {
  * Get the parent organization of a given location
  *
  * @export
- * @param {Array<Organization>} organizations The organizations to search through
+ * @param {Array<Location>} organizations The organizations to search through
  * @param {Location} location The location resource to find the parent of
- * @returns {Organization} The parent organization
+ * @returns {Location} The parent organization
  */
 export function getParentOfLocation(organizations, location) {
   const orgId = location.managingOrganization.reference.split('/')[1];
@@ -302,4 +305,54 @@ export async function getCommunityProvidersByTypeOfCare({
 
     throw e;
   }
+}
+
+/**
+ * Fetch the locations associated with the given VistA site ids that are
+ * marked as VAST parent locations
+ *
+ * @export
+ * @async
+ * @param {Object} params
+ * @param {Array<string>} params.siteIds A list of three digit VistA site ids
+ * @returns {Array<Location>} A list of parent Locations
+ */
+export async function fetchParentLocations({ siteIds }) {
+  try {
+    const parentFacilities = await getParentFacilities(siteIds);
+
+    return transformParentFacilities(parentFacilities).sort((a, b) => {
+      // a.name comes 1st
+      if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
+      // b.name comes 1st
+      if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
+      // a.name and b.name are equal
+      return 0;
+    });
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
+/**
+ * Fetch a list of locations supporting Community Care requests from
+ * a given list of locations
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<Location>} locations The locations to find CC support at
+ * @returns {Array<Location>} A list of locations that support CC requests
+ */
+export async function fetchCommunityCareSupportedSites({ locations }) {
+  const ccSites = await getSitesSupportingVAR(
+    locations.map(location => location.id),
+  );
+
+  return locations.filter(location =>
+    ccSites.some(site => site.id === location.id),
+  );
 }
