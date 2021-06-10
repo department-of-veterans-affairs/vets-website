@@ -67,7 +67,7 @@ export default function LanguageSupport({
       onThisPageHook(langCode);
       setLangAttribute(langCode);
       dispatchLanguageSelection(langCode);
-      adaptLinksWithLangCode(dispatchLanguageSelection);
+      adaptLinksWithLangCode(dispatchLanguageSelection, langCode);
     },
     [dispatchLanguageSelection, showLangSupport],
   );
