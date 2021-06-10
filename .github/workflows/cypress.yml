@@ -29,17 +29,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-      
-      - name: Clean up node modules
-        run: rm -rf node_modules
-      
-      - name: Clean yarn cache
-        run: yarn cache clean --all
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Install vets-website dependencies
-        run: yarn install --frozen-lockfile --force
+        run: yarn install --frozen-lockfile --prefer-offline --force
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
