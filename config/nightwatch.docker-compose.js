@@ -19,9 +19,9 @@ module.exports = {
   webdriver: {
     start_process: true,
     server_path: process.env.CHROMEDRIVER_FILEPATH || chromedriver.path,
-    host: 'vets-website',
+    host: 'localhost',
     port: 9515,
-    cli_args: ['--verbose', '--allowed-ips=127.0.0.1', '--port=9515'],
+    cli_args: ['--verbose'],
   },
 
   // If set to true, runs the tests in parallel and determines the number of workers automatically.
@@ -31,7 +31,7 @@ module.exports = {
 
   test_settings: {
     default: {
-      launch_url: `vets-website:${process.env.WEB_PORT || 3333}`,
+      launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
       filter: '**/*.e2e.spec.js',
       use_ssl: false,
       silent: false,
