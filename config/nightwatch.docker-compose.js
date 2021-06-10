@@ -19,6 +19,7 @@ module.exports = {
   webdriver: {
     start_process: true,
     server_path: process.env.CHROMEDRIVER_FILEPATH || chromedriver.path,
+    host: 'vets-website',
     port: 4444,
   },
 
