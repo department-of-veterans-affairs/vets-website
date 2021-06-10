@@ -33,24 +33,21 @@ export const parseLangCode = url => {
   return langCode;
 };
 
-export const adaptLinksWithLangCode = setLangAttributeInReduxStore => {
+export const adaptLinksWithLangCode = (
+  setLangAttributeInReduxStore,
+  pageLangCode,
+) => {
   const links = document.links;
   for (const link of links) {
     if (link) {
-      // this sets the overall div#content `lang` to the intended lang when the user
-      // clicks on a link with translated content
-      // since the page refreshes on a link click (we aren't an SPA, and can't avail React Router here)
-      // the lang code is preserved in local storage
-
-      // assumption: any link to translated content has its own hreflang or lang attribute,
-      // which is preserved
-      // and can differ from the lang attribute on div#content
-
       let langAttribute = link.lang || link.hreflang;
-
       const correctLangAttribute = parseLangCode(link.href);
 
-      if (!langAttribute || correctLangAttribute !== langAttribute) {
+      if (!langAttribute) {
+        link.setAttribute('lang', pageLangCode);
+      }
+
+      if (correctLangAttribute !== link.lang) {
         langAttribute = correctLangAttribute;
         link.setAttribute('lang', langAttribute);
       }
