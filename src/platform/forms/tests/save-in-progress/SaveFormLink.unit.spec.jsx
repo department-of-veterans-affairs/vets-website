@@ -92,7 +92,7 @@ describe('Schemaform <SaveFormLink>', () => {
     );
 
     expect(tree.text()).to.contain('Something went wrong');
-    expect(tree.subTree('a').text()).to.contain(
+    expect(tree.subTree('.schemaform-sip-save-link').text()).to.contain(
       'Finish this application later',
     );
   });
@@ -107,7 +107,7 @@ describe('Schemaform <SaveFormLink>', () => {
     );
 
     expect(tree.text()).to.contain('unable to connect');
-    expect(tree.subTree('a').text()).to.contain(
+    expect(tree.subTree('.schemaform-sip-save-link').text()).to.contain(
       'Finish this application later',
     );
   });
@@ -142,7 +142,7 @@ describe('Schemaform <SaveFormLink>', () => {
     const findDOM = findDOMNode(tree);
 
     // "Save" the form
-    findDOM.querySelector('a').click();
+    findDOM.querySelector('.schemaform-sip-save-link').click();
 
     expect(saveInProgressForm.called);
   });

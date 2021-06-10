@@ -79,13 +79,12 @@ class SaveFormLink extends React.Component {
         )}
         {savedStatus !== SAVE_STATUSES.noAuth && (
           <span>
-            <a
-              href={`${formConfig.rootUrl}/form-saved`}
-              className="schemaform-sip-save-link"
+            <button
+              className="va-button-link schemaform-sip-save-link"
               onClick={this.handleSave}
             >
               {this.props.children || `Finish this ${appType} later`}
-            </a>
+            </button>
             {!this.props.children && '.'}
             <SipsDevModal {...this.props} />
           </span>
