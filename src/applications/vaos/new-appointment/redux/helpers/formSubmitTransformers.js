@@ -3,7 +3,6 @@ import environment from 'platform/utilities/environment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { getTimezoneBySystemId } from '../../../utils/timezone';
 import { getFacilityIdFromLocation } from '../../../services/location';
-import { getSiteIdFromOrganization } from '../../../services/organization';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
   PURPOSE_TEXT,
@@ -169,7 +168,6 @@ export function transformFormToCCRequest(state) {
 
   const residentialAddress = selectVAPResidentialAddress(state);
   const organization = getChosenCCSystemId(state);
-  const parentFacilityId = getSiteIdFromOrganization(organization);
   let cityState;
 
   if (
@@ -195,8 +193,8 @@ export function transformFormToCCRequest(state) {
     appointmentType: typeOfCare.name,
     facility: {
       name: organization.name,
-      facilityCode: parentFacilityId,
-      parentSiteCode: parentFacilityId.substring(0, 3),
+      facilityCode: organization.id,
+      parentSiteCode: organization.vistaId,
     },
     purposeOfVisit: CC_PURPOSE,
     phoneNumber: data.phoneNumber,
