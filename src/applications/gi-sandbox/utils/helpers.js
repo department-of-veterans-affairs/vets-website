@@ -2,7 +2,11 @@ import _, { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
 import constants from 'vets-json-schema/dist/constants.json';
-import { SMALL_SCREEN_WIDTH, FILTERS_EXCLUDED_FLIP } from '../constants';
+import {
+  SMALL_SCREEN_WIDTH,
+  FILTERS_EXCLUDED_FLIP,
+  FILTERS_IGNORE_ALL,
+} from '../constants';
 
 /**
  * Snake-cases field names
@@ -190,7 +194,6 @@ export const buildSearchFilters = filters => {
   const clonedFilters = _.cloneDeep(filters);
   delete clonedFilters.expanded;
 
-  const hasAllValue = ['country', 'state', 'type'];
   const searchFilters = {};
 
   // boolean fields
@@ -201,9 +204,11 @@ export const buildSearchFilters = filters => {
       searchFilters[field] = clonedFilters[field];
     });
 
-  hasAllValue.filter(field => clonedFilters[field] !== 'ALL').forEach(field => {
-    searchFilters[field] = clonedFilters[field];
-  });
+  FILTERS_IGNORE_ALL.filter(field => clonedFilters[field] !== 'ALL').forEach(
+    field => {
+      searchFilters[field] = clonedFilters[field];
+    },
+  );
 
   FILTERS_EXCLUDED_FLIP.filter(field => !clonedFilters[field]).forEach(
     field => {

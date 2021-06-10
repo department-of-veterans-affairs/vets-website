@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
@@ -8,6 +9,7 @@ import {
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
+  useQueryParams,
 } from '../utils/helpers';
 import {
   showModal,
@@ -16,8 +18,7 @@ import {
   fetchSearchByLocationResults,
 } from '../actions';
 import { connect } from 'react-redux';
-
-import { TABS } from '../constants';
+import { TABS, FILTERS_EXCLUDED_FLIP, FILTERS_IGNORE_ALL } from '../constants';
 
 export function RefineYourSearch({
   dispatchShowModal,
@@ -28,6 +29,8 @@ export function RefineYourSearch({
   preview,
   search,
 }) {
+  const queryParams = useQueryParams();
+  const history = useHistory();
   const { version } = preview;
   const {
     expanded,
@@ -60,6 +63,28 @@ export function RefineYourSearch({
 
   const updateInstitutionFilters = (name, value) => {
     dispatchFilterChange({ ...filters, [name]: value });
+
+    if (FILTERS_EXCLUDED_FLIP.includes(name)) {
+      // add excluded and only pass if unchecked
+      if (!value) {
+        queryParams.set(`exclude_${name}`, value);
+        history.push({ pathname: '/', search: queryParams.toString() });
+      }
+    } else if (FILTERS_IGNORE_ALL.includes(name)) {
+      // ignore if ALL value is selected
+      if (value !== 'ALL') {
+        queryParams.set(name, value);
+        history.push({ pathname: '/', search: queryParams.toString() });
+      }
+    } else if (typeof value === 'boolean') {
+      if (value) {
+        queryParams.set(name, value);
+        history.push({ pathname: '/', search: queryParams.toString() });
+      }
+    } else {
+      queryParams.set(name, value);
+      history.push({ pathname: '/', search: queryParams.toString() });
+    }
   };
   const onChangeCheckbox = e =>
     updateInstitutionFilters(e.target.name, e.target.checked);
