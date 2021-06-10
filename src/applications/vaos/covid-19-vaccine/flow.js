@@ -8,7 +8,7 @@ import {
 
 export default {
   home: {
-    url: '/',
+    url: '/new-appointment',
   },
   planAhead: {
     url: '/new-covid-19-vaccine-booking',

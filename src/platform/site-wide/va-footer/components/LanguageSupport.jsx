@@ -3,13 +3,14 @@ import {
   setLangAttribute,
   adaptLinksWithLangCode,
   onThisPageHook,
+  parseLangCode,
 } from 'applications/static-pages/i18Select/hooks';
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
 
 const langAssistanceLabel = 'Language assistance';
 
-function LanguagesListTemplate({ langSelected }) {
+function LanguagesListTemplate({ dispatchLanguageSelection }) {
   return (
     <ul
       className={
@@ -39,7 +40,8 @@ function LanguagesListTemplate({ langSelected }) {
             lang={link.lang}
             hrefLang={link.lang}
             onClick={() => {
-              langSelected(link.lang);
+              dispatchLanguageSelection(link.lang);
+              setLangAttribute(link.lang);
               recordEvent({
                 event: FOOTER_EVENTS.LANGUAGE_SUPPORT,
                 lang: link.lang,
@@ -57,27 +59,19 @@ function LanguagesListTemplate({ langSelected }) {
 export default function LanguageSupport({
   isDesktop,
   showLangSupport,
-  langSelected,
-  languageCode,
+  dispatchLanguageSelection,
 }) {
   useEffect(
     () => {
-      if (langSelected && showLangSupport && languageCode) {
-        adaptLinksWithLangCode(langSelected, languageCode);
-      }
+      const langCode = parseLangCode(document?.location?.pathname);
+      onThisPageHook(langCode);
+      setLangAttribute(langCode);
+      dispatchLanguageSelection(langCode);
+      adaptLinksWithLangCode(dispatchLanguageSelection);
     },
-    [langSelected, languageCode, showLangSupport],
+    [dispatchLanguageSelection, showLangSupport],
   );
 
-  useEffect(
-    () => {
-      if (languageCode && showLangSupport) {
-        setLangAttribute(languageCode);
-        onThisPageHook(languageCode);
-      }
-    },
-    [languageCode, showLangSupport],
-  );
   if (showLangSupport !== true) return null;
 
   if (isDesktop) {
@@ -86,7 +80,9 @@ export default function LanguageSupport({
         <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">
           {langAssistanceLabel}
         </h2>
-        <LanguagesListTemplate langSelected={langSelected} />
+        <LanguagesListTemplate
+          dispatchLanguageSelection={dispatchLanguageSelection}
+        />
       </div>
     );
   }
@@ -107,7 +103,9 @@ export default function LanguageSupport({
         aria-hidden="true"
       >
         <div className="usa-grid usa-grid-full va-footer-links-bottom">
-          <LanguagesListTemplate langSelected={langSelected} />
+          <LanguagesListTemplate
+            dispatchLanguageSelection={dispatchLanguageSelection}
+          />
         </div>
       </div>
     </li>
