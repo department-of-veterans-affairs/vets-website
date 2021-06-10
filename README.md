@@ -9,11 +9,13 @@ documentation talking about the forms library, use the plain language "forms
 library" instead.
 
 ## Quick start
-Import it and use it!  
-(We'll fill this in with real a real quickstart later.)
+_Instructions for getting up and running go here._
 
 ## Documentation
 When we write documentation, we'll put links to it here.
+
+## Contributing
+_Instructions for contributing go here._
 
 ## The design document
 For more information about the purpose and architecture of this library, check
