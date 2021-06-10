@@ -31,7 +31,7 @@ jobs:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Install vets-website dependencies
-        run: yarn install --frozen-lockfile --prefer-offline --force
+        run: yarn install --frozen-lockfile --prefer-offline
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
