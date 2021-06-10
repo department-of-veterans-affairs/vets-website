@@ -47,7 +47,7 @@ export function NameSearchForm({
               inputValue={autocomplete.name}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => handleSubmit(e)}
-              onSelection={selected => doSearch(selected.label)}
+              onSelection={() => {}}
               onUpdateAutocompleteSearchTerm={dispatchUpdateAutocompleteName}
               placeholder="school, employer, or training provider"
               suggestions={[...autocomplete.nameSuggestions]}

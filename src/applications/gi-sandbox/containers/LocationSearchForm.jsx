@@ -20,22 +20,15 @@ export function LocationSearchForm({
   search,
 }) {
   const [distance, setDistance] = useState(search.query.distance);
+  const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const { version } = preview;
 
   const doSearch = event => {
     event.preventDefault();
-    dispatchFetchSearchByLocationResults(
-      autocomplete.location,
-      distance,
-      filters,
-    );
-  };
-
-  const handleSelection = selected => {
-    if (selected.coords) {
+    if (autocompleteSelection.coords) {
       dispatchFetchSearchByLocationCoords(
-        selected.label,
-        selected.coords,
+        autocompleteSelection.label,
+        autocompleteSelection.coords,
         distance,
         filters,
       );
@@ -64,7 +57,7 @@ export function LocationSearchForm({
               inputValue={autocomplete.location}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => doSearch(e)}
-              onSelection={handleSelection}
+              onSelection={selected => setAutocompleteSelection(selected)}
               onUpdateAutocompleteSearchTerm={
                 dispatchUpdateAutocompleteLocation
               }
