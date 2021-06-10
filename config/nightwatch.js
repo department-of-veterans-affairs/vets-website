@@ -20,7 +20,12 @@ module.exports = {
     start_process: true,
     server_path: process.env.CHROMEDRIVER_FILEPATH || chromedriver.path,
     port: 4444,
-    cli_args: ['--verbose', '--log-path=logs/chromedriver.log', '--port=4444'],
+    cli_args: [
+      '--verbose',
+      '--log-path=logs/chromedriver.log',
+      '--allowed-ips',
+      '--port=4444',
+    ],
   },
   test_settings: {
     default: {
