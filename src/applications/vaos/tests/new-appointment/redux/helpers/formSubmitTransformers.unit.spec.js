@@ -240,12 +240,7 @@ describe('VAOS data transformation', () => {
         ccEnabledSystems: [
           {
             id: '983',
-            identifier: [
-              {
-                system: VHA_FHIR_ID,
-                value: '983',
-              },
-            ],
+            vistaId: '983',
             name: 'CHYSHR-Cheyenne VA Medical Center',
             address: {
               city: 'Cheyenne',
@@ -254,12 +249,7 @@ describe('VAOS data transformation', () => {
           },
           {
             id: '984',
-            identifier: [
-              {
-                system: VHA_FHIR_ID,
-                value: '984',
-              },
-            ],
+            vistaId: '984',
             address: {
               city: 'Dayton',
               state: 'OH',
@@ -374,12 +364,7 @@ describe('VAOS data transformation', () => {
         ccEnabledSystems: [
           {
             id: '983',
-            identifier: [
-              {
-                system: VHA_FHIR_ID,
-                value: '983',
-              },
-            ],
+            vistaId: '983',
             name: 'CHYSHR-Cheyenne VA Medical Center',
             address: {
               city: 'Cheyenne',
@@ -388,12 +373,7 @@ describe('VAOS data transformation', () => {
           },
           {
             id: '984',
-            identifier: [
-              {
-                system: VHA_FHIR_ID,
-                value: '984',
-              },
-            ],
+            vistaId: '984',
             address: {
               city: 'Dayton',
               state: 'OH',
@@ -719,12 +699,7 @@ describe('VAOS data transformation', () => {
         ccEnabledSystems: [
           {
             id: '983',
-            identifier: [
-              {
-                system: VHA_FHIR_ID,
-                value: '983',
-              },
-            ],
+            vistaId: '983',
             name: 'CHYSHR-Cheyenne VA Medical Center',
             address: {
               city: 'Cheyenne',
@@ -733,12 +708,7 @@ describe('VAOS data transformation', () => {
           },
           {
             id: '984',
-            identifier: [
-              {
-                system: VHA_FHIR_ID,
-                value: '984',
-              },
-            ],
+            vistaId: '984',
             address: {
               city: 'Dayton',
               state: 'OH',
