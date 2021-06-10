@@ -15,11 +15,8 @@ export const uiSchema = {
   'ui:title': 'Your spouse information',
   personalData: {
     employmentHistory: {
-      'ui:options': {
-        classNames: 'current-employment-container',
-      },
       spouse: {
-        currentEmployment: {
+        employmentRecords: {
           'ui:description': "Tell us about your spouse's current job.",
           type: {
             'ui:title': 'Type of work',
@@ -97,7 +94,7 @@ export const schema = {
             spouse: {
               type: 'object',
               properties: {
-                currentEmployment: {
+                employmentRecords: {
                   type: 'object',
                   required: ['type', 'from', 'monthlyGrossSalary'],
                   properties: {

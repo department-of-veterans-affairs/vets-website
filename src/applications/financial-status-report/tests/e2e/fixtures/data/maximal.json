@@ -156,7 +156,7 @@
             "employerName": "Spouse Prev Employer 2"
           }
         ],
-        "currentEmployment": {
+        "employmentRecords": {
           "type": "Full time",
           "from": "2017-05-XX",
           "employerName": "Spouse Current Employer",
@@ -188,7 +188,7 @@
             "employerName": "Veteran Prev Employer 2"
           }
         ],
-        "currentEmployment": {
+        "employmentRecords": {
           "type": "Full time",
           "from": "2019-03-XX",
           "employerName": "Veteran Current Employer",

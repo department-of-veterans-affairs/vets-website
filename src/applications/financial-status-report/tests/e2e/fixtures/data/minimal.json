@@ -49,10 +49,10 @@
     "dateOfBirth": "1950-10-04",
     "employmentHistory": {
       "veteran": {
-        "currentEmployment": {}
+        "employmentRecords": {}
       },
       "spouse": {
-        "currentEmployment": {}
+        "employmentRecords": {}
       }
     },
     "spouseFullName": {}
