@@ -55,12 +55,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
   // poke all the checkboxes and expect them to all be unselected
   client.expect
     .element('#militaryService')
-    .to.have.attribute('checked')
-    .equals('true');
+    .to.have.property('checked')
+    .equals(true);
   client
     .click('#militaryService')
     .expect.element('#militaryService')
-    .to.not.have.attribute('checked');
+    .to.have.property('checked')
+    .equals(false);
   client.execute(
     () =>
       Array.from(
@@ -72,10 +73,13 @@ module.exports = E2eHelpers.createE2eTest(client => {
       ids.forEach(id => {
         client.expect
           .element(`#${id}`)
-          .to.have.attribute('checked')
-          .equals('true');
+          .to.have.property('checked')
+          .equals(true);
         client.click(`#${id}`);
-        client.expect.element(`#${id}`).to.not.have.attribute('checked');
+        client.expect
+          .element(`#${id}`)
+          .to.property('checked')
+          .equals(false);
       });
     },
   );
