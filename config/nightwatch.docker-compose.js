@@ -23,7 +23,7 @@ module.exports = {
     port: 9515,
     status_poll_interval: 5000,
     max_status_poll_tries: 12,
-    cli_args: ['--log-path=logs/chromedriver.log', '--allowed-ips=127.0.0.1'],
+    cli_args: ['--log-path=logs/chromedriver.log'],
   },
 
   // If set to true, runs the tests in parallel and determines the number of workers automatically.
