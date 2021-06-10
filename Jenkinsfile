@@ -127,9 +127,7 @@ node('vetsgov-general-purpose') {
             failFast: true,
 
             'nightwatch-e2e': {
-              dockerContainer.inside(commonStages.DOCKER_ARGS) {
-                sh "cd /application && npm run nightwatch:docker"
-              }
+              sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} up -d && docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e BABEL_ENV=test -e BUILDTYPE=vagovprod vets-website --no-color run nightwatch:docker"
             },
             'cypress-1': {
               sh "export IMAGE_TAG=${commonStages.IMAGE_TAG} && docker-compose -p cypress-${env.EXECUTOR_NUMBER} up -d && docker-compose -p cypress-${env.EXECUTOR_NUMBER} run --rm --entrypoint=npm -e CI=true -e STEP=0 vets-website run cy:test:docker"
@@ -154,6 +152,7 @@ node('vetsgov-general-purpose') {
           commonStages.slackNotify()
           throw error
         } finally {
+          sh "docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress2-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress3-${env.EXECUTOR_NUMBER} down --remove-orphans"
