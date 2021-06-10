@@ -53,6 +53,10 @@ jobs:
       - name: Print webpack output
         run: cat test.txt
 
+      - name: Stop vets-website
+        if: ${{ always() }}
+        run: kill $(prgrep node)
+
       - name: Publish test results
         if: ${{ always() }}
         uses: mikepenz/action-junit-report@v2.4.0
