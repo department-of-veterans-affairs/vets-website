@@ -346,6 +346,12 @@ export function fetchSearchByLocationCoords(
     return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
+          dispatch(
+            updateEligibilityAndFilters(
+              { expanded: false },
+              { expanded: false },
+            ),
+          );
           return res.json();
         }
 
