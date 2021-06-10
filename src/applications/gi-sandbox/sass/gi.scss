@@ -4,6 +4,7 @@
 @import "partials/gi-vet-tec";
 @import "partials/gi-preview-banner";
 @import "partials/gi-autocomplete";
+@import "partials/gi-compare-drawer";
 @import "partials/gi-modal";
 @import "partials/gi-landing-page";
 @import "partials/gi-search-page";
@@ -93,7 +94,8 @@
 
   h1:focus,
   h2:focus,
-  h3:focus {
+  h3:focus,
+  button:focus {
     outline: none;
   }
 

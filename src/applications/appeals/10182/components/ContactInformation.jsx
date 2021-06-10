@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { formatAddress } from 'platform/forms/address/helpers';
+import titleCase from 'platform/utilities/data/titleCase';
 
 import { PROFILE_URL } from '../constants';
 
@@ -13,6 +14,8 @@ const addBrAfter = line => line && [line, <br key={line} />];
 export const ContactInfoDescription = ({ veteran }) => {
   const { email, phone, address } = veteran || {};
   const { street, cityStateZip, country } = formatAddress(address || {});
+  // phone.phoneType is in all caps
+  const phoneType = titleCase((phone.phoneType || '').toLowerCase());
 
   return (
     <>
@@ -23,14 +26,21 @@ export const ContactInfoDescription = ({ veteran }) => {
       <p className="vads-u-margin-top--1p5">
         You can{' '}
         <a href={PROFILE_URL} target="_blank" rel="noopener noreferrer">
-          update this contact information in your VA.gov profile
+          update this contact information in your VA.gov profile (opens in new
+          tab)
         </a>
         .
       </p>
+      {(!phoneType || !street) && (
+        <p className="vads-u-margin-top--1p5">
+          <strong>Note:</strong> A phone number and mailing address is required
+          for this application.
+        </p>
+      )}
       <div className="blue-bar-block">
         <h3 className="vads-u-font-size--h4">Phone &amp; email</h3>
         <p>
-          <strong>Home phone</strong>:{' '}
+          <strong>{phoneType} phone</strong>:{' '}
           <Telephone
             contact={`${phone?.areaCode || ''}${phone?.phoneNumber || ''}`}
             extension={phone?.extension}

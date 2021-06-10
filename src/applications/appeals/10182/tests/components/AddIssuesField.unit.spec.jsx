@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { AddIssuesField } from '../../components/AddIssuesField';
 import additionalIssues from '../../pages/additionalIssues';
 import { MAX_NEW_CONDITIONS } from '../../constants';
+import { getDate } from '../../utils/dates';
 
 const { items } = additionalIssues.schema.properties.additionalIssues;
 
@@ -49,6 +50,7 @@ const getProps = ({
 });
 
 describe('<AddIssuesField>', () => {
+  const validDate = getDate({ offset: { months: -2 } });
   it('should render wrapper & add button', () => {
     const wrapper = shallow(<AddIssuesField {...getProps()} />);
     expect(wrapper.find('.additional-issues-wrap').length).to.equal(1);
@@ -58,8 +60,8 @@ describe('<AddIssuesField>', () => {
   });
   it('should render item cards', () => {
     const formData = [
-      { issue: 'test', decisionDate: '2020-01-01' },
-      { issue: 'test2', decisionDate: '2020-01-02' },
+      { issue: 'test', decisionDate: validDate },
+      { issue: 'test2', decisionDate: validDate },
     ];
     const wrapper = mount(<AddIssuesField {...getProps({ formData })} />);
 
@@ -82,7 +84,7 @@ describe('<AddIssuesField>', () => {
     wrapper.unmount();
   });
   it('should render 2 item cards with one in edit mode', () => {
-    const formData = [{ issue: 'test2', decisionDate: '2020-01-01' }, {}];
+    const formData = [{ issue: 'test2', decisionDate: validDate }, {}];
     const wrapper = mount(<AddIssuesField {...getProps({ formData })} />);
 
     expect(wrapper.find('.widget-outline').length).to.equal(1); // card
@@ -96,7 +98,7 @@ describe('<AddIssuesField>', () => {
 
   describe('should handle', () => {
     it('edit', () => {
-      const formData = [{ issue: 'test2', decisionDate: '2020-01-01' }];
+      const formData = [{ issue: 'test2', decisionDate: validDate }];
       const wrapper = mount(<AddIssuesField {...getProps({ formData })} />);
 
       expect(wrapper.find('.widget-outline').length).to.equal(1);
@@ -107,7 +109,7 @@ describe('<AddIssuesField>', () => {
       wrapper.unmount();
     });
     it('update when valid', () => {
-      const formData = [{ issue: 'test2', decisionDate: '2020-01-01' }];
+      const formData = [{ issue: 'test2', decisionDate: validDate }];
       const wrapper = mount(<AddIssuesField {...getProps({ formData })} />);
 
       expect(wrapper.find('.widget-outline').length).to.equal(1);
@@ -156,7 +158,7 @@ describe('<AddIssuesField>', () => {
     it('add', () => {
       const onChange = sinon.spy();
       const props = getProps({
-        formData: [{ issue: 'test', decisionDate: '2020-01-01' }],
+        formData: [{ issue: 'test', decisionDate: validDate }],
         onChange,
       });
       const wrapper = mount(<AddIssuesField {...props} />);
@@ -172,7 +174,7 @@ describe('<AddIssuesField>', () => {
       expect(formData).to.deep.equal([
         {
           issue: 'test',
-          decisionDate: '2020-01-01',
+          decisionDate: validDate,
         },
         {
           issue: undefined,
@@ -186,7 +188,7 @@ describe('<AddIssuesField>', () => {
       const props = getProps({
         formData: new Array(MAX_NEW_CONDITIONS + 2).fill({
           issue: 'x',
-          decisionDate: '2020-01-01',
+          decisionDate: validDate,
         }),
         onChange,
       });

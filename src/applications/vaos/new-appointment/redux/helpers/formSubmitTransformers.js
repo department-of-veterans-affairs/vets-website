@@ -3,7 +3,6 @@ import environment from 'platform/utilities/environment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { getTimezoneBySystemId } from '../../../utils/timezone';
 import { getFacilityIdFromLocation } from '../../../services/location';
-import { getSiteIdFromOrganization } from '../../../services/organization';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
   PURPOSE_TEXT,
@@ -23,11 +22,7 @@ import {
   getChosenCCSystemId,
   getChosenSlot,
 } from '../selectors';
-import {
-  findCharacteristic,
-  getClinicId,
-  getSiteCode,
-} from '../../../services/healthcare-service';
+import { getClinicId, getSiteCode } from '../../../services/healthcare-service';
 
 const CC_PURPOSE = 'other';
 
@@ -173,7 +168,6 @@ export function transformFormToCCRequest(state) {
 
   const residentialAddress = selectVAPResidentialAddress(state);
   const organization = getChosenCCSystemId(state);
-  const parentFacilityId = getSiteIdFromOrganization(organization);
   let cityState;
 
   if (
@@ -199,8 +193,8 @@ export function transformFormToCCRequest(state) {
     appointmentType: typeOfCare.name,
     facility: {
       name: organization.name,
-      facilityCode: parentFacilityId,
-      parentSiteCode: parentFacilityId.substring(0, 3),
+      facilityCode: organization.id,
+      parentSiteCode: organization.vistaId,
     },
     purposeOfVisit: CC_PURPOSE,
     phoneNumber: data.phoneNumber,
@@ -248,12 +242,9 @@ export function transformFormToAppointment(state) {
       siteCode: getSiteCode(clinic),
       clinicId: getClinicId(clinic),
       clinicName: clinic.serviceName,
-      clinicFriendlyLocationName: findCharacteristic(
-        clinic,
-        'clinicFriendlyLocationName',
-      ),
-      institutionName: findCharacteristic(clinic, 'institutionName'),
-      institutionCode: findCharacteristic(clinic, 'institutionCode'),
+      clinicFriendlyLocationName: clinic.serviceName,
+      institutionName: clinic.stationName,
+      institutionCode: clinic.stationId,
     },
 
     // These times are a lie, they're actually in local time, but the upstream

@@ -27,7 +27,7 @@ import {
   mockRequestSubmit,
 } from '../../../mocks/helpers';
 
-import { mockAppointmentSubmit } from '../../../mocks/helpers.vaos';
+import { mockAppointmentSubmit } from '../../../mocks/helpers.v2';
 import { getVAFacilityMock } from '../../../mocks/v0';
 
 const initialState = {
@@ -99,25 +99,13 @@ describe('VAOS <ReviewPage> CC request', () => {
         ccEnabledSystems: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
+            vistaId: '983',
           },
         ],
         parentFacilities: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
+            vistaId: '983',
           },
         ],
         facilities: {},
@@ -310,25 +298,13 @@ describe('VAOS <ReviewPage> CC request: homepage refresh', () => {
         ccEnabledSystems: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
+            vistaId: '983',
           },
         ],
         parentFacilities: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
+            vistaId: '983',
           },
         ],
         facilities: {},
@@ -418,25 +394,13 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
         ccEnabledSystems: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
+            vistaId: '983',
           },
         ],
         parentFacilities: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
+            vistaId: '983',
           },
         ],
         facilityDetails: {
@@ -668,6 +632,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
         ccEnabledSystems: [
           {
             id: '983',
+            vistaId: '983',
           },
         ],
         facilities: {},

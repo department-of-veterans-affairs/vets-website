@@ -122,6 +122,13 @@ export function contactInfoTest() {
   cy.findByText(/Continue/).click();
 }
 
+export function contactInfoDirectScheduleTest() {
+  cy.url().should('include', '/contact-info');
+  cy.axeCheckBestPractice();
+  // cy.findByLabelText(/Morning/).click();
+  cy.findByText(/Continue/).click();
+}
+
 export function reviewTest() {
   cy.url().should('include', '/review');
   cy.axeCheckBestPractice();

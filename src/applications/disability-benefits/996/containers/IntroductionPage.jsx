@@ -22,7 +22,7 @@ import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
-import { higherLevelReviewFeature, scrollToTop } from '../helpers';
+import { scrollToTop } from '../helpers';
 import {
   BASE_URL,
   SAVED_CLAIM_TYPE,
@@ -34,7 +34,6 @@ import {
 import {
   noContestableIssuesFound,
   showContestableIssueError,
-  showWorkInProgress,
   showHasEmptyAddress,
 } from '../content/contestableIssueAlerts';
 import WizardContainer from '../wizard/WizardContainer';
@@ -53,13 +52,9 @@ export class IntroductionPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {
-      contestableIssues = {},
-      getContestableIssues,
-      allowHlr,
-    } = this.props;
+    const { contestableIssues = {}, getContestableIssues } = this.props;
     const wizardComplete = this.state.status === WIZARD_STATUS_COMPLETE;
-    if (allowHlr && wizardComplete) {
+    if (wizardComplete) {
       const benefitType = sessionStorage.getItem(SAVED_CLAIM_TYPE);
       if (!contestableIssues?.status) {
         getContestableIssues({ benefitType });
@@ -151,26 +146,15 @@ export class IntroductionPage extends React.Component {
   };
 
   render() {
-    const { allowHlr, user, hasEmptyAddress } = this.props;
+    const { user, hasEmptyAddress } = this.props;
     const callToActionContent = this.getCallToActionContent();
-    const showWizard = allowHlr && this.state.status !== WIZARD_STATUS_COMPLETE;
+    const showWizard = this.state.status !== WIZARD_STATUS_COMPLETE;
 
     // Change page title once wizard has closed to provide a Veteran using a
     // screenreader some indication that the content has changed
     const pageTitle = `Request a Higher-Level Review${
       showWizard ? '' : ' with VA Form 20-0996'
     }`;
-
-    // check feature flag
-    if (!allowHlr) {
-      return (
-        <article className="schemaform-intro">
-          <FormTitle title={pageTitle} />
-          <p>Equal to VA Form 20-0996 (Higher-Level Review).</p>
-          {showWorkInProgress}
-        </article>
-      );
-    }
 
     // check if user has address
     if (user?.login?.currentlyLoggedIn && hasEmptyAddress) {
@@ -318,7 +302,6 @@ function mapStateToProps(state) {
     form,
     user,
     contestableIssues,
-    allowHlr: higherLevelReviewFeature(state),
     hasEmptyAddress: isEmptyAddress(
       selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),
     ),
