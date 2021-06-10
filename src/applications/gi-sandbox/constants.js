@@ -44,9 +44,8 @@ export const TABS = Object.freeze({
   location: 'location',
 });
 
+// default state is checked so these will only be present if their corresponding boxes are unchecked
 export const FILTERS_EXCLUDED_FLIP = ['schools', 'employers', 'vettec'];
-
-export const DEFAULT_DISTANCE_SELECTION = '50';
 
 export const ariaLabels = Object.freeze({
   learnMore: {

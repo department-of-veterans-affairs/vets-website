@@ -54,58 +54,6 @@ export function GiBillApp({
     dispatchUpdateQueryParams(params);
   }, []);
 
-  // useEffect(() => {
-  //   if (tab) {
-  //
-  //     const onLoadFilters = { ...filters };
-  //     Object.keys(filters).forEach(key => {
-  //       if (queryParams.has(key)) {
-  //         let value = queryParams.get(key);
-  //
-  //         if (value === 'true') value = true;
-  //         else if (value === 'false') value = false;
-  //
-  //         onLoadFilters[key] = value;
-  //       } else if (FILTERS_EXCLUDED_FLIP.includes(key)) {
-  //         let value = queryParams.get(`exclude_${key}`);
-  //
-  //         if (value === 'true') value = true;
-  //         else if (value === 'false') value = false;
-  //
-  //         onLoadFilters[key] = value;
-  //       }
-  //     });
-  //
-  //     const distance = queryParams.has('distance')
-  //       ? queryParams.get('distance')
-  //       : DEFAULT_DISTANCE_SELECTION;
-  //
-  //     dispatchFilterChange(onLoadFilters);
-  //
-  //     } else if (queryParams.has('location')) {
-  //       dispatchUpdateAutocompleteLocation(queryParams.get('location'));
-  //       dispatchFetchSearchByLocationResults(
-  //         queryParams.get('location'),
-  //         distance,
-  //         onLoadFilters,
-  //         version,
-  //       );
-  //     } else if (queryParams.has('latitude') && queryParams.has('longitude')) {
-  //       const coordinates = [
-  //         queryParams.get('longitude'),
-  //         queryParams.get('latitude'),
-  //       ];
-  //       dispatchFetchSearchByLocationCoords(
-  //         null,
-  //         coordinates,
-  //         distance,
-  //         onLoadFilters,
-  //         version,
-  //       );
-  //     }
-  //   }
-  // }, []);
-
   return (
     <div className="gi-app" role="application">
       <div>

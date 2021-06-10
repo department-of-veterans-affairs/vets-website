@@ -13,7 +13,7 @@ import {
   UPDATE_QUERY_PARAMS,
 } from '../actions';
 import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
-import { TABS, DEFAULT_DISTANCE_SELECTION } from '../constants';
+import { TABS } from '../constants';
 
 const INITIAL_STATE = {
   error: null,
@@ -62,7 +62,7 @@ const INITIAL_STATE = {
   query: {
     name: '',
     location: '',
-    distance: DEFAULT_DISTANCE_SELECTION,
+    distance: '50',
     latitude: null,
     longitude: null,
   },
