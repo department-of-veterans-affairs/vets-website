@@ -59,15 +59,20 @@ export function ComparePage({
     offset => {
       if (!initialTop) {
         const header = document.getElementById('compare-header');
-        const checkPos = header.offsetTop;
-        if (checkPos) {
-          setInitialTop(checkPos);
+        if (header) {
+          const checkPos = header.offsetTop;
+          if (checkPos) {
+            setInitialTop(checkPos);
+          }
         }
       }
-      if (offset > initialTop && !isSticky) {
-        setIsSticky(true);
-      } else if (offset < initialTop && isSticky) {
-        setIsSticky(false);
+
+      if (initialTop) {
+        if (offset > initialTop && !isSticky) {
+          setIsSticky(true);
+        } else if (offset < initialTop && isSticky) {
+          setIsSticky(false);
+        }
       }
     },
     [isSticky, initialTop],
@@ -138,7 +143,7 @@ export function ComparePage({
           <div className="row vads-l-grid-container">
             <div className="vads-l-row compare-header-row">
               <div className="medium-screen:vads-l-col--3">
-                <div className="compare-header">
+                <div className="compare-header vads-u-padding-right--1">
                   <div className="compare-page-description-label">
                     School comparison:
                   </div>
