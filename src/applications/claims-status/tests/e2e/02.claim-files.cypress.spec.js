@@ -1,20 +1,11 @@
-import moment from 'moment';
 import claimsList from './fixtures/mocks/claims-list.json';
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
-describe('Claims status est current test', () => {
-  it('Shows the correct status for the claim', () => {
+describe('Claim Files Test', () => {
+  it('Submits files properly', () => {
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
-    cy.initClaimDetailMocks(
-      false,
-      true,
-      false,
-      6,
-      moment()
-        .add(5, 'years')
-        .format('YYYY-MM-DD'),
-    ).then(mockData => {
+    cy.initClaimDetailMocks(false, true, false, 8).then(mockData => {
       cy.intercept('GET', '/v0/evss_claims_async/11', mockData).as(
         'mockDetail',
       );
@@ -35,9 +26,5 @@ describe('Claims status est current test', () => {
         cy.get('.claim-title', { timeout: Timeouts.slow }).should('be.visible');
         cy.injectAxeThenAxeCheck();
       });
-
-    cy.url().should('contain', '/your-claims/11/status');
-
-    cy.get('.usa-alert-text').should('contain', 'COVID-19 has had on');
   });
 });

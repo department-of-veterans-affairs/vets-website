@@ -12,7 +12,7 @@ describe('Claims status est current test', () => {
       false,
       6,
       moment()
-        .add(5, 'years')
+        .add(1, 'years')
         .format('YYYY-MM-DD'),
     ).then(mockData => {
       cy.intercept('GET', '/v0/evss_claims_async/11', mockData).as(

@@ -12,7 +12,7 @@ describe('Claims status est current test', () => {
       false,
       6,
       moment()
-        .add(5, 'years')
+        .subtract(5, 'years')
         .format('YYYY-MM-DD'),
     ).then(mockData => {
       cy.intercept('GET', '/v0/evss_claims_async/11', mockData).as(
@@ -38,6 +38,8 @@ describe('Claims status est current test', () => {
 
     cy.url().should('contain', '/your-claims/11/status');
 
+    // Disabled until COVID-19 message removed
+    // cy.get('.claim-completion-desc').should('contain', 'We estimated your claim would be completed by now');
     cy.get('.usa-alert-text').should('contain', 'COVID-19 has had on');
   });
 });
