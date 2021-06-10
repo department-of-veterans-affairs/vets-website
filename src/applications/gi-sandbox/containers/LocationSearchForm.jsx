@@ -10,6 +10,7 @@ import {
 import KeywordSearch from '../components/search/KeywordSearch';
 import { mapboxToken } from '../utils/mapboxToken';
 import { getPosition } from '../utils/helpers';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 export function LocationSearchForm({
   autocomplete,
@@ -30,6 +31,7 @@ export function LocationSearchForm({
   const [geolocationError, setGeolocationError] = useState(0);
 
   const { version } = preview;
+
   const checkGeolocationError = () => {
     navigator.geolocation.watchPosition(
       function() {
@@ -57,12 +59,7 @@ export function LocationSearchForm({
           }.json?access_token=${mapboxToken}`,
         )
           .then(response => response.json())
-          .then(data =>
-            setStreetAddress(
-              `${data.features[0].text}, ${data.features[1].place_name}`,
-            ),
-          );
-
+          .then(data => setStreetAddress(data.features[0].place_name));
         setGeolocationInProgress(false);
       })
       .catch(() => {
@@ -128,10 +125,27 @@ export function LocationSearchForm({
           </button>
         )}
       </div>
+      <Modal
+        title={
+          geolocationError === 1
+            ? 'We need to use your location'
+            : "We couldn't locate you"
+        }
+        onClose={() => setGeolocationError(0)}
+        status="warning"
+        visible={geolocationError > 0}
+        contents={
+          <>
+            <p>
+              {geolocationError === 1
+                ? 'Please enable location sharing in your browser to use this feature.'
+                : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
+            </p>
+          </>
+        }
+      />
       <form onSubmit={doSearch} className="vads-u-margin-y--0">
         <div className="vads-l-row">
-          {// fix this
-          geolocationError === 2 ? '' : 'L'}
           <div className="medium-screen:vads-l-col--10">
             <KeywordSearch
               version={version}
