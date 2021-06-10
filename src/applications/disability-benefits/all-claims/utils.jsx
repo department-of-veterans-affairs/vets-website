@@ -985,25 +985,43 @@ export const getStartText = isBDDForm => {
 };
 
 export const showSeparationLocation = formData => {
-  const servicePeriods = formData?.serviceInformation?.servicePeriods;
+  const { serviceInformation = {} } = formData || {};
+  const { servicePeriods, reservesNationalGuardService } = serviceInformation;
 
-  if (!servicePeriods || !Array.isArray(servicePeriods)) {
+  // moment(undefined) => today
+  // moment(null) => Invalid date
+  const title10SeparationDate = moment(
+    reservesNationalGuardService?.title10Activation
+      ?.anticipatedSeparationDate || null,
+  );
+
+  if (
+    !title10SeparationDate.isValid() &&
+    (!servicePeriods || !Array.isArray(servicePeriods))
+  ) {
     return false;
+  }
+
+  const today = moment();
+  const todayPlus180 = moment().add(180, 'days');
+
+  // Show separation location field if activated on federal orders & < 180 days
+  if (
+    title10SeparationDate.isValid() &&
+    title10SeparationDate.isAfter(today) &&
+    !title10SeparationDate.isAfter(todayPlus180)
+  ) {
+    return true;
   }
 
   const mostRecentDate = servicePeriods
-    .filter(({ dateRange }) => dateRange?.to)
-    .map(({ dateRange }) => moment(dateRange.to))
+    ?.filter(({ dateRange }) => dateRange?.to)
+    .map(({ dateRange }) => moment(dateRange.to || null))
     .sort((dateA, dateB) => dateB - dateA)[0];
 
-  if (!mostRecentDate) {
-    return false;
-  }
-
-  return (
-    mostRecentDate.isAfter(moment()) &&
-    !mostRecentDate.isAfter(moment().add(180, 'days'))
-  );
+  return mostRecentDate?.isValid()
+    ? mostRecentDate.isAfter(today) && !mostRecentDate.isAfter(todayPlus180)
+    : false;
 };
 
 export const show526Wizard = state => toggleValues(state).show526Wizard;
