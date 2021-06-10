@@ -23,12 +23,7 @@ module.exports = {
     port: 9515,
     status_poll_interval: 5000,
     max_status_poll_tries: 12,
-    cli_args: [
-      '--verbose',
-      '--log-path=logs/chromedriver.log',
-      '--allowed-ips=127.0.0.1',
-      '--port=9515',
-    ],
+    cli_args: ['--log-path=logs/chromedriver.log', '--allowed-ips=127.0.0.1'],
   },
 
   // If set to true, runs the tests in parallel and determines the number of workers automatically.
@@ -41,7 +36,7 @@ module.exports = {
       launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
       filter: '**/*.e2e.spec.js',
       use_ssl: false,
-      silent: false,
+      silent: true,
       output: true,
       screenshots: {
         enabled: true,
