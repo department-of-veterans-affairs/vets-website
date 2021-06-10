@@ -372,7 +372,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-booking',
+        '/new-covid-19-vaccine-appointment',
       ),
     );
   });

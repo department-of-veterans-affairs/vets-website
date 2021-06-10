@@ -124,7 +124,7 @@ export default {
     next: 'typeOfFacility',
   },
   vaccineFlow: {
-    url: '/new-covid-19-vaccine-booking',
+    url: '/new-covid-19-vaccine-appointment',
   },
   typeOfCare: {
     url: '/new-appointment',

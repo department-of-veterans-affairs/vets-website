@@ -21,23 +21,26 @@ const options = [
 ];
 
 const AppealsPage = ({ setPageState, state = {} }) => (
-  <RadioButtons
-    name={`${pageNames.appeals}-option`}
-    label={label}
-    id={`${pageNames.appeals}-option`}
-    options={options}
-    onValueChange={({ value }) => {
-      recordEvent({
-        event: 'howToWizard-formChange',
-        'form-field-type': 'form-radio-buttons',
-        'form-field-label': label,
-        'form-field-value':
-          value === pageNames.fileClaim ? 'new-worse' : 'disagreeing',
-      });
-      setPageState({ selected: value }, value);
-    }}
-    value={{ value: state.selected }}
-  />
+  <div id={pageNames.appeals} className="vads-u-margin-top--2">
+    <RadioButtons
+      name={`${pageNames.appeals}-option`}
+      label={label}
+      id={`${pageNames.appeals}-option`}
+      options={options}
+      onValueChange={({ value }) => {
+        recordEvent({
+          event: 'howToWizard-formChange',
+          'form-field-type': 'form-radio-buttons',
+          'form-field-label': label,
+          'form-field-value':
+            value === pageNames.fileClaim ? 'new-worse' : 'disagreeing',
+        });
+        setPageState({ selected: value }, value);
+      }}
+      value={{ value: state.selected }}
+      ariaDescribedby={[pageNames.fileClaim, pageNames.disagreeFileClaim]}
+    />
+  </div>
 );
 
 export default {
