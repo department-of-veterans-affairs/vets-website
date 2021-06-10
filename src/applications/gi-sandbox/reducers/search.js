@@ -190,13 +190,11 @@ export default function(state = INITIAL_STATE, action) {
     case UPDATE_QUERY_PARAMS:
       return {
         ...state,
-        tab: action.payload.search,
+        tab: action.payload.search || TABS.name,
         query: {
           ...state.query,
-          name: action.payload.name,
-          location: action.payload.location,
-          latitude: action.payload.latitude,
-          longitude: action.payload.longitude,
+          name: action.payload.name || '',
+          location: action.payload.location || '',
         },
       };
 
