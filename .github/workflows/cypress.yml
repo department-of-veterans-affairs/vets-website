@@ -55,7 +55,7 @@ jobs:
 
       - name: Stop vets-website
         if: ${{ always() }}
-        run: kill $(prgrep node)
+        run: kill $(pgrep node)
 
       - name: Publish test results
         if: ${{ always() }}
