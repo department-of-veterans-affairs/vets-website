@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Dropdown from '../components/Dropdown';
 import {
@@ -20,12 +20,46 @@ export function LocationSearchForm({
   search,
 }) {
   const [distance, setDistance] = useState(search.query.distance);
+  // const [location, setLocation] = useState(search.query.location);
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const { version } = preview;
+  const { latitude, longitude } = search.query;
+
+  useEffect(
+    () => {
+      if (search.query.location !== '' && search.query.location !== null) {
+        dispatchFetchSearchByLocationResults(
+          search.query.location,
+          distance,
+          filters,
+        );
+      }
+    },
+    [search.query.location, search.query.distance],
+  );
+
+  useEffect(
+    () => {
+      if (
+        latitude !== '' &&
+        latitude !== null &&
+        longitude !== '' &&
+        longitude !== null
+      ) {
+        dispatchFetchSearchByLocationCoords(
+          search.query.location,
+          [longitude, latitude],
+          distance,
+          filters,
+        );
+      }
+    },
+    [latitude, longitude],
+  );
 
   const doSearch = event => {
     event.preventDefault();
-    if (autocompleteSelection.coords) {
+    if (autocompleteSelection?.coords) {
       dispatchFetchSearchByLocationCoords(
         autocompleteSelection.label,
         autocompleteSelection.coords,
