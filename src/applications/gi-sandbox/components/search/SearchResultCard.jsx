@@ -10,12 +10,7 @@ import { estimatedBenefits } from '../../selectors/estimator';
 import { formatCurrency, createId } from '../../utils/helpers';
 import { CautionFlagAdditionalInfo } from '../CautionFlagAdditionalInfo';
 
-export function SearchResultCard({
-  institution,
-  estimated,
-  header,
-  location = false,
-}) {
+export function SearchResultCard({ institution, estimated, location = false }) {
   const {
     name,
     city,
@@ -79,7 +74,7 @@ export function SearchResultCard({
 
   const nameCityStateHeader = (
     <>
-      <div className="card-title-section">
+      <div>
         <Link to={profileLink}>
           <h3 className="vads-u-margin-top--2">{name}</h3>
         </Link>
@@ -210,7 +205,7 @@ export function SearchResultCard({
       {schoolClassification}
       {location && <span id={`${createId(name)}-result-card-placeholder`} />}
       <div className="vads-u-padding-x--2 vads-u-margin-bottom--1">
-        {header || nameCityStateHeader}
+        {nameCityStateHeader}
         {isSchool && ratingsInformation}
         {preferredProvider && (
           <span className="preferred-provider-text">
