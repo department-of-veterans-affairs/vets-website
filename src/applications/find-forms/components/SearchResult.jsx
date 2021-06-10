@@ -172,7 +172,6 @@ const SearchResult = ({ form, formMetaInfo, useSearchUIUXEnhancements }) => {
               <i
                 aria-hidden="true"
                 className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
-                pointerEvents="none"
                 role="presentation"
               />
               <span className="vads-u-text-decoration--underline vads-u-font-weight--bold">
@@ -197,7 +196,6 @@ const SearchResult = ({ form, formMetaInfo, useSearchUIUXEnhancements }) => {
             <i
               aria-hidden="true"
               className="fas fa-download fa-lg vads-u-margin-right--1"
-              pointerEvents="none"
               role="presentation"
             />
             <span className="vads-u-text-decoration--underline">

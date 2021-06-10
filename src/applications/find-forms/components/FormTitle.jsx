@@ -56,7 +56,6 @@ const FormTitle = ({
             <i
               aria-hidden="true"
               className="fas fa-angle-right vads-u-margin-left--0p25"
-              pointerEvents="none"
               role="presentation"
               style={{ verticalAlign: 'middle' }}
             />
