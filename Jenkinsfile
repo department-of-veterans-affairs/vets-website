@@ -154,7 +154,6 @@ node('vetsgov-general-purpose') {
           commonStages.slackNotify()
           throw error
         } finally {
-          sh "docker-compose -p nightwatch-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress2-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress3-${env.EXECUTOR_NUMBER} down --remove-orphans"

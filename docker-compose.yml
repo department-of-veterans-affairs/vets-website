@@ -13,6 +13,7 @@ services:
     expose:
       - 3001
       - 3000
+      - 4444
       - 9515
     command: ./script/run-docker-nightwatch.sh
     ipc: host
