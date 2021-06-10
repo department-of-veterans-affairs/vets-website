@@ -9,10 +9,10 @@ import {
   GEOCODE_SUCCEEDED,
   GEOCODE_STARTED,
   GEOCODE_FAILED,
-  UPDATE_CURRENT_SEARCH_TAB,
+  UPDATE_QUERY_PARAMS,
 } from '../actions';
 import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
-import { TABS } from '../constants';
+import { TABS, DEFAULT_DISTANCE_SELECTION } from '../constants';
 
 const INITIAL_STATE = {
   error: null,
@@ -61,7 +61,7 @@ const INITIAL_STATE = {
   query: {
     name: '',
     location: '',
-    distance: '50',
+    distance: DEFAULT_DISTANCE_SELECTION,
     latitude: null,
     longitude: null,
   },
@@ -118,12 +118,6 @@ function buildSearchResults(payload, paging = true) {
 
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case UPDATE_CURRENT_SEARCH_TAB:
-      return {
-        ...state,
-        tab: action.tab,
-      };
-
     case SEARCH_BY_LOCATION_SUCCEEDED:
       return {
         ...state,
@@ -184,6 +178,19 @@ export default function(state = INITIAL_STATE, action) {
         compare: buildSearchResults(action.payload, false),
         inProgress: false,
         error: null,
+      };
+
+    case UPDATE_QUERY_PARAMS:
+      return {
+        ...state,
+        tab: action.payload.search,
+        query: {
+          ...state.query,
+          name: action.payload.name,
+          location: action.payload.location,
+          latitude: action.payload.latitude,
+          longitude: action.payload.longitude,
+        },
       };
 
     default:

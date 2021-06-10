@@ -1,4 +1,4 @@
-import { INSTITUTION_FILTERS_CHANGED } from '../actions';
+import { FILTERS_CHANGED } from '../actions';
 
 const INITIAL_STATE = Object.freeze({
   expanded: false,
@@ -21,7 +21,7 @@ const INITIAL_STATE = Object.freeze({
 export default function(state = INITIAL_STATE, action) {
   let newState = { ...state };
 
-  if (action.type === INSTITUTION_FILTERS_CHANGED) {
+  if (action.type === FILTERS_CHANGED) {
     newState = {
       ...newState,
       ...action.payload,

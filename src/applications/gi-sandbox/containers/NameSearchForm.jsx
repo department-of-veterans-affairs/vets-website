@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
   fetchNameAutocompleteSuggestions,
@@ -14,26 +14,42 @@ export function NameSearchForm({
   dispatchUpdateAutocompleteName,
   filters,
   preview,
+  search,
 }) {
   const { version } = preview;
+  const [name, setName] = useState(search.query.name);
 
-  const doSearch = name => {
-    dispatchFetchSearchByNameResults(name, filters, version);
+  const doSearch = value => {
+    dispatchFetchSearchByNameResults(value, filters, version);
   };
+
+  useEffect(
+    () => {
+      if (search.query.name !== '' && search.query.name !== null) {
+        doSearch(search.query.name);
+      }
+    },
+    [search.query.name],
+  );
 
   const handleSubmit = event => {
     event.preventDefault();
-    doSearch(autocomplete.name);
+    doSearch(name);
   };
 
-  const doAutocompleteSuggestionsSearch = name => {
+  const doAutocompleteSuggestionsSearch = value => {
     dispatchFetchNameAutocompleteSuggestions(
-      name,
+      value,
       {
         category: filters.category,
       },
       version,
     );
+  };
+
+  const onUpdateAutocompleteSearchTerm = value => {
+    setName(value);
+    dispatchUpdateAutocompleteName(value);
   };
 
   return (
@@ -44,11 +60,11 @@ export function NameSearchForm({
             <KeywordSearch
               version={version}
               className="name-search"
-              inputValue={autocomplete.name}
+              inputValue={name}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => handleSubmit(e)}
-              onSelection={() => {}}
-              onUpdateAutocompleteSearchTerm={dispatchUpdateAutocompleteName}
+              onSelection={s => setName(s)}
+              onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               placeholder="school, employer, or training provider"
               suggestions={[...autocomplete.nameSuggestions]}
             />
@@ -69,6 +85,7 @@ const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   filters: state.filters,
   preview: state.preview,
+  search: state.search,
 });
 
 const mapDispatchToProps = {

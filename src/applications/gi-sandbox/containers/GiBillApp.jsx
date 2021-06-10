@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 import {
-  changeSearchTab,
   enterPreviewMode,
   exitPreviewMode,
   fetchConstants,
+  updateQueryParams,
 } from '../actions';
 import GiBillBreadcrumbs from '../components/GiBillBreadcrumbs';
 import PreviewBanner from '../components/PreviewBanner';
@@ -18,19 +18,17 @@ import ServiceError from '../components/ServiceError';
 export function GiBillApp({
   constants,
   children,
+  preview,
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
-  dispatchChangeSearchTab,
-  preview,
+  dispatchUpdateQueryParams,
 }) {
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
   const versionChange = version && version !== preview.version?.id;
   const shouldExitPreviewMode = preview.display && !version;
   const shouldEnterPreviewMode = !preview.display && versionChange;
-
-  const tab = queryParams.get('search');
 
   useEffect(
     () => {
@@ -41,13 +39,80 @@ export function GiBillApp({
       } else {
         dispatchFetchConstants();
       }
-
-      if (tab) {
-        dispatchChangeSearchTab(tab);
-      }
     },
     [shouldExitPreviewMode, shouldEnterPreviewMode],
   );
+
+  useEffect(() => {
+    let params = {};
+    for (const [key, value] of queryParams.entries()) {
+      params = {
+        ...params,
+        [key]: value,
+      };
+    }
+    dispatchUpdateQueryParams(params);
+  }, []);
+
+  // useEffect(() => {
+  //   if (tab) {
+  //     dispatchChangeSearchTab(tab);
+  //
+  //     const onLoadFilters = { ...filters };
+  //     Object.keys(filters).forEach(key => {
+  //       if (queryParams.has(key)) {
+  //         let value = queryParams.get(key);
+  //
+  //         if (value === 'true') value = true;
+  //         else if (value === 'false') value = false;
+  //
+  //         onLoadFilters[key] = value;
+  //       } else if (FILTERS_EXCLUDED_FLIP.includes(key)) {
+  //         let value = queryParams.get(`exclude_${key}`);
+  //
+  //         if (value === 'true') value = true;
+  //         else if (value === 'false') value = false;
+  //
+  //         onLoadFilters[key] = value;
+  //       }
+  //     });
+  //
+  //     const distance = queryParams.has('distance')
+  //       ? queryParams.get('distance')
+  //       : DEFAULT_DISTANCE_SELECTION;
+  //
+  //     dispatchFilterChange(onLoadFilters);
+  //
+  //     if (queryParams.has('name')) {
+  //       dispatchUpdateAutocompleteName(queryParams.get('name'));
+  //       dispatchFetchSearchByNameResults(
+  //         queryParams.get('name'),
+  //         onLoadFilters,
+  //         version,
+  //       );
+  //     } else if (queryParams.has('location')) {
+  //       dispatchUpdateAutocompleteLocation(queryParams.get('location'));
+  //       dispatchFetchSearchByLocationResults(
+  //         queryParams.get('location'),
+  //         distance,
+  //         onLoadFilters,
+  //         version,
+  //       );
+  //     } else if (queryParams.has('latitude') && queryParams.has('longitude')) {
+  //       const coordinates = [
+  //         queryParams.get('longitude'),
+  //         queryParams.get('latitude'),
+  //       ];
+  //       dispatchFetchSearchByLocationCoords(
+  //         null,
+  //         coordinates,
+  //         distance,
+  //         onLoadFilters,
+  //         version,
+  //       );
+  //     }
+  //   }
+  // }, []);
 
   return (
     <div className="gi-app" role="application">
@@ -73,19 +138,17 @@ GiBillApp.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-const mapStateToProps = state => {
-  const { constants, preview } = state;
-  return {
-    constants,
-    preview,
-  };
-};
+const mapStateToProps = state => ({
+  constants: state.constants,
+  preview: state.preview,
+  filters: state.filters,
+});
 
 const mapDispatchToProps = {
   dispatchEnterPreviewMode: enterPreviewMode,
   dispatchExitPreviewMode: exitPreviewMode,
   dispatchFetchConstants: fetchConstants,
-  dispatchChangeSearchTab: changeSearchTab,
+  dispatchUpdateQueryParams: updateQueryParams,
 };
 
 export default connect(

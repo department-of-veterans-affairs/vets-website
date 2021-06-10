@@ -30,10 +30,10 @@ export const FETCH_PROFILE_FAILED = 'FETCH_PROFILE_FAILED';
 export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
+export const FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const GEOCODE_STARTED = 'GEOCODE_STARTED';
 export const GEOCODE_FAILED = 'GEOCODE_FAILED';
 export const GEOCODE_SUCCEEDED = 'GEOCODE_SUCCEEDED';
-export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const LOCATION_AUTOCOMPLETE_SUCCEEDED =
   'LOCATION_AUTOCOMPLETE_SUCCEEDED';
 export const NAME_AUTOCOMPLETE_SUCCEEDED = 'NAME_AUTOCOMPLETE_SUCCEEDED';
@@ -50,6 +50,7 @@ export const UPDATE_AUTOCOMPLETE_LOCATION = 'UPDATE_AUTOCOMPLETE_LOCATION';
 export const UPDATE_CURRENT_SEARCH_TAB = 'UPDATE_CURRENT_TAB';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
+export const UPDATE_QUERY_PARAMS = 'UPDATE_QUERY_PARAMS';
 
 export function enterPreviewMode(version) {
   return {
@@ -144,14 +145,14 @@ export function eligibilityChange(eligibility) {
   return { type: ELIGIBILITY_CHANGED, payload: eligibility };
 }
 
-export function institutionFilterChange(filters) {
-  return { type: INSTITUTION_FILTERS_CHANGED, payload: filters };
+export function filterChange(filters) {
+  return { type: FILTERS_CHANGED, payload: filters };
 }
 
 export function updateEligibilityAndFilters(eligibility, filters) {
   return dispatch => {
     dispatch({ type: ELIGIBILITY_CHANGED, payload: eligibility });
-    dispatch({ type: INSTITUTION_FILTERS_CHANGED, payload: filters });
+    dispatch({ type: FILTERS_CHANGED, payload: filters });
   };
 }
 
@@ -467,5 +468,11 @@ export function addCompareInstitution(institution) {
 export function removeCompareInstitution(facilityCode) {
   return dispatch => {
     dispatch({ type: REMOVE_COMPARE_INSTITUTION, payload: facilityCode });
+  };
+}
+
+export function updateQueryParams(queryParams) {
+  return dispatch => {
+    dispatch({ type: UPDATE_QUERY_PARAMS, payload: queryParams });
   };
 }

@@ -2,7 +2,7 @@ import _, { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
 import constants from 'vets-json-schema/dist/constants.json';
-import { SMALL_SCREEN_WIDTH } from '../constants';
+import { SMALL_SCREEN_WIDTH, FILTERS_EXCLUDED_FLIP } from '../constants';
 
 /**
  * Snake-cases field names
@@ -190,27 +190,26 @@ export const buildSearchFilters = filters => {
   const clonedFilters = _.cloneDeep(filters);
   delete clonedFilters.expanded;
 
-  const reversed = {
-    schools: true,
-    employers: true,
-    vettec: true,
-  };
   const hasAllValue = ['country', 'state', 'type'];
   const searchFilters = {};
-  const boolFields = Object.entries(clonedFilters).filter(([field, value]) => {
-    return (
-      (value === !reversed[field] && value === true) ||
-      (reversed[field] && value === false)
-    );
-  });
 
-  boolFields.forEach(([field]) => {
-    searchFilters[field] = true;
-  });
+  // boolean fields
+  Object.entries(clonedFilters)
+    .filter(([_field, value]) => value === true)
+    .filter(([field, _value]) => !FILTERS_EXCLUDED_FLIP.includes(field))
+    .forEach(([field]) => {
+      searchFilters[field] = clonedFilters[field];
+    });
 
   hasAllValue.filter(field => clonedFilters[field] !== 'ALL').forEach(field => {
     searchFilters[field] = clonedFilters[field];
   });
+
+  FILTERS_EXCLUDED_FLIP.filter(field => !clonedFilters[field]).forEach(
+    field => {
+      searchFilters[`exclude_${field}`] = !clonedFilters[field];
+    },
+  );
 
   return searchFilters;
 };

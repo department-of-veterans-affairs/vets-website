@@ -44,6 +44,10 @@ export const TABS = Object.freeze({
   location: 'location',
 });
 
+export const FILTERS_EXCLUDED_FLIP = ['schools', 'employers', 'vettec'];
+
+export const DEFAULT_DISTANCE_SELECTION = '50';
+
 export const ariaLabels = Object.freeze({
   learnMore: {
     giBillBenefits: 'Learn more about VA education and training programs',
