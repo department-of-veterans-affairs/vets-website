@@ -81,7 +81,6 @@ GiBillApp.propTypes = {
 const mapStateToProps = state => ({
   constants: state.constants,
   preview: state.preview,
-  filters: state.filters,
 });
 
 const mapDispatchToProps = {
