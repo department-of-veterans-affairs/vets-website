@@ -19,7 +19,7 @@ module.exports = {
   webdriver: {
     start_process: true,
     server_path: process.env.CHROMEDRIVER_FILEPATH || chromedriver.path,
-    port: 4444,
+    port: 9515,
   },
   test_settings: {
     default: {
