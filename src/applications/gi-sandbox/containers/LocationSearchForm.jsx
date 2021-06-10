@@ -6,10 +6,11 @@ import {
   fetchSearchByLocationCoords,
   fetchSearchByLocationResults,
   updateAutocompleteLocation,
+  geolocateUser,
+  clearGeocodeError,
 } from '../actions';
 import KeywordSearch from '../components/search/KeywordSearch';
-import { mapboxToken } from '../utils/mapboxToken';
-import { getPosition } from '../utils/helpers';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 export function LocationSearchForm({
@@ -21,61 +22,26 @@ export function LocationSearchForm({
   filters,
   preview,
   search,
+  dispatchGeolocateUser,
+  dispatchClearGeocodeError,
 }) {
   const [distance, setDistance] = useState(search.query.distance);
 
-  const [streetAddress, setStreetAddress] = useState('');
-
-  const [geolocationInProgress, setGeolocationInProgress] = useState(false);
-
-  const [geolocationError, setGeolocationError] = useState(0);
-
   const { version } = preview;
 
-  const checkGeolocationError = () => {
-    navigator.geolocation.watchPosition(
-      function() {
-        setGeolocationError(0);
-      },
-      function(error) {
-        if (error.code === 1) {
-          setGeolocationError(1);
-        } else if (error.code === 2) {
-          setGeolocationError(2);
-        } else if (error.code === 3) {
-          setGeolocationError(3);
-        }
-      },
-    );
-  };
-
   const handleGeolocationButtonClick = () => {
-    setGeolocationInProgress(true);
-    getPosition()
-      .then(position => {
-        fetch(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${position[1]},${
-            position[0]
-          }.json?access_token=${mapboxToken}`,
-        )
-          .then(response => response.json())
-          .then(data => setStreetAddress(data.features[0].place_name));
-        setGeolocationInProgress(false);
-      })
-      .catch(() => {
-        checkGeolocationError();
-        setGeolocationInProgress(false);
-      });
+    dispatchGeolocateUser();
   };
 
   const doSearch = event => {
     event.preventDefault();
     dispatchFetchSearchByLocationResults(
-      streetAddress !== '' ? streetAddress : autocomplete.location,
+      search.streetAddress.searchString !== ''
+        ? search.streetAddress.searchString
+        : autocomplete.location,
       distance,
       filters,
     );
-    setStreetAddress('');
   };
 
   const handleSelection = selected => {
@@ -88,7 +54,9 @@ export function LocationSearchForm({
       );
     } else {
       dispatchFetchSearchByLocationResults(
-        streetAddress !== '' ? streetAddress : autocomplete.location,
+        search.streetAddress.searchString !== ''
+          ? search.streetAddress.searchString
+          : autocomplete.location,
         distance,
         filters,
       );
@@ -102,7 +70,7 @@ export function LocationSearchForm({
   return (
     <div>
       <div className="use-my-location-container">
-        {geolocationInProgress ? (
+        {search.geolocationInProgress ? (
           <div className="use-my-location-link">
             <i
               className="fa fa-spinner fa-spin"
@@ -127,17 +95,17 @@ export function LocationSearchForm({
       </div>
       <Modal
         title={
-          geolocationError === 1
+          search.geocodeError === 1
             ? 'We need to use your location'
             : "We couldn't locate you"
         }
-        onClose={() => setGeolocationError(0)}
+        onClose={() => dispatchClearGeocodeError()}
         status="warning"
-        visible={geolocationError > 0}
+        visible={search.geocodeError > 0}
         contents={
           <>
             <p>
-              {geolocationError === 1
+              {search.geocodeError === 1
                 ? 'Please enable location sharing in your browser to use this feature.'
                 : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
             </p>
@@ -152,7 +120,9 @@ export function LocationSearchForm({
               name="locationSearch"
               className="location-search"
               inputValue={
-                streetAddress !== '' ? streetAddress : autocomplete.location
+                search.streetAddress.searchString !== ''
+                  ? search.streetAddress.searchString
+                  : autocomplete.location
               }
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => doSearch(e)}
@@ -203,6 +173,8 @@ const mapDispatchToProps = {
   dispatchFetchLocationAutocompleteSuggestions: fetchLocationAutocompleteSuggestions,
   dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
   dispatchUpdateAutocompleteLocation: updateAutocompleteLocation,
+  dispatchGeolocateUser: geolocateUser,
+  dispatchClearGeocodeError: clearGeocodeError,
 };
 
 export default connect(

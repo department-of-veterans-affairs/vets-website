@@ -6,10 +6,15 @@ import {
   SEARCH_BY_FACILITY_CODES_SUCCEEDED,
   SEARCH_BY_LOCATION_SUCCEEDED,
   SEARCH_BY_NAME_SUCCEEDED,
+  SEARCH_QUERY_UPDATED,
   GEOCODE_SUCCEEDED,
   GEOCODE_STARTED,
   GEOCODE_FAILED,
+  GEOCODE_LOCATION_FAILED,
+  GEOCODE_COMPLETE,
+  GEOCODE_CLEAR_ERROR,
   UPDATE_CURRENT_SEARCH_TAB,
+  GEOLOCATE_USER,
 } from '../actions';
 import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
 import { TABS } from '../constants';
@@ -19,6 +24,11 @@ const INITIAL_STATE = {
   geocode: null,
   geocodeInProgress: false,
   geolocationInProgress: false,
+  streetAddress: {
+    bounds: {},
+    searchString: '',
+    position: {},
+  },
   inProgress: false,
   location: {
     count: null,
@@ -166,16 +176,45 @@ export default function(state = INITIAL_STATE, action) {
         query: { ...state.query, ...action.payload },
         geocodeInProgress: true,
       };
+    case GEOCODE_FAILED:
+      return {
+        ...state,
+        error: true,
+        geocodeError: action.code,
+        geocodeInProgress: false,
+        geolocationInProgress: false,
+      };
+    case GEOCODE_COMPLETE:
+      return {
+        ...state,
+        geocodeResults: action.payload,
+        error: false,
+        geocodeInProgress: false,
+        geolocationInProgress: false,
+      };
+    case GEOCODE_CLEAR_ERROR:
+      return {
+        ...state,
+        error: false,
+        geocodeError: 0,
+        geocodeInProgress: false,
+        geolocationInProgress: false,
+      };
 
     case GEOCODE_SUCCEEDED:
       return { ...state, geocode: action.payload, geocodeInProgress: false };
 
-    case GEOCODE_FAILED:
+    case GEOCODE_LOCATION_FAILED:
       return {
         ...state,
         error: action.payload,
         geocodeInProgress: false,
         geolocationInProgress: false,
+      };
+    case GEOLOCATE_USER:
+      return {
+        ...state,
+        geolocationInProgress: true,
       };
 
     case SEARCH_BY_FACILITY_CODES_SUCCEEDED:
@@ -184,6 +223,16 @@ export default function(state = INITIAL_STATE, action) {
         compare: buildSearchResults(action.payload, false),
         inProgress: false,
         error: null,
+      };
+    case SEARCH_QUERY_UPDATED:
+      return {
+        ...state,
+        streetAddress: {
+          bounds: { ...action.payload.bounds },
+          searchString: action.payload.searchString,
+          position: { ...action.payload.position },
+        },
+        error: false,
       };
 
     default:

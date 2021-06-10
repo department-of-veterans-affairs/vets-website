@@ -3,6 +3,10 @@ import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
 import constants from 'vets-json-schema/dist/constants.json';
 import { SMALL_SCREEN_WIDTH } from '../constants';
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import mapboxClient from '../components/MapboxClient';
+
+const mbxClient = mbxGeo(mapboxClient);
 
 /**
  * Snake-cases field names
@@ -231,4 +235,30 @@ export const getPosition = () => {
 
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
   });
+};
+export const searchCriteraFromCoords = async (longitude, latitude) => {
+  const BOUNDING_RADIUS = 0.75;
+  const response = await mbxClient
+    .reverseGeocode({
+      query: [longitude, latitude],
+      types: ['address'],
+    })
+    .send();
+  // TODO: display error message if geolocation fails?
+  // .catch(error => error);
+
+  const features = response.body.features;
+  const placeName = features[0].place_name;
+  const coordinates = features[0].center;
+
+  return {
+    bounds: features[0].bbox || [
+      coordinates[0] - BOUNDING_RADIUS,
+      coordinates[1] - BOUNDING_RADIUS,
+      coordinates[0] + BOUNDING_RADIUS,
+      coordinates[1] + BOUNDING_RADIUS,
+    ],
+    searchString: placeName,
+    position: { longitude, latitude },
+  };
 };

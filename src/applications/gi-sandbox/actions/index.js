@@ -4,7 +4,11 @@ import { api } from '../config';
 
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 
-import { buildSearchFilters, rubyifyKeys } from '../utils/helpers';
+import {
+  buildSearchFilters,
+  rubyifyKeys,
+  searchCriteraFromCoords,
+} from '../utils/helpers';
 import { TypeList } from '../constants';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../components/MapboxClient';
@@ -32,7 +36,11 @@ export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
 export const GEOCODE_STARTED = 'GEOCODE_STARTED';
 export const GEOCODE_FAILED = 'GEOCODE_FAILED';
+export const GEOCODE_LOCATION_FAILED = 'GEOCODE_LOCATION_FAILED';
 export const GEOCODE_SUCCEEDED = 'GEOCODE_SUCCEEDED';
+export const GEOCODE_STREET_ADDRESS = 'GEOCODE_STREET_ADDRESS';
+export const GEOLOCATE_USER = 'GEOLOCATE_USER';
+export const GEOCODE_CLEAR_ERROR = 'GEOCODE_CLEAR_ERROR';
 export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const LOCATION_AUTOCOMPLETE_SUCCEEDED =
   'LOCATION_AUTOCOMPLETE_SUCCEEDED';
@@ -50,6 +58,8 @@ export const UPDATE_AUTOCOMPLETE_LOCATION = 'UPDATE_AUTOCOMPLETE_LOCATION';
 export const UPDATE_CURRENT_SEARCH_TAB = 'UPDATE_CURRENT_TAB';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
+export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
+export const GEOCODE_COMPLETE = 'GEOCODE_COMPLETE';
 
 export function enterPreviewMode(version) {
   return {
@@ -463,3 +473,42 @@ export function removeCompareInstitution(facilityCode) {
     dispatch({ type: REMOVE_COMPARE_INSTITUTION, payload: facilityCode });
   };
 }
+
+export function fetchStreetAddress() {
+  return {
+    type: GEOCODE_STREET_ADDRESS,
+    payload: 'test',
+  };
+}
+
+export const updateSearchQuery = query => ({
+  type: SEARCH_QUERY_UPDATED,
+  payload: { ...query },
+});
+
+export const geolocateUser = () => async dispatch => {
+  const GEOLOCATION_TIMEOUT = 10000;
+  if (navigator?.geolocation?.getCurrentPosition) {
+    dispatch({ type: GEOLOCATE_USER });
+    navigator.geolocation.getCurrentPosition(
+      async currentPosition => {
+        const query = await searchCriteraFromCoords(
+          currentPosition.coords.longitude,
+          currentPosition.coords.latitude,
+        );
+        dispatch({ type: GEOCODE_COMPLETE });
+        dispatch(updateSearchQuery(query));
+      },
+      e => {
+        dispatch({ type: GEOCODE_LOCATION_FAILED, code: e.code });
+      },
+      { timeout: GEOLOCATION_TIMEOUT },
+    );
+  } else {
+    dispatch({ type: GEOCODE_LOCATION_FAILED, code: -1 });
+  }
+};
+
+export const clearGeocodeError = () => async dispatch => {
+  dispatch({ type: GEOCODE_CLEAR_ERROR });
+};

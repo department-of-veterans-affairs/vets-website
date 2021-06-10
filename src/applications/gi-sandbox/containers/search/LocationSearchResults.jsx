@@ -18,7 +18,7 @@ function LocationSearchResults({
   search,
   dispatchUpdateEligibilityAndFilters,
 }) {
-  const { inProgress } = search;
+  const { inProgress, streetAddress } = search;
   const { count, results } = search.location;
   const { location } = search.query;
   const map = useRef(null);
@@ -102,16 +102,34 @@ function LocationSearchResults({
   useEffect(
     () => {
       markers.current.forEach(marker => marker.remove());
-
+      const currentmarkerElement = document.createElement('div');
+      currentmarkerElement.className = 'current-position';
       if (!map.current || results.length === 0) return; // wait for map to initialize
-
+      if (streetAddress.searchString) {
+        new mapboxgl.Marker(currentmarkerElement)
+          .setLngLat([
+            streetAddress.position.longitude,
+            streetAddress.position.latitude,
+          ])
+          .addTo(map.current);
+      }
       const locationBounds = new mapboxgl.LngLatBounds();
 
       results.forEach((institution, index) => {
         addMapMarker(institution, index, locationBounds);
       });
 
-      map.current.fitBounds(locationBounds, { padding: 20 });
+      const sw = [streetAddress.bounds[0], streetAddress.bounds[1]];
+      const ne = [streetAddress.bounds[2], streetAddress.bounds[3]];
+      const userLocationBounds = [sw, ne];
+
+      const userLocationBoundsCheck = streetAddress.searchString
+        ? userLocationBounds
+        : locationBounds;
+
+      map.current.fitBounds(userLocationBoundsCheck, {
+        padding: 20,
+      });
     },
     [results],
   );

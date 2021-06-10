@@ -1,5 +1,6 @@
-.location-search {
+$ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
+.location-search {
   .result-card {
     width: 100%;
 
@@ -26,7 +27,8 @@
     background-color: $color-red-dark;
   }
 
-  .location-letter, .location-letter-marker {
+  .location-letter,
+  .location-letter-marker {
     border-radius: 50%;
     width: 28px;
     height: 24px;
@@ -34,6 +36,14 @@
     background: $color-base;
     color: $color-gray-lightest;
     text-align: center;
+  }
+  .current-position {
+    border-radius: 50%;
+    width: 23px;
+    height: 23px;
+    box-shadow: 0 0 4px 0 $ct-locator-shadow;
+    border: solid 4px $color-white;
+    background-color: $color-red-dark;
   }
 
   .location-letter-marker:active {
