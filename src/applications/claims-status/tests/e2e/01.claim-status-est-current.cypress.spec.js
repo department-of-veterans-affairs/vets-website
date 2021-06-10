@@ -1,5 +1,6 @@
 import moment from 'moment';
 import claimsList from './fixtures/mocks/claims-list.json';
+
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 describe('Claims status est current test', () => {
