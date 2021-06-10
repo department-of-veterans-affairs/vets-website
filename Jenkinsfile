@@ -49,7 +49,7 @@ node('vetsgov-general-purpose') {
         buildProd: {
           if (commonStages.shouldBail()) { return }
           def envName = 'vagovprod'
-                    
+
           try {
             // Try to build using fresh drupal content
             commonStages.build(ref, dockerContainer, envName)
@@ -159,11 +159,6 @@ node('vetsgov-general-purpose') {
           sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
-
-          dockerContainer.inside(commonStages.DOCKER_ARGS) {
-            archiveArtifacts '.npm/_logs/**/*.log'
-          }
-
           step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
         }
       }
