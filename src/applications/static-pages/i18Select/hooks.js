@@ -48,7 +48,6 @@ export const adaptLinksWithLangCode = setLangAttributeInReduxStore => {
 
       let langAttribute = link.lang || link.hreflang;
 
-      // the CMS should really be inputting the correct lang code here, but ¯\_(ツ)_/¯
       const correctLangAttribute = parseLangCode(link.href);
 
       if (!langAttribute || correctLangAttribute !== langAttribute) {
