@@ -30,7 +30,7 @@ jobs:
         run: rm -rf node_modules
 
       - name: Install vets-website dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install --frozen-lockfile
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
