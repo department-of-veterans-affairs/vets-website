@@ -213,14 +213,6 @@ const formConfig = {
               state.form.data?.serviceInformation?.servicePeriods || [],
           }),
         },
-        claimType: {
-          title: 'Claim type',
-          path: 'claim-type',
-          depends: formData => hasRatedDisabilities(formData),
-          uiSchema: claimType.uiSchema,
-          schema: claimType.schema,
-          onContinue: captureEvents.claimType,
-        },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard service',
           path:
@@ -274,6 +266,14 @@ const formConfig = {
     disabilities: {
       title: 'Disabilities', // this probably needs to change
       pages: {
+        claimType: {
+          title: 'Claim type',
+          path: 'claim-type',
+          depends: formData => hasRatedDisabilities(formData),
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
+          onContinue: captureEvents.claimType,
+        },
         disabilitiesOrientation: {
           title: '',
           path: DISABILITY_SHARED_CONFIG.orientation.path,
