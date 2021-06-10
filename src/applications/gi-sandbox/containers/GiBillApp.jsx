@@ -56,7 +56,6 @@ export function GiBillApp({
 
   // useEffect(() => {
   //   if (tab) {
-  //     dispatchChangeSearchTab(tab);
   //
   //     const onLoadFilters = { ...filters };
   //     Object.keys(filters).forEach(key => {
@@ -83,13 +82,6 @@ export function GiBillApp({
   //
   //     dispatchFilterChange(onLoadFilters);
   //
-  //     if (queryParams.has('name')) {
-  //       dispatchUpdateAutocompleteName(queryParams.get('name'));
-  //       dispatchFetchSearchByNameResults(
-  //         queryParams.get('name'),
-  //         onLoadFilters,
-  //         version,
-  //       );
   //     } else if (queryParams.has('location')) {
   //       dispatchUpdateAutocompleteLocation(queryParams.get('location'));
   //       dispatchFetchSearchByLocationResults(

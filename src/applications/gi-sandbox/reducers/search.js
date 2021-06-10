@@ -9,6 +9,7 @@ import {
   GEOCODE_SUCCEEDED,
   GEOCODE_STARTED,
   GEOCODE_FAILED,
+  UPDATE_CURRENT_SEARCH_TAB,
   UPDATE_QUERY_PARAMS,
 } from '../actions';
 import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
@@ -118,6 +119,12 @@ function buildSearchResults(payload, paging = true) {
 
 export default function(state = INITIAL_STATE, action) {
   switch (action.type) {
+    case UPDATE_CURRENT_SEARCH_TAB:
+      return {
+        ...state,
+        tab: action.tab,
+      };
+
     case SEARCH_BY_LOCATION_SUCCEEDED:
       return {
         ...state,
