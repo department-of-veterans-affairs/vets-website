@@ -20,7 +20,7 @@ module.exports = {
     start_process: true,
     server_path: process.env.CHROMEDRIVER_FILEPATH || chromedriver.path,
     host: 'vets-website',
-    port: 4444,
+    port: 9515,
   },
 
   // If set to true, runs the tests in parallel and determines the number of workers automatically.
