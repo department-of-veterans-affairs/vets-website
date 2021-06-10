@@ -23,7 +23,7 @@ import {
   VIDEO_TYPES,
 } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import AppointmentDateTime from './AppointmentDateTime';
+import AppointmentDateTime from '../AppointmentDateTime';
 import VideoVisitSection from './VideoVisitSection';
 import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
@@ -190,38 +190,32 @@ export default function ConfirmedAppointmentDetailsPage() {
       </Breadcrumbs>
 
       <h1>
-        <AppointmentDateTime
-          appointmentDate={moment.parseZone(appointment.start)}
-          facilityId={appointment.location.vistaId}
-        />
+        <AppointmentDateTime appointment={appointment} />
       </h1>
 
       {alertBox}
 
+      <h2
+        className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+        data-cy={
+          isVideo
+            ? 'va-video-appointment-details-header'
+            : 'va-appointment-details-header'
+        }
+      >
+        {header}
+      </h2>
+
       {isVideo && (
-        <>
-          <h2
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
-            data-cy="va-video-appointment-details-header"
-          >
-            {header}
-          </h2>
-          <VideoVisitSection
-            header={header}
-            facility={facility}
-            appointment={appointment}
-          />
-        </>
+        <VideoVisitSection
+          header={header}
+          facility={facility}
+          appointment={appointment}
+        />
       )}
 
       {!isVideo && (
         <>
-          <h2
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
-            data-cy="va-appointment-details-header"
-          >
-            {header}
-          </h2>
           <VAFacilityLocation
             facility={facility}
             facilityName={facility?.name}

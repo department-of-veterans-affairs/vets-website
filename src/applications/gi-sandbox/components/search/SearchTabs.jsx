@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import NameSearchForm from '../../containers/NameSearchForm';
 import LocationSearchForm from '../../containers/LocationSearchForm';
 import { TABS } from '../../constants';
+import { scroller } from 'react-scroll';
+import { getScrollOptions } from 'platform/utilities/ui';
 
 export default function SearchTabs({ onChange, search }) {
   const { tab } = search;
+
+  useEffect(
+    () => {
+      if (search.inProgress) {
+        scroller.scrollTo('search-form', getScrollOptions());
+      }
+    },
+    [search.inProgress],
+  );
+
   const tabbedSearch = {
     [TABS.name]: <NameSearchForm />,
     [TABS.location]: <LocationSearchForm />,

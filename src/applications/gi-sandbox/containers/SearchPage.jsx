@@ -8,7 +8,7 @@ import { useQueryParams } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
 import CompareDrawer from './CompareDrawer';
 import NameResults from '../components/search/NameResults';
-import LocationSearchResults from '../components/search/LocationSearchResults';
+import LocationSearchResults from '../containers/search/LocationSearchResults';
 
 export function SearchPage({
   search,
