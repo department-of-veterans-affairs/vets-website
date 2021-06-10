@@ -416,27 +416,6 @@ export function fetchSearchByLocationResults(
   };
 }
 
-export function updateFiltersAndDoNameSearch(name, filters, version) {
-  return dispatch => {
-    dispatch(institutionFilterChange(filters));
-    dispatch(fetchSearchByNameResults(name, filters, version));
-  };
-}
-
-export function updateFiltersAndDoLocationSearch(
-  location,
-  distance,
-  filters,
-  version,
-) {
-  return dispatch => {
-    dispatch(institutionFilterChange(filters));
-    dispatch(
-      fetchSearchByLocationResults(location, distance, filters, version),
-    );
-  };
-}
-
 export function fetchSearchByFacilityCodes(facilityCodes, filters, version) {
   const params = rubyifyKeys({
     facilityCodes,

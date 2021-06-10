@@ -698,6 +698,64 @@
           }
         },
         {
+          "title": "Life insurance",
+          "links": {
+            "seeAllLink": {
+              "text": "View all in life insurance",
+              "href": "https://www.va.gov/life-insurance"
+            },
+            "columnOne": {
+              "title": "Get life insurance",
+              "links": [
+                {
+                  "text": "About life insurance options",
+                  "href": "https://www.va.gov/life-insurance/options-eligibility"
+                },
+                {
+                  "text": "Benefits for totally disabled or terminally ill policyholders",
+                  "href": "https://www.va.gov/life-insurance/totally-disabled-or-terminally-ill"
+                },
+                {
+                  "text": "Beneficiary financial counseling and online will preparation",
+                  "href": "https://www.benefits.va.gov/insurance/bfcs.asp"
+                }
+              ]
+            },
+            "columnTwo": {
+              "title": "Manage your life insurance",
+              "links": [
+                {
+                  "text": "Access your policy online",
+                  "href": "https://www.va.gov/life-insurance/manage-your-policy"
+                },
+                {
+                  "text": "Update your beneficiaries",
+                  "href": "https://www.benefits.va.gov/INSURANCE/updatebene.asp"
+                },
+                {
+                  "text": "File a claim for insurance benefits",
+                  "href": "https://www.benefits.va.gov/INSURANCE/sglivgli.asp"
+                },
+                {
+                  "text": "Check your appeal status",
+                  "href": "https://www.va.gov/claim-or-appeal-status"
+                }
+              ]
+            },
+            "columnThree": {
+              "img": {
+                "src": "https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/life-insurance.png",
+                "alt": ""
+              },
+              "link": {
+                "text": "SGLI Online Enrollment System (SOES)",
+                "href": "https://www.benefits.va.gov/INSURANCE/SOES.asp"
+              },
+              "description": "Learn about our new online enrollment system for Servicemembers' Group Life Insurance."
+            }
+          }
+        },
+        {
           "title": "Burials and memorials",
           "links": {
             "columnOne": {
@@ -760,64 +818,6 @@
                 "href": "https://m.va.gov/"
               },
               "description": "Locate a grave, search for cemeteries, and find benefits information and resources."
-            }
-          }
-        },
-        {
-          "title": "Life insurance",
-          "links": {
-            "seeAllLink": {
-              "text": "View all in life insurance",
-              "href": "https://www.va.gov/life-insurance"
-            },
-            "columnOne": {
-              "title": "Get life insurance",
-              "links": [
-                {
-                  "text": "About life insurance options",
-                  "href": "https://www.va.gov/life-insurance/options-eligibility"
-                },
-                {
-                  "text": "Benefits for totally disabled or terminally ill policyholders",
-                  "href": "https://www.va.gov/life-insurance/totally-disabled-or-terminally-ill"
-                },
-                {
-                  "text": "Beneficiary financial counseling and online will preparation",
-                  "href": "https://www.benefits.va.gov/insurance/bfcs.asp"
-                }
-              ]
-            },
-            "columnTwo": {
-              "title": "Manage your life insurance",
-              "links": [
-                {
-                  "text": "Access your policy online",
-                  "href": "https://www.va.gov/life-insurance/manage-your-policy"
-                },
-                {
-                  "text": "Update your beneficiaries",
-                  "href": "https://www.benefits.va.gov/INSURANCE/updatebene.asp"
-                },
-                {
-                  "text": "File a claim for insurance benefits",
-                  "href": "https://www.benefits.va.gov/INSURANCE/sglivgli.asp"
-                },
-                {
-                  "text": "Check your appeal status",
-                  "href": "https://www.va.gov/claim-or-appeal-status"
-                }
-              ]
-            },
-            "columnThree": {
-              "img": {
-                "src": "https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/life-insurance.png",
-                "alt": ""
-              },
-              "link": {
-                "text": "SGLI Online Enrollment System (SOES)",
-                "href": "https://www.benefits.va.gov/INSURANCE/SOES.asp"
-              },
-              "description": "Learn about our new online enrollment system for Servicemembers' Group Life Insurance."
             }
           }
         },

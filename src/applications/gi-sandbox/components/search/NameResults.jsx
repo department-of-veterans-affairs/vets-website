@@ -11,9 +11,8 @@ export default function NameResults({ search }) {
 
   return (
     <>
-      {inProgress && <LoadingIndicator message="Loading search results..." />}
-      {!inProgress &&
-        name !== '' && (
+      {name !== '' &&
+        name !== null && (
           <div className="usa-grid vads-u-padding--1">
             <p>
               Showing <strong>{count} search results</strong> for '
@@ -24,16 +23,20 @@ export default function NameResults({ search }) {
               <RefineYourSearch />
             </div>
             <div className="usa-width-two-thirds ">
-              {count > 0 && (
-                <div className="vads-l-row vads-u-flex-wrap--wrap">
-                  {results.map(institution => (
-                    <SearchResultCard
-                      institution={institution}
-                      key={institution.facilityCode}
-                    />
-                  ))}
-                </div>
+              {inProgress && (
+                <LoadingIndicator message="Loading search results..." />
               )}
+              {!inProgress &&
+                count > 0 && (
+                  <div className="vads-l-row vads-u-flex-wrap--wrap">
+                    {results.map(institution => (
+                      <SearchResultCard
+                        institution={institution}
+                        key={institution.facilityCode}
+                      />
+                    ))}
+                  </div>
+                )}
             </div>
           </div>
         )}
