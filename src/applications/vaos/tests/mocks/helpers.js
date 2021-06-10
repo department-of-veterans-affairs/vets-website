@@ -272,6 +272,22 @@ export function mockCCProviderFetch(
 }
 
 /**
+ * Mocks request to VA community care providers api for a single PPMS provider by id, used in community care request flow
+ *
+ * @export
+ * @param {Object<PPMSProvider>} request PPMS provider object
+ */
+
+export function mockCCSingleProviderFetch(request) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/v1/facilities/ccp/${request.id}`,
+    ),
+    { data: request },
+  );
+}
+
+/**
  * Mocks api calls used when cancelling an appointment
  *
  * @export
@@ -956,6 +972,26 @@ export function mockSingleRequestFetch({ request, error = null }) {
   const baseUrl = `${environment.API_URL}/vaos/v0/appointment_requests/${
     request.id
   }`;
+
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: request });
+  }
+}
+
+/**
+ * Mocks the fetch request made when retrieving a single VAOS appointment request
+ * for the details page
+ *
+ * @export
+ * @param {Object} params
+ * @param {VAOSRequest} params.appointment Request to be returned from the mock
+ * @param {boolean} [params.error=null] Whether or not to return an error from the mock
+ * }
+ */
+export function mockSingleVAOSRequestFetch({ request, error = null }) {
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${request.id}`;
 
   if (error) {
     setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
