@@ -20,10 +20,9 @@ export function LocationSearchForm({
   search,
 }) {
   const [distance, setDistance] = useState(search.query.distance);
-  // const [location, setLocation] = useState(search.query.location);
+  const [location, setLocation] = useState(search.query.location);
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const { version } = preview;
-  const { latitude, longitude } = search.query;
 
   useEffect(
     () => {
@@ -38,25 +37,6 @@ export function LocationSearchForm({
     [search.query.location, search.query.distance],
   );
 
-  useEffect(
-    () => {
-      if (
-        latitude !== '' &&
-        latitude !== null &&
-        longitude !== '' &&
-        longitude !== null
-      ) {
-        dispatchFetchSearchByLocationCoords(
-          search.query.location,
-          [longitude, latitude],
-          distance,
-          filters,
-        );
-      }
-    },
-    [latitude, longitude],
-  );
-
   const doSearch = event => {
     event.preventDefault();
     if (autocompleteSelection?.coords) {
@@ -67,16 +47,17 @@ export function LocationSearchForm({
         filters,
       );
     } else {
-      dispatchFetchSearchByLocationResults(
-        autocomplete.location,
-        distance,
-        filters,
-      );
+      dispatchFetchSearchByLocationResults(location, distance, filters);
     }
   };
 
   const doAutocompleteSuggestionsSearch = value => {
     dispatchFetchLocationAutocompleteSuggestions(value);
+  };
+
+  const onUpdateAutocompleteSearchTerm = value => {
+    setLocation(value);
+    dispatchUpdateAutocompleteLocation(value);
   };
 
   return (
@@ -88,13 +69,11 @@ export function LocationSearchForm({
               version={version}
               name="locationSearch"
               className="location-search"
-              inputValue={autocomplete.location}
+              inputValue={location}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => doSearch(e)}
               onSelection={selected => setAutocompleteSelection(selected)}
-              onUpdateAutocompleteSearchTerm={
-                dispatchUpdateAutocompleteLocation
-              }
+              onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               placeholder="city, state, or postal code"
               suggestions={[...autocomplete.locationSuggestions]}
             />

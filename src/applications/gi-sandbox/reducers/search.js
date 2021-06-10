@@ -195,6 +195,7 @@ export default function(state = INITIAL_STATE, action) {
           ...state.query,
           name: action.payload.name || '',
           location: action.payload.location || '',
+          distance: action.payload.distance || '50',
         },
       };
 
