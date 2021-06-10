@@ -159,7 +159,11 @@ node('vetsgov-general-purpose') {
           sh "docker-compose -p cypress4-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress5-${env.EXECUTOR_NUMBER} down --remove-orphans"
           sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
-          archiveArtifacts 'logs/chromedriver.log'
+
+          dockerContainer.inside(commonStages.DOCKER_ARGS) {
+            archiveArtifacts 'logs/chromedriver.log'
+          }
+
           step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
         }
       }
