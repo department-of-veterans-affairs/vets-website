@@ -128,7 +128,7 @@ node('vetsgov-general-purpose') {
 
             'nightwatch-e2e': {
               dockerContainer.inside(commonStages.DOCKER_ARGS) {
-                sh "cd /application && npm run test:e2e:headless -- --suiteRetries 3"
+                sh "cd /application && npm run nightwatch:docker"
               }
             },
             'cypress-1': {

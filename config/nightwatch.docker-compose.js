@@ -36,7 +36,7 @@ module.exports = {
 
   test_settings: {
     default: {
-      launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
+      launch_url: `vets-website:${process.env.WEB_PORT || 3333}`,
       filter: '**/*.e2e.spec.js',
       use_ssl: false,
       silent: false,
