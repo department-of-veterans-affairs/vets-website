@@ -44,6 +44,7 @@ export const adaptLinksWithLangCode = (
       const correctLangAttribute = parseLangCode(link.href);
 
       if (!langAttribute) {
+        langAttribute = pageLangCode;
         link.setAttribute('lang', pageLangCode);
       }
 
