@@ -1,13 +1,16 @@
 .compare-page {
 
-  .content-wrapper {
-    position: relative;
+  .vads-l-grid-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .sticky {
-    position: sticky;
+    position: fixed;
     top: 0;
     overflow: visible !important;
+    z-index: 2000;
+    width: 100% !important;
   }
 
   .compare-header-row {
@@ -61,18 +64,57 @@
     height: 100%;
   }
 
+  .field-value.caution-flag-display.first-row,
+  .field-value.caution-flag-display {
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    border-left: 10px solid $color-gold;
+    background-color: $color-gray-light-alt;
+    padding-left: 0px;
+
+    ul {
+      margin-top: .5em;
+      margin-bottom: 0;
+    }
+
+    li {
+      list-style-type: disc;
+      font-size: 15px;
+    }
+
+    .caution-flag-icon {
+      text-align: center;
+      margin-top: 6px;
+      font-size: 20px;
+    }
+
+    .caution-header {
+      font-size: 20px;
+      font-family: "Bitter";
+      font-weight: 700;
+    }
+  }
+
+  .field-value.caution-flag-display.none {
+    border-left: 10px solid $color-green;
+    .caution-flag-icon {
+      color: $color-green;
+    }
+  }
+
   .compare-header-section {
     height: 2em;
     margin-top: 3em;
     margin-bottom: .25em;
     font-family: "Bitter";
-    font-size: 17px;
+    font-size: 20px;
   }
 
   .compare-header-subsection {
     height: 2em;
     font-family: "Bitter";
-    font-size: 16px;
+    font-size: 17px;
   }
 
   .field-value {
@@ -104,7 +146,7 @@
   .label-cell {
     background-color: $color-gray-light-alt;
     padding-left: 2.5em;
-    padding-right: 2em;
+    padding-right: 1.5em;
     margin-right: 1.5em;
     padding-top: 1.25em;
     padding-bottom: 1.25em;

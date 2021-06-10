@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useLayoutEffect,
+} from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -12,27 +18,33 @@ import {
   fetchCompareDetails,
 } from '../actions';
 import { estimatedBenefits } from '../selectors/estimator';
-import { convertRatingToStars, schoolSize } from '../utils/helpers';
+import {
+  convertRatingToStars,
+  formatCurrency,
+  schoolSize,
+} from '../utils/helpers';
 import Checkbox from '../components/Checkbox';
 import ServiceError from '../components/ServiceError';
 import CompareGrid from '../components/CompareGrid';
 import RatingsStars from '../components/RatingsStars';
+import { Link } from 'react-router-dom';
 
 export function ComparePage({
   allLoaded,
   compare,
   dispatchFetchCompareDetails,
+  estimated,
   filters,
   preview,
 }) {
   const [showDifferences, setShowDifferences] = useState(false);
-  // const [isSticky, setIsSticky] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
+  const [initialTop, setInitialTop] = useState(null);
   const headerRef = useRef(null);
   const { selected, error } = compare;
   const { loaded, institutions } = compare.details;
   const { version } = preview;
   const institutionCount = loaded.length;
-  // const allLoaded = _.difference(selected, loaded).length === 0;
 
   useEffect(
     () => {
@@ -43,29 +55,36 @@ export function ComparePage({
     [loaded, selected],
   );
 
-  // const toggleSticky = useCallback(
-  //   ({ top, bottom }) => {
-  //     if (top <= 0 && bottom > 2 * 68 && !isSticky) {
-  //       setIsSticky(true);
-  //     } else if (isSticky) {
-  //       setIsSticky(false);
-  //     }
-  //   },
-  //   [isSticky],
-  // );
-  //
-  // useLayoutEffect(
-  //   () => {
-  //     const handleScroll = () => {
-  //       toggleSticky(headerRef.current.getBoundingClientRect());
-  //     };
-  //     window.addEventListener('scroll', handleScroll);
-  //     return () => {
-  //       window.removeEventListener('scroll', handleScroll);
-  //     };
-  //   },
-  //   [toggleSticky],
-  // );
+  const toggleSticky = useCallback(
+    offset => {
+      if (!initialTop) {
+        const header = document.getElementById('compare-header');
+        const checkPos = header.offsetTop;
+        if (checkPos) {
+          setInitialTop(checkPos);
+        }
+      }
+      if (offset > initialTop && !isSticky) {
+        setIsSticky(true);
+      } else if (offset < initialTop && isSticky) {
+        setIsSticky(false);
+      }
+    },
+    [isSticky, initialTop],
+  );
+
+  useLayoutEffect(
+    () => {
+      const handleScroll = () => {
+        toggleSticky(window.pageYOffset);
+      };
+      window.addEventListener('scroll', handleScroll);
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    },
+    [headerRef, toggleSticky],
+  );
 
   if (error) {
     return <ServiceError />;
@@ -76,11 +95,12 @@ export function ComparePage({
   }
 
   const mapRating = (institution, categoryName) => {
-    const categoryRating = institution.institutionCategoryRatings.filter(
+    const categoryRatings = institution.institutionCategoryRatings.filter(
       category => category.categoryName === categoryName,
-    )[0];
+    );
 
-    if (categoryRating) {
+    if (categoryRatings.length > 0 && categoryRatings[0].averageRating) {
+      const categoryRating = categoryRatings[0];
       const stars = convertRatingToStars(categoryRating.averageRating);
       return (
         <div>
@@ -96,10 +116,25 @@ export function ComparePage({
     return field ? 'Yes' : 'No';
   };
 
+  const formatEstimate = ({ qualifier, value }) => {
+    if (qualifier === '% of instate tuition') {
+      return <span>{value}% in-state</span>;
+    } else if (qualifier === null) {
+      return value;
+    }
+    return <span>{formatCurrency(value)}</span>;
+  };
+
   return (
     <div className="compare-page">
       <div className="content-wrapper">
-        <div id="header-test" className="sticky" ref={headerRef}>
+        <div
+          id="compare-header"
+          className={classNames({
+            sticky: isSticky,
+          })}
+          ref={headerRef}
+        >
           <div className="row vads-l-grid-container">
             <div className="vads-l-row compare-header-row">
               <div className="medium-screen:vads-l-col--3">
@@ -112,9 +147,10 @@ export function ComparePage({
                 <div className="compare-action">
                   <Checkbox
                     checked={showDifferences}
-                    className="vads-u-display--inline-block"
-                    onChange={e => setShowDifferences(e.checked)}
                     label="Highlight differences"
+                    name="highlight-differences"
+                    className="vads-u-display--inline-block"
+                    onChange={e => setShowDifferences(e.target.checked)}
                   />
                 </div>
               </div>
@@ -133,7 +169,9 @@ export function ComparePage({
                       <div className="institution-name">
                         {institutions[facilityCode].name}
                       </div>
-                      <div className="institution-location">{location}</div>
+                      {!isSticky && (
+                        <div className="institution-location">{location}</div>
+                      )}
                     </div>
                     <div className="compare-action">
                       <button
@@ -151,13 +189,9 @@ export function ComparePage({
                 <div className="medium-screen:vads-l-col--3">
                   <div className="compare-header empty-header" />
                   <div className="compare-action">
-                    <button
-                      type="button"
-                      className="va-button-link learn-more-button"
-                      onClick={() => {}}
-                    >
+                    <Link to={'/gi-bill-comparison-tool-sandbox/search'}>
                       Return to search to add
-                    </button>
+                    </Link>
                   </div>
                 </div>
               )}
@@ -170,6 +204,7 @@ export function ComparePage({
             sectionLabel="Summary"
             institutions={institutions}
             facilityCodes={loaded}
+            showDifferences={showDifferences}
             fieldData={[
               {
                 label: 'Accreditation',
@@ -239,18 +274,23 @@ export function ComparePage({
             sectionSublabel="Payments made to school"
             institutions={institutions}
             facilityCodes={loaded}
+            showDifferences={showDifferences}
             fieldData={[
               {
+                // story #24874 mock data
                 label: 'Tuition and fees',
-                mapper: () => '',
+                mapper: institution =>
+                  formatCurrency(institution.feesAndTuition),
               },
               {
+                // story #24874 mock data
                 label: 'Gi Bill pays to school',
-                mapper: () => '',
+                mapper: institution =>
+                  formatCurrency(institution.feesAndTuition),
               },
               {
                 label: 'Out of pocket tuition',
-                mapper: () => '',
+                mapper: () => '$0',
               },
             ]}
           />
@@ -259,14 +299,17 @@ export function ComparePage({
             sectionSublabel="Payments made to you"
             institutions={institutions}
             facilityCodes={loaded}
+            showDifferences={showDifferences}
             fieldData={[
               {
                 label: 'Housing allowance',
-                mapper: () => '',
+                mapper: institution =>
+                  formatEstimate(estimated[institution.facilityCode].housing),
               },
               {
                 label: 'Book stipend',
-                mapper: () => '',
+                mapper: institution =>
+                  formatEstimate(estimated[institution.facilityCode].books),
               },
             ]}
           />
@@ -275,29 +318,31 @@ export function ComparePage({
             sectionLabel="School ratings"
             institutions={institutions}
             facilityCodes={loaded}
+            showDifferences={showDifferences}
             fieldData={[
               {
                 label: 'Overall rating',
                 className: 'vads-u-text-align--center',
                 mapper: institution => {
                   const stars = convertRatingToStars(institution.ratingAverage);
-                  if (stars) {
-                    return (
-                      <div className="vads-u-display--inline-block vads-u-text-align--center main-rating">
-                        <div className="vads-u-font-weight--bold vads-u-font-size--2xl">
-                          {stars.display}
-                        </div>
-                        <div className="vads-u-font-size--sm vads-u-padding-bottom--1">
-                          out of a possible 5 stars
-                        </div>
+
+                  return (
+                    <div className="vads-u-display--inline-block vads-u-text-align--center main-rating">
+                      <div className="vads-u-font-weight--bold vads-u-font-size--2xl vads-u-font-family--serif">
+                        {stars && stars.display}
+                        {!stars && <span>N/A</span>}
+                      </div>
+                      <div className="vads-u-font-size--sm vads-u-padding-bottom--1">
+                        {stars && <span>out of a possible 5 stars</span>}
+                        {!stars && <span>not yet rated</span>}
+                      </div>
+                      {stars && (
                         <div className="vads-u-font-size--lg">
                           <RatingsStars rating={institution.ratingAverage} />
                         </div>
-                      </div>
-                    );
-                  } else {
-                    return null;
-                  }
+                      )}
+                    </div>
+                  );
                 },
               },
               {
@@ -312,6 +357,7 @@ export function ComparePage({
             sectionSublabel="Education ratings"
             institutions={institutions}
             facilityCodes={loaded}
+            showDifferences={showDifferences}
             fieldData={[
               {
                 label: 'Overall experience',
@@ -340,6 +386,7 @@ export function ComparePage({
             sectionSublabel="Veteran friendliness"
             institutions={institutions}
             facilityCodes={loaded}
+            showDifferences={showDifferences}
             fieldData={[
               {
                 label: 'Gi Bill support',
@@ -363,22 +410,67 @@ export function ComparePage({
             sectionLabel="Cautionary information"
             institutions={institutions}
             facilityCodes={loaded}
+            showDifferences={showDifferences}
             fieldData={[
               {
                 label: 'Caution flags',
-                mapper: institution => {
-                  const classes = classNames('caution-flag-display', {
+                className: institution =>
+                  classNames('caution-flag-display', {
                     none: institution.cautionFlags.length === 0,
-                  });
+                  }),
+                mapper: institution => {
+                  const hasFlags = institution.cautionFlags.length > 0;
                   return (
-                    <div className={classes}>
-                      {institution.cautionFlags.length === 0 && (
-                        <div>This school doesn't have any caution flags</div>
-                      )}
+                    <div className="vads-u-display--flex">
+                      <div className="caution-flag-icon vads-u-flex--1">
+                        {!hasFlags && <i className={`fa fa-check`} />}
+                        {hasFlags && (
+                          <i className={`fa fa-exclamation-triangle`} />
+                        )}
+                      </div>
+                      <div className="vads-u-flex--4">
+                        <div className="caution-header">
+                          {!hasFlags && (
+                            <span>
+                              This school doesn't have any caution flags
+                            </span>
+                          )}
+                          {hasFlags && (
+                            <span>
+                              This school has {institution.cautionFlags.length}{' '}
+                              cautionary warning
+                              {institution.cautionFlags.length > 1 && 's'}
+                            </span>
+                          )}
+                        </div>
+                        {hasFlags && (
+                          <div>
+                            <ul>
+                              {institution.cautionFlags.map(
+                                (cautionFlag, index) => {
+                                  return (
+                                    <li key={index}>{cautionFlag.title}</li>
+                                  );
+                                },
+                              )}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   );
                 },
               },
+            ]}
+          />
+
+          <CompareGrid
+            sectionLabel=""
+            className="vads-u-margin-top--4"
+            institutions={institutions}
+            facilityCodes={loaded}
+            showDifferences={showDifferences}
+            fieldData={[
               {
                 label: 'Student complaints',
                 mapper: institution => +institution.complaints.mainCampusRollUp,
@@ -390,6 +482,7 @@ export function ComparePage({
             sectionLabel="Academics"
             institutions={institutions}
             facilityCodes={loaded}
+            showDifferences={showDifferences}
             fieldData={[
               {
                 label: 'Credit for military training',
@@ -403,6 +496,7 @@ export function ComparePage({
             sectionLabel="Veteran programs"
             institutions={institutions}
             facilityCodes={loaded}
+            showDifferences={showDifferences}
             fieldData={[
               {
                 label: 'Yellow Ribbon',

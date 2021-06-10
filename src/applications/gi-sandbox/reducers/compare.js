@@ -64,7 +64,11 @@ export default function(state = INITIAL_STATE, action) {
             ...action.payload.reduce(
               (map, result) => ({
                 ...map,
-                [result.attributes.facilityCode]: result.attributes,
+                [result.attributes.facilityCode]: {
+                  ...result.attributes,
+                  // story #24874 mock data
+                  feesAndTuition: Math.floor(Math.random() * 10000) + 10000,
+                },
               }),
               {},
             ),

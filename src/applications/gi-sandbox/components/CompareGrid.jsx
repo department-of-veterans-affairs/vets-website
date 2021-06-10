@@ -2,11 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 
 export function CompareGrid({
+  className,
+  facilityCodes,
+  fieldData,
+  institutions,
   sectionLabel,
   sectionSublabel,
-  facilityCodes,
-  institutions,
-  fieldData,
 }) {
   const institutionCount = Object.keys(institutions).length;
   const fieldLabel = (field, index) => {
@@ -27,6 +28,11 @@ export function CompareGrid({
   };
 
   const institutionFieldValue = (field, rowIndex, colIndex, institution) => {
+    const valueClassName =
+      typeof field.className === 'function'
+        ? field.className(institution)
+        : field.className;
+
     return (
       <div
         key={institution.facilityCode}
@@ -37,7 +43,7 @@ export function CompareGrid({
           { 'first-row': rowIndex === 0 },
           { 'first-col': colIndex === 0 },
           { 'last-col': colIndex === institutionCount - 1 },
-          { [field.className]: field.className },
+          valueClassName,
         )}
       >
         {field.mapper(institution)}
@@ -46,7 +52,7 @@ export function CompareGrid({
   };
 
   return (
-    <div>
+    <div className={className}>
       {sectionLabel && (
         <div className="compare-header-section">{sectionLabel}</div>
       )}

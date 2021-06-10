@@ -451,8 +451,6 @@ export function fetchCompareDetails(facilityCodes, filters, version) {
   const url = appendQuery(`${api.url}/institutions/search`, params);
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED, payload: { name } });
-
     return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
