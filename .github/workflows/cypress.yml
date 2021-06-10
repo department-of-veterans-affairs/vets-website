@@ -27,7 +27,7 @@ jobs:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
       
       - name: Clean up node modules
-        run: rm -rf node_modules && rm -rf ~/.cache/yarn
+        run: rm -rf node_modules
 
       - name: Install vets-website dependencies
         run: yarn install --frozen-lockfile --prefer-offline
