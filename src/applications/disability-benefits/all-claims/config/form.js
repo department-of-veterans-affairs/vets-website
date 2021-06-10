@@ -213,13 +213,6 @@ const formConfig = {
               state.form.data?.serviceInformation?.servicePeriods || [],
           }),
         },
-        separationLocation: {
-          title: 'Separation location',
-          path: 'review-veteran-details/separation-location',
-          depends: showSeparationLocation,
-          uiSchema: separationLocation.uiSchema,
-          schema: separationLocation.schema,
-        },
         claimType: {
           title: 'Claim type',
           path: 'claim-type',
@@ -244,6 +237,13 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
+        },
+        separationLocation: {
+          title: 'Separation location',
+          path: 'review-veteran-details/separation-location',
+          depends: showSeparationLocation,
+          uiSchema: separationLocation.uiSchema,
+          schema: separationLocation.schema,
         },
         separationPay: {
           title: 'Separation or severance pay',
