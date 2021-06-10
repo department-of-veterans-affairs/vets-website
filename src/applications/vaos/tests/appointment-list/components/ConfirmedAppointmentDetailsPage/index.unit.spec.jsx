@@ -24,7 +24,7 @@ import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../../appointment-list';
 import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { getICSTokens } from '../../../../components/AddToCalendar';
+import { getICSTokens } from '../../../../utils/calendar';
 
 const initialState = {
   featureToggles: {
@@ -850,19 +850,31 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
     const tokens = getICSTokens(ics);
 
-    expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('BEGIN')).includes('VCALENDAR');
     expect(tokens.get('VERSION')).to.equal('2.0');
     expect(tokens.get('PRODID')).to.equal('VA');
-    expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+    expect(tokens.get('BEGIN')).includes('VEVENT');
     expect(tokens.has('UID')).to.be.true;
     expect(tokens.get('SUMMARY')).to.equal(
       'Appointment at Fort Collins VA Clinic',
     );
-    expect(tokens.get('DESCRIPTION')).to.equal(
+
+    // Description text longer than 74 characters should start on newline beginning
+    // with a tab character
+    let description = tokens.get('DESCRIPTION');
+    description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+
+    expect(description[0]).to.equal(
       'You have a health care appointment at Fort Collins VA Clinic',
     );
-    expect(tokens.get('FORMATTED_TEXT')).to.equal(
-      '\t\\n\\nFake street\\n\tFake city\\, FA fake zip\\n\t970-224-1550\\n\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo\tintments to get details about this appointment\\n',
+    expect(description[1]).to.equal('\t\\n\\nFake street\\n');
+    expect(description[2]).to.equal('\tFake city\\, FA fake zip\\n');
+    expect(description[3]).to.equal('\t970-224-1550\\n');
+    expect(description[4]).to.equal(
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    );
+    expect(description[5]).to.equal(
+      '\tintments to get details about this appointment\\n',
     );
     expect(tokens.get('LOCATION')).to.equal(
       'Fake street\\, Fake city\\, FA fake zip',
@@ -884,8 +896,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens.get('END').includes('VEVENT')).to.be.true;
-    expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('END')).includes('VEVENT');
+    expect(tokens.get('END')).includes('VCALENDAR');
   });
 
   it('should verify VA phone calendar ics file format', async () => {
@@ -957,22 +969,32 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     );
     const tokens = getICSTokens(ics);
 
-    expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('BEGIN')).includes('VCALENDAR');
     expect(tokens.get('VERSION')).to.equal('2.0');
     expect(tokens.get('PRODID')).to.equal('VA');
-    expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+    expect(tokens.get('BEGIN')).includes('VEVENT');
     expect(tokens.has('UID')).to.be.true;
     expect(tokens.get('SUMMARY')).to.equal('Phone appointment');
 
     // Description text longer than 74 characters should start on newline beginning
     // with a tab character
-    expect(tokens.get('DESCRIPTION')).to.equal(
+    let description = tokens.get('DESCRIPTION');
+    description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+
+    expect(description[0]).to.equal(
       `A provider will call you at ${moment(appointment.start)
         .tz('America/Denver')
         .format('h:mm a')}`,
     );
-    expect(tokens.get('FORMATTED_TEXT')).to.equal(
-      '\t\\n\\nCheyenne VA Medical Center\t\\nFake street\\n\tFake city\\, FA fake zip\\n\t970-224-1550\\n\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo\tintments to get details about this appointment\\n',
+    expect(description[1]).to.equal('\t\\n\\nCheyenne VA Medical Center');
+    expect(description[2]).to.equal('\t\\nFake street\\n');
+    expect(description[3]).to.equal('\tFake city\\, FA fake zip\\n');
+    expect(description[4]).to.equal('\t970-224-1550\\n');
+    expect(description[5]).to.equal(
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    );
+    expect(description[6]).to.equal(
+      '\tintments to get details about this appointment\\n',
     );
     expect(tokens.get('LOCATION')).to.equal('Phone call');
     expect(tokens.get('DTSTAMP')).to.equal(
@@ -991,7 +1013,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens.get('END').includes('VEVENT')).to.be.true;
-    expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('END')).includes('VEVENT');
+    expect(tokens.get('END')).includes('VCALENDAR');
   });
 });

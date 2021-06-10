@@ -17,7 +17,7 @@ import { waitFor } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { AppointmentList } from '../../../../appointment-list';
 import sinon from 'sinon';
-import { getICSTokens } from '../../../../components/AddToCalendar';
+import { getICSTokens } from '../../../../utils/calendar';
 
 const initialState = {
   featureToggles: {
@@ -961,21 +961,30 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       );
       const tokens = getICSTokens(ics);
 
-      expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+      expect(tokens.get('BEGIN')).includes('VCALENDAR');
       expect(tokens.get('VERSION')).to.equal('2.0');
       expect(tokens.get('PRODID')).to.equal('VA');
-      expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+      expect(tokens.get('BEGIN')).includes('VEVENT');
       expect(tokens.has('UID')).to.be.true;
       expect(tokens.get('SUMMARY')).to.contain('VA Video Connect appointment');
 
       // Description text longer than 74 characters should start on newline beginning
       // with a tab character
-      expect(tokens.get('DESCRIPTION')).to.equal(
+      let description = tokens.get('DESCRIPTION');
+      description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+
+      expect(description[0]).to.equal(
         'You can join this meeting up to 30 minutes before the start ti',
       );
-      expect(tokens.get('FORMATTED_TEXT')).to.equal(
-        '\tme.\t\\n\\nVA Video Connect at home\\n\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo\tintments to get details about this appointment\\n',
+      expect(description[1]).to.equal('\tme.');
+      expect(description[2]).to.equal('\t\\n\\nVA Video Connect at home\\n');
+      expect(description[3]).to.equal(
+        '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
       );
+      expect(description[4]).to.equal(
+        '\tintments to get details about this appointment\\n',
+      );
+
       expect(tokens.get('LOCATION')).to.equal('VA Video Connect at home');
       expect(tokens.get('DTSTAMP')).to.equal(
         `${moment(startDate)
@@ -994,8 +1003,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
           .utc()
           .format('YYYYMMDDTHHmmss[Z]')}`,
       );
-      expect(tokens.get('END').includes('VEVENT')).to.be.true;
-      expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
+      expect(tokens.get('END')).includes('VEVENT');
+      expect(tokens.get('END')).includes('VCALENDAR');
     });
 
     it('should verify Video Connect at VA location calendar ics file format', async () => {
@@ -1079,10 +1088,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       );
       const tokens = getICSTokens(ics);
 
-      expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+      expect(tokens.get('BEGIN')).includes('VCALENDAR');
       expect(tokens.get('VERSION')).to.equal('2.0');
       expect(tokens.get('PRODID')).to.equal('VA');
-      expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+      expect(tokens.get('BEGIN')).includes('VEVENT');
       expect(tokens.has('UID')).to.be.true;
 
       // TODO: location name???
@@ -1092,11 +1101,23 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       // Description text longer than 74 characters should start on newline beginning
       // with a tab character
-      expect(tokens.get('DESCRIPTION')).to.equal(
+      let description = tokens.get('DESCRIPTION');
+      description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+      expect(description[0]).to.equal(
         'You need to join this video meeting from:',
       );
-      expect(tokens.get('FORMATTED_TEXT')).to.equal(
-        "\t\\n\\nCheyenne VA Medical Center\t\\n2360 East Pershing Boulevard\\n\tCheyenne\\, WY 82001-5356\\n\t307-778-7550\\n\t\\nYou'll be meeting with Meg Smith\\n\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo\tintments to get details about this appointment\\n",
+      expect(description[1]).to.equal('\t\\n\\nCheyenne VA Medical Center');
+      expect(description[2]).to.equal('\t\\n2360 East Pershing Boulevard\\n');
+      expect(description[3]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
+      expect(description[4]).to.equal('\t307-778-7550\\n');
+      expect(description[5]).to.equal(
+        "\t\\nYou'll be meeting with Meg Smith\\n",
+      );
+      expect(description[6]).to.equal(
+        '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+      );
+      expect(description[7]).to.equal(
+        '\tintments to get details about this appointment\\n',
       );
       expect(tokens.get('LOCATION')).to.equal(
         '2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
@@ -1118,8 +1139,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
           .utc()
           .format('YYYYMMDDTHHmmss[Z]')}`,
       );
-      expect(tokens.get('END').includes('VEVENT')).to.be.true;
-      expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
+      expect(tokens.get('END')).includes('VEVENT');
+      expect(tokens.get('END')).includes('VCALENDAR');
     });
 
     it('should verify Video Connect at ATLAS calendar ics file format', async () => {
@@ -1202,10 +1223,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       );
       const tokens = getICSTokens(ics);
 
-      expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+      expect(tokens.get('BEGIN')).includes('VCALENDAR');
       expect(tokens.get('VERSION')).to.equal('2.0');
       expect(tokens.get('PRODID')).to.equal('VA');
-      expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+      expect(tokens.get('BEGIN')).includes('VEVENT');
       expect(tokens.has('UID')).to.be.true;
 
       expect(tokens.get('SUMMARY')).to.equal(
@@ -1214,11 +1235,22 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       // Description text longer than 74 characters should start on newline beginning
       // with a tab character
-      expect(tokens.get('DESCRIPTION')).to.equal(
+      let description = tokens.get('DESCRIPTION');
+      description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+
+      expect(description[0]).to.equal(
         'Join this video meeting from this ATLAS (non-VA) location:',
       );
-      expect(tokens.get('FORMATTED_TEXT')).to.equal(
-        "\t\\n\\n114 Dewey Ave\\n\tEureka\\, MT 59917\\n\t\\nYour appointment code is 7VBBCA. Use this code to find your appointment \ton the computer at the ATLAS facility.\\n\t\\nYou'll be meeting with Meg Smith\\n",
+      expect(description[1]).to.equal('\t\\n\\n114 Dewey Ave\\n');
+      expect(description[2]).to.equal('\tEureka\\, MT 59917\\n');
+      expect(description[3]).to.equal(
+        '\t\\nYour appointment code is 7VBBCA. Use this code to find your appointment ',
+      );
+      expect(description[4]).to.equal(
+        '\ton the computer at the ATLAS facility.\\n',
+      );
+      expect(description[5]).to.equal(
+        "\t\\nYou'll be meeting with Meg Smith\\n",
       );
       expect(tokens.get('LOCATION')).to.equal(
         '114 Dewey Ave\\, Eureka\\, MT 59917',
@@ -1240,8 +1272,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
           .utc()
           .format('YYYYMMDDTHHmmss[Z]')}`,
       );
-      expect(tokens.get('END').includes('VEVENT')).to.be.true;
-      expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
+      expect(tokens.get('END')).includes('VEVENT');
+      expect(tokens.get('END')).includes('VCALENDAR');
     });
 
     it('should verify Video Connect on VA device calendar ics file format', async () => {
@@ -1316,10 +1348,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       );
       const tokens = getICSTokens(ics);
 
-      expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+      expect(tokens.get('BEGIN')).includes('VCALENDAR');
       expect(tokens.get('VERSION')).to.equal('2.0');
       expect(tokens.get('PRODID')).to.equal('VA');
-      expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+      expect(tokens.get('BEGIN')).includes('VEVENT');
       expect(tokens.has('UID')).to.be.true;
 
       expect(tokens.get('SUMMARY')).to.equal(
@@ -1328,13 +1360,15 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
 
       // Description text longer than 74 characters should start on newline beginning
       // with a tab character
-      expect(tokens.get('DESCRIPTION')).to.equal(
+      let description = tokens.get('DESCRIPTION');
+      description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+
+      expect(description[0]).to.equal(
         'Join this video meeting using a device provided by VA.',
       );
-      expect(tokens.get('FORMATTED_TEXT')).to.equal(
+      expect(description[1]).to.equal(
         "\t\\nYou'll be meeting with Test T+90 Test\\n",
       );
-
       expect(tokens.get('LOCATION')).to.equal('');
       expect(tokens.get('DTSTAMP')).to.equal(
         `${moment(startDate)
@@ -1353,8 +1387,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
           .utc()
           .format('YYYYMMDDTHHmmss[Z]')}`,
       );
-      expect(tokens.get('END').includes('VEVENT')).to.be.true;
-      expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
+      expect(tokens.get('END')).includes('VEVENT');
+      expect(tokens.get('END')).includes('VCALENDAR');
     });
   });
   describe('video appointments (css transition check)', () => {

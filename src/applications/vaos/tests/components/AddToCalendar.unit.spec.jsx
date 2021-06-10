@@ -4,11 +4,9 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import moment from '../../lib/moment-tz.js';
 
-import AddToCalendar, {
-  getICSTokens,
-  ICS_LINE_LIMIT,
-} from '../../components/AddToCalendar';
+import AddToCalendar from '../../components/AddToCalendar';
 import userEvent from '@testing-library/user-event';
+import { getICSTokens, ICS_LINE_LIMIT } from '../../utils/calendar.js';
 
 describe('VAOS <AddToCalendar>', () => {
   it('should render link with calendar info', () => {
@@ -274,17 +272,13 @@ describe('VAOS <AddToCalendar>', () => {
     );
     const tokens = getICSTokens(ics);
 
-    expect(`DESCRIPTION:${tokens.get('DESCRIPTION')}`.length).to.be.equal(
-      ICS_LINE_LIMIT,
-    );
-
     // Each folded line should start with a tab character and
     // should be <= the max line length + 1 75 (to account for the tab character).
     tokens
-      .get('FORMATTED_TEXT')
+      .get('DESCRIPTION')
       .split(/(?=\t)/g) // look ahead include the split character in the results
-      .forEach(token => {
-        expect(token.startsWith('\t')).to.be.true;
+      .forEach((token, i) => {
+        if (i !== 0) expect(token.startsWith('\t')).to.be.true;
         expect(token.length <= ICS_LINE_LIMIT + 1).to.be.true;
       });
   });

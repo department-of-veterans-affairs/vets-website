@@ -18,7 +18,7 @@ import userEvent from '@testing-library/user-event';
 import { AppointmentList } from '../../../appointment-list';
 import sinon from 'sinon';
 import { fireEvent } from '@testing-library/react';
-import { getICSTokens } from '../../../components/AddToCalendar';
+import { getICSTokens } from '../../../utils/calendar';
 
 const initialState = {
   featureToggles: {
@@ -431,21 +431,33 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     );
     const tokens = getICSTokens(ics);
 
-    expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('BEGIN')).includes('VCALENDAR');
     expect(tokens.get('VERSION')).to.equal('2.0');
     expect(tokens.get('PRODID')).to.equal('VA');
-    expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+    expect(tokens.get('BEGIN')).includes('VEVENT');
     expect(tokens.has('UID')).to.be.true;
 
     // TODO: Should this be provider practice instead of name???
     expect(tokens.get('SUMMARY')).to.equal('Appointment at Rick Katz');
 
     // The description text longer than 74 characters should start newlines with a tab character
-    expect(tokens.get('DESCRIPTION')).to.equal(
+    let description = tokens.get('DESCRIPTION');
+    description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+
+    expect(description[0]).to.equal(
       'You have a health care appointment with a community care provi',
     );
-    expect(tokens.get('FORMATTED_TEXT')).to.equal(
-      '\tder. Please don’t go to your local VA health facility.\t\\n\\n123\\n\tBurke\\, VA 20151\\n\t(703) 555-1264\\n\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo\tintments to get details about this appointment\\n',
+    expect(description[1]).to.equal(
+      '\tder. Please don’t go to your local VA health facility.',
+    );
+    expect(description[2]).to.equal('\t\\n\\n123\\n');
+    expect(description[3]).to.equal('\tBurke\\, VA 20151\\n');
+    expect(description[4]).to.equal('\t(703) 555-1264\\n');
+    expect(description[5]).to.equal(
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    );
+    expect(description[6]).to.equal(
+      '\tintments to get details about this appointment\\n',
     );
     expect(tokens.get('LOCATION')).to.equal('123\\, Burke\\, VA 20151');
     expect(tokens.get('DTSTAMP')).to.equal(
@@ -460,8 +472,8 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
         .add(60, 'minutes')
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens.get('END').includes('VEVENT')).to.be.true;
-    expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('END')).includes('VEVENT');
+    expect(tokens.get('END')).includes('VCALENDAR');
   });
 
   it('should verify community care calendar ics file format when there is no provider information', async () => {
@@ -510,20 +522,29 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     );
     const tokens = getICSTokens(ics);
 
-    expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('BEGIN')).includes('VCALENDAR');
     expect(tokens.get('VERSION')).to.equal('2.0');
     expect(tokens.get('PRODID')).to.equal('VA');
-    expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+    expect(tokens.get('BEGIN')).includes('VEVENT');
     expect(tokens.has('UID')).to.be.true;
 
     expect(tokens.get('SUMMARY')).to.equal('Community care appointment');
 
     // The description text longer than 74 characters should start newlines with a tab character
-    expect(tokens.get('DESCRIPTION')).to.equal(
+    let description = tokens.get('DESCRIPTION');
+    description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+
+    expect(description[0]).to.equal(
       'You have a health care appointment with a community care provi',
     );
-    expect(tokens.get('FORMATTED_TEXT')).to.equal(
-      '\tder. Please don’t go to your local VA health facility.\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo\tintments to get details about this appointment\\n',
+    expect(description[1]).to.equal(
+      '\tder. Please don’t go to your local VA health facility.',
+    );
+    expect(description[2]).to.equal(
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    );
+    expect(description[3]).to.equal(
+      '\tintments to get details about this appointment\\n',
     );
     expect(tokens.get('LOCATION')).to.equal('');
     expect(tokens.get('DTSTAMP')).to.equal(
@@ -538,7 +559,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
         .add(60, 'minutes')
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens.get('END').includes('VEVENT')).to.be.true;
-    expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('END')).includes('VEVENT');
+    expect(tokens.get('END')).includes('VCALENDAR');
   });
 });

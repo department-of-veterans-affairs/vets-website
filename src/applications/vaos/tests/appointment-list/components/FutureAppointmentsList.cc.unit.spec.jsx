@@ -7,7 +7,7 @@ import { renderWithStoreAndRouter } from '../../mocks/setup';
 import { mockFetch } from 'platform/testing/unit/helpers';
 
 import AppointmentsPage from '../../../appointment-list/components/AppointmentsPage';
-import { getICSTokens } from '../../../components/AddToCalendar';
+import { getICSTokens } from '../../../utils/calendar';
 
 const initialState = {
   featureToggles: {
@@ -197,21 +197,34 @@ describe('VAOS integration: upcoming CC appointments', () => {
     );
     const tokens = getICSTokens(ics);
 
-    expect(tokens.get('BEGIN').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('BEGIN')).includes('VCALENDAR');
     expect(tokens.get('VERSION')).to.equal('2.0');
     expect(tokens.get('PRODID')).to.equal('VA');
-    expect(tokens.get('BEGIN').includes('VEVENT')).to.be.true;
+    expect(tokens.get('BEGIN')).includes('VEVENT');
     expect(tokens.has('UID')).to.be.true;
 
     // TODO: Should this be provider practice instead of name???
     expect(tokens.get('SUMMARY')).to.equal('Appointment at Jane Doctor');
 
     // The description text longer than 74 characters should start newlines with a tab character
-    expect(tokens.get('DESCRIPTION')).to.equal(
+    let description = tokens.get('DESCRIPTION');
+    description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+
+    expect(description[0]).to.equal(
       'You have a health care appointment with a community care provi',
     );
-    expect(tokens.get('FORMATTED_TEXT')).to.equal(
-      '\tder. Please don’t go to your local VA health facility.\t\\n\\nJane Doctor\t\\n123 Big Sky st\\n\tBozeman\\, MT 59715\\n\t4065555555\\n\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo\tintments to get details about this appointment\\n',
+    expect(description[1]).to.equal(
+      '\tder. Please don’t go to your local VA health facility.',
+    );
+    expect(description[2]).to.equal('\t\\n\\nJane Doctor');
+    expect(description[3]).to.equal('\t\\n123 Big Sky st\\n');
+    expect(description[4]).to.equal('\tBozeman\\, MT 59715\\n');
+    expect(description[5]).to.equal('\t4065555555\\n');
+    expect(description[6]).to.equal(
+      '\t\\nSign in to https://va.gov/health-care/schedule-view-va-appointments/appo',
+    );
+    expect(description[7]).to.equal(
+      '\tintments to get details about this appointment\\n',
     );
     expect(tokens.get('LOCATION')).to.equal(
       '123 Big Sky st\\, Bozeman\\, MT 59715',
@@ -232,7 +245,7 @@ describe('VAOS integration: upcoming CC appointments', () => {
         // .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens.get('END').includes('VEVENT')).to.be.true;
-    expect(tokens.get('END').includes('VCALENDAR')).to.be.true;
+    expect(tokens.get('END')).includes('VEVENT');
+    expect(tokens.get('END')).includes('VCALENDAR');
   });
 });
