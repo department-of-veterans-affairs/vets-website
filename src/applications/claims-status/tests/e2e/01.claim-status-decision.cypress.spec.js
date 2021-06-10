@@ -1,0 +1,38 @@
+const Timeouts = require('platform/testing/e2e/timeouts.js');
+
+import claimsList from './fixtures/mocks/claims-list.json';
+
+describe('Claim Status Decision', () => {
+  it('Checks that a decision is ready', () => {
+    cy.intercept('GET', '/v0/evss_claims_async', claimsList);
+    cy.initClaimDetailMocks(true, true, false, null).then(mockData => {
+      cy.intercept('GET', '/v0/evss_claims_async/11', mockData).as(
+        'mockDetail',
+      );
+    });
+    cy.getUserToken().then(token => {
+      cy.logIn(token, '/track-claims', 3);
+    });
+    cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
+      'be.visible',
+    );
+
+    cy.get('.claim-list-item-container:first-child a.vads-c-action-link--blue')
+      .click()
+      .then(() => {
+        cy.get('body', { timeout: Timeouts.normal }).should('be.visible');
+        // Currently does not load data after button click, React prop error, rest of test fails
+
+        cy.get('.claim-title', { timeout: Timeouts.slow }).should('be.visible');
+        cy.injectAxeThenAxeCheck();
+      });
+
+    cy.get('.main .usa-alert')
+      .should('be.visible')
+      .then(alertElem => {
+        cy.wrap(alertElem).should('contain', 'Your claim decision is ready');
+      });
+
+    cy.get('.disability-benefits-timeline').should('not.exist');
+  });
+});
