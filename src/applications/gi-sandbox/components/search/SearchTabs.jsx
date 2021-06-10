@@ -2,8 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import NameSearchForm from '../../containers/NameSearchForm';
 import LocationSearchForm from '../../containers/LocationSearchForm';
-import NameResults from './NameResults';
-import LocationSearchResults from './LocationSearchResults';
 import { TABS } from '../../constants';
 
 export default function SearchTabs({ onChange, search }) {
@@ -11,11 +9,6 @@ export default function SearchTabs({ onChange, search }) {
   const tabbedSearch = {
     [TABS.name]: <NameSearchForm />,
     [TABS.location]: <LocationSearchForm />,
-  };
-
-  const tabbedResults = {
-    [TABS.name]: <NameResults search={search} />,
-    [TABS.location]: <LocationSearchResults search={search} />,
   };
 
   const getTab = (tabName, label) => {
@@ -44,15 +37,12 @@ export default function SearchTabs({ onChange, search }) {
   };
 
   return (
-    <div>
-      <div className="search-form">
-        <div className="vads-u-display--flex">
-          {getTab(TABS.name, 'Search by name')}
-          {getTab(TABS.location, 'Search by location')}
-        </div>
-        <div className="search-box">{tabbedSearch[tab]}</div>
+    <div className="search-form">
+      <div className="vads-u-display--flex">
+        {getTab(TABS.name, 'Search by name')}
+        {getTab(TABS.location, 'Search by location')}
       </div>
-      {tabbedResults[tab]}
+      <div className="search-box">{tabbedSearch[tab]}</div>
     </div>
   );
 }

@@ -5,6 +5,7 @@
 @import "partials/gi-preview-banner";
 @import "partials/gi-autocomplete";
 @import "partials/gi-compare-drawer";
+@import "partials/gi-compare-page";
 @import "partials/gi-modal";
 @import "partials/gi-landing-page";
 @import "partials/gi-search-page";
@@ -171,8 +172,6 @@
   }
 
   .search-form {
-    margin-top: 50px;
-
     button {
       margin-top: 0.5em;
       width: auto;
@@ -215,6 +214,7 @@
       width: 200px;
     }
   }
+  padding-bottom: 8em;
 }
 
 .section-item, .accordion-item {

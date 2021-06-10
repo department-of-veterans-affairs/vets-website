@@ -1,38 +1,94 @@
 import _ from 'lodash';
 import {
   ADD_COMPARE_INSTITUTION,
+  FETCH_COMPARE_FAILED,
   REMOVE_COMPARE_INSTITUTION,
+  UPDATE_COMPARE_DETAILS,
+  UPDATE_QUERY_PARAMS,
 } from '../actions';
 
 const INITIAL_STATE = Object.freeze({
-  institutions: {},
-  loaded: [],
-  promptingToRemove: null,
+  search: {
+    loaded: [],
+    institutions: {},
+  },
+  details: {
+    loaded: [],
+    institutions: {},
+  },
+  selected: [],
+  error: null,
 });
 
 export default function(state = INITIAL_STATE, action) {
-  let newState = { ...state };
+  switch (action.type) {
+    case ADD_COMPARE_INSTITUTION:
+      if (state.selected.length < 3) {
+        return {
+          ...state,
+          search: {
+            loaded: [...state.search.loaded, action.payload.facilityCode],
+            institutions: {
+              ...state.search.institutions,
+              [action.payload.facilityCode]: action.payload,
+            },
+          },
+          selected: [...state.selected, action.payload.facilityCode],
+        };
+      }
+      break;
 
-  if (action.type === ADD_COMPARE_INSTITUTION && state.loaded.length < 3) {
-    newState = {
-      loaded: [...newState.loaded, action.payload.facilityCode],
-      institutions: {
-        ...newState.institutions,
-        [action.payload.facilityCode]: action.payload,
-      },
-    };
+    case REMOVE_COMPARE_INSTITUTION:
+      return {
+        ...state,
+        search: {
+          loaded: state.search.loaded.filter(
+            facilityCode => facilityCode !== action.payload,
+          ),
+          institutions: {
+            ..._.omit(state.search.institutions, action.payload),
+          },
+        },
+        selected: state.selected.filter(
+          facilityCode => facilityCode !== action.payload,
+        ),
+      };
+
+    case UPDATE_COMPARE_DETAILS:
+      return {
+        ...state,
+        error: null,
+        details: {
+          loaded: action.payload.map(result => result.attributes.facilityCode),
+          institutions: {
+            ...action.payload.reduce(
+              (map, result) => ({
+                ...map,
+                [result.attributes.facilityCode]: result.attributes,
+              }),
+              {},
+            ),
+          },
+        },
+      };
+
+    case UPDATE_QUERY_PARAMS:
+      if (action.payload.facilities) {
+        return {
+          ...state,
+          selected: action.payload.facilities.split(','),
+        };
+      }
+      break;
+
+    case FETCH_COMPARE_FAILED:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    default:
+      return state;
   }
-
-  if (action.type === REMOVE_COMPARE_INSTITUTION) {
-    newState = {
-      loaded: newState.loaded.filter(
-        facilityCode => facilityCode !== action.payload,
-      ),
-      institutions: {
-        ..._.omit(newState.institutions, action.payload),
-      },
-    };
-  }
-
-  return newState;
+  return state;
 }
