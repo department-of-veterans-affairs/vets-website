@@ -19,8 +19,10 @@ module.exports = {
   webdriver: {
     start_process: true,
     server_path: chromedriver.path,
-    host: 'vets-website',
+    host: 'localhost',
     port: 9515,
+    status_poll_interval: 5000,
+    max_status_poll_tries: 12,
     cli_args: [
       '--verbose',
       '--log-path=logs/chromedriver.log',
@@ -36,7 +38,7 @@ module.exports = {
 
   test_settings: {
     default: {
-      launch_url: `vets-website:${process.env.WEB_PORT || 3333}`,
+      launch_url: `localhost:${process.env.WEB_PORT || 3333}`,
       filter: '**/*.e2e.spec.js',
       use_ssl: false,
       silent: false,
