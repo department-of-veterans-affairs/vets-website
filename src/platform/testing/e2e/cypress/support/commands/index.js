@@ -1,3 +1,4 @@
+import './auth';
 import './axeCheck';
 import './expandAccordions';
 import './login';
