@@ -21,7 +21,7 @@ module.exports = {
     server_path: process.env.CHROMEDRIVER_FILEPATH || chromedriver.path,
     host: 'vets-website',
     port: 9515,
-    cli_args: ['--allowed-ips', '--verbose'],
+    cli_args: ['--log-level=ALL', '--allowed-ips'],
   },
 
   // If set to true, runs the tests in parallel and determines the number of workers automatically.
