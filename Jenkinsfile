@@ -161,7 +161,7 @@ node('vetsgov-general-purpose') {
           sh "docker-compose -p cypress6-${env.EXECUTOR_NUMBER} down --remove-orphans"
 
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
-            archiveArtifacts '/application/.npm/_logs'
+            archiveArtifacts '/application/.npm/_logs/**/*.log'
           }
 
           step([$class: 'JUnitResultArchiver', testResults: 'logs/nightwatch/**/*.xml'])
