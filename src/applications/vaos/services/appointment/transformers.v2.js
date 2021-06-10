@@ -63,7 +63,7 @@ export function transformVAOSAppointment(appt) {
       stationId: appt.locationId,
     },
     contact: {
-      telecom: appt.contact.telecom.map(contact => ({
+      telecom: appt.contact?.telecom.map(contact => ({
         system: contact.type,
         value: contact.value,
       })),
