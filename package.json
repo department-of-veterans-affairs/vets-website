@@ -351,7 +351,6 @@
     "**/url-parse": "^1.5.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "**/meow": "^9.0.0",
-    "nightwatch/**/lodash.defaultsdeep": "^4.6.1",
     "web-components/**/postcss": "^8.2.10"
   }
 }
