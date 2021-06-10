@@ -80,6 +80,7 @@ class SaveFormLink extends React.Component {
         {savedStatus !== SAVE_STATUSES.noAuth && (
           <span>
             <button
+              type="button"
               className="va-button-link schemaform-sip-save-link"
               onClick={this.handleSave}
             >
