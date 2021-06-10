@@ -146,10 +146,11 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         query: {
           ...state.query,
-          name: action.payload.name,
-          location: action.payload.location,
-          latitude: action.payload.latitude,
-          longitude: action.payload.longitude,
+          name: action.payload.name || state.query.name,
+          location: action.payload.location || state.query.location,
+          distance: action.payload.distance || state.query.distance,
+          latitude: action.payload.latitude || state.query.latitude,
+          longitude: action.payload.longitude || state.query.longitude,
         },
         inProgress: true,
       };
@@ -190,12 +191,12 @@ export default function(state = INITIAL_STATE, action) {
     case UPDATE_QUERY_PARAMS:
       return {
         ...state,
-        tab: action.payload.search || TABS.name,
+        tab: action.payload.search || state.tab,
         query: {
           ...state.query,
-          name: action.payload.name || '',
-          location: action.payload.location || '',
-          distance: action.payload.distance || '50',
+          name: action.payload.name || state.query.name,
+          location: action.payload.location || state.query.location,
+          distance: action.payload.distance || state.query.distance,
         },
       };
 

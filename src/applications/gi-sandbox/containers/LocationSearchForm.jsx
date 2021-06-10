@@ -8,6 +8,8 @@ import {
   updateAutocompleteLocation,
 } from '../actions';
 import KeywordSearch from '../components/search/KeywordSearch';
+import { useHistory } from 'react-router-dom';
+import { updateUrlParams } from '../utils/helpers';
 
 export function LocationSearchForm({
   autocomplete,
@@ -23,6 +25,16 @@ export function LocationSearchForm({
   const [location, setLocation] = useState(search.query.location);
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const { version } = preview;
+  const history = useHistory();
+
+  const updateUrlLocationParams = paramLocation => {
+    updateUrlParams(
+      history,
+      search.tab,
+      { location: paramLocation, distance },
+      filters,
+    );
+  };
 
   useEffect(
     () => {
@@ -39,7 +51,9 @@ export function LocationSearchForm({
 
   const doSearch = event => {
     event.preventDefault();
+    let paramLocation = location;
     if (autocompleteSelection?.coords) {
+      paramLocation = autocompleteSelection.label;
       dispatchFetchSearchByLocationCoords(
         autocompleteSelection.label,
         autocompleteSelection.coords,
@@ -49,6 +63,7 @@ export function LocationSearchForm({
     } else {
       dispatchFetchSearchByLocationResults(location, distance, filters);
     }
+    updateUrlLocationParams(paramLocation);
   };
 
   const doAutocompleteSuggestionsSearch = value => {

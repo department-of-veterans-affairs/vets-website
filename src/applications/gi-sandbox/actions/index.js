@@ -341,7 +341,7 @@ export function fetchSearchByLocationCoords(
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
-      payload: { location, latitude, longitude },
+      payload: { location, latitude, longitude, distance },
     });
 
     return fetch(url, api.settings)
@@ -434,7 +434,7 @@ export function fetchSearchByFacilityCodes(facilityCodes, filters, version) {
   const url = appendQuery(`${api.url}/institutions/search`, params);
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED, payload: { name } });
+    dispatch({ type: SEARCH_STARTED, payload: { facilityCodes } });
 
     return fetch(url, api.settings)
       .then(res => {

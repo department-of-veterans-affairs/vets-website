@@ -31,19 +31,23 @@ export default function(state = INITIAL_STATE, action) {
       const queryParams = action.payload;
       const onLoadState = {};
       Object.keys(INITIAL_STATE).forEach(key => {
-        let paramKey = key;
+        let value = queryParams[key];
+
         if (FILTERS_EXCLUDED_FLIP.includes(key)) {
-          paramKey = `exclude_${key}`;
+          value = Object.keys(queryParams).includes(
+            `exclude${key[0].toUpperCase() + key.slice(1).toLowerCase()}`,
+          )
+            ? false
+            : undefined;
         }
 
-        let value = queryParams[paramKey];
         if (value === 'true') {
           value = true;
         } else if (value === 'false') {
           value = false;
         }
 
-        if (queryParams[paramKey] !== undefined) {
+        if (value !== undefined) {
           onLoadState[key] = value;
         }
       });

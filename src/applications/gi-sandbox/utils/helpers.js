@@ -1,12 +1,14 @@
 import _, { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
+
 import constants from 'vets-json-schema/dist/constants.json';
 import {
   SMALL_SCREEN_WIDTH,
   FILTERS_EXCLUDED_FLIP,
   FILTERS_IGNORE_ALL,
 } from '../constants';
+import appendQuery from 'append-query';
 
 /**
  * Snake-cases field names
@@ -212,9 +214,21 @@ export const buildSearchFilters = filters => {
 
   FILTERS_EXCLUDED_FLIP.filter(field => !clonedFilters[field]).forEach(
     field => {
-      searchFilters[`exclude_${field}`] = !clonedFilters[field];
+      const excludeField = `exclude${field[0].toUpperCase() +
+        field.slice(1).toLowerCase()}`;
+      searchFilters[excludeField] = !clonedFilters[field];
     },
   );
 
   return searchFilters;
+};
+
+export const updateUrlParams = (history, tab, params, filters, version) => {
+  const url = appendQuery('/', {
+    search: tab,
+    ...params,
+    ...buildSearchFilters(filters),
+    version,
+  });
+  history.push(url);
 };

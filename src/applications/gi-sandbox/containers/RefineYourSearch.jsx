@@ -9,7 +9,7 @@ import {
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
-  useQueryParams,
+  updateUrlParams,
 } from '../utils/helpers';
 import {
   showModal,
@@ -18,7 +18,7 @@ import {
   fetchSearchByLocationResults,
 } from '../actions';
 import { connect } from 'react-redux';
-import { TABS, FILTERS_EXCLUDED_FLIP, FILTERS_IGNORE_ALL } from '../constants';
+import { TABS } from '../constants';
 
 export function RefineYourSearch({
   dispatchShowModal,
@@ -29,7 +29,6 @@ export function RefineYourSearch({
   preview,
   search,
 }) {
-  const queryParams = useQueryParams();
   const history = useHistory();
   const { version } = preview;
   const {
@@ -63,28 +62,6 @@ export function RefineYourSearch({
 
   const updateInstitutionFilters = (name, value) => {
     dispatchFilterChange({ ...filters, [name]: value });
-
-    if (FILTERS_EXCLUDED_FLIP.includes(name)) {
-      // add excluded and only pass if unchecked
-      if (!value) {
-        queryParams.set(`exclude_${name}`, value);
-        history.push({ pathname: '/', search: queryParams.toString() });
-      }
-    } else if (FILTERS_IGNORE_ALL.includes(name)) {
-      // ignore if ALL value is selected
-      if (value !== 'ALL') {
-        queryParams.set(name, value);
-        history.push({ pathname: '/', search: queryParams.toString() });
-      }
-    } else if (typeof value === 'boolean') {
-      if (value) {
-        queryParams.set(name, value);
-        history.push({ pathname: '/', search: queryParams.toString() });
-      }
-    } else {
-      queryParams.set(name, value);
-      history.push({ pathname: '/', search: queryParams.toString() });
-    }
   };
   const onChangeCheckbox = e =>
     updateInstitutionFilters(e.target.name, e.target.checked);
@@ -122,8 +99,13 @@ export function RefineYourSearch({
   };
 
   const updateResults = () => {
+    let params = {
+      location: search.query.location,
+      distance: search.query.distance,
+    };
     if (search.tab === TABS.name) {
       dispatchFetchSearchByNameResults(search.query.name, filters, version);
+      params = { name: search.query.name };
     } else {
       dispatchFetchSearchByLocationResults(
         search.query.location,
@@ -132,6 +114,8 @@ export function RefineYourSearch({
         version,
       );
     }
+
+    updateUrlParams(history, search.tab, params, filters, version);
   };
 
   const renderTypeOfInstitution = () => {
