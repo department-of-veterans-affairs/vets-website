@@ -15,7 +15,6 @@ import {
   FETCH_STATUS,
   AUDIOLOGY_TYPES_OF_CARE,
 } from '../../utils/constants';
-import { getSiteIdFromOrganization } from '../../services/organization';
 import {
   getParentOfLocation,
   getSiteIdFromFacilityId,
@@ -237,9 +236,8 @@ export function selectCernerOrgIds(state) {
   const cernerSites = selectCernerAppointmentsFacilities(state);
   return getNewAppointment(state)
     .parentFacilities?.filter(parent => {
-      const facilityId = getSiteIdFromOrganization(parent);
       return cernerSites?.some(cernerSite =>
-        facilityId.startsWith(cernerSite.facilityId),
+        parent.id.startsWith(cernerSite.facilityId),
       );
     })
     .map(facility => facility.id);
@@ -342,7 +340,7 @@ export function getFacilityPageInfo(state) {
     parentOfChosenFacility: getParentOfChosenFacility(state),
     cernerOrgIds: selectCernerOrgIds(state),
     isCernerOnly: selectIsCernerOnlyPatient(state),
-    siteId: getSiteIdFromOrganization(getChosenParentInfo(state)),
+    siteId: getChosenParentInfo(state)?.id,
   };
 }
 

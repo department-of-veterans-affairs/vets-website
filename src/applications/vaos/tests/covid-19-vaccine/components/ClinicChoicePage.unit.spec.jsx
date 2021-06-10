@@ -104,7 +104,7 @@ describe('VAOS vaccine flow <ClinicChoicePage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-booking/select-date-1',
+        '/new-covid-19-vaccine-appointment/select-date',
       ),
     );
   });

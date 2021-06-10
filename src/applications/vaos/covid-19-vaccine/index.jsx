@@ -77,7 +77,7 @@ export function NewBookingSection() {
   useFormUnsavedDataWarning({
     // We don't want to warn a user about leaving the flow when they're shown the page
     // that says they can't make an appointment online
-    disabled: location.pathname.includes('contact-facilities'),
+    disabled: location.pathname.includes('contact-facility'),
   });
 
   const shouldRedirectToStart = useFormRedirectToStart({
@@ -107,35 +107,38 @@ export function NewBookingSection() {
     );
   }
 
-  // Redirect the user to the Contact Facilities page when there are no facilities that
+  // Redirect the user to the Contact Facility page when there are no facilities that
   // support scheduling an appointment for the vaccine.
   if (
     !canUseVaccineFlow &&
     facilitySettingsStatus === FETCH_STATUS.succeeded &&
-    !location.pathname.includes(`${match.url}/contact-facilities`)
+    !location.pathname.includes(`${match.url}/contact-facility`)
   ) {
-    return <Redirect to={`${match.url}/contact-facilities`} />;
+    return <Redirect to={`${match.url}/contact-facility`} />;
   }
 
   return (
     <FormLayout>
       <Switch>
         <Route
-          path={`${match.url}/received-dose`}
+          path={`${match.url}/confirm-doses-received`}
           component={ReceivedDoseScreenerPage}
         />
         <Route
-          path={`${match.url}/contact-facilities`}
+          path={`${match.url}/contact-facility`}
           component={ContactFacilitiesPage}
         />
-        <Route path={`${match.url}/facility`} component={VAFacilityPage} />
-        <Route path={`${match.url}/clinic`} component={ClinicChoicePage} />
         <Route
-          path={`${match.url}/select-date-1`}
-          component={SelectDate1Page}
+          path={`${match.url}/choose-facility`}
+          component={VAFacilityPage}
         />
         <Route
-          path={`${match.url}/plan-second-dose`}
+          path={`${match.url}/choose-clinic`}
+          component={ClinicChoicePage}
+        />
+        <Route path={`${match.url}/select-date`} component={SelectDate1Page} />
+        <Route
+          path={`${match.url}/second-dose-info`}
           component={SecondDosePage}
         />
         <Route path={`${match.url}/contact-info`} component={ContactInfoPage} />

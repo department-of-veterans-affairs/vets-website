@@ -1,51 +1,39 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-import withFeatureFlip from '../containers/withFeatureFlip.jsx';
+import { goToNextPageWithToken } from '../utils/navigation';
 
 const Insurance = props => {
   const { router } = props;
-  const [needToUpdate, setNeedToUpdate] = useState();
 
-  const handleContinueClick = () => {
-    if (needToUpdate === 'Yes') {
-      const url = '/some-token/failed';
-      router.push(url);
-    } else if (needToUpdate === 'No') {
-      const url = '/some-token/details';
-      router.push(url);
-    }
-  };
+  const contactNumber = '555-867-5309';
 
   return (
-    <div className={'vads-u-margin--1p5'}>
-      <h1>
-        Do you need to update your contact, next of kin, or insurance
-        information?
-      </h1>
-      <div
-        style={{
-          paddingLeft: '1em',
-        }}
-      >
-        <RadioButtons
-          onValueChange={e => {
-            setNeedToUpdate(e.value);
-          }}
-          options={['Yes', 'No']}
-          value={{ value: needToUpdate }}
-        />
-      </div>
+    <div className={'vads-u-margin--3'}>
+      <h1>Need to update your insurance, contact, or other information?</h1>
       <button
-        type="button"
-        className="usa-button"
-        onClick={handleContinueClick}
+        className="usa-button-secondary usa-button-big"
+        onClick={() => goToNextPageWithToken(router, 'failed')}
       >
-        Continue
+        Yes
       </button>
+      <button
+        className="usa-button-secondary usa-button-big"
+        onClick={() => goToNextPageWithToken(router, 'details')}
+      >
+        No
+      </button>
+
+      <footer className="row">
+        <h2 className="help-heading vads-u-font-size--lg">Need help?</h2>
+        <p>
+          Ask a staff member or call us at <Telephone contact={contactNumber} />
+          .
+        </p>
+      </footer>
     </div>
   );
 };
 
-export default withFeatureFlip(Insurance);
+export default Insurance;
