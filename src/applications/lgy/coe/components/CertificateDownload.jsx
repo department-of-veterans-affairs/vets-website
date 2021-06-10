@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 export const CertificateDownload = props => (
   <div className="row vads-u-margin-bottom--1">
@@ -21,9 +22,9 @@ export const CertificateDownload = props => (
         for a restoration of entitlement - you’ll need to complete and submit VA
         Form 26-1880.
       </p>
-      <a href="#" onClick={() => props.generateCoe('skip')}>
+      <Link to="/introduction" onClick={props.clickHandler}>
         Make changes online COE with VA Form 26-1880
-      </a>
+      </Link>
     </div>
   </div>
 );

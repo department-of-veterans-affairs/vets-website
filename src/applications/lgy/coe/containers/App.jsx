@@ -12,8 +12,6 @@ import { getFormPagePaths } from '../utils';
 import { generateCoe } from '../actions';
 import { COE_FORM_NUMBER, CALLSTATUS } from '../constants';
 
-import { CertificateDownload } from '../components/CertificateDownload';
-
 const FORM_PATHS = getFormPagePaths(formConfig);
 
 function App(props) {
@@ -32,7 +30,12 @@ function App(props) {
 
   useEffect(
     () => {
-      if (!profileIsUpdating && loggedIn && !hasSavedForm) {
+      if (
+        !profileIsUpdating &&
+        loggedIn &&
+        !hasSavedForm &&
+        generateAutoCoeStatus !== CALLSTATUS.skip
+      ) {
         props.generateCoe();
       } else if (!profileIsUpdating && !loggedIn) {
         props.generateCoe('skip');
@@ -50,7 +53,8 @@ function App(props) {
       <LoadingIndicator message="Checking automatic COE eligibility..." />
     );
   } else if (generateAutoCoeStatus === CALLSTATUS.success) {
-    content = <CertificateDownload generateCoe={props.generateCoe} />;
+    // content = <CertificateDownload generateCoe={props.generateCoe} />;
+    router.push('/eligibility');
   } else {
     content = (
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
