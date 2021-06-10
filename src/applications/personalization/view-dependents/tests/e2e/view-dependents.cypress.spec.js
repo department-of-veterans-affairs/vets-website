@@ -2,7 +2,7 @@ import { rootUrl } from '../../manifest.json';
 import mockDependents from './fixtures/mock-dependents.json';
 import mockNoAwardDependents from './fixtures/mock-no-dependents-on-award.json';
 
-const DEPENDENTS_ENDPOINT = '/dependents_applications/show';
+const DEPENDENTS_ENDPOINT = 'v0/dependents_applications/show';
 
 const testAxe = () => {
   cy.injectAxe();

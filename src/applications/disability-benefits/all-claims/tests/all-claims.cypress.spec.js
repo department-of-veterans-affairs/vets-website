@@ -176,7 +176,7 @@ const testConfig = createTestConfig(
           ({ 'view:selected': _, ...obj }) => obj,
         );
 
-        cy.intercept('GET', MOCK_SIPS_API, {
+        cy.intercept('GET', `${MOCK_SIPS_API}*`, {
           formData: {
             veteran: {
               primaryPhone: '4445551212',
