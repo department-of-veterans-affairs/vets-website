@@ -6,6 +6,8 @@ import {
   updateAutocompleteName,
 } from '../actions';
 import KeywordSearch from '../components/search/KeywordSearch';
+import { updateUrlParams } from '../utils/helpers';
+import { useHistory } from 'react-router-dom';
 
 export function NameSearchForm({
   autocomplete,
@@ -18,9 +20,15 @@ export function NameSearchForm({
 }) {
   const { version } = preview;
   const [name, setName] = useState(search.query.name);
+  const history = useHistory();
+
+  const updateUrlNameParams = paramName => {
+    updateUrlParams(history, search.tab, { name: paramName }, filters);
+  };
 
   const doSearch = value => {
     dispatchFetchSearchByNameResults(value, filters, version);
+    updateUrlNameParams(value);
   };
 
   useEffect(
