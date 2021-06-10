@@ -30,6 +30,7 @@ const testDate = getTimezoneTestDate();
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingHomepageRefresh: true,
+    vaOnlineSchedulingVAOSServiceRequests: false,
   },
 };
 
@@ -583,5 +584,225 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     await screen.findByText(/We couldn’t cancel your request/i);
 
     expect(screen.baseElement).not.to.contain.text('Canceled');
+  });
+
+  describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
+    it('should render VA request details with a VAOS appointment', async () => {
+      const appointment = getVARequestMock();
+      appointment.id = '1234';
+      appointment.attributes = {
+        ...appointment.attributes,
+        typeOfCareId: '323',
+        status: 'Submitted',
+        appointmentType: 'Primary care',
+        optionDate1: moment(testDate)
+          .add(3, 'days')
+          .format('MM/DD/YYYY'),
+        optionTime1: 'AM',
+        optionDate2: moment(testDate)
+          .add(4, 'days')
+          .format('MM/DD/YYYY'),
+        optionTime2: 'AM',
+        optionDate3: moment(testDate)
+          .add(5, 'days')
+          .format('MM/DD/YYYY'),
+        optionTime3: 'PM',
+        facility: {
+          ...getVARequestMock().attributes.facility,
+          facilityCode: '983GC',
+        },
+        bestTimetoCall: ['Morning'],
+        purposeOfVisit: 'New Issue',
+        email: 'patient.test@va.gov',
+        phoneNumber: '(703) 652-0000',
+      };
+
+      mockSingleRequestFetch({ request: appointment });
+
+      const facility = getVAFacilityMock();
+      facility.attributes = {
+        ...facility.attributes,
+        id: 'vha_442GC',
+        uniqueId: '442GC',
+        name: 'Cheyenne VA Medical Center',
+        address: {
+          physical: {
+            zip: '82001-5356',
+            city: 'Cheyenne',
+            state: 'WY',
+            address1: '2360 East Pershing Boulevard',
+          },
+        },
+        phone: { main: '307-778-7550' },
+      };
+
+      mockFacilityFetch('vha_442GC', facility);
+      const message = getMessageMock();
+      message.attributes = {
+        ...message.attributes,
+        messageText: 'A message from the patient',
+      };
+      mockMessagesFetch('1234', [message]);
+
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/requests/${appointment.id}`,
+      });
+
+      // Verify page content...
+      await waitFor(() => {
+        expect(document.activeElement).to.have.tagName('h1');
+      });
+
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: 'Pending primary care appointment',
+        }),
+      );
+
+      expect(screen.baseElement).to.contain('.usa-alert-info');
+      expect(screen.baseElement).to.contain.text(
+        'The time and date of this appointment are still to be determined.',
+      );
+
+      expect(screen.getByText('Cheyenne VA Medical Center')).to.be.ok;
+      expect(screen.baseElement).to.contain.text(
+        'Pending primary care appointment',
+      );
+      expect(screen.baseElement).to.contain.text('VA Appointment');
+      expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+      expect(screen.baseElement).to.contain.text(
+        '2360 East Pershing Boulevard',
+      );
+      expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+      expect(screen.baseElement).to.contain.text('Main phone:');
+      expect(screen.baseElement).to.contain.text('307-778-7550');
+      expect(screen.baseElement).to.contain.text('Preferred date and time');
+      expect(screen.baseElement).to.contain.text(
+        `${moment(appointment.attributes.optionDate1).format(
+          'ddd, MMMM D, YYYY',
+        )} in the morning`,
+      );
+      expect(screen.baseElement).to.contain.text(
+        `${moment(appointment.attributes.optionDate2).format(
+          'ddd, MMMM D, YYYY',
+        )} in the morning`,
+      );
+      expect(screen.baseElement).to.contain.text(
+        `${moment(appointment.attributes.optionDate3).format(
+          'ddd, MMMM D, YYYY',
+        )} in the afternoon`,
+      );
+      expect(screen.baseElement).to.contain.text('New issue');
+
+      expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
+      expect(screen.baseElement).to.contain.text('patient.test@va.gov');
+      expect(screen.baseElement).to.contain.text('703-652-0000');
+      expect(screen.baseElement).to.contain.text('Call morning');
+    });
+
+    it('should render CC request details with a VAOS appointment', async () => {
+      const ccAppointmentRequest = getCCRequestMock();
+      ccAppointmentRequest.attributes = {
+        ...ccAppointmentRequest.attributes,
+        appointmentType: 'Audiology (hearing aid support)',
+        bestTimetoCall: ['Morning'],
+        ccAppointmentRequest: {
+          preferredProviders: [{ practiceName: 'Atlantic Medical Care' }],
+        },
+        email: 'joe.blow@va.gov',
+        optionDate1: '02/21/2020',
+        optionTime1: 'AM',
+        purposeOfVisit: 'routine-follow-up',
+        typeOfCareId: 'CCAUDHEAR',
+      };
+
+      ccAppointmentRequest.id = '1234';
+
+      mockAppointmentInfo({
+        requests: [ccAppointmentRequest],
+        isHomepageRefresh: true,
+      });
+
+      const message = getMessageMock();
+      message.attributes = {
+        ...message.attributes,
+        messageText: 'A message from the patient',
+      };
+      mockMessagesFetch('1234', [message]);
+
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: '/requested',
+      });
+
+      const detailLinks = await screen.findAllByRole('link', {
+        name: /Detail/i,
+      });
+
+      fireEvent.click(detailLinks[0]);
+
+      // Verify page content...
+      await waitFor(() => {
+        expect(document.activeElement).to.have.tagName('h1');
+      });
+
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: 'Pending audiology (hearing aid support) appointment',
+        }),
+      ).to.be.ok;
+
+      // show alert message
+      expect(screen.baseElement).to.contain('.usa-alert-info');
+      expect(screen.baseElement).to.contain.text(
+        'The time and date of this appointment are still to be determined.',
+      );
+
+      // Should be able to cancel appointment
+      expect(
+        screen.getByRole('button', {
+          name: /Cancel request/,
+        }),
+      ).to.be.ok;
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: 'Preferred community care provider',
+        }),
+      ).to.be.ok;
+      expect(screen.getByText('Atlantic Medical Care')).to.be.ok;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: 'Preferred date and time',
+        }),
+      ).to.be.ok;
+      expect(screen.getByText('Fri, February 21, 2020 in the morning')).to.be
+        .ok;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: 'You shared these details about your concern',
+        }),
+      ).to.be.ok;
+      expect(screen.getByText('A message from the patient')).to.be.ok;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: 'Your contact details',
+        }),
+      ).to.be.ok;
+      expect(screen.getByText('joe.blow@va.gov')).to.be.ok;
+      expect(screen.getByText('Call morning')).to.be.ok;
+
+      expect(screen.queryByText('Community Care')).not.to.exist;
+      expect(screen.queryByText('Reason for appointment')).not.to.exist;
+    });
   });
 });

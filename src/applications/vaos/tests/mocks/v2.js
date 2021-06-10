@@ -35,7 +35,7 @@ export function getVAOSRequestMock() {
       ],
     },
     preferredTimesForPhoneCall: ['Afternoon', 'Evening'],
-    comment: 'test',
+    comment: 'fake',
     videoData: { isVideo: false },
     practitioners: [],
     vaos: {

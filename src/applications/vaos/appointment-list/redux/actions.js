@@ -434,7 +434,6 @@ export function fetchRequestDetails(id) {
           captureError(e);
         }
       }
-
       if (featureVAOSServiceRequests && request.practitioners?.length) {
         request.provider = await getCommunityProvider(
           request.practitioners[0].id.value,
