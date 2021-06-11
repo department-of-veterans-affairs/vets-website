@@ -28,7 +28,8 @@ class SaveFormLink extends React.Component {
     }
   }
 
-  handleSave = () => {
+  handleSave = event => {
+    event.preventDefault();
     const { formId, version, data, submission } = this.props.form;
     const returnUrl = this.props.locationPathname;
     this.props.saveAndRedirectToReturnUrl(
