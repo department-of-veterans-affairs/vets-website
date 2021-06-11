@@ -26,7 +26,7 @@ describe('Claim Estimation Breadcrumb Test', () => {
       .click()
       .then(() => {
         cy.get('.claim-title', { timeout: Timeouts.slow }).should('be.visible');
-        cy.injectThenAxeCheck();
+        cy.injectAxeThenAxeCheck();
       });
 
     // Disabled until COVID-19 message removed
