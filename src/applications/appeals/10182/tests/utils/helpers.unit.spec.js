@@ -12,6 +12,7 @@ import {
   setInitialEditMode,
   issuesNeedUpdating,
   copyAreaOfDisagreementOptions,
+  sortContestableIssues,
 } from '../../utils/helpers';
 import { getDate } from '../../utils/dates';
 
@@ -303,5 +304,37 @@ describe('copyAreaOfDisagreementOptions', () => {
     expect(
       copyAreaOfDisagreementOptions([{ issue: 'test' }], result),
     ).to.deep.equal(result);
+  });
+});
+
+describe('sortContestableIssues', () => {
+  const getIssues = dates =>
+    dates.map(date => ({
+      attributes: { approxDecisionDate: date },
+    }));
+  const getDates = dates =>
+    dates.map(date => date.attributes.approxDecisionDate);
+
+  it('should return an empty array with undefined issues', () => {
+    expect(getDates(sortContestableIssues())).to.deep.equal([]);
+  });
+  it('should sort issues spanning months with newest date first', () => {
+    const dates = ['2020-02-01', '2020-03-01', '2020-01-01'];
+    const result = sortContestableIssues(getIssues(dates));
+    expect(getDates(result)).to.deep.equal([
+      '2020-03-01',
+      '2020-02-01',
+      '2020-01-01',
+    ]);
+  });
+  it('should sort issues spanning a year & months with newest date first', () => {
+    const dates = ['2021-01-31', '2020-12-01', '2021-02-02', '2021-02-01'];
+    const result = sortContestableIssues(getIssues(dates));
+    expect(getDates(result)).to.deep.equal([
+      '2021-02-02',
+      '2021-02-01',
+      '2021-01-31',
+      '2020-12-01',
+    ]);
   });
 });
