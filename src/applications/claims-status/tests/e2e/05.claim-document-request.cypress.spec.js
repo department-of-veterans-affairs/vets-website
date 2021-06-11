@@ -11,7 +11,7 @@ beforeEach(() => {
 });
 
 describe('Claim Additional Evidence Test', () => {
-  it('Submits files', () => {
+  it('Submits documents', () => {
     cy.intercept('GET', `/v0/evss_claims_async/11`, mockDetails).as(
       'detailRequest',
     );
@@ -37,11 +37,23 @@ describe('Claim Additional Evidence Test', () => {
         );
       });
 
+    // go to document request page
+    cy.get('.file-request-list-item .usa-button')
+      .first()
+      .click()
+      .then(() => {
+        cy.get('.file-requirements', { timeout: Timeouts.normal });
+        cy.injectAxeThenAxeCheck();
+      });
+
+    cy.get('button.usa-button').should('contain', 'Submit Files for Review');
+
     cy.get('button.usa-button')
       .click()
       .then(() => {
-        cy.get('.usa-input-error', { timeout: Timeouts.normal });
-        cy.injectAxeThenAxeCheck;
+        cy.get('.usa-input-error', { timeout: Timeouts.normal }).should(
+          'be.visible',
+        );
       });
 
     cy.get('.usa-input-error-message').should(
