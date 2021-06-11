@@ -13,6 +13,16 @@ export function CompareGrid({
 }) {
   const institutionCount = Object.keys(institutions).length;
 
+  const empties = [];
+
+  for (let i = 0; i < 3 - institutionCount; i++) {
+    empties.push(
+      <div key={i} className="medium-screen:vads-l-col--3">
+        <div className="empty-col" />
+      </div>,
+    );
+  }
+
   const fieldLabel = (field, index, displayDiff) => {
     return (
       <div
@@ -21,6 +31,8 @@ export function CompareGrid({
           'field-label',
           { 'medium-screen:vads-l-col--3': institutionCount === 3 },
           { 'medium-screen:vads-l-col--4': institutionCount === 2 },
+          { 'medium-screen:vads-l-col--6': institutionCount === 1 },
+          { 'medium-screen:vads-l-col--12': institutionCount === 0 },
           { 'has-diff': displayDiff },
         )}
       >
@@ -61,6 +73,7 @@ export function CompareGrid({
           'field-value',
           { 'medium-screen:vads-l-col--3': institutionCount === 3 },
           { 'medium-screen:vads-l-col--4': institutionCount === 2 },
+          { 'medium-screen:vads-l-col--6': institutionCount === 1 },
           { 'first-row': rowIndex === 0 },
           { 'first-col': colIndex === 0 },
           { 'last-col': colIndex === institutionCount - 1 },
@@ -92,6 +105,8 @@ export function CompareGrid({
           className={classNames(
             { 'medium-screen:vads-l-col--12': institutionCount === 3 },
             { 'medium-screen:vads-l-col--9': institutionCount === 2 },
+            { 'medium-screen:vads-l-col--6': institutionCount === 1 },
+            { 'medium-screen:vads-l-col--3': institutionCount === 0 },
           )}
         >
           {fieldData.map((field, index) => {
@@ -107,25 +122,33 @@ export function CompareGrid({
 
             const displayDiff = showDifferences && !allEqual;
 
-            const columns = [
-              fieldLabel(field, index, displayDiff),
-              institutionFieldValue(
-                field,
-                index,
-                0,
-                institutions[facilityCodes[0]],
-                displayDiff,
-              ),
-              institutionFieldValue(
-                field,
-                index,
-                1,
-                institutions[facilityCodes[1]],
-                displayDiff,
-              ),
-            ];
+            const columns = [fieldLabel(field, index, displayDiff)];
 
-            if (facilityCodes.length === 3) {
+            if (institutionCount > 0) {
+              columns.push(
+                institutionFieldValue(
+                  field,
+                  index,
+                  0,
+                  institutions[facilityCodes[0]],
+                  displayDiff,
+                ),
+              );
+            }
+
+            if (institutionCount > 1) {
+              columns.push(
+                institutionFieldValue(
+                  field,
+                  index,
+                  1,
+                  institutions[facilityCodes[1]],
+                  displayDiff,
+                ),
+              );
+            }
+
+            if (institutionCount > 2) {
               columns.push(
                 institutionFieldValue(
                   field,
@@ -144,11 +167,7 @@ export function CompareGrid({
             );
           })}
         </div>
-        {facilityCodes.length === 2 && (
-          <div className="medium-screen:vads-l-col--3">
-            <div className="empty-col" />
-          </div>
-        )}
+        {empties}
       </div>
     </div>
   );

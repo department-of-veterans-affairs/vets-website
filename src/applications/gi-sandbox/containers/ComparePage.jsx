@@ -10,12 +10,14 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import {
   fetchProfile,
   setPageTitle,
   showModal,
   hideModal,
   fetchCompareDetails,
+  removeCompareInstitution,
 } from '../actions';
 import { estimatedBenefits } from '../selectors/estimator';
 import {
@@ -33,11 +35,13 @@ export function ComparePage({
   allLoaded,
   compare,
   dispatchFetchCompareDetails,
+  dispatchRemoveCompareInstitution,
   estimated,
   filters,
   preview,
 }) {
   const [showDifferences, setShowDifferences] = useState(false);
+  const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const [isSticky, setIsSticky] = useState(false);
   const [initialTop, setInitialTop] = useState(null);
   const headerRef = useRef(null);
@@ -134,8 +138,47 @@ export function ComparePage({
     return <span>{formatCurrency(value)}</span>;
   };
 
+  const empties = [];
+  for (let i = 0; i < 3 - institutionCount; i++) {
+    empties.push(
+      <div key={i} className="medium-screen:vads-l-col--3">
+        <div className="compare-header empty-header" />
+        <div className="compare-action">
+          <Link to={'/gi-bill-comparison-tool-sandbox/search'}>
+            Return to search to add
+          </Link>
+        </div>
+      </div>,
+    );
+  }
+
   return (
     <div className="compare-page">
+      {promptingFacilityCode && (
+        <Modal
+          onClose={() => setPromptingFacilityCode(null)}
+          primaryButton={{
+            action: () => {
+              setPromptingFacilityCode(null);
+              dispatchRemoveCompareInstitution(promptingFacilityCode);
+            },
+            text: 'Remove',
+          }}
+          secondaryButton={{
+            action: () => setPromptingFacilityCode(null),
+            text: 'Cancel',
+          }}
+          title="Remove Institution?"
+          visible
+        >
+          {promptingFacilityCode && (
+            <p>
+              Remove {institutions[promptingFacilityCode].name} from your
+              comparison?
+            </p>
+          )}
+        </Modal>
+      )}
       <div className="content-wrapper">
         <div
           id="compare-header"
@@ -186,7 +229,9 @@ export function ComparePage({
                       <button
                         type="button"
                         className="va-button-link learn-more-button"
-                        onClick={() => {}}
+                        onClick={() => {
+                          setPromptingFacilityCode(facilityCode);
+                        }}
                       >
                         Remove
                       </button>
@@ -194,16 +239,7 @@ export function ComparePage({
                   </div>
                 );
               })}
-              {institutionCount === 2 && (
-                <div className="medium-screen:vads-l-col--3">
-                  <div className="compare-header empty-header" />
-                  <div className="compare-action">
-                    <Link to={'/gi-bill-comparison-tool-sandbox/search'}>
-                      Return to search to add
-                    </Link>
-                  </div>
-                </div>
-              )}
+              {empties}
             </div>
           </div>
         </div>
@@ -568,6 +604,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   dispatchFetchCompareDetails: fetchCompareDetails,
   dispatchFetchProfile: fetchProfile,
+  dispatchRemoveCompareInstitution: removeCompareInstitution,
   dispatchSetPageTitle: setPageTitle,
   dispatchShowModal: showModal,
   dispatchHideModal: hideModal,
