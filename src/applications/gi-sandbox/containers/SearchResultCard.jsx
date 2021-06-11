@@ -170,7 +170,7 @@ export function SearchResultCard({
           {(accreditationType &&
             accreditationType.charAt(0).toUpperCase() +
               accreditationType.slice(1)) ||
-            'None'}
+            'N/A'}
         </p>
       </div>
       <div className="vads-u-flex--1">
