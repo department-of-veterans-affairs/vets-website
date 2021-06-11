@@ -46,7 +46,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .click('.view-letters-button')
     .assert.urlContains('/letters/letter-list')
     .waitForElementVisible('.step-content', Timeouts.normal)
-    .click('.step-content div.form-review-panel:nth-of-type(4) button') // open the bsl accordion
+    .click('va-accordion-item:nth-of-type(4)') // open the bsl accordion
     .waitForElementPresent('#militaryService', Timeouts.normal);
 
   // poke all the checkboxes and expect them to all be unselected
@@ -78,9 +78,16 @@ module.exports = E2eHelpers.createE2eTest(client => {
   );
 
   // collapse the bsl accordion
-  client
-    .click('.step-content div.form-review-panel:nth-of-type(4) button') // open the bsl accordion
-    .waitForElementNotPresent('#militaryService', Timeouts.normal);
+  // This is necessary because Selenium has problems closing
+  // the accordion without clicking the button inside the shadowDOM
+  client.execute(() => {
+    const bslAccordion = document.querySelector(
+      'va-accordion-item:nth-of-type(4)',
+    );
+    client.assert.attributeEquals(bslAccordion, 'open', 'true');
+    bslAccordion.shadowRoot.querySelector('button').click();
+    client.assert.attributeEquals(bslAccordion, 'open', 'false');
+  });
 
   // poke the back button
   client
