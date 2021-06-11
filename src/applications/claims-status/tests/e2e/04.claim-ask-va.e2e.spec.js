@@ -38,23 +38,15 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // click on link to page
   client
-    // I have no idea why this pause is required, but it sure is
-    .pause(2000)
     .click('.claims-alert-status a')
     .waitForElementPresent('.usa-button-secondary', Timeouts.normal)
     .axeCheck('.main');
 
-  // click on disabled button
-  client.click('.main .usa-button-primary').pause(500);
-
-  // should not have changed pages
-  client.assert.urlContains('ask-va-to-decide');
+  // submit button is disabled
+  client.expect.element('.main .usa-button-primary').to.not.be.enabled;
 
   // click on checkbox, then submit, expect success message
-  client
-    .click('input[type=checkbox]')
-    .click('.main .usa-button-primary')
-    .pause(500);
+  client.click('input[type=checkbox]').click('.main .usa-button-primary');
 
   // should have gone back to status page
   client.assert.urlContains('status');
