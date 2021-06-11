@@ -105,7 +105,9 @@ export class LetterList extends React.Component {
         <p>
           <Link to="confirm-address">Go back to edit address</Link>
         </p>
-        <va-accordion multi>{letterItems}</va-accordion>
+        <va-accordion multi bordered>
+          {letterItems}
+        </va-accordion>
         {eligibilityMessage}
 
         <br />
