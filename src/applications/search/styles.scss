@@ -23,7 +23,6 @@
 
     &.results-list {
       li.result-item {
-        margin-top: 1em;
 
         h5,
         p {
@@ -32,27 +31,45 @@
 
         .result-url,
         .result-desc {
-          font-size: 1.3rem;
+          color: #323a45;
+          font-family: "Source Sans Pro";
+          font-size: 1.6rem;
         }
 
         a.result-title {
           display: block;
           text-decoration: none;
 
+          &:visited {
+            color: #4c2c92;
+          }
+
+          &:hover {
+            color: #323a45;
+            background: rgba(0,0,0,.05);
+          }
+
+          &:focus ,
+          &:active {
+            color: #323a45;
+            background: rgba(0,0,0,.05);
+            outline: 2px solid #f9c642;
+          }
+
           h5 {
             margin-bottom: .1rem;
-            font-size: 1.6rem;
-            font-weight: normal;
+            font-size: 1.7rem;
+            font-weight: 700;
+            font-family: "Bitter";
+            text-decoration: underline;
+            color: #004795;
           }
+
+
         }
 
         p {
           margin: 0;
-
-          &.result-url {
-            color: $color-green;
-            margin-bottom: .1rem;
-          }
         }
       }
     }
@@ -128,18 +145,54 @@
 
   .search-box {
 
+  @media (max-width: $small-screen) {
+    flex-direction: column;
+  }
+
     input,
     button {
       margin: 0;
       max-width: none;
+      font-family: "Source Sans Pro";
+
+      @media (max-width: $small-screen) {
+        margin: 5px;
+      }
+    }
+
+    input {
+      color: #323a45;
+      font-weight: 400;
     }
 
     button {
-      width: auto;
-      display: flex;
       align-items: center;
-      padding: 0 1.5rem 0 1rem;
+      background: #0071bb;
       border-radius: 0 5px 5px 0;
+      color: #ffffff;
+      display: flex;
+      font-size: 1.6rem;
+      font-weight: 700;
+      padding: 0 1.5rem 0 1rem;
+      width: auto;
+
+      @media (max-width: $small-screen) {
+        border-radius: 5px;
+        justify-content: center;
+        padding: 1.5rem;
+        width: 100%;
+      }
+
+
+      &:hover {
+        background: #003e73
+      }
+
+      &:focus,
+      &:active {
+        background: #003e73;
+        outline: 2px solid #f9c642;
+      }
     }
   }
 
