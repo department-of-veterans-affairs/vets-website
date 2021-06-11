@@ -7,7 +7,7 @@ import Telephone, {
 import recordEvent from 'platform/monitoring/record-event';
 
 import { disabilitiesExplanationAlert } from './contestedIssues';
-import { PROFILE_URL, HLR_INFO_URL } from '../constants';
+import { PROFILE_URL } from '../constants';
 
 const noIssuesMessage = (
   <>
@@ -70,29 +70,6 @@ export const showContestableIssueError = ({ error, status } = {}, delay) => {
   }
   return <AlertBox status="error" headline={headline} content={content} />;
 };
-
-export const showWorkInProgress = (
-  <AlertBox
-    status="info"
-    headline="We’re still working on this feature"
-    content={
-      <>
-        <p>
-          We’re rolling out the Higher-Level Review form in stages. It’s not
-          quite ready yet. Please check back again soon.
-        </p>
-        <p>
-          <a
-            href={HLR_INFO_URL}
-            className="u-vads-display--block u-vads-margin-top--2"
-          >
-            Return to Higher-Level Review information page
-          </a>
-        </p>
-      </>
-    }
-  />
-);
 
 export const showHasEmptyAddress = (
   <AlertBox
