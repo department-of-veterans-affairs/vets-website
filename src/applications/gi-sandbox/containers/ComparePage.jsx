@@ -251,7 +251,7 @@ export function ComparePage({
               {
                 label: 'Institution locale',
                 className: 'capitalize-value',
-                mapper: institution => institution.localeType,
+                mapper: institution => naIfNull(institution.localeType),
               },
               {
                 label: 'Size of school',
