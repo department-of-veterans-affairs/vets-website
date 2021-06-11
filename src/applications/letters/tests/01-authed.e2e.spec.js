@@ -78,7 +78,7 @@ module.exports = E2eHelpers.createE2eTest(client => {
         client.click(`#${id}`);
         client.expect
           .element(`#${id}`)
-          .to.property('checked')
+          .to.have.property('checked')
           .equals(false);
       });
     },
