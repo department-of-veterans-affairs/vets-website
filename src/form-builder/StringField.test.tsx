@@ -4,7 +4,9 @@ import { render } from '@testing-library/react';
 
 describe('Form Builder - StringField', () => {
   test('renders', () => {
-    const { getByLabelText } = render(<StringField name="thing" />);
-    expect(getByLabelText('thing')).toBeTruthy();
+    const { getByLabelText } = render(
+      <StringField name="thing" label="The Thing" />
+    );
+    expect(getByLabelText('The Thing')).toBeTruthy();
   });
 });
