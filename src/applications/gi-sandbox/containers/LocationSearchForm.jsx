@@ -31,7 +31,7 @@ export function LocationSearchForm({
     updateUrlParams(
       history,
       search.tab,
-      { location: paramLocation, distance },
+      { ...search.query, location: paramLocation, distance },
       filters,
     );
   };

@@ -223,10 +223,38 @@ export const buildSearchFilters = filters => {
   return searchFilters;
 };
 
-export const updateUrlParams = (history, tab, params, filters, version) => {
-  const url = appendQuery('/', {
+export const updateUrlParams = (
+  history,
+  tab,
+  searchQuery,
+  filters,
+  version,
+) => {
+  const queryParams = {
     search: tab,
-    ...params,
+  };
+  if (
+    searchQuery.name !== '' ||
+    searchQuery.name !== null ||
+    searchQuery.name !== undefined
+  ) {
+    queryParams.name = searchQuery.name;
+  }
+
+  if (
+    searchQuery.location !== '' ||
+    searchQuery.location !== null ||
+    searchQuery.location !== undefined
+  ) {
+    queryParams.location = searchQuery.location;
+  }
+
+  if (searchQuery.distance !== '50') {
+    queryParams.distance = searchQuery.distance;
+  }
+
+  const url = appendQuery('/', {
+    ...queryParams,
     ...buildSearchFilters(filters),
     version,
   });

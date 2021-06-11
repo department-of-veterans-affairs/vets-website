@@ -23,7 +23,12 @@ export function NameSearchForm({
   const history = useHistory();
 
   const updateUrlNameParams = paramName => {
-    updateUrlParams(history, search.tab, { name: paramName }, filters);
+    updateUrlParams(
+      history,
+      search.tab,
+      { ...search.query, name: paramName },
+      filters,
+    );
   };
 
   const doSearch = value => {
