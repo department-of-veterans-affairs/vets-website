@@ -167,9 +167,9 @@ export function SearchResultCard({
           <strong>Accreditation:</strong>
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
-          {(accreditationType &&
-            accreditationType.charAt(0).toUpperCase() +
-              accreditationType.slice(1)) ||
+          {(accreditationType && (
+            <span className="capitalize-value">{accreditationType}</span>
+          )) ||
             'N/A'}
         </p>
       </div>
