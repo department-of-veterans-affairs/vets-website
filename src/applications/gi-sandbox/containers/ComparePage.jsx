@@ -117,6 +117,10 @@ export function ComparePage({
     }
   };
 
+  const naIfNull = value => {
+    return value || 'N/A';
+  };
+
   const mapBoolField = field => {
     return field ? 'Yes' : 'No';
   };
@@ -214,15 +218,19 @@ export function ComparePage({
               {
                 label: 'Accreditation',
                 className: 'capitalize-value',
-                mapper: institution => institution.accreditationType,
+                mapper: institution => naIfNull(institution.accreditationType),
               },
               {
                 label: 'Gi Bill students',
-                mapper: institution => institution.studentCount,
+                mapper: institution => naIfNull(institution.studentCount),
               },
               {
                 label: 'Length of program',
                 mapper: institution => {
+                  if (!institution.highestDegree) {
+                    return 'N/A';
+                  }
+
                   return _.isFinite(institution.highestDegree)
                     ? `${institution.highestDegree} year`
                     : `${institution.highestDegree} program`;
