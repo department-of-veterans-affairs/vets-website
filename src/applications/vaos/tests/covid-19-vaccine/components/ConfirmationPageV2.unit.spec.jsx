@@ -11,7 +11,6 @@ import { getICSTokens } from '../../../utils/calendar';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingProjectCheetah: true,
   },
 };
 
