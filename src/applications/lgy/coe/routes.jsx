@@ -3,16 +3,6 @@ import formConfig from './config/form';
 import App from './containers/App.jsx';
 import EligibilityApp from './containers/EligibilityApp';
 
-// const route = {
-//   path: '/',
-//   component: App,
-//   indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
-
-//   childRoutes: createRoutesWithSaveInProgress(formConfig),
-// };
-
-// export default route;
-
 const routes = [
   {
     path: '/eligibility',

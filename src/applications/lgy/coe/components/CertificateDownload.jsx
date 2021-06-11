@@ -21,6 +21,11 @@ export const CertificateDownload = props => (
         computer, click on your File menu, then "Save as..."
       </p>
       <a className="vads-u-font-size--base" href="#">
+        <i
+          aria-hidden="true"
+          role="img"
+          className="fas fa-download vads-u-padding-right--1"
+        />
         Download your COE (PDF) 0.20MB
       </a>
       <h2>What if I need to make changes to my COE?</h2>
