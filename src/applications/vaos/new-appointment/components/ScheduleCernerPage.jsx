@@ -35,7 +35,7 @@ export default function ScheduleCernerPage() {
         level={2}
       />
       <p>
-        To schedule and appointment online at this facility, go to{' '}
+        To schedule an appointment online at this facility, go to{' '}
         <a href={getCernerURL('/pages/scheduling/upcoming')}>My VA Health</a>.
       </p>
       <p>
