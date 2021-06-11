@@ -234,7 +234,7 @@ export function ComparePage({
                   if (institution.vetTecProvider) {
                     return 'VET TEC';
                   }
-                  if (institution.type.toLowerCase()) {
+                  if (institution.type.toLowerCase() === 'ojt') {
                     return 'Employer';
                   }
                   return 'School';
