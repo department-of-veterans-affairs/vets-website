@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { scroller } from 'react-scroll';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
@@ -32,6 +32,7 @@ function LocationSearchResults({
   const map = useRef(null);
   const mapContainer = useRef(null);
   const markers = useRef([]);
+  const [mapChanged, setMapChanged] = useState(search.location.mapChanged);
 
   const setupMap = () => {
     if (map.current) return; // initialize map only once
@@ -60,6 +61,21 @@ function LocationSearchResults({
 
     mapInit.on('load', () => {
       mapInit.resize();
+    });
+
+    mapInit.on('dragstart', () => {
+      setMapChanged(true);
+    });
+
+    mapInit.on('zoomstart', e => {
+      // Only trigger mapMoved and speakZoom for manual events,
+      // e.g. zoom in/out button click, mouse wheel, etc.
+      // which will have an originalEvent defined
+      if (!e.originalEvent) {
+        return;
+      }
+
+      setMapChanged(true);
     });
 
     map.current = mapInit;
@@ -111,7 +127,10 @@ function LocationSearchResults({
     () => {
       markers.current.forEach(marker => marker.remove());
 
-      if (!map.current || results.length === 0) return; // wait for map to initialize
+      if (!map.current || results.length === 0) {
+        setMapChanged(search.location.mapChanged);
+        return;
+      } // wait for map to initialize
 
       const locationBounds = new mapboxgl.LngLatBounds();
 
@@ -119,7 +138,11 @@ function LocationSearchResults({
         addMapMarker(institution, index, locationBounds);
       });
 
-      map.current.fitBounds(locationBounds, { padding: 20 });
+      if (!mapChanged) {
+        map.current.fitBounds(locationBounds, { padding: 20 });
+      }
+
+      setMapChanged(search.location.mapChanged);
     },
     [results],
   );
@@ -158,14 +181,29 @@ function LocationSearchResults({
     e.preventDefault();
     const bounds = map.current.getBounds();
 
+    const northCoordinates = new mapboxgl.LngLat(
+      bounds.getCenter().lng,
+      bounds.getNorth(),
+    );
+    const westCoordinates = new mapboxgl.LngLat(
+      bounds.getWest(),
+      bounds.getCenter().lat,
+    );
+
+    const northDistance =
+      northCoordinates.distanceTo(bounds.getCenter()) /
+      MILE_METER_CONVERSION_RATE;
+    const westDistance =
+      westCoordinates.distanceTo(bounds.getCenter()) /
+      MILE_METER_CONVERSION_RATE;
     const diagonalDistance =
-      bounds.getNorthEast().distanceTo(bounds.getSouthWest()) /
+      bounds.getNorthEast().distanceTo(bounds.getCenter()) /
       MILE_METER_CONVERSION_RATE;
 
     dispatchFetchSearchByLocationCoords(
       search.query.location,
       map.current.getCenter().toArray(),
-      diagonalDistance,
+      (diagonalDistance + northDistance + westDistance) / 3,
       filters,
       preview.version,
     );
@@ -226,18 +264,20 @@ function LocationSearchResults({
             className={'desktop-map-container'}
             role="region"
           >
-            <div
-              id="search-area-control-container"
-              className={'mapboxgl-ctrl-top-center'}
-            >
-              <button
-                id="search-area-control"
-                className={'usa-button'}
-                onClick={searchArea}
+            {mapChanged && (
+              <div
+                id="search-area-control-container"
+                className={'mapboxgl-ctrl-top-center'}
               >
-                Search this area of the map
-              </button>
-            </div>
+                <button
+                  id="search-area-control"
+                  className={'usa-button'}
+                  onClick={searchArea}
+                >
+                  Search this area of the map
+                </button>
+              </div>
+            )}
           </map>
         </div>
       </div>
