@@ -359,11 +359,8 @@ export default function formReducer(state = initialState, action) {
           .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
       }
 
-      const typeOfCareFacilities = facilities.filter(
-        facility =>
-          facility.legacyVAR.settings[typeOfCareId]?.direct.enabled ||
-          facility.legacyVAR.settings[typeOfCareId]?.request.enabled ||
-          cernerSiteIds.some(cernerId => facility.id.startsWith(cernerId)),
+      const typeOfCareFacilities = facilities.filter(facility =>
+        isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
 
       if (typeOfCareFacilities.length === 1) {

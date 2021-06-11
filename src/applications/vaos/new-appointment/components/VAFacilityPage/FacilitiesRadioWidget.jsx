@@ -3,6 +3,7 @@ import { getCernerURL } from 'platform/utilities/cerner';
 import State from '../../../components/State';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import { isCernerLocation } from '../../../services/location';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 
@@ -51,9 +52,7 @@ export default function FacilitiesRadioWidget({
       {displayedOptions.map((option, i) => {
         const { name, address, legacyVAR } = option?.label;
         const checked = option.value === value;
-        const isCerner = cernerSiteIds.some(orgId =>
-          option.value.startsWith(orgId),
-        );
+        const isCerner = isCernerLocation(option.value, cernerSiteIds);
         let distance;
 
         if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
