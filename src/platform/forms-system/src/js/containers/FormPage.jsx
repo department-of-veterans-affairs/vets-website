@@ -110,6 +110,7 @@ class FormPage extends React.Component {
       route,
       params,
       form,
+      contentBeforeButtons,
       contentAfterButtons,
       formContext,
       appStateData,
@@ -155,6 +156,7 @@ class FormPage extends React.Component {
           onChange={this.onChange}
           onSubmit={this.onSubmit}
         >
+          {contentBeforeButtons}
           <div className="row form-progress-buttons schemaform-buttons">
             <div className="small-6 medium-5 columns">
               {!isFirstRoutePage && (
@@ -212,6 +214,7 @@ FormPage.propTypes = {
       }),
     ),
   }),
+  contentBeforeButtons: PropTypes.element,
   contentAfterButtons: PropTypes.element,
   setData: PropTypes.func,
 };
