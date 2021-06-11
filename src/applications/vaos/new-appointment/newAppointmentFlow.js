@@ -170,7 +170,7 @@ export default {
         return 'requestDateTime';
       }
 
-      return VA_FACILITY_V2_KEY();
+      return VA_FACILITY_V2_KEY;
     },
   },
   typeOfSleepCare: {
