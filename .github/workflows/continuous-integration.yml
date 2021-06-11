@@ -311,6 +311,7 @@ jobs:
 
       - name: Run Nightwatch tests
         run: yarn test:e2e:headless
+        timeout-minutes: 30
         env:
           BUILDTYPE: vagovprod
           NODE_ENV: production
