@@ -1,4 +1,7 @@
 node_modules/
 dist/
+coverage/
 
 .eslintrc.js
+jest.config.js
+babel.config.js
