@@ -16,7 +16,10 @@ import {
   TYPES_OF_CARE,
   COVID_VACCINE_ID,
 } from '../utils/constants';
-import { getSiteIdFromFacilityId } from '../services/location';
+import {
+  getSiteIdFromFacilityId,
+  isCernerLocation,
+} from '../services/location';
 import {
   checkEligibility,
   showEligibilityModal,
@@ -69,18 +72,12 @@ function isCovidVaccine(state) {
   return getFormData(state).typeOfCareId === COVID_VACCINE_ID;
 }
 
-function getFacilityPageKey() {
-  return VA_FACILITY_V2_KEY;
-}
-
 async function vaFacilityNext(state, dispatch) {
   let eligibility = selectEligibility(state);
 
   const location = getChosenFacilityInfo(state);
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
-  const isCerner = cernerSiteIds?.some(cernerId =>
-    location?.id.startsWith(cernerId),
-  );
+  const isCerner = isCernerLocation(location?.id, cernerSiteIds);
 
   if (isCerner) {
     return 'scheduleCerner';
@@ -158,7 +155,7 @@ export default {
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return getFacilityPageKey();
+      return VA_FACILITY_V2_KEY;
     },
   },
   typeOfFacility: {
@@ -173,12 +170,12 @@ export default {
         return 'requestDateTime';
       }
 
-      return getFacilityPageKey();
+      return VA_FACILITY_V2_KEY;
     },
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
-    next: getFacilityPageKey,
+    next: VA_FACILITY_V2_KEY,
   },
   typeOfEyeCare: {
     url: '/new-appointment/choose-eye-care',
@@ -195,7 +192,7 @@ export default {
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return getFacilityPageKey();
+      return VA_FACILITY_V2_KEY;
     },
   },
   audiologyCareType: {
