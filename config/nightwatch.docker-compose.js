@@ -20,8 +20,6 @@ module.exports = {
     start_process: true,
     server_path: process.env.CHROMEDRIVER_FILEPATH || chromedriver.path,
     port: 9515,
-    status_poll_interval: 1000,
-    max_status_poll_tries: 5,
   },
 
   // If set to true, runs the tests in parallel and determines the number of workers automatically.
