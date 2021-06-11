@@ -7,31 +7,30 @@ const optionDefinitions = [
   { name: 'component', alias: 'c' },
   { name: 'dir', alias: 'd' },
 ];
-
-function alertBoxReplacement() {
-  return ['va-alert'];
-}
-
-function handleError(error) {
-  console.log(error);
-}
-
-const replacements = {
-  AlertBox: alertBoxReplacement,
-};
-
 const options = commandLineArgs(optionDefinitions);
 
 const legacyImport = `@department-of-veterans-affairs/component-library/${
   options.component
 }`;
 
+function handleError(error) {
+  console.log(error);
+}
+
+function alertBoxReplacement() {
+  return ['va-alert'];
+}
+
+const replacements = {
+  AlertBox: alertBoxReplacement,
+};
+
 const filenames = glob.sync(`${options.dir}/**/*.jsx`);
 
 filenames.forEach(fname => {
   fs.readFile(fname, 'utf8', (err, data) => {
     if (err) {
-      handleError(err);
+      return handleError(err);
     }
 
     // Leave this file alone if it doesn't import the component
