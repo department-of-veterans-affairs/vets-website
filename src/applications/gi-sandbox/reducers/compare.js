@@ -58,6 +58,20 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         error: null,
+        search: {
+          loaded: action.payload.map(result => result.attributes.facilityCode),
+          institutions: {
+            ...action.payload.reduce(
+              (map, result) => ({
+                ...map,
+                [result.attributes.facilityCode]: {
+                  name: result.attributes.name,
+                },
+              }),
+              {},
+            ),
+          },
+        },
         details: {
           loaded: action.payload.map(result => result.attributes.facilityCode),
           institutions: {
