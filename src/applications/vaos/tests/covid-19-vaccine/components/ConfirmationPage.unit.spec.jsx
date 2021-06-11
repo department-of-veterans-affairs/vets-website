@@ -10,7 +10,6 @@ import { FETCH_STATUS } from '../../../utils/constants';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingProjectCheetah: true,
   },
 };
 

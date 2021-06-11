@@ -25,9 +25,7 @@ import {
 import { TYPE_OF_CARE_ID } from '../../../../covid-19-vaccine/utils';
 
 const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCheetah: true,
-  },
+  featureToggles: {},
   user: {
     profile: {
       facilities: [
