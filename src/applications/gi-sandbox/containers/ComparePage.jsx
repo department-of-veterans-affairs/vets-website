@@ -276,7 +276,7 @@ export function ComparePage({
 
           <CompareGrid
             sectionLabel="Your estimated benefits"
-            sectionSublabel="Payments made to school"
+            subSectionLabel="Payments made to school"
             institutions={institutions}
             facilityCodes={loaded}
             showDifferences={showDifferences}
@@ -301,7 +301,7 @@ export function ComparePage({
           />
 
           <CompareGrid
-            sectionSublabel="Payments made to you"
+            subSectionLabel="Payments made to you"
             institutions={institutions}
             facilityCodes={loaded}
             showDifferences={showDifferences}
@@ -358,7 +358,7 @@ export function ComparePage({
           />
 
           <CompareGrid
-            sectionSublabel="Education ratings"
+            subSectionLabel="Education ratings"
             institutions={institutions}
             facilityCodes={loaded}
             showDifferences={showDifferences}
@@ -387,7 +387,7 @@ export function ComparePage({
           />
 
           <CompareGrid
-            sectionSublabel="Veteran friendliness"
+            subSectionLabel="Veteran friendliness"
             institutions={institutions}
             facilityCodes={loaded}
             showDifferences={showDifferences}

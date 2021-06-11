@@ -9,7 +9,7 @@ export function CompareGrid({
   fieldData,
   institutions,
   sectionLabel,
-  sectionSublabel,
+  subSectionLabel,
 }) {
   const institutionCount = Object.keys(institutions).length;
 
@@ -78,13 +78,13 @@ export function CompareGrid({
       {sectionLabel && (
         <div className="compare-header-section">{sectionLabel}</div>
       )}
-      {sectionSublabel && (
+      {subSectionLabel && (
         <div
           className={classNames('compare-header-subsection', {
             'vads-u-margin-top--4': !sectionLabel,
           })}
         >
-          {sectionSublabel}
+          {subSectionLabel}
         </div>
       )}
       <div className="vads-l-row">
