@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import set from 'platform/utilities/data/set';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
@@ -43,31 +42,6 @@ describe('VAOS <VAOSApp>', () => {
     });
 
     expect(await screen.findByText('Child content')).to.exist;
-    await waitFor(() => {
-      expect(
-        global.window.dataLayer.some(
-          e => e.event === 'phased-roll-out-enabled',
-        ),
-      ).to.be.true;
-    });
-  });
-
-  it('should not record roll out event when not using flat facility page', async () => {
-    const stateWithCernerUser = set(
-      'user.profile.facilities[0].isCerner',
-      true,
-      initialState,
-    );
-    stateWithCernerUser.user.profile.facilities[0].usesCernerAppointments = true;
-    const store = createTestStore(stateWithCernerUser);
-    const screen = renderWithStoreAndRouter(<VAOSApp>Child content</VAOSApp>, {
-      store,
-    });
-
-    expect(await screen.findByText('Child content')).to.exist;
-    expect(
-      global.window.dataLayer.some(e => e.event === 'phased-roll-out-enabled'),
-    ).to.be.false;
   });
 
   it('should render unavailable message when flag is off', async () => {

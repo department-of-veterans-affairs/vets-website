@@ -78,8 +78,8 @@ async function vaFacilityNext(state, dispatch) {
 
   const location = getChosenFacilityInfo(state);
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
-  const isCerner = cernerSiteIds.some(cernerId =>
-    location.id.startsWith(cernerId),
+  const isCerner = cernerSiteIds?.some(cernerId =>
+    location?.id.startsWith(cernerId),
   );
 
   if (isCerner) {
@@ -99,11 +99,6 @@ async function vaFacilityNext(state, dispatch) {
     );
   }
 
-  if (!eligibility.direct && !eligibility.request) {
-    dispatch(showEligibilityModal());
-    return VA_FACILITY_V2_KEY;
-  }
-
   if (eligibility.direct) {
     dispatch(startDirectScheduleFlow());
     return 'clinicChoice';
@@ -114,7 +109,8 @@ async function vaFacilityNext(state, dispatch) {
     return 'requestDateTime';
   }
 
-  throw new Error('Veteran not eligible for direct scheduling or requests');
+  dispatch(showEligibilityModal());
+  return VA_FACILITY_V2_KEY;
 }
 
 export default {
