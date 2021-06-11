@@ -4,6 +4,7 @@ export const FETCH_SEARCH_RESULTS_FAILURE = 'FETCH_SEARCH_RESULTS_FAILURE';
 
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
+import * as Sentry from '@sentry/browser';
 
 export function fetchSearchResults(query, page, options) {
   return dispatch => {
@@ -46,6 +47,7 @@ export function fetchSearchResults(query, page, options) {
           type: FETCH_SEARCH_RESULTS_FAILURE,
           errors: [error],
         });
+        Sentry.captureException(error);
       });
   };
 }
