@@ -36,7 +36,7 @@ describe('VAOS vaccine flow', () => {
     mockFetch();
   });
 
-  it('should not redirect the user to the Contact Facilities page when facilities are available', async () => {
+  it('should not redirect the user to the Contact Facility page when facilities are available', async () => {
     const store = createTestStore({
       ...initialState,
     });
@@ -62,7 +62,7 @@ describe('VAOS vaccine flow', () => {
     });
   });
 
-  it('should redirect the user to the Contact Facilities page when facilities are not available', async () => {
+  it('should redirect the user to the Contact Facility page when facilities are not available', async () => {
     const store = createTestStore({
       ...initialState,
     });
@@ -140,7 +140,7 @@ describe('VAOS vaccine flow', () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
-      basename: '/new-covid-19-vaccine-booking',
+      basename: '/new-covid-19-vaccine-appointment',
     });
 
     expect(

@@ -1004,8 +1004,7 @@ export default function formReducer(state = initialState, action) {
           initialSchema,
         );
         initialSchema.properties.communityCareSystemId.enumNames = state.ccEnabledSystems.map(
-          system =>
-            `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
+          system => `${system.address?.city}, ${system.address?.state}`,
         );
         initialSchema.required.push('communityCareSystemId');
       }
@@ -1049,8 +1048,7 @@ export default function formReducer(state = initialState, action) {
           initialSchema,
         );
         initialSchema.properties.communityCareSystemId.enumNames = state.ccEnabledSystems.map(
-          system =>
-            `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
+          system => `${system.address?.city}, ${system.address?.state}`,
         );
         initialSchema.required = ['communityCareSystemId'];
       }

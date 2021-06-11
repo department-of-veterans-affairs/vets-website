@@ -21,34 +21,39 @@ export const setLangAttribute = lang => {
   }
 };
 
-// set lang code as `en` for all links on the current page
-// unless it follows the old IA lang patterns or already has a lang attribute
-// without overwriting existing onclick events
-// reference: https://stackoverflow.com/questions/891989/javascript-adding-an-onclick-handler-without-overwriting-the-existing-one
+export const parseLangCode = url => {
+  let langCode = 'en';
+  // competing URL structures ¯\_(ツ)_/¯
+  if (url.includes(`espanol`) || url.endsWith('-esp/')) {
+    langCode = 'es';
+  }
+  if (url.includes(`tagalog`) || url.endsWith('-tag/')) {
+    langCode = 'tl';
+  }
+  return langCode;
+};
 
 export const adaptLinksWithLangCode = (
   setLangAttributeInReduxStore,
-  languageCodeInReduxStore,
+  pageLangCode,
 ) => {
   const links = document.links;
   for (const link of links) {
     if (link) {
-      link.setAttribute('lang', languageCodeInReduxStore);
-      link.setAttribute('hreflang', languageCodeInReduxStore);
+      let langAttribute = link.lang || link.hreflang;
+      const correctLangAttribute = parseLangCode(link.href);
 
+      if (!langAttribute) {
+        langAttribute = pageLangCode;
+        link.setAttribute('lang', pageLangCode);
+      }
+
+      if (correctLangAttribute !== link.lang) {
+        langAttribute = correctLangAttribute;
+        link.setAttribute('lang', langAttribute);
+      }
       link.addEventListener('click', () => {
-        setLangAttributeInReduxStore('en');
-        const langAttribute = link.lang || link.hreflang;
-        if (langAttribute) {
-          setLangAttributeInReduxStore(langAttribute);
-        }
-        // respect the temp IA i18 structure
-        if (link.href.endsWith('-esp/')) {
-          setLangAttributeInReduxStore('es');
-        }
-        if (link.href.endsWith('-tag/')) {
-          setLangAttributeInReduxStore('tl');
-        }
+        setLangAttributeInReduxStore(langAttribute);
       });
     }
   }
