@@ -5,7 +5,7 @@ const Timeouts = require('platform/testing/e2e/timeouts.js');
 let mockDetails = {};
 
 beforeEach(() => {
-  cy.initClaimDetailMocks(false, false, false, 3).then(data => {
+  cy.initClaimDetailMocks(false, true, false, 3).then(data => {
     mockDetails = data;
   });
 });
@@ -40,11 +40,8 @@ describe('Claim Estimation Breadcrumb Test', () => {
     //     cy.get('.claims-paragraph-header', { timeout: Timeouts.normal });
     //     cy.injectAxeThenAxeCheck();
     //   });
-    // cy.get('.va-nav-breadcrumbs-list li:nth-of-type(4) a[aria-current="page"]')
-    //   .should('exist')
-    //   .then(breadcrumb => {
-    //     cy.wrap(breadcrumb).should('contain', 'Estimated decision date');
-    //     cy.wrap(breadcrumb).should('have.css', 'pointer-events', 'none');
-    //   });
+    // cy.get('.claims-status-content h1')
+    //   .should('contain', 'How we come up with your estimated decision date')
+    //
   });
 });
