@@ -284,6 +284,7 @@
     "foundation-sites": "^5.5.3",
     "history": "3",
     "history-v4": "npm:history@4.9.0",
+    "https-proxy-agent": "^2.2.3",
     "ics-js": "^0.10.2",
     "js-cookie": "^2.2.1",
     "jsonschema": "^1.1.1",
