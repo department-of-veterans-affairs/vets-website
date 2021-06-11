@@ -13,6 +13,7 @@ import {
   issuesNeedUpdating,
   copyAreaOfDisagreementOptions,
 } from '../../utils/helpers';
+import { getDate } from '../../utils/dates';
 
 describe('someSelected', () => {
   it('should return true for issues that have some selected values', () => {
@@ -173,11 +174,12 @@ describe('isEmptyObject', () => {
 });
 
 describe('setInitialEditMode', () => {
+  const validDate = getDate({ offset: { months: -2 } });
   it('should set edit mode when missing data', () => {
     [
       [{}],
       [{ issue: 'test' }],
-      [{ decisionDate: '2000-01-01' }],
+      [{ decisionDate: validDate }],
       [{ issue: '', decisionDate: '' }],
       [{ issue: undefined, decisionDate: undefined }],
     ].forEach(test => {
@@ -185,19 +187,34 @@ describe('setInitialEditMode', () => {
     });
     expect(
       setInitialEditMode([
-        { issue: '', decisionDate: '2000-01-01' },
+        { issue: '', decisionDate: validDate },
         { issue: 'test', decisionDate: '' },
       ]),
     ).to.deep.equal([true, true]);
   });
+  it('should set edit mode when there is an invalid date', () => {
+    [
+      [{ issue: 'test', decisionDate: getDate({ offset: { months: 1 } }) }],
+      [{ issue: 'test', decisionDate: '1899-01-01' }],
+      [{ issue: 'test', decisionDate: '2000-01-01' }],
+    ].forEach(test => {
+      expect(setInitialEditMode(test)).to.deep.equal([true]);
+    });
+    expect(
+      setInitialEditMode([
+        { issue: 'test', decisionDate: validDate },
+        { issue: 'test', decisionDate: '2000-01-01' },
+      ]),
+    ).to.deep.equal([false, true]);
+  });
   it('should not set edit mode when data exists', () => {
     expect(
-      setInitialEditMode([{ issue: 'test', decisionDate: '2000-01-01' }]),
+      setInitialEditMode([{ issue: 'test', decisionDate: validDate }]),
     ).to.deep.equal([false]);
     expect(
       setInitialEditMode([
-        { issue: 'test', decisionDate: '2000-01-01' },
-        { issue: 'test2', decisionDate: '2000-01-02' },
+        { issue: 'test', decisionDate: validDate },
+        { issue: 'test2', decisionDate: getDate({ offset: { months: -10 } }) },
       ]),
     ).to.deep.equal([false, false]);
   });

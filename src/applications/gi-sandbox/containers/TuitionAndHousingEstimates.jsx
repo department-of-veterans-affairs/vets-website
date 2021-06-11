@@ -12,33 +12,26 @@ export function TuitionAndHousingEstimates({
   dispatchShowModal,
 }) {
   const [giBillChapter, setGiBillChapter] = useState(eligibility.giBillChapter);
-  const [openName, setOpenName] = useState('');
-
   const [militaryStatus, setMilitaryStatus] = useState(
     eligibility.militaryStatus,
   );
-
   const [spouseActiveDuty, setSpouseActiveDuty] = useState(
     eligibility.spouseActiveDuty,
   );
-
   const [cumulativeService, setCumulativeService] = useState(
     eligibility.cumulativeService,
   );
-
   const [enlistmentService, setEnlistmentService] = useState(
     eligibility.enlistmentService,
   );
-
   const [eligForPostGiBill, setEligForPostGiBill] = useState(
     eligibility.eligForPostGiBill,
   );
-
   const [numberOfDependents, setNumberOfDependents] = useState(
     eligibility.numberOfDependents,
   );
-
   const [onlineClasses, setOnlineClasses] = useState(eligibility.onlineClasses);
+  const [expanded, setExpanded] = useState(eligibility.expanded);
 
   const updateStore = () => {
     dispatchUpdateEligibilityAndFilters({
@@ -53,10 +46,6 @@ export function TuitionAndHousingEstimates({
     });
   };
 
-  const handleAccordionDropdownOpen = openedName => {
-    setOpenName(openedName);
-  };
-
   return (
     <div>
       <SearchAccordion
@@ -64,9 +53,8 @@ export function TuitionAndHousingEstimates({
         buttonLabel="Update results"
         buttonOnClick={updateStore}
         name="benefitEstimates"
-        openName={openName}
-        onOpen={handleAccordionDropdownOpen}
-        displayCancel
+        expanded={expanded}
+        onClick={value => setExpanded(value)}
       >
         <SearchBenefits
           cumulativeService={cumulativeService}

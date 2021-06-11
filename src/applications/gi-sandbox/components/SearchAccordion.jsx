@@ -1,64 +1,33 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { createId } from '../utils/helpers';
 
-class SearchAccordion extends React.Component {
-  static propTypes = {
-    expanded: PropTypes.bool.isRequired,
-    children: PropTypes.node.isRequired,
-    buttonLabel: PropTypes.string.isRequired,
-    button: PropTypes.string.isRequired,
-    buttonOnClick: PropTypes.func.isRequired,
-  };
+export default function SearchAccordion({
+  expanded,
+  children,
+  buttonLabel,
+  button,
+  buttonOnClick,
+  onClick,
+  headerClass,
+}) {
+  const [isExpanded, setExpanded] = useState(expanded || false);
+  const [id] = useState(`${createId(button)}-accordion`);
+  useEffect(
+    () => {
+      setExpanded(expanded);
+    },
+    [expanded],
+  );
 
-  static defaultProps = {
-    expanded: false,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      expanded: props.expanded,
-    };
-    this.id = `${createId(props.button)}-accordion`;
-  }
-
-  expanded = () => {
-    if (this.props.section) {
-      return this.props.expanded;
-    }
-    return this.state.expanded;
-  };
-
-  toggle = () => {
-    const expanded = !this.expanded();
-    const { onClick } = this.props;
-
-    this.setState({ expanded });
-
+  const toggle = () => {
+    setExpanded(!isExpanded);
     if (onClick) {
-      onClick(expanded);
+      onClick(!isExpanded);
     }
   };
 
-  renderHeader = () => {
-    const expanded = this.expanded();
-    const { section, button, headerClass } = this.props;
-    if (section) {
-      return (
-        <button
-          id={`${this.id}-button`}
-          aria-expanded={expanded}
-          aria-controls={this.id}
-          onClick={this.toggle}
-          className="usa-accordion-button vads-u-border--2px vads-u-border-style--solid vads-u-border-color--gray-light vads-u-margin--0"
-        >
-          <span className="section-button-span ">{button}</span>
-        </button>
-      );
-    }
-
+  const renderHeader = () => {
     const headerClasses = classNames(
       'accordion-button-wrapper update-results-header ',
       {
@@ -69,11 +38,11 @@ class SearchAccordion extends React.Component {
     return (
       <h2 className={headerClasses}>
         <button
-          id={`${this.id}-button`}
-          onClick={this.toggle}
+          id={`${id}-button`}
+          onClick={toggle}
           className="usa-accordion-button vads-u-font-size--md"
-          aria-expanded={expanded}
-          aria-controls={this.id}
+          aria-expanded={isExpanded}
+          aria-controls={id}
         >
           <span className="vads-u-font-family--serif accordion-button-text">
             {button}
@@ -83,37 +52,30 @@ class SearchAccordion extends React.Component {
     );
   };
 
-  render() {
-    const expanded = this.expanded();
-    const { children, buttonLabel, buttonOnClick } = this.props;
-
-    return (
-      <div className="usa-accordion-item" id={this.id}>
-        {this.renderHeader()}
-        <div
-          id={`${this.id}-content`}
-          className="usa-accordion-content update-results-form"
-          aria-hidden={!expanded}
-          hidden={!expanded}
-        >
-          {expanded ? children : null}
-        </div>
-        {expanded && (
-          <div className="update-results">
-            {' '}
-            <button
-              type="button"
-              id="update-benefits-button"
-              className="update-results-button"
-              onClick={buttonOnClick}
-            >
-              {buttonLabel}
-            </button>
-          </div>
-        )}
+  return (
+    <div className="usa-accordion-item" id={id}>
+      {renderHeader()}
+      <div
+        id={`${id}-content`}
+        className="usa-accordion-content update-results-form"
+        aria-hidden={!expanded}
+        hidden={!expanded}
+      >
+        {expanded ? children : null}
       </div>
-    );
-  }
+      {expanded && (
+        <div className="update-results">
+          {' '}
+          <button
+            type="button"
+            id="update-benefits-button"
+            className="update-results-button"
+            onClick={buttonOnClick}
+          >
+            {buttonLabel}
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }
-
-export default SearchAccordion;

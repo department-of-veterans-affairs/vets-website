@@ -28,6 +28,7 @@ const StartPage = ({ setPageState, state = {} }) => (
       setPageState({ selected: value }, value);
     }}
     value={{ value: state.selected }}
+    ariaDescribedby={[pageNames.bdd, pageNames.appeals]}
   />
 );
 
