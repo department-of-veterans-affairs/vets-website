@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { isLoggedIn } from 'platform/user/selectors';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -34,9 +33,9 @@ function App(props) {
         !profileIsUpdating &&
         loggedIn &&
         !hasSavedForm &&
-        generateAutoCoeStatus !== CALLSTATUS.skip
+        generateAutoCoeStatus === CALLSTATUS.idle
       ) {
-        props.generateCoe();
+        router.push('/eligibility');
       } else if (!profileIsUpdating && !loggedIn) {
         props.generateCoe('skip');
       }
@@ -44,24 +43,12 @@ function App(props) {
     [loggedIn, profileIsUpdating],
   );
 
-  let content;
+  const content = (
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
+  );
 
-  if (generateAutoCoeStatus === CALLSTATUS.idle || profileIsUpdating) {
-    content = <LoadingIndicator message="Loading application..." />;
-  } else if (generateAutoCoeStatus === CALLSTATUS.pending) {
-    content = (
-      <LoadingIndicator message="Checking automatic COE eligibility..." />
-    );
-  } else if (generateAutoCoeStatus === CALLSTATUS.success) {
-    // content = <CertificateDownload generateCoe={props.generateCoe} />;
-    router.push('/eligibility');
-  } else {
-    content = (
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
-      </RoutedSavableApp>
-    );
-  }
   return (
     <>
       <header className="row">

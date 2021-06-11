@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const CertificateDownload = props => (
   <div className="row vads-u-margin-bottom--1">
@@ -12,10 +13,16 @@ export const CertificateDownload = props => (
           You don’t need to apply for a COE because we already have all the
           information we need. You can download your COE now.
         </p>
-        <a className="vads-u-font-size--base" href="#">
-          Download your COE (PDF) 0.20MB
-        </a>
       </va-alert>
+      <h2>Review and download your CODE</h2>
+      <p>
+        To see your Certificate of Eligibility, click the link below. Your COE
+        will appear in a new tab on your browser. To download this PDF to your
+        computer, click on your File menu, then "Save as..."
+      </p>
+      <a className="vads-u-font-size--base" href="#">
+        Download your COE (PDF) 0.20MB
+      </a>
       <h2>What if I need to make changes to my COE?</h2>
       <p>
         If you need to make changes or corrections to your COE - or are applying
@@ -25,6 +32,19 @@ export const CertificateDownload = props => (
       <Link to="/introduction" onClick={props.clickHandler}>
         Make changes online COE with VA Form 26-1880
       </Link>
+      <h2>What if I have more questions?</h2>
+      <p>
+        If you have any questions that your lender can’t answer, please call
+        your VA regional loan center at <Telephone contact={'877-827-3702'} />.
+        We’re here Monday through Friday, 8:00 a.m. to 6:00 p.m. ET.{' '}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.benefits.va.gov/HOMELOANS/contact_rlc_info.asp"
+        >
+          Find your regional loan center
+        </a>
+      </p>
     </div>
   </div>
 );
