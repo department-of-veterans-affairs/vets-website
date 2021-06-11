@@ -15,14 +15,10 @@ import {
   FETCH_STATUS,
   AUDIOLOGY_TYPES_OF_CARE,
 } from '../../utils/constants';
-import {
-  getParentOfLocation,
-  getSiteIdFromFacilityId,
-} from '../../services/location';
+import { getSiteIdFromFacilityId } from '../../services/location';
 import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
-  selectIsCernerOnlyPatient,
   selectUseProviderSelection,
   selectFeatureCovid19Vaccine,
   selectRegisteredCernerFacilityIds,
@@ -93,10 +89,6 @@ export function getCCEType(state) {
   return typeOfCare?.cceType;
 }
 
-export function getParentFacilities(state) {
-  return getNewAppointment(state).parentFacilities;
-}
-
 export function getTypeOfCareFacilities(state) {
   const data = getFormData(state);
   const facilities = getNewAppointment(state).facilities;
@@ -110,18 +102,6 @@ export function getChosenFacilityInfo(state) {
     getTypeOfCareFacilities(state)?.find(
       facility => facility.id === getFormData(state).vaFacility,
     ) || null
-  );
-}
-
-export function getChosenParentInfo(state, parentId) {
-  const currentParentId = parentId || getFormData(state).vaParent;
-
-  if (!currentParentId) {
-    return null;
-  }
-
-  return getParentFacilities(state).find(
-    parent => parent.id === currentParentId,
   );
 }
 
@@ -139,19 +119,6 @@ export function getChosenCCSystemId(state) {
 
 export function getSiteIdForChosenFacility(state) {
   return getSiteIdFromFacilityId(getFormData(state).vaFacility);
-}
-
-export function getParentOfChosenFacility(state) {
-  const facility = getChosenFacilityInfo(state);
-  const parentFacilities = getParentFacilities(state);
-
-  if (!facility) {
-    return null;
-  }
-
-  const parent = getParentOfLocation(parentFacilities, facility);
-
-  return parent?.id;
 }
 
 export function getChosenFacilityDetails(state) {
@@ -293,43 +260,6 @@ export function getFacilityPageV2Info(state) {
     sortMethod: facilityPageSortMethod,
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
-  };
-}
-
-export function getFacilityPageInfo(state) {
-  const formInfo = getFormPageInfo(state, 'vaFacility');
-  const data = getFormData(state);
-  const newAppointment = getNewAppointment(state);
-  const eligibility = selectEligibility(state);
-
-  return {
-    ...formInfo,
-    facility: getChosenFacilityInfo(state),
-    loadingParentFacilities:
-      newAppointment.parentFacilitiesStatus === FETCH_STATUS.loading ||
-      !formInfo.schema,
-    loadingFacilities: !!formInfo.schema?.properties.vaFacilityLoading,
-    loadingEligibility:
-      newAppointment.eligibilityStatus === FETCH_STATUS.loading,
-    eligibility,
-    canScheduleAtChosenFacility: eligibility?.direct || eligibility?.request,
-    singleValidVALocation: hasSingleValidVALocation(state),
-    noValidVAParentFacilities:
-      !data.vaParent && formInfo.schema && !formInfo.schema.properties.vaParent,
-    noValidVAFacilities:
-      !!formInfo.schema && !!formInfo.schema.properties.vaFacilityMessage,
-    facilityDetailsStatus: newAppointment.facilityDetailsStatus,
-    hasDataFetchingError:
-      newAppointment.parentFacilitiesStatus === FETCH_STATUS.failed ||
-      newAppointment.childFacilitiesStatus === FETCH_STATUS.failed ||
-      newAppointment.eligibilityStatus === FETCH_STATUS.failed,
-    typeOfCare: getTypeOfCare(data)?.name,
-    parentDetails: newAppointment?.facilityDetails[data.vaParent],
-    facilityDetails: newAppointment?.facilityDetails[data.vaFacility],
-    parentOfChosenFacility: getParentOfChosenFacility(state),
-    cernerOrgIds: selectCernerOrgIds(state),
-    isCernerOnly: selectIsCernerOnlyPatient(state),
-    siteId: getChosenParentInfo(state)?.id,
   };
 }
 
