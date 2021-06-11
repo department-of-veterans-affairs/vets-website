@@ -323,7 +323,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    needs: [unit-tests, contract-tests, linting, security-audit, nightwatch]
+    needs: [unit-tests, contract-tests, security-audit, nightwatch]
 
     steps:
       - name: Download build artifact
