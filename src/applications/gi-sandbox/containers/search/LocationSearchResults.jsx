@@ -11,12 +11,20 @@ import { MapboxInit } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import RefineYourSearch from '../../containers/RefineYourSearch';
 import { numberToLetter, createId } from '../../utils/helpers';
-import { updateEligibilityAndFilters } from '../../actions';
+import {
+  fetchSearchByLocationCoords,
+  updateEligibilityAndFilters,
+} from '../../actions';
 import { connect } from 'react-redux';
+
+const MILE_METER_CONVERSION_RATE = 1609.34;
 
 function LocationSearchResults({
   search,
+  filters,
+  preview,
   dispatchUpdateEligibilityAndFilters,
+  dispatchFetchSearchByLocationCoords,
 }) {
   const { inProgress } = search;
   const { count, results } = search.location;
@@ -146,9 +154,22 @@ function LocationSearchResults({
     );
   });
 
-  const eligibilityAndFilters = location !== '' && location !== undefined;
-  const startMessage = count === null && !eligibilityAndFilters;
-  const noResultsFound = count === 0;
+  const searchArea = e => {
+    e.preventDefault();
+    const bounds = map.current.getBounds();
+
+    const diagonalDistance =
+      bounds.getNorthEast().distanceTo(bounds.getSouthWest()) /
+      MILE_METER_CONVERSION_RATE;
+
+    dispatchFetchSearchByLocationCoords(
+      search.query.location,
+      map.current.getCenter().toArray(),
+      diagonalDistance,
+      filters,
+      preview.version,
+    );
+  };
 
   return (
     <>
@@ -159,36 +180,37 @@ function LocationSearchResults({
           )}
           {!inProgress && (
             <>
-              {startMessage && (
+              {count === null && (
                 <div>
                   Please enter a location (street, city, state, or postal code)
                   then click search above to find institutions.
                 </div>
               )}
-              {eligibilityAndFilters && (
-                <>
-                  <TuitionAndHousingEstimates />
-                  <RefineYourSearch />
-                  {!noResultsFound && (
-                    <div
-                      id="location-search-results-container"
-                      className="location-search-results-container usa-grid vads-u-padding--1p5"
-                    >
-                      <p>
-                        Showing <strong>{count} search results</strong> for '
-                        <strong>{location}</strong>'
-                      </p>
+              {count >= 0 &&
+                count !== null && (
+                  <>
+                    <TuitionAndHousingEstimates />
+                    <RefineYourSearch />
+                    {count > 0 && (
                       <div
-                        id="location-search-results"
-                        className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
+                        id="location-search-results-container"
+                        className="location-search-results-container usa-grid vads-u-padding--1p5"
                       >
-                        {resultCards}
+                        <p>
+                          Showing <strong>{count} search results</strong> for '
+                          <strong>{location}</strong>'
+                        </p>
+                        <div
+                          id="location-search-results"
+                          className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
+                        >
+                          {resultCards}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </>
-              )}
-              {noResultsFound && (
+                    )}
+                  </>
+                )}
+              {count === 0 && (
                 <div>We didn't find any institutions near the location.</div>
               )}
             </>
@@ -211,8 +233,7 @@ function LocationSearchResults({
               <button
                 id="search-area-control"
                 className={'usa-button'}
-                onClick={() => {}}
-                aria-live="assertive"
+                onClick={searchArea}
               >
                 Search this area of the map
               </button>
@@ -226,10 +247,13 @@ function LocationSearchResults({
 
 const mapStateToProps = state => ({
   search: state.search,
+  filters: state.filters,
+  preview: state.preview,
 });
 
 const mapDispatchToProps = {
   dispatchUpdateEligibilityAndFilters: updateEligibilityAndFilters,
+  dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
 };
 
 export default connect(
