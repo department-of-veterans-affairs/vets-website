@@ -42,6 +42,13 @@ describe('VAOS <VAOSApp>', () => {
     });
 
     expect(await screen.findByText('Child content')).to.exist;
+    await waitFor(() => {
+      expect(
+        global.window.dataLayer.some(
+          e => e.event === 'phased-roll-out-enabled',
+        ),
+      ).to.be.true;
+    });
   });
 
   it('should render unavailable message when flag is off', async () => {
