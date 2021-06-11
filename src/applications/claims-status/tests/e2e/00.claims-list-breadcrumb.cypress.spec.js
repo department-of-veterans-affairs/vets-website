@@ -5,9 +5,8 @@ import claimsList from './fixtures/mocks/claims-list.json';
 describe('Breadcrumb Test', () => {
   it('Verifies breadcrumb functionality', () => {
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
-    cy.getUserToken().then(token => {
-      cy.logIn(token, '/track-claims', 3);
-    });
+    cy.visit('/track-claims');
+    cy.login();
     cy.title().should('eq', 'Track Claims: VA.gov');
     cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
       'be.visible',

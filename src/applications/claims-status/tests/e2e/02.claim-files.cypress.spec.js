@@ -1,18 +1,33 @@
 import claimsList from './fixtures/mocks/claims-list.json';
+import moment from 'moment';
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
+let mockDetails = {};
+
+beforeEach(() => {
+  cy.initClaimDetailMocks(
+    false,
+    true,
+    false,
+    6,
+    moment()
+      .subtract(5, 'years')
+      .format('YYYY-MM-DD'),
+  ).then(data => {
+    mockDetails = data;
+  });
+});
+
 describe('Claim Files Test', () => {
   it('Submits files properly', () => {
-    cy.intercept('GET', '/v0/evss_claims_async', claimsList);
-    cy.initClaimDetailMocks(false, true, false, 8).then(mockData => {
-      cy.intercept('GET', '/v0/evss_claims_async/11', mockData).as(
-        'mockDetail',
-      );
-    });
-    cy.getUserToken().then(token => {
-      cy.logIn(token, '/track-claims', 3);
-    });
+    cy.intercept('GET', `/v0/evss_claims_async/11`, mockDetails).as(
+      'detailRequest',
+    );
+    cy.intercept('GET', `/v0/evss_claims_async`, claimsList).as('claim');
+
+    cy.visit('/track-claims');
+    cy.login();
     cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
       'be.visible',
     );

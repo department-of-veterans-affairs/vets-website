@@ -7,9 +7,8 @@ describe('Claimst List Test', () => {
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
 
     // Claim is visible
-    cy.getUserToken().then(token => {
-      cy.logIn(token, '/track-claims', 3);
-    });
+    cy.visit('/track-claims');
+    cy.login();
 
     // Combined claim link
     cy.get('button.claims-combined').click();

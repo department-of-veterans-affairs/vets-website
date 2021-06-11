@@ -5,13 +5,12 @@ import claimsListEmpty from './fixtures/mocks/claims-list-empty.json';
 describe('Breadcrumb Test Empty List', () => {
   it('Verifies functionality with an empty list', () => {
     cy.intercept('GET', '/v0/evss_claims_async', claimsListEmpty);
-    cy.getUserToken().then(token => {
-      cy.logIn(token, '/track-claims', 3).then(() => {
-        cy.get('.claims-container-title', { timeout: Timeouts.slow }).should(
-          'be.visible',
-        );
-      });
-    });
+    cy.visit('/track-claims');
+    cy.login();
+    cy.get('.claims-container-title', { timeout: Timeouts.slow }).should(
+      'be.visible',
+    );
+    // });
     cy.get('.claims-alert').should(
       'contain',
       'You do not have any submitted claims',

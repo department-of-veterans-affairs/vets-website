@@ -2,17 +2,23 @@ import claimsList from './fixtures/mocks/claims-list.json';
 
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
+let mockDetails = {};
+
+beforeEach(() => {
+  cy.initClaimDetailMocks(false, true, false, 8).then(data => {
+    mockDetails = data;
+  });
+});
+
 describe('Claims status test', () => {
   it('Shows the correct status for the claim', () => {
-    cy.intercept('GET', '/v0/evss_claims_async', claimsList);
-    cy.initClaimDetailMocks(false, true, false, 8).then(mockData => {
-      cy.intercept('GET', '/v0/evss_claims_async/11', mockData).as(
-        'mockDetail',
-      );
-    });
-    cy.getUserToken().then(token => {
-      cy.logIn(token, '/track-claims', 3);
-    });
+    cy.intercept('GET', `/v0/evss_claims_async/11`, mockDetails).as(
+      'detailRequest',
+    );
+    cy.intercept('GET', `/v0/evss_claims_async`, claimsList).as('claim');
+
+    cy.visit('/track-claims');
+    cy.login();
     cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
       'be.visible',
     );
@@ -62,13 +68,11 @@ describe('Claims status test', () => {
         );
         cy.get('.claim-older-updates').should('exist');
       });
-    cy.get('li.list-one')
-      .click()
-      .then(() => {
-        cy.get('li.list-one .claims-evidence', {
-          timeout: Timeouts.slow,
-        }).should('be.visible');
-      });
+    // Nightwatch original test had an extra click on li.list-one here, however, this was collapsing the accordion causing the next step to fail.  Removed it to test the rest of the items.
+    cy.get('li.list-one .claims-evidence', {
+      timeout: Timeouts.slow,
+    }).should('be.visible');
+    // });
     cy.get('main button[aria-expanded="false"]').each(element => {
       cy.wrap(element).click();
       cy.axeCheck();
