@@ -11,7 +11,6 @@ function testDataDrivenMegamenu(client, path) {
     .elements('css selector', '#vetnav-menu li', results => {
       client.expect(results.value.length).to.equal(4);
     })
-    .click('.va-modal-close')
     .elements(
       'css selector',
       '#vetnav-va-benefits-and-health-care',

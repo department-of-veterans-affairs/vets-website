@@ -22,18 +22,11 @@ const FormTitle = ({
             </p>
             <a
               href={formUrl}
-              className="vads-u-text-decoration--none vads-u-margin-top--1"
+              className="vads-u-font-family--serif vads-u-margin-top--1"
               onClick={() => recordGAEvent(title, formUrl, 'title')}
               lang={lang}
             >
-              {title}{' '}
-              <i
-                aria-hidden="true"
-                className="fas fa-angle-right vads-u-margin-left--0p25"
-                pointerEvents="none"
-                role="presentation"
-                style={{ verticalAlign: 'middle' }}
-              />
+              {title}
             </a>
           </>
         ) : (
@@ -63,7 +56,6 @@ const FormTitle = ({
             <i
               aria-hidden="true"
               className="fas fa-angle-right vads-u-margin-left--0p25"
-              pointerEvents="none"
               role="presentation"
               style={{ verticalAlign: 'middle' }}
             />
