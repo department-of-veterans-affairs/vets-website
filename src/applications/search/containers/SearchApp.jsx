@@ -232,6 +232,7 @@ class SearchApp extends React.Component {
     if (hasErrors && !loading) {
       return (
         <div className="usa-width-three-fourths medium-8 small-12 columns error">
+          {/* this is the alert box for when searches fail due to server issues */}
           <va-alert status="error" data-e2e-id="alert-box">
             <h3 slot="headline">Your search didn't go through</h3>
             <div>
@@ -307,6 +308,8 @@ class SearchApp extends React.Component {
     const resultRangeStart = (currentPage - 1) * perPage + 1;
 
     if (loading || !totalEntries) return null;
+
+    // if there is a spelling correction, change the information message displayed
     if (this.props.search.spellingCorrection) {
       return (
         <>
