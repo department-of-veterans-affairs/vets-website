@@ -1,28 +1,6 @@
 // Relative imports.
 import { mockUser } from '@@profile/tests/fixtures/users/user.js';
 
-const testMobileMenuSections = () => {
-  cy.get('[data-e2e-id="about-va-1"]').should('not.be.visible');
-
-  // Open the menu.
-  cy.get('.vetnav-controller-open').contains('Menu');
-  cy.get('.vetnav-controller-open').click();
-  cy.get('.vetnav-controller-close').contains('Close');
-
-  // Check the links to make sure they all look right.
-  cy.get('[data-e2e-id="mobile-home-nav-link"]');
-  cy.get('[data-e2e-id="about-va-1"]').click();
-  cy.get('[data-e2e-id="vetnav-level2--va-organizations"]').click();
-  cy.get('[data-e2e-id="all-va-offices-and-organizations-6"]');
-  cy.get('.back-button').click();
-  cy.get('[data-e2e-id="vetnav-level2--va-organizations"]');
-  testFindLocationsLink();
-
-  // Close the mobile menu.
-  cy.get('.vetnav-controller-close').click();
-  cy.get('.vetnav-controller-open').contains('Menu');
-};
-
 const testFirstMenuSection = () => {
   cy.get('[data-e2e-id="vetnav-level2--disability"').should('not.exist');
   cy.get('[data-e2e-id="va-benefits-and-health-care-0"]').click();
@@ -55,6 +33,28 @@ const testFindLocationsLink = () => {
   cy.get('[data-e2e-id="find-a-va-location-2"]')
     .should('have.attr', 'href')
     .and('include', 'find-locations');
+};
+
+const testMobileMenuSections = () => {
+  cy.get('[data-e2e-id="about-va-1"]').should('not.be.visible');
+
+  // Open the menu.
+  cy.get('.vetnav-controller-open').contains('Menu');
+  cy.get('.vetnav-controller-open').click();
+  cy.get('.vetnav-controller-close').contains('Close');
+
+  // Check the links to make sure they all look right.
+  cy.get('[data-e2e-id="mobile-home-nav-link"]');
+  cy.get('[data-e2e-id="about-va-1"]').click();
+  cy.get('[data-e2e-id="vetnav-level2--va-organizations"]').click();
+  cy.get('[data-e2e-id="all-va-offices-and-organizations-6"]');
+  cy.get('.back-button').click();
+  cy.get('[data-e2e-id="vetnav-level2--va-organizations"]');
+  testFindLocationsLink();
+
+  // Close the mobile menu.
+  cy.get('.vetnav-controller-close').click();
+  cy.get('.vetnav-controller-open').contains('Menu');
 };
 
 const testDesktopMenuSections = () => {
