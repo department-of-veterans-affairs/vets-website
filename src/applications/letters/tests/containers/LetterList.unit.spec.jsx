@@ -31,18 +31,18 @@ describe('<LetterList>', () => {
     expect(tree.type).to.equal('div');
   });
 
-  it('renders collapsible panels for each letter', () => {
+  it('renders accordion items for each letter', () => {
     const tree = SkinDeep.shallowRender(<LetterList {...defaultProps} />);
-    const collapsibles = tree.everySubTree('CollapsiblePanel');
+    const collapsibles = tree.everySubTree('va-accordion-item');
     expect(collapsibles.length).to.equal(3);
   });
 
   it('passes the right title prop for each panel', () => {
     const component = SkinDeep.shallowRender(<LetterList {...defaultProps} />);
-    const panels = component.everySubTree('CollapsiblePanel');
+    const accordionItems = component.everySubTree('va-accordion-item');
     defaultProps.letters.forEach((letter, index) => {
-      const letterProps = panels[index].props;
-      expect(letterProps.panelName).to.equal(defaultProps.letters[index].name);
+      const letterProps = accordionItems[index].props;
+      expect(letterProps.header).to.equal(defaultProps.letters[index].name);
     });
   });
 
