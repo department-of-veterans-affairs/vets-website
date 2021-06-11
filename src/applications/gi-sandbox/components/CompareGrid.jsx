@@ -1,8 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 export function CompareGrid({
   className,
+  showDifferences,
   facilityCodes,
   fieldData,
   institutions,
@@ -10,7 +12,8 @@ export function CompareGrid({
   sectionSublabel,
 }) {
   const institutionCount = Object.keys(institutions).length;
-  const fieldLabel = (field, index) => {
+
+  const fieldLabel = (field, index, displayDiff) => {
     return (
       <div
         key={`${index}-label`}
@@ -18,16 +21,34 @@ export function CompareGrid({
           'field-label',
           { 'medium-screen:vads-l-col--3': institutionCount === 3 },
           { 'medium-screen:vads-l-col--4': institutionCount === 2 },
+          { 'has-diff': displayDiff },
         )}
       >
-        <div className={classNames('label-cell', { first: index === 0 })}>
+        <div
+          className={classNames(
+            'label-cell',
+            { first: index === 0 },
+            { 'has-diff': displayDiff },
+          )}
+        >
+          {displayDiff && (
+            <div className="label-diff">
+              <i className={`fas fa-asterisk`} />
+            </div>
+          )}
           {field.label}
         </div>
       </div>
     );
   };
 
-  const institutionFieldValue = (field, rowIndex, colIndex, institution) => {
+  const institutionFieldValue = (
+    field,
+    rowIndex,
+    colIndex,
+    institution,
+    displayDiff,
+  ) => {
     const valueClassName =
       typeof field.className === 'function'
         ? field.className(institution)
@@ -43,6 +64,7 @@ export function CompareGrid({
           { 'first-row': rowIndex === 0 },
           { 'first-col': colIndex === 0 },
           { 'last-col': colIndex === institutionCount - 1 },
+          { 'has-diff': displayDiff },
           valueClassName,
         )}
       >
@@ -73,19 +95,33 @@ export function CompareGrid({
           )}
         >
           {fieldData.map((field, index) => {
+            const rowValues = Object.keys(institutions).map(facilityCode => {
+              return field.mapper(institutions[facilityCode]);
+            });
+
+            let allEqual = true;
+
+            for (let i = 0; i < rowValues.length - 1 && allEqual; i++) {
+              allEqual = _.isEqual(rowValues[i], rowValues[i + 1]);
+            }
+
+            const displayDiff = showDifferences && !allEqual;
+
             const columns = [
-              fieldLabel(field, index),
+              fieldLabel(field, index, displayDiff),
               institutionFieldValue(
                 field,
                 index,
                 0,
                 institutions[facilityCodes[0]],
+                displayDiff,
               ),
               institutionFieldValue(
                 field,
                 index,
                 1,
                 institutions[facilityCodes[1]],
+                displayDiff,
               ),
             ];
 
@@ -96,6 +132,7 @@ export function CompareGrid({
                   index,
                   2,
                   institutions[facilityCodes[2]],
+                  displayDiff,
                 ),
               );
             }

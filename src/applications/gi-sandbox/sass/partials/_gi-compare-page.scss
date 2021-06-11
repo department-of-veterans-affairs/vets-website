@@ -118,13 +118,26 @@
   }
 
   .field-value {
-    padding-left: 1em;
-    padding-right: 1em;
+    padding: 1.25em 1em 1.25em 1em;
     margin-top: -1px;
     border-left: 1px solid $color-base;
     border-bottom: 1px solid $color-base;
-    padding-top: 1.25em;
-    padding-bottom: 1.25em;
+  }
+
+  .field-value.has-diff  {
+    font-weight: bold;
+    background-color: $color-gold-lightest;
+    border-top: 2px solid $color-base;
+    border-left: 2px solid $color-base;
+    border-bottom: 2px solid $color-base;
+  }
+
+  .field-value.first-row.has-diff {
+    border-top: 2px solid $color-base;
+  }
+
+  .field-value.last-col.has-diff {
+    border-right: 2px solid $color-base;
   }
 
   .capitalize-value {
@@ -141,20 +154,29 @@
 
   .field-label {
     vertical-align: middle;
-  }
 
-  .label-cell {
-    background-color: $color-gray-light-alt;
-    padding-left: 2.5em;
-    padding-right: 1.5em;
-    margin-right: 1.5em;
-    padding-top: 1.25em;
-    padding-bottom: 1.25em;
-    border-bottom: 1px solid $color-gray-light;
-    border-left: 1px solid $color-gray-light;
-    border-right: 1px solid $color-gray-light;
-    border-top: 1px solid $color-gray-light;
-    margin-top: -1px;
+    .label-diff {
+      display: inline-block;
+      padding-right: .75em;
+      font-size: 14px;
+    }
+
+    .label-cell {
+      background-color: $color-gray-light-alt;
+      margin-right: 1.5em;
+      padding: 1.25em .75em 1.25em 2.5em;
+      border-bottom: 1px solid $color-gray-light;
+      border-left: 1px solid $color-gray-light;
+      border-right: 1px solid $color-gray-light;
+      border-top: 1px solid $color-gray-light;
+      margin-top: -1px;
+    }
+
+    .label-cell.has-diff {
+      font-weight: bold;
+      border-width: 2px;
+      padding-left: .8em;
+    }
   }
 
   .section-field-grid.labels {

@@ -323,7 +323,6 @@ export function ComparePage({
             sectionLabel="School ratings"
             institutions={institutions}
             facilityCodes={loaded}
-            showDifferences={showDifferences}
             fieldData={[
               {
                 label: 'Overall rating',
@@ -415,7 +414,6 @@ export function ComparePage({
             sectionLabel="Cautionary information"
             institutions={institutions}
             facilityCodes={loaded}
-            showDifferences={showDifferences}
             fieldData={[
               {
                 label: 'Caution flags',
