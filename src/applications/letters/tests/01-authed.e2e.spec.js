@@ -19,27 +19,24 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   client
     .click('.view-letters-button')
-    .expect.element('.usa-accordion-bordered')
+    .expect.element('va-accordion-item')
     .to.be.present.before(Timeouts.normal);
 
-  client.elements('css selector', '.usa-accordion-bordered', result => {
+  client.elements('css selector', 'va-accordion-item', result => {
     client.assert.equal(result.value.length, 5);
   });
 
   client
-    .click(`.usa-accordion-bordered:nth-of-type(1)`)
+    .click(`va-accordion-item:nth-of-type(1)`)
     .expect.element('.va-button-primary')
     .to.be.present.before(Timeouts.normal);
 
   client
-    .click(`.usa-accordion-bordered:nth-of-type(2)`)
-    .click(`.usa-accordion-bordered:nth-of-type(3)`)
-    .click(`.usa-accordion-bordered:nth-of-type(4)`)
-    .click(`.usa-accordion-bordered:nth-of-type(5)`)
-    .waitForElementVisible(
-      `.usa-accordion-bordered:nth-of-type(5) .usa-accordion-content`,
-      Timeouts.normal,
-    )
+    .click(`va-accordion-item:nth-of-type(2)`)
+    .click(`va-accordion-item:nth-of-type(3)`)
+    .click(`va-accordion-item:nth-of-type(4)`)
+    .click(`va-accordion-item:nth-of-type(5)`)
+    .waitForElementVisible(`va-accordion-item:nth-of-type(5)`, Timeouts.normal)
     .axeCheck('.main');
 
   // -- Go to letters list -- //
