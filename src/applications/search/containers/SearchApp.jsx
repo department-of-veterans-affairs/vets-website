@@ -6,7 +6,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { fetchSearchResults } from '../actions';
-import { formatResponseString } from '../utils';
+import { formatResponseString, truncateResponseString } from '../utils';
 import recordEvent from 'platform/monitoring/record-event';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 
@@ -24,6 +24,7 @@ import { apiRequest } from 'platform/utilities/api';
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
 
 const SCREENREADER_FOCUS_CLASSNAME = 'sr-focus';
+const MAX_DESCRIPTION_LENGTH = 186;
 
 class SearchApp extends React.Component {
   static propTypes = {
@@ -199,7 +200,7 @@ class SearchApp extends React.Component {
   };
 
   renderResults() {
-    const { loading, errors } = this.props.search;
+    const { loading, errors, currentPage, totalPages } = this.props.search;
     const hasErrors = !!(errors && errors.length > 0);
     const nonBlankUserInput =
       this.state.userInput &&
@@ -207,23 +208,26 @@ class SearchApp extends React.Component {
 
     // Reusable search input
     const searchInput = (
-      <form
-        onSubmit={this.handleSearch}
-        className="va-flex search-box"
-        data-e2e-id="search-form"
-      >
-        <input
-          type="text"
-          name="query"
-          aria-label="Enter the word or phrase you'd like to search for"
-          value={this.state.userInput}
-          onChange={this.handleInputChange}
-        />
-        <button type="submit" disabled={!nonBlankUserInput}>
-          <IconSearch color="#fff" />
-          <span>Search</span>
-        </button>
-      </form>
+      <div className="vads-u-background-color--gray-lightest vads-u-padding-x--2p5 vads-u-padding-bottom--1 vads-u-padding-top--1p5">
+        <div>Enter a keyword</div>
+        <form
+          onSubmit={this.handleSearch}
+          className="va-flex search-box vads-u-margin-top--1"
+          data-e2e-id="search-form"
+        >
+          <input
+            type="text"
+            name="query"
+            aria-label="Enter the word or phrase you'd like to search for"
+            value={this.state.userInput}
+            onChange={this.handleInputChange}
+          />
+          <button type="submit" disabled={!nonBlankUserInput}>
+            <IconSearch color="#fff" />
+            <span className="button-text">Search</span>
+          </button>
+        </form>
+      </div>
     );
 
     if (hasErrors && !loading) {
@@ -244,11 +248,20 @@ class SearchApp extends React.Component {
       <div>
         {searchInput}
         {this.renderResultsCount()}
-        <hr />
+        <hr className="vads-u-margin-y--3" />
         {this.renderRecommendedResults()}
         {this.renderResultsList()}
-        <hr id="hr-search-bottom" />
-        {this.renderResultsFooter()}
+        <hr id="hr-search-bottom" className="vads-u-margin-y--3" />
+
+        <div className="va-flex results-footer">
+          <Pagination
+            onPageSelect={this.handlePageChange}
+            page={currentPage}
+            pages={totalPages}
+            maxPageListLength={5}
+          />
+          <span className="powered-by">Powered by Search.gov</span>
+        </div>
       </div>
     );
   }
@@ -258,7 +271,9 @@ class SearchApp extends React.Component {
     if (!loading && recommendedResults && recommendedResults.length > 0) {
       return (
         <div>
-          <h4 className={SCREENREADER_FOCUS_CLASSNAME}>
+          <h4
+            className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--bold`}
+          >
             Our top recommendations for you
           </h4>
           <ul className="results-list">
@@ -293,16 +308,54 @@ class SearchApp extends React.Component {
 
     if (loading || !totalEntries) return null;
 
+    if (this.props.search?.results?.spelling_correction) {
+      return (
+        <>
+          <p
+            aria-live="polite"
+            aria-relevant="additions text"
+            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal
+        "
+          >
+            No results for "
+            <span className="vads-u-font-weight--bold">
+              {this.props.router.location.query.query}
+            </span>
+            "
+          </p>
+          <p
+            aria-live="polite"
+            aria-relevant="additions text"
+            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal
+        "
+          >
+            Showing{' '}
+            {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
+            of {totalEntries} results for "
+            <span className="vads-u-font-weight--bold">
+              {this.props.search?.results?.spelling_correction}
+            </span>
+            "
+          </p>
+        </>
+      );
+    }
+
     /* eslint-disable prettier/prettier */
     return (
-      <p aria-live="polite" aria-relevant="additions text">
+      <p
+        aria-live="polite"
+        aria-relevant="additions text"
+        className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal
+        "
+      >
         Showing{' '}
         {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of{' '}
-        {totalEntries} results
-        <span className="usa-sr-only">
-          {' '}
-          for "{this.props.router.location.query.query}"
+        {totalEntries} results for "
+        <span className="vads-u-font-weight--bold">
+          {this.props.router.location.query.query}
         </span>
+        "
       </p>
     );
     /* eslint-enable prettier/prettier */
@@ -336,7 +389,10 @@ class SearchApp extends React.Component {
   renderWebResult(result, snippetKey = 'snippet', isBestBet = false, index) {
     const strippedTitle = formatResponseString(result.title, true);
     return (
-      <li key={result.url} className="result-item">
+      <li
+        key={result.url}
+        className="result-item vads-u-margin-top--1p5 vads-u-margin-bottom--4"
+      >
         <a
           className={`result-title ${SCREENREADER_FOCUS_CLASSNAME}`}
           href={replaceWithStagingDomain(result.url)}
@@ -348,47 +404,37 @@ class SearchApp extends React.Component {
           })}
         >
           <h5
+            className="vads-u-margin-y--1"
             data-e2e-id="result-title"
             dangerouslySetInnerHTML={{
               __html: strippedTitle,
             }}
           />
         </a>
-        <p className="result-url">{replaceWithStagingDomain(result.url)}</p>
+        <p className="result-url vads-u-margin-y--0p5 vads-u-color--green vads-u-font-size--base">
+          {replaceWithStagingDomain(result.url)}
+        </p>
         <p
           className="result-desc"
           dangerouslySetInnerHTML={{
-            __html: formatResponseString(result[snippetKey]),
+            __html: truncateResponseString(
+              formatResponseString(result[snippetKey]),
+              MAX_DESCRIPTION_LENGTH,
+            ),
           }}
         />
       </li>
     );
   }
+
   /* eslint-enable react/no-danger */
-
-  renderResultsFooter() {
-    const { currentPage, totalPages } = this.props.search;
-
-    return (
-      <div className="va-flex results-footer">
-        <span className="powered-by">Powered by Search.gov</span>
-        <Pagination
-          onPageSelect={this.handlePageChange}
-          page={currentPage}
-          pages={totalPages}
-          maxPageListLength={5}
-        />
-      </div>
-    );
-  }
-
   render() {
     return (
       <div className="search-app" data-e2e-id="search-app">
         <SearchBreadcrumbs query={this.props.search.query} />
         <div className="row">
           <div className="columns">
-            <h2>Search VA.gov</h2>
+            <h2>VA.gov search results</h2>
           </div>
         </div>
         <div className="row">

@@ -41,11 +41,12 @@ export function fetchSearchResults(query, page, options) {
           meta: response.meta,
         });
       })
-      .catch(error =>
+      .catch(error => {
+        console.log(error);
         dispatch({
           type: FETCH_SEARCH_RESULTS_FAILURE,
           errors: error.errors,
-        }),
-      );
+        });
+      });
   };
 }
