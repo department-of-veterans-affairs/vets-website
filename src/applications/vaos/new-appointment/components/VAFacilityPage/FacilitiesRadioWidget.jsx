@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getCernerURL } from 'platform/utilities/cerner';
 import State from '../../../components/State';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -17,7 +18,7 @@ export default function FacilitiesRadioWidget({
   onChange,
   formContext,
 }) {
-  const { loadingEligibility, sortMethod } = formContext;
+  const { loadingEligibility, sortMethod, cernerSiteIds } = formContext;
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
 
@@ -50,6 +51,9 @@ export default function FacilitiesRadioWidget({
       {displayedOptions.map((option, i) => {
         const { name, address, legacyVAR } = option?.label;
         const checked = option.value === value;
+        const isCerner = cernerSiteIds.some(orgId =>
+          option.value.startsWith(orgId),
+        );
         let distance;
 
         if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
@@ -83,6 +87,11 @@ export default function FacilitiesRadioWidget({
                 <span className="vads-u-display--block vads-u-font-size--sm">
                   {distance} miles
                 </span>
+              )}
+              {isCerner && (
+                <a href={getCernerURL('/pages/scheduling/upcoming')}>
+                  Schedule online at <strong>My VA Health</strong>
+                </a>
               )}
             </label>
           </div>

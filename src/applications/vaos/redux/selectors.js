@@ -13,6 +13,10 @@ export const selectIsCernerPatient = state =>
   selectPatientFacilities(state)?.some(
     f => f.isCerner && f.usesCernerAppointments,
   );
+export const selectRegisteredCernerFacilityIds = state =>
+  selectPatientFacilities(state)
+    ?.filter(f => f.isCerner && f.usesCernerAppointments)
+    .map(f => f.facilityId) || [];
 
 export const selectIsRegisteredToSacramentoVA = state =>
   selectPatientFacilities(state)?.some(f => f.facilityId === '612');

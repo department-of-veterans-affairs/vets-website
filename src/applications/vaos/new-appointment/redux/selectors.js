@@ -22,10 +22,10 @@ import {
 import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
-  selectUseFlatFacilityPage,
   selectIsCernerOnlyPatient,
   selectUseProviderSelection,
   selectFeatureCovid19Vaccine,
+  selectRegisteredCernerFacilityIds,
 } from '../../redux/selectors';
 
 export function getNewAppointment(state) {
@@ -102,9 +102,7 @@ export function getTypeOfCareFacilities(state) {
   const facilities = getNewAppointment(state).facilities;
   const typeOfCareId = getTypeOfCare(data)?.id;
 
-  return selectUseFlatFacilityPage(state)
-    ? facilities[`${typeOfCareId}`]
-    : facilities[`${typeOfCareId}_${data.vaParent}`];
+  return facilities[`${typeOfCareId}`];
 }
 
 export function getChosenFacilityInfo(state) {
@@ -157,17 +155,7 @@ export function getParentOfChosenFacility(state) {
 }
 
 export function getChosenFacilityDetails(state) {
-  if (selectUseFlatFacilityPage(state)) {
-    return getChosenFacilityInfo(state);
-  }
-
-  const data = getFormData(state);
-  const isCommunityCare = data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
-  const facilityDetails = getNewAppointment(state).facilityDetails;
-
-  return isCommunityCare
-    ? facilityDetails[data.communityCareSystemId]
-    : facilityDetails[data.vaFacility];
+  return getChosenFacilityInfo(state);
 }
 
 export function selectEligibility(state) {
@@ -304,6 +292,7 @@ export function getFacilityPageV2Info(state) {
     showEligibilityModal,
     sortMethod: facilityPageSortMethod,
     typeOfCare,
+    cernerSiteIds: selectRegisteredCernerFacilityIds(state),
   };
 }
 
