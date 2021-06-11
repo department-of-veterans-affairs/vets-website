@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
@@ -49,14 +48,11 @@ export class LetterList extends React.Component {
       }
 
       return (
-        <CollapsiblePanel
-          panelName={letterTitle}
-          key={`collapsiblePanel-${index}`}
-        >
+        <va-accordion-item header={letterTitle} level="3" key={index}>
           <div>{content}</div>
           {conditionalDownloadButton}
           {helpText}
-        </CollapsiblePanel>
+        </va-accordion-item>
       );
     });
 
@@ -109,7 +105,7 @@ export class LetterList extends React.Component {
         <p>
           <Link to="confirm-address">Go back to edit address</Link>
         </p>
-        {letterItems}
+        <va-accordion>{letterItems}</va-accordion>
         {eligibilityMessage}
 
         <br />
