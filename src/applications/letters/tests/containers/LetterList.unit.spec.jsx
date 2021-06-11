@@ -57,7 +57,7 @@ describe('<LetterList>', () => {
       );
     };
 
-    component.everySubTree('CollapsiblePanel').forEach(checkButtonInPanel);
+    component.everySubTree('va-accordion-item').forEach(checkButtonInPanel);
   });
 
   it('does not render DL button for BSL if !optionsAvailable', () => {
@@ -67,13 +67,12 @@ describe('<LetterList>', () => {
       expect(downloadButton).to.be.undefined;
     };
 
-    const isBSL = panel =>
-      panel.props.panelName === defaultProps.letters[1].name;
+    const isBSL = panel => panel.props.header === defaultProps.letters[1].name;
     const props = { ...defaultProps, optionsAvailable: false };
     const component = SkinDeep.shallowRender(<LetterList {...props} />);
 
     component
-      .everySubTree('CollapsiblePanel')
+      .everySubTree('va-accordion-item')
       .filter(isBSL)
       .forEach(assertButtonUndefined);
   });
@@ -88,13 +87,13 @@ describe('<LetterList>', () => {
     };
 
     const isNotBSL = panel =>
-      panel.props.panelName !== defaultProps.letters[1].name;
+      panel.props.header !== defaultProps.letters[1].name;
 
     const props = { ...defaultProps, optionsAvailable: false };
     const component = SkinDeep.shallowRender(<LetterList {...props} />);
 
     component
-      .everySubTree('CollapsiblePanel')
+      .everySubTree('va-accordion-item')
       .filter(isNotBSL)
       .forEach(checkButtonInPanel);
   });
