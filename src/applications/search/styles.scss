@@ -167,9 +167,9 @@
 
     button {
       align-items: center;
-      background: #0071bb;
+      background: $color-primary;
       border-radius: 0 5px 5px 0;
-      color: #ffffff;
+      color: $color-white;
       display: flex;
       font-size: 1.6rem;
       font-weight: 700;
@@ -185,12 +185,12 @@
 
 
       &:hover {
-        background: #003e73
+        background: $color-primary-darker
       }
 
       &:focus,
       &:active {
-        background: #003e73;
+        background: $color-primary-darker;
         outline: 2px solid $color-gold-light;
       }
     }
