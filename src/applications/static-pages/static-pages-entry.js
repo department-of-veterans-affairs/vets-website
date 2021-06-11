@@ -12,6 +12,7 @@ import './ics-generator';
 import createFacilityPage from './facilities/createFacilityPage';
 import createVetCentersHours from './facilities/createVetCentersHours';
 import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
+import createExpandableOperatingStatus from './facilities/vet-center/createExpandableOperatingStatus';
 
 import widgetTypes from './widgetTypes';
 import subscribeAdditionalInfoEvents from './subscribeAdditionalInfoEvents';
@@ -151,6 +152,7 @@ createResourcesAndSupportSearchWidget(
 );
 
 createVetCentersHours(store);
+createExpandableOperatingStatus(store);
 createNearByVetCenters(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();

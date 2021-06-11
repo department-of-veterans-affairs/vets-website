@@ -426,3 +426,27 @@ export function transformSettings([request = [], direct = []]) {
     };
   });
 }
+
+/**
+ * Transforms parent facilities from var-resources into Location objects
+ *
+ * @export
+ * @param {Array<VARFacility>} parentFacilities A list of parent facilities from var-resources
+ * @returns {Array<Location>} A list of Locations
+ */
+export function transformParentFacilities(parentFacilities) {
+  return parentFacilities.map(facility => {
+    return {
+      resourceType: 'Location',
+      id: facility.id,
+      vistaId: facility.rootStationCode,
+      name: facility.authoritativeName,
+      address: {
+        line: [],
+        city: facility.city,
+        state: facility.stateAbbrev,
+        postalCode: null,
+      },
+    };
+  });
+}

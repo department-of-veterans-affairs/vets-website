@@ -31,16 +31,17 @@ const IntroductionPage = props => {
         pageList={props.route.pageList}
         downtime={props.route.formConfig.downtime}
         startText="Apply for career planning and guidance"
+        headingLevel={2}
       >
         Please complete the 28-8832 form to apply for Planning and career
         guidance.
       </SaveInProgressIntro>
-      <h4>Follow the steps below to apply for career planning and guidance.</h4>
+      <h2>Follow the steps below to apply for career planning and guidance.</h2>
       <div className="process schemaform-process">
         <ol>
           <li className="process-step list-one">
-            <h5>Prepare</h5>
-            <h6>To fill out this application, you’ll need your:</h6>
+            <h3>Prepare</h3>
+            <h4>To fill out this application, you’ll need your:</h4>
             <ul>
               <li>Social Security number</li>
               <li>Date of birth</li>
@@ -59,7 +60,7 @@ const IntroductionPage = props => {
             </p>
           </li>
           <li className="process-step list-two">
-            <h5>Apply</h5>
+            <h3>Apply</h3>
             <p>Complete this career planning and guidance form.</p>
             <p>
               After submitting your application, you’ll get a confirmation
@@ -68,14 +69,14 @@ const IntroductionPage = props => {
             </p>
           </li>
           <li className="process-step list-three">
-            <h5>VA Review</h5>
+            <h3>VA Review</h3>
             <p>
               We process applications in the order we receive them. We may
               contact you if we have questions or need more information.
             </p>
           </li>
           <li className="process-step list-four">
-            <h5>Decision</h5>
+            <h3>Decision</h3>
             <p>
               If you’re eligible for career planning and guidance benefits,
               we’ll invite you to an orientation session at your nearest VA
@@ -112,10 +113,10 @@ const IntroductionPage = props => {
       <AlertBox
         content={
           <>
-            <h5 className="vads-u-font-size--h3 vads-u-margin-top--0">
+            <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
               Do you have a service-connected disability or pre-discharge
               disability rating?
-            </h5>
+            </h2>
             <p>
               If you have a service-connected or pre-discharge disability
               rating, you may be eligible for Chapter 31 Veteran Readiness and
