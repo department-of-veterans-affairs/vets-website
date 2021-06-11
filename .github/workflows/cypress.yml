@@ -55,6 +55,7 @@ jobs:
           CI: true
 
       - name: Print webpack output
+        if: ${{ always() }}
         run: cat test.txt
 
       - name: Publish test results
