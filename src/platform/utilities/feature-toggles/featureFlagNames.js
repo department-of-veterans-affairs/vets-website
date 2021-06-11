@@ -31,7 +31,6 @@ export default Object.freeze({
   facilityLocatorShowOperationalHoursSpecialInstructions: 'facilityLocatorShowOperationalHoursSpecialInstructions',
   findFormsEnhancements: 'find_forms_mvp_enhancement',
   form10182Nod: 'form10182_nod',
-  form526OriginalClaims: 'form526OriginalClaims',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
   gibctSchoolRatings: 'gibctSchoolRatings',
   languageSupport: 'language_support',
