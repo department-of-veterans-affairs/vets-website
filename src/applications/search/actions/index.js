@@ -42,10 +42,9 @@ export function fetchSearchResults(query, page, options) {
         });
       })
       .catch(error => {
-        console.log(error);
         dispatch({
           type: FETCH_SEARCH_RESULTS_FAILURE,
-          errors: error.errors,
+          errors: [error],
         });
       });
   };

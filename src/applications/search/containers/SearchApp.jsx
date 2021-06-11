@@ -18,7 +18,6 @@ import DowntimeNotification, {
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import IconSearch from '@department-of-veterans-affairs/component-library/IconSearch';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { apiRequest } from 'platform/utilities/api';
 
 import SearchBreadcrumbs from '../components/SearchBreadcrumbs';
@@ -208,7 +207,7 @@ class SearchApp extends React.Component {
 
     // Reusable search input
     const searchInput = (
-      <div className="vads-u-background-color--gray-lightest vads-u-padding-x--2p5 vads-u-padding-bottom--1 vads-u-padding-top--1p5">
+      <div className="vads-u-background-color--gray-lightest vads-u-padding-x--2p5 vads-u-padding-bottom--1 vads-u-padding-top--1p5 vads-u-margin-y--1p5">
         <div>Enter a keyword</div>
         <form
           onSubmit={this.handleSearch}
@@ -233,12 +232,13 @@ class SearchApp extends React.Component {
     if (hasErrors && !loading) {
       return (
         <div className="usa-width-three-fourths medium-8 small-12 columns error">
-          <AlertBox
-            status="error"
-            headline="Your search didn't go through"
-            content="We’re sorry. Something went wrong on our end, and your search didn't go through. Please try again."
-            data-e2e-id="alert-box"
-          />
+          <va-alert status="error" data-e2e-id="alert-box">
+            <h3 slot="headline">Your search didn't go through</h3>
+            <div>
+              We’re sorry. Something went wrong on our end, and your search
+              didn't go through. Please try again
+            </div>
+          </va-alert>
           {searchInput}
         </div>
       );
@@ -247,7 +247,7 @@ class SearchApp extends React.Component {
     return (
       <div>
         {searchInput}
-        {this.renderResultsCount()}
+        {this.renderResultsInformation()}
         <hr className="vads-u-margin-y--3" />
         {this.renderRecommendedResults()}
         {this.renderResultsList()}
@@ -289,7 +289,7 @@ class SearchApp extends React.Component {
     return null;
   }
 
-  renderResultsCount() {
+  renderResultsInformation() {
     const {
       currentPage,
       perPage,
@@ -307,14 +307,13 @@ class SearchApp extends React.Component {
     const resultRangeStart = (currentPage - 1) * perPage + 1;
 
     if (loading || !totalEntries) return null;
-
-    if (this.props.search?.results?.spelling_correction) {
+    if (this.props.search.spellingCorrection) {
       return (
         <>
           <p
             aria-live="polite"
             aria-relevant="additions text"
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal
+            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-bottom--0p5 vads-u-margin-top--2p5
         "
           >
             No results for "
@@ -326,14 +325,14 @@ class SearchApp extends React.Component {
           <p
             aria-live="polite"
             aria-relevant="additions text"
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal
+            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5
         "
           >
             Showing{' '}
             {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
             of {totalEntries} results for "
             <span className="vads-u-font-weight--bold">
-              {this.props.search?.results?.spelling_correction}
+              {this.props.search.spellingCorrection}
             </span>
             "
           </p>
