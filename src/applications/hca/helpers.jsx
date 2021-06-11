@@ -276,6 +276,7 @@ export const lastServiceBranchLabels = {
   'merchant seaman': 'Merchant Seaman',
   navy: 'Navy',
   noaa: 'Noaa',
+  'space force': 'Space Force',
   usphs: 'USPHS',
   'f.commonwealth': 'Filipino Commonwealth Army',
   'f.guerilla': 'Filipino Guerilla Forces',
