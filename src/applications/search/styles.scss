@@ -31,7 +31,7 @@
 
         .result-url,
         .result-desc {
-          color: #323a45;
+          color: $color-gray-dark;
           font-family: "Source Sans Pro";
           font-size: 1.6rem;
         }
@@ -45,15 +45,15 @@
           }
 
           &:hover {
-            color: #323a45;
+            color: $color-gray-dark;
             background: rgba(0,0,0,.05);
           }
 
           &:focus ,
           &:active {
-            color: #323a45;
+            color: $color-gray-dark;
             background: rgba(0,0,0,.05);
-            outline: 2px solid #f9c642;
+            outline: 2px solid $color-gold-light;
           }
 
           h5 {
@@ -62,7 +62,7 @@
             font-weight: 700;
             font-family: "Bitter";
             text-decoration: underline;
-            color: #004795;
+            color: $color-link-default;
           }
 
 
@@ -161,7 +161,7 @@
     }
 
     input {
-      color: #323a45;
+      color: $color-gray-dark;
       font-weight: 400;
     }
 
@@ -191,7 +191,7 @@
       &:focus,
       &:active {
         background: #003e73;
-        outline: 2px solid #f9c642;
+        outline: 2px solid $color-gold-light;
       }
     }
   }
