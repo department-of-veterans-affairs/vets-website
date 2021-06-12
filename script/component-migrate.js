@@ -17,13 +17,56 @@ function handleError(error) {
   console.log(error);
 }
 
+function translateProps(componentString, propMap) {
+  // Make a copy so we don't modify the reference
+  let translatedComp = componentString.toString();
+
+  Object.entries(propMap).forEach(([prop, newValue]) => {
+    switch (typeof newValue) {
+      case 'string':
+        translatedComp = translatedComp.replace(prop, newValue);
+        break;
+      case 'function':
+        translatedComp = newValue(componentString, prop);
+        break;
+    }
+  });
+
+  return translatedComp;
+}
+
+/*
+ **********************************
+ *    Component transformers      *
+ **********************************
+ */
 function alertBoxReplacement() {
-  return ['va-alert'];
+  const moveChildren = (componentString, propName) => {
+    const translatedChildren = componentString.toString();
+    const children = componentString.match(
+      new RegExp(`${propName}=["{]([.]+)["}]`, 's'),
+    )?.[1];
+
+    console.log(children);
+    console.log(translatedChildren);
+    return translatedChildren;
+  };
+
+  return [
+    'va-alert',
+    {
+      content: moveChildren,
+      // level: null,
+      isVisible: 'visible',
+    },
+  ];
 }
 
 const replacements = {
   AlertBox: alertBoxReplacement,
 };
+
+/* End of component transformers */
 
 const filenames = glob.sync(`${options.dir}/**/*.jsx`);
 
@@ -41,12 +84,8 @@ filenames.forEach(fname => {
     );
     const cmpUnnamedClosingTag = [...unnamedClosingTags][0]?.[0];
 
-    // [...unnamedClosingTags][0]?.[0].replace("</>". `${op
-    // const cmpRegex = hasNamedClosingTag ? data.match(new Regex(`<${options.component}`)) :
-    // const component =
-
     // First, replace the tags
-    const [newTag] = replacements[options.component]();
+    const [newTag, propMap] = replacements[options.component]();
     const dataWithNamedClosingTags = data.replace(
       cmpUnnamedClosingTag,
       cmpUnnamedClosingTag?.replace('</>', `</${newTag}>`),
@@ -56,9 +95,18 @@ filenames.forEach(fname => {
       .replace(`<${options.component}`, `<${newTag}`)
       .replace(`</${options.component}`, `</${newTag}`);
 
-    // Next, replace the props
+    const cmpRegex = new RegExp(`<${newTag}.+</${newTag}>`, 'gs');
+    const components = newTags.matchAll(cmpRegex);
 
-    fs.writeFile(fname, newTags, 'utf8', handleError);
+    const component = [...components][0][0];
+
+    // Next, replace the props
+    const migratedComponent = newTags.replace(
+      component,
+      translateProps(component, propMap),
+    );
+
+    fs.writeFile(fname, migratedComponent, 'utf8', handleError);
 
     return 0;
   });
