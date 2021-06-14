@@ -3,15 +3,12 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
-import { renderStars } from '../utils/render';
-
+import { addCompareInstitution, removeCompareInstitution } from '../actions';
+import Checkbox from '../components/Checkbox';
 import { estimatedBenefits } from '../selectors/estimator';
 import { formatCurrency, createId } from '../utils/helpers';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
-
-import Checkbox from '../components/Checkbox';
-
-import { addCompareInstitution, removeCompareInstitution } from '../actions';
+import RatingsStars from '../components/RatingsStars';
 
 export function SearchResultCard({
   compare,
@@ -42,7 +39,7 @@ export function SearchResultCard({
     programCount,
     programLengthInHours,
   } = institution;
-  const compareChecked = !!compare.institutions[facilityCode];
+  const compareChecked = !!compare.search.institutions[facilityCode];
   const handleCompareUpdate = e => {
     if (e.target.checked && !compareChecked) {
       dispatchAddCompareInstitution(institution);
@@ -109,8 +106,8 @@ export function SearchResultCard({
           <strong>Rated By:</strong> {ratingCount}
         </p>
         <div className="vads-u-margin-bottom--2">
-          {renderStars(ratingAverage)} ({Math.round(10 * ratingAverage) / 10} of
-          5)
+          <RatingsStars rating={ratingAverage} />
+          {Math.round(10 * ratingAverage) / 10} of 5)
         </div>
       </div>
     ) : (
@@ -185,7 +182,7 @@ export function SearchResultCard({
   );
 
   const programHours = () => {
-    if (programLengthInHours.length > 0) {
+    if (programLengthInHours && programLengthInHours.length > 0) {
       const maxHours = Math.max(...programLengthInHours);
       const minHours = Math.min(...programLengthInHours);
       return `${
