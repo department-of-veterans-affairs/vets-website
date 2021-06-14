@@ -10,9 +10,9 @@ import {
   selectFeatureCommunityCare,
   selectSystemIds,
   selectIsCernerOnlyPatient,
-  selectUseFlatFacilityPage,
   selectFeatureHomepageRefresh,
   selectFeatureVAOSServiceRequests,
+  selectRegisteredCernerFacilityIds,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -27,20 +27,18 @@ import {
   submitRequest,
   submitAppointment,
   sendRequestMessage,
-  getSitesSupportingVAR,
   getCommunityCare,
 } from '../../services/var';
 import { createAppointment } from '../../services/appointment';
-import {
-  getOrganizations,
-  getIdOfRootOrganization,
-  getSiteIdFromOrganization,
-} from '../../services/organization';
 import {
   getLocation,
   getSiteIdFromFacilityId,
   getLocationsByTypeOfCareAndSiteIds,
   getCommunityProvidersByTypeOfCare,
+  fetchParentLocations,
+  fetchCommunityCareSupportedSites,
+  isCernerLocation,
+  isTypeOfCareSupported,
 } from '../../services/location';
 import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
@@ -57,7 +55,10 @@ import {
   transformFormToCCRequest,
   transformFormToAppointment,
 } from './helpers/formSubmitTransformers';
-import { transformFormToVAOSCCRequest } from './helpers/formSubmitTransformers.vaos';
+import {
+  transformFormToVAOSCCRequest,
+  transformFormToVAOSVARequest,
+} from './helpers/formSubmitTransformers.v2';
 import {
   resetDataLayer,
   recordItemsRetrieved,
@@ -338,6 +339,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const typeOfCareId = typeOfCare?.id;
       if (typeOfCareId) {
         const siteIds = selectSystemIds(initialState);
+        const cernerSiteIds = selectRegisteredCernerFacilityIds(initialState);
         let typeOfCareFacilities = getTypeOfCareFacilities(initialState);
         let siteId = null;
         let facilityId = newAppointment.data.vaFacility;
@@ -364,18 +366,21 @@ export function openFacilityPageV2(page, uiSchema, schema) {
           typeOfCareId,
           schema,
           uiSchema,
+          cernerSiteIds,
           address: selectVAPResidentialAddress(initialState),
         });
 
         // If we have an already selected location or only have a single location
         // fetch eligbility data immediately
-        const supportedFacilities = typeOfCareFacilities?.filter(
-          facility =>
-            facility.legacyVAR.settings[typeOfCareId]?.direct.enabled ||
-            facility.legacyVAR.settings[typeOfCareId]?.request.enabled,
+        const supportedFacilities = typeOfCareFacilities.filter(facility =>
+          isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
         );
         const eligibilityDataNeeded =
-          !!facilityId || supportedFacilities?.length === 1;
+          (!!facilityId || supportedFacilities?.length === 1) &&
+          !isCernerLocation(
+            facilityId || supportedFacilities[0].id,
+            cernerSiteIds,
+          );
 
         if (!typeOfCareFacilities.length) {
           recordEligibilityFailure(
@@ -458,6 +463,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
     let location = null;
     const facilities = getTypeOfCareFacilities(getState());
+    const cernerSiteIds = selectRegisteredCernerFacilityIds(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
@@ -466,6 +472,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
       type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
       sortMethod,
       uiSchema,
+      cernerSiteIds,
     };
 
     if (
@@ -545,7 +552,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       // If we have the VA parent in our state, we don't need to
       // fetch them again
       if (!parentFacilities) {
-        parentFacilities = await getOrganizations({
+        parentFacilities = await fetchParentLocations({
           siteIds: userSiteIds,
         });
       }
@@ -558,7 +565,8 @@ export function openFacilityPage(page, uiSchema, schema) {
       }
 
       if (parentId) {
-        siteId = getIdOfRootOrganization(parentFacilities, parentId);
+        siteId = parentFacilities.find(location => location.id === parentId)
+          .vistaId;
       }
 
       locations =
@@ -890,13 +898,10 @@ export function checkCommunityCareEligibility() {
     try {
       // Check if user registered systems support community care...
       const siteIds = selectSystemIds(state);
-      const parentFacilities = await getOrganizations({ siteIds });
-      const ccSites = await getSitesSupportingVAR(
-        parentFacilities.map(parent => getSiteIdFromOrganization(parent)),
-      );
-      const ccEnabledSystems = parentFacilities.filter(parent =>
-        ccSites.some(site => site.id === getSiteIdFromOrganization(parent)),
-      );
+      const parentFacilities = await fetchParentLocations({ siteIds });
+      const ccEnabledSystems = await fetchCommunityCareSupportedSites({
+        locations: parentFacilities,
+      });
       dispatch({
         type: FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
         ccEnabledSystems,
@@ -1032,6 +1037,9 @@ export function submitAppointmentOrRequest(history) {
         if (featureVAOSServiceRequests && isCommunityCare) {
           requestBody = transformFormToVAOSCCRequest(getState());
           requestData = await createAppointment({ appointment: requestBody });
+        } else if (featureVAOSServiceRequests) {
+          requestBody = transformFormToVAOSVARequest(getState());
+          requestData = await createAppointment({ appointment: requestBody });
         } else if (isCommunityCare) {
           requestBody = transformFormToCCRequest(getState());
           requestData = await submitRequest('cc', requestBody);
@@ -1087,7 +1095,6 @@ export function submitAppointmentOrRequest(history) {
             facility: requestBody.facility,
             typeOfCareId: requestBody.typeOfCareId,
             cityState: requestBody.cityState,
-            useFlatFacilityPage: selectUseFlatFacilityPage(state),
           };
         }
         captureError(error, true, 'Request submission failure', extraData);

@@ -79,6 +79,7 @@ dl.review {
     margin-inline-start: 0; /* override user agent */
     text-align: left;
     margin: 3rem 3.5rem 0 5rem;
+    width: 100%;
   }
 
   dd.widget-content.widget-edit {
@@ -123,7 +124,7 @@ dl.review {
  * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
  */
  _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
-  width: calc(100% - 125px); /* 125px ~= width of the edit button x2 */
+  width: calc(100% - 175px); /* 175px ~= width of the edit button x2.5 */
 }
 /* IE11 fix legend not wrapping on small screens */
 legend.schemaform-block-title {

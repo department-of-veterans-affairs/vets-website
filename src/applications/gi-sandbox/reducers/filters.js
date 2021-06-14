@@ -1,17 +1,18 @@
 import { INSTITUTION_FILTERS_CHANGED } from '../actions';
 
 const INITIAL_STATE = Object.freeze({
+  expanded: false,
   accredited: false,
   excludeCautionFlags: false,
   country: 'ALL',
   employers: true,
   hbcu: false,
-  isRelaffil: false,
+  relaffil: false,
   preferredProvider: false,
   schools: true,
   singleGenderSchool: false,
   state: 'ALL',
-  studentVeteranGroup: false,
+  studentVeteran: false,
   type: 'ALL',
   yellowRibbonScholarship: false,
   vettec: true,

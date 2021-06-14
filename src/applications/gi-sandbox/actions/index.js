@@ -11,6 +11,7 @@ import mapboxClient from '../components/MapboxClient';
 
 const mbxClient = mbxGeo(mapboxClient);
 
+export const ADD_COMPARE_INSTITUTION = 'ADD_COMPARE_INSTITUTION';
 export const AUTOCOMPLETE_STARTED = 'AUTOCOMPLETE_STARTED';
 export const AUTOCOMPLETE_FAILED = 'AUTOCOMPLETE_FAILED';
 export const BENEFICIARY_ZIP_CODE_CHANGED = 'BENEFICIARY_ZIP_CODE_CHANGED';
@@ -36,18 +37,22 @@ export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const LOCATION_AUTOCOMPLETE_SUCCEEDED =
   'LOCATION_AUTOCOMPLETE_SUCCEEDED';
 export const NAME_AUTOCOMPLETE_SUCCEEDED = 'NAME_AUTOCOMPLETE_SUCCEEDED';
+export const REMOVE_COMPARE_INSTITUTION = 'REMOVE_COMPARE_INSTITUTION';
 export const SEARCH_BY_FACILITY_CODES_SUCCEEDED =
   'SEARCH_BY_FACILITY_CODES_SUCCEEDED';
 export const SEARCH_BY_NAME_SUCCEEDED = 'SEARCH_BY_NAME_SUCCEEDED';
 export const SEARCH_BY_LOCATION_SUCCEEDED = 'SEARCH_BY_LOCATION_SUCCEEDED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
+export const FETCH_COMPARE_FAILED = 'FETCH_COMPARE_FAILED';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
 export const UPDATE_AUTOCOMPLETE_NAME = 'UPDATE_AUTOCOMPLETE_NAME';
 export const UPDATE_AUTOCOMPLETE_LOCATION = 'UPDATE_AUTOCOMPLETE_LOCATION';
+export const UPDATE_COMPARE_DETAILS = 'UPDATE_COMPARE_DETAILS';
 export const UPDATE_CURRENT_SEARCH_TAB = 'UPDATE_CURRENT_TAB';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
+export const UPDATE_QUERY_PARAMS = 'UPDATE_QUERY_PARAMS';
 
 export function enterPreviewMode(version) {
   return {
@@ -414,28 +419,7 @@ export function fetchSearchByLocationResults(
   };
 }
 
-export function updateFiltersAndDoNameSearch(name, filters, version) {
-  return dispatch => {
-    dispatch(institutionFilterChange(filters));
-    dispatch(fetchSearchByNameResults(name, filters, version));
-  };
-}
-
-export function updateFiltersAndDoLocationSearch(
-  location,
-  distance,
-  filters,
-  version,
-) {
-  return dispatch => {
-    dispatch(institutionFilterChange(filters));
-    dispatch(
-      fetchSearchByLocationResults(location, distance, filters, version),
-    );
-  };
-}
-
-export function fetchSearchByFacilityCodes(facilityCodes, filters, version) {
+export function fetchCompareDetails(facilityCodes, filters, version) {
   const params = rubyifyKeys({
     facilityCodes,
     ...buildSearchFilters(filters),
@@ -446,27 +430,42 @@ export function fetchSearchByFacilityCodes(facilityCodes, filters, version) {
   const url = appendQuery(`${api.url}/institutions/search`, params);
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED, payload: { name } });
-
     return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
           return res.json();
         }
-
         throw new Error(res.statusText);
       })
       .then(payload => {
         dispatch({
-          type: SEARCH_BY_FACILITY_CODES_SUCCEEDED,
-          payload,
+          type: UPDATE_COMPARE_DETAILS,
+          payload: payload.data,
         });
       })
       .catch(err => {
         dispatch({
-          type: SEARCH_FAILED,
+          type: FETCH_COMPARE_FAILED,
           payload: err.message,
         });
       });
+  };
+}
+
+export function addCompareInstitution(institution) {
+  return dispatch => {
+    dispatch({ type: ADD_COMPARE_INSTITUTION, payload: institution });
+  };
+}
+
+export function removeCompareInstitution(facilityCode) {
+  return dispatch => {
+    dispatch({ type: REMOVE_COMPARE_INSTITUTION, payload: facilityCode });
+  };
+}
+
+export function updateQueryParams(queryParams) {
+  return dispatch => {
+    dispatch({ type: UPDATE_QUERY_PARAMS, payload: queryParams });
   };
 }

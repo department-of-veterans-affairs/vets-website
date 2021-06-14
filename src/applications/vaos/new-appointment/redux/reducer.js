@@ -74,7 +74,10 @@ import {
 
 import { getTypeOfCare } from './selectors';
 import { distanceBetween } from '../../utils/address';
-import { getSiteIdFromFacilityId } from '../../services/location';
+import {
+  getSiteIdFromFacilityId,
+  isTypeOfCareSupported,
+} from '../../services/location';
 import { getClinicId } from '../../services/healthcare-service';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
@@ -328,6 +331,7 @@ export default function formReducer(state = initialState, action) {
       let facilities = action.facilities;
       const typeOfCareId = action.typeOfCareId;
       const address = action.address;
+      const cernerSiteIds = action.cernerSiteIds;
       const hasResidentialCoordinates =
         !!action.address?.latitude && !!action.address?.longitude;
       const sortMethod = hasResidentialCoordinates
@@ -355,10 +359,8 @@ export default function formReducer(state = initialState, action) {
           .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
       }
 
-      const typeOfCareFacilities = facilities.filter(
-        facility =>
-          facility.legacyVAR.settings[typeOfCareId]?.direct.enabled ||
-          facility.legacyVAR.settings[typeOfCareId]?.request.enabled,
+      const typeOfCareFacilities = facilities.filter(facility =>
+        isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
 
       if (typeOfCareFacilities.length === 1) {
@@ -436,6 +438,7 @@ export default function formReducer(state = initialState, action) {
       const typeOfCareId = getTypeOfCare(formData).id;
       const sortMethod = action.sortMethod;
       const location = action.location;
+      const cernerSiteIds = action.cernerSiteIds;
       let facilities = state.facilities[typeOfCareId];
       let newSchema = state.pages.vaFacilityV2;
       let requestLocationStatus = state.requestLocationStatus;
@@ -474,10 +477,8 @@ export default function formReducer(state = initialState, action) {
         );
       }
 
-      const typeOfCareFacilities = facilities.filter(
-        facility =>
-          facility.legacyVAR.settings[typeOfCareId]?.direct.enabled ||
-          facility.legacyVAR.settings[typeOfCareId]?.request.enabled,
+      const typeOfCareFacilities = facilities.filter(facility =>
+        isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
       newSchema = set(
         'properties.vaFacility',
@@ -1004,8 +1005,7 @@ export default function formReducer(state = initialState, action) {
           initialSchema,
         );
         initialSchema.properties.communityCareSystemId.enumNames = state.ccEnabledSystems.map(
-          system =>
-            `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
+          system => `${system.address?.city}, ${system.address?.state}`,
         );
         initialSchema.required.push('communityCareSystemId');
       }
@@ -1049,8 +1049,7 @@ export default function formReducer(state = initialState, action) {
           initialSchema,
         );
         initialSchema.properties.communityCareSystemId.enumNames = state.ccEnabledSystems.map(
-          system =>
-            `${system.address?.[0]?.city}, ${system.address?.[0]?.state}`,
+          system => `${system.address?.city}, ${system.address?.state}`,
         );
         initialSchema.required = ['communityCareSystemId'];
       }

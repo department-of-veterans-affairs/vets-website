@@ -11,8 +11,9 @@ import {
   isEmptyObject,
   setInitialEditMode,
   issuesNeedUpdating,
-  copyAreaOfDisagreementOptions,
+  sortContestableIssues,
 } from '../../utils/helpers';
+import { getDate } from '../../utils/dates';
 
 describe('someSelected', () => {
   it('should return true for issues that have some selected values', () => {
@@ -173,11 +174,12 @@ describe('isEmptyObject', () => {
 });
 
 describe('setInitialEditMode', () => {
+  const validDate = getDate({ offset: { months: -2 } });
   it('should set edit mode when missing data', () => {
     [
       [{}],
       [{ issue: 'test' }],
-      [{ decisionDate: '2000-01-01' }],
+      [{ decisionDate: validDate }],
       [{ issue: '', decisionDate: '' }],
       [{ issue: undefined, decisionDate: undefined }],
     ].forEach(test => {
@@ -185,19 +187,34 @@ describe('setInitialEditMode', () => {
     });
     expect(
       setInitialEditMode([
-        { issue: '', decisionDate: '2000-01-01' },
+        { issue: '', decisionDate: validDate },
         { issue: 'test', decisionDate: '' },
       ]),
     ).to.deep.equal([true, true]);
   });
+  it('should set edit mode when there is an invalid date', () => {
+    [
+      [{ issue: 'test', decisionDate: getDate({ offset: { months: 1 } }) }],
+      [{ issue: 'test', decisionDate: '1899-01-01' }],
+      [{ issue: 'test', decisionDate: '2000-01-01' }],
+    ].forEach(test => {
+      expect(setInitialEditMode(test)).to.deep.equal([true]);
+    });
+    expect(
+      setInitialEditMode([
+        { issue: 'test', decisionDate: validDate },
+        { issue: 'test', decisionDate: '2000-01-01' },
+      ]),
+    ).to.deep.equal([false, true]);
+  });
   it('should not set edit mode when data exists', () => {
     expect(
-      setInitialEditMode([{ issue: 'test', decisionDate: '2000-01-01' }]),
+      setInitialEditMode([{ issue: 'test', decisionDate: validDate }]),
     ).to.deep.equal([false]);
     expect(
       setInitialEditMode([
-        { issue: 'test', decisionDate: '2000-01-01' },
-        { issue: 'test2', decisionDate: '2000-01-02' },
+        { issue: 'test', decisionDate: validDate },
+        { issue: 'test2', decisionDate: getDate({ offset: { months: -10 } }) },
       ]),
     ).to.deep.equal([false, false]);
   });
@@ -238,53 +255,34 @@ describe('issuesNeedUpdating', () => {
   });
 });
 
-describe('copyAreaOfDisagreementOptions', () => {
-  it('should return original issues only', () => {
-    const result = [
-      { issue: 'test' },
-      { attributes: { ratingIssueSubjectText: 'test2' } },
-    ];
-    expect(copyAreaOfDisagreementOptions(result, [])).to.deep.equal(result);
-  });
-  it('should return additional issue with included options', () => {
-    const newIssues = [
-      { issue: 'test' },
-      { attributes: { ratingIssueSubjectText: 'test2' } },
-    ];
-    const existingIssues = [
-      { issue: 'test', disagreementOptions: { test: true } },
-    ];
-    const result = [
-      { issue: 'test', disagreementOptions: { test: true }, otherEntry: '' },
-      { attributes: { ratingIssueSubjectText: 'test2' } },
-    ];
-    expect(
-      copyAreaOfDisagreementOptions(newIssues, existingIssues),
-    ).to.deep.equal(result);
-  });
-  it('should return eligible issues with included options', () => {
-    const newIssues = [
-      { issue: 'test' },
-      { attributes: { ratingIssueSubjectText: 'test2' } },
-    ];
-    const existingIssues = [
-      {
-        attributes: { ratingIssueSubjectText: 'test2' },
-        disagreementOptions: { test: true },
-        otherEntry: 'ok',
-      },
-    ];
-    expect(
-      copyAreaOfDisagreementOptions(newIssues, existingIssues),
-    ).to.deep.equal([newIssues[0], existingIssues[0]]);
-  });
+describe('sortContestableIssues', () => {
+  const getIssues = dates =>
+    dates.map(date => ({
+      attributes: { approxDecisionDate: date },
+    }));
+  const getDates = dates =>
+    dates.map(date => date.attributes.approxDecisionDate);
 
-  it('should return disagreement options & other entry', () => {
-    const result = [
-      { issue: 'test', disagreementOptions: { test: true }, otherEntry: 'ok' },
-    ];
-    expect(
-      copyAreaOfDisagreementOptions([{ issue: 'test' }], result),
-    ).to.deep.equal(result);
+  it('should return an empty array with undefined issues', () => {
+    expect(getDates(sortContestableIssues())).to.deep.equal([]);
+  });
+  it('should sort issues spanning months with newest date first', () => {
+    const dates = ['2020-02-01', '2020-03-01', '2020-01-01'];
+    const result = sortContestableIssues(getIssues(dates));
+    expect(getDates(result)).to.deep.equal([
+      '2020-03-01',
+      '2020-02-01',
+      '2020-01-01',
+    ]);
+  });
+  it('should sort issues spanning a year & months with newest date first', () => {
+    const dates = ['2021-01-31', '2020-12-01', '2021-02-02', '2021-02-01'];
+    const result = sortContestableIssues(getIssues(dates));
+    expect(getDates(result)).to.deep.equal([
+      '2021-02-02',
+      '2021-02-01',
+      '2021-01-31',
+      '2020-12-01',
+    ]);
   });
 });

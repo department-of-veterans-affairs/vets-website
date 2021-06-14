@@ -8,9 +8,7 @@ import {
 import {
   getAvailableHealthcareServices,
   getSupportedHealthcareServicesAndLocations,
-  findCharacteristic,
 } from '../../../services/healthcare-service';
-import { transformAvailableClinics } from '../../../services/healthcare-service/transformers';
 import clinicList983 from '../../../services/mocks/var/clinicList983.json';
 
 describe('VAOS Healthcare service', () => {
@@ -45,46 +43,34 @@ describe('VAOS Healthcare service', () => {
       expect(data[3].serviceName).to.equal('Green Team Clinic2');
     });
 
-    it('should set identifier', async () => {
+    it('should set an id', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
 
-      expect(data[0].identifier[0].value).to.equal(
-        'urn:va:healthcareservice:983:983:455',
-      );
+      expect(data[0].id).to.equal('983_455');
     });
 
-    it('should set providedBy', async () => {
+    it('should set stationId to the id of the VA facility where the clinic is located', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
 
-      expect(data[2].providedBy).to.equal('Organization/983');
+      expect(data[0].stationId).to.equal('983');
     });
 
-    it('should set location', async () => {
+    it('should set stationName to the name of the VA facility where the clinic is located', async () => {
       const data = await getAvailableHealthcareServices({
         facilityId: '983',
         typeOfCareId: '123',
         systemId: '456',
       });
 
-      expect(data[2].location.reference).to.equal('Location/983');
-    });
-
-    it('should set serviceType', async () => {
-      const data = await getAvailableHealthcareServices({
-        facilityId: '983',
-        typeOfCareId: '123',
-        systemId: '456',
-      });
-
-      expect(data[2].serviceType[0].type.coding.code).to.equal('123');
+      expect(data[0].stationName).to.equal('CHYSHR-Cheyenne VA Medical Center');
     });
 
     it('should set service name to clinic name', async () => {
@@ -163,72 +149,6 @@ describe('VAOS Healthcare service', () => {
         '/v0/systems/983/direct_scheduling_facilities?type_of_care_id=123&parent_code=983GC',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
-    });
-  });
-  describe('findCharacteristic', () => {
-    const facilityId = '983';
-    const typeOfCareId = '323';
-    const clinics = [
-      {
-        id: '983',
-        siteCode: '983',
-        clinicId: '308',
-        clinicName: 'CHY PC KILPATRICK',
-        clinicFriendlyLocationName: 'Green Team Clinic1',
-        primaryStopCode: '323',
-        secondaryStopCode: '',
-        directSchedulingFlag: 'Y',
-        displayToPatientFlag: 'Y',
-        institutionName: 'CHYSHR-Cheyenne VA Medical Center',
-        institutionCode: '983',
-        objectType: 'CdwClinic',
-        link: [],
-      },
-      {
-        id: '983',
-        siteCode: '983',
-        clinicId: '455',
-        clinicName: 'CHY PC CASSIDY',
-        clinicFriendlyLocationName: '',
-        primaryStopCode: '323',
-        secondaryStopCode: '',
-        directSchedulingFlag: 'Y',
-        displayToPatientFlag: 'Y',
-        institutionName: 'CHYSHR-Cheyenne VA Medical Center',
-        institutionCode: '983',
-        objectType: 'CdwClinic',
-        link: [],
-      },
-    ];
-    const clinic = transformAvailableClinics(
-      facilityId,
-      typeOfCareId,
-      clinics,
-    )[0];
-
-    it('should find the "directSchedulingFlag" characteristic of a clinic', () => {
-      const result = findCharacteristic(clinic, 'directSchedulingFlag');
-      expect(result).to.equal('Y');
-    });
-
-    it('should find the "displayToPatientFlag" characteristic of a clinic', () => {
-      const result = findCharacteristic(clinic, 'displayToPatientFlag');
-      expect(result).to.equal('Y');
-    });
-
-    it('should find the "institutionCode" characteristic of a clinic', () => {
-      const result = findCharacteristic(clinic, 'institutionCode');
-      expect(result).to.equal('983');
-    });
-
-    it('should find the "institutionName" characteristic of a clinic', () => {
-      const result = findCharacteristic(clinic, 'institutionName');
-      expect(result).to.equal('CHYSHR-Cheyenne VA Medical Center');
-    });
-
-    it('should find the "clinicFriendlyLocationName" characteristic of a clinic', () => {
-      const result = findCharacteristic(clinic, 'clinicFriendlyLocationName');
-      expect(result).to.equal('Green Team Clinic1');
     });
   });
 });

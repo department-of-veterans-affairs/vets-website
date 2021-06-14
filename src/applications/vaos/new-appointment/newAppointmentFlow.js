@@ -1,5 +1,5 @@
 import {
-  selectUseFlatFacilityPage,
+  selectRegisteredCernerFacilityIds,
   selectUseProviderSelection,
 } from '../redux/selectors';
 import {
@@ -9,8 +9,17 @@ import {
   getTypeOfCare,
   selectEligibility,
 } from './redux/selectors';
-import { FACILITY_TYPES, FLOW_TYPES, TYPES_OF_CARE } from '../utils/constants';
-import { getSiteIdFromFacilityId } from '../services/location';
+import {
+  FACILITY_TYPES,
+  FLOW_TYPES,
+  GA_PREFIX,
+  TYPES_OF_CARE,
+  COVID_VACCINE_ID,
+} from '../utils/constants';
+import {
+  getSiteIdFromFacilityId,
+  isCernerLocation,
+} from '../services/location';
 import {
   checkEligibility,
   showEligibilityModal,
@@ -20,12 +29,13 @@ import {
   updateFacilityType,
   checkCommunityCareEligibility,
 } from './redux/actions';
+import recordEvent from 'platform/monitoring/record-event';
+import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
 const AUDIOLOGY = '203';
 const SLEEP_CARE = 'SLEEP';
 const EYE_CARE = 'EYE';
 const PODIATRY = 'tbd-podiatry';
-const VA_FACILITY_V1_KEY = 'vaFacility';
 const VA_FACILITY_V2_KEY = 'vaFacilityV2';
 
 function isCCAudiology(state) {
@@ -58,34 +68,32 @@ function isPodiatry(state) {
   return getFormData(state).typeOfCareId === PODIATRY;
 }
 
-function getFacilityPageKey(state) {
-  return selectUseFlatFacilityPage(state)
-    ? VA_FACILITY_V2_KEY
-    : VA_FACILITY_V1_KEY;
+function isCovidVaccine(state) {
+  return getFormData(state).typeOfCareId === COVID_VACCINE_ID;
 }
 
 async function vaFacilityNext(state, dispatch) {
   let eligibility = selectEligibility(state);
 
-  if (selectUseFlatFacilityPage(state)) {
-    // Fetch eligibility if we haven't already
-    if (!eligibility) {
-      const location = getChosenFacilityInfo(state);
-      const siteId = getSiteIdFromFacilityId(location.id);
+  const location = getChosenFacilityInfo(state);
+  const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
+  const isCerner = isCernerLocation(location?.id, cernerSiteIds);
 
-      eligibility = await dispatch(
-        checkEligibility({
-          location,
-          siteId,
-          showModal: true,
-        }),
-      );
-    }
+  if (isCerner) {
+    return 'scheduleCerner';
+  }
 
-    if (!eligibility.direct && !eligibility.request) {
-      dispatch(showEligibilityModal());
-      return VA_FACILITY_V2_KEY;
-    }
+  // Fetch eligibility if we haven't already
+  if (!eligibility) {
+    const siteId = getSiteIdFromFacilityId(location.id);
+
+    eligibility = await dispatch(
+      checkEligibility({
+        location,
+        siteId,
+        showModal: true,
+      }),
+    );
   }
 
   if (eligibility.direct) {
@@ -98,7 +106,8 @@ async function vaFacilityNext(state, dispatch) {
     return 'requestDateTime';
   }
 
-  throw new Error('Veteran not eligible for direct scheduling or requests');
+  dispatch(showEligibilityModal());
+  return VA_FACILITY_V2_KEY;
 }
 
 export default {
@@ -111,10 +120,19 @@ export default {
     // Next will direct to type of care or provider once both flows are complete
     next: 'typeOfFacility',
   },
+  vaccineFlow: {
+    url: '/new-covid-19-vaccine-appointment',
+  },
   typeOfCare: {
     url: '/new-appointment',
     async next(state, dispatch) {
-      if (isSleepCare(state)) {
+      if (isCovidVaccine(state)) {
+        recordEvent({
+          event: `${GA_PREFIX}-schedule-covid19-button-clicked`,
+        });
+        dispatch(startNewVaccineFlow());
+        return 'vaccineFlow';
+      } else if (isSleepCare(state)) {
         dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
         return 'typeOfSleepCare';
       } else if (isEyeCare(state)) {
@@ -137,7 +155,7 @@ export default {
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return getFacilityPageKey(state);
+      return VA_FACILITY_V2_KEY;
     },
   },
   typeOfFacility: {
@@ -152,12 +170,12 @@ export default {
         return 'requestDateTime';
       }
 
-      return getFacilityPageKey(state);
+      return VA_FACILITY_V2_KEY;
     },
   },
   typeOfSleepCare: {
     url: '/new-appointment/choose-sleep-care',
-    next: getFacilityPageKey,
+    next: VA_FACILITY_V2_KEY,
   },
   typeOfEyeCare: {
     url: '/new-appointment/choose-eye-care',
@@ -174,7 +192,7 @@ export default {
       }
 
       dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
-      return getFacilityPageKey(state);
+      return VA_FACILITY_V2_KEY;
     },
   },
   audiologyCareType: {
@@ -205,6 +223,9 @@ export default {
   vaFacilityV2: {
     url: '/new-appointment/va-facility-2',
     next: vaFacilityNext,
+  },
+  scheduleCerner: {
+    url: '/new-appointment/how-to-schedule',
   },
   clinicChoice: {
     url: '/new-appointment/clinics',

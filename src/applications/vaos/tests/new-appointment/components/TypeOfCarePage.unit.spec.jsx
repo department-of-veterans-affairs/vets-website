@@ -44,7 +44,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect((await screen.findAllByRole('radio')).length).to.equal(11);
+    expect((await screen.findAllByRole('radio')).length).to.equal(12);
 
     // Verify alert is shown
     expect(
@@ -129,7 +129,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect((await screen.findAllByRole('radio')).length).to.equal(10);
+    expect((await screen.findAllByRole('radio')).length).to.equal(11);
   });
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
     const store = createTestStore(initialState);
@@ -353,5 +353,25 @@ describe('VAOS <TypeOfCarePage>', () => {
         name: /You may have trouble using the VA appointments tool right now/,
       }),
     ).to.exist;
+  });
+
+  it('should include vaccine type of care when flag is on', async () => {
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        vaOnlineSchedulingCommunityCare: true,
+      },
+    });
+    const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
+
+    expect((await screen.findAllByRole('radio')).length).to.equal(12);
+    fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
+
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/new-covid-19-vaccine-appointment',
+      ),
+    );
   });
 });

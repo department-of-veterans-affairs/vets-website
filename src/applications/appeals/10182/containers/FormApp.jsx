@@ -11,8 +11,10 @@ import {
   issuesNeedUpdating,
   getSelected,
   getIssueName,
-  copyAreaOfDisagreementOptions,
+  sortContestableIssues,
 } from '../utils/helpers';
+
+import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 
 import { showWorkInProgress } from '../content/WorkInProgressMessage';
 
@@ -29,8 +31,9 @@ export const FormApp = ({
   getContestableIssues,
   contestableIssues = {},
 }) => {
-  const { email = {}, homePhone = {}, mailingAddress = {} } =
+  const { email = {}, mobilePhone = {}, homePhone = {}, mailingAddress = {} } =
     profile?.vapContactInfo || {};
+  const phone = mobilePhone?.phoneNumber ? mobilePhone : homePhone;
 
   // Update profile data changes in the form data dynamically
   useEffect(
@@ -42,7 +45,7 @@ export const FormApp = ({
           getContestableIssues();
         } else if (
           email?.emailAddress !== veteran.email ||
-          homePhone?.updatedAt !== veteran.phone?.updatedAt ||
+          phone?.updatedAt !== veteran.phone?.updatedAt ||
           mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
           issuesNeedUpdating(
             contestableIssues?.issues,
@@ -54,10 +57,10 @@ export const FormApp = ({
             veteran: {
               ...veteran,
               address: mailingAddress,
-              phone: homePhone,
+              phone,
               email: email?.emailAddress,
             },
-            contestableIssues: contestableIssues?.issues || [],
+            contestableIssues: sortContestableIssues(contestableIssues?.issues),
           });
         } else if (
           areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
@@ -82,7 +85,7 @@ export const FormApp = ({
       showNod,
       loggedIn,
       email,
-      homePhone,
+      phone,
       mailingAddress,
       formData,
       setFormData,

@@ -32,74 +32,54 @@ export default function VideoVisitLocation({ appointment, facility }) {
   });
 
   const showVideoInstructions =
-    appointment.vaos.isVideo &&
-    appointment.comment &&
-    kind !== VIDEO_TYPES.clinic &&
-    kind !== VIDEO_TYPES.gfe;
-
-  if (appointment.vaos.isPastAppointment && kind === VIDEO_TYPES.clinic) {
-    return (
-      <VAFacilityLocation
-        facility={facility}
-        facilityId={appointment.videoData.facilityId}
-      />
-    );
-  }
-
-  if (appointment.vaos.isPastAppointment) {
-    return <span>Video conference</span>;
-  }
+    !!appointment.comment &&
+    (isHome || isAtlas) &&
+    !appointment.vaos.isPastAppointment;
 
   return (
     <>
-      <div>
-        <VideoLink appointment={appointment} hasFacility={!!facility} />
-        {isHome && (
-          <>
-            <div className="vads-u-margin-top--2">
-              <VideoVisitProvider providers={providers} />
-            </div>
-            {showVideoInstructions && (
-              <div className="vads-u-margin-top--2">
-                <AdditionalInfo
-                  onClick={() => setShowMoreOpen(!showMoreOpen)}
-                  triggerText="Prepare for video visit"
-                >
-                  <VideoVisitInstructions
-                    instructionsType={appointment.comment}
-                  />
-                </AdditionalInfo>
-              </div>
-            )}
-          </>
-        )}
-        {kind === VIDEO_TYPES.gfe && (
-          <div className="vads-u-margin-top--2">
-            <VideoVisitProvider providers={providers} />
-          </div>
-        )}
-        {isAtlas && (
-          <>
-            <div className="vads-u-margin-top--2">
-              <AtlasLocation appointment={appointment} />
-            </div>
-            <div className="vads-u-margin-top--2">
-              <VideoVisitProvider providers={providers} />
-            </div>
-          </>
-        )}
-        {kind === VIDEO_TYPES.clinic &&
-          !isAtlas && (
-            <div className="vads-u-margin-top--2">
-              <VAFacilityLocation
-                facility={facility}
-                facilityId={appointment.location.stationId}
-                clinicFriendlyName={appointment.location.clinicName}
-                isHomepageRefresh
-              />
-            </div>
-          )}
-
+      <VideoLink
+        appointment={appointment}
+        hasFacility={!!facility}
+        isPast={appointment.vaos.isPastAppointment}
+      />
+      {isAtlas && (
+        <div className="vads-u-margin-top--2">
+          <AtlasLocation
+            appointment={appointment}
+            isPast={appointment.vaos.isPastAppointment}
+          />
+        </div>
+      )}
+      {providers?.length > 0 && (
+        <div className="vads-u-margin-top--2">
+          <VideoVisitProvider
+            providers={providers}
+            isPast={appointment.vaos.isPastAppointment}
+          />
+        </div>
+      )}
+      {showVideoInstructions && (
+        <div className="vads-u-margin-top--2">
+          <AdditionalInfo
+            onClick={() => setShowMoreOpen(!showMoreOpen)}
+            triggerText="Prepare for video visit"
+          >
+            <VideoVisitInstructions instructionsType={appointment.comment} />
+          </AdditionalInfo>
+        </div>
+      )}
+      {kind === VIDEO_TYPES.clinic && (
+        <div className="vads-u-margin-top--2">
+          <VAFacilityLocation
+            facility={facility}
+            facilityId={appointment.location.stationId}
+            clinicFriendlyName={appointment.location.clinicName}
+            isHomepageRefresh
+          />
+        </div>
+      )}
+      {!appointment.vaos.isPastAppointment && (
         <div className="vads-u-margin-top--3 vaos-appts__block-label vaos-hide-for-print">
           <i
             aria-hidden="true"
@@ -118,16 +98,14 @@ export default function VideoVisitLocation({ appointment, facility }) {
             startDateTime={moment.parseZone(appointment.start)}
           />
         </div>
-
-        <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-          <i
-            aria-hidden="true"
-            className="fas fa-print vads-u-margin-right--1"
-          />
-          <button className="va-button-link" onClick={() => window.print()}>
-            Print
-          </button>
-        </div>
+      )}
+      <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
+        <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
+        <button className="va-button-link" onClick={() => window.print()}>
+          Print
+        </button>
+      </div>
+      {!appointment.vaos.isPastAppointment && (
         <AlertBox
           status={ALERT_TYPE.INFO}
           className="vads-u-display--block"
@@ -151,7 +129,7 @@ export default function VideoVisitLocation({ appointment, facility }) {
             </span>
           )}
         </AlertBox>
-      </div>
+      )}
     </>
   );
 }

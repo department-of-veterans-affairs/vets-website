@@ -8,6 +8,7 @@ export const uiSchema = {
   householdIncome: {
     'ui:options': {
       hideIf: () => environment.isProduction(),
+      hideOnReview: () => environment.isProduction(),
     },
     'ui:title': netWorthCalculation,
     'ui:description': netWorthTitle,

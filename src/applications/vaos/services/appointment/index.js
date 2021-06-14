@@ -14,7 +14,7 @@ import {
   updateAppointment,
   updateRequest,
 } from '../var';
-import { postAppointment } from '../vaos';
+import { getAppointment, getAppointments, postAppointment } from '../vaos';
 import {
   transformConfirmedAppointment,
   transformConfirmedAppointments,
@@ -29,10 +29,21 @@ import {
   GA_PREFIX,
 } from '../../utils/constants';
 import { formatFacilityAddress, getFacilityPhone } from '../location';
-import { transformVAOSAppointment } from './transformers.vaos';
+import {
+  transformVAOSAppointment,
+  transformVAOSAppointments,
+} from './transformers.v2';
 import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
+import {
+  getTimezoneAbbrBySystemId,
+  getTimezoneBySystemId,
+  getTimezoneNameFromAbbr,
+  getUserTimezone,
+  getUserTimezoneAbbr,
+  stripDST,
+} from '../../utils/timezone';
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
@@ -144,8 +155,20 @@ export async function getBookedAppointments({ startDate, endDate }) {
  * @param {String} endDate Date in YYYY-MM-DD format
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
-export async function getAppointmentRequests({ startDate, endDate }) {
+export async function getAppointmentRequests({
+  startDate,
+  endDate,
+  useV2 = false,
+}) {
   try {
+    if (useV2) {
+      const appointments = await getAppointments(startDate, endDate, [
+        'proposed',
+      ]);
+
+      return transformVAOSAppointments(appointments);
+    }
+
     const appointments = await getPendingAppointments(startDate, endDate);
 
     return transformPendingAppointments(appointments);
@@ -166,8 +189,14 @@ export async function getAppointmentRequests({ startDate, endDate }) {
  * @param {string} id Appointment request id
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById(id) {
+export async function fetchRequestById({ id, useV2 }) {
   try {
+    if (useV2) {
+      const appointment = await getAppointment(id);
+
+      return transformVAOSAppointment(appointment);
+    }
+
     const appointment = await getPendingAppointment(id);
 
     return transformPendingAppointment(appointment);
@@ -815,4 +844,51 @@ export function getCalendarData({ appointment, facility }) {
   }
 
   return data;
+}
+
+/**
+ * Returns an object with timezone identifiers for a given appointment
+ *
+ * @export
+ * @param {Appointment} appointment The appointment to get a timezone for
+ * @returns {Object} An object with:
+ *   - identifier: The full timezone identifier (like America/New_York)
+ *   - abbreviation: The timezone abbreviation (e.g. ET)
+ *   - description: The written out description (e.g. Eastern time)
+ */
+export function getAppointmentTimezone(appointment) {
+  // Most VA appointments will use this, since they're associated with a facility
+  if (appointment.location.vistaId) {
+    const abbreviation = getTimezoneAbbrBySystemId(
+      appointment.location.vistaId,
+    );
+
+    return {
+      identifier: getTimezoneBySystemId(appointment.location.vistaId)
+        ?.currentTZ,
+      abbreviation,
+      description: getTimezoneNameFromAbbr(abbreviation),
+    };
+  }
+
+  // Community Care appointments with timezone included
+  if (appointment.vaos.timeZone) {
+    const abbreviation = stripDST(
+      appointment.vaos.timeZone?.split(' ')?.[1] || appointment.vaos.timeZone,
+    );
+
+    return {
+      identifier: null,
+      abbreviation,
+      description: getTimezoneNameFromAbbr(abbreviation),
+    };
+  }
+
+  // Everything else will use the local timezone
+  const abbreviation = stripDST(getUserTimezoneAbbr());
+  return {
+    identifier: getUserTimezone(),
+    abbreviation,
+    description: getTimezoneNameFromAbbr(abbreviation),
+  };
 }

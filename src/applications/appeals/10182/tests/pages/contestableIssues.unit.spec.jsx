@@ -10,12 +10,14 @@ import {
 
 import formConfig from '../../config/form';
 import { SELECTED } from '../../constants';
+import { getDate } from '../../utils/dates';
 
 describe('eligible issues page', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.conditions.pages.contestableIssues;
+  const validDate = getDate({ offset: { months: -2 } });
 
   it('should render', () => {
     const form = mount(
@@ -62,7 +64,7 @@ describe('eligible issues page', () => {
                 ratingIssueSubjectText: 'Tinnitus',
                 description: 'Rinnging in the ears.',
                 ratingIssuePercentNumber: 10,
-                approxDecisionDate: '2020-11-01',
+                approxDecisionDate: validDate,
               },
               [SELECTED]: false,
             },
@@ -72,7 +74,7 @@ describe('eligible issues page', () => {
                 ratingIssueSubjectText: 'Headaches',
                 description: 'Acute chronic head pain',
                 ratingIssuePercentNumber: 50,
-                approxDecisionDate: '2020-11-10',
+                approxDecisionDate: validDate,
               },
             },
           ],
