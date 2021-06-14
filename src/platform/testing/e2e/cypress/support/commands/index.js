@@ -1,5 +1,6 @@
 import './axeCheck';
 import './expandAccordions';
+import './form-helpers';
 import './login';
 import './upload';
 import './injectAxeThenAxeCheck';
