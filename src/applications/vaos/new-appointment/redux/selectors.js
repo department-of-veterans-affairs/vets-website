@@ -20,7 +20,6 @@ import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
   selectUseProviderSelection,
-  selectFeatureCovid19Vaccine,
   selectRegisteredCernerFacilityIds,
 } from '../../redux/selectors';
 
@@ -353,7 +352,6 @@ export function selectTypeOfCarePage(state) {
     pageChangeInProgress: selectPageChangeInProgress(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
-    featureCovid19Vaccine: selectFeatureCovid19Vaccine(state),
     showPodiatryApptUnavailableModal:
       newAppointment.showPodiatryAppointmentUnavailableModal,
   };

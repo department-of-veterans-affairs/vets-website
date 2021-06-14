@@ -34,8 +34,6 @@ export const selectFeatureDirectScheduling = state =>
 export const selectFeatureExpressCareNewRequest = state =>
   toggleValues(state).vaOnlineSchedulingExpressCareNew;
 export const selectFeatureToggleLoading = state => toggleValues(state).loading;
-export const selectFeatureCovid19Vaccine = state =>
-  toggleValues(state).vaOnlineSchedulingCheetah;
 // Use flat facility page for non Cerner patients
 export const selectUseFlatFacilityPage = state => !selectIsCernerPatient(state);
 

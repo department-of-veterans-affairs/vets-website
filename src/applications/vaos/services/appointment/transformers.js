@@ -324,8 +324,9 @@ function getCommunityCareData(appt) {
     preferredCommunityCareProviders: appt.ccAppointmentRequest?.preferredProviders?.map(
       provider => {
         return {
-          providerName: `${provider.firstName || ''} ${provider.lastName ||
-            ''}`,
+          providerName:
+            provider.lastName &&
+            `${provider.firstName || ''} ${provider.lastName || ''}`,
           firstName: provider.firstName,
           lastName: provider.lastName,
           practiceName: provider.practiceName,

@@ -15,6 +15,7 @@ import {
   getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
   getCommunityCareFacilities,
+  getCommunityCareFacility,
   getParentFacilities,
   getSitesSupportingVAR,
 } from '../var';
@@ -24,6 +25,7 @@ import {
   transformFacilities,
   transformFacility,
   setSupportedSchedulingMethods,
+  transformCommunityProvider,
   transformCommunityProviders,
   transformSettings,
   transformParentFacilities,
@@ -298,6 +300,29 @@ export async function getCommunityProvidersByTypeOfCare({
     });
 
     return transformCommunityProviders(communityCareProviders);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
+/**
+ * Fetch a single location associated with the given VistA site id that are
+ * marked as VAST parent locations
+ *
+ * @export
+ * @async
+ * @param {string} id VistA site id
+ * @returns {Object<Location>} A FHIR Location resources
+ */
+
+export async function getCommunityProvider(id) {
+  try {
+    const facility = await getCommunityCareFacility(id);
+    return transformCommunityProvider(facility);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
