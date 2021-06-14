@@ -117,32 +117,28 @@ function LocationSearchResults({
   );
 
   const resultCards = results.map((institution, index) => {
-    const { name, city, state, distance } = institution;
+    const { distance } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
     const letter = numberToLetter(index + 1);
 
     const header = (
-      <>
-        <div className="location-header vads-u-display--flex vads-u-padding-top--1">
-          <span className="location-letter vads-u-font-size--sm">{letter}</span>
-          <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
-            <strong>{miles} miles</strong>
-          </span>
-          <span className="vads-u-font-size--sm">{`${city}, ${state}`}</span>
-        </div>
-        <div>
-          <h3 className="vads-u-margin-top--2">{name}</h3>
-        </div>
-      </>
+      <div className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2">
+        <span className="location-letter vads-u-font-size--sm">{letter}</span>
+        <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
+          <strong>{miles} miles</strong>
+        </span>
+      </div>
     );
 
     return (
-      <SearchResultCard
-        institution={institution}
-        key={institution.facilityCode}
-        header={header}
-        location
-      />
+      <>
+        {header}
+        <SearchResultCard
+          institution={institution}
+          key={institution.facilityCode}
+          location
+        />
+      </>
     );
   });
 
