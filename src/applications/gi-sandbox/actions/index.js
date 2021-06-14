@@ -34,6 +34,7 @@ export const FETCH_PROFILE_FAILED = 'FETCH_PROFILE_FAILED';
 export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
+export const GEOCODE_COMPLETE = 'GEOCODE_COMPLETE';
 export const GEOCODE_STARTED = 'GEOCODE_STARTED';
 export const GEOCODE_FAILED = 'GEOCODE_FAILED';
 export const GEOCODE_LOCATION_FAILED = 'GEOCODE_LOCATION_FAILED';
@@ -51,6 +52,7 @@ export const SEARCH_BY_FACILITY_CODES_SUCCEEDED =
 export const SEARCH_BY_NAME_SUCCEEDED = 'SEARCH_BY_NAME_SUCCEEDED';
 export const SEARCH_BY_LOCATION_SUCCEEDED = 'SEARCH_BY_LOCATION_SUCCEEDED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
+export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
 export const FETCH_COMPARE_FAILED = 'FETCH_COMPARE_FAILED';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
@@ -60,8 +62,7 @@ export const UPDATE_COMPARE_DETAILS = 'UPDATE_COMPARE_DETAILS';
 export const UPDATE_CURRENT_SEARCH_TAB = 'UPDATE_CURRENT_TAB';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
-export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
-export const GEOCODE_COMPLETE = 'GEOCODE_COMPLETE';
+
 export const UPDATE_QUERY_PARAMS = 'UPDATE_QUERY_PARAMS';
 
 export function enterPreviewMode(version) {
@@ -471,13 +472,6 @@ export function addCompareInstitution(institution) {
 export function removeCompareInstitution(facilityCode) {
   return dispatch => {
     dispatch({ type: REMOVE_COMPARE_INSTITUTION, payload: facilityCode });
-  };
-}
-
-export function fetchStreetAddress() {
-  return {
-    type: GEOCODE_STREET_ADDRESS,
-    payload: 'test',
   };
 }
 

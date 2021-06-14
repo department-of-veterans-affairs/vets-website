@@ -237,27 +237,17 @@ export const getPosition = () => {
   });
 };
 export const searchCriteraFromCoords = async (longitude, latitude) => {
-  const BOUNDING_RADIUS = 0.75;
   const response = await mbxClient
     .reverseGeocode({
       query: [longitude, latitude],
       types: ['address'],
     })
     .send();
-  // TODO: display error message if geolocation fails?
-  // .catch(error => error);
 
   const features = response.body.features;
   const placeName = features[0].place_name;
-  const coordinates = features[0].center;
 
   return {
-    bounds: features[0].bbox || [
-      coordinates[0] - BOUNDING_RADIUS,
-      coordinates[1] - BOUNDING_RADIUS,
-      coordinates[0] + BOUNDING_RADIUS,
-      coordinates[1] + BOUNDING_RADIUS,
-    ],
     searchString: placeName,
     position: { longitude, latitude },
   };

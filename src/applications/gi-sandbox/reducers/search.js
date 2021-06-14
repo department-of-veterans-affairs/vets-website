@@ -23,11 +23,6 @@ const INITIAL_STATE = {
   geocode: null,
   geocodeInProgress: false,
   geolocationInProgress: false,
-  streetAddress: {
-    bounds: {},
-    searchString: '',
-    position: {},
-  },
   inProgress: false,
   location: {
     count: null,
@@ -73,6 +68,10 @@ const INITIAL_STATE = {
     distance: '50',
     latitude: null,
     longitude: null,
+    streetAddress: {
+      searchString: '',
+      position: {},
+    },
   },
   compare: {
     results: [],
@@ -189,10 +188,11 @@ export default function(state = INITIAL_STATE, action) {
         geocodeResults: action.payload,
         geocodeInProgress: false,
         geolocationInProgress: false,
-        streetAddress: {
-          bounds: { ...action.payload.bounds },
-          searchString: action.payload.searchString,
-          position: { ...action.payload.position },
+        query: {
+          streetAddress: {
+            searchString: action.payload.searchString,
+            position: { ...action.payload.position },
+          },
         },
         error: false,
       };
@@ -220,6 +220,7 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         geolocationInProgress: true,
+        geocodeInProgress: true,
       };
 
     case SEARCH_BY_FACILITY_CODES_SUCCEEDED:

@@ -19,9 +19,9 @@ function LocationSearchResults({
   autocomplete,
   dispatchUpdateEligibilityAndFilters,
 }) {
-  const { inProgress, streetAddress, query } = search;
+  const { inProgress } = search;
   const { count, results } = search.location;
-  const { location } = search.query;
+  const { location, streetAddress } = search.query;
   const map = useRef(null);
   const mapContainer = useRef(null);
   const markers = useRef([]);
@@ -100,57 +100,41 @@ function LocationSearchResults({
     markers.current.push(markerElement);
   };
 
-  const getCurrentLocationCenter = () => {
-    let center = '';
-    if (streetAddress.searchString) {
-      center = new mapboxgl.LngLat(
+  const currentLocationMapMarker = () => {
+    const currentmarkerElement = document.createElement('div');
+    currentmarkerElement.className = 'current-position';
+
+    new mapboxgl.Marker(currentmarkerElement)
+      .setLngLat([
         streetAddress.position.longitude,
         streetAddress.position.latitude,
-      );
-    }
-    return center;
-  };
+      ])
+      .addTo(map.current);
 
-  const getZoomLevel = distance => {
-    if (distance === '5') {
-      return 11;
-    } else if (distance === '25') {
-      return 10;
-    } else if (distance === '50') {
-      return 9;
-    } else {
-      return 8;
-    }
+    markers.current.push(currentmarkerElement);
   };
 
   useEffect(
     () => {
       markers.current.forEach(marker => marker.remove());
-      const currentmarkerElement = document.createElement('div');
-      currentmarkerElement.className = 'current-position';
+
       if (!map.current || results.length === 0) return; // wait for map to initialize
-      if (streetAddress.searchString) {
-        new mapboxgl.Marker(currentmarkerElement)
-          .setLngLat([
-            streetAddress.position.longitude,
-            streetAddress.position.latitude,
-          ])
-          .addTo(map.current);
-      }
+
       const locationBounds = new mapboxgl.LngLatBounds();
       results.forEach((institution, index) => {
         addMapMarker(institution, index, locationBounds);
       });
       if (streetAddress.searchString === autocomplete.location) {
-        map.current.flyTo({
-          center: getCurrentLocationCenter(),
-          zoom: getZoomLevel(query.distance),
-          speed: 1.2,
-          curve: 1,
-          easing(t) {
-            return t;
+        map.current.fitBounds(
+          locationBounds.extend([
+            streetAddress.position.longitude,
+            streetAddress.position.latitude,
+          ]),
+          {
+            padding: 20,
           },
-        });
+        );
+        currentLocationMapMarker();
       } else {
         map.current.fitBounds(locationBounds, {
           padding: 20,

@@ -29,10 +29,6 @@ export function LocationSearchForm({
 
   const { version } = preview;
 
-  const handleGeolocationButtonClick = () => {
-    dispatchGeolocateUser();
-  };
-
   const doSearch = event => {
     event.preventDefault();
     dispatchFetchSearchByLocationResults(
@@ -77,7 +73,7 @@ export function LocationSearchForm({
           </div>
         ) : (
           <button
-            onClick={handleGeolocationButtonClick}
+            onClick={dispatchGeolocateUser}
             className="use-my-location-link"
           >
             <i
