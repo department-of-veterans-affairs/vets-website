@@ -182,7 +182,7 @@ export function SearchResultCard({
   );
 
   const programHours = () => {
-    if (programLengthInHours.length > 0) {
+    if (programLengthInHours && programLengthInHours.length > 0) {
       const maxHours = Math.max(...programLengthInHours);
       const minHours = Math.min(...programLengthInHours);
       return `${
