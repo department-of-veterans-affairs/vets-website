@@ -223,6 +223,16 @@ export const buildSearchFilters = filters => {
   return searchFilters;
 };
 
+export const schoolSize = enrollment => {
+  if (!enrollment) return 'Unknown';
+  if (enrollment <= 2000) {
+    return 'Small';
+  } else if (enrollment <= 15000) {
+    return 'Medium';
+  }
+  return 'Large';
+};
+
 export const updateUrlParams = (
   history,
   tab,

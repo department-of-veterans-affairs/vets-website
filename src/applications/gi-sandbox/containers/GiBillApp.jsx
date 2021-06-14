@@ -64,6 +64,13 @@ export function GiBillApp({
           {constants.error && <ServiceError />}
           {!(constants.error || constants.inProgress) && (
             <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
+              <div className="vads-u-text-align--center vads-u-padding-bottom--6">
+                <h1>GI Bill® Comparison Tool</h1>
+                <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
+                  Use the GI Bill Comparison Tool to see how VA education
+                  benefits can pay for your education.
+                </p>
+              </div>
               {children}
             </DowntimeNotification>
           )}
@@ -84,6 +91,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  dispatchChangeSearchTab: changeSearchTab,
   dispatchEnterPreviewMode: enterPreviewMode,
   dispatchExitPreviewMode: exitPreviewMode,
   dispatchFetchConstants: fetchConstants,
