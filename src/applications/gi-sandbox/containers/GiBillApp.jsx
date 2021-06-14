@@ -91,7 +91,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  dispatchChangeSearchTab: changeSearchTab,
   dispatchEnterPreviewMode: enterPreviewMode,
   dispatchExitPreviewMode: exitPreviewMode,
   dispatchFetchConstants: fetchConstants,
