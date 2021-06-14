@@ -13,7 +13,11 @@ import {
 export const uiSchema = {
   currentEmployment: {
     items: {
-      'ui:title': 'Income for your job at [Employer name]',
+      'ui:title': ({ formData }) => (
+        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+          Income for your job at {formData.employerName}
+        </h3>
+      ),
       monthlyGrossSalary: _.merge(currencyUI('Gross monthly income'), {
         'ui:description': (
           <p className="formfield-subtitle">
