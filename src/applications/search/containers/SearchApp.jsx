@@ -207,11 +207,11 @@ class SearchApp extends React.Component {
 
     // Reusable search input
     const searchInput = (
-      <div className="vads-u-background-color--gray-lightest vads-u-padding-x--2p5 vads-u-padding-bottom--1 vads-u-padding-top--1p5 vads-u-margin-y--1p5">
+      <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4">
         <div>Enter a keyword</div>
         <form
           onSubmit={this.handleSearch}
-          className="va-flex search-box vads-u-margin-top--1"
+          className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0"
           data-e2e-id="search-form"
         >
           <input
@@ -316,7 +316,7 @@ class SearchApp extends React.Component {
           <p
             aria-live="polite"
             aria-relevant="additions text"
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-bottom--0p5 vads-u-margin-top--2p5
+            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-top--2p5 vads-u-margin-bottom--1p5
         "
           >
             No results for "
@@ -406,23 +406,25 @@ class SearchApp extends React.Component {
             url: result.url,
           })}
         >
-          <h5
-            className="vads-u-margin-y--1"
+          <span
+            className="vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
             data-e2e-id="result-title"
             dangerouslySetInnerHTML={{
               __html: strippedTitle,
             }}
           />
         </a>
-        <p className="result-url vads-u-margin-y--0p5 vads-u-color--green vads-u-font-size--base">
+        <p className="result-url vads-u-color--green vads-u-font-size--base">
           {replaceWithStagingDomain(result.url)}
         </p>
         <p
           className="result-desc"
           dangerouslySetInnerHTML={{
-            __html: truncateResponseString(
-              formatResponseString(result[snippetKey]),
-              MAX_DESCRIPTION_LENGTH,
+            __html: formatResponseString(
+              truncateResponseString(
+                result[snippetKey],
+                MAX_DESCRIPTION_LENGTH,
+              ),
             ),
           }}
         />
@@ -434,10 +436,10 @@ class SearchApp extends React.Component {
   render() {
     return (
       <div className="search-app" data-e2e-id="search-app">
-        <SearchBreadcrumbs query={this.props.search.query} />
+        <SearchBreadcrumbs />
         <div className="row">
           <div className="columns">
-            <h2>VA.gov search results</h2>
+            <h2 className="vads-u-font-size--2xl">VA.gov search results</h2>
           </div>
         </div>
         <div className="row">
@@ -454,6 +456,7 @@ class SearchApp extends React.Component {
             <ul>
               <li>
                 <a
+                  className="right-nav-link"
                   href="https://www.index.va.gov/search/va/bva.jsp"
                   onClick={() =>
                     recordEvent({
@@ -468,6 +471,7 @@ class SearchApp extends React.Component {
               </li>
               <li>
                 <a
+                  className="right-nav-link"
                   href="https://www.index.va.gov/search/va/va_adv_search.jsp?SQ=www.benefits.va.gov/warms"
                   onClick={() =>
                     recordEvent({
@@ -482,6 +486,7 @@ class SearchApp extends React.Component {
               </li>
               <li>
                 <a
+                  className="right-nav-link"
                   href="/find-forms/"
                   onClick={() =>
                     recordEvent({
@@ -495,6 +500,7 @@ class SearchApp extends React.Component {
               </li>
               <li>
                 <a
+                  className="right-nav-link"
                   href="https://www.va.gov/vapubs/"
                   onClick={() =>
                     recordEvent({
@@ -509,6 +515,7 @@ class SearchApp extends React.Component {
               </li>
               <li>
                 <a
+                  className="right-nav-link"
                   href="https://www.vacareers.va.gov/job-search/index.asp"
                   onClick={() =>
                     recordEvent({

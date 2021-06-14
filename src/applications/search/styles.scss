@@ -39,39 +39,56 @@
         a.result-title {
           display: block;
           text-decoration: none;
+          color: $color-link-default;
 
           &:visited {
+            span {
             color: $color-purple;
+            }
           }
 
           &:hover {
+            span {
             color: $color-gray-dark;
             background: rgba(0,0,0,.05);
+          }
           }
 
           &:focus ,
           &:active {
+            outline: none;
+            span {
             color: $color-gray-dark;
             background: rgba(0,0,0,.05);
             outline: 2px solid $color-gold-light;
+            }
           }
-
-          h5 {
-            margin-bottom: .1rem;
-            font-size: 1.7rem;
-            font-weight: 700;
-            font-family: "Bitter";
-            text-decoration: underline;
-            color: $color-link-default;
-          }
-
-
         }
 
         p {
           margin: 0;
         }
       }
+    }
+  }
+
+  .right-nav-link {
+    color: $color-link-default;
+
+    &:visited {
+      color: $color-purple;
+    }
+
+    &:hover {
+      color: $color-gray-dark;
+      background: rgba(0,0,0,.05);
+    }
+
+    &:focus ,
+    &:active {
+      color: $color-gray-dark;
+      background: rgba(0,0,0,.05);
+      outline: 2px solid $color-gold-light;
     }
   }
 
