@@ -146,9 +146,7 @@ export function ComparePage({
       <div key={i} className="medium-screen:vads-l-col--3">
         <div className="compare-header empty-header" />
         <div className="compare-action">
-          <Link to={'/gi-bill-comparison-tool-sandbox/search'}>
-            Return to search to add
-          </Link>
+          <Link to={'/search'}>Return to search to add</Link>
         </div>
       </div>,
     );
