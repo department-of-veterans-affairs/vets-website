@@ -2,17 +2,13 @@ import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { getTimezoneBySystemId } from '../../../utils/timezone';
-import { getFacilityIdFromLocation } from '../../../services/location';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import {
   PURPOSE_TEXT,
   TYPE_OF_VISIT,
   LANGUAGES,
 } from '../../../utils/constants';
-import {
-  selectUseFlatFacilityPage,
-  selectUseProviderSelection,
-} from '../../../redux/selectors';
+import { selectUseProviderSelection } from '../../../redux/selectors';
 import {
   getTypeOfCare,
   getFormData,
@@ -71,13 +67,8 @@ export function transformFormToVARequest(state) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
   const siteId = getSiteIdForChosenFacility(state);
-  const isFacilityV2Page = selectUseFlatFacilityPage(state);
-  const facilityId = isFacilityV2Page
-    ? facility.id
-    : getFacilityIdFromLocation(facility);
-  const facilityName = isFacilityV2Page
-    ? getTestFacilityName(facilityId, facility.name)
-    : facility.name;
+  const facilityId = facility.id;
+  const facilityName = getTestFacilityName(facilityId, facility.name);
 
   return {
     typeOfCare: typeOfCare.id,

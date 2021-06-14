@@ -5,6 +5,7 @@ import {
   MAX_ISSUE_LENGTH,
   MAX_REP_NAME_LENGTH,
   MAX_DISAGREEMENT_REASON_LENGTH,
+  SUBMITTED_DISAGREEMENTS,
 } from '../constants';
 
 /**
@@ -219,9 +220,9 @@ export const addIncludedIssues = formData => {
  */
 export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
   const keywords = {
-    serviceConnection: () => 'service connection',
-    effectiveDate: () => 'effective date',
-    evaluation: () => 'disability evaluation',
+    serviceConnection: () => SUBMITTED_DISAGREEMENTS.serviceConnection,
+    effectiveDate: () => SUBMITTED_DISAGREEMENTS.effectiveDate,
+    evaluation: () => SUBMITTED_DISAGREEMENTS.evaluation,
     other: disagreementOptions => disagreementOptions.otherEntry,
   };
   return issues.map((issue, index) => {

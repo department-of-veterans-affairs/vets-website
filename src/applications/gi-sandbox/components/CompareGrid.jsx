@@ -1,16 +1,29 @@
 import React from 'react';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 export function CompareGrid({
   className,
+  showDifferences,
   facilityCodes,
   fieldData,
   institutions,
   sectionLabel,
-  sectionSublabel,
+  subSectionLabel,
 }) {
   const institutionCount = Object.keys(institutions).length;
-  const fieldLabel = (field, index) => {
+
+  const empties = [];
+
+  for (let i = 0; i < 3 - institutionCount; i++) {
+    empties.push(
+      <div key={i} className="medium-screen:vads-l-col--3">
+        <div className="empty-col" />
+      </div>,
+    );
+  }
+
+  const fieldLabel = (field, index, displayDiff) => {
     return (
       <div
         key={`${index}-label`}
@@ -18,16 +31,36 @@ export function CompareGrid({
           'field-label',
           { 'medium-screen:vads-l-col--3': institutionCount === 3 },
           { 'medium-screen:vads-l-col--4': institutionCount === 2 },
+          { 'medium-screen:vads-l-col--6': institutionCount === 1 },
+          { 'medium-screen:vads-l-col--12': institutionCount === 0 },
+          { 'has-diff': displayDiff },
         )}
       >
-        <div className={classNames('label-cell', { first: index === 0 })}>
+        <div
+          className={classNames(
+            'label-cell',
+            { first: index === 0 },
+            { 'has-diff': displayDiff },
+          )}
+        >
+          {displayDiff && (
+            <div className="label-diff">
+              <i className={`fas fa-asterisk`} />
+            </div>
+          )}
           {field.label}
         </div>
       </div>
     );
   };
 
-  const institutionFieldValue = (field, rowIndex, colIndex, institution) => {
+  const institutionFieldValue = (
+    field,
+    rowIndex,
+    colIndex,
+    institution,
+    displayDiff,
+  ) => {
     const valueClassName =
       typeof field.className === 'function'
         ? field.className(institution)
@@ -40,9 +73,11 @@ export function CompareGrid({
           'field-value',
           { 'medium-screen:vads-l-col--3': institutionCount === 3 },
           { 'medium-screen:vads-l-col--4': institutionCount === 2 },
+          { 'medium-screen:vads-l-col--6': institutionCount === 1 },
           { 'first-row': rowIndex === 0 },
           { 'first-col': colIndex === 0 },
           { 'last-col': colIndex === institutionCount - 1 },
+          { 'has-diff': displayDiff },
           valueClassName,
         )}
       >
@@ -56,13 +91,13 @@ export function CompareGrid({
       {sectionLabel && (
         <div className="compare-header-section">{sectionLabel}</div>
       )}
-      {sectionSublabel && (
+      {subSectionLabel && (
         <div
           className={classNames('compare-header-subsection', {
             'vads-u-margin-top--4': !sectionLabel,
           })}
         >
-          {sectionSublabel}
+          {subSectionLabel}
         </div>
       )}
       <div className="vads-l-row">
@@ -70,32 +105,57 @@ export function CompareGrid({
           className={classNames(
             { 'medium-screen:vads-l-col--12': institutionCount === 3 },
             { 'medium-screen:vads-l-col--9': institutionCount === 2 },
+            { 'medium-screen:vads-l-col--6': institutionCount === 1 },
+            { 'medium-screen:vads-l-col--3': institutionCount === 0 },
           )}
         >
           {fieldData.map((field, index) => {
-            const columns = [
-              fieldLabel(field, index),
-              institutionFieldValue(
-                field,
-                index,
-                0,
-                institutions[facilityCodes[0]],
-              ),
-              institutionFieldValue(
-                field,
-                index,
-                1,
-                institutions[facilityCodes[1]],
-              ),
-            ];
+            const rowValues = Object.keys(institutions).map(facilityCode => {
+              return field.mapper(institutions[facilityCode]);
+            });
 
-            if (facilityCodes.length === 3) {
+            let allEqual = true;
+
+            for (let i = 0; i < rowValues.length - 1 && allEqual; i++) {
+              allEqual = _.isEqual(rowValues[i], rowValues[i + 1]);
+            }
+
+            const displayDiff = showDifferences && !allEqual;
+
+            const columns = [fieldLabel(field, index, displayDiff)];
+
+            if (institutionCount > 0) {
+              columns.push(
+                institutionFieldValue(
+                  field,
+                  index,
+                  0,
+                  institutions[facilityCodes[0]],
+                  displayDiff,
+                ),
+              );
+            }
+
+            if (institutionCount > 1) {
+              columns.push(
+                institutionFieldValue(
+                  field,
+                  index,
+                  1,
+                  institutions[facilityCodes[1]],
+                  displayDiff,
+                ),
+              );
+            }
+
+            if (institutionCount > 2) {
               columns.push(
                 institutionFieldValue(
                   field,
                   index,
                   2,
                   institutions[facilityCodes[2]],
+                  displayDiff,
                 ),
               );
             }
@@ -107,11 +167,7 @@ export function CompareGrid({
             );
           })}
         </div>
-        {facilityCodes.length === 2 && (
-          <div className="medium-screen:vads-l-col--3">
-            <div className="empty-col" />
-          </div>
-        )}
+        {empties}
       </div>
     </div>
   );
