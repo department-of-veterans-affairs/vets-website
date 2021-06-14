@@ -12,8 +12,10 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
     .join(',');
 
   runCommand(
-    `CYPRESS_BASE_URL=http://localhost:${process.env.CYPRESS_PORT} CYPRESS_CI=${
+    `CYPRESS_CI=${
       process.env.CI
-    } yarn cy:run --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${tests}'`,
+    } yarn cy:run --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --config baseUrl=http://localhost:${
+      process.env.CYPRESS_PORT
+    } --spec '${tests}'`,
   );
 });
