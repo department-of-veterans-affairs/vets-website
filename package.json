@@ -148,7 +148,7 @@
     "chalk": "^2.4.2",
     "chokidar": "^3.4.0",
     "choma": "^1.1.0",
-    "chromedriver": "^89.0.0",
+    "chromedriver": "^91.0.0",
     "cli-table": "^0.3.1",
     "command-line-args": "^3.0.1",
     "command-line-usage": "^6.1.0",
@@ -209,7 +209,7 @@
     "moment-timezone": "^0.5.31",
     "morgan": "^1.10.0",
     "msw": "^0.19.4",
-    "nightwatch": "^0.9.21",
+    "nightwatch": "^1.6.2",
     "node-fetch": "^2.6.1",
     "node-resemble-js": "^0.2.0",
     "node-sass": "^4.14.1",
@@ -351,7 +351,6 @@
     "**/url-parse": "^1.5.0",
     "tar-fs/tar-stream/bl": "^4.0.3",
     "**/meow": "^9.0.0",
-    "nightwatch/**/lodash.defaultsdeep": "^4.6.1",
     "web-components/**/postcss": "^8.2.10"
   }
 }
