@@ -16,6 +16,6 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
       process.env.CI
     } yarn cy:run --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --config baseUrl=http://localhost:${
       process.env.CYPRESS_PORT
-    } --spec '${tests}'`,
+    } --port ${Number(process.env.CYPRESS_PORT) - 1} --spec '${tests}'`,
   );
 });
