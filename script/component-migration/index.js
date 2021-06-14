@@ -57,7 +57,7 @@ function replaceTags(file, newTag) {
   // First, replace the tags
   const dataWithNamedClosingTags = file.replace(
     cmpUnnamedClosingTag,
-    cmpUnnamedClosingTag?.replace(/\s\/>/, `></${newTag}>`),
+    cmpUnnamedClosingTag?.replace(/^\s+\/>/m, `></${newTag}>`),
   );
 
   return dataWithNamedClosingTags
