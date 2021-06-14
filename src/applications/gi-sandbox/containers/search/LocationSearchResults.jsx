@@ -44,7 +44,9 @@ function LocationSearchResults({
       style: 'mapbox://styles/mapbox/outdoors-v11',
       center: [MapboxInit.centerInit.longitude, MapboxInit.centerInit.latitude],
       zoom: MapboxInit.zoomInit,
+      scrollZoom: { around: 'center' },
     });
+
     mapInit.addControl(
       new mapboxgl.NavigationControl({
         // Hide rotation control.
