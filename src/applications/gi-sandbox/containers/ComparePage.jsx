@@ -360,6 +360,7 @@ export function ComparePage({
             sectionLabel="School ratings"
             institutions={institutions}
             facilityCodes={loaded}
+            showDifferences={showDifferences}
             fieldData={[
               {
                 label: 'Overall rating',
