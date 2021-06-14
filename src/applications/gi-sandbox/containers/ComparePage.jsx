@@ -373,22 +373,22 @@ export function ComparePage({
             showDifferences={showDifferences}
             fieldData={[
               {
-                label: 'Overall experience',
+                label: 'Overall experience Rating',
                 mapper: institution =>
                   mapRating(institution, 'overall_experience'),
               },
               {
-                label: 'Quality of classes',
+                label: 'Quality of classes Rating',
                 mapper: institution =>
                   mapRating(institution, 'quality_of_classes'),
               },
               {
-                label: 'Online instruction',
+                label: 'Online instruction Rating',
                 mapper: institution =>
                   mapRating(institution, 'online_instruction'),
               },
               {
-                label: 'Job preparation',
+                label: 'Job preparation Rating',
                 mapper: institution =>
                   mapRating(institution, 'job_preparation'),
               },
@@ -402,17 +402,17 @@ export function ComparePage({
             showDifferences={showDifferences}
             fieldData={[
               {
-                label: 'Gi Bill support',
+                label: 'Gi Bill support Rating',
                 mapper: institution =>
                   mapRating(institution, 'gi_bill_support'),
               },
               {
-                label: 'Veteran community',
+                label: 'Veteran community Rating',
                 mapper: institution =>
                   mapRating(institution, 'veteran_community'),
               },
               {
-                label: 'True to expectations',
+                label: 'True to expectations Rating',
                 mapper: institution =>
                   mapRating(institution, 'marketing_practices'),
               },
