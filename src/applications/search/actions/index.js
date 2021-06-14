@@ -47,6 +47,7 @@ export function fetchSearchResults(query, page, options) {
           type: FETCH_SEARCH_RESULTS_FAILURE,
           errors: [error],
         });
+        // add sentry logging to help catch when search is down
         Sentry.captureException(error);
       });
   };

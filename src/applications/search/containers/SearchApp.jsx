@@ -343,6 +343,7 @@ class SearchApp extends React.Component {
       );
     }
 
+    // regular display for how many search results total are available.
     /* eslint-disable prettier/prettier */
     return (
       <p
