@@ -389,7 +389,7 @@ export function ComparePage({
                 },
               },
               {
-                label: '# of Veteran ratings',
+                label: '# of veteran ratings',
                 className: 'vads-u-text-align--center',
                 mapper: institution => institution.ratingCount,
               },
@@ -561,7 +561,7 @@ export function ComparePage({
                 mapper: institution => mapBoolField(institution.dodmou),
               },
               {
-                label: 'PriorityEnrollment',
+                label: 'Priority Enrollment',
                 mapper: institution =>
                   mapBoolField(institution.priorityEnrollment),
               },
