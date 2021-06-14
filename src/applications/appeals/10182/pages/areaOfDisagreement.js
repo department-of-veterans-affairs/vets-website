@@ -71,6 +71,7 @@ export default {
                 formData.areaOfDisagreement[index],
               ),
             }),
+            ariaDescribedby: 'other-hint-text',
           },
           'ui:errorMessages': {
             required: missingAreaOfDisagreementOtherErrorMessage,
