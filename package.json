@@ -33,7 +33,7 @@
     "lint:js:untracked:fix": "LIST=`git ls-files --others --exclude-standard | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
     "lint:sass": "stylelint src/**/*.scss",
     "mock-api": "node src/platform/testing/e2e/mockapi.js",
-    "migrate-component": "node script/component-migrate.js",
+    "migrate-component": "node script/component-migration/index.js",
     "new:app": "yo @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix",
     "nightwatch:docker": "nightwatch -c config/nightwatch.docker-compose.js --suiteRetries 3",
     "nightwatch": "nightwatch -c config/nightwatch.js",
