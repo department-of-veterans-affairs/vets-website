@@ -237,6 +237,15 @@
 //   padding-top: 16px;
 // }
 
+.field-disabled {
+  pointer-events: none;
+  input,
+  select {
+    background-color: $color-gray-lightest;
+    color: $color-gray-lightest;
+  }
+}
+
 .schemaform-sip-save-link {
   margin: 20px 0;
 }

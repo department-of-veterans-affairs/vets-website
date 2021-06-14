@@ -6,6 +6,7 @@ import MonthYear from '@department-of-veterans-affairs/component-library/MonthYe
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
+import classNames from 'classnames';
 
 const EmploymentRecord = ({
   idSchema,
@@ -81,7 +82,11 @@ const EmploymentRecord = ({
         />
       </div>
 
-      <div className="vads-u-margin-top--3">
+      <div
+        className={classNames('vads-u-margin-top--3', {
+          'field-disabled': employmentRecords[index].isCurrent,
+        })}
+      >
         <MonthYear
           date={{ month: { value: toMonth }, year: { value: toYear } }}
           label="Date you stopped work at this job?"
