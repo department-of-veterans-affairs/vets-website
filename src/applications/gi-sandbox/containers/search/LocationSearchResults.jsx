@@ -89,6 +89,10 @@ function LocationSearchResults({
 
   const addMapMarker = (institution, index, locationBounds) => {
     const { latitude, longitude, name } = institution;
+    const lngLat = new mapboxgl.LngLat(longitude, latitude);
+
+    if (mapChanged && !map.current.getBounds().contains(lngLat)) return;
+
     const letter = numberToLetter(index + 1);
 
     const markerElement = document.createElement('div');
@@ -114,7 +118,10 @@ function LocationSearchResults({
       );
     });
 
-    locationBounds.extend(new mapboxgl.LngLat(longitude, latitude));
+    if (locationBounds) {
+      locationBounds.extend(new mapboxgl.LngLat(longitude, latitude));
+    }
+
     new mapboxgl.Marker(markerElement)
       .setLngLat([longitude, latitude])
       .setPopup(popup)
@@ -132,13 +139,13 @@ function LocationSearchResults({
         return;
       } // wait for map to initialize
 
-      const locationBounds = new mapboxgl.LngLatBounds();
+      const locationBounds = !mapChanged ? new mapboxgl.LngLatBounds() : null;
 
       results.forEach((institution, index) => {
         addMapMarker(institution, index, locationBounds);
       });
 
-      if (!mapChanged) {
+      if (locationBounds) {
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
 
@@ -181,21 +188,6 @@ function LocationSearchResults({
     e.preventDefault();
     const bounds = map.current.getBounds();
 
-    const northCoordinates = new mapboxgl.LngLat(
-      bounds.getCenter().lng,
-      bounds.getNorth(),
-    );
-    const westCoordinates = new mapboxgl.LngLat(
-      bounds.getWest(),
-      bounds.getCenter().lat,
-    );
-
-    const northDistance =
-      northCoordinates.distanceTo(bounds.getCenter()) /
-      MILE_METER_CONVERSION_RATE;
-    const westDistance =
-      westCoordinates.distanceTo(bounds.getCenter()) /
-      MILE_METER_CONVERSION_RATE;
     const diagonalDistance =
       bounds.getNorthEast().distanceTo(bounds.getCenter()) /
       MILE_METER_CONVERSION_RATE;
@@ -203,7 +195,7 @@ function LocationSearchResults({
     dispatchFetchSearchByLocationCoords(
       search.query.location,
       map.current.getCenter().toArray(),
-      (diagonalDistance + northDistance + westDistance) / 3,
+      diagonalDistance,
       filters,
       preview.version,
     );
