@@ -6,12 +6,16 @@ import {
   evaluation,
   other,
   otherLabel,
+  otherDescription,
   missingAreaOfDisagreementErrorMessage,
   missingAreaOfDisagreementOtherErrorMessage,
 } from '../content/areaOfDisagreement';
 
 import { areaOfDisagreementRequired } from '../validations';
-import { otherTypeSelected } from '../utils/helpers';
+import {
+  otherTypeSelected,
+  calculateOtherMaxLength,
+} from '../utils/disagreement';
 
 export default {
   uiSchema: {
@@ -57,9 +61,16 @@ export default {
         },
         otherEntry: {
           'ui:title': otherLabel,
+          'ui:description': otherDescription,
           'ui:required': otherTypeSelected,
           'ui:options': {
             hideIf: (formData, index) => !otherTypeSelected(formData, index),
+            updateSchema: (formData, _schema, uiSchema, index) => ({
+              type: 'string',
+              maxLength: calculateOtherMaxLength(
+                formData.areaOfDisagreement[index],
+              ),
+            }),
           },
           'ui:errorMessages': {
             required: missingAreaOfDisagreementOtherErrorMessage,
