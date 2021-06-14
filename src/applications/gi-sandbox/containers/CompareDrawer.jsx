@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
+import appendQuery from 'append-query';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { removeCompareInstitution } from '../actions';
 
@@ -9,13 +11,19 @@ export function CompareDrawer({
   dispatchRemoveCompareInstitution,
   displayed,
 }) {
+  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
-  const { loaded, institutions } = compare;
+  const { loaded, institutions } = compare.search;
 
   if (!displayed) {
     return null;
   }
+
+  const openCompare = () => {
+    const compareLink = appendQuery(`/compare/?facilities=${loaded.join(',')}`);
+    history.push(compareLink);
+  };
 
   const headerLabelClasses = classNames('header-label', {
     open,
@@ -38,29 +46,31 @@ export function CompareDrawer({
 
   return (
     <div className="compare-drawer">
-      <Modal
-        onClose={() => setPromptingFacilityCode(null)}
-        primaryButton={{
-          action: () => {
-            setPromptingFacilityCode(null);
-            dispatchRemoveCompareInstitution(promptingFacilityCode);
-          },
-          text: 'Remove',
-        }}
-        secondaryButton={{
-          action: () => setPromptingFacilityCode(null),
-          text: 'Cancel',
-        }}
-        title="Remove Institution?"
-        visible={promptingFacilityCode}
-      >
-        {promptingFacilityCode && (
-          <p>
-            Remove {institutions[promptingFacilityCode].name} from your
-            comparison?
-          </p>
-        )}
-      </Modal>
+      {promptingFacilityCode && (
+        <Modal
+          onClose={() => setPromptingFacilityCode(null)}
+          primaryButton={{
+            action: () => {
+              setPromptingFacilityCode(null);
+              dispatchRemoveCompareInstitution(promptingFacilityCode);
+            },
+            text: 'Remove',
+          }}
+          secondaryButton={{
+            action: () => setPromptingFacilityCode(null),
+            text: 'Cancel',
+          }}
+          title="Remove Institution?"
+          visible
+        >
+          {promptingFacilityCode && (
+            <p>
+              Remove {institutions[promptingFacilityCode].name} from your
+              comparison?
+            </p>
+          )}
+        </Modal>
+      )}
       <div
         className="compare-header vads-l-grid-container"
         onClick={() => setOpen(!open)}
@@ -104,6 +114,7 @@ export function CompareDrawer({
                   type="button"
                   className="usa-button vads-u-width--full"
                   disabled={loaded.length < 2}
+                  onClick={openCompare}
                 >
                   Compare
                 </button>

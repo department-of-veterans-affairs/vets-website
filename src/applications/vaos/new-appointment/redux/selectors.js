@@ -25,7 +25,6 @@ import {
   selectUseFlatFacilityPage,
   selectIsCernerOnlyPatient,
   selectUseProviderSelection,
-  selectFeatureCovid19Vaccine,
 } from '../../redux/selectors';
 
 export function getNewAppointment(state) {
@@ -434,7 +433,6 @@ export function selectTypeOfCarePage(state) {
     pageChangeInProgress: selectPageChangeInProgress(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
-    featureCovid19Vaccine: selectFeatureCovid19Vaccine(state),
     showPodiatryApptUnavailableModal:
       newAppointment.showPodiatryAppointmentUnavailableModal,
   };
