@@ -21,16 +21,24 @@ function translateProps(componentString, propMap) {
   // Make a copy so we don't modify the reference
   let translatedComp = componentString.toString();
 
-  Object.entries(propMap).forEach(([prop, newValue]) => {
-    switch (typeof newValue) {
-      case 'string':
-        translatedComp = translatedComp.replace(prop, newValue);
-        break;
-      case 'function':
-        translatedComp = newValue(componentString, prop);
-        break;
-    }
-  });
+  Object.entries(propMap)
+    .sort((pairOne, _) => {
+      const children = ['content', 'children'];
+      if (children.includes(pairOne[0])) return -1;
+      return 1;
+    })
+    .forEach(([prop, newValue]) => {
+      switch (typeof newValue) {
+        case 'string':
+          translatedComp = translatedComp.replace(prop, newValue);
+          break;
+        case 'function':
+          translatedComp = newValue(translatedComp, prop);
+          break;
+        default:
+          break;
+      }
+    });
 
   return translatedComp;
 }
