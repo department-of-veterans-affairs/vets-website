@@ -1,7 +1,7 @@
 import React from 'react';
 import { convertRatingToStars } from '../../utils/helpers';
-import { renderStars } from '../../utils/render';
 import recordEvent from 'platform/monitoring/record-event';
+import RatingsStars from '../RatingsStars';
 
 export default function SchoolCategoryRating({
   categoryRating,
@@ -64,7 +64,7 @@ export default function SchoolCategoryRating({
             <div className="vads-l-col--6 vads-u-font-size--sm">{title}</div>
             {categoryRating.averageRating && (
               <div className="vads-l-col--6 vads-u-font-size--sm">
-                {renderStars(categoryRating.averageRating)}{' '}
+                <RatingsStars rating={categoryRating.averageRating} />
                 <span className="vads-u-font-weight--normal">
                   {averageStars.display}
                 </span>
