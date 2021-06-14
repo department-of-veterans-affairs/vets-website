@@ -80,7 +80,7 @@ filenames.forEach(fname => {
     if (!data.includes(legacyImport)) return null;
 
     const unnamedClosingTags = data.matchAll(
-      new RegExp(`(<${options.component}.+?</>)`, 'gs'),
+      new RegExp(`(<${options.component}.+?\\s\\/>)`, 'gsm'),
     );
     const cmpUnnamedClosingTag = [...unnamedClosingTags][0]?.[0];
 
@@ -88,7 +88,7 @@ filenames.forEach(fname => {
     const [newTag, propMap] = replacements[options.component]();
     const dataWithNamedClosingTags = data.replace(
       cmpUnnamedClosingTag,
-      cmpUnnamedClosingTag?.replace('</>', `</${newTag}>`),
+      cmpUnnamedClosingTag?.replace(/\s\/>/, `></${newTag}>`),
     );
 
     const newTags = dataWithNamedClosingTags
