@@ -11,9 +11,9 @@ import {
   mockRequestCancelFetch,
   mockCCSingleProviderFetch,
   mockSingleRequestFetch,
-  mockSingleVAOSRequestFetch,
   mockFacilityFetch,
 } from '../../mocks/helpers';
+import { mockSingleVAOSRequestFetch } from '../../mocks/helpers.v2';
 
 import { AppointmentList } from '../../../appointment-list';
 import {

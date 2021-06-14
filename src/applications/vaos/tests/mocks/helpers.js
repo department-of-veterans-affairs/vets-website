@@ -981,26 +981,6 @@ export function mockSingleRequestFetch({ request, error = null }) {
 }
 
 /**
- * Mocks the fetch request made when retrieving a single VAOS appointment request
- * for the details page
- *
- * @export
- * @param {Object} params
- * @param {VAOSRequest} params.appointment Request to be returned from the mock
- * @param {boolean} [params.error=null] Whether or not to return an error from the mock
- * }
- */
-export function mockSingleVAOSRequestFetch({ request, error = null }) {
-  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${request.id}`;
-
-  if (error) {
-    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
-  } else {
-    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: request });
-  }
-}
-
-/**
  * Mocks the fetch request made when retrieving a single VA appointment
  * for the details page
  *
