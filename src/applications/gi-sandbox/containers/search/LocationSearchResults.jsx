@@ -45,6 +45,8 @@ function LocationSearchResults({
       center: [MapboxInit.centerInit.longitude, MapboxInit.centerInit.latitude],
       zoom: MapboxInit.zoomInit,
       scrollZoom: { around: 'center' },
+      touchZoomRotate: { around: 'center' },
+      doubleClickZoom: { around: 'center' },
     });
 
     mapInit.addControl(
