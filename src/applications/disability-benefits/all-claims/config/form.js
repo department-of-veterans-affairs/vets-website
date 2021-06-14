@@ -106,8 +106,6 @@ import {
   workBehaviorChanges,
 } from '../pages';
 
-import { form526BDDFeature } from '../config/selectors';
-
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
 import { ptsd781NameTitle } from '../content/ptsdClassification';
@@ -205,13 +203,6 @@ const formConfig = {
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
           onContinue: captureEvents.militaryHistory,
-          appStateSelector: state => ({
-            dob: state.user.profile.dob,
-            allowBDD:
-              form526BDDFeature(state) && state.form.data?.['view:isBddData'],
-            servicePeriods:
-              state.form.data?.serviceInformation?.servicePeriods || [],
-          }),
         },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard service',
