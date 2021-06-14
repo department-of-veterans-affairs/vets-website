@@ -23,10 +23,10 @@
 
     &.results-list {
       li.result-item {
-
         h5,
         p {
-          font-family: "Helvetica", "Arial", "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+          font-family: "Helvetica", "Arial", "Bitter", "Georgia", "Cambria",
+            "Times New Roman", "Times", serif;
         }
 
         .result-url,
@@ -43,24 +43,24 @@
 
           &:visited {
             span {
-            color: $color-purple;
+              color: $color-purple;
             }
           }
 
           &:hover {
             span {
-            color: $color-gray-dark;
-            background: rgba(0,0,0,.05);
-          }
+              color: $color-gray-dark;
+              background: rgba(0, 0, 0, 0.05);
+            }
           }
 
-          &:focus ,
+          &:focus,
           &:active {
             outline: none;
             span {
-            color: $color-gray-dark;
-            background: rgba(0,0,0,.05);
-            outline: 2px solid $color-gold-light;
+              color: $color-gray-dark;
+              background: rgba(0, 0, 0, 0.05);
+              outline: 2px solid $color-gold-light;
             }
           }
         }
@@ -81,13 +81,13 @@
 
     &:hover {
       color: $color-gray-dark;
-      background: rgba(0,0,0,.05);
+      background: rgba(0, 0, 0, 0.05);
     }
 
-    &:focus ,
+    &:focus,
     &:active {
       color: $color-gray-dark;
-      background: rgba(0,0,0,.05);
+      background: rgba(0, 0, 0, 0.05);
       outline: 2px solid $color-gold-light;
     }
   }
@@ -161,19 +161,20 @@
   }
 
   .search-box {
-
-  @media (max-width: $small-screen) {
     flex-direction: column;
-  }
+
+    @media (min-width: $medium-screen) {
+      flex-direction: row;
+    }
 
     input,
     button {
-      margin: 0;
+      margin: 5px;
       max-width: none;
       font-family: "Source Sans Pro";
 
-      @media (max-width: $small-screen) {
-        margin: 5px;
+      @media (min-width: $medium-screen) {
+        margin: 0;
       }
     }
 
@@ -185,24 +186,23 @@
     button {
       align-items: center;
       background: $color-primary;
-      border-radius: 0 5px 5px 0;
+      border-radius: 5px;
       color: $color-white;
       display: flex;
       font-size: 1.6rem;
       font-weight: 700;
-      padding: 0 1.5rem 0 1rem;
-      width: auto;
+      justify-content: center;
+      padding: 1.5rem;
+      width: 100%;
 
-      @media (max-width: $small-screen) {
-        border-radius: 5px;
-        justify-content: center;
-        padding: 1.5rem;
-        width: 100%;
+      @media (min-width: $medium-screen) {
+        border-radius: 0 5px 5px 0;
+        padding: 0 1.5rem 0 1rem;
+        width: auto;
       }
 
-
       &:hover {
-        background: $color-primary-darker
+        background: $color-primary-darker;
       }
 
       &:focus,
