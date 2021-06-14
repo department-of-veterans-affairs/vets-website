@@ -235,10 +235,6 @@ export function mockFeatureToggles({
             value: true,
           },
           {
-            name: 'vaOnlineSchedulingCheetah',
-            value: true,
-          },
-          {
             name: `cerner_override_668`,
             value: false,
           },

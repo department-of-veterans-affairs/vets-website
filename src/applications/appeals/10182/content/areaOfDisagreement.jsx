@@ -61,3 +61,8 @@ export const effectiveDate = wrapHeader('The effective date of award');
 export const evaluation = wrapHeader('The evaluation of my condition');
 export const other = wrapHeader('Something else');
 export const otherLabel = 'Tell us what you disagree with:';
+export const otherDescription = () => (
+  <span id="other-hint-text" className="vads-u-color--gray">
+    Please explain in a few words
+  </span>
+);
