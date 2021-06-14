@@ -17,8 +17,7 @@ jobs:
         ci_node_index: [0, 1, 2, 3, 4, 5]
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-      CYPRESS_BASE_URL: http://localhost:${{${{ github.run_id }} % 1000 + 3000 + ${{ matrix.ci_node_index }}}}
-
+      CYPRESS_PORT: ${{ github.run_id }} % 1000 + 3000 + ${{ matrix.ci_node_index }}
     steps:
       - name: Checkout vets-website
         uses: actions/checkout@v2
@@ -53,7 +52,7 @@ jobs:
         run: mkdir -p test-results
 
       - name: Start Cypress tests
-        run: yarn cy:test:gha
+        run: CYPRESS_BASE_URL=http:///localhost:$CYPRESS_PORT yarn cy:test:gha
         timeout-minutes: 60
         env:
           STEP: ${{ matrix.ci_node_index }}
