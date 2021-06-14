@@ -5,12 +5,13 @@ import React, {
   useCallback,
   useLayoutEffect,
 } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import {
   fetchProfile,
   setPageTitle,
@@ -29,7 +30,7 @@ import Checkbox from '../components/Checkbox';
 import ServiceError from '../components/ServiceError';
 import CompareGrid from '../components/CompareGrid';
 import RatingsStars from '../components/RatingsStars';
-import { Link } from 'react-router-dom';
+import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 
 export function ComparePage({
   allLoaded,
@@ -49,6 +50,7 @@ export function ComparePage({
   const { loaded, institutions } = compare.details;
   const { version } = preview;
   const institutionCount = loaded.length;
+  const history = useHistory();
 
   useEffect(
     () => {
@@ -155,29 +157,22 @@ export function ComparePage({
   return (
     <div className="compare-page">
       {promptingFacilityCode && (
-        <Modal
+        <RemoveCompareSelectedModal
+          name={institutions[promptingFacilityCode].name}
           onClose={() => setPromptingFacilityCode(null)}
-          primaryButton={{
-            action: () => {
-              setPromptingFacilityCode(null);
-              dispatchRemoveCompareInstitution(promptingFacilityCode);
-            },
-            text: 'Remove',
+          onAccept={() => {
+            setPromptingFacilityCode(null);
+            const newSelected = selected.filter(
+              facilityCode => facilityCode !== promptingFacilityCode,
+            );
+            const compareLink = appendQuery(
+              `/compare/?facilities=${newSelected.join(',')}`,
+            );
+            history.replace(compareLink);
+            dispatchRemoveCompareInstitution(promptingFacilityCode);
           }}
-          secondaryButton={{
-            action: () => setPromptingFacilityCode(null),
-            text: 'Cancel',
-          }}
-          title="Remove Institution?"
-          visible
-        >
-          {promptingFacilityCode && (
-            <p>
-              Remove {institutions[promptingFacilityCode].name} from your
-              comparison?
-            </p>
-          )}
-        </Modal>
+          onCancel={() => setPromptingFacilityCode(null)}
+        />
       )}
       <div className="content-wrapper">
         <div
