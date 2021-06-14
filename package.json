@@ -336,6 +336,7 @@
     "**/handlebars": "^4.7.7",
     "**/http-proxy": "^1.18.1",
     "**/hosted-git-info": "^3.0.8",
+    "**/locutus": "^2.0.15",
     "**/node-forge": "^0.10.0",
     "**/normalize-url": "^6.0.1",
     "**/axios": "^0.21.1",
