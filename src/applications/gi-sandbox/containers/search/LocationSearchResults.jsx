@@ -86,7 +86,7 @@ function LocationSearchResults({
       map.current.easeTo(
         {
           duration: 300,
-          zoom: map.current.getZoom() + 1,
+          zoom: map.current.getZoom() + (e.originalEvent.shiftKey ? -1 : 1),
           around: map.current.getCenter(),
         },
         { originalEvent: e.originalEvent },
