@@ -30,12 +30,12 @@ module.exports = E2eHelpers.createE2eTest(client => {
     .text.to.equal('Files');
 
   // should show two files requested
-  client.elements('class name', 'file-request-list-item', result => {
+  client.elements('css selector', '.file-request-list-item', result => {
     client.assert.equal(result.value.length, 3);
   });
 
   // should show four files received
-  client.elements('class name', 'submitted-file-list-item', result => {
+  client.elements('css selector', '.submitted-file-list-item', result => {
     client.assert.equal(result.value.length, 3);
   });
 
