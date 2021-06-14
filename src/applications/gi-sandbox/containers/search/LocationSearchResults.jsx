@@ -46,7 +46,7 @@ function LocationSearchResults({
       zoom: MapboxInit.zoomInit,
       scrollZoom: { around: 'center' },
       touchZoomRotate: { around: 'center' },
-      doubleClickZoom: { around: 'center' },
+      doubleClickZoom: false,
     });
 
     mapInit.addControl(
@@ -79,6 +79,18 @@ function LocationSearchResults({
         return;
       }
 
+      setMapChanged(true);
+    });
+
+    mapInit.on('dblclick', e => {
+      map.current.easeTo(
+        {
+          duration: 300,
+          zoom: map.current.getZoom() + 1,
+          around: map.current.getCenter(),
+        },
+        { originalEvent: e.originalEvent },
+      );
       setMapChanged(true);
     });
 
