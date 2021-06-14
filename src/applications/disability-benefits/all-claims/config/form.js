@@ -203,6 +203,11 @@ const formConfig = {
           uiSchema: militaryHistory.uiSchema,
           schema: militaryHistory.schema,
           onContinue: captureEvents.militaryHistory,
+          appStateSelector: state => ({
+            dob: state.user.profile.dob,
+            servicePeriods:
+              state.form.data?.serviceInformation?.servicePeriods || [],
+          }),
         },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard service',
