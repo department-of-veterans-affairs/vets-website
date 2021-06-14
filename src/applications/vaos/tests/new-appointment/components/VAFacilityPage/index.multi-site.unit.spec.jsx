@@ -61,7 +61,7 @@ const parentSite984 = {
   },
 };
 
-describe('VAOS integration: VA facility page with a multi-site user', () => {
+describe.skip('VAOS integration: VA facility page with a multi-site user', () => {
   beforeEach(() => mockFetch());
 
   it('should show form with required questions for both sites and facilities', async () => {
