@@ -528,6 +528,9 @@ export function openFacilityPage(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     const initialState = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(initialState);
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+      initialState,
+    );
     const newAppointment = initialState.newAppointment;
     const typeOfCare = getTypeOfCare(newAppointment.data)?.name;
     const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
@@ -546,6 +549,7 @@ export function openFacilityPage(page, uiSchema, schema) {
       if (!parentFacilities) {
         parentFacilities = await fetchParentLocations({
           siteIds: userSiteIds,
+          useV2: featureVAOSServiceRequests,
         });
       }
 
@@ -882,6 +886,7 @@ export function checkCommunityCareEligibility() {
   return async (dispatch, getState) => {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -890,7 +895,10 @@ export function checkCommunityCareEligibility() {
     try {
       // Check if user registered systems support community care...
       const siteIds = selectSystemIds(state);
-      const parentFacilities = await fetchParentLocations({ siteIds });
+      const parentFacilities = await fetchParentLocations({
+        siteIds,
+        useV2: featureVAOSServiceRequests,
+      });
       const ccEnabledSystems = await fetchCommunityCareSupportedSites({
         locations: parentFacilities,
       });

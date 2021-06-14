@@ -59,6 +59,7 @@ const responses = {
     return res.json({ data: [] });
   },
   'GET /vaos/v0/facilities': parentFacilities,
+  'GET /vaos/v2/facilities': parentFacilities, // NOTE: Kevin, Tony create mocks
   'GET /vaos/v0/systems/:id/direct_scheduling_facilities': (req, res) => {
     if (req.query.parent_code === '984') {
       return res.json(facilities984);
