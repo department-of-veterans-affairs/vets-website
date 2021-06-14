@@ -10,6 +10,8 @@ const optionDefinitions = [
 ];
 const options = commandLineArgs(optionDefinitions);
 
+const FILENAMES = glob.sync(`${options.dir}/**/*.jsx`);
+
 const legacyImport = `@department-of-veterans-affairs/component-library/${
   options.component
 }`;
@@ -44,9 +46,24 @@ function translateProps(componentString, propMap) {
   return translatedComp;
 }
 
-const filenames = glob.sync(`${options.dir}/**/*.jsx`);
+function replaceTags(file, newTag) {
+  const unnamedClosingTags = file.matchAll(
+    new RegExp(`(<${options.component}.+?\\s\\/>)`, 'gsm'),
+  );
+  const cmpUnnamedClosingTag = [...unnamedClosingTags][0]?.[0];
 
-filenames.forEach(fname => {
+  // First, replace the tags
+  const dataWithNamedClosingTags = file.replace(
+    cmpUnnamedClosingTag,
+    cmpUnnamedClosingTag?.replace(/\s\/>/, `></${newTag}>`),
+  );
+
+  return dataWithNamedClosingTags
+    .replace(`<${options.component}`, `<${newTag}`)
+    .replace(`</${options.component}`, `</${newTag}`);
+}
+
+FILENAMES.forEach(fname => {
   fs.readFile(fname, 'utf8', (err, data) => {
     if (err) {
       return handleError(err);
@@ -54,22 +71,9 @@ filenames.forEach(fname => {
 
     // Leave this file alone if it doesn't import the component
     if (!data.includes(legacyImport)) return null;
-
-    const unnamedClosingTags = data.matchAll(
-      new RegExp(`(<${options.component}.+?\\s\\/>)`, 'gsm'),
-    );
-    const cmpUnnamedClosingTag = [...unnamedClosingTags][0]?.[0];
-
-    // First, replace the tags
     const [newTag, propMap] = replacements[options.component]();
-    const dataWithNamedClosingTags = data.replace(
-      cmpUnnamedClosingTag,
-      cmpUnnamedClosingTag?.replace(/\s\/>/, `></${newTag}>`),
-    );
 
-    const newTags = dataWithNamedClosingTags
-      .replace(`<${options.component}`, `<${newTag}`)
-      .replace(`</${options.component}`, `</${newTag}`);
+    const newTags = replaceTags(data, newTag);
 
     const cmpRegex = new RegExp(`<${newTag}.+</${newTag}>`, 'gs');
     const components = newTags.matchAll(cmpRegex);
