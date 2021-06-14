@@ -10,10 +10,12 @@ exec("find src -name '*.cypress.*.js' | tr '\n' ','", function(_err, stdout) {
       (Number(process.env.STEP) + 1) * divider,
     )
     .join(',');
+  const port =
+    (Number(process.env.PORT_ID) % 1000) + 3000 + Number(process.env.STEP);
 
   runCommand(
     `CYPRESS_CI=${
       process.env.CI
-    } yarn cy:run --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${tests}'`,
+    } yarn cy:run --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --port ${port} --spec '${tests}'`,
   );
 });

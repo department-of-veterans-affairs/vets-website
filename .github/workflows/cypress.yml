@@ -17,7 +17,6 @@ jobs:
         ci_node_index: [0, 1, 2, 3, 4, 5]
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-      CYPRESS_PORT: $(${{ github.run_id }} % 1000 + 3000 + ${{ matrix.ci_node_index }})
 
     steps:
       - name: Checkout vets-website
@@ -31,9 +30,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Test
-        run: echo $CYPRESS_PORT
 
       - name: Install vets-website dependencies
         run: yarn install --frozen-lockfile --prefer-offline
@@ -53,15 +49,12 @@ jobs:
         run: mkdir -p test-results
 
       - name: Start Cypress tests
-        run: CYPRESS_BASE_URL=http:///localhost:$CYPRESS_PORT yarn cy:test:gha
+        run: yarn cy:test:gha
         timeout-minutes: 60
         env:
           STEP: ${{ matrix.ci_node_index }}
           CI: true
-
-      - name: Print webpack output
-        if: ${{ always() }}
-        run: cat test.txt
+          PORT_ID: ${{ github.run_id }}
 
       - name: Publish test results
         if: ${{ always() }}
