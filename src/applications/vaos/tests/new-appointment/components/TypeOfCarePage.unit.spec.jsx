@@ -44,7 +44,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect((await screen.findAllByRole('radio')).length).to.equal(11);
+    expect((await screen.findAllByRole('radio')).length).to.equal(12);
 
     // Verify alert is shown
     expect(
@@ -73,7 +73,6 @@ describe('VAOS <TypeOfCarePage>', () => {
         /To use some of the tool’s features, you need a home address on file/i,
       ),
     ).to.not.exist;
-    expect(screen.queryByLabelText(/COVID-19 vaccine/i)).to.not.exist;
 
     fireEvent.click(screen.getByText(/Continue/));
 
@@ -130,7 +129,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect((await screen.findAllByRole('radio')).length).to.equal(10);
+    expect((await screen.findAllByRole('radio')).length).to.equal(11);
   });
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
     const store = createTestStore(initialState);
@@ -361,7 +360,6 @@ describe('VAOS <TypeOfCarePage>', () => {
       ...initialState,
       featureToggles: {
         vaOnlineSchedulingCommunityCare: true,
-        vaOnlineSchedulingCheetah: true,
       },
     });
     const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
@@ -372,7 +370,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-booking',
+        '/new-covid-19-vaccine-appointment',
       ),
     );
   });

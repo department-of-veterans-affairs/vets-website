@@ -194,26 +194,26 @@ export const buildSearchFilters = filters => {
   const clonedFilters = _.cloneDeep(filters);
   delete clonedFilters.expanded;
 
-  const reversed = {
-    schools: true,
-    employers: true,
-    vettec: true,
-  };
+  // default state is checked so these will only be present if their corresponding boxes are unchecked
+  const excludeBooleanFlip = ['schools', 'employers', 'vettec'];
+
   const hasAllValue = ['country', 'state', 'type'];
   const searchFilters = {};
-  const boolFields = Object.entries(clonedFilters).filter(([field, value]) => {
-    return (
-      (value === !reversed[field] && value === true) ||
-      (reversed[field] && value === false)
-    );
-  });
 
-  boolFields.forEach(([field]) => {
-    searchFilters[field] = true;
-  });
+  // boolean fields
+  Object.entries(clonedFilters)
+    .filter(([_field, value]) => value === true)
+    .filter(([field, _value]) => !excludeBooleanFlip.includes(field))
+    .forEach(([field]) => {
+      searchFilters[field] = clonedFilters[field];
+    });
 
   hasAllValue.filter(field => clonedFilters[field] !== 'ALL').forEach(field => {
     searchFilters[field] = clonedFilters[field];
+  });
+
+  excludeBooleanFlip.filter(field => !clonedFilters[field]).forEach(field => {
+    searchFilters[`exclude_${field}`] = !clonedFilters[field];
   });
 
   return searchFilters;
@@ -261,4 +261,14 @@ export const searchCriteraFromCoords = async (longitude, latitude) => {
     searchString: placeName,
     position: { longitude, latitude },
   };
+};
+
+export const schoolSize = enrollment => {
+  if (!enrollment) return 'Unknown';
+  if (enrollment <= 2000) {
+    return 'Small';
+  } else if (enrollment <= 15000) {
+    return 'Medium';
+  }
+  return 'Large';
 };

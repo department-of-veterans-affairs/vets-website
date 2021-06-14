@@ -77,7 +77,6 @@ export const SearchForm = ({
               <i
                 aria-hidden="true"
                 className="fas fa-search vads-u-margin-right--0p5"
-                pointerEvents="none"
                 role="presentation"
               />
               Search
