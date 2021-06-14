@@ -12,9 +12,11 @@ const options = commandLineArgs(optionDefinitions);
 
 const FILENAMES = glob.sync(`${options.dir}/**/*.jsx`);
 
-const legacyImport = `@department-of-veterans-affairs/component-library/${
+const legacyImport = `import ${
   options.component
-}`;
+} from '@department-of-veterans-affairs/component-library/${
+  options.component
+}'`;
 
 function handleError(error) {
   console.log(error);
@@ -86,7 +88,9 @@ FILENAMES.forEach(fname => {
       translateProps(component, propMap),
     );
 
-    fs.writeFile(fname, migratedComponent, 'utf8', handleError);
+    const removeImport = migratedComponent.replace(legacyImport, '');
+
+    fs.writeFile(fname, removeImport, 'utf8', handleError);
 
     return 0;
   });
