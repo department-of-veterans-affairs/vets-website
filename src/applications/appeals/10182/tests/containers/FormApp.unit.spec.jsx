@@ -167,11 +167,22 @@ describe('FormApp', () => {
           type: 'contestableIssue',
           attributes: {
             ratingIssueSubjectText: 'tinnitus',
-            approxDecisionDate: '1900-01-01',
+            approxDecisionDate: '2020-01-01',
             decisionIssueId: 1,
             ratingIssueReferenceId: '2',
             ratingDecisionReferenceId: '3',
             ratingIssuePercentNumber: '10',
+          },
+        },
+        {
+          type: 'contestableIssue',
+          attributes: {
+            ratingIssueSubjectText: 'Sore foot',
+            approxDecisionDate: '2021-01-01',
+            decisionIssueId: 2,
+            ratingIssueReferenceId: '3',
+            ratingDecisionReferenceId: '2',
+            ratingIssuePercentNumber: '1',
           },
         },
       ],
@@ -197,6 +208,10 @@ describe('FormApp', () => {
     };
     expect(formData.veteran).to.deep.equal(result);
     expect(formData.contestableIssues).to.deep.equal(contestableIssues.issues);
+    // check sorted
+    expect(
+      formData.contestableIssues[0].attributes.approxDecisionDate,
+    ).to.equal('2021-01-01');
 
     tree.unmount();
   });

@@ -10,11 +10,13 @@ import { recordItemsRetrieved } from '../../utils/events';
 import {
   selectSystemIds,
   selectFeatureHomepageRefresh,
+  selectFeatureVAOSServiceRequests,
 } from '../../redux/selectors';
 
 import { getRequestMessages } from '../../services/var';
 
 import {
+  getCommunityProvider,
   getLocation,
   getLocations,
   getLocationSettings,
@@ -286,12 +288,16 @@ export function fetchPendingAppointments() {
       });
 
       const featureHomepageRefresh = selectFeatureHomepageRefresh(getState());
+      const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+        getState(),
+      );
 
       const pendingAppointments = await getAppointmentRequests({
         startDate: moment()
           .subtract(featureHomepageRefresh ? 120 : 30, 'days')
           .format('YYYY-MM-DD'),
         endDate: moment().format('YYYY-MM-DD'),
+        useV2: featureVAOSServiceRequests,
       });
 
       dispatch({
@@ -396,6 +402,9 @@ export function fetchRequestDetails(id) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
+      const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+        state,
+      );
       let request = selectAppointmentById(state, id, [
         APPOINTMENT_TYPES.ccRequest,
         APPOINTMENT_TYPES.request,
@@ -410,7 +419,10 @@ export function fetchRequestDetails(id) {
       }
 
       if (!request) {
-        request = await fetchRequestById(id);
+        request = await fetchRequestById({
+          id,
+          useV2: featureVAOSServiceRequests,
+        });
         facilityId = getVAAppointmentLocationId(request);
         facility = state.appointments.facilityData?.[facilityId];
       }
@@ -422,6 +434,11 @@ export function fetchRequestDetails(id) {
           captureError(e);
         }
       }
+      if (featureVAOSServiceRequests && request.practitioners?.length) {
+        request.provider = await getCommunityProvider(
+          request.practitioners[0].id.value,
+        );
+      }
 
       dispatch({
         type: FETCH_REQUEST_DETAILS_SUCCEEDED,
@@ -430,11 +447,13 @@ export function fetchRequestDetails(id) {
         facility,
       });
 
-      const requestMessages = state.appointments.requestMessages;
-      const messages = requestMessages?.[id];
+      if (!featureVAOSServiceRequests) {
+        const requestMessages = state.appointments.requestMessages;
+        const messages = requestMessages?.[id];
 
-      if (!messages) {
-        dispatch(fetchRequestMessages(id));
+        if (!messages) {
+          dispatch(fetchRequestMessages(id));
+        }
       }
     } catch (e) {
       captureError(e);

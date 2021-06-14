@@ -28,7 +28,7 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: VA facility page with a single-site user', () => {
+describe.skip('VAOS integration: VA facility page with a single-site user', () => {
   beforeEach(() => mockFetch());
 
   it('should show single disabled radio button option if Cerner only', async () => {
