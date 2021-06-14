@@ -32,6 +32,7 @@ import {
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
+import { getParentFacilitiesV2 } from '../vaos';
 
 /**
  * Fetch facility information for the facilities in the given site, based on type of care
@@ -342,8 +343,21 @@ export async function getCommunityProvider(id) {
  * @param {Array<string>} params.siteIds A list of three digit VistA site ids
  * @returns {Array<Location>} A list of parent Locations
  */
-export async function fetchParentLocations({ siteIds }) {
+export async function fetchParentLocations({ siteIds, useV2 }) {
   try {
+    if (useV2) {
+      const parentFacilities = await getParentFacilitiesV2(siteIds);
+      console.log(parentFacilities);
+      // return transformParentFacilities(parentFacilities).sort((a, b) => {
+      //   // a.name comes 1st
+      //   if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
+      //   // b.name comes 1st
+      //   if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
+      //   // a.name and b.name are equal
+      //   return 0;
+      // });
+    }
+
     const parentFacilities = await getParentFacilities(siteIds);
 
     return transformParentFacilities(parentFacilities).sort((a, b) => {
