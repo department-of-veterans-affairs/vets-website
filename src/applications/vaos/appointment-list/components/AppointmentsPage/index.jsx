@@ -18,7 +18,6 @@ import {
   selectFeatureCommunityCare,
   selectIsWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
-  selectFeatureCovid19Vaccine,
 } from '../../../redux/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -126,7 +125,6 @@ AppointmentsPage.propTypes = {
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
-  featureCovid19Vaccine: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -138,7 +136,6 @@ function mapStateToProps(state) {
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
-    featureCovid19Vaccine: selectFeatureCovid19Vaccine(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };

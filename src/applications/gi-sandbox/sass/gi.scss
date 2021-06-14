@@ -217,6 +217,35 @@
   padding-bottom: 8em;
 }
 
-.section-item, .accordion-item {
+.section-item,
+.accordion-item {
   list-style-type: none !important;
+}
+
+.school-classification {
+  padding: 1px 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.school-header {
+  background-color: rgb(63, 87, 166);
+}
+.employer-header {
+  background-color: rgb(34, 130, 127);
+}
+.vettec-header {
+  background-color: rgb(162, 56, 55);
+}
+
+.preferred-provider-text {
+  font-size: 14px;
+}
+
+.asterisk-text {
+  font-size: 12px;
+}
+
+.capitalize-value {
+  text-transform: capitalize;
 }

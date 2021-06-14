@@ -53,12 +53,30 @@ export const setInitialEditMode = (formData = []) =>
       !issue || !decisionDate || !isValidDate(decisionDate),
   );
 
+export const sortContestableIssues = contestableIssues => {
+  const regexDash = /-/g;
+  const getDate = entry =>
+    (entry.attributes?.approxDecisionDate || '').replace(regexDash, '');
+
+  return (contestableIssues || []).sort((a, b) => {
+    const dateA = getDate(a);
+    const dateB = getDate(b);
+    if (dateA === dateB) {
+      return 0;
+    }
+    // YYYYMMDD string comparisons will work in place of using moment
+    return dateA > dateB ? -1 : 1;
+  });
+};
+
 export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
   if (loadedIssues.length !== existingIssues.length) {
     return true;
   }
-  return !loadedIssues.every(({ attributes }, index) => {
-    const existing = existingIssues[index]?.attributes || {};
+  // sort both arrays so we don't end up in an endless loop
+  const issues = sortContestableIssues(existingIssues);
+  return !sortContestableIssues(loadedIssues).every(({ attributes }, index) => {
+    const existing = issues[index]?.attributes || {};
     return (
       attributes.ratingIssueSubjectText === existing.ratingIssueSubjectText &&
       attributes.approxDecisionDate === existing.approxDecisionDate

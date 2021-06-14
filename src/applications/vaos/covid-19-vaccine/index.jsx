@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
   useRouteMatch,
-  useHistory,
   useLocation,
   Redirect,
 } from 'react-router-dom';
@@ -17,10 +16,7 @@ import SelectDate1Page from './components/SelectDate1Page';
 import ReviewPage from './components/ReviewPage';
 import ConfirmationPage from './components/ConfirmationPage';
 import ConfirmationPageV2 from './components/ConfirmationPageV2';
-import {
-  selectFeatureCovid19Vaccine,
-  selectFeatureHomepageRefresh,
-} from '../redux/selectors';
+import { selectFeatureHomepageRefresh } from '../redux/selectors';
 import SecondDosePage from './components/SecondDosePage';
 import ContactInfoPage from './components/ContactInfoPage';
 import ReceivedDoseScreenerPage from './components/ReceivedDoseScreenerPage';
@@ -40,11 +36,9 @@ import { fetchFacilitySettings } from '../appointment-list/redux/actions';
 
 export function NewBookingSection() {
   const match = useRouteMatch();
-  const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
   const canUseVaccineFlow = useSelector(selectCanUseVaccineFlow);
-  const featureCovid19Vaccine = useSelector(selectFeatureCovid19Vaccine);
   const facilitySettingsStatus = useSelector(selectFacilitySettingsStatus);
   const featureHomepageRefresh = useSelector(selectFeatureHomepageRefresh);
 
@@ -53,15 +47,6 @@ export function NewBookingSection() {
       dispatch(fetchFacilitySettings());
     }
   }, []);
-
-  useEffect(
-    () => {
-      if (!featureCovid19Vaccine) {
-        history.push('/');
-      }
-    },
-    [featureCovid19Vaccine, history],
-  );
 
   useEffect(
     () => {
