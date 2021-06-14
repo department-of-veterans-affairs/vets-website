@@ -30,6 +30,9 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+      - name: Generate random port number
+        run: echo ${{ github.run_id }}
+
       - name: Install vets-website dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
