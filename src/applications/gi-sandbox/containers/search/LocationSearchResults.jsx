@@ -216,8 +216,8 @@ function LocationSearchResults({
                   then click search above to find institutions.
                 </div>
               )}
-              {count >= 0 &&
-                count !== null && (
+              {count !== null &&
+                count >= 0 && (
                   <>
                     <TuitionAndHousingEstimates />
                     <RefineYourSearch />
