@@ -275,7 +275,6 @@ const responses = {
         { name: 'vaOnlineSchedulingExpressCareNew', value: true },
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
         { name: 'vaOnlineSchedulingProviderSelection', value: true },
-        { name: 'vaOnlineSchedulingCheetah', value: true },
         { name: 'vaOnlineSchedulingHomepageRefresh', value: true },
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },

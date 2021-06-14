@@ -213,21 +213,6 @@ const formConfig = {
               state.form.data?.serviceInformation?.servicePeriods || [],
           }),
         },
-        separationLocation: {
-          title: 'Separation location',
-          path: 'review-veteran-details/separation-location',
-          depends: showSeparationLocation,
-          uiSchema: separationLocation.uiSchema,
-          schema: separationLocation.schema,
-        },
-        claimType: {
-          title: 'Claim type',
-          path: 'claim-type',
-          depends: formData => hasRatedDisabilities(formData),
-          uiSchema: claimType.uiSchema,
-          schema: claimType.schema,
-          onContinue: captureEvents.claimType,
-        },
         reservesNationalGuardService: {
           title: 'Reserves and National Guard service',
           path:
@@ -244,6 +229,13 @@ const formConfig = {
           depends: form => hasGuardOrReservePeriod(form.serviceInformation),
           uiSchema: federalOrders.uiSchema,
           schema: federalOrders.schema,
+        },
+        separationLocation: {
+          title: 'Separation location',
+          path: 'review-veteran-details/separation-location',
+          depends: showSeparationLocation,
+          uiSchema: separationLocation.uiSchema,
+          schema: separationLocation.schema,
         },
         separationPay: {
           title: 'Separation or severance pay',
@@ -274,6 +266,14 @@ const formConfig = {
     disabilities: {
       title: 'Disabilities', // this probably needs to change
       pages: {
+        claimType: {
+          title: 'Claim type',
+          path: 'claim-type',
+          depends: formData => hasRatedDisabilities(formData),
+          uiSchema: claimType.uiSchema,
+          schema: claimType.schema,
+          onContinue: captureEvents.claimType,
+        },
         disabilitiesOrientation: {
           title: '',
           path: DISABILITY_SHARED_CONFIG.orientation.path,
