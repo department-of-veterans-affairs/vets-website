@@ -42,13 +42,21 @@ function translateProps(componentString, propMap) {
  */
 function alertBoxReplacement() {
   const moveChildren = (componentString, propName) => {
-    const translatedChildren = componentString.toString();
+    let translatedChildren = componentString.toString();
+    const tag = [...componentString.match(/<(va-[a-z-]+)\s/)][1];
     const children = componentString.match(
-      new RegExp(`${propName}=["{]([.]+)["}]`, 's'),
+      new RegExp(`${propName}={(.+)}`, 's'),
     )?.[1];
 
-    console.log(children);
-    console.log(translatedChildren);
+    if (!children) return componentString;
+
+    translatedChildren = translatedChildren.replace(
+      `></${tag}`,
+      `>\n${children}\n</${tag}`,
+    );
+
+    translatedChildren = translatedChildren.replace(children, '');
+    translatedChildren = translatedChildren.replace(`${propName}={}\n`, '');
     return translatedChildren;
   };
 
