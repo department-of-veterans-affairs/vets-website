@@ -44,12 +44,15 @@ export const uiSchema = {
             'ui:field': EmploymentRecord,
 
             // type: {
-            //   'ui:title': 'Type of work',
-            //   'ui:options': {
-            //     widgetClassNames: 'input-size-3',
+            //   'ui:required': (formData, index) => {
+            //     // console.log('formData: ', formData);
+            //     // return formData?.personalData?.employmentHistory.veteran
+            //     //   .employmentRecords[index]?.type;
+            //     return true;
             //   },
             // },
             // from: monthYearUI('Date you started work at this job?'),
+
             // to: _.merge(monthYearUI('Date you stopped work at this job?'), {
             //   // 'ui:options': {
             //   //   hideIf: (formData, index) => {
@@ -64,23 +67,23 @@ export const uiSchema = {
             //   //     console.log('fieldData: ', fieldData);
             //   //   },
             //   // },
-            //   // 'ui:options': {
-            //   //   updateSchema: (formData, schema, pageUiSchema, index) => {
-            //   //     // console.log('schema: ', schema);
-            //   //     // console.log('pageUiSchema: ', pageUiSchema);
-            //   //     const currentUiSchema = pageUiSchema;
-            //   //     const { veteran } = formData.personalData.employmentHistory;
-            //   //     const { isCurrent } = veteran.employmentRecords[index];
-            //   //     currentUiSchema['ui:disabled'] = isCurrent;
-            //   //     // console.log(`index ${index} isCurrent: `, isCurrent);
-            //   //     // console.log(
-            //   //     //   `currentUiSchema['ui:disabled']: `,
-            //   //     //   currentUiSchema['ui:disabled'],
-            //   //     // );
-            //   //     // console.log('currentUiSchema: ', currentUiSchema);
-            //   //     return currentUiSchema;
-            //   //   },
-            //   // },
+            //   'ui:options': {
+            //     updateSchema: (formData, schema, pageUiSchema, index) => {
+            //       console.log('schema: ', schema);
+            //       console.log('pageUiSchema: ', pageUiSchema);
+            //       const currentUiSchema = pageUiSchema;
+            //       const { veteran } = formData.personalData.employmentHistory;
+            //       const { isCurrent } = veteran.employmentRecords[index];
+            //       currentUiSchema['ui:disabled'] = isCurrent;
+            //       console.log(`index ${index} isCurrent: `, isCurrent);
+            //       console.log(
+            //         `currentUiSchema['ui:disabled']: `,
+            //         currentUiSchema['ui:disabled'],
+            //       );
+            //       console.log('currentUiSchema: ', currentUiSchema);
+            //       return currentUiSchema;
+            //     },
+            //   },
             // }),
 
             // isCurrent: {
@@ -183,7 +186,7 @@ export const schema = {
                   type: 'array',
                   items: {
                     type: 'object',
-                    // required: ['type', 'from', 'employerName'],
+                    // required: ['type'],
                     properties: {
                       type: {
                         type: 'string',

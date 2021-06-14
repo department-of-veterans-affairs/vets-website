@@ -15,16 +15,14 @@ const EmploymentRecord = ({
   employmentHistory,
 }) => {
   const index = Number(idSchema.$id.slice(-1));
-  const { veteran } = employmentHistory;
-  const { employmentRecords } = veteran;
+  const { employmentRecords } = employmentHistory.veteran;
   const { from, to } = employmentRecords[index];
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
-  const currentEmployment = employmentRecords.filter(
-    record => record.isCurrent,
-  );
 
   const updateFormData = updated => {
+    const currentEmployment = updated.filter(record => record.isCurrent);
+
     setFormData({
       ...formData,
       currentEmployment,
@@ -33,7 +31,7 @@ const EmploymentRecord = ({
         employmentHistory: {
           ...employmentHistory,
           veteran: {
-            ...veteran,
+            ...employmentHistory.veteran,
             employmentRecords: [...updated],
           },
         },
@@ -41,9 +39,16 @@ const EmploymentRecord = ({
     });
   };
 
-  const handleChange = (key, value) => {
+  const handleChange = (key, val) => {
     const updated = employmentRecords.map((item, i) => {
-      return i === index ? { ...item, [key]: value } : item;
+      return i === index ? { ...item, [key]: val } : item;
+    });
+    updateFormData(updated);
+  };
+
+  const handleCheckboxChange = (key, val) => {
+    const updated = employmentRecords.map((item, i) => {
+      return i === index ? { ...item, [key]: val, to: '' } : item;
     });
     updateFormData(updated);
   };
@@ -99,7 +104,7 @@ const EmploymentRecord = ({
       <Checkbox
         label="I currently work here"
         checked={employmentRecords[index].isCurrent || false}
-        onValueChange={value => handleChange('isCurrent', value)}
+        onValueChange={value => handleCheckboxChange('isCurrent', value)}
       />
 
       <div className="input-size-6 vads-u-margin-bottom--2">

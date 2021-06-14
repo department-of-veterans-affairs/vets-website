@@ -72,7 +72,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        // required: ['monthlyGrossSalary'],
+        required: ['monthlyGrossSalary'],
         properties: {
           monthlyGrossSalary: {
             type: 'number',
@@ -81,7 +81,6 @@ export const schema = {
             type: 'array',
             items: {
               type: 'object',
-              // required: ['name', 'amount'],
               properties: {
                 name: {
                   type: 'string',

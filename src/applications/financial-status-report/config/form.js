@@ -95,14 +95,15 @@ const formConfig = {
           initialData: {
             personalData: {
               address: {
-                street: '',
-                city: '',
-                state: '',
-                country: '',
-                postalCode: '',
+                livesOnMilitaryBaseInfo: {},
+                country: 'USA',
+                street: '55 Fake St',
+                city: 'Tampa',
+                state: 'FL',
+                postalCode: '33543',
               },
-              telephoneNumber: '',
-              emailAddress: '',
+              telephoneNumber: '4445551212',
+              emailAddress: 'test2@test1.net',
             },
           },
           path: 'contact-information',
@@ -128,19 +129,17 @@ const formConfig = {
           schema: pages.employmentRecords.schema,
           depends: formData => formData.questions.vetIsEmployed,
         },
-        previousEmployment: {
-          path: 'previous-employment',
-          title: 'Previous employment',
-          uiSchema: pages.previousEmployment.uiSchema,
-          schema: pages.previousEmployment.schema,
-        },
-        previousEmploymentRecords: {
-          path: 'previous-employment-records',
-          title: 'Previous employment',
-          uiSchema: pages.previousEmploymentRecords.uiSchema,
-          schema: pages.previousEmploymentRecords.schema,
-          depends: formData => formData.questions.vetPreviouslyEmployed,
-          editModeOnReviewPage: true,
+        income: {
+          title: 'Income',
+          path: 'income/:index',
+          showPagePerItem: true,
+          arrayPath: 'currentEmployment',
+          uiSchema: pages.income.uiSchema,
+          schema: pages.income.schema,
+          depends: ({ personalData }) => {
+            const { veteran } = personalData.employmentHistory;
+            return veteran.employmentRecords?.some(record => record.isCurrent);
+          },
         },
         benefits: {
           path: 'benefits',
