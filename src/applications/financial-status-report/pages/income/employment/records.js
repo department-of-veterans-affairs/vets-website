@@ -1,7 +1,6 @@
-import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
-import ItemLoop from '../../../components/ItemLoop';
+// import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 // import ArrayField from 'platform/forms-system/src/js/fields/ArrayField';
-import _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 
 // import React from 'react';
 // import _ from 'lodash/fp';
@@ -14,9 +13,11 @@ import _ from 'lodash/fp';
 //   deductionTypes,
 // } from '../../../constants/typeaheadOptions';
 
-import CardDetailsView from '../../../components/CardDetailsView';
-
 // import { updateUiSchema } from 'platform/forms-system/src/js/state/helpers';
+
+import ItemLoop from '../../../components/ItemLoop';
+import CardDetailsView from '../../../components/CardDetailsView';
+import EmploymentRecord from '../../../components/EmploymentRecord';
 
 export const uiSchema = {
   'ui:title': 'Your work history',
@@ -40,60 +41,65 @@ export const uiSchema = {
             'ui:options': {
               classNames: 'vads-u-margin-bottom--3',
             },
-            type: {
-              'ui:title': 'Type of work',
-              'ui:options': {
-                widgetClassNames: 'input-size-3',
-              },
-            },
-            from: monthYearUI('Date you started work at this job?'),
+            'ui:field': EmploymentRecord,
 
-            to: _.merge(monthYearUI('Date you stopped work at this job?'), {
-              // 'ui:options': {
-              //   hideIf: (formData, index) => {
-              //     const { veteran } = formData.personalData.employmentHistory;
-              //     const { employmentRecords } = veteran;
-              //     return employmentRecords[index].isCurrent;
-              //   },
-              // },
-              // 'ui:options': {
-              //   updateItemsSchema: (schema, fieldData) => {
-              //     console.log('schema: ', schema);
-              //     console.log('fieldData: ', fieldData);
-              //   },
-              // },
-              'ui:options': {
-                updateSchema: (formData, schema, pageUiSchema, index) => {
-                  // console.log('schema: ', schema);
-                  // console.log('pageUiSchema: ', pageUiSchema);
-                  const currentUiSchema = pageUiSchema;
-                  const { veteran } = formData.personalData.employmentHistory;
-                  const { isCurrent } = veteran.employmentRecords[index];
-                  currentUiSchema['ui:disabled'] = isCurrent;
-                  // console.log(`index ${index} isCurrent: `, isCurrent);
-                  // console.log(
-                  //   `currentUiSchema['ui:disabled']: `,
-                  //   currentUiSchema['ui:disabled'],
-                  // );
-                  // console.log('currentUiSchema: ', currentUiSchema);
-                  return currentUiSchema;
-                },
-              },
-            }),
+            // type: {
+            //   'ui:title': 'Type of work',
+            //   'ui:options': {
+            //     widgetClassNames: 'input-size-3',
+            //   },
+            // },
+            // from: monthYearUI('Date you started work at this job?'),
+            // to: _.merge(monthYearUI('Date you stopped work at this job?'), {
+            //   // 'ui:options': {
+            //   //   hideIf: (formData, index) => {
+            //   //     const { veteran } = formData.personalData.employmentHistory;
+            //   //     const { employmentRecords } = veteran;
+            //   //     return employmentRecords[index].isCurrent;
+            //   //   },
+            //   // },
+            //   // 'ui:options': {
+            //   //   updateItemsSchema: (schema, fieldData) => {
+            //   //     console.log('schema: ', schema);
+            //   //     console.log('fieldData: ', fieldData);
+            //   //   },
+            //   // },
+            //   // 'ui:options': {
+            //   //   updateSchema: (formData, schema, pageUiSchema, index) => {
+            //   //     // console.log('schema: ', schema);
+            //   //     // console.log('pageUiSchema: ', pageUiSchema);
+            //   //     const currentUiSchema = pageUiSchema;
+            //   //     const { veteran } = formData.personalData.employmentHistory;
+            //   //     const { isCurrent } = veteran.employmentRecords[index];
+            //   //     currentUiSchema['ui:disabled'] = isCurrent;
+            //   //     // console.log(`index ${index} isCurrent: `, isCurrent);
+            //   //     // console.log(
+            //   //     //   `currentUiSchema['ui:disabled']: `,
+            //   //     //   currentUiSchema['ui:disabled'],
+            //   //     // );
+            //   //     // console.log('currentUiSchema: ', currentUiSchema);
+            //   //     return currentUiSchema;
+            //   //   },
+            //   // },
+            // }),
 
-            isCurrent: {
-              'ui:title': 'I currently work here',
-              'ui:options': {
-                widgetClassNames: 'vads-u-margin-top--2',
-              },
-            },
-            employerName: {
-              'ui:title': 'Employer name',
-              'ui:options': {
-                classNames: 'vads-u-margin-top--3',
-                widgetClassNames: 'input-size-6',
-              },
-            },
+            // isCurrent: {
+            //   // 'ui:title': 'I currently work here',
+
+            //   'ui:field': EmploymentRecord,
+
+            //   'ui:options': {
+            //     widgetClassNames: 'vads-u-margin-top--2',
+            //   },
+            // },
+
+            // employerName: {
+            //   'ui:title': 'Employer name',
+            //   'ui:options': {
+            //     classNames: 'vads-u-margin-top--3',
+            //     widgetClassNames: 'input-size-6',
+            //   },
+            // },
           },
         },
         // employmentRecords: {
