@@ -23,7 +23,7 @@ function alertBoxReplacement() {
     let translatedChildren = componentString.toString();
     const tag = [...componentString.match(/<(va-[a-z-]+)\s/)][1];
     const children = componentString.match(
-      new RegExp(`${propName}={(.+)}`, 's'),
+      new RegExp(`${propName}=({.+})`, 's'),
     )?.[1];
 
     if (!children) return componentString;
@@ -34,7 +34,7 @@ function alertBoxReplacement() {
     );
 
     translatedChildren = translatedChildren.replace(children, '');
-    translatedChildren = translatedChildren.replace(`${propName}={}\n`, '');
+    translatedChildren = translatedChildren.replace(`${propName}=\n`, '');
     return translatedChildren;
   };
 
