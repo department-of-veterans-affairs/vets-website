@@ -33,6 +33,9 @@ jobs:
       - name: Generate random port number
         run: echo ${{ github.run_id }}
 
+      - name: Start vets-website
+        run: node src/platform/testing/e2e/test-server.js --buildtype localhost --port=${{ github.run_id }}%1000+3000+${{ matrix.ci_node_index }} &
+
       - name: Install vets-website dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
@@ -44,8 +47,8 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Start vets-website
-        run: node src/platform/testing/e2e/test-server.js --buildtype localhost --port=3001 > test.txt 2>&1 &
+      # - name: Start vets-website
+      #   run: node src/platform/testing/e2e/test-server.js --buildtype localhost --port=3001 > test.txt 2>&1 &
 
       - name: Create test results directory
         run: mkdir -p test-results
