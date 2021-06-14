@@ -481,11 +481,6 @@ export function fetchStreetAddress() {
   };
 }
 
-export const updateSearchQuery = query => ({
-  type: SEARCH_QUERY_UPDATED,
-  payload: { ...query },
-});
-
 export const geolocateUser = () => async dispatch => {
   const GEOLOCATION_TIMEOUT = 10000;
   if (navigator?.geolocation?.getCurrentPosition) {
@@ -496,8 +491,7 @@ export const geolocateUser = () => async dispatch => {
           currentPosition.coords.longitude,
           currentPosition.coords.latitude,
         );
-        dispatch({ type: GEOCODE_COMPLETE });
-        dispatch(updateSearchQuery(query));
+        dispatch({ type: GEOCODE_COMPLETE, payload: { ...query } });
       },
       e => {
         dispatch({ type: GEOCODE_LOCATION_FAILED, code: e.code });

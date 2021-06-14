@@ -16,9 +16,10 @@ import { connect } from 'react-redux';
 
 function LocationSearchResults({
   search,
+  autocomplete,
   dispatchUpdateEligibilityAndFilters,
 }) {
-  const { inProgress, streetAddress } = search;
+  const { inProgress, streetAddress, query } = search;
   const { count, results } = search.location;
   const { location } = search.query;
   const map = useRef(null);
@@ -99,6 +100,29 @@ function LocationSearchResults({
     markers.current.push(markerElement);
   };
 
+  const getCurrentLocationCenter = () => {
+    let center = '';
+    if (streetAddress.searchString) {
+      center = new mapboxgl.LngLat(
+        streetAddress.position.longitude,
+        streetAddress.position.latitude,
+      );
+    }
+    return center;
+  };
+
+  const getZoomLevel = distance => {
+    if (distance === '5') {
+      return 11;
+    } else if (distance === '25') {
+      return 10;
+    } else if (distance === '50') {
+      return 9;
+    } else {
+      return 8;
+    }
+  };
+
   useEffect(
     () => {
       markers.current.forEach(marker => marker.remove());
@@ -114,22 +138,24 @@ function LocationSearchResults({
           .addTo(map.current);
       }
       const locationBounds = new mapboxgl.LngLatBounds();
-
       results.forEach((institution, index) => {
         addMapMarker(institution, index, locationBounds);
       });
-
-      const sw = [streetAddress.bounds[0], streetAddress.bounds[1]];
-      const ne = [streetAddress.bounds[2], streetAddress.bounds[3]];
-      const userLocationBounds = [sw, ne];
-
-      const userLocationBoundsCheck = streetAddress.searchString
-        ? userLocationBounds
-        : locationBounds;
-
-      map.current.fitBounds(userLocationBoundsCheck, {
-        padding: 20,
-      });
+      if (streetAddress.searchString === autocomplete.location) {
+        map.current.flyTo({
+          center: getCurrentLocationCenter(),
+          zoom: getZoomLevel(query.distance),
+          speed: 1.2,
+          curve: 1,
+          easing(t) {
+            return t;
+          },
+        });
+      } else {
+        map.current.fitBounds(locationBounds, {
+          padding: 20,
+        });
+      }
     },
     [results],
   );
@@ -244,6 +270,7 @@ function LocationSearchResults({
 
 const mapStateToProps = state => ({
   search: state.search,
+  autocomplete: state.autocomplete,
 });
 
 const mapDispatchToProps = {

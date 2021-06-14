@@ -36,9 +36,7 @@ export function LocationSearchForm({
   const doSearch = event => {
     event.preventDefault();
     dispatchFetchSearchByLocationResults(
-      search.streetAddress.searchString !== ''
-        ? search.streetAddress.searchString
-        : autocomplete.location,
+      autocomplete.location,
       distance,
       filters,
     );
@@ -54,9 +52,7 @@ export function LocationSearchForm({
       );
     } else {
       dispatchFetchSearchByLocationResults(
-        search.streetAddress.searchString !== ''
-          ? search.streetAddress.searchString
-          : autocomplete.location,
+        autocomplete.location,
         distance,
         filters,
       );
@@ -119,11 +115,7 @@ export function LocationSearchForm({
               version={version}
               name="locationSearch"
               className="location-search"
-              inputValue={
-                search.streetAddress.searchString !== ''
-                  ? search.streetAddress.searchString
-                  : autocomplete.location
-              }
+              inputValue={autocomplete.location}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => doSearch(e)}
               onSelection={handleSelection}

@@ -6,7 +6,6 @@ import {
   SEARCH_BY_FACILITY_CODES_SUCCEEDED,
   SEARCH_BY_LOCATION_SUCCEEDED,
   SEARCH_BY_NAME_SUCCEEDED,
-  SEARCH_QUERY_UPDATED,
   GEOCODE_SUCCEEDED,
   GEOCODE_STARTED,
   GEOCODE_FAILED,
@@ -188,9 +187,14 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         geocodeResults: action.payload,
-        error: false,
         geocodeInProgress: false,
         geolocationInProgress: false,
+        streetAddress: {
+          bounds: { ...action.payload.bounds },
+          searchString: action.payload.searchString,
+          position: { ...action.payload.position },
+        },
+        error: false,
       };
     case GEOCODE_CLEAR_ERROR:
       return {
@@ -208,6 +212,7 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         error: action.payload,
+        geocodeError: action.code,
         geocodeInProgress: false,
         geolocationInProgress: false,
       };
@@ -223,16 +228,6 @@ export default function(state = INITIAL_STATE, action) {
         compare: buildSearchResults(action.payload, false),
         inProgress: false,
         error: null,
-      };
-    case SEARCH_QUERY_UPDATED:
-      return {
-        ...state,
-        streetAddress: {
-          bounds: { ...action.payload.bounds },
-          searchString: action.payload.searchString,
-          position: { ...action.payload.position },
-        },
-        error: false,
       };
 
     default:
