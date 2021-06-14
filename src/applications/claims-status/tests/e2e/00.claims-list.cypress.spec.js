@@ -5,10 +5,10 @@ import claimsList from './fixtures/mocks/claims-list.json';
 describe('Claimst List Test', () => {
   it('Tests consolidated claim functionality', () => {
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
+    cy.login();
 
     // Claim is visible
     cy.visit('/track-claims');
-    cy.login();
 
     // Combined claim link
     cy.get('button.claims-combined').click();

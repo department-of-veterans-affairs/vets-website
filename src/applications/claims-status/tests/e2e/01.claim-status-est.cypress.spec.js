@@ -25,9 +25,9 @@ describe('Claims status est current test', () => {
       'detailRequest',
     );
     cy.intercept('GET', `/v0/evss_claims_async`, claimsList).as('claim');
+    cy.login();
 
     cy.visit('/track-claims');
-    cy.login();
     cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
       'be.visible',
     );

@@ -5,8 +5,8 @@ import claimsList from './fixtures/mocks/claims-list.json';
 describe('Breadcrumb Test', () => {
   it('Verifies breadcrumb functionality', () => {
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
-    cy.visit('/track-claims');
     cy.login();
+    cy.visit('/track-claims');
     cy.title().should('eq', 'Track Claims: VA.gov');
     cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
       'be.visible',
@@ -32,7 +32,7 @@ describe('Breadcrumb Test', () => {
       '.va-nav-breadcrumbs-list li:nth-of-type(2) a[aria-current="page"]',
     ).should('have.css', 'pointer-events', 'none');
 
-    cy.viewport(375, 667);
+    cy.viewportPreset('va-top-mobile-1');
 
     cy.get('.va-nav-breadcrumbs-list', { timeout: Timeouts.normal }).should(
       'be.visible',

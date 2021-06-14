@@ -16,8 +16,9 @@ describe('Claim Additional Evidence Test', () => {
       'detailRequest',
     );
     cy.intercept('GET', `/v0/evss_claims_async`, claimsList).as('claim');
-    cy.visit('/track-claims');
     cy.login();
+
+    cy.visit('/track-claims');
     cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
       'be.visible',
     );
