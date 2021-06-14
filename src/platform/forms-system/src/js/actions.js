@@ -234,7 +234,7 @@ export function uploadFile(
         name: file.name,
         errorMessage:
           'We couldn\u2019t upload your file because it\u2019s too big. ' +
-          `Please delete this file. Then upload a file that's ${fileSizeText} or less.`,
+          `Please delete this file. Then upload a file that\u2019s ${fileSizeText} or less.`,
       });
 
       onError();
@@ -242,9 +242,12 @@ export function uploadFile(
     }
 
     if (file.size < uiOptions.minSize) {
+      const fileSizeText = displayFileSize(uiOptions.minSize);
       onChange({
         name: file.name,
-        errorMessage: 'File is too small to be uploaded',
+        errorMessage:
+          'We couldn\u2019t upload your file because it\u2019s too small. ' +
+          `Please delete this file. Then upload a file that\u2019s ${fileSizeText} or more.`,
       });
 
       onError();
@@ -262,7 +265,7 @@ export function uploadFile(
         (accumulator, fileType, index, array) => {
           if (index === 0) return `.${fileType}`;
 
-          const seperator = index < array.length - 1 ? ', ' : ', or ';
+          const seperator = index < array.length - 1 ? ',' : ', or';
           return `${accumulator}${seperator} .${fileType}`;
         },
         '',
@@ -332,7 +335,8 @@ export function uploadFile(
     });
 
     req.addEventListener('error', () => {
-      const errorMessage = 'Network request failed';
+      const errorMessage =
+        'We\u2019re sorry. We had a connection problem. Please delete the file and try again.';
       if (password) {
         onChange({ name: file.name, errorMessage, password: file.password });
       } else {
