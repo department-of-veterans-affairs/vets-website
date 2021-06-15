@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { scroller } from 'react-scroll';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
@@ -28,13 +28,12 @@ function LocationSearchResults({
   dispatchFetchSearchByLocationCoords,
   dispatchChangeSearchMapChanged,
 }) {
-  const { inProgress } = search;
+  const { inProgress, mapChanged } = search;
   const { count, results } = search.location;
   const { location } = search.query;
   const map = useRef(null);
   const mapContainer = useRef(null);
   const markers = useRef([]);
-  const [mapChanged, setMapChanged] = useState(false);
 
   const mapMoved = e => {
     // Only trigger mapMoved and speakZoom for manual events,
@@ -43,7 +42,6 @@ function LocationSearchResults({
     if (e.type === 'zoomstart' && !e.originalEvent) {
       return;
     }
-    setMapChanged(true);
     dispatchChangeSearchMapChanged(true);
   };
 
@@ -56,7 +54,6 @@ function LocationSearchResults({
       },
       { originalEvent: e.originalEvent },
     );
-    setMapChanged(true);
     dispatchChangeSearchMapChanged(true);
   };
 
@@ -154,7 +151,6 @@ function LocationSearchResults({
       markers.current.forEach(marker => marker.remove());
 
       if (!map.current || results.length === 0) {
-        setMapChanged(false);
         return;
       } // wait for map to initialize
 
@@ -167,8 +163,6 @@ function LocationSearchResults({
       if (locationBounds) {
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
-
-      setMapChanged(false);
     },
     [results],
   );
