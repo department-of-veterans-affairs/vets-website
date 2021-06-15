@@ -86,6 +86,9 @@ FILENAMES.forEach(fname => {
     const cmpRegex = new RegExp(`(<${newTag}.+?</${newTag}>)`, 'gsm');
     const components = Array.from(newTags.matchAll(cmpRegex), m => m[0]);
 
+    console.log(
+      chalk.magenta(`${options.component} found ${components.length} times.`),
+    );
     let migratedFile = newTags;
     components.forEach(component => {
       console.log(chalk.yellow.bold('Remapping component props:'));
@@ -105,6 +108,7 @@ FILENAMES.forEach(fname => {
       console.log(chalk.green(`File written: ${fname}`));
     });
 
+    console.log();
     return 0;
   });
 });
