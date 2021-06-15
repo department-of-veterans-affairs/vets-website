@@ -38,12 +38,14 @@ export function LocationSearchForm({
         selected.coords,
         distance,
         filters,
+        version,
       );
     } else {
       dispatchFetchSearchByLocationResults(
         autocomplete.location,
         distance,
         filters,
+        version,
       );
     }
   };
