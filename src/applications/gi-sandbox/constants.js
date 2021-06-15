@@ -45,6 +45,7 @@ export const TABS = Object.freeze({
 });
 
 export const MAX_SEARCH_DISTANCE = 150;
+export const MILE_METER_CONVERSION_RATE = 1609.34;
 
 export const ariaLabels = Object.freeze({
   learnMore: {

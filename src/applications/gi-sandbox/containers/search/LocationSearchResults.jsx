@@ -7,7 +7,11 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import SearchResultCard from '../../containers/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
-import { MapboxInit, MAX_SEARCH_DISTANCE } from '../../constants';
+import {
+  MapboxInit,
+  MAX_SEARCH_DISTANCE,
+  MILE_METER_CONVERSION_RATE,
+} from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import RefineYourSearch from '../../containers/RefineYourSearch';
 import { numberToLetter, createId } from '../../utils/helpers';
@@ -16,8 +20,6 @@ import {
   updateEligibilityAndFilters,
 } from '../../actions';
 import { connect } from 'react-redux';
-
-const MILE_METER_CONVERSION_RATE = 1609.34;
 
 function LocationSearchResults({
   search,
