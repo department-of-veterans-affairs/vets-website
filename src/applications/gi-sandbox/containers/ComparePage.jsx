@@ -5,6 +5,8 @@ import React, {
   useCallback,
   useLayoutEffect,
 } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -16,6 +18,7 @@ import {
   showModal,
   hideModal,
   fetchCompareDetails,
+  removeCompareInstitution,
 } from '../actions';
 import { estimatedBenefits } from '../selectors/estimator';
 import {
@@ -27,17 +30,19 @@ import Checkbox from '../components/Checkbox';
 import ServiceError from '../components/ServiceError';
 import CompareGrid from '../components/CompareGrid';
 import RatingsStars from '../components/RatingsStars';
-import { Link } from 'react-router-dom';
+import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 
 export function ComparePage({
   allLoaded,
   compare,
   dispatchFetchCompareDetails,
+  dispatchRemoveCompareInstitution,
   estimated,
   filters,
   preview,
 }) {
   const [showDifferences, setShowDifferences] = useState(false);
+  const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const [isSticky, setIsSticky] = useState(false);
   const [initialTop, setInitialTop] = useState(null);
   const headerRef = useRef(null);
@@ -45,6 +50,7 @@ export function ComparePage({
   const { loaded, institutions } = compare.details;
   const { version } = preview;
   const institutionCount = loaded.length;
+  const history = useHistory();
 
   useEffect(
     () => {
@@ -134,8 +140,38 @@ export function ComparePage({
     return <span>{formatCurrency(value)}</span>;
   };
 
+  const empties = [];
+  for (let i = 0; i < 3 - institutionCount; i++) {
+    empties.push(
+      <div key={i} className="medium-screen:vads-l-col--3">
+        <div className="compare-header empty-header" />
+        <div className="compare-action">
+          <Link to={'/search'}>Return to search to add</Link>
+        </div>
+      </div>,
+    );
+  }
+
   return (
     <div className="compare-page">
+      {promptingFacilityCode && (
+        <RemoveCompareSelectedModal
+          name={institutions[promptingFacilityCode].name}
+          onClose={() => setPromptingFacilityCode(null)}
+          onAccept={() => {
+            setPromptingFacilityCode(null);
+            const newSelected = selected.filter(
+              facilityCode => facilityCode !== promptingFacilityCode,
+            );
+            const compareLink = appendQuery(
+              `/compare/?facilities=${newSelected.join(',')}`,
+            );
+            history.replace(compareLink);
+            dispatchRemoveCompareInstitution(promptingFacilityCode);
+          }}
+          onCancel={() => setPromptingFacilityCode(null)}
+        />
+      )}
       <div className="content-wrapper">
         <div
           id="compare-header"
@@ -186,7 +222,9 @@ export function ComparePage({
                       <button
                         type="button"
                         className="va-button-link learn-more-button"
-                        onClick={() => {}}
+                        onClick={() => {
+                          setPromptingFacilityCode(facilityCode);
+                        }}
                       >
                         Remove
                       </button>
@@ -194,16 +232,7 @@ export function ComparePage({
                   </div>
                 );
               })}
-              {institutionCount === 2 && (
-                <div className="medium-screen:vads-l-col--3">
-                  <div className="compare-header empty-header" />
-                  <div className="compare-action">
-                    <Link to={'/gi-bill-comparison-tool-sandbox/search'}>
-                      Return to search to add
-                    </Link>
-                  </div>
-                </div>
-              )}
+              {empties}
             </div>
           </div>
         </div>
@@ -284,7 +313,7 @@ export function ComparePage({
 
           <CompareGrid
             sectionLabel="Your estimated benefits"
-            sectionSublabel="Payments made to school"
+            subSectionLabel="Payments made to school"
             institutions={institutions}
             facilityCodes={loaded}
             showDifferences={showDifferences}
@@ -309,7 +338,7 @@ export function ComparePage({
           />
 
           <CompareGrid
-            sectionSublabel="Payments made to you"
+            subSectionLabel="Payments made to you"
             institutions={institutions}
             facilityCodes={loaded}
             showDifferences={showDifferences}
@@ -367,7 +396,7 @@ export function ComparePage({
           />
 
           <CompareGrid
-            sectionSublabel="Education ratings"
+            subSectionLabel="Education ratings"
             institutions={institutions}
             facilityCodes={loaded}
             showDifferences={showDifferences}
@@ -396,7 +425,7 @@ export function ComparePage({
           />
 
           <CompareGrid
-            sectionSublabel="Veteran friendliness"
+            subSectionLabel="Veteran friendliness"
             institutions={institutions}
             facilityCodes={loaded}
             showDifferences={showDifferences}
@@ -423,7 +452,6 @@ export function ComparePage({
             sectionLabel="Cautionary information"
             institutions={institutions}
             facilityCodes={loaded}
-            showDifferences={showDifferences}
             fieldData={[
               {
                 label: 'Caution flags',
@@ -570,6 +598,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   dispatchFetchCompareDetails: fetchCompareDetails,
   dispatchFetchProfile: fetchProfile,
+  dispatchRemoveCompareInstitution: removeCompareInstitution,
   dispatchSetPageTitle: setPageTitle,
   dispatchShowModal: showModal,
   dispatchHideModal: hideModal,

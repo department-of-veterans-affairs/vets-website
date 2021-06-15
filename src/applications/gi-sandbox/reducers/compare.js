@@ -49,6 +49,14 @@ export default function(state = INITIAL_STATE, action) {
             ..._.omit(state.search.institutions, action.payload),
           },
         },
+        details: {
+          loaded: state.details.loaded.filter(
+            facilityCode => facilityCode !== action.payload,
+          ),
+          institutions: {
+            ..._.omit(state.details.institutions, action.payload),
+          },
+        },
         selected: state.selected.filter(
           facilityCode => facilityCode !== action.payload,
         ),

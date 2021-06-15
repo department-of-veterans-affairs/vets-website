@@ -64,7 +64,6 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
   .mapboxgl-ctrl-top-center {
     position: absolute;
-    pointer-events: none;
     margin: 15px 0 0 15px;
   }
 
@@ -89,6 +88,10 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   canvas.mapboxgl-canvas:focus {
     outline: 2px solid $color-gold-light;
     outline-offset: 2px;
+  }
+
+  #search-area-control-container {
+    z-index: 1;
   }
 }
 .use-my-location-container {
