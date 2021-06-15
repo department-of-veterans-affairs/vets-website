@@ -23,7 +23,7 @@ describe('health care questionnaire -- appointment id is required --', () => {
   it('should show questionnaire with id in url', () => {
     cy.title().should('contain', 'Questionnaire');
     cy.get('.schemaform-title>h1').contains(
-      'Answer primsssary care questionnaire',
+      'Answer primary care questionnaire',
     );
   });
 });
