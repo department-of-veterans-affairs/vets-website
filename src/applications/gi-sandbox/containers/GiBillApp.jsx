@@ -8,6 +8,7 @@ import {
   enterPreviewMode,
   exitPreviewMode,
   fetchConstants,
+  updateQueryParams,
 } from '../actions';
 import GiBillBreadcrumbs from '../components/GiBillBreadcrumbs';
 import PreviewBanner from '../components/PreviewBanner';
@@ -22,6 +23,7 @@ export function GiBillApp({
   dispatchExitPreviewMode,
   dispatchFetchConstants,
   dispatchChangeSearchTab,
+  dispatchUpdateQueryParams,
   preview,
 }) {
   const queryParams = useQueryParams();
@@ -49,6 +51,17 @@ export function GiBillApp({
     [shouldExitPreviewMode, shouldEnterPreviewMode],
   );
 
+  useEffect(() => {
+    let params = {};
+    for (const [key, value] of queryParams.entries()) {
+      params = {
+        ...params,
+        [key]: value,
+      };
+    }
+    dispatchUpdateQueryParams(params);
+  }, []);
+
   return (
     <div className="gi-app" role="application">
       <div>
@@ -59,6 +72,13 @@ export function GiBillApp({
           {constants.error && <ServiceError />}
           {!(constants.error || constants.inProgress) && (
             <DowntimeNotification appTitle={'GI Bill Comparison Tool'}>
+              <div className="vads-u-text-align--center vads-u-padding-bottom--6">
+                <h1>GI Bill® Comparison Tool</h1>
+                <p className="vads-u-font-size--h3 vads-u-color--gray-dark">
+                  Use the GI Bill Comparison Tool to see how VA education
+                  benefits can pay for your education.
+                </p>
+              </div>
               {children}
             </DowntimeNotification>
           )}
@@ -82,10 +102,11 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
+  dispatchChangeSearchTab: changeSearchTab,
   dispatchEnterPreviewMode: enterPreviewMode,
   dispatchExitPreviewMode: exitPreviewMode,
   dispatchFetchConstants: fetchConstants,
-  dispatchChangeSearchTab: changeSearchTab,
+  dispatchUpdateQueryParams: updateQueryParams,
 };
 
 export default connect(
