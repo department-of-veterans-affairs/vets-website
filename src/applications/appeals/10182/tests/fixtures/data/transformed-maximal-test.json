@@ -37,7 +37,7 @@
         "decisionIssueId": 1,
         "ratingIssueReferenceId": "2",
         "ratingDecisionReferenceId": "3",
-        "disagreementReason": "service connection,effective date,disability evaluation,this is an other entry"
+        "disagreementArea": "service connection,effective date,disability evaluation,this is an other entry"
       }
     },
     {
@@ -47,7 +47,7 @@
         "decisionDate": "2020-01-02",
         "decisionIssueId": 4,
         "ratingIssueReferenceId": "5",
-        "disagreementReason": "effective date"
+        "disagreementArea": "effective date"
       }
     },
     {
@@ -55,7 +55,7 @@
       "attributes": {
         "issue": "right shoulder",
         "decisionDate": "2020-01-06",
-        "disagreementReason": "disability evaluation,this is another other entry"
+        "disagreementArea": "disability evaluation,this is another other entry"
       }
     }
   ],

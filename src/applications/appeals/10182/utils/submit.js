@@ -112,7 +112,7 @@ export const createIssueName = ({ attributes } = {}) => {
  * @type {Object}
  * @property {String} issue - title of issue returned by createIssueName function
  * @property {String} decisionDate - decision date string (YYYY-MM-DD)
- * @property {String} disagreementReason - area of disagreement
+ * @property {String} disagreementArea - area of disagreement
  * @property {Number=} decisionIssueId - decision id
  * @property {String=} ratingIssueReferenceId - issue reference number
  * @property {String=} ratingDecisionReferenceId - decision reference id
@@ -216,7 +216,7 @@ export const addIncludedIssues = formData => {
  * Add area of disagreement
  * @param {ContestableIssue~Submittable} issues - selected & processed issues
  * @param {FormData} formData
- * @return {ContestableIssues~Submittable} issues with "disagreementReason" added
+ * @return {ContestableIssues~Submittable} issues with "disagreementArea" added
  */
 export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
   const keywords = {
@@ -234,7 +234,7 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
       ...issue,
       attributes: {
         ...issue.attributes,
-        disagreementReason: reasons
+        disagreementArea: reasons
           .join(',')
           .substring(0, MAX_DISAGREEMENT_REASON_LENGTH), // max length in schema
       },

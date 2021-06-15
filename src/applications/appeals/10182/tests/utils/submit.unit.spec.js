@@ -209,10 +209,10 @@ describe('addAreaOfDisagreement', () => {
       [issue1.result, issue2.result],
       formData,
     );
-    expect(result[0].attributes.disagreementReason).to.equal(
+    expect(result[0].attributes.disagreementArea).to.equal(
       'service connection',
     );
-    expect(result[1].attributes.disagreementReason).to.equal('effective date');
+    expect(result[1].attributes.disagreementArea).to.equal('effective date');
   });
   it('should process multiple choices', () => {
     const formData = {
@@ -228,7 +228,7 @@ describe('addAreaOfDisagreement', () => {
       ],
     };
     const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementReason).to.equal(
+    expect(result[0].attributes.disagreementArea).to.equal(
       'service connection,effective date,disability evaluation',
     );
   });
@@ -247,7 +247,7 @@ describe('addAreaOfDisagreement', () => {
       ],
     };
     const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementReason).to.equal(
+    expect(result[0].attributes.disagreementArea).to.equal(
       'service connection,effective date,disability evaluation,this is an other entry',
     );
   });
