@@ -305,7 +305,6 @@ function LocationSearchResults({
 
 const mapStateToProps = state => ({
   search: state.search,
-  autocomplete: state.autocomplete,
   filters: state.filters,
   preview: state.preview,
 });
