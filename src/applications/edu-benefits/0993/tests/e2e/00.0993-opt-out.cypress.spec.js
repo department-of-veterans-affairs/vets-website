@@ -38,8 +38,11 @@ describe('Opt Out Test', () => {
     })
       .should('be.visible')
       .then(() => {
-        cy.wait(Timeouts.normal);
-        cy.get('input[type="checkbox"]').click();
+        cy.get('input[type="checkbox"]', { timeout: Timeouts.normal })
+          .should('exist')
+          .then(checkbox => {
+            cy.wrap(checkbox).click();
+          });
         cy.axeCheck();
         cy.get('.form-progress-buttons .usa-button-primary').click();
       });

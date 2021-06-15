@@ -1,14 +1,3 @@
-Cypress.Commands.add('overrideVetsGovApi', url => {
-  const current = window.VetsGov || {};
-  window.VetsGov = Object.assign({}, current, {
-    api: {
-      // eslint-disable-next-line object-shorthand
-      url: url,
-    },
-  });
-  return window.VetsGov;
-});
-
 Cypress.Commands.add('fill', (selector, value) => {
   if (typeof value !== 'undefined') {
     cy.get(selector)
