@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+const chalk = require('chalk');
 const commandLineArgs = require('command-line-args');
 const fs = require('fs');
 const glob = require('glob');
@@ -77,6 +78,7 @@ FILENAMES.forEach(fname => {
 
     // Leave this file alone if it doesn't import the component
     if (!data.includes(legacyImport)) return null;
+    console.log(chalk.cyan(`Reading ${fname}`));
     const [newTag, propMap] = replacements[options.component]();
 
     const newTags = replaceTags(data, newTag);
@@ -86,6 +88,9 @@ FILENAMES.forEach(fname => {
 
     let migratedFile = newTags;
     components.forEach(component => {
+      console.log(chalk.yellow.bold('Remapping component props:'));
+      console.log(chalk.yellow(component));
+
       // Next, replace the props
       migratedFile = migratedFile.replace(
         component,
