@@ -34,7 +34,7 @@ const CheckIn = props => {
       </dl>
       <button
         type="button"
-        className="usa-button"
+        className="usa-button usa-button-big"
         onClick={onClick}
         data-testid="check-in-button"
       >
