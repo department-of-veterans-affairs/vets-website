@@ -255,6 +255,7 @@ describe('addAreaOfDisagreement', () => {
 
 describe('addUploads', () => {
   const getData = (checked, files) => ({
+    boardReviewOption: 'evidence_submission',
     'view:additionalEvidence': checked,
     evidence: files.map(name => ({ name, confirmationCode: '123' })),
   });
@@ -264,7 +265,14 @@ describe('addUploads', () => {
       { name: 'test2', confirmationCode: '123' },
     ]);
   });
-  it('should not add uploads', () => {
+  it('should not add uploads if not submitting more evidence', () => {
+    const data = {
+      ...getData(true, ['test1', 'test2']),
+      boardReviewOption: 'hearing',
+    };
+    expect(addUploads(data)).to.deep.equal([]);
+  });
+  it('should not add uploads if submit later is selected', () => {
     expect(addUploads(getData(false, ['test1', 'test2']))).to.deep.equal([]);
   });
 });
