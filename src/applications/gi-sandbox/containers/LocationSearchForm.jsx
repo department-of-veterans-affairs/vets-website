@@ -62,7 +62,12 @@ export function LocationSearchForm({
         version,
       );
     } else {
-      dispatchFetchSearchByLocationResults(location, distance, filters, version);
+      dispatchFetchSearchByLocationResults(
+        location,
+        distance,
+        filters,
+        version,
+      );
     }
     updateUrlLocationParams(paramLocation);
   };
