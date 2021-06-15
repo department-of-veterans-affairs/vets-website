@@ -32,6 +32,7 @@ export function RefineYourSearch({
   const history = useHistory();
   const { version } = preview;
   const {
+    expanded,
     schools,
     accredited,
     studentVeteran,
@@ -47,13 +48,13 @@ export function RefineYourSearch({
     preferredProvider,
     employers,
   } = filters;
-  const [expanded, setExpanded] = useState(filters.expanded);
+  const [isExpanded, setIsExpanded] = useState(expanded);
 
   useEffect(
     () => {
-      setExpanded(expanded);
+      setIsExpanded(expanded);
     },
-    [filters.expanded],
+    [expanded],
   );
 
   const facets =
@@ -294,7 +295,7 @@ export function RefineYourSearch({
         buttonLabel="Update results"
         buttonOnClick={() => updateResults()}
         name="benefitEstimates"
-        expanded={expanded}
+        expanded={isExpanded}
         onClick={onAccordionChange}
       >
         <br />
