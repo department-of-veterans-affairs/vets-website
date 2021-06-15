@@ -59,9 +59,10 @@ export function LocationSearchForm({
         autocompleteSelection.coords,
         distance,
         filters,
+        version,
       );
     } else {
-      dispatchFetchSearchByLocationResults(location, distance, filters);
+      dispatchFetchSearchByLocationResults(location, distance, filters, version);
     }
     updateUrlLocationParams(paramLocation);
   };

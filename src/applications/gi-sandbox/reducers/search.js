@@ -37,6 +37,7 @@ const INITIAL_STATE = {
       provider: [],
     },
     results: [],
+    mapChanged: false,
   },
   name: {
     count: null,
@@ -152,6 +153,7 @@ export default function(state = INITIAL_STATE, action) {
           latitude: action.payload.latitude || state.query.latitude,
           longitude: action.payload.longitude || state.query.longitude,
         },
+        location: { ...state.location, mapChanged: false },
         inProgress: true,
       };
 
