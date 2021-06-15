@@ -30,16 +30,6 @@ describe('<IntroductionPage/>', () => {
     },
   };
 
-  const originalClaimsProps = allow => ({
-    ...defaultProps,
-    testOriginalClaim: allow,
-    user: {
-      profile: {
-        services: ['original-claim'],
-      },
-    },
-  });
-
   it('should render', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     expect(wrapper.length).to.equal(1);
@@ -95,26 +85,6 @@ describe('<IntroductionPage/>', () => {
     wrapper.unmount();
   });
 
-  it('should render as usual (allow original claim)', () => {
-    const wrapper = shallow(
-      <IntroductionPage {...originalClaimsProps(true)} />,
-    );
-    expect(
-      wrapper.find('withRouter(Connect(SaveInProgressIntro))').length,
-    ).to.equal(2);
-    expect(wrapper.find('FormTitle').length).to.equal(1);
-    wrapper.unmount();
-  });
-  it('should block original claim & show alert', () => {
-    const wrapper = shallow(
-      <IntroductionPage {...originalClaimsProps(false)} />,
-    );
-    expect(
-      wrapper.find('withRouter(Connect(SaveInProgressIntro))').length,
-    ).to.equal(0);
-    expect(wrapper.find('FormTitle').length).to.equal(1);
-    wrapper.unmount();
-  });
   it('should render reset wizard link to info page', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     expect(wrapper.find('.va-button-link').props().href).to.contain(
