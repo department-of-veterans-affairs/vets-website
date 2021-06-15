@@ -33,7 +33,6 @@ export function TuitionAndHousingEstimates({
     eligibility.numberOfDependents,
   );
   const [onlineClasses, setOnlineClasses] = useState(eligibility.onlineClasses);
-  useEffect(
 
   const updateStore = () => {
     dispatchEligibilityChange({
