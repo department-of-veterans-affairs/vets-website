@@ -9,7 +9,6 @@ import {
   selectFeatureDirectScheduling,
   selectFeatureCommunityCare,
   selectSystemIds,
-  selectIsCernerOnlyPatient,
   selectFeatureHomepageRefresh,
   selectFeatureVAOSServiceRequests,
   selectRegisteredCernerFacilityIds,
@@ -40,7 +39,6 @@ import {
   isCernerLocation,
   isTypeOfCareSupported,
 } from '../../services/location';
-import { getSupportedHealthcareServicesAndLocations } from '../../services/healthcare-service';
 import { getSlots } from '../../services/slot';
 import { getPreciseLocation } from '../../utils/address';
 import {
@@ -90,36 +88,18 @@ export const FORM_PAGE_CHANGE_COMPLETED =
   'newAppointment/FORM_PAGE_CHANGE_COMPLETED';
 export const FORM_UPDATE_FACILITY_TYPE =
   'newAppointment/FORM_UPDATE_FACILITY_TYPE';
-export const FORM_PAGE_FACILITY_OPEN = 'newAppointment/FACILITY_PAGE_OPEN';
 export const FORM_PAGE_FACILITY_V2_OPEN =
   'newAppointment/FACILITY_PAGE_V2_OPEN';
 export const FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED =
   'newAppointment/FACILITY_PAGE_V2_OPEN_SUCCEEDED';
 export const FORM_PAGE_FACILITY_V2_OPEN_FAILED =
   'newAppointment/FACILITY_PAGE_V2_OPEN_FAILED';
-export const FORM_PAGE_FACILITY_OPEN_SUCCEEDED =
-  'newAppointment/FACILITY_PAGE_OPEN_SUCCEEDED';
-export const FORM_PAGE_FACILITY_OPEN_FAILED =
-  'newAppointment/FACILITY_PAGE_OPEN_FAILED';
 export const FORM_PAGE_FACILITY_SORT_METHOD_UPDATED =
   'newAppointment/FORM_PAGE_FACILITY_SORT_METHOD_UPDATED';
-export const FORM_FETCH_PARENT_FACILITIES =
-  'newAppointment/FORM_FETCH_PARENT_FACILITIES';
-export const FORM_FETCH_PARENT_FACILITIES_SUCCEEDED =
-  'newAppointment/FORM_FETCH_PARENT_FACILITIES_SUCCEEDED';
-export const FORM_FETCH_PARENT_FACILITIES_FAILED =
-  'newAppointment/FORM_FETCH_PARENT_FACILITIES_FAILED';
-export const FORM_FETCH_CHILD_FACILITIES =
-  'newAppointment/FORM_FETCH_CHILD_FACILITIES';
-export const FORM_FETCH_CHILD_FACILITIES_SUCCEEDED =
-  'newAppointment/FORM_FETCH_CHILD_FACILITIES_SUCCEEDED';
-export const FORM_FETCH_CHILD_FACILITIES_FAILED =
-  'newAppointment/FORM_FETCH_CHILD_FACILITIES_FAILED';
 export const FORM_FETCH_FACILITY_DETAILS =
   'newAppointment/FORM_FETCH_FACILITY_DETAILS';
 export const FORM_FETCH_FACILITY_DETAILS_SUCCEEDED =
   'newAppointment/FORM_FETCH_FACILITY_DETAILS_SUCCEEDED';
-export const FORM_VA_PARENT_CHANGED = 'newAppointment/FORM_VA_PARENT_CHANGED';
 export const FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS =
   'newAppointment/FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS';
 export const FORM_ELIGIBILITY_CHECKS = 'newAppointment/FORM_ELIGIBILITY_CHECKS';
@@ -518,226 +498,6 @@ export function showEligibilityModal() {
 export function hideEligibilityModal() {
   return {
     type: FORM_HIDE_ELIGIBILITY_MODAL,
-  };
-}
-
-/*
- * The facility page can be opened with data in a variety of states and conditions.
- * We always need the list of parents (VAMCs) they can access. After that:
- *
- * 1. A user has multiple parents to choose from, so we just need to display them
- * 2. A user has only one parent, so we also need to fetch facilities
- * 3. A user might only have one parent and facility available, so we need to also
- *    do eligibility checks
- * 4. A user might already have been on this page, in which case we may have some
- *    of the above data already and don't want to make another api call
-*/
-export function openFacilityPage(page, uiSchema, schema) {
-  return async (dispatch, getState) => {
-    const initialState = getState();
-    const directSchedulingEnabled = selectFeatureDirectScheduling(initialState);
-    const newAppointment = initialState.newAppointment;
-    const typeOfCare = getTypeOfCare(newAppointment.data)?.name;
-    const typeOfCareId = getTypeOfCare(newAppointment.data)?.id;
-    const userSiteIds = selectSystemIds(initialState);
-    const isCernerOnly = selectIsCernerOnlyPatient(initialState);
-    let parentFacilities = newAppointment.parentFacilities;
-    let locations = null;
-    let eligibilityResults = {};
-    let parentId = newAppointment.data.vaParent;
-    let locationId = newAppointment.data.vaFacility;
-    let siteId = null;
-
-    try {
-      // If we have the VA parent in our state, we don't need to
-      // fetch them again
-      if (!parentFacilities) {
-        parentFacilities = await fetchParentLocations({
-          siteIds: userSiteIds,
-        });
-      }
-
-      const canShowFacilities =
-        !isCernerOnly && (!!parentId || parentFacilities?.length === 1);
-
-      if (canShowFacilities && !parentId) {
-        parentId = parentFacilities[0].id;
-      }
-
-      if (parentId) {
-        siteId = parentFacilities.find(location => location.id === parentId)
-          .vistaId;
-      }
-
-      locations =
-        newAppointment.facilities[`${typeOfCareId}_${parentId}`] || null;
-
-      if (canShowFacilities && !locations) {
-        locations = await getSupportedHealthcareServicesAndLocations({
-          siteId,
-          parentId,
-          typeOfCareId,
-        });
-      }
-
-      const eligibilityDataNeeded = !!locationId || locations?.length === 1;
-
-      if (eligibilityDataNeeded && !locationId) {
-        locationId = locations[0].id;
-      }
-
-      if (parentId && !locations?.length) {
-        recordEligibilityFailure('supported-facilities', typeOfCare, parentId);
-      }
-
-      const eligibilityChecks =
-        newAppointment.eligibility[`${locationId}_${typeOfCareId}`] || null;
-
-      if (eligibilityDataNeeded && !eligibilityChecks) {
-        eligibilityResults = await fetchFlowEligibilityAndClinics({
-          location: locations.find(location => location.id === locationId),
-          typeOfCare,
-          directSchedulingEnabled,
-        });
-      }
-
-      dispatch({
-        type: FORM_PAGE_FACILITY_OPEN_SUCCEEDED,
-        page,
-        uiSchema,
-        schema,
-        parentFacilities,
-        facilities: locations,
-        typeOfCareId,
-        ...eligibilityResults,
-        location:
-          eligibilityDataNeeded && !eligibilityChecks
-            ? locations.find(location => location.id === locationId)
-            : null,
-        isCernerOnly,
-      });
-
-      if (parentId && !locations.length) {
-        try {
-          const thunk = fetchFacilityDetails(parentId);
-          await thunk(dispatch, getState);
-        } catch (e) {
-          captureError(e);
-        }
-      }
-    } catch (e) {
-      captureError(e, false, 'facility page');
-      dispatch({
-        type: FORM_PAGE_FACILITY_OPEN_FAILED,
-      });
-    }
-  };
-}
-
-export function updateFacilityPageData(page, uiSchema, data) {
-  return async (dispatch, getState) => {
-    const state = getState();
-    const directSchedulingEnabled = selectFeatureDirectScheduling(state);
-    const previousNewAppointmentState = state.newAppointment;
-    const typeOfCare = getTypeOfCare(data);
-    const typeOfCareId = typeOfCare?.id;
-    const siteId = getSiteIdFromFacilityId(data.vaParent);
-
-    let locations =
-      previousNewAppointmentState.facilities[
-        `${typeOfCareId}_${data.vaParent}`
-      ];
-    dispatch(updateFormData(page, uiSchema, data));
-
-    if (!locations) {
-      dispatch({
-        type: FORM_FETCH_CHILD_FACILITIES,
-      });
-
-      try {
-        locations = await getSupportedHealthcareServicesAndLocations({
-          siteId,
-          parentId: data.vaParent,
-          typeOfCareId,
-        });
-
-        // If no available facilities, fetch system details to display contact info
-        if (!locations?.length) {
-          dispatch(fetchFacilityDetails(data.vaParent));
-          recordEligibilityFailure(
-            'supported-facilities',
-            typeOfCare?.name,
-            data.vaParent,
-          );
-        }
-
-        dispatch({
-          type: FORM_FETCH_CHILD_FACILITIES_SUCCEEDED,
-          uiSchema,
-          facilities: locations,
-          typeOfCareId,
-        });
-      } catch (e) {
-        captureError(e, false, 'facility page');
-        dispatch({
-          type: FORM_FETCH_CHILD_FACILITIES_FAILED,
-        });
-      }
-    } else if (
-      data.vaParent &&
-      previousNewAppointmentState.data.vaParent !== data.vaParent
-    ) {
-      dispatch({
-        type: FORM_VA_PARENT_CHANGED,
-        uiSchema,
-        typeOfCareId,
-      });
-    } else if (
-      previousNewAppointmentState.data.vaFacility !== data.vaFacility &&
-      !previousNewAppointmentState.eligibility[
-        `${data.vaFacility}_${typeOfCareId}`
-      ]
-    ) {
-      dispatch({
-        type: FORM_ELIGIBILITY_CHECKS,
-      });
-
-      try {
-        const {
-          eligibility,
-          clinics,
-          pastAppointments,
-        } = await fetchFlowEligibilityAndClinics({
-          location: locations.find(location => location.id === data.vaFacility),
-          typeOfCare,
-          directSchedulingEnabled,
-        });
-
-        dispatch({
-          type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
-          typeOfCare,
-          eligibility,
-          clinics,
-          pastAppointments,
-          location: locations.find(location => location.id === data.vaFacility),
-          facilityId: data.vaFacility,
-        });
-
-        try {
-          if (!eligibility.direct && !eligibility.request) {
-            const thunk = fetchFacilityDetails(data.vaFacility);
-            await thunk(dispatch, getState);
-          }
-        } catch (e) {
-          captureError(e);
-        }
-      } catch (e) {
-        captureError(e, false, 'facility page');
-        dispatch({
-          type: FORM_ELIGIBILITY_CHECKS_FAILED,
-        });
-      }
-    }
   };
 }
 
