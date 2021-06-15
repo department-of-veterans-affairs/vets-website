@@ -5,12 +5,14 @@ import {
   GA_PREFIX,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
+  APPOINTMENT_STATUS,
 } from '../../utils/constants';
 import { recordItemsRetrieved } from '../../utils/events';
 import {
   selectSystemIds,
   selectFeatureHomepageRefresh,
   selectFeatureVAOSServiceRequests,
+  selectFeatureVAOSServiceVAAppointments,
 } from '../../redux/selectors';
 
 import { getRequestMessages } from '../../services/var';
@@ -525,6 +527,9 @@ export function confirmCancelAppointment() {
     const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
       getState(),
     );
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      getState(),
+    );
 
     try {
       dispatch({
@@ -533,7 +538,11 @@ export function confirmCancelAppointment() {
 
       const updatedAppointment = await cancelAppointment({
         appointment,
-        useV2: featureVAOSServiceRequests,
+        useV2:
+          (featureVAOSServiceRequests &&
+            appointment.status === APPOINTMENT_STATUS.proposed) ||
+          (featureVAOSServiceVAAppointments &&
+            appointment.status !== APPOINTMENT_STATUS.proposed),
       });
 
       dispatch({
