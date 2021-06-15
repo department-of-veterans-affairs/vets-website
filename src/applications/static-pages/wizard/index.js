@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import set from 'platform/utilities/data/set';
 
-import { connect } from 'react-redux';
-
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
@@ -191,4 +189,4 @@ Wizard.defaultProps = {
   setReferredBenefit: () => {},
 };
 
-export default connect(Wizard);
+export default Wizard;
