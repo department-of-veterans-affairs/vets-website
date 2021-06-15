@@ -4,6 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl';
 import { getScrollOptions } from 'platform/utilities/ui';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import SearchResultCard from '../../containers/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit } from '../../constants';
@@ -17,6 +18,7 @@ import {
 import { connect } from 'react-redux';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
+
 function LocationSearchResults({
   search,
   filters,
@@ -31,9 +33,12 @@ function LocationSearchResults({
   const mapContainer = useRef(null);
   const markers = useRef([]);
   const [mapChanged, setMapChanged] = useState(search.location.mapChanged);
+
   const setupMap = () => {
     if (map.current) return; // initialize map only once
+
     mapboxgl.accessToken = mapboxToken;
+
     const mapInit = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/outdoors-v11',
@@ -43,6 +48,7 @@ function LocationSearchResults({
       touchZoomRotate: { around: 'center' },
       doubleClickZoom: false,
     });
+
     mapInit.addControl(
       new mapboxgl.NavigationControl({
         // Hide rotation control.
@@ -50,17 +56,21 @@ function LocationSearchResults({
       }),
       'top-left',
     );
+
     // Remove mapbox logo from tab order
     const mapBoxLogo = document.querySelector(
       'a.mapboxgl-ctrl-logo.mapboxgl-compact',
     );
     if (mapBoxLogo) mapBoxLogo.setAttribute('tabIndex', -1);
+
     mapInit.on('load', () => {
       mapInit.resize();
     });
+
     mapInit.on('dragstart', () => {
       setMapChanged(true);
     });
+
     mapInit.on('zoomstart', e => {
       // Only trigger mapMoved and speakZoom for manual events,
       // e.g. zoom in/out button click, mouse wheel, etc.
@@ -68,8 +78,10 @@ function LocationSearchResults({
       if (!e.originalEvent) {
         return;
       }
+
       setMapChanged(true);
     });
+
     mapInit.on('dblclick', e => {
       map.current.easeTo(
         {
@@ -81,26 +93,34 @@ function LocationSearchResults({
       );
       setMapChanged(true);
     });
+
     map.current = mapInit;
   };
+
   useEffect(() => {
     if (mapContainer.current) {
       setupMap();
     }
   }, []); // <-- empty array means 'run once'
+
   const addMapMarker = (institution, index, locationBounds) => {
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
+
     if (mapChanged && !map.current.getBounds().contains(lngLat)) return;
+
     const letter = numberToLetter(index + 1);
+
     const markerElement = document.createElement('div');
     markerElement.className = 'location-letter-marker';
     markerElement.innerText = letter;
+
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
       const locationSearchResults = document.getElementById(
         'location-search-results',
       );
+
       scroller.scrollTo(
         `${createId(name)}-result-card-placeholder`,
         getScrollOptions({
@@ -113,15 +133,19 @@ function LocationSearchResults({
         { expanded: false },
       );
     });
+
     if (locationBounds) {
       locationBounds.extend(new mapboxgl.LngLat(longitude, latitude));
     }
+
     new mapboxgl.Marker(markerElement)
       .setLngLat([longitude, latitude])
       .setPopup(popup)
       .addTo(map.current);
+
     markers.current.push(markerElement);
   };
+
   const currentLocationMapMarker = bounds => {
     const currentMarkerElement = document.createElement('div');
     currentMarkerElement.className = 'current-position';
@@ -137,6 +161,7 @@ function LocationSearchResults({
     ]);
     markers.current.push(currentMarkerElement);
   };
+
   useEffect(
     () => {
       markers.current.forEach(marker => marker.remove());
@@ -158,10 +183,12 @@ function LocationSearchResults({
     },
     [results],
   );
+
   const resultCards = results.map((institution, index) => {
     const { distance } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
     const letter = numberToLetter(index + 1);
+
     const header = (
       <div className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2">
         <span className="location-letter vads-u-font-size--sm">{letter}</span>
@@ -170,6 +197,7 @@ function LocationSearchResults({
         </span>
       </div>
     );
+
     return (
       <>
         {header}
@@ -181,12 +209,15 @@ function LocationSearchResults({
       </>
     );
   });
+
   const searchArea = e => {
     e.preventDefault();
     const bounds = map.current.getBounds();
+
     const diagonalDistance =
       bounds.getNorthEast().distanceTo(bounds.getCenter()) /
       MILE_METER_CONVERSION_RATE;
+
     dispatchFetchSearchByLocationCoords(
       search.query.location,
       map.current.getCenter().toArray(),
@@ -195,6 +226,7 @@ function LocationSearchResults({
       preview.version,
     );
   };
+
   return (
     <>
       <div className={'location-search vads-u-padding-top--1'}>
@@ -240,6 +272,7 @@ function LocationSearchResults({
             </>
           )}
         </div>
+
         <div className={'usa-width-two-thirds'}>
           <map
             ref={mapContainer}
@@ -269,15 +302,19 @@ function LocationSearchResults({
     </>
   );
 }
+
 const mapStateToProps = state => ({
   search: state.search,
+  autocomplete: state.autocomplete,
   filters: state.filters,
   preview: state.preview,
 });
+
 const mapDispatchToProps = {
   dispatchUpdateEligibilityAndFilters: updateEligibilityAndFilters,
   dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
 };
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
