@@ -288,11 +288,10 @@ module.exports = async (env = {}) => {
           test: /\.jsx?$/,
           exclude: /node_modules/,
           use: {
-            loader: 'babel-loader',
+            loader: 'esbuild-loader',
             options: {
-              // Speed up compilation.
-              cacheDirectory: '.babelcache',
-              // Also see .babelrc
+              loader: 'jsx',
+              target: 'es2015',
             },
           },
         },
