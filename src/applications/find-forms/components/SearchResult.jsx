@@ -183,7 +183,7 @@ const SearchResult = ({ form, formMetaInfo, useSearchUIUXEnhancements }) => {
             </a>
           </dd>
         ) : null}
-        <dd className="vads-u-margin-bottom--2p5">
+        <dd className="vads-u-margin-bottom--5">
           <a
             className="find-forms-max-content vads-u-text-decoration--none"
             href={url}
