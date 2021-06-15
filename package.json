@@ -335,6 +335,7 @@
     "**/dot-prop": "^5.1.1",
     "**/handlebars": "^4.7.7",
     "**/http-proxy": "^1.18.1",
+    "**/https-proxy-agent": "^2.2.3",
     "**/hosted-git-info": "^3.0.8",
     "**/locutus": "^2.0.15",
     "**/node-forge": "^0.10.0",
