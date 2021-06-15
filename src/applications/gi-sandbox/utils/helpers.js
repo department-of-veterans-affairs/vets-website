@@ -219,23 +219,6 @@ export const buildSearchFilters = filters => {
   return searchFilters;
 };
 
-export const getPosition = () => {
-  return new Promise((resolve, reject) => {
-    const onSuccess = position => {
-      const lat = position.coords.latitude;
-      const lng = position.coords.longitude;
-      const pos = [lat, lng];
-
-      resolve(pos);
-    };
-
-    const onError = () => {
-      reject();
-    };
-
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-  });
-};
 export const searchCriteraFromCoords = async (longitude, latitude) => {
   const response = await mbxClient
     .reverseGeocode({
