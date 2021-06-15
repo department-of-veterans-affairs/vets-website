@@ -69,3 +69,22 @@ export function mockVAOSAppointmentsFetch({
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: requests });
   }
 }
+
+/**
+ * Mocks the api call to get parent sites from the VAOS service. Really only used
+ * on the old two step facility page.
+ *
+ * @export
+ * @param {Array<string>} ids A list of VistA site ids to mock the request for
+ * @param {Array<VARParentSite>} data The list of parent site data returned from the mock call
+ */
+export function mockVAOSParentSites(ids, data, getChildren = false) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v2/facilities?ids=${ids}&children=${getChildren}`,
+    ),
+    { data },
+  );
+}

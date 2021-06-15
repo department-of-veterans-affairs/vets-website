@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /**
  *
  * Skeleton mocks for VAOS service data responses
@@ -40,6 +41,30 @@ export function getVAOSRequestMock() {
       start: null,
       status: null,
       telehealth: null,
+    },
+  };
+}
+
+/**
+ * Returns a stubbed var-resources parent site object from the VAOS service.
+ *
+ * @export
+ * @returns {VARParentSite} var-resources parent site object
+ */
+export function getVAOSParentSiteMock() {
+  return {
+    id: 'fake',
+    type: 'facility',
+    attributes: {
+      id: 'fake',
+      vista_site: 'fake',
+      name: 'fake',
+      physical_address: {
+        line: [],
+        city: 'fake',
+        state: 'fake',
+        postal_code: 'fake',
+      },
     },
   };
 }
