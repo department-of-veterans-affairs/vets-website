@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import SearchAccordion from '../components/SearchAccordion';
 import SearchBenefits from '../components/SearchBenefits';
 import RadioButtons from '../components/RadioButtons';
 import LearnMoreLabel from '../components/LearnMoreLabel';
-import { showModal, updateEligibilityAndFilters } from '../actions';
+import { showModal, eligibilityChange } from '../actions';
 import { connect } from 'react-redux';
 
 export function TuitionAndHousingEstimates({
   eligibility,
-  dispatchUpdateEligibilityAndFilters,
+  dispatchEligibilityChange,
   dispatchShowModal,
 }) {
+  const { expanded } = eligibility;
+
   const [giBillChapter, setGiBillChapter] = useState(eligibility.giBillChapter);
   const [militaryStatus, setMilitaryStatus] = useState(
     eligibility.militaryStatus,
@@ -31,17 +33,11 @@ export function TuitionAndHousingEstimates({
     eligibility.numberOfDependents,
   );
   const [onlineClasses, setOnlineClasses] = useState(eligibility.onlineClasses);
-  const [expanded, setExpanded] = useState(eligibility.expanded);
-
   useEffect(
-    () => {
-      setExpanded(eligibility.expanded);
-    },
-    [eligibility.expanded],
-  );
 
   const updateStore = () => {
-    dispatchUpdateEligibilityAndFilters({
+    dispatchEligibilityChange({
+      expanded,
       militaryStatus,
       spouseActiveDuty,
       giBillChapter,
@@ -53,6 +49,10 @@ export function TuitionAndHousingEstimates({
     });
   };
 
+  const onExpand = value => {
+    dispatchEligibilityChange({ expanded: value });
+  };
+
   return (
     <div>
       <SearchAccordion
@@ -61,7 +61,7 @@ export function TuitionAndHousingEstimates({
         buttonOnClick={updateStore}
         name="benefitEstimates"
         expanded={expanded}
-        onClick={value => setExpanded(value)}
+        onClick={onExpand}
       >
         <SearchBenefits
           cumulativeService={cumulativeService}
@@ -110,7 +110,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
-  dispatchUpdateEligibilityAndFilters: updateEligibilityAndFilters,
+  dispatchEligibilityChange: eligibilityChange,
 };
 
 export default connect(
