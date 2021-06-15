@@ -14,6 +14,7 @@ import { numberToLetter, createId } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
   updateEligibilityAndFilters,
+  changeSearchMapChanged,
 } from '../../actions';
 import { connect } from 'react-redux';
 
@@ -25,6 +26,7 @@ function LocationSearchResults({
   preview,
   dispatchUpdateEligibilityAndFilters,
   dispatchFetchSearchByLocationCoords,
+  dispatchChangeSearchMapChanged,
 }) {
   const { inProgress } = search;
   const { count, results } = search.location;
@@ -32,7 +34,31 @@ function LocationSearchResults({
   const map = useRef(null);
   const mapContainer = useRef(null);
   const markers = useRef([]);
-  const [mapChanged, setMapChanged] = useState(search.location.mapChanged);
+  const [mapChanged, setMapChanged] = useState(false);
+
+  const mapMoved = e => {
+    // Only trigger mapMoved and speakZoom for manual events,
+    // e.g. zoom in/out button click, mouse wheel, etc.
+    // which will have an originalEvent defined
+    if (e.type === 'zoomstart' && !e.originalEvent) {
+      return;
+    }
+    setMapChanged(true);
+    dispatchChangeSearchMapChanged(true);
+  };
+
+  const mapDoubleClick = e => {
+    map.current.easeTo(
+      {
+        duration: 300,
+        zoom: map.current.getZoom() + (e.originalEvent.shiftKey ? -1 : 1),
+        around: map.current.getCenter(),
+      },
+      { originalEvent: e.originalEvent },
+    );
+    setMapChanged(true);
+    dispatchChangeSearchMapChanged(true);
+  };
 
   const setupMap = () => {
     if (map.current) return; // initialize map only once
@@ -67,32 +93,9 @@ function LocationSearchResults({
       mapInit.resize();
     });
 
-    mapInit.on('dragstart', () => {
-      setMapChanged(true);
-    });
-
-    mapInit.on('zoomstart', e => {
-      // Only trigger mapMoved and speakZoom for manual events,
-      // e.g. zoom in/out button click, mouse wheel, etc.
-      // which will have an originalEvent defined
-      if (!e.originalEvent) {
-        return;
-      }
-
-      setMapChanged(true);
-    });
-
-    mapInit.on('dblclick', e => {
-      map.current.easeTo(
-        {
-          duration: 300,
-          zoom: map.current.getZoom() + (e.originalEvent.shiftKey ? -1 : 1),
-          around: map.current.getCenter(),
-        },
-        { originalEvent: e.originalEvent },
-      );
-      setMapChanged(true);
-    });
+    mapInit.on('dragstart', mapMoved);
+    mapInit.on('zoomstart', mapMoved);
+    mapInit.on('dblclick', mapDoubleClick);
 
     map.current = mapInit;
   };
@@ -151,7 +154,7 @@ function LocationSearchResults({
       markers.current.forEach(marker => marker.remove());
 
       if (!map.current || results.length === 0) {
-        setMapChanged(search.location.mapChanged);
+        setMapChanged(false);
         return;
       } // wait for map to initialize
 
@@ -165,7 +168,7 @@ function LocationSearchResults({
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
 
-      setMapChanged(search.location.mapChanged);
+      setMapChanged(false);
     },
     [results],
   );
@@ -298,6 +301,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchUpdateEligibilityAndFilters: updateEligibilityAndFilters,
   dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
+  dispatchChangeSearchMapChanged: changeSearchMapChanged,
 };
 
 export default connect(

@@ -50,6 +50,7 @@ export const UPDATE_AUTOCOMPLETE_NAME = 'UPDATE_AUTOCOMPLETE_NAME';
 export const UPDATE_AUTOCOMPLETE_LOCATION = 'UPDATE_AUTOCOMPLETE_LOCATION';
 export const UPDATE_COMPARE_DETAILS = 'UPDATE_COMPARE_DETAILS';
 export const UPDATE_CURRENT_SEARCH_TAB = 'UPDATE_CURRENT_TAB';
+export const UPDATE_MAP_CHANGED = 'UPDATE_MAP_CHANGED';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
 export const UPDATE_QUERY_PARAMS = 'UPDATE_QUERY_PARAMS';
@@ -267,6 +268,13 @@ export function changeSearchTab(tab) {
   return {
     type: UPDATE_CURRENT_SEARCH_TAB,
     tab,
+  };
+}
+
+export function changeSearchMapChanged(mapChanged) {
+  return {
+    type: UPDATE_MAP_CHANGED,
+    mapChanged,
   };
 }
 

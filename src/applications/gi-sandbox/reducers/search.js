@@ -11,6 +11,7 @@ import {
   GEOCODE_FAILED,
   UPDATE_CURRENT_SEARCH_TAB,
   UPDATE_QUERY_PARAMS,
+  UPDATE_MAP_CHANGED,
 } from '../actions';
 import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
 import { TABS } from '../constants';
@@ -135,7 +136,10 @@ export default function(state = INITIAL_STATE, action) {
     case SEARCH_BY_LOCATION_SUCCEEDED:
       return {
         ...newState,
-        location: buildSearchResults(action.payload, false),
+        location: {
+          ...newState.location,
+          ...buildSearchResults(action.payload, false),
+        },
         inProgress: false,
         error: null,
       };
@@ -159,7 +163,6 @@ export default function(state = INITIAL_STATE, action) {
           latitude: action.payload.latitude || newState.query.latitude,
           longitude: action.payload.longitude || newState.query.longitude,
         },
-        location: { ...newState.location, mapChanged: false },
         inProgress: true,
       };
 
@@ -207,6 +210,12 @@ export default function(state = INITIAL_STATE, action) {
           distance: action.payload.distance || newState.query.distance,
         },
         loadFromUrl: true,
+      };
+
+    case UPDATE_MAP_CHANGED:
+      return {
+        ...newState,
+        location: { ...newState.location, mapChanged: action.mapChanged },
       };
 
     default:

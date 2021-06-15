@@ -16,6 +16,7 @@ import {
   filterChange,
   fetchSearchByNameResults,
   fetchSearchByLocationResults,
+  fetchSearchByLocationCoords,
 } from '../actions';
 import { connect } from 'react-redux';
 import { TABS } from '../constants';
@@ -25,6 +26,7 @@ export function RefineYourSearch({
   dispatchFilterChange,
   dispatchFetchSearchByNameResults,
   dispatchFetchSearchByLocationResults,
+  dispatchFetchSearchByLocationCoords,
   filters,
   preview,
   search,
@@ -93,6 +95,14 @@ export function RefineYourSearch({
   const updateResults = () => {
     if (search.tab === TABS.name) {
       dispatchFetchSearchByNameResults(search.query.name, filters, version);
+    } else if (search.location.mapChanged) {
+      dispatchFetchSearchByLocationCoords(
+        search.query.location,
+        [search.query.longitude, search.query.latitude],
+        search.query.distance,
+        filters,
+        version,
+      );
     } else {
       dispatchFetchSearchByLocationResults(
         search.query.location,
@@ -312,6 +322,7 @@ const mapDispatchToProps = {
   dispatchFilterChange: filterChange,
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
   dispatchFetchSearchByLocationResults: fetchSearchByLocationResults,
+  dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
 };
 
 export default connect(

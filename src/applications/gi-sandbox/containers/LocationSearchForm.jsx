@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Dropdown from '../components/Dropdown';
 import {
+  changeSearchMapChanged,
   fetchLocationAutocompleteSuggestions,
   fetchSearchByLocationCoords,
   fetchSearchByLocationResults,
@@ -17,6 +18,7 @@ export function LocationSearchForm({
   dispatchFetchSearchByLocationCoords,
   dispatchFetchSearchByLocationResults,
   dispatchUpdateAutocompleteLocation,
+  dispatchChangeSearchMapChanged,
   filters,
   preview,
   search,
@@ -56,6 +58,8 @@ export function LocationSearchForm({
 
   const doSearch = event => {
     event.preventDefault();
+    dispatchChangeSearchMapChanged(false);
+
     let paramLocation = location;
     if (autocompleteSelection?.coords) {
       paramLocation = autocompleteSelection.label;
@@ -143,6 +147,7 @@ const mapDispatchToProps = {
   dispatchFetchLocationAutocompleteSuggestions: fetchLocationAutocompleteSuggestions,
   dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
   dispatchUpdateAutocompleteLocation: updateAutocompleteLocation,
+  dispatchChangeSearchMapChanged: changeSearchMapChanged,
 };
 
 export default connect(
