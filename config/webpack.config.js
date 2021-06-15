@@ -370,7 +370,19 @@ module.exports = async (env = {}) => {
       noParse: [/mapbox\/vendor\/promise.js$/],
     },
     resolve: {
+      alias: {
+        '~': path.resolve(__dirname, '../src'),
+        '@@vap-svc': path.resolve(
+          __dirname,
+          '../src/platform/user/profile/vap-svc',
+        ),
+        '@@profile': path.resolve(
+          __dirname,
+          '../src/applications/personalization/profile',
+        ),
+      },
       extensions: ['.js', '.jsx'],
+      modules: ['node_modules', path.resolve(__dirname, '../src')],
     },
     optimization: {
       minimizer: [
