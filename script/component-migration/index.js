@@ -52,16 +52,20 @@ function replaceTags(file, newTag) {
   const unnamedClosingTags = file.matchAll(
     new RegExp(`(<${options.component}.+?^\\s+\\/>)`, 'gsm'),
   );
-  const cmpUnnamedClosingTag = [...unnamedClosingTags][0]?.[0];
 
-  // First, replace the tags
-  const dataWithNamedClosingTags = file.replace(
-    cmpUnnamedClosingTag,
-    cmpUnnamedClosingTag?.replace(/^\s+\/>/m, `></${newTag}>`),
-  );
+  const matches = Array.from(unnamedClosingTags, m => m[0]);
 
-  return dataWithNamedClosingTags
-    .replace(`<${options.component}`, `<${newTag}`)
+  let namedClosingTags = file;
+  matches.forEach(match => {
+    // First, replace the tags
+    namedClosingTags = namedClosingTags.replace(
+      match,
+      match?.replace(/^\s+\/>/m, `></${newTag}>`),
+    );
+  });
+
+  return namedClosingTags
+    .replace(new RegExp(`<${options.component}`, 'g'), `<${newTag}`)
     .replace(`</${options.component}`, `</${newTag}`);
 }
 
