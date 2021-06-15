@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchAccordion from '../components/SearchAccordion';
 import SearchBenefits from '../components/SearchBenefits';
 import RadioButtons from '../components/RadioButtons';
@@ -32,6 +32,13 @@ export function TuitionAndHousingEstimates({
   );
   const [onlineClasses, setOnlineClasses] = useState(eligibility.onlineClasses);
   const [expanded, setExpanded] = useState(eligibility.expanded);
+
+  useEffect(
+    () => {
+      setExpanded(eligibility.expanded);
+    },
+    [eligibility.expanded],
+  );
 
   const updateStore = () => {
     dispatchUpdateEligibilityAndFilters({
