@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Set vets-website port
-        run: echo "CYPRESS_PORT=$(( ( RANDOM % 1000 )  + 3000 ))" >> $GITHUB_ENV
+        run: echo "CYPRESS_PORT=$(( ( RANDOM % 2000 )  + 3001 ))" >> $GITHUB_ENV
 
       - name: Get Node version
         id: get-node-version
