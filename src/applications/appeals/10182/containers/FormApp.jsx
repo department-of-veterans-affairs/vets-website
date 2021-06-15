@@ -11,9 +11,10 @@ import {
   issuesNeedUpdating,
   getSelected,
   getIssueName,
-  copyAreaOfDisagreementOptions,
   sortContestableIssues,
 } from '../utils/helpers';
+
+import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 
 import { showWorkInProgress } from '../content/WorkInProgressMessage';
 

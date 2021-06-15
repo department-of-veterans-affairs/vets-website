@@ -111,7 +111,9 @@ describe('VAOS request flow', () => {
     initAppointmentListMock();
     initVARequestMock();
     fillOutForm(() => {
-      cy.findByLabelText(/Sidney/).click();
+      cy.findByLabelText(/Sidney/)
+        .focus()
+        .click();
     });
   });
   it('should submit form successfully for a single system user', () => {
@@ -125,12 +127,14 @@ describe('VAOS request flow', () => {
       },
     });
     fillOutForm(() => {
-      cy.findByLabelText(/Sidney/).click();
+      cy.findByLabelText(/Sidney/)
+        .focus()
+        .click();
     });
   });
-  it('should submit form successfully for a user with multi system including a Cerner facility', () => {
+  it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
     initAppointmentListMock();
-    initVARequestMock({ cernerUser: true });
+    initVARequestMock({ cernerFacility: '983' });
     cy.route({
       method: 'GET',
       url: '/vaos/v0/facilities**',
@@ -145,6 +149,28 @@ describe('VAOS request flow', () => {
         data: facilities983.data.filter(f => f.id === '983GB'),
       },
     });
-    fillOutForm();
+    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.injectAxe();
+    cy.get('.va-modal-body button').click();
+    cy.findAllByRole('tab').should('exist');
+
+    // Start flow
+    cy.findByText('Start scheduling').click();
+
+    // Choose Type of Care
+    newApptTests.chooseTypeOfCareTest('Social work');
+
+    // Choose VA Facility
+    cy.url().should('include', '/va-facility-2');
+    cy.axeCheckBestPractice();
+    cy.findByLabelText(/Rawlins/)
+      .focus()
+      .click();
+    cy.findByText(/Continue/).click();
+
+    cy.url().should('include', '/how-to-schedule');
+    cy.findByText(/Rawlins VA Clinic/);
+    cy.findByText(/To schedule an appointment online at this facility/);
+    cy.axeCheckBestPractice();
   });
 });
