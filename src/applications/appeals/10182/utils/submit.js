@@ -268,6 +268,7 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
  * @returns {Evidence~Submittable[]}
  */
 export const addUploads = formData =>
+  formData.boardReviewOption === 'evidence_submission' &&
   formData['view:additionalEvidence']
     ? formData.evidence.map(({ name, confirmationCode }) => ({
         name,
