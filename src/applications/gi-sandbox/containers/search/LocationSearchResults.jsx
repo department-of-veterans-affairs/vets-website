@@ -170,7 +170,10 @@ function LocationSearchResults({
     );
   });
 
-  const eligibilityAndFilters = location !== '' && location !== undefined;
+  const eligibilityAndFilters =
+    (location !== '' && location !== undefined) ||
+    (streetAddress.searchString !== '' &&
+      streetAddress.searchString !== undefined);
   const startMessage = count === null && !eligibilityAndFilters;
   const noResultsFound = count === 0;
 

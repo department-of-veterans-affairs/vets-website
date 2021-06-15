@@ -185,7 +185,6 @@ export default function(state = INITIAL_STATE, action) {
     case GEOCODE_COMPLETE:
       return {
         ...state,
-        geocodeResults: action.payload,
         geocodeInProgress: false,
         geolocationInProgress: false,
         query: {
