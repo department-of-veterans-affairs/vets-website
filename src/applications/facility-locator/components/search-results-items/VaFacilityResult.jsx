@@ -10,6 +10,7 @@ import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
 import Covid19Alert from './common/Covid19Alert';
+import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 const VaFacilityResult = ({ location, query, index }) => {
   const { name, website, operatingStatus } = location.attributes;
@@ -19,6 +20,7 @@ const VaFacilityResult = ({ location, query, index }) => {
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
+        <Checkbox label="Text" onValueChange={() => {}} />
         <LocationDistance
           distance={location.distance}
           markerText={location.markerText}

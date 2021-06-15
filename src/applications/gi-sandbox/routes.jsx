@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 import ComparePage from './containers/ComparePage';
 import ProfilePage from './containers/ProfilePage';
+import TestPage from './containers/TestPage';
 
 export const buildRoutes = () => {
   return (
@@ -20,6 +21,10 @@ export const buildRoutes = () => {
         <Route
           path="/compare"
           render={({ match }) => <ComparePage match={match} />}
+        />
+        <Route
+          path="/test"
+          render={({ match }) => <TestPage match={match} />}
         />
         <Route path="/" render={({ match }) => <LandingPage match={match} />} />
       </Switch>

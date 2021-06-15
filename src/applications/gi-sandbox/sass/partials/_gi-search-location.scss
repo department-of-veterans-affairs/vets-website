@@ -10,11 +10,9 @@
 
   .location-search-results-container {
     border: solid $color-gray-lightest;
-
-    .location-search-results {
-      height: 510px;
-      overflow: scroll;
-    }
+    overflow-y: auto;
+    width: 305px;
+    max-height: 78vh
   }
 
   .marker {
