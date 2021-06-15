@@ -43,7 +43,12 @@ export function LocationSearchForm({
         search.query.location !== null &&
         search.query.location !== ''
       ) {
-        dispatchFetchSearchByLocationResults(search.query.location, distance);
+        dispatchFetchSearchByLocationResults(
+          search.query.location,
+          distance,
+          filters,
+          version,
+        );
       }
     },
     [search.loadFromUrl],
