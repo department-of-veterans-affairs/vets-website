@@ -123,6 +123,30 @@ const formConfig = {
           schema: pages.employment.schema,
         },
         employmentRecords: {
+          initialData: {
+            personalData: {
+              employmentHistory: {
+                veteran: {
+                  employmentRecords: [
+                    {
+                      type: 'Full time',
+                      from: '2017-1-XX',
+                      to: '',
+                      isCurrent: true,
+                      employerName: 'Employer One',
+                    },
+                    {
+                      type: 'Full time',
+                      from: '2018-4-XX',
+                      to: '',
+                      isCurrent: true,
+                      employerName: 'Employer Two',
+                    },
+                  ],
+                },
+              },
+            },
+          },
           path: 'employment-records',
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
@@ -132,14 +156,10 @@ const formConfig = {
         income: {
           title: 'Income',
           path: 'income/:index',
-          showPagePerItem: true,
           arrayPath: 'currentEmployment',
+          showPagePerItem: true,
           uiSchema: pages.income.uiSchema,
           schema: pages.income.schema,
-          depends: ({ personalData }) => {
-            const { veteran } = personalData.employmentHistory;
-            return veteran.employmentRecords?.some(record => record.isCurrent);
-          },
         },
         benefits: {
           path: 'benefits',

@@ -73,6 +73,7 @@ const InputSection = ({
   const updateText = showSave ? 'Save' : 'Update';
   const { SchemaField } = registry.fields;
   const itemIdPrefix = `${idSchema.$id}_${index}`;
+  const titlePrefix = editing && editing[index] === true ? 'Edit' : 'Add';
 
   const getItemSchema = i => {
     if (schema.items.length > i) {
@@ -88,7 +89,6 @@ const InputSection = ({
     registry.definitions,
   );
 
-  const titlePrefix = editing && editing[index] === true ? 'Edit' : 'Add';
   const containerClassNames = classNames(
     'item-loop',
     {
@@ -208,41 +208,16 @@ const ItemLoop = ({
   const [editing, setEditing] = useState([]);
   const [showTable, setShowTable] = useState(false);
 
-  useEffect(
-    () => {
-      // Throw an error if there’s no viewField (should be React component)
-      if (!isReactComponent(uiSchema['ui:options'].viewField)) {
-        throw new Error(`No viewField found in uiSchema for ${idSchema.$id}.`);
-      }
-    },
-    [idSchema.$id, uiSchema],
-  );
-
-  useEffect(() => {
-    const editData = formData
-      ? formData.map(item => Object.values(item).includes(undefined))
-      : ['add'];
-
-    setEditing(editData);
-    setShowTable(editData.includes(false));
-
-    if (!formData) {
-      const initData = Array(schema.minItems).fill(
-        getDefaultFormState(
-          schema.additionalItems,
-          undefined,
-          registry.definitions,
-        ),
-      );
-      onChange(initData);
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   // use formData otherwise use an array with a single default object
   const items = formData?.length
     ? formData
     : [getDefaultFormState(schema, undefined, registry.definitions)];
   const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
+
+  // Throw an error if there’s no viewField (should be React component)
+  if (!isReactComponent(uiSchema['ui:options'].viewField)) {
+    throw new Error(`No viewField found in uiSchema for ${idSchema.$id}.`);
+  }
 
   const handleScroll = (id, offset) => {
     if (uiSchema['ui:options'].doNotScroll) return;
@@ -300,8 +275,8 @@ const ItemLoop = ({
       );
       const newFormData = [...items, defaultData];
       setCache(items);
-      setEditing([...editing, 'add']);
       onChange(newFormData);
+      setEditing([...editing, 'add']);
       handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
     } else {
       const touched = setArrayRecordTouched(idSchema.$id, lastIndex);
@@ -336,6 +311,17 @@ const ItemLoop = ({
     onChange(newItems);
     handleScroll(`topOfTable_${idSchema.$id}`, -60);
   };
+
+  useEffect(
+    () => {
+      const editData = formData
+        ? formData.map(item => Object.values(item).includes(undefined))
+        : ['add'];
+      setEditing(editData);
+      setShowTable(editData.includes(false));
+    },
+    [formContext?.pagePerItemIndex], // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   const containerClassNames = classNames({
     'item-loop-container': true,

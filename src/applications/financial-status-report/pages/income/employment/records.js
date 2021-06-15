@@ -35,7 +35,6 @@ export const uiSchema = {
             showSave: true,
             itemName: 'job',
             keepInPageOnReview: true,
-            minItems: 1,
           },
           items: {
             'ui:options': {

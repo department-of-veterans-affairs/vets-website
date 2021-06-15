@@ -1,8 +1,8 @@
 import React from 'react';
-import _ from 'lodash/fp';
+// import _ from 'lodash/fp';
 import TableDetailsView from '../../../components/TableDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+// import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import Typeahead from '../../../components/Typeahead';
 import ItemLoop from '../../../components/ItemLoop';
 import {
@@ -18,7 +18,19 @@ export const uiSchema = {
           Income for your job at {formData.employerName}
         </h3>
       ),
-      monthlyGrossSalary: _.merge(currencyUI('Gross monthly income'), {
+      // monthlyGrossSalary: _.merge(currencyUI('Gross monthly income'), {
+      //   'ui:description': (
+      //     <p className="formfield-subtitle">
+      //       You’ll find this in your paycheck. It’s the amount of your pay
+      //       before taxes and deductions.
+      //     </p>
+      //   ),
+      //   'ui:options': {
+      //     widgetClassNames: 'input-size-1 vads-u-margin-bottom--3',
+      //   },
+      // }),
+      monthlyGrossSalary: {
+        'ui:title': 'Gross monthly income',
         'ui:description': (
           <p className="formfield-subtitle">
             You’ll find this in your paycheck. It’s the amount of your pay
@@ -28,7 +40,7 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-1 vads-u-margin-bottom--3',
         },
-      }),
+      },
       deductions: {
         'ui:field': ItemLoop,
         'ui:title': 'Payroll deductions',
@@ -55,11 +67,17 @@ export const uiSchema = {
               getOptions: () => formatOptions(deductionTypes),
             },
           },
-          amount: _.merge(currencyUI('Deduction amount'), {
+          // amount: _.merge(currencyUI('Deduction amount'), {
+          //   'ui:options': {
+          //     widgetClassNames: 'input-size-1',
+          //   },
+          // }),
+          amount: {
+            'ui:title': 'Deduction amount',
             'ui:options': {
               widgetClassNames: 'input-size-1',
             },
-          }),
+          },
         },
       },
     },
