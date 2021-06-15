@@ -33,6 +33,7 @@ import {
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
 import { getParentFacilitiesV2 } from '../vaos';
+import { transformParentFacilitiesV2 } from './transformers.v2';
 
 /**
  * Fetch facility information for the facilities in the given site, based on type of care
@@ -347,15 +348,14 @@ export async function fetchParentLocations({ siteIds, useV2 }) {
   try {
     if (useV2) {
       const parentFacilities = await getParentFacilitiesV2(siteIds);
-      console.log(parentFacilities);
-      // return transformParentFacilities(parentFacilities).sort((a, b) => {
-      //   // a.name comes 1st
-      //   if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
-      //   // b.name comes 1st
-      //   if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
-      //   // a.name and b.name are equal
-      //   return 0;
-      // });
+      return transformParentFacilitiesV2(parentFacilities).sort((a, b) => {
+        // a.name comes 1st
+        if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
+        // b.name comes 1st
+        if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
+        // a.name and b.name are equal
+        return 0;
+      });
     }
 
     const parentFacilities = await getParentFacilities(siteIds);
