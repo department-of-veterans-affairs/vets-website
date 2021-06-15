@@ -24,10 +24,19 @@ export const setLangAttribute = lang => {
 export const parseLangCode = url => {
   let langCode = 'en';
   // competing URL structures ¯\_(ツ)_/¯
-  if (url.includes(`espanol`) || url.endsWith('-esp/')) {
+  // also sometimes the href ends with `tag` instead `tag/`
+  if (
+    url.includes(`espanol`) ||
+    url.endsWith('-esp/') ||
+    url.endsWith('-esp')
+  ) {
     langCode = 'es';
   }
-  if (url.includes(`tagalog`) || url.endsWith('-tag/')) {
+  if (
+    url.includes(`tagalog`) ||
+    url.endsWith('-tag/') ||
+    url.endsWith('-tag')
+  ) {
     langCode = 'tl';
   }
   return langCode;
