@@ -38,15 +38,15 @@ export function LocationSearchForm({
 
   useEffect(
     () => {
-      if (search.query.location !== '' && search.query.location !== null) {
-        dispatchFetchSearchByLocationResults(
-          search.query.location,
-          distance,
-          filters,
-        );
+      if (
+        search.loadFromUrl &&
+        search.query.location !== null &&
+        search.query.location !== ''
+      ) {
+        dispatchFetchSearchByLocationResults(search.query.location, distance);
       }
     },
-    [search.query.location, search.query.distance],
+    [search.loadFromUrl],
   );
 
   const doSearch = event => {

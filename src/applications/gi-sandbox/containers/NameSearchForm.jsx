@@ -38,11 +38,15 @@ export function NameSearchForm({
 
   useEffect(
     () => {
-      if (search.query.name !== '' && search.query.name !== null) {
+      if (
+        search.loadFromUrl &&
+        search.query.name !== null &&
+        search.query.name !== ''
+      ) {
         doSearch(search.query.name);
       }
     },
-    [search.query.name],
+    [search.loadFromUrl],
   );
 
   const handleSubmit = event => {
