@@ -259,17 +259,9 @@ export function SearchResultCard({
         </>
       )}
 
-      <div
-        className={classNames(
-          'vads-u-display--flex, vads-u-text-align--center',
-          {
-            'vads-u-border-top--3px': !expanded,
-            'vads-u-border-color--white': !expanded,
-          },
-        )}
-      >
-        <div className="card-bottom-cell vads-u-flex--1 vads-u-border-right--2px vads-u-border-color--white vads-u-margin--0">
-          <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
+      <div>
+        <div>
+          <div>
             <Checkbox
               label="Compare"
               checked={compareChecked}
