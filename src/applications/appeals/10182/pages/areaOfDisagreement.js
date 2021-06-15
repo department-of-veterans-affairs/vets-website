@@ -109,7 +109,7 @@ export default {
             },
             otherEntry: {
               type: 'string',
-              // disagreementReason limited to 90 chars max
+              // disagreementArea limited to 90 chars max
               maxLength: 34,
             },
           },
