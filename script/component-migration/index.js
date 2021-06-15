@@ -100,7 +100,10 @@ FILENAMES.forEach(fname => {
 
     const removeImport = migratedFile.replace(legacyImport, '');
 
-    fs.writeFile(fname, removeImport, 'utf8', handleError);
+    fs.writeFile(fname, removeImport, 'utf8', error => {
+      if (error) handleError(error);
+      console.log(chalk.green(`File written: ${fname}`));
+    });
 
     return 0;
   });
