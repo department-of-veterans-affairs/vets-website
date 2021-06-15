@@ -13,16 +13,20 @@ const EmploymentRecord = ({
   formData,
   setFormData,
   employmentHistory,
+  formContext,
+  errorSchema,
 }) => {
   const index = Number(idSchema.$id.slice(-1));
   const { employmentRecords } = employmentHistory.veteran;
   const { from, to } = employmentRecords[index];
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
+  const employerError = errorSchema.employerName?.__errors[0];
+  const typeError = errorSchema.type?.__errors[0];
+  const submitted = formContext.submitted;
 
   const updateFormData = updated => {
     const currentEmployment = updated.filter(record => record.isCurrent);
-
     setFormData({
       ...formData,
       currentEmployment,
@@ -64,7 +68,7 @@ const EmploymentRecord = ({
 
   return (
     <>
-      <div className="input-size-3">
+      <div className="input-size-4">
         <Select
           label="Type of work"
           name="type"
@@ -74,39 +78,48 @@ const EmploymentRecord = ({
             value: employmentRecords[index].type || '',
           }}
           required
+          errorMessage={submitted && typeError}
         />
       </div>
-
       <div className="vads-u-margin-top--3">
         <MonthYear
-          date={{ month: { value: fromMonth }, year: { value: fromYear } }}
+          date={{
+            month: { value: fromMonth, dirty: submitted },
+            year: { value: fromYear, dirty: submitted },
+          }}
           label="Date you started work at this job?"
           name="from"
           onValueChange={value => handleDateChange('from', value)}
           required
         />
       </div>
-
       <div
         className={classNames('vads-u-margin-top--3', {
           'field-disabled': employmentRecords[index].isCurrent,
         })}
       >
         <MonthYear
-          date={{ month: { value: toMonth }, year: { value: toYear } }}
+          date={{
+            month: {
+              value: toMonth,
+              dirty: !employmentRecords[index].isCurrent && submitted,
+            },
+            year: {
+              value: toYear,
+              dirty: !employmentRecords[index].isCurrent && submitted,
+            },
+          }}
           label="Date you stopped work at this job?"
           name="to"
           onValueChange={value => handleDateChange('to', value)}
           required
         />
       </div>
-
       <Checkbox
         label="I currently work here"
         checked={employmentRecords[index].isCurrent || false}
         onValueChange={value => handleCheckboxChange('isCurrent', value)}
       />
-
       <div className="input-size-6 vads-u-margin-bottom--2">
         <TextInput
           field={{
@@ -116,6 +129,7 @@ const EmploymentRecord = ({
           name="employerName"
           onValueChange={({ value }) => handleChange('employerName', value)}
           required
+          errorMessage={submitted && employerError}
         />
       </div>
     </>

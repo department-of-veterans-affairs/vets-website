@@ -186,7 +186,7 @@ export const schema = {
                   type: 'array',
                   items: {
                     type: 'object',
-                    // required: ['type'],
+                    required: ['type', 'to', 'from', 'employerName'],
                     properties: {
                       type: {
                         type: 'string',
