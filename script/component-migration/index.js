@@ -81,18 +81,19 @@ FILENAMES.forEach(fname => {
 
     const newTags = replaceTags(data, newTag);
 
-    const cmpRegex = new RegExp(`<${newTag}.+</${newTag}>`, 'gs');
-    const components = newTags.matchAll(cmpRegex);
+    const cmpRegex = new RegExp(`(<${newTag}.+?</${newTag}>)`, 'gsm');
+    const components = Array.from(newTags.matchAll(cmpRegex), m => m[0]);
 
-    const component = [...components][0][0];
+    let migratedFile = newTags;
+    components.forEach(component => {
+      // Next, replace the props
+      migratedFile = migratedFile.replace(
+        component,
+        translateProps(component, propMap),
+      );
+    });
 
-    // Next, replace the props
-    const migratedComponent = newTags.replace(
-      component,
-      translateProps(component, propMap),
-    );
-
-    const removeImport = migratedComponent.replace(legacyImport, '');
+    const removeImport = migratedFile.replace(legacyImport, '');
 
     fs.writeFile(fname, removeImport, 'utf8', handleError);
 
