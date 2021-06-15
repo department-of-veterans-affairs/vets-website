@@ -7,7 +7,7 @@ import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api
 import {
   buildSearchFilters,
   rubyifyKeys,
-  searchCriteraFromCoords,
+  searchCriteriaFromCoords,
 } from '../utils/helpers';
 import { TypeList } from '../constants';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
@@ -481,7 +481,7 @@ export const geolocateUser = () => async dispatch => {
     dispatch({ type: GEOLOCATE_USER });
     navigator.geolocation.getCurrentPosition(
       async currentPosition => {
-        const query = await searchCriteraFromCoords(
+        const query = await searchCriteriaFromCoords(
           currentPosition.coords.longitude,
           currentPosition.coords.latitude,
         );

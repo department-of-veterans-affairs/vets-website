@@ -219,7 +219,7 @@ export const buildSearchFilters = filters => {
   return searchFilters;
 };
 
-export const searchCriteraFromCoords = async (longitude, latitude) => {
+export const searchCriteriaFromCoords = async (longitude, latitude) => {
   const response = await mbxClient
     .reverseGeocode({
       query: [longitude, latitude],
