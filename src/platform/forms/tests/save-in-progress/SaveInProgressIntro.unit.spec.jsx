@@ -508,13 +508,12 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         prefillsAvailable: [],
       },
       login: {
-        currentlyLoggedIn: false,
+        currentlyLoggedIn: true,
         loginUrls: {
           idme: '/mockLoginUrl',
         },
       },
     };
-    const renderSpy = sinon.stub().returns(<div>Render prop info</div>);
 
     const tree = shallow(
       <SaveInProgressIntro
@@ -525,14 +524,13 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        renderSignInMessage={renderSpy}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
-        headingLevel="h1"
+        headingLevel={1}
       />,
     );
 
-    expect(tree.find('h1')).to.exist;
+    expect(tree.find('h1').exists()).to.be.true;
     tree.unmount();
   });
 
