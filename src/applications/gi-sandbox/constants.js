@@ -44,6 +44,8 @@ export const TABS = Object.freeze({
   location: 'location',
 });
 
+export const MAX_SEARCH_DISTANCE = 150;
+
 export const ariaLabels = Object.freeze({
   learnMore: {
     giBillBenefits: 'Learn more about VA education and training programs',

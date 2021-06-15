@@ -7,7 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import SearchResultCard from '../../containers/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
-import { MapboxInit } from '../../constants';
+import { MapboxInit, MAX_SEARCH_DISTANCE } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import RefineYourSearch from '../../containers/RefineYourSearch';
 import { numberToLetter, createId } from '../../utils/helpers';
@@ -200,14 +200,14 @@ function LocationSearchResults({
     e.preventDefault();
     const bounds = map.current.getBounds();
 
-    const diagonalDistance =
+    const diagonalToCenterDistance =
       bounds.getNorthEast().distanceTo(bounds.getCenter()) /
       MILE_METER_CONVERSION_RATE;
 
     dispatchFetchSearchByLocationCoords(
       search.query.location,
       map.current.getCenter().toArray(),
-      diagonalDistance,
+      Math.min(diagonalToCenterDistance, MAX_SEARCH_DISTANCE),
       filters,
       preview.version,
     );
