@@ -8,9 +8,9 @@ const path = require('path');
 const webpack = require('webpack');
 
 const CopyPlugin = require('copy-webpack-plugin');
+const { ESBuildMinifyPlugin } = require('esbuild-loader');
 const HtmlPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -385,20 +385,7 @@ module.exports = async (env = {}) => {
       modules: ['node_modules', path.resolve(__dirname, '../src')],
     },
     optimization: {
-      minimizer: [
-        new TerserPlugin({
-          terserOptions: {
-            output: {
-              beautify: false,
-              comments: false,
-            },
-            warnings: false,
-          },
-          // cache: true,
-          parallel: 3,
-          sourceMap: true,
-        }),
-      ],
+      minimizer: [new ESBuildMinifyPlugin({ target: 'es2015' })],
       splitChunks: {
         cacheGroups: {
           // this needs to be "vendors" to overwrite a default group
