@@ -50,7 +50,7 @@ function translateProps(componentString, propMap) {
 
 function replaceTags(file, newTag) {
   const unnamedClosingTags = file.matchAll(
-    new RegExp(`(<${options.component}.+?\\s\\/>)`, 'gsm'),
+    new RegExp(`(<${options.component}.+?^\\s+\\/>)`, 'gsm'),
   );
   const cmpUnnamedClosingTag = [...unnamedClosingTags][0]?.[0];
 
