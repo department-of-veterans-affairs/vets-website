@@ -3,7 +3,7 @@ function alertBoxReplacement() {
     let translatedHeadline = componentString.toString();
     const level = componentString.match(/level=["{](\d)["}]/)?.[1] || 3;
     /* eslint-disable-next-line no-useless-escape */
-    const headline = componentString.match(/headline=["{]([\w\s\.]+)["}]/)?.[1];
+    const headline = componentString.match(/headline=["{](.+?)["}]/)?.[1];
     translatedHeadline = translatedHeadline.replace(/level=["{](\d)["}]/, '');
     translatedHeadline = translatedHeadline.replace(
       /headline=["{](.)+["}]/,
