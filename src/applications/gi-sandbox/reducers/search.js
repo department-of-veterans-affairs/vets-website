@@ -21,7 +21,6 @@ import { TABS } from '../constants';
 const INITIAL_STATE = {
   error: null,
   geocode: null,
-  geocodeInProgress: false,
   geolocationInProgress: false,
   inProgress: false,
   location: {
@@ -174,20 +173,18 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         query: { ...state.query, ...action.payload },
-        geocodeInProgress: true,
+        geolocationInProgress: true,
       };
     case GEOCODE_FAILED:
       return {
         ...state,
         error: true,
         geocodeError: action.code,
-        geocodeInProgress: false,
         geolocationInProgress: false,
       };
     case GEOCODE_COMPLETE:
       return {
         ...state,
-        geocodeInProgress: false,
         geolocationInProgress: false,
         query: {
           streetAddress: {
@@ -202,26 +199,27 @@ export default function(state = INITIAL_STATE, action) {
         ...state,
         error: false,
         geocodeError: 0,
-        geocodeInProgress: false,
         geolocationInProgress: false,
       };
 
     case GEOCODE_SUCCEEDED:
-      return { ...state, geocode: action.payload, geocodeInProgress: false };
+      return {
+        ...state,
+        geocode: action.payload,
+        geolocationInProgress: false,
+      };
 
     case GEOCODE_LOCATION_FAILED:
       return {
         ...state,
         error: action.payload,
         geocodeError: action.code,
-        geocodeInProgress: false,
         geolocationInProgress: false,
       };
     case GEOLOCATE_USER:
       return {
         ...state,
         geolocationInProgress: true,
-        geocodeInProgress: true,
       };
 
     case SEARCH_BY_FACILITY_CODES_SUCCEEDED:
