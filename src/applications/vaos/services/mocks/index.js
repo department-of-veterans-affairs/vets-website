@@ -24,6 +24,7 @@ const requestEligibilityCriteria = require('./var/request_eligibility_criteria.j
 const directBookingEligibilityCriteria = require('./var/direct_booking_eligibility_criteria.json');
 const generateMockSlots = require('./var/slots.js');
 const requestsV2 = require('./v2/requests.json');
+const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 
@@ -197,6 +198,15 @@ const responses = {
   'GET /vaos/v2/appointments/:id': (req, res) => {
     return res.json({
       data: requestsV2.data.find(appt => appt.id === req.params.id),
+    });
+  },
+  'GET /vaos/v2/scheduling/configurations': (req, res) => {
+    if (req.query.cc_enabled === 'true') {
+      return res.json(schedulingConfigurationsCC);
+    }
+
+    return res.json({
+      data: [],
     });
   },
   'GET /v0/user': {

@@ -24,3 +24,19 @@ export function getAppointment(id) {
     method: 'GET',
   }).then(parseApiObject);
 }
+
+export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
+  let ccEnabledParam = '';
+  if (ccEnabled !== null) {
+    ccEnabledParam = `&cc_enabled=${ccEnabled}`;
+  }
+
+  return apiRequestWithUrl(
+    `/vaos/v2/scheduling/configurations?${locationIds
+      .map(id => `facility_ids[]=${id}`)
+      .join('&')}${ccEnabledParam}`,
+    {
+      method: 'GET',
+    },
+  ).then(parseApiList);
+}
