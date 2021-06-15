@@ -158,7 +158,6 @@ export class Wizard extends React.Component {
                     state={page.state}
                     setWizardStatus={setWizardStatus}
                     setReferredBenefit={setReferredBenefit}
-                    allowBDD={this.props.allowBDD}
                   />
                 );
               })}
