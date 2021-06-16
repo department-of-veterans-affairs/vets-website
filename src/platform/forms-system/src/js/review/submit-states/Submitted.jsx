@@ -6,11 +6,11 @@ import { Column, Row } from 'platform/forms/components/common/grid';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 export default function Submitted(props) {
-  const { formConfig, onBack, onSubmit } = props;
+  const { formConfig, onBack, onSubmit, saveLink } = props;
 
   return (
     <>
-      <PreSubmitSection formConfig={formConfig} />
+      <PreSubmitSection formConfig={formConfig} saveLink={saveLink} />
       <Row classNames="form-progress-buttons">
         <Column classNames="small-6 medium-5">
           <Back onButtonClick={onBack} />
@@ -36,4 +36,7 @@ Submitted.propTypes = {
   formConfig: PropTypes.object,
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,
+  pageList: PropTypes.array.isRequired,
+  locationPathname: PropTypes.string,
+  saveLink: PropTypes.elementType,
 };

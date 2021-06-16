@@ -79,6 +79,21 @@ class RoutedSavableReviewPage extends React.Component {
       formConfig?.customText?.finishAppLaterMessage ||
       FINISH_APP_LATER_DEFAULT_MESSAGE;
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
+    const saveLink = (
+      <SaveFormLink
+        locationPathname={location.pathname}
+        form={form}
+        formConfig={formConfig}
+        user={user}
+        pageList={pageList}
+        showLoginModal={this.props.showLoginModal}
+        saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+        toggleLoginModal={this.props.toggleLoginModal}
+      >
+        {finishAppLaterMessage}
+      </SaveFormLink>
+    );
+
     return (
       <div>
         <ReviewChapters
@@ -97,6 +112,7 @@ class RoutedSavableReviewPage extends React.Component {
             formConfig={formConfig}
             pageList={pageList}
             path={path}
+            saveLink={saveLink}
           />
         </DowntimeNotification>
         <SaveStatus
@@ -106,18 +122,6 @@ class RoutedSavableReviewPage extends React.Component {
           form={form}
           formConfig={formConfig}
         />
-        <SaveFormLink
-          locationPathname={location.pathname}
-          form={form}
-          formConfig={formConfig}
-          user={user}
-          pageList={pageList}
-          showLoginModal={this.props.showLoginModal}
-          saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-          toggleLoginModal={this.props.toggleLoginModal}
-        >
-          {finishAppLaterMessage}
-        </SaveFormLink>
       </div>
     );
   }

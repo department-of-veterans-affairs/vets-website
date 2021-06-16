@@ -9,7 +9,7 @@ import FormSaveErrorMessage from 'platform/forms/components/review/FormSaveError
 import { Column, Row } from 'platform/forms/components/common/grid';
 // const FormSaveErrorMessage = props => props?.children;
 export default function GenericError(props) {
-  const { appType, formConfig, onSubmit, testId } = props;
+  const { appType, formConfig, onSubmit, testId, saveLink } = props;
   let submitButton;
   let submitMessage;
 
@@ -45,7 +45,7 @@ export default function GenericError(props) {
           {submitMessage}
         </Column>
       </Row>
-      <PreSubmitSection formConfig={formConfig} />
+      <PreSubmitSection formConfig={formConfig} saveLink={saveLink} />
       <Row classNames="form-progress-buttons schemaform-back-buttons">
         <Column classNames="small-6 usa-width-one-half medium-6">
           <a href="/">
@@ -62,4 +62,7 @@ GenericError.propTypes = {
   appType: PropTypes.string,
   formConfig: PropTypes.object,
   onSubmit: PropTypes.func,
+  pageList: PropTypes.array.isRequired,
+  locationPathname: PropTypes.string,
+  saveLink: PropTypes.elementType,
 };

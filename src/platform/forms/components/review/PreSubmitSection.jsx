@@ -13,13 +13,19 @@ import { preSubmitSelector } from 'platform/forms/selectors/review';
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
 
 /*
-*  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent 
+*  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent
 *  PreSubmitSection - ~Default component that renders if no CustomComponent is provided~ (this describes a decision in RenderPreSubmitSection- describe what PreSubmitSection is, remove this since it's not a prop, or add it as a prop with a default value)
 *  preSubmitInfo.CustomComponent - property that can be added to `preSubmitInfo` object that overwrites `PreSubmitSection`
 */
 
 export function PreSubmitSection(props) {
-  const { form, preSubmit = {}, setPreSubmit, showPreSubmitError } = props;
+  const {
+    form,
+    preSubmit = {},
+    setPreSubmit,
+    showPreSubmitError,
+    saveLink,
+  } = props;
 
   const { CustomComponent } = preSubmit;
   const checked = form?.data[preSubmit?.field] || false;
@@ -52,6 +58,7 @@ export function PreSubmitSection(props) {
           )}
         </div>
       )}
+      {saveLink}
     </>
   );
 }
@@ -67,6 +74,7 @@ PreSubmitSection.propTypes = {
   }).isRequired,
   showPreSubmitError: PropTypes.bool,
   setPreSubmit: PropTypes.func.isRequired,
+  saveLink: PropTypes.elementType,
 };
 
 const mapDispatchToProps = {
@@ -76,14 +84,16 @@ const mapDispatchToProps = {
 export default connect(
   (state, ownProps) => {
     const { form } = state;
+    const { formConfig, SaveLink } = ownProps || {};
 
-    const preSubmit = preSubmitSelector(ownProps?.formConfig);
+    const preSubmit = preSubmitSelector(formConfig);
     const showPreSubmitError = form?.submission?.hasAttemptedSubmit;
 
     return {
       form,
       preSubmit,
       showPreSubmitError,
+      SaveLink,
     };
   },
   mapDispatchToProps,
