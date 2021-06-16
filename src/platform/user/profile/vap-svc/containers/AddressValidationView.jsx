@@ -253,17 +253,15 @@ class AddressValidationView extends React.Component {
 
     return (
       <>
-        <div role="alert">
-          {error && (
-            <div className="vads-u-margin-bottom--1">
-              <VAPServiceEditModalErrorMessage
-                title={title}
-                error={error}
-                clearErrors={clearErrors}
-              />
-            </div>
-          )}
-        </div>
+        {error && (
+          <div className="vads-u-margin-bottom--1" role="alert">
+            <VAPServiceEditModalErrorMessage
+              title={title}
+              error={error}
+              clearErrors={clearErrors}
+            />
+          </div>
+        )}
         <div role="alert">
           <AlertBox
             className="vads-u-margin-bottom--1 vads-u-margin-top--0"
