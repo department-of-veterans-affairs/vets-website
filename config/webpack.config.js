@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+const esbuild = require('esbuild');
 const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
@@ -288,6 +289,7 @@ module.exports = async (env = {}) => {
           use: {
             loader: 'esbuild-loader',
             options: {
+              implementation: esbuild,
               loader: 'jsx',
               target: 'es2015',
             },
