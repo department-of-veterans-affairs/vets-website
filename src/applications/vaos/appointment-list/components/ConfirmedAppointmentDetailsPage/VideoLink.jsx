@@ -5,8 +5,10 @@ import { isVideoHome } from '../../../services/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import { VIDEO_TYPES } from '../../../utils/constants';
 
-export default function VideoLink({ appointment, hasFacility }) {
-  if (appointment.videoData.kind === VIDEO_TYPES.gfe) {
+export default function VideoLink({ appointment, hasFacility, isPast }) {
+  if (isPast) {
+    return <span>Video conference</span>;
+  } else if (appointment.videoData.kind === VIDEO_TYPES.gfe) {
     return (
       <span>
         You can join this video meeting using a device provided by VA.

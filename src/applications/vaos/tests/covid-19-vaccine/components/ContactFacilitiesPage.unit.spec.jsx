@@ -18,7 +18,6 @@ import {
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingDirect: true,
-    vaOnlineSchedulingCheetah: true,
   },
   appointments: {
     facilitySettings: [

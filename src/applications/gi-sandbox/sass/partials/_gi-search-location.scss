@@ -10,11 +10,8 @@
 
   .location-search-results-container {
     border: solid $color-gray-lightest;
-
-    .location-search-results {
-      height: 510px;
-      overflow: scroll;
-    }
+    height: 510px;
+    overflow-y: scroll;
   }
 
   .marker {
@@ -54,7 +51,6 @@
 
   .mapboxgl-ctrl-top-center {
     position: absolute;
-    pointer-events: none;
     margin: 15px 0 0 15px;
   }
 
@@ -79,5 +75,9 @@
   canvas.mapboxgl-canvas:focus {
     outline: 2px solid $color-gold-light;
     outline-offset: 2px;
+  }
+
+  #search-area-control-container {
+    z-index: 1;
   }
 }

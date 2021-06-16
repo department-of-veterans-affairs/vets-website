@@ -50,7 +50,6 @@ export default () => (
             <i
               aria-hidden="true"
               className="fa fa-chevron-right vads-facility-hub-cta-arrow"
-              pointerEvents="none"
               role="presentation"
             />
           </span>
@@ -81,7 +80,6 @@ export default () => (
             <i
               aria-hidden="true"
               className="fa fa-chevron-right vads-facility-hub-cta-arrow"
-              pointerEvents="none"
               role="presentation"
             />
           </span>
@@ -108,7 +106,6 @@ export default () => (
             <i
               aria-hidden="true"
               className="fa fa-chevron-right vads-facility-hub-cta-arrow"
-              pointerEvents="none"
               role="presentation"
             />
           </span>

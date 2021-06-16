@@ -23,6 +23,7 @@ const cancelReasons = require('./var/cancel_reasons.json');
 const requestEligibilityCriteria = require('./var/request_eligibility_criteria.json');
 const directBookingEligibilityCriteria = require('./var/direct_booking_eligibility_criteria.json');
 const generateMockSlots = require('./var/slots.js');
+const requestsV2 = require('./v2/requests.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 
@@ -136,6 +137,12 @@ const responses = {
   },
   'GET /v1/facilities/va': facilityData,
   'GET /v1/facilities/ccp': ccProviders,
+  'GET /v1/facilities/ccp/:id': (req, res) => {
+    const provider = ccProviders.data.find(p => p.id === req.params.id);
+    return res.json({
+      data: provider,
+    });
+  },
   'GET /vaos/v0/facilities/:id/available_appointments': varSlots,
   'GET /vaos/v0/facilities/:id/cancel_reasons': cancelReasons,
   'GET /vaos/v0/request_eligibility_criteria': requestEligibilityCriteria,
@@ -178,6 +185,18 @@ const responses = {
           ...req.body,
         },
       },
+    });
+  },
+  'GET /vaos/v2/appointments': (req, res) => {
+    if (req.query.statuses?.includes('proposed')) {
+      return res.json(requestsV2);
+    }
+
+    return res.json({ data: [] });
+  },
+  'GET /vaos/v2/appointments/:id': (req, res) => {
+    return res.json({
+      data: requestsV2.data.find(appt => appt.id === req.params.id),
     });
   },
   'GET /v0/user': {
@@ -256,11 +275,10 @@ const responses = {
         { name: 'vaOnlineSchedulingExpressCareNew', value: true },
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
         { name: 'vaOnlineSchedulingProviderSelection', value: true },
-        { name: 'vaOnlineSchedulingCheetah', value: true },
         { name: 'vaOnlineSchedulingHomepageRefresh', value: true },
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
-        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: false },
+        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },
