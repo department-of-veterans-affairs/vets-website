@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
@@ -129,6 +130,14 @@ const HealthCare = ({
                   icon="calendar-check"
                   newTab
                   text="Schedule and manage your appointments"
+                  onClick={() => {
+                    recordEvent({
+                      event: 'nav-linkslist',
+                      'links-list-header':
+                        'Schedule and view your appointments',
+                      'links-list-section-header': 'Health care',
+                    });
+                  }}
                 />
               </>
             )}
