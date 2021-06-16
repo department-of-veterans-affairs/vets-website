@@ -150,6 +150,13 @@ const HealthCare = ({
               icon="comments"
               newTab
               text={messagesText}
+              onClick={() => {
+                recordEvent({
+                  event: 'nav-linkslist',
+                  'links-list-header': 'You have n unread messages',
+                  'links-list-section-header': 'Health care',
+                });
+              }}
             />
           ) : null}
 
