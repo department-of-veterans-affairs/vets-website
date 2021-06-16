@@ -22,7 +22,6 @@
       "json": true,
       "timestamp": "mmddyyyy_HHMMss"
   },
-  "videosFolder": "cypress/videos",
   "env": {
     "vaTopMobileViewports": [
       {
