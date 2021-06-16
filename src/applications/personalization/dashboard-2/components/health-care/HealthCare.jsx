@@ -170,6 +170,13 @@ const HealthCare = ({
               icon="prescription-bottle"
               newTab
               text="Refill and track your prescriptions"
+              onClick={() => {
+                recordEvent({
+                  event: 'nav-linkslist',
+                  'links-list-header': 'Refill and track your prescriptions',
+                  'links-list-section-header': 'Health care',
+                });
+              }}
             />
           ) : null}
 
@@ -179,6 +186,13 @@ const HealthCare = ({
             icon="clipboard-list"
             newTab
             text="Get your lab and test results"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Get your lab and test results',
+                'links-list-section-header': 'Health care',
+              });
+            }}
           />
 
           {/* VA Medical records */}
