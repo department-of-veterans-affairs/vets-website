@@ -79,3 +79,10 @@ jobs:
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
+
+      - name: Archive Mochawesome Cypress test results
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: mochawesome-cypress-test-results-artifacts
+          path: cypress/results
