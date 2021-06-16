@@ -48,7 +48,7 @@ export function transformFormToVAOSCCRequest(state) {
     status: 'proposed',
     locationId: data.communityCareSystemId,
     // This may need to change when we get the new service type ids
-    serviceType: typeOfCare.ccId,
+    serviceType: typeOfCare.id,
     reason: data.reasonAdditionalInfo,
     contact: {
       telecom: [
