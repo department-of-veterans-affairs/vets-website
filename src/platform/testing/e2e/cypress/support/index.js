@@ -1,10 +1,10 @@
 import { join } from 'path';
-
 import '@testing-library/cypress/add-commands';
 import 'cypress-axe';
 import 'cypress-plugin-tab';
-
 import './commands';
+
+const addContext = require('mochawesome/addContext');
 
 Cypress.on('window:before:load', window => {
   // Workaround to allow Cypress to intercept requests made with the Fetch API.
@@ -51,4 +51,14 @@ beforeEach(() => {
   cy.intercept('GET', '/v0/maintenance_windows', {
     data: [],
   });
+});
+
+// Assign the video path to the context property for failed tests
+Cypress.on('test:after:run', test => {
+  if (test.state === 'failed') {
+    let videoName = Cypress.spec.name;
+    videoName = videoName.replace('/.js.*', '.js');
+    const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
+    addContext({ test }, videoPath);
+  }
 });
