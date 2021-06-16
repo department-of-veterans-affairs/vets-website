@@ -63,6 +63,7 @@ module.exports = on => {
       __BUILDTYPE__: '"localhost"',
       __API__: null,
       global: 'window',
+      process: JSON.stringify({ env: { ...process.env } }, null, 2),
     },
     loader: { '.js': 'jsx' },
     nodePaths: [root],
