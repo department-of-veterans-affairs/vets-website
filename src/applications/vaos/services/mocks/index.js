@@ -187,6 +187,22 @@ const responses = {
       },
     });
   },
+  'PUT /vaos/v2/appointments/:id': (req, res) => {
+    // TODO: also check through confirmed mocks, when those exist
+    const requestAttributes = requestsV2.data.find(
+      item => item.id === req.params.id,
+    ).attributes;
+
+    return res.json({
+      data: {
+        id: req.params.id,
+        attributes: {
+          ...requestAttributes,
+          ...req.body,
+        },
+      },
+    });
+  },
   'GET /vaos/v2/appointments': (req, res) => {
     if (req.query.statuses?.includes('proposed')) {
       return res.json(requestsV2);

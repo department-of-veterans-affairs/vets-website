@@ -5,12 +5,14 @@ import {
   GA_PREFIX,
   APPOINTMENT_TYPES,
   VIDEO_TYPES,
+  APPOINTMENT_STATUS,
 } from '../../utils/constants';
 import { recordItemsRetrieved } from '../../utils/events';
 import {
   selectSystemIds,
   selectFeatureHomepageRefresh,
   selectFeatureVAOSServiceRequests,
+  selectFeatureVAOSServiceVAAppointments,
 } from '../../redux/selectors';
 
 import { getRequestMessages } from '../../services/var';
@@ -522,13 +524,26 @@ export function startAppointmentCancel(appointment) {
 export function confirmCancelAppointment() {
   return async (dispatch, getState) => {
     const appointment = getState().appointments.appointmentToCancel;
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+      getState(),
+    );
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      getState(),
+    );
 
     try {
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED,
       });
 
-      const updatedAppointment = await cancelAppointment({ appointment });
+      const updatedAppointment = await cancelAppointment({
+        appointment,
+        useV2:
+          (featureVAOSServiceRequests &&
+            appointment.status === APPOINTMENT_STATUS.proposed) ||
+          (featureVAOSServiceVAAppointments &&
+            appointment.status !== APPOINTMENT_STATUS.proposed),
+      });
 
       dispatch({
         type: CANCEL_APPOINTMENT_CONFIRMED_SUCCEEDED,
