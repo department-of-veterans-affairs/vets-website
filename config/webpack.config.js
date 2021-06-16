@@ -459,19 +459,21 @@ module.exports = async (env = {}) => {
   }
 
   if (isOptimizedBuild) {
+    baseConfig.devtool = 'hidden-source-map';
+    baseConfig.mode = 'production';
+
     const bucket = BUCKETS[buildtype];
 
     baseConfig.plugins.push(
       new webpack.SourceMapDevToolPlugin({
-        append: `\n//# sourceMappingURL=${bucket}/generated/[url]`,
         filename: '[file].map',
+        publicPath: `${bucket}/generated/`,
       }),
     );
 
     baseConfig.plugins.push(new webpack.HashedModuleIdsPlugin());
-    baseConfig.mode = 'production';
   } else {
-    baseConfig.devtool = '#eval-source-map';
+    baseConfig.devtool = 'eval-source-map';
 
     // The eval-source-map devtool doesn't seem to work for CSS, so we
     // add a separate plugin for CSS source maps.
