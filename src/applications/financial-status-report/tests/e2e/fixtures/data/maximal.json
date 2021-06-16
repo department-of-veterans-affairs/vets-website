@@ -1,8 +1,24 @@
 {
+  "additionalData": {
+    "additionalComments": "Supporting personal statement...",
+    "bankruptcy": {
+      "dateDischarged": "2012-03-XX",
+      "courtLocation": "Tampa, FL",
+      "docketNumber": "123456"
+    }
+  },
   "otherExpenses": [
     {
-      "name": "Home repair",
+      "name": "Dry cleaning/laundry",
       "amount": 100
+    },
+    {
+      "name": "Pool service",
+      "amount": 150
+    },
+    {
+      "name": "Gasoline/diesel fuel",
+      "amount": 3000
     }
   ],
   "view:components": {
@@ -13,24 +29,6 @@
     "view:veteranInfo": {},
     "view:vaBenefitsOnFile": {}
   },
-  "questions": {
-    "hasOtherExpenses": true,
-    "hasRepayments": true,
-    "hasUtilities": true,
-    "hasOtherAssets": true,
-    "hasRecreationalVehicle": true,
-    "hasVehicle": true,
-    "hasRealEstate": true,
-    "hasDependents": true,
-    "spouseHasAdditionalIncome": true,
-    "spouseHasSocialSecurity": true,
-    "spouseHasBenefits": true,
-    "spouseIsEmployed": true,
-    "isMarried": true,
-    "hasAdditionalIncome": true,
-    "hasSocialSecurity": true,
-    "vetIsEmployed": true
-  },
   "installmentContractsAndOtherDebts": [
     {
       "purpose": "Credit card payments",
@@ -40,6 +38,15 @@
       "amountDueMonthly": 200,
       "dateStarted": "2012-04-XX",
       "amountPastDue": 100
+    },
+    {
+      "purpose": "Hangar rental",
+      "creditorName": "Creditor Two",
+      "originalAmount": 1000000,
+      "unpaidBalance": 990000,
+      "amountDueMonthly": 10,
+      "dateStarted": "2021-04-XX",
+      "amountPastDue": 10
     }
   ],
   "utilityRecords": [
@@ -50,23 +57,39 @@
     {
       "utilityType": "Electricity",
       "monthlyUtilityAmount": 300
+    },
+    {
+      "utilityType": "Cable",
+      "monthlyUtilityAmount": 75
+    },
+    {
+      "utilityType": "Cell phone",
+      "monthlyUtilityAmount": 450
     }
   ],
   "expenses": {
-    "rentOrMortgage": 1000,
-    "food": 1000
+    "rentOrMortgage": 1570,
+    "food": 4500
   },
   "assets": {
     "otherAssets": [
       {
         "name": "Bitcoin",
         "amount": 10000
+      },
+      {
+        "name": "Gambling earning",
+        "amount": 45000
       }
     ],
     "trailersBoatsCampers": [
       {
         "recreationalVehicleType": "Boat",
         "recreationalVehicleAmount": 15000
+      },
+      {
+        "recreationalVehicleType": "Helicopter",
+        "recreationalVehicleAmount": 1000000
       }
     ],
     "automobiles": [
@@ -76,28 +99,43 @@
         "model": "RAM",
         "year": "2020",
         "resaleValue": 75000
+      },
+      {
+        "type": "Car",
+        "make": "Dodge",
+        "model": "Charger",
+        "year": "2020",
+        "resaleValue": 40000
       }
     ],
-    "cashInBank": 100,
-    "cashOnHand": 200,
-    "usSavingsBonds": 300,
-    "stocksAndOtherBonds": 400
+    "cashInBank": 1100,
+    "cashOnHand": 2050,
+    "usSavingsBonds": 3100,
+    "stocksAndOtherBonds": 4020
   },
   "realEstateRecords": [
     {
       "realEstateType": "Apartment",
-      "realEstateAmount": 1000
+      "realEstateAmount": 100000
+    },
+    {
+      "realEstateType": "Farm",
+      "realEstateAmount": 175000
     }
   ],
   "personalData": {
     "agesOfOtherDependents": [
       {
-        "dependentAge": "5"
+        "dependentAge": "12"
       },
       {
-        "dependentAge": "10"
+        "dependentAge": "17"
       }
     ],
+    "spouseFullName": {
+      "first": "Angela",
+      "last": "Mitchell"
+    },
     "employmentHistory": {
       "spouse": {
         "employmentRecords": [
@@ -148,10 +186,6 @@
         ]
       }
     },
-    "spouseFullName": {
-      "first": "Spouse First",
-      "last": "Spouse Last"
-    },
     "veteranFullName": {
       "first": "Greg",
       "last": "Anderson",
@@ -175,6 +209,10 @@
         {
           "name": "Alimony payment",
           "amount": 100
+        },
+        {
+          "name": "Bonus payment",
+          "amount": 1000
         }
       ]
     },
@@ -182,8 +220,35 @@
       {
         "name": "Bonus payment",
         "amount": 1000
+      },
+      {
+        "name": "Freelance service",
+        "amount": 1200
+      },
+      {
+        "name": "Rental property income",
+        "amount": 1100
       }
     ]
+  },
+  "questions": {
+    "spouseIsEmployed": true,
+    "hasBeenAdjudicatedBankrupt": true,
+    "hasOtherExpenses": true,
+    "hasRepayments": true,
+    "hasUtilities": true,
+    "hasOtherAssets": true,
+    "hasRecreationalVehicle": true,
+    "hasVehicle": true,
+    "hasRealEstate": true,
+    "hasDependents": true,
+    "spouseHasAdditionalIncome": true,
+    "spouseHasSocialSecurity": true,
+    "spouseHasBenefits": true,
+    "isMarried": true,
+    "hasAdditionalIncome": true,
+    "hasSocialSecurity": true,
+    "vetIsEmployed": true
   },
   "socialSecurity": {
     "spouse": {
@@ -231,7 +296,61 @@
           "description": "Death Case Pending Action"
         }
       ],
-      "id": 0
+      "id": 0,
+      "resolution": {
+        "resolutionType": "Waiver",
+        "agreeToWaiver": true
+      }
+    },
+    {
+      "fileNumber": "796121200",
+      "payeeNumber": "00",
+      "personEntitled": "STUB_M",
+      "deductionCode": "44",
+      "benefitType": "CH35 EDU",
+      "diaryCode": "100",
+      "diaryCodeDescription": "Pending payment",
+      "amountOverpaid": 26000,
+      "amountWithheld": 0,
+      "originalAr": 100,
+      "currentAr": 80,
+      "debtHistory": [
+        {
+          "date": "12/19/2014",
+          "letterCode": "681",
+          "description": "Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available."
+        },
+        {
+          "date": "04/11/2013",
+          "letterCode": "080",
+          "description": "Debt referred to Treasury for Cross servicing"
+        },
+        {
+          "date": "12/11/2012",
+          "letterCode": "510",
+          "description": "Demand letters returned.  Unable to verify address with third party.  Account forced to TOP and/or CS."
+        },
+        {
+          "date": "10/17/2012",
+          "letterCode": "212",
+          "description": "Bad Address - Locator Request Sent"
+        },
+        {
+          "date": "09/28/2012",
+          "letterCode": "117",
+          "description": "Second Demand Letter"
+        },
+        {
+          "date": "09/18/2012",
+          "letterCode": "100",
+          "description": "First Demand Letter - Inactive Benefits - Due Process"
+        }
+      ],
+      "id": 1,
+      "resolution": {
+        "resolutionType": "Compromise",
+        "offerToPay": "10"
+      }
     }
   ],
   "debt": {
@@ -249,12 +368,12 @@
       "monthlyGrossSalary": 5000,
       "deductions": [
         {
-          "name": "401K",
+          "name": "Federal tax",
           "amount": 200
         },
         {
-          "name": "Garnishment",
-          "amount": 100
+          "name": "Health insurance",
+          "amount": 350
         }
       ],
       "type": "Full time",
@@ -264,11 +383,15 @@
       "employerName": "Employer One"
     },
     {
-      "monthlyGrossSalary": 1000,
+      "monthlyGrossSalary": 1200,
       "deductions": [
         {
-          "name": "Life insurance",
-          "amount": 100
+          "name": "Federal tax",
+          "amount": 120
+        },
+        {
+          "name": "Health insurance",
+          "amount": 75
         }
       ],
       "type": "Full time",
@@ -280,11 +403,15 @@
   ],
   "spouseCurrentEmployment": [
     {
-      "monthlyGrossSalary": 2000,
+      "monthlyGrossSalary": 3500,
       "deductions": [
         {
           "name": "Pension",
           "amount": 100
+        },
+        {
+          "name": "Federal tax",
+          "amount": 220
         }
       ],
       "type": "Full time",
@@ -294,11 +421,15 @@
       "employerName": "Spouse Employer One"
     },
     {
-      "monthlyGrossSalary": 3000,
+      "monthlyGrossSalary": 1350,
       "deductions": [
         {
-          "name": "Garnishment",
-          "amount": 100
+          "name": "Federal tax",
+          "amount": 225
+        },
+        {
+          "name": "Health insurance",
+          "amount": 340
         }
       ],
       "type": "Full time",
@@ -310,9 +441,6 @@
   ],
   "financialOverview": {},
   "availableOptions": {},
-  "additionalData": {
-    "bankruptcy": {}
-  },
   "income": [
     {
       "veteranOrSpouse": "VETERAN"

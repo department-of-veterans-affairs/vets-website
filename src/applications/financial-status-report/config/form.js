@@ -95,15 +95,14 @@ const formConfig = {
           initialData: {
             personalData: {
               address: {
-                livesOnMilitaryBaseInfo: {},
-                country: 'USA',
-                street: '55 Fake St',
-                city: 'Tampa',
-                state: 'FL',
-                postalCode: '33543',
+                street: '',
+                city: '',
+                state: '',
+                country: '',
+                postalCode: '',
               },
-              telephoneNumber: '4445551212',
-              emailAddress: 'test2@test1.net',
+              telephoneNumber: '',
+              emailAddress: '',
             },
           },
           path: 'contact-information',
@@ -123,30 +122,6 @@ const formConfig = {
           schema: pages.employment.schema,
         },
         employmentRecords: {
-          initialData: {
-            personalData: {
-              employmentHistory: {
-                veteran: {
-                  employmentRecords: [
-                    {
-                      type: 'Full time',
-                      from: '2017-1-XX',
-                      to: '',
-                      isCurrent: true,
-                      employerName: 'Employer One',
-                    },
-                    {
-                      type: 'Full time',
-                      from: '2018-4-XX',
-                      to: '',
-                      isCurrent: true,
-                      employerName: 'Employer Two',
-                    },
-                  ],
-                },
-              },
-            },
-          },
           path: 'employment-records',
           title: 'Employment',
           uiSchema: pages.employmentRecords.uiSchema,
@@ -209,30 +184,6 @@ const formConfig = {
           depends: formData => formData.questions.isMarried,
         },
         spouseEmploymentRecords: {
-          initialData: {
-            personalData: {
-              employmentHistory: {
-                spouse: {
-                  employmentRecords: [
-                    {
-                      type: 'Full time',
-                      from: '2017-1-XX',
-                      to: '',
-                      isCurrent: true,
-                      employerName: 'Spouse Employer One',
-                    },
-                    {
-                      type: 'Full time',
-                      from: '2018-4-XX',
-                      to: '',
-                      isCurrent: true,
-                      employerName: 'Spouse Employer Two',
-                    },
-                  ],
-                },
-              },
-            },
-          },
           path: 'spouse-employment-records',
           title: 'Spouse employment',
           uiSchema: pages.spouseEmploymentRecords.uiSchema,
