@@ -86,3 +86,8 @@ jobs:
         with:
           name: cypress-mochawesome-test-results-artifact-${{ matrix.ci_node_index }}
           path: cypress/results
+
+  mochawesome:
+    needs: [build]
+    steps:
+      - name: Process Cypress Mochawesome results and generate report
