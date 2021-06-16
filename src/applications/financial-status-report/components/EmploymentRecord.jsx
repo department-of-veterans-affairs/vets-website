@@ -10,6 +10,7 @@ import classNames from 'classnames';
 
 const EmploymentRecord = ({
   idSchema,
+  uiSchema,
   formData,
   setFormData,
   employmentHistory,
@@ -17,7 +18,8 @@ const EmploymentRecord = ({
   errorSchema,
 }) => {
   const index = Number(idSchema.$id.slice(-1));
-  const { employmentRecords } = employmentHistory.veteran;
+  const { userType, userArray } = uiSchema['ui:options'];
+  const { employmentRecords } = employmentHistory[`${userType}`];
   const { from, to } = employmentRecords[index];
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
@@ -26,16 +28,15 @@ const EmploymentRecord = ({
   const submitted = formContext.submitted;
 
   const updateFormData = updated => {
-    const currentEmployment = updated.filter(record => record.isCurrent);
     setFormData({
       ...formData,
-      currentEmployment,
+      [`${userArray}`]: updated.filter(record => record.isCurrent),
       personalData: {
         ...formData.personalData,
         employmentHistory: {
           ...employmentHistory,
-          veteran: {
-            ...employmentHistory.veteran,
+          [`${userType}`]: {
+            ...employmentHistory[`${userType}`],
             employmentRecords: [...updated],
           },
         },

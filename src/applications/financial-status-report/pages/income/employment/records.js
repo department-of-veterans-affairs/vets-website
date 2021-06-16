@@ -19,10 +19,12 @@ export const uiSchema = {
             keepInPageOnReview: true,
           },
           items: {
+            'ui:field': EmploymentRecord,
             'ui:options': {
               classNames: 'vads-u-margin-bottom--3',
+              userType: 'veteran',
+              userArray: 'currentEmployment',
             },
-            'ui:field': EmploymentRecord,
           },
         },
       },

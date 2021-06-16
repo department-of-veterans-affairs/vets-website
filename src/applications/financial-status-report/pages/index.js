@@ -3,9 +3,7 @@ import * as contactInfo from './veteran/contact';
 import * as availableDebts from './veteran/debts';
 import * as employment from './income/employment';
 import * as employmentRecords from './income/employment/records';
-
 import * as income from './income/currentIncome';
-
 import * as previousEmployment from './income/previousEmployment';
 import * as previousEmploymentRecords from './income/previousEmployment/records';
 import * as benefits from './income/benefits';
@@ -22,6 +20,7 @@ import * as spouseBenefits from './income/spouse/benefits';
 import * as spouseBenefitRecords from './income/spouse/benefits/records';
 import * as spouseEmployment from './income/spouse/employment';
 import * as spouseEmploymentRecords from './income/spouse/employment/records';
+import * as spouseIncome from './income/spouse/currentIncome';
 import * as spousePreviousEmployment from './income/spouse/previousEmployment';
 import * as spousePreviousEmploymentRecords from './income/spouse/previousEmployment/records';
 import * as dependents from './income/dependents';
@@ -67,6 +66,7 @@ export {
   spouseBenefitRecords,
   spouseEmployment,
   spouseEmploymentRecords,
+  spouseIncome,
   spousePreviousEmployment,
   spousePreviousEmploymentRecords,
   spouseSocialSecurity,

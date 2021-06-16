@@ -209,6 +209,30 @@ const formConfig = {
           depends: formData => formData.questions.isMarried,
         },
         spouseEmploymentRecords: {
+          initialData: {
+            personalData: {
+              employmentHistory: {
+                spouse: {
+                  employmentRecords: [
+                    {
+                      type: 'Full time',
+                      from: '2017-1-XX',
+                      to: '',
+                      isCurrent: true,
+                      employerName: 'Spouse Employer One',
+                    },
+                    {
+                      type: 'Full time',
+                      from: '2018-4-XX',
+                      to: '',
+                      isCurrent: true,
+                      employerName: 'Spouse Employer Two',
+                    },
+                  ],
+                },
+              },
+            },
+          },
           path: 'spouse-employment-records',
           title: 'Spouse employment',
           uiSchema: pages.spouseEmploymentRecords.uiSchema,
@@ -217,23 +241,31 @@ const formConfig = {
             formData.questions.isMarried && formData.questions.spouseIsEmployed,
           editModeOnReviewPage: true,
         },
-        spousePreviousEmployment: {
-          path: 'spouse-previous-employment',
-          title: 'Spouse previous employment',
-          uiSchema: pages.spousePreviousEmployment.uiSchema,
-          schema: pages.spousePreviousEmployment.schema,
-          depends: formData => formData.questions.isMarried,
+        spouseIncome: {
+          title: 'Income',
+          path: 'spouse/income/:index',
+          arrayPath: 'spouseCurrentEmployment',
+          showPagePerItem: true,
+          uiSchema: pages.spouseIncome.uiSchema,
+          schema: pages.spouseIncome.schema,
         },
-        spousePreviousEmploymentRecords: {
-          path: 'spouse-previous-employment-records',
-          title: 'Spouse employment',
-          uiSchema: pages.spousePreviousEmploymentRecords.uiSchema,
-          schema: pages.spousePreviousEmploymentRecords.schema,
-          depends: formData =>
-            formData.questions.isMarried &&
-            formData.questions.spousePreviouslyEmployed,
-          editModeOnReviewPage: true,
-        },
+        // spousePreviousEmployment: {
+        //   path: 'spouse-previous-employment',
+        //   title: 'Spouse previous employment',
+        //   uiSchema: pages.spousePreviousEmployment.uiSchema,
+        //   schema: pages.spousePreviousEmployment.schema,
+        //   depends: formData => formData.questions.isMarried,
+        // },
+        // spousePreviousEmploymentRecords: {
+        //   path: 'spouse-previous-employment-records',
+        //   title: 'Spouse employment',
+        //   uiSchema: pages.spousePreviousEmploymentRecords.uiSchema,
+        //   schema: pages.spousePreviousEmploymentRecords.schema,
+        //   depends: formData =>
+        //     formData.questions.isMarried &&
+        //     formData.questions.spousePreviouslyEmployed,
+        //   editModeOnReviewPage: true,
+        // },
         spouseBenefits: {
           path: 'spouse-benefits',
           title: 'Spouse benefits',
