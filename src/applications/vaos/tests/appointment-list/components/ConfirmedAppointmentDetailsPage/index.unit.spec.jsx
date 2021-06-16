@@ -41,6 +41,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
+    mockFacilitiesFetch();
   });
   afterEach(() => {
     MockDate.reset();
@@ -755,6 +756,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     };
 
     mockSingleAppointmentFetch({ appointment });
+    mockAppointmentInfo({
+      va: [appointment],
+      isHomepageRefresh: true,
+    });
 
     const facility = {
       id: 'vha_442GC',

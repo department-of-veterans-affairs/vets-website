@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { getVAFacilityMock, getVideoAppointmentMock } from '../../mocks/v0';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
@@ -691,6 +692,10 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
 });
 
 describe('VAOS integration: calendar ics file format', () => {
+  beforeEach(() => {
+    mockFetch();
+    mockFacilitiesFetch();
+  });
   it('should verify Video Connect at home calendar ics file format', async () => {
     const appointment = getVideoAppointmentMock();
     const startDate = moment.utc().add(3, 'days');

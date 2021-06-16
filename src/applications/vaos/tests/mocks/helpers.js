@@ -195,17 +195,42 @@ export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
  *
  * @export
  * @param {Object} params
- * @param {Array<string>} ids List of facility ids to use in query param
- * @param {Array<VAFacility>} facilities Array of facilities to return from mock
+ * @param {?Array<string>} ids List of facility ids to use in query param
+ * @param {?Array<VAFacility>} facilities Array of facilities to return from mock
  */
 export function mockFacilitiesFetch(ids, facilities) {
-  setFetchJSONResponse(
+  if (!ids) {
+    setFetchJSONResponse(
+      global.fetch.withArgs(sinon.match('/v1/facilities/va?ids=')),
+      { data: [] },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/v1/facilities/va?ids=${ids}&per_page=${
+          ids.split(',').length
+        }`,
+      ),
+      { data: facilities },
+    );
+  }
+}
+
+/**
+ * Mocks facilities fetch with an error response
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<string>} ids List of facility ids to use in query param
+ */
+export function mockFacilitiesFetchError(ids) {
+  setFetchJSONFailure(
     global.fetch.withArgs(
       `${environment.API_URL}/v1/facilities/va?ids=${ids}&per_page=${
         ids.split(',').length
       }`,
     ),
-    { data: facilities },
+    { errors: [] },
   );
 }
 
