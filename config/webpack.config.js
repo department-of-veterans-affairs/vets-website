@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
 
-require('core-js/stable');
-require('regenerator-runtime/runtime');
 const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
