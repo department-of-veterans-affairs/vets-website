@@ -37,23 +37,6 @@ const initialState = {
   },
 };
 
-const initialStateVAOSService = {
-  featureToggles: {
-    vaOnlineSchedulingCommunityCare: true,
-    vaOnlineSchedulingVAOSServiceRequests: true,
-  },
-  user: {
-    profile: {
-      facilities: [{ facilityId: '983', isCerner: false }],
-      vapContactInfo: {
-        residentialAddress: {
-          addressLine1: '123 big sky st',
-        },
-      },
-    },
-  },
-};
-
 describe('VAOS <TypeOfCarePage>', () => {
   beforeEach(() => mockFetch());
   it('should show type of care page with all care types', async () => {
@@ -229,7 +212,13 @@ describe('VAOS <TypeOfCarePage>', () => {
       supportedSites: ['983GC'],
       careType: 'PrimaryCare',
     });
-    const store = createTestStore(initialStateVAOSService);
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceRequests: true,
+      },
+    });
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfCarePage} />,
       { store },
@@ -237,6 +226,11 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(global.fetch.firstCall.args[0]).to.equal(
+        'https://dev-api.va.gov/vaos/v2/facilities?children=false&ids[]=983',
+      ),
+    );
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
         '/new-appointment/choose-facility-type',

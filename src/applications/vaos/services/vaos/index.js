@@ -27,6 +27,8 @@ export function getAppointment(id) {
 
 export function getParentFacilitiesV2(systemIds, children = false) {
   return apiRequestWithUrl(
-    `/vaos/v2/facilities?ids=${systemIds}&children=${children}`,
+    `/vaos/v2/facilities?children=${children}&${systemIds
+      .map(id => `ids[]=${id}`)
+      .join('&')}`,
   ).then(parseApiList);
 }

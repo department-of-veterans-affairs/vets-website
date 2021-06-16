@@ -78,12 +78,12 @@ export function mockVAOSAppointmentsFetch({
  * @param {Array<string>} ids A list of VistA site ids to mock the request for
  * @param {Array<VARParentSite>} data The list of parent site data returned from the mock call
  */
-export function mockVAOSParentSites(ids, data, getChildren = false) {
+export function mockVAOSParentSites(ids, data, children = false) {
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${
-        environment.API_URL
-      }/vaos/v2/facilities?ids=${ids}&children=${getChildren}`,
+      `${environment.API_URL}/vaos/v2/facilities?children=${children}&${ids
+        .map(id => `ids[]=${id}`)
+        .join('&')}`,
     ),
     { data },
   );
