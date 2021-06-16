@@ -142,6 +142,24 @@ describe('showAddIssuesPage', () => {
       }),
     ).to.be.false;
   });
+  it('should show the issue page when nothing is selected, and past the issues pages', () => {
+    // probably unselected stuff on the review & submit page
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': true,
+        contestableIssues: [{}],
+        additionalIssues: [{}],
+      }),
+    ).to.be.true;
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': false,
+        boardReviewOption: 'foo', // we're past the issues page
+        contestableIssues: [{}],
+        additionalIssues: [{}],
+      }),
+    ).to.be.true;
+  });
 });
 
 describe('showAddIssueQuestion', () => {
