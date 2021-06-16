@@ -205,6 +205,7 @@ const formConfig = {
           onContinue: captureEvents.militaryHistory,
           appStateSelector: state => ({
             dob: state.user.profile.dob,
+            isBDD: state.form.data?.['view:isBddData'],
             servicePeriods:
               state.form.data?.serviceInformation?.servicePeriods || [],
           }),

@@ -410,7 +410,8 @@ describe('526 All Claims validations', () => {
   describe('validateSeparationDate', () => {
     const _ = null;
     // builds the appStateData object
-    const data = ({ branch = 'Army' } = {}) => ({
+    const data = ({ bdd = false, branch = 'Army' } = {}) => ({
+      isBDD: bdd,
       servicePeriods: [{ serviceBranch: branch }],
     });
 
