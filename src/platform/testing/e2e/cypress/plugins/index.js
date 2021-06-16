@@ -37,7 +37,7 @@ module.exports = on => {
     name: 'dirname',
 
     setup(build) {
-      build.onLoad({ filter: /.js?$/ }, ({ path: filePath }) => {
+      build.onLoad({ filter: /.js$/ }, ({ path: filePath }) => {
         if (!nodeModulesRegex.test(filePath)) {
           const [, relativePath] = filePath.match(relativePathRegex);
           if (!relativePath) return null;
@@ -60,16 +60,14 @@ module.exports = on => {
     define: {
       __BUILDTYPE__: '"localhost"',
       __API__: null,
-      // global: '"window"',
+      global: 'window',
     },
-    loader: {
-      '.js': 'jsx',
-    },
+    loader: { '.js': 'jsx' },
     nodePaths: [root],
     plugins: [
       alias({
         '~': root,
-        '@@vap-svc': path.join(root, 'platform/user/profile/vap-svc'),
+        '@@vap-svc': path.resolve(root, 'platform/user/profile/vap-svc'),
         '@@profile': path.resolve(root, 'applications/personalization/profile'),
       }),
       dirnamePlugin,
