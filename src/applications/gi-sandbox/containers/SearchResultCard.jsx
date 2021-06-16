@@ -17,6 +17,7 @@ export function SearchResultCard({
   dispatchRemoveCompareInstitution,
   institution,
   location = false,
+  header = null,
 }) {
   const {
     name,
@@ -59,8 +60,10 @@ export function SearchResultCard({
   ].filter(Boolean);
 
   const resultCardClasses = classNames(
-    'result-card vads-u-background-color--gray-lightest vads-u-margin-bottom--2',
-    { 'vads-u-margin-left--2p5': !location },
+    'result-card vads-u-margin-bottom--2 vads-u-padding-right--1p5',
+    {
+      'vads-u-margin-left--2p5': !location,
+    },
   );
 
   const schoolClassificationClasses = classNames('school-classification', {
@@ -215,66 +218,69 @@ export function SearchResultCard({
 
   return (
     <div className={resultCardClasses} id={`${createId(name)}-result-card`}>
-      {schoolClassification}
       {location && <span id={`${createId(name)}-result-card-placeholder`} />}
-      <div className="vads-u-padding-x--2 vads-u-margin-bottom--1">
-        {nameCityStateHeader}
-        {schoolProvider && ratingsInformation}
-        {preferredProvider && (
-          <span className="preferred-provider-text">
-            <i className="fa fa-star vads-u-color--gold" />
-            <strong> Preferred Provider</strong>
-          </span>
-        )}
-      </div>
-      {cautionFlags.length > 0 && (
-        <div className="caution-flag-section">
-          <CautionFlagAdditionalInfo
-            cautionFlags={cautionFlags}
-            expanded={expanded}
-            setCount={setCount}
-          />
+      {header}
+      <div className="vads-u-background-color--gray-lightest">
+        {schoolClassification}
+        <div className="vads-u-padding-x--2 vads-u-margin-bottom--1">
+          {nameCityStateHeader}
+          {schoolProvider && ratingsInformation}
+          {preferredProvider && (
+            <span className="preferred-provider-text">
+              <i className="fa fa-star vads-u-color--gold" />
+              <strong> Preferred Provider</strong>
+            </span>
+          )}
         </div>
-      )}
-      {!expanded && (
-        <>
-          <div
-            className={classNames(
-              'vads-u-padding-x--2 vads-u-margin-bottom--4',
-              {
-                'vads-u-border-top--3px': cautionFlags.length === 0,
-                'vads-u-border-color--white': cautionFlags.length === 0,
-              },
-            )}
-          >
-            {tuitionAndEligibility}
-          </div>
-          <div className="vads-u-border-top--3px vads-u-border-color--white vads-u-padding-x--2">
-            <div className="vads-u-display--flex vads-u-margin-top--1 ">
-              {!vetTecProvider
-                ? schoolEmployerInstitutionDetails
-                : vettecInstitutionDetails}
-            </div>
-          </div>
-        </>
-      )}
-
-      <div
-        className={classNames(
-          'vads-u-display--flex, vads-u-text-align--center',
-          {
-            'vads-u-border-top--3px': !expanded,
-            'vads-u-border-color--white': !expanded,
-          },
-        )}
-      >
-        <div className="card-bottom-cell vads-u-flex--1 vads-u-border-right--2px vads-u-border-color--white vads-u-margin--0">
-          <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
-            <Checkbox
-              label="Compare"
-              checked={compareChecked}
-              onChange={handleCompareUpdate}
+        {cautionFlags.length > 0 && (
+          <div className="caution-flag-section">
+            <CautionFlagAdditionalInfo
+              cautionFlags={cautionFlags}
+              expanded={expanded}
+              setCount={setCount}
             />
+          </div>
+        )}
+        {!expanded && (
+          <>
+            <div
+              className={classNames(
+                'vads-u-padding-x--2 vads-u-margin-bottom--4',
+                {
+                  'vads-u-border-top--3px': cautionFlags.length === 0,
+                  'vads-u-border-color--white': cautionFlags.length === 0,
+                },
+              )}
+            >
+              {tuitionAndEligibility}
+            </div>
+            <div className="vads-u-border-top--3px vads-u-border-color--white vads-u-padding-x--2">
+              <div className="vads-u-display--flex vads-u-margin-top--1 ">
+                {!vetTecProvider
+                  ? schoolEmployerInstitutionDetails
+                  : vettecInstitutionDetails}
+              </div>
+            </div>
+          </>
+        )}
+
+        <div
+          className={classNames(
+            'vads-u-display--flex, vads-u-text-align--center',
+            {
+              'vads-u-border-top--3px': !expanded,
+              'vads-u-border-color--white': !expanded,
+            },
+          )}
+        >
+          <div className="card-bottom-cell vads-u-flex--1 vads-u-border-right--2px vads-u-border-color--white vads-u-margin--0">
+            <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
+              <Checkbox
+                label="Compare"
+                checked={compareChecked}
+                onChange={handleCompareUpdate}
+              />
+            </div>
           </div>
         </div>
       </div>
