@@ -74,15 +74,16 @@ function migrateFile(fname, data) {
   console.log(chalk.cyan(`Reading ${fname}`));
   const [newTag, propMap] = replacements[options.component]();
 
-  const newTags = replaceTags(data, newTag);
+  let migratedFile = data;
+
+  migratedFile = replaceTags(migratedFile, newTag);
 
   const cmpRegex = new RegExp(`(<${newTag}.+?</${newTag}>)`, 'gsm');
-  const components = Array.from(newTags.matchAll(cmpRegex), m => m[0]);
+  const components = Array.from(migratedFile.matchAll(cmpRegex), m => m[0]);
 
   console.log(
     chalk.magenta(`${options.component} found ${components.length} times.`),
   );
-  let migratedFile = newTags;
   components.forEach(component => {
     console.log(chalk.yellow.bold('Remapping component props:'));
     console.log(chalk.yellow(component));
@@ -94,9 +95,9 @@ function migrateFile(fname, data) {
     );
   });
 
-  const removeImport = migratedFile.replace(legacyImport, '');
+  migratedFile = migratedFile.replace(legacyImport, '');
 
-  fs.writeFile(fname, removeImport, 'utf8', error => {
+  fs.writeFile(fname, migratedFile, 'utf8', error => {
     if (error) handleError(error);
     console.log(chalk.green(`File written: ${fname}`));
   });
