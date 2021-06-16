@@ -14,7 +14,7 @@ export const CertificateDownload = props => (
           information we need. You can download your COE now.
         </p>
       </va-alert>
-      <h2>Review and download your CODE</h2>
+      <h2>Review and download your COE</h2>
       <p>
         To see your Certificate of Eligibility, click the link below. Your COE
         will appear in a new tab on your browser. To download this PDF to your

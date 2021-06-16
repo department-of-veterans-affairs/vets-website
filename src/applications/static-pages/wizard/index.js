@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import set from 'platform/utilities/data/set';
 
-import { connect } from 'react-redux';
-import { form526BDDFeature } from '../../disability-benefits/all-claims/config/selectors';
-
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
@@ -159,7 +156,6 @@ export class Wizard extends React.Component {
                     state={page.state}
                     setWizardStatus={setWizardStatus}
                     setReferredBenefit={setReferredBenefit}
-                    allowBDD={this.props.allowBDD}
                   />
                 );
               })}
@@ -193,8 +189,4 @@ Wizard.defaultProps = {
   setReferredBenefit: () => {},
 };
 
-const mapStateToProps = state => ({
-  allowBDD: form526BDDFeature(state),
-});
-
-export default connect(mapStateToProps)(Wizard);
+export default Wizard;
