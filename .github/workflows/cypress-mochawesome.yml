@@ -8,11 +8,28 @@ jobs:
     name: Mochawesome Report
     runs-on: ubuntu-latest
     steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-gov-west-1"
+      - name: Set BIGQUERY_SERVICE_CREDENTIALS Environment Variable
+        uses: "marvinpinto/action-inject-ssm-secrets@v1.1.1"
+        with:
+          ssm_parameter: "/dsva-vagov/testing-team/bigquery_service_credentials"
+          env_variable_name: "BIGQUERY_SERVICE_CREDENTIALS"
       - name: Checkout Testing Tools Team Dashboard Data repo
         uses: actions/checkout@v2
         with:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           path: testing-tools-team-dashboard-data
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: vsp-analytics-and-insights
+          service_account_key: ${{ env.BIGQUERY_SERVICE_CREDENTIALS }}
+          export_default_credentials: true
       - name: Use Node.js
         uses: actions/setup-node@v2
         with:
