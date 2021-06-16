@@ -40,14 +40,15 @@ module.exports = on => {
     setup(build) {
       build.onLoad({ filter: /.js$/ }, ({ path: filePath }) => {
         if (!nodeModulesRegex.test(filePath)) {
-          const [, relativePath] = filePath.match(relativePathRegex);
-          if (!relativePath) return null;
+          const match = filePath.match(relativePathRegex);
+          if (!match) return null;
 
+          const [, relativePath] = match;
           const dirname = path.dirname(relativePath);
-          const injectedDefinition = `const __dirname = '${dirname}';`;
           const fileContents = fs.readFileSync(filePath, 'utf8');
+
           return {
-            contents: `${injectedDefinition}\n\n${fileContents}`,
+            contents: fileContents.replace('__dirname', `'${dirname}'`),
             loader: 'jsx',
           };
         }
