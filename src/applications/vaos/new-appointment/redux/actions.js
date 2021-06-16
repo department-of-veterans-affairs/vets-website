@@ -686,7 +686,9 @@ export function checkCommunityCareEligibility() {
         return response.eligible;
       }
     } catch (e) {
-      captureError(e);
+      captureError(e, false, null, {
+        facilities: state.user?.profile?.facilities,
+      });
       Sentry.captureMessage(
         'Community Care eligibility check failed with errors',
       );
