@@ -95,7 +95,7 @@ jobs:
     steps:
       - name: Process Cypress Mochawesome results and generate report
         run: |
-          curl -v -X POST \
+          curl -v POST \
           -H 'Accept: application/vnd.github.v3+json' \
-          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/cypress-mochawesome/dispatches \
+          https://api.github.com/repos/department-of-veterans-affairs/vets-api/actions/workflows/cypress-mochawesome.yml/dispatches \
           -d '{"ref": "master"}'
