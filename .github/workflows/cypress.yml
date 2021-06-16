@@ -88,6 +88,7 @@ jobs:
           path: cypress/results
 
   mochawesome:
+    if: ${{ always() }}
     needs: [build]
     name: Kickoff cypress-mochawesome workflow
     runs-on: ubuntu-latest
