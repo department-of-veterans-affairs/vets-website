@@ -33,13 +33,13 @@ export const FETCH_CONSTANTS_SUCCEEDED = 'FETCH_CONSTANTS_SUCCEEDED';
 export const FETCH_PROFILE_FAILED = 'FETCH_PROFILE_FAILED';
 export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
+export const FILTERS_CHANGED = 'FILTERS_CHANGED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
 export const GEOCODE_COMPLETE = 'GEOCODE_COMPLETE';
 export const GEOCODE_STARTED = 'GEOCODE_STARTED';
 export const GEOCODE_FAILED = 'GEOCODE_FAILED';
 export const GEOCODE_LOCATION_FAILED = 'GEOCODE_LOCATION_FAILED';
 export const GEOCODE_SUCCEEDED = 'GEOCODE_SUCCEEDED';
-export const GEOCODE_STREET_ADDRESS = 'GEOCODE_STREET_ADDRESS';
 export const GEOLOCATE_USER = 'GEOLOCATE_USER';
 export const GEOCODE_CLEAR_ERROR = 'GEOCODE_CLEAR_ERROR';
 export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
@@ -158,14 +158,14 @@ export function eligibilityChange(eligibility) {
   return { type: ELIGIBILITY_CHANGED, payload: eligibility };
 }
 
-export function institutionFilterChange(filters) {
-  return { type: INSTITUTION_FILTERS_CHANGED, payload: filters };
+export function filterChange(filters) {
+  return { type: FILTERS_CHANGED, payload: filters };
 }
 
 export function updateEligibilityAndFilters(eligibility, filters) {
   return dispatch => {
     dispatch({ type: ELIGIBILITY_CHANGED, payload: eligibility });
-    dispatch({ type: INSTITUTION_FILTERS_CHANGED, payload: filters });
+    dispatch({ type: FILTERS_CHANGED, payload: filters });
   };
 }
 
@@ -354,12 +354,18 @@ export function fetchSearchByLocationCoords(
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
-      payload: { location, latitude, longitude },
+      payload: { location, latitude, longitude, distance },
     });
 
     return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
+          dispatch(
+            updateEligibilityAndFilters(
+              { expanded: false },
+              { expanded: false },
+            ),
+          );
           return res.json();
         }
 

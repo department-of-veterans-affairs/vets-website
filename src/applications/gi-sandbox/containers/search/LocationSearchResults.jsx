@@ -200,11 +200,11 @@ function LocationSearchResults({
 
     return (
       <>
-        {header}
         <SearchResultCard
           institution={institution}
           key={institution.facilityCode}
           location
+          header={header}
         />
       </>
     );

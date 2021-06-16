@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Dropdown from '../components/Dropdown';
 import {
@@ -12,6 +12,8 @@ import {
 import KeywordSearch from '../components/search/KeywordSearch';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { useHistory } from 'react-router-dom';
+import { updateUrlParams } from '../utils/helpers';
 
 export function LocationSearchForm({
   autocomplete,
@@ -26,39 +28,68 @@ export function LocationSearchForm({
   dispatchClearGeocodeError,
 }) {
   const [distance, setDistance] = useState(search.query.distance);
-
+  const [location, setLocation] = useState(search.query.location);
+  const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const { version } = preview;
+  const history = useHistory();
 
-  const doSearch = event => {
-    event.preventDefault();
-    dispatchFetchSearchByLocationResults(
-      autocomplete.location,
-      distance,
+  const updateUrlLocationParams = paramLocation => {
+    updateUrlParams(
+      history,
+      search.tab,
+      { ...search.query, location: paramLocation, distance },
       filters,
     );
   };
 
-  const handleSelection = selected => {
-    if (selected.coords) {
+  useEffect(
+    () => {
+      if (
+        search.loadFromUrl &&
+        search.query.location !== null &&
+        search.query.location !== ''
+      ) {
+        dispatchFetchSearchByLocationResults(
+          search.query.location,
+          distance,
+          filters,
+          version,
+        );
+      }
+    },
+    [search.loadFromUrl],
+  );
+
+  const doSearch = event => {
+    event.preventDefault();
+    let paramLocation = location;
+    if (autocompleteSelection?.coords) {
+      paramLocation = autocompleteSelection.label;
       dispatchFetchSearchByLocationCoords(
-        selected.label,
-        selected.coords,
+        autocompleteSelection.label,
+        autocompleteSelection.coords,
         distance,
         filters,
         version,
       );
     } else {
       dispatchFetchSearchByLocationResults(
-        autocomplete.location,
+        location,
         distance,
         filters,
         version,
       );
     }
+    updateUrlLocationParams(paramLocation);
   };
 
   const doAutocompleteSuggestionsSearch = value => {
     dispatchFetchLocationAutocompleteSuggestions(value);
+  };
+
+  const onUpdateAutocompleteSearchTerm = value => {
+    setLocation(value);
+    dispatchUpdateAutocompleteLocation(value);
   };
 
   return (
@@ -113,13 +144,11 @@ export function LocationSearchForm({
               version={version}
               name="locationSearch"
               className="location-search"
-              inputValue={autocomplete.location}
+              inputValue={location}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => doSearch(e)}
-              onSelection={handleSelection}
-              onUpdateAutocompleteSearchTerm={
-                dispatchUpdateAutocompleteLocation
-              }
+              onSelection={selected => setAutocompleteSelection(selected)}
+              onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               placeholder="city, state, or postal code"
               suggestions={[...autocomplete.locationSuggestions]}
             />

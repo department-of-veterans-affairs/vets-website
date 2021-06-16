@@ -10,10 +10,11 @@ import {
   GEOCODE_STARTED,
   GEOCODE_FAILED,
   GEOCODE_LOCATION_FAILED,
+  GEOLOCATE_USER,
   GEOCODE_COMPLETE,
   GEOCODE_CLEAR_ERROR,
   UPDATE_CURRENT_SEARCH_TAB,
-  GEOLOCATE_USER,
+  UPDATE_QUERY_PARAMS,
 } from '../actions';
 import { normalizedInstitutionAttributes } from '../../gi/reducers/utility';
 import { TABS } from '../constants';
@@ -78,6 +79,7 @@ const INITIAL_STATE = {
     count: null,
   },
   tab: TABS.name,
+  loadFromUrl: false,
 };
 
 function uppercaseKeys(obj) {
@@ -125,16 +127,21 @@ function buildSearchResults(payload, paging = true) {
 }
 
 export default function(state = INITIAL_STATE, action) {
+  const newState = {
+    ...state,
+    loadFromUrl: false, // set this to false anytime a user action happens
+  };
+
   switch (action.type) {
     case UPDATE_CURRENT_SEARCH_TAB:
       return {
-        ...state,
+        ...newState,
         tab: action.tab,
       };
 
     case SEARCH_BY_LOCATION_SUCCEEDED:
       return {
-        ...state,
+        ...newState,
         location: buildSearchResults(action.payload, false),
         inProgress: false,
         error: null,
@@ -142,7 +149,7 @@ export default function(state = INITIAL_STATE, action) {
 
     case SEARCH_BY_NAME_SUCCEEDED:
       return {
-        ...state,
+        ...newState,
         name: buildSearchResults(action.payload),
         inProgress: false,
         error: null,
@@ -150,30 +157,31 @@ export default function(state = INITIAL_STATE, action) {
 
     case SEARCH_STARTED:
       return {
-        ...state,
+        ...newState,
         query: {
-          ...state.query,
-          name: action.payload.name,
-          location: action.payload.location,
-          latitude: action.payload.latitude,
-          longitude: action.payload.longitude,
+          ...newState.query,
+          name: action.payload.name || newState.query.name,
+          location: action.payload.location || newState.query.location,
+          distance: action.payload.distance || newState.query.distance,
+          latitude: action.payload.latitude || newState.query.latitude,
+          longitude: action.payload.longitude || newState.query.longitude,
         },
-        location: { ...state.location, mapChanged: false },
+        location: { ...newState.location, mapChanged: false },
         inProgress: true,
       };
 
     case SEARCH_FAILED:
       return {
-        ...state,
+        ...newState,
         inProgress: false,
         error: action.payload,
       };
 
     case GEOCODE_STARTED:
       return {
-        ...state,
-        query: { ...state.query, ...action.payload },
-        geolocationInProgress: true,
+        ...newState,
+        query: { ...newState.query, ...action.payload },
+        geocodeInProgress: true,
       };
     case GEOCODE_FAILED:
       return {
@@ -203,15 +211,11 @@ export default function(state = INITIAL_STATE, action) {
       };
 
     case GEOCODE_SUCCEEDED:
-      return {
-        ...state,
-        geocode: action.payload,
-        geolocationInProgress: false,
-      };
+      return { ...newState, geocode: action.payload, geocodeInProgress: false };
 
     case GEOCODE_LOCATION_FAILED:
       return {
-        ...state,
+        ...newState,
         error: action.payload,
         geocodeError: action.code,
         geolocationInProgress: false,
@@ -224,10 +228,23 @@ export default function(state = INITIAL_STATE, action) {
 
     case SEARCH_BY_FACILITY_CODES_SUCCEEDED:
       return {
-        ...state,
+        ...newState,
         compare: buildSearchResults(action.payload, false),
         inProgress: false,
         error: null,
+      };
+
+    case UPDATE_QUERY_PARAMS:
+      return {
+        ...newState,
+        tab: action.payload.search || newState.tab,
+        query: {
+          ...newState.query,
+          name: action.payload.name || newState.query.name,
+          location: action.payload.location || newState.query.location,
+          distance: action.payload.distance || newState.query.distance,
+        },
+        loadFromUrl: true,
       };
 
     default:

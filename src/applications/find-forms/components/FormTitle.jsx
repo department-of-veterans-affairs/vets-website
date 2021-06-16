@@ -12,7 +12,7 @@ const FormTitle = ({
   <>
     {useSearchUIUXEnhancements ? (
       <dt
-        className="vads-u-padding-top--3 vads-u-margin--0 vads-u-font-weight--bold"
+        className="vads-u-padding-top--5 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-font-weight--bold"
         data-e2e-id="result-title"
       >
         {formUrl ? (
