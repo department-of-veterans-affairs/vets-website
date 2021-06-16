@@ -8,11 +8,13 @@ import set from 'platform/utilities/data/set';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { getParentSiteMock } from '../../mocks/v0';
+import { getVAOSParentSiteMock } from '../../mocks/v2';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {
   mockCommunityCareEligibility,
   mockParentSites,
 } from '../../mocks/helpers';
+import { mockVAOSParentSites } from '../../mocks/helpers.v2';
 
 import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 import { NewAppointment } from '../../../new-appointment';
@@ -22,6 +24,23 @@ import environment from 'platform/utilities/environment';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCommunityCare: true,
+  },
+  user: {
+    profile: {
+      facilities: [{ facilityId: '983', isCerner: false }],
+      vapContactInfo: {
+        residentialAddress: {
+          addressLine1: '123 big sky st',
+        },
+      },
+    },
+  },
+};
+
+const initialStateVAOSService = {
+  featureToggles: {
+    vaOnlineSchedulingCommunityCare: true,
+    vaOnlineSchedulingVAOSServiceRequests: true,
   },
   user: {
     profile: {
@@ -177,6 +196,40 @@ describe('VAOS <TypeOfCarePage>', () => {
       careType: 'PrimaryCare',
     });
     const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(
+      <Route component={TypeOfCarePage} />,
+      { store },
+    );
+
+    fireEvent.click(await screen.findByLabelText(/primary care/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(screen.history.push.lastCall?.args[0]).to.equal(
+        '/new-appointment/choose-facility-type',
+      ),
+    );
+  });
+
+  it('should open facility type page when CC eligible, has a support parent site, and v2 VAOS service requests are on', async () => {
+    const parentSite983 = {
+      id: '983',
+      attributes: {
+        ...getVAOSParentSiteMock().attributes,
+      },
+    };
+    const parentSite983GC = {
+      id: '983GC',
+      attributes: {
+        ...getVAOSParentSiteMock().attributes,
+      },
+    };
+    mockVAOSParentSites(['983'], [parentSite983, parentSite983GC]);
+    mockCommunityCareEligibility({
+      parentSites: ['983', '983GC'],
+      supportedSites: ['983GC'],
+      careType: 'PrimaryCare',
+    });
+    const store = createTestStore(initialStateVAOSService);
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfCarePage} />,
       { store },
