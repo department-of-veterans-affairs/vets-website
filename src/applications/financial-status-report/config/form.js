@@ -249,23 +249,6 @@ const formConfig = {
           uiSchema: pages.spouseIncome.uiSchema,
           schema: pages.spouseIncome.schema,
         },
-        // spousePreviousEmployment: {
-        //   path: 'spouse-previous-employment',
-        //   title: 'Spouse previous employment',
-        //   uiSchema: pages.spousePreviousEmployment.uiSchema,
-        //   schema: pages.spousePreviousEmployment.schema,
-        //   depends: formData => formData.questions.isMarried,
-        // },
-        // spousePreviousEmploymentRecords: {
-        //   path: 'spouse-previous-employment-records',
-        //   title: 'Spouse employment',
-        //   uiSchema: pages.spousePreviousEmploymentRecords.uiSchema,
-        //   schema: pages.spousePreviousEmploymentRecords.schema,
-        //   depends: formData =>
-        //     formData.questions.isMarried &&
-        //     formData.questions.spousePreviouslyEmployed,
-        //   editModeOnReviewPage: true,
-        // },
         spouseBenefits: {
           path: 'spouse-benefits',
           title: 'Spouse benefits',

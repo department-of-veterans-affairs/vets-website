@@ -20,21 +20,25 @@ export const dateFormatter = date => {
 
 export const getMonthlyIncome = ({
   questions,
-  personalData,
   additionalIncome,
   socialSecurity,
   benefits,
+  currentEmployment,
+  spouseCurrentEmployment,
 }) => {
-  const { employmentHistory } = personalData;
   let totalArr = [];
 
   if (questions.vetIsEmployed) {
-    const { monthlyGrossSalary } = employmentHistory.veteran.employmentRecords;
+    const monthlyGrossSalary = currentEmployment
+      .map(record => record.monthlyGrossSalary)
+      .reduce((acc, amount) => acc + amount, 0);
     totalArr = [...totalArr, monthlyGrossSalary];
   }
 
   if (questions.spouseIsEmployed) {
-    const { monthlyGrossSalary } = employmentHistory.spouse.employmentRecords;
+    const monthlyGrossSalary = spouseCurrentEmployment
+      .map(record => record.monthlyGrossSalary)
+      .reduce((acc, amount) => acc + amount, 0);
     totalArr = [...totalArr, monthlyGrossSalary];
   }
 
@@ -70,24 +74,40 @@ export const getMonthlyIncome = ({
   return totalArr.reduce((acc, income) => acc + income, 0) || 0;
 };
 
-export const getMonthlyExpenses = ({
-  questions,
-  personalData,
-  expenses,
-  otherExpenses,
-  utilityRecords,
-  installmentContractsAndOtherDebts,
-}) => {
-  const { employmentHistory } = personalData;
+export const getMonthlyExpenses = formData => {
+  const {
+    questions,
+    expenses,
+    otherExpenses,
+    utilityRecords,
+    installmentContractsAndOtherDebts,
+    currentEmployment,
+    spouseCurrentEmployment,
+  } = formData;
+
   let totalArr = [];
 
   const householdExpenses = Object.values(expenses);
   totalArr = [...totalArr, ...householdExpenses];
 
   if (questions.vetIsEmployed) {
-    const { deductions } = employmentHistory.veteran.employmentRecords;
-    const payrollDeductions = deductions.map(deduction => deduction.amount);
-    totalArr = [...totalArr, ...payrollDeductions];
+    const payrollDeductions = currentEmployment
+      .map(record => record.deductions)
+      .flat();
+    const deductionAmounts = payrollDeductions.map(
+      deduction => deduction.amount,
+    );
+    totalArr = [...totalArr, ...deductionAmounts];
+  }
+
+  if (questions.spouseIsEmployed) {
+    const payrollDeductions = spouseCurrentEmployment
+      .map(record => record.deductions)
+      .flat();
+    const deductionAmounts = payrollDeductions.map(
+      deduction => deduction.amount,
+    );
+    totalArr = [...totalArr, ...deductionAmounts];
   }
 
   if (questions.hasUtilities) {

@@ -1,14 +1,19 @@
 {
-  "additionalData": {
-    "bankruptcy": {
-      "dateDischarged": "2004-06-XX",
-      "courtLocation": "Tampa, FL",
-      "docketNumber": "123456"
-    },
-    "additionalComments": "Supporting personal statement"
+  "otherExpenses": [
+    {
+      "name": "Home repair",
+      "amount": 100
+    }
+  ],
+  "view:components": {
+    "view:assetInfo": {},
+    "view:recVehicleInfo": {},
+    "view:vehicleInfo": {},
+    "view:maritalStatus": {},
+    "view:veteranInfo": {},
+    "view:vaBenefitsOnFile": {}
   },
   "questions": {
-    "hasBeenAdjudicatedBankrupt": true,
     "hasOtherExpenses": true,
     "hasRepayments": true,
     "hasUtilities": true,
@@ -20,78 +25,42 @@
     "spouseHasAdditionalIncome": true,
     "spouseHasSocialSecurity": true,
     "spouseHasBenefits": true,
-    "spousePreviouslyEmployed": true,
     "spouseIsEmployed": true,
     "isMarried": true,
     "hasAdditionalIncome": true,
     "hasSocialSecurity": true,
-    "vetPreviouslyEmployed": true,
     "vetIsEmployed": true
-  },
-  "otherExpenses": [
-    {
-      "name": "Lawn service",
-      "amount": 150
-    },
-    {
-      "name": "Pool service",
-      "amount": 75
-    }
-  ],
-  "view:components": {
-    "view:assetInfo": {},
-    "view:recVehicleInfo": {},
-    "view:vehicleInfo": {},
-    "view:veteranInfo": {},
-    "view:vaBenefitsOnFile": {}
   },
   "installmentContractsAndOtherDebts": [
     {
       "purpose": "Credit card payments",
-      "creditorName": "Creditor Name 1",
-      "originalAmount": 125000,
-      "unpaidBalance": 55000,
-      "amountDueMonthly": 825,
-      "dateStarted": "2016-06-XX",
+      "creditorName": "Creditor One",
+      "originalAmount": 10000,
+      "unpaidBalance": 5000,
+      "amountDueMonthly": 200,
+      "dateStarted": "2012-04-XX",
       "amountPastDue": 100
-    },
-    {
-      "purpose": "Helicopter payment",
-      "creditorName": "Creditor 2",
-      "originalAmount": 1000000,
-      "unpaidBalance": 750000,
-      "amountDueMonthly": 2500,
-      "dateStarted": "2017-04-XX",
-      "amountPastDue": 0
     }
   ],
   "utilityRecords": [
     {
+      "utilityType": "Water",
+      "monthlyUtilityAmount": 25
+    },
+    {
       "utilityType": "Electricity",
-      "monthlyUtilityAmount": 350
-    },
-    {
-      "utilityType": "Cable",
-      "monthlyUtilityAmount": 225
-    },
-    {
-      "utilityType": "Cell phone",
-      "monthlyUtilityAmount": 400
+      "monthlyUtilityAmount": 300
     }
   ],
   "expenses": {
-    "rentOrMortgage": 3200,
-    "food": 4500
+    "rentOrMortgage": 1000,
+    "food": 1000
   },
   "assets": {
     "otherAssets": [
       {
         "name": "Bitcoin",
-        "amount": 60000
-      },
-      {
-        "name": "Gambling earning",
-        "amount": 225000
+        "amount": 10000
       }
     ],
     "trailersBoatsCampers": [
@@ -106,166 +75,131 @@
         "make": "Dodge",
         "model": "RAM",
         "year": "2020",
-        "resaleValue": 85000
-      },
-      {
-        "type": "Car",
-        "make": "Dodge",
-        "model": "Charger",
-        "year": "2020",
-        "resaleValue": 35000
+        "resaleValue": 75000
       }
     ],
-    "cashInBank": 1650,
-    "cashOnHand": 4300,
-    "usSavingsBonds": 75000,
-    "stocksAndOtherBonds": 50000
+    "cashInBank": 100,
+    "cashOnHand": 200,
+    "usSavingsBonds": 300,
+    "stocksAndOtherBonds": 400
   },
   "realEstateRecords": [
     {
-      "realEstateType": "Acreage or land",
-      "realEstateAmount": 70000
-    },
-    {
-      "realEstateType": "Vacation property",
-      "realEstateAmount": 250000
+      "realEstateType": "Apartment",
+      "realEstateAmount": 1000
     }
   ],
   "personalData": {
     "agesOfOtherDependents": [
       {
-        "dependentAge": "12"
+        "dependentAge": "5"
       },
       {
-        "dependentAge": "17"
+        "dependentAge": "10"
       }
     ],
     "employmentHistory": {
       "spouse": {
-        "spousePreviousEmployment": [
+        "employmentRecords": [
           {
             "type": "Full time",
-            "from": "2016-07-XX",
-            "to": "2017-04-XX",
-            "employerName": "Spouse Prev Employer 1"
+            "from": "2017-1-XX",
+            "to": "",
+            "isCurrent": true,
+            "employerName": "Spouse Employer One"
           },
           {
-            "type": "Part time",
-            "from": "2015-10-XX",
-            "to": "2017-08-XX",
-            "employerName": "Spouse Prev Employer 2"
+            "type": "Full time",
+            "from": "2018-4-XX",
+            "to": "",
+            "isCurrent": true,
+            "employerName": "Spouse Employer Two"
+          },
+          {
+            "type": "Full time",
+            "from": "2014-3-XX",
+            "to": "2016-4-XX",
+            "employerName": "Spouse Employer Three"
           }
-        ],
-        "employmentRecords": {
-          "type": "Full time",
-          "from": "2017-05-XX",
-          "employerName": "Spouse Current Employer",
-          "monthlyGrossSalary": 4500,
-          "spouseDeductions": [
-            {
-              "name": "Federal tax",
-              "amount": 300
-            },
-            {
-              "name": "Health insurance",
-              "amount": 410
-            }
-          ]
-        }
+        ]
       },
       "veteran": {
-        "vetPreviousEmployment": [
+        "employmentRecords": [
           {
             "type": "Full time",
-            "from": "2017-02-XX",
-            "to": "2019-08-XX",
-            "employerName": "Veteran Prev Employer 1"
+            "from": "2017-1-XX",
+            "to": "",
+            "isCurrent": true,
+            "employerName": "Employer One"
           },
           {
             "type": "Full time",
-            "from": "2016-05-XX",
-            "to": "2017-08-XX",
-            "employerName": "Veteran Prev Employer 2"
+            "from": "2018-4-XX",
+            "to": "",
+            "isCurrent": true,
+            "employerName": "Employer Two"
+          },
+          {
+            "type": "Full time",
+            "from": "2015-4-XX",
+            "to": "2017-4-XX",
+            "employerName": "Employer Three"
           }
-        ],
-        "employmentRecords": {
-          "type": "Full time",
-          "from": "2019-03-XX",
-          "employerName": "Veteran Current Employer",
-          "monthlyGrossSalary": 5300,
-          "deductions": [
-            {
-              "name": "Federal tax",
-              "amount": 350
-            },
-            {
-              "name": "Health insurance",
-              "amount": 420
-            },
-            {
-              "name": "FICA (Social Security and Medicare)",
-              "amount": 100
-            }
-          ]
-        }
+        ]
       }
     },
     "spouseFullName": {
-      "first": "Angela",
-      "last": "Mitchell"
+      "first": "Spouse First",
+      "last": "Spouse Last"
     },
+    "veteranFullName": {
+      "first": "Greg",
+      "last": "Anderson",
+      "middle": "A"
+    },
+    "dateOfBirth": "1933-05-04",
     "address": {
       "livesOnMilitaryBaseInfo": {},
       "country": "USA",
-      "street": "123 Fake St",
+      "street": "55 Fake St",
       "city": "Tampa",
       "state": "FL",
       "postalCode": "33543"
     },
     "telephoneNumber": "4445551212",
-    "emailAddress": "test2@test1.net",
-    "veteranFullName": {
-      "first": "Mark",
-      "middle": "",
-      "last": "Webb"
-    },
-    "dateOfBirth": "1950-10-04"
+    "emailAddress": "test2@test1.net"
   },
   "additionalIncome": {
     "spouse": {
       "spouseAdditionalIncomeRecords": [
         {
-          "name": "Bonus payment",
-          "amount": 800
+          "name": "Alimony payment",
+          "amount": 100
         }
       ]
     },
     "additionalIncomeRecords": [
       {
-        "name": "Alimony payment",
-        "amount": 2000
-      },
-      {
-        "name": "Freelance service",
-        "amount": 1200
+        "name": "Bonus payment",
+        "amount": 1000
       }
     ]
   },
   "socialSecurity": {
     "spouse": {
-      "socialSecurityAmount": 1100
+      "socialSecurityAmount": 500
     },
-    "socialSecurityAmount": 1500
+    "socialSecurityAmount": 100
   },
   "benefits": {
     "spouseBenefits": {
-      "benefitAmount": 1200,
-      "educationAmount": 1700
+      "benefitAmount": 100,
+      "educationAmount": 200
     }
   },
   "personalIdentification": {
-    "ssn": "1234",
-    "fileNumber": "5678"
+    "ssn": "1200",
+    "fileNumber": "1200"
   },
   "selectedDebts": [
     {
@@ -297,61 +231,7 @@
           "description": "Death Case Pending Action"
         }
       ],
-      "id": 0,
-      "resolution": {
-        "resolutionType": "Waiver",
-        "agreeToWaiver": true
-      }
-    },
-    {
-      "fileNumber": "796121200",
-      "payeeNumber": "00",
-      "personEntitled": "STUB_M",
-      "deductionCode": "44",
-      "benefitType": "CH35 EDU",
-      "diaryCode": "100",
-      "diaryCodeDescription": "Pending payment",
-      "amountOverpaid": 26000,
-      "amountWithheld": 0,
-      "originalAr": 100,
-      "currentAr": 80,
-      "debtHistory": [
-        {
-          "date": "12/19/2014",
-          "letterCode": "681",
-          "description": "Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available."
-        },
-        {
-          "date": "04/11/2013",
-          "letterCode": "080",
-          "description": "Debt referred to Treasury for Cross servicing"
-        },
-        {
-          "date": "12/11/2012",
-          "letterCode": "510",
-          "description": "Demand letters returned.  Unable to verify address with third party.  Account forced to TOP and/or CS."
-        },
-        {
-          "date": "10/17/2012",
-          "letterCode": "212",
-          "description": "Bad Address - Locator Request Sent"
-        },
-        {
-          "date": "09/28/2012",
-          "letterCode": "117",
-          "description": "Second Demand Letter"
-        },
-        {
-          "date": "09/18/2012",
-          "letterCode": "100",
-          "description": "First Demand Letter - Inactive Benefits - Due Process"
-        }
-      ],
-      "id": 1,
-      "resolution": {
-        "resolutionType": "Compromise",
-        "offerToPay": "80"
-      }
+      "id": 0
     }
   ],
   "debt": {
@@ -364,13 +244,78 @@
     "deductionCode": "",
     "originalAr": 0
   },
-  "income": [
+  "currentEmployment": [
     {
-      "veteranOrSpouse": "VETERAN",
-      "compensationAndPension": "3261.1",
-      "education": "50"
+      "monthlyGrossSalary": 5000,
+      "deductions": [
+        {
+          "name": "401K",
+          "amount": 200
+        },
+        {
+          "name": "Garnishment",
+          "amount": 100
+        }
+      ],
+      "type": "Full time",
+      "from": "2017-1-XX",
+      "to": "",
+      "isCurrent": true,
+      "employerName": "Employer One"
+    },
+    {
+      "monthlyGrossSalary": 1000,
+      "deductions": [
+        {
+          "name": "Life insurance",
+          "amount": 100
+        }
+      ],
+      "type": "Full time",
+      "from": "2018-4-XX",
+      "to": "",
+      "isCurrent": true,
+      "employerName": "Employer Two"
+    }
+  ],
+  "spouseCurrentEmployment": [
+    {
+      "monthlyGrossSalary": 2000,
+      "deductions": [
+        {
+          "name": "Pension",
+          "amount": 100
+        }
+      ],
+      "type": "Full time",
+      "from": "2017-1-XX",
+      "to": "",
+      "isCurrent": true,
+      "employerName": "Spouse Employer One"
+    },
+    {
+      "monthlyGrossSalary": 3000,
+      "deductions": [
+        {
+          "name": "Garnishment",
+          "amount": 100
+        }
+      ],
+      "type": "Full time",
+      "from": "2018-4-XX",
+      "to": "",
+      "isCurrent": true,
+      "employerName": "Spouse Employer Two"
     }
   ],
   "financialOverview": {},
-  "availableOptions": {}
+  "availableOptions": {},
+  "additionalData": {
+    "bankruptcy": {}
+  },
+  "income": [
+    {
+      "veteranOrSpouse": "VETERAN"
+    }
+  ]
 }
