@@ -21,3 +21,4 @@ jobs:
         - uses: actions/download-artifact@v2
           with:
             name: cypress-mochawesome-test-results-artifact-0
+            working-directory: src/mochawesome/data
