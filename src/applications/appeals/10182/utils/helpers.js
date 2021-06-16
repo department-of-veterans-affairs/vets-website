@@ -15,14 +15,23 @@ export const needsHearingType = formData =>
   formData.boardReviewOption === 'hearing';
 export const wantsToUploadEvidence = formData =>
   canUploadEvidence(formData) && formData['view:additionalEvidence'];
-export const showAddIssuesPage = formData =>
-  formData['view:hasIssuesToAdd'] !== false &&
-  (formData.constestableIssues?.length
-    ? !someSelected(formData.contestableIssues)
-    : true);
 
 export const hasSomeSelected = ({ contestableIssues, additionalIssues } = {}) =>
   someSelected(contestableIssues) || someSelected(additionalIssues);
+
+export const showAddIssuesPage = formData => {
+  const hasSelectedIssues = formData.constestableIssues?.length
+    ? someSelected(formData.contestableIssues)
+    : false;
+  const noneToAdd = formData['view:hasIssuesToAdd'] !== false;
+  // are we past the issues pages?
+  if (formData.boardReviewOption && !hasSomeSelected(formData)) {
+    // nothing is selected, we need to show the additional issues page!
+    return true;
+  }
+  return noneToAdd && !hasSelectedIssues;
+};
+
 export const showAddIssueQuestion = ({ contestableIssues }) =>
   // additional issues yes/no question:
   // SHOW: if contestable issues selected. HIDE: if no contestable issues are
