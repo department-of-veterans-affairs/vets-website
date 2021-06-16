@@ -16,12 +16,13 @@
   },
   "reporter": "mochawesome",
   "reporterOptions": {
-      "reportDir": "cypress/report/mochawesome-report",
+      "reportDir": "cypress/results",
       "overwrite": false,
       "html": false,
       "json": true,
       "timestamp": "mmddyyyy_HHMMss"
   },
+  "videosFolder": "cypress/videos",
   "env": {
     "vaTopMobileViewports": [
       {
