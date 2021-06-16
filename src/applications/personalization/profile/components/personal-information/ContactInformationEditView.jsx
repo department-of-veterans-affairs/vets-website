@@ -258,18 +258,22 @@ export class ContactInformationEditView extends Component {
 
     return (
       <>
-        {error && (
-          <div
-            className="vads-u-margin-bottom--2"
-            data-testid="edit-error-alert"
-          >
-            <VAPServiceEditModalErrorMessage
-              title={title}
-              error={error}
-              clearErrors={() => this.props.clearTransactionRequest(fieldName)}
-            />
-          </div>
-        )}
+        <div role="alert">
+          {error && (
+            <div
+              className="vads-u-margin-bottom--2"
+              data-testid="edit-error-alert"
+            >
+              <VAPServiceEditModalErrorMessage
+                title={title}
+                error={error}
+                clearErrors={() =>
+                  this.props.clearTransactionRequest(fieldName)
+                }
+              />
+            </div>
+          )}
+        </div>
 
         {!!field && (
           <div>
