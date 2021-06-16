@@ -89,6 +89,8 @@ jobs:
 
   mochawesome:
     needs: [build]
+    name: Kickoff cypress-mochawesome workflow
+    runs-on: ubuntu-latest
     steps:
       - name: Process Cypress Mochawesome results and generate report
         run: |

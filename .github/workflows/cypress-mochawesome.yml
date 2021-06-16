@@ -49,4 +49,3 @@ jobs:
             working-directory: src/mochawesome/data
       - name: Create report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
-
