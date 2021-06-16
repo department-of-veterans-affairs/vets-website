@@ -1,8 +1,14 @@
 import _, { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
+
 import constants from 'vets-json-schema/dist/constants.json';
-import { SMALL_SCREEN_WIDTH } from '../constants';
+import {
+  SMALL_SCREEN_WIDTH,
+  FILTERS_EXCLUDED_FLIP,
+  FILTERS_IGNORE_ALL,
+} from '../constants';
+import appendQuery from 'append-query';
 
 /**
  * Snake-cases field names
@@ -190,27 +196,29 @@ export const buildSearchFilters = filters => {
   const clonedFilters = _.cloneDeep(filters);
   delete clonedFilters.expanded;
 
-  // default state is checked so these will only be present if their corresponding boxes are unchecked
-  const excludeBooleanFlip = ['schools', 'employers', 'vettec'];
-
-  const hasAllValue = ['country', 'state', 'type'];
   const searchFilters = {};
 
   // boolean fields
   Object.entries(clonedFilters)
     .filter(([_field, value]) => value === true)
-    .filter(([field, _value]) => !excludeBooleanFlip.includes(field))
+    .filter(([field, _value]) => !FILTERS_EXCLUDED_FLIP.includes(field))
     .forEach(([field]) => {
       searchFilters[field] = clonedFilters[field];
     });
 
-  hasAllValue.filter(field => clonedFilters[field] !== 'ALL').forEach(field => {
-    searchFilters[field] = clonedFilters[field];
-  });
+  FILTERS_IGNORE_ALL.filter(field => clonedFilters[field] !== 'ALL').forEach(
+    field => {
+      searchFilters[field] = clonedFilters[field];
+    },
+  );
 
-  excludeBooleanFlip.filter(field => !clonedFilters[field]).forEach(field => {
-    searchFilters[`exclude_${field}`] = !clonedFilters[field];
-  });
+  FILTERS_EXCLUDED_FLIP.filter(field => !clonedFilters[field]).forEach(
+    field => {
+      const excludeField = `exclude${field[0].toUpperCase() +
+        field.slice(1).toLowerCase()}`;
+      searchFilters[excludeField] = !clonedFilters[field];
+    },
+  );
 
   return searchFilters;
 };
@@ -223,4 +231,42 @@ export const schoolSize = enrollment => {
     return 'Medium';
   }
   return 'Large';
+};
+
+export const updateUrlParams = (
+  history,
+  tab,
+  searchQuery,
+  filters,
+  version,
+) => {
+  const queryParams = {
+    search: tab,
+  };
+  if (
+    searchQuery.name !== '' ||
+    searchQuery.name !== null ||
+    searchQuery.name !== undefined
+  ) {
+    queryParams.name = searchQuery.name;
+  }
+
+  if (
+    searchQuery.location !== '' ||
+    searchQuery.location !== null ||
+    searchQuery.location !== undefined
+  ) {
+    queryParams.location = searchQuery.location;
+  }
+
+  if (searchQuery.distance !== '50') {
+    queryParams.distance = searchQuery.distance;
+  }
+
+  const url = appendQuery('/', {
+    ...queryParams,
+    ...buildSearchFilters(filters),
+    version,
+  });
+  history.push(url);
 };
