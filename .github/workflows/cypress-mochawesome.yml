@@ -8,7 +8,7 @@ jobs:
     name: Mochawesome Report
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout tools repo
+      - name: Checkout Testing Tools Team Dashboard Data repo
         uses: actions/checkout@v2
         with:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
