@@ -200,6 +200,13 @@ const HealthCare = ({
             href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
             icon="file-medical"
             text="Get your VA medical records"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Get your VA medical records',
+                'links-list-section-header': 'Health care',
+              });
+            }}
           />
         </DashboardWidgetWrapper>
       </div>
