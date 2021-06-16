@@ -88,13 +88,17 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
+        <PreSubmitSection
+          formConfig={formConfig}
+          saveLink={<span>save link</span>}
+        />
       </Provider>,
     );
 
     expect(tree.getByText('I accept the privacy agreement')).to.not.be.null;
     // disabled for now due to dynamic input id's
     // expect(tree.container.innerHTML).to.matchSnapshot();
+    expect(tree.getByText('save link')).to.exist;
 
     tree.unmount();
   });

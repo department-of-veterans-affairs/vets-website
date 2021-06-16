@@ -90,7 +90,6 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     );
 
     expect(tree.find('SaveStatus').exists()).to.be.true;
-    expect(tree.find('SaveFormLink').exists()).to.be.true;
     expect(tree.find('Connect(DowntimeNotification)').exists()).to.be.true;
     expect(tree.find('withRouter(Connect(SubmitController))').exists()).to.be
       .true;
