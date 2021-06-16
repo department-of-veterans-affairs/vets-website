@@ -13,3 +13,7 @@ jobs:
         with:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           path: testing-tools-team-dashboard-data
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
