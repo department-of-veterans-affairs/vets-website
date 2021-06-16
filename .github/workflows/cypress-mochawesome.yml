@@ -1,0 +1,10 @@
+name: Create Cypress Mochawesome Report & Push Data to BigQuery
+
+on:
+  workflow_dispatch
+
+jobs:
+  mochawesome-report:
+    name: Mochawesome Report
+    runs-on: ubuntu-latest
+    steps:
