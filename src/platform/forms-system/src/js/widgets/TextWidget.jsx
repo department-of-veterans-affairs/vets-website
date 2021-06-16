@@ -24,6 +24,7 @@ export default function TextWidget(props) {
     onChange: event =>
       props.onChange(event.target.value ? event.target.value : undefined),
     onFocus: props.onFocus,
+    'aria-describedby': props.options.ariaDescribedby || null,
   };
 
   return <input {...inputProps} />;
@@ -37,6 +38,10 @@ TextWidget.propTypes = {
     * input's autocomplete attribute value
     */
     autocomplete: PropTypes.string,
+    /**
+     * input's aria-describedby attribute
+     */
+    ariaDescribedby: PropTypes.string,
   }),
 };
 
