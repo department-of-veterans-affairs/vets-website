@@ -8,6 +8,14 @@ export function postAppointment(appointment) {
   }).then(parseApiObject);
 }
 
+export function putAppointment(id, appointment) {
+  return apiRequestWithUrl(`/vaos/v2/appointments/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(appointment),
+  }).then(parseApiObject);
+}
+
 export function getAppointments(start, end, statuses = []) {
   return apiRequestWithUrl(
     `/vaos/v2/appointments?start=${start}&end=${end}&${statuses

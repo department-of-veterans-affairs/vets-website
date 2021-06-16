@@ -14,7 +14,12 @@ import {
   updateAppointment,
   updateRequest,
 } from '../var';
-import { getAppointment, getAppointments, postAppointment } from '../vaos';
+import {
+  getAppointment,
+  getAppointments,
+  postAppointment,
+  putAppointment,
+} from '../vaos';
 import {
   transformConfirmedAppointment,
   transformConfirmedAppointments,
@@ -621,6 +626,44 @@ async function cancelRequestedAppointment(request) {
   }
 }
 
+async function cancelV2Appointment(appointment) {
+  const additionalEventData = {
+    appointmentType:
+      appointment.status === APPOINTMENT_STATUS.proposed
+        ? 'pending'
+        : 'confirmed',
+    facilityType: appointment.vaos?.isCommunityCare ? 'cc' : 'va',
+  };
+
+  recordEvent({
+    event: eventPrefix,
+    ...additionalEventData,
+  });
+
+  try {
+    const updatedAppointment = await putAppointment(appointment.id, {
+      status: APPOINTMENT_STATUS.cancelled,
+    });
+
+    recordEvent({
+      event: `${eventPrefix}-successful`,
+      ...additionalEventData,
+    });
+    resetDataLayer();
+
+    return transformVAOSAppointment(updatedAppointment);
+  } catch (e) {
+    captureError(e, true);
+    recordEvent({
+      event: `${eventPrefix}-failed`,
+      ...additionalEventData,
+    });
+    resetDataLayer();
+
+    throw e;
+  }
+}
+
 const UNABLE_TO_KEEP_APPT = '5';
 const VALID_CANCEL_CODES = new Set(['4', '5', '6']);
 async function cancelBookedAppointment(appointment) {
@@ -705,13 +748,16 @@ async function cancelBookedAppointment(appointment) {
  * @export
  * @param {Object} params
  * @param {Appointment} params.appointment The appointment to cancel
+ * @param {boolean} params.useV2 Use the vaos/v2 endpoint to cancel the appointment
  * @returns {?Appointment} Returns either null or the updated appointment data
  */
-export async function cancelAppointment({ appointment }) {
+export async function cancelAppointment({ appointment, useV2 = false }) {
   const isConfirmedAppointment =
     appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
 
-  if (isConfirmedAppointment) {
+  if (useV2) {
+    return cancelV2Appointment(appointment);
+  } else if (isConfirmedAppointment) {
     return cancelBookedAppointment(appointment);
   } else {
     return cancelRequestedAppointment(appointment);
