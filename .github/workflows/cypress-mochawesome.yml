@@ -18,34 +18,34 @@ jobs:
         with:
           node-version: '14'
       - name: Download test result artifact 0
-        - uses: actions/download-artifact@v2
-          with:
-            name: cypress-mochawesome-test-results-artifact-0
-            working-directory: src/mochawesome/data
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results-artifact-0
+          working-directory: src/mochawesome/data
       - name: Download test result artifact 1
-        - uses: actions/download-artifact@v2
-          with:
-            name: cypress-mochawesome-test-results-artifact-1
-            working-directory: src/mochawesome/data
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results-artifact-1
+          working-directory: src/mochawesome/data
       - name: Download test result artifact 2
-        - uses: actions/download-artifact@v2
-          with:
-            name: cypress-mochawesome-test-results-artifact-2
-            working-directory: src/mochawesome/data
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results-artifact-2
+          working-directory: src/mochawesome/data
       - name: Download test result artifact 3
-        - uses: actions/download-artifact@v2
-          with:
-            name: cypress-mochawesome-test-results-artifact-3
-            working-directory: src/mochawesome/data
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results-artifact-3
+          working-directory: src/mochawesome/data
       - name: Download test result artifact 4
-        - uses: actions/download-artifact@v2
-          with:
-            name: cypress-mochawesome-test-results-artifact-4
-            working-directory: src/mochawesome/data
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results-artifact-4
+          working-directory: src/mochawesome/data
       - name: Download test result artifact 5
-        - uses: actions/download-artifact@v2
-          with:
-            name: cypress-mochawesome-test-results-artifact-5
-            working-directory: src/mochawesome/data
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results-artifact-5
+          working-directory: src/mochawesome/data
       - name: Create report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
