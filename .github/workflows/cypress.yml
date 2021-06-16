@@ -80,9 +80,9 @@ jobs:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
 
-      - name: Archive Mochawesome Cypress test results
+      - name: Archive Cypress Mochawesome test results
         uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
-          name: mochawesome-cypress-test-results-artifacts
+          name: cypress-mochawesome-test-results-artifact-${{ matrix.ci_node_index }}
           path: cypress/results
