@@ -174,6 +174,7 @@
     "esbuild": "^0.12.9",
     "esbuild-loader": "^2.13.1",
     "esbuild-plugin-alias": "^0.1.2",
+    "esbuild-sass-plugin": "^1.4.6",
     "eslint": "^7.3.1",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",

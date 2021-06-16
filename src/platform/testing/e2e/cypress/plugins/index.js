@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
-const alias = require('esbuild-plugin-alias');
+const aliasPlugin = require('esbuild-plugin-alias');
+const { sassPlugin } = require('esbuild-sass-plugin');
 
 // const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 
@@ -65,11 +66,12 @@ module.exports = on => {
     loader: { '.js': 'jsx' },
     nodePaths: [root],
     plugins: [
-      alias({
+      aliasPlugin({
         '~': root,
         '@@vap-svc': path.resolve(root, 'platform/user/profile/vap-svc'),
         '@@profile': path.resolve(root, 'applications/personalization/profile'),
       }),
+      sassPlugin(),
       dirnamePlugin,
     ],
   });
