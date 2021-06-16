@@ -76,10 +76,7 @@ const InputSection = ({
   const titlePrefix = editing && editing[index] === true ? 'Edit' : 'Add';
 
   const getItemSchema = i => {
-    if (schema.items.length > i) {
-      return schema.items[i];
-    }
-    return schema.additionalItems;
+    return schema.items.length > i ? schema.items[i] : schema.additionalItems;
   };
 
   const itemSchema = getItemSchema(index);
@@ -244,7 +241,6 @@ const ItemLoop = ({
     if (editing.length === 1) {
       setShowTable(false);
     }
-
     setCache(items);
     setEditing(editData);
     handleScroll(`table_${idSchema.$id}_${index}`, 0);
@@ -289,7 +285,6 @@ const ItemLoop = ({
   const handleCancel = index => {
     const lastIndex = items.length - 1;
     const isAdding = editing.includes('add');
-
     if (isAdding && lastIndex === index) {
       const editData = editing.filter(item => item !== 'add');
       const filtered = items.filter(item => {
@@ -320,6 +315,7 @@ const ItemLoop = ({
       setEditing(editData);
       setShowTable(editData.includes(false));
     },
+    // watch for changes to the page index when arrayPath is used
     [formContext?.pagePerItemIndex], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
