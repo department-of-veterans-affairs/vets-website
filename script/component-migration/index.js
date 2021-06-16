@@ -70,47 +70,48 @@ function replaceTags(file, newTag) {
     .replace(`</${options.component}`, `</${newTag}`);
 }
 
-function migrateFile(fname) {
+function migrateFile(fname, data) {
+  console.log(chalk.cyan(`Reading ${fname}`));
+  const [newTag, propMap] = replacements[options.component]();
+
+  const newTags = replaceTags(data, newTag);
+
+  const cmpRegex = new RegExp(`(<${newTag}.+?</${newTag}>)`, 'gsm');
+  const components = Array.from(newTags.matchAll(cmpRegex), m => m[0]);
+
+  console.log(
+    chalk.magenta(`${options.component} found ${components.length} times.`),
+  );
+  let migratedFile = newTags;
+  components.forEach(component => {
+    console.log(chalk.yellow.bold('Remapping component props:'));
+    console.log(chalk.yellow(component));
+
+    // Next, replace the props
+    migratedFile = migratedFile.replace(
+      component,
+      translateProps(component, propMap),
+    );
+  });
+
+  const removeImport = migratedFile.replace(legacyImport, '');
+
+  fs.writeFile(fname, removeImport, 'utf8', error => {
+    if (error) handleError(error);
+    console.log(chalk.green(`File written: ${fname}`));
+  });
+
+  console.log();
+  return 0;
+}
+
+FILENAMES.forEach(fname => {
   fs.readFile(fname, 'utf8', (err, data) => {
     if (err) {
       return handleError(err);
     }
-
-    // Leave this file alone if it doesn't import the component
     if (!data.includes(legacyImport)) return null;
-    console.log(chalk.cyan(`Reading ${fname}`));
-    const [newTag, propMap] = replacements[options.component]();
-
-    const newTags = replaceTags(data, newTag);
-
-    const cmpRegex = new RegExp(`(<${newTag}.+?</${newTag}>)`, 'gsm');
-    const components = Array.from(newTags.matchAll(cmpRegex), m => m[0]);
-
-    console.log(
-      chalk.magenta(`${options.component} found ${components.length} times.`),
-    );
-    let migratedFile = newTags;
-    components.forEach(component => {
-      console.log(chalk.yellow.bold('Remapping component props:'));
-      console.log(chalk.yellow(component));
-
-      // Next, replace the props
-      migratedFile = migratedFile.replace(
-        component,
-        translateProps(component, propMap),
-      );
-    });
-
-    const removeImport = migratedFile.replace(legacyImport, '');
-
-    fs.writeFile(fname, removeImport, 'utf8', error => {
-      if (error) handleError(error);
-      console.log(chalk.green(`File written: ${fname}`));
-    });
-
-    console.log();
-    return 0;
+    // Leave this file alone if it doesn't import the component
+    return migrateFile(fname, data);
   });
-}
-
-FILENAMES.forEach(fname => migrateFile(fname));
+});
