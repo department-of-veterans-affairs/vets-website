@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { removeCompareInstitution } from '../actions';
+import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 
 export function CompareDrawer({
   compare,
@@ -47,29 +47,15 @@ export function CompareDrawer({
   return (
     <div className="compare-drawer">
       {promptingFacilityCode && (
-        <Modal
+        <RemoveCompareSelectedModal
+          name={institutions[promptingFacilityCode].name}
           onClose={() => setPromptingFacilityCode(null)}
-          primaryButton={{
-            action: () => {
-              setPromptingFacilityCode(null);
-              dispatchRemoveCompareInstitution(promptingFacilityCode);
-            },
-            text: 'Remove',
+          onAccept={() => {
+            setPromptingFacilityCode(null);
+            dispatchRemoveCompareInstitution(promptingFacilityCode);
           }}
-          secondaryButton={{
-            action: () => setPromptingFacilityCode(null),
-            text: 'Cancel',
-          }}
-          title="Remove Institution?"
-          visible
-        >
-          {promptingFacilityCode && (
-            <p>
-              Remove {institutions[promptingFacilityCode].name} from your
-              comparison?
-            </p>
-          )}
-        </Modal>
+          onCancel={() => setPromptingFacilityCode(null)}
+        />
       )}
       <div
         className="compare-header vads-l-grid-container"
