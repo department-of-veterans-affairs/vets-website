@@ -30,10 +30,10 @@ export const FETCH_PROFILE_FAILED = 'FETCH_PROFILE_FAILED';
 export const FETCH_PROFILE_STARTED = 'FETCH_PROFILE_STARTED';
 export const FETCH_PROFILE_SUCCEEDED = 'FETCH_PROFILE_SUCCEEDED';
 export const FILTER_TOGGLED = 'FILTER_TOGGLED';
+export const FILTERS_CHANGED = 'FILTERS_CHANGED';
 export const GEOCODE_STARTED = 'GEOCODE_STARTED';
 export const GEOCODE_FAILED = 'GEOCODE_FAILED';
 export const GEOCODE_SUCCEEDED = 'GEOCODE_SUCCEEDED';
-export const INSTITUTION_FILTERS_CHANGED = 'INSTITUTION_FILTERS_CHANGED';
 export const LOCATION_AUTOCOMPLETE_SUCCEEDED =
   'LOCATION_AUTOCOMPLETE_SUCCEEDED';
 export const NAME_AUTOCOMPLETE_SUCCEEDED = 'NAME_AUTOCOMPLETE_SUCCEEDED';
@@ -44,12 +44,15 @@ export const SEARCH_BY_NAME_SUCCEEDED = 'SEARCH_BY_NAME_SUCCEEDED';
 export const SEARCH_BY_LOCATION_SUCCEEDED = 'SEARCH_BY_LOCATION_SUCCEEDED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
+export const FETCH_COMPARE_FAILED = 'FETCH_COMPARE_FAILED';
 export const SET_PAGE_TITLE = 'SET_PAGE_TITLE';
 export const UPDATE_AUTOCOMPLETE_NAME = 'UPDATE_AUTOCOMPLETE_NAME';
 export const UPDATE_AUTOCOMPLETE_LOCATION = 'UPDATE_AUTOCOMPLETE_LOCATION';
+export const UPDATE_COMPARE_DETAILS = 'UPDATE_COMPARE_DETAILS';
 export const UPDATE_CURRENT_SEARCH_TAB = 'UPDATE_CURRENT_TAB';
 export const UPDATE_ESTIMATED_BENEFITS = 'UPDATE_ESTIMATED_BENEFITS';
 export const UPDATE_ROUTE = 'UPDATE_ROUTE';
+export const UPDATE_QUERY_PARAMS = 'UPDATE_QUERY_PARAMS';
 
 export function enterPreviewMode(version) {
   return {
@@ -144,14 +147,14 @@ export function eligibilityChange(eligibility) {
   return { type: ELIGIBILITY_CHANGED, payload: eligibility };
 }
 
-export function institutionFilterChange(filters) {
-  return { type: INSTITUTION_FILTERS_CHANGED, payload: filters };
+export function filterChange(filters) {
+  return { type: FILTERS_CHANGED, payload: filters };
 }
 
 export function updateEligibilityAndFilters(eligibility, filters) {
   return dispatch => {
     dispatch({ type: ELIGIBILITY_CHANGED, payload: eligibility });
-    dispatch({ type: INSTITUTION_FILTERS_CHANGED, payload: filters });
+    dispatch({ type: FILTERS_CHANGED, payload: filters });
   };
 }
 
@@ -340,12 +343,18 @@ export function fetchSearchByLocationCoords(
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
-      payload: { location, latitude, longitude },
+      payload: { location, latitude, longitude, distance },
     });
 
     return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
+          dispatch(
+            updateEligibilityAndFilters(
+              { expanded: false },
+              { expanded: false },
+            ),
+          );
           return res.json();
         }
 
@@ -416,7 +425,7 @@ export function fetchSearchByLocationResults(
   };
 }
 
-export function fetchSearchByFacilityCodes(facilityCodes, filters, version) {
+export function fetchCompareDetails(facilityCodes, filters, version) {
   const params = rubyifyKeys({
     facilityCodes,
     ...buildSearchFilters(filters),
@@ -427,25 +436,22 @@ export function fetchSearchByFacilityCodes(facilityCodes, filters, version) {
   const url = appendQuery(`${api.url}/institutions/search`, params);
 
   return dispatch => {
-    dispatch({ type: SEARCH_STARTED, payload: { name } });
-
     return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
           return res.json();
         }
-
         throw new Error(res.statusText);
       })
       .then(payload => {
         dispatch({
-          type: SEARCH_BY_FACILITY_CODES_SUCCEEDED,
-          payload,
+          type: UPDATE_COMPARE_DETAILS,
+          payload: payload.data,
         });
       })
       .catch(err => {
         dispatch({
-          type: SEARCH_FAILED,
+          type: FETCH_COMPARE_FAILED,
           payload: err.message,
         });
       });
@@ -461,5 +467,11 @@ export function addCompareInstitution(institution) {
 export function removeCompareInstitution(facilityCode) {
   return dispatch => {
     dispatch({ type: REMOVE_COMPARE_INSTITUTION, payload: facilityCode });
+  };
+}
+
+export function updateQueryParams(queryParams) {
+  return dispatch => {
+    dispatch({ type: UPDATE_QUERY_PARAMS, payload: queryParams });
   };
 }

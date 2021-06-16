@@ -4,7 +4,7 @@ import mockDiaries from './fixtures/diaries.json';
 
 import { RETRIEVE_DIARIES } from '../utils';
 
-const DEPENDENTS_ENDPOINT = '/dependents_applications/show';
+const DEPENDENTS_ENDPOINT = 'v0/dependents_applications/show';
 
 describe('Dependency Verification', () => {
   beforeEach(() => {

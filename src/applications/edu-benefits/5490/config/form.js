@@ -493,9 +493,7 @@ const formConfig = {
                 "Sponsor's date of death or date listed as MIA or POW",
               ),
               'ui:options': {
-                hideIf: formData =>
-                  _.get('benefit', formData) !== 'chapter35' &&
-                  !environment.isProduction(), // prod flag #25122
+                hideIf: formData => _.get('benefit', formData) !== 'chapter35',
               },
             },
             sponsorStatus: {
@@ -509,9 +507,7 @@ const formConfig = {
                     'Died from a service-connected disability while a member of the Selected Reserve',
                   powOrMia: 'Listed as MIA or POW',
                 },
-                hideIf: formData =>
-                  _.get('benefit', formData) !== 'chapter33' ||
-                  environment.isProduction(), // prod flag #25122
+                hideIf: formData => _.get('benefit', formData) !== 'chapter33',
               },
             },
             'view:sponsorDateOfDeath': {
@@ -519,9 +515,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'sponsorStatus',
                 expandUnderCondition: status => status && status !== 'powOrMia',
-                hideIf: formData =>
-                  _.get('benefit', formData) !== 'chapter33' ||
-                  environment.isProduction(), // prod flag #25122
+                hideIf: formData => _.get('benefit', formData) !== 'chapter33',
               },
             },
             'view:sponsorDateListedMiaOrPow': {
@@ -529,9 +523,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'sponsorStatus',
                 expandUnderCondition: status => status && status === 'powOrMia',
-                hideIf: formData =>
-                  _.get('benefit', formData) !== 'chapter33' ||
-                  environment.isProduction(), // prod flag #25122
+                hideIf: formData => _.get('benefit', formData) !== 'chapter33',
               },
             },
           },

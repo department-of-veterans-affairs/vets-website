@@ -1,5 +1,5 @@
 export const uiSchema = {
-  'ui:title': 'Your questions information',
+  'ui:title': 'Your spouse information',
   questions: {
     spouseHasAdditionalIncome: {
       'ui:title':
