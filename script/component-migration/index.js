@@ -70,7 +70,7 @@ function replaceTags(file, newTag) {
     .replace(`</${options.component}`, `</${newTag}`);
 }
 
-FILENAMES.forEach(fname => {
+function migrateFile(fname) {
   fs.readFile(fname, 'utf8', (err, data) => {
     if (err) {
       return handleError(err);
@@ -111,4 +111,6 @@ FILENAMES.forEach(fname => {
     console.log();
     return 0;
   });
-});
+}
+
+FILENAMES.forEach(fname => migrateFile(fname));
