@@ -33,7 +33,7 @@ const YesDisabilityRating = props => {
         aria-describedby="orientation-complete-notification"
         onClick={() => {
           recordEvent({
-            event: 'ch31-orientation-skip',
+            event: 'howToWizard-skip-orientation',
           });
           sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
         }}
