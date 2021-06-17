@@ -71,7 +71,6 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-latest
     steps:
-      - run: exit 1
       - name: Checkout
         uses: actions/checkout@v2
 
