@@ -105,6 +105,12 @@ jobs:
         with:
           ssm_parameter: "/dsva-vagov/testing-team/bigquery_service_credentials"
           env_variable_name: "BIGQUERY_SERVICE_CREDENTIALS"
+
+      - name: Obtain GitHub Token
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
       
       - name: Checkout Testing Tools Team Dashboard Data repo
         uses: actions/checkout@v2
