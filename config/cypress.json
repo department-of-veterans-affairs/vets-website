@@ -14,14 +14,6 @@
     "runMode": 2,
     "openMode": 0
   },
-  "reporter": "mochawesome",
-  "reporterOptions": {
-      "reportDir": "cypress/results",
-      "overwrite": false,
-      "html": false,
-      "json": true,
-      "timestamp": "mmddyyyy_HHMMss"
-  },
   "env": {
     "vaTopMobileViewports": [
       {
