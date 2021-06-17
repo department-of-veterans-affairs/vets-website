@@ -326,6 +326,8 @@ jobs:
 
     needs: [unit-tests, linting, contract-tests, security-audit, nightwatch]
 
+    if: ${{ always() && (needs.linting.result == 'success' || needs.linting.result == 'skipped') }}
+
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v2
