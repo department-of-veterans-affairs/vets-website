@@ -90,7 +90,7 @@ jobs:
   mochawesome-report:
     if: ${{ always() }}
     needs: [build]
-    name: Mochawesome Report
+    name: Generate Mochawesome Report
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS Credentials
