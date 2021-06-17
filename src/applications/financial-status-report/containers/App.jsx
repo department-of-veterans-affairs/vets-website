@@ -15,7 +15,11 @@ import ErrorMessage from '../components/ErrorMessage';
 import WizardContainer from '../wizard/WizardContainer';
 import { fetchFormStatus } from '../actions/index';
 import { WIZARD_STATUS } from '../wizard/constants';
-import { fsrWizardFeatureToggle, fsrFeatureToggle } from '../utils/helpers';
+import {
+  fsrWizardFeatureToggle,
+  fsrFeatureToggle,
+  medicalCopaysFeatureToggle,
+} from '../utils/helpers';
 
 const App = ({
   location,
@@ -94,6 +98,7 @@ const mapStateToProps = state => ({
   pending: state.fsr.pending,
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
+  showMedicalCopays: medicalCopaysFeatureToggle(state),
 });
 
 const mapDispatchToProps = dispatch => ({
