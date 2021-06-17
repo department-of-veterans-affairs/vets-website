@@ -34,7 +34,7 @@ function alertBoxReplacement() {
     );
 
     translatedChildren = translatedChildren.replace(children, '');
-    translatedChildren = translatedChildren.replace(`${propName}=\n`, '');
+    translatedChildren = translatedChildren.replace(`${propName}=`, '');
     return translatedChildren;
   };
 
