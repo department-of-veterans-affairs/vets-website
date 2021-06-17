@@ -11,7 +11,7 @@ describe('Check In Experience -- ', () => {
     cy.url().should('contain', token);
     cy.url().should('contain', 'insurance');
 
-    cy.get('.vads-u-margin--3 > :nth-child(3)').click();
+    cy.get('[data-testid="no-button"]').click();
     cy.get('h1').contains('Your appointment');
     cy.url().should('contain', token);
     cy.url().should('contain', 'details');
@@ -28,7 +28,7 @@ describe('Check In Experience -- ', () => {
     cy.url().should('contain', token);
     cy.url().should('contain', 'insurance');
 
-    cy.get('.vads-u-margin--3 > :nth-child(2)').click();
+    cy.get('[data-testid="yes-button"]').click();
     cy.get('h1').contains('staff member');
     cy.url().should('contain', token);
     cy.url().should('contain', 'failed');

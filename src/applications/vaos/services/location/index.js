@@ -15,6 +15,7 @@ import {
   getDirectBookingEligibilityCriteria,
   getRequestEligibilityCriteria,
   getCommunityCareFacilities,
+  getCommunityCareFacility,
   getParentFacilities,
   getSitesSupportingVAR,
 } from '../var';
@@ -24,12 +25,14 @@ import {
   transformFacilities,
   transformFacility,
   setSupportedSchedulingMethods,
+  transformCommunityProvider,
   transformCommunityProviders,
   transformSettings,
   transformParentFacilities,
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
+import { getSchedulingConfigurations } from '../vaos';
 
 /**
  * Fetch facility information for the facilities in the given site, based on type of care
@@ -308,6 +311,29 @@ export async function getCommunityProvidersByTypeOfCare({
 }
 
 /**
+ * Fetch a single location associated with the given VistA site id that are
+ * marked as VAST parent locations
+ *
+ * @export
+ * @async
+ * @param {string} id VistA site id
+ * @returns {Object<Location>} A FHIR Location resources
+ */
+
+export async function getCommunityProvider(id) {
+  try {
+    const facility = await getCommunityCareFacility(id);
+    return transformCommunityProvider(facility);
+  } catch (e) {
+    if (e.errors) {
+      throw mapToFHIRErrors(e.errors);
+    }
+
+    throw e;
+  }
+}
+
+/**
  * Fetch the locations associated with the given VistA site ids that are
  * marked as VAST parent locations
  *
@@ -344,15 +370,68 @@ export async function fetchParentLocations({ siteIds }) {
  *
  * @export
  * @param {Object} params
- * @param {Array<Location>} locations The locations to find CC support at
+ * @param {Array<Location>} params.locations The locations to find CC support at
+ * @param {boolean} params.useV2 Use the V2 scheduling configurations endpoint
+ *   to get the CC supported locations
  * @returns {Array<Location>} A list of locations that support CC requests
  */
-export async function fetchCommunityCareSupportedSites({ locations }) {
+export async function fetchCommunityCareSupportedSites({
+  locations,
+  useV2 = false,
+}) {
+  if (useV2) {
+    const facilityConfigs = await getSchedulingConfigurations(
+      locations.map(location => location.id),
+      true,
+    );
+
+    return locations.filter(location =>
+      facilityConfigs.some(
+        facilityConfig => facilityConfig.facilityId === location.id,
+      ),
+    );
+  }
+
   const ccSites = await getSitesSupportingVAR(
     locations.map(location => location.id),
   );
 
   return locations.filter(location =>
     ccSites.some(site => site.id === location.id),
+  );
+}
+
+/**
+ * Returns true if a location is associated with one of the provided
+ * Cerner site ids
+ *
+ * @export
+ * @param {string} locationId The location id to check
+ * @param {Array<string>} [cernerSiteIds=[]] A list of Cerner site ids to check against
+ * @returns {Boolean} Returns true if locationId starts with any of the Cerner site ids
+ */
+export function isCernerLocation(locationId, cernerSiteIds = []) {
+  return cernerSiteIds.some(cernerId => locationId?.startsWith(cernerId));
+}
+
+/**
+ * Returns true if location supports the given type of care
+ *
+ * @export
+ * @param {Location} location The location to check
+ * @param {string} typeOfCareId The type of care id to check against
+ * @param {Array<string>} [cernerSiteIds=[]] The list of Cerner sites, because Cerner sites
+ *   are active for all types of care
+ * @returns {Boolean} True if the location supports the type of care (or is a Cerner site)
+ */
+export function isTypeOfCareSupported(
+  location,
+  typeOfCareId,
+  cernerSiteIds = [],
+) {
+  return (
+    location.legacyVAR.settings[typeOfCareId]?.direct.enabled ||
+    location.legacyVAR.settings[typeOfCareId]?.request.enabled ||
+    isCernerLocation(location.id, cernerSiteIds)
   );
 }

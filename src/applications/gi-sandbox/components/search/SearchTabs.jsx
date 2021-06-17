@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import NameSearchForm from '../../containers/NameSearchForm';
 import LocationSearchForm from '../../containers/LocationSearchForm';
-import NameResults from './NameResults';
-import LocationSearchResults from '../../containers/search/LocationSearchResults';
 import { TABS } from '../../constants';
 import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
@@ -23,11 +21,6 @@ export default function SearchTabs({ onChange, search }) {
   const tabbedSearch = {
     [TABS.name]: <NameSearchForm />,
     [TABS.location]: <LocationSearchForm />,
-  };
-
-  const tabbedResults = {
-    [TABS.name]: <NameResults search={search} />,
-    [TABS.location]: <LocationSearchResults />,
   };
 
   const getTab = (tabName, label) => {
@@ -56,15 +49,12 @@ export default function SearchTabs({ onChange, search }) {
   };
 
   return (
-    <div>
-      <div id="search-form" className="search-form">
-        <div className="vads-u-display--flex">
-          {getTab(TABS.name, 'Search by name')}
-          {getTab(TABS.location, 'Search by location')}
-        </div>
-        <div className="search-box">{tabbedSearch[tab]}</div>
+    <div className="search-form">
+      <div className="vads-u-display--flex">
+        {getTab(TABS.name, 'Search by name')}
+        {getTab(TABS.location, 'Search by location')}
       </div>
-      {tabbedResults[tab]}
+      <div className="search-box">{tabbedSearch[tab]}</div>
     </div>
   );
 }
