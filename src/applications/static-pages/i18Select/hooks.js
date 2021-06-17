@@ -19,6 +19,9 @@ export const setLangAttribute = lang => {
   if (contentDiv) {
     contentDiv.setAttribute('lang', lang);
   }
+  if (lang) {
+    window.medalliaSurveyLanguage = lang;
+  }
 };
 
 export const parseLangCode = url => {
