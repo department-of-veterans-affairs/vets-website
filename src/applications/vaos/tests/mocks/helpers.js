@@ -689,12 +689,21 @@ export function mockRequestSubmit(type, data) {
  * @param {Array<VARRequestMessage>} data The list of message objects to return from the mock
  */
 export function mockMessagesFetch(id, data) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointment_requests/${id}/messages`,
-    ),
-    { data },
-  );
+  if (!id) {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        sinon.match(/appointment_requests\/[a-z0-9]+\/messages/),
+      ),
+      { data: [] },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointment_requests/${id}/messages`,
+      ),
+      { data },
+    );
+  }
 }
 
 /**

@@ -16,7 +16,11 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: upcoming video appointments', () => {
+describe('VAOS <FutureAppointmentsList> video appointments', () => {
+  beforeEach(() => {
+    mockFetch();
+    mockFacilitiesFetch();
+  });
   it('should show info and disabled link when ad hoc', async () => {
     const appointment = getVideoAppointmentMock();
     const startDate = moment.utc().add(3, 'days');

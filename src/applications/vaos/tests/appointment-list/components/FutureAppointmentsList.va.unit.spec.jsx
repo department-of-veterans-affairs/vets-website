@@ -15,9 +15,10 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: upcoming VA appointments', () => {
+describe('VAOS <FutureAppointmentsList> VA appointments', () => {
   beforeEach(() => {
     mockFetch();
+    mockFacilitiesFetch();
   });
   it('should show information without facility details', async () => {
     const startDate = moment.utc();
