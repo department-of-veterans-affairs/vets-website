@@ -9,11 +9,25 @@ jobs:
   build:
     name: E2E Tests
     runs-on: self-hosted
+    strategy:
+      fail-fast: true
+      max-parallel: 6
+      matrix:
+        ci_node_total: [6]
+        ci_node_index: [0, 1, 2, 3, 4, 5]
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
     steps:
       - name: Checkout vets-website
         uses: actions/checkout@v2
+      
+      - name: Set vets-website port
+        run: echo "CYPRESS_PORT=$(( ( RANDOM % 2000 )  + 3001 ))" >> $GITHUB_ENV
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
       - name: Setup Node
         uses: actions/setup-node@v2
@@ -32,10 +46,7 @@ jobs:
           NODE_ENV: production
 
       - name: Start vets-website
-        run: yarn watch --verbose &
-
-      - name: Curl vets-website
-        run: curl -s --fail localhost:3001 > /dev/null
+        run: node src/platform/testing/e2e/test-server.js --buildtype localhost --port=$CYPRESS_PORT &
 
       - name: Create test results directory
         run: mkdir -p test-results
@@ -43,10 +54,13 @@ jobs:
       - name: Start Cypress tests
         run: yarn cy:test:gha
         timeout-minutes: 60
+        env:
+          STEP: ${{ matrix.ci_node_index }}
+          CI: true
 
       - name: Publish test results
         if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2.4.0
+        uses: mikepenz/action-junit-report@v2.4.2
         with:
           check_name: 'Cypress Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
