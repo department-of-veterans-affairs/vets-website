@@ -1,4 +1,32 @@
 {
+  "additionalIncome": {
+    "additionalIncomeRecords": [
+      {
+        "name": "Bonus payment",
+        "amount": 1700
+      },
+      {
+        "name": "Freelance service",
+        "amount": 1200
+      },
+      {
+        "name": "Rental property income",
+        "amount": 1100
+      }
+    ],
+    "spouse": {
+      "spouseAdditionalIncomeRecords": [
+        {
+          "name": "Alimony payment",
+          "amount": 100
+        },
+        {
+          "name": "Bonus payment",
+          "amount": 1000
+        }
+      ]
+    }
+  },
   "additionalData": {
     "additionalComments": "Supporting personal statement...",
     "bankruptcy": {
@@ -168,20 +196,20 @@
             "from": "2017-1-XX",
             "to": "",
             "isCurrent": true,
-            "employerName": "Employer One"
+            "employerName": "Veteran Employer One"
           },
           {
             "type": "Full time",
             "from": "2018-4-XX",
             "to": "",
             "isCurrent": true,
-            "employerName": "Employer Two"
+            "employerName": "Veteran Employer Two"
           },
           {
             "type": "Full time",
             "from": "2015-4-XX",
             "to": "2017-4-XX",
-            "employerName": "Employer Three"
+            "employerName": "Veteran Employer Three"
           }
         ]
       }
@@ -202,34 +230,6 @@
     },
     "telephoneNumber": "4445551212",
     "emailAddress": "test2@test1.net"
-  },
-  "additionalIncome": {
-    "spouse": {
-      "spouseAdditionalIncomeRecords": [
-        {
-          "name": "Alimony payment",
-          "amount": 100
-        },
-        {
-          "name": "Bonus payment",
-          "amount": 1000
-        }
-      ]
-    },
-    "additionalIncomeRecords": [
-      {
-        "name": "Bonus payment",
-        "amount": 1000
-      },
-      {
-        "name": "Freelance service",
-        "amount": 1200
-      },
-      {
-        "name": "Rental property income",
-        "amount": 1100
-      }
-    ]
   },
   "questions": {
     "spouseIsEmployed": true,
@@ -369,28 +369,28 @@
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": 200
+          "amount": 225
         },
         {
           "name": "Health insurance",
           "amount": 350
+        },
+        {
+          "name": "Life insurance",
+          "amount": 100
         }
       ],
       "type": "Full time",
       "from": "2017-1-XX",
       "to": "",
       "isCurrent": true,
-      "employerName": "Employer One"
+      "employerName": "Veteran Employer One"
     },
     {
-      "monthlyGrossSalary": 1200,
+      "monthlyGrossSalary": 800,
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": 120
-        },
-        {
-          "name": "Health insurance",
           "amount": 75
         }
       ],
@@ -398,7 +398,7 @@
       "from": "2018-4-XX",
       "to": "",
       "isCurrent": true,
-      "employerName": "Employer Two"
+      "employerName": "Veteran Employer Two"
     }
   ],
   "spouseCurrentEmployment": [
