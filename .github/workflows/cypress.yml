@@ -89,7 +89,7 @@ jobs:
 
   mochawesome-report:
     if: ${{ always() }}
-    needs: [build]
+    needs: build
     name: Generate Mochawesome Report
     runs-on: ubuntu-latest
     defaults:
