@@ -314,6 +314,17 @@ const ItemLoop = ({
         : ['add'];
       setEditing(editData);
       setShowTable(editData.includes(false));
+
+      if (!formData) {
+        const initData = Array(schema.minItems).fill(
+          getDefaultFormState(
+            schema.additionalItems,
+            undefined,
+            registry.definitions,
+          ),
+        );
+        onChange(initData);
+      }
     },
     // watch for changes to the page index when arrayPath is used
     [formContext?.pagePerItemIndex], // eslint-disable-line react-hooks/exhaustive-deps
