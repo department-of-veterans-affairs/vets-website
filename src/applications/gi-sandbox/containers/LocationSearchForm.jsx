@@ -94,10 +94,13 @@ export function LocationSearchForm({
 
   useEffect(
     () => {
-      if (autocomplete.location !== null && autocomplete.location !== '')
-        setLocation(autocomplete.location);
+      if (
+        search.query.streetAddress.searchString !== null &&
+        search.query.streetAddress.searchString !== ''
+      )
+        setLocation(search.query.streetAddress.searchString);
     },
-    [autocomplete.location],
+    [search.query.streetAddress.searchString],
   );
 
   return (

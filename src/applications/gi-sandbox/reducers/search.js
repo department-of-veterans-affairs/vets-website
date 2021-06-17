@@ -224,6 +224,12 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         geolocationInProgress: true,
+        query: {
+          streetAddress: {
+            searchString: '',
+            position: {},
+          },
+        },
       };
 
     case SEARCH_BY_FACILITY_CODES_SUCCEEDED:

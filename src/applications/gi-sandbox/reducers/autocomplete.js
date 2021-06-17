@@ -5,7 +5,6 @@ import {
   UPDATE_AUTOCOMPLETE_NAME,
   UPDATE_AUTOCOMPLETE_LOCATION,
   LOCATION_AUTOCOMPLETE_SUCCEEDED,
-  GEOCODE_COMPLETE,
 } from '../actions';
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
@@ -76,11 +75,6 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...state,
         name: action.payload,
-      };
-    case GEOCODE_COMPLETE:
-      return {
-        ...state,
-        location: action.payload.searchString,
       };
     default:
       return state;
