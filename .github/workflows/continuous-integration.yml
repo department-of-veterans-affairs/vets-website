@@ -326,7 +326,11 @@ jobs:
 
     needs: [contract-tests, linting, nightwatch, security-audit, unit-tests]
 
-    # Prevent archive from being skipped when linting is skipped (in PRs).
+    # Archive should still run even when linting is skipped (as in PRs).
+    # This if overrides the dependency on linting success to include skipped.
+    # Because of always(), the rest of the needed jobs have to be checked too.
+    # By doing this, later jobs that need this job require similar overrides
+    # or else they will also be skipped when linting is skipped.
     if: |
       success() &&
       needs.nightwatch.result == 'success' &&
