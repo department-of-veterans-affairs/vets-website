@@ -34,7 +34,7 @@ const FormTitle = ({
             <p className="vads-u-font-weight--normal vads-u-margin--0">
               Form {id}
             </p>
-            <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+            <p className="vads-u-font-family--serif vads-u-margin-top--1 vads-u-margin-bottom--0">
               {title}
             </p>
           </>
