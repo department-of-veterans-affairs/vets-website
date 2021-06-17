@@ -329,7 +329,15 @@ jobs:
     needs: [contract-tests, linting, nightwatch, security-audit, unit-tests]
 
     # Prevent archive from being skipped when linting is skipped (in PRs).
-    if: ${{ always() && (needs.linting.result == 'success' || needs.linting.result == 'skipped') }}
+    if: |
+      ${{
+        always() &&
+        needs.nightwatch.result == 'success' &&
+        needs.unit-tests.result == 'success' &&
+        needs.contract-tests.result == 'success' &&
+        needs.security-audit.result == 'success' &&
+        (needs.linting.result == 'success' || needs.linting.result == 'skipped')
+      }}
 
     steps:
       - name: Download build artifact
