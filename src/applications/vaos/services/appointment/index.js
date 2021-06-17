@@ -4,6 +4,7 @@
  */
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
+import environment from 'platform/utilities/environment';
 import {
   getCancelReasons,
   getConfirmedAppointment,
@@ -13,7 +14,12 @@ import {
   updateAppointment,
   updateRequest,
 } from '../var';
-import { postAppointment } from '../vaos';
+import {
+  getAppointment,
+  getAppointments,
+  postAppointment,
+  putAppointment,
+} from '../vaos';
 import {
   transformConfirmedAppointment,
   transformConfirmedAppointments,
@@ -28,10 +34,21 @@ import {
   GA_PREFIX,
 } from '../../utils/constants';
 import { formatFacilityAddress, getFacilityPhone } from '../location';
-import { transformVAOSAppointment } from './transformers.vaos';
+import {
+  transformVAOSAppointment,
+  transformVAOSAppointments,
+} from './transformers.v2';
 import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
+import {
+  getTimezoneAbbrBySystemId,
+  getTimezoneBySystemId,
+  getTimezoneNameFromAbbr,
+  getUserTimezone,
+  getUserTimezoneAbbr,
+  stripDST,
+} from '../../utils/timezone';
 
 export const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
@@ -77,6 +94,18 @@ const PAST_APPOINTMENTS_HIDDEN_SET = new Set([
   'Deleted',
 ]);
 
+// We want to throw an error for any partial results errors from MAS,
+// but some sites in staging always errors. So, keep those in a list to
+// ignore errors from
+const BAD_STAGING_SITES = new Set(['556']);
+function hasPartialResults(response) {
+  return (
+    response.errors?.length > 0 &&
+    (environment.isProduction() ||
+      response.errors.some(err => !BAD_STAGING_SITES.has(err.source)))
+  );
+}
+
 /**
  * Fetch the logged in user's confirmed appointments that fall between a startDate and endDate
  *
@@ -102,7 +131,7 @@ export async function getBookedAppointments({ startDate, endDate }) {
     ]);
 
     // We might get partial results back from MAS, so throw an error if we do
-    if (appointments[0].errors?.length) {
+    if (hasPartialResults(appointments[0])) {
       throw mapToFHIRErrors(
         appointments[0].errors,
         'MAS returned partial results',
@@ -131,8 +160,20 @@ export async function getBookedAppointments({ startDate, endDate }) {
  * @param {String} endDate Date in YYYY-MM-DD format
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
-export async function getAppointmentRequests({ startDate, endDate }) {
+export async function getAppointmentRequests({
+  startDate,
+  endDate,
+  useV2 = false,
+}) {
   try {
+    if (useV2) {
+      const appointments = await getAppointments(startDate, endDate, [
+        'proposed',
+      ]);
+
+      return transformVAOSAppointments(appointments);
+    }
+
     const appointments = await getPendingAppointments(startDate, endDate);
 
     return transformPendingAppointments(appointments);
@@ -153,8 +194,14 @@ export async function getAppointmentRequests({ startDate, endDate }) {
  * @param {string} id Appointment request id
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById(id) {
+export async function fetchRequestById({ id, useV2 }) {
   try {
+    if (useV2) {
+      const appointment = await getAppointment(id);
+
+      return transformVAOSAppointment(appointment);
+    }
+
     const appointment = await getPendingAppointment(id);
 
     return transformPendingAppointment(appointment);
@@ -579,6 +626,44 @@ async function cancelRequestedAppointment(request) {
   }
 }
 
+async function cancelV2Appointment(appointment) {
+  const additionalEventData = {
+    appointmentType:
+      appointment.status === APPOINTMENT_STATUS.proposed
+        ? 'pending'
+        : 'confirmed',
+    facilityType: appointment.vaos?.isCommunityCare ? 'cc' : 'va',
+  };
+
+  recordEvent({
+    event: eventPrefix,
+    ...additionalEventData,
+  });
+
+  try {
+    const updatedAppointment = await putAppointment(appointment.id, {
+      status: APPOINTMENT_STATUS.cancelled,
+    });
+
+    recordEvent({
+      event: `${eventPrefix}-successful`,
+      ...additionalEventData,
+    });
+    resetDataLayer();
+
+    return transformVAOSAppointment(updatedAppointment);
+  } catch (e) {
+    captureError(e, true);
+    recordEvent({
+      event: `${eventPrefix}-failed`,
+      ...additionalEventData,
+    });
+    resetDataLayer();
+
+    throw e;
+  }
+}
+
 const UNABLE_TO_KEEP_APPT = '5';
 const VALID_CANCEL_CODES = new Set(['4', '5', '6']);
 async function cancelBookedAppointment(appointment) {
@@ -663,13 +748,16 @@ async function cancelBookedAppointment(appointment) {
  * @export
  * @param {Object} params
  * @param {Appointment} params.appointment The appointment to cancel
+ * @param {boolean} params.useV2 Use the vaos/v2 endpoint to cancel the appointment
  * @returns {?Appointment} Returns either null or the updated appointment data
  */
-export async function cancelAppointment({ appointment }) {
+export async function cancelAppointment({ appointment, useV2 = false }) {
   const isConfirmedAppointment =
     appointment.vaos?.appointmentType === APPOINTMENT_TYPES.vaAppointment;
 
-  if (isConfirmedAppointment) {
+  if (useV2) {
+    return cancelV2Appointment(appointment);
+  } else if (isConfirmedAppointment) {
     return cancelBookedAppointment(appointment);
   } else {
     return cancelRequestedAppointment(appointment);
@@ -752,7 +840,8 @@ export function getCalendarData({ appointment, facility }) {
         text:
           'You can join this meeting up to 30 minutes before the start time.',
         location: 'VA Video Connect at home',
-        additionalText: ['Sign in to VA.gov to join this meeting'],
+        additionalText: [signinText],
+        phone: getFacilityPhone(facility),
       };
     } else if (isAtlas) {
       const { atlasLocation } = appointment.videoData;
@@ -767,6 +856,7 @@ export function getCalendarData({ appointment, facility }) {
               appointment.videoData.atlasConfirmationCode
             }. Use this code to find your appointment on the computer at the ATLAS facility.`,
           ],
+          phone: getFacilityPhone(facility),
         };
 
         if (providerName)
@@ -800,4 +890,51 @@ export function getCalendarData({ appointment, facility }) {
   }
 
   return data;
+}
+
+/**
+ * Returns an object with timezone identifiers for a given appointment
+ *
+ * @export
+ * @param {Appointment} appointment The appointment to get a timezone for
+ * @returns {Object} An object with:
+ *   - identifier: The full timezone identifier (like America/New_York)
+ *   - abbreviation: The timezone abbreviation (e.g. ET)
+ *   - description: The written out description (e.g. Eastern time)
+ */
+export function getAppointmentTimezone(appointment) {
+  // Most VA appointments will use this, since they're associated with a facility
+  if (appointment.location.vistaId) {
+    const abbreviation = getTimezoneAbbrBySystemId(
+      appointment.location.vistaId,
+    );
+
+    return {
+      identifier: getTimezoneBySystemId(appointment.location.vistaId)
+        ?.currentTZ,
+      abbreviation,
+      description: getTimezoneNameFromAbbr(abbreviation),
+    };
+  }
+
+  // Community Care appointments with timezone included
+  if (appointment.vaos.timeZone) {
+    const abbreviation = stripDST(
+      appointment.vaos.timeZone?.split(' ')?.[1] || appointment.vaos.timeZone,
+    );
+
+    return {
+      identifier: null,
+      abbreviation,
+      description: getTimezoneNameFromAbbr(abbreviation),
+    };
+  }
+
+  // Everything else will use the local timezone
+  const abbreviation = stripDST(getUserTimezoneAbbr());
+  return {
+    identifier: getUserTimezone(),
+    abbreviation,
+    description: getTimezoneNameFromAbbr(abbreviation),
+  };
 }

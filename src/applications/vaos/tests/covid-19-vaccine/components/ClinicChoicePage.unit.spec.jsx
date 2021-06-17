@@ -12,7 +12,7 @@ import userEvent from '@testing-library/user-event';
 import ClinicChoicePage from '../../../covid-19-vaccine/components/ClinicChoicePage';
 import { mockEligibilityFetches } from '../../mocks/helpers';
 import { getClinicMock } from '../../mocks/v0';
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 
 const initialState = {
@@ -28,7 +28,6 @@ const initialState = {
 
 describe('VAOS vaccine flow <ClinicChoicePage>', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
   it('should display multiple clinics and require one to be chosen', async () => {
     const clinics = [
       {
@@ -105,7 +104,7 @@ describe('VAOS vaccine flow <ClinicChoicePage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-covid-19-vaccine-booking/select-date-1',
+        '/new-covid-19-vaccine-appointment/select-date',
       ),
     );
   });

@@ -1,11 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
-import {
-  mockFetch,
-  resetFetch,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { NewBookingSection } from '../../../covid-19-vaccine';
@@ -23,7 +19,6 @@ import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingDirect: true,
-    vaOnlineSchedulingCheetah: true,
   },
   user: {
     profile: {
@@ -40,11 +35,7 @@ describe('VAOS vaccine flow', () => {
     mockFetch();
   });
 
-  afterEach(() => {
-    resetFetch();
-  });
-
-  it('should not redirect the user to the Contact Facilities page when facilities are available', async () => {
+  it('should not redirect the user to the Contact Facility page when facilities are available', async () => {
     const store = createTestStore({
       ...initialState,
     });
@@ -70,7 +61,7 @@ describe('VAOS vaccine flow', () => {
     });
   });
 
-  it('should redirect the user to the Contact Facilities page when facilities are not available', async () => {
+  it('should redirect the user to the Contact Facility page when facilities are not available', async () => {
     const store = createTestStore({
       ...initialState,
     });
@@ -148,7 +139,7 @@ describe('VAOS vaccine flow', () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<NewBookingSection />, {
       store,
-      basename: '/new-covid-19-vaccine-booking',
+      basename: '/new-covid-19-vaccine-appointment',
     });
 
     expect(

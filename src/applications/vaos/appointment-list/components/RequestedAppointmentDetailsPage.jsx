@@ -135,9 +135,11 @@ export default function RequestedAppointmentDetailsPage() {
   const facility = facilityData?.[facilityId];
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const provider = appointment.preferredCommunityCareProviders?.[0];
-  const apptDetails = message
-    ? `${appointment.reason}: ${message}`
+  const provider =
+    appointment.preferredCommunityCareProviders?.[0] || appointment.provider;
+  const comment = message || appointment.comment;
+  const apptDetails = comment
+    ? `${appointment.reason}: ${comment}`
     : appointment.reason;
 
   return (
@@ -226,7 +228,10 @@ export default function RequestedAppointmentDetailsPage() {
             Preferred community care provider
           </h2>
           {!!provider && (
-            <span>{provider.provideName || provider.practiceName}</span>
+            <span>
+              {provider.name ||
+                (provider.providerName || provider.practiceName)}
+            </span>
           )}
           {!provider && <span>No provider selected</span>}
         </>
@@ -248,7 +253,7 @@ export default function RequestedAppointmentDetailsPage() {
           You shared these details about your concern
         </h2>
         {!isCCRequest && apptDetails}
-        {isCCRequest && <>{message || 'none'}</>}
+        {isCCRequest && <>{comment || 'none'}</>}
       </div>
       <div>
         <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
@@ -290,11 +295,6 @@ export default function RequestedAppointmentDetailsPage() {
           </>
         )}
       </div>
-      <Link to="/requested">
-        <button className="usa-button vads-u-margin-top--3">
-          « Go back to appointments
-        </button>
-      </Link>
       <CancelAppointmentModal
         {...cancelInfo}
         onConfirm={() => dispatch(confirmCancelAppointment())}

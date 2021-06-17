@@ -180,11 +180,9 @@ function hasMatchingClinics(clinics, pastAppointments) {
   return clinics?.some(
     clinic =>
       !!pastAppointments.find(appt => {
+        const clinicIds = clinic.id.split('_');
         return (
-          clinic.identifier[0].value ===
-          `urn:va:healthcareservice:${appt.facilityId}:${appt.sta6aid}:${
-            appt.clinicId
-          }`
+          clinicIds[0] === appt.facilityId && clinicIds[1] === appt.clinicId
         );
       }),
   );
@@ -258,7 +256,7 @@ function logEligibilityExplanation(
  * @global
  *
  * @property {FlowEligibility} eligibility The eligibility info for the patient
- * @property {Array<HealthcareService>} clinics An array of clinics pulled when checking eligibility
+ * @property {Array<HealthCareService>} clinics An array of clinics pulled when checking eligibility
  * @property {Array<MASAppointment>} pastAppointments An array of untransformed appointments pulled
  *   when checking eligibility
  */

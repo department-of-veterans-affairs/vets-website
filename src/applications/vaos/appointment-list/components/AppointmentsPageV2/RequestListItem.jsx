@@ -16,7 +16,7 @@ export default function RequestListItem({ appointment, facility }) {
     'MMMM D, YYYY',
   );
   const link = `requests/${appointment.id}`;
-  const idClickable = `id-${appointment.id}`;
+  const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
 
   return (
     <li

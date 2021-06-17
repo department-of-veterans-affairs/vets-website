@@ -1,5 +1,10 @@
 name: E2E Tests
+
 on: [push]
+
+env:
+  CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+
 jobs:
   build:
     name: E2E Tests
@@ -37,6 +42,7 @@ jobs:
 
       - name: Start Cypress tests
         run: yarn cy:test:gha
+        timeout-minutes: 60
 
       - name: Publish test results
         if: ${{ always() }}
@@ -51,11 +57,11 @@ jobs:
         if: ${{ failure() }}
         with:
           name: cypress-video-artifacts
-          path: vets-website/**/cypress/videos
+          path: cypress/videos
 
       - name: Archive Cypress test screenshots
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}
         with:
           name: cypress-screenshot-artifacts
-          path: vets-website/**/cypress/screenshots
+          path: cypress/screenshots

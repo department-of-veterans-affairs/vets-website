@@ -23,7 +23,6 @@ export const schoolSelectionOptionsFor = {
   },
   '1990e': {
     fields: ['educationProgram', 'educationObjective'],
-    required: ['educationType'],
   },
 };
 

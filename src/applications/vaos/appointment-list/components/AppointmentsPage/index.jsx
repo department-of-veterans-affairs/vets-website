@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import recordEvent from 'platform/monitoring/record-event';
 
-import ScheduleNewAppointment from './ScheduleNewAppointment';
+import ScheduleNewAppointment from '../ScheduleNewAppointment';
 import * as actions from '../../redux/actions';
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import {
@@ -19,9 +18,8 @@ import {
   selectFeatureCommunityCare,
   selectIsWelcomeModalDismissed,
   selectIsCernerOnlyPatient,
-  selectFeatureCovid19Vaccine,
 } from '../../../redux/selectors';
-import { GA_PREFIX, FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import TabNav from './TabNav';
 import FutureAppointmentsList from '../FutureAppointmentsList';
@@ -30,24 +28,18 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import WarningNotification from '../../../components/WarningNotification';
-import ScheduleNewAppointmentRadioButtons from '../ScheduleNewAppointmentRadioButtons';
 
-const pageTitle = 'VA appointments';
+const pageTitle = 'VA online scheduling';
 
 function AppointmentsPage({
   cancelInfo,
   closeCancelAppointment,
   confirmCancelAppointment,
-  featureCovid19Vaccine,
   fetchFutureAppointments,
   futureStatus,
-  isCernerOnlyPatient,
   isWelcomeModalDismissed,
-  showCommunityCare,
-  showDirectScheduling,
   pendingStatus,
   showScheduleButton,
-  startNewAppointmentFlow,
 }) {
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -91,7 +83,7 @@ function AppointmentsPage({
 
   return (
     <>
-      <h1 className="vads-u-flex--1">{pageTitle}</h1>
+      <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5">{pageTitle}</h1>
       <DowntimeNotification
         appTitle="VA online scheduling tool"
         isReady
@@ -101,24 +93,7 @@ function AppointmentsPage({
         )}
       />
 
-      {showScheduleButton && (
-        <>
-          {!featureCovid19Vaccine && (
-            <ScheduleNewAppointment
-              isCernerOnlyPatient={isCernerOnlyPatient}
-              showCommunityCare={showCommunityCare}
-              showDirectScheduling={showDirectScheduling}
-              startNewAppointmentFlow={() => {
-                recordEvent({
-                  event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-                });
-                startNewAppointmentFlow();
-              }}
-            />
-          )}
-          {featureCovid19Vaccine && <ScheduleNewAppointmentRadioButtons />}
-        </>
-      )}
+      {showScheduleButton && <ScheduleNewAppointment />}
 
       {isLoading && (
         <LoadingIndicator message="Loading your appointment information" />
@@ -150,7 +125,6 @@ AppointmentsPage.propTypes = {
   showCommunityCare: PropTypes.bool.isRequired,
   showDirectScheduling: PropTypes.bool.isRequired,
   startNewAppointmentFlow: PropTypes.func.isRequired,
-  featureCovid19Vaccine: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -162,7 +136,6 @@ function mapStateToProps(state) {
     showScheduleButton: selectFeatureRequests(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
-    featureCovid19Vaccine: selectFeatureCovid19Vaccine(state),
     isWelcomeModalDismissed: selectIsWelcomeModalDismissed(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
   };

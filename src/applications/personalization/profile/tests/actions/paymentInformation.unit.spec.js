@@ -3,7 +3,6 @@ import sinon from 'sinon';
 
 import {
   mockFetch,
-  resetFetch,
   setFetchJSONFailure,
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
@@ -32,7 +31,6 @@ const setup = ({ mockGA }) => {
 };
 
 const teardown = () => {
-  resetFetch();
   global.ga = oldGA;
 };
 

@@ -50,7 +50,7 @@ export async function getAvailableHealthcareServices({
  * @param {string} locationParams.siteId The VistA site id of the services being pulled
  * @param {string} locationParams.parentId An id for the parent organization of the facilities being pulled
  * @param {string} locationParams.typeOfCareId An id for the type of care to check for the chosen organization
- * @returns {Array} An array of Location resources
+ * @returns {Array<Location>} An array of Location resources
  */
 export async function getSupportedHealthcareServicesAndLocations({
   siteId,
@@ -64,4 +64,24 @@ export async function getSupportedHealthcareServicesAndLocations({
   });
 
   return results.filter(item => item.resourceType === 'Location');
+}
+
+/**
+ * Method to get the clinic id.
+ *
+ * @param {HealthCareService} clinic
+ * @returns {string} The clinic id or empty string.
+ */
+export function getClinicId(clinic) {
+  return clinic.id.split('_')[1];
+}
+
+/**
+ * Method to get the site code.
+ *
+ * @param {Object} clinic
+ * @returns {String} The clinic site code or empty string.
+ */
+export function getSiteCode(clinic) {
+  return clinic.id.split('_')[0];
 }

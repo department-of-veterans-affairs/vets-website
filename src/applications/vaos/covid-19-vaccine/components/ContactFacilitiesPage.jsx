@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 
-import * as actions from '../redux/actions';
+import {
+  openContactFacilitiesPage,
+  routeToPreviousAppointmentPage,
+} from '../redux/actions';
 import { selectContactFacilitiesPageInfo } from '../redux/selectors';
 import {
   FACILITY_SORT_METHODS,
@@ -24,14 +27,15 @@ import { hasValidCovidPhoneNumber } from '../../services/appointment';
 
 const pageKey = 'contactFacilities';
 
-function ContactFacilitiesPage({
-  openContactFacilitiesPage,
-  facilitiesStatus,
-  facilities,
-  routeToPreviousAppointmentPage,
-  sortMethod,
-  canUseVaccineFlow,
-}) {
+export default function ContactFacilitiesPage() {
+  const dispatch = useDispatch();
+  const {
+    facilitiesStatus,
+    facilities,
+    sortMethod,
+    canUseVaccineFlow,
+  } = useSelector(selectContactFacilitiesPageInfo, shallowEqual);
+
   const history = useHistory();
   const loadingFacilities =
     facilitiesStatus === FETCH_STATUS.loading ||
@@ -42,7 +46,7 @@ function ContactFacilitiesPage({
   useEffect(
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
-      openContactFacilitiesPage();
+      dispatch(openContactFacilitiesPage());
     },
     [openContactFacilitiesPage],
   );
@@ -53,8 +57,6 @@ function ContactFacilitiesPage({
     },
     [facilitiesStatus],
   );
-
-  const goBack = () => routeToPreviousAppointmentPage(history, pageKey);
 
   if (facilitiesStatus === FETCH_STATUS.failed) {
     return <ErrorMessage level="1" />;
@@ -71,14 +73,14 @@ function ContactFacilitiesPage({
     <div>
       {canUseVaccineFlow && (
         <>
+          <h1>{pageTitle}</h1>
           <AlertBox
             className="vads-u-margin-top--0"
-            level="1"
+            level="2"
             status="warning"
             backgroundOnly
-            headline={pageTitle}
+            headline="If you got your first dose:"
           >
-            <strong>If you got your first dose</strong>:
             <ul>
               <li>
                 <strong>At a VA health facility,</strong> call that facility to
@@ -135,37 +137,32 @@ function ContactFacilitiesPage({
           </li>
         ))}
       </ul>
-      <p className="vads-u-margin-y--3">
-        <NewTabAnchor href="/find-locations">
-          Search for more facilities
-        </NewTabAnchor>
-      </p>
       {!canUseVaccineFlow && (
-        <AlertBox
-          className="vads-u-margin-bottom--1p5"
-          level="2"
-          status="info"
-          backgroundOnly
-          headline="Sign up to stay informed"
-        >
+        <div className="feature">
+          <h2 className="vads-u-font-size--h3">
+            Find a vaccine walk-in clinic near you
+          </h2>
           <p>
-            We’re working to provide COVID-19 vaccines to Veterans as quickly
-            and safely as we can, based on CDC guidelines and available supply.
+            You can go to a VA facility's vaccine clinic during walk-in hours to
+            get the COVID-19 vaccine. You don't need an appointment, but be sure
+            to check the facility's walk-in hours before you go.
           </p>
           <a
-            href="/health-care/covid-19-vaccine"
+            href="/find-locations/?facilityType=health&serviceType=Covid19Vaccine"
             onClick={() => {
               recordEvent({
                 event: `${GA_PREFIX}-COVID-19-vaccines-at-VA-link-clicked`,
               });
             }}
           >
-            Learn how to stay informed about COVID-19 vaccines at VA.
+            Find VA facilities near you that offer COVID-19 vaccines
           </a>
-        </AlertBox>
+        </div>
       )}
       <ProgressButton
-        onButtonClick={goBack}
+        onButtonClick={() =>
+          dispatch(routeToPreviousAppointmentPage(history, pageKey))
+        }
         buttonText="Back"
         buttonClass="usa-button-secondary"
         beforeText="«"
@@ -173,18 +170,3 @@ function ContactFacilitiesPage({
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return selectContactFacilitiesPageInfo(state);
-}
-
-const mapDispatchToProps = {
-  openContactFacilitiesPage: actions.openContactFacilitiesPage,
-  routeToNextAppointmentPage: actions.routeToNextAppointmentPage,
-  routeToPreviousAppointmentPage: actions.routeToPreviousAppointmentPage,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ContactFacilitiesPage);

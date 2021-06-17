@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
@@ -8,104 +9,100 @@ import {
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
+  updateUrlParams,
 } from '../utils/helpers';
 import {
   showModal,
-  updateFiltersAndDoNameSearch,
-  updateFiltersAndDoLocationSearch,
+  filterChange,
+  fetchSearchByNameResults,
+  fetchSearchByLocationResults,
 } from '../actions';
 import { connect } from 'react-redux';
-
 import { TABS } from '../constants';
 
 export function RefineYourSearch({
   dispatchShowModal,
-  dispatchUpdateFiltersAndDoNameSearch,
-  dispatchUpdateFiltersAndDoLocationSearch,
+  dispatchFilterChange,
+  dispatchFetchSearchByNameResults,
+  dispatchFetchSearchByLocationResults,
   filters,
   preview,
   search,
 }) {
-  const [openName, setOpenName] = useState('');
-  const [accredited, setAccredited] = useState(filters.accredited);
-  const [studentVeteranGroup, setStudentVeteranGroup] = useState(
-    filters.studentVeteranGroup,
-  );
-  const [yellowRibbonScholarship, setYellowRibbonScholarship] = useState(
-    filters.yellowRibbonScholarship,
-  );
-  const [singleGenderSchool, setSingleGenderSchool] = useState(
-    filters.singleGenderSchool,
-  );
-  const [hbcu, setHbcu] = useState(filters.hbcu);
-  const [excludeCautionFlags, setExcludeCautionFlags] = useState(
-    filters.excludeCautionFlags,
-  );
-  const [schools, setSchools] = useState(filters.schools);
-  const [isRelaffil, setIsRelaffil] = useState(filters.isRelaffil);
-  const [employers, setEmployers] = useState(filters.employers);
-  const [vettec, setVettec] = useState({
-    vettec: filters.vettec,
-    preferredProvider: filters.preferredProvider,
-  });
-  const [type, setType] = useState(filters.type);
-  const [country, setCountry] = useState(filters.country);
-  const [state, setState] = useState(filters.state);
-
+  const history = useHistory();
   const { version } = preview;
+  const {
+    expanded,
+    schools,
+    accredited,
+    studentVeteran,
+    yellowRibbonScholarship,
+    singleGenderSchool,
+    hbcu,
+    excludeCautionFlags,
+    relaffil,
+    type,
+    country,
+    state,
+    vettec,
+    preferredProvider,
+    employers,
+  } = filters;
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
 
-  const handleAccordionDropdownOpen = openedName => {
-    setOpenName(openedName);
+  const updateInstitutionFilters = (name, value) => {
+    dispatchFilterChange({ ...filters, [name]: value });
+  };
+  const onChangeCheckbox = e =>
+    updateInstitutionFilters(e.target.name, e.target.checked);
+
+  const onChange = e => updateInstitutionFilters(e.target.name, e.target.value);
+
+  const onAccordionChange = value => {
+    updateInstitutionFilters('expanded', value);
   };
 
-  const handleVetTecChange = checked => {
-    setVettec({
-      vettec: checked,
-      preferredProvider: checked,
-    });
+  const handleVetTecChange = e => {
+    const checked = e.target.checked;
+    if (!checked) {
+      dispatchFilterChange({
+        ...filters,
+        vettec: false,
+        preferredProvider: false,
+      });
+    } else {
+      onChangeCheckbox(e);
+    }
   };
 
-  const handlePreferredProviderChange = checked => {
-    setVettec({
-      vettec: vettec.vettec || (checked && !vettec.preferredProvider),
-      preferredProvider: checked,
-    });
+  const handlePreferredProviderChange = e => {
+    const checked = e.target.checked;
+    if (checked) {
+      dispatchFilterChange({
+        ...filters,
+        vettec: true,
+        preferredProvider: true,
+      });
+    } else {
+      onChangeCheckbox(e);
+    }
   };
 
   const updateResults = () => {
-    const newFilters = {
-      accredited,
-      excludeCautionFlags,
-      country,
-      employers,
-      hbcu,
-      isRelaffil,
-      schools,
-      singleGenderSchool,
-      state,
-      studentVeteranGroup,
-      type,
-      ...vettec,
-      yellowRibbonScholarship,
-    };
-
     if (search.tab === TABS.name) {
-      dispatchUpdateFiltersAndDoNameSearch(
-        search.query.name,
-        newFilters,
-        version,
-      );
+      dispatchFetchSearchByNameResults(search.query.name, filters, version);
     } else {
-      dispatchUpdateFiltersAndDoLocationSearch(
+      dispatchFetchSearchByLocationResults(
         search.query.location,
         search.query.distance,
-        newFilters,
+        filters,
         version,
       );
     }
+
+    updateUrlParams(history, search.tab, search.query, filters, version);
   };
 
   const renderTypeOfInstitution = () => {
@@ -116,26 +113,26 @@ export function RefineYourSearch({
           checked={schools}
           name="schools"
           label="Schools"
-          onChange={e => setSchools(e.target.checked)}
+          onChange={onChangeCheckbox}
         />
         <Checkbox
           checked={employers}
           name="employers"
           label="Employers (on the job training and apprenticeships)"
-          onChange={e => setEmployers(e.target.checked)}
+          onChange={onChangeCheckbox}
         />
         <Checkbox
-          checked={vettec.vettec}
+          checked={vettec}
           name="vettec"
           label="VET TEC providers"
-          onChange={e => handleVetTecChange(e.target.checked)}
+          onChange={handleVetTecChange}
         />
         <div className="vads-u-padding-left--3">
           <Checkbox
-            checked={vettec.preferredProvider}
+            checked={preferredProvider}
             name="preferredProvider"
             label="Preferred providers"
-            onChange={e => handlePreferredProviderChange(e.target.checked)}
+            onChange={handlePreferredProviderChange}
           />
         </div>
       </>
@@ -155,7 +152,7 @@ export function RefineYourSearch({
         alt="Filter results by country"
         options={addAllOption(options)}
         value={country}
-        onChange={e => setCountry(e.target.value)}
+        onChange={onChange}
         visible
       />
     );
@@ -175,7 +172,7 @@ export function RefineYourSearch({
         alt="Filter results by state"
         options={addAllOption(options)}
         value={state}
-        onChange={e => setState(e.target.value)}
+        onChange={onChange}
         visible
       />
     );
@@ -198,7 +195,7 @@ export function RefineYourSearch({
         <p>About the school</p>
         <Checkbox
           checked={excludeCautionFlags}
-          name="cautionFlag"
+          name="excludeCautionFlags"
           label={
             <LearnMoreLabel
               text="Has no cautionary warnings"
@@ -206,7 +203,7 @@ export function RefineYourSearch({
               ariaLabel="Learn more about VA education and training programs"
             />
           }
-          onChange={e => setExcludeCautionFlags(e.target.checked)}
+          onChange={onChangeCheckbox}
         />
         <Checkbox
           checked={accredited}
@@ -218,19 +215,19 @@ export function RefineYourSearch({
               ariaLabel="Learn more about VA education and training programs"
             />
           }
-          onChange={e => setAccredited(e.target.checked)}
+          onChange={onChangeCheckbox}
         />
         <Checkbox
-          checked={studentVeteranGroup}
-          name="studentVeteranGroup"
+          checked={studentVeteran}
+          name="studentVeteran"
           label="Has a Student Veteran Group"
-          onChange={e => setStudentVeteranGroup(e.target.checked)}
+          onChange={onChangeCheckbox}
         />
         <Checkbox
           checked={yellowRibbonScholarship}
           name="yellowRibbonScholarship"
           label="Offers Yellow Ribbon Program"
-          onChange={e => setYellowRibbonScholarship(e.target.checked)}
+          onChange={onChangeCheckbox}
         />
       </>
     );
@@ -252,7 +249,7 @@ export function RefineYourSearch({
         value={type}
         alt="Filter results by institution type"
         visible
-        onChange={e => setType(e.target.value)}
+        onChange={onChange}
       />
     );
   };
@@ -265,19 +262,19 @@ export function RefineYourSearch({
           checked={hbcu}
           name="hbcu"
           label="Historically Black Colleges and Universities"
-          onChange={e => setHbcu(e.target.checked)}
+          onChange={onChangeCheckbox}
         />
         <Checkbox
           checked={singleGenderSchool}
           name="singleGenderSchool"
           label="Single gender school"
-          onChange={e => setSingleGenderSchool(e.target.checked)}
+          onChange={onChangeCheckbox}
         />
         <Checkbox
-          checked={isRelaffil}
-          name="isRelaffil"
+          checked={relaffil}
+          name="relaffil"
           label="Religious affiliation"
-          onChange={e => setIsRelaffil(e.target.checked)}
+          onChange={onChangeCheckbox}
         />
       </>
     );
@@ -290,9 +287,8 @@ export function RefineYourSearch({
         buttonLabel="Update results"
         buttonOnClick={() => updateResults()}
         name="benefitEstimates"
-        openName={openName}
-        onOpen={handleAccordionDropdownOpen}
-        displayCancel
+        expanded={expanded}
+        onClick={onAccordionChange}
       >
         <br />
         {renderTypeOfInstitution()}
@@ -313,8 +309,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
-  dispatchUpdateFiltersAndDoLocationSearch: updateFiltersAndDoLocationSearch,
-  dispatchUpdateFiltersAndDoNameSearch: updateFiltersAndDoNameSearch,
+  dispatchFilterChange: filterChange,
+  dispatchFetchSearchByNameResults: fetchSearchByNameResults,
+  dispatchFetchSearchByLocationResults: fetchSearchByLocationResults,
 };
 
 export default connect(

@@ -6,7 +6,7 @@ import { checkAndUpdateSSOeSession } from '../sso';
 
 export function fetchAndUpdateSessionExpiration(...args) {
   // Only replace with custom fetch if not stubbed for unit testing
-  if (fetch.displayName !== 'stub') {
+  if (!fetch.isSinonProxy) {
     return fetch.apply(this, args).then(response => {
       const apiURL = environment.API_URL;
 

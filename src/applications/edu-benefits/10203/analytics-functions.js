@@ -20,9 +20,11 @@ export default {
       isChapter33,
       isEnrolledStem,
       isPursuingTeachingCert,
+      isPursuingClinicalTraining,
       benefitLeft,
     } = data;
-    const enrolledStemAndTeaching = isEnrolledStem || isPursuingTeachingCert;
+    const enrolledStemAndTeaching =
+      isEnrolledStem || isPursuingTeachingCert || isPursuingClinicalTraining;
     recordEvent({
       event: 'edu-stem-scholarship-ineligibility-alert',
       'edu-eligibility-criteria-post911-met': isChapter33,

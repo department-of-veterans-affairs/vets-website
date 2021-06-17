@@ -123,10 +123,10 @@ describe('HealthCare component', () => {
         .exist;
     });
 
-    it('should render "Schedule and view your appointments"', () => {
+    it('should render "Schedule and manage your appointments"', () => {
       expect(
         view.getByRole('link', {
-          name: /schedule and view your appointments/i,
+          name: /Schedule and manage your appointments/i,
         }),
       );
     });

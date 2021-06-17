@@ -5,11 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
-import {
-  setFetchJSONFailure,
-  mockFetch,
-  resetFetch,
-} from 'platform/testing/unit/helpers';
+import { setFetchJSONFailure, mockFetch } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
 import {
@@ -55,7 +51,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
           reasonAdditionalInfo: 'I need an appt',
           vaParent: '983',
           vaFacility: '983',
-          clinicId: '455',
+          clinicId: '983_455',
         },
         parentFacilities: [
           {
@@ -111,28 +107,10 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
         clinics: {
           '983_323': [
             {
-              id: '455',
+              id: '983_455',
               serviceName: 'Some VA clinic',
-              characteristic: [
-                {
-                  text: 'clinicFriendlyLocationName',
-                  value: 'Some VA clinic',
-                },
-                {
-                  text: 'institutionName',
-                  value: 'Cheyenne VA Medical Center',
-                },
-                {
-                  text: 'institutionCode',
-                  value: '983',
-                },
-              ],
-              identifier: [
-                {
-                  system: 'http://med.va.gov/fhir/urn',
-                  value: 'urn:va:facility:983:983:455',
-                },
-              ],
+              stationId: '983',
+              stationName: 'Cheyenne VA Medical Center',
             },
           ],
         },
@@ -141,7 +119,6 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     store.dispatch(startDirectScheduleFlow());
     store.dispatch(onCalendarChange([start.format()]));
   });
-  afterEach(() => resetFetch());
 
   it('should show form information for review', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage />, {

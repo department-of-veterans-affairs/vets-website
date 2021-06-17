@@ -1,4 +1,5 @@
 import timezones from './timezones.json';
+import moment from '../lib/moment-tz';
 
 const TIMEZONE_LABELS = {
   PHT: 'Philippine time',
@@ -49,7 +50,7 @@ export function getTimezoneDescBySystemId(id) {
   return abbreviation;
 }
 
-export function getTimezoneDescFromAbbr(abbreviation) {
+export function getTimezoneNameFromAbbr(abbreviation) {
   const label = TIMEZONE_LABELS[abbreviation];
 
   if (label) {
@@ -57,4 +58,14 @@ export function getTimezoneDescFromAbbr(abbreviation) {
   }
 
   return abbreviation;
+}
+
+export function getUserTimezone() {
+  return moment.tz.guess();
+}
+
+export function getUserTimezoneAbbr() {
+  return moment()
+    .tz(getUserTimezone())
+    .zoneAbbr();
 }

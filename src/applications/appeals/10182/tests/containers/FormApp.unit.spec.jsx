@@ -33,13 +33,17 @@ const profile = {
   },
 };
 
-const getData = ({ showNod = true, loggedIn = true } = {}) => ({
+const getData = ({
+  showNod = true,
+  loggedIn = true,
+  mockProfile = profile,
+} = {}) => ({
   props: {
     loggedIn,
     showNod,
     location: { pathname: '/introduction', search: '' },
     children: <div>children</div>,
-    profile,
+    profile: mockProfile,
     formData: {},
     setFormData: () => {},
     getContestableIssues: () => {},
@@ -54,7 +58,7 @@ const getData = ({ showNod = true, loggedIn = true } = {}) => ({
         login: {
           currentlyLoggedIn: loggedIn,
         },
-        profile,
+        profile: mockProfile,
       },
       form: {
         loadedStatus: 'success',
@@ -130,6 +134,28 @@ describe('FormApp', () => {
 
     tree.unmount();
   });
+  it('should not throw an error if profile is null', () => {
+    const getIssues = sinon.spy();
+    const mockProfile = {
+      vapContactInfo: {
+        email: null,
+        homePhone: null,
+        mobilePhone: null,
+        mailingAddress: null,
+      },
+    };
+    const { props, mockStore } = getData({ mockProfile });
+    const tree = mount(
+      <Provider store={mockStore}>
+        <FormApp {...props} getContestableIssues={getIssues} />,
+      </Provider>,
+    );
+
+    tree.setProps();
+    expect(getIssues.called).to.be.true;
+
+    tree.unmount();
+  });
 
   it('should set form data', () => {
     const setFormData = sinon.spy();
@@ -141,11 +167,22 @@ describe('FormApp', () => {
           type: 'contestableIssue',
           attributes: {
             ratingIssueSubjectText: 'tinnitus',
-            approxDecisionDate: '1900-01-01',
+            approxDecisionDate: '2020-01-01',
             decisionIssueId: 1,
             ratingIssueReferenceId: '2',
             ratingDecisionReferenceId: '3',
             ratingIssuePercentNumber: '10',
+          },
+        },
+        {
+          type: 'contestableIssue',
+          attributes: {
+            ratingIssueSubjectText: 'Sore foot',
+            approxDecisionDate: '2021-01-01',
+            decisionIssueId: 2,
+            ratingIssueReferenceId: '3',
+            ratingDecisionReferenceId: '2',
+            ratingIssuePercentNumber: '1',
           },
         },
       ],
@@ -171,6 +208,10 @@ describe('FormApp', () => {
     };
     expect(formData.veteran).to.deep.equal(result);
     expect(formData.contestableIssues).to.deep.equal(contestableIssues.issues);
+    // check sorted
+    expect(
+      formData.contestableIssues[0].attributes.approxDecisionDate,
+    ).to.equal('2021-01-01');
 
     tree.unmount();
   });

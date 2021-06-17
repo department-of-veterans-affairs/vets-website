@@ -11,7 +11,7 @@ const DebtError = () => {
   }, []);
 
   return (
-    <div className=" vads-u-padding--2 vads-u-margin-top--2">
+    <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
       <h2
         className="vads-u-margin-top--0 vads-u-font-size--h6 vads-u-font-weight--normal vads-u-font-family--sans"
         id="wizard-results"
@@ -54,9 +54,9 @@ const DebtError = () => {
       </ul>
       <p>
         <strong>Note: </strong>
-        Note: You have <strong>180 days</strong> from the date you received your
-        first debt letter to submit your dispute statement. After this time, we
-        can’t consider the request.
+        You have <strong>180 days</strong> from the date you received your first
+        debt letter to submit your dispute statement. After this time, we can’t
+        consider the request.
       </p>
       <p>
         We encourage you to submit your dispute statement within{' '}

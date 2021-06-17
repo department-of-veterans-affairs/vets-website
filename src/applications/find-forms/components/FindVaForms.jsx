@@ -48,8 +48,9 @@ export default () => (
               about filing a VA disability claim
             </span>
             <i
-              className="fa fa-chevron-right vads-facility-hub-cta-arrow"
               aria-hidden="true"
+              className="fa fa-chevron-right vads-facility-hub-cta-arrow"
+              role="presentation"
             />
           </span>
         </a>
@@ -77,8 +78,9 @@ export default () => (
               about applying for the GI Bill and other education benefits
             </span>
             <i
-              className="fa fa-chevron-right vads-facility-hub-cta-arrow"
               aria-hidden="true"
+              className="fa fa-chevron-right vads-facility-hub-cta-arrow"
+              role="presentation"
             />
           </span>
         </a>
@@ -102,8 +104,9 @@ export default () => (
               about applying for VA health care benefits
             </span>
             <i
-              className="fa fa-chevron-right vads-facility-hub-cta-arrow"
               aria-hidden="true"
+              className="fa fa-chevron-right vads-facility-hub-cta-arrow"
+              role="presentation"
             />
           </span>
         </a>

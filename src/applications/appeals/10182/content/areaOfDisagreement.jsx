@@ -50,9 +50,19 @@ export const issusDescription = ({ formContext }) => {
   );
 };
 
-export const serviceConnection = 'The service connection';
-export const effectiveDate = 'The effective date of award';
-export const evaluation = 'The evaluation of my condition';
-export const other = 'Something else';
+const wrapHeader = text => (
+  <h3 className="vads-u-display--inline-block vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
+    {text}
+  </h3>
+);
 
+export const serviceConnection = wrapHeader('The service connection');
+export const effectiveDate = wrapHeader('The effective date of award');
+export const evaluation = wrapHeader('The evaluation of my condition');
+export const other = wrapHeader('Something else');
 export const otherLabel = 'Tell us what you disagree with:';
+export const otherDescription = () => (
+  <span id="other-hint-text" className="vads-u-color--gray">
+    Please explain in a few words
+  </span>
+);

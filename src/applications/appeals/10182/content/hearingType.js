@@ -23,8 +23,10 @@ export const hearingTypeContent = {
         at a VA regional office near you. The Veterans Law Judge will be located
         in Washington D.C.
       </p>
-      <strong>Note:</strong> Fewer Veterans will be able to use this option
-      right now due to COVID-19 and social distancing.
+      <p className="hide-on-review">
+        <strong>Note:</strong> Fewer Veterans will be able to use this option
+        right now due to COVID-19 and social distancing.
+      </p>
     </>
   ),
 
@@ -34,8 +36,10 @@ export const hearingTypeContent = {
       <p className="hide-on-review">
         You can attend an in-person hearing with a Veterans Law Judge.
       </p>
-      <strong>Note:</strong> Fewer Veterans will be able to use this option
-      right now due to COVID-19 and social distancing.
+      <p className="hide-on-review">
+        <strong>Note:</strong> Fewer Veterans will be able to use this option
+        right now due to COVID-19 and social distancing.
+      </p>
     </>
   ),
 };

@@ -37,7 +37,9 @@ export function mockAppointmentInfo({
   partialError = null,
   isHomepageRefresh = false,
 }) {
-  mockFetch();
+  if (!global.fetch.isSinonProxy) {
+    mockFetch();
+  }
 
   const startDate = isHomepageRefresh
     ? moment().subtract(30, 'days')
@@ -115,7 +117,9 @@ export function mockAppointmentInfo({
  * @param {Array<VARRequest>} [params.requests=[]] Requests to return from mock
  */
 export function mockPastAppointmentInfo({ va = [], cc = [], requests = [] }) {
-  mockFetch();
+  if (!global.fetch.isSinonProxy) {
+    mockFetch();
+  }
   const baseUrl = `${
     environment.API_URL
   }/vaos/v0/appointments?start_date=${moment()
@@ -152,7 +156,9 @@ export function mockPastAppointmentInfo({ va = [], cc = [], requests = [] }) {
  * @param {Array<VARCommunityCareAppointment>} [params.cc=[]] CC appointments to return from mock
  */
 export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
-  mockFetch();
+  if (!global.fetch.isSinonProxy) {
+    mockFetch();
+  }
   setFetchJSONResponse(global.fetch, { data: [] });
   setFetchJSONResponse(
     global.fetch.withArgs(
@@ -263,6 +269,22 @@ export function mockCCProviderFetch(
       { data: providers },
     );
   }
+}
+
+/**
+ * Mocks request to VA community care providers api for a single PPMS provider by id, used in community care request flow
+ *
+ * @export
+ * @param {Object<PPMSProvider>} request PPMS provider object
+ */
+
+export function mockCCSingleProviderFetch(request) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/v1/facilities/ccp/${request.id}`,
+    ),
+    { data: request },
+  );
 }
 
 /**

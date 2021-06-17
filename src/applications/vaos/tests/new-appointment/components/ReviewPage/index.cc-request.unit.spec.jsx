@@ -6,11 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/dom';
 import { Route } from 'react-router-dom';
 
-import {
-  setFetchJSONFailure,
-  mockFetch,
-  resetFetch,
-} from 'platform/testing/unit/helpers';
+import { setFetchJSONFailure, mockFetch } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
 import { FACILITY_TYPES } from '../../../../utils/constants';
@@ -31,7 +27,7 @@ import {
   mockRequestSubmit,
 } from '../../../mocks/helpers';
 
-import { mockAppointmentSubmit } from '../../../mocks/helpers.vaos';
+import { mockAppointmentSubmit } from '../../../mocks/helpers.v2';
 import { getVAFacilityMock } from '../../../mocks/v0';
 
 const initialState = {
@@ -103,25 +99,13 @@ describe('VAOS <ReviewPage> CC request', () => {
         ccEnabledSystems: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
+            vistaId: '983',
           },
         ],
         parentFacilities: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
+            vistaId: '983',
           },
         ],
         facilities: {},
@@ -132,7 +116,6 @@ describe('VAOS <ReviewPage> CC request', () => {
       onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
-  afterEach(() => resetFetch());
 
   it('should show form information for review', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -315,25 +298,13 @@ describe('VAOS <ReviewPage> CC request: homepage refresh', () => {
         ccEnabledSystems: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
+            vistaId: '983',
           },
         ],
         parentFacilities: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
+            vistaId: '983',
           },
         ],
         facilities: {},
@@ -344,7 +315,6 @@ describe('VAOS <ReviewPage> CC request: homepage refresh', () => {
       onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
-  afterEach(() => resetFetch());
 
   it('should submit successfully', async () => {
     mockRequestSubmit('cc', {
@@ -424,25 +394,13 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
         ccEnabledSystems: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
+            vistaId: '983',
           },
         ],
         parentFacilities: [
           {
             id: '983',
-            identifier: [
-              { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-              {
-                system: 'http://med.va.gov/fhir/urn',
-                value: 'urn:va:facility:983',
-              },
-            ],
+            vistaId: '983',
           },
         ],
         facilityDetails: {
@@ -475,7 +433,6 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
       onCalendarChange([start.format('YYYY-MM-DD[T00:00:00.000]')]),
     );
   });
-  afterEach(() => resetFetch());
 
   it('should show form information for review', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -675,13 +632,13 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
         ccEnabledSystems: [
           {
             id: '983',
+            vistaId: '983',
           },
         ],
         facilities: {},
       },
     });
   });
-  afterEach(() => resetFetch());
 
   it('should submit successfully', async () => {
     mockAppointmentSubmit({
@@ -708,7 +665,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       kind: 'cc',
       status: 'proposed',
       locationId: '983',
-      serviceType: 'CCPRMYRTNE',
+      serviceType: '323',
       reason: 'I need an appt',
       contact: {
         telecom: [
@@ -735,7 +692,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
       preferredLanguage: 'English',
       preferredLocation: { city: 'Cincinnati', state: 'OH' },
-      practitioners: ['ppmsid'],
+      practitioners: [{ id: { system: 'HSRM', value: 'ppmsid' } }],
     });
   });
 

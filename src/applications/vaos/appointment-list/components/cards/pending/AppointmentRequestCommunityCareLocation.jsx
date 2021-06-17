@@ -9,14 +9,14 @@ export default function AppointmentRequestCommunityCareLocation({
     <>
       <h4 className="vaos-appts__block-label">Preferred provider</h4>
       <div>
-        {!providers.length && 'Not specified'}
-        {!!providers.length && (
+        {!providers?.length && 'Not specified'}
+        {!!providers?.length && (
           <ul className="usa-unstyled-list">
-            {providers.map(provider => {
+            {providers.map((provider, index) => {
               const { practiceName, providerName } = provider;
 
               return (
-                <li key={provider.id}>
+                <li key={index}>
                   {!!practiceName && (
                     <>
                       {practiceName}

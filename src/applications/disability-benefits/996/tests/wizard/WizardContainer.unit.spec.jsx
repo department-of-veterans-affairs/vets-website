@@ -14,7 +14,6 @@ describe('<WizardContainer>', () => {
     sessionStorage.removeItem(WIZARD_STATUS);
     const tree = shallow(<WizardContainer setWizardStatus={setWizardStatus} />);
     expect(tree.find('.wizard-container')).to.have.lengthOf(1);
-    expect(tree.find('Connect(Wizard)')).to.have.lengthOf(1);
     tree.unmount();
   });
 });

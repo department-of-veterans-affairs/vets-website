@@ -449,9 +449,9 @@ module.exports = async (env = {}) => {
   if (buildOptions.scaffold) {
     const scaffoldedHtml = await generateHtmlFiles(buildPath);
     baseConfig.plugins.push(...scaffoldedHtml);
+  }
 
-    // Open the browser to either --env.openTo or one of the root URLs of the
-    // apps we're scaffolding
+  if (buildOptions.open) {
     baseConfig.devServer.open = true;
     baseConfig.devServer.openPage =
       buildOptions.openTo || buildOptions.entry

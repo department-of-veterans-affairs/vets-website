@@ -20,7 +20,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-const IntroductionPage = ({
+export const IntroductionPage = ({
   route,
   router,
   formData,
@@ -109,6 +109,16 @@ const IntroductionPage = ({
                 </p>
               </li>
             </ul>
+
+            {canUpload1010cgPOA && (
+              <p data-testid="poa-info-note">
+                <strong>Note:</strong> A legal representative, or someone with
+                power of attorney, can fill out this application on behalf of
+                the Veteran. They’ll need to sign the application. They'll also
+                have a chance to submit documentation to show their status as a
+                legal representative.
+              </p>
+            )}
 
             <div>
               <h4 className="vads-u-font-size--h6">
@@ -218,7 +228,7 @@ const IntroductionPage = ({
                 href={links.caregiverHelpPage.link}
                 className="vads-u-margin-left--0p5"
               >
-                www.caregiver.va.gov
+                {links.caregiverHelpPage.label}
               </a>
               , or discuss your options with your local Caregiver Support
               Coordinator.

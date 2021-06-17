@@ -2,31 +2,34 @@ import React, { useEffect } from 'react';
 import {
   setLangAttribute,
   adaptLinksWithLangCode,
+  onThisPageHook,
+  parseLangCode,
 } from 'applications/static-pages/i18Select/hooks';
 import { FOOTER_EVENTS } from '../helpers';
 import recordEvent from '../../../monitoring/record-event';
 
-function LanguagesListTemplate({ langSelected }) {
+const langAssistanceLabel = 'Language assistance';
+
+function LanguagesListTemplate({ dispatchLanguageSelection }) {
   return (
-    <ul>
+    <ul
+      className={
+        'vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0'
+      }
+    >
       {[
         {
-          onThisPage: 'En esta página',
           label: 'Español',
-          suffix: '-esp/',
           lang: 'es',
           href: '/asistencia-y-recursos-en-espanol',
         },
         {
-          suffix: '-tag/',
           label: 'Tagalog',
-          onThisPage: 'Sa pahinang ito',
           lang: 'tl',
           href: '/tagalog-wika-mapagkukunan-at-tulong',
         },
         {
           label: 'Other languages',
-          suffix: '/',
           lang: 'en',
           href: '/resources/how-to-get-free-language-assistance-from-va/',
         },
@@ -34,9 +37,11 @@ function LanguagesListTemplate({ langSelected }) {
         <li key={i}>
           <a
             href={link.href}
+            lang={link.lang}
             hrefLang={link.lang}
             onClick={() => {
-              langSelected(link.lang);
+              dispatchLanguageSelection(link.lang);
+              setLangAttribute(link.lang);
               recordEvent({
                 event: FOOTER_EVENTS.LANGUAGE_SUPPORT,
                 lang: link.lang,
@@ -54,33 +59,30 @@ function LanguagesListTemplate({ langSelected }) {
 export default function LanguageSupport({
   isDesktop,
   showLangSupport,
-  langSelected,
-  languageCode,
+  dispatchLanguageSelection,
 }) {
   useEffect(
     () => {
-      if (langSelected && showLangSupport) {
-        adaptLinksWithLangCode(langSelected);
-      }
+      const langCode = parseLangCode(document?.location?.pathname);
+      onThisPageHook(langCode);
+      setLangAttribute(langCode);
+      dispatchLanguageSelection(langCode);
+      adaptLinksWithLangCode(dispatchLanguageSelection, langCode);
     },
-    [langSelected, showLangSupport],
+    [dispatchLanguageSelection, showLangSupport],
   );
 
-  useEffect(
-    () => {
-      if (showLangSupport && languageCode) {
-        setLangAttribute(languageCode);
-      }
-    },
-    [languageCode, showLangSupport],
-  );
   if (showLangSupport !== true) return null;
 
   if (isDesktop) {
     return (
-      <div className="usa-grid usa-grid-full va-footer-links-bottom">
-        <h2 className="va-footer-linkgroup-title"> Language support </h2>
-        <LanguagesListTemplate langSelected={langSelected} />
+      <div className="usa-grid usa-grid-full va-footer-links-bottom vads-u-border-color--white vads-u-border-bottom--1px vads-u-border-top--1px vads-u-padding-top--2 vads-u-padding-bottom--1p5 vads-u-padding-left--0">
+        <h2 className="va-footer-linkgroup-title vads-u-padding-bottom--1">
+          {langAssistanceLabel}
+        </h2>
+        <LanguagesListTemplate
+          dispatchLanguageSelection={dispatchLanguageSelection}
+        />
       </div>
     );
   }
@@ -93,15 +95,17 @@ export default function LanguageSupport({
         itemProp="name"
         aria-expanded="false"
       >
-        Language Support
+        {langAssistanceLabel}
       </button>
       <div
-        className="usa-accordion-content va-footer-accordion-content"
+        className="usa-accordion-content va-footer-accordion-content vads-u-padding-bottom--0 vads-u-padding-left--0p5"
         id="veteran-language-support"
         aria-hidden="true"
       >
         <div className="usa-grid usa-grid-full va-footer-links-bottom">
-          <LanguagesListTemplate langSelected={langSelected} />
+          <LanguagesListTemplate
+            dispatchLanguageSelection={dispatchLanguageSelection}
+          />
         </div>
       </div>
     </li>

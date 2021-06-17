@@ -2,8 +2,8 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
-import { mockFetch, resetFetch } from 'platform/testing/unit/helpers';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { mockFetch } from 'platform/testing/unit/helpers';
+import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from '../../../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import {
@@ -134,7 +134,6 @@ closestFacility.attributes.long = -84.3164749;
 
 describe('VAOS integration: VA flat facility page - multiple facilities', () => {
   beforeEach(() => mockFetch());
-  afterEach(() => resetFetch());
 
   it('should display list of facilities with show more button', async () => {
     mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
@@ -1247,6 +1246,126 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
         '/new-appointment/request-date',
+      ),
+    );
+  });
+
+  it('should display Cerner sites in the facility list ', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(parentSiteIds, [
+      getDirectBookingEligibilityCriteriaMock({
+        id: '983',
+        typeOfCareId: '323',
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '983GC',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '984',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+    ]);
+    mockRequestEligibilityCriteria(parentSiteIds, [
+      getRequestEligibilityCriteriaMock({
+        id: '983',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '983GC',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+      getRequestEligibilityCriteriaMock({
+        id: '984',
+        typeOfCareId: '323',
+        patientHistoryRequired: null,
+      }),
+    ]);
+    mockFacilitiesFetch('vha_442,vha_442GC,vha_552', [
+      {
+        id: '983',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '983',
+          name: 'First cerner facility',
+          lat: 39.1362562,
+          long: -83.1804804,
+        },
+      },
+      {
+        id: '983GC',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '983GC',
+          name: 'Second cerner facility',
+          lat: 39.1362562,
+          long: -83.1804804,
+        },
+      },
+      {
+        id: '984',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '984',
+          name: 'Vista facility',
+          lat: 39.1362562,
+          long: -83.1804804,
+        },
+      },
+    ]);
+    const store = createTestStore({
+      ...initialState,
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          facilities: [
+            { facilityId: '983', isCerner: true },
+            { facilityId: '984', isCerner: false },
+          ],
+          vapContactInfo: {
+            residentialAddress: {
+              latitude: 39.1362562,
+              longitude: -84.6804804,
+            },
+          },
+        },
+      },
+    });
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    // Make sure Cerner facilities show up
+    expect(await screen.findByText(/First Cerner facility/i)).to.be.ok;
+    expect(screen.getByText(/Second Cerner facility/i)).to.be.ok;
+
+    // Make sure Cerner link shows up
+    const cernerSiteLabel = document.querySelector(
+      `label[for="${screen.getByLabelText(/First Cerner facility/i).id}"]`,
+    );
+    expect(
+      within(cernerSiteLabel)
+        .getByRole('link', { name: /My VA Health/ })
+        .getAttribute('href'),
+    ).to.contain('pages%2Fscheduling%2Fupcoming');
+
+    userEvent.click(screen.getByText(/Why isn.t my facility listed/i));
+    expect(await screen.findByText(/Vista facility/i)).to.be.ok;
+    // Make sure Cerner facilities show up only once
+    expect(screen.getAllByText(/Second Cerner facility/i)).to.have.length(1);
+
+    userEvent.click(screen.getByLabelText(/First cerner facility/i));
+    userEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(screen.history.push.firstCall.args[0]).to.equal(
+        '/new-appointment/how-to-schedule',
       ),
     );
   });

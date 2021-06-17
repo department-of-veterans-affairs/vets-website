@@ -5,7 +5,6 @@ import { submit } from '../helpers.jsx';
 
 import {
   mockFetch,
-  resetFetch,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
 
@@ -113,7 +112,6 @@ describe('Burials helpers', () => {
       );
     });
     afterEach(() => {
-      resetFetch();
       delete window.URL;
     });
   });
