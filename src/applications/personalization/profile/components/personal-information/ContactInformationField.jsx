@@ -288,7 +288,6 @@ class ContactInformationField extends React.Component {
               modalData: this.props.editViewData,
             })
           }
-          hasValidationError={this.props.hasValidationError}
           onCancel={this.onCancel}
           fieldName={this.props.fieldName}
         />

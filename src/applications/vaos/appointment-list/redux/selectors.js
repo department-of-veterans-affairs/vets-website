@@ -244,7 +244,7 @@ export function getRequestedAppointmentListInfo(state) {
 export function getUpcomingAppointmentListInfo(state) {
   return {
     facilityData: state.appointments.facilityData,
-    futureStatus: selectFutureStatus(state),
+    futureStatus: state.appointments.confirmedStatus,
     appointmentsByMonth: selectUpcomingAppointments(state),
     isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
     showScheduleButton: selectFeatureRequests(state),

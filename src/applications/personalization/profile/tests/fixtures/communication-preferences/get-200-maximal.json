@@ -1,0 +1,217 @@
+{
+  "data": {
+    "id": "",
+    "type": "hashes",
+    "attributes": {
+      "communicationGroups": [
+        {
+          "id": 1,
+          "name": "Health Care",
+          "description": "Healthcare Appointment Reminders",
+          "communicationItems": [
+            {
+              "id": 1,
+              "name": "Health Appointment Reminder",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "communicationPermission": {
+                    "id": 1728,
+                    "allowed": true
+                  }
+                }
+              ]
+            },
+            {
+              "id": 2,
+              "name": "RX Prescription Refill Reminder",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "communicationPermission": { "id": 341, "allowed": true }
+                }
+              ]
+            },
+            {
+              "id": 3,
+              "name": "Scheduled Appointment Confirmation",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "communicationPermission": { "id": 342, "allowed": true }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Education and Training",
+          "description": "Education Submission Status",
+          "communicationItems": [
+            {
+              "id": 4,
+              "name": "Form 22-1990 Submission Confirmation",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "communicationPermission": { "id": 729, "allowed": true }
+                },
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Disability",
+          "description": "Disability Status and Reminders",
+          "communicationItems": [
+            {
+              "id": 5,
+              "name": "Form 526-EZ Submission Confirmation",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification",
+                  "communicationPermission": { "id": 770, "allowed": true }
+                }
+              ]
+            },
+            {
+              "id": 6,
+              "name": "Disability Compensation Status Update",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification"
+                }
+              ]
+            },
+            {
+              "id": 7,
+              "name": "Compensation and Pension (C&P) Exam Reminder",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification",
+                  "communicationPermission": {
+                    "id": 1729,
+                    "allowed": true
+                  }
+                },
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification",
+                  "communicationPermission": {
+                    "id": 1730,
+                    "allowed": false
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "name": "Pension",
+          "description": "Pension Notifications",
+          "communicationItems": [
+            {
+              "id": 8,
+              "name": "Pension Payment Confirmation – Monthly",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Education and Training",
+          "description": "Education Notifications",
+          "communicationItems": [
+            {
+              "id": 9,
+              "name": "Education.Accession.Empty.A21.365",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "name": "Insurance",
+          "description": "Insurance Notifications",
+          "communicationItems": [
+            {
+              "id": 10,
+              "name": "Insurance.Accession.Married.A2.1",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification"
+                }
+              ]
+            },
+            {
+              "id": 11,
+              "name": "Insurance.Accession.Empty.A.1",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 7,
+          "name": "Home Loan",
+          "description": "Home Loan Notifications",
+          "communicationItems": [
+            {
+              "id": 12,
+              "name": "HomeLoan.Accession.Empty.A15.270",
+              "communicationChannels": [
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
