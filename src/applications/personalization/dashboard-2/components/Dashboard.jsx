@@ -9,6 +9,7 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 
+import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
 import {
   createIsServiceAvailableSelector,
@@ -83,6 +84,13 @@ const DashboardHeader = () => {
         href="/profile"
         text="Go to your profile"
         className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0"
+        onClick={() => {
+          recordEvent({
+            event: 'dashboard-navigation',
+            'dashboard-action': 'view-link',
+            'dashboard-product': 'view-your-profile',
+          });
+        }}
       />
     </div>
   );

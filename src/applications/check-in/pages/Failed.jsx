@@ -13,7 +13,7 @@ const Failed = () => {
           Not sure who to check in with?
         </h2>
         <p>
-          Call us at <Telephone contact={contactNumber} />
+          Call us at <Telephone contact={contactNumber} />.
         </p>
       </footer>
     </div>

@@ -260,6 +260,7 @@ export class ContactInformationEditView extends Component {
       <>
         {error && (
           <div
+            role="alert"
             className="vads-u-margin-bottom--2"
             data-testid="edit-error-alert"
           >

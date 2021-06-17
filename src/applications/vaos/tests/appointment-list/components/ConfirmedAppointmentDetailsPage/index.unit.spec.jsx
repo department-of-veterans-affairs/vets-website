@@ -29,7 +29,6 @@ import { getICSTokens } from '../../../../utils/calendar';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingCheetah: true,
     vaOnlineSchedulingRequests: true,
     vaOnlineSchedulingPast: true,
     // eslint-disable-next-line camelcase

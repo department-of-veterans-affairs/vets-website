@@ -11,7 +11,6 @@ import {
   isEmptyObject,
   setInitialEditMode,
   issuesNeedUpdating,
-  copyAreaOfDisagreementOptions,
   sortContestableIssues,
 } from '../../utils/helpers';
 import { getDate } from '../../utils/dates';
@@ -143,6 +142,24 @@ describe('showAddIssuesPage', () => {
       }),
     ).to.be.false;
   });
+  it('should show the issue page when nothing is selected, and past the issues pages', () => {
+    // probably unselected stuff on the review & submit page
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': true,
+        contestableIssues: [{}],
+        additionalIssues: [{}],
+      }),
+    ).to.be.true;
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': false,
+        boardReviewOption: 'foo', // we're past the issues page
+        contestableIssues: [{}],
+        additionalIssues: [{}],
+      }),
+    ).to.be.true;
+  });
 });
 
 describe('showAddIssueQuestion', () => {
@@ -253,57 +270,6 @@ describe('issuesNeedUpdating', () => {
         [createEntry('test', '123'), createEntry('test2', '345')],
       ),
     ).to.be.false;
-  });
-});
-
-describe('copyAreaOfDisagreementOptions', () => {
-  it('should return original issues only', () => {
-    const result = [
-      { issue: 'test' },
-      { attributes: { ratingIssueSubjectText: 'test2' } },
-    ];
-    expect(copyAreaOfDisagreementOptions(result, [])).to.deep.equal(result);
-  });
-  it('should return additional issue with included options', () => {
-    const newIssues = [
-      { issue: 'test' },
-      { attributes: { ratingIssueSubjectText: 'test2' } },
-    ];
-    const existingIssues = [
-      { issue: 'test', disagreementOptions: { test: true } },
-    ];
-    const result = [
-      { issue: 'test', disagreementOptions: { test: true }, otherEntry: '' },
-      { attributes: { ratingIssueSubjectText: 'test2' } },
-    ];
-    expect(
-      copyAreaOfDisagreementOptions(newIssues, existingIssues),
-    ).to.deep.equal(result);
-  });
-  it('should return eligible issues with included options', () => {
-    const newIssues = [
-      { issue: 'test' },
-      { attributes: { ratingIssueSubjectText: 'test2' } },
-    ];
-    const existingIssues = [
-      {
-        attributes: { ratingIssueSubjectText: 'test2' },
-        disagreementOptions: { test: true },
-        otherEntry: 'ok',
-      },
-    ];
-    expect(
-      copyAreaOfDisagreementOptions(newIssues, existingIssues),
-    ).to.deep.equal([newIssues[0], existingIssues[0]]);
-  });
-
-  it('should return disagreement options & other entry', () => {
-    const result = [
-      { issue: 'test', disagreementOptions: { test: true }, otherEntry: 'ok' },
-    ];
-    expect(
-      copyAreaOfDisagreementOptions([{ issue: 'test' }], result),
-    ).to.deep.equal(result);
   });
 });
 
