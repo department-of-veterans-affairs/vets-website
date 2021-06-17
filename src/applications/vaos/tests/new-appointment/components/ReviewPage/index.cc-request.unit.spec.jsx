@@ -665,7 +665,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       kind: 'cc',
       status: 'proposed',
       locationId: '983',
-      serviceType: 'CCPRMYRTNE',
+      serviceType: '323',
       reason: 'I need an appt',
       contact: {
         telecom: [
