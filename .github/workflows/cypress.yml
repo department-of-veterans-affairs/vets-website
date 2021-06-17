@@ -94,7 +94,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: vets-website
+        working-directory: testing-tools-team-dashboard-data
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
