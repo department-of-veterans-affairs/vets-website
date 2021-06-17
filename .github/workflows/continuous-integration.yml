@@ -6,6 +6,67 @@ env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
 
 jobs:
+  build:
+    name: Build
+    runs-on: self-hosted
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
+    strategy:
+      matrix:
+        buildtype: [vagovdev, vagovstaging, vagovprod]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-e2e-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Build
+        run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
+        timeout-minutes: 30
+
+      - name: Generate build details
+        run: |
+          cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
+          BUILDTYPE=${{ matrix.buildtype }}
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          RUN_ID=${{ github.run_id }}
+          REF=${{ github.sha }}
+          BUILDTIME=$(date +%s)
+          EOF
+
+      - name: Compress and archive build
+        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.buildtype }}.tar.bz2
+          path: ${{ matrix.buildtype }}.tar.bz2
+
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
@@ -59,47 +120,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/unit-tests.xml'
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
-
-  linting:
-    name: Linting (All)
-    if: ${{ github.ref == 'refs/heads/master' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
-
-      - name: Annotate ESLint results
-        run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
-
-      - name: Run Stylelint
-        run: yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
-
-      - name: Annotate Stylelint results
-        if: ${{ always() }}
-        run: node ./script/github-actions/stylelint-annotation-format.js
 
   contract-tests:
     name: Contract Tests
@@ -201,17 +221,10 @@ jobs:
       - name: Audit dependencies
         run: yarn security-check
 
-  build:
-    name: Build
-    runs-on: self-hosted
-
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-
-    strategy:
-      matrix:
-        buildtype: [vagovdev, vagovstaging, vagovprod]
-
+  linting:
+    name: Linting (All)
+    if: ${{ github.ref == 'refs/heads/master' }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -232,35 +245,22 @@ jobs:
           path: |
             ~/.cache/yarn
             node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-e2e-${{ hashFiles('yarn.lock') }}
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
-        timeout-minutes: 30
+      - name: Annotate ESLint results
+        run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
 
-      - name: Generate build details
-        run: |
-          cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
-          BUILDTYPE=${{ matrix.buildtype }}
-          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
-          RUN_ID=${{ github.run_id }}
-          REF=${{ github.sha }}
-          BUILDTIME=$(date +%s)
-          EOF
+      - name: Run Stylelint
+        run: yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
 
-      - name: Compress and archive build
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.buildtype }}.tar.bz2
-          path: ${{ matrix.buildtype }}.tar.bz2
+      - name: Annotate Stylelint results
+        if: ${{ always() }}
+        run: node ./script/github-actions/stylelint-annotation-format.js
 
   nightwatch:
     name: Nightwatch E2E Tests
@@ -324,7 +324,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    needs: [contract-tests, linting, nightwatch, security-audit, unit-tests]
+    needs: [nightwatch, unit-tests, contract-tests, security-audit, linting]
 
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.
