@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import environment from 'platform/utilities/environment';
+import { checkInExperienceEnabled, loadingFeatureFlags } from '../selectors';
 
 const FeatureFlipTest = ({ state }) => {
   if (environment.isProduction()) {
@@ -20,7 +21,11 @@ const FeatureFlipTest = ({ state }) => {
 };
 
 const mapStateToProps = state => ({
-  state,
+  state: {
+    ...state,
+    isCheckInEnabled: checkInExperienceEnabled(state),
+    isLoadingFeatureFlags: loadingFeatureFlags(state),
+  },
 });
 
 export default connect(mapStateToProps)(FeatureFlipTest);
