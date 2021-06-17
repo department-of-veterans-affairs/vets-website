@@ -92,6 +92,13 @@ export function LocationSearchForm({
     dispatchUpdateAutocompleteLocation(value);
   };
 
+  useEffect(
+    () => {
+      setLocation(autocomplete.location);
+    },
+    [autocomplete.location],
+  );
+
   return (
     <div>
       <div className="use-my-location-container">
