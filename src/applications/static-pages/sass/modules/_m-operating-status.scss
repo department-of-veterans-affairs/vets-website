@@ -59,6 +59,17 @@
   display: unset !important;
 }
 
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+   // IE fix for icon padding
+   //https://stackoverflow.com/questions/11173106/apply-style-only-on-ie
+  .alert-icon-base {
+    width: 20px !important;
+    height: 18px !important;
+    pointer-events: none !important;
+    padding: 12px 20px 12px 12px !important;
+  }
+}
+
 .more-info {
   margin: 0;
   padding: 0 12px 12px 12px
