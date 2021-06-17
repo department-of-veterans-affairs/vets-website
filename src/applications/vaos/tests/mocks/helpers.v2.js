@@ -97,3 +97,53 @@ export function mockAppointmentCancelFetch({ appointment, error = false }) {
     });
   }
 }
+
+/**
+ * Mock the api calls that checks if a user is eligible for community care for
+ *   a given type of care and if the facility supports CC
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<string>} params.parentSites The VA parent sites to check for CC support
+ * @param {Array<string>} params.supportedSites The VA parent sites that support CC
+ * @param {string} params.careType Community care type of care string
+ * @param {boolean} [eligible=true] Is the user eligible for CC
+ */
+export function mockV2CommunityCareEligibility({
+  parentSites,
+  supportedSites,
+  careType,
+  eligible = true,
+}) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v2/scheduling/configurations?${parentSites
+        .map(site => `facility_ids[]=${site}`)
+        .join('&')}&cc_enabled=true`,
+    ),
+    {
+      data: (supportedSites || parentSites).map(parent => ({
+        id: parent,
+        attributes: {
+          facilityId: parent,
+          communityCare: true,
+        },
+      })),
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/community_care/eligibility/${careType}`,
+    ),
+    {
+      data: {
+        id: careType,
+        attributes: {
+          eligible,
+        },
+      },
+    },
+  );
+}

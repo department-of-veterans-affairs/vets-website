@@ -9,7 +9,7 @@ describe('Check In Experience -- ', () => {
     cy.get('h1').contains('insurance');
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('.vads-u-margin--3 > :nth-child(3)').click();
+    cy.get('[data-testid="no-button"]').click();
     cy.get('h1').contains('Your appointment');
     cy.injectAxe();
     cy.axeCheck();
