@@ -20,8 +20,8 @@ import State from '../../components/State';
 import FacilityPhone from '../../components/FacilityPhone';
 import { getFacilityIdFromLocation } from '../../services/location/index';
 import { getRealFacilityId } from '../../utils/appointment';
+import InfoAlert from '../../components/InfoAlert';
 import NewTabAnchor from '../../components/NewTabAnchor';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import { hasValidCovidPhoneNumber } from '../../services/appointment';
 
@@ -74,12 +74,10 @@ export default function ContactFacilitiesPage() {
       {canUseVaccineFlow && (
         <>
           <h1>{pageTitle}</h1>
-          <AlertBox
-            className="vads-u-margin-top--0"
-            level="2"
-            status="warning"
+          <InfoAlert
             backgroundOnly
             headline="If you got your first dose:"
+            status="warning"
           >
             <ul>
               <li>
@@ -91,7 +89,7 @@ export default function ContactFacilitiesPage() {
                 location to get your second dose.
               </li>
             </ul>
-          </AlertBox>
+          </InfoAlert>
         </>
       )}
       {!canUseVaccineFlow && (
@@ -138,25 +136,29 @@ export default function ContactFacilitiesPage() {
         ))}
       </ul>
       {!canUseVaccineFlow && (
-        <div className="feature">
-          <h2 className="vads-u-font-size--h3">
-            Find a vaccine walk-in clinic near you
-          </h2>
-          <p>
-            You can go to a VA facility's vaccine clinic during walk-in hours to
-            get the COVID-19 vaccine. You don't need an appointment, but be sure
-            to check the facility's walk-in hours before you go.
-          </p>
-          <a
-            href="/find-locations/?facilityType=health&serviceType=Covid19Vaccine"
-            onClick={() => {
-              recordEvent({
-                event: `${GA_PREFIX}-COVID-19-vaccines-at-VA-link-clicked`,
-              });
-            }}
+        <div className="vads-u-margin-bottom--2">
+          <InfoAlert
+            backgroundOnly
+            className="test"
+            headline="Find a vaccine walk-in clinic near you"
+            status="info"
           >
-            Find VA facilities near you that offer COVID-19 vaccines
-          </a>
+            <p>
+              test You can go to a VA facility's vaccine clinic during walk-in
+              hours to get the COVID-19 vaccine. You don't need an appointment,
+              but be sure to check the facility's walk-in hours before you go.
+            </p>
+            <a
+              href="/find-locations/?facilityType=health&serviceType=Covid19Vaccine"
+              onClick={() => {
+                recordEvent({
+                  event: `${GA_PREFIX}-COVID-19-vaccines-at-VA-link-clicked`,
+                });
+              }}
+            >
+              Find VA facilities near you that offer COVID-19 vaccines
+            </a>
+          </InfoAlert>
         </div>
       )}
       <ProgressButton

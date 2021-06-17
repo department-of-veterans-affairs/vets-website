@@ -16,6 +16,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 import { selectCommunityCareDetailsInfo } from '../redux/selectors';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import Breadcrumbs from '../../components/Breadcrumbs';
+import InfoAlert from '../../components/InfoAlert';
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -96,13 +97,9 @@ export default function CommunityCareAppointmentDetailsPage() {
       </h1>
 
       {isPastAppointment && (
-        <AlertBox
-          status={ALERT_TYPE.WARNING}
-          className="vads-u-display--block"
-          backgroundOnly
-        >
+        <InfoAlert backgroundOnly status="warning">
           This appointment occurred in the past.
-        </AlertBox>
+        </InfoAlert>
       )}
 
       <h2
