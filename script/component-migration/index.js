@@ -51,17 +51,16 @@ function translateProps(componentString, propMap) {
 
 function replaceTags(file, newTag) {
   const unnamedClosingTags = file.matchAll(
-    new RegExp(`(<${options.component}.+?^\\s+\\/>)`, 'gsm'),
+    new RegExp(`(<${options.component}.+?(^\\s+)?\\/>;?$)`, 'gsm'),
   );
 
   const matches = Array.from(unnamedClosingTags, m => m[0]);
 
   let namedClosingTags = file;
   matches.forEach(match => {
-    // First, replace the tags
     namedClosingTags = namedClosingTags.replace(
       match,
-      match?.replace(/^\s+\/>/m, `></${newTag}>`),
+      match?.replace(/\s+\/>;?$/m, `></${newTag}>`),
     );
   });
 
