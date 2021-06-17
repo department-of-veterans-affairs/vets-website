@@ -332,7 +332,7 @@ jobs:
     # By doing this, later jobs that need this job require similar overrides
     # or else they will also be skipped when linting is skipped.
     if: |
-      success() &&
+      always() &&
       needs.nightwatch.result == 'success' &&
       needs.unit-tests.result == 'success' &&
       needs.contract-tests.result == 'success' &&
