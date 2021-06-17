@@ -136,7 +136,7 @@ export default function ContactFacilitiesPage() {
         ))}
       </ul>
       {!canUseVaccineFlow && (
-        <div className="vads-u-margin-bottom--2">
+        <div className="vads-u-margin-bottom--3">
           <InfoAlert
             backgroundOnly
             className="test"
