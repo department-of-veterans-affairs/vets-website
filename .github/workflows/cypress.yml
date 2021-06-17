@@ -133,37 +133,37 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-0
-          path: src/mochawesome/data
+          path: testing-tools-team-dashboard-data/src/mochawesome/data
       
       - name: Download test result artifact 1
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-1
-          path: src/mochawesome/data
+          path: testing-tools-team-dashboard-data/src/mochawesome/data
       
       - name: Download test result artifact 2
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-2
-          path: src/mochawesome/data
+          path: testing-tools-team-dashboard-data/src/mochawesome/data
       
       - name: Download test result artifact 3
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-3
-          path: src/mochawesome/data
+          path: testing-tools-team-dashboard-data/src/mochawesome/data
       
       - name: Download test result artifact 4
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-4
-          path: src/mochawesome/data
+          path: testing-tools-team-dashboard-data/src/mochawesome/data
       
       - name: Download test result artifact 5
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-5
-          path: src/mochawesome/data
+          path: testing-tools-team-dashboard-data/src/mochawesome/data
 
       - name: Use Node.js
         uses: actions/setup-node@v2
