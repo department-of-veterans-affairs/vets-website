@@ -324,7 +324,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    needs: [unit-tests, linting, contract-tests, security-audit, nightwatch]
+    needs: [contract-tests, linting, nightwatch, security-audit, unit-tests]
 
     # Prevent archive from being skipped when linting is skipped (in PRs).
     if: ${{ always() && (needs.linting.result == 'success' || needs.linting.result == 'skipped') }}
