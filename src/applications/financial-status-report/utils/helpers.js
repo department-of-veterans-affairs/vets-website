@@ -95,7 +95,7 @@ export const getMonthlyExpenses = formData => {
       .map(record => record.deductions)
       .flat();
     const deductionAmounts = payrollDeductions.map(
-      deduction => deduction.amount,
+      deduction => deduction?.amount || 0,
     );
     totalArr = [...totalArr, ...deductionAmounts];
   }
@@ -105,7 +105,7 @@ export const getMonthlyExpenses = formData => {
       .map(record => record.deductions)
       .flat();
     const deductionAmounts = payrollDeductions.map(
-      deduction => deduction.amount,
+      deduction => deduction?.amount || 0,
     );
     totalArr = [...totalArr, ...deductionAmounts];
   }
@@ -260,7 +260,7 @@ export const getIncome = ({
       .flat();
 
     const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + deduction.amount,
+      (acc, deduction) => acc + deduction?.amount || 0,
       0,
     );
 
@@ -271,9 +271,11 @@ export const getIncome = ({
           deductions: {
             ...item.deductions,
             otherDeductions: {
-              name: deductions.map(deduction => deduction.name).join(', '),
+              name: deductions
+                .map(deduction => deduction?.name || '')
+                .join(', '),
               amount: deductions.reduce(
-                (acc, deduction) => acc + deduction.amount,
+                (acc, deduction) => acc + deduction?.amount || 0,
                 0,
               ),
             },
@@ -298,7 +300,7 @@ export const getIncome = ({
       .flat();
 
     const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + deduction.amount,
+      (acc, deduction) => acc + deduction?.amount || 0,
       0,
     );
 
@@ -309,9 +311,11 @@ export const getIncome = ({
           deductions: {
             ...item.deductions,
             otherDeductions: {
-              name: deductions.map(deduction => deduction.name).join(', '),
+              name: deductions
+                .map(deduction => deduction?.name || '')
+                .join(', '),
               amount: deductions.reduce(
-                (acc, deduction) => acc + deduction.amount,
+                (acc, deduction) => acc + deduction?.amount || 0,
                 0,
               ),
             },
@@ -336,7 +340,7 @@ export const getIncome = ({
       .flat();
 
     const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + deduction.amount,
+      (acc, deduction) => acc + deduction?.amount || 0,
       0,
     );
 
@@ -377,7 +381,7 @@ export const getIncome = ({
       .flat();
 
     const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + deduction.amount,
+      (acc, deduction) => acc + deduction?.amount || 0,
       0,
     );
 

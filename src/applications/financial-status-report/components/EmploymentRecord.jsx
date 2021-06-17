@@ -8,6 +8,16 @@ import TextInput from '@department-of-veterans-affairs/component-library/TextInp
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import classNames from 'classnames';
 
+const defaultRecord = [
+  {
+    type: '',
+    from: '',
+    to: '',
+    isCurrent: false,
+    employerName: '',
+  },
+];
+
 const EmploymentRecord = ({
   idSchema,
   uiSchema,
@@ -20,7 +30,8 @@ const EmploymentRecord = ({
   const index = Number(idSchema.$id.slice(-1));
   const { userType, userArray } = uiSchema['ui:options'];
   const { employmentRecords } = employmentHistory[`${userType}`];
-  const { from, to } = employmentRecords[index];
+  const employment = employmentRecords || defaultRecord;
+  const { from, to } = employment ? employment[index] : [];
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
   const employerError = errorSchema.employerName?.__errors[0];
@@ -45,14 +56,14 @@ const EmploymentRecord = ({
   };
 
   const handleChange = (key, val) => {
-    const updated = employmentRecords.map((item, i) => {
+    const updated = employment.map((item, i) => {
       return i === index ? { ...item, [key]: val } : item;
     });
     updateFormData(updated);
   };
 
   const handleCheckboxChange = (key, val) => {
-    const updated = employmentRecords.map((item, i) => {
+    const updated = employment.map((item, i) => {
       return i === index ? { ...item, [key]: val, to: '' } : item;
     });
     updateFormData(updated);
@@ -61,7 +72,7 @@ const EmploymentRecord = ({
   const handleDateChange = (key, value) => {
     const { month, year } = value;
     const dateString = `${year.value}-${month.value}-XX`;
-    const updated = employmentRecords.map((item, i) => {
+    const updated = employment.map((item, i) => {
       return i === index ? { ...item, [key]: dateString } : item;
     });
     updateFormData(updated);
@@ -76,7 +87,7 @@ const EmploymentRecord = ({
           onValueChange={({ value }) => handleChange('type', value)}
           options={['Full time', 'Part time', 'Seasonal', 'Temporary']}
           value={{
-            value: employmentRecords[index].type || '',
+            value: employment[index].type || '',
           }}
           required
           errorMessage={submitted && typeError}
@@ -96,18 +107,18 @@ const EmploymentRecord = ({
       </div>
       <div
         className={classNames('vads-u-margin-top--3', {
-          'field-disabled': employmentRecords[index].isCurrent,
+          'field-disabled': employment[index].isCurrent,
         })}
       >
         <MonthYear
           date={{
             month: {
               value: toMonth,
-              dirty: !employmentRecords[index].isCurrent && submitted,
+              dirty: !employment[index].isCurrent && submitted,
             },
             year: {
               value: toYear,
-              dirty: !employmentRecords[index].isCurrent && submitted,
+              dirty: !employment[index].isCurrent && submitted,
             },
           }}
           label="Date you stopped work at this job?"
@@ -118,13 +129,13 @@ const EmploymentRecord = ({
       </div>
       <Checkbox
         label="I currently work here"
-        checked={employmentRecords[index].isCurrent || false}
+        checked={employment[index].isCurrent || false}
         onValueChange={value => handleCheckboxChange('isCurrent', value)}
       />
       <div className="input-size-6 vads-u-margin-bottom--2">
         <TextInput
           field={{
-            value: employmentRecords[index].employerName || '',
+            value: employment[index].employerName || '',
           }}
           label="Employer name"
           name="employerName"
