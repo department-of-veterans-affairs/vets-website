@@ -13,7 +13,10 @@ import {
   mockSingleRequestFetch,
   mockFacilityFetch,
 } from '../../mocks/helpers';
-import { mockSingleVAOSRequestFetch } from '../../mocks/helpers.v2';
+import {
+  mockSingleVAOSRequestFetch,
+  mockAppointmentCancelFetch,
+} from '../../mocks/helpers.v2';
 
 import { AppointmentList } from '../../../appointment-list';
 import {
@@ -832,5 +835,119 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     expect(screen.queryByText('Community Care')).not.to.exist;
     expect(screen.queryByText('Reason for appointment')).not.to.exist;
+  });
+
+  it('should allow cancellation', async () => {
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      comment: 'A message from the patient',
+      contact: {
+        telecom: [
+          { type: 'phone', value: '2125551212' },
+          { type: 'email', value: 'veteranemailtest@va.gov' },
+        ],
+      },
+      kind: 'clinic',
+      locationId: '983GC',
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reason: 'Routine Follow-up',
+      requestedPeriods: [
+        {
+          start: moment(testDate)
+            .add(3, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+      ],
+      serviceType: '323',
+      status: 'proposed',
+    };
+
+    mockSingleVAOSRequestFetch({ request: appointment });
+    mockFacilityFetch('vha_442GC', getVAFacilityMock({ id: '442GC' }));
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: initialStateVAOSService,
+      path: `/requests/${appointment.id}`,
+    });
+
+    expect(await screen.findByText('Pending primary care appointment')).to.be
+      .ok;
+
+    expect(screen.baseElement).not.to.contain.text('Canceled');
+    mockAppointmentCancelFetch({ appointment });
+
+    fireEvent.click(screen.getByText(/cancel request/i));
+    await screen.findByRole('alertdialog');
+
+    fireEvent.click(screen.getByText(/yes, cancel this request/i));
+
+    await screen.findByText(/your request has been canceled/i);
+    const cancelData = JSON.parse(
+      global.fetch
+        .getCalls()
+        // Looks for second appointments/1234 call, because first is GET, second is PUT
+        .filter(call => call.args[0].endsWith('appointments/1234'))[1].args[1]
+        .body,
+    );
+    expect(cancelData).to.deep.equal({
+      status: 'cancelled',
+    });
+
+    fireEvent.click(screen.getByText(/continue/i));
+
+    expect(screen.queryByRole('alertdialog')).to.not.be.ok;
+    expect(screen.baseElement).to.contain.text('Canceled');
+  });
+
+  it('should handle error when canceling', async () => {
+    const appointment = getVAOSRequestMock();
+    appointment.id = '1234';
+    appointment.attributes = {
+      comment: 'A message from the patient',
+      contact: {
+        telecom: [
+          { type: 'phone', value: '2125551212' },
+          { type: 'email', value: 'veteranemailtest@va.gov' },
+        ],
+      },
+      kind: 'clinic',
+      locationId: '983GC',
+      id: '1234',
+      preferredTimesForPhoneCall: ['Morning'],
+      reason: 'Routine Follow-up',
+      requestedPeriods: [
+        {
+          start: moment(testDate)
+            .add(3, 'days')
+            .format('YYYY-MM-DDTHH:mm:ss[Z]'),
+        },
+      ],
+      serviceType: '323',
+      status: 'proposed',
+    };
+
+    mockSingleVAOSRequestFetch({ request: appointment });
+    mockFacilityFetch('vha_442GC', getVAFacilityMock({ id: '442GC' }));
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: initialStateVAOSService,
+      path: `/requests/${appointment.id}`,
+    });
+
+    expect(await screen.findByText('Pending primary care appointment')).to.be
+      .ok;
+
+    expect(screen.baseElement).not.to.contain.text('Canceled');
+    mockAppointmentCancelFetch({ appointment, error: true });
+
+    fireEvent.click(screen.getByText(/cancel request/i));
+    await screen.findByRole('alertdialog');
+
+    fireEvent.click(screen.getByText(/yes, cancel this request/i));
+    await screen.findByText(/We couldn’t cancel your request/i);
+
+    expect(screen.baseElement).not.to.contain.text('Canceled');
   });
 });

@@ -1,0 +1,18 @@
+{
+  "txAuditId": "string",
+  "status": "string",
+  "bio": {
+    "createDate": "string",
+    "updateDate": "string",
+    "txAuditId": "string",
+    "sourceSystem": "string",
+    "sourceDate": "string",
+    "communicationPermissionId": 0,
+    "vaProfileId": 0,
+    "communicationChannelId": 0,
+    "communicationItemId": 0,
+    "communicationChannelName": "string",
+    "communicationItemCommonName": "string",
+    "allowed": true
+  }
+}
