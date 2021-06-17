@@ -92,9 +92,6 @@ jobs:
     needs: [build]
     name: Generate Mochawesome Report
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: vets-website
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -171,4 +168,5 @@ jobs:
           node-version: '14'
       
       - name: Create report and post results to BigQuery
+        working-directory: testing-tools-team-dashboard
         run: yarn cypress-mochawesome-to-bigquery
