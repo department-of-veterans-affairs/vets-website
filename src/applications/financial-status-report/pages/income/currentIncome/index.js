@@ -26,6 +26,7 @@ export const uiSchema = {
         ),
         'ui:options': {
           widgetClassNames: 'input-size-1 vads-u-margin-bottom--3',
+          classNames: 'schemaform-currency-input',
         },
       },
       deductions: {
@@ -58,6 +59,7 @@ export const uiSchema = {
             'ui:title': 'Deduction amount',
             'ui:options': {
               widgetClassNames: 'input-size-1',
+              classNames: 'schemaform-currency-input',
             },
           },
         },
@@ -75,7 +77,7 @@ export const schema = {
         required: ['monthlyGrossSalary'],
         properties: {
           monthlyGrossSalary: {
-            type: 'number',
+            type: 'string',
           },
           deductions: {
             type: 'array',

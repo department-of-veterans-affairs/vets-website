@@ -30,14 +30,14 @@ export const getMonthlyIncome = ({
 
   if (questions.vetIsEmployed) {
     const monthlyGrossSalary = currentEmployment
-      .map(record => record.monthlyGrossSalary)
+      .map(record => Number(record.monthlyGrossSalary))
       .reduce((acc, amount) => acc + amount, 0);
     totalArr = [...totalArr, monthlyGrossSalary];
   }
 
   if (questions.spouseIsEmployed) {
     const monthlyGrossSalary = spouseCurrentEmployment
-      .map(record => record.monthlyGrossSalary)
+      .map(record => Number(record.monthlyGrossSalary))
       .reduce((acc, amount) => acc + amount, 0);
     totalArr = [...totalArr, monthlyGrossSalary];
   }
@@ -252,7 +252,7 @@ export const getIncome = ({
 
   if (questions.vetIsEmployed) {
     const monthlyGrossSalary = currentEmployment
-      .map(record => record.monthlyGrossSalary)
+      .map(record => Number(record.monthlyGrossSalary))
       .reduce((acc, amount) => acc + amount, 0);
 
     const deductions = currentEmployment
@@ -292,7 +292,7 @@ export const getIncome = ({
 
   if (questions.spouseIsEmployed) {
     const monthlyGrossSalary = spouseCurrentEmployment
-      .map(record => record.monthlyGrossSalary)
+      .map(record => Number(record.monthlyGrossSalary))
       .reduce((acc, amount) => acc + amount, 0);
 
     const deductions = spouseCurrentEmployment
@@ -332,7 +332,7 @@ export const getIncome = ({
 
   if (questions.hasAdditionalIncome) {
     const monthlyGrossSalary = currentEmployment
-      .map(record => record.monthlyGrossSalary)
+      .map(record => Number(record.monthlyGrossSalary))
       .reduce((acc, amount) => acc + amount, 0);
 
     const deductions = currentEmployment
@@ -373,7 +373,7 @@ export const getIncome = ({
 
   if (questions.spouseHasAdditionalIncome) {
     const monthlyGrossSalary = spouseCurrentEmployment
-      .map(record => record.monthlyGrossSalary)
+      .map(record => Number(record.monthlyGrossSalary))
       .reduce((acc, amount) => acc + amount, 0);
 
     const deductions = spouseCurrentEmployment

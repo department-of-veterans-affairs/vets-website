@@ -365,7 +365,7 @@
   },
   "currentEmployment": [
     {
-      "monthlyGrossSalary": 5000,
+      "monthlyGrossSalary": "5000",
       "deductions": [
         {
           "name": "Federal tax",
@@ -387,7 +387,7 @@
       "employerName": "Veteran Employer One"
     },
     {
-      "monthlyGrossSalary": 800,
+      "monthlyGrossSalary": "800",
       "deductions": [
         {
           "name": "Federal tax",
@@ -403,7 +403,7 @@
   ],
   "spouseCurrentEmployment": [
     {
-      "monthlyGrossSalary": 3500,
+      "monthlyGrossSalary": "3500",
       "deductions": [
         {
           "name": "Pension",
@@ -421,7 +421,7 @@
       "employerName": "Spouse Employer One"
     },
     {
-      "monthlyGrossSalary": 1350,
+      "monthlyGrossSalary": "1350",
       "deductions": [
         {
           "name": "Federal tax",
