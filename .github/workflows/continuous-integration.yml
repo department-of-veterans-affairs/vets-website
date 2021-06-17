@@ -265,10 +265,7 @@ jobs:
   nightwatch:
     name: Nightwatch E2E Tests
 
-    runs-on: self-hosted
-
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+    runs-on: ubuntu-latest
 
     needs: [build]
 
