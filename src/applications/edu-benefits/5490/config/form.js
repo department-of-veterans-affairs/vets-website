@@ -493,7 +493,9 @@ const formConfig = {
                 "Sponsor's date of death or date listed as MIA or POW",
               ),
               'ui:options': {
-                hideIf: formData => _.get('benefit', formData) !== 'chapter35',
+                hideIf: formData =>
+                  _.get('benefit', formData) === 'chapter33' &&
+                  _.get('relationship', formData) === 'spouse',
               },
             },
             sponsorStatus: {
@@ -507,7 +509,9 @@ const formConfig = {
                     'Died from a service-connected disability while a member of the Selected Reserve',
                   powOrMia: 'Listed as MIA or POW',
                 },
-                hideIf: formData => _.get('benefit', formData) !== 'chapter33',
+                hideIf: formData =>
+                  _.get('benefit', formData) === 'chapter35' ||
+                  _.get('relationship', formData) === 'child',
               },
             },
             'view:sponsorDateOfDeath': {
@@ -515,7 +519,9 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'sponsorStatus',
                 expandUnderCondition: status => status && status !== 'powOrMia',
-                hideIf: formData => _.get('benefit', formData) !== 'chapter33',
+                hideIf: formData =>
+                  _.get('benefit', formData) === 'chapter35' ||
+                  _.get('relationship', formData) === 'child',
               },
             },
             'view:sponsorDateListedMiaOrPow': {
@@ -523,7 +529,9 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'sponsorStatus',
                 expandUnderCondition: status => status && status === 'powOrMia',
-                hideIf: formData => _.get('benefit', formData) !== 'chapter33',
+                hideIf: formData =>
+                  _.get('benefit', formData) === 'chapter35' ||
+                  _.get('relationship', formData) === 'child',
               },
             },
           },
