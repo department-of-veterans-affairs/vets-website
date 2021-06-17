@@ -127,6 +127,7 @@ const formConfig = {
           uiSchema: pages.employmentRecords.uiSchema,
           schema: pages.employmentRecords.schema,
           depends: formData => formData.questions.vetIsEmployed,
+          editModeOnReviewPage: true,
         },
         previousEmployment: {
           path: 'previous-employment',
@@ -195,6 +196,7 @@ const formConfig = {
           schema: pages.spouseEmploymentRecords.schema,
           depends: formData =>
             formData.questions.isMarried && formData.questions.spouseIsEmployed,
+          editModeOnReviewPage: true,
         },
         spousePreviousEmployment: {
           path: 'spouse-previous-employment',
