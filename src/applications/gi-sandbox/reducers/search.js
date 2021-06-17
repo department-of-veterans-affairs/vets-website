@@ -9,6 +9,10 @@ import {
   GEOCODE_SUCCEEDED,
   GEOCODE_STARTED,
   GEOCODE_FAILED,
+  GEOCODE_LOCATION_FAILED,
+  GEOLOCATE_USER,
+  GEOCODE_COMPLETE,
+  GEOCODE_CLEAR_ERROR,
   UPDATE_CURRENT_SEARCH_TAB,
   UPDATE_QUERY_PARAMS,
 } from '../actions';
@@ -18,7 +22,6 @@ import { TABS } from '../constants';
 const INITIAL_STATE = {
   error: null,
   geocode: null,
-  geocodeInProgress: false,
   geolocationInProgress: false,
   inProgress: false,
   location: {
@@ -66,6 +69,10 @@ const INITIAL_STATE = {
     distance: '50',
     latitude: null,
     longitude: null,
+    streetAddress: {
+      searchString: '',
+      position: {},
+    },
   },
   compare: {
     results: [],
@@ -176,16 +183,53 @@ export default function(state = INITIAL_STATE, action) {
         query: { ...newState.query, ...action.payload },
         geocodeInProgress: true,
       };
+    case GEOCODE_FAILED:
+      return {
+        ...state,
+        error: true,
+        geocodeError: action.code,
+        geolocationInProgress: false,
+      };
+    case GEOCODE_COMPLETE:
+      return {
+        ...state,
+        geolocationInProgress: false,
+        query: {
+          streetAddress: {
+            searchString: action.payload.searchString,
+            position: { ...action.payload.position },
+          },
+        },
+        error: false,
+      };
+    case GEOCODE_CLEAR_ERROR:
+      return {
+        ...state,
+        error: false,
+        geocodeError: 0,
+        geolocationInProgress: false,
+      };
 
     case GEOCODE_SUCCEEDED:
       return { ...newState, geocode: action.payload, geocodeInProgress: false };
 
-    case GEOCODE_FAILED:
+    case GEOCODE_LOCATION_FAILED:
       return {
         ...newState,
         error: action.payload,
-        geocodeInProgress: false,
+        geocodeError: action.code,
         geolocationInProgress: false,
+      };
+    case GEOLOCATE_USER:
+      return {
+        ...state,
+        geolocationInProgress: true,
+        query: {
+          streetAddress: {
+            searchString: '',
+            position: {},
+          },
+        },
       };
 
     case SEARCH_BY_FACILITY_CODES_SUCCEEDED:
