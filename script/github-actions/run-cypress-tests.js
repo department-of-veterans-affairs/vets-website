@@ -3,8 +3,8 @@ const glob = require('glob');
 const { runCommandSync } = require('../utils');
 const { integrationFolder, testFiles } = require('../../config/cypress.json');
 
-const searchPath = path.join(__dirname, '../..', integrationFolder, testFiles);
-const tests = glob.sync(searchPath);
+const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
+const tests = glob.sync(pattern);
 const divider = Math.ceil(tests.length / 6);
 const batch = tests
   .slice(
