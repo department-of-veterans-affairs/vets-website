@@ -18,6 +18,7 @@ import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 import { NewAppointment } from '../../../new-appointment';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
+import { mockV2CommunityCareEligibility } from '../../mocks/helpers.v2';
 
 const initialState = {
   featureToggles: {
@@ -44,7 +45,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect((await screen.findAllByRole('radio')).length).to.equal(11);
+    expect((await screen.findAllByRole('radio')).length).to.equal(12);
 
     // Verify alert is shown
     expect(
@@ -129,7 +130,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       { store },
     );
 
-    expect((await screen.findAllByRole('radio')).length).to.equal(10);
+    expect((await screen.findAllByRole('radio')).length).to.equal(11);
   });
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
     const store = createTestStore(initialState);
@@ -353,5 +354,121 @@ describe('VAOS <TypeOfCarePage>', () => {
         name: /You may have trouble using the VA appointments tool right now/,
       }),
     ).to.exist;
+  });
+
+  it('should include vaccine type of care when flag is on', async () => {
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        vaOnlineSchedulingCommunityCare: true,
+      },
+    });
+    const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
+
+    expect((await screen.findAllByRole('radio')).length).to.equal(12);
+    fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
+
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/new-covid-19-vaccine-appointment',
+      ),
+    );
+  });
+
+  describe('using VAOS service', () => {
+    it('should open facility type page when CC eligible and has a supported parent site', async () => {
+      mockParentSites(
+        ['983'],
+        [
+          {
+            id: '983',
+            attributes: {
+              ...getParentSiteMock().attributes,
+              institutionCode: '983',
+              rootStationCode: '983',
+              parentStationCode: '983',
+            },
+          },
+          {
+            id: '983GC',
+            attributes: {
+              ...getParentSiteMock().attributes,
+              institutionCode: '983GC',
+              rootStationCode: '983',
+              parentStationCode: '983GC',
+            },
+          },
+        ],
+      );
+      mockV2CommunityCareEligibility({
+        parentSites: ['983', '983GC'],
+        supportedSites: ['983GC'],
+        careType: 'PrimaryCare',
+      });
+      const store = createTestStore({
+        ...initialState,
+        featureToggles: {
+          vaOnlineSchedulingCommunityCare: true,
+          vaOnlineSchedulingVAOSServiceRequests: true,
+        },
+      });
+      const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
+
+      fireEvent.click(await screen.findByLabelText(/primary care/i));
+      fireEvent.click(screen.getByText(/Continue/));
+      await waitFor(() =>
+        expect(screen.history.push.lastCall?.args[0]).to.equal(
+          '/new-appointment/choose-facility-type',
+        ),
+      );
+    });
+
+    it('should skip facility type page if eligible for CC but no supported sites', async () => {
+      mockParentSites(
+        ['983'],
+        [
+          {
+            id: '983',
+            attributes: {
+              ...getParentSiteMock().attributes,
+              institutionCode: '983',
+              rootStationCode: '983',
+              parentStationCode: '983',
+            },
+          },
+          {
+            id: '983GC',
+            attributes: {
+              ...getParentSiteMock().attributes,
+              institutionCode: '983GC',
+              rootStationCode: '983',
+              parentStationCode: '983GC',
+            },
+          },
+        ],
+      );
+      mockV2CommunityCareEligibility({
+        parentSites: ['983', '983GC'],
+        supportedSites: [],
+        careType: 'PrimaryCare',
+      });
+      const store = createTestStore({
+        ...initialState,
+        featureToggles: {
+          vaOnlineSchedulingCommunityCare: true,
+          vaOnlineSchedulingVAOSServiceRequests: true,
+        },
+      });
+      const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
+
+      fireEvent.click(await screen.findByLabelText(/primary care/i));
+      fireEvent.click(screen.getByText(/Continue/));
+      await waitFor(() =>
+        expect(screen.history.push.lastCall?.args[0]).to.equal(
+          '/new-appointment/va-facility-2',
+        ),
+      );
+    });
   });
 });

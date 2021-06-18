@@ -2,6 +2,7 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { SELECTED } from '../constants';
+import { isValidDate } from '../validations';
 
 export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);
@@ -14,16 +15,23 @@ export const needsHearingType = formData =>
   formData.boardReviewOption === 'hearing';
 export const wantsToUploadEvidence = formData =>
   canUploadEvidence(formData) && formData['view:additionalEvidence'];
-export const showAddIssuesPage = formData =>
-  formData['view:hasIssuesToAdd'] !== false &&
-  (formData.constestableIssues?.length
-    ? !someSelected(formData.contestableIssues)
-    : true);
-export const otherTypeSelected = ({ areaOfDisagreement } = {}, index) =>
-  areaOfDisagreement?.[index]?.disagreementOptions?.other;
 
 export const hasSomeSelected = ({ contestableIssues, additionalIssues } = {}) =>
   someSelected(contestableIssues) || someSelected(additionalIssues);
+
+export const showAddIssuesPage = formData => {
+  const hasSelectedIssues = formData.constestableIssues?.length
+    ? someSelected(formData.contestableIssues)
+    : false;
+  const noneToAdd = formData['view:hasIssuesToAdd'] !== false;
+  // are we past the issues pages?
+  if (formData.boardReviewOption && !hasSomeSelected(formData)) {
+    // nothing is selected, we need to show the additional issues page!
+    return true;
+  }
+  return noneToAdd && !hasSelectedIssues;
+};
+
 export const showAddIssueQuestion = ({ contestableIssues }) =>
   // additional issues yes/no question:
   // SHOW: if contestable issues selected. HIDE: if no contestable issues are
@@ -47,35 +55,39 @@ export const isEmptyObject = obj =>
     : false;
 
 export const setInitialEditMode = (formData = []) =>
-  formData.map(({ issue, decisionDate } = {}) => !issue || !decisionDate);
+  formData.map(
+    ({ issue, decisionDate } = {}) =>
+      !issue || !decisionDate || !isValidDate(decisionDate),
+  );
+
+export const sortContestableIssues = contestableIssues => {
+  const regexDash = /-/g;
+  const getDate = entry =>
+    (entry.attributes?.approxDecisionDate || '').replace(regexDash, '');
+
+  return (contestableIssues || []).sort((a, b) => {
+    const dateA = getDate(a);
+    const dateB = getDate(b);
+    if (dateA === dateB) {
+      return 0;
+    }
+    // YYYYMMDD string comparisons will work in place of using moment
+    return dateA > dateB ? -1 : 1;
+  });
+};
 
 export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
   if (loadedIssues.length !== existingIssues.length) {
     return true;
   }
-  return !loadedIssues.every(({ attributes }, index) => {
-    const existing = existingIssues[index]?.attributes || {};
+  // sort both arrays so we don't end up in an endless loop
+  const issues = sortContestableIssues(existingIssues);
+  return !sortContestableIssues(loadedIssues).every(({ attributes }, index) => {
+    const existing = issues[index]?.attributes || {};
     return (
       attributes.ratingIssueSubjectText === existing.ratingIssueSubjectText &&
       attributes.approxDecisionDate === existing.approxDecisionDate
     );
-  });
-};
-
-export const copyAreaOfDisagreementOptions = (newIssues, existingIssues) => {
-  return newIssues.map(issue => {
-    const foundIssue = (existingIssues || []).find(
-      entry => getIssueName(entry) === getIssueName(issue),
-    );
-    if (foundIssue) {
-      const { disagreementOptions = {}, otherEntry = '' } = foundIssue;
-      return {
-        ...issue,
-        disagreementOptions,
-        otherEntry,
-      };
-    }
-    return issue;
   });
 };
 
@@ -89,3 +101,11 @@ export const appStateSelector = state => ({
 
 export const noticeOfDisagreementFeature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.form10182Nod];
+
+export const getItemSchema = (schema, index) => {
+  const itemSchema = schema;
+  if (itemSchema.items.length > index) {
+    return itemSchema.items[index];
+  }
+  return itemSchema.additionalItems;
+};

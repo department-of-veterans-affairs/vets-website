@@ -272,6 +272,22 @@ export function mockCCProviderFetch(
 }
 
 /**
+ * Mocks request to VA community care providers api for a single PPMS provider by id, used in community care request flow
+ *
+ * @export
+ * @param {Object<PPMSProvider>} request PPMS provider object
+ */
+
+export function mockCCSingleProviderFetch(request) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/v1/facilities/ccp/${request.id}`,
+    ),
+    { data: request },
+  );
+}
+
+/**
  * Mocks api calls used when cancelling an appointment
  *
  * @export

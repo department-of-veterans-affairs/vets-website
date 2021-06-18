@@ -18,6 +18,7 @@ import {
 import {
   getFindFormsAppState,
   applyLighthouseFormsSearchLogic,
+  applySearchUIUXEnhancements,
 } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS, FAF_TEST_OPTION_CLOSEST_MATCH } from '../constants';
 import SearchResult from '../components/SearchResult';
@@ -56,6 +57,7 @@ export const SearchResults = ({
   useLighthouseSearchAlgo,
   updatePagination,
   updateSortByPropertyName,
+  useSearchUIUXEnhancements,
 }) => {
   const prevProps = usePreviousProps({
     fetching,
@@ -195,6 +197,7 @@ export const SearchResults = ({
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
+        useSearchUIUXEnhancements={useSearchUIUXEnhancements}
       />
     ));
 
@@ -207,12 +210,24 @@ export const SearchResults = ({
         >
           {/* eslint-disable-next-line jsx-a11y/aria-role */}
           <span role="text">
-            Showing{' '}
-            <span className="vads-u-font-weight--bold">{startLabel}</span>{' '}
-            &ndash;{' '}
-            <span className="vads-u-font-weight--bold">{lastLabel}</span> of{' '}
-            <span className="vads-u-font-weight--bold">{results.length}</span>{' '}
-            results for "
+            {useSearchUIUXEnhancements ? (
+              <>
+                Showing <span>{startLabel}</span> &ndash;{' '}
+                <span>{lastLabel}</span> of <span>{results.length}</span>{' '}
+                results for "{' '}
+              </>
+            ) : (
+              <>
+                Showing{' '}
+                <span className="vads-u-font-weight--bold">{startLabel}</span>{' '}
+                &ndash;{' '}
+                <span className="vads-u-font-weight--bold">{lastLabel}</span> of{' '}
+                <span className="vads-u-font-weight--bold">
+                  {results.length}
+                </span>{' '}
+                results for "{' '}
+              </>
+            )}
             <span className="vads-u-font-weight--bold">{query}</span>"
           </span>
         </h2>
@@ -272,6 +287,7 @@ const mapStateToProps = state => ({
   results: getFindFormsAppState(state).results,
   startIndex: getFindFormsAppState(state).startIndex,
   useLighthouseSearchAlgo: applyLighthouseFormsSearchLogic(state),
+  useSearchUIUXEnhancements: applySearchUIUXEnhancements(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -98,13 +98,9 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        applicantInformation: applicantInformation(
-          fullSchema1990e,
-          // Production flag for 24718:
-          !environment.isProduction() && {
-            labels: { relationship: relationshipLabels },
-          },
-        ),
+        applicantInformation: applicantInformation(fullSchema1990e, {
+          labels: { relationship: relationshipLabels },
+        }),
         additionalBenefits: additionalBenefits(fullSchema1990e),
       },
     },

@@ -11,8 +11,10 @@ import {
   issuesNeedUpdating,
   getSelected,
   getIssueName,
-  copyAreaOfDisagreementOptions,
+  sortContestableIssues,
 } from '../utils/helpers';
+
+import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
 
 import { showWorkInProgress } from '../content/WorkInProgressMessage';
 
@@ -58,7 +60,7 @@ export const FormApp = ({
               phone,
               email: email?.emailAddress,
             },
-            contestableIssues: contestableIssues?.issues || [],
+            contestableIssues: sortContestableIssues(contestableIssues?.issues),
           });
         } else if (
           areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||

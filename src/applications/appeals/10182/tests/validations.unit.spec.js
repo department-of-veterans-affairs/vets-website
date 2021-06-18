@@ -5,6 +5,8 @@ import { getDate } from '../utils/dates';
 import {
   requireIssue,
   validateDate,
+  isValidDate,
+  validAdditionalIssue,
   areaOfDisagreementRequired,
   optInValidation,
 } from '../validations';
@@ -73,7 +75,52 @@ describe('requireIssue validation', () => {
   });
 });
 
-describe('validateDate', () => {
+describe('validAdditionalIssue', () => {
+  it('should not show an error for valid additional issues', () => {
+    const errors = { addError: sinon.spy() };
+    expect(
+      validAdditionalIssue(errors, {
+        additionalIssues: [
+          { issue: 'foo', decisionDate: getDate({ offset: { months: -1 } }) },
+        ],
+      }),
+    );
+    expect(errors.addError.called).to.be.false;
+  });
+  it('should show an error for additional issues with no name', () => {
+    const errors = { addError: sinon.spy() };
+    expect(
+      validAdditionalIssue(errors, {
+        additionalIssues: [
+          { issue: '', decisionDate: getDate({ offset: { months: -1 } }) },
+        ],
+      }),
+    );
+    expect(errors.addError.called).to.be.true;
+  });
+  it('should show an error for additional issues with an empty decision date', () => {
+    const errors = { addError: sinon.spy() };
+    expect(
+      validAdditionalIssue(errors, {
+        additionalIssues: [{ issue: 'test', decisionDate: '' }],
+      }),
+    );
+    expect(errors.addError.called).to.be.true;
+  });
+  it('should show an error for additional issues with an old decision date', () => {
+    const errors = { addError: sinon.spy() };
+    expect(
+      validAdditionalIssue(errors, {
+        additionalIssues: [
+          { issue: 'test', decisionDate: getDate({ offset: { months: -15 } }) },
+        ],
+      }),
+    );
+    expect(errors.addError.called).to.be.true;
+  });
+});
+
+describe('validateDate & isValidDate', () => {
   let errorMessage = '';
   const errors = {
     addError: message => {
@@ -86,24 +133,32 @@ describe('validateDate', () => {
   });
 
   it('should allow valid dates', () => {
-    validateDate(errors, getDate({ offset: { weeks: -1 } }));
+    const date = getDate({ offset: { weeks: -1 } });
+    validateDate(errors, date);
     expect(errorMessage).to.equal('');
+    expect(isValidDate(date)).to.be.true;
   });
   it('should throw a invalid date error', () => {
     validateDate(errors, '200');
-    expect(errorMessage).to.contain('valid date');
+    expect(errorMessage).to.contain('provide a valid date');
+    expect(isValidDate('200')).to.be.false;
   });
   it('should throw a range error for dates too old', () => {
     validateDate(errors, '1899');
     expect(errorMessage).to.contain('enter a year between');
+    expect(isValidDate('1899')).to.be.false;
   });
   it('should throw an error for dates in the future', () => {
-    validateDate(errors, getDate({ offset: { weeks: 1 } }));
+    const date = getDate({ offset: { weeks: 1 } });
+    validateDate(errors, date);
     expect(errorMessage).to.contain('past decision date');
+    expect(isValidDate(date)).to.be.false;
   });
   it('should throw an error for dates more than a year in the past', () => {
-    validateDate(errors, getDate({ offset: { weeks: -60 } }));
+    const date = getDate({ offset: { weeks: -60 } });
+    validateDate(errors, date);
     expect(errorMessage).to.contain('date less than a year');
+    expect(isValidDate(date)).to.be.false;
   });
 });
 

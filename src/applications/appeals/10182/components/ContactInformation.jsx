@@ -15,7 +15,7 @@ export const ContactInfoDescription = ({ veteran }) => {
   const { email, phone, address } = veteran || {};
   const { street, cityStateZip, country } = formatAddress(address || {});
   // phone.phoneType is in all caps
-  const phoneType = titleCase((phone.phoneType || '').toLowerCase());
+  const phoneType = titleCase((phone?.phoneType || '').toLowerCase());
 
   return (
     <>
