@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
@@ -8,26 +9,27 @@ import {
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
+  updateUrlParams,
 } from '../utils/helpers';
 import {
   showModal,
-  institutionFilterChange,
+  filterChange,
   fetchSearchByNameResults,
   fetchSearchByLocationResults,
 } from '../actions';
 import { connect } from 'react-redux';
-
 import { TABS } from '../constants';
 
 export function RefineYourSearch({
   dispatchShowModal,
-  dispatchInstitutionFilterChange,
+  dispatchFilterChange,
   dispatchFetchSearchByNameResults,
   dispatchFetchSearchByLocationResults,
   filters,
   preview,
   search,
 }) {
+  const history = useHistory();
   const { version } = preview;
   const {
     expanded,
@@ -51,7 +53,7 @@ export function RefineYourSearch({
     search.tab === TABS.name ? search.name.facets : search.location.facets;
 
   const updateInstitutionFilters = (name, value) => {
-    dispatchInstitutionFilterChange({ ...filters, [name]: value });
+    dispatchFilterChange({ ...filters, [name]: value });
   };
   const onChangeCheckbox = e =>
     updateInstitutionFilters(e.target.name, e.target.checked);
@@ -65,7 +67,7 @@ export function RefineYourSearch({
   const handleVetTecChange = e => {
     const checked = e.target.checked;
     if (!checked) {
-      dispatchInstitutionFilterChange({
+      dispatchFilterChange({
         ...filters,
         vettec: false,
         preferredProvider: false,
@@ -78,7 +80,7 @@ export function RefineYourSearch({
   const handlePreferredProviderChange = e => {
     const checked = e.target.checked;
     if (checked) {
-      dispatchInstitutionFilterChange({
+      dispatchFilterChange({
         ...filters,
         vettec: true,
         preferredProvider: true,
@@ -99,6 +101,8 @@ export function RefineYourSearch({
         version,
       );
     }
+
+    updateUrlParams(history, search.tab, search.query, filters, version);
   };
 
   const renderTypeOfInstitution = () => {
@@ -305,7 +309,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchShowModal: showModal,
-  dispatchInstitutionFilterChange: institutionFilterChange,
+  dispatchFilterChange: filterChange,
   dispatchFetchSearchByNameResults: fetchSearchByNameResults,
   dispatchFetchSearchByLocationResults: fetchSearchByLocationResults,
 };

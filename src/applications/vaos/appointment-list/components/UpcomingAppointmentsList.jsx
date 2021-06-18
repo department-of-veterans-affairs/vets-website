@@ -33,7 +33,7 @@ export default function UpcomingAppointmentsList() {
   useEffect(
     () => {
       if (futureStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchFutureAppointments());
+        dispatch(fetchFutureAppointments({ includeRequests: false }));
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.succeeded) {
         scrollAndFocus('#type-dropdown');
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.failed) {

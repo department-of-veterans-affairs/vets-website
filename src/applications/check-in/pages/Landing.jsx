@@ -1,9 +1,21 @@
-import React from 'react';
-import withFeatureFlip from '../containers/withFeatureFlip.jsx';
+import React, { useEffect } from 'react';
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-const Landing = ({ router }) => {
-  router.push('/some-token/insurance');
-  return <></>;
+import { goToNextPageWithToken } from '../utils/navigation';
+
+const Landing = props => {
+  const { router } = props;
+  useEffect(
+    () => {
+      goToNextPageWithToken(router, 'insurance');
+    },
+    [router],
+  );
+  return (
+    <>
+      <LoadingIndicator message="Finding your appointment" />
+    </>
+  );
 };
 
-export default withFeatureFlip(Landing);
+export default Landing;

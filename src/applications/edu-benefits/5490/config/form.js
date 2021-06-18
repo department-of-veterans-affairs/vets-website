@@ -494,8 +494,8 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  _.get('benefit', formData) !== 'chapter35' &&
-                  !environment.isProduction(), // prod flag #25122
+                  _.get('benefit', formData) === 'chapter33' &&
+                  _.get('relationship', formData) === 'spouse',
               },
             },
             sponsorStatus: {
@@ -510,8 +510,8 @@ const formConfig = {
                   powOrMia: 'Listed as MIA or POW',
                 },
                 hideIf: formData =>
-                  _.get('benefit', formData) !== 'chapter33' ||
-                  environment.isProduction(), // prod flag #25122
+                  _.get('benefit', formData) === 'chapter35' ||
+                  _.get('relationship', formData) === 'child',
               },
             },
             'view:sponsorDateOfDeath': {
@@ -520,8 +520,8 @@ const formConfig = {
                 expandUnder: 'sponsorStatus',
                 expandUnderCondition: status => status && status !== 'powOrMia',
                 hideIf: formData =>
-                  _.get('benefit', formData) !== 'chapter33' ||
-                  environment.isProduction(), // prod flag #25122
+                  _.get('benefit', formData) === 'chapter35' ||
+                  _.get('relationship', formData) === 'child',
               },
             },
             'view:sponsorDateListedMiaOrPow': {
@@ -530,8 +530,8 @@ const formConfig = {
                 expandUnder: 'sponsorStatus',
                 expandUnderCondition: status => status && status === 'powOrMia',
                 hideIf: formData =>
-                  _.get('benefit', formData) !== 'chapter33' ||
-                  environment.isProduction(), // prod flag #25122
+                  _.get('benefit', formData) === 'chapter35' ||
+                  _.get('relationship', formData) === 'child',
               },
             },
           },
