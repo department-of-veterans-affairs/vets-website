@@ -266,6 +266,7 @@ jobs:
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
+    needs: build
 
     strategy:
       fail-fast: true
