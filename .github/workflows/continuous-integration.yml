@@ -317,6 +317,9 @@ jobs:
       - name: Set port for server
         run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
 
+      # Cypress env vars like this are used to either override config settings
+      # or be made available to tests through Cypress.env().
+      # https://docs.cypress.io/guides/guides/environment-variables#Option-3-CYPRESS_
       - name: Set port for Cypress
         run: echo "CYPRESS_PORT=$(( SERVER_PORT + 1 ))" >> $GITHUB_ENV
 
