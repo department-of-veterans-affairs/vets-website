@@ -327,6 +327,9 @@ jobs:
         run: node script/github-actions/run-cypress-tests.js
         timeout-minutes: 60
         env:
+          CYPRESS_BASE_URL: localhost:${{ env.SERVER_PORT }}
+          CYPRESS_CI: true
+          CYPRESS_PORT: ${{ env.SERVER_PORT + 1 }}
           STEP: ${{ matrix.ci_node_index }}
 
       - name: Publish test results
