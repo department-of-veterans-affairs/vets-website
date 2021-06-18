@@ -6,7 +6,7 @@ const coronavirusChatbotPath = '/coronavirus-chatbot/';
 
 describe('Chatbot Load Error', () => {
   it('Shows proper error message', () => {
-    cy.intercept('/v0/feature_toggles', {
+    cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         features: [],
         type: 'feature_toggles',
