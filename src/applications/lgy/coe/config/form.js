@@ -18,6 +18,7 @@ import manifest from '../manifest.json';
 // const { } = fullSchema.definitions;
 
 // chapter schema imports
+import { GetFormHelp } from '../components/GetFormHelp';
 import {
   applicantInformation,
   applicantContactInfo,
@@ -60,6 +61,7 @@ const formConfig = {
   formId: '26-1880',
   version: 0,
   prefillEnabled: true,
+  getHelp: GetFormHelp,
   savedFormMessages: {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
