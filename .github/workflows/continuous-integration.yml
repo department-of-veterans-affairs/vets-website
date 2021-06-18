@@ -353,11 +353,8 @@ jobs:
 
   nightwatch-tests:
     name: Nightwatch E2E Tests
-
     runs-on: ubuntu-latest
-
     needs: build
-
     steps:
       - name: Checkout vets-website
         uses: actions/checkout@v2
