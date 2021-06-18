@@ -315,10 +315,10 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Set port for server
-        run: echo "CYPRESS_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
+        run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=$CYPRESS_PORT &
+        run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=$SERVER_PORT &
 
       - name: Create test results directory
         run: mkdir -p test-results
