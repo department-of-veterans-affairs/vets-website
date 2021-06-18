@@ -38,11 +38,20 @@ function alertBoxReplacement() {
     return translatedChildren;
   };
 
+  const removeClassName = (componentString, _propName) => {
+    let noClass = componentString;
+
+    noClass = noClass.replace(/className=["{](.)+?["}]\s/ms, '');
+    console.log(noClass);
+    return noClass;
+  };
+
   return [
     'va-alert',
     {
       headline: moveToNamedSlot,
       content: moveChildren,
+      className: removeClassName,
       // children: moveChildren,
       // level: null,
       isVisible: 'visible',
