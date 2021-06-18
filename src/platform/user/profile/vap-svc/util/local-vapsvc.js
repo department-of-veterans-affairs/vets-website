@@ -1,13 +1,11 @@
 import { uniqueId } from 'lodash';
 import * as VAP_SERVICE from '../constants';
-import environments from 'site/constants/environments';
 
 export function isVAProfileServiceConfigured() {
   return (
     // using the existence of VetsGov.pollTimeout as an indicator that we are
     // running unit tests and therefore _do_ want the FE to make real API calls
     window.VetsGov.pollTimeout ||
-    (window.Cypress && !environments.localhost) ||
     [
       'dev.va.gov',
       'preview.va.gov',
