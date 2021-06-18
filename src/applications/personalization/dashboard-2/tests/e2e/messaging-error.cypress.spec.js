@@ -6,7 +6,7 @@ import {
   mockLocalStorage,
 } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
-describe('MyVA Dashboard - Messaging', () => {
+describe.skip('MyVA Dashboard - Messaging', () => {
   describe('when there is an error fetching the inbox data', () => {
     beforeEach(() => {
       mockLocalStorage();

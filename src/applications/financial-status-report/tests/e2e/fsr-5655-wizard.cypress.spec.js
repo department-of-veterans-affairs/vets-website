@@ -10,10 +10,11 @@ Cypress.Commands.add('checkStorage', (key, expectedValue) => {
     .should('eq', expectedValue);
 });
 
-describe('Financial Status Report (Wizard)', () => {
+// TODO: remove skip() after content-build PR is merged
+describe.skip('Financial Status Report (Wizard)', () => {
   before(() => {
     sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_NOT_STARTED);
-    cy.intercept('GET', '/v0/feature_toggles', {
+    cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         features: [
           { name: 'showFinancialStatusReportWizard', value: true },

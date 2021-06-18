@@ -12,7 +12,7 @@ const FormTitle = ({
   <>
     {useSearchUIUXEnhancements ? (
       <dt
-        className="vads-u-padding-top--3 vads-u-margin--0 vads-u-font-weight--bold"
+        className="vads-u-padding-top--5 vads-u-margin--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-font-weight--bold"
         data-e2e-id="result-title"
       >
         {formUrl ? (
@@ -22,18 +22,11 @@ const FormTitle = ({
             </p>
             <a
               href={formUrl}
-              className="vads-u-text-decoration--none vads-u-margin-top--1"
+              className="vads-u-font-family--serif vads-u-margin-top--1"
               onClick={() => recordGAEvent(title, formUrl, 'title')}
               lang={lang}
             >
-              {title}{' '}
-              <i
-                aria-hidden="true"
-                className="fas fa-angle-right vads-u-margin-left--0p25"
-                pointerEvents="none"
-                role="presentation"
-                style={{ verticalAlign: 'middle' }}
-              />
+              {title}
             </a>
           </>
         ) : (
@@ -41,7 +34,7 @@ const FormTitle = ({
             <p className="vads-u-font-weight--normal vads-u-margin--0">
               Form {id}
             </p>
-            <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+            <p className="vads-u-font-family--serif vads-u-margin-top--1 vads-u-margin-bottom--0">
               {title}
             </p>
           </>
@@ -63,7 +56,6 @@ const FormTitle = ({
             <i
               aria-hidden="true"
               className="fas fa-angle-right vads-u-margin-left--0p25"
-              pointerEvents="none"
               role="presentation"
               style={{ verticalAlign: 'middle' }}
             />

@@ -304,7 +304,7 @@ describe('VAOS newAppointmentFlow', () => {
     });
   });
 
-  describe('vaFacility page', () => {
+  describe('vaFacilityV2 page', () => {
     const defaultState = {
       featureToggles: {
         loading: false,
@@ -329,6 +329,7 @@ describe('VAOS newAppointmentFlow', () => {
         eligibility: {
           '983_323': {},
         },
+        facilities: {},
       },
       user: {
         profile: {
@@ -362,7 +363,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
         const dispatch = sinon.spy();
 
-        const nextState = await newAppointmentFlow.vaFacility.next(
+        const nextState = await newAppointmentFlow.vaFacilityV2.next(
           state,
           dispatch,
         );
@@ -370,31 +371,6 @@ describe('VAOS newAppointmentFlow', () => {
           'newAppointment/START_DIRECT_SCHEDULE_FLOW',
         );
         expect(nextState).to.equal('clinicChoice');
-      });
-      it('should throw error if not eligible for requests or direct', async () => {
-        const state = {
-          ...defaultState,
-          newAppointment: {
-            ...defaultState.newAppointment,
-            eligibility: {
-              '983_323': {
-                direct: false,
-                request: false,
-              },
-            },
-          },
-        };
-        const dispatch = sinon.spy();
-
-        try {
-          await newAppointmentFlow.vaFacility.next(state, dispatch);
-          // Should throw an error above
-          expect(false).to.be.true;
-        } catch (e) {
-          expect(e.message).to.equal(
-            'Veteran not eligible for direct scheduling or requests',
-          );
-        }
       });
       it('should be requestDateTime if not direct eligible', async () => {
         const state = {
@@ -411,7 +387,7 @@ describe('VAOS newAppointmentFlow', () => {
         };
         const dispatch = sinon.spy();
 
-        const nextState = await newAppointmentFlow.vaFacility.next(
+        const nextState = await newAppointmentFlow.vaFacilityV2.next(
           state,
           dispatch,
         );

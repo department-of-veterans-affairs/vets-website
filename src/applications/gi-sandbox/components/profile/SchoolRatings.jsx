@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { convertRatingToStars } from '../../utils/helpers';
-import { renderStars } from '../../utils/render';
 import SchoolCategoryRating from './SchoolCategoryRating';
+import RatingsStars from '../RatingsStars';
 
 export default function SchoolRatings({
   ratingAverage,
@@ -55,7 +55,7 @@ export default function SchoolRatings({
             </div>
             <div>out of a possible 5 stars</div>
             <div className="vads-u-font-size--lg">
-              {renderStars(ratingAverage)}
+              <RatingsStars rating={ratingAverage} />
             </div>
           </div>
         </div>

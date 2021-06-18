@@ -6,16 +6,15 @@ describe('Check In Experience -- ', () => {
   });
   it('happy path', () => {
     cy.visit('/check-in/some-token');
-    cy.get('h1').contains('insurance information');
+    cy.get('h1').contains('insurance');
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('#errorable-radio-buttons-1-1').click();
-    cy.get('.usa-button').click();
-    cy.get('h1').contains('Appointment details');
+    cy.get('[data-testid="no-button"]').click();
+    cy.get('h1').contains('Your appointment');
     cy.injectAxe();
     cy.axeCheck();
     cy.get('.usa-button').click();
-    cy.get('h1').contains("You're now checked in");
+    cy.get('h1').contains('Thank you for checking in');
     cy.injectAxe();
     cy.axeCheck();
   });
