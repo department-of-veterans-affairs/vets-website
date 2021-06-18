@@ -31,10 +31,10 @@ exports.command = function allyEvaluateCheckboxes(
 
   return client.waitForElementPresent(element, timeoutNum, function() {
     selectorArray.forEach((sel, i) => {
-      this.assert
+      client.assert
         .isActiveElement(sel)
         .keys(SPACE)
-        .assert.attributeContains(sel, 'checked', 'true');
+        .assert.domPropertyEquals(sel, 'checked', true);
 
       if (i < selectorArray.length - 1) {
         client.keys(TAB);

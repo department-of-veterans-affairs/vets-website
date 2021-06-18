@@ -9,6 +9,7 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 
+import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
 import {
   createIsServiceAvailableSelector,
@@ -83,6 +84,13 @@ const DashboardHeader = () => {
         href="/profile"
         text="Go to your profile"
         className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0"
+        onClick={() => {
+          recordEvent({
+            event: 'dashboard-navigation',
+            'dashboard-action': 'view-link',
+            'dashboard-product': 'view-your-profile',
+          });
+        }}
       />
     </div>
   );
@@ -161,14 +169,12 @@ const Dashboard = ({
                 />
               </div>
             )}
-            <div className="vads-l-grid-container vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
+            <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <Breadcrumbs className="vads-u-padding-x--0 vads-u-padding-y--1p5 medium-screen:vads-u-padding-y--0">
                 <a href="/" key="home">
                   Home
                 </a>
-                <span className="vads-u-color--black" key="dashboard">
-                  <strong>My VA</strong>
-                </span>
+                <a href="/my-va">My VA</a>
               </Breadcrumbs>
 
               <DashboardHeader />

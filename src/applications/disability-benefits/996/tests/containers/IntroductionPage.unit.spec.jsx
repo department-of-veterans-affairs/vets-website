@@ -63,17 +63,6 @@ describe('IntroductionPage', () => {
     sessionStorage.removeItem(WIZARD_STATUS);
   });
 
-  it('should render a work in progress message', () => {
-    const tree = shallow(
-      <IntroductionPage {...defaultProps} allowHlr={false} />,
-    );
-
-    const AlertBox = tree.find('AlertBox');
-    expect(AlertBox.length).to.equal(1);
-    expect(AlertBox.props().headline).to.contain('working on this feature');
-    tree.unmount();
-  });
-
   it('should show has empty address message', () => {
     const user = {
       login: {

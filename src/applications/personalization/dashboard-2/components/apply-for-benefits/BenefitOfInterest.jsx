@@ -11,6 +11,7 @@ const BenefitOfInterest = ({
   title,
   children,
   icon,
+  onClick,
 }) => {
   return (
     <div
@@ -36,7 +37,7 @@ const BenefitOfInterest = ({
         TODO: determine what to track when clicking to find out more about a
         benefit onClick={recordDashboardClick(formId, 'continue-button')}
         */}
-        <CTALink text={ctaButtonLabel} href={ctaUrl} />
+        <CTALink text={ctaButtonLabel} href={ctaUrl} onClick={onClick} />
       </div>
     </div>
   );

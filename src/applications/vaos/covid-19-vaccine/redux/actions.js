@@ -396,7 +396,7 @@ export function confirmAppointment(history) {
         ...facilityID,
       });
       resetDataLayer();
-      history.push('/new-covid-19-vaccine-booking/confirmation');
+      history.push('/new-covid-19-vaccine-appointment/confirmation');
     } catch (error) {
       captureError(error, true, 'COVID-19 vaccine submission failure');
       dispatch({
