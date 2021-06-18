@@ -317,6 +317,9 @@ jobs:
       - name: Set port for server
         run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
 
+      - name: Set port for Cypress
+        run: echo "CYPRESS_PORT=$(( SERVER_PORT + 1 ))" >> $GITHUB_ENV
+
       - name: Start server
         run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=$SERVER_PORT &
 
@@ -329,7 +332,6 @@ jobs:
         env:
           CYPRESS_BASE_URL: localhost:${{ env.SERVER_PORT }}
           CYPRESS_CI: true
-          CYPRESS_PORT: ${{ env.SERVER_PORT + 1 }}
           STEP: ${{ matrix.ci_node_index }}
 
       - name: Publish test results
