@@ -14,6 +14,7 @@ jobs:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     strategy:
+      fail-fast: true
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
@@ -37,7 +38,7 @@ jobs:
           path: |
             ~/.cache/yarn
             node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-e2e-${{ hashFiles('yarn.lock') }}
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
@@ -262,7 +263,94 @@ jobs:
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
 
-  nightwatch:
+  cypress-tests:
+    name: Cypress E2E Tests
+    runs-on: self-hosted
+
+    strategy:
+      fail-fast: true
+      max-parallel: 6
+      matrix:
+        ci_node_index: [0, 1, 2, 3, 4, 5]
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
+    steps:
+      - name: Checkout vets-website
+        uses: actions/checkout@v2
+
+      - name: Download production build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: vagovprod.tar.bz2
+
+      - name: Unpack build
+        run: |
+          mkdir -p build/vagovprod
+          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+
+      - name: Set port for server
+        run: echo "CYPRESS_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
+
+      - name: Start server
+        run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=$CYPRESS_PORT &
+
+      - name: Create test results directory
+        run: mkdir -p test-results
+
+      - name: Start Cypress tests
+        run: node script/github-actions/run-cypress-tests.js
+        timeout-minutes: 60
+        env:
+          STEP: ${{ matrix.ci_node_index }}
+
+      - name: Publish test results
+        if: ${{ always() }}
+        uses: mikepenz/action-junit-report@v2.4.2
+        with:
+          check_name: 'Cypress Tests Summary'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'test-results/e2e-test-output-*.xml'
+
+      - name: Archive Cypress test videos
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: cypress-video-artifacts
+          path: cypress/videos
+
+      - name: Archive Cypress test screenshots
+        uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: cypress-screenshot-artifacts
+          path: cypress/screenshots
+
+  nightwatch-tests:
     name: Nightwatch E2E Tests
 
     runs-on: ubuntu-latest
@@ -321,7 +409,7 @@ jobs:
       matrix:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
-    needs: [nightwatch, unit-tests, contract-tests, security-audit, linting]
+    needs: [cypress-tests, nightwatch-tests, unit-tests, contract-tests, security-audit, linting]
 
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.
@@ -330,7 +418,8 @@ jobs:
     # or else they will also be skipped when linting is skipped.
     if: |
       always() &&
-      needs.nightwatch.result == 'success' &&
+      needs.cypress-tests.result == 'success' &&
+      needs.nightwatch-tests.result == 'success' &&
       needs.unit-tests.result == 'success' &&
       needs.contract-tests.result == 'success' &&
       needs.security-audit.result == 'success' &&
