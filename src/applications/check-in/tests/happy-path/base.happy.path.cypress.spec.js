@@ -4,7 +4,7 @@ describe('Check In Experience -- ', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
-  it('happy path', () => {
+  it.skip('happy path', () => {
     cy.visit('/check-in/some-token');
     cy.get('h1').contains('insurance');
     cy.injectAxe();
