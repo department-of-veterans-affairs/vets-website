@@ -37,7 +37,6 @@
         }
 
         a.result-title {
-          display: block;
           text-decoration: none;
           color: $color-link-default;
 
@@ -60,6 +59,7 @@
               color: $color-gray-dark;
               background: rgba(0, 0, 0, 0.05);
               outline: 2px solid $color-gold-light;
+              outline-offset: 2px;
             }
           }
         }
@@ -88,6 +88,7 @@
       color: $color-gray-dark;
       background: rgba(0, 0, 0, 0.05);
       outline: 2px solid $color-gold-light;
+      outline-offset: 2px;
     }
   }
 
@@ -208,6 +209,7 @@
       &:active {
         background: $color-primary-darker;
         outline: 2px solid $color-gold-light;
+        outline-offset: 2px;
       }
     }
   }

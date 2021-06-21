@@ -407,7 +407,7 @@ class SearchApp extends React.Component {
           })}
         >
           <span
-            className="vads-u-padding-y--0p25 vads-u-padding-right--0p25 vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
+            className="vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
             data-e2e-id="result-title"
             dangerouslySetInnerHTML={{
               __html: strippedTitle,
