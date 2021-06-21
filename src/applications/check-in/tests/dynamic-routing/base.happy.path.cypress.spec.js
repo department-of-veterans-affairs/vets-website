@@ -2,10 +2,9 @@ import features from '../mocks/enabled.json';
 
 describe('Check In Experience -- ', () => {
   beforeEach(() => {
-    if (Cypress.env('CI')) this.skip();
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
-  it('dynamic routing keeps token -- check in -- happy path', () => {
+  it.skip('dynamic routing keeps token -- check in -- happy path', () => {
     const token = 'SOME-AWESOME-UUID';
     cy.visit(`/check-in/${token}`);
     cy.get('h1').contains('insurance');
@@ -22,7 +21,7 @@ describe('Check In Experience -- ', () => {
     cy.url().should('contain', token);
     cy.url().should('contain', 'confirmed');
   });
-  it('dynamic routing keeps token -- check in', () => {
+  it.skip('dynamic routing keeps token -- check in', () => {
     const token = 'SOME-AWESOME-UUID';
     cy.visit(`/check-in/${token}`);
     cy.get('h1').contains('insurance');
