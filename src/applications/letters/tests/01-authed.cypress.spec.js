@@ -8,6 +8,11 @@ import {
   states,
 } from './e2e/fixtures/mocks/letters.js';
 
+Cypress.on('window:before:load', win => {
+  /* eslint-disable no-param-reassign */
+  win.specRequiresAddress = true;
+});
+
 describe('Authed Letter Test', () => {
   it('confirms authed letter functionality', () => {
     cy.intercept('GET', '/v0/letters/beneficiary', benefitSummaryOptions).as(
@@ -92,8 +97,8 @@ describe('Authed Letter Test', () => {
         cy.get(`#${id}`)
           .should('be.checked')
           .then(elem => {
-            cy.wrap(elem).should('exist');
-            cy.wrap(elem).click();
+            cy.wrap(elem).should('be.checked');
+            cy.wrap(elem).click({ force: true });
             cy.wrap(elem).should('not.be.checked');
           });
       });
