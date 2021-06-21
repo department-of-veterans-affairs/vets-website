@@ -159,6 +159,14 @@ export class AdditionalInformation extends React.Component {
           {institution.stemIndicator ? 'Yes' : 'No'}
         </div>
         <div>
+          <div>
+            <strong>
+              Veteran Rapid Retraining Assistance Program (VRRAP):
+            </strong>
+            &nbsp; {institution.vrrap ? 'Yes' : 'No'}
+          </div>
+        </div>
+        <div>
           <strong>
             <button
               type="button"
