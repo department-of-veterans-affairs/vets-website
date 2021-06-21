@@ -6,7 +6,7 @@ export default function DowntimeMessage({ downtime, formConfig }) {
   const endTime = downtime.endTime;
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   return (
-    <va-alert visible status="warning">
+    <va-alert class="downtime-alert" visible status="warning">
       <h3 slot="headline">`This ${appType} is down for maintenance.`</h3>
 
       {endTime ? (
