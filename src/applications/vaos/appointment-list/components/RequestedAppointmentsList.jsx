@@ -56,7 +56,7 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
     );
   }
 
-  if (pendingStatus === FETCH_STATUS.succeeded) {
+  if (pendingStatus === FETCH_STATUS.failed) {
     return (
       <InfoAlert
         status="error"
