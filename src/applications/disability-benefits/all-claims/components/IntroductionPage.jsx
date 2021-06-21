@@ -14,8 +14,6 @@ import { selectAvailableServices } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { itfNotice } from '../content/introductionPage';
-import { originalClaimsFeature } from '../config/selectors';
-import fileOriginalClaimPage from '../../wizard/pages/file-original-claim';
 import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
 import {
   BDD_INFO_URL,
@@ -48,7 +46,6 @@ class IntroductionPage extends React.Component {
       return (
         <div className="schemaform-intro">
           <FormTitle title={pageTitle} subTitle={formConfig.subTitle} />
-          <fileOriginalClaimPage.component props={this.props} />
         </div>
       );
     }
@@ -271,7 +268,6 @@ class IntroductionPage extends React.Component {
 const mapStateToProps = state => ({
   formId: state.form.formId,
   user: state.user,
-  allowOriginalClaim: originalClaimsFeature(state),
   showWizard: show526Wizard(state),
   isBDDForm: isBDD(state?.form?.data),
 });

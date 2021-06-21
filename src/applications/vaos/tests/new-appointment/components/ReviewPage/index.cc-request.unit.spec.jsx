@@ -665,7 +665,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       kind: 'cc',
       status: 'proposed',
       locationId: '983',
-      serviceType: 'CCPRMYRTNE',
+      serviceType: '323',
       reason: 'I need an appt',
       contact: {
         telecom: [
@@ -692,7 +692,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
       preferredLanguage: 'English',
       preferredLocation: { city: 'Cincinnati', state: 'OH' },
-      practitioners: ['ppmsid'],
+      practitioners: [{ id: { system: 'HSRM', value: 'ppmsid' } }],
     });
   });
 

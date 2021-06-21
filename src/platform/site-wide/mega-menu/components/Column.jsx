@@ -41,6 +41,7 @@ const Column = props => {
           <div className="mm-marketing-text">
             <a
               className="mm-links"
+              data-e2e-id={`${_.kebabCase(data.link.text)}`}
               href={data.link.href}
               onClick={columnThreeLinkClicked.bind(null, data.link)}
               target={data.link.target || '_self'}
@@ -62,7 +63,12 @@ const Column = props => {
       )}${isPanelWhite(mobileMediaQuery, panelWhite)}`}
     >
       {data.title ? (
-        <h3 id={`vetnav-${_.kebabCase(keyName)}-header`}>{data.title}</h3>
+        <h3
+          data-e2e-id={`vetnav-${_.kebabCase(keyName)}-header`}
+          id={`vetnav-${_.kebabCase(keyName)}-header`}
+        >
+          {data.title}
+        </h3>
       ) : (
         <span>&nbsp;</span>
       )}
@@ -76,6 +82,7 @@ const Column = props => {
           <li className="mm-link-container" key={`${link.href}-${i}`}>
             <a
               className="mm-links"
+              data-e2e-id={`${_.kebabCase(link.text)}-${i}`}
               href={link.href}
               onClick={linkClicked.bind(null, link)}
               target={link.target || '_self'}
