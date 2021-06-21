@@ -1,13 +1,8 @@
 import React from 'react';
 
-import classNames from 'classnames';
 import { APP_TYPE_DEFAULT } from '../../forms-system/src/js/constants';
 
-export default function DowntimeMessage({
-  downtime,
-  isAfterSteps,
-  formConfig,
-}) {
+export default function DowntimeMessage({ downtime, formConfig }) {
   const endTime = downtime.endTime;
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   return (
