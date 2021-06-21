@@ -251,9 +251,7 @@ class SaveInProgressIntro extends React.Component {
     if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.downtime.message || DowntimeMessage;
 
-      return (
-        <Message isAfterSteps={this.props.buttonOnly} downtime={downtime} />
-      );
+      return <Message downtime={downtime} />;
     }
 
     return children;
