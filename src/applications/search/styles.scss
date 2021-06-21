@@ -46,9 +46,8 @@
               color: $color-purple;
             }
           }
-
-          &:hover {
-            span {
+          span {
+            &:hover {
               color: $color-gray-dark;
               background: rgba(0, 0, 0, 0.05);
             }
@@ -169,7 +168,7 @@
 
     input,
     button {
-      margin: 5px;
+      margin: 5px 0;
       max-width: none;
       font-family: "Source Sans Pro";
 
@@ -192,7 +191,7 @@
       font-size: 1.6rem;
       font-weight: 700;
       justify-content: center;
-      padding: 1.5rem;
+      padding: 1rem;
       width: 100%;
 
       @media (min-width: $medium-screen) {

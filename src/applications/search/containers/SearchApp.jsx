@@ -272,11 +272,11 @@ class SearchApp extends React.Component {
     if (!loading && recommendedResults && recommendedResults.length > 0) {
       return (
         <div>
-          <h4
+          <h3
             className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--bold`}
           >
             Our top recommendations for you
-          </h4>
+          </h3>
           <ul className="results-list">
             {recommendedResults.map((result, index) =>
               this.renderWebResult(result, 'description', true, index),
@@ -407,7 +407,7 @@ class SearchApp extends React.Component {
           })}
         >
           <span
-            className="vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
+            className="vads-u-padding-y--0p25 vads-u-padding-right--0p25 vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
             data-e2e-id="result-title"
             dangerouslySetInnerHTML={{
               __html: strippedTitle,
