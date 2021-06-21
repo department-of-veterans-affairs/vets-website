@@ -3,6 +3,10 @@ import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
 
 import constants from 'vets-json-schema/dist/constants.json';
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import mapboxClient from '../components/MapboxClient';
+
+const mbxClient = mbxGeo(mapboxClient);
 import {
   SMALL_SCREEN_WIDTH,
   FILTERS_EXCLUDED_FLIP,
@@ -221,6 +225,23 @@ export const buildSearchFilters = filters => {
   );
 
   return searchFilters;
+};
+
+export const searchCriteriaFromCoords = async (longitude, latitude) => {
+  const response = await mbxClient
+    .reverseGeocode({
+      query: [longitude, latitude],
+      types: ['address'],
+    })
+    .send();
+
+  const features = response.body.features;
+  const placeName = features[0].place_name;
+
+  return {
+    searchString: placeName,
+    position: { longitude, latitude },
+  };
 };
 
 export const schoolSize = enrollment => {
