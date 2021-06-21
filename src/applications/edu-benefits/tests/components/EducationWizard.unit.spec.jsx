@@ -185,25 +185,17 @@ describe('<EducationWizard>', () => {
     const remainingBenefitsLink = tree.find({
       href: '/education/gi-bill/post-9-11/ch-33-benefit/',
     });
-    const approvedBenefitsLink = tree.find({
-      href: 'https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf',
-    });
     edithNourseLink.simulate('click');
     expect(global.window.dataLayer.length).to.equal(2);
     expect(global.window.dataLayer[1].event).to.equal('edu-navigation');
     expect(global.window.dataLayer[1]['edu-action']).to.equal(
       'stem-scholarship',
     );
-    approvedBenefitsLink.simulate('click');
-    expect(global.window.dataLayer.length).to.equal(3);
-    expect(global.window.dataLayer[2].event).to.equal('edu-navigation');
-    expect(global.window.dataLayer[2]['edu-action']).to.equal(
-      'see-approved-stem-programs',
-    );
+
     remainingBenefitsLink.simulate('click');
-    expect(global.window.dataLayer.length).to.equal(4);
+    expect(global.window.dataLayer.length).to.equal(3);
     expect(global.window.dataLayer[1].event).to.equal('edu-navigation');
-    expect(global.window.dataLayer[3]['edu-action']).to.equal(
+    expect(global.window.dataLayer[2]['edu-action']).to.equal(
       'check-remaining-benefits',
     );
     tree.unmount();
