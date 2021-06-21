@@ -68,17 +68,7 @@ const responses = {
     },
     meta: { errors: null },
   },
-  'GET /v0/feature_toggles': (_req, _res) => {
-    // returning nothing on purpose to try to reproduce bug
-    // return res.json({
-    //   data: {
-    //     type: 'feature_toggles',
-    //     features: [
-    //       { name: 'showHealthcareExperienceQuestionnaire', value: true },
-    //     ],
-    //   },
-    // });
-  },
+  'GET /v0/feature_toggles': (_req, _res) => {},
   'GET /health_quest/v0/questionnaire_manager': {
     data: [upcomingPrimaryCareAppointmentNotStartedQuestionnaire],
   },
