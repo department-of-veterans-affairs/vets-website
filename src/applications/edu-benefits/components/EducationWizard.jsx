@@ -433,6 +433,12 @@ export default class EducationWizard extends React.Component {
                               href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
                               rel="noopener noreferrer"
                               target="_blank"
+                              onClick={() =>
+                                recordEvent({
+                                  event: 'edu-navigation',
+                                  'edu-action': 'see-approved-stem-programs',
+                                })
+                              }
                             >
                               See eligible degree and clinical training programs
                             </a>
