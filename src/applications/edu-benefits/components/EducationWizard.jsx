@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import environment from 'platform/utilities/environment';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
@@ -391,8 +392,9 @@ export default class EducationWizard extends React.Component {
                           <b>or</b>
                         </li>{' '}
                         <li className="li-styling">
-                          You've already earned a STEM bachelor’s degree and are
-                          working toward a teaching certification, <b>or</b>
+                          You've already earned a STEM bachelor’s degree and
+                          are working toward a teaching certification,{' '}
+                          <b>or</b>
                         </li>{' '}
                         <li className="li-styling">
                           {' '}
@@ -400,10 +402,16 @@ export default class EducationWizard extends React.Component {
                           degree and are pursuing a covered clinical training
                           program for health care professionals. <br />
                           <a
-                            aria-label="See eligible degree programs, opening in new tab"
+                            aria-label="See eligible degree and clinical training programs, opening in new tab"
                             href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
                             rel="noopener noreferrer"
                             target="_blank"
+                            onClick={() =>
+                              recordEvent({
+                                event: 'edu-navigation',
+                                'edu-action': 'see-approved-stem-programs',
+                              })
+                            }
                           >
                             See eligible degree and clinical training programs
                           </a>
