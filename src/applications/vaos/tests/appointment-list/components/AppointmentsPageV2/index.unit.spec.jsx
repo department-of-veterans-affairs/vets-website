@@ -12,6 +12,10 @@ import {
 } from '../../../mocks/setup';
 import AppointmentsPageV2 from '../../../../appointment-list/components/AppointmentsPageV2';
 import userEvent from '@testing-library/user-event';
+import {
+  mockAppointmentInfo,
+  mockPastAppointmentInfo,
+} from '../../../mocks/helpers';
 
 const initialState = {
   featureToggles: {
@@ -27,6 +31,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
+    mockAppointmentInfo({});
   });
   afterEach(() => {
     MockDate.reset();
@@ -47,6 +52,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       },
       user: userState,
     };
+    mockPastAppointmentInfo({});
     const screen = renderWithStoreAndRouter(<AppointmentsPageV2 />, {
       initialState: defaultState,
     });

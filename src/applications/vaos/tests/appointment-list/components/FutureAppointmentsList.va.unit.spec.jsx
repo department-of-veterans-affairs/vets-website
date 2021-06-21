@@ -458,7 +458,7 @@ describe('VAOS <FutureAppointmentsList> VA appointments', () => {
     expect(tokens.get('END')).includes('VCALENDAR');
   });
 
-  it.only('should verify VA phone calendar ics file format', async () => {
+  it('should verify VA phone calendar ics file format', async () => {
     const startDate = moment.utc();
     const appointment = getVAAppointmentMock();
     appointment.attributes = {

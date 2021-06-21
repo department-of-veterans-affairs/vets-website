@@ -587,7 +587,7 @@ describe('VAOS <FutureAppointmentsList> video appointments', () => {
   });
 });
 
-describe('VAOS integration: upcoming ATLAS video appointments', () => {
+describe('VAOS <FutureAppointmentsList> ATLAS video appointments', () => {
   it('should display ATLAS title', async () => {
     const appointment = getVideoAppointmentMock();
     const startDate = moment.utc().add(3, 'days');
@@ -636,6 +636,7 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
     };
 
     mockAppointmentInfo({ va: [appointment] });
+    mockFacilitiesFetch();
 
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
@@ -695,7 +696,7 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
   });
 });
 
-describe('VAOS integration: calendar ics file format', () => {
+describe('VAOS <FutureAppointmentsList> calendar ics file format', () => {
   beforeEach(() => {
     mockFetch();
     mockFacilitiesFetch();
