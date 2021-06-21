@@ -53,6 +53,12 @@ export const uiSchema = {
       'ui:title': 'Bank account number',
       'ui:reviewWidget': PaymentReviewView,
     },
+    saveClickTrackEvent: {
+      event: 'cta-button-click',
+      'button-type': 'primary',
+      'button-click-label': 'Save',
+      'button-background-color': '#0071BB',
+    },
   },
   declineDirectDeposit: directDepositUiSchema.declineDirectDeposit,
   'view:directDespositInfo': {
