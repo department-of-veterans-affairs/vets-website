@@ -104,7 +104,7 @@ jobs:
           aws-region: "us-gov-west-1"
       
       - name: Set BIGQUERY_SERVICE_CREDENTIALS Environment Variable
-        uses: "marvinpinto/action-inject-ssm-secrets@v1.1.1"
+        uses: "marvinpinto/action-inject-ssm-secrets@latest"
         with:
           ssm_parameter: "/dsva-vagov/testing-team/bigquery_service_credentials"
           env_variable_name: "BIGQUERY_SERVICE_CREDENTIALS"
