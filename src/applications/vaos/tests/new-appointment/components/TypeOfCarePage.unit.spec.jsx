@@ -383,23 +383,11 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   describe('using VAOS service', () => {
     it('should open facility type page when CC eligible and has a supported parent site', async () => {
-      const parentSite983 = {
-        id: '983',
-        attributes: {
-          ...getVAOSParentSiteMock().attributes,
-          id: '983',
-          vast_parent: '983',
-        },
-      };
-      const parentSite983GC = {
-        id: '983GC',
-        attributes: {
-          ...getVAOSParentSiteMock().attributes,
-          id: '983GC',
-          vast_parent: '983GC',
-        },
-      };
-      mockVAOSParentSites(['983'], [parentSite983, parentSite983GC], true);
+      mockVAOSParentSites(
+        ['983'],
+        [getVAOSParentSiteMock('983'), getVAOSParentSiteMock('983GC')],
+        true,
+      );
       mockV2CommunityCareEligibility({
         parentSites: ['983', '983GC'],
         supportedSites: ['983GC'],
@@ -417,11 +405,6 @@ describe('VAOS <TypeOfCarePage>', () => {
       fireEvent.click(await screen.findByLabelText(/primary care/i));
       fireEvent.click(screen.getByText(/Continue/));
       await waitFor(() =>
-        expect(global.fetch.firstCall.args[0]).to.equal(
-          'https://dev-api.va.gov/vaos/v2/facilities?children=true&ids[]=983',
-        ),
-      );
-      await waitFor(() =>
         expect(screen.history.push.lastCall?.args[0]).to.equal(
           '/new-appointment/choose-facility-type',
         ),
@@ -429,23 +412,11 @@ describe('VAOS <TypeOfCarePage>', () => {
     });
 
     it('should skip facility type page if eligible for CC but no supported sites', async () => {
-      const parentSite983 = {
-        id: '983',
-        attributes: {
-          ...getVAOSParentSiteMock().attributes,
-          id: '983',
-          vast_parent: '983',
-        },
-      };
-      const parentSite983GC = {
-        id: '983GC',
-        attributes: {
-          ...getVAOSParentSiteMock().attributes,
-          id: '983GC',
-          vast_parent: '983GC',
-        },
-      };
-      mockVAOSParentSites(['983'], [parentSite983, parentSite983GC], true);
+      mockVAOSParentSites(
+        ['983'],
+        [getVAOSParentSiteMock('983'), getVAOSParentSiteMock('983GC')],
+        true,
+      );
       mockV2CommunityCareEligibility({
         parentSites: ['983', '983GC'],
         supportedSites: [],
@@ -462,11 +433,6 @@ describe('VAOS <TypeOfCarePage>', () => {
 
       fireEvent.click(await screen.findByLabelText(/primary care/i));
       fireEvent.click(screen.getByText(/Continue/));
-      await waitFor(() =>
-        expect(global.fetch.firstCall.args[0]).to.equal(
-          'https://dev-api.va.gov/vaos/v2/facilities?children=true&ids[]=983',
-        ),
-      );
       await waitFor(() =>
         expect(screen.history.push.lastCall?.args[0]).to.equal(
           '/new-appointment/va-facility-2',
