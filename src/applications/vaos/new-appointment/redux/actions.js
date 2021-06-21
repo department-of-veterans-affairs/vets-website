@@ -650,6 +650,7 @@ export function checkCommunityCareEligibility() {
   return async (dispatch, getState) => {
     const state = getState();
     const communityCareEnabled = selectFeatureCommunityCare(state);
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
 
     if (!communityCareEnabled) {
       return false;
@@ -661,7 +662,9 @@ export function checkCommunityCareEligibility() {
       const parentFacilities = await fetchParentLocations({ siteIds });
       const ccEnabledSystems = await fetchCommunityCareSupportedSites({
         locations: parentFacilities,
+        useV2: featureVAOSServiceRequests,
       });
+
       dispatch({
         type: FORM_VA_SYSTEM_UPDATE_CC_ENABLED_SYSTEMS,
         ccEnabledSystems,
@@ -686,7 +689,9 @@ export function checkCommunityCareEligibility() {
         return response.eligible;
       }
     } catch (e) {
-      captureError(e);
+      captureError(e, false, null, {
+        facilities: state.user?.profile?.facilities,
+      });
       Sentry.captureMessage(
         'Community Care eligibility check failed with errors',
       );

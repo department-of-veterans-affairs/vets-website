@@ -1,9 +1,8 @@
 import { join } from 'path';
-
 import '@testing-library/cypress/add-commands';
 import 'cypress-axe';
 import 'cypress-plugin-tab';
-
+import addContext from 'mochawesome/addContext';
 import './commands';
 
 Cypress.on('window:before:load', window => {
@@ -51,4 +50,14 @@ beforeEach(() => {
   cy.intercept('GET', '/v0/maintenance_windows', {
     data: [],
   });
+});
+
+// Assign the video path to the context property for failed tests
+Cypress.on('test:after:run', test => {
+  if (test.state === 'failed') {
+    let videoName = Cypress.spec.name;
+    videoName = videoName.replace('/.js.*', '.js');
+    const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
+    addContext({ test }, videoPath);
+  }
 });

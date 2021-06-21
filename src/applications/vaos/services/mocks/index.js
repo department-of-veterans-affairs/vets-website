@@ -24,6 +24,7 @@ const requestEligibilityCriteria = require('./var/request_eligibility_criteria.j
 const directBookingEligibilityCriteria = require('./var/direct_booking_eligibility_criteria.json');
 const generateMockSlots = require('./var/slots.js');
 const requestsV2 = require('./v2/requests.json');
+const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 
@@ -187,6 +188,22 @@ const responses = {
       },
     });
   },
+  'PUT /vaos/v2/appointments/:id': (req, res) => {
+    // TODO: also check through confirmed mocks, when those exist
+    const requestAttributes = requestsV2.data.find(
+      item => item.id === req.params.id,
+    ).attributes;
+
+    return res.json({
+      data: {
+        id: req.params.id,
+        attributes: {
+          ...requestAttributes,
+          ...req.body,
+        },
+      },
+    });
+  },
   'GET /vaos/v2/appointments': (req, res) => {
     if (req.query.statuses?.includes('proposed')) {
       return res.json(requestsV2);
@@ -197,6 +214,15 @@ const responses = {
   'GET /vaos/v2/appointments/:id': (req, res) => {
     return res.json({
       data: requestsV2.data.find(appt => appt.id === req.params.id),
+    });
+  },
+  'GET /vaos/v2/scheduling/configurations': (req, res) => {
+    if (req.query.cc_enabled === 'true') {
+      return res.json(schedulingConfigurationsCC);
+    }
+
+    return res.json({
+      data: [],
     });
   },
   'GET /v0/user': {
@@ -283,7 +309,6 @@ const responses = {
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },
         { name: 'edu_section_103', value: true },
-        { name: 'form526OriginalClaims', value: false },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },
       ],

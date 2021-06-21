@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
   fetchNameAutocompleteSuggestions,
@@ -6,6 +6,8 @@ import {
   updateAutocompleteName,
 } from '../actions';
 import KeywordSearch from '../components/search/KeywordSearch';
+import { updateUrlParams } from '../utils/helpers';
+import { useHistory } from 'react-router-dom';
 
 export function NameSearchForm({
   autocomplete,
@@ -14,26 +16,57 @@ export function NameSearchForm({
   dispatchUpdateAutocompleteName,
   filters,
   preview,
+  search,
 }) {
   const { version } = preview;
+  const [name, setName] = useState(search.query.name);
+  const history = useHistory();
 
-  const doSearch = name => {
-    dispatchFetchSearchByNameResults(name, filters, version);
+  const updateUrlNameParams = paramName => {
+    updateUrlParams(
+      history,
+      search.tab,
+      { ...search.query, name: paramName },
+      filters,
+    );
   };
+
+  const doSearch = value => {
+    dispatchFetchSearchByNameResults(value, filters, version);
+    updateUrlNameParams(value);
+  };
+
+  useEffect(
+    () => {
+      if (
+        search.loadFromUrl &&
+        search.query.name !== null &&
+        search.query.name !== ''
+      ) {
+        doSearch(search.query.name);
+      }
+    },
+    [search.loadFromUrl],
+  );
 
   const handleSubmit = event => {
     event.preventDefault();
-    doSearch(autocomplete.name);
+    doSearch(name);
   };
 
-  const doAutocompleteSuggestionsSearch = name => {
+  const doAutocompleteSuggestionsSearch = value => {
     dispatchFetchNameAutocompleteSuggestions(
-      name,
+      value,
       {
         category: filters.category,
       },
       version,
     );
+  };
+
+  const onUpdateAutocompleteSearchTerm = value => {
+    setName(value);
+    dispatchUpdateAutocompleteName(value);
   };
 
   return (
@@ -44,11 +77,11 @@ export function NameSearchForm({
             <KeywordSearch
               version={version}
               className="name-search"
-              inputValue={autocomplete.name}
+              inputValue={name}
               onFetchAutocompleteSuggestions={doAutocompleteSuggestionsSearch}
               onPressEnter={e => handleSubmit(e)}
-              onSelection={selected => doSearch(selected.label)}
-              onUpdateAutocompleteSearchTerm={dispatchUpdateAutocompleteName}
+              onSelection={s => setName(s.label)}
+              onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               placeholder="school, employer, or training provider"
               suggestions={[...autocomplete.nameSuggestions]}
             />
@@ -69,6 +102,7 @@ const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   filters: state.filters,
   preview: state.preview,
+  search: state.search,
 });
 
 const mapDispatchToProps = {

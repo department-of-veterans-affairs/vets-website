@@ -28,7 +28,7 @@ function LocationSearchResults({
 }) {
   const { inProgress } = search;
   const { count, results } = search.location;
-  const { location } = search.query;
+  const { location, streetAddress } = search.query;
   const map = useRef(null);
   const mapContainer = useRef(null);
   const markers = useRef([]);
@@ -146,25 +146,39 @@ function LocationSearchResults({
     markers.current.push(markerElement);
   };
 
+  const currentLocationMapMarker = bounds => {
+    const currentMarkerElement = document.createElement('div');
+    currentMarkerElement.className = 'current-position';
+    new mapboxgl.Marker(currentMarkerElement)
+      .setLngLat([
+        streetAddress.position.longitude,
+        streetAddress.position.latitude,
+      ])
+      .addTo(map.current);
+    bounds.extend([
+      streetAddress.position.longitude,
+      streetAddress.position.latitude,
+    ]);
+    markers.current.push(currentMarkerElement);
+  };
+
   useEffect(
     () => {
       markers.current.forEach(marker => marker.remove());
-
       if (!map.current || results.length === 0) {
         setMapChanged(search.location.mapChanged);
         return;
       } // wait for map to initialize
-
       const locationBounds = !mapChanged ? new mapboxgl.LngLatBounds() : null;
-
       results.forEach((institution, index) => {
         addMapMarker(institution, index, locationBounds);
       });
-
       if (locationBounds) {
+        if (streetAddress.searchString === location) {
+          currentLocationMapMarker(locationBounds);
+        }
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
-
       setMapChanged(search.location.mapChanged);
     },
     [results],
@@ -186,11 +200,11 @@ function LocationSearchResults({
 
     return (
       <>
-        {header}
         <SearchResultCard
           institution={institution}
           key={institution.facilityCode}
           location
+          header={header}
         />
       </>
     );

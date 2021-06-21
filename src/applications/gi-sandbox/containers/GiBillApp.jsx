@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import DowntimeNotification from 'platform/monitoring/DowntimeNotification';
 import {
-  changeSearchTab,
   enterPreviewMode,
   exitPreviewMode,
   fetchConstants,
@@ -19,20 +18,17 @@ import ServiceError from '../components/ServiceError';
 export function GiBillApp({
   constants,
   children,
+  preview,
   dispatchEnterPreviewMode,
   dispatchExitPreviewMode,
   dispatchFetchConstants,
-  dispatchChangeSearchTab,
   dispatchUpdateQueryParams,
-  preview,
 }) {
   const queryParams = useQueryParams();
   const version = queryParams.get('version');
   const versionChange = version && version !== preview.version?.id;
   const shouldExitPreviewMode = preview.display && !version;
   const shouldEnterPreviewMode = !preview.display && versionChange;
-
-  const tab = queryParams.get('search');
 
   useEffect(
     () => {
@@ -42,10 +38,6 @@ export function GiBillApp({
         dispatchEnterPreviewMode(version);
       } else {
         dispatchFetchConstants();
-      }
-
-      if (tab) {
-        dispatchChangeSearchTab(tab);
       }
     },
     [shouldExitPreviewMode, shouldEnterPreviewMode],
@@ -93,16 +85,12 @@ GiBillApp.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-const mapStateToProps = state => {
-  const { constants, preview } = state;
-  return {
-    constants,
-    preview,
-  };
-};
+const mapStateToProps = state => ({
+  constants: state.constants,
+  preview: state.preview,
+});
 
 const mapDispatchToProps = {
-  dispatchChangeSearchTab: changeSearchTab,
   dispatchEnterPreviewMode: enterPreviewMode,
   dispatchExitPreviewMode: exitPreviewMode,
   dispatchFetchConstants: fetchConstants,

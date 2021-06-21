@@ -8,6 +8,14 @@ export function postAppointment(appointment) {
   }).then(parseApiObject);
 }
 
+export function putAppointment(id, appointment) {
+  return apiRequestWithUrl(`/vaos/v2/appointments/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(appointment),
+  }).then(parseApiObject);
+}
+
 export function getAppointments(start, end, statuses = []) {
   return apiRequestWithUrl(
     `/vaos/v2/appointments?start=${start}&end=${end}&${statuses
@@ -23,4 +31,20 @@ export function getAppointment(id) {
   return apiRequestWithUrl(`/vaos/v2/appointments/${id}`, {
     method: 'GET',
   }).then(parseApiObject);
+}
+
+export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
+  let ccEnabledParam = '';
+  if (ccEnabled !== null) {
+    ccEnabledParam = `&cc_enabled=${ccEnabled}`;
+  }
+
+  return apiRequestWithUrl(
+    `/vaos/v2/scheduling/configurations?${locationIds
+      .map(id => `facility_ids[]=${id}`)
+      .join('&')}${ccEnabledParam}`,
+    {
+      method: 'GET',
+    },
+  ).then(parseApiList);
 }

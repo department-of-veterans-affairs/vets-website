@@ -69,3 +69,81 @@ export function mockVAOSAppointmentsFetch({
     setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: requests });
   }
 }
+
+/**
+ * Mocks the api call made to cancel an appointment.
+ *
+ * @export
+ * @param {Object} params
+ * @param {VAOSAppointment} params.appointment Request object from the vaos service that will be returned back
+ *    from the mock with the status set to Cancelled
+ * @param {boolean} params.error Return an error response
+ */
+export function mockAppointmentCancelFetch({ appointment, error = false }) {
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${
+    appointment.id
+  }`;
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), {
+      data: {
+        ...appointment,
+        attributes: {
+          ...appointment.attributes,
+          status: 'cancelled',
+        },
+      },
+    });
+  }
+}
+
+/**
+ * Mock the api calls that checks if a user is eligible for community care for
+ *   a given type of care and if the facility supports CC
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<string>} params.parentSites The VA parent sites to check for CC support
+ * @param {Array<string>} params.supportedSites The VA parent sites that support CC
+ * @param {string} params.careType Community care type of care string
+ * @param {boolean} [eligible=true] Is the user eligible for CC
+ */
+export function mockV2CommunityCareEligibility({
+  parentSites,
+  supportedSites,
+  careType,
+  eligible = true,
+}) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${
+        environment.API_URL
+      }/vaos/v2/scheduling/configurations?${parentSites
+        .map(site => `facility_ids[]=${site}`)
+        .join('&')}&cc_enabled=true`,
+    ),
+    {
+      data: (supportedSites || parentSites).map(parent => ({
+        id: parent,
+        attributes: {
+          facilityId: parent,
+          communityCare: true,
+        },
+      })),
+    },
+  );
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v0/community_care/eligibility/${careType}`,
+    ),
+    {
+      data: {
+        id: careType,
+        attributes: {
+          eligible,
+        },
+      },
+    },
+  );
+}
