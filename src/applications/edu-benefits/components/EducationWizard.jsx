@@ -429,7 +429,7 @@ export default class EducationWizard extends React.Component {
                             degree and are pursuing a covered clinical training
                             program for health care professionals. <br />
                             <a
-                              aria-label="See eligible degree programs, opening in new tab"
+                              aria-label="See eligible and clinical training programs, opening in new tab"
                               href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
                               rel="noopener noreferrer"
                               target="_blank"
