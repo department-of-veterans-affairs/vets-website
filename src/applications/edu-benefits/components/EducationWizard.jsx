@@ -3,7 +3,6 @@ import _ from 'lodash/fp';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import environment from 'platform/utilities/environment';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
@@ -392,9 +391,8 @@ export default class EducationWizard extends React.Component {
                           <b>or</b>
                         </li>{' '}
                         <li className="li-styling">
-                          You've already earned a STEM bachelor’s degree and
-                          are working toward a teaching certification,{' '}
-                          <b>or</b>
+                          You've already earned a STEM bachelor’s degree and are
+                          working toward a teaching certification, <b>or</b>
                         </li>{' '}
                         <li className="li-styling">
                           {' '}
