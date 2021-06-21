@@ -458,11 +458,12 @@ describe('VAOS integration: upcoming VA appointments', () => {
   });
 
   it('should verify VA phone calendar ics file format', async () => {
+    const startDate = moment.utc();
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
       phoneOnly: true,
-      startDate: '2021-06-20T16:00:00Z',
+      startDate: startDate.format(),
       clinicFriendlyName: 'C&P BEV AUDIO FTC1',
       facilityId: '983',
       sta6aid: '983GC',
@@ -501,7 +502,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
 
     await findByText(
       new RegExp(
-        moment(appointment.attributes.startDate).format('dddd, MMMM D, YYYY'),
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm'),
         'i',
       ),
     );
