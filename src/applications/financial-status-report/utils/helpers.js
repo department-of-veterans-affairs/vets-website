@@ -24,21 +24,25 @@ export const dateFormatter = date => {
 
 export const getMonthlyIncome = ({
   questions,
-  personalData,
   additionalIncome,
   socialSecurity,
   benefits,
+  currentEmployment,
+  spouseCurrentEmployment,
 }) => {
-  const { employmentHistory } = personalData;
   let totalArr = [];
 
   if (questions.vetIsEmployed) {
-    const { monthlyGrossSalary } = employmentHistory.veteran.currentEmployment;
+    const monthlyGrossSalary = currentEmployment
+      .map(record => Number(record.monthlyGrossSalary))
+      .reduce((acc, amount) => acc + amount, 0);
     totalArr = [...totalArr, monthlyGrossSalary];
   }
 
   if (questions.spouseIsEmployed) {
-    const { monthlyGrossSalary } = employmentHistory.spouse.currentEmployment;
+    const monthlyGrossSalary = spouseCurrentEmployment
+      .map(record => Number(record.monthlyGrossSalary))
+      .reduce((acc, amount) => acc + amount, 0);
     totalArr = [...totalArr, monthlyGrossSalary];
   }
 
@@ -74,24 +78,40 @@ export const getMonthlyIncome = ({
   return totalArr.reduce((acc, income) => acc + income, 0) || 0;
 };
 
-export const getMonthlyExpenses = ({
-  questions,
-  personalData,
-  expenses,
-  otherExpenses,
-  utilityRecords,
-  installmentContractsAndOtherDebts,
-}) => {
-  const { employmentHistory } = personalData;
+export const getMonthlyExpenses = formData => {
+  const {
+    questions,
+    expenses,
+    otherExpenses,
+    utilityRecords,
+    installmentContractsAndOtherDebts,
+    currentEmployment,
+    spouseCurrentEmployment,
+  } = formData;
+
   let totalArr = [];
 
   const householdExpenses = Object.values(expenses);
   totalArr = [...totalArr, ...householdExpenses];
 
   if (questions.vetIsEmployed) {
-    const { deductions } = employmentHistory.veteran.currentEmployment;
-    const payrollDeductions = deductions.map(deduction => deduction.amount);
-    totalArr = [...totalArr, ...payrollDeductions];
+    const payrollDeductions = currentEmployment
+      .map(record => record.deductions)
+      .flat();
+    const deductionAmounts = payrollDeductions.map(
+      deduction => deduction?.amount || 0,
+    );
+    totalArr = [...totalArr, ...deductionAmounts];
+  }
+
+  if (questions.spouseIsEmployed) {
+    const payrollDeductions = spouseCurrentEmployment
+      .map(record => record.deductions)
+      .flat();
+    const deductionAmounts = payrollDeductions.map(
+      deduction => deduction?.amount || 0,
+    );
+    totalArr = [...totalArr, ...deductionAmounts];
   }
 
   if (questions.hasUtilities) {
@@ -139,57 +159,29 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
   };
 
   if (questions.vetIsEmployed) {
-    const { currentEmployment } = employmentHistory.veteran;
-    history = [
-      ...history,
-      {
-        ...defaultObj,
-        veteranOrSpouse: 'VETERAN',
-        employerName: currentEmployment.employerName,
-        from: dateFormatter(currentEmployment.from),
-        present: true,
-      },
-    ];
-  }
-
-  if (questions.spouseIsEmployed) {
-    const { currentEmployment } = employmentHistory.spouse;
-    history = [
-      ...history,
-      {
-        ...defaultObj,
-        veteranOrSpouse: 'SPOUSE',
-        employerName: currentEmployment.employerName,
-        from: dateFormatter(currentEmployment.from),
-        present: true,
-      },
-    ];
-  }
-
-  if (questions.vetPreviouslyEmployed) {
-    const { vetPreviousEmployment } = employmentHistory.veteran;
-    const employmentRecords = vetPreviousEmployment.map(employment => ({
+    const { employmentRecords } = employmentHistory.veteran;
+    const vetEmploymentHistory = employmentRecords.map(employment => ({
       ...defaultObj,
       veteranOrSpouse: 'VETERAN',
       employerName: employment.employerName,
       from: dateFormatter(employment.from),
-      to: dateFormatter(employment.to),
-      present: false,
+      to: employment.isCurrent ? '' : dateFormatter(employment.to),
+      present: employment.isCurrent ? employment.isCurrent : false,
     }));
-    history = [...history, ...employmentRecords];
+    history = [...history, ...vetEmploymentHistory];
   }
 
-  if (questions.spousePreviouslyEmployed) {
-    const { spousePreviousEmployment } = employmentHistory.spouse;
-    const employmentRecords = spousePreviousEmployment.map(employment => ({
+  if (questions.spouseIsEmployed) {
+    const { employmentRecords } = employmentHistory.spouse;
+    const spouseEmploymentHistory = employmentRecords.map(employment => ({
       ...defaultObj,
       veteranOrSpouse: 'SPOUSE',
       employerName: employment.employerName,
       from: dateFormatter(employment.from),
-      to: dateFormatter(employment.to),
-      present: false,
+      to: employment.isCurrent ? '' : dateFormatter(employment.to),
+      present: employment.isCurrent ? employment.isCurrent : false,
     }));
-    history = [...history, ...employmentRecords];
+    history = [...history, ...spouseEmploymentHistory];
   }
 
   return history;
@@ -231,9 +223,12 @@ export const getTotalAssets = ({ assets, realEstateRecords }) => {
     .reduce((acc, amount) => acc + amount, 0);
 };
 
-export const getIncome = ({ questions, personalData, additionalIncome }) => {
-  const { employmentHistory } = personalData;
-
+export const getIncome = ({
+  questions,
+  additionalIncome,
+  currentEmployment,
+  spouseCurrentEmployment,
+}) => {
   const defaultObj = {
     monthlyGrossSalary: '',
     deductions: {
@@ -260,11 +255,16 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
   ];
 
   if (questions.vetIsEmployed) {
-    const { monthlyGrossSalary } = employmentHistory.veteran.currentEmployment;
-    const { deductions } = employmentHistory.veteran.currentEmployment;
+    const monthlyGrossSalary = currentEmployment
+      .map(record => Number(record.monthlyGrossSalary))
+      .reduce((acc, amount) => acc + amount, 0);
+
+    const deductions = currentEmployment
+      .map(record => record.deductions)
+      .flat();
 
     const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + deduction.amount,
+      (acc, deduction) => acc + deduction?.amount || 0,
       0,
     );
 
@@ -275,9 +275,11 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
           deductions: {
             ...item.deductions,
             otherDeductions: {
-              name: deductions.map(deduction => deduction.name).join(', '),
+              name: deductions
+                .map(deduction => deduction?.name || '')
+                .join(', '),
               amount: deductions.reduce(
-                (acc, deduction) => acc + deduction.amount,
+                (acc, deduction) => acc + deduction?.amount || 0,
                 0,
               ),
             },
@@ -293,11 +295,16 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
   }
 
   if (questions.spouseIsEmployed) {
-    const { monthlyGrossSalary } = employmentHistory.spouse.currentEmployment;
-    const { spouseDeductions } = employmentHistory.spouse.currentEmployment;
+    const monthlyGrossSalary = spouseCurrentEmployment
+      .map(record => Number(record.monthlyGrossSalary))
+      .reduce((acc, amount) => acc + amount, 0);
 
-    const totalDeductions = spouseDeductions.reduce(
-      (acc, deduction) => acc + deduction.amount,
+    const deductions = spouseCurrentEmployment
+      .map(record => record.deductions)
+      .flat();
+
+    const totalDeductions = deductions.reduce(
+      (acc, deduction) => acc + deduction?.amount || 0,
       0,
     );
 
@@ -308,11 +315,11 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
           deductions: {
             ...item.deductions,
             otherDeductions: {
-              name: spouseDeductions
-                .map(deduction => deduction.name)
+              name: deductions
+                .map(deduction => deduction?.name || '')
                 .join(', '),
-              amount: spouseDeductions.reduce(
-                (acc, deduction) => acc + deduction.amount,
+              amount: deductions.reduce(
+                (acc, deduction) => acc + deduction?.amount || 0,
                 0,
               ),
             },
@@ -328,11 +335,16 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
   }
 
   if (questions.hasAdditionalIncome) {
-    const { monthlyGrossSalary } = employmentHistory.veteran.currentEmployment;
-    const { deductions } = employmentHistory.veteran.currentEmployment;
+    const monthlyGrossSalary = currentEmployment
+      .map(record => Number(record.monthlyGrossSalary))
+      .reduce((acc, amount) => acc + amount, 0);
+
+    const deductions = currentEmployment
+      .map(record => record.deductions)
+      .flat();
 
     const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + deduction.amount,
+      (acc, deduction) => acc + deduction?.amount || 0,
       0,
     );
 
@@ -364,11 +376,16 @@ export const getIncome = ({ questions, personalData, additionalIncome }) => {
   }
 
   if (questions.spouseHasAdditionalIncome) {
-    const { monthlyGrossSalary } = employmentHistory.spouse.currentEmployment;
-    const { spouseDeductions } = employmentHistory.spouse.currentEmployment;
+    const monthlyGrossSalary = spouseCurrentEmployment
+      .map(record => Number(record.monthlyGrossSalary))
+      .reduce((acc, amount) => acc + amount, 0);
 
-    const totalDeductions = spouseDeductions.reduce(
-      (acc, deduction) => acc + deduction.amount,
+    const deductions = spouseCurrentEmployment
+      .map(record => record.deductions)
+      .flat();
+
+    const totalDeductions = deductions.reduce(
+      (acc, deduction) => acc + deduction?.amount || 0,
       0,
     );
 
