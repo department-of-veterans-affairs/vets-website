@@ -10,15 +10,17 @@ const Insurance = props => {
   const contactNumber = '555-867-5309';
 
   return (
-    <div className={'vads-u-margin--3'}>
+    <div className="vads-l-grid-container vads-u-padding-y--5">
       <h1>Need to update your insurance, contact, or other information?</h1>
       <button
+        data-testid="yes-button"
         className="usa-button-secondary usa-button-big"
         onClick={() => goToNextPageWithToken(router, 'failed')}
       >
         Yes
       </button>
       <button
+        data-testid="no-button"
         className="usa-button-secondary usa-button-big"
         onClick={() => goToNextPageWithToken(router, 'details')}
       >

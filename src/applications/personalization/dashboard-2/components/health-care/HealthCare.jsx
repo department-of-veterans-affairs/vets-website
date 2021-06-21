@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { GeneralCernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
@@ -129,6 +130,14 @@ const HealthCare = ({
                   icon="calendar-check"
                   newTab
                   text="Schedule and manage your appointments"
+                  onClick={() => {
+                    recordEvent({
+                      event: 'nav-linkslist',
+                      'links-list-header':
+                        'Schedule and view your appointments',
+                      'links-list-section-header': 'Health care',
+                    });
+                  }}
                 />
               </>
             )}
@@ -141,6 +150,13 @@ const HealthCare = ({
               icon="comments"
               newTab
               text={messagesText}
+              onClick={() => {
+                recordEvent({
+                  event: 'nav-linkslist',
+                  'links-list-header': 'You have n unread messages',
+                  'links-list-section-header': 'Health care',
+                });
+              }}
             />
           ) : null}
 
@@ -154,6 +170,13 @@ const HealthCare = ({
               icon="prescription-bottle"
               newTab
               text="Refill and track your prescriptions"
+              onClick={() => {
+                recordEvent({
+                  event: 'nav-linkslist',
+                  'links-list-header': 'Refill and track your prescriptions',
+                  'links-list-section-header': 'Health care',
+                });
+              }}
             />
           ) : null}
 
@@ -163,6 +186,13 @@ const HealthCare = ({
             icon="clipboard-list"
             newTab
             text="Get your lab and test results"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Get your lab and test results',
+                'links-list-section-header': 'Health care',
+              });
+            }}
           />
 
           {/* VA Medical records */}
@@ -170,6 +200,13 @@ const HealthCare = ({
             href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
             icon="file-medical"
             text="Get your VA medical records"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Get your VA medical records',
+                'links-list-section-header': 'Health care',
+              });
+            }}
           />
         </DashboardWidgetWrapper>
       </div>

@@ -13,11 +13,16 @@ export const onThisPageHook = lang => {
     }
   }
 };
-
+const setMedalliaSurveyLangOnWindow = lang => {
+  if (lang) {
+    window.medalliaSurveyLanguage = lang;
+  }
+};
 export const setLangAttribute = lang => {
   const contentDiv = document?.getElementById('content');
   if (contentDiv) {
     contentDiv.setAttribute('lang', lang);
+    setMedalliaSurveyLangOnWindow(lang);
   }
 };
 
@@ -63,6 +68,7 @@ export const adaptLinksWithLangCode = (
       }
       link.addEventListener('click', () => {
         setLangAttributeInReduxStore(langAttribute);
+        setMedalliaSurveyLangOnWindow(langAttribute);
       });
     }
   }

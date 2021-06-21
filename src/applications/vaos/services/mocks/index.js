@@ -27,6 +27,7 @@ const generateMockSlots = require('./var/slots.js');
 // v2
 const requestsV2 = require('./v2/requests.json');
 const parentFacilitiesV2 = require('./v2/facilities.json');
+const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 
@@ -219,6 +220,15 @@ const responses = {
       data: requestsV2.data.find(appt => appt.id === req.params.id),
     });
   },
+  'GET /vaos/v2/scheduling/configurations': (req, res) => {
+    if (req.query.cc_enabled === 'true') {
+      return res.json(schedulingConfigurationsCC);
+    }
+
+    return res.json({
+      data: [],
+    });
+  },
   'GET /v0/user': {
     data: {
       attributes: {
@@ -303,7 +313,6 @@ const responses = {
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },
         { name: 'edu_section_103', value: true },
-        { name: 'form526OriginalClaims', value: false },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },
       ],

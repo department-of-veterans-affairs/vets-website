@@ -32,7 +32,7 @@ import {
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
-import { getParentFacilitiesV2 } from '../vaos';
+import { getParentFacilitiesV2, getSchedulingConfigurations } from '../vaos';
 import { transformParentFacilitiesV2 } from './transformers.v2';
 
 /**
@@ -380,10 +380,28 @@ export async function fetchParentLocations({ siteIds, useV2 }) {
  *
  * @export
  * @param {Object} params
- * @param {Array<Location>} locations The locations to find CC support at
+ * @param {Array<Location>} params.locations The locations to find CC support at
+ * @param {boolean} params.useV2 Use the V2 scheduling configurations endpoint
+ *   to get the CC supported locations
  * @returns {Array<Location>} A list of locations that support CC requests
  */
-export async function fetchCommunityCareSupportedSites({ locations }) {
+export async function fetchCommunityCareSupportedSites({
+  locations,
+  useV2 = false,
+}) {
+  if (useV2) {
+    const facilityConfigs = await getSchedulingConfigurations(
+      locations.map(location => location.id),
+      true,
+    );
+
+    return locations.filter(location =>
+      facilityConfigs.some(
+        facilityConfig => facilityConfig.facilityId === location.id,
+      ),
+    );
+  }
+
   const ccSites = await getSitesSupportingVAR(
     locations.map(location => location.id),
   );

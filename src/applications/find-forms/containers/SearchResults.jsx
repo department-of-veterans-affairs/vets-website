@@ -1,7 +1,6 @@
 // Dependencies.
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { connect } from 'react-redux';
@@ -119,11 +118,10 @@ export const SearchResults = ({
   // Show the error alert box if there was an error.
   if (error) {
     return (
-      <AlertBox
-        headline="Something went wrong"
-        content={error}
-        status="error"
-      />
+      <va-alert status="error">
+        <h3 slot="headline">Something went wrong"</h3>
+        <div className="usa-alert-text">{error}</div>
+      </va-alert>
     );
   }
 

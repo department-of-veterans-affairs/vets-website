@@ -321,7 +321,9 @@ describe('Schemaform actions:', () => {
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'jpg',
-            errorMessage: 'File is too large to be uploaded',
+            errorMessage:
+              'We couldn\u2019t upload your file because it\u2019s too big. ' +
+              `Please delete this file. Then upload a file that\u2019s 5B or less.`,
           });
           done();
         },
@@ -353,7 +355,9 @@ describe('Schemaform actions:', () => {
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'pdf',
-            errorMessage: 'File is too large to be uploaded',
+            errorMessage:
+              'We couldn\u2019t upload your file because it\u2019s too big. ' +
+              `Please delete this file. Then upload a file that\u2019s 5B or less.`,
           });
           done();
         },
@@ -385,7 +389,9 @@ describe('Schemaform actions:', () => {
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
             name: 'jpg',
-            errorMessage: 'File is too small to be uploaded',
+            errorMessage:
+              'We couldn\u2019t upload your file because it\u2019s too small. ' +
+              `Please delete this file. Then upload a file that\u2019s 5B or more.`,
           });
           done();
         },
@@ -415,7 +421,42 @@ describe('Schemaform actions:', () => {
         onChange,
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
-            errorMessage: 'File is not one of the allowed types',
+            errorMessage:
+              'We couldn’t upload your file because we can’t accept this type of file. ' +
+              'Please delete the file. Then try again with a .jpeg file.',
+            name: 'jpg',
+          });
+          done();
+        },
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {},
+        },
+      });
+
+      thunk(dispatch, getState);
+    });
+
+    it('should render wrong file type message with seperators', done => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        {
+          name: 'jpg',
+          size: 5,
+        },
+        {
+          fileTypes: ['jpeg', 'pdf', 'img'],
+          maxSize: 5,
+        },
+        f => f,
+        onChange,
+        () => {
+          expect(onChange.firstCall.args[0]).to.eql({
+            errorMessage:
+              'We couldn’t upload your file because we can’t accept this type of file. ' +
+              'Please delete the file. Then try again with a .jpeg, .pdf, or .img file.',
             name: 'jpg',
           });
           done();
@@ -605,7 +646,8 @@ describe('Schemaform actions:', () => {
       });
       expect(onChange.secondCall.args[0]).to.eql({
         name: 'jpg',
-        errorMessage: 'Network request failed',
+        errorMessage:
+          'We’re sorry. We had a connection problem. Please delete the file and try again.',
       });
     });
     it('should set error if error message is bad', () => {
