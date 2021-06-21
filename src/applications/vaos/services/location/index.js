@@ -346,28 +346,25 @@ export async function getCommunityProvider(id) {
  */
 export async function fetchParentLocations({ siteIds, useV2 }) {
   try {
-    if (useV2) {
-      const parentFacilities = await getParentFacilitiesV2(siteIds);
-      return transformParentFacilitiesV2(parentFacilities).sort((a, b) => {
-        // a.name comes 1st
-        if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
-        // b.name comes 1st
-        if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
-        // a.name and b.name are equal
-        return 0;
-      });
-    }
-
-    const parentFacilities = await getParentFacilities(siteIds);
-
-    return transformParentFacilities(parentFacilities).sort((a, b) => {
+    const sortFacilitiesMethod = (a, b) => {
       // a.name comes 1st
       if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
       // b.name comes 1st
       if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
       // a.name and b.name are equal
       return 0;
-    });
+    };
+
+    if (useV2) {
+      const facilities = await getParentFacilitiesV2(siteIds, true);
+      return transformParentFacilitiesV2(facilities).sort(sortFacilitiesMethod);
+    }
+
+    const parentFacilities = await getParentFacilities(siteIds);
+
+    return transformParentFacilities(parentFacilities).sort(
+      sortFacilitiesMethod,
+    );
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);

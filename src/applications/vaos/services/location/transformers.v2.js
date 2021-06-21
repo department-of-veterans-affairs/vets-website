@@ -26,9 +26,13 @@ export function transformParentFacilityV2(parentFacility) {
  * Transforms parent facilities from var-resources into Location objects
  *
  * @export
- * @param {Array<VARFacility>} parentFacilities A list of parent facilities from var-resources
+ * @param {Array<VARFacility>} parentFacilities A list of facilities from var-resources
  * @returns {Array<Location>} A list of Locations
  */
-export function transformParentFacilitiesV2(parentFacilities) {
-  return parentFacilities.map(transformParentFacilityV2);
+export function transformParentFacilitiesV2(facilities) {
+  return facilities
+    .filter(facility => {
+      return facility.id === facility.vast_parent;
+    })
+    .map(transformParentFacilityV2);
 }
