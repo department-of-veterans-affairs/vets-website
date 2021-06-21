@@ -10,7 +10,6 @@ jobs:
     name: E2E Tests
     runs-on: self-hosted
     strategy:
-      fail-fast: true
       max-parallel: 6
       matrix:
         ci_node_total: [6]
