@@ -136,14 +136,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-gov-west-1"
 
-      - name: Get Pact Broker password from Parameter Store
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      - name: Get Pact Broker password
+        uses: marvinpinto/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /dsva-vagov/pact-broker/utility/PACT_BROKER_BASIC_AUTH_PASSWORD
           env_variable_name: PACT_BROKER_BASIC_AUTH_PASSWORD
 
-      - name: Get GitHub token from Parameter Store
-        uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
+      - name: Get GitHub token
+        uses: marvinpinto/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
@@ -444,7 +444,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
 
-      - name: Get role from Parameter Store
+      - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
@@ -488,7 +488,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
 
-      - name: Get role from Parameter Store
+      - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
@@ -523,7 +523,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
 
-      - name: Get Jenkins token from Parameter Store
+      - name: Get Jenkins token
         uses: marvinpinto/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/JENKINS_API_TOKEN
