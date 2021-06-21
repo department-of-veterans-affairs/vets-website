@@ -58,6 +58,7 @@ export function getVAOSParentSiteMock() {
     attributes: {
       id: 'fake',
       vista_site: 'fake',
+      vast_parent: 'fake',
       name: 'fake',
       physical_address: {
         line: [],
