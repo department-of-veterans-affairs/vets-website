@@ -372,6 +372,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
     fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
+    expect(screen.queryByText(/NEW/i)).to.exist;
 
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
