@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import environment from 'platform/utilities/environment';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_COMPLETE,
@@ -384,31 +385,66 @@ export default class EducationWizard extends React.Component {
                     </li>
                     <li>
                       <b>STEM degree:</b>
-                      <ul className="circle-bullet ul-styling vads-u-margin-bottom--neg1">
-                        <li className="li-styling">
-                          You're enrolled in a bachelor’s degree program for
-                          science, technology, engineering, or math (STEM),{' '}
-                          <b>or</b>
-                        </li>{' '}
-                        <li>
-                          {' '}
-                          You've already earned a STEM bachelor’s degree and are
-                          pursuing a teaching certification.{' '}
-                          <a
-                            href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            onClick={() =>
-                              recordEvent({
-                                event: 'edu-navigation',
-                                'edu-action': 'see-approved-stem-programs',
-                              })
-                            }
-                          >
-                            See eligible degree programs
-                          </a>
-                        </li>
-                      </ul>
+                      {environment.isProduction() ? (
+                        <ul className="circle-bullet ul-styling vads-u-margin-bottom--neg1">
+                          <li className="li-styling">
+                            You're enrolled in a bachelor’s degree program for
+                            science, technology, engineering, or math (STEM),{' '}
+                            <b>or</b>
+                          </li>{' '}
+                          <li>
+                            {' '}
+                            You've already earned a STEM bachelor’s degree and
+                            are pursuing a teaching certification.{' '}
+                            <a
+                              href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                              onClick={() =>
+                                recordEvent({
+                                  event: 'edu-navigation',
+                                  'edu-action': 'see-approved-stem-programs',
+                                })
+                              }
+                            >
+                              See eligible degree programs
+                            </a>
+                          </li>
+                        </ul>
+                      ) : (
+                        <ul className="circle-bullet ul-styling vads-u-margin-bottom--neg1">
+                          <li className="li-styling">
+                            You're enrolled in a bachelor’s degree program for
+                            science, technology, engineering, or math (STEM),{' '}
+                            <b>or</b>
+                          </li>{' '}
+                          <li className="li-styling">
+                            You've already earned a STEM bachelor’s degree and
+                            are working toward a teaching certification,{' '}
+                            <b>or</b>
+                          </li>{' '}
+                          <li className="li-styling">
+                            {' '}
+                            You've already earned a STEM bachelor's or graduate
+                            degree and are pursuing a covered clinical training
+                            program for health care professionals. <br />
+                            <a
+                              aria-label="See eligible degree and clinical training programs, opening in new tab"
+                              href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                              onClick={() =>
+                                recordEvent({
+                                  event: 'edu-navigation',
+                                  'edu-action': 'see-approved-stem-programs',
+                                })
+                              }
+                            >
+                              See eligible degree and clinical training programs
+                            </a>
+                          </li>
+                        </ul>
+                      )}
                     </li>
                     <li className="ul-styling">
                       <b>Remaining entitlement:</b> You've used all of your

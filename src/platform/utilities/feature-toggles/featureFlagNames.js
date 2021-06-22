@@ -52,6 +52,7 @@ export default Object.freeze({
   showFinancialStatusReportWizard: 'showFinancialStatusReportWizard',
   showMedicalCopays: 'showMedicalCopays',
   showHealthcareExperienceQuestionnaire: 'showHealthcareExperienceQuestionnaire',
+  showMedicalCopays: 'show_medical_copays',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
   showNewRefillTrackPrescriptionsPage: 'show_new_refill_track_prescriptions_page',
   showNewScheduleViewAppointmentsPage: 'show_new_schedule_view_appointments_page',

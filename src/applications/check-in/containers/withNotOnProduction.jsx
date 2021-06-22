@@ -2,19 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import environment from 'platform/utilities/environment';
 
 import { checkInExperienceEnabled, loadingFeatureFlags } from '../selectors';
 
-const withFeatureFlip = WrappedComponent => props => {
-  const { isCheckInEnabled, isLoadingFeatureFlags } = props;
-  if (isLoadingFeatureFlags) {
-    return (
-      <>
-        <LoadingIndicator message="Loading your check in experience" />
-      </>
-    );
-  } else if (!isCheckInEnabled) {
+const withNotOnProduction = WrappedComponent => props => {
+  if (environment.isProduction()) {
     window.location.replace('/');
     return <></>;
   } else {
@@ -28,6 +21,6 @@ const mapStateToProps = state => ({
 
 const composedWrapper = compose(
   connect(mapStateToProps),
-  withFeatureFlip,
+  withNotOnProduction,
 );
 export default composedWrapper;

@@ -6,7 +6,12 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 
+import {
+  ALLOWED_FILE_TYPES,
+  MAX_FILE_SIZE_MB,
+} from 'applications/caregivers/definitions/constants';
 import { links } from 'applications/caregivers/definitions/content';
+import { arrayToSentenceString } from '../../helpers';
 
 export const VeteranSSNInfo = () => (
   <div className="vads-u-margin-y--1p5">
@@ -272,6 +277,13 @@ export const RepresentativeAdditionalInfo = () => {
 };
 
 export const RepresentativeDocumentUploadDescription = () => {
+  const prependDot = string => `.${string}`;
+  const allowedFileTypes = arrayToSentenceString(
+    ALLOWED_FILE_TYPES,
+    'or',
+    prependDot,
+  );
+
   return (
     <section>
       <p>
@@ -282,8 +294,11 @@ export const RepresentativeDocumentUploadDescription = () => {
 
       <p>Guidelines for uploading a file:</p>
       <ul>
-        <li>You can upload a .pdf, .jpeg, or .png file</li>
-        <li>Your file should be no larger than 10MB</li>
+        <li>You can upload a {allowedFileTypes} file</li>
+        <li>
+          Your file should be no larger than {MAX_FILE_SIZE_MB}
+          MB
+        </li>
       </ul>
 
       <p>

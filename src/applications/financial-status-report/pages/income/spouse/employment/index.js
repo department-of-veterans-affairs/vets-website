@@ -19,7 +19,7 @@ export const uiSchema = {
   },
   questions: {
     spouseIsEmployed: {
-      'ui:title': 'Does your spouse currently have a job?',
+      'ui:title': 'Has your spouse had any jobs in the past two years?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
     },
