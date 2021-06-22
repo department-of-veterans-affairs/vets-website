@@ -92,7 +92,11 @@ describe('Authed Letter Test', () => {
       cy.wrap(Array.from(checkboxes).map(checkbox => checkbox.id)).each(id => {
         cy.get(`#${id}`, { timeout: Timeouts.normal }).should('exist');
         cy.get(`#${id}`, { timeout: Timeouts.normal }).should('be.checked');
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
         cy.get(`#${id}`, { timeout: Timeouts.normal }).click('center');
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
         cy.get(`#${id}`, { timeout: Timeouts.normal }).should('not.be.checked');
       });
     });
