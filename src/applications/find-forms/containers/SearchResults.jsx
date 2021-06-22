@@ -119,8 +119,8 @@ export const SearchResults = ({
   if (error) {
     return (
       <va-alert status="error">
-        <h3 slot="headline">Something went wrong"</h3>
-        <div className="usa-alert-text">{error}</div>
+        <h3 slot="headline">Something went wrong</h3>
+        <div className="usa-alert-text vads-u-font-size--base">{error}</div>
       </va-alert>
     );
   }
