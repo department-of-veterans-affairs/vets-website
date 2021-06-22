@@ -1,15 +1,26 @@
 import React, { useEffect } from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import { goToNextPageWithToken } from '../utils/navigation';
+import { goToNextPageWithToken, getTokenFromRouter } from '../utils/navigation';
+
+import { validateToken } from '../api';
 
 const Landing = props => {
-  const { router } = props;
+  const onComponentLoad = async router => {
+    const token = getTokenFromRouter(router);
+    if (token) {
+      const json = await validateToken(token);
+      if (json.appointment) {
+        goToNextPageWithToken(router, 'insurance');
+      }
+    }
+  };
+
   useEffect(
     () => {
-      goToNextPageWithToken(router, 'insurance');
+      onComponentLoad(props.router);
     },
-    [router],
+    [props.router],
   );
   return (
     <>

@@ -4,10 +4,17 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 
 import { goToNextPageWithToken } from '../utils/navigation';
 
+import { checkInUser } from '../api';
+
 const CheckIn = props => {
   const { router } = props;
-  const onClick = () => {
-    goToNextPageWithToken(router, 'confirmed');
+  const onClick = async () => {
+    const json = await checkInUser({ some: 'data' });
+    if (json.success) {
+      goToNextPageWithToken(router, 'confirmed');
+    } else {
+      goToNextPageWithToken(router, 'failed');
+    }
   };
   const contactNumber = '555-867-5309';
 

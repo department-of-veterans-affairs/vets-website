@@ -66,6 +66,13 @@ const responses = {
       features: [{ name: 'check_in_experience_enabled', value: true }],
     },
   },
+  'GET /v0/patient_check_in/:id': (req, res) => {
+    const { id } = req.params;
+    return res.json({ id, appointment: {} });
+  },
+  'POST /v0/patient_check_in': (req, res) => {
+    return res.json({ success: true, data: req.body });
+  },
 };
 
 module.exports = responses;
