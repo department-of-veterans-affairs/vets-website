@@ -24,8 +24,7 @@ function handleError(error) {
 }
 
 function translateProps(componentString, propMap) {
-  // Make a copy so we don't modify the reference
-  let translatedComp = componentString.toString();
+  let translatedComp = componentString;
 
   Object.entries(propMap)
     .sort((pairOne, _) => {

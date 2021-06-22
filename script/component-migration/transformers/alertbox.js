@@ -1,8 +1,7 @@
 function alertBoxReplacement() {
   const moveToNamedSlot = componentString => {
-    let translatedHeadline = componentString.toString();
+    let translatedHeadline = componentString;
     const level = componentString.match(/level=["{](\d)["}]/)?.[1] || 3;
-    /* eslint-disable-next-line no-useless-escape */
     const headline = componentString.match(/headline=(["{].+?["}])/m)?.[1];
     translatedHeadline = translatedHeadline.replace(/level=["{](\d)["}]/, '');
     translatedHeadline = translatedHeadline.replace(
@@ -20,7 +19,7 @@ function alertBoxReplacement() {
   };
 
   const moveChildren = (componentString, propName) => {
-    let translatedChildren = componentString.toString();
+    let translatedChildren = componentString;
     const tag = [...componentString.match(/<(va-[a-z-]+)\s/)][1];
     const children = componentString.match(
       new RegExp(`${propName}=({.+})`, 's'),
