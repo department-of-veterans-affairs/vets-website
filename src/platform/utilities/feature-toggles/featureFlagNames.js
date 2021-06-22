@@ -50,7 +50,7 @@ export default Object.freeze({
   showEduBenefits5495Wizard: 'show_edu_benefits_5495_wizard',
   showFinancialStatusReport: 'showFinancialStatusReport',
   showFinancialStatusReportWizard: 'showFinancialStatusReportWizard',
-  showMedicalCopays: 'showMedicalCopays',
+  showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire: 'showHealthcareExperienceQuestionnaire',
   showNewGetMedicalRecordsPage: 'show_new_get_medical_records_page',
   showNewRefillTrackPrescriptionsPage: 'show_new_refill_track_prescriptions_page',
