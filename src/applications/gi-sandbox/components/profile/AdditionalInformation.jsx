@@ -161,7 +161,20 @@ export class AdditionalInformation extends React.Component {
         {institution.vrrap !== null && (
           <div>
             <strong>
-              Veteran Rapid Retraining Assistance Program (VRRAP):
+              <button
+                id="vrrap-button"
+                type="button"
+                className="va-button-link learn-more-button"
+                onClick={() => {
+                  recordEvent({
+                    event: 'gibct-modal-displayed',
+                    'gibct-modal-displayed': 'vrrap',
+                  });
+                  this.props.onShowModal('vrrap');
+                }}
+              >
+                Veteran Rapid Retraining Assistance Program (VRRAP):
+              </button>
             </strong>
             &nbsp; {institution.vrrap ? 'Yes' : 'No'}
           </div>
