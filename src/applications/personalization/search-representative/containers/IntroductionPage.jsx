@@ -25,7 +25,7 @@ class IntroductionPage extends React.Component {
         </p>
         <a
           className="vads-c-action-link--green"
-          href={`${manifest.rootUrl}/first-name`}
+          href={`${manifest.rootUrl}/representstive-type`}
         >
           Search for a representative
         </a>

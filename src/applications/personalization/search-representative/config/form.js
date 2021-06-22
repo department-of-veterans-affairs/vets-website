@@ -5,13 +5,12 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-const formFields = {
-  firstName: 'firstName',
-};
+import {
+  basicInformation,
+  location,
+  organizationName,
+  search,
+} from './imports';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -38,26 +37,28 @@ const formConfig = {
   title: 'Find an accredited representative',
   defaultDefinitions: {},
   chapters: {
-    chapter1: {
-      title: 'Personal Information',
+    basicInformation: {
+      title: '',
       pages: {
-        page1: {
-          path: 'first-name',
-          title: 'Personal Information - Page 1',
-          uiSchema: {
-            [formFields.firstName]: {
-              'ui:title': 'First Name',
-            },
-          },
-          schema: {
-            required: [formFields.firstName],
-            type: 'object',
-            properties: {
-              [formFields.firstName]: {
-                type: 'string',
-              },
-            },
-          },
+        representativeType: {
+          path: 'representstive-type',
+          uiSchema: basicInformation.uiSchema,
+          schema: basicInformation.schema,
+        },
+        location: {
+          path: 'location',
+          uiSchema: location.uiSchema,
+          schema: location.schema,
+        },
+        organizationName: {
+          path: 'organization-name',
+          uiSchema: organizationName.uiSchema,
+          schema: organizationName.schema,
+        },
+        searchRepresentative: {
+          path: 'search-for-representative',
+          uiSchema: search.uiSchema,
+          schema: search.schema,
         },
       },
     },
