@@ -8,7 +8,6 @@ export const someSelected = issues =>
   (issues || []).some(issue => issue[SELECTED]);
 
 // checks
-export const hasRepresentative = formData => formData['view:hasRep'];
 export const canUploadEvidence = formData =>
   formData.boardReviewOption === 'evidence_submission';
 export const needsHearingType = formData =>
