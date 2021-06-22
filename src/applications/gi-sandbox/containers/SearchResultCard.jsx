@@ -109,7 +109,7 @@ export function SearchResultCard({
           <strong>Rated By:</strong> {ratingCount}
         </p>
         <div className="vads-u-margin-bottom--2">
-          <RatingsStars rating={ratingAverage} />
+          <RatingsStars rating={ratingAverage} />(
           {Math.round(10 * ratingAverage) / 10} of 5) by {ratingCount} Veteran
           {ratingCount > 1 && 's'}
         </div>
