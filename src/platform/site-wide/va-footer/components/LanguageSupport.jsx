@@ -89,14 +89,16 @@ export default function LanguageSupport({
 
   return (
     <li>
-      <button
-        className="usa-button-unstyled usa-accordion-button va-footer-button"
-        aria-controls="veteran-language-support"
-        itemProp="name"
-        aria-expanded="false"
-      >
-        {langAssistanceLabel}
-      </button>
+      <h2 className="va-footer-linkgroup-title">
+        <button
+          className="usa-button-unstyled usa-accordion-button va-footer-button"
+          aria-controls="veteran-language-support"
+          itemProp="name"
+          aria-expanded="false"
+        >
+          {langAssistanceLabel}
+        </button>
+      </h2>
       <div
         className="usa-accordion-content va-footer-accordion-content vads-u-padding-bottom--0 vads-u-padding-left--0p5"
         id="veteran-language-support"

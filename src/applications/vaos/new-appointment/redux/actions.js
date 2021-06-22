@@ -659,7 +659,10 @@ export function checkCommunityCareEligibility() {
     try {
       // Check if user registered systems support community care...
       const siteIds = selectSystemIds(state);
-      const parentFacilities = await fetchParentLocations({ siteIds });
+      const parentFacilities = await fetchParentLocations({
+        siteIds,
+        useV2: featureVAOSServiceRequests,
+      });
       const ccEnabledSystems = await fetchCommunityCareSupportedSites({
         locations: parentFacilities,
         useV2: featureVAOSServiceRequests,

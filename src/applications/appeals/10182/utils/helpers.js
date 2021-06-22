@@ -60,20 +60,28 @@ export const setInitialEditMode = (formData = []) =>
       !issue || !decisionDate || !isValidDate(decisionDate),
   );
 
-export const sortContestableIssues = contestableIssues => {
+// getEligibleContestableIssues will remove deferred issues and issues > 1 year
+// past their decision date. This function removes issues with no title & sorts
+// the list by decending (newest first) decision date
+export const processContestableIssues = contestableIssues => {
   const regexDash = /-/g;
   const getDate = entry =>
     (entry.attributes?.approxDecisionDate || '').replace(regexDash, '');
 
-  return (contestableIssues || []).sort((a, b) => {
-    const dateA = getDate(a);
-    const dateB = getDate(b);
-    if (dateA === dateB) {
-      return 0;
-    }
-    // YYYYMMDD string comparisons will work in place of using moment
-    return dateA > dateB ? -1 : 1;
-  });
+  // remove issues with no title & sort by date - see
+  // https://dsva.slack.com/archives/CSKKUL36K/p1623956682119300
+  return (contestableIssues || [])
+    .filter(issue => getIssueName(issue))
+    .sort((a, b) => {
+      const dateA = getDate(a);
+      const dateB = getDate(b);
+      if (dateA === dateB) {
+        // If the dates are the same, sort by title
+        return getIssueName(a) > getIssueName(b) ? 1 : -1;
+      }
+      // YYYYMMDD string comparisons will work in place of using moment
+      return dateA > dateB ? -1 : 1;
+    });
 };
 
 export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
@@ -81,14 +89,16 @@ export const issuesNeedUpdating = (loadedIssues = [], existingIssues = []) => {
     return true;
   }
   // sort both arrays so we don't end up in an endless loop
-  const issues = sortContestableIssues(existingIssues);
-  return !sortContestableIssues(loadedIssues).every(({ attributes }, index) => {
-    const existing = issues[index]?.attributes || {};
-    return (
-      attributes.ratingIssueSubjectText === existing.ratingIssueSubjectText &&
-      attributes.approxDecisionDate === existing.approxDecisionDate
-    );
-  });
+  const issues = processContestableIssues(existingIssues);
+  return !processContestableIssues(loadedIssues).every(
+    ({ attributes }, index) => {
+      const existing = issues[index]?.attributes || {};
+      return (
+        attributes.ratingIssueSubjectText === existing.ratingIssueSubjectText &&
+        attributes.approxDecisionDate === existing.approxDecisionDate
+      );
+    },
+  );
 };
 
 export const appStateSelector = state => ({
