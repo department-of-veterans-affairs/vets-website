@@ -78,7 +78,7 @@ describe('Authed Letter Test', () => {
       });
 
     // poke all the checkboxes and expect them to all be unselected
-
+    cy.get('#militaryService', { timeout: Timeouts.normal }).should('exist');
     cy.get('#militaryService', { timeout: Timeouts.normal }).should(
       'be.checked',
     );
@@ -91,7 +91,7 @@ describe('Authed Letter Test', () => {
     cy.get('#benefitInfoTable input[type="checkbox"]').then(checkboxes => {
       cy.wrap(Array.from(checkboxes).map(checkbox => checkbox.id)).each(id => {
         cy.get(`#${id}`)
-          .should('be.checked')
+          .should('exist')
           .then(elem => {
             cy.wrap(elem).should('be.checked');
             cy.wrap(elem).click({ force: true });
