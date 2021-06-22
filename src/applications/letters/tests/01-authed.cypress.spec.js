@@ -90,11 +90,10 @@ describe('Authed Letter Test', () => {
     );
     cy.get('#benefitInfoTable input[type="checkbox"]').then(checkboxes => {
       cy.wrap(Array.from(checkboxes).map(checkbox => checkbox.id)).each(id => {
-        cy.get(`#${id}`).should('exist');
-
-        cy.get(`#${id}`).should('be.checked');
-        cy.get(`#${id}`).click({ force: true });
-        cy.get(`#${id}`).should('not.be.checked');
+        cy.get(`#${id}`, { timeout: Timeouts.normal }).should('exist');
+        cy.get(`#${id}`, { timeout: Timeouts.normal }).should('be.checked');
+        cy.get(`#${id}`, { timeout: Timeouts.normal }).click('center');
+        cy.get(`#${id}`, { timeout: Timeouts.normal }).should('not.be.checked');
       });
     });
     // collapse the bsl accordion
