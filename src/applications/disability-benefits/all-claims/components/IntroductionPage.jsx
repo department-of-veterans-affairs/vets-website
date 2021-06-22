@@ -83,6 +83,7 @@ class IntroductionPage extends React.Component {
         )}
         <SaveInProgressIntro
           hideUnauthedStartLink
+          headingLevel={2}
           prefillEnabled={formConfig.prefillEnabled}
           formId={this.props.formId}
           pageList={pageList}
