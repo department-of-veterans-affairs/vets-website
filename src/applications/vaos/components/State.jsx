@@ -69,5 +69,10 @@ export default function State({ state }) {
     return <>{state}</>;
   }
 
-  return <span aria-label={stateName}>{state}</span>;
+  return (
+    <span role="group">
+      <span className="sr-only">{stateName}</span>
+      <span aria-hidden="true">{state}</span>
+    </span>
+  );
 }
