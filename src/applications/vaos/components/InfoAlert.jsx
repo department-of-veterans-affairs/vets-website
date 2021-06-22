@@ -5,8 +5,10 @@ export default function InfoAlert({
   backgroundOnly = false,
   children,
   headline,
+  level = 2,
   status,
 }) {
+  const H = `h${level}`;
   if (backgroundOnly) {
     return (
       <div
@@ -14,9 +16,7 @@ export default function InfoAlert({
       >
         <div className="usa-alert-body">
           {headline && (
-            <h2 className="usa-alert-heading vads-u-font-size--h3">
-              {headline}
-            </h2>
+            <H className="usa-alert-heading vads-u-font-size--h3">{headline}</H>
           )}
           <div className="usa-alert-text">{children}</div>
         </div>
@@ -25,9 +25,9 @@ export default function InfoAlert({
   }
   return (
     <va-alert class="vads-u-margin-top--3" status={status}>
-      <h2 className="vads-u-font-size--h3" slot="headline">
+      <H className="vads-u-font-size--h3" slot="headline">
         {headline}
-      </h2>
+      </H>
       <div className="vads-u-font-size--base">{children}</div>
     </va-alert>
   );
@@ -37,6 +37,7 @@ InfoAlert.propTypes = {
   backgroundOnly: PropTypes.bool,
   children: PropTypes.node,
   headline: PropTypes.string,
+  level: PropTypes.string,
   status: PropTypes.oneOf(['info', 'error', 'success', 'warning', 'continue'])
     .isRequired,
 };

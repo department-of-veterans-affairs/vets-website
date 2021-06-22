@@ -162,15 +162,15 @@ export default function ConfirmedAppointmentDetailsPage() {
     facility: facilityData[locationId],
   });
 
-  let alertBox = null;
+  let infoAlert = null;
   if (canceled) {
-    alertBox = (
+    infoAlert = (
       <InfoAlert status="error" backgroundOnly>
         {`${canceler} canceled this appointment.`}
       </InfoAlert>
     );
   } else if (isPastAppointment) {
-    alertBox = (
+    infoAlert = (
       <InfoAlert status="warning" backgroundOnly>
         This appointment occurred in the past.
       </InfoAlert>
@@ -187,7 +187,7 @@ export default function ConfirmedAppointmentDetailsPage() {
         <AppointmentDateTime appointment={appointment} />
       </h1>
 
-      {alertBox}
+      {infoAlert}
 
       <h2
         className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
