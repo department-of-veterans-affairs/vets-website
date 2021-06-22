@@ -424,36 +424,42 @@ jobs:
         with:
           name: cypress-mochawesome-test-results-artifact-0
           path: testing-tools-team-dashboard-data/src/mochawesome/data
+        continue-on-error: true
 
       - name: Download test result artifact 1
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-1
           path: testing-tools-team-dashboard-data/src/mochawesome/data
+        continue-on-error: true
 
       - name: Download test result artifact 2
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-2
           path: testing-tools-team-dashboard-data/src/mochawesome/data
+        continue-on-error: true
 
       - name: Download test result artifact 3
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-3
           path: testing-tools-team-dashboard-data/src/mochawesome/data
+        continue-on-error: true
 
       - name: Download test result artifact 4
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-4
           path: testing-tools-team-dashboard-data/src/mochawesome/data
+        continue-on-error: true
 
       - name: Download test result artifact 5
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-5
           path: testing-tools-team-dashboard-data/src/mochawesome/data
+        continue-on-error: true
 
       - name: Create report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
