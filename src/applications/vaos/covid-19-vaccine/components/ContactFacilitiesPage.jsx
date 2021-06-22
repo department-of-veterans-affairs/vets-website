@@ -139,14 +139,13 @@ export default function ContactFacilitiesPage() {
         <div className="vads-u-margin-bottom--3">
           <InfoAlert
             backgroundOnly
-            className="test"
             headline="Find a vaccine walk-in clinic near you"
             status="info"
           >
             <p>
-              test You can go to a VA facility's vaccine clinic during walk-in
-              hours to get the COVID-19 vaccine. You don't need an appointment,
-              but be sure to check the facility's walk-in hours before you go.
+              You can go to a VA facility's vaccine clinic during walk-in hours
+              to get the COVID-19 vaccine. You don't need an appointment, but be
+              sure to check the facility's walk-in hours before you go.
             </p>
             <a
               href="/find-locations/?facilityType=health&serviceType=Covid19Vaccine"
