@@ -10,3 +10,25 @@ export function Sample() {
     <AlertBox status={myStatus} headline={myHeadline} content={someContent} />
   );
 }
+
+export function OtherSample() {
+  return (
+    <div>
+      <div>
+        <div>
+          <AlertBox
+            status="error"
+            headline="This is a multiline component"
+            level="2"
+            content={
+              <div>
+                <p>I'm some child content</p>
+                <span>Blah blah</span>
+              </div>
+            }
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
