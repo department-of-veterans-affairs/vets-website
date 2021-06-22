@@ -105,12 +105,14 @@ export const uiSchema = {
             };
           },
         },
+        'ui:errorMessages': {
+          enum: 'Please select a country.',
+        },
       },
       street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {
-          pattern: 'Please enter a valid street address',
-          required: 'Please enter a street address',
+          pattern: 'Please enter a street address.',
         },
         'ui:options': {
           classNames: 'input-size-7',
@@ -124,8 +126,8 @@ export const uiSchema = {
       },
       city: {
         'ui:errorMessages': {
-          pattern: 'Please enter a valid city',
-          required: 'Please enter a city',
+          pattern: 'Please enter a valid city.',
+          required: 'Please enter a city.',
         },
         'ui:options': {
           classNames: 'input-size-7',
@@ -179,20 +181,18 @@ export const uiSchema = {
           },
         ],
         'ui:errorMessages': {
-          pattern: 'Please enter a valid state',
-          required: 'Please enter a state',
+          enum: 'Please select a state.',
         },
       },
       postalCode: {
         'ui:title': 'Postal code',
         'ui:validations': [validateZIP],
         'ui:errorMessages': {
-          required: 'Please enter a postal code',
-          pattern:
-            'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+          required: 'Please enter a postal code.',
+          pattern: 'Please enter a valid postal code.',
         },
         'ui:options': {
-          classNames: 'input-size-2',
+          classNames: 'input-size-5',
         },
       },
     },
@@ -201,11 +201,17 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'input-size-7',
       },
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid phone number.',
+      },
     },
     emailAddress: {
       ...emailUI('Email address'),
       'ui:options': {
         classNames: 'input-size-7',
+      },
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid email address.',
       },
     },
   },
