@@ -336,6 +336,21 @@ class EstimateYourBenefitsForm extends React.Component {
    */
   renderInState = () => {
     if (!this.props.displayedInputs.inState) return null;
+    const { inStateTuitionInformation } = this.props.profile.attributes;
+
+    let url;
+    try {
+      url = new URL(inStateTuitionInformation);
+    } catch {
+      url = null;
+    }
+
+    const label = this.renderLearnMoreLabel({
+      text: 'Are you an in-state student?',
+      modal: url ? 'inStateWithLink' : 'inStateWithoutLink',
+      ariaLabel: ariaLabels.learnMore.inState,
+    });
+
     return (
       <ExpandingGroup
         open={
@@ -344,7 +359,7 @@ class EstimateYourBenefitsForm extends React.Component {
         }
       >
         <RadioButtons
-          label="Are you an in-state student?"
+          label={label}
           name="inState"
           options={[
             { value: 'yes', label: 'Yes' },

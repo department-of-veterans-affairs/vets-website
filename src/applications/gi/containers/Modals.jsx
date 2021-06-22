@@ -1019,6 +1019,38 @@ export class Modals extends React.Component {
             allowance.
           </p>
         </Modal>
+
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('inStateWithoutLink')}
+        >
+          <h3>Qualifying for in-state tuition</h3>
+          <p>
+            If you're using GI Bill education benefits, you probably qualify for
+            in-state tuition.
+          </p>
+          <p>
+            Contact the School Certifying Official (SCO) to learn more about
+            this school's in-state tuition requirements.
+          </p>
+        </Modal>
+
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('inStateWithLink')}
+        >
+          <h3>Qualifying for in-state tuition</h3>
+          <p>
+            If you're using GI Bill education benefits, you probably qualify for
+            in-state tuition.
+          </p>
+          <p>
+            Visit this school's website to{' '}
+            <a href={this.props.profile.attributes.inStateTuitionInformation}>
+              see any in-state tuition requirements.
+            </a>
+          </p>
+        </Modal>
       </span>
     );
   };
