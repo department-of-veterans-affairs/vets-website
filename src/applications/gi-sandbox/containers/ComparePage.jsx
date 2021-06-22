@@ -538,9 +538,8 @@ export function ComparePage({
             fieldData={[
               {
                 label: 'Length of VET TEC programs',
-                mapper: institution => {
-                  return programHours(institution.programLengthInHours);
-                },
+                mapper: institution =>
+                  programHours(institution.programLengthInHours),
               },
               {
                 label: 'Credit for military training',
