@@ -11,7 +11,10 @@ import {
   UNABLE_TO_REACH_VETERAN_DETCODE,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
-import { transformATLASLocation } from '../location/transformers';
+import {
+  transformATLASLocation,
+  transformCommunityProvider,
+} from '../location/transformers';
 
 import {
   CANCELLED_APPOINTMENT_SET,
@@ -323,22 +326,23 @@ function getCommunityCareData(appt) {
         : null,
     preferredCommunityCareProviders: appt.ccAppointmentRequest?.preferredProviders?.map(
       provider => {
-        return {
-          providerName:
-            provider.lastName &&
-            `${provider.firstName || ''} ${provider.lastName || ''}`,
-          firstName: provider.firstName,
-          lastName: provider.lastName,
-          practiceName: provider.practiceName,
-          address: provider.address
-            ? {
-                line: [provider.address.street],
-                city: provider.address.city,
-                state: provider.address.state,
-                postalCode: provider.address.zipCode,
-              }
-            : null,
-        };
+        return transformCommunityProvider(provider);
+        // return {
+        //   providerName:
+        //     provider.lastName &&
+        //     `${provider.firstName || ''} ${provider.lastName || ''}`,
+        //   firstName: provider.firstName,
+        //   lastName: provider.lastName,
+        //   practiceName: provider.practiceName,
+        //   address: provider.address
+        //     ? {
+        //         line: [provider.address.street],
+        //         city: provider.address.city,
+        //         state: provider.address.state,
+        //         postalCode: provider.address.zipCode,
+        //       }
+        //     : null,
+        // };
       },
     ),
   };
