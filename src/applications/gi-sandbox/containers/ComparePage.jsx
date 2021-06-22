@@ -152,6 +152,17 @@ export function ComparePage({
     );
   }
 
+  const programHours = programLength => {
+    if (programLength && programLength.length > 0) {
+      const maxHours = Math.max(...programLength);
+      const minHours = Math.min(...programLength);
+      return `${
+        minHours === maxHours ? minHours : `${minHours} - ${maxHours}`
+      } hours`;
+    }
+    return 'N/A';
+  };
+
   return (
     <div className="compare-page">
       {promptingFacilityCode && (
@@ -528,23 +539,7 @@ export function ComparePage({
               {
                 label: 'Length of VET TEC programs',
                 mapper: institution => {
-                  if (
-                    institution.programLengthInHours &&
-                    institution.programLengthInHours.length > 0
-                  ) {
-                    const maxHours = Math.max(
-                      ...institution.programLengthInHours,
-                    );
-                    const minHours = Math.min(
-                      ...institution.programLengthInHours,
-                    );
-                    return `${
-                      minHours === maxHours
-                        ? minHours
-                        : `${minHours} - ${maxHours}`
-                    } hours`;
-                  }
-                  return 'N/A';
+                  return programHours(institution.programLengthInHours);
                 },
               },
               {
