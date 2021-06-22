@@ -59,12 +59,12 @@ const wrapperClassesMedium = prefixUtilityClasses(
 );
 
 const editButtonClasses = [
-  'va-button-link',
-  ...prefixUtilityClasses(['margin-top--1p5']),
+  'usa-button-secondary',
+  ...prefixUtilityClasses(['width--auto', 'margin--0', 'margin-top--1p5']),
 ];
 
 const editButtonClassesMedium = prefixUtilityClasses(
-  ['flex--auto', 'margin-top--0'],
+  ['flex--auto', 'margin-top--0', 'margin-left--4'],
   'medium',
 );
 
