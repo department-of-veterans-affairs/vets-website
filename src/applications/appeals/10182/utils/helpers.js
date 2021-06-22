@@ -60,12 +60,16 @@ export const setInitialEditMode = (formData = []) =>
       !issue || !decisionDate || !isValidDate(decisionDate),
   );
 
+// getEligibleContestableIssues will remove deferred issues and issues > 1 year
+// past their decision date. This function removes issues with no title & sorts
+// the list by decending (newest first) decision date
 export const processContestableIssues = contestableIssues => {
   const regexDash = /-/g;
   const getDate = entry =>
     (entry.attributes?.approxDecisionDate || '').replace(regexDash, '');
 
-  // remove issues with no title & sort by date
+  // remove issues with no title & sort by date - see
+  // https://dsva.slack.com/archives/CSKKUL36K/p1623956682119300
   return (contestableIssues || [])
     .filter(issue => getIssueName(issue))
     .sort((a, b) => {
