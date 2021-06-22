@@ -269,7 +269,7 @@ jobs:
     needs: build
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       max-parallel: 6
       matrix:
         ci_node_index: [0, 1, 2, 3, 4, 5]
