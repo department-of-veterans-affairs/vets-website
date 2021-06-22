@@ -35,6 +35,15 @@ export default function ReviewPage() {
     scrollAndFocus();
   }, []);
 
+  useEffect(
+    () => {
+      if (submitStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('.usa-alert-error');
+      }
+    },
+    [submitStatus],
+  );
+
   if (!data?.typeOfCareId) {
     return <Redirect to="/new-appointment" />;
   }
@@ -76,50 +85,52 @@ export default function ReviewPage() {
         </LoadingButton>
       </div>
       {submitStatus === FETCH_STATUS.failed && (
-        <AlertBox
-          status="error"
-          headline="We couldn’t schedule this appointment"
-          content={
-            <>
-              {submitStatusVaos400 ? (
-                <p>
-                  We’re sorry. Something went wrong when we tried to submit your{' '}
-                  {isDirectSchedule ? 'appointment' : 'request'}. You’ll need to
-                  call your local VA medical center to schedule this
-                  appointment.
-                </p>
-              ) : (
-                <p>
-                  We’re sorry. Something went wrong when we tried to submit your{' '}
-                  {isDirectSchedule ? 'appointment' : 'request'} and you’ll need
-                  to start over. We suggest you wait a day to try again or you
-                  can call your medical center to help with your{' '}
-                  {isDirectSchedule ? 'appointment' : 'request'}.
-                </p>
-              )}
-              <p>
-                {!facilityDetails && (
-                  <NewTabAnchor
-                    href={`/find-locations/facility/vha_${getRealFacilityId(
-                      data.vaFacility || data.communityCareSystemId,
-                    )}`}
-                  >
-                    {submitStatusVaos400
-                      ? 'Find facility contact information'
-                      : 'Contact your local VA medical center'}
-                  </NewTabAnchor>
+        <div role="alert">
+          <AlertBox
+            status="error"
+            headline="We couldn’t schedule this appointment"
+            content={
+              <>
+                {submitStatusVaos400 ? (
+                  <p>
+                    We’re sorry. Something went wrong when we tried to submit
+                    your {isDirectSchedule ? 'appointment' : 'request'}. You’ll
+                    need to call your local VA medical center to schedule this
+                    appointment.
+                  </p>
+                ) : (
+                  <p>
+                    We’re sorry. Something went wrong when we tried to submit
+                    your {isDirectSchedule ? 'appointment' : 'request'} and
+                    you’ll need to start over. We suggest you wait a day to try
+                    again or you can call your medical center to help with your{' '}
+                    {isDirectSchedule ? 'appointment' : 'request'}.
+                  </p>
                 )}
-                {!!facilityDetails && (
-                  <FacilityAddress
-                    name={facilityDetails.name}
-                    facility={facilityDetails}
-                    showDirectionsLink
-                  />
-                )}
-              </p>
-            </>
-          }
-        />
+                <p>
+                  {!facilityDetails && (
+                    <NewTabAnchor
+                      href={`/find-locations/facility/vha_${getRealFacilityId(
+                        data.vaFacility || data.communityCareSystemId,
+                      )}`}
+                    >
+                      {submitStatusVaos400
+                        ? 'Find facility contact information'
+                        : 'Contact your local VA medical center'}
+                    </NewTabAnchor>
+                  )}
+                  {!!facilityDetails && (
+                    <FacilityAddress
+                      name={facilityDetails.name}
+                      facility={facilityDetails}
+                      showDirectionsLink
+                    />
+                  )}
+                </p>
+              </>
+            }
+          />
+        </div>
       )}
     </div>
   );
