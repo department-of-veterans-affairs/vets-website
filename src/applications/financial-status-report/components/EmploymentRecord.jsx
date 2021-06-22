@@ -34,9 +34,12 @@ const EmploymentRecord = ({
   const { from, to } = employment ? employment[index] : [];
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
-  const employerError = errorSchema.employerName?.__errors[0];
-  const typeError = errorSchema.type?.__errors[0];
   const submitted = formContext.submitted;
+
+  const typeError = errorSchema.type?.__errors[0];
+  const startError = 'Please enter your employment start date.';
+  const endError = 'Please enter your employment end date.';
+  const employerError = errorSchema.employerName?.__errors[0];
 
   const updateFormData = updated => {
     setFormData({
@@ -103,6 +106,7 @@ const EmploymentRecord = ({
           name="from"
           onValueChange={value => handleDateChange('from', value)}
           required
+          requiredMessage={submitted && startError}
         />
       </div>
       <div
@@ -125,6 +129,7 @@ const EmploymentRecord = ({
           name="to"
           onValueChange={value => handleDateChange('to', value)}
           required
+          requiredMessage={submitted && endError}
         />
       </div>
       <Checkbox

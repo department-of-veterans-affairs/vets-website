@@ -28,6 +28,10 @@ export const uiSchema = {
           widgetClassNames: 'input-size-1 vads-u-margin-bottom--3',
           classNames: 'schemaform-currency-input',
         },
+        'ui:errorMessages': {
+          pattern: 'Please enter only numerical values.',
+          required: 'Please enter your gross monthly income.',
+        },
       },
       deductions: {
         'ui:field': ItemLoop,

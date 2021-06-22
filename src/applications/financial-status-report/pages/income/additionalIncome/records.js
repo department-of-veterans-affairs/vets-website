@@ -37,10 +37,16 @@ export const uiSchema = {
             classNames: 'input-size-4',
             getOptions: () => formatOptions(incomeTypes),
           },
+          'ui:errorMessages': {
+            required: 'Please enter the type of income.',
+          },
         },
         amount: _.merge(currencyUI('Monthly income amount'), {
           'ui:options': {
             widgetClassNames: 'input-size-2',
+          },
+          'ui:errorMessages': {
+            required: 'Please enter the monthly income amount.',
           },
         }),
       },
