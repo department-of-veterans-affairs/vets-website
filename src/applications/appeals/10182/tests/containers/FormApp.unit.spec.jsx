@@ -207,7 +207,10 @@ describe('FormApp', () => {
       email: profile.vapContactInfo.email.emailAddress,
     };
     expect(formData.veteran).to.deep.equal(result);
-    expect(formData.contestableIssues).to.deep.equal(contestableIssues.issues);
+    expect(formData.contestableIssues).to.deep.equal([
+      contestableIssues.issues[1],
+      contestableIssues.issues[0],
+    ]);
     // check sorted
     expect(
       formData.contestableIssues[0].attributes.approxDecisionDate,

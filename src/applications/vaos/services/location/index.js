@@ -32,7 +32,8 @@ import {
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
-import { getSchedulingConfigurations } from '../vaos';
+import { getParentFacilitiesV2, getSchedulingConfigurations } from '../vaos';
+import { transformParentFacilitiesV2 } from './transformers.v2';
 
 /**
  * Fetch facility information for the facilities in the given site, based on type of care
@@ -343,18 +344,27 @@ export async function getCommunityProvider(id) {
  * @param {Array<string>} params.siteIds A list of three digit VistA site ids
  * @returns {Array<Location>} A list of parent Locations
  */
-export async function fetchParentLocations({ siteIds }) {
+export async function fetchParentLocations({ siteIds, useV2 }) {
   try {
-    const parentFacilities = await getParentFacilities(siteIds);
-
-    return transformParentFacilities(parentFacilities).sort((a, b) => {
+    const sortFacilitiesMethod = (a, b) => {
       // a.name comes 1st
       if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
       // b.name comes 1st
       if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
       // a.name and b.name are equal
       return 0;
-    });
+    };
+
+    if (useV2) {
+      const facilities = await getParentFacilitiesV2(siteIds, true);
+      return transformParentFacilitiesV2(facilities).sort(sortFacilitiesMethod);
+    }
+
+    const parentFacilities = await getParentFacilities(siteIds);
+
+    return transformParentFacilities(parentFacilities).sort(
+      sortFacilitiesMethod,
+    );
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
