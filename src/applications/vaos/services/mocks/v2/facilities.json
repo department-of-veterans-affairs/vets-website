@@ -1,0 +1,124 @@
+{
+  "data": [
+    {
+      "id": "983",
+      "type": "facilities",
+      "attributes": {
+        "id": "983",
+        "vista_site": "983",
+        "vast_parent": "983",
+        "type": "va_facilities",
+        "name": "Cheyenne VA Medical Center",
+        "classification": "VA Medical Center (VAMC)",
+        "timezone": {
+          "zone_id": "America/Denver",
+          "abbreviation": "MDT"
+        },
+        "lat": 39.744507,
+        "long": -104.830956,
+        "website": "https://www.denver.va.gov/locations/directions.asp",
+        "phone": {
+          "main": "307-778-7550",
+          "fax": "307-778-7381",
+          "pharmacy": "866-420-6337",
+          "after_hours": "307-778-7550",
+          "patient_advocate": "307-778-7550 x7517",
+          "mental_health_clinic": "307-778-7349",
+          "enrollment_coordinator": "307-778-7550 x7579"
+        },
+        "hours_of_operation": null,
+        "mailing_address": null,
+        "physical_address": {
+          "type": "physical",
+          "line": [
+            "2360 East Pershing Boulevard"
+          ],
+          "city": "Cheyenne",
+          "state": "WY",
+          "postal_code": "82001-5356"
+        },
+        "mobile": false,
+        "health_service": [
+          "Audiology",
+          "Cardiology",
+          "DentalServices",
+          "EmergencyCare",
+          "Gastroenterology",
+          "Gynecology",
+          "MentalHealthCare",
+          "Nutrition",
+          "Ophthalmology",
+          "Optometry",
+          "Orthopedics",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare",
+          "UrgentCare",
+          "Urology",
+          "WomensHealth"
+        ],
+        "operating_status": {
+          "code": "NORMAL"
+        }
+      }
+    },
+    {
+      "id": "984",
+      "type": "facilities",
+      "attributes": {
+        "id": "984",
+        "vista_site": "984",
+        "vast_parent": "984",
+        "type": "va_health_facility",
+        "name": "Dayton VA Medical Center",
+        "classification": "VA Medical Center (VAMC)",
+        "timezone": null,
+        "lat": null,
+        "long": null,
+        "website": "https://www.dayton.va.gov/locations/directions.asp",
+        "phone": {
+          "main": "937-268-6511"
+        },
+        "hours_of_operation": null,
+        "mailing_address": null,
+        "physical_address": {
+          "type": "physical",
+          "line": [
+            "4100 West Third Street"
+          ],
+          "city": "Dayton",
+          "state": "OH",
+          "postal_code": "45428-9000"
+        },
+        "mobile": null,
+        "health_service": [
+          "Audiology",
+          "Cardiology",
+          "DentalServices",
+          "Dermatology",
+          "Gastroenterology",
+          "Gynecology",
+          "MentalHealthCare",
+          "Nutrition",
+          "Ophthalmology",
+          "Optometry",
+          "Orthopedics",
+          "Podiatry",
+          "PrimaryCare",
+          "SpecialtyCare",
+          "Urology",
+          "WomensHealth"
+        ],
+        "operating_status": null
+      }
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "current_page": 0,
+      "per_page": 0,
+      "total_pages": 0,
+      "total_entries": 0
+    }
+  }
+}
