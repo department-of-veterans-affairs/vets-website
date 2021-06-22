@@ -1,4 +1,8 @@
-import { submitTransform, isSSNUnique } from '../helpers';
+import {
+  submitTransform,
+  isSSNUnique,
+  arrayToSentenceString,
+} from '../helpers';
 import { expect } from 'chai';
 import formConfig from 'applications/caregivers/config/form';
 import {
@@ -300,5 +304,48 @@ describe('Caregivers helpers', () => {
     const areSSNsUnique = isSSNUnique(formData);
 
     expect(areSSNsUnique).to.be.true;
+  });
+
+  describe('arrayToSentenceString', () => {
+    it('should return empty string when not an array', () => {
+      const sentence = arrayToSentenceString('array', 'or');
+
+      expect(sentence).to.equal('');
+    });
+
+    it('should return empty string when array is empty', () => {
+      const sentence = arrayToSentenceString([], 'or');
+
+      expect(sentence).to.equal('');
+    });
+
+    it('should return item unformatted when array constains only one item', () => {
+      const onlyItem = 'MyOnlyItem';
+      const sentence = arrayToSentenceString([onlyItem], 'or');
+
+      expect(sentence).to.equal(onlyItem);
+    });
+
+    it('should return item transformed without conjunction when array constains only one item', () => {
+      const transform = value => `(${value})`;
+      const sentence = arrayToSentenceString(['MyOnlyItem'], 'or', transform);
+
+      expect(sentence).to.equal('(MyOnlyItem)');
+    });
+
+    it('should return formated string with conjunction without transform function', () => {
+      const inputArray = ['Ed', 'Edd', 'Eddy'];
+      const sentence = arrayToSentenceString(inputArray, 'and');
+
+      expect(sentence).to.equal('Ed, Edd, and Eddy');
+    });
+
+    it('should return formated string with conjunction with transform function', () => {
+      const transform = value => `(${value})`;
+      const inputArray = ['*.*', '^.^', 'O.O'];
+      const sentence = arrayToSentenceString(inputArray, 'and', transform);
+
+      expect(sentence).to.equal('(*.*), (^.^), and (O.O)');
+    });
   });
 });

@@ -32,6 +32,8 @@ import {
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
+import { getParentFacilitiesV2, getSchedulingConfigurations } from '../vaos';
+import { transformParentFacilitiesV2 } from './transformers.v2';
 
 /**
  * Fetch facility information for the facilities in the given site, based on type of care
@@ -342,18 +344,27 @@ export async function getCommunityProvider(id) {
  * @param {Array<string>} params.siteIds A list of three digit VistA site ids
  * @returns {Array<Location>} A list of parent Locations
  */
-export async function fetchParentLocations({ siteIds }) {
+export async function fetchParentLocations({ siteIds, useV2 }) {
   try {
-    const parentFacilities = await getParentFacilities(siteIds);
-
-    return transformParentFacilities(parentFacilities).sort((a, b) => {
+    const sortFacilitiesMethod = (a, b) => {
       // a.name comes 1st
       if (a.name.toUpperCase() < b.name.toUpperCase()) return -1;
       // b.name comes 1st
       if (a.name.toUpperCase() > b.name.toUpperCase()) return 1;
       // a.name and b.name are equal
       return 0;
-    });
+    };
+
+    if (useV2) {
+      const facilities = await getParentFacilitiesV2(siteIds, true);
+      return transformParentFacilitiesV2(facilities).sort(sortFacilitiesMethod);
+    }
+
+    const parentFacilities = await getParentFacilities(siteIds);
+
+    return transformParentFacilities(parentFacilities).sort(
+      sortFacilitiesMethod,
+    );
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -369,10 +380,28 @@ export async function fetchParentLocations({ siteIds }) {
  *
  * @export
  * @param {Object} params
- * @param {Array<Location>} locations The locations to find CC support at
+ * @param {Array<Location>} params.locations The locations to find CC support at
+ * @param {boolean} params.useV2 Use the V2 scheduling configurations endpoint
+ *   to get the CC supported locations
  * @returns {Array<Location>} A list of locations that support CC requests
  */
-export async function fetchCommunityCareSupportedSites({ locations }) {
+export async function fetchCommunityCareSupportedSites({
+  locations,
+  useV2 = false,
+}) {
+  if (useV2) {
+    const facilityConfigs = await getSchedulingConfigurations(
+      locations.map(location => location.id),
+      true,
+    );
+
+    return locations.filter(location =>
+      facilityConfigs.some(
+        facilityConfig => facilityConfig.facilityId === location.id,
+      ),
+    );
+  }
+
   const ccSites = await getSitesSupportingVAR(
     locations.map(location => location.id),
   );

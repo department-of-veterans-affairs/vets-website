@@ -216,3 +216,26 @@ export const shouldHideAlert = formData => {
   if (!hasPrimary && !hasSecondary) return false;
   return false;
 };
+
+/**
+ * Converts an array of items into a sentence with a conjunction
+ *
+ * Note: returns blank string if items is not an array or is empty
+ * @export
+ * @param {Array<string>} items
+ * @param {string} conjunction
+ * @param {Function} transform mapper function
+ * @returns {string}
+ */
+export const arrayToSentenceString = (items, conjunction, transform) => {
+  if (!Array.isArray(items) || items.length < 1) return '';
+
+  return items.reduce((accumulator, val, index) => {
+    const item = typeof transform === 'function' ? transform(val) : val;
+
+    if (index === 0) return item.toString();
+
+    const seperator = index < items.length - 1 ? ',' : `, ${conjunction}`;
+    return `${accumulator}${seperator} ${item}`;
+  }, '');
+};

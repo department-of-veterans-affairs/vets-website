@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 
 export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
@@ -158,6 +159,15 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {institution.stemIndicator ? 'Yes' : 'No'}
         </div>
+        {!environment.isProduction() &&
+          institution.vrrap !== null && (
+            <div>
+              <strong>
+                Veteran Rapid Retraining Assistance Program (VRRAP):
+              </strong>
+              &nbsp; {institution.vrrap ? 'Yes' : 'No'}
+            </div>
+          )}
         <div>
           <strong>
             <button

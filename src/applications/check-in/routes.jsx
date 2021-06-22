@@ -6,20 +6,29 @@ import Confirmation from './pages/Confirmation';
 import Failed from './pages/Failed';
 import Insurance from './pages/Insurance';
 import Landing from './pages/Landing';
+import FeatureFlipTest from './pages/FeatureFlipTest';
 
-import withFeatureFlip from './containers/withFeatureFlip.jsx';
+import withNotOnProduction from './containers/withNotOnProduction';
+import withFeatureFlip from './containers/withFeatureFlip';
 
 const createRoutesWithStore = () => {
   return (
     <Switch>
-      <Route path="/:token" component={withFeatureFlip(Landing)} />
-      <Route path="/:token/insurance" component={withFeatureFlip(Insurance)} />
-      <Route path="/:token/details" component={withFeatureFlip(CheckIn)} />
+      <Route path="/:token" component={withNotOnProduction(Landing)} />
+      <Route
+        path="/:token/insurance"
+        component={withNotOnProduction(Insurance)}
+      />
+      <Route path="/:token/details" component={withNotOnProduction(CheckIn)} />
       <Route
         path="/:token/confirmed"
-        component={withFeatureFlip(Confirmation)}
+        component={withNotOnProduction(Confirmation)}
       />
-      <Route path="/:token/failed" component={withFeatureFlip(Failed)} />
+      <Route path="/:token/failed" component={withNotOnProduction(Failed)} />
+      <Route
+        path="/:token/debug"
+        component={withFeatureFlip(FeatureFlipTest)}
+      />
     </Switch>
   );
 };

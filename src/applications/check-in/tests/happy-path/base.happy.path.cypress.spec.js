@@ -4,12 +4,12 @@ describe('Check In Experience -- ', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
-  it('happy path', () => {
+  it.skip('happy path', () => {
     cy.visit('/check-in/some-token');
     cy.get('h1').contains('insurance');
     cy.injectAxe();
     cy.axeCheck();
-    cy.get('.vads-u-margin--3 > :nth-child(3)').click();
+    cy.get('[data-testid="no-button"]').click();
     cy.get('h1').contains('Your appointment');
     cy.injectAxe();
     cy.axeCheck();
