@@ -74,10 +74,7 @@ export default function TypeOfCarePage() {
             type: 'string',
             enum: sortedCare.map(care => care.id || care.ccId),
             enumNames: sortedCare.map(care => {
-              if (
-                care.label === 'COVID-19 vaccine' ||
-                care.name === 'COVID-19 vaccine'
-              ) {
+              if (care.id === 'covid') {
                 return covidLabel;
               }
               return care.label || care.name;
