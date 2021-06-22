@@ -195,6 +195,7 @@ describe('<EducationWizard>', () => {
       'stem-scholarship',
     );
     approvedBenefitsLink.simulate('click');
+
     expect(global.window.dataLayer.length).to.equal(3);
     expect(global.window.dataLayer[2].event).to.equal('edu-navigation');
     expect(global.window.dataLayer[2]['edu-action']).to.equal(

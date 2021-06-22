@@ -33,6 +33,14 @@ export function getAppointment(id) {
   }).then(parseApiObject);
 }
 
+export function getParentFacilitiesV2(systemIds, children = false) {
+  return apiRequestWithUrl(
+    `/vaos/v2/facilities?children=${children}&${systemIds
+      .map(id => `ids[]=${id}`)
+      .join('&')}`,
+  ).then(parseApiList);
+}
+
 export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
   let ccEnabledParam = '';
   if (ccEnabled !== null) {
