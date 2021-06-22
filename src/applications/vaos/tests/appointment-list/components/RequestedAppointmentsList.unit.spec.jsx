@@ -34,6 +34,7 @@ describe('VAOS <RequestedAppointmentsList>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
+    mockFacilitiesFetch();
   });
   afterEach(() => {
     MockDate.reset();
