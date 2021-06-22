@@ -1,5 +1,20 @@
+/**
+ * Shared components used by the VAOS application.
+ * @module components
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
+
+/**
+ * Component that adds a usa-alert info box and customizes the va-alert web component
+ *
+ * @param {boolean} backgroundOnly Optional, display alert as background only, defaults to false
+ * @param {Element} children React children, text or child elements to display in alert body
+ * @param {string} headline Optional, alert headline
+ * @param {string} level Optional, alert heading display level
+ * @param {string} status Alert type
+ * @returns div usa-alert or va-alert web component
+ */
 
 export default function InfoAlert({
   backgroundOnly = false,
