@@ -33,6 +33,7 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
       <ProfileInfoTable
         title="Contact email address"
         fieldName="emailAddress"
+        namedAnchor="email-address"
         data={[
           {
             value: (
@@ -56,7 +57,6 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
             value: <ContactInformationField fieldName={FIELD_NAMES.EMAIL} />,
           },
         ]}
-        list
         className="vads-u-margin-y--4"
       />
     </div>
