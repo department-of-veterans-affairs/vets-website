@@ -6,12 +6,8 @@ import {
   newAddress,
   countries,
   states,
+  mockUserData,
 } from './e2e/fixtures/mocks/letters.js';
-
-Cypress.on('window:before:load', win => {
-  /* eslint-disable no-param-reassign */
-  win.specRequiresAddress = true;
-});
 
 describe('Authed Letter Test', () => {
   it('confirms authed letter functionality', () => {
@@ -24,7 +20,7 @@ describe('Authed Letter Test', () => {
     cy.intercept('GET', '/v0/address/states', states).as('states');
     cy.intercept('PUT', '/v0/address', newAddress).as('newAddress');
 
-    cy.login();
+    cy.login(mockUserData);
     cy.visit('/records/download-va-letters/letters');
 
     cy.get('body', { timeout: Timeouts.normal }).should('be.visible');
