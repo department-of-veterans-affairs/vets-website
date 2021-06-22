@@ -12,7 +12,6 @@ import {
   removeEmptyEntries,
   getAddress,
   getPhone,
-  getRepName,
   getTimeZone,
 } from '../../utils/submit';
 
@@ -357,24 +356,6 @@ describe('getPhone', () => {
       phoneNumber: '1234567',
       phoneNumberExt: '0000',
     });
-  });
-});
-
-describe('getRepName', () => {
-  const getData = (checked, representativesName) => ({
-    'view:hasRep': checked,
-    representativesName,
-  });
-  it('should return rep name', () => {
-    expect(getRepName(getData(true, 'Fred'))).to.eq('Fred');
-  });
-  it('should limit rep name to 120 characters', () => {
-    const result = getRepName(getData(true, new Array(130).fill('A').join('')));
-    expect(result).to.contain('AAAA');
-    expect(result.length).to.eq(120);
-  });
-  it('should not return rep name', () => {
-    expect(getRepName(getData(false, 'Fred'))).to.eq('');
   });
 });
 

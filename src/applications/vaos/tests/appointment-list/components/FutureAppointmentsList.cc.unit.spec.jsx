@@ -15,7 +15,7 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: upcoming CC appointments', () => {
+describe('VAOS <AppointmentsPage> CC appointments', () => {
   beforeEach(() => {
     mockFetch();
   });

@@ -6,12 +6,8 @@ import {
   newAddress,
   countries,
   states,
+  mockUserData,
 } from './e2e/fixtures/mocks/letters.js';
-
-Cypress.on('window:before:load', win => {
-  /* eslint-disable no-param-reassign */
-  win.specRequiresAddress = true;
-});
 
 describe('Authed Letter Test', () => {
   it('confirms authed letter functionality', () => {
@@ -24,7 +20,7 @@ describe('Authed Letter Test', () => {
     cy.intercept('GET', '/v0/address/states', states).as('states');
     cy.intercept('PUT', '/v0/address', newAddress).as('newAddress');
 
-    cy.login();
+    cy.login(mockUserData);
     cy.visit('/records/download-va-letters/letters');
 
     cy.get('body', { timeout: Timeouts.normal }).should('be.visible');
@@ -82,7 +78,7 @@ describe('Authed Letter Test', () => {
       });
 
     // poke all the checkboxes and expect them to all be unselected
-
+    cy.get('#militaryService', { timeout: Timeouts.normal }).should('exist');
     cy.get('#militaryService', { timeout: Timeouts.normal }).should(
       'be.checked',
     );
@@ -94,13 +90,14 @@ describe('Authed Letter Test', () => {
     );
     cy.get('#benefitInfoTable input[type="checkbox"]').then(checkboxes => {
       cy.wrap(Array.from(checkboxes).map(checkbox => checkbox.id)).each(id => {
-        cy.get(`#${id}`)
-          .should('be.checked')
-          .then(elem => {
-            cy.wrap(elem).should('be.checked');
-            cy.wrap(elem).click({ force: true });
-            cy.wrap(elem).should('not.be.checked');
-          });
+        cy.get(`#${id}`, { timeout: Timeouts.normal }).should('exist');
+        cy.get(`#${id}`, { timeout: Timeouts.normal }).should('be.checked');
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
+        cy.get(`#${id}`, { timeout: Timeouts.normal }).click('center');
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(500);
+        cy.get(`#${id}`, { timeout: Timeouts.normal }).should('not.be.checked');
       });
     });
     // collapse the bsl accordion

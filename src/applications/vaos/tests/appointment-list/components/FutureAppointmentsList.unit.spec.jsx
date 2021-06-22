@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import environment from 'platform/utilities/environment';
-import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
   getVAFacilityMock,
@@ -20,7 +20,11 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: pending appointments', () => {
+describe('VAOS <AppointmentsPage> pending appointments', () => {
+  beforeEach(() => {
+    mockFetch();
+    mockFacilitiesFetch();
+  });
   describe('for va', () => {
     it('should show information with basic facility info', async () => {
       const appointment = getVARequestMock();

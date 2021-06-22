@@ -28,12 +28,9 @@ describe('ProfileInfoTable', () => {
   it('renders a `section`', () => {
     expect(wrapper.type()).to.equal('section');
   });
-  it('renders the title prop in an h3 tag', () => {
-    const h3 = wrapper.find('h3');
-    expect(h3.text()).to.equal(props.title);
-  });
-  it('should render an h3 tag as the first child element', () => {
-    expect(wrapper.childAt(0).type()).to.equal('h3');
+  it('renders the title prop in the DOM', () => {
+    const tableTitle = wrapper.find('TableTitle');
+    expect(tableTitle.dive().text()).to.equal(props.title);
   });
   it('renders a table row li for each entry in the data prop', () => {
     const tableRows = wrapper.find('ol > li.table-row');
