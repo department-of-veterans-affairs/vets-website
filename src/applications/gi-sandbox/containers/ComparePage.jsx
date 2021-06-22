@@ -526,6 +526,28 @@ export function ComparePage({
             showDifferences={showDifferences}
             fieldData={[
               {
+                label: 'Length of VET TEC programs',
+                mapper: institution => {
+                  if (
+                    institution.programLengthInHours &&
+                    institution.programLengthInHours.length > 0
+                  ) {
+                    const maxHours = Math.max(
+                      ...institution.programLengthInHours,
+                    );
+                    const minHours = Math.min(
+                      ...institution.programLengthInHours,
+                    );
+                    return `${
+                      minHours === maxHours
+                        ? minHours
+                        : `${minHours} - ${maxHours}`
+                    } hours`;
+                  }
+                  return 'N/A';
+                },
+              },
+              {
                 label: 'Credit for military training',
                 mapper: institution =>
                   mapBoolField(institution.creditForMilTraining),
