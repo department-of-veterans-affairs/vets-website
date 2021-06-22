@@ -32,3 +32,18 @@ export function OtherSample() {
     </div>
   );
 }
+
+export function NamedClosing() {
+  const myHeadline = 'Another headline';
+
+  return (
+    <AlertBox headline={myHeadline}>
+      <div>I'm the child content!</div>
+      <ul>
+        <li>Dog</li>
+        <li>Cat</li>
+        <li>Mouse</li>
+      </ul>
+    </AlertBox>
+  );
+}
