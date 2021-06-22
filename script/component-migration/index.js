@@ -33,16 +33,9 @@ function translateProps(componentString, propMap) {
       return 1;
     })
     .forEach(([prop, newValue]) => {
-      switch (typeof newValue) {
-        case 'string':
-          translatedComp = translatedComp.replace(prop, newValue);
-          break;
-        case 'function':
-          translatedComp = newValue(translatedComp, prop);
-          break;
-        default:
-          break;
-      }
+      translatedComp = typeof newValue === 'function'
+        ? newValue(translatedComp, prop)
+        : translatedComp.replace(prop, newValue);
     });
 
   return translatedComp;
