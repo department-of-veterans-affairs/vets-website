@@ -25,7 +25,6 @@ const EmploymentRecord = ({
   setFormData,
   employmentHistory,
   formContext,
-  errorSchema,
 }) => {
   const index = Number(idSchema.$id.slice(-1));
   const { userType, userArray } = uiSchema['ui:options'];
@@ -36,10 +35,10 @@ const EmploymentRecord = ({
   const { month: toMonth, year: toYear } = parseISODate(to);
   const submitted = formContext.submitted;
 
-  const typeError = errorSchema.type?.__errors[0];
+  const typeError = 'Please enter the type of work.';
   const startError = 'Please enter your employment start date.';
   const endError = 'Please enter your employment end date.';
-  const employerError = errorSchema.employerName?.__errors[0];
+  const employerError = 'Please enter your employer name.';
 
   const updateFormData = updated => {
     setFormData({
@@ -83,7 +82,7 @@ const EmploymentRecord = ({
 
   return (
     <>
-      <div className="input-size-4">
+      <div className="input-size-5">
         <Select
           label="Type of work"
           name="type"
@@ -93,7 +92,7 @@ const EmploymentRecord = ({
             value: employment[index].type || '',
           }}
           required
-          errorMessage={submitted && typeError}
+          errorMessage={submitted && !employment[index].type && typeError}
         />
       </div>
       <div className="vads-u-margin-top--3">
@@ -146,7 +145,9 @@ const EmploymentRecord = ({
           name="employerName"
           onValueChange={({ value }) => handleChange('employerName', value)}
           required
-          errorMessage={submitted && employerError}
+          errorMessage={
+            submitted && !employment[index].employerName && employerError
+          }
         />
       </div>
     </>
