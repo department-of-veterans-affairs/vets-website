@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addRepresentative } from '../../actions/index';
+import { setData } from 'platform/forms-system/src/js/actions';
 
 const representatives = [
   {
@@ -18,8 +19,12 @@ const representatives = [
 ];
 
 const SearchRepresentativeWidget = props => {
-  function handleClick(name) {
-    props.formData.preferredRepresentative = name;
+  function handleClick(value) {
+    const updatedFormData = {
+      ...props.formData,
+      preferredRepresentative: value,
+    };
+    props.setData(updatedFormData);
   }
   return (
     <div>
@@ -49,6 +54,7 @@ const SearchRepresentativeWidget = props => {
 
 const mapDispatchToProps = {
   addRepresentative,
+  setData,
 };
 
 function mapStateToProps(state) {
