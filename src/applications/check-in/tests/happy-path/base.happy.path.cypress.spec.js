@@ -2,9 +2,15 @@ import features from '../mocks/enabled.json';
 
 describe('Check In Experience -- ', () => {
   beforeEach(() => {
+    cy.intercept('GET', '/v0/patient_check_in/*', req => {
+      req.reply({ id: 'abc-123', appointment: {} });
+    });
+    cy.intercept('POST', '/v0/patient_check_in', req => {
+      req.reply({ success: true });
+    });
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
-  it.skip('happy path', () => {
+  it('happy path', () => {
     cy.visit('/check-in/some-token');
     cy.get('h1').contains('insurance');
     cy.injectAxe();

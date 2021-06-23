@@ -7,6 +7,6 @@ describe('Check In Experience -- ', () => {
   it.skip('feature is disabled', () => {
     const featureRoute = '/check-in/some-token';
     cy.visit(featureRoute);
-    cy.url().should('not.match', /health-care/);
+    cy.url().should('not.match', /check-in/);
   });
 });
