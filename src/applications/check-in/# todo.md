@@ -1,8 +1,5 @@
 # todo
 
-- error handling
-  - validate
-  - check in
 - refactor?
 - Tests
   - unit?

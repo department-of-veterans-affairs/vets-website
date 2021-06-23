@@ -12,6 +12,8 @@ const Landing = props => {
       const json = await validateToken(token);
       if (json.appointment) {
         goToNextPageWithToken(router, 'insurance');
+      } else {
+        goToNextPageWithToken(router, 'failed');
       }
     }
   };
