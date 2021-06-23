@@ -189,10 +189,9 @@ describe('VAOS <AppointmentsPage>', () => {
       },
     );
 
-    await findByText('We’re sorry. We’ve run into a problem');
-
-    expect(baseElement.querySelector('.usa-alert-error')).to.be.ok;
-    expect(baseElement).not.to.contain.text('You don’t have any appointments');
+    await findByText(/We’re sorry. We’ve run into a problem/);
+    expect(baseElement.querySelector('va-alert')).to.be.ok;
+    expect(baseElement).not.to.contain.text(/You don’t have any appointments/);
   });
 
   const userState = {

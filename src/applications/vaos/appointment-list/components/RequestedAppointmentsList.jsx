@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   fetchPendingAppointments,
@@ -13,6 +12,7 @@ import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import { getVAAppointmentLocationId } from '../../services/appointment';
 import RequestListItem from './AppointmentsPageV2/RequestListItem';
 import NoAppointments from './NoAppointments';
+import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 
 export default function RequestedAppointmentsList({ hasTypeChanged }) {
@@ -58,10 +58,13 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
 
   if (pendingStatus === FETCH_STATUS.failed) {
     return (
-      <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
+      <InfoAlert
+        status="error"
+        headline="We’re sorry. We’ve run into a problem"
+      >
         We’re having trouble getting your appointment requests. Please try again
         later.
-      </AlertBox>
+      </InfoAlert>
     );
   }
 
