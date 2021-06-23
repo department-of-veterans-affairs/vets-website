@@ -65,9 +65,21 @@ describe('getSelected', () => {
       }),
     ).to.deep.equal([{ type: 'ok', [SELECTED]: true, index: 0 }]);
   });
+  it('should not return selected additional issues when Veteran chooses not to include them', () => {
+    expect(
+      getSelected({
+        'view:hasIssuesToAdd': false,
+        additionalIssues: [
+          { type: 'no', [SELECTED]: false },
+          { type: 'ok', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([]);
+  });
   it('should return selected additional issues', () => {
     expect(
       getSelected({
+        'view:hasIssuesToAdd': true,
         additionalIssues: [
           { type: 'no', [SELECTED]: false },
           { type: 'ok', [SELECTED]: true },
@@ -82,6 +94,7 @@ describe('getSelected', () => {
           { type: 'no1', [SELECTED]: false },
           { type: 'ok1', [SELECTED]: true },
         ],
+        'view:hasIssuesToAdd': true,
         additionalIssues: [
           { type: 'no2', [SELECTED]: false },
           { type: 'ok2', [SELECTED]: true },
