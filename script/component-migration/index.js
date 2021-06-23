@@ -49,13 +49,11 @@ function replaceTags(fileContents, newTag) {
 
   const matches = Array.from(unnamedClosingTags, m => m[0]);
 
-  let namedClosingTags = fileContents;
-  matches.forEach(match => {
-    namedClosingTags = namedClosingTags.replace(
-      match,
-      match?.replace(/\s+\/>;?$/m, `></${newTag}>`),
-    );
-  });
+  const namedClosingTags = matches.reduce(
+    (acc, match) =>
+      acc.replace(match, match?.replace(/\s+\/>;?$/m, `></${newTag}>`)),
+    fileContents,
+  );
 
   return namedClosingTags
     .replace(new RegExp(`<${options.component}`, 'g'), `<${newTag}`)
