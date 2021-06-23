@@ -166,19 +166,18 @@ export function convertRatingToStars(rating) {
   return { full, half, display: rounded };
 }
 
-const isURLCheck = string => {
-  try {
-    return new URL(string);
-  } catch {
-    return null;
-  }
-};
+export function isURL(str) {
+  if (str === 'Contact the School Certifying Official (SCO) for requirements')
+    return false;
 
-export function isURL(string) {
-  let url = isURLCheck(string);
-
-  if (url == null) {
-    url = isURLCheck(`http://${string}`);
-  }
-  return url != null;
+  const pattern = new RegExp(
+    '^(https?:\\/\\/)?' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$',
+    'i',
+  ); // fragment locator
+  return !!pattern.test(str);
 }
