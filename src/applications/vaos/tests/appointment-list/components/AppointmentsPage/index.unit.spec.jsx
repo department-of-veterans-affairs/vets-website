@@ -33,7 +33,7 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: appointment list', () => {
+describe('VAOS <AppointmentsPage>', () => {
   beforeEach(() => mockFetch());
 
   it('should sort appointments by date, with requests at the end', async () => {

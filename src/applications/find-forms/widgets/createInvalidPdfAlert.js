@@ -15,7 +15,7 @@ function InvalidFormDownload({ downloadUrl }) {
   return (
     <va-alert status="error">
       <h3 slot="headline">This form link isn’t working</h3>
-      <div className="usa-alert-text">
+      <div className="usa-alert-text vads-u-font-size--base">
         We’re sorry, but the form you’re trying to download appears to have an
         invalid link. Please <a href={mailto}>email the forms managers</a> for
         help with this form.

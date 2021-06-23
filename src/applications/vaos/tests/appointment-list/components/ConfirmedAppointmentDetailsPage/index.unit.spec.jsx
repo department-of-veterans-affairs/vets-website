@@ -41,6 +41,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
+    mockFacilitiesFetch();
   });
   afterEach(() => {
     MockDate.reset();
@@ -755,6 +756,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     };
 
     mockSingleAppointmentFetch({ appointment });
+    mockAppointmentInfo({
+      va: [appointment],
+      isHomepageRefresh: true,
+    });
 
     const facility = {
       id: 'vha_442GC',
@@ -781,6 +786,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
   });
 
   it('should verify VA in person calendar ics file format', async () => {
+    const startDateTime = moment();
     const url = '/va/21cdc6741c00ac67b6cbf6b972d084c1';
 
     const appointment = getVAAppointmentMock();
@@ -790,7 +796,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       clinicFriendlyName: "Jennie's Lab",
       facilityId: '983',
       sta6aid: '983GC',
-      startDate: '2021-09-19T16:00:00Z',
+      startDate: startDateTime.format(),
       vdsAppointments: [
         {
           bookingNote: 'New issue: ASAP',
@@ -820,7 +826,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     };
 
     mockFacilityFetch('vha_442GC', facility);
-    const startDateTime = moment(appointment.attributes.startDate);
 
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState,
