@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { addRepresentative } from '../../actions/index';
 
 const representatives = [
   {
@@ -16,7 +17,10 @@ const representatives = [
   },
 ];
 
-const SearchRepresentativeWidget = () => {
+const SearchRepresentativeWidget = props => {
+  function handleClick(name) {
+    props.formData.preferredRepresentative = name;
+  }
   return (
     <div>
       {representatives.map(option => {
@@ -30,7 +34,10 @@ const SearchRepresentativeWidget = () => {
             </p>
             <p>{option.city}</p>
 
-            <button className="usa-button-secondary">
+            <button
+              onClick={() => handleClick(option.name)}
+              className="usa-button-secondary"
+            >
               Choose this representative
             </button>
           </div>
@@ -38,6 +45,10 @@ const SearchRepresentativeWidget = () => {
       })}
     </div>
   );
+};
+
+const mapDispatchToProps = {
+  addRepresentative,
 };
 
 function mapStateToProps(state) {
@@ -48,5 +59,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(SearchRepresentativeWidget);
