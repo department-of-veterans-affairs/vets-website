@@ -1,13 +1,12 @@
 import ItemLoop from '../../../../components/ItemLoop';
 import TableDetailsView from '../../../../components/TableDetailsView';
 import CustomReviewField from '../../../../components/CustomReviewField';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { validateCurrency } from '../../../../utils/validations';
 import Typeahead from '../../../../components/Typeahead';
 import {
   formatOptions,
   incomeTypes,
 } from '../../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
 
 export const uiSchema = {
   'ui:title': 'Your spouse information',
@@ -38,12 +37,21 @@ export const uiSchema = {
               classNames: 'input-size-4',
               getOptions: () => formatOptions(incomeTypes),
             },
+            'ui:errorMessages': {
+              required: 'Please enter the type of income.',
+            },
           },
-          amount: _.merge(currencyUI('Monthly amount'), {
+          amount: {
+            'ui:title': 'Monthly amount',
             'ui:options': {
+              classNames: 'schemaform-currency-input',
               widgetClassNames: 'input-size-2',
             },
-          }),
+            'ui:errorMessages': {
+              required: 'Please enter the monthly income amount.',
+            },
+            'ui:validations': [validateCurrency],
+          },
         },
       },
     },
