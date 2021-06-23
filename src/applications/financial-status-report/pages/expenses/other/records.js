@@ -2,14 +2,13 @@ import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { validateCurrency } from '../../../utils/validations';
 import Typeahead from '../../../components/Typeahead';
 import {
   formatOptions,
   expenseTypes,
 } from '../../../constants/typeaheadOptions';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import _ from 'lodash/fp';
 
 const AssetInfo = (
   <AdditionalInfo triggerText="What counts as an expense?">
@@ -46,12 +45,21 @@ export const uiSchema = {
           classNames: 'input-size-3',
           getOptions: () => formatOptions(expenseTypes),
         },
+        'ui:errorMessages': {
+          required: 'Please enter a type of expense.',
+        },
       },
-      amount: _.merge(currencyUI('Estimated cost each month'), {
+      amount: {
+        'ui:title': 'Estimated cost each month',
         'ui:options': {
+          classNames: 'schemaform-currency-input',
           widgetClassNames: 'input-size-1',
         },
-      }),
+        'ui:errorMessages': {
+          required: 'Please enter the monthly payment amount owed.',
+        },
+        'ui:validations': [validateCurrency],
+      },
     },
   },
   'view:components': {
