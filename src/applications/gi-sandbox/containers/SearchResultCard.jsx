@@ -96,9 +96,6 @@ export function SearchResultCard({
     'vads-u-margin-top--2': !location,
     'vads-u-margin-top--1': location,
   });
-  const cityStateClasses = classNames('vads-u-padding--0', {
-    'vads-u-margin--0': location,
-  });
 
   const nameCityStateHeader = (
     <>
@@ -107,7 +104,7 @@ export function SearchResultCard({
           <h3 className={nameClasses}>{name}</h3>
         </Link>
       </div>
-      <p className={cityStateClasses}>
+      <p className="vads-u-padding--0">
         {city}
         {state && `, ${state}`}
       </p>
@@ -118,15 +115,12 @@ export function SearchResultCard({
     ratingCount > 0 ? (
       <div>
         <div className="vads-u-margin-bottom--2">
-          <RatingsStars rating={ratingAverage} />{' '}
+          <RatingsStars rating={ratingAverage} />
+          {location && <br />}
           <strong>
-            ({Math.round(10 * ratingAverage) / 10} of 5)
-            {location && <br />}
-            <span>
-              {' '}
-              by {ratingCount} Veteran
-              {ratingCount > 1 && 's'}
-            </span>
+            ({Math.round(10 * ratingAverage) / 10} of 5) by {ratingCount}{' '}
+            Veteran
+            {ratingCount > 1 && 's'}
           </strong>
         </div>
       </div>
