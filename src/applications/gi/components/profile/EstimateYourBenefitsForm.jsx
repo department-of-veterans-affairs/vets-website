@@ -341,9 +341,12 @@ class EstimateYourBenefitsForm extends React.Component {
 
     const label = this.renderLearnMoreLabel({
       text: 'Are you an in-state student?',
-      modal: isURL(inStateTuitionInformation)
-        ? 'inStateWithLink'
-        : 'inStateWithoutLink',
+      modal:
+        isURL(inStateTuitionInformation) &&
+        inStateTuitionInformation !==
+          'Contact the School Certifying Official (SCO) for requirements'
+          ? 'inStateWithLink'
+          : 'inStateWithoutLink',
       ariaLabel: ariaLabels.learnMore.inState,
     });
 

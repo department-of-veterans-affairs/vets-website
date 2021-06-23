@@ -167,9 +167,6 @@ export function convertRatingToStars(rating) {
 }
 
 export function isURL(str) {
-  if (str === 'Contact the School Certifying Official (SCO) for requirements')
-    return false;
-
   const pattern = new RegExp(
     '^(https?:\\/\\/)?' + // protocol
     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
