@@ -29,6 +29,7 @@ class IntroductionPage extends React.Component {
     const sipOptions = {
       useActionLinks: true,
       hideUnauthedStartLink: true,
+      headingLevel: 2,
       formId,
       prefillEnabled,
       pageList,

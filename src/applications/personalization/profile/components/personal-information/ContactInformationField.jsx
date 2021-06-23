@@ -59,12 +59,12 @@ const wrapperClassesMedium = prefixUtilityClasses(
 );
 
 const editButtonClasses = [
-  'va-button-link',
-  ...prefixUtilityClasses(['margin-top--1p5']),
+  'usa-button-secondary',
+  ...prefixUtilityClasses(['width--auto', 'margin--0', 'margin-top--1p5']),
 ];
 
 const editButtonClassesMedium = prefixUtilityClasses(
-  ['flex--auto', 'margin-top--0'],
+  ['flex--auto', 'margin-top--0', 'margin-left--4'],
   'medium',
 );
 
@@ -159,8 +159,8 @@ class ContactInformationField extends React.Component {
     this.props.clearTransactionRequest(this.props.fieldName);
   };
 
-  onEdit = () => {
-    this.captureEvent('edit-link');
+  onEdit = (event = 'edit-link') => {
+    this.captureEvent(event);
     this.openEditModal();
   };
 
@@ -244,14 +244,20 @@ class ContactInformationField extends React.Component {
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
-        <ContactInformationView data={data} fieldName={fieldName} />
+        <ContactInformationView
+          data={data}
+          fieldName={fieldName}
+          title={title}
+        />
 
         {this.isEditLinkVisible() && (
           <button
             aria-label={`Edit ${title}`}
             type="button"
             data-action="edit"
-            onClick={this.onEdit}
+            onClick={() => {
+              this.onEdit(isEmpty ? 'add-link' : 'edit-link');
+            }}
             id={`${fieldName}-edit-link`}
             className={classes.editButton}
           >
@@ -260,22 +266,6 @@ class ContactInformationField extends React.Component {
         )}
       </div>,
     );
-
-    if (isEmpty) {
-      content = wrapInTransaction(
-        <button
-          type="button"
-          onClick={() => {
-            this.captureEvent('add-link');
-            this.openEditModal();
-          }}
-          className="va-button-link va-profile-btn"
-          id={`${fieldName}-edit-link`}
-        >
-          Please add your {title.toLowerCase()}
-        </button>,
-      );
-    }
 
     if (showEditView) {
       content = (

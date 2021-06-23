@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -15,15 +16,11 @@ export const formStartButton = ({
     event: 'howToWizard-cta-displayed',
   });
   return (
-    <a
-      href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
+    <Link
+      to={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
       className="usa-button-primary va-button-primary"
-      onClick={event => {
-        /* Remove this check, keep the preventDefault once show526Wizard flipper
-            is at 100% */
-        if (window.location.pathname.includes(DISABILITY_526_V2_ROOT_URL)) {
-          event.preventDefault();
-        }
+      onClick={() => {
+        setWizardStatus(WIZARD_STATUS_COMPLETE);
         recordEvent({
           event: 'howToWizard-hidden',
           'reason-for-hidden-wizard': eventReason,
@@ -33,11 +30,10 @@ export const formStartButton = ({
           'button-type': 'primary',
           'button-click-label': label,
         });
-        setWizardStatus(WIZARD_STATUS_COMPLETE);
       }}
       aria-describedby={ariaId}
     >
       {label}
-    </a>
+    </Link>
   );
 };

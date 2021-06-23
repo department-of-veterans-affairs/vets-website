@@ -244,5 +244,8 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     expect(alert).contain.text('2360 East Pershing Boulevard');
     expect(alert).contain.text('Cheyenne, WY 82001-5356');
     expect(screen.history.push.called).to.be.false;
+    waitFor(() => {
+      expect(document.activeElement).to.be(alert);
+    });
   });
 });
