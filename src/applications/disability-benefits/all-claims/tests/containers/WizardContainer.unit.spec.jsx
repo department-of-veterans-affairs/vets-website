@@ -11,7 +11,7 @@ describe('Wizard Container', () => {
   beforeEach(() => {
     sessionStorage.removeItem(WIZARD_STATUS);
   });
-  after(() => {
+  afterEach(() => {
     sessionStorage.removeItem(WIZARD_STATUS);
   });
 
