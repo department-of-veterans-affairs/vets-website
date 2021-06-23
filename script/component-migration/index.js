@@ -26,10 +26,12 @@ function handleError(error) {
 function translateProps(componentString, propMap) {
   let translatedComp = componentString;
 
+  // We want any `children` or `content` props to be the first to migrate,
+  // because not doing so can mess up the closing tags
   Object.entries(propMap)
-    .sort((pairOne, _) => {
+    .sort(([prop, _value]) => {
       const children = ['content', 'children'];
-      if (children.includes(pairOne[0])) return -1;
+      if (children.includes(prop)) return -1;
       return 1;
     })
     .forEach(([prop, newValue]) => {
