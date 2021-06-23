@@ -41,7 +41,6 @@ function alertBoxReplacement() {
     let noClass = componentString;
 
     noClass = noClass.replace(/className=["{](.)+?["}]\s/ms, '');
-    console.log(noClass);
     return noClass;
   };
 
@@ -51,8 +50,6 @@ function alertBoxReplacement() {
       headline: moveToNamedSlot,
       content: moveChildren,
       className: removeClassName,
-      // children: moveChildren,
-      // level: null,
       isVisible: 'visible',
     },
   ];
