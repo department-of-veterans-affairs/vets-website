@@ -16,6 +16,5 @@ export const uiSchema = {
     'ui:options': {
       hideLabelText: true,
     },
-    'ui:required': () => true,
   },
 };

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
-const locations = [
+const representatives = [
   {
     id: 12345,
     name: 'My place',
@@ -17,43 +16,33 @@ const locations = [
   },
 ];
 
-const optionsList = locations.map(location => ({
-  label: (
-    <>
-      <p className="vads-u-padding-left--4 vads-u-margin-top--neg3">
-        {location.name}
-      </p>
-      <p className="vads-u-padding-left--4 vads-u-margin-top--neg2">{`${
-        location.city
-      } ${location.state}`}</p>
-    </>
-  ),
-  value: `${location.name}|${location.id}`,
-}));
-
-const SearchRepresentativeWidget = props => {
-  const { onChange } = props;
-  const [selected, setSelected] = useState(null);
-
+const SearchRepresentativeWidget = () => {
   return (
     <div>
-      <RadioButtons
-        options={optionsList}
-        label="Select your representative"
-        required
-        value={selected}
-        onValueChange={value => {
-          onChange(value.value);
-          setSelected(value);
-        }}
-      />
+      {representatives.map(option => {
+        return (
+          <div
+            key={option.id}
+            className="vads-u-background-color--gray-lighter vads-u-padding--1p5 vads-u-margin-bottom--1"
+          >
+            <p className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-font-weight--bold">
+              {option.name}
+            </p>
+            <p>{option.city}</p>
+
+            <button className="usa-button-secondary">
+              Choose this representative
+            </button>
+          </div>
+        );
+      })}
     </div>
   );
 };
 
 function mapStateToProps(state) {
   return {
-    state,
+    formData: state.form.data,
   };
 }
 
