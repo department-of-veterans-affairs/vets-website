@@ -132,7 +132,7 @@ closestFacility.attributes.name = 'Closest facility';
 closestFacility.attributes.lat = 39.50603012; // Dayton, OH
 closestFacility.attributes.long = -84.3164749;
 
-describe('VAOS integration: VA flat facility page - multiple facilities', () => {
+describe('VAOS <VAFacilityPageV2> multiple facilities', () => {
   beforeEach(() => mockFetch());
 
   it('should display list of facilities with show more button', async () => {

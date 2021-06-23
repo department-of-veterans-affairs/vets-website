@@ -24,6 +24,7 @@ describe('VAOS <CanceledAppointmentsList>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTimezoneTestDate());
+    mockFacilitiesFetch();
   });
   afterEach(() => {
     MockDate.reset();
