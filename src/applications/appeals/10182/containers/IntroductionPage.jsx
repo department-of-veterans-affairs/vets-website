@@ -96,12 +96,6 @@ class IntroductionPage extends React.Component {
                   The VA decision date for each issue you’d like use to review
                   (this is the date on the decision notice you got in the mail)
                 </li>
-                <li>
-                  The first and last name of your accredited representative or
-                  the name of the Veteran Service Organization you’re working
-                  with (enter the name you provided on Form 21-22 or Form
-                  21-22a)
-                </li>
               </ul>
             </li>
             <li className="process-step list-three">

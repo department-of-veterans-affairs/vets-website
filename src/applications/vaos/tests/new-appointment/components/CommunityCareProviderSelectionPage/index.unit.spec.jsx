@@ -45,6 +45,7 @@ const initialState = {
     },
   },
 };
+
 describe('VAOS <CommunityCareProviderSelectionPage>', () => {
   beforeEach(() => {
     mockFetch();
@@ -552,6 +553,23 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // remove the page and change the type of care
     await cleanup();
+
+    // Mock CC calls for Podiatry, now that we've switched
+    mockCommunityCareEligibility({
+      parentSites: ['983', '983GJ', '983GC'],
+      supportedSites: ['983', '983GJ'],
+      careType: 'Podiatry',
+    });
+    mockCCProviderFetch(
+      initialState.user.profile.vapContactInfo.residentialAddress,
+      ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X'],
+      calculateBoundingBox(
+        initialState.user.profile.vapContactInfo.residentialAddress.latitude,
+        initialState.user.profile.vapContactInfo.residentialAddress.longitude,
+        60,
+      ),
+      CC_PROVIDERS_DATA,
+    );
     await setTypeOfCare(store, /podiatry/i);
 
     screen = renderWithStoreAndRouter(<CommunityCareProviderSelectionPage />, {

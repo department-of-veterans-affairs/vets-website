@@ -1,9 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
-const ProfileInfoTable = ({ data, dataTransformer, title, className }) => {
+const TableTitle = ({ namedAnchor, className, children }) => {
+  return (
+    <h3 className={className} id={namedAnchor}>
+      {children}
+    </h3>
+  );
+};
+
+const ProfileInfoTable = ({
+  data,
+  dataTransformer,
+  title,
+  className,
+  namedAnchor,
+}) => {
   const titleClasses = prefixUtilityClasses([
     'background-color--gray-lightest',
     'border--1px',
@@ -78,7 +92,12 @@ const ProfileInfoTable = ({ data, dataTransformer, title, className }) => {
 
   return (
     <section className={classes.table}>
-      {title && <h3 className={classes.title}>{title}</h3>}
+      {title && (
+        <TableTitle className={classes.title} namedAnchor={namedAnchor}>
+          {title}
+        </TableTitle>
+      )}
+      {/* {title && <h3 className={classes.title}>{title}</h3>} */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ol className="vads-u-margin--0 vads-u-padding--0" role="list">
         {data
@@ -112,11 +131,7 @@ ProfileInfoTable.propTypes = {
   data: PropTypes.array.isRequired,
   dataTransformer: PropTypes.func,
   className: PropTypes.string,
-  /**
-   * When `list` is truthy, additional a11y markup will be applied to the
-   * rendered table to treat it like a list
-   */
-  list: PropTypes.bool,
+  namedAnchor: PropTypes.string,
 };
 
 export default ProfileInfoTable;

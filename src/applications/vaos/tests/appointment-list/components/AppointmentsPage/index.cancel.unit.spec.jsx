@@ -34,8 +34,11 @@ const initialState = {
   },
 };
 
-describe('VAOS integration appointment cancellation:', () => {
-  beforeEach(() => mockFetch());
+describe('VAOS <AppointmentsPage> cancellation:', () => {
+  beforeEach(() => {
+    mockFetch();
+    mockFacilitiesFetch();
+  });
   it('video appointments should display modal with facility information', async () => {
     const appointment = getVideoAppointmentMock();
     appointment.attributes = {

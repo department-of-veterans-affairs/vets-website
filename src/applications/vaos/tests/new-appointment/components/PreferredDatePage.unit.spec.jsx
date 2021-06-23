@@ -23,10 +23,10 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: preferred date page with a single-site user', () => {
+describe('VAOS <PreferredDatePage>', () => {
   beforeEach(() => mockFetch());
 
-  it('should render', async () => {
+  it('should display form fields', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<PreferredDatePage />, {
       store,

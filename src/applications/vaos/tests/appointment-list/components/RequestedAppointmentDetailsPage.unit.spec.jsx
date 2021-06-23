@@ -51,6 +51,8 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(testDate);
+    mockFacilityFetch('vha_fake', getVAFacilityMock());
+    mockMessagesFetch();
   });
 
   afterEach(() => {

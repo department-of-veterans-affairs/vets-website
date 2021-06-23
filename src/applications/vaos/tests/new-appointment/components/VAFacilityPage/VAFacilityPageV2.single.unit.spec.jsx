@@ -111,7 +111,7 @@ const facilities = [
   },
 ];
 
-describe('VAOS integration: VA flat facility page - single facility', () => {
+describe('VAOS <VAFacilityPageV2> single facility', () => {
   beforeEach(() => {
     mockFetch();
     const siteIds = ['983'];

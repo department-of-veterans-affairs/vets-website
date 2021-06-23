@@ -152,6 +152,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       clinics,
       pastClinics: true,
     });
+    mockFacilityFetch('vha_442', getVAFacilityMock());
 
     const store = createTestStore(initialState);
 
@@ -230,6 +231,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       clinics,
       pastClinics: true,
     });
+    mockFacilityFetch('vha_442', getVAFacilityMock());
 
     const store = createTestStore(initialState);
 
@@ -390,6 +392,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       clinics,
       pastClinics: true,
     });
+    mockFacilityFetch('vha_442', getVAFacilityMock());
 
     const store = createTestStore(initialState);
 
