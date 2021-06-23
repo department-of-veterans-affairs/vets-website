@@ -15,9 +15,9 @@ import {
 import ReceiveAppointmentReminders from './ReceiveAppointmentReminders';
 
 const ContactInformationView = props => {
-  const { data, fieldName } = props;
+  const { data, fieldName, title } = props;
   if (!data) {
-    return null;
+    return <span>Edit your profile to add a {title.toLowerCase()}.</span>;
   }
 
   if (fieldName === FIELD_NAMES.EMAIL) {

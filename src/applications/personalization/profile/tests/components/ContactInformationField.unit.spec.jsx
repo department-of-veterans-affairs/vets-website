@@ -49,8 +49,8 @@ describe('<ContactInformationField/>', () => {
     component = enzyme.shallow(<ContactInformationField {...isEmptyProps} />);
     expect(
       component.find('ContactInformationView'),
-      'the ContactInformationView was NOT rendered',
-    ).to.have.lengthOf(0);
+      'the ContactInformationView was rendered',
+    ).to.have.lengthOf(1);
 
     expect(
       component.html(),
