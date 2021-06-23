@@ -90,9 +90,9 @@ function FutureAppointmentsList({
     content = (
       <InfoAlert
         status="error"
-        headline="We're sorry. We've run into a problem"
+        headline="We’re sorry. We’ve run into a problem"
       >
-        We're having trouble getting your upcoming appointments. Please try
+        We’re having trouble getting your upcoming appointments. Please try
         again later.
       </InfoAlert>
     );

@@ -60,7 +60,7 @@ export default function CanceledAppointmentsList({ hasTypeChanged }) {
     return (
       <InfoAlert
         status="error"
-        headline="We're sorry. We've run into a problem"
+        headline="We’re sorry. We’ve run into a problem"
       >
         We’re having trouble getting your canceled appointments. Please try
         again later.
