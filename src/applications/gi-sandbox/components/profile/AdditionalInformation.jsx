@@ -165,13 +165,7 @@ export class AdditionalInformation extends React.Component {
                 id="vrrap-button"
                 type="button"
                 className="va-button-link learn-more-button"
-                onClick={() => {
-                  recordEvent({
-                    event: 'gibct-modal-displayed',
-                    'gibct-modal-displayed': 'vrrap',
-                  });
-                  this.props.onShowModal('vrrap');
-                }}
+                onClick={this.props.onShowModal.bind(this, 'vrrap')}
               >
                 Veteran Rapid Retraining Assistance Program (VRRAP):
               </button>
