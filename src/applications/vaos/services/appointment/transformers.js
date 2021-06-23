@@ -325,25 +325,7 @@ function getCommunityCareData(appt) {
           }
         : null,
     preferredCommunityCareProviders: appt.ccAppointmentRequest?.preferredProviders?.map(
-      provider => {
-        return transformCommunityProvider(provider);
-        // return {
-        //   providerName:
-        //     provider.lastName &&
-        //     `${provider.firstName || ''} ${provider.lastName || ''}`,
-        //   firstName: provider.firstName,
-        //   lastName: provider.lastName,
-        //   practiceName: provider.practiceName,
-        //   address: provider.address
-        //     ? {
-        //         line: [provider.address.street],
-        //         city: provider.address.city,
-        //         state: provider.address.state,
-        //         postalCode: provider.address.zipCode,
-        //       }
-        //     : null,
-        // };
-      },
+      provider => transformCommunityProvider(provider),
     ),
   };
 }
