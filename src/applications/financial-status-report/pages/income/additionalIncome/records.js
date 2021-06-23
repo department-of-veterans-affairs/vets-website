@@ -71,7 +71,7 @@ export const schema = {
                 type: 'string',
               },
               amount: {
-                type: 'number',
+                type: 'string',
               },
             },
           },
