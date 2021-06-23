@@ -49,6 +49,7 @@ export default function ReviewPage() {
   }
 
   const isDirectSchedule = flowType === FLOW_TYPES.DIRECT;
+  const submissionType = isDirectSchedule ? 'appointment' : 'request';
 
   return (
     <div>
@@ -94,17 +95,15 @@ export default function ReviewPage() {
                 {submitStatusVaos400 ? (
                   <p>
                     We’re sorry. Something went wrong when we tried to submit
-                    your {isDirectSchedule ? 'appointment' : 'request'}. You’ll
-                    need to call your local VA medical center to schedule this
-                    appointment.
+                    your {submissionType}. You’ll need to call your local VA
+                    medical center to schedule this appointment.
                   </p>
                 ) : (
                   <p>
                     We’re sorry. Something went wrong when we tried to submit
-                    your {isDirectSchedule ? 'appointment' : 'request'} and
-                    you’ll need to start over. We suggest you wait a day to try
-                    again or you can call your medical center to help with your{' '}
-                    {isDirectSchedule ? 'appointment' : 'request'}.
+                    your {submissionType} and you’ll need to start over. We
+                    suggest you wait a day to try again or you can call your
+                    medical center to help with your {submissionType}.
                   </p>
                 )}
                 <p>
