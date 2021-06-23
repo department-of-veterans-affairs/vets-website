@@ -72,10 +72,14 @@ export function SearchResultCard({
     'vettec-header': vetTecProvider,
   });
 
+  const schoolClassificationPTagClasses = classNames('vads-u-color--white', {
+    'vads-u-margin-y--1': location,
+  });
+
   const schoolClassification = (
     <>
       <div className={schoolClassificationClasses}>
-        <p className="vads-u-color--white">
+        <p className={schoolClassificationPTagClasses}>
           <strong>
             {schoolProvider && 'School'}
             {employerProvider && 'Employer'}
@@ -88,6 +92,10 @@ export function SearchResultCard({
     </>
   );
 
+  const cityStateClasses = classNames('vads-u-padding--0', {
+    'vads-u-margin--0': location,
+  });
+
   const nameCityStateHeader = (
     <>
       <div>
@@ -95,23 +103,28 @@ export function SearchResultCard({
           <h3 className="vads-u-margin-top--2">{name}</h3>
         </Link>
       </div>
-      <p className="vads-u-padding--0">
+      <p className={cityStateClasses}>
         {city}
         {state && `, ${state}`}
       </p>
     </>
   );
 
+  const veteran = ratingCount > 1 ? 'Veterans' : 'Veteran';
+  const byVeteran = location ? '' : ` by ${ratingCount} ${veteran}`;
+
   const ratingsInformation =
     ratingCount > 0 ? (
       <div>
-        <p className="vads-u-margin-bottom--0">
-          <strong>Rated By:</strong> {ratingCount}
-        </p>
+        {location && (
+          <p className="vads-u-margin-bottom--0">
+            <strong>Rated By:</strong> {ratingCount}
+          </p>
+        )}
         <div className="vads-u-margin-bottom--2">
           <RatingsStars rating={ratingAverage} />(
-          {Math.round(10 * ratingAverage) / 10} of 5) by {ratingCount} Veteran
-          {ratingCount > 1 && 's'}
+          {Math.round(10 * ratingAverage) / 10} of 5)
+          {byVeteran}
         </div>
       </div>
     ) : (
