@@ -4,12 +4,11 @@ import { VIDEO_TYPES } from '../../../utils/constants';
 import VideoLink from './VideoLink';
 import AtlasLocation from './AtlasLocation';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
-import AlertBox from 'applications/gi/components/AlertBox';
-import { ALERT_TYPE } from '@department-of-veterans-affairs/component-library/AlertBox';
 import FacilityPhone from 'applications/vaos/components/FacilityPhone';
 import VideoVisitProvider from './VideoVisitProvider';
 import { VideoVisitInstructions } from './VideoInstructions';
 import AddToCalendar from 'applications/vaos/components/AddToCalendar';
+import InfoAlert from '../../../components/InfoAlert';
 import moment from 'applications/vaos/lib/moment-tz';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
@@ -106,8 +105,8 @@ export default function VideoVisitLocation({ appointment, facility }) {
         </button>
       </div>
       {!appointment.vaos.isPastAppointment && (
-        <AlertBox
-          status={ALERT_TYPE.INFO}
+        <InfoAlert
+          status="info"
           className="vads-u-display--block"
           headline="Need to make changes?"
           backgroundOnly
@@ -128,7 +127,7 @@ export default function VideoVisitLocation({ appointment, facility }) {
               )}
             </span>
           )}
-        </AlertBox>
+        </InfoAlert>
       )}
     </>
   );

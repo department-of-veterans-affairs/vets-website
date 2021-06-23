@@ -1,17 +1,17 @@
 import React from 'react';
 
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import InfoAlert from '../components/InfoAlert';
 
 export default function ErrorMessage({ level }) {
   return (
     <div aria-atomic="true" aria-live="assertive">
-      <AlertBox
+      <InfoAlert
         status="error"
         level={level}
         headline="We’re sorry. We’ve run into a problem"
       >
         Something went wrong on our end. Please try again later.
-      </AlertBox>
+      </InfoAlert>
     </div>
   );
 }

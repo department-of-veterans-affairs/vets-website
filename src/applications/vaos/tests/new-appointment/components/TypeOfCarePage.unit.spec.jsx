@@ -45,10 +45,14 @@ describe('VAOS <TypeOfCarePage>', () => {
   beforeEach(() => mockFetch());
   it('should show type of care page with all care types', async () => {
     const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(
-      <Route component={TypeOfCarePage} />,
-      { store },
-    );
+    mockParentSites(['983'], []);
+    mockCommunityCareEligibility({
+      parentSites: [],
+      supportedSites: [],
+      careType: 'PrimaryCare',
+      eligible: false,
+    });
+    const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
 
@@ -96,10 +100,14 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   it('should save type of care choice on page change', async () => {
     const store = createTestStore(initialState);
-    let screen = renderWithStoreAndRouter(
-      <Route component={TypeOfCarePage} />,
-      { store },
-    );
+    mockParentSites(['983'], []);
+    mockCommunityCareEligibility({
+      parentSites: [],
+      supportedSites: [],
+      careType: 'PrimaryCare',
+      eligible: false,
+    });
+    let screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     await waitFor(() => {
@@ -139,10 +147,14 @@ describe('VAOS <TypeOfCarePage>', () => {
   });
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
     const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(
-      <Route component={TypeOfCarePage} />,
-      { store },
-    );
+    mockParentSites(['983'], []);
+    mockCommunityCareEligibility({
+      parentSites: [],
+      supportedSites: [],
+      careType: 'PrimaryCare',
+      eligible: false,
+    });
+    const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
     fireEvent.click(await screen.findByLabelText(/podiatry/i));
     fireEvent.click(screen.getByText(/Continue/));
@@ -372,6 +384,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
     fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
+    expect(screen.queryByText(/NEW/i)).to.exist;
 
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>

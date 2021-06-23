@@ -531,5 +531,8 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     expect(within(alert).getByText(/307-778-7550/)).to.be.ok;
 
     expect(screen.history.push.called).to.be.false;
+    waitFor(() => {
+      expect(document.activeElement).to.be(alert);
+    });
   });
 });

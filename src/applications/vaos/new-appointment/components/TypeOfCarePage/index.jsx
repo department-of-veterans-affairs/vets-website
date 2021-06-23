@@ -58,6 +58,14 @@ export default function TypeOfCarePage() {
         (careA, careB) =>
           careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
       );
+
+      const covidLabel = (
+        <>
+          COVID-19 vaccine
+          <span className="usa-label vads-u-margin-left--1">New</span>
+        </>
+      );
+
       return {
         type: 'object',
         required: ['typeOfCareId'],
@@ -65,7 +73,12 @@ export default function TypeOfCarePage() {
           typeOfCareId: {
             type: 'string',
             enum: sortedCare.map(care => care.id || care.ccId),
-            enumNames: sortedCare.map(care => care.label || care.name),
+            enumNames: sortedCare.map(care => {
+              if (care.id === 'covid') {
+                return covidLabel;
+              }
+              return care.label || care.name;
+            }),
           },
         },
       };

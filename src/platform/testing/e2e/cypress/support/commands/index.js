@@ -1,5 +1,6 @@
 import './axeCheck';
 import './expandAccordions';
+import './formHelpers';
 import './login';
 import './mockHelpers';
 import './upload';

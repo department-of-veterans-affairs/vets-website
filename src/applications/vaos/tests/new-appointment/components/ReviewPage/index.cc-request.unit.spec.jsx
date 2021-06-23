@@ -738,5 +738,8 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
     );
 
     expect(screen.history.push.called).to.be.false;
+    waitFor(() => {
+      expect(document.activeElement).to.be(alert);
+    });
   });
 });

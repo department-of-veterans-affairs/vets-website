@@ -33,7 +33,7 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: appointment list', () => {
+describe('VAOS <AppointmentsPage>', () => {
   beforeEach(() => mockFetch());
 
   it('should sort appointments by date, with requests at the end', async () => {
@@ -189,10 +189,9 @@ describe('VAOS integration: appointment list', () => {
       },
     );
 
-    await findByText('We’re sorry. We’ve run into a problem');
-
-    expect(baseElement.querySelector('.usa-alert-error')).to.be.ok;
-    expect(baseElement).not.to.contain.text('You don’t have any appointments');
+    await findByText(/We’re sorry. We’ve run into a problem/);
+    expect(baseElement.querySelector('va-alert')).to.be.ok;
+    expect(baseElement).not.to.contain.text(/You don’t have any appointments/);
   });
 
   const userState = {

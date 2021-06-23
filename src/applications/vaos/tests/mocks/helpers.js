@@ -195,17 +195,42 @@ export function mockPastAppointmentInfoOption1({ va = [], cc = [] }) {
  *
  * @export
  * @param {Object} params
- * @param {Array<string>} ids List of facility ids to use in query param
- * @param {Array<VAFacility>} facilities Array of facilities to return from mock
+ * @param {?Array<string>} ids List of facility ids to use in query param
+ * @param {?Array<VAFacility>} facilities Array of facilities to return from mock
  */
 export function mockFacilitiesFetch(ids, facilities) {
-  setFetchJSONResponse(
+  if (!ids) {
+    setFetchJSONResponse(
+      global.fetch.withArgs(sinon.match('/v1/facilities/va?ids=')),
+      { data: [] },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/v1/facilities/va?ids=${ids}&per_page=${
+          ids.split(',').length
+        }`,
+      ),
+      { data: facilities },
+    );
+  }
+}
+
+/**
+ * Mocks facilities fetch with an error response
+ *
+ * @export
+ * @param {Object} params
+ * @param {Array<string>} ids List of facility ids to use in query param
+ */
+export function mockFacilitiesFetchError(ids) {
+  setFetchJSONFailure(
     global.fetch.withArgs(
       `${environment.API_URL}/v1/facilities/va?ids=${ids}&per_page=${
         ids.split(',').length
       }`,
     ),
-    { data: facilities },
+    { errors: [] },
   );
 }
 
@@ -664,12 +689,21 @@ export function mockRequestSubmit(type, data) {
  * @param {Array<VARRequestMessage>} data The list of message objects to return from the mock
  */
 export function mockMessagesFetch(id, data) {
-  setFetchJSONResponse(
-    global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v0/appointment_requests/${id}/messages`,
-    ),
-    { data },
-  );
+  if (!id) {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        sinon.match(/appointment_requests\/[a-z0-9]+\/messages/),
+      ),
+      { data: [] },
+    );
+  } else {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v0/appointment_requests/${id}/messages`,
+      ),
+      { data },
+    );
+  }
 }
 
 /**

@@ -303,18 +303,18 @@ export function getCancelReasonMock() {
  * @export
  * @returns {VARParentSite} var-resources parent site object
  */
-export function getParentSiteMock() {
+export function getParentSiteMock({ id = 'fake' } = {}) {
   return {
-    id: 'fake',
+    id,
     type: 'facility',
     attributes: {
-      institutionCode: 'fake',
+      institutionCode: id,
       city: 'fake',
       stateAbbrev: 'FK',
       authoritativeName: 'fake',
-      rootStationCode: 'fake',
+      rootStationCode: id,
       adminParent: true,
-      parentStationCode: 'fake',
+      parentStationCode: id,
     },
   };
 }

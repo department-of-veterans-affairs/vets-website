@@ -45,6 +45,7 @@ import {
   isUndefined,
   isDisabilityPtsd,
   showSeparationLocation,
+  isExpired,
 } from '../utils';
 
 describe('526 helpers', () => {
@@ -1222,5 +1223,27 @@ describe('526 v2 depends functions', () => {
       };
       expect(showSeparationLocation(nonBddData)).to.be.false;
     });
+  });
+});
+
+describe('isExpired', () => {
+  const oneDayInSeconds = 24 * 60 * 60;
+  const getDays = days =>
+    moment()
+      .add(days, 'days')
+      .format('YYYY-MM-DD');
+  it('should return true for dates that are invalid or in the past', () => {
+    const expiredSeconds = Date.now() / 1000 - oneDayInSeconds;
+    expect(isExpired('')).to.be.true;
+    expect(isExpired(0)).to.be.true;
+    expect(isExpired(getDays(-1))).to.be.true;
+    expect(isExpired(expiredSeconds)).to.be.true;
+  });
+  it('should return false for dates in the past', () => {
+    const futureSeconds = Date.now() / 1000 + oneDayInSeconds;
+    expect(isExpired(getDays(0))).to.be.false;
+    expect(isExpired(getDays(1))).to.be.false;
+    expect(isExpired(getDays(365))).to.be.false;
+    expect(isExpired(futureSeconds)).to.be.false;
   });
 });

@@ -21,6 +21,7 @@ import {
 import {
   mockAppointmentSubmit,
   mockFacilityFetch,
+  mockPreferences,
 } from '../../../mocks/helpers';
 import { getVAFacilityMock } from '../../../mocks/v0';
 
@@ -169,8 +170,9 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
 
   it('should submit successfully', async () => {
     mockAppointmentSubmit({});
+    mockPreferences('test@va.gov');
 
-    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,
     });
 
@@ -242,5 +244,8 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     expect(alert).contain.text('2360 East Pershing Boulevard');
     expect(alert).contain.text('Cheyenne, WY 82001-5356');
     expect(screen.history.push.called).to.be.false;
+    waitFor(() => {
+      expect(document.activeElement).to.be(alert);
+    });
   });
 });
