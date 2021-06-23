@@ -33,22 +33,23 @@ function translateProps(componentString, propMap) {
       return 1;
     })
     .forEach(([prop, newValue]) => {
-      translatedComp = typeof newValue === 'function'
-        ? newValue(translatedComp, prop)
-        : translatedComp.replace(prop, newValue);
+      translatedComp =
+        typeof newValue === 'function'
+          ? newValue(translatedComp, prop)
+          : translatedComp.replace(prop, newValue);
     });
 
   return translatedComp;
 }
 
-function replaceTags(file, newTag) {
-  const unnamedClosingTags = file.matchAll(
+function replaceTags(fileContents, newTag) {
+  const unnamedClosingTags = fileContents.matchAll(
     new RegExp(`(<${options.component}.+?(^\\s+)?\\/>;?$)`, 'gsm'),
   );
 
   const matches = Array.from(unnamedClosingTags, m => m[0]);
 
-  let namedClosingTags = file;
+  let namedClosingTags = fileContents;
   matches.forEach(match => {
     namedClosingTags = namedClosingTags.replace(
       match,
