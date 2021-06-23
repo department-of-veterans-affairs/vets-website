@@ -17,6 +17,7 @@ import {
   isCountryInternational,
   locationInfo,
   handleInputFocusWithPotentialOverLap,
+  isURL,
 } from '../../utils/helpers';
 import { renderLearnMoreLabel } from '../../utils/render';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
@@ -338,16 +339,11 @@ class EstimateYourBenefitsForm extends React.Component {
     if (!this.props.displayedInputs.inState) return null;
     const { inStateTuitionInformation } = this.props.profile.attributes;
 
-    let url;
-    try {
-      url = new URL(inStateTuitionInformation);
-    } catch {
-      url = null;
-    }
-
     const label = this.renderLearnMoreLabel({
       text: 'Are you an in-state student?',
-      modal: url ? 'inStateWithLink' : 'inStateWithoutLink',
+      modal: isURL(inStateTuitionInformation)
+        ? 'inStateWithLink'
+        : 'inStateWithoutLink',
       ariaLabel: ariaLabels.learnMore.inState,
     });
 

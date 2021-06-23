@@ -793,6 +793,12 @@ export class Modals extends React.Component {
       </div>
     );
 
+    const inStateTuitionInformation = this.props.profile.attributes.inStateTuitionInformation?.startsWith(
+      'http',
+    )
+      ? this.props.profile.attributes.inStateTuitionInformation
+      : `http://${this.props.profile.attributes.inStateTuitionInformation}`;
+
     return (
       <span>
         <Modal
@@ -1026,7 +1032,7 @@ export class Modals extends React.Component {
           </p>
           <p>
             Visit this school's website to{' '}
-            <a href={this.props.profile.attributes.inStateTuitionInformation}>
+            <a href={inStateTuitionInformation}>
               see any in-state tuition requirements.
             </a>
           </p>

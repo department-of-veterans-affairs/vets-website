@@ -165,3 +165,20 @@ export function convertRatingToStars(rating) {
 
   return { full, half, display: rounded };
 }
+
+const isURLCheck = string => {
+  try {
+    return new URL(string);
+  } catch {
+    return null;
+  }
+};
+
+export function isURL(string) {
+  let url = isURLCheck(string);
+
+  if (url == null) {
+    url = isURLCheck(`http://${string}`);
+  }
+  return url != null;
+}
