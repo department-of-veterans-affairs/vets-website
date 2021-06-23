@@ -683,7 +683,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text(
         '2360 East Pershing Boulevard',
       );
-      expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+      expect(screen.baseElement).to.contain.text(
+        'Cheyenne, WyomingWY 82001-5356',
+      );
       expect(screen.getByRole('link', { name: /Directions/ })).to.be.ok;
 
       expect(screen.baseElement).to.contain.text('Clinic: CHY PC VAR2');
@@ -870,7 +872,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         'You must join this video meeting from the ATLAS (non-VA) location listed below.',
       );
       expect(screen.baseElement).to.contain.text('114 Dewey Ave');
-      expect(screen.baseElement).to.contain.text('Eureka, MT 59917');
+      expect(screen.baseElement).to.contain.text('Eureka, MontanaMT 59917');
       expect(screen.getByRole('link', { name: /Directions/ })).to.be.ok;
 
       expect(screen.findByText(/Appointment Code: 7VBBCA/i)).to.be.ok;

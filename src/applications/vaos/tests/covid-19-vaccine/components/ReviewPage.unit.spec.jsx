@@ -185,7 +185,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     const alert = screen.baseElement.querySelector('.usa-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
     expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
+    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.history.push.called).to.be.false;
   });
 
@@ -236,7 +236,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     const alert = screen.baseElement.querySelector('.usa-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
     expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
+    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.history.push.called).to.be.false;
   });
 });

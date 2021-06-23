@@ -1,6 +1,6 @@
 import React from 'react';
 
-const stateNames = {
+export const stateNames = {
   AL: 'Alabama',
   AK: 'Alaska',
   AS: 'American Samoa',
@@ -10,8 +10,8 @@ const stateNames = {
   CO: 'Colorado',
   CT: 'Connecticut',
   DE: 'Delaware',
-  DC: 'District Of Columbia',
-  FM: 'Federated States Of Micronesia',
+  DC: 'District of Columbia',
+  FM: 'Federated States of Micronesia',
   FL: 'Florida',
   GA: 'Georgia',
   GU: 'Guam',
