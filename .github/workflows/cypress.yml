@@ -75,7 +75,7 @@ jobs:
           check_name: 'Cypress Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/e2e-test-output-*.xml'
-          summary: '<iframe src="https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/bad9f91d-d94a-4d13-ab40-7bd520045573.html" />'
+          summary: 'Testing an Iframe <iframe src="https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/bad9f91d-d94a-4d13-ab40-7bd520045573.html" />'
 
       - name: Archive Cypress test videos
         uses: actions/upload-artifact@v2
