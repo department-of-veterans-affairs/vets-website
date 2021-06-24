@@ -75,7 +75,9 @@ describe('VAOS vaccine flow <ConfirmationPage>', () => {
     expect(screen.baseElement).to.contain.text('Confirmed');
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     expect(screen.getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.baseElement).to.contain.text(
+      'Cheyenne, WyomingWY 82001-5356',
+    );
     expect(screen.getByText(/directions/i)).to.have.attribute(
       'href',
       'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',

@@ -147,7 +147,9 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text('VA Appointment');
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('2360 East Pershing Boulevard');
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.baseElement).to.contain.text(
+      'Cheyenne, WyomingWY 82001-5356',
+    );
     expect(screen.baseElement).to.contain.text('Main phone:');
     expect(screen.baseElement).to.contain.text('307-778-7550');
     expect(screen.baseElement).to.contain.text('Preferred date and time');
@@ -695,7 +697,9 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.baseElement).to.contain.text('VA Appointment');
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('2360 East Pershing Boulevard');
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.baseElement).to.contain.text(
+      'Cheyenne, WyomingWY 82001-5356',
+    );
     expect(screen.baseElement).to.contain.text('Main phone:');
     expect(screen.baseElement).to.contain.text('307-778-7550');
     expect(screen.baseElement).to.contain.text('Preferred date and time');
