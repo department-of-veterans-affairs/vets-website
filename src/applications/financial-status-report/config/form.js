@@ -129,19 +129,13 @@ const formConfig = {
           depends: formData => formData.questions.vetIsEmployed,
           editModeOnReviewPage: true,
         },
-        previousEmployment: {
-          path: 'previous-employment',
-          title: 'Previous employment',
-          uiSchema: pages.previousEmployment.uiSchema,
-          schema: pages.previousEmployment.schema,
-        },
-        previousEmploymentRecords: {
-          path: 'previous-employment-records',
-          title: 'Previous employment',
-          uiSchema: pages.previousEmploymentRecords.uiSchema,
-          schema: pages.previousEmploymentRecords.schema,
-          depends: formData => formData.questions.vetPreviouslyEmployed,
-          editModeOnReviewPage: true,
+        income: {
+          title: 'Income',
+          path: 'income/:index',
+          arrayPath: 'currentEmployment',
+          showPagePerItem: true,
+          uiSchema: pages.income.uiSchema,
+          schema: pages.income.schema,
         },
         benefits: {
           path: 'benefits',
@@ -198,22 +192,13 @@ const formConfig = {
             formData.questions.isMarried && formData.questions.spouseIsEmployed,
           editModeOnReviewPage: true,
         },
-        spousePreviousEmployment: {
-          path: 'spouse-previous-employment',
-          title: 'Spouse previous employment',
-          uiSchema: pages.spousePreviousEmployment.uiSchema,
-          schema: pages.spousePreviousEmployment.schema,
-          depends: formData => formData.questions.isMarried,
-        },
-        spousePreviousEmploymentRecords: {
-          path: 'spouse-previous-employment-records',
-          title: 'Spouse employment',
-          uiSchema: pages.spousePreviousEmploymentRecords.uiSchema,
-          schema: pages.spousePreviousEmploymentRecords.schema,
-          depends: formData =>
-            formData.questions.isMarried &&
-            formData.questions.spousePreviouslyEmployed,
-          editModeOnReviewPage: true,
+        spouseIncome: {
+          title: 'Income',
+          path: 'spouse/income/:index',
+          arrayPath: 'spouseCurrentEmployment',
+          showPagePerItem: true,
+          uiSchema: pages.spouseIncome.uiSchema,
+          schema: pages.spouseIncome.schema,
         },
         spouseBenefits: {
           path: 'spouse-benefits',

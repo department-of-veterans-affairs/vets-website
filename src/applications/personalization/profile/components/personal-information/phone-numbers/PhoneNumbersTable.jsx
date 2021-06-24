@@ -9,6 +9,7 @@ import ProfileInfoTable from '../../ProfileInfoTable';
 const PhoneNumbersTable = ({ className }) => (
   <ProfileInfoTable
     title="Phone numbers"
+    namedAnchor="phone-numbers"
     data={[
       {
         title: 'Home',
@@ -27,7 +28,6 @@ const PhoneNumbersTable = ({ className }) => (
         value: <ContactInformationField fieldName={FIELD_NAMES.FAX_NUMBER} />,
       },
     ]}
-    list
     className={className}
   />
 );
