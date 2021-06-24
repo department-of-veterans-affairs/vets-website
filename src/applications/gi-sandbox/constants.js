@@ -44,6 +44,10 @@ export const TABS = Object.freeze({
   location: 'location',
 });
 
+// default state is checked so these will only be present if their corresponding boxes are unchecked
+export const FILTERS_EXCLUDED_FLIP = ['schools', 'employers', 'vettec'];
+export const FILTERS_IGNORE_ALL = ['country', 'state', 'type'];
+
 export const ariaLabels = Object.freeze({
   learnMore: {
     giBillBenefits: 'Learn more about VA education and training programs',
@@ -82,5 +86,6 @@ export const ariaLabels = Object.freeze({
     majorityOfClasses: 'Learn more about the location-based housing allowance',
     militaryTuitionAssistance:
       'Learn more about how military tuition assistance affects your benefits',
+    inState: 'Learn more about qualifying for in-state tuition.',
   },
 });

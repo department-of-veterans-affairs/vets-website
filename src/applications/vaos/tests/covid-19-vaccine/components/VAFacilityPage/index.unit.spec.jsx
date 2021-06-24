@@ -25,9 +25,6 @@ import {
 import { TYPE_OF_CARE_ID } from '../../../../covid-19-vaccine/utils';
 
 const initialState = {
-  featureToggles: {
-    vaOnlineSchedulingCheetah: true,
-  },
   user: {
     profile: {
       facilities: [
@@ -225,7 +222,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       'Facilities based on your home address',
     );
     expect(screen.baseElement).to.contain.text('290 Ludlow Ave');
-    expect(screen.baseElement).to.contain.text('Cincinatti, OH 45220');
+    expect(screen.baseElement).to.contain.text('Cincinatti, OhioOH 45220');
     expect(screen.baseElement).to.contain.text(' miles');
 
     // It should sort by distance, making Closest facility the first facility

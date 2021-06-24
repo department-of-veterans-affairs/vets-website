@@ -24,6 +24,11 @@ const requestEligibilityCriteria = require('./var/request_eligibility_criteria.j
 const directBookingEligibilityCriteria = require('./var/direct_booking_eligibility_criteria.json');
 const generateMockSlots = require('./var/slots.js');
 
+// v2
+const requestsV2 = require('./v2/requests.json');
+const parentFacilitiesV2 = require('./v2/facilities.json');
+const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
+
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 
 const responses = {
@@ -58,6 +63,7 @@ const responses = {
     return res.json({ data: [] });
   },
   'GET /vaos/v0/facilities': parentFacilities,
+  'GET /vaos/v2/facilities': parentFacilitiesV2,
   'GET /vaos/v0/systems/:id/direct_scheduling_facilities': (req, res) => {
     if (req.query.parent_code === '984') {
       return res.json(facilities984);
@@ -136,6 +142,12 @@ const responses = {
   },
   'GET /v1/facilities/va': facilityData,
   'GET /v1/facilities/ccp': ccProviders,
+  'GET /v1/facilities/ccp/:id': (req, res) => {
+    const provider = ccProviders.data.find(p => p.id === req.params.id);
+    return res.json({
+      data: provider,
+    });
+  },
   'GET /vaos/v0/facilities/:id/available_appointments': varSlots,
   'GET /vaos/v0/facilities/:id/cancel_reasons': cancelReasons,
   'GET /vaos/v0/request_eligibility_criteria': requestEligibilityCriteria,
@@ -178,6 +190,43 @@ const responses = {
           ...req.body,
         },
       },
+    });
+  },
+  'PUT /vaos/v2/appointments/:id': (req, res) => {
+    // TODO: also check through confirmed mocks, when those exist
+    const requestAttributes = requestsV2.data.find(
+      item => item.id === req.params.id,
+    ).attributes;
+
+    return res.json({
+      data: {
+        id: req.params.id,
+        attributes: {
+          ...requestAttributes,
+          ...req.body,
+        },
+      },
+    });
+  },
+  'GET /vaos/v2/appointments': (req, res) => {
+    if (req.query.statuses?.includes('proposed')) {
+      return res.json(requestsV2);
+    }
+
+    return res.json({ data: [] });
+  },
+  'GET /vaos/v2/appointments/:id': (req, res) => {
+    return res.json({
+      data: requestsV2.data.find(appt => appt.id === req.params.id),
+    });
+  },
+  'GET /vaos/v2/scheduling/configurations': (req, res) => {
+    if (req.query.cc_enabled === 'true') {
+      return res.json(schedulingConfigurationsCC);
+    }
+
+    return res.json({
+      data: [],
     });
   },
   'GET /v0/user': {
@@ -256,16 +305,14 @@ const responses = {
         { name: 'vaOnlineSchedulingExpressCareNew', value: true },
         { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
         { name: 'vaOnlineSchedulingProviderSelection', value: true },
-        { name: 'vaOnlineSchedulingCheetah', value: true },
         { name: 'vaOnlineSchedulingHomepageRefresh', value: true },
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
-        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: false },
+        { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },
         { name: 'edu_section_103', value: true },
-        { name: 'form526OriginalClaims', value: false },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },
       ],

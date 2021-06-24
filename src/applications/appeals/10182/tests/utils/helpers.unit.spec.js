@@ -11,7 +11,7 @@ import {
   isEmptyObject,
   setInitialEditMode,
   issuesNeedUpdating,
-  copyAreaOfDisagreementOptions,
+  processContestableIssues,
 } from '../../utils/helpers';
 import { getDate } from '../../utils/dates';
 
@@ -65,9 +65,21 @@ describe('getSelected', () => {
       }),
     ).to.deep.equal([{ type: 'ok', [SELECTED]: true, index: 0 }]);
   });
+  it('should not return selected additional issues when Veteran chooses not to include them', () => {
+    expect(
+      getSelected({
+        'view:hasIssuesToAdd': false,
+        additionalIssues: [
+          { type: 'no', [SELECTED]: false },
+          { type: 'ok', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([]);
+  });
   it('should return selected additional issues', () => {
     expect(
       getSelected({
+        'view:hasIssuesToAdd': true,
         additionalIssues: [
           { type: 'no', [SELECTED]: false },
           { type: 'ok', [SELECTED]: true },
@@ -82,6 +94,7 @@ describe('getSelected', () => {
           { type: 'no1', [SELECTED]: false },
           { type: 'ok1', [SELECTED]: true },
         ],
+        'view:hasIssuesToAdd': true,
         additionalIssues: [
           { type: 'no2', [SELECTED]: false },
           { type: 'ok2', [SELECTED]: true },
@@ -141,6 +154,24 @@ describe('showAddIssuesPage', () => {
         contestableIssues: [{}],
       }),
     ).to.be.false;
+  });
+  it('should show the issue page when nothing is selected, and past the issues pages', () => {
+    // probably unselected stuff on the review & submit page
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': true,
+        contestableIssues: [{}],
+        additionalIssues: [{}],
+      }),
+    ).to.be.true;
+    expect(
+      showAddIssuesPage({
+        'view:hasIssuesToAdd': false,
+        boardReviewOption: 'foo', // we're past the issues page
+        contestableIssues: [{}],
+        additionalIssues: [{}],
+      }),
+    ).to.be.true;
   });
 });
 
@@ -255,53 +286,40 @@ describe('issuesNeedUpdating', () => {
   });
 });
 
-describe('copyAreaOfDisagreementOptions', () => {
-  it('should return original issues only', () => {
-    const result = [
-      { issue: 'test' },
-      { attributes: { ratingIssueSubjectText: 'test2' } },
-    ];
-    expect(copyAreaOfDisagreementOptions(result, [])).to.deep.equal(result);
-  });
-  it('should return additional issue with included options', () => {
-    const newIssues = [
-      { issue: 'test' },
-      { attributes: { ratingIssueSubjectText: 'test2' } },
-    ];
-    const existingIssues = [
-      { issue: 'test', disagreementOptions: { test: true } },
-    ];
-    const result = [
-      { issue: 'test', disagreementOptions: { test: true }, otherEntry: '' },
-      { attributes: { ratingIssueSubjectText: 'test2' } },
-    ];
-    expect(
-      copyAreaOfDisagreementOptions(newIssues, existingIssues),
-    ).to.deep.equal(result);
-  });
-  it('should return eligible issues with included options', () => {
-    const newIssues = [
-      { issue: 'test' },
-      { attributes: { ratingIssueSubjectText: 'test2' } },
-    ];
-    const existingIssues = [
-      {
-        attributes: { ratingIssueSubjectText: 'test2' },
-        disagreementOptions: { test: true },
-        otherEntry: 'ok',
-      },
-    ];
-    expect(
-      copyAreaOfDisagreementOptions(newIssues, existingIssues),
-    ).to.deep.equal([newIssues[0], existingIssues[0]]);
-  });
+describe('processContestableIssues', () => {
+  const getIssues = dates =>
+    dates.map(date => ({
+      attributes: { ratingIssueSubjectText: 'a', approxDecisionDate: date },
+    }));
+  const getDates = dates =>
+    dates.map(date => date.attributes.approxDecisionDate);
 
-  it('should return disagreement options & other entry', () => {
-    const result = [
-      { issue: 'test', disagreementOptions: { test: true }, otherEntry: 'ok' },
-    ];
-    expect(
-      copyAreaOfDisagreementOptions([{ issue: 'test' }], result),
-    ).to.deep.equal(result);
+  it('should return an empty array with undefined issues', () => {
+    expect(getDates(processContestableIssues())).to.deep.equal([]);
+  });
+  it('should filter out issues missing a title', () => {
+    const issues = getIssues(['2020-02-01', '2020-03-01', '2020-01-01']);
+    issues[0].attributes.ratingIssueSubjectText = '';
+    const result = processContestableIssues(issues);
+    expect(getDates(result)).to.deep.equal(['2020-03-01', '2020-01-01']);
+  });
+  it('should sort issues spanning months with newest date first', () => {
+    const dates = ['2020-02-01', '2020-03-01', '2020-01-01'];
+    const result = processContestableIssues(getIssues(dates));
+    expect(getDates(result)).to.deep.equal([
+      '2020-03-01',
+      '2020-02-01',
+      '2020-01-01',
+    ]);
+  });
+  it('should sort issues spanning a year & months with newest date first', () => {
+    const dates = ['2021-01-31', '2020-12-01', '2021-02-02', '2021-02-01'];
+    const result = processContestableIssues(getIssues(dates));
+    expect(getDates(result)).to.deep.equal([
+      '2021-02-02',
+      '2021-02-01',
+      '2021-01-31',
+      '2020-12-01',
+    ]);
   });
 });

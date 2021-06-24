@@ -16,13 +16,13 @@ const CheckIn = props => {
       <h1>Your appointment</h1>
       <dl className="appointment-summary">
         <dd
-          className="appointment-details vads-u-font-weight--bold"
+          className="appointment-details vads-u-font-weight--bold vads-u-font-family--serif"
           data-testid="appointment-date"
         >
           Friday, September 25, 2020
         </dd>
         <dd
-          className="appointment-details vads-u-font-weight--bold vads-u-margin-bottom--3"
+          className="appointment-details vads-u-font-weight--bold vads-u-margin-bottom--3 vads-u-font-family--serif"
           data-testid="appointment-time"
         >
           9:30 a.m. ET
@@ -34,7 +34,7 @@ const CheckIn = props => {
       </dl>
       <button
         type="button"
-        className="usa-button"
+        className="usa-button usa-button-big"
         onClick={onClick}
         data-testid="check-in-button"
       >

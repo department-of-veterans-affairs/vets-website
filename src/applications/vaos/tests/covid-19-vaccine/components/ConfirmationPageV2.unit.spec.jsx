@@ -6,11 +6,11 @@ import React from 'react';
 import ConfirmationPageV2 from '../../../covid-19-vaccine/components/ConfirmationPageV2';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { FETCH_STATUS } from '../../../utils/constants';
+import { getICSTokens } from '../../../utils/calendar';
 
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingProjectCheetah: true,
   },
 };
 
@@ -83,7 +83,9 @@ describe('VAOS vaccine flow <ConfirmationPageV2>', () => {
     ).to.be.ok;
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     expect(screen.getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.baseElement).to.contain.text(
+      'Cheyenne, WyomingWY 82001-5356',
+    );
     expect(screen.getByText(/directions/i)).to.have.attribute(
       'href',
       'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
@@ -133,53 +135,52 @@ describe('VAOS vaccine flow <ConfirmationPageV2>', () => {
         .getAttribute('href')
         .replace('data:text/calendar;charset=utf-8,', ''),
     );
-    const tokens = ics.split('\r\n');
+    const tokens = getICSTokens(ics);
 
-    // TODO: Debugging
-    // console.log(tokens);
-
-    expect(tokens[0]).to.equal('BEGIN:VCALENDAR');
-    expect(tokens[1]).to.equal('VERSION:2.0');
-    expect(tokens[2]).to.equal('PRODID:VA');
-    expect(tokens[3]).to.equal('BEGIN:VEVENT');
-    expect(tokens[4]).to.contain('UID:');
-    expect(tokens[5]).to.equal('SUMMARY:Appointment at CHY PC CASSIDY');
+    expect(tokens.get('BEGIN')).includes('VCALENDAR');
+    expect(tokens.get('VERSION')).to.equal('2.0');
+    expect(tokens.get('PRODID')).to.equal('VA');
+    expect(tokens.get('BEGIN')).includes('VEVENT');
+    expect(tokens.has('UID')).to.be.true;
+    expect(tokens.get('SUMMARY')).to.equal('Appointment at CHY PC CASSIDY');
 
     // Description text longer than 74 characters should start on newline beginning
     // with a tab character
-    expect(tokens[6]).to.equal(
-      'DESCRIPTION:You have a health care appointment at CHY PC CASSIDY',
+    let description = tokens.get('DESCRIPTION');
+    description = description.split(/(?=\t)/g); // look ahead include the split character in the results
+
+    expect(description[0]).to.equal(
+      'You have a health care appointment at CHY PC CASSIDY',
     );
-    expect(tokens[7]).to.equal('\t\\n\\n2360 East Pershing Boulevard\\n');
-    expect(tokens[8]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
-    expect(tokens[9]).to.equal('\t307-778-7550\\n');
-    expect(tokens[10]).to.equal(
+    expect(description[1]).to.equal('\t\\n\\n2360 East Pershing Boulevard\\n');
+    expect(description[2]).to.equal('\tCheyenne\\, WY 82001-5356\\n');
+    expect(description[3]).to.equal('\t307-778-7550\\n');
+    expect(description[4]).to.equal(
       '\t\\nSign in to VA.gov to get details about this appointment\\n',
     );
-
-    expect(tokens[11]).to.equal(
-      'LOCATION:2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
+    expect(tokens.get('LOCATION')).to.equal(
+      '2360 East Pershing Boulevard\\, Cheyenne\\, WY 82001-5356',
     );
-    expect(tokens[12]).to.equal(
-      `DTSTAMP:${moment(start)
+    expect(tokens.get('DTSTAMP')).to.equal(
+      `${moment(start)
         .tz('America/Denver', true) // Only change the timezone and not the time
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[13]).to.equal(
-      `DTSTART:${moment(start)
+    expect(tokens.get('DTSTART')).to.equal(
+      `${moment(start)
         .tz('America/Denver', true) // Only change the timezone and not the time
         .utc()
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[14]).to.equal(
-      `DTEND:${moment(start)
+    expect(tokens.get('DTEND')).to.equal(
+      `${moment(start)
         .tz('America/Denver', true) // Only change the timezone and not the time
         .utc()
         .add(30, 'minutes')
         .format('YYYYMMDDTHHmmss[Z]')}`,
     );
-    expect(tokens[15]).to.equal('END:VEVENT');
-    expect(tokens[16]).to.equal('END:VCALENDAR');
+    expect(tokens.get('END')).includes('VEVENT');
+    expect(tokens.get('END')).includes('VCALENDAR');
   });
 });

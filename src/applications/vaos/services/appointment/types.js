@@ -36,7 +36,6 @@
  * - Mapped from ccAppointment.instructionsToVeteran for community care appointments
  * - Mapped from appointment.vdsAppointments[0].bookingNotes for VistA appointments
  * - Mapped from appointment.vvsAppointments[0].instructionsTitle for video appointments,
- * - Mapped from request.additionalInformation, but that only has content for Express Care requests
  * @property {?string} reason The reason given by patient for an appointment
  * - Mapped from request.reasonForVisit for Express Care requests
  * - Mapped from request.purposeForVisit for regular requests

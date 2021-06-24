@@ -12,7 +12,6 @@ import {
   removeEmptyEntries,
   getAddress,
   getPhone,
-  getRepName,
   getTimeZone,
 } from '../../utils/submit';
 
@@ -209,10 +208,10 @@ describe('addAreaOfDisagreement', () => {
       [issue1.result, issue2.result],
       formData,
     );
-    expect(result[0].attributes.disagreementReason).to.equal(
+    expect(result[0].attributes.disagreementArea).to.equal(
       'service connection',
     );
-    expect(result[1].attributes.disagreementReason).to.equal('effective date');
+    expect(result[1].attributes.disagreementArea).to.equal('effective date');
   });
   it('should process multiple choices', () => {
     const formData = {
@@ -228,7 +227,7 @@ describe('addAreaOfDisagreement', () => {
       ],
     };
     const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementReason).to.equal(
+    expect(result[0].attributes.disagreementArea).to.equal(
       'service connection,effective date,disability evaluation',
     );
   });
@@ -247,7 +246,7 @@ describe('addAreaOfDisagreement', () => {
       ],
     };
     const result = addAreaOfDisagreement([issue1.result], formData);
-    expect(result[0].attributes.disagreementReason).to.equal(
+    expect(result[0].attributes.disagreementArea).to.equal(
       'service connection,effective date,disability evaluation,this is an other entry',
     );
   });
@@ -255,6 +254,7 @@ describe('addAreaOfDisagreement', () => {
 
 describe('addUploads', () => {
   const getData = (checked, files) => ({
+    boardReviewOption: 'evidence_submission',
     'view:additionalEvidence': checked,
     evidence: files.map(name => ({ name, confirmationCode: '123' })),
   });
@@ -264,7 +264,14 @@ describe('addUploads', () => {
       { name: 'test2', confirmationCode: '123' },
     ]);
   });
-  it('should not add uploads', () => {
+  it('should not add uploads if not submitting more evidence', () => {
+    const data = {
+      ...getData(true, ['test1', 'test2']),
+      boardReviewOption: 'hearing',
+    };
+    expect(addUploads(data)).to.deep.equal([]);
+  });
+  it('should not add uploads if submit later is selected', () => {
     expect(addUploads(getData(false, ['test1', 'test2']))).to.deep.equal([]);
   });
 });
@@ -349,24 +356,6 @@ describe('getPhone', () => {
       phoneNumber: '1234567',
       phoneNumberExt: '0000',
     });
-  });
-});
-
-describe('getRepName', () => {
-  const getData = (checked, representativesName) => ({
-    'view:hasRep': checked,
-    representativesName,
-  });
-  it('should return rep name', () => {
-    expect(getRepName(getData(true, 'Fred'))).to.eq('Fred');
-  });
-  it('should limit rep name to 120 characters', () => {
-    const result = getRepName(getData(true, new Array(130).fill('A').join('')));
-    expect(result).to.contain('AAAA');
-    expect(result.length).to.eq(120);
-  });
-  it('should not return rep name', () => {
-    expect(getRepName(getData(false, 'Fred'))).to.eq('');
   });
 });
 

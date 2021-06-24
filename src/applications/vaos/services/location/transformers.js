@@ -325,43 +325,48 @@ export function transformFacilities(facilities) {
 }
 
 /**
- * Transforms the vets-api PPMS provider format into a Location
+ * Transforms a single vets-api PPMS provider format into a Location
  * resource
+ *
+ * @export
+ * @param {Object<PPMSProvider>} provider A PPMS provider
+ * @returns {Array<Location>} A Location resource
+ */
+
+export function transformCommunityProvider(provider) {
+  return {
+    id: provider.id,
+    identifier: [{ system: 'PPMS', value: provider.uniqueId }],
+    resourceType: 'Location',
+    address: {
+      line: [provider.address?.street],
+      city: provider.address?.city,
+      state: provider.address?.state,
+      postalCode: provider.address?.zip || provider.address?.zipCode, // or providerZipCode????
+    },
+    providerName:
+      provider.lastName &&
+      `${provider.firstName || ''} ${provider.lastName || ''}`,
+    practiceName: provider.practiceName,
+
+    // TODO: Refactor!!!
+    name: provider.name || provider.practiceName,
+
+    position: { longitude: provider.long, latitude: provider.lat },
+    telecom: [{ system: 'phone', value: provider.caresitePhone }],
+  };
+}
+
+/**
+ * Transforms an array of vets-api PPMS provider format into an array of Location
+ * resources
  *
  * @export
  * @param {Array<PPMSProvider>} providers A list of PPMS providers
  * @returns {Array<Location>} A list of Location resources
  */
 export function transformCommunityProviders(providers) {
-  return providers.map(provider => {
-    return {
-      id: provider.id,
-      identifier: [
-        {
-          system: 'PPMS',
-          value: provider.uniqueId,
-        },
-      ],
-      resourceType: 'Location',
-      address: {
-        line: [provider.address.street],
-        city: provider.address.city,
-        state: provider.address.state,
-        postalCode: provider.address.zip,
-      },
-      name: provider.name,
-      position: {
-        longitude: provider.long,
-        latitude: provider.lat,
-      },
-      telecom: [
-        {
-          system: 'phone',
-          value: provider.caresitePhone,
-        },
-      ],
-    };
-  });
+  return providers.map(provider => transformCommunityProvider(provider));
 }
 
 /**

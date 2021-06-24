@@ -2,9 +2,6 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import AddToCalendar from '../../../components/AddToCalendar';
@@ -29,6 +26,7 @@ import PageLayout from '../AppointmentsPage/PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import Breadcrumbs from '../../../components/Breadcrumbs';
+import InfoAlert from '../../../components/InfoAlert';
 import {
   startAppointmentCancel,
   closeCancelAppointment,
@@ -164,22 +162,18 @@ export default function ConfirmedAppointmentDetailsPage() {
     facility: facilityData[locationId],
   });
 
-  let alertBox = null;
+  let infoAlert = null;
   if (canceled) {
-    alertBox = (
-      <AlertBox
-        status="error"
-        className="vads-u-display--block vads-u-margin-bottom--2"
-        backgroundOnly
-      >
+    infoAlert = (
+      <InfoAlert status="error" backgroundOnly>
         {`${canceler} canceled this appointment.`}
-      </AlertBox>
+      </InfoAlert>
     );
   } else if (isPastAppointment) {
-    alertBox = (
-      <AlertBox status="warning" backgroundOnly>
+    infoAlert = (
+      <InfoAlert status="warning" backgroundOnly>
         This appointment occurred in the past.
-      </AlertBox>
+      </InfoAlert>
     );
   }
 
@@ -193,7 +187,7 @@ export default function ConfirmedAppointmentDetailsPage() {
         <AppointmentDateTime appointment={appointment} />
       </h1>
 
-      {alertBox}
+      {infoAlert}
 
       <h2
         className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
@@ -299,15 +293,14 @@ export default function ConfirmedAppointmentDetailsPage() {
                 )}
 
               {isCovid && (
-                <AlertBox
-                  status={ALERT_TYPE.INFO}
-                  className="vads-u-display--block"
+                <InfoAlert
+                  status="info"
                   headline="Need to make changes?"
                   backgroundOnly
                 >
                   Contact this provider if you need to reschedule or cancel your
                   appointment.
-                </AlertBox>
+                </InfoAlert>
               )}
             </>
           )}

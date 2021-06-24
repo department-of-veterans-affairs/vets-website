@@ -175,6 +175,12 @@ export function getCommunityCareFacilities({
   ).then(parseApiList);
 }
 
+export function getCommunityCareFacility(id) {
+  return apiRequestWithUrl(`/v1/facilities/ccp/${id}`, {
+    method: 'GET',
+  }).then(parseApiObject);
+}
+
 export function getSitesSupportingVAR(systemIds) {
   return apiRequestWithUrl(
     `/vaos/v0/community_care/supported_sites?${systemIds

@@ -21,8 +21,13 @@ import { FETCH_STATUS } from '../../../../utils/constants';
 import {
   mockEligibilityFetches,
   mockAppointmentSlotFetch,
+  mockFacilityFetch,
 } from '../../../mocks/helpers';
-import { getClinicMock, getAppointmentSlotMock } from '../../../mocks/v0';
+import {
+  getClinicMock,
+  getAppointmentSlotMock,
+  getVAFacilityMock,
+} from '../../../mocks/v0';
 import { mockFetch } from 'platform/testing/unit/helpers';
 
 const initialState = {
@@ -39,6 +44,7 @@ const initialState = {
 describe('VAOS <DateTimeSelectPage>', () => {
   beforeEach(() => {
     mockFetch();
+    mockFacilityFetch('vha_442', getVAFacilityMock());
     MockDate.set(moment('2020-01-26T14:00:00'));
   });
   afterEach(() => {

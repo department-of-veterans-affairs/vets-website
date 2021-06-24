@@ -16,7 +16,7 @@ import {
 import { beforeEach } from 'mocha';
 
 const errorText =
-  'We’re sorry. We couldn’t update your email address. Please try again.';
+  'We’re sorry. We couldn’t update your contact email address. Please try again.';
 const newEmailAddress = 'new-address@domain.com';
 const ui = (
   <MemoryRouter>
@@ -87,7 +87,7 @@ async function testSlowSuccess() {
 
   // check that the "we're saving your..." message appears
   const savingMessage = await view.findByText(
-    /We’re working on saving your new email address. We’ll show it here once it’s saved./i,
+    /We’re working on saving your new contact email address. We’ll show it here once it’s saved./i,
   );
   expect(savingMessage).to.exist;
 
@@ -154,7 +154,7 @@ async function testSlowFailure() {
 
   // check that the "we're saving your..." message appears
   const savingMessage = await view.findByText(
-    /We’re working on saving your new email address. We’ll show it here once it’s saved./i,
+    /We’re working on saving your new contact email address. We’ll show it here once it’s saved./i,
   );
   expect(savingMessage).to.exist;
 
@@ -165,7 +165,7 @@ async function testSlowFailure() {
   // make sure the error message appears
   expect(
     view.getByText(
-      /We couldn’t save your recent email address update. Please try again later/i,
+      /We couldn’t save your recent contact email address update. Please try again later/i,
     ),
   ).to.exist;
 

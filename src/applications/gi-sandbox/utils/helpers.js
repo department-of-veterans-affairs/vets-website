@@ -1,8 +1,18 @@
 import _, { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
+
 import constants from 'vets-json-schema/dist/constants.json';
-import { SMALL_SCREEN_WIDTH } from '../constants';
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import mapboxClient from '../components/MapboxClient';
+
+const mbxClient = mbxGeo(mapboxClient);
+import {
+  SMALL_SCREEN_WIDTH,
+  FILTERS_EXCLUDED_FLIP,
+  FILTERS_IGNORE_ALL,
+} from '../constants';
+import appendQuery from 'append-query';
 
 /**
  * Snake-cases field names
@@ -190,27 +200,107 @@ export const buildSearchFilters = filters => {
   const clonedFilters = _.cloneDeep(filters);
   delete clonedFilters.expanded;
 
-  // default state is checked so these will only be present if their corresponding boxes are unchecked
-  const excludeBooleanFlip = ['schools', 'employers', 'vettec'];
-
-  const hasAllValue = ['country', 'state', 'type'];
   const searchFilters = {};
 
   // boolean fields
   Object.entries(clonedFilters)
     .filter(([_field, value]) => value === true)
-    .filter(([field, _value]) => !excludeBooleanFlip.includes(field))
+    .filter(([field, _value]) => !FILTERS_EXCLUDED_FLIP.includes(field))
     .forEach(([field]) => {
       searchFilters[field] = clonedFilters[field];
     });
 
-  hasAllValue.filter(field => clonedFilters[field] !== 'ALL').forEach(field => {
-    searchFilters[field] = clonedFilters[field];
-  });
+  FILTERS_IGNORE_ALL.filter(field => clonedFilters[field] !== 'ALL').forEach(
+    field => {
+      searchFilters[field] = clonedFilters[field];
+    },
+  );
 
-  excludeBooleanFlip.filter(field => !clonedFilters[field]).forEach(field => {
-    searchFilters[`exclude_${field}`] = !clonedFilters[field];
-  });
+  FILTERS_EXCLUDED_FLIP.filter(field => !clonedFilters[field]).forEach(
+    field => {
+      const excludeField = `exclude${field[0].toUpperCase() +
+        field.slice(1).toLowerCase()}`;
+      searchFilters[excludeField] = !clonedFilters[field];
+    },
+  );
 
   return searchFilters;
 };
+
+export const searchCriteriaFromCoords = async (longitude, latitude) => {
+  const response = await mbxClient
+    .reverseGeocode({
+      query: [longitude, latitude],
+      types: ['address'],
+    })
+    .send();
+
+  const features = response.body.features;
+  const placeName = features[0].place_name;
+
+  return {
+    searchString: placeName,
+    position: { longitude, latitude },
+  };
+};
+
+export const schoolSize = enrollment => {
+  if (!enrollment) return 'Unknown';
+  if (enrollment <= 2000) {
+    return 'Small';
+  } else if (enrollment <= 15000) {
+    return 'Medium';
+  }
+  return 'Large';
+};
+
+export const updateUrlParams = (
+  history,
+  tab,
+  searchQuery,
+  filters,
+  version,
+) => {
+  const queryParams = {
+    search: tab,
+  };
+  if (
+    searchQuery.name !== '' ||
+    searchQuery.name !== null ||
+    searchQuery.name !== undefined
+  ) {
+    queryParams.name = searchQuery.name;
+  }
+
+  if (
+    searchQuery.location !== '' ||
+    searchQuery.location !== null ||
+    searchQuery.location !== undefined
+  ) {
+    queryParams.location = searchQuery.location;
+  }
+
+  if (searchQuery.distance !== '50') {
+    queryParams.distance = searchQuery.distance;
+  }
+
+  const url = appendQuery('/', {
+    ...queryParams,
+    ...buildSearchFilters(filters),
+    version,
+  });
+  history.push(url);
+};
+
+export function isURL(str) {
+  const pattern = new RegExp(
+    '^(https?:\\/\\/)?' + // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$',
+    'i',
+  ); // fragment locator
+  return !!pattern.test(str);
+}

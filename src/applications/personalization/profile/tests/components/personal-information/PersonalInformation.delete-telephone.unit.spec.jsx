@@ -86,18 +86,10 @@ async function testQuickSuccess(numberName) {
   // wait for the edit mode to exit
   await waitForElementToBeRemoved(phoneNumberInput);
 
-  // the edit phone number button should not exist
-  expect(
-    view.queryByText(new RegExp(`edit.*${numberName}`, 'i'), {
-      selector: 'button',
-    }),
-  ).not.to.exist;
-  // and the add phone number button should exist
-  expect(
-    view.getByText(new RegExp(`add.*${numberName}`, 'i'), {
-      selector: 'button',
-    }),
-  ).to.exist;
+  // the edit phone number button should still exist
+  view.getByRole('button', { name: new RegExp(`edit.*${numberName}`, 'i') });
+  // and the add phone number text should exist
+  view.getByText(new RegExp(`add.*${numberName}`, 'i'));
 }
 
 // When the update happens but not until after the Edit View has exited and the
@@ -123,18 +115,10 @@ async function testSlowSuccess(numberName) {
 
   await waitForElementToBeRemoved(deletingMessage);
 
-  // the edit phone number button should not exist
-  expect(
-    view.queryByText(new RegExp(`edit.*${numberName}`, 'i'), {
-      selector: 'button',
-    }),
-  ).not.to.exist;
-  // and the add phone number button should exist
-  expect(
-    view.getByText(new RegExp(`add.*${numberName}`, 'i'), {
-      selector: 'button',
-    }),
-  ).to.exist;
+  // the edit phone number button should still exist
+  view.getByRole('button', { name: new RegExp(`edit.*${numberName}`, 'i') });
+  // and the add phone number text should exist
+  view.getByText(new RegExp(`add.*${numberName}`, 'i'));
 }
 
 // When the initial transaction creation request fails

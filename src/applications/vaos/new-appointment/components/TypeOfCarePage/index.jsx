@@ -18,11 +18,7 @@ import {
 import { selectTypeOfCarePage } from '../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
-import {
-  COVID_VACCINE_ID,
-  PODIATRY_ID,
-  TYPES_OF_CARE,
-} from '../../../utils/constants';
+import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 
 const pageKey = 'typeOfCare';
@@ -38,7 +34,6 @@ export default function TypeOfCarePage() {
     showCommunityCare,
     showDirectScheduling,
     showPodiatryApptUnavailableModal,
-    featureCovid19Vaccine,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
   const history = useHistory();
   const showUpdateAddressAlert =
@@ -58,13 +53,19 @@ export default function TypeOfCarePage() {
   const { data, schema, setData, uiSchema } = useFormState({
     initialSchema: () => {
       const sortedCare = TYPES_OF_CARE.filter(
-        typeOfCare =>
-          (typeOfCare.id !== PODIATRY_ID || showCommunityCare) &&
-          (featureCovid19Vaccine || typeOfCare.id !== COVID_VACCINE_ID),
+        typeOfCare => typeOfCare.id !== PODIATRY_ID || showCommunityCare,
       ).sort(
         (careA, careB) =>
           careA.name.toLowerCase() > careB.name.toLowerCase() ? 1 : -1,
       );
+
+      const covidLabel = (
+        <>
+          COVID-19 vaccine
+          <span className="usa-label vads-u-margin-left--1">New</span>
+        </>
+      );
+
       return {
         type: 'object',
         required: ['typeOfCareId'],
@@ -72,7 +73,12 @@ export default function TypeOfCarePage() {
           typeOfCareId: {
             type: 'string',
             enum: sortedCare.map(care => care.id || care.ccId),
-            enumNames: sortedCare.map(care => care.label || care.name),
+            enumNames: sortedCare.map(care => {
+              if (care.id === 'covid') {
+                return covidLabel;
+              }
+              return care.label || care.name;
+            }),
           },
         },
       };

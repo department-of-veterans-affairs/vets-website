@@ -111,7 +111,7 @@ const facilities = [
   },
 ];
 
-describe('VAOS integration: VA flat facility page - single facility', () => {
+describe('VAOS <VAFacilityPageV2> single facility', () => {
   beforeEach(() => {
     mockFetch();
     const siteIds = ['983'];
@@ -145,7 +145,7 @@ describe('VAOS integration: VA flat facility page - single facility', () => {
     );
 
     expect(baseElement).to.contain.text('San Diego VA Medical Center');
-    expect(baseElement).to.contain.text('San Diego, CA');
+    expect(baseElement).to.contain.text('San Diego, CaliforniaCA');
 
     fireEvent.click(await findByText(/Continue/));
     await waitFor(() =>

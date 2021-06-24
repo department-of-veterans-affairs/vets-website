@@ -18,7 +18,6 @@ import {
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingDirect: true,
-    vaOnlineSchedulingCheetah: true,
   },
   appointments: {
     facilitySettings: [
@@ -171,7 +170,7 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
         level: 1,
       }),
     ).to.be.ok;
-    expect(screen.baseElement).to.contain.text('Bozeman, MT');
+    expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
     expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
     expect(screen.getByText(/555-555-5555, ext\. 1234/i)).to.be.ok;
 
@@ -180,7 +179,7 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
         name: /Facility that is also enabled/i,
       }),
     ).to.be.ok;
-    expect(screen.baseElement).to.contain.text('Belgrade, MT');
+    expect(screen.baseElement).to.contain.text('Belgrade, MontanaMT');
     expect(screen.getByText(/85\.8 miles/i)).to.be.ok;
     expect(screen.getByText(/555-555-5556, ext\. 1234/i)).to.be.ok;
 

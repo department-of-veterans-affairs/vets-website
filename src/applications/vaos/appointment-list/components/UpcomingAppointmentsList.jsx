@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import InfoAlert from '../../components/InfoAlert';
 import recordEvent from 'platform/monitoring/record-event';
 import { getUpcomingAppointmentListInfo } from '../redux/selectors';
 import {
@@ -33,7 +33,7 @@ export default function UpcomingAppointmentsList() {
   useEffect(
     () => {
       if (futureStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchFutureAppointments());
+        dispatch(fetchFutureAppointments({ includeRequests: false }));
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.succeeded) {
         scrollAndFocus('#type-dropdown');
       } else if (hasTypeChanged && futureStatus === FETCH_STATUS.failed) {
@@ -59,10 +59,13 @@ export default function UpcomingAppointmentsList() {
 
   if (futureStatus === FETCH_STATUS.failed) {
     return (
-      <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
+      <InfoAlert
+        status="error"
+        headline="We’re sorry. We’ve run into a problem"
+      >
         We’re having trouble getting your upcoming appointments. Please try
         again later.
-      </AlertBox>
+      </InfoAlert>
     );
   }
 
