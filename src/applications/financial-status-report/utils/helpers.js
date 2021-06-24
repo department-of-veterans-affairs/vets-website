@@ -43,15 +43,15 @@ export const getMonthlyIncome = ({
   }
 
   if (questions.hasAdditionalIncome) {
-    const vetAddl = additionalIncome.additionalIncomeRecords.map(
-      record => record.amount,
+    const vetAddl = additionalIncome.additionalIncomeRecords.map(record =>
+      Number(record.amount),
     );
     totalArr = [...totalArr, ...vetAddl];
   }
 
   if (questions.spouseHasAdditionalIncome) {
     const spouseAddl = additionalIncome.spouse.spouseAdditionalIncomeRecords.map(
-      record => record.amount,
+      record => Number(record.amount),
     );
     totalArr = [...totalArr, ...spouseAddl];
   }
@@ -71,7 +71,7 @@ export const getMonthlyIncome = ({
     totalArr = [...totalArr, benefitAmount, educationAmount];
   }
 
-  return totalArr.reduce((acc, income) => acc + income, 0) || 0;
+  return totalArr.reduce((acc, income) => acc + Number(income), 0) || 0;
 };
 
 export const getMonthlyExpenses = formData => {
@@ -95,7 +95,7 @@ export const getMonthlyExpenses = formData => {
       .map(record => record.deductions)
       .flat();
     const deductionAmounts = payrollDeductions.map(
-      deduction => deduction?.amount || 0,
+      deduction => Number(deduction?.amount) || 0,
     );
     totalArr = [...totalArr, ...deductionAmounts];
   }
@@ -105,7 +105,7 @@ export const getMonthlyExpenses = formData => {
       .map(record => record.deductions)
       .flat();
     const deductionAmounts = payrollDeductions.map(
-      deduction => deduction?.amount || 0,
+      deduction => Number(deduction?.amount) || 0,
     );
     totalArr = [...totalArr, ...deductionAmounts];
   }
@@ -129,7 +129,7 @@ export const getMonthlyExpenses = formData => {
     totalArr = [...totalArr, ...other];
   }
 
-  return totalArr.reduce((acc, expense) => acc + expense, 0) || 0;
+  return totalArr.reduce((acc, expense) => acc + Number(expense), 0) || 0;
 };
 
 export const getEmploymentHistory = ({ questions, personalData }) => {
@@ -185,38 +185,40 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
 
 export const getTotalAssets = ({ assets, realEstateRecords }) => {
   const totVehicles = assets.automobiles?.reduce(
-    (acc, vehicle) => acc + vehicle.resaleValue,
+    (acc, vehicle) => acc + Number(vehicle.resaleValue),
     0,
   );
+
   const totRecVehicles = assets.trailersBoatsCampers?.reduce(
-    (acc, vehicle) => acc + vehicle.amount,
+    (acc, vehicle) => acc + Number(vehicle.recreationalVehicleAmount),
     0,
   );
+
+  const totOtherAssets = assets.otherAssets?.reduce(
+    (acc, asset) => acc + Number(asset.amount),
+    0,
+  );
+
   const totRealEstate = realEstateRecords?.reduce(
-    (acc, record) => acc + record.realEstateAmount,
+    (acc, record) => acc + Number(record.realEstateAmount),
     0,
   );
 
   const totAssets = Object.values(assets)
-    .map(asset => (Number.isInteger(asset) ? asset : 0))
-    .reduce((acc, amount) => acc + amount, 0);
-
-  const totOtherAssets = assets.otherAssets?.reduce(
-    (acc, asset) => acc + asset.amount,
-    0,
-  );
+    .filter(item => typeof item === 'string')
+    .reduce((acc, amount) => acc + Number(amount), 0);
 
   const totArr = [
     totVehicles,
     totRecVehicles,
-    totAssets,
     totRealEstate,
     totOtherAssets,
+    totAssets,
   ];
 
   return totArr
     .map(amount => amount || 0)
-    .reduce((acc, amount) => acc + amount, 0);
+    .reduce((acc, amount) => acc + Number(amount), 0);
 };
 
 export const getIncome = ({
@@ -252,15 +254,15 @@ export const getIncome = ({
 
   if (questions.vetIsEmployed) {
     const monthlyGrossSalary = currentEmployment
-      .map(record => Number(record.monthlyGrossSalary))
-      .reduce((acc, amount) => acc + amount, 0);
+      .map(record => record.monthlyGrossSalary)
+      .reduce((acc, amount) => acc + Number(amount), 0);
 
     const deductions = currentEmployment
       .map(record => record.deductions)
       .flat();
 
     const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + deduction?.amount || 0,
+      (acc, deduction) => acc + Number(deduction?.amount) || 0,
       0,
     );
 
@@ -275,7 +277,7 @@ export const getIncome = ({
                 .map(deduction => deduction?.name || '')
                 .join(', '),
               amount: deductions.reduce(
-                (acc, deduction) => acc + deduction?.amount || 0,
+                (acc, deduction) => acc + Number(deduction?.amount) || 0,
                 0,
               ),
             },
@@ -292,15 +294,15 @@ export const getIncome = ({
 
   if (questions.spouseIsEmployed) {
     const monthlyGrossSalary = spouseCurrentEmployment
-      .map(record => Number(record.monthlyGrossSalary))
-      .reduce((acc, amount) => acc + amount, 0);
+      .map(record => record.monthlyGrossSalary)
+      .reduce((acc, amount) => acc + Number(amount), 0);
 
     const deductions = spouseCurrentEmployment
       .map(record => record.deductions)
       .flat();
 
     const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + deduction?.amount || 0,
+      (acc, deduction) => acc + Number(deduction?.amount) || 0,
       0,
     );
 
@@ -315,7 +317,7 @@ export const getIncome = ({
                 .map(deduction => deduction?.name || '')
                 .join(', '),
               amount: deductions.reduce(
-                (acc, deduction) => acc + deduction?.amount || 0,
+                (acc, deduction) => acc + Number(deduction?.amount) || 0,
                 0,
               ),
             },
@@ -332,20 +334,20 @@ export const getIncome = ({
 
   if (questions.hasAdditionalIncome) {
     const monthlyGrossSalary = currentEmployment
-      .map(record => Number(record.monthlyGrossSalary))
-      .reduce((acc, amount) => acc + amount, 0);
+      .map(record => record.monthlyGrossSalary)
+      .reduce((acc, amount) => acc + Number(amount), 0);
 
     const deductions = currentEmployment
       .map(record => record.deductions)
       .flat();
 
     const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + deduction?.amount || 0,
+      (acc, deduction) => acc + Number(deduction?.amount) || 0,
       0,
     );
 
     const otherIncome = additionalIncome.additionalIncomeRecords.reduce(
-      (acc, record) => acc + record.amount,
+      (acc, record) => acc + Number(record.amount),
       0,
     );
 
@@ -360,7 +362,7 @@ export const getIncome = ({
               .map(record => record.name)
               .join(', '),
             amount: additionalIncome.additionalIncomeRecords.reduce(
-              (acc, record) => acc + record.amount,
+              (acc, record) => acc + Number(record.amount),
               0,
             ),
           },
@@ -373,20 +375,20 @@ export const getIncome = ({
 
   if (questions.spouseHasAdditionalIncome) {
     const monthlyGrossSalary = spouseCurrentEmployment
-      .map(record => Number(record.monthlyGrossSalary))
-      .reduce((acc, amount) => acc + amount, 0);
+      .map(record => record.monthlyGrossSalary)
+      .reduce((acc, amount) => acc + Number(amount), 0);
 
     const deductions = spouseCurrentEmployment
       .map(record => record.deductions)
       .flat();
 
     const totalDeductions = deductions.reduce(
-      (acc, deduction) => acc + deduction?.amount || 0,
+      (acc, deduction) => acc + Number(deduction?.amount) || 0,
       0,
     );
 
     const otherIncome = additionalIncome.spouse.spouseAdditionalIncomeRecords.reduce(
-      (acc, record) => acc + record.amount,
+      (acc, record) => acc + Number(record.amount),
       0,
     );
 
@@ -401,7 +403,7 @@ export const getIncome = ({
               .map(record => record.name)
               .join(', '),
             amount: additionalIncome.spouse.spouseAdditionalIncomeRecords.reduce(
-              (acc, record) => acc + record.amount,
+              (acc, record) => acc + Number(record.amount),
               0,
             ),
           },
