@@ -256,7 +256,7 @@ describe('VAOS <ReviewPage> VA request', () => {
     const alert = screen.baseElement.querySelector('.usa-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
     expect(alert).contain.text('2360 East Pershing Boulevard');
-    expect(alert).contain.text('Cheyenne, WY 82001-5356');
+    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(screen.history.push.called).to.be.false;
 
     expect(global.window.dataLayer[2]).to.deep.equal({
@@ -526,7 +526,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
 
     const alert = document.querySelector('.usa-alert-error');
     expect(within(alert).getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
-    expect(alert).to.contain.text('Cheyenne, WY');
+    expect(alert).to.contain.text('Cheyenne, WyomingWY');
     expect(within(alert).getByText(/82001-5356/)).to.be.ok;
     expect(within(alert).getByText(/307-778-7550/)).to.be.ok;
 

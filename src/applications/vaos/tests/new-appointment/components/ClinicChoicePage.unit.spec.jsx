@@ -98,7 +98,9 @@ describe('VAOS <ClinicChoicePage>', () => {
       'In the last 24 months you have had a primary care appointment in the following clinics',
     );
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.baseElement).to.contain.text(
+      'Cheyenne, WyomingWY 82001-5356',
+    );
     expect(screen.baseElement).to.contain.text('307-778-7550');
 
     expect(screen.baseElement).to.contain.text(
@@ -320,7 +322,9 @@ describe('VAOS <ClinicChoicePage>', () => {
       'Your last amputation care appointment was at Green team clinic:',
     );
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.baseElement).to.contain.text(
+      'Cheyenne, WyomingWY 82001-5356',
+    );
     expect(screen.baseElement).to.contain.text('307-778-7550');
 
     expect(screen.baseElement).to.contain.text(

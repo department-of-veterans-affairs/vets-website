@@ -67,7 +67,7 @@ describe('VAOS <AppointmentsPage> CC appointments', () => {
     );
     expect(baseElement).to.contain.text('Big sky medical');
     expect(baseElement).to.contain.text('123 Big Sky st');
-    expect(baseElement).to.contain.text('Bozeman, MT 59715');
+    expect(baseElement).to.contain.text('Bozeman, MontanaMT 59715');
     expect(baseElement).to.contain.text('406-555-5555');
     expect(baseElement).to.contain.text('Special instructions');
     expect(baseElement).to.contain.text('Bring your glasses');

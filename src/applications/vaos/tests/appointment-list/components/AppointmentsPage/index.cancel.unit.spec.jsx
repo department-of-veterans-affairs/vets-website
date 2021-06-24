@@ -404,7 +404,7 @@ describe('VAOS <AppointmentsPage> cancellation:', () => {
     expect(modal).to.contain.text('Something went wrong');
     expect(modal).to.contain.text('Cheyenne VA Medical Center');
     expect(modal).to.contain.text('2360 East Pershing Boulevard');
-    expect(modal).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(modal).to.contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(modal).to.contain.text('307-778-7550');
 
     fireEvent.click(modal.querySelector('button'));
