@@ -34,11 +34,7 @@ const InstitutionProfile = ({
           {renderVetTecLogo(classNames('vettec-logo-profile'))}
         </div>
       }
-      <ProfilePageHeader
-        institution={institution}
-        onGiBillLearnMore={showModal.bind(this, 'gibillstudents')}
-        onAccreditationLearnMore={showModal.bind(this, 'accredited')}
-      />
+      <ProfilePageHeader institution={institution} />
       <ul className="profile-accordion-list">
         <AccordionItem button="Estimate your benefits">
           <VetTecEstimateYourBenefits

@@ -55,8 +55,6 @@ export class InstitutionProfile extends React.Component {
       <div className="institution-profile">
         <ProfilePageHeader
           institution={profile.attributes}
-          onGiBillLearnMore={showModal.bind(this, 'gibillstudents')}
-          onAccreditationLearnMore={showModal.bind(this, 'accredited')}
           gibctSchoolRatings={gibctSchoolRatings}
         />
         <div className="usa-accordion vads-u-margin-top--4">

@@ -3,7 +3,11 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { addCompareInstitution, removeCompareInstitution } from '../actions';
+import {
+  addCompareInstitution,
+  removeCompareInstitution,
+  showModal,
+} from '../actions';
 
 import {
   convertRatingToStars,
@@ -17,17 +21,7 @@ import RatingsStars from '../components/RatingsStars';
 import Checkbox from '../components/Checkbox';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
-
-const IconWithInfo = ({ icon, children, present }) => {
-  if (!present) return null;
-  return (
-    <p className="icon-with-info">
-      <i className={`fa fa-${icon}`} />
-      &nbsp;
-      {children}
-    </p>
-  );
-};
+import { IconWithInfo } from '../utils/render';
 
 const ProfilePageHeader = ({
   compare,
@@ -35,40 +29,59 @@ const ProfilePageHeader = ({
   dispatchRemoveCompareInstitution,
   institution,
   gibctSchoolRatings,
-  onGiBillLearnMore,
-  onAccreditationLearnMore,
+  dispatchShowModal,
 }) => {
   const [expanded, toggleExpansion] = useState(false);
-  const it = institution;
-  it.type = it.type && it.type.toLowerCase();
+  const {
+    type,
+    physicalCity,
+    physicalState,
+    physicalCountry,
+    facilityCode,
+    menonly,
+    womenonly,
+    hbcu,
+    relaffil,
+    facilityMap,
+    ratingCount,
+    ratingAverage,
+    cautionFlags,
+    highestDegree,
+    accreditationType,
+    undergradEnrollment,
+    localeType,
+    website,
+    studentCount,
+  } = institution;
+  const lowerType = type && type.toLowerCase();
   const formattedAddress = locationInfo(
-    it.physicalCity,
-    it.physicalState,
-    it.physicalCountry,
+    physicalCity,
+    physicalState,
+    physicalCountry,
   );
 
-  const compareChecked = !!compare.search.institutions[it.facilityCode];
+  const compareChecked = !!compare.search.institutions[facilityCode];
   const handleCompareUpdate = e => {
     if (e.target.checked && !compareChecked) {
       dispatchAddCompareInstitution(institution);
     } else {
-      dispatchRemoveCompareInstitution(it.facilityCode);
+      dispatchRemoveCompareInstitution(facilityCode);
     }
   };
 
-  const shouldShowSchoolLocations = facilityMap =>
+  const shouldShowSchoolLocations = () =>
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
 
   const institutionTraits = [
-    it.menonly === 1 && 'Men-only',
-    it.womenonly === 1 && 'Women-only',
-    it.hbcu && 'Historically Black College or University',
-    it.relaffil && religiousAffiliations[it.relaffil],
+    menonly === 1 && 'Men-only',
+    womenonly === 1 && 'Women-only',
+    hbcu && 'Historically Black College or University',
+    relaffil && religiousAffiliations[relaffil],
   ].filter(Boolean);
 
-  const main = it.facilityMap.main.institution;
+  const main = facilityMap.main.institution;
 
   const schoolClassificationClasses = classNames('school-classification', {
     'school-header': main.schoolProvider,
@@ -92,9 +105,9 @@ const ProfilePageHeader = ({
     </>
   );
 
-  const stars = convertRatingToStars(it.ratingAverage);
+  const stars = convertRatingToStars(ratingAverage);
   const displayStars =
-    gibctSchoolRatings && stars && it.ratingCount >= MINIMUM_RATING_COUNT;
+    gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   const titleClasses = classNames({
     'vads-u-margin-bottom--0': displayStars,
@@ -102,9 +115,7 @@ const ProfilePageHeader = ({
 
   const starClasses = classNames(
     'vads-u-margin-bottom--1',
-    it.cautionFlags.length > 0
-      ? 'vads-u-margin-top--2'
-      : 'vads-u-margin-top--1',
+    cautionFlags.length > 0 ? 'vads-u-margin-top--2' : 'vads-u-margin-top--1',
   );
 
   const renderIconSection = () => (
@@ -112,36 +123,39 @@ const ProfilePageHeader = ({
       className={classNames(
         'usa-grid vads-u-border-bottom--4px vads-u-border-color--white vads-u-padding-y--1p5 vads-u-padding-x--2',
         {
-          'vads-u-border-top--4px': it.cautionFlags.length === 0,
+          'vads-u-border-top--4px': cautionFlags.length === 0,
         },
       )}
     >
       <div className="usa-width-one-half">
         <IconWithInfo
           icon="calendar"
-          present={it.type !== 'ojt' && it.highestDegree}
+          present={lowerType !== 'ojt' && highestDegree}
         >
           {'  '}
-          {_.isFinite(it.highestDegree)
-            ? `${it.highestDegree} year`
-            : it.highestDegree}{' '}
+          {_.isFinite(highestDegree)
+            ? `${highestDegree} year`
+            : highestDegree}{' '}
           program
         </IconWithInfo>
-        <IconWithInfo icon="briefcase" present={it.type === 'ojt'}>
+        <IconWithInfo icon="briefcase" present={lowerType === 'ojt'}>
           {'   '}
           On-the-job training
         </IconWithInfo>
-        <IconWithInfo icon="university" present={it.type && it.type !== 'ojt'}>
+        <IconWithInfo
+          icon="university"
+          present={lowerType && lowerType !== 'ojt'}
+        >
           {'   '}
-          {_.capitalize(it.type)} school
+          {_.capitalize(lowerType)} school
         </IconWithInfo>
-        <IconWithInfo icon="award" present={it.accreditationType}>
+        <IconWithInfo icon="award" present={accreditationType}>
           {'   '}
-          {_.capitalize(it.accreditationType)} Accreditation (
+          {_.capitalize(accreditationType)} Accreditation (
           <button
             type="button"
             className="va-button-link learn-more-button"
-            onClick={onAccreditationLearnMore}
+            onClick={() => dispatchShowModal('accredited')}
             aria-label={ariaLabels.learnMore.numberOfStudents}
           >
             Learn more
@@ -150,21 +164,21 @@ const ProfilePageHeader = ({
         </IconWithInfo>
       </div>
       <div className="usa-width-one-half">
-        <IconWithInfo icon="users" present={it.type && it.type !== 'ojt'}>
+        <IconWithInfo icon="users" present={lowerType && lowerType !== 'ojt'}>
           {'   '}
-          {schoolSize(it.undergradEnrollment)} size
+          {schoolSize(undergradEnrollment)} size
         </IconWithInfo>
         <IconWithInfo
           icon="map"
-          present={it.localeType && it.type && it.type !== 'ojt'}
+          present={localeType && lowerType && lowerType !== 'ojt'}
         >
           {'   '}
-          {_.capitalize(it.localeType)} locale
+          {_.capitalize(localeType)} locale
         </IconWithInfo>
-        <IconWithInfo icon="globe" present={it.website}>
-          <a href={it.website} target="_blank" rel="noopener noreferrer">
+        <IconWithInfo icon="globe" present={website}>
+          <a href={website} target="_blank" rel="noopener noreferrer">
             {'  '}
-            {it.website}
+            {website}
           </a>
         </IconWithInfo>
       </div>
@@ -191,7 +205,7 @@ const ProfilePageHeader = ({
           </IconWithInfo>
         </a>
       )}
-      {shouldShowSchoolLocations(it.facilityMap) && (
+      {shouldShowSchoolLocations() && (
         <a
           className="arrow-down-link"
           href="#school-locations-accordion-button"
@@ -202,18 +216,6 @@ const ProfilePageHeader = ({
           </IconWithInfo>
         </a>
       )}
-      {/* <a className="arrow-down-link">
-        <IconWithInfo icon="arrow-down" present>
-          {'   '}
-          Academics
-        </IconWithInfo>
-      </a>
-      <a className="arrow-down-link">
-        <IconWithInfo icon="arrow-down" present>
-          {'   '}
-          Student Body & Campus Life
-        </IconWithInfo>
-      </a> */}
       <a className="arrow-down-link" href="#contact-details-accordion-button">
         <IconWithInfo icon="arrow-down" present>
           {'   '}
@@ -228,13 +230,13 @@ const ProfilePageHeader = ({
         {schoolClassification}
         <div className="vads-u-padding-left--2">
           <h1 tabIndex={-1} className={titleClasses}>
-            {it.name}
+            {name}
           </h1>
           <p>{formattedAddress}</p>
           {displayStars && (
             <div className={starClasses}>
               <span className="vads-u-font-size--sm">
-                <RatingsStars rating={it.ratingAverage} />
+                <RatingsStars rating={ratingAverage} />
               </span>{' '}
               <span className="vads-u-padding-left--1 vads-u-padding-right--1">
                 |
@@ -247,19 +249,18 @@ const ProfilePageHeader = ({
                 href="#profile-school-ratings"
                 onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
               >
-                See {it.ratingCount} ratings by Veterans
+                See {ratingCount} ratings by Veterans
               </a>
               )
             </div>
           )}
-          {it.studentCount > 0 && (
+          {studentCount > 0 && (
             <p>
-              <strong>{formatNumber(it.studentCount)}</strong> GI Bill students
-              (
+              <strong>{formatNumber(studentCount)}</strong> GI Bill students (
               <button
                 type="button"
                 className="va-button-link learn-more-button"
-                onClick={onGiBillLearnMore}
+                onClick={() => dispatchShowModal('gibillstudents')}
                 aria-label={ariaLabels.learnMore.numberOfStudents}
               >
                 Learn more
@@ -268,10 +269,10 @@ const ProfilePageHeader = ({
             </p>
           )}
         </div>
-        {it.cautionFlags.length > 0 && (
+        {cautionFlags.length > 0 && (
           <div className="caution-flag-section">
             <CautionFlagAdditionalInfo
-              cautionFlags={it.cautionFlags}
+              cautionFlags={cautionFlags}
               expanded={expanded}
               toggleExpansion={toggleExpansion}
             />
@@ -303,8 +304,6 @@ const ProfilePageHeader = ({
 
 ProfilePageHeader.propTypes = {
   institution: PropTypes.object,
-  onGiBillLearnMore: PropTypes.func,
-  onAccreditationLearnMore: PropTypes.func,
   onViewWarnings: PropTypes.func,
 };
 
@@ -315,6 +314,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchAddCompareInstitution: addCompareInstitution,
   dispatchRemoveCompareInstitution: removeCompareInstitution,
+  dispatchShowModal: showModal,
 };
 
 export default connect(
