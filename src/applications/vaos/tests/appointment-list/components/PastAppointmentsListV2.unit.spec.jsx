@@ -86,7 +86,11 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
     await screen.findByText(new RegExp(pastDate.format('MMMM YYYY'), 'i'));
 
-    expect(screen.baseElement).to.contain.text(`Appointments in ${rangeLabel}`);
+    waitFor(() => {
+      expect(screen.baseElement).to.contain.text(
+        `Appointments in ${rangeLabel}`,
+      );
+    });
     expect(screen.baseElement).to.contain.text('VA appointment');
     expect(screen.baseElement).to.contain.text('Details');
   });
