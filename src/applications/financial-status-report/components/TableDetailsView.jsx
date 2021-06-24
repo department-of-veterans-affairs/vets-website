@@ -5,10 +5,12 @@ const TableDetailsView = ({ formData, onEdit, index }) => {
   const keys = formData && Object.keys(formData);
 
   const formatter = value => {
-    if (typeof value === 'string') {
-      return value;
+    const isNumber = !isNaN(value);
+    if (isNumber) {
+      const num = Number(value);
+      return `$${num.toFixed(2)}`;
     }
-    return `$${value?.toFixed(2)}`;
+    return value;
   };
 
   const renderDetails = data => {
