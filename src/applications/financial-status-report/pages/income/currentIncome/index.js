@@ -3,6 +3,7 @@ import TableDetailsView from '../../../components/TableDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
 import Typeahead from '../../../components/Typeahead';
 import ItemLoop from '../../../components/ItemLoop';
+import { validateCurrency } from '../../../utils/validations';
 import {
   formatOptions,
   deductionTypes,
@@ -28,8 +29,8 @@ export const uiSchema = {
           widgetClassNames: 'input-size-1 vads-u-margin-bottom--3',
           classNames: 'schemaform-currency-input',
         },
+        'ui:validations': [validateCurrency],
         'ui:errorMessages': {
-          pattern: 'Please enter only numerical values.',
           required: 'Please enter your gross monthly income.',
         },
       },
