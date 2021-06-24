@@ -17,10 +17,16 @@ const formatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,
 });
 
-const ExpandedContent = ({ debt, updateDebts, submitted, errorSchema }) => {
-  const { agreeToWaiver, offerToPay } = errorSchema[0].resolution;
-  const inputErrMsg = offerToPay.__errors[0];
-  const checkboxErrMsg = agreeToWaiver.__errors[0];
+const ExpandedContent = ({
+  index,
+  debt,
+  updateDebts,
+  submitted,
+  errorSchema,
+}) => {
+  const currentSchema = errorSchema[index];
+  const inputErrMsg = currentSchema?.resolution?.offerToPay?.__errors[0];
+  const checkboxErrMsg = currentSchema?.resolution?.agreeToWaiver?.__errors[0];
   const objKey = 'offerToPay';
 
   switch (debt.resolution?.resolutionType) {
@@ -111,7 +117,7 @@ const ResolutionDebtCards = ({
   return (
     <>
       <h4 className="resolution-options-debt-title">Your selected debts</h4>
-      {selectedDebts.map(debt => {
+      {selectedDebts.map((debt, index) => {
         const objKey = 'resolutionType';
         const submitted = formContext.submitted;
         const radioError = submitted && !debt.resolution?.resolutionType;
@@ -146,6 +152,7 @@ const ResolutionDebtCards = ({
                 required
               />
               <ExpandedContent
+                index={index}
                 debt={debt}
                 updateDebts={updateDebts}
                 submitted={submitted}
