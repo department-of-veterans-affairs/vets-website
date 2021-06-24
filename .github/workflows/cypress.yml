@@ -185,6 +185,7 @@ jobs:
       - name: Set UUID
         id: generate-uuid
         uses: filipstefansson/uuid-action@v1
+        run: echo "UUID=${{ steps.generate-uuid.outputs.uuid }}" >> $GITHUB_ENV
 
       - name: Create report and post results to BigQuery
-        run: yarn cypress-mochawesome-to-bigquery UUID=${{ steps.generate-uuid.outputs.uuid }}
+        run: yarn cypress-mochawesome-to-bigquery
