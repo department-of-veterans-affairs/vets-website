@@ -1,20 +1,22 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import _ from 'lodash';
 import classNames from 'classnames';
+import { addCompareInstitution, removeCompareInstitution } from '../actions';
 
 import {
   convertRatingToStars,
   formatNumber,
   locationInfo,
   schoolSize,
-} from '../../utils/helpers';
-import { ariaLabels, MINIMUM_RATING_COUNT } from '../../constants';
+} from '../utils/helpers';
+import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
 import recordEvent from 'platform/monitoring/record-event';
-import RatingsStars from '../RatingsStars';
-import Checkbox from '../Checkbox';
-import { religiousAffiliations } from '../../utils/data/religiousAffiliations';
-import { CautionFlagAdditionalInfo } from '../CautionFlagAdditionalInfo';
+import RatingsStars from '../components/RatingsStars';
+import Checkbox from '../components/Checkbox';
+import { religiousAffiliations } from '../utils/data/religiousAffiliations';
+import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 
 const IconWithInfo = ({ icon, children, present }) => {
   if (!present) return null;
@@ -28,6 +30,9 @@ const IconWithInfo = ({ icon, children, present }) => {
 };
 
 const ProfilePageHeader = ({
+  compare,
+  dispatchAddCompareInstitution,
+  dispatchRemoveCompareInstitution,
   institution,
   gibctSchoolRatings,
   onGiBillLearnMore,
@@ -41,6 +46,15 @@ const ProfilePageHeader = ({
     it.physicalState,
     it.physicalCountry,
   );
+
+  const compareChecked = !!compare.search.institutions[it.facilityCode];
+  const handleCompareUpdate = e => {
+    if (e.target.checked && !compareChecked) {
+      dispatchAddCompareInstitution(institution);
+    } else {
+      dispatchRemoveCompareInstitution(it.facilityCode);
+    }
+  };
 
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
@@ -270,8 +284,8 @@ const ProfilePageHeader = ({
           <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
             <Checkbox
               label="Compare"
-              // checked={compareChecked}
-              // onChange={handleCompareUpdate}
+              checked={compareChecked}
+              onChange={handleCompareUpdate}
             />
           </div>
         </div>
@@ -290,7 +304,20 @@ const ProfilePageHeader = ({
 ProfilePageHeader.propTypes = {
   institution: PropTypes.object,
   onGiBillLearnMore: PropTypes.func,
+  onAccreditationLearnMore: PropTypes.func,
   onViewWarnings: PropTypes.func,
 };
 
-export default ProfilePageHeader;
+const mapStateToProps = state => ({
+  compare: state.compare,
+});
+
+const mapDispatchToProps = {
+  dispatchAddCompareInstitution: addCompareInstitution,
+  dispatchRemoveCompareInstitution: removeCompareInstitution,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ProfilePageHeader);

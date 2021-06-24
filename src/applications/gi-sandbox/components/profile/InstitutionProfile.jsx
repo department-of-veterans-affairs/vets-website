@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AccordionItem from '../AccordionItem';
-import ProfilePageHeader from './ProfilePageHeader';
+import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import Programs from './Programs';
 import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';

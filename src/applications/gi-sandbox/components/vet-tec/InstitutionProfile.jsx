@@ -11,7 +11,7 @@ import classNames from 'classnames';
 
 import VetTecVeteranPrograms from './VetTecVeteranPrograms';
 import VetTecEstimateYourBenefits from '../../containers/VetTecEstimateYourBenefits';
-import ProfilePageHeader from '../profile/ProfilePageHeader';
+import ProfilePageHeader from '../../containers/ProfilePageHeader';
 
 const profileLogo =
   'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
