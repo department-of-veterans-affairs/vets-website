@@ -48,9 +48,11 @@ export default function InfoAlert({
   }
   return (
     <va-alert class={classes} status={status} role="alert">
-      <H className="vads-u-font-size--h3" slot="headline" role="heading">
-        {headline}
-      </H>
+      {headline && (
+        <H className="vads-u-font-size--h3" slot="headline" role="heading">
+          {headline}
+        </H>
+      )}
       <div className="vads-u-font-size--base">{children}</div>
     </va-alert>
   );
@@ -61,7 +63,7 @@ InfoAlert.propTypes = {
   children: PropTypes.node,
   classes: PropTypes.string,
   headline: PropTypes.string,
-  level: PropTypes.string,
+  level: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   status: PropTypes.oneOf(['info', 'error', 'success', 'warning', 'continue'])
     .isRequired,
 };
