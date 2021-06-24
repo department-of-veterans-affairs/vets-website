@@ -256,7 +256,7 @@ function ProviderSelectionField({
                   <InfoAlert
                     status="warning"
                     headline="Your browser is blocked from finding your current location."
-                    classes="vads-u-background-color--gold-lightest vads-u-font-size--base"
+                    className="vads-u-background-color--gold-lightest vads-u-font-size--base"
                     level="3"
                   >
                     <>

@@ -12,7 +12,7 @@ export default function TypeOfCareAlert() {
         status="info"
         headline={headline}
         level="2"
-        classes="vads-u-margin-top--3 vads-u-margin-bottom--7"
+        className="vads-u-margin-top--3 vads-u-margin-bottom--7"
       >
         <p>
           You’ll need to call your VA health facility to schedule an

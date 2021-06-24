@@ -8,7 +8,7 @@ export default function NoProvidersAlert({ sortMethod, typeOfCareName }) {
     <InfoAlert
       status="info"
       headline={headline}
-      classes="vads-u-margin-top--3"
+      className="vads-u-margin-top--3"
       backgroundOnly
     >
       <>

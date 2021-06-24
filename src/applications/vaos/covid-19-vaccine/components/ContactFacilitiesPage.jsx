@@ -138,7 +138,7 @@ export default function ContactFacilitiesPage() {
       {!canUseVaccineFlow && (
         <InfoAlert
           backgroundOnly
-          classes="vads-u-margin-bottom--3"
+          className="vads-u-margin-bottom--3"
           headline="Find a vaccine walk-in clinic near you"
           status="info"
         >

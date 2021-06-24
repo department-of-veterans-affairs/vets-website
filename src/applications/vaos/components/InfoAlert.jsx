@@ -4,13 +4,14 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 /**
  * Component that adds a usa-alert info box and customizes the va-alert web component
  *
  * @param {boolean} backgroundOnly Optional, display alert as background only, defaults to false
  * @param {Element} children React children, text or child elements to display in alert body
- * @param {string} classes Additional classes to add to the alert, required to apply classes to va-alert via class
+ * @param {string} className Additional classes to add to the alert, required to apply classes to va-alert via class
  * @param {string} headline Optional, alert headline
  * @param {string} level Optional, alert heading display level
  * @param {string} status Alert type
@@ -20,7 +21,7 @@ import PropTypes from 'prop-types';
 export default function InfoAlert({
   backgroundOnly = false,
   children,
-  classes = '',
+  className = '',
   headline,
   level = 2,
   status,
@@ -29,17 +30,16 @@ export default function InfoAlert({
   if (backgroundOnly) {
     return (
       <div
-        className={`usa-alert usa-alert-${status} background-color-only vads-u-display--block ${classes}`}
+        // className={`usa-alert usa-alert-${status} background-color-only vads-u-display--block ${className}`}
+        className={classnames(
+          `usa-alert usa-alert-${status} background-color-only vads-u-display--block`,
+          className,
+        )}
         role="alert"
       >
         <div className="usa-alert-body">
           {headline && (
-            <H
-              className="usa-alert-heading vads-u-font-size--h3"
-              role="heading"
-            >
-              {headline}
-            </H>
+            <H className="usa-alert-heading vads-u-font-size--h3">{headline}</H>
           )}
           <div className="usa-alert-text">{children}</div>
         </div>
@@ -47,9 +47,9 @@ export default function InfoAlert({
     );
   }
   return (
-    <va-alert class={classes} status={status} role="alert">
+    <va-alert class={className} status={status} role="alert">
       {headline && (
-        <H className="vads-u-font-size--h3" slot="headline" role="heading">
+        <H className="vads-u-font-size--h3" slot="headline">
           {headline}
         </H>
       )}
@@ -61,7 +61,7 @@ export default function InfoAlert({
 InfoAlert.propTypes = {
   backgroundOnly: PropTypes.bool,
   children: PropTypes.node,
-  classes: PropTypes.string,
+  className: PropTypes.string,
   headline: PropTypes.string,
   level: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   status: PropTypes.oneOf(['info', 'error', 'success', 'warning', 'continue'])

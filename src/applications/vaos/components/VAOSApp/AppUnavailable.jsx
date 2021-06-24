@@ -11,7 +11,7 @@ export default function AppUnavailable() {
           <InfoAlert
             status="warning"
             headline="We’re sorry, the new VA online scheduling application isn’t available right now"
-            classes="vads-u-margin-top--0"
+            className="vads-u-margin-top--0"
           >
             If you need to schedule an appointment, please contact your{' '}
             <a href="/find-locations">nearest VA facility</a>.

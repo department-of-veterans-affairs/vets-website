@@ -10,7 +10,7 @@ export default function UpdateAddressAlert({ onClickUpdateAddress }) {
     <InfoAlert
       status="warning"
       headline={headline}
-      classes="vads-u-margin-y--3"
+      className="vads-u-margin-y--3"
     >
       <p>
         To update your address, go to your VA.gov profile. Please allow some

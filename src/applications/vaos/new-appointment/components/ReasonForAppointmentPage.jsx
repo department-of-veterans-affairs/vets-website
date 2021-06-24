@@ -121,7 +121,7 @@ export default function ReasonForAppointmentPage() {
             <InfoAlert
               status="warning"
               headline="If you have an urgent medical need, please:"
-              classes="vads-u-margin-y--3"
+              className="vads-u-margin-y--3"
               level="2"
             >
               <ul>

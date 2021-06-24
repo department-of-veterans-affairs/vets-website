@@ -22,7 +22,7 @@ export default function DowntimeMessage({
     return (
       <FullWidthLayout>
         <InfoAlert
-          classes="vads-u-margin-bottom--4"
+          className="vads-u-margin-bottom--4"
           headline="The VA appointments tool is down for maintenance"
           status="warning"
         >
