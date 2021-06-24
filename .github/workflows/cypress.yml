@@ -241,8 +241,7 @@ jobs:
         with:
           name: cypress-mochawesome-test-results-artifact-5
           path: testing-reports/cypress-reports/videos/${{steps.generate-uuid.outputs.uuid}}/applications
-
-      - name: Commit & Push changes
-        #uses: actions-js/push@master
-        #with:
-        #github_token: ${{ secrets.GITHUB_TOKEN }}
+      #- name: Commit & Push changes
+      # uses: actions-js/push@master
+      #with:
+      #github_token: ${{ secrets.GITHUB_TOKEN }}
