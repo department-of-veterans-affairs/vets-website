@@ -107,7 +107,9 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect(textBox.value).to.equal('   ');
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByText('Please provide a response')).to.be.ok;
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'Please provide a response',
+    );
   });
 
   it('should show alternate textbox char length if navigated via direct schedule flow', async () => {

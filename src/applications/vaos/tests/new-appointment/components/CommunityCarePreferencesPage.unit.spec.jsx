@@ -90,7 +90,7 @@ describe('VAOS <CommunityCarePreferencesPage>', () => {
     // Continue without filling in required fields
     userEvent.click(screen.getByText(/Continue/i));
 
-    expect((await screen.findAllByRole('alert')).length).to.equal(9);
+    expect((await screen.findAllByRole('alert')).length).to.equal(8);
     expect(screen.history.push.called).to.be.false;
   });
 

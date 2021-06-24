@@ -35,7 +35,6 @@ export default function InfoAlert({
           `usa-alert usa-alert-${status} background-color-only vads-u-display--block`,
           className,
         )}
-        role="alert"
       >
         <div className="usa-alert-body">
           {headline && (
@@ -47,7 +46,7 @@ export default function InfoAlert({
     );
   }
   return (
-    <va-alert class={className} status={status} role="alert">
+    <va-alert class={className} status={status}>
       {headline && (
         <H className="vads-u-font-size--h3" slot="headline">
           {headline}
