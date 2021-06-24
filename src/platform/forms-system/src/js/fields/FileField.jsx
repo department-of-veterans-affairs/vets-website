@@ -438,7 +438,7 @@ class FileField extends React.Component {
                       <div className="vads-u-margin-top--2">
                         <button
                           type="button"
-                          className="usa-button-secondary vads-u-width--auto vads-u-margin-right--2"
+                          className="usa-button-primary vads-u-width--auto vads-u-margin-right--2"
                           onClick={() => {
                             this.deleteThenAddFile(index);
                           }}
