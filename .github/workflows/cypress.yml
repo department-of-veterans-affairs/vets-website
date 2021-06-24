@@ -77,12 +77,6 @@ jobs:
           report_paths: 'test-results/e2e-test-output-*.xml'
           summary: '<iframe src="http://google.com" />'
 
-      - name: Cypress Details
-        if: ${{always()}}
-        run: |
-          echo '<a href="#">Test Link</a>'
-          echo '<iframe src="google.com"></iframe>'
-
       - name: Archive Cypress test videos
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}
@@ -138,6 +132,7 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
+          ref: 25551/report-cypress-artifacts
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master
@@ -187,5 +182,9 @@ jobs:
         with:
           node-version: '14'
 
+      - name: Set UUID
+        id: generate-uuid
+        uses: filipstefansson/uuid-action@v1
+
       - name: Create report and post results to BigQuery
-        run: yarn cypress-mochawesome-to-bigquery
+        run: yarn cypress-mochawesome-to-bigquery UUID=${{ steps.generate-uuid.outputs.uuid }}
