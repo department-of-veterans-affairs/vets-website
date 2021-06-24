@@ -30,6 +30,12 @@ function handleError(error) {
   console.log(error);
 }
 
+/**
+ * Modify the `componentString` based on the prop map
+ *
+ * @param {string} componentString String of the component, from opening to closing tag
+ * @param {Object} propMap Map of original prop name (key) to what the translated component should have instead
+ */
 function translateProps(componentString, propMap) {
   let translatedComp = componentString;
 
@@ -51,6 +57,14 @@ function translateProps(componentString, propMap) {
   return translatedComp;
 }
 
+/**
+ * Replace the React component tags with the Web Component tag.
+ * This works on single line components, multiline components, and
+ * ones that don'e have a closing tag as well as ones that do.
+ *
+ * @param {string} fileContents The contents of the file
+ * @param {string} newTag The name of the Web Component tag to use
+ */
 function replaceTags(fileContents, newTag) {
   const unnamedClosingTags = fileContents.matchAll(
     new RegExp(`(<${options.component}.+?(^\\s+)?\\/>;?$)`, 'gsm'),
@@ -69,6 +83,13 @@ function replaceTags(fileContents, newTag) {
     .replace(`</${options.component}`, `</${newTag}`);
 }
 
+/**
+ * Identify all occurrences of the component in the file and migrate them to the
+ * Web Component version
+ *
+ * @param {string} fname Name of the file
+ * @param {string} data Contents of the file
+ */
 function migrateFile(fname, data) {
   console.log(chalk.cyan(`Reading ${fname}`));
   const [newTag, propMap] = replacements[options.component]();
@@ -105,6 +126,7 @@ function migrateFile(fname, data) {
   return 0;
 }
 
+// Loop through all files in the glob & migrate them if they are importing the --component
 FILENAMES.forEach(fname => {
   fs.readFile(fname, 'utf8', (err, data) => {
     if (err) {
