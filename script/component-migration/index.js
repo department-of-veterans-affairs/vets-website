@@ -13,13 +13,6 @@ const optionDefinitions = [
 ];
 const options = commandLineArgs(optionDefinitions);
 
-if (options.help || (!options.dir || !options.component)) {
-  printMigrationHelp();
-  process.exit(0);
-}
-
-const FILENAMES = glob.sync(`${options.dir}/**/*.jsx`);
-
 const legacyImport = `import ${
   options.component
 } from '@department-of-veterans-affairs/component-library/${
@@ -126,14 +119,26 @@ function migrateFile(fname, data) {
   return 0;
 }
 
-// Loop through all files in the glob & migrate them if they are importing the --component
-FILENAMES.forEach(fname => {
-  fs.readFile(fname, 'utf8', (err, data) => {
-    if (err) {
-      return handleError(err);
-    }
-    if (!data.includes(legacyImport)) return null;
-    // Leave this file alone if it doesn't import the component
-    return migrateFile(fname, data);
+function main() {
+  // If the --help arg was passed or the dir + component args weren't passed
+  // print the help and exit
+  if (options.help || (!options.dir || !options.component)) {
+    printMigrationHelp();
+    process.exit(0);
+  }
+
+  const filenames = glob.sync(`${options.dir}/**/*.jsx`);
+
+  // Loop through all files in the glob & migrate them if they are importing the --component
+  filenames.forEach(fname => {
+    fs.readFile(fname, 'utf8', (err, data) => {
+      if (err) {
+        return handleError(err);
+      }
+      if (!data.includes(legacyImport)) return null;
+      // Leave this file alone if it doesn't import the component
+      return migrateFile(fname, data);
+    });
   });
-});
+}
+main();
