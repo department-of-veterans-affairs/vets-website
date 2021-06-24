@@ -207,7 +207,7 @@ class SearchApp extends React.Component {
 
     // Reusable search input
     const searchInput = (
-      <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4">
+      <div role="search" className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4">
         <div>Enter a keyword</div>
         <form
           onSubmit={this.handleSearch}
@@ -217,7 +217,7 @@ class SearchApp extends React.Component {
           <input
             type="text"
             name="query"
-            aria-label="Enter the word or phrase you'd like to search for"
+            aria-label="Enter a keyword"
             value={this.state.userInput}
             onChange={this.handleInputChange}
           />
@@ -249,10 +249,10 @@ class SearchApp extends React.Component {
       <div>
         {searchInput}
         {this.renderResultsInformation()}
-        <hr className="vads-u-margin-y--3" />
+        <hr aria-hidden="true" className="vads-u-margin-y--3" />
         {this.renderRecommendedResults()}
         {this.renderResultsList()}
-        <hr id="hr-search-bottom" className="vads-u-margin-y--3" />
+        <hr aria-hidden="true" id="hr-search-bottom" className="vads-u-margin-y--3" />
 
         <div className="va-flex results-footer">
           <Pagination
@@ -282,7 +282,7 @@ class SearchApp extends React.Component {
               this.renderWebResult(result, 'description', true, index),
             )}
           </ul>
-          <hr />
+          <hr aria-hidden="true"/>
         </div>
       );
     }
@@ -314,10 +314,7 @@ class SearchApp extends React.Component {
       return (
         <>
           <p
-            aria-live="polite"
-            aria-relevant="additions text"
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-top--2p5 vads-u-margin-bottom--1p5
-        "
+            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-top--2p5 vads-u-margin-bottom--1p5"
           >
             No results for "
             <span className="vads-u-font-weight--bold">
@@ -326,10 +323,7 @@ class SearchApp extends React.Component {
             "
           </p>
           <p
-            aria-live="polite"
-            aria-relevant="additions text"
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5
-        "
+            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5"
           >
             Showing{' '}
             {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
