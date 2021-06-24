@@ -4,6 +4,7 @@ import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(() => {
+    if (Cypress.env('CI')) this.skip();
     cy.intercept('GET', '/v0/patient_check_in/*', req => {
       req.reply(mockValidate.createMockSuccessResponse({}));
     });
