@@ -68,11 +68,11 @@ const responses = {
       features: [{ name: 'check_in_experience_enabled', value: true }],
     },
   },
-  'GET /v0/patient_check_in/:id': (req, res) => {
+  'GET /check_in/v0/patient_check_ins/:id': (req, res) => {
     const { id } = req.params;
     return res.json(mockValidates.createMockSuccessResponse({ id }));
   },
-  'POST /v0/patient_check_in': (_req, res) => {
+  'POST /check_in/v0/patient_check_ins/': (_req, res) => {
     return res.json(mockCheckIns.createMockSuccessResponse({}));
   },
 };

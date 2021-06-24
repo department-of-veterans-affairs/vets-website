@@ -2,12 +2,12 @@ import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
 const validateToken = async token => {
-  const url = '/v0/patient_check_in/';
+  const url = '/check_in/v0/patient_check_ins/';
   return apiRequest(`${environment.API_URL}${url}${token}`);
 };
 
 const checkInUser = data => {
-  const url = '/v0/patient_check_in/';
+  const url = '/check_in/v0/patient_check_ins/';
   const headers = { 'Content-Type': 'application/json' };
 
   const body = JSON.stringify(data);

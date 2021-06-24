@@ -6,10 +6,10 @@ describe('Check In Experience -- ', () => {
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
     cy.intercept('GET', '/v0/feature_toggles*', features);
-    cy.intercept('GET', '/v0/patient_check_in/*', req => {
+    cy.intercept('GET', '/check_in/v0/patient_check_ins/*', req => {
       req.reply(mockValidate.createMockSuccessResponse({}));
     });
-    cy.intercept('POST', '/v0/patient_check_in', req => {
+    cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
       req.reply(mockCheckIn.createMockSuccessResponse({}));
     });
   });
