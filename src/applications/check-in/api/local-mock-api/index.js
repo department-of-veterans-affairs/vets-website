@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
+const mockCheckIns = require('./mocks/check.in.response');
+const mockValidates = require('./mocks/validate.responses');
 
 const responses = {
   ...commonResponses,
@@ -68,10 +70,10 @@ const responses = {
   },
   'GET /v0/patient_check_in/:id': (req, res) => {
     const { id } = req.params;
-    return res.json({ id, appointment: {} });
+    return res.json(mockValidates.createMockSuccessResponse({ id }));
   },
-  'POST /v0/patient_check_in': (req, res) => {
-    return res.json({ success: true, data: req.body });
+  'POST /v0/patient_check_in': (_req, res) => {
+    return res.json(mockCheckIns.createMockSuccessResponse({}));
   },
 };
 
