@@ -626,6 +626,7 @@ export class Modals extends React.Component {
           <a href="https://www.va.gov/education/other-va-education-benefits/veteran-rapid-retraining-assistance/">
             visit the VRRAP page
           </a>
+          .
         </p>
       </Modal>
     </span>
