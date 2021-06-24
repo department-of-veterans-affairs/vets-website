@@ -53,7 +53,7 @@ function translateProps(componentString, propMap) {
 /**
  * Replace the React component tags with the Web Component tag.
  * This works on single line components, multiline components, and
- * ones that don'e have a closing tag as well as ones that do.
+ * ones that don't have a closing tag as well as ones that do.
  *
  * @param {string} fileContents The contents of the file
  * @param {string} newTag The name of the Web Component tag to use

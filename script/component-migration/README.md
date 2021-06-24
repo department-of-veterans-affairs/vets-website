@@ -1,6 +1,7 @@
 ## Component migration script
+The purpose of this script is to do the bulk of the grunt work of migrating from an existing React component in the `@department-of-veterans-affairs/component-library` to its replacement web component.
 
-The name of the script is `migrate-component`. It has two required arguments:
+To run the script, use `yarn migrate-component`. It accepts two required arguments:
 
 - `--dir` - The directory you wish to migrate
 - `--component` - The name of the component you wish to migrate
@@ -11,4 +12,4 @@ Once the script finishes a `post-` hook will run to lint any changed files. The 
 
 ## Caveats
 
-The script may not be able to perfectly migrate every comopnent, so before you merge your PR be sure to inspect the diff. Additionally the script does not migrate test files - you will have to do those by hand.
+**The script may not be able to perfectly migrate every component.** Before you merge your PR be sure to inspect the diff. Additionally the script does not migrate test files, so you'll have to do those by hand.
