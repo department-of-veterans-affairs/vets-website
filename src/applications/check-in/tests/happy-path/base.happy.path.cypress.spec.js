@@ -1,12 +1,15 @@
 import features from '../mocks/enabled.json';
 
+import mockCheckIn from '../../api/local-mock-api/mocks/check.in.response';
+import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
+
 describe('Check In Experience -- ', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/patient_check_in/*', req => {
-      req.reply({ id: 'abc-123', appointment: {} });
+      req.reply(mockValidate.createMockSuccessResponse({}));
     });
     cy.intercept('POST', '/v0/patient_check_in', req => {
-      req.reply({ success: true });
+      req.reply(mockCheckIn.createMockSuccessResponse({}));
     });
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
