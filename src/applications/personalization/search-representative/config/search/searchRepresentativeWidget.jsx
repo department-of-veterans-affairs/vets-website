@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addRepresentative } from '../../actions/index';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 const representatives = [
@@ -53,7 +52,6 @@ const SearchRepresentativeWidget = props => {
 };
 
 const mapDispatchToProps = {
-  addRepresentative,
   setData,
 };
 
