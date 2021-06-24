@@ -235,7 +235,7 @@ export function uploadFile(
         name: file.name,
         errorMessage:
           'We couldn\u2019t upload your file because it\u2019s too big. ' +
-          `Please delete this file. Then upload a file that\u2019s ${fileSizeText} or less.`,
+          `Please make sure the file is ${fileSizeText} or less and try again.`,
       });
 
       onError();
@@ -248,7 +248,7 @@ export function uploadFile(
         name: file.name,
         errorMessage:
           'We couldn\u2019t upload your file because it\u2019s too small. ' +
-          `Please delete this file. Then upload a file that\u2019s ${fileSizeText} or more.`,
+          `Please make sure the file is ${fileSizeText} or more and try again.`,
       });
 
       onError();
@@ -276,7 +276,7 @@ export function uploadFile(
         name: file.name,
         errorMessage:
           'We couldn\u2019t upload your file because we can\u2019t accept this type ' +
-          `of file. Please delete the file. Then try again with a ${allowedTypes} file.`,
+          `of file. Please make sure the file is a ${allowedTypes} file and try again.`,
       });
 
       onError();
