@@ -635,7 +635,9 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('vrrap')}
         elementToFocusOnClose="vrrap-button"
       >
-        <h3>Veteran Rapid Retraining Assistance Program (VRRAP)</h3>
+        <h3 className="vads-u-margin-right--1p5">
+          Veteran Rapid Retraining Assistance Program (VRRAP)
+        </h3>
         <p>
           The Veteran Rapid Retraining Assistance Program (VRRAP) offers
           education and training for high-demand jobs to Veterans who are
