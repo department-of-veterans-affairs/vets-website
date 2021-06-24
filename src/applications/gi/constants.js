@@ -54,5 +54,6 @@ export const ariaLabels = Object.freeze({
     majorityOfClasses: 'Learn more about the location-based housing allowance',
     militaryTuitionAssistance:
       'Learn more about how military tuition assistance affects your benefits',
+    inState: 'Learn more about qualifying for in-state tuition.',
   },
 });

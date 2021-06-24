@@ -135,8 +135,7 @@ export default function RequestedAppointmentDetailsPage() {
   const facility = facilityData?.[facilityId];
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const provider =
-    appointment.preferredCommunityCareProviders?.[0] || appointment.provider;
+  const provider = appointment.preferredCommunityCareProviders?.[0];
   const comment = message || appointment.comment;
   const apptDetails = comment
     ? `${appointment.reason}: ${comment}`
