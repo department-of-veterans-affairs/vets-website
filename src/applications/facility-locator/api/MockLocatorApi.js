@@ -6,7 +6,9 @@ import providerServices from '../constants/mock-provider-services.json';
 import facilityDataJson from '../constants/mock-facility-data.json';
 import providersDataJson from '../constants/mock-facility-data-v1.json';
 import urgentCareData from '../constants/mock-urgent-care-mashup-data.json';
-import { urgentCareServices } from '../config';
+import emergencyCareData from '../constants/mock-emergency-care-mashup-data.json';
+
+import { urgentCareServices, emergencyCareServices } from '../config';
 import { CLINIC_URGENTCARE_SERVICE, Covid19Vaccine } from '../constants';
 
 // Immitate network delay
@@ -28,6 +30,8 @@ const pharmacyType = 'pharmacy';
 const ccProviderType = 'provider';
 
 const urgentCareType = 'urgent_care';
+
+const emergencyCareType = 'emergency_care';
 
 class MockLocatorApi {
   /**
@@ -95,6 +99,16 @@ class MockLocatorApi {
             }
           } else if (locationType === pharmacyType) {
             locationsData = [providersDataJson.data[11]];
+          } else if (locationType === emergencyCareType) {
+            if (
+              !serviceType ||
+              serviceType === Object.keys(emergencyCareServices)[0]
+            ) {
+              locationsData = emergencyCareData.data;
+            }
+            if (serviceType === Object.keys(emergencyCareServices)[1]) {
+              locationsData = emergencyCareData.data;
+            }
           } else {
             locationsData = locations.data.filter(
               loc =>

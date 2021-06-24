@@ -98,6 +98,7 @@ class ResultsList extends Component {
           item = <PharmacyResult provider={r} query={query} key={r.id} />;
           break;
         case 'urgent_care':
+        case 'emergency_care':
           if (r.type === LocationType.CC_PROVIDER) {
             item = <UrgentCareResult provider={r} query={query} key={r.id} />;
           } else {

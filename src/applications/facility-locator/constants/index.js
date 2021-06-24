@@ -12,6 +12,7 @@ export const LocationType = {
   VET_CENTER: 'vet_center',
   URGENT_CARE: 'urgent_care',
   URGENT_CARE_PHARMACIES: 'pharmacy',
+  EMERGENCY_CARE: 'emergency_care',
 };
 
 /**
@@ -24,6 +25,7 @@ export const FacilityType = {
   VET_CENTER: 'vet_center',
   URGENT_CARE: 'urgent_care',
   URGENT_CARE_PHARMACIES: 'pharmacy',
+  EMERGENCY_CARE: 'emergency_care',
 };
 
 /**
@@ -50,6 +52,7 @@ export const LOCATION_OPTIONS = [
   LocationType.BENEFITS,
   LocationType.CEMETARY,
   LocationType.VET_CENTER,
+  LocationType.EMERGENCY_CARE,
 ];
 
 /**

@@ -131,6 +131,7 @@ export const resolveParamsWithUrl = ({
 export const facilityTypes = {
   [FacilityType.VA_HEALTH_FACILITY]: 'VA health',
   [FacilityType.URGENT_CARE]: 'Urgent care',
+  [FacilityType.EMERGENCY_CARE]: 'Emergency Care',
   [FacilityType.URGENT_CARE_PHARMACIES]:
     'Community pharmacies (in VA’s network)',
   [FacilityType.VA_CEMETARY]: 'VA cemeteries',
@@ -173,6 +174,12 @@ export const urgentCareServices = {
   NonVAUrgentCare: 'Community urgent care providers (in VA’s network)',
 };
 
+export const emergencyCareServices = {
+  AllEmergencyCare: 'All in-network emergency care',
+  EmergencyCare: 'VA emergency care',
+  NonVAEmergencyCare: 'In-network community emergency care',
+};
+
 export const benefitsServices = {
   All: 'All VA benefit services',
   ApplyingForBenefits: 'Applying for benefits',
@@ -211,6 +218,7 @@ export const facilityTypesOptions = {
   [LocationType.NONE]: 'Choose a facility type',
   [LocationType.HEALTH]: 'VA health',
   [LocationType.URGENT_CARE]: 'Urgent care',
+  [LocationType.EMERGENCY_CARE]: 'Emergency care',
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
   [LocationType.URGENT_CARE_PHARMACIES]:
     'Community pharmacies (in VA’s network)',

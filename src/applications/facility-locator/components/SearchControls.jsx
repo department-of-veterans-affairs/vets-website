@@ -8,6 +8,7 @@ import {
   benefitsServices,
   urgentCareServices,
   facilityTypesOptions,
+  emergencyCareServices,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
@@ -273,6 +274,7 @@ const SearchControls = props => {
       LocationType.URGENT_CARE,
       LocationType.BENEFITS,
       LocationType.CC_PROVIDER,
+      LocationType.EMERGENCY_CARE,
     ].includes(facilityType);
 
     const showError = serviceTypeChanged && !disabled && !serviceType;
@@ -291,6 +293,9 @@ const SearchControls = props => {
         break;
       case LocationType.URGENT_CARE:
         services = urgentCareServices;
+        break;
+      case LocationType.EMERGENCY_CARE:
+        services = emergencyCareServices;
         break;
       case LocationType.BENEFITS:
         services = benefitsServices;

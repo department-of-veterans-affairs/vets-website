@@ -55,29 +55,41 @@ export const SearchResultsHeader = ({
   const formattedServiceType = formatServiceType(serviceType);
 
   return (
-    <h2
-      id="search-results-subheader"
-      className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
-      tabIndex="-1"
-    >
-      Results for &quot;
-      <b>{facilityTypes[facilityType]}</b>
-      &quot;
-      {formattedServiceType && (
-        <>
-          ,&nbsp;&quot;
-          <b>{formattedServiceType}</b>
-          &quot;
-        </>
-      )}
-      {location && (
-        <>
-          &nbsp;near &quot;
-          <b>{location}</b>
-          &quot;
-        </>
-      )}
-    </h2>
+    <div>
+      <div id="search-result-emergency-care-info">
+        <p className="search-result-emergency-care-subheader">
+          <strong>Note:</strong> If you think your life or health is in danger,
+          call{' '}
+          <a aria-label="9 1 1" href="tel:911">
+            911
+          </a>{' '}
+          or go to the nearest emergency department right away.
+        </p>
+      </div>
+      <h2
+        id="search-results-subheader"
+        className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
+        tabIndex="-1"
+      >
+        Results for &quot;
+        <b>{facilityTypes[facilityType]}</b>
+        &quot;
+        {formattedServiceType && (
+          <>
+            ,&nbsp;&quot;
+            <b>{formattedServiceType}</b>
+            &quot;
+          </>
+        )}
+        {location && (
+          <>
+            &nbsp;near &quot;
+            <b>{location}</b>
+            &quot;
+          </>
+        )}
+      </h2>
+    </div>
   );
 };
 
