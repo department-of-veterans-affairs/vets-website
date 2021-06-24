@@ -76,7 +76,7 @@ export const saveCommunicationPreferenceGroup = (groupId, apiCalls) => {
         apiCalls.map(callInfo => {
           return apiRequest(callInfo.endpoint, {
             method: callInfo.method,
-            body: callInfo.body,
+            body: callInfo.payload,
             headers: { 'Content-Type': 'application/json' },
           });
         }),
