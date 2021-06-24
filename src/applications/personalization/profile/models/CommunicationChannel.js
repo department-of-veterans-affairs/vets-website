@@ -18,6 +18,17 @@ class CommunicationChannel {
     this.isAllowed = isAllowed;
   }
 
+  /**
+   * Method that returns an object that can easily handled by the
+   * saveCommunicationPreferenceGroup() thunk creator.
+   *
+   * @returns an object with the following keys:
+   * - endpoint: '/profile/communication_preferences' or
+   *   '/profile/communication_preferences/:id'
+   * - method: 'POST' or 'PATCH'
+   * - payload: object that can used as the request body by either endpoint
+   * @memberof CommunicationChannel
+   */
   getApiCallObject() {
     const method = this.permissionId ? 'PATCH' : 'POST';
     const endpoint = this.permissionId
@@ -42,6 +53,8 @@ class CommunicationChannel {
     };
   }
 
+  // returns true if the argument is a CommunicationChannel with identical
+  // property values as this instance
   isIdenticalTo(otherCommunicationChannel) {
     if (!(otherCommunicationChannel instanceof CommunicationChannel)) {
       throw new Error(
