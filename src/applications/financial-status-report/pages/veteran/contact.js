@@ -85,7 +85,7 @@ export const uiSchema = {
       country: {
         'ui:title': 'Country',
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
           updateSchema: (formData, schema, uiSchemaCountry) => {
             const uiSchemaDisabled = uiSchemaCountry;
             uiSchemaDisabled['ui:disabled'] = false;
@@ -115,13 +115,13 @@ export const uiSchema = {
           pattern: 'Please enter a street address.',
         },
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
         },
       },
       street2: {
         'ui:title': 'Street address line 2',
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
         },
       },
       city: {
@@ -130,7 +130,7 @@ export const uiSchema = {
           required: 'Please enter a city.',
         },
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
           replaceSchema: formData => {
             if (formData.personalData.address.livesOutsideUS) {
               return {
@@ -157,7 +157,7 @@ export const uiSchema = {
       state: {
         'ui:title': 'State',
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
           updateSchema: formData => {
             if (
               formData.personalData.address.livesOutsideUS ||
@@ -192,14 +192,14 @@ export const uiSchema = {
           pattern: 'Please enter a valid postal code.',
         },
         'ui:options': {
-          classNames: 'input-size-5',
+          widgetClassNames: 'input-size-5',
         },
       },
     },
     telephoneNumber: {
       ...phoneUI('Phone number'),
       'ui:options': {
-        classNames: 'input-size-7',
+        widgetClassNames: 'input-size-7',
       },
       'ui:errorMessages': {
         pattern: 'Please enter a valid phone number.',
@@ -208,7 +208,7 @@ export const uiSchema = {
     emailAddress: {
       ...emailUI('Email address'),
       'ui:options': {
-        classNames: 'input-size-7',
+        widgetClassNames: 'input-size-7',
       },
       'ui:errorMessages': {
         pattern: 'Please enter a valid email address.',

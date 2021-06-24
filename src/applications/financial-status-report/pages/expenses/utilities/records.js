@@ -32,7 +32,7 @@ export const uiSchema = {
         'ui:reviewField': CustomReviewField,
         'ui:options': {
           idPrefix: 'utilities',
-          classNames: 'input-size-3',
+          widgetClassNames: 'input-size-3',
           getOptions: () => formatOptions(utilityTypes),
         },
         'ui:errorMessages': {

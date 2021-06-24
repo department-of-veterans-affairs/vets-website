@@ -42,7 +42,7 @@ export const uiSchema = {
         'ui:reviewField': CustomReviewField,
         'ui:options': {
           idPrefix: 'other_expenses',
-          classNames: 'input-size-3',
+          widgetClassNames: 'input-size-3',
           getOptions: () => formatOptions(expenseTypes),
         },
         'ui:errorMessages': {

@@ -48,7 +48,7 @@ export const uiSchema = {
           'ui:reviewField': CustomReviewField,
           'ui:options': {
             idPrefix: 'other_assets',
-            classNames: 'input-size-3',
+            widgetClassNames: 'input-size-3',
             getOptions: () => formatOptions(assetTypes),
           },
           'ui:errorMessages': {

@@ -33,7 +33,7 @@ export const uiSchema = {
           'ui:reviewField': CustomReviewField,
           'ui:options': {
             idPrefix: 'other_income',
-            classNames: 'input-size-4',
+            widgetClassNames: 'input-size-4',
             getOptions: () => formatOptions(incomeTypes),
           },
           'ui:errorMessages': {
