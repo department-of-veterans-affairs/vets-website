@@ -1,52 +1,16 @@
 {
-  "additionalIncome": {
-    "additionalIncomeRecords": [
-      {
-        "name": "Bonus payment",
-        "amount": 1700
-      },
-      {
-        "name": "Freelance service",
-        "amount": 1200
-      },
-      {
-        "name": "Rental property income",
-        "amount": 1100
-      }
-    ],
-    "spouse": {
-      "spouseAdditionalIncomeRecords": [
-        {
-          "name": "Alimony payment",
-          "amount": 100
-        },
-        {
-          "name": "Bonus payment",
-          "amount": 1000
-        }
-      ]
-    }
-  },
-  "additionalData": {
-    "additionalComments": "Supporting personal statement...",
-    "bankruptcy": {
-      "dateDischarged": "2012-03-XX",
-      "courtLocation": "Tampa, FL",
-      "docketNumber": "123456"
-    }
-  },
   "otherExpenses": [
     {
       "name": "Dry cleaning/laundry",
-      "amount": 100
+      "amount": "100"
     },
     {
       "name": "Pool service",
-      "amount": 150
+      "amount": "150"
     },
     {
       "name": "Gasoline/diesel fuel",
-      "amount": 3000
+      "amount": "3000"
     }
   ],
   "view:components": {
@@ -61,63 +25,63 @@
     {
       "purpose": "Credit card payments",
       "creditorName": "Creditor One",
-      "originalAmount": 10000,
-      "unpaidBalance": 5000,
-      "amountDueMonthly": 200,
+      "originalAmount": "10000",
+      "unpaidBalance": "5000",
+      "amountDueMonthly": "200",
       "dateStarted": "2012-04-XX",
-      "amountPastDue": 100
+      "amountPastDue": "100"
     },
     {
       "purpose": "Hangar rental",
       "creditorName": "Creditor Two",
-      "originalAmount": 1000000,
-      "unpaidBalance": 990000,
-      "amountDueMonthly": 10,
+      "originalAmount": "1000000",
+      "unpaidBalance": "990000",
+      "amountDueMonthly": "10",
       "dateStarted": "2021-04-XX",
-      "amountPastDue": 10
+      "amountPastDue": "20"
     }
   ],
   "utilityRecords": [
     {
       "utilityType": "Water",
-      "monthlyUtilityAmount": 25
+      "monthlyUtilityAmount": "25"
     },
     {
       "utilityType": "Electricity",
-      "monthlyUtilityAmount": 300
+      "monthlyUtilityAmount": "300"
     },
     {
       "utilityType": "Cable",
-      "monthlyUtilityAmount": 75
+      "monthlyUtilityAmount": "75"
     },
     {
       "utilityType": "Cell phone",
-      "monthlyUtilityAmount": 450
+      "monthlyUtilityAmount": "450"
     }
   ],
   "expenses": {
-    "rentOrMortgage": 1570,
-    "food": 4500
+    "rentOrMortgage": "1570",
+    "food": "4500"
   },
   "assets": {
     "otherAssets": [
       {
         "name": "Bitcoin",
-        "amount": 10000
+        "amount": "10000"
       },
       {
         "name": "Gambling earning",
-        "amount": 45000
+        "amount": "45000"
       }
     ],
     "trailersBoatsCampers": [
       {
         "recreationalVehicleType": "Boat",
-        "recreationalVehicleAmount": 15000
+        "recreationalVehicleAmount": "15000"
       },
       {
         "recreationalVehicleType": "Helicopter",
-        "recreationalVehicleAmount": 1000000
+        "recreationalVehicleAmount": "1000000"
       }
     ],
     "automobiles": [
@@ -126,31 +90,79 @@
         "make": "Dodge",
         "model": "RAM",
         "year": "2020",
-        "resaleValue": 75000
+        "resaleValue": "75000"
       },
       {
         "type": "Car",
         "make": "Dodge",
         "model": "Charger",
         "year": "2020",
-        "resaleValue": 40000
+        "resaleValue": "40000"
       }
     ],
-    "cashInBank": 1100,
-    "cashOnHand": 2050,
-    "usSavingsBonds": 3100,
-    "stocksAndOtherBonds": 4020
+    "cashInBank": "1100",
+    "cashOnHand": "2050",
+    "usSavingsBonds": "3100",
+    "stocksAndOtherBonds": "4020"
   },
   "realEstateRecords": [
     {
       "realEstateType": "Apartment",
-      "realEstateAmount": 100000
+      "realEstateAmount": "100000"
     },
     {
       "realEstateType": "Farm",
-      "realEstateAmount": 175000
+      "realEstateAmount": "175000"
     }
   ],
+  "additionalIncome": {
+    "spouse": {
+      "spouseAdditionalIncomeRecords": [
+        {
+          "name": "Alimony payment",
+          "amount": "100"
+        },
+        {
+          "name": "Bonus payment",
+          "amount": "1000"
+        }
+      ]
+    },
+    "additionalIncomeRecords": [
+      {
+        "name": "Bonus payment",
+        "amount": "1700"
+      },
+      {
+        "name": "Freelance service",
+        "amount": "1200"
+      },
+      {
+        "name": "Rental property income",
+        "amount": "1100"
+      }
+    ]
+  },
+  "socialSecurity": {
+    "spouse": {
+      "socialSecurityAmount": "500"
+    },
+    "socialSecurityAmount": "100"
+  },
+  "benefits": {
+    "spouseBenefits": {
+      "benefitAmount": "100",
+      "educationAmount": "200"
+    }
+  },
+  "additionalData": {
+    "additionalComments": "Supporting personal statement...",
+    "bankruptcy": {
+      "dateDischarged": "2012-03-XX",
+      "courtLocation": "Tampa, FL",
+      "docketNumber": "123456"
+    }
+  },
   "personalData": {
     "agesOfOtherDependents": [
       {
@@ -250,18 +262,6 @@
     "hasSocialSecurity": true,
     "vetIsEmployed": true
   },
-  "socialSecurity": {
-    "spouse": {
-      "socialSecurityAmount": 500
-    },
-    "socialSecurityAmount": 100
-  },
-  "benefits": {
-    "spouseBenefits": {
-      "benefitAmount": 100,
-      "educationAmount": 200
-    }
-  },
   "personalIdentification": {
     "ssn": "1200",
     "fileNumber": "1200"
@@ -348,8 +348,8 @@
       ],
       "id": 1,
       "resolution": {
-        "resolutionType": "Compromise",
-        "offerToPay": "10"
+        "resolutionType": "Extended monthly payments",
+        "offerToPay": "20"
       }
     }
   ],
@@ -369,15 +369,15 @@
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": 225
+          "amount": "225"
         },
         {
           "name": "Health insurance",
-          "amount": 350
+          "amount": "350"
         },
         {
           "name": "Life insurance",
-          "amount": 100
+          "amount": "100"
         }
       ],
       "type": "Full time",
@@ -391,7 +391,7 @@
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": 75
+          "amount": "75"
         }
       ],
       "type": "Full time",
@@ -407,11 +407,11 @@
       "deductions": [
         {
           "name": "Pension",
-          "amount": 100
+          "amount": "100"
         },
         {
           "name": "Federal tax",
-          "amount": 220
+          "amount": "220"
         }
       ],
       "type": "Full time",
@@ -425,11 +425,11 @@
       "deductions": [
         {
           "name": "Federal tax",
-          "amount": 225
+          "amount": "225"
         },
         {
           "name": "Health insurance",
-          "amount": 340
+          "amount": "340"
         }
       ],
       "type": "Full time",
