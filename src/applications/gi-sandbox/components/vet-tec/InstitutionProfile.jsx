@@ -5,13 +5,13 @@ import AccordionItem from '../AccordionItem';
 import VetTecAdditionalInformation from './VetTecAdditionalInformation';
 import VetTecApplicationProcess from './VetTecApplicationProcess';
 import VetTecApprovedProgramsList from './VetTecApprovedProgramsList';
-import VetTecHeadingSummary from './VetTecHeadingSummary';
 import ContactInformation from '../profile/ContactInformation';
 import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
 
 import VetTecVeteranPrograms from './VetTecVeteranPrograms';
 import VetTecEstimateYourBenefits from '../../containers/VetTecEstimateYourBenefits';
+import ProfilePageHeader from '../profile/ProfilePageHeader';
 
 const profileLogo =
   'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
@@ -34,7 +34,11 @@ const InstitutionProfile = ({
           {renderVetTecLogo(classNames('vettec-logo-profile'))}
         </div>
       }
-      <VetTecHeadingSummary institution={institution} showModal={showModal} />
+      <ProfilePageHeader
+        institution={institution}
+        onGiBillLearnMore={showModal.bind(this, 'gibillstudents')}
+        onAccreditationLearnMore={showModal.bind(this, 'accredited')}
+      />
       <ul className="profile-accordion-list">
         <AccordionItem button="Estimate your benefits">
           <VetTecEstimateYourBenefits

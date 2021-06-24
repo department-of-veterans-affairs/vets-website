@@ -222,7 +222,6 @@
 }
 
 .school-classification {
-  padding: 1px 10px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
@@ -247,4 +246,8 @@
 
 .capitalize-value {
   text-transform: capitalize;
+}
+
+.profile-card {
+  border-radius: 10px;
 }

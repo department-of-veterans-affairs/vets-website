@@ -49,7 +49,7 @@ export function SearchResultCard({
     }
   };
 
-  const [expanded, setCount] = useState(false);
+  const [expanded, toggleExpansion] = useState(false);
 
   const profileLink = appendQuery(`/profile/${facilityCode}`);
   const institutionTraits = [
@@ -75,7 +75,7 @@ export function SearchResultCard({
   const schoolClassification = (
     <>
       <div className={schoolClassificationClasses}>
-        <p className="vads-u-color--white">
+        <p className="vads-u-color--white vads-u-padding-x--2 vads-u-padding-y--1">
           <strong>
             {schoolProvider && 'School'}
             {employerProvider && 'Employer'}
@@ -237,7 +237,7 @@ export function SearchResultCard({
             <CautionFlagAdditionalInfo
               cautionFlags={cautionFlags}
               expanded={expanded}
-              setCount={setCount}
+              toggleExpansion={toggleExpansion}
             />
           </div>
         )}

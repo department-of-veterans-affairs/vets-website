@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AccordionItem from '../AccordionItem';
-import HeadingSummary from './HeadingSummary';
+import ProfilePageHeader from './ProfilePageHeader';
 import Programs from './Programs';
 import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
@@ -53,9 +53,10 @@ export class InstitutionProfile extends React.Component {
 
     return (
       <div className="institution-profile">
-        <HeadingSummary
+        <ProfilePageHeader
           institution={profile.attributes}
-          onLearnMore={showModal.bind(this, 'gibillstudents')}
+          onGiBillLearnMore={showModal.bind(this, 'gibillstudents')}
+          onAccreditationLearnMore={showModal.bind(this, 'accredited')}
           gibctSchoolRatings={gibctSchoolRatings}
         />
         <div className="usa-accordion vads-u-margin-top--4">
