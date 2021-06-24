@@ -4,12 +4,19 @@ const commandLineArgs = require('command-line-args');
 const fs = require('fs');
 const glob = require('glob');
 const replacements = require('./transformers');
+const printMigrationHelp = require('./migration-help');
 
 const optionDefinitions = [
   { name: 'component', alias: 'c' },
   { name: 'dir', alias: 'd' },
+  { name: 'help', alias: 'h', type: Boolean, defaultValue: false },
 ];
 const options = commandLineArgs(optionDefinitions);
+
+if (options.help || (!options.dir || !options.component)) {
+  printMigrationHelp();
+  process.exit(0);
+}
 
 const FILENAMES = glob.sync(`${options.dir}/**/*.jsx`);
 
