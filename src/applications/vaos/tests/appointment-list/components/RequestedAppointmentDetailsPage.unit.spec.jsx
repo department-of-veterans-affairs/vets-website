@@ -690,7 +690,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       'The time and date of this appointment are still to be determined.',
     );
 
-    expect(screen.getByText('Cheyenne VA Medical Center')).to.be.ok;
+    expect(screen.getByText(/Cheyenne VA Medical Center/)).to.be.ok;
     expect(screen.baseElement).to.contain.text(
       'Pending primary care appointment',
     );
@@ -702,6 +702,8 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     );
     expect(screen.baseElement).to.contain.text('Main phone:');
     expect(screen.baseElement).to.contain.text('307-778-7550');
+    expect(screen.baseElement).to.contain.text('Preferred type of appointment');
+    expect(screen.baseElement).to.contain.text('Office visit');
     expect(screen.baseElement).to.contain.text('Preferred date and time');
     expect(screen.baseElement).to.contain.text(
       `${moment(appointment.attributes.requestedPeriods[0].start).format(

@@ -129,7 +129,6 @@ export default function RequestedAppointmentDetailsPage() {
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isCC = appointment.vaos.isCommunityCare;
-  const isVideoRequest = appointment.vaos.isVideo;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
@@ -195,12 +194,9 @@ export default function RequestedAppointmentDetailsPage() {
         </InfoAlert>
       )}
       {!isCCRequest && (
-        <>
-          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-            {isVideoRequest && 'VA Video Connect'}
-            {!isVideoRequest && 'VA Appointment'}
-          </h2>
-        </>
+        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+          VA Appointment
+        </h2>
       )}
 
       {!!facility &&
@@ -213,7 +209,7 @@ export default function RequestedAppointmentDetailsPage() {
           />
         )}
 
-      {isCCRequest && (
+      {isCCRequest ? (
         <>
           <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
             Preferred community care provider
@@ -225,6 +221,13 @@ export default function RequestedAppointmentDetailsPage() {
             </span>
           )}
           {!provider && <span>No provider selected</span>}
+        </>
+      ) : (
+        <>
+          <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
+            Preferred type of appointment
+          </h2>
+          {appointment.vaos.requestVisitType}
         </>
       )}
 
