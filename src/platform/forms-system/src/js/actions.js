@@ -5,6 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { timeFromNow } from './utilities/date';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { displayFileSize } from 'platform/utilities/ui/index';
+import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
@@ -335,12 +336,16 @@ export function uploadFile(
     });
 
     req.addEventListener('error', () => {
-      const errorMessage =
-        'We\u2019re sorry. We had a connection problem. Please delete the file and try again.';
+      const errorMessage = FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
       if (password) {
-        onChange({ name: file.name, errorMessage, password: file.password });
+        onChange({
+          file, // return file object to allow resubmit
+          name: file.name,
+          errorMessage,
+          password: file.password,
+        });
       } else {
-        onChange({ name: file.name, errorMessage });
+        onChange({ file, name: file.name, errorMessage }); // return file object to allow resubmit
       }
       Sentry.withScope(scope => {
         scope.setExtra('statusText', req.statusText);

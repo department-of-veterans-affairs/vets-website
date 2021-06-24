@@ -14,6 +14,7 @@ import {
   PasswordSuccess,
   checkForEncryptedPdf,
 } from '../utilities/file';
+import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 
 class FileField extends React.Component {
   constructor(props) {
@@ -98,6 +99,10 @@ class FileField extends React.Component {
       if (idx === null) {
         idx = files.length === 0 ? 0 : files.length;
       }
+      files[idx] = {
+        file: currentFile,
+        name: currentFile.name,
+      };
 
       // Check if the file is an encrypted PDF
       if (
@@ -109,12 +114,8 @@ class FileField extends React.Component {
           uiOptions.isFileEncrypted || this.isFileEncrypted;
         const needsPassword = await isFileEncrypted(currentFile);
         if (needsPassword) {
-          files[idx] = {
-            file: currentFile,
-            name: currentFile.name,
-            isEncrypted: true,
-          };
           onChange(files);
+          files[idx].isEncrypted = true;
           // wait for user to enter a password before uploading
           return;
         }
@@ -171,7 +172,7 @@ class FileField extends React.Component {
     this.removeFile(index);
   };
 
-  removeFile = index => {
+  removeFile = (index, focusAddButton = true) => {
     const newFileList = this.props.formData.filter((__, idx) => index !== idx);
     if (!newFileList.length) {
       this.props.onChange();
@@ -184,7 +185,19 @@ class FileField extends React.Component {
     if (this.fileInputRef.current) {
       this.fileInputRef.current.value = '';
     }
-    this.focusAddAnotherButton();
+
+    if (focusAddButton) {
+      this.focusAddAnotherButton();
+    }
+  };
+
+  retryLastUpload = (index, file) => {
+    this.onAddFile({ target: { files: [file] } }, index);
+  };
+
+  deleteThenAddFile = index => {
+    this.removeFile(index, false);
+    this.fileInputRef.current.click();
   };
 
   /**
@@ -213,6 +226,7 @@ class FileField extends React.Component {
       onBlur,
       registry,
       requestLockedPdfPassword,
+      // enableShortWorkflow,
     } = this.props;
     const uiOptions = uiSchema?.['ui:options'];
     const files = formData || [];
@@ -236,6 +250,14 @@ class FileField extends React.Component {
       typeof uiSchema['ui:title'] === 'string'
         ? uiSchema['ui:title']
         : schema.title;
+
+    const hasAnyError = files.some((file, index) => {
+      const errors =
+        _.get([index, '__errors'], errorSchema) ||
+        [file.errorMessage].filter(error => error);
+
+      return errors.length > 0;
+    });
 
     return (
       <div
@@ -283,6 +305,9 @@ class FileField extends React.Component {
                   focusElement(`[name="get_password_${index}"]`);
                 }, 100);
               }
+
+              const allowRetry =
+                errors[0] === FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
 
               return (
                 <li
@@ -370,60 +395,111 @@ class FileField extends React.Component {
                       onSubmitPassword={this.onSubmitPassword}
                     />
                   )}
-                  {showButtons && (
-                    <div className="vads-u-margin-top--2">
-                      <button
-                        type="button"
-                        className="usa-button-secondary vads-u-width--auto"
-                        onClick={() => {
-                          this.removeFile(index);
-                        }}
-                      >
-                        Delete file
-                      </button>
-                    </div>
-                  )}
+                  {allowRetry &&
+                    showButtons && (
+                      <div className="vads-u-margin-top--2">
+                        <button
+                          type="button"
+                          className="usa-button-primary vads-u-width--auto vads-u-margin-right--2"
+                          onClick={() => {
+                            this.retryLastUpload(index, file.file);
+                          }}
+                        >
+                          Try again
+                        </button>
+                        <button
+                          type="button"
+                          className="usa-button-secondary vads-u-width--auto"
+                          onClick={() => {
+                            this.removeFile(index);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
+                  {showButtons &&
+                    (!hasErrors && !allowRetry) && (
+                      <div className="vads-u-margin-top--2">
+                        <button
+                          type="button"
+                          className="usa-button-secondary vads-u-width--auto"
+                          onClick={() => {
+                            this.removeFile(index);
+                          }}
+                        >
+                          Delete file
+                        </button>
+                      </div>
+                    )}
+                  {showButtons &&
+                    !allowRetry &&
+                    hasErrors && (
+                      <div className="vads-u-margin-top--2">
+                        <button
+                          type="button"
+                          className="usa-button-secondary vads-u-width--auto vads-u-margin-right--2"
+                          onClick={() => {
+                            this.deleteThenAddFile(index);
+                          }}
+                        >
+                          Upload a new file
+                        </button>
+                        <button
+                          type="button"
+                          className="usa-button-secondary vads-u-width--auto"
+                          onClick={() => {
+                            this.removeFile(index);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
                 </li>
               );
             })}
           </ul>
         )}
-        {(maxItems === null || files.length < maxItems) &&
-          // Don't render an upload button on review & submit page while in
-          // review mode
-          showButtons && (
-            <>
-              <label
-                id={`${idSchema.$id}_add_label`}
-                htmlFor={idSchema.$id}
-                className="vads-u-display--inline-block"
-              >
-                <span
-                  role="button"
-                  className="usa-button usa-button-secondary vads-u-padding-x--2 vads-u-padding-y--1"
-                  onKeyPress={e => {
-                    e.preventDefault();
-                    if (['Enter', ' ', 'Spacebar'].indexOf(e.key) !== -1) {
-                      this.fileInputRef.current.click();
-                    }
-                  }}
-                  tabIndex="0"
-                  aria-label={`${buttonText} ${titleString}`}
+        {// Don't render an upload button on review & submit page while in
+        // review mode
+        showButtons && (
+          <>
+            {(maxItems === null || files.length < maxItems) &&
+              // Prevent additional upload if any upload has error state
+              !hasAnyError && (
+                <label
+                  id={`${idSchema.$id}_add_label`}
+                  htmlFor={idSchema.$id}
+                  className="vads-u-display--inline-block"
                 >
-                  {buttonText}
-                </span>
-              </label>
-              <input
-                type="file"
-                ref={this.fileInputRef}
-                accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
-                style={{ display: 'none' }}
-                id={idSchema.$id}
-                name={idSchema.$id}
-                onChange={this.onAddFile}
-              />
-            </>
-          )}
+                  <span
+                    role="button"
+                    className="usa-button usa-button-secondary vads-u-padding-x--2 vads-u-padding-y--1"
+                    onKeyPress={e => {
+                      e.preventDefault();
+                      if (['Enter', ' ', 'Spacebar'].indexOf(e.key) !== -1) {
+                        this.fileInputRef.current.click();
+                      }
+                    }}
+                    tabIndex="0"
+                    aria-label={`${buttonText} ${titleString}`}
+                  >
+                    {buttonText}
+                  </span>
+                </label>
+              )}
+            <input
+              type="file"
+              ref={this.fileInputRef}
+              accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+              style={{ display: 'none' }}
+              id={idSchema.$id}
+              name={idSchema.$id}
+              onChange={this.onAddFile}
+            />
+          </>
+        )}
       </div>
     );
   }
@@ -444,6 +520,7 @@ FileField.propTypes = {
 
 const mapStateToProps = state => ({
   requestLockedPdfPassword: toggleValues(state).request_locked_pdf_password,
+  enableShortWorkflow: toggleValues(state).file_upload_short_workflow_enabled,
 });
 
 export { FileField };

@@ -30,6 +30,7 @@ export default Object.freeze({
   facilityLocatorShowCommunityCares: 'facilityLocatorShowCommunityCares', // Facilities team has deprecated this flag for the frontEnd logic, there is still backend support though.
   facilityLocatorShowOperationalHoursSpecialInstructions: 'facilityLocatorShowOperationalHoursSpecialInstructions',
   findFormsEnhancements: 'find_forms_mvp_enhancement',
+  fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
   form10182Nod: 'form10182_nod',
   gibctEybBottomSheet: 'gibctEybBottomSheet',
   gibctSchoolRatings: 'gibctSchoolRatings',
