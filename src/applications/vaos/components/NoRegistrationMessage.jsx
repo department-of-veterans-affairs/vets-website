@@ -1,11 +1,11 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import FullWidthLayout from './FullWidthLayout';
+import InfoAlert from './InfoAlert';
 
 export default function NoRegistrationMessage() {
   return (
     <FullWidthLayout>
-      <AlertBox
+      <InfoAlert
         status="error"
         headline="We’re sorry. We can’t find any VA medical facility registrations for you"
       >
@@ -28,7 +28,7 @@ export default function NoRegistrationMessage() {
           <a href="/find-locations">your local VA health care facility’s</a>{' '}
           registration office.
         </p>
-      </AlertBox>
+      </InfoAlert>
     </FullWidthLayout>
   );
 }

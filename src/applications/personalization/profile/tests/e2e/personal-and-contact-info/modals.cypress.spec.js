@@ -101,7 +101,7 @@ describe('Modals on the personal information and content page', () => {
     checkModals({
       otherSectionName: 'mailing address',
       editLineId: 'root_emailAddress',
-      sectionName: 'email address',
+      sectionName: 'contact email address',
     });
   });
 
@@ -140,7 +140,7 @@ describe('Modals on the personal information and content page', () => {
     checkModals({
       otherSectionName: 'mailing address',
       editLineId: 'root_emailAddress',
-      sectionName: 'email address',
+      sectionName: 'contact email address',
     });
   });
 });

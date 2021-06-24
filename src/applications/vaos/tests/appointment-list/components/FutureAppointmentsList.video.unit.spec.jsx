@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { getVAFacilityMock, getVideoAppointmentMock } from '../../mocks/v0';
 import { renderWithStoreAndRouter } from '../../mocks/setup';
@@ -15,7 +16,11 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: upcoming video appointments', () => {
+describe('VAOS <FutureAppointmentsList> video appointments', () => {
+  beforeEach(() => {
+    mockFetch();
+    mockFacilitiesFetch();
+  });
   it('should show info and disabled link when ad hoc', async () => {
     const appointment = getVideoAppointmentMock();
     const startDate = moment.utc().add(3, 'days');
@@ -551,7 +556,7 @@ describe('VAOS integration: upcoming video appointments', () => {
     expect(queryByText(/join appointment/i)).to.not.exist;
     expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
-    expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(baseElement).to.contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(baseElement).to.contain.text('307-778-7550');
 
     expect(
@@ -582,7 +587,7 @@ describe('VAOS integration: upcoming video appointments', () => {
   });
 });
 
-describe('VAOS integration: upcoming ATLAS video appointments', () => {
+describe('VAOS <FutureAppointmentsList> ATLAS video appointments', () => {
   it('should display ATLAS title', async () => {
     const appointment = getVideoAppointmentMock();
     const startDate = moment.utc().add(3, 'days');
@@ -631,6 +636,7 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
     };
 
     mockAppointmentInfo({ va: [appointment] });
+    mockFacilitiesFetch();
 
     const screen = renderWithStoreAndRouter(<AppointmentsPage />, {
       initialState,
@@ -663,7 +669,7 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
 
     // Should display appointment location address
     expect(screen.getByText(/114 Dewey Ave/i)).to.be.ok;
-    expect(screen.baseElement).to.contain.text('Eureka, MT 59917');
+    expect(screen.baseElement).to.contain.text('Eureka, MontanaMT 59917');
 
     // Should display directions to location
     expect(
@@ -690,7 +696,11 @@ describe('VAOS integration: upcoming ATLAS video appointments', () => {
   });
 });
 
-describe('VAOS integration: calendar ics file format', () => {
+describe('VAOS <FutureAppointmentsList> calendar ics file format', () => {
+  beforeEach(() => {
+    mockFetch();
+    mockFacilitiesFetch();
+  });
   it('should verify Video Connect at home calendar ics file format', async () => {
     const appointment = getVideoAppointmentMock();
     const startDate = moment.utc().add(3, 'days');

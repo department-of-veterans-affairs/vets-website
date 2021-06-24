@@ -7,6 +7,8 @@ import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import fastLevenshtein from 'fast-levenshtein';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import _ from 'platform/utilities/data';
@@ -1028,3 +1030,27 @@ export const show526Wizard = state => toggleValues(state).show526Wizard;
 
 export const showSubform8940And4192 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
+
+export const wrapWithBreadcrumb = (title, component) => (
+  <>
+    <Breadcrumbs>
+      <a href="/">Home</a>
+      <a href="/disability">Disability Benefits</a>
+      <span className="vads-u-color--black">
+        <strong>{title}</strong>
+      </span>
+    </Breadcrumbs>
+    {component}
+  </>
+);
+
+export const isExpired = date => {
+  if (!date) {
+    return true;
+  }
+  const today = moment().endOf('day');
+  // expiresAt: Ruby saves as time from Epoch date in seconds (not milliseconds)
+  // we plan to update the expiresAt date to "YYYY-MM-DD" format in the future
+  const expires = moment(isNaN(date) ? date : date * 1000);
+  return !(expires.isValid() && expires.endOf('day').isSameOrAfter(today));
+};

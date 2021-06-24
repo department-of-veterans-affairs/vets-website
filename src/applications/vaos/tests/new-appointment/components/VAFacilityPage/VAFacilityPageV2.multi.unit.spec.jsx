@@ -132,7 +132,7 @@ closestFacility.attributes.name = 'Closest facility';
 closestFacility.attributes.lat = 39.50603012; // Dayton, OH
 closestFacility.attributes.long = -84.3164749;
 
-describe('VAOS integration: VA flat facility page - multiple facilities', () => {
+describe('VAOS <VAFacilityPageV2> multiple facilities', () => {
   beforeEach(() => mockFetch());
 
   it('should display list of facilities with show more button', async () => {
@@ -255,7 +255,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       'Facilities based on your home address',
     );
     expect(screen.baseElement).to.contain.text('290 Ludlow Ave');
-    expect(screen.baseElement).to.contain.text('Cincinatti, OH 45220');
+    expect(screen.baseElement).to.contain.text('Cincinatti, OhioOH 45220');
     expect(screen.baseElement).to.contain.text(' miles');
 
     // It should sort by distance, making Closest facility the first facility
@@ -555,7 +555,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       'None of the facilities where you receive care accepts online appointments for primary care.',
     );
     expect(screen.getByText(/Bozeman VA medical center/i)).to.exist;
-    expect(screen.baseElement).to.contain.text('Bozeman, MT');
+    expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
     expect(screen.getByText(/406-555-5858/i)).to.exist;
     expect(screen.getByText(/Facility 124/i)).to.exist;
     expect(screen.queryByText(/Facility 125/i)).not.to.exist;
@@ -650,7 +650,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
       'None of the facilities where you receive care accepts online appointments for primary care.',
     );
     expect(screen.getByText(/Bozeman VA medical center/i)).to.exist;
-    expect(screen.baseElement).to.contain.text('Bozeman, MT');
+    expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
     expect(screen.getByText(/406-555-5858/i)).to.exist;
     expect(screen.getByText(/Facility 124/i)).to.exist;
     expect(screen.getByText(/Facility 125/i)).to.exist;
@@ -973,7 +973,7 @@ describe('VAOS integration: VA flat facility page - multiple facilities', () => 
     );
     userEvent.click(additionalInfoButton);
     expect(await screen.findByText(/Facility that is disabled/i)).to.be.ok;
-    expect(screen.baseElement).to.contain.text('Bozeman, MT');
+    expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
     expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
     expect(screen.getByText(/555-555-5555, ext\. 1234/i)).to.be.ok;
     expect(

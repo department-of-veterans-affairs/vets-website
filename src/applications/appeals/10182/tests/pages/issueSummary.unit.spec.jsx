@@ -22,6 +22,7 @@ describe('NOD selected issues summary page', () => {
         schema={schema}
         uiSchema={uiSchema}
         data={{
+          'view:hasIssuesToAdd': true,
           contestableIssues: [{ [SELECTED]: true }],
           additionalIssues: [{ [SELECTED]: true }],
         }}
