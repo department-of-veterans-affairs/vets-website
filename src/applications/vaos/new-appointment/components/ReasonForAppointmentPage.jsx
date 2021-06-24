@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -14,6 +13,7 @@ import TextareaWidget from '../../components/TextareaWidget';
 import { useHistory } from 'react-router-dom';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
 import NewTabAnchor from '../../components/NewTabAnchor';
+import InfoAlert from '../../components/InfoAlert';
 import {
   openReasonForAppointment,
   routeToNextAppointmentPage,
@@ -118,31 +118,30 @@ export default function ReasonForAppointmentPage() {
           data={data}
         >
           <PostFormFieldContent>
-            <AlertBox
+            <InfoAlert
               status="warning"
               headline="If you have an urgent medical need, please:"
-              className="vads-u-margin-y--3"
+              classes="vads-u-margin-y--3"
               level="2"
-              content={
-                <ul>
-                  <li>
-                    Call <Telephone contact={CONTACTS['911']} />,{' '}
-                    <span className="vads-u-font-weight--bold">or</span>
-                  </li>
-                  <li>
-                    Call the Veterans Crisis hotline at{' '}
-                    <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1,{' '}
-                    <span className="vads-u-font-weight--bold">or</span>
-                  </li>
-                  <li>
-                    Go to your nearest emergency room or VA medical center.{' '}
-                    <NewTabAnchor href="/find-locations">
-                      Find your nearest VA medical center
-                    </NewTabAnchor>
-                  </li>
-                </ul>
-              }
-            />
+            >
+              <ul>
+                <li>
+                  Call <Telephone contact={CONTACTS['911']} />,{' '}
+                  <span className="vads-u-font-weight--bold">or</span>
+                </li>
+                <li>
+                  Call the Veterans Crisis hotline at{' '}
+                  <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1,{' '}
+                  <span className="vads-u-font-weight--bold">or</span>
+                </li>
+                <li>
+                  Go to your nearest emergency room or VA medical center.{' '}
+                  <NewTabAnchor href="/find-locations">
+                    Find your nearest VA medical center
+                  </NewTabAnchor>
+                </li>
+              </ul>
+            </InfoAlert>
           </PostFormFieldContent>
           <FormButtons
             onBack={() =>

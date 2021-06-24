@@ -17,9 +17,9 @@ import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCh
 import VAFacilityInfoMessage from './VAFacilityInfoMessage';
 import ResidentialAddress from './ResidentialAddress';
 import LoadingOverlay from '../../../components/LoadingOverlay';
+import InfoAlert from '../../../components/InfoAlert';
 import { usePrevious } from 'platform/utilities/react-hooks';
 import useFormState from '../../../hooks/useFormState';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 const pageKey = 'vaFacility';
 
@@ -256,21 +256,18 @@ function VAFacilityPage({
           </>
         )}
       {requestLocationStatus === FETCH_STATUS.failed && (
-        <div className="vads-u-padding-bottom--3">
-          <AlertBox
-            status="warning"
-            headline="Your browser is blocked from finding your current location."
-            className="vads-u-background-color--gold-lightest vads-u-font-size--base"
-            level="3"
-            content={
-              <p>
-                Make sure your browser’s location feature is turned on. If it
-                isn’t enabled, we’ll sort your VA facilities using your home
-                address that’s on file.
-              </p>
-            }
-          />
-        </div>
+        <InfoAlert
+          status="warning"
+          headline="Your browser is blocked from finding your current location."
+          classes="vads-u-background-color--gold-lightest vads-u-font-size--base vads-u-padding-bottom--3"
+          level="3"
+        >
+          <p>
+            Make sure your browser’s location feature is turned on. If it isn’t
+            enabled, we’ll sort your VA facilities using your home address
+            that’s on file.
+          </p>
+        </InfoAlert>
       )}
       {requestingLocation && (
         <div className="vads-u-padding-bottom--2">

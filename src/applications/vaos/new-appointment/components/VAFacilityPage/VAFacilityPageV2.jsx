@@ -16,6 +16,7 @@ import NoValidVAFacilities from './NoValidVAFacilitiesV2';
 import SingleFacilityEligibilityCheckMessage from './SingleFacilityEligibilityCheckMessage';
 import ResidentialAddress from './ResidentialAddress';
 import LoadingOverlay from '../../../components/LoadingOverlay';
+import InfoAlert from '../../../components/InfoAlert';
 import FacilitiesNotShown from './FacilitiesNotShown';
 import SingleFacilityAvailable from './SingleFacilityAvailable';
 import { lowerCase } from '../../../utils/formatters';
@@ -27,7 +28,6 @@ import {
   updateFormData,
   hideEligibilityModal,
 } from '../../redux/actions';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 const initialSchema = {
   type: 'object',
@@ -270,19 +270,18 @@ export default function VAFacilityPageV2() {
         )}
       {requestLocationStatus === FETCH_STATUS.failed && (
         <div className="vads-u-padding-bottom--3">
-          <AlertBox
+          <InfoAlert
             status="warning"
             headline="Your browser is blocked from finding your current location."
-            className="vads-u-background-color--gold-lightest vads-u-font-size--base"
+            classes="vads-u-background-color--gold-lightest vads-u-font-size--base"
             level="3"
-            content={
-              <p>
-                Make sure your browser’s location feature is turned on. If it
-                isn’t enabled, we’ll sort your VA facilities using your home
-                address that’s on file.
-              </p>
-            }
-          />
+          >
+            <p>
+              Make sure your browser’s location feature is turned on. If it
+              isn’t enabled, we’ll sort your VA facilities using your home
+              address that’s on file.
+            </p>
+          </InfoAlert>
         </div>
       )}
       {requestingLocation && (

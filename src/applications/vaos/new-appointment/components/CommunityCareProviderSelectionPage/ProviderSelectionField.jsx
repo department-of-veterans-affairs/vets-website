@@ -14,7 +14,7 @@ import RemoveProviderModal from './RemoveProviderModal';
 import recordEvent from 'platform/monitoring/record-event';
 import NoProvidersAlert from './NoProvidersAlert';
 import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import InfoAlert from '../../../components/InfoAlert';
 
 const INITIAL_PROVIDER_DISPLAY_COUNT = 5;
 
@@ -253,31 +253,29 @@ function ProviderSelectionField({
                 </p>
                 <ResidentialAddress address={address} />
                 <div id="providerSelectionBlockedLocation">
-                  <AlertBox
+                  <InfoAlert
                     status="warning"
                     headline="Your browser is blocked from finding your current location."
-                    className="vads-u-background-color--gold-lightest vads-u-font-size--base"
+                    classes="vads-u-background-color--gold-lightest vads-u-font-size--base"
                     level="3"
-                    content={
-                      <>
-                        <p>
-                          Make sure your browser’s location feature is turned
-                          on.
-                        </p>
+                  >
+                    <>
+                      <p>
+                        Make sure your browser’s location feature is turned on.
+                      </p>
 
-                        <button
-                          className="va-button-link"
-                          onClick={() =>
-                            updateCCProviderSortMethod(
-                              FACILITY_SORT_METHODS.distanceFromCurrentLocation,
-                            )
-                          }
-                        >
-                          Retry searching based on current location
-                        </button>
-                      </>
-                    }
-                  />
+                      <button
+                        className="va-button-link"
+                        onClick={() =>
+                          updateCCProviderSortMethod(
+                            FACILITY_SORT_METHODS.distanceFromCurrentLocation,
+                          )
+                        }
+                      >
+                        Retry searching based on current location
+                      </button>
+                    </>
+                  </InfoAlert>
                 </div>
               </>
             )}

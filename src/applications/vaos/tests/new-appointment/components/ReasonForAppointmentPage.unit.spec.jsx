@@ -107,9 +107,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect(textBox.value).to.equal('   ');
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
-    );
+    expect(await screen.findByText('Please provide a response')).to.be.ok;
   });
 
   it('should show alternate textbox char length if navigated via direct schedule flow', async () => {
@@ -155,9 +153,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
-    );
+    expect(await screen.findByText('Please provide a response')).to.be.ok;
   });
 
   it('should continue to the correct page based on type choice for VA medical request', async () => {

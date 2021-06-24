@@ -182,7 +182,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     );
 
     // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
+    const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
     expect(alert).contain.text('2360 East Pershing Boulevard');
     expect(alert).contain.text('Cheyenne, WY 82001-5356');
@@ -233,7 +233,7 @@ describe('VAOS vaccine flow <ReviewPage>', () => {
     expect(screen.baseElement).contain.text('you’ll need to start over');
 
     // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
+    const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
     expect(alert).contain.text('2360 East Pershing Boulevard');
     expect(alert).contain.text('Cheyenne, WY 82001-5356');

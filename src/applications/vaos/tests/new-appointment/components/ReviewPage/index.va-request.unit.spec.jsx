@@ -253,7 +253,7 @@ describe('VAOS <ReviewPage> VA request', () => {
     await screen.findByText('307-778-7550');
 
     // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
+    const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
     expect(alert).contain.text('2360 East Pershing Boulevard');
     expect(alert).contain.text('Cheyenne, WY 82001-5356');
@@ -524,7 +524,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       }),
     );
 
-    const alert = document.querySelector('.usa-alert-error');
+    const alert = document.querySelector('va-alert');
     expect(within(alert).getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
     expect(alert).to.contain.text('Cheyenne, WY');
     expect(within(alert).getByText(/82001-5356/)).to.be.ok;
