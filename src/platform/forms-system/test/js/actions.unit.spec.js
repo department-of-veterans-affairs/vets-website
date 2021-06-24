@@ -323,7 +323,7 @@ describe('Schemaform actions:', () => {
             name: 'jpg',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too big. ' +
-              `Please delete this file. Then upload a file that\u2019s 5B or less.`,
+              `Please make sure the file is 5B or less and try again.`,
           });
           done();
         },
@@ -357,7 +357,7 @@ describe('Schemaform actions:', () => {
             name: 'pdf',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too big. ' +
-              `Please delete this file. Then upload a file that\u2019s 5B or less.`,
+              `Please make sure the file is 5B or less and try again.`,
           });
           done();
         },
@@ -391,7 +391,7 @@ describe('Schemaform actions:', () => {
             name: 'jpg',
             errorMessage:
               'We couldn\u2019t upload your file because it\u2019s too small. ' +
-              `Please delete this file. Then upload a file that\u2019s 5B or more.`,
+              `Please make sure the file is 5B or more and try again.`,
           });
           done();
         },
@@ -423,7 +423,7 @@ describe('Schemaform actions:', () => {
           expect(onChange.firstCall.args[0]).to.eql({
             errorMessage:
               'We couldn’t upload your file because we can’t accept this type of file. ' +
-              'Please delete the file. Then try again with a .jpeg file.',
+              'Please make sure the file is a .jpeg file and try again.',
             name: 'jpg',
           });
           done();
@@ -456,7 +456,7 @@ describe('Schemaform actions:', () => {
           expect(onChange.firstCall.args[0]).to.eql({
             errorMessage:
               'We couldn’t upload your file because we can’t accept this type of file. ' +
-              'Please delete the file. Then try again with a .jpeg, .pdf, or .img file.',
+              'Please make sure the file is a .jpeg, .pdf, or .img file and try again.',
             name: 'jpg',
           });
           done();
@@ -639,7 +639,6 @@ describe('Schemaform actions:', () => {
       thunk(dispatch, getState);
 
       requests[0].error();
-
       expect(onChange.firstCall.args[0]).to.eql({
         name: 'jpg',
         uploading: true,
@@ -647,7 +646,11 @@ describe('Schemaform actions:', () => {
       expect(onChange.secondCall.args[0]).to.eql({
         name: 'jpg',
         errorMessage:
-          'We’re sorry. We had a connection problem. Please delete the file and try again.',
+          'We’re sorry. We had a connection problem. Please try again.',
+        file: {
+          name: 'jpg',
+          size: 0,
+        },
       });
     });
     it('should set error if error message is bad', () => {
