@@ -405,7 +405,8 @@ export function transformConfirmedAppointment(appt) {
   const videoData = setVideoData(appt);
   return {
     resourceType: 'Appointment',
-    id: appt.id,
+    // Temporary fix until https://issues.mobilehealth.va.gov/browse/VAOSR-2058 is complete
+    id: appt.id || appt.vvsAppointments[0].id,
     status: getConfirmedStatus(appt, isPast),
     description: getVistaStatus(appt),
     start,
