@@ -145,7 +145,7 @@ describe('VAOS <VAFacilityPageV2> single facility', () => {
     );
 
     expect(baseElement).to.contain.text('San Diego VA Medical Center');
-    expect(baseElement).to.contain.text('San Diego, CA');
+    expect(baseElement).to.contain.text('San Diego, CaliforniaCA');
 
     fireEvent.click(await findByText(/Continue/));
     await waitFor(() =>

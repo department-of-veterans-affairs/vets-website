@@ -793,6 +793,12 @@ export class Modals extends React.Component {
       </div>
     );
 
+    const inStateTuitionInformation = this.props.profile.attributes.inStateTuitionInformation?.startsWith(
+      'http',
+    )
+      ? this.props.profile.attributes.inStateTuitionInformation
+      : `http://${this.props.profile.attributes.inStateTuitionInformation}`;
+
     return (
       <span>
         <Modal
@@ -997,6 +1003,38 @@ export class Modals extends React.Component {
             Apprenticeship? Beneficiaries working less than 120 hours/month (or
             approximately 30 hours/week) receive a prorated monthly housing
             allowance.
+          </p>
+        </Modal>
+
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('inStateWithoutLink')}
+        >
+          <h3>Qualifying for in-state tuition</h3>
+          <p>
+            If you're using GI Bill education benefits, you probably qualify for
+            in-state tuition.
+          </p>
+          <p>
+            Contact the School Certifying Official (SCO) to learn more about
+            this school's in-state tuition requirements.
+          </p>
+        </Modal>
+
+        <Modal
+          onClose={this.props.hideModal}
+          visible={this.shouldDisplayModal('inStateWithLink')}
+        >
+          <h3>Qualifying for in-state tuition</h3>
+          <p>
+            If you're using GI Bill education benefits, you probably qualify for
+            in-state tuition.
+          </p>
+          <p>
+            Visit this school's website to{' '}
+            <a href={inStateTuitionInformation}>
+              see any in-state tuition requirements.
+            </a>
           </p>
         </Modal>
       </span>
