@@ -6,23 +6,23 @@ import { goToNextPageWithToken, getTokenFromRouter } from '../utils/navigation';
 import { validateToken } from '../api';
 
 const Landing = props => {
-  const onComponentLoad = async router => {
-    const token = getTokenFromRouter(router);
-    if (token) {
-      const json = await validateToken(token);
-      if (json.appointment) {
-        goToNextPageWithToken(router, 'insurance');
-      } else {
-        goToNextPageWithToken(router, 'failed');
-      }
-    }
-  };
+  const { router } = props;
 
   useEffect(
     () => {
-      onComponentLoad(props.router);
+      const token = getTokenFromRouter(router);
+      if (token) {
+        validateToken(token).then(json => {
+          const { data } = json;
+          if (data.isValid) {
+            goToNextPageWithToken(router, 'insurance');
+          } else {
+            goToNextPageWithToken(router, 'failed');
+          }
+        });
+      }
     },
-    [props.router],
+    [router],
   );
   return (
     <>

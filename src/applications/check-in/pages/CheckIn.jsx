@@ -2,15 +2,17 @@ import React from 'react';
 
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { goToNextPageWithToken } from '../utils/navigation';
+import { goToNextPageWithToken, getTokenFromRouter } from '../utils/navigation';
 
 import { checkInUser } from '../api';
 
 const CheckIn = props => {
   const { router } = props;
+  const token = getTokenFromRouter(router);
   const onClick = async () => {
-    const json = await checkInUser({ some: 'data' });
-    if (json.success) {
+    const json = await checkInUser({ some: 'data', token });
+    const { data } = json;
+    if (data.status === 'checked-in') {
       goToNextPageWithToken(router, 'confirmed');
     } else {
       goToNextPageWithToken(router, 'failed');
