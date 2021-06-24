@@ -191,3 +191,58 @@ jobs:
 
       - name: Create report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
+
+      - name: Save Mochawesome report as artifact
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: mochawesome-report
+          path: mochawesome-report/
+
+      - name: Checkout Test Reports repo
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/testing-reports
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: testing-reports
+
+      - name: Download report artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results-artifact-1
+          path: testing-reports/cypress-reports
+
+      - name: Download test result artifact 1
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results-artifact-1
+          path: testing-reports/cypress-reports/videos/${{steps.generate-uuid.outputs.uuid}}/applications
+
+      - name: Download test result artifact 2
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results-artifact-2
+          path: testing-reports/cypress-reports/videos/${{steps.generate-uuid.outputs.uuid}}/applications
+
+      - name: Download test result artifact 3
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results-artifact-3
+          path: testing-reports/cypress-reports/videos/${{steps.generate-uuid.outputs.uuid}}/applications
+
+      - name: Download test result artifact 4
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results-artifact-4
+          path: testing-reports/cypress-reports/videos/${{steps.generate-uuid.outputs.uuid}}/applications
+
+      - name: Download test result artifact 5
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-mochawesome-test-results-artifact-5
+          path: testing-reports/cypress-reports/videos/${{steps.generate-uuid.outputs.uuid}}/applications
+
+      - name: Commit & Push changes
+        #uses: actions-js/push@master
+        #with:
+        #github_token: ${{ secrets.GITHUB_TOKEN }}
