@@ -61,6 +61,8 @@ export default function FacilitiesRadioWidget({
           sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
         ) {
           distance = legacyVAR?.distanceFromCurrentLocation;
+        } else {
+          distance = legacyVAR?.distanceFromResidentialAddress;
         }
         const facilityPosition = i + 1;
 

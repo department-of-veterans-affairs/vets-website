@@ -19,6 +19,7 @@ import { getSiteIdFromFacilityId } from '../../services/location';
 import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
+  selectFeatureVariantTesting,
   selectUseProviderSelection,
   selectRegisteredCernerFacilityIds,
 } from '../../redux/selectors';
@@ -259,6 +260,7 @@ export function getFacilityPageV2Info(state) {
     sortMethod: facilityPageSortMethod,
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
+    showVariant: selectFeatureVariantTesting(state),
   };
 }
 
