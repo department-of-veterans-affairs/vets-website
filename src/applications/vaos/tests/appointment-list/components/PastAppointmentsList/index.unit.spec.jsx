@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   getVAAppointmentMock,
   getVAFacilityMock,
@@ -12,6 +13,7 @@ import {
   mockPastAppointmentInfo,
   mockPastAppointmentInfoOption1,
   mockFacilitiesFetch,
+  mockFacilitiesFetchError,
 } from '../../../mocks/helpers';
 import { renderWithStoreAndRouter } from '../../../mocks/setup';
 
@@ -28,7 +30,11 @@ const initialState = {
 
 const pastDate = moment().subtract(3, 'days');
 
-describe('VAOS integration: past appointments', () => {
+describe('VAOS <PastAppointmentsList>', () => {
+  beforeEach(() => {
+    mockFetch();
+    mockFacilitiesFetch();
+  });
   it('should show select date range dropdown', async () => {
     mockPastAppointmentInfo({ va: [] });
 
@@ -96,6 +102,7 @@ describe('VAOS integration: past appointments', () => {
     appointment.attributes.vdsAppointments[0].bookingNote = 'Bring face mask';
 
     mockPastAppointmentInfo({ va: [appointment] });
+    mockFacilitiesFetchError('vha_442GC');
     const {
       findByText,
       baseElement,
@@ -182,7 +189,7 @@ describe('VAOS integration: past appointments', () => {
     expect(baseElement).to.contain.text('Some clinic');
     expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
-    expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(baseElement).to.contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(baseElement).to.contain.text('307-778-7550');
     expect(baseElement.querySelector('h4')).to.be.ok;
   });

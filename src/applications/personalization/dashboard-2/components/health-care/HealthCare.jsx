@@ -199,6 +199,7 @@ const HealthCare = ({
           <IconCTALink
             href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
             icon="file-medical"
+            newTab
             text="Get your VA medical records"
             onClick={() => {
               recordEvent({

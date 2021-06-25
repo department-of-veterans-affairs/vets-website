@@ -4,7 +4,6 @@ import URLSearchParams from 'url-search-params';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -25,6 +24,7 @@ import { selectRequestedAppointmentDetails } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './AppointmentsPage/PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
+import InfoAlert from '../../components/InfoAlert';
 import {
   startAppointmentCancel,
   closeCancelAppointment,
@@ -135,8 +135,7 @@ export default function RequestedAppointmentDetailsPage() {
   const facility = facilityData?.[facilityId];
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const provider =
-    appointment.preferredCommunityCareProviders?.[0] || appointment.provider;
+  const provider = appointment.preferredCommunityCareProviders?.[0];
   const comment = message || appointment.comment;
   const apptDetails = comment
     ? `${appointment.reason}: ${comment}`
@@ -153,20 +152,12 @@ export default function RequestedAppointmentDetailsPage() {
       </h1>
       {!showConfirmMsg &&
         !canceled && (
-          <AlertBox
-            status="info"
-            className="vads-u-display--block vads-u-margin-bottom--2"
-            backgroundOnly
-          >
+          <InfoAlert backgroundOnly status="info">
             The time and date of this appointment are still to be determined.
-          </AlertBox>
+          </InfoAlert>
         )}
       {showConfirmMsg && (
-        <AlertBox
-          status={canceled ? 'error' : 'success'}
-          className="vads-u-display--block vads-u-margin-bottom--2"
-          backgroundOnly
-        >
+        <InfoAlert backgroundOnly status={canceled ? 'error' : 'success'}>
           {canceled && 'This request has been canceled'}
           {!canceled && (
             <>
@@ -201,7 +192,7 @@ export default function RequestedAppointmentDetailsPage() {
               </div>
             </>
           )}
-        </AlertBox>
+        </InfoAlert>
       )}
       {!isCCRequest && (
         <>

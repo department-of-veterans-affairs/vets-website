@@ -39,9 +39,8 @@ export const uiSchema = {
   },
   // prod flag 24612
   schoolName: {
-    'ui:title': environment.isProduction()
-      ? 'What’s the name of the school where you plan on using the Rogers STEM Scholarship?'
-      : 'What’s the name of the school or training institution where you plan on using the Rogers STEM Scholarship?',
+    'ui:title':
+      'What’s the name of the school or training institution where you plan on using the Rogers STEM Scholarship?',
   },
   schoolCity: {
     'ui:title': 'City',
@@ -56,18 +55,15 @@ export const uiSchema = {
     },
   },
   schoolStudentId: {
-    'ui:title': environment.isProduction()
-      ? 'Your school student ID number'
-      : 'Your student ID number',
+    'ui:title': 'Your student ID number',
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },
   },
   schoolEmailAddress: {
     ...emailUI(),
-    'ui:title': environment.isProduction()
-      ? 'Your school email address (This email address usually ends with .edu)'
-      : 'Your student email address (This email address usually ends with .edu)',
+    'ui:title':
+      'Your student email address (This email address usually ends with .edu)',
   },
   'view:stemApplicantSco': {
     'ui:description': environment.isProduction() ? null : stemApplicantSco,

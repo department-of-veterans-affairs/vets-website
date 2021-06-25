@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { focusElement } from 'platform/utilities/ui';
 import * as actions from '../../redux/actions';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
@@ -11,6 +10,7 @@ import { FETCH_STATUS, APPOINTMENT_TYPES } from '../../../utils/constants';
 import { selectPastAppointments } from '../../redux/selectors';
 import ConfirmedAppointmentListItem from '../cards/confirmed/ConfirmedAppointmentListItem';
 import PastAppointmentsDateDropdown from './PastAppointmentsDateDropdown';
+import InfoAlert from '../../../components/InfoAlert';
 
 export function getPastAppointmentDateRangeOptions(today = moment()) {
   const startOfToday = today.clone().startOf('day');
@@ -159,10 +159,13 @@ function PastAppointmentsList({
     );
   } else if (pastStatus === FETCH_STATUS.failed) {
     content = (
-      <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
+      <InfoAlert
+        status="error"
+        headline="We’re sorry. We’ve run into a problem"
+      >
         We’re having trouble getting your past appointments. Please try again
         later.
-      </AlertBox>
+      </InfoAlert>
     );
   } else {
     content = (

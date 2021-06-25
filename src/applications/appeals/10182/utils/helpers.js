@@ -37,12 +37,19 @@ export const showAddIssueQuestion = ({ contestableIssues }) =>
   // selected or, there are no contestable issues
   contestableIssues?.length ? someSelected(contestableIssues) : false;
 
-export const getSelected = ({ contestableIssues, additionalIssues } = {}) =>
-  (contestableIssues || [])
-    .filter(issue => issue[SELECTED])
-    .concat((additionalIssues || []).filter(issue => issue[SELECTED]))
-    // include index to help with error messaging
-    .map((issue, index) => ({ ...issue, index }));
+export const getSelected = formData => {
+  const eligibleIssues = (formData?.contestableIssues || []).filter(
+    issue => issue[SELECTED],
+  );
+  const addedIssues = formData['view:hasIssuesToAdd']
+    ? (formData?.additionalIssues || []).filter(issue => issue[SELECTED])
+    : [];
+  // include index to help with error messaging
+  return [...eligibleIssues, ...addedIssues].map((issue, index) => ({
+    ...issue,
+    index,
+  }));
+};
 
 export const getIssueName = (entry = {}) =>
   entry.issue || entry.attributes?.ratingIssueSubjectText;

@@ -290,16 +290,7 @@ export function checkEligibility({ location, showModal }) {
         showModal,
       });
 
-      try {
-        if (!eligibility.direct && !eligibility.request) {
-          const thunk = fetchFacilityDetails(location.id);
-          await thunk(dispatch, getState);
-        }
-
-        return eligibility;
-      } catch (e) {
-        captureError(e);
-      }
+      return eligibility;
     } catch (e) {
       captureError(e, false, 'facility page');
       dispatch({

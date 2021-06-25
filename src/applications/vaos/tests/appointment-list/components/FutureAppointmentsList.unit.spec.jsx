@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
 import environment from 'platform/utilities/environment';
-import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import {
   getVARequestMock,
   getVAFacilityMock,
@@ -20,7 +20,11 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: pending appointments', () => {
+describe('VAOS <AppointmentsPage> pending appointments', () => {
+  beforeEach(() => {
+    mockFetch();
+    mockFacilitiesFetch();
+  });
   describe('for va', () => {
     it('should show information with basic facility info', async () => {
       const appointment = getVARequestMock();
@@ -151,7 +155,7 @@ describe('VAOS integration: pending appointments', () => {
       );
       expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
       expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
-      expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+      expect(baseElement).to.contain.text('Cheyenne, WyomingWY 82001-5356');
       expect(baseElement).to.contain.text('307-778-7550');
       expect(baseElement.querySelector('h4')).to.be.ok;
     });
