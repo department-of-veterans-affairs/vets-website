@@ -144,7 +144,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Pending primary care appointment',
     );
-    expect(screen.baseElement).to.contain.text('VA Appointment');
+    expect(screen.baseElement).to.contain.text('VA appointment');
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('2360 East Pershing Boulevard');
     expect(screen.baseElement).to.contain.text(
@@ -694,7 +694,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.baseElement).to.contain.text(
       'Pending primary care appointment',
     );
-    expect(screen.baseElement).to.contain.text('VA Appointment');
+    expect(screen.baseElement).to.contain.text('VA appointment');
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('2360 East Pershing Boulevard');
     expect(screen.baseElement).to.contain.text(
