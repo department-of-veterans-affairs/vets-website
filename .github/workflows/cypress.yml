@@ -208,6 +208,12 @@ jobs:
       run:
         working-directory: testing-reports
     steps:
+      - name: Obtain GitHub Token
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
       - name: Checkout Test Reports repo
         uses: actions/checkout@v2
         with:
