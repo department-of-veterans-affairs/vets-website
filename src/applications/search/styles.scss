@@ -120,19 +120,24 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 4rem;
+    margin-bottom: 1rem;
 
     @include media($medium-screen) {
       flex-direction: row;
+      margin-bottom: 4rem;
     }
 
     .powered-by {
       font-weight: bold;
-      margin: 1rem 0 3rem;
+      margin: 1rem 0 0;
 
       @include media($small-screen) {
         margin: unset;
       }
+      @include media($medium-screen) {
+        margin: 1rem 0 3rem;
+      }
+
     }
 
     .va-pagination {
