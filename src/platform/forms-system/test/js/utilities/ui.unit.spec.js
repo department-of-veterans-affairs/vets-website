@@ -79,12 +79,9 @@ describe('focus on change', () => {
     global.document = dom;
     const target = '.edit-btn';
     const focused = sinon.stub(dom.querySelector(target), 'focus');
-    focusOnChange('test', target);
-
-    // setTimeout used by focusOnChange function
-    setTimeout(() => {
+    focusOnChange('test', target).then(() => {
       expect(focused.calledOnce).to.be.true;
       done();
-    }, 0);
+    });
   });
 });

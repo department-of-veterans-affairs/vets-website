@@ -19,12 +19,16 @@ export function focusElement(selectorOrElement, options) {
 
 // Set focus on target _after_ the content has been updated
 export function focusOnChange(name, target = '.edit-btn') {
-  setTimeout(() => {
-    const selector = `[name="${name}ScrollElement"]`;
-    const el = document.querySelector(selector);
-    // nextElementSibling = page form
-    const focusTarget = el?.nextElementSibling?.querySelector(target);
-    focusElement(focusTarget);
+  // This promise is only here to avoid another setTimeout() in the unit test
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const selector = `[name="${name}ScrollElement"]`;
+      const el = document.querySelector(selector);
+      // nextElementSibling = page form
+      const focusTarget = el?.nextElementSibling?.querySelector(target);
+      focusElement(focusTarget);
+      resolve();
+    });
   });
 }
 
