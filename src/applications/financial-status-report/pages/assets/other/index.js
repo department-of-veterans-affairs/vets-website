@@ -9,6 +9,9 @@ export const uiSchema = {
       'ui:options': {
         classNames: 'no-wrap',
       },
+      'ui:errorMessages': {
+        required: 'Please enter your other assets information.',
+      },
     },
   },
 };
