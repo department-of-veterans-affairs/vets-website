@@ -196,7 +196,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
-          name: mochawesome-report
+          name: mochawesome-generated-report
           path: mochawesome-report/
 
   publish-mochawesome-report:
@@ -231,7 +231,7 @@ jobs:
       - name: Download report artifact
         uses: actions/download-artifact@v2
         with:
-          name: mochawesome-report
+          name: mochawesome-generated-report
           path: testing-reports/cypress-reports
 
       - name: Download test result artifact 1
