@@ -30,7 +30,6 @@ export default function InfoAlert({
   if (backgroundOnly) {
     return (
       <div
-        // className={`usa-alert usa-alert-${status} background-color-only vads-u-display--block ${className}`}
         className={classnames(
           `usa-alert usa-alert-${status} background-color-only vads-u-display--block`,
           className,

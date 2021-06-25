@@ -40,7 +40,7 @@ export default function ReviewPage() {
   useEffect(
     () => {
       if (submitStatus === FETCH_STATUS.failed) {
-        scrollAndFocus('.usa-alert-error');
+        scrollAndFocus('.info-alert');
       }
     },
     [submitStatus],
@@ -120,7 +120,7 @@ export default function ReviewPage() {
         </LoadingButton>
       </div>
       {submitStatus === FETCH_STATUS.failed && (
-        <div role="alert">
+        <div className="info-alert">
           <InfoAlert
             status="error"
             headline="We couldn’t schedule this appointment"
