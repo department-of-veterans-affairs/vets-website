@@ -213,9 +213,7 @@ export class SearchResults extends Component {
           <span role="text">
             <span>Displaying {resultsStartNumber}</span>
             <span className="vads-u-visibility--screen-reader">through</span>
-            <span aria-hidden="true" role="presentation">
-              &ndash;
-            </span>
+            <span aria-hidden="true">&ndash;</span>
             <span>
               {resultsEndNumber} of {totalResults} results
             </span>
