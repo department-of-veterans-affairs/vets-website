@@ -271,4 +271,3 @@ jobs:
         uses: actions-js/push@master
         with:
           github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          repository: testing-reports
