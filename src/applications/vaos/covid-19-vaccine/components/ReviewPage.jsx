@@ -120,7 +120,7 @@ export default function ReviewPage() {
         </LoadingButton>
       </div>
       {submitStatus === FETCH_STATUS.failed && (
-        <div className="info-alert">
+        <div className="info-alert" role="alert">
           <InfoAlert
             status="error"
             headline="We couldn’t schedule this appointment"
