@@ -28,12 +28,12 @@ const ProfilePageHeader = ({
   dispatchAddCompareInstitution,
   dispatchRemoveCompareInstitution,
   institution,
-  gibctSchoolRatings,
   dispatchShowModal,
 }) => {
   const [expanded, toggleExpansion] = useState(false);
   const {
     type,
+    name,
     physicalCity,
     physicalState,
     physicalCountry,
@@ -106,8 +106,7 @@ const ProfilePageHeader = ({
   );
 
   const stars = convertRatingToStars(ratingAverage);
-  const displayStars =
-    gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
+  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   const titleClasses = classNames({
     'vads-u-margin-bottom--0': displayStars,
@@ -155,7 +154,7 @@ const ProfilePageHeader = ({
           <button
             type="button"
             className="va-button-link learn-more-button"
-            onClick={() => dispatchShowModal('accredited')}
+            onClick={() => dispatchShowModal('typeAccredited')}
             aria-label={ariaLabels.learnMore.numberOfStudents}
           >
             Learn more

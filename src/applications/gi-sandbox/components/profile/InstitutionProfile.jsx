@@ -42,7 +42,6 @@ export class InstitutionProfile extends React.Component {
       constants,
       showModal,
       gibctEybBottomSheet,
-      gibctSchoolRatings,
     } = this.props;
 
     const stars = convertRatingToStars(profile.attributes.ratingAverage);
@@ -53,10 +52,7 @@ export class InstitutionProfile extends React.Component {
 
     return (
       <div className="institution-profile">
-        <ProfilePageHeader
-          institution={profile.attributes}
-          gibctSchoolRatings={gibctSchoolRatings}
-        />
+        <ProfilePageHeader institution={profile.attributes} />
         <div className="usa-accordion vads-u-margin-top--4">
           <ul>
             <AccordionItem button="Estimate your benefits">
