@@ -270,6 +270,9 @@ jobs:
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          repository: department-of-veterans-affairs/testing-reports
+          github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          repository: testing-reports
           directory: testing-reports
+
+      - name: Access Report
+        run: echo "[See Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }}.html)"
