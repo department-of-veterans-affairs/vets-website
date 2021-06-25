@@ -422,7 +422,7 @@ describe('Schemaform actions:', () => {
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
             errorMessage:
-              'We couldn’t upload your file because we can’t accept this type of file. ' +
+              'We couldn\u2019t upload your file because we can\u2019t accept this type of file. ' +
               'Please make sure the file is a .jpeg file and try again.',
             name: 'jpg',
           });
@@ -455,7 +455,7 @@ describe('Schemaform actions:', () => {
         () => {
           expect(onChange.firstCall.args[0]).to.eql({
             errorMessage:
-              'We couldn’t upload your file because we can’t accept this type of file. ' +
+              'We couldn\u2019t upload your file because we can\u2019t accept this type of file. ' +
               'Please make sure the file is a .jpeg, .pdf, or .img file and try again.',
             name: 'jpg',
           });
@@ -646,7 +646,7 @@ describe('Schemaform actions:', () => {
       expect(onChange.secondCall.args[0]).to.eql({
         name: 'jpg',
         errorMessage:
-          'We’re sorry. We had a connection problem. Please try again.',
+          'We\u2019re sorry. We had a connection problem. Please try again.',
         file: {
           name: 'jpg',
           size: 0,
