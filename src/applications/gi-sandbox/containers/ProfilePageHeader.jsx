@@ -153,6 +153,7 @@ const ProfilePageHeader = ({
           {_.capitalize(accreditationType)} Accreditation (
           <button
             type="button"
+            id="typeAccredited-button"
             className="va-button-link learn-more-button"
             onClick={() => dispatchShowModal('typeAccredited')}
             aria-label={ariaLabels.learnMore.numberOfStudents}
