@@ -199,7 +199,18 @@ jobs:
           name: mochawesome-report
           path: mochawesome-report/
 
-      - name: Checkout Test Reports repo
+
+
+  publish-mochawesome-report:
+    if: ${{ always() }}
+    needs: mochawesome-report
+    name: Publish Mochawesome Report
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: testing-reports
+    steps:
+        - name: Checkout Test Reports repo
         uses: actions/checkout@v2
         with:
           repository: department-of-veterans-affairs/testing-reports
@@ -209,38 +220,38 @@ jobs:
       - name: Download report artifact
         uses: actions/download-artifact@v2
         with:
-          name: cypress-mochawesome-test-results-artifact-1
+          name: mochawesome-report
           path: testing-reports/cypress-reports
 
       - name: Download test result artifact 1
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-1
-          path: testing-reports/cypress-reports/videos/${{steps.generate-uuid.outputs.uuid}}/applications
+          path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
       - name: Download test result artifact 2
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-2
-          path: testing-reports/cypress-reports/videos/${{steps.generate-uuid.outputs.uuid}}/applications
+          path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
       - name: Download test result artifact 3
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-3
-          path: testing-reports/cypress-reports/videos/${{steps.generate-uuid.outputs.uuid}}/applications
+          path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
       - name: Download test result artifact 4
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-4
-          path: testing-reports/cypress-reports/videos/${{steps.generate-uuid.outputs.uuid}}/applications
+          path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
       - name: Download test result artifact 5
         uses: actions/download-artifact@v2
         with:
           name: cypress-mochawesome-test-results-artifact-5
-          path: testing-reports/cypress-reports/videos/${{steps.generate-uuid.outputs.uuid}}/applications
+          path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
       - name: Add, Commit & Push changes
         run: |
@@ -248,4 +259,4 @@ jobs:
           git config --global user.name 'Curt Bonade'
           git config --global user.email 'cbonade@oddball.io'
           git commit -am "Add Report ${{steps.generate-uuid.outputs.uuid}} and associated videos"
-          git push origin master
+          git push
