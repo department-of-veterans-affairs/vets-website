@@ -56,3 +56,11 @@ export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
     },
   ).then(parseApiList);
 }
+
+export function getFacilities(ids, children = false) {
+  return apiRequestWithUrl(
+    `/vaos/v2/facilities?children=${children}&${ids
+      .map(id => `ids[]=${id}`)
+      .join('&')}`,
+  ).then(parseApiList);
+}

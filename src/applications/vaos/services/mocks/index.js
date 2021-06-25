@@ -26,7 +26,6 @@ const generateMockSlots = require('./var/slots.js');
 
 // v2
 const requestsV2 = require('./v2/requests.json');
-const parentFacilitiesV2 = require('./v2/parent_facilities.json');
 const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
@@ -320,6 +319,7 @@ const responses = {
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
+        { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },
