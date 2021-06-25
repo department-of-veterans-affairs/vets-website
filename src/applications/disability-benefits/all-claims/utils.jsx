@@ -858,23 +858,6 @@ export const getFormUrl = (formData, isPrefill) =>
 /**
  * Navigates to the appropriate form (v1 or v2) based on the saved data.
  */
-export const directToCorrectForm = ({
-  formData,
-  savedForms,
-  returnUrl,
-  formConfig,
-  router,
-}) => {
-  // If we can find the form in the savedForms array, it's not pre-filled
-  const isPrefill = !savedForms.find(form => form.form === formConfig.formId);
-  const baseUrl = getFormUrl(formData, isPrefill);
-  if (!isPrefill && !window.location.pathname.includes(baseUrl)) {
-    // Redirect to the other app
-    window.location.assign(`${baseUrl}/resume`);
-  } else {
-    router.push(returnUrl);
-  }
-};
 
 export const claimingRated = formData =>
   formData?.ratedDisabilities?.some(d => d['view:selected']);

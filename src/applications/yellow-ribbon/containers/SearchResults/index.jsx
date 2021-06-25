@@ -209,12 +209,15 @@ export class SearchResults extends Component {
           className="va-introtext va-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
           data-display-results-header
         >
-          Displaying {resultsStartNumber}
-          <span className="vads-u-visibility--screen-reader">through</span>
-          <span aria-hidden="true" role="presentation">
-            &ndash;
+          {/* eslint-disable-next-line jsx-a11y/aria-role */}
+          <span role="text">
+            <span>Displaying {resultsStartNumber}</span>
+            <span className="vads-u-visibility--screen-reader">through</span>
+            <span aria-hidden="true">&ndash;</span>
+            <span>
+              {resultsEndNumber} of {totalResults} results
+            </span>
           </span>
-          {resultsEndNumber} of {totalResults} results
         </h2>
         <va-alert
           onClose={toggleAlertToolTip}
