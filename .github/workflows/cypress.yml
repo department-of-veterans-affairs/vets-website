@@ -197,7 +197,7 @@ jobs:
         if: ${{ always() }}
         with:
           name: mochawesome-generated-report
-          path: mochawesome-report
+          path: testing-tools-team-dashboard-data/mochawesome-report
 
   publish-mochawesome-report:
     if: ${{ always() }}
