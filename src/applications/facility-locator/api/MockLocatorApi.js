@@ -107,7 +107,10 @@ class MockLocatorApi {
               locationsData = emergencyCareData.data;
             }
             if (serviceType === Object.keys(emergencyCareServices)[1]) {
-              locationsData = emergencyCareData.data;
+              locationsData = emergencyCareData.data.slice(0, 3);
+            }
+            if (serviceType === Object.keys(emergencyCareServices)[2]) {
+              locationsData = [emergencyCareData.data[3]];
             }
           } else {
             locationsData = locations.data.filter(

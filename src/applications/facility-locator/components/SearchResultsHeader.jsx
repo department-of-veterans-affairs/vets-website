@@ -5,8 +5,9 @@ import {
   urgentCareServices,
   healthServices,
   benefitsServices,
+  emergencyCareServices,
 } from '../config';
-import { LocationType } from '../constants';
+import { EMERGENCY_CARE_SERVICES, LocationType } from '../constants';
 import { connect } from 'react-redux';
 
 export const SearchResultsHeader = ({
@@ -29,6 +30,13 @@ export const SearchResultsHeader = ({
         return urgentCareServices.AllUrgentCare;
       }
       return urgentCareServices[rawServiceType];
+    }
+
+    if (facilityType === LocationType.EMERGENCY_CARE) {
+      if (!rawServiceType) {
+        return emergencyCareServices.AllEmergencyCare;
+      }
+      return emergencyCareServices[rawServiceType];
     }
 
     if (facilityType === LocationType.HEALTH) {
@@ -56,16 +64,19 @@ export const SearchResultsHeader = ({
 
   return (
     <div>
-      <div id="search-result-emergency-care-info">
-        <p className="search-result-emergency-care-subheader">
-          <strong>Note:</strong> If you think your life or health is in danger,
-          call{' '}
-          <a aria-label="9 1 1" href="tel:911">
-            911
-          </a>{' '}
-          or go to the nearest emergency department right away.
-        </p>
-      </div>
+      {facilityType === LocationType.EMERGENCY_CARE ||
+        (EMERGENCY_CARE_SERVICES.includes(serviceType) && (
+          <div id="search-result-emergency-care-info">
+            <p className="search-result-emergency-care-subheader">
+              <strong>Note:</strong> If you think your life or health is in
+              danger, call{' '}
+              <a aria-label="9 1 1" href="tel:911">
+                911
+              </a>{' '}
+              or go to the nearest emergency department right away.
+            </p>
+          </div>
+        ))}
       <h2
         id="search-results-subheader"
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
