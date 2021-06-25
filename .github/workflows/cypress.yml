@@ -197,7 +197,7 @@ jobs:
         if: ${{ always() }}
         with:
           name: mochawesome-generated-report
-          path: testing-tools-team-dashboard-data/mochawesome-report/*
+          path: testing-tools-team-dashboard-data/mochawesome-report/
 
   publish-mochawesome-report:
     if: ${{ always() }}
@@ -264,10 +264,11 @@ jobs:
           name: cypress-mochawesome-test-results-artifact-5
           path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
-      - name: Add, Commit & Push changes
-        run: |
-          git add .
-          git config --global user.name 'Curt Bonade'
-          git config --global user.email 'cbonade@oddball.io'
-          git commit -am "Add Report ${{steps.generate-uuid.outputs.uuid}} and associated videos"
-          git push
+      - name: Add changes
+        run: git add .
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          repository: 'testing-reports'
