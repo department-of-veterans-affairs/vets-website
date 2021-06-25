@@ -270,6 +270,6 @@ jobs:
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
-          github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           repository: department-of-veterans-affairs/testing-reports
           directory: testing-reports
