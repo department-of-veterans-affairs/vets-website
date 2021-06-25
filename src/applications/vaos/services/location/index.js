@@ -40,6 +40,7 @@ import {
 import {
   transformParentFacilitiesV2,
   transformFacilitiesV2,
+  transformSettingsV2,
 } from './transformers.v2';
 
 /**
@@ -150,7 +151,8 @@ export async function getLocation({ facilityId }) {
 export async function getLocationSettings({ siteIds, useV2 = false }) {
   try {
     if (useV2) {
-      return getSchedulingConfigurations(siteIds);
+      const settings = await getSchedulingConfigurations(siteIds);
+      return transformSettingsV2(settings);
     }
 
     const settings = await Promise.all([

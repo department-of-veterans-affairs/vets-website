@@ -1,4 +1,10 @@
-import { VHA_FHIR_ID } from '../../utils/constants';
+import {
+  AUDIOLOGY_TYPES_OF_CARE,
+  TYPES_OF_CARE,
+  TYPES_OF_EYE_CARE,
+  TYPES_OF_SLEEP_CARE,
+  VHA_FHIR_ID,
+} from '../../utils/constants';
 
 /**
  * Transforms a facility object from the MFS v2 facilities endpoint into our
@@ -68,4 +74,25 @@ export function transformParentFacilitiesV2(facilities) {
  */
 export function transformFacilitiesV2(facilities) {
   return facilities.map(transformFacility);
+}
+
+function getTypeOfCareIdFromV2(id) {
+  const allTypesOfCare = [
+    ...TYPES_OF_EYE_CARE,
+    ...TYPES_OF_SLEEP_CARE,
+    ...AUDIOLOGY_TYPES_OF_CARE,
+    ...TYPES_OF_CARE,
+  ];
+
+  return allTypesOfCare.find(care => care.idV2 === id)?.id;
+}
+
+export function transformSettingsV2(settings) {
+  return settings.map(setting => ({
+    ...setting,
+    services: setting.services.map(service => ({
+      ...service,
+      id: getTypeOfCareIdFromV2(service.id),
+    })),
+  }));
 }
