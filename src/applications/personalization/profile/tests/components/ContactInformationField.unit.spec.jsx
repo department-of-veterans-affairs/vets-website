@@ -85,7 +85,7 @@ describe('<ContactInformationField/>', () => {
   it('renders the edit link', () => {
     component = enzyme.shallow(<ContactInformationField {...props} />);
 
-    let editButton = component.find('[id="homePhone-edit-link"]');
+    let editButton = component.find('[id="edit-home-phone-number"]');
 
     const onEditClick = editButton.props().onClick;
     onEditClick();

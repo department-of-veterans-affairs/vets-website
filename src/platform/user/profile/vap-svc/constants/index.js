@@ -78,6 +78,18 @@ export const FIELD_TITLES = {
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'Home address',
 };
 
+// These are intended to be used as values for HTML element id attributes
+export const FIELD_IDS = {
+  [FIELD_NAMES.HOME_PHONE]: 'home-phone-number',
+  [FIELD_NAMES.MOBILE_PHONE]: 'mobile-phone-number',
+  [FIELD_NAMES.WORK_PHONE]: 'work-phone-number',
+  [FIELD_NAMES.TEMP_PHONE]: 'temporary-phone-number',
+  [FIELD_NAMES.FAX_NUMBER]: 'fax-number',
+  [FIELD_NAMES.EMAIL]: 'contact-email-address',
+  [FIELD_NAMES.MAILING_ADDRESS]: 'mailing-address',
+  [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'home-address',
+};
+
 export const PHONE_TYPE = {
   mobilePhone: 'MOBILE',
   workPhone: 'WORK',
