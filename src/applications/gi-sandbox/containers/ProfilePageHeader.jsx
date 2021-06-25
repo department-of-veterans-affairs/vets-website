@@ -15,7 +15,7 @@ import {
   locationInfo,
   schoolSize,
 } from '../utils/helpers';
-import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
+import { ariaLabels } from '../constants';
 import recordEvent from 'platform/monitoring/record-event';
 import RatingsStars from '../components/RatingsStars';
 import Checkbox from '../components/Checkbox';
@@ -106,7 +106,7 @@ const ProfilePageHeader = ({
   );
 
   const stars = convertRatingToStars(ratingAverage);
-  const displayStars = stars && ratingCount >= MINIMUM_RATING_COUNT;
+  const displayStars = stars && ratingCount > 0;
 
   const titleClasses = classNames({
     'vads-u-margin-bottom--0': displayStars,
