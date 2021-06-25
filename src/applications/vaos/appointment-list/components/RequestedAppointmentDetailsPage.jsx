@@ -129,6 +129,7 @@ export default function RequestedAppointmentDetailsPage() {
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isCC = appointment.vaos.isCommunityCare;
+  const typeOfVisit = appointment.vaos.requestVisitType;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
@@ -195,7 +196,7 @@ export default function RequestedAppointmentDetailsPage() {
       )}
       {!isCCRequest && (
         <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-          VA Appointment
+          VA appointment
         </h2>
       )}
 
@@ -227,7 +228,7 @@ export default function RequestedAppointmentDetailsPage() {
           <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
             Preferred type of appointment
           </h2>
-          {appointment.vaos.requestVisitType}
+          {typeOfVisit}
         </>
       )}
 
