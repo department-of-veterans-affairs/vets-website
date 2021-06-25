@@ -171,7 +171,7 @@ class SearchApp extends React.Component {
       'search-query': query,
       'search-result-chosen-page-url': url,
       'search-result-chosen-title': title,
-      'search-results-pagination-current-page': this.props.search?.currentPage,
+      'search-results-n-current-page': this.props.search?.currentPage,
       'search-results-position': searchResultPosition,
       'search-results-total-count': this.props.search?.totalEntries,
       'search-results-total-pages': Math.ceil(
@@ -207,7 +207,10 @@ class SearchApp extends React.Component {
 
     // Reusable search input
     const searchInput = (
-      <div role="search" className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4">
+      <div
+        className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4"
+        role="search"
+      >
         <div>Enter a keyword</div>
         <form
           onSubmit={this.handleSearch}
@@ -231,7 +234,7 @@ class SearchApp extends React.Component {
 
     if (hasErrors && !loading) {
       return (
-        <div className="usa-width-three-fourths medium-8 small-12 columns error">
+        <div className="columns error">
           {/* this is the alert box for when searches fail due to server issues */}
           <va-alert status="error" data-e2e-id="alert-box">
             <h3 slot="headline">Your search didn't go through</h3>
@@ -249,10 +252,14 @@ class SearchApp extends React.Component {
       <div>
         {searchInput}
         {this.renderResultsInformation()}
-        <hr aria-hidden="true" className="vads-u-margin-y--3" />
+        <hr className="vads-u-margin-y--3" aria-hidden="true" />
         {this.renderRecommendedResults()}
         {this.renderResultsList()}
-        <hr aria-hidden="true" id="hr-search-bottom" className="vads-u-margin-y--3" />
+        <hr
+          aria-hidden="true"
+          id="hr-search-bottom"
+          className="vads-u-margin-y--3"
+        />
 
         <div className="va-flex results-footer">
           <Pagination
@@ -282,7 +289,7 @@ class SearchApp extends React.Component {
               this.renderWebResult(result, 'description', true, index),
             )}
           </ul>
-          <hr aria-hidden="true"/>
+          <hr aria-hidden="true" />
         </div>
       );
     }
@@ -313,18 +320,14 @@ class SearchApp extends React.Component {
     if (this.props.search.spellingCorrection) {
       return (
         <>
-          <p
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-top--2p5 vads-u-margin-bottom--1p5"
-          >
+          <p className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-top--2p5 vads-u-margin-bottom--1p5">
             No results for "
             <span className="vads-u-font-weight--bold">
               {this.props.router.location.query.query}
             </span>
             "
           </p>
-          <p
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5"
-          >
+          <p className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5">
             Showing{' '}
             {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
             of {totalEntries} results for "
@@ -436,8 +439,8 @@ class SearchApp extends React.Component {
             <h2 className="vads-u-font-size--2xl">VA.gov search results</h2>
           </div>
         </div>
-        <div className="row">
-          <div className="usa-width-three-fourths medium-8 small-12 columns">
+        <div className="search-row">
+          <div className="usa-width-three-fourths columns">
             <DowntimeNotification
               appTitle="Search App"
               dependencies={[externalServices.search]}
@@ -445,7 +448,7 @@ class SearchApp extends React.Component {
               {this.renderResults()}
             </DowntimeNotification>
           </div>
-          <div className="usa-width-one-fourth medium-4 small-12 columns sidebar">
+          <div className="usa-width-one-fourth columns">
             <h4 className="highlight">More VA search tools</h4>
             <ul>
               <li>

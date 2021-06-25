@@ -117,12 +117,12 @@
   }
 
   .results-footer {
-    flex-direction: column-reverse;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 4rem;
 
-    @include media($small-screen) {
+    @include media($medium-screen) {
       flex-direction: row;
     }
 
@@ -140,11 +140,11 @@
 
       @include media($large-screen) {
         .va-pagination-inner {
-          width: unset;
+          width: 20rem !important;
         }
       }
 
-      @include media($small-screen) {
+      @include media($medium-screen) {
         width: unset;
       }
     }
@@ -217,5 +217,17 @@
   nav[aria-label="Breadcrumb"],
   h4.sr-focus {
     outline: 0;
+  }
+
+  .search-row {
+    box-sizing: inherit;
+    margin: 0 auto;
+    max-width: 62.5em;
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: $medium-screen) {
+      flex-direction: row;
+    }
   }
 }
