@@ -242,11 +242,9 @@ jobs:
           name: cypress-mochawesome-test-results-artifact-5
           path: testing-reports/cypress-reports/videos/${{steps.generate-uuid.outputs.uuid}}/applications
 
-      - name: Add and commit changes
-        uses: EndBug/add-and-commit@v7
-
-      - name: Commit & Push changes
+      - name: Add, Commit & Push changes
         run: |
+          git add .
           git config --global user.name 'Curt Bonade'
           git config --global user.email 'cbonade@oddball.io'
           git commit -am "Add Report ${{steps.generate-uuid.outputs.uuid}} and associated videos"
