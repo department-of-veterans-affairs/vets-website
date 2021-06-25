@@ -199,8 +199,6 @@ jobs:
           name: mochawesome-report
           path: mochawesome-report/
 
-
-
   publish-mochawesome-report:
     if: ${{ always() }}
     needs: mochawesome-report
@@ -210,7 +208,7 @@ jobs:
       run:
         working-directory: testing-reports
     steps:
-        - name: Checkout Test Reports repo
+      - name: Checkout Test Reports repo
         uses: actions/checkout@v2
         with:
           repository: department-of-veterans-affairs/testing-reports
