@@ -6,6 +6,7 @@ import {
   requireIssue,
   validateDate,
   isValidDate,
+  contactInfoValidation,
   validAdditionalIssue,
   areaOfDisagreementRequired,
   optInValidation,
@@ -159,6 +160,50 @@ describe('validateDate & isValidDate', () => {
     validateDate(errors, date);
     expect(errorMessage).to.contain('date less than a year');
     expect(isValidDate(date)).to.be.false;
+  });
+});
+
+describe('contactInfoValidation', () => {
+  const getData = ({ email = true, phone = true, address = true } = {}) => ({
+    veteran: {
+      email: email ? 'placeholder' : '',
+      phone: phone ? { phoneNumber: 'placeholder' } : {},
+      address: address ? { addressLine1: 'placeholder' } : {},
+    },
+  });
+  it('should not show an error when data is available', () => {
+    const addError = sinon.spy();
+    contactInfoValidation({ addError }, null, getData());
+    expect(addError.notCalled).to.be.true;
+  });
+  it('should have an error when email is missing', () => {
+    const addError = sinon.spy();
+    contactInfoValidation({ addError }, null, getData({ email: false }));
+    expect(addError.called).to.be.true;
+    expect(addError.args[0][0]).to.contain('add an email');
+  });
+  it('should have multiple errors when email & phone are missing', () => {
+    const addError = sinon.spy();
+    contactInfoValidation(
+      { addError },
+      null,
+      getData({ email: false, phone: false }),
+    );
+    expect(addError.called).to.be.true;
+    expect(addError.firstCall.args[0]).to.contain('add an email');
+    expect(addError.secondCall.args[0]).to.contain('add a phone');
+  });
+  it('should have multiple errors when everything is missing', () => {
+    const addError = sinon.spy();
+    contactInfoValidation(
+      { addError },
+      null,
+      getData({ email: false, phone: false, address: false }),
+    );
+    expect(addError.called).to.be.true;
+    expect(addError.firstCall.args[0]).to.contain('add an email');
+    expect(addError.secondCall.args[0]).to.contain('add a phone');
+    expect(addError.thirdCall.args[0]).to.contain('add an address');
   });
 });
 
