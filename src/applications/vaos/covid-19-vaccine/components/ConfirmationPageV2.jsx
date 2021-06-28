@@ -2,9 +2,6 @@ import React, { useEffect } from 'react';
 import moment from '../../lib/moment-tz.js';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import {
@@ -14,11 +11,12 @@ import {
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
 import VAFacilityLocation from '../../components/VAFacilityLocation';
 import { selectConfirmationPage } from '../redux/selectors.js';
-import AddToCalendar from 'applications/vaos/components/AddToCalendar';
+import AddToCalendar from '../../components/AddToCalendar';
+import InfoAlert from '../../components/InfoAlert';
 import {
   formatFacilityAddress,
   getFacilityPhone,
-} from 'applications/vaos/services/location';
+} from '../../services/location';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
@@ -51,7 +49,7 @@ function ConfirmationPageV2({
         {momentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}
         {` ${getTimezoneAbbrBySystemId(systemId)}`}
       </h1>
-      <AlertBox status="success" backgroundOnly>
+      <InfoAlert status="success" backgroundOnly>
         <strong>Your appointment has been scheduled and is confirmed.</strong>
         <br />
         <div className="vads-u-margin-y--1">
@@ -69,7 +67,7 @@ function ConfirmationPageV2({
         <div>
           <Link to="/new-appointment">New appointment</Link>
         </div>
-      </AlertBox>
+      </InfoAlert>
       <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-top--2 vads-u-margin-right--1 vaos-u-word-break--break-word">
           <h2
@@ -117,15 +115,10 @@ function ConfirmationPageV2({
           Print
         </button>
       </div>
-      <AlertBox
-        status={ALERT_TYPE.INFO}
-        className="vads-u-display--block"
-        headline="Need to make changes?"
-        backgroundOnly
-      >
+      <InfoAlert status="info" headline="Need to make changes?" backgroundOnly>
         Contact this provider if you need to reschedule or cancel your
         appointment.
-      </AlertBox>
+      </InfoAlert>
     </div>
   );
 }

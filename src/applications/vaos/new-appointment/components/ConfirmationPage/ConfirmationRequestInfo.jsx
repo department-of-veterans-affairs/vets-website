@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import { getTypeOfCare } from '../../redux/selectors';
 import { FACILITY_TYPES, PURPOSE_TEXT } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
 import State from '../../../components/State';
+import InfoAlert from '../../../components/InfoAlert';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 function formatBestTime(bestTime) {
@@ -47,11 +47,11 @@ export default function ConfirmationRequestInfo({
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-      <AlertBox status="success">
+      <InfoAlert status="success">
         <strong>We’re reviewing your request</strong>
         <br />A scheduler will contact you to schedule the first available
         appointment. You don’t have to do anything right now.
-      </AlertBox>
+      </InfoAlert>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-y--3 vads-u-border-top--4px vads-u-border-color--warning-message">
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           {isCommunityCare && 'Community Care'}

@@ -7,9 +7,9 @@ import CalendarWidget from '../../components/calendar/CalendarWidget';
 import moment from 'moment';
 import { FETCH_STATUS } from '../../utils/constants';
 import { getDateTimeSelect } from '../redux/selectors';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { getRealFacilityId } from '../../utils/appointment';
 import NewTabAnchor from '../../components/NewTabAnchor';
+import InfoAlert from '../../components/InfoAlert';
 import useIsInitialLoad from '../../hooks/useIsInitialLoad';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import {
@@ -32,7 +32,7 @@ function ErrorMessage({ facilityId }) {
       aria-live="assertive"
       className="vads-u-margin-bottom--2"
     >
-      <AlertBox
+      <InfoAlert
         status="error"
         level="2"
         headline="We’ve run into a problem when trying to find available appointment times"
@@ -44,7 +44,7 @@ function ErrorMessage({ facilityId }) {
           call your local VA medical center
         </NewTabAnchor>
         .
-      </AlertBox>
+      </InfoAlert>
     </div>
   );
 }

@@ -645,6 +645,24 @@ describe('VAOS Appointment transformer', () => {
             expect(transformed.vaos.isPastAppointment).to.equal(true);
           });
         });
+
+        it('should use the vvsAppointment id if the appointment id is null', () => {
+          const pastAppt = {
+            ...videoAppt,
+            id: null,
+            vvsAppointments: [
+              {
+                ...videoAppt.vvsAppointments[0],
+                dateTime: moment()
+                  .subtract(235, 'minutes')
+                  .format(),
+              },
+            ],
+          };
+
+          const transformed = transformConfirmedAppointments([pastAppt])[0];
+          expect(transformed.id).to.equal(pastAppt.vvsAppointments[0].id);
+        });
       });
     });
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import FinancialOverview from '../../components/FinancialOverview';
 import ResolutionDebtCards from '../../components/ResolutionDebtCards';
+import { validateCurrency } from '../../utils/validations';
 
 export const uiSchema = {
   financialOverview: {
@@ -44,29 +45,29 @@ export const uiSchema = {
     },
     items: {
       resolution: {
-        resolutionType: {
+        agreeToWaiver: {
           'ui:required': (formData, index) => {
-            const { selectedDebts } = formData;
-            return !selectedDebts[index].resolution?.resolutionType;
+            const { resolution } = formData.selectedDebts[index];
+            return (
+              resolution?.resolutionType === 'Waiver' &&
+              !resolution?.agreeToWaiver
+            );
+          },
+          'ui:errorMessages': {
+            required: 'You must agree by checking the box.',
           },
         },
         offerToPay: {
           'ui:required': (formData, index) => {
-            const { selectedDebts } = formData;
+            const { resolution } = formData.selectedDebts[index];
             return (
-              selectedDebts[index].resolution?.resolutionType !== 'Waiver' &&
-              !selectedDebts[index].resolution?.offerToPay
+              resolution?.resolutionType !== 'Waiver' && !resolution?.offerToPay
             );
           },
-        },
-        agreeToWaiver: {
-          'ui:required': (formData, index) => {
-            const { selectedDebts } = formData;
-            return (
-              selectedDebts[index].resolution?.resolutionType === 'Waiver' &&
-              !selectedDebts[index].resolution?.agreeToWaiver
-            );
+          'ui:errorMessages': {
+            required: 'Please enter the amount you can afford to pay.',
           },
+          'ui:validations': [validateCurrency],
         },
       },
     },
@@ -88,6 +89,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        required: ['resolution'],
         properties: {
           resolution: {
             type: 'object',
@@ -95,11 +97,11 @@ export const schema = {
               resolutionType: {
                 type: 'string',
               },
-              offerToPay: {
-                type: 'string',
-              },
               agreeToWaiver: {
                 type: 'boolean',
+              },
+              offerToPay: {
+                type: 'string',
               },
             },
           },

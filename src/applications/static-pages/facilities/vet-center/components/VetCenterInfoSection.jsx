@@ -59,7 +59,7 @@ function VetCenterInfoSection(props) {
         </address>
         <div>
           <a
-            onCLick={() => {
+            onClick={() => {
               recordEvent({
                 event: 'directions-link-click',
                 'vet-center-facility-name': props.vetCenter.title,

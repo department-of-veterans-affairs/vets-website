@@ -239,7 +239,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     await screen.findByText('307-778-7550');
 
     // Not sure of a better way to search for test just within the alert
-    const alert = screen.baseElement.querySelector('.usa-alert');
+    const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
     expect(alert).contain.text('2360 East Pershing Boulevard');
     expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
