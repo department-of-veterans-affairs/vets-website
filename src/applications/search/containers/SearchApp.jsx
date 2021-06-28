@@ -279,7 +279,7 @@ class SearchApp extends React.Component {
       return (
         <div>
           <h3
-            className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--bold`}
+            className={`vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--bold`}
           >
             Our top recommendations for you
           </h3>
@@ -326,7 +326,9 @@ class SearchApp extends React.Component {
             </span>
             "
           </p>
-          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5">
+          <h2
+            className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5`}
+          >
             Showing{' '}
             {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
             of {totalEntries} results for "
@@ -347,8 +349,7 @@ class SearchApp extends React.Component {
         <h2
           aria-live="polite"
           aria-relevant="additions text"
-          className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal
-        "
+          className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal`}
         >
           Showing{' '}
           {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
@@ -385,7 +386,10 @@ class SearchApp extends React.Component {
     }
 
     return (
-      <p data-e2e-id="search-results-empty">
+      <p
+        className={`${SCREENREADER_FOCUS_CLASSNAME}`}
+        data-e2e-id="search-results-empty"
+      >
         Sorry, no results found. Try again using different (or fewer) words.
       </p>
     );
@@ -400,7 +404,7 @@ class SearchApp extends React.Component {
         className="result-item vads-u-margin-top--1p5 vads-u-margin-bottom--4"
       >
         <a
-          className={`result-title ${SCREENREADER_FOCUS_CLASSNAME}`}
+          className={`result-title`}
           href={replaceWithStagingDomain(result.url)}
           onClick={this.onSearchResultClick({
             bestBet: isBestBet,

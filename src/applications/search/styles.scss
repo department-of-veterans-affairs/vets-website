@@ -23,7 +23,7 @@
 
     &.results-list {
       li.result-item {
-        h5,
+        h4,
         p {
           font-family: "Helvetica", "Arial", "Bitter", "Georgia", "Cambria",
             "Times New Roman", "Times", serif;
@@ -45,7 +45,7 @@
               color: $color-purple;
             }
           }
-          span {
+          h4 {
             &:hover {
               color: $color-gray-dark;
               background: rgba(0, 0, 0, 0.05);
@@ -55,7 +55,7 @@
           &:focus,
           &:active {
             outline: none;
-            span {
+            h4 {
               color: $color-gray-dark;
               background: rgba(0, 0, 0, 0.05);
               outline: 2px solid $color-gold-light;
