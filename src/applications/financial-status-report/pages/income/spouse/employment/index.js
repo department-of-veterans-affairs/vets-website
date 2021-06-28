@@ -8,6 +8,9 @@ export const uiSchema = {
           widgetClassNames: 'input-size-3',
         },
         'ui:required': () => true,
+        'ui:errorMessages': {
+          required: "Please enter your spouse's first name.",
+        },
       },
       last: {
         'ui:title': 'What’s your spouse’s last name?',
@@ -22,6 +25,9 @@ export const uiSchema = {
       'ui:title': 'Has your spouse had any jobs in the past two years?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Please enter your spouse’s employment information.',
+      },
     },
   },
 };

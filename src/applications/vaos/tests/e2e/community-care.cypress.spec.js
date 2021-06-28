@@ -241,7 +241,7 @@ describe('VAOS community care flow', () => {
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/confirmation',
     );
     cy.axeCheckBestPractice();
-    cy.get('.usa-alert').contains('We’re reviewing your request');
+    cy.get('va-alert').contains('We’re reviewing your request');
   });
 
   it('should submit form with provider chosen from list and submit request', () => {
@@ -442,6 +442,6 @@ describe('VAOS community care flow', () => {
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/confirmation',
     );
     cy.axeCheckBestPractice();
-    cy.get('.usa-alert').contains('We’re reviewing your request');
+    cy.get('va-alert').contains('We’re reviewing your request');
   });
 });

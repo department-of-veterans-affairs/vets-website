@@ -85,7 +85,7 @@ export const uiSchema = {
       country: {
         'ui:title': 'Country',
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
           updateSchema: (formData, schema, uiSchemaCountry) => {
             const uiSchemaDisabled = uiSchemaCountry;
             uiSchemaDisabled['ui:disabled'] = false;
@@ -105,30 +105,32 @@ export const uiSchema = {
             };
           },
         },
+        'ui:errorMessages': {
+          enum: 'Please select a country.',
+        },
       },
       street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {
-          pattern: 'Please enter a valid street address',
-          required: 'Please enter a street address',
+          pattern: 'Please enter a street address.',
         },
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
         },
       },
       street2: {
         'ui:title': 'Street address line 2',
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
         },
       },
       city: {
         'ui:errorMessages': {
-          pattern: 'Please enter a valid city',
-          required: 'Please enter a city',
+          pattern: 'Please enter a valid city.',
+          required: 'Please enter a city.',
         },
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
           replaceSchema: formData => {
             if (formData.personalData.address.livesOutsideUS) {
               return {
@@ -155,7 +157,7 @@ export const uiSchema = {
       state: {
         'ui:title': 'State',
         'ui:options': {
-          classNames: 'input-size-7',
+          widgetClassNames: 'input-size-7',
           updateSchema: formData => {
             if (
               formData.personalData.address.livesOutsideUS ||
@@ -179,33 +181,37 @@ export const uiSchema = {
           },
         ],
         'ui:errorMessages': {
-          pattern: 'Please enter a valid state',
-          required: 'Please enter a state',
+          enum: 'Please select a state.',
         },
       },
       postalCode: {
         'ui:title': 'Postal code',
         'ui:validations': [validateZIP],
         'ui:errorMessages': {
-          required: 'Please enter a postal code',
-          pattern:
-            'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+          required: 'Please enter a postal code.',
+          pattern: 'Please enter a valid postal code.',
         },
         'ui:options': {
-          classNames: 'input-size-2',
+          widgetClassNames: 'input-size-5',
         },
       },
     },
     telephoneNumber: {
       ...phoneUI('Phone number'),
       'ui:options': {
-        classNames: 'input-size-7',
+        widgetClassNames: 'input-size-7',
+      },
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid phone number.',
       },
     },
     emailAddress: {
       ...emailUI('Email address'),
       'ui:options': {
-        classNames: 'input-size-7',
+        widgetClassNames: 'input-size-7',
+      },
+      'ui:errorMessages': {
+        pattern: 'Please enter a valid email address.',
       },
     },
   },

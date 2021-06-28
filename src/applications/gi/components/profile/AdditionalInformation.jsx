@@ -163,7 +163,14 @@ export class AdditionalInformation extends React.Component {
           institution.vrrap !== null && (
             <div>
               <strong>
-                Veteran Rapid Retraining Assistance Program (VRRAP):
+                <button
+                  id="vrrap-button"
+                  type="button"
+                  className="va-button-link learn-more-button"
+                  onClick={this.props.onShowModal.bind(this, 'vrrap')}
+                >
+                  Veteran Rapid Retraining Assistance Program (VRRAP):
+                </button>
               </strong>
               &nbsp; {institution.vrrap ? 'Yes' : 'No'}
             </div>
