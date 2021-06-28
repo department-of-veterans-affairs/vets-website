@@ -333,6 +333,9 @@ class FileField extends React.Component {
                 ? () => this.retryLastUpload(index, file.file)
                 : () => this.deleteThenAddFile(index);
 
+              const deleteButtonText =
+                enableShortWorkflow && hasErrors ? 'Cancel' : 'Delete file';
+
               return (
                 <li
                   key={index}
@@ -419,43 +422,29 @@ class FileField extends React.Component {
                       onSubmitPassword={this.onSubmitPassword}
                     />
                   )}
-                  {showButtons &&
-                    (!enableShortWorkflow ||
-                      (enableShortWorkflow && !hasErrors && !allowRetry)) && (
-                      <div className="vads-u-margin-top--2">
-                        <button
-                          type="button"
-                          className="usa-button-secondary vads-u-width--auto"
-                          onClick={() => {
-                            this.removeFile(index);
-                          }}
-                        >
-                          Delete file
-                        </button>
-                      </div>
-                    )}
-                  {enableShortWorkflow &&
-                    showButtons &&
-                    hasErrors && (
-                      <div className="vads-u-margin-top--2">
-                        <button
-                          type="button"
-                          className="usa-button-primary vads-u-width--auto vads-u-margin-right--2"
-                          onClick={retryFunction}
-                        >
-                          {retryButtonText}
-                        </button>
-                        <button
-                          type="button"
-                          className="usa-button-secondary vads-u-width--auto"
-                          onClick={() => {
-                            this.removeFile(index);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    )}
+                  {showButtons && (
+                    <div className="vads-u-margin-top--2">
+                      {hasErrors &&
+                        enableShortWorkflow && (
+                          <button
+                            type="button"
+                            className="usa-button-primary vads-u-width--auto vads-u-margin-right--2"
+                            onClick={retryFunction}
+                          >
+                            {retryButtonText}
+                          </button>
+                        )}
+                      <button
+                        type="button"
+                        className="usa-button-secondary vads-u-width--auto"
+                        onClick={() => {
+                          this.removeFile(index);
+                        }}
+                      >
+                        {deleteButtonText}
+                      </button>
+                    </div>
+                  )}
                 </li>
               );
             })}
@@ -467,7 +456,8 @@ class FileField extends React.Component {
           <>
             {(maxItems === null || files.length < maxItems) &&
               // Prevent additional upload if any upload has error state
-              (enableShortWorkflow || !hasAnyError) && (
+              (!enableShortWorkflow ||
+                (enableShortWorkflow && !hasAnyError)) && (
                 <label
                   id={`${idSchema.$id}_add_label`}
                   htmlFor={idSchema.$id}

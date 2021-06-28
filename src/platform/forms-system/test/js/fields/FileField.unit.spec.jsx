@@ -13,6 +13,7 @@ import {
 
 import { FileField } from '../../../src/js/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
+import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 
 const formContext = {
   setTouched: sinon.spy(),
@@ -918,5 +919,427 @@ describe('Schemaform <FileField>', () => {
     const cancelButton = tree.find('button.usa-button-secondary');
     expect(cancelButton.text()).to.equal('Cancel');
     tree.unmount();
+  });
+
+  describe('enableShortWorkflow is true', () => {
+    it('should not render upload button while file has error', () => {
+      const idSchema = {
+        $id: 'field',
+      };
+      const schema = {
+        additionalItems: {},
+        items: [
+          {
+            properties: {},
+          },
+        ],
+        maxItems: 4,
+      };
+      const uiSchema = fileUploadUI('Files');
+      const formData = [
+        {
+          errorMessage: 'asdfas',
+        },
+      ];
+      const errorSchema = {
+        0: {
+          __errors: ['ERROR-123'],
+        },
+      };
+      const registry = {
+        fields: {
+          SchemaField: f => f,
+        },
+      };
+      const tree = shallow(
+        <FileField
+          registry={registry}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          errorSchema={errorSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+          enableShortWorkflow
+        />,
+      );
+
+      const uploadButton = tree.find('#field_add_label');
+      expect(uploadButton.exists()).to.be.false;
+      tree.unmount();
+    });
+
+    it('should render Upload a new file button', () => {
+      const idSchema = {
+        $id: 'field',
+      };
+      const schema = {
+        additionalItems: {},
+        items: [
+          {
+            properties: {},
+          },
+        ],
+      };
+      const uiSchema = fileUploadUI('Files');
+      const formData = [
+        {
+          errorMessage: 'asdfas',
+        },
+      ];
+      const errorSchema = {
+        0: {
+          __errors: ['Bad error'],
+        },
+      };
+      const registry = {
+        fields: {
+          SchemaField: f => f,
+        },
+      };
+      const tree = shallow(
+        <FileField
+          registry={registry}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          errorSchema={errorSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+          enableShortWorkflow
+        />,
+      );
+
+      const cancelButton = tree.find('button.usa-button-primary');
+      expect(cancelButton.text()).to.equal('Upload a new file');
+      tree.unmount();
+    });
+
+    it('should render Try again button', () => {
+      const idSchema = {
+        $id: 'field',
+      };
+      const schema = {
+        additionalItems: {},
+        items: [
+          {
+            properties: {},
+          },
+        ],
+      };
+      const uiSchema = fileUploadUI('Files');
+      const formData = [
+        {
+          errorMessage: 'asdfas',
+        },
+      ];
+      const errorSchema = {
+        0: {
+          __errors: [FILE_UPLOAD_NETWORK_ERROR_MESSAGE],
+        },
+      };
+      const registry = {
+        fields: {
+          SchemaField: f => f,
+        },
+      };
+      const tree = shallow(
+        <FileField
+          registry={registry}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          errorSchema={errorSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+          enableShortWorkflow
+        />,
+      );
+
+      const cancelButton = tree.find('button.usa-button-primary');
+      expect(cancelButton.text()).to.equal('Try again');
+      tree.unmount();
+    });
+
+    it('should render remove file button as cancel', () => {
+      const idSchema = {
+        $id: 'field',
+      };
+      const schema = {
+        additionalItems: {},
+        items: [
+          {
+            properties: {},
+          },
+        ],
+      };
+      const uiSchema = fileUploadUI('Files');
+      const formData = [
+        {
+          errorMessage: 'asdfas',
+        },
+      ];
+      const errorSchema = {
+        0: {
+          __errors: ['Bad error'],
+        },
+      };
+      const registry = {
+        fields: {
+          SchemaField: f => f,
+        },
+      };
+      const tree = shallow(
+        <FileField
+          registry={registry}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          errorSchema={errorSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+          enableShortWorkflow
+        />,
+      );
+
+      const cancelButton = tree.find('button.usa-button-secondary');
+      expect(cancelButton.text()).to.equal('Cancel');
+      tree.unmount();
+    });
+
+    it('should render delete button', () => {
+      const idSchema = {
+        $id: 'field',
+      };
+      const schema = {
+        additionalItems: {},
+        items: [
+          {
+            properties: {},
+          },
+        ],
+      };
+      const uiSchema = fileUploadUI('Files');
+      const formData = [
+        {
+          uploading: false,
+        },
+      ];
+      const registry = {
+        fields: {
+          SchemaField: f => f,
+        },
+      };
+      const tree = shallow(
+        <FileField
+          registry={registry}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+          enableShortWorkflow
+        />,
+      );
+
+      const cancelButton = tree.find('button.usa-button-secondary');
+      expect(cancelButton.text()).to.equal('Delete file');
+      tree.unmount();
+    });
+  });
+
+  describe('enableShortWorkflow is false', () => {
+    it('should not render upload button while file has error', () => {
+      const idSchema = {
+        $id: 'field',
+      };
+      const schema = {
+        additionalItems: {},
+        items: [
+          {
+            properties: {},
+          },
+        ],
+        maxItems: 4,
+      };
+      const uiSchema = fileUploadUI('Files');
+      const formData = [
+        {
+          errorMessage: 'asdfas',
+        },
+      ];
+      const errorSchema = {
+        0: {
+          __errors: ['ERROR-123'],
+        },
+      };
+      const registry = {
+        fields: {
+          SchemaField: f => f,
+        },
+      };
+      const tree = shallow(
+        <FileField
+          registry={registry}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          errorSchema={errorSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+        />,
+      );
+
+      const uploadButton = tree.find('#field_add_label');
+      expect(uploadButton.exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should render remove file button as Delete file', () => {
+      const idSchema = {
+        $id: 'field',
+      };
+      const schema = {
+        additionalItems: {},
+        items: [
+          {
+            properties: {},
+          },
+        ],
+      };
+      const uiSchema = fileUploadUI('Files');
+      const formData = [
+        {
+          errorMessage: 'asdfas',
+        },
+      ];
+      const errorSchema = {
+        0: {
+          __errors: ['Bad error'],
+        },
+      };
+      const registry = {
+        fields: {
+          SchemaField: f => f,
+        },
+      };
+      const tree = shallow(
+        <FileField
+          registry={registry}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          errorSchema={errorSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+        />,
+      );
+
+      const cancelButton = tree.find('button.usa-button-secondary');
+      expect(cancelButton.text()).to.equal('Delete file');
+      tree.unmount();
+    });
+
+    it('should render delete button', () => {
+      const idSchema = {
+        $id: 'field',
+      };
+      const schema = {
+        additionalItems: {},
+        items: [
+          {
+            properties: {},
+          },
+        ],
+      };
+      const uiSchema = fileUploadUI('Files');
+      const formData = [
+        {
+          uploading: false,
+        },
+      ];
+      const registry = {
+        fields: {
+          SchemaField: f => f,
+        },
+      };
+      const tree = shallow(
+        <FileField
+          registry={registry}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+        />,
+      );
+
+      const cancelButton = tree.find('button.usa-button-secondary');
+      expect(cancelButton.text()).to.equal('Delete file');
+      tree.unmount();
+    });
+
+    it('should not render Try again button', () => {
+      const idSchema = {
+        $id: 'field',
+      };
+      const schema = {
+        additionalItems: {},
+        items: [
+          {
+            properties: {},
+          },
+        ],
+      };
+      const uiSchema = fileUploadUI('Files');
+      const formData = [
+        {
+          errorMessage: 'asdfas',
+        },
+      ];
+      const errorSchema = {
+        0: {
+          __errors: [FILE_UPLOAD_NETWORK_ERROR_MESSAGE],
+        },
+      };
+      const registry = {
+        fields: {
+          SchemaField: f => f,
+        },
+      };
+      const tree = shallow(
+        <FileField
+          registry={registry}
+          schema={schema}
+          uiSchema={uiSchema}
+          idSchema={idSchema}
+          errorSchema={errorSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+        />,
+      );
+
+      const retryButton = tree.find('button.usa-button-primary');
+      expect(retryButton.exists()).to.be.false;
+      tree.unmount();
+    });
   });
 });
