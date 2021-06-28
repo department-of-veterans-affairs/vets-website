@@ -2,7 +2,7 @@ import React from 'react';
 // import { Field } from 'formik';
 
 // TODO: Abstract out all field props into a single interface
-const StringField = (props: { name: string; label: string }) => (
+const StringField = (props: { name: string; label: string }): JSX.Element => (
   // <Field type="string" {...props} />
   <>
     <label htmlFor={props.name}>{props.label}</label>
