@@ -88,7 +88,6 @@ class ResultsList extends Component {
           break;
         case 'provider':
           // Support non va urgent care search through ccp option
-          // eslint-disable-next-line no-console
           if (query.serviceType === CLINIC_URGENTCARE_SERVICE) {
             item = <UrgentCareResult provider={r} query={query} key={r.id} />;
           } else if (query.serviceType === PHARMACY_RETAIL_SERVICE) {
