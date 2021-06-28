@@ -278,7 +278,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cypress-video-artifacts
-          path: testing-tools-team-dashboard-data/src/mochawesome/data
+          path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
       - name: Add changes
         run: git add .
