@@ -252,7 +252,6 @@ class SearchApp extends React.Component {
       <div>
         {searchInput}
         {this.renderResultsInformation()}
-        <hr className="vads-u-margin-y--3" aria-hidden="true" />
         {this.renderRecommendedResults()}
         {this.renderResultsList()}
         <hr
@@ -327,7 +326,7 @@ class SearchApp extends React.Component {
             </span>
             "
           </p>
-          <p className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5">
+          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal vads-u-margin-y--0p5">
             Showing{' '}
             {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
             of {totalEntries} results for "
@@ -335,7 +334,8 @@ class SearchApp extends React.Component {
               {this.props.search.spellingCorrection}
             </span>
             "
-          </p>
+          </h2>
+          <hr className="vads-u-margin-y--3" aria-hidden="true" />
         </>
       );
     }
@@ -343,20 +343,23 @@ class SearchApp extends React.Component {
     // regular display for how many search results total are available.
     /* eslint-disable prettier/prettier */
     return (
-      <p
-        aria-live="polite"
-        aria-relevant="additions text"
-        className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal
+      <>
+        <h2
+          aria-live="polite"
+          aria-relevant="additions text"
+          className="vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal
         "
-      >
-        Showing{' '}
-        {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`} of{' '}
-        {totalEntries} results for "
-        <span className="vads-u-font-weight--bold">
-          {this.props.router.location.query.query}
-        </span>
-        "
-      </p>
+        >
+          Showing{' '}
+          {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
+          of {totalEntries} results for "
+          <span className="vads-u-font-weight--bold">
+            {this.props.router.location.query.query}
+          </span>
+          "
+        </h2>
+        <hr className="vads-u-margin-y--3" aria-hidden="true" />
+      </>
     );
     /* eslint-enable prettier/prettier */
   }
@@ -370,11 +373,14 @@ class SearchApp extends React.Component {
 
     if (results && results.length > 0) {
       return (
-        <ul className="results-list" data-e2e-id="search-results">
-          {results.map((result, index) =>
-            this.renderWebResult(result, undefined, undefined, index),
-          )}
-        </ul>
+        <>
+          <h3 className="sr-only">More Search Results</h3>
+          <ul className="results-list" data-e2e-id="search-results">
+            {results.map((result, index) =>
+              this.renderWebResult(result, undefined, undefined, index),
+            )}
+          </ul>
+        </>
       );
     }
 
@@ -403,8 +409,8 @@ class SearchApp extends React.Component {
             url: result.url,
           })}
         >
-          <span
-            className="vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
+          <h4
+            className="vads-u-display--inline  vads-u-margin-top--1 vads-u-margin-bottom--0p25 vads-u-font-size--md vads-u-font-weight--bold vads-u-font-family--serif vads-u-text-decoration--underline"
             data-e2e-id="result-title"
             dangerouslySetInnerHTML={{
               __html: strippedTitle,
@@ -436,7 +442,7 @@ class SearchApp extends React.Component {
         <SearchBreadcrumbs />
         <div className="row">
           <div className="columns">
-            <h2 className="vads-u-font-size--2xl">VA.gov search results</h2>
+            <h1 className="vads-u-font-size--2xl">VA.gov search results</h1>
           </div>
         </div>
         <div className="search-row">
@@ -449,7 +455,9 @@ class SearchApp extends React.Component {
             </DowntimeNotification>
           </div>
           <div className="usa-width-one-fourth columns">
-            <h4 className="highlight">More VA search tools</h4>
+            <h2 className="highlight vads-u-font-size--h4">
+              More VA search tools
+            </h2>
             <ul>
               <li>
                 <a
