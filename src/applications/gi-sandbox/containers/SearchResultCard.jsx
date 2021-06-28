@@ -49,7 +49,7 @@ export function SearchResultCard({
     }
   };
 
-  const [expanded, setCount] = useState(false);
+  const [expanded, toggleExpansion] = useState(false);
 
   const profileLink = appendQuery(`/profile/${facilityCode}`);
   const institutionTraits = [
@@ -72,9 +72,12 @@ export function SearchResultCard({
     'vettec-header': vetTecProvider,
   });
 
-  const schoolClassificationPTagClasses = classNames('vads-u-color--white', {
-    'vads-u-margin-y--0p5': location,
-  });
+  const schoolClassificationPTagClasses = classNames(
+    'vads-u-color--white vads-u-padding-x--2 vads-u-padding-y--1',
+    {
+      'vads-u-margin-y--0p5': location,
+    },
+  );
 
   const schoolClassification = (
     <>
@@ -248,7 +251,7 @@ export function SearchResultCard({
             <CautionFlagAdditionalInfo
               cautionFlags={cautionFlags}
               expanded={expanded}
-              setCount={setCount}
+              toggleExpansion={toggleExpansion}
             />
           </div>
         )}

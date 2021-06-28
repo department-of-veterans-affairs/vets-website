@@ -509,6 +509,7 @@ describe('VAOS <FutureAppointmentsList> VA appointments', () => {
         'i',
       ),
     );
+    await findByText(/Cheyenne VA Medical Center/i);
 
     const ics = decodeURIComponent(
       getByRole('link', {

@@ -153,7 +153,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
     // NOTE: alert does not have an accessible name to query by
     await waitFor(() => {
-      expect(screen.getByRole('alert')).to.be.ok;
+      expect(screen.getAllByRole('alert')).to.be.ok;
     });
     expect(screen.history.push.called).to.be.false;
 
@@ -637,9 +637,11 @@ describe('VAOS <DateTimeSelectPage>', () => {
     );
 
     userEvent.click(screen.getByText(/continue/i));
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Please choose your preferred date and time for your appointment',
-    );
+    expect(
+      await screen.findByText(
+        'Please choose your preferred date and time for your appointment',
+      ),
+    ).to.be.ok;
     expect(screen.history.push.called).not.to.be.true;
   });
 

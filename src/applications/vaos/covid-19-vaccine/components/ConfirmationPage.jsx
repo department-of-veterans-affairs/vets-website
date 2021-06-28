@@ -2,18 +2,18 @@ import React, { useEffect } from 'react';
 import moment from '../../lib/moment-tz.js';
 import { Link, Redirect } from 'react-router-dom';
 import { useSelector, shallowEqual } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event.js';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { getTimezoneAbbrBySystemId } from '../../utils/timezone.js';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants.js';
 import FacilityAddress from '../../components/FacilityAddress.jsx';
 import { selectConfirmationPage } from '../redux/selectors.js';
-import AddToCalendar from 'applications/vaos/components/AddToCalendar';
+import AddToCalendar from '../../components/AddToCalendar';
+import InfoAlert from '../../components/InfoAlert';
 import {
   formatFacilityAddress,
   getFacilityPhone,
-} from 'applications/vaos/services/location';
+} from '../../services/location';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
@@ -42,13 +42,13 @@ export default function ConfirmationPage() {
   return (
     <div>
       <h1>{pageTitle}</h1>
-      <AlertBox status="success">
+      <InfoAlert status="success">
         <strong>Your appointment is confirmed.</strong>
         <p>
           If you get a vaccine that requires a second dose, we'll schedule your
           second appointment while you're here for your first dose.
         </p>
-      </AlertBox>
+      </InfoAlert>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
         <span className="vads-u-margin-y--0 vaos-u-text-transform--uppercase">
           {appointmentType}
