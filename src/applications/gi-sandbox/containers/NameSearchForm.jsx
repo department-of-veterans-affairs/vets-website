@@ -22,15 +22,6 @@ export function NameSearchForm({
   const [name, setName] = useState(search.query.name);
   const history = useHistory();
 
-  const updateUrlNameParams = paramName => {
-    updateUrlParams(
-      history,
-      search.tab,
-      { ...search.query, name: paramName },
-      filters,
-    );
-  };
-
   const doSearch = value => {
     dispatchFetchSearchByNameResults(
       value,
@@ -38,7 +29,18 @@ export function NameSearchForm({
       filters,
       version,
     );
-    updateUrlNameParams(value);
+
+    updateUrlParams(
+      history,
+      search.tab,
+      {
+        ...search.query,
+        name: value,
+      },
+      filters,
+      version,
+      search.name.pagination.currentPage,
+    );
   };
 
   useEffect(

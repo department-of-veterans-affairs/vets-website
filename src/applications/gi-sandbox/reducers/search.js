@@ -250,6 +250,14 @@ export default function(state = INITIAL_STATE, action) {
           location: action.payload.location || newState.query.location,
           distance: action.payload.distance || newState.query.distance,
         },
+        name: {
+          ...newState.name,
+          pagination: {
+            ...newState.name.pagination,
+            currentPage:
+              action.payload.page || newState.name.pagination.currentPage,
+          },
+        },
         loadFromUrl: true,
       };
 

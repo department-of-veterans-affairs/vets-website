@@ -33,15 +33,6 @@ export function LocationSearchForm({
   const { version } = preview;
   const history = useHistory();
 
-  const updateUrlLocationParams = paramLocation => {
-    updateUrlParams(
-      history,
-      search.tab,
-      { ...search.query, location: paramLocation, distance },
-      filters,
-    );
-  };
-
   useEffect(
     () => {
       if (
@@ -80,7 +71,14 @@ export function LocationSearchForm({
         version,
       );
     }
-    updateUrlLocationParams(paramLocation);
+
+    updateUrlParams(
+      history,
+      search.tab,
+      { ...search.query, location: paramLocation, distance },
+      filters,
+      version,
+    );
   };
 
   const doAutocompleteSuggestionsSearch = value => {

@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { fetchSearchByNameResults } from '../../actions/index';
 import SearchResultCard from '../SearchResultCard';
 import RefineYourSearch from '../RefineYourSearch';
 import TuitionAndHousingEstimates from '../TuitionAndHousingEstimates';
+import { updateUrlParams } from '../../utils/helpers';
 
 export function NameSearchResults({
   dispatchFetchSearchByNameResults,
@@ -14,13 +16,26 @@ export function NameSearchResults({
   search,
 }) {
   const { version } = preview;
-  const { inProgress } = search;
+  const { inProgress, tab } = search;
   const { count, results } = search.name;
   const { currentPage, totalPages } = search.name.pagination;
   const { name } = search.query;
+  const history = useHistory();
 
   const fetchPage = page => {
     dispatchFetchSearchByNameResults(name, page, filters, version);
+
+    updateUrlParams(
+      history,
+      tab,
+      {
+        ...search.query,
+        name,
+      },
+      filters,
+      version,
+      page,
+    );
   };
 
   return (

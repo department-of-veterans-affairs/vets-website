@@ -107,7 +107,14 @@ export function RefineYourSearch({
       );
     }
 
-    updateUrlParams(history, search.tab, search.query, filters, version);
+    updateUrlParams(
+      history,
+      search.tab,
+      search.query,
+      filters,
+      version,
+      search.tab === TABS.name ? search.name.pagination.currentPage : null,
+    );
   };
 
   const renderTypeOfInstitution = () => {

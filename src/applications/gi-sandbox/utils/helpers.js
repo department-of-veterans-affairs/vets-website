@@ -260,6 +260,7 @@ export const updateUrlParams = (
   searchQuery,
   filters,
   version,
+  page,
 ) => {
   const queryParams = {
     search: tab,
@@ -284,10 +285,17 @@ export const updateUrlParams = (
     queryParams.distance = searchQuery.distance;
   }
 
+  if (page) {
+    queryParams.page = page;
+  }
+
+  if (version) {
+    queryParams.version = version;
+  }
+
   const url = appendQuery('/', {
     ...queryParams,
     ...buildSearchFilters(filters),
-    version,
   });
   history.push(url);
 };
