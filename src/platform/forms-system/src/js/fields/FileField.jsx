@@ -325,6 +325,14 @@ class FileField extends React.Component {
               const allowRetry =
                 errors[0] === FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
 
+              const retryButtonText = allowRetry
+                ? 'Try again'
+                : 'Upload a new file';
+
+              const retryFunction = allowRetry
+                ? () => this.retryLastUpload(index, file.file)
+                : () => this.deleteThenAddFile(index);
+
               return (
                 <li
                   key={index}
@@ -400,8 +408,8 @@ class FileField extends React.Component {
                     )}
                   {!file.uploading &&
                     hasErrors && (
-                      <span className="usa-input-error-message">
-                        {errors[0]}
+                      <span className="usa-input-error-message" role="alert">
+                        <span className="sr-only">Error</span> {errors[0]}
                       </span>
                     )}
                   {showPasswordInput && (
@@ -427,42 +435,15 @@ class FileField extends React.Component {
                       </div>
                     )}
                   {enableShortWorkflow &&
-                    allowRetry &&
-                    showButtons && (
-                      <div className="vads-u-margin-top--2">
-                        <button
-                          type="button"
-                          className="usa-button-primary vads-u-width--auto vads-u-margin-right--2"
-                          onClick={() => {
-                            this.retryLastUpload(index, file.file);
-                          }}
-                        >
-                          Try again
-                        </button>
-                        <button
-                          type="button"
-                          className="usa-button-secondary vads-u-width--auto"
-                          onClick={() => {
-                            this.removeFile(index);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    )}
-                  {enableShortWorkflow &&
                     showButtons &&
-                    !allowRetry &&
                     hasErrors && (
                       <div className="vads-u-margin-top--2">
                         <button
                           type="button"
                           className="usa-button-primary vads-u-width--auto vads-u-margin-right--2"
-                          onClick={() => {
-                            this.deleteThenAddFile(index);
-                          }}
+                          onClick={retryFunction}
                         >
-                          Upload a new file
+                          {retryButtonText}
                         </button>
                         <button
                           type="button"
