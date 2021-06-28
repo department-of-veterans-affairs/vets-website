@@ -23,12 +23,7 @@ export function NameSearchForm({
   const history = useHistory();
 
   const doSearch = value => {
-    dispatchFetchSearchByNameResults(
-      value,
-      search.name.pagination.currentPage,
-      filters,
-      version,
-    );
+    dispatchFetchSearchByNameResults(value, 1, filters, version);
 
     updateUrlParams(
       history,
@@ -39,7 +34,7 @@ export function NameSearchForm({
       },
       filters,
       version,
-      search.name.pagination.currentPage,
+      1,
     );
   };
 
