@@ -32,7 +32,12 @@ export function NameSearchForm({
   };
 
   const doSearch = value => {
-    dispatchFetchSearchByNameResults(value, filters, version);
+    dispatchFetchSearchByNameResults(
+      value,
+      search.name.pagination.currentPage,
+      filters,
+      version,
+    );
     updateUrlNameParams(value);
   };
 

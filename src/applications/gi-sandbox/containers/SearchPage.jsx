@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { setPageTitle, changeSearchTab } from '../actions';
+import { changeSearchTab, setPageTitle } from '../actions';
 import { PAGE_TITLE, TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
 import { useQueryParams } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
 import CompareDrawer from './CompareDrawer';
-import NameResults from '../components/search/NameResults';
+import NameSearchResults from '../containers/search/NameSearchResults';
 import LocationSearchResults from '../containers/search/LocationSearchResults';
 
 export function SearchPage({
-  search,
-  dispatchSetPageTitle,
   dispatchChangeSearchTab,
+  dispatchSetPageTitle,
+  search,
 }) {
   useEffect(() => {
     dispatchSetPageTitle(`${PAGE_TITLE}: VA.gov`);
@@ -23,8 +23,8 @@ export function SearchPage({
   const { tab } = search;
 
   const tabbedResults = {
-    [TABS.name]: <NameResults search={search} />,
-    [TABS.location]: <LocationSearchResults search={search} />,
+    [TABS.name]: <NameSearchResults />,
+    [TABS.location]: <LocationSearchResults />,
   };
 
   const tabChange = selectedTab => {
@@ -54,8 +54,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  dispatchSetPageTitle: setPageTitle,
   dispatchChangeSearchTab: changeSearchTab,
+  dispatchSetPageTitle: setPageTitle,
 };
 
 export default connect(

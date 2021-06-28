@@ -92,7 +92,12 @@ export function RefineYourSearch({
 
   const updateResults = () => {
     if (search.tab === TABS.name) {
-      dispatchFetchSearchByNameResults(search.query.name, filters, version);
+      dispatchFetchSearchByNameResults(
+        search.query.name,
+        search.name.pagination.currentPage,
+        filters,
+        version,
+      );
     } else {
       dispatchFetchSearchByLocationResults(
         search.query.location,
