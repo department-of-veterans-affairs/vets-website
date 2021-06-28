@@ -1,11 +1,11 @@
 import React from 'react';
-import StringField from './StringField';
+import TextField from './TextField';
 import { render } from '@testing-library/react';
 
-describe('Form Builder - StringField', () => {
+describe('Form Builder - TextField', () => {
   test('renders', () => {
     const { getByLabelText } = render(
-      <StringField name="thing" label="The Thing" />
+      <TextField name="thing" label="The Thing" />
     );
     expect(getByLabelText('The Thing')).toBeTruthy();
   });
