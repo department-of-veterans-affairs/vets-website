@@ -12,6 +12,7 @@ import {
   setInitialEditMode,
   issuesNeedUpdating,
   processContestableIssues,
+  readableList,
 } from '../../utils/helpers';
 import { getDate } from '../../utils/dates';
 
@@ -65,9 +66,21 @@ describe('getSelected', () => {
       }),
     ).to.deep.equal([{ type: 'ok', [SELECTED]: true, index: 0 }]);
   });
+  it('should not return selected additional issues when Veteran chooses not to include them', () => {
+    expect(
+      getSelected({
+        'view:hasIssuesToAdd': false,
+        additionalIssues: [
+          { type: 'no', [SELECTED]: false },
+          { type: 'ok', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([]);
+  });
   it('should return selected additional issues', () => {
     expect(
       getSelected({
+        'view:hasIssuesToAdd': true,
         additionalIssues: [
           { type: 'no', [SELECTED]: false },
           { type: 'ok', [SELECTED]: true },
@@ -82,6 +95,7 @@ describe('getSelected', () => {
           { type: 'no1', [SELECTED]: false },
           { type: 'ok1', [SELECTED]: true },
         ],
+        'view:hasIssuesToAdd': true,
         additionalIssues: [
           { type: 'no2', [SELECTED]: false },
           { type: 'ok2', [SELECTED]: true },
@@ -308,5 +322,21 @@ describe('processContestableIssues', () => {
       '2021-01-31',
       '2020-12-01',
     ]);
+  });
+});
+
+describe('readableList', () => {
+  it('should return an empty string', () => {
+    expect(readableList([])).to.eq('');
+    expect(readableList(['', null, 0])).to.eq('');
+  });
+  it('should return a combined list with commas with "and" for the last item', () => {
+    expect(readableList(['one'])).to.eq('one');
+    expect(readableList(['', 'one', null])).to.eq('one');
+    expect(readableList(['one', 'two'])).to.eq('one and two');
+    expect(readableList([1, 2, 'three'])).to.eq('1, 2 and three');
+    expect(readableList(['v', null, 'w', 'x', '', 'y', 'z'])).to.eq(
+      'v, w, x, y and z',
+    );
   });
 });

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../redux/actions';
 import {
@@ -23,6 +22,7 @@ import { getVAAppointmentLocationId } from '../../services/appointment';
 import ConfirmedAppointmentListItem from './cards/confirmed/ConfirmedAppointmentListItem';
 import AppointmentRequestListItem from './cards/pending/AppointmentRequestListItem';
 import NoAppointments from './NoAppointments';
+import InfoAlert from '../../components/InfoAlert';
 
 function FutureAppointmentsList({
   showCancelButton,
@@ -88,10 +88,13 @@ function FutureAppointmentsList({
     );
   } else if (futureStatus === FETCH_STATUS.failed) {
     content = (
-      <AlertBox status="error" headline="We’re sorry. We’ve run into a problem">
+      <InfoAlert
+        status="error"
+        headline="We’re sorry. We’ve run into a problem"
+      >
         We’re having trouble getting your upcoming appointments. Please try
         again later.
-      </AlertBox>
+      </InfoAlert>
     );
   } else {
     content = (

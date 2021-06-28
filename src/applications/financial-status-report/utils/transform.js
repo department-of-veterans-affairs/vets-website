@@ -73,18 +73,18 @@ export const transform = (formConfig, form) => {
     expenses: {
       ...expenses,
       utilities: utilityRecords?.reduce(
-        (acc, record) => acc + record.monthlyUtilityAmount || 0,
+        (acc, record) => acc + Number(record.monthlyUtilityAmount) || 0,
         0,
       ),
       otherLivingExpenses: {
         name: otherExpenses?.map(expense => expense.name).join(', '),
         amount: otherExpenses?.reduce(
-          (acc, expense) => acc + expense.amount || 0,
+          (acc, expense) => acc + Number(expense.amount) || 0,
           0,
         ),
       },
       expensesInstallmentContractsAndOtherDebts: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.amountDueMonthly || 0,
+        (acc, debt) => acc + Number(debt.amountDueMonthly) || 0,
         0,
       ),
       totalMonthlyExpenses: totalExpenses,
@@ -96,11 +96,11 @@ export const transform = (formConfig, form) => {
     assets: {
       ...assets,
       trailersBoatsCampers: assets.trailersBoatsCampers?.reduce(
-        (acc, record) => acc + record.recreationalVehicleAmount || 0,
+        (acc, record) => acc + Number(record.recreationalVehicleAmount) || 0,
         0,
       ),
       realEstateOwned: realEstateRecords?.reduce(
-        (acc, record) => acc + record.realEstateAmount || 0,
+        (acc, record) => acc + Number(record.realEstateAmount) || 0,
         0,
       ),
       totalAssets,
@@ -122,19 +122,19 @@ export const transform = (formConfig, form) => {
     ),
     totalOfInstallmentContractsAndOtherDebts: {
       originalAmount: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.originalAmount || 0,
+        (acc, debt) => acc + Number(debt.originalAmount) || 0,
         0,
       ),
       unpaidBalance: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.unpaidBalance || 0,
+        (acc, debt) => acc + Number(debt.unpaidBalance) || 0,
         0,
       ),
       amountDueMonthly: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.amountDueMonthly || 0,
+        (acc, debt) => acc + Number(debt.amountDueMonthly) || 0,
         0,
       ),
       amountPastDue: installmentContractsAndOtherDebts?.reduce(
-        (acc, debt) => acc + debt.amountPastDue || 0,
+        (acc, debt) => acc + Number(debt.amountPastDue) || 0,
         0,
       ),
     },

@@ -448,6 +448,13 @@ const formConfig = {
                   'ui:description':
                     'Please provide all your sponsor’s service periods. If you need to add another service period, please click the Add Another Service Period button.',
                   items: {
+                    'ui:order': [
+                      'serviceBranch',
+                      'dateRange',
+                      'dischargeType',
+                      'highestRank',
+                      'nationalGuardState',
+                    ],
                     serviceBranch: {
                       'ui:title': 'Sponsor’s branch of service',
                     },

@@ -188,7 +188,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Verify provider list count and get load more button
     expect(screen.baseElement).to.contain.text(
-      '123 big sky stCincinnati, OH 45220',
+      '123 big sky stCincinnati, OhioOH 45220',
     );
 
     expect(await screen.findByText(/Displaying 1 to 5 of 16 providers/i)).to.be

@@ -5,6 +5,9 @@ export const uiSchema = {
       'ui:title': 'Have you had any jobs in the last 2 years?',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Please enter your employment information.',
+      },
     },
   },
 };

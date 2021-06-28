@@ -4,7 +4,6 @@ import URLSearchParams from 'url-search-params';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import {
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
@@ -25,6 +24,7 @@ import { selectRequestedAppointmentDetails } from '../redux/selectors';
 import ErrorMessage from '../../components/ErrorMessage';
 import PageLayout from './AppointmentsPage/PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
+import InfoAlert from '../../components/InfoAlert';
 import {
   startAppointmentCancel,
   closeCancelAppointment,
@@ -129,14 +129,13 @@ export default function RequestedAppointmentDetailsPage() {
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isCC = appointment.vaos.isCommunityCare;
-  const isVideoRequest = appointment.vaos.isVideo;
+  const typeOfVisit = appointment.vaos.requestVisitType;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
   const facilityId = getVAAppointmentLocationId(appointment);
   const facility = facilityData?.[facilityId];
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const provider =
-    appointment.preferredCommunityCareProviders?.[0] || appointment.provider;
+  const provider = appointment.preferredCommunityCareProviders?.[0];
   const comment = message || appointment.comment;
   const apptDetails = comment
     ? `${appointment.reason}: ${comment}`
@@ -153,20 +152,12 @@ export default function RequestedAppointmentDetailsPage() {
       </h1>
       {!showConfirmMsg &&
         !canceled && (
-          <AlertBox
-            status="info"
-            className="vads-u-display--block vads-u-margin-bottom--2"
-            backgroundOnly
-          >
+          <InfoAlert backgroundOnly status="info">
             The time and date of this appointment are still to be determined.
-          </AlertBox>
+          </InfoAlert>
         )}
       {showConfirmMsg && (
-        <AlertBox
-          status={canceled ? 'error' : 'success'}
-          className="vads-u-display--block vads-u-margin-bottom--2"
-          backgroundOnly
-        >
+        <InfoAlert backgroundOnly status={canceled ? 'error' : 'success'}>
           {canceled && 'This request has been canceled'}
           {!canceled && (
             <>
@@ -201,15 +192,12 @@ export default function RequestedAppointmentDetailsPage() {
               </div>
             </>
           )}
-        </AlertBox>
+        </InfoAlert>
       )}
       {!isCCRequest && (
-        <>
-          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-            {isVideoRequest && 'VA Video Connect'}
-            {!isVideoRequest && 'VA Appointment'}
-          </h2>
-        </>
+        <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+          VA appointment
+        </h2>
       )}
 
       {!!facility &&
@@ -222,7 +210,7 @@ export default function RequestedAppointmentDetailsPage() {
           />
         )}
 
-      {isCCRequest && (
+      {isCCRequest ? (
         <>
           <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
             Preferred community care provider
@@ -234,6 +222,13 @@ export default function RequestedAppointmentDetailsPage() {
             </span>
           )}
           {!provider && <span>No provider selected</span>}
+        </>
+      ) : (
+        <>
+          <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
+            Preferred type of appointment
+          </h2>
+          {typeOfVisit}
         </>
       )}
 

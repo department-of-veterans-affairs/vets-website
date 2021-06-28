@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import ErrorMessage from '../../../components/ErrorMessage';
 import { aOrAn, lowerCase } from '../../../utils/formatters';
 import State from '../../../components/State';
 import NewTabAnchor from '../../../components/NewTabAnchor';
+import InfoAlert from '../../../components/InfoAlert';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 
 export default function SingleFacilityEligibilityCheckMessage({
@@ -81,14 +81,14 @@ export default function SingleFacilityEligibilityCheckMessage({
 
   return (
     <div aria-atomic="true" aria-live="assertive">
-      <AlertBox status="warning" headline={title}>
+      <InfoAlert status="warning" headline={title}>
         <p>
           <strong>{facility.name}</strong>
           <br />
           {facility.address?.city}, <State state={facility.address?.state} />
         </p>
         {message}
-      </AlertBox>
+      </InfoAlert>
     </div>
   );
 }

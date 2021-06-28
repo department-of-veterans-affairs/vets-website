@@ -21,6 +21,10 @@ export const uiSchema = {
             classNames: 'vads-u-margin-bottom--3 vads-u-margin-top--3',
             widgetClassNames: 'input-size-3',
           },
+          'ui:errorMessages': {
+            required: 'Please enter your dependent(s) age.',
+            pattern: 'Please enter only numerical values.',
+          },
         },
       },
     },
@@ -41,6 +45,7 @@ export const schema = {
             properties: {
               dependentAge: {
                 type: 'string',
+                pattern: '^\\d+$',
               },
             },
           },

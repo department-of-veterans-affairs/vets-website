@@ -1,28 +1,50 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
 import FormFooter from 'platform/forms/components/FormFooter';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
+import {
+  WIZARD_STATUS_COMPLETE,
+  WIZARD_STATUS_RESTARTING,
+} from 'platform/site-wide/wizard';
+
 import Wizard from 'applications/static-pages/wizard';
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 import pages from '../../wizard/pages';
 import formConfig from '../config/form';
-import { getPageTitle } from '../utils';
+import { getPageTitle, wrapWithBreadcrumb } from '../utils';
 import {
   SAVED_SEPARATION_DATE,
   FORM_STATUS_BDD,
   DISABILITY_526_V2_ROOT_URL,
+  WIZARD_STATUS,
 } from '../constants';
 
-const WizardContainer = ({ setWizardStatus }) => {
+const setWizardStatus = value => {
+  sessionStorage.setItem(WIZARD_STATUS, value);
+};
+
+const WizardContainer = () => {
+  useEffect(() => {
+    focusElement('.va-nav-breadcrumbs-list');
+    scrollToTop();
+  });
+
   sessionStorage.removeItem(SAVED_SEPARATION_DATE);
   sessionStorage.removeItem(FORM_STATUS_BDD);
-  return (
+  if (sessionStorage.getItem(WIZARD_STATUS) === WIZARD_STATUS_RESTARTING) {
+    // Ensure we clear the restarting state
+    sessionStorage.removeItem(WIZARD_STATUS);
+  }
+  const title = getPageTitle();
+  return wrapWithBreadcrumb(
+    title,
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
-        <FormTitle title={getPageTitle()} subTitle={formConfig.subTitle} />
+        <FormTitle title={title} subTitle={formConfig.subTitle} />
         <div className="wizard-container">
           <h2>Is this the form I need?</h2>
           <p>
@@ -52,12 +74,11 @@ const WizardContainer = ({ setWizardStatus }) => {
             without answering the questions above.
           </p>
           <a
-            href={DISABILITY_526_V2_ROOT_URL}
+            href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
             className="vads-u-display--inline-block vads-u-margin-bottom--3 skip-wizard-link"
-            onClick={e => {
-              e.preventDefault();
-              recordEvent({ event: 'howToWizard-skip' });
+            onClick={() => {
               setWizardStatus(WIZARD_STATUS_COMPLETE);
+              recordEvent({ event: 'howToWizard-skip' });
             }}
           >
             If you know VA Form 21-526EZ is right, apply now
@@ -65,7 +86,7 @@ const WizardContainer = ({ setWizardStatus }) => {
         </div>
         <FormFooter formConfig={formConfig} />
       </div>
-    </div>
+    </div>,
   );
 };
 

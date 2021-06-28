@@ -1,6 +1,5 @@
 import fullSchema10203 from 'vets-json-schema/dist/22-10203-schema.json';
 import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
-import environment from 'platform/utilities/environment';
 import { displayConfirmEligibility, isChapter33 } from '../helpers';
 import captureEvents from '../analytics-functions';
 
@@ -70,9 +69,7 @@ export const chapters = {
       },
       // prod flag 24612
       programDetails: {
-        title: environment.isProduction()
-          ? 'STEM degree and school details'
-          : 'STEM degree and institution details',
+        title: 'STEM degree and institution details',
         path: 'benefits/program-details',
         uiSchema: programDetails.uiSchema,
         schema: programDetails.schema,

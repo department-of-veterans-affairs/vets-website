@@ -1,24 +1,31 @@
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import _ from 'lodash/fp';
+import { validateCurrency } from '../../utils/validations';
 
 export const uiSchema = {
   'ui:title': 'Your monthly household expenses',
   expenses: {
-    rentOrMortgage: _.merge(
-      currencyUI(
+    rentOrMortgage: {
+      'ui:title':
         'How much do you spend on housing each month? Please include expenses such as rent, mortgage, taxes, and HOA fees.',
-      ),
-      {
-        'ui:options': {
-          widgetClassNames: 'input-size-3',
-        },
-      },
-    ),
-    food: _.merge(currencyUI('How much do you pay for food each month?'), {
       'ui:options': {
+        classNames: 'schemaform-currency-input',
         widgetClassNames: 'input-size-3',
       },
-    }),
+      'ui:errorMessages': {
+        required: 'Please enter your housing expense information.',
+      },
+      'ui:validations': [validateCurrency],
+    },
+    food: {
+      'ui:title': 'How much do you pay for food each month?',
+      'ui:options': {
+        classNames: 'schemaform-currency-input',
+        widgetClassNames: 'input-size-3',
+      },
+      'ui:errorMessages': {
+        required: 'Please enter your food expenses information.',
+      },
+      'ui:validations': [validateCurrency],
+    },
   },
 };
 
@@ -30,10 +37,10 @@ export const schema = {
       required: ['rentOrMortgage', 'food'],
       properties: {
         rentOrMortgage: {
-          type: 'number',
+          type: 'string',
         },
         food: {
-          type: 'number',
+          type: 'string',
         },
       },
     },
