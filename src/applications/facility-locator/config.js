@@ -1,6 +1,10 @@
 import environment from 'platform/utilities/environment';
 import compact from 'lodash/compact';
-import { LocationType, FacilityType } from './constants';
+import {
+  LocationType,
+  FacilityType,
+  EMERGENCY_CARE_SERVICES,
+} from './constants';
 import manifest from './manifest.json';
 import { facilityLocatorRailsEngine } from './utils/featureFlagSelectors';
 
@@ -48,7 +52,7 @@ export const resolveParamsWithUrl = ({
   bounds,
   center,
   radius,
-  allUrgentCare = false,
+  isMashUp = false,
   store,
 }) => {
   const filterableLocations = ['health', 'benefits', 'provider'];
@@ -69,21 +73,39 @@ export const resolveParamsWithUrl = ({
   let roundRadius;
   let perPage = 20;
   let communityServiceType = false;
+  let multiSpecialties = false;
 
   switch (locationType) {
     case 'urgent_care':
       if (serviceType === 'UrgentCare') {
         facility = 'health';
         service = 'UrgentCare';
-      } else if (serviceType === 'NonVAUrgentCare' && allUrgentCare) {
+      } else if (serviceType === 'NonVAUrgentCare' && isMashUp) {
         facility = 'urgent_care';
         url = api.ccUrl;
         communityServiceType = true;
         perPage = 40;
-      } else if (serviceType === 'NonVAUrgentCare' && !allUrgentCare) {
+      } else if (serviceType === 'NonVAUrgentCare' && !isMashUp) {
         facility = 'urgent_care';
         url = api.ccUrl;
         communityServiceType = true;
+      }
+      break;
+    case 'emergency_care':
+      if (serviceType === 'EmergencyCare') {
+        facility = 'health';
+        service = 'EmergencyCare';
+      } else if (serviceType === 'NonVAEmergencyCare' && isMashUp) {
+        facility = 'provider';
+        url = api.ccUrl;
+        communityServiceType = true;
+        multiSpecialties = true;
+        perPage = 40;
+      } else if (serviceType === 'NonVAEmergencyCare' && !isMashUp) {
+        facility = 'provider';
+        url = api.ccUrl;
+        communityServiceType = true;
+        multiSpecialties = true;
       }
       break;
     case 'pharmacy':
@@ -102,6 +124,21 @@ export const resolveParamsWithUrl = ({
 
   if (useRailsEngine && facility && communityServiceType) {
     url = `${url}/${facility}`;
+  }
+
+  // Emergency care - NonVAEmergencyCare
+  //
+  // 261QE0002X&specialties[]=282N00000X&
+  // specialties[]=282NC0060X&
+  // specialties[]=282NR1301X&
+  // specialties[]=282NW0100X
+  if (multiSpecialties) {
+    const sNchar = 'specialties[]=';
+    service = `${EMERGENCY_CARE_SERVICES[0]}&${sNchar}${
+      EMERGENCY_CARE_SERVICES[1]
+    }&${sNchar}${EMERGENCY_CARE_SERVICES[2]}&${sNchar}${
+      EMERGENCY_CARE_SERVICES[3]
+    }&${sNchar}${EMERGENCY_CARE_SERVICES[4]}`;
   }
 
   return {
