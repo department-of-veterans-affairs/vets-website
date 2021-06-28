@@ -92,6 +92,7 @@ class FileField extends React.Component {
         onChange,
         formContext,
         uiSchema,
+        enableShortWorkflow,
       } = this.props;
       const uiOptions = uiSchema['ui:options'];
 
@@ -99,10 +100,13 @@ class FileField extends React.Component {
       if (idx === null) {
         idx = files.length === 0 ? 0 : files.length;
       }
-      files[idx] = {
-        file: currentFile,
-        name: currentFile.name,
-      };
+
+      if (enableShortWorkflow) {
+        files[idx] = {
+          file: currentFile,
+          name: currentFile.name,
+        };
+      }
 
       // Check if the file is an encrypted PDF
       if (
@@ -114,8 +118,17 @@ class FileField extends React.Component {
           uiOptions.isFileEncrypted || this.isFileEncrypted;
         const needsPassword = await isFileEncrypted(currentFile);
         if (needsPassword) {
+          if (enableShortWorkflow) {
+            files[idx].isEncrypted = true;
+          } else {
+            files[idx] = {
+              file: currentFile,
+              name: currentFile.name,
+              isEncrypted: true,
+            };
+          }
+
           onChange(files);
-          files[idx].isEncrypted = true;
           // wait for user to enter a password before uploading
           return;
         }
@@ -137,6 +150,7 @@ class FileField extends React.Component {
         },
         formContext.trackingPrefix,
         password,
+        enableShortWorkflow,
       );
     }
   };
@@ -226,7 +240,7 @@ class FileField extends React.Component {
       onBlur,
       registry,
       requestLockedPdfPassword,
-      // enableShortWorkflow,
+      enableShortWorkflow,
     } = this.props;
     const uiOptions = uiSchema?.['ui:options'];
     const files = formData || [];
@@ -251,13 +265,15 @@ class FileField extends React.Component {
         ? uiSchema['ui:title']
         : schema.title;
 
-    const hasAnyError = files.some((file, index) => {
-      const errors =
-        _.get([index, '__errors'], errorSchema) ||
-        [file.errorMessage].filter(error => error);
+    const hasAnyError =
+      enableShortWorkflow &&
+      files.some((file, index) => {
+        const errors =
+          _.get([index, '__errors'], errorSchema) ||
+          [file.errorMessage].filter(error => error);
 
-      return errors.length > 0;
-    });
+        return errors.length > 0;
+      });
 
     return (
       <div
@@ -395,7 +411,23 @@ class FileField extends React.Component {
                       onSubmitPassword={this.onSubmitPassword}
                     />
                   )}
-                  {allowRetry &&
+                  {showButtons &&
+                    (!enableShortWorkflow ||
+                      (enableShortWorkflow && !hasErrors && !allowRetry)) && (
+                      <div className="vads-u-margin-top--2">
+                        <button
+                          type="button"
+                          className="usa-button-secondary vads-u-width--auto"
+                          onClick={() => {
+                            this.removeFile(index);
+                          }}
+                        >
+                          Delete file
+                        </button>
+                      </div>
+                    )}
+                  {enableShortWorkflow &&
+                    allowRetry &&
                     showButtons && (
                       <div className="vads-u-margin-top--2">
                         <button
@@ -418,21 +450,8 @@ class FileField extends React.Component {
                         </button>
                       </div>
                     )}
-                  {showButtons &&
-                    (!hasErrors && !allowRetry) && (
-                      <div className="vads-u-margin-top--2">
-                        <button
-                          type="button"
-                          className="usa-button-secondary vads-u-width--auto"
-                          onClick={() => {
-                            this.removeFile(index);
-                          }}
-                        >
-                          Delete file
-                        </button>
-                      </div>
-                    )}
-                  {showButtons &&
+                  {enableShortWorkflow &&
+                    showButtons &&
                     !allowRetry &&
                     hasErrors && (
                       <div className="vads-u-margin-top--2">
@@ -467,7 +486,7 @@ class FileField extends React.Component {
           <>
             {(maxItems === null || files.length < maxItems) &&
               // Prevent additional upload if any upload has error state
-              !hasAnyError && (
+              (enableShortWorkflow || !hasAnyError) && (
                 <label
                   id={`${idSchema.$id}_add_label`}
                   htmlFor={idSchema.$id}
