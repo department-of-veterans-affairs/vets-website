@@ -244,36 +244,6 @@ jobs:
           name: mochawesome-generated-report
           path: testing-reports/cypress-reports
 
-      # - name: Download test result artifact 1
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: cypress-mochawesome-test-results-artifact-1
-      #     path: testing-reports/cypress-reports/videos/${{ env.UUID }}
-
-      # - name: Download test result artifact 2
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: cypress-mochawesome-test-results-artifact-2
-      #     path: testing-reports/cypress-reports/videos/${{ env.UUID }}
-
-      # - name: Download test result artifact 3
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: cypress-mochawesome-test-results-artifact-3
-      #     path: testing-reports/cypress-reports/videos/${{ env.UUID }}
-
-      # - name: Download test result artifact 4
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: cypress-mochawesome-test-results-artifact-4
-      #     path: testing-reports/cypress-reports/videos/${{ env.UUID }}
-
-      # - name: Download test result artifact 5
-      #   uses: actions/download-artifact@v2
-      #   with:
-      #     name: cypress-mochawesome-test-results-artifact-5
-      #     path: testing-reports/cypress-reports/videos/${{ env.UUID }}
-
       - name: Download video artifacts
         uses: actions/download-artifact@v2
         with:
