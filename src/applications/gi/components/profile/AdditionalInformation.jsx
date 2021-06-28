@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 
 export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
@@ -159,22 +158,21 @@ export class AdditionalInformation extends React.Component {
           &nbsp;
           {institution.stemIndicator ? 'Yes' : 'No'}
         </div>
-        {!environment.isProduction() &&
-          institution.vrrap !== null && (
-            <div>
-              <strong>
-                <button
-                  id="vrrap-button"
-                  type="button"
-                  className="va-button-link learn-more-button"
-                  onClick={this.props.onShowModal.bind(this, 'vrrap')}
-                >
-                  Veteran Rapid Retraining Assistance Program (VRRAP):
-                </button>
-              </strong>
-              &nbsp; {institution.vrrap ? 'Yes' : 'No'}
-            </div>
-          )}
+        {institution.vrrap !== null && (
+          <div>
+            <strong>
+              <button
+                id="vrrap-button"
+                type="button"
+                className="va-button-link learn-more-button"
+                onClick={this.props.onShowModal.bind(this, 'vrrap')}
+              >
+                Veteran Rapid Retraining Assistance Program (VRRAP):
+              </button>
+            </strong>
+            &nbsp; {institution.vrrap ? 'Yes' : 'No'}
+          </div>
+        )}
         <div>
           <strong>
             <button
