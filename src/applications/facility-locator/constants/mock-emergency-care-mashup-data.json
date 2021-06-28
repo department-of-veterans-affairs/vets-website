@@ -511,6 +511,30 @@
         "prefContact": null,
         "uniqueId": "1861690364"
       }
+    },
+    {
+      "id": "d177566d94932c18a97fc5e441e792cae77544874012095f174886dd6b156400",
+      "type": "provider",
+      "attributes": {
+        "accNewPatients": "false",
+        "address": {
+          "street": "1500 Red River St",
+          "city": "Austin",
+          "state": "TX",
+          "zip": "78701"
+        },
+        "caresitePhone": "5123247000",
+        "email": null,
+        "fax": null,
+        "gender": "NotSpecified",
+        "lat": 30.27558,
+        "long": -97.733979,
+        "name": "DELL SETON MEDICAL CENTER AT UT",
+        "phone": null,
+        "posCodes": null,
+        "prefContact": null,
+        "uniqueId": "1093810327"
+      }
     }
   ],
   "meta":{
