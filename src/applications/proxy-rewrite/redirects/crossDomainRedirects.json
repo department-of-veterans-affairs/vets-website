@@ -1098,5 +1098,46 @@
     "domain": "www.benefits.va.gov",
     "src": "/gibill/vrrap.asp",
     "dest": "/education/other-va-education-benefits/veteran-rapid-retraining-assistance/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/",
+    "dest": "/altoona-health-care/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/directions.asp",
+    "dest": "/altoona-health-care/locations/james-e-van-zandt-veterans-administration-medical-center/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/DuBois.asp",
+    "dest": "/altoona-health-care/locations/dubois-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/Huntingdon_VA_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/altoona-health-care/locations/huntingdon-county-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/Indiana_VA_Outpatient_Clinic.asp",
+    "dest": "/altoona-health-care/locations/indiana-county-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/Johnstown.asp",
+    "dest": "/altoona-health-care/locations/johnstown-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/locations/StateCollege.asp",
+    "dest": "/altoona-health-care/locations/state-college-va-clinic/"
+  },
+  {
+    "domain": "www.altoona.va.gov",
+    "src": "/services/covid-19-vaccines.asp",
+    "dest": "/altoona-health-care/programs/covid-19-vaccines/"
   }
 ]
