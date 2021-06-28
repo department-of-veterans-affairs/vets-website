@@ -199,6 +199,11 @@ jobs:
           name: mochawesome-generated-report
           path: testing-tools-team-dashboard-data/mochawesome-report/
 
+      - uses: nick-invision/persist-action-data@v1
+        with:
+          data: ${{ env.UUID }}
+          variable: UUID
+
   publish-mochawesome-report:
     if: ${{ always() }}
     needs: mochawesome-report
@@ -220,6 +225,11 @@ jobs:
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - uses: nick-invision/persist-action-data@v1
+        with:
+          data: ${{ env.UUID }}
+          retrieve_variables: UUID
 
       - name: Checkout Test Reports repo
         uses: actions/checkout@v2
