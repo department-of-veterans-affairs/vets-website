@@ -20,6 +20,13 @@ import PersonalInformationContent from './PersonalInformationContent';
 
 import { PROFILE_PATHS } from '../../constants';
 
+// drops the leading `edit` from the hash and looks for that element
+const getScrollTarget = _hash => {
+  const hash = _hash.replace('#', '');
+  const hashWithoutLeadingEdit = hash.replace(/^edit-/, '');
+  return document.querySelector(`#${hashWithoutLeadingEdit}`);
+};
+
 const PersonalInformation = ({
   showDirectDepositBlockedError,
   hasUnsavedEdits,
@@ -44,10 +51,17 @@ const PersonalInformation = ({
         return;
       }
       if (window.location.hash) {
-        const target = document.querySelector(window.location.hash);
-        if (target) {
-          focusElement(target);
-          target.scrollIntoView();
+        // We will always attempt to focus on the element that matches the
+        // location.hash
+        const focusTarget = document.querySelector(window.location.hash);
+        // But if the hash starts with `edit` will will scroll a different
+        // element into view
+        const scrollTarget = getScrollTarget(window.location.hash);
+        if (scrollTarget) {
+          scrollTarget.scrollIntoView();
+        }
+        if (focusTarget) {
+          focusElement(focusTarget);
           return;
         }
       }

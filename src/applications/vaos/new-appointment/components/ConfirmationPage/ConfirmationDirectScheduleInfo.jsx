@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from '../../../lib/moment-tz.js';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import FacilityAddress from '../../../components/FacilityAddress';
 import AddToCalendar from '../../../components/AddToCalendar';
+import InfoAlert from '../../../components/InfoAlert';
 import {
   formatFacilityAddress,
   getFacilityPhone,
@@ -30,11 +30,11 @@ export default function ConfirmationDirectScheduleInfo({
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
-      <AlertBox status="success">
+      <InfoAlert status="success">
         <strong>Your appointment is confirmed</strong>
         <br />
         Please see your appointment details below.
-      </AlertBox>
+      </InfoAlert>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2p5 vads-u-margin-y--3 vads-u-border-top--4px vads-u-border-color--green">
         <div className="vaos-form__title vads-u-font-size--sm vads-u-font-weight--normal vads-u-font-family--sans">
           VA Appointment

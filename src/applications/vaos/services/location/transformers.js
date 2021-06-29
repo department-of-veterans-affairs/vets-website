@@ -330,12 +330,19 @@ export function transformCommunityProvider(provider) {
     identifier: [{ system: 'PPMS', value: provider.uniqueId }],
     resourceType: 'Location',
     address: {
-      line: [provider.address.street],
-      city: provider.address.city,
-      state: provider.address.state,
-      postalCode: provider.address.zip,
+      line: [provider.address?.street],
+      city: provider.address?.city,
+      state: provider.address?.state,
+      postalCode: provider.address?.zip || provider.address?.zipCode, // or providerZipCode????
     },
-    name: provider.name,
+    providerName:
+      provider.lastName &&
+      `${provider.firstName || ''} ${provider.lastName || ''}`,
+    practiceName: provider.practiceName,
+
+    // TODO: Refactor!!!
+    name: provider.name || provider.practiceName,
+
     position: { longitude: provider.long, latitude: provider.lat },
     telecom: [{ system: 'phone', value: provider.caresitePhone }],
   };

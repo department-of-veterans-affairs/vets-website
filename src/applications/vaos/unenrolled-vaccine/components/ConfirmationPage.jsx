@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import recordEvent from 'platform/monitoring/record-event.js';
+import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { GA_PREFIX } from '../../utils/constants.js';
 
@@ -22,13 +22,13 @@ export default function ConfirmationPage() {
   return (
     <div>
       <h1>{pageTitle}</h1>
-      <AlertBox status="success">
+      <InfoAlert status="success">
         <strong>Your appointment is confirmed.</strong>
         <p>
           If you get a vaccine that requires a second dose, we'll schedule your
           second appointment while you're here for your first dose.
         </p>
-      </AlertBox>
+      </InfoAlert>
       <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2">
         <span className="vads-u-margin-y--0 vaos-u-text-transform--uppercase">
           {appointmentType}

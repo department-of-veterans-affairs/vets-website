@@ -74,6 +74,74 @@
       }
     },
     {
+      "id": "25958",
+      "type": "appointments",
+      "attributes": {
+        "id": "25958",
+        "kind": "phone",
+        "status": "proposed",
+        "serviceType": "408",
+        "locationId": "983HK",
+        "clinic": null,
+        "telehealth": null,
+        "practitioners": [],
+        "reason": "Routine Follow-up",
+        "start": null,
+        "end": null,
+        "minutesDuration": null,
+        "slot": null,
+        "requestedPeriods": [
+          { "start": "2021-11-16T01:30:00Z" },
+          { "start": "2021-11-17T04:00:00Z" }
+        ],
+        "contact": {
+          "telecom": [
+            { "type": "phone", "value": "2125551212" },
+            { "type": "email", "value": "veteranemailtest@va.gov" }
+          ]
+        },
+        "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
+        "priority": null,
+        "cancellationReason": null,
+        "description": null,
+        "comment": "Pink eye"
+      }
+    },
+    {
+      "id": "25959",
+      "type": "appointments",
+      "attributes": {
+        "id": "25959",
+        "kind": "telehealth",
+        "status": "proposed",
+        "serviceType": "160",
+        "locationId": "983",
+        "clinic": null,
+        "telehealth": null,
+        "practitioners": [],
+        "reason": "New Issue",
+        "start": null,
+        "end": null,
+        "minutesDuration": null,
+        "slot": null,
+        "requestedPeriods": [
+          { "start": "2021-11-16T01:30:00Z" },
+          { "start": "2021-11-17T04:00:00Z" }
+        ],
+        "contact": {
+          "telecom": [
+            { "type": "phone", "value": "2125551212" },
+            { "type": "email", "value": "veteranemailtest@va.gov" }
+          ]
+        },
+        "preferredTimesForPhoneCall": ["Afternoon", "Evening"],
+        "priority": null,
+        "cancellationReason": null,
+        "description": null,
+        "comment": "Renew medication"
+      }
+    },
+    {
       "id": "32152",
       "type": "appointments",
       "attributes": {

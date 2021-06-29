@@ -3,6 +3,7 @@ import TableDetailsView from '../../../../components/TableDetailsView';
 import CustomReviewField from '../../../../components/CustomReviewField';
 import Typeahead from '../../../../components/Typeahead';
 import ItemLoop from '../../../../components/ItemLoop';
+import { validateCurrency } from '../../../../utils/validations';
 import {
   formatOptions,
   deductionTypes,
@@ -27,6 +28,10 @@ export const uiSchema = {
         'ui:options': {
           widgetClassNames: 'input-size-1 vads-u-margin-bottom--3',
           classNames: 'schemaform-currency-input',
+        },
+        'ui:validations': [validateCurrency],
+        'ui:errorMessages': {
+          required: "Please enter your spouse's gross monthly income.",
         },
       },
       deductions: {
@@ -88,7 +93,7 @@ export const schema = {
                   type: 'string',
                 },
                 amount: {
-                  type: 'number',
+                  type: 'string',
                 },
               },
             },

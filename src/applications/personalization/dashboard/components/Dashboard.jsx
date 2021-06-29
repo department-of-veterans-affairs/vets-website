@@ -7,7 +7,6 @@ import '../sass/dashboard.scss';
 import '../sass/dashboard-alert.scss';
 import '../sass/messaging/messaging.scss';
 import '../sass/user-profile.scss';
-import '../../preferences/sass/preferences.scss';
 
 import routes from '../routes';
 

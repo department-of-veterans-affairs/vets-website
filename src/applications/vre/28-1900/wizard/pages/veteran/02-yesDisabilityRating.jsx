@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { veteranPathPageNames } from '../pageList';
 import { WIZARD_STATUS } from 'applications/vre/28-1900/constants';
+import recordEvent from 'platform/monitoring/record-event';
 
 const YesDisabilityRating = props => {
   const { setWizardStatus } = props;
@@ -31,6 +32,9 @@ const YesDisabilityRating = props => {
       <Link
         aria-describedby="orientation-complete-notification"
         onClick={() => {
+          recordEvent({
+            event: 'howToWizard-skip-orientation',
+          });
           sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
         }}
         to="/"
