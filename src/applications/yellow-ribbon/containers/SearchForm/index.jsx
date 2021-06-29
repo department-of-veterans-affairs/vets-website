@@ -161,7 +161,6 @@ export class SearchForm extends Component {
         </label>
         <div className="vads-u-flex--1">
           <input
-            aria-label="Name of institution"
             className="usa-input"
             id="yr-search-name"
             name="yr-search-name"
@@ -183,7 +182,6 @@ export class SearchForm extends Component {
         </label>
         <div className="vads-u-flex--1">
           <select
-            aria-label="State of institution"
             id="yr-search-state"
             name="yr-search-state"
             onChange={onReactStateChange('state')}
@@ -210,7 +208,6 @@ export class SearchForm extends Component {
         </label>
         <div className="vads-u-flex--1">
           <input
-            aria-label="City of institution"
             className="usa-input"
             id="yr-search-city"
             name="yr-search-city"
