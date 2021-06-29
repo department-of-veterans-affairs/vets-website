@@ -80,7 +80,6 @@ jobs:
           check_name: 'Cypress Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/e2e-test-output-*.xml'
-          summary: '<iframe src="http://google.com" />'
 
       - name: Archive Cypress test videos
         uses: actions/upload-artifact@v2
@@ -137,7 +136,6 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
-          ref: 25551/report-cypress-artifacts
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master
