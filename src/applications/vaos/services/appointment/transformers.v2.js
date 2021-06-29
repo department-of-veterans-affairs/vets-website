@@ -2,6 +2,7 @@ import {
   TYPES_OF_CARE,
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
+  TYPE_OF_VISIT,
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
@@ -28,6 +29,16 @@ function getTypeOfCareById(id) {
   ];
 
   return allTypesOfCare.find(care => care.id === id);
+}
+
+/**
+ * Gets the type of visit that matches our array of visit constant
+ *
+ * @param {Object} id VAR appointment object
+ * @returns {String} type of visit string
+ */
+function getTypeOfVisit(id) {
+  return TYPE_OF_VISIT.find(type => type.id === id)?.name;
 }
 
 export function transformVAOSAppointment(appt) {
@@ -84,6 +95,7 @@ export function transformVAOSAppointment(appt) {
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
       isExpressCare: false,
+      requestVisitType: getTypeOfVisit(appt.kind),
       apiData: appt,
       // TODO missing data: isPastAppointment, isCOVIDVaccine, isPhoneAppointment, timeZone
     },
