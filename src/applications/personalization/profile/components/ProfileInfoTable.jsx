@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
+import { numberBetween } from '../../common/proptypeValidators';
 
 const TableTitle = ({ namedAnchor, className, children, level }) => {
   const Header = `h${level}`;
@@ -30,6 +31,7 @@ const ProfileInfoTable = ({
     'margin--0',
     'padding-x--2',
     'padding-y--1p5',
+    'vads-u-font-size--h3',
   ]);
   const titleClassesMedium = prefixUtilityClasses(
     ['padding-x--3', 'padding-y--2'],
@@ -84,11 +86,7 @@ const ProfileInfoTable = ({
   // can be passed directly to a `className` attribute
   const classes = {
     table: ['profile-info-table', className].join(' '),
-    title: [
-      'vads-u-font-size--h3',
-      ...titleClasses,
-      ...titleClassesMedium,
-    ].join(' '),
+    title: [...titleClasses, ...titleClassesMedium].join(' '),
     tableRow: ['table-row', ...tableRowClasses, ...tableRowClassesMedium].join(
       ' ',
     ),
@@ -148,6 +146,7 @@ ProfileInfoTable.propTypes = {
   dataTransformer: PropTypes.func,
   className: PropTypes.string,
   namedAnchor: PropTypes.string,
+  level: numberBetween(1, 6),
 };
 
 export default ProfileInfoTable;
