@@ -32,6 +32,7 @@ const redirectIfNecessary = currentWindow => {
 
   // Redirect if it's an exact match first.
   if (absoluteRedirectMatch) {
+    // eslint-disable-next-line no-param-reassign
     currentWindow.location.href = `${environment.BASE_URL}${
       absoluteRedirectMatch.dest
     }`;
@@ -56,7 +57,6 @@ const redirectIfNecessary = currentWindow => {
     currentWindow.location.href = `${environment.BASE_URL}${
       catchAllRedirectMatch.dest
     }`;
-    return;
   }
 };
 
