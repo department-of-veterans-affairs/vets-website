@@ -682,7 +682,7 @@ export default function formReducer(state = initialState, action) {
       let newSchema = action.schema;
       let clinics =
         state.clinics[
-        `${state.data.vaFacility}_${getTypeOfCare(state.data).id}`
+          `${state.data.vaFacility}_${getTypeOfCare(state.data).id}`
         ];
 
       if (state.pastAppointments) {
@@ -714,8 +714,9 @@ export default function formReducer(state = initialState, action) {
           properties: {
             clinicId: {
               type: 'string',
-              title: `Would you like to make an appointment at ${clinic.serviceName
-                }?`,
+              title: `Would you like to make an appointment at ${
+                clinic.serviceName
+              }?`,
               enum: [clinic.id, 'NONE'],
               enumNames: [
                 'Yes, make my appointment here',
@@ -764,7 +765,8 @@ export default function formReducer(state = initialState, action) {
       const typeOfCare = getTypeOfCare(formData);
       let initialSchema = set(
         'properties.hasCommunityCareProvider.title',
-        `Do you have a preferred VA-approved community care provider for this ${typeOfCare.name
+        `Do you have a preferred VA-approved community care provider for this ${
+          typeOfCare.name
         } appointment?`,
         action.schema,
       );
