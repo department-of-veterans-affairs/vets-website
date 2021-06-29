@@ -375,7 +375,7 @@ class SearchApp extends React.Component {
     if (results && results.length > 0) {
       return (
         <>
-          <h3 className="sr-only">More Search Results</h3>
+          <h3 className="sr-only">More search results</h3>
           <ul className="results-list" data-e2e-id="search-results">
             {results.map((result, index) =>
               this.renderWebResult(result, undefined, undefined, index),
@@ -446,7 +446,7 @@ class SearchApp extends React.Component {
         <SearchBreadcrumbs />
         <div className="row">
           <div className="columns">
-            <h1 className="vads-u-font-size--2xl">VA.gov search results</h1>
+            <h1 className="vads-u-font-size--2xl">Search VA.gov</h1>
           </div>
         </div>
         <div className="search-row">
