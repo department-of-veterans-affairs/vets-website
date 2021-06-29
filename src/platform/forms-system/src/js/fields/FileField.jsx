@@ -101,13 +101,6 @@ class FileField extends React.Component {
         idx = files.length === 0 ? 0 : files.length;
       }
 
-      if (enableShortWorkflow) {
-        files[idx] = {
-          file: currentFile,
-          name: currentFile.name,
-        };
-      }
-
       // Check if the file is an encrypted PDF
       if (
         requestLockedPdfPassword && // feature flag
@@ -118,15 +111,11 @@ class FileField extends React.Component {
           uiOptions.isFileEncrypted || this.isFileEncrypted;
         const needsPassword = await isFileEncrypted(currentFile);
         if (needsPassword) {
-          if (enableShortWorkflow) {
-            files[idx].isEncrypted = true;
-          } else {
-            files[idx] = {
-              file: currentFile,
-              name: currentFile.name,
-              isEncrypted: true,
-            };
-          }
+          files[idx] = {
+            file: currentFile,
+            name: currentFile.name,
+            isEncrypted: true,
+          };
 
           onChange(files);
           // wait for user to enter a password before uploading
@@ -200,6 +189,7 @@ class FileField extends React.Component {
       this.fileInputRef.current.value = '';
     }
 
+    // When other actions follow removeFile, we do not want to apply this focus
     if (focusAddButton) {
       this.focusAddAnotherButton();
     }
