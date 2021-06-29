@@ -7,15 +7,38 @@ const deepLinks = [
   // correctly
   {
     url: `${PROFILE_PATHS.PERSONAL_INFORMATION}#an-unsupported-deep-link`,
-    expectedTarget: 'Personal and contact information',
+    expectedTarget: {
+      role: 'heading',
+      name: 'Personal and contact information',
+    },
   },
   {
     url: `${PROFILE_PATHS.PERSONAL_INFORMATION}#email-address`,
-    expectedTarget: 'Contact email address',
+    expectedTarget: {
+      role: 'heading',
+      name: 'Contact email address',
+    },
   },
   {
     url: `${PROFILE_PATHS.PERSONAL_INFORMATION}#phone-numbers`,
-    expectedTarget: 'Phone numbers',
+    expectedTarget: {
+      role: 'heading',
+      name: 'Phone numbers',
+    },
+  },
+  {
+    url: `${PROFILE_PATHS.PERSONAL_INFORMATION}#edit-contact-email-address`,
+    expectedTarget: {
+      role: 'button',
+      name: /edit contact email address/i,
+    },
+  },
+  {
+    url: `${PROFILE_PATHS.PERSONAL_INFORMATION}#edit-mobile-phone-number`,
+    expectedTarget: {
+      role: 'button',
+      name: /edit mobile phone number/i,
+    },
   },
 ];
 
@@ -36,10 +59,12 @@ function checkAllDeepLinks(mobile = false) {
   cy.findByRole('progressbar').should('not.exist');
   cy.findByText(/loading your information/i).should('not.exist');
 
-  deepLinks.forEach(deepLink => {
-    cy.visit(deepLink.url);
-    // focus should be on the correct sub-section heading
-    cy.focused().contains(deepLink.expectedTarget);
+  deepLinks.forEach(({ url, expectedTarget }) => {
+    cy.visit(url);
+    // focus should be managed correctly
+    cy.findByRole(expectedTarget.role, {
+      name: expectedTarget.name,
+    }).should('have.focus');
   });
 }
 
