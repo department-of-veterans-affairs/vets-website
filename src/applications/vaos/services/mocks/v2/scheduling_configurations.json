@@ -14,7 +14,7 @@
               "patientHistoryRequired": true,
               "patientHistoryDuration": 365,
               "canCancel": true,
-              "enabled": true
+              "enabled": false
             },
             "request": { "enabled": false }
           },
@@ -310,14 +310,14 @@
               "patientHistoryRequired": true,
               "patientHistoryDuration": 730,
               "canCancel": true,
-              "enabled": true
+              "enabled": false
             },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
               "submittedRequestLimit": 1,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
@@ -433,14 +433,14 @@
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
-              "enabled": true
+              "enabled": false
             },
             "request": {
               "patientHistoryRequired": true,
               "patientHistoryDuration": 365,
               "submittedRequestLimit": 1,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
@@ -489,7 +489,7 @@
               "patientHistoryDuration": 365,
               "submittedRequestLimit": 1,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
@@ -634,14 +634,14 @@
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
-              "enabled": true
+              "enabled": false
             },
             "request": {
               "patientHistoryRequired": true,
               "patientHistoryDuration": 365,
               "submittedRequestLimit": 1,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
@@ -685,7 +685,7 @@
               "patientHistoryDuration": 730,
               "submittedRequestLimit": 1,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
@@ -867,7 +867,7 @@
               "patientHistoryDuration": 365,
               "submittedRequestLimit": 1,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
@@ -1018,7 +1018,7 @@
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
-              "enabled": true
+              "enabled": false
             },
             "request": { "enabled": false }
           },
@@ -1076,14 +1076,14 @@
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
-              "enabled": true
+              "enabled": false
             },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "submittedRequestLimit": 2,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
@@ -1322,7 +1322,7 @@
               "canCancel": true,
               "submittedRequestLimit": 2,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
@@ -1476,7 +1476,7 @@
               "patientHistoryDuration": 365,
               "submittedRequestLimit": 2,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
@@ -1629,7 +1629,7 @@
               "patientHistoryDuration": 365,
               "submittedRequestLimit": 1,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
@@ -1746,7 +1746,7 @@
               "patientHistoryRequired": false,
               "patientHistoryDuration": 0,
               "canCancel": true,
-              "enabled": true
+              "enabled": false
             },
             "request": { "enabled": false }
           },
@@ -1791,7 +1791,7 @@
               "patientHistoryDuration": 365,
               "submittedRequestLimit": 2,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
@@ -1937,14 +1937,14 @@
               "patientHistoryRequired": true,
               "patientHistoryDuration": 730,
               "canCancel": true,
-              "enabled": true
+              "enabled": false
             },
             "request": {
               "patientHistoryRequired": false,
               "patientHistoryDuration": 365,
               "submittedRequestLimit": 2,
               "enterpriseSubmittedRequestLimit": 2,
-              "enabled": true
+              "enabled": false
             }
           },
           {
