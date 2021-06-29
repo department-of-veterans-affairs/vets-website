@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { FIELD_NAMES } from '@@vap-svc/constants';
+import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
 
 import ContactInformationField from '../ContactInformationField';
@@ -54,6 +54,7 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
           },
           {
             title: 'Contact email address',
+            id: FIELD_IDS[FIELD_NAMES.EMAIL],
             value: <ContactInformationField fieldName={FIELD_NAMES.EMAIL} />,
           },
         ]}

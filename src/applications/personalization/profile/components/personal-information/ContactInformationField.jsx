@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { kebabCase } from 'lodash';
 
 import { focusElement } from '~/platform/utilities/ui';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -46,6 +47,15 @@ import getContactInfoFieldAttributes from '~/applications/personalization/profil
 
 import CannotEditModal from './CannotEditModal';
 import ConfirmCancelModal from './ConfirmCancelModal';
+
+// Helper function that generates a string that can be used for a contact info
+// field's edit button.
+//
+// Given a valid entry from the vap-svc/constants FIELD
+// NAMES, it will return a string like `#edit-mobile-phone-number`
+export const getEditButtonId = fieldName => {
+  return `edit-${kebabCase(VAP_SERVICE.FIELD_TITLES[fieldName])}`;
+};
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -114,6 +124,7 @@ class ContactInformationField extends React.Component {
   closeModalTimeoutID = null;
 
   componentDidUpdate(prevProps) {
+    const { fieldName } = this.props;
     // Exit the edit view if it takes more than 5 seconds for the update/save
     // transaction to resolve. If the transaction has not resolved after 5
     // seconds we will show a "we're saving your new information..." message on
@@ -138,9 +149,9 @@ class ContactInformationField extends React.Component {
     if (this.justClosedModal(prevProps, this.props)) {
       clearTimeout(this.closeModalTimeoutID);
       if (this.props.transaction) {
-        focusElement(`div#${this.props.fieldName}-transaction-status`);
+        focusElement(`div#${fieldName}-transaction-status`);
       }
-      focusElement(`button#${this.props.fieldName}-edit-link`);
+      focusElement(`#${getEditButtonId(fieldName)}`);
     }
   }
 
@@ -258,7 +269,7 @@ class ContactInformationField extends React.Component {
             onClick={() => {
               this.onEdit(isEmpty ? 'add-link' : 'edit-link');
             }}
-            id={`${fieldName}-edit-link`}
+            id={getEditButtonId(fieldName)}
             className={classes.editButton}
           >
             Edit
