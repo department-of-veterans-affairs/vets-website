@@ -167,6 +167,7 @@ export function LocationSearchForm({
               name="distance"
               options={[
                 { optionValue: '5', optionLabel: 'within 5 miles' },
+                { optionValue: '15', optionLabel: 'within 15 miles' },
                 { optionValue: '25', optionLabel: 'within 25 miles' },
                 { optionValue: '50', optionLabel: 'within 50 miles' },
                 { optionValue: '75', optionLabel: 'within 75 miles' },

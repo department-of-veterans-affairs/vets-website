@@ -281,10 +281,6 @@ export const updateUrlParams = (
     queryParams.location = searchQuery.location;
   }
 
-  if (searchQuery.distance !== '50') {
-    queryParams.distance = searchQuery.distance;
-  }
-
   if (page) {
     queryParams.page = page;
   }

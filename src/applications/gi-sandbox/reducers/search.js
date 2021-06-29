@@ -66,7 +66,7 @@ const INITIAL_STATE = {
   query: {
     name: '',
     location: '',
-    distance: '50',
+    distance: '25',
     latitude: null,
     longitude: null,
     streetAddress: {
@@ -137,6 +137,7 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...newState,
         tab: action.tab,
+        error: null,
       };
 
     case SEARCH_BY_LOCATION_SUCCEEDED:

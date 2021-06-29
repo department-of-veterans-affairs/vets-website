@@ -20,7 +20,7 @@ export function SearchPage({
   }, []);
   const queryParams = useQueryParams();
   const history = useHistory();
-  const { tab } = search;
+  const { tab, error } = search;
 
   const tabbedResults = {
     [TABS.name]: <NameSearchResults />,
@@ -39,7 +39,20 @@ export function SearchPage({
       <div className="vads-u-min-height--viewport row">
         <div className="column vads-u-padding-bottom--2 vads-u-padding-x--0">
           <SearchTabs onChange={tabChange} search={search} />
-          {tabbedResults[tab]}
+          {!error && tabbedResults[tab]}
+          {error && (
+            <div className="vads-u-padding-top--2">
+              <va-alert onClose={function noRefCheck() {}} status="warning">
+                <h3 slot="headline">
+                  The GI Bill Comparison Tool isn’t working right now
+                </h3>
+                <div>
+                  We’re sorry. Something went wrong on our end. Please refresh
+                  this page or try searching again.
+                </div>
+              </va-alert>
+            </div>
+          )}
         </div>
       </div>
       <CompareDrawer />
