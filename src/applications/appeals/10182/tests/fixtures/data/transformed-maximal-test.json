@@ -32,7 +32,7 @@
       "type": "contestableIssue",
       "attributes": {
         "issue": "tinnitus - 10%",
-        "decisionDate": "2020-01-01",
+        "decisionDate": "2021-06-01",
         "decisionIssueId": 1,
         "ratingIssueReferenceId": "2",
         "ratingDecisionReferenceId": "3",
@@ -43,7 +43,7 @@
       "type": "contestableIssue",
       "attributes": {
         "issue": "left knee - 0%",
-        "decisionDate": "2020-01-02",
+        "decisionDate": "2021-06-02",
         "decisionIssueId": 4,
         "ratingIssueReferenceId": "5",
         "disagreementArea": "effective date"
@@ -53,7 +53,7 @@
       "type": "contestableIssue",
       "attributes": {
         "issue": "right shoulder",
-        "decisionDate": "2020-01-06",
+        "decisionDate": "2021-06-06",
         "disagreementArea": "disability evaluation,this is another other entry"
       }
     }

@@ -163,6 +163,7 @@ describe('526 wizard', () => {
       'eq',
       `${DISABILITY_526_V2_ROOT_URL}/introduction`,
     );
+    cy.injectAxe();
     cy.axeCheck();
   });
 });
