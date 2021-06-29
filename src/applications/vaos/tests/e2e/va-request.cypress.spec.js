@@ -105,7 +105,7 @@ function fillOutForm(facilitySelection) {
 }
 
 describe('VAOS request flow', () => {
-  beforeEach(() => { });
+  beforeEach(() => {});
 
   it('should submit form successfully for a multi system user', () => {
     initAppointmentListMock();
