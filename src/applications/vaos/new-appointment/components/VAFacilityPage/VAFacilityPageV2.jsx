@@ -242,12 +242,6 @@ export default function VAFacilityPageV2() {
 
   const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
 
-  // const sortOptions = [
-  //   'By your home address',
-  //   'By your current location',
-  //   'Alphabetically',
-  // ];
-
   return (
     <div>
       {pageHeader}
