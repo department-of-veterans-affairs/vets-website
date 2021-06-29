@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
 import omit from 'platform/utilities/data/omit';
+import environment from 'platform/utilities/environment';
 import { LocationType } from '../constants';
 import {
   healthServices,
@@ -230,6 +231,11 @@ const SearchControls = props => {
       delete locationOptions.provider;
     }
 
+    // Temporary on non prod envs
+    if (environment.isProduction()) {
+      delete locationOptions.emergency_care;
+    }
+
     const options = Object.keys(locationOptions).map(facility => (
       <option key={facility} value={facility}>
         {locationOptions[facility]}
@@ -284,7 +290,6 @@ const SearchControls = props => {
     if (!searchCovid19Vaccine) {
       filteredHealthServices = omit(['Covid19Vaccine'], healthServices);
     }
-
     let services;
     // Determine what service types to display for the location type (if any).
     switch (facilityType) {

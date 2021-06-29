@@ -33,6 +33,60 @@ const urgentCareType = 'urgent_care';
 
 const emergencyCareType = 'emergency_care';
 
+function sliceMockData(locationType, serviceType) {
+  let locationsData;
+  const locations = { ...facilityDataJson };
+  // Urgent Care
+  if (locationType === urgentCareType) {
+    if (!serviceType || serviceType === Object.keys(urgentCareServices)[0]) {
+      locationsData = urgentCareData.data;
+    }
+    if (serviceType === Object.keys(urgentCareServices)[1]) {
+      locationsData = urgentCareData.data.filter(
+        loc => loc.type === facilityResultType,
+      );
+    }
+    if (serviceType === Object.keys(urgentCareServices)[2]) {
+      locationsData = urgentCareData.data.filter(
+        loc => loc.type === ccProviderType,
+      );
+    }
+    // Cpp
+  } else if (locationType === ccProviderType) {
+    if (serviceType === CLINIC_URGENTCARE_SERVICE) {
+      locationsData = [providersDataJson.data[12]];
+    } else {
+      locationsData = [providersDataJson.data[10]];
+    }
+    // Pharmacy
+  } else if (locationType === pharmacyType) {
+    locationsData = [providersDataJson.data[11]];
+    // Emergency care
+  } else if (locationType === emergencyCareType) {
+    if (!serviceType || serviceType === Object.keys(emergencyCareServices)[0]) {
+      locationsData = emergencyCareData.data;
+    }
+    if (serviceType === Object.keys(emergencyCareServices)[1]) {
+      locationsData = emergencyCareData.data.slice(0, 3);
+    }
+    if (serviceType === Object.keys(emergencyCareServices)[2]) {
+      locationsData = [emergencyCareData.data[4]];
+    }
+    // VA types
+  } else {
+    locationsData = locations.data.filter(
+      loc => loc.attributes.facilityType === testVAFacilityTypes[locationType],
+    );
+  }
+
+  if (locationType === 'health' && serviceType === Covid19Vaccine) {
+    locationsData = [providersDataJson.data[1]];
+  }
+
+  locations.data = locationsData;
+  return locations;
+}
+
 class MockLocatorApi {
   /**
    * Sends the fetch request to vets-api to query which locations exist within the
@@ -71,61 +125,7 @@ class MockLocatorApi {
           if (params.fail) {
             reject('Random failure due to fail flag being set');
           }
-
-          let locationsData;
-          const locations = { ...facilityDataJson };
-          if (locationType === urgentCareType) {
-            if (
-              !serviceType ||
-              serviceType === Object.keys(urgentCareServices)[0]
-            ) {
-              locationsData = urgentCareData.data;
-            }
-            if (serviceType === Object.keys(urgentCareServices)[1]) {
-              locationsData = urgentCareData.data.filter(
-                loc => loc.type === facilityResultType,
-              );
-            }
-            if (serviceType === Object.keys(urgentCareServices)[2]) {
-              locationsData = urgentCareData.data.filter(
-                loc => loc.type === ccProviderType,
-              );
-            }
-          } else if (locationType === ccProviderType) {
-            if (serviceType === CLINIC_URGENTCARE_SERVICE) {
-              locationsData = [providersDataJson.data[12]];
-            } else {
-              locationsData = [providersDataJson.data[10]];
-            }
-          } else if (locationType === pharmacyType) {
-            locationsData = [providersDataJson.data[11]];
-          } else if (locationType === emergencyCareType) {
-            if (
-              !serviceType ||
-              serviceType === Object.keys(emergencyCareServices)[0]
-            ) {
-              locationsData = emergencyCareData.data;
-            }
-            if (serviceType === Object.keys(emergencyCareServices)[1]) {
-              locationsData = emergencyCareData.data.slice(0, 3);
-            }
-            if (serviceType === Object.keys(emergencyCareServices)[2]) {
-              locationsData = [emergencyCareData.data[4]];
-            }
-          } else {
-            locationsData = locations.data.filter(
-              loc =>
-                loc.attributes.facilityType ===
-                testVAFacilityTypes[locationType],
-            );
-          }
-
-          if (locationType === 'health' && serviceType === Covid19Vaccine) {
-            locationsData = [providersDataJson.data[1]];
-          }
-
-          locations.data = locationsData;
-
+          const locations = sliceMockData(locationType, serviceType);
           resolve(locations);
         } else {
           reject('Invalid URL or query sent to API!');

@@ -51,7 +51,7 @@ const EmergencyCareResult = ({ provider, query }) => {
               target={'_/blank'}
               onClick={() => {
                 // Record event
-                recordEvent({ event: 'cta-primary-button-click' });
+                recordEvent({ event: 'cta-emergency-benefit-button-click' });
               }}
             >
               Learn about your in-network emergency care benefits{' '}
