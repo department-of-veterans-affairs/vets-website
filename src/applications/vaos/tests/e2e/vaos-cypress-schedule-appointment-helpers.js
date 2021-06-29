@@ -110,7 +110,7 @@ export function reasonForAppointmentTest(
 ) {
   cy.url().should('include', '/reason-appointment');
   cy.axeCheckBestPractice();
-  cy.findByLabelText('Routine or follow-up visit').click();
+  cy.findByLabelText(/Routine or follow-up visit/i).click();
   cy.findByLabelText(label).type(content);
   cy.findByText(/Continue/).click();
 }
