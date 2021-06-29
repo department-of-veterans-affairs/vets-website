@@ -19,7 +19,7 @@ const deriveIsHostMatch = (redirect, currentWindow) => {
 const redirectIfNecessary = currentWindow => {
   // Check if the route matches an absolute cross-domain redirect.
   const absoluteCrossDomainRedirects = crossDomainRedirects?.filter(
-    redirect => !redirect?.isCatchAll,
+    redirect => !redirect?.catchAll,
   );
   const absoluteRedirectMatch = absoluteCrossDomainRedirects?.find(redirect => {
     const isHostMatch = deriveIsHostMatch(redirect, currentWindow);
@@ -41,7 +41,7 @@ const redirectIfNecessary = currentWindow => {
 
   // Check if the route matches a catch-all cross-domain redirect.
   const catchAllCrossDomainRedirects = crossDomainRedirects?.filter(
-    redirect => redirect?.isCatchAll,
+    redirect => redirect?.catchAll,
   );
   const catchAllRedirectMatch = catchAllCrossDomainRedirects?.find(redirect => {
     const isHostMatch = deriveIsHostMatch(redirect, currentWindow);
