@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 
-const TableTitle = ({ namedAnchor, className, children }) => {
+const TableTitle = ({ namedAnchor, className, children, level }) => {
+  const Header = `h${level}`;
   return (
-    <h3 className={className} id={namedAnchor}>
+    <Header className={className} id={namedAnchor}>
       {children}
-    </h3>
+    </Header>
   );
 };
 
@@ -17,6 +18,7 @@ const ProfileInfoTable = ({
   title,
   className,
   namedAnchor,
+  level = 3, // heading level
 }) => {
   // TODO: move all these class var outside of the component so they aren't
   // recomputed on every render
@@ -82,7 +84,11 @@ const ProfileInfoTable = ({
   // can be passed directly to a `className` attribute
   const classes = {
     table: ['profile-info-table', className].join(' '),
-    title: [...titleClasses, ...titleClassesMedium].join(' '),
+    title: [
+      'vads-u-font-size--h3',
+      ...titleClasses,
+      ...titleClassesMedium,
+    ].join(' '),
     tableRow: ['table-row', ...tableRowClasses, ...tableRowClassesMedium].join(
       ' ',
     ),
@@ -95,7 +101,11 @@ const ProfileInfoTable = ({
   return (
     <section className={classes.table}>
       {title && (
-        <TableTitle className={classes.title} namedAnchor={namedAnchor}>
+        <TableTitle
+          className={classes.title}
+          namedAnchor={namedAnchor}
+          level={level}
+        >
           {title}
         </TableTitle>
       )}

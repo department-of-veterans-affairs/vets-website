@@ -9,6 +9,7 @@ import ProfileInfoTable from '../../ProfileInfoTable';
 const AddressesTable = ({ className }) => (
   <ProfileInfoTable
     title="Addresses"
+    level={2}
     namedAnchor="addresses"
     data={[
       {

@@ -34,6 +34,7 @@ const EmailInformationSection = ({ className, signInServiceName }) => {
         title="Contact email address"
         fieldName="emailAddress"
         namedAnchor="email-address"
+        level={2}
         data={[
           {
             value: (
