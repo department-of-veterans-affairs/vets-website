@@ -18,6 +18,8 @@ const ProfileInfoTable = ({
   className,
   namedAnchor,
 }) => {
+  // TODO: move all these class var outside of the component so they aren't
+  // recomputed on every render
   const titleClasses = prefixUtilityClasses([
     'background-color--gray-lightest',
     'border--1px',
@@ -97,7 +99,6 @@ const ProfileInfoTable = ({
           {title}
         </TableTitle>
       )}
-      {/* {title && <h3 className={classes.title}>{title}</h3>} */}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ol className="vads-u-margin--0 vads-u-padding--0" role="list">
         {data
@@ -106,7 +107,12 @@ const ProfileInfoTable = ({
           )
           .map((row, index) => (
             // eslint-disable-next-line jsx-a11y/no-redundant-roles
-            <li key={index} className={classes.tableRow} role="listitem">
+            <li
+              key={index}
+              className={classes.tableRow}
+              role="listitem"
+              id={row.id}
+            >
               {row.title && (
                 <dfn className={classes.tableRowTitle}>{row.title}</dfn>
               )}
