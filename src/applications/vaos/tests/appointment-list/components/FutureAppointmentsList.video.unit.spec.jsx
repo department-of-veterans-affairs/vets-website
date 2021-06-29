@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment';
 import { fireEvent } from '@testing-library/react';
+import { waitFor } from '@testing-library/dom';
 import { mockFetch } from 'platform/testing/unit/helpers';
 import { mockAppointmentInfo, mockFacilitiesFetch } from '../../mocks/helpers';
 import { getVAFacilityMock, getVideoAppointmentMock } from '../../mocks/v0';
@@ -864,6 +865,15 @@ describe('VAOS <FutureAppointmentsList> calendar ics file format', () => {
     await screen.findByText(
       (_, node) => node.textContent === 'VA Video Connect at a VA location',
     );
+
+    // wait for facilities fetch
+    await waitFor(() => {
+      expect(
+        global.fetch
+          .getCalls()
+          .some(call => call.args[0].includes('/v1/facilities')),
+      ).to.be.ok;
+    });
 
     const ics = decodeURIComponent(
       screen
