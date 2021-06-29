@@ -140,7 +140,7 @@ export default function ReviewPage() {
                   with your appointment.
                 </p>
               )}
-              <p>
+              <>
                 {!facilityDetails && (
                   <NewTabAnchor
                     href={`/find-locations/facility/vha_${getRealFacilityId(
@@ -159,7 +159,7 @@ export default function ReviewPage() {
                     showDirectionsLink
                   />
                 )}
-              </p>
+              </>
             </>
           </InfoAlert>
         </div>
