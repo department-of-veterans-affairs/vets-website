@@ -42,7 +42,7 @@ import {
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
-
+import prefillTransformer from '../prefill-transformer';
 import { transform } from '../submit-transformer';
 
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
@@ -155,6 +155,7 @@ const formConfig = {
   },
   version: migrations.length,
   migrations,
+  prefillTransformer,
   prefillEnabled: true,
   verifyRequiredPrefill: true,
   savedFormMessages: {
