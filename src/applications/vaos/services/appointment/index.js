@@ -115,8 +115,20 @@ function hasPartialResults(response) {
  * @param {String} endDate Date in YYYY-MM-DD format
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
-export async function getBookedAppointments({ startDate, endDate }) {
+export async function getBookedAppointments({
+  startDate,
+  endDate,
+  useV2 = false,
+}) {
   try {
+    if (useV2) {
+      const appointments = await getAppointments(startDate, endDate, [
+        'booked',
+      ]);
+
+      return transformVAOSAppointments(appointments);
+    }
+
     const appointments = await Promise.all([
       getConfirmedAppointments(
         'va',

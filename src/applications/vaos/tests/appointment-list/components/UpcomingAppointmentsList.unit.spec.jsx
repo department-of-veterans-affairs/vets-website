@@ -16,6 +16,8 @@ import {
   renderWithStoreAndRouter,
 } from '../../mocks/setup';
 import UpcomingAppointmentsList from '../../../appointment-list/components/UpcomingAppointmentsList';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
+import { getVAOSRequestMock } from '../../mocks/v2';
 
 const initialState = {
   featureToggles: {
@@ -542,5 +544,228 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
         /We’re having trouble getting your upcoming appointments/i,
       ),
     ).to.be.ok;
+  });
+});
+
+describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
+  beforeEach(() => {
+    mockFetch();
+  });
+  afterEach(() => {});
+
+  it('should show VA appointment text', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceRequests: true,
+      },
+    };
+    const now = moment();
+    const start = moment(now).subtract(30, 'days');
+    const end = moment(now).add(395, 'days');
+    const appointment = getVAOSRequestMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'clinic',
+      status: 'booked',
+      start: now.format('YYYY-MM-DDTHH:mm:ss'),
+      end: now.format('YYYY-MM-DDTHH:mm:ss'),
+    };
+
+    mockVAOSAppointmentsFetch({
+      start: start.format('YYYY-MM-DD'),
+      end: end.format('YYYY-MM-DD'),
+      requests: [appointment],
+      statuses: ['booked'],
+    });
+
+    mockFacilitiesFetch();
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+      initialState: myInitialState,
+      reducers,
+    });
+
+    await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
+    expect(screen.baseElement).to.contain.text('VA appointment');
+    expect(global.fetch.firstCall.args[0]).to.equal(
+      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format(
+        'YYYY-MM-DD',
+      )}&end=${end.format('YYYY-MM-DD')}&statuses[]=booked`,
+    );
+  });
+
+  it('should show CC appointment text', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceRequests: true,
+      },
+    };
+    const now = moment();
+    const start = moment(now).subtract(30, 'days');
+    const end = moment(now).add(395, 'days');
+    const appointment = getVAOSRequestMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'cc',
+      status: 'booked',
+      start: now.format('YYYY-MM-DDTHH:mm:ss'),
+      end: now.format('YYYY-MM-DDTHH:mm:ss'),
+    };
+
+    mockVAOSAppointmentsFetch({
+      start: start.format('YYYY-MM-DD'),
+      end: end.format('YYYY-MM-DD'),
+      requests: [appointment],
+      statuses: ['booked'],
+    });
+
+    mockFacilitiesFetch();
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+      initialState: myInitialState,
+      reducers,
+    });
+
+    await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
+    expect(screen.baseElement).to.contain.text('Community care');
+    expect(global.fetch.firstCall.args[0]).to.equal(
+      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format(
+        'YYYY-MM-DD',
+      )}&end=${end.format('YYYY-MM-DD')}&statuses[]=booked`,
+    );
+  });
+
+  it('should show at home video appointment text', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceRequests: true,
+      },
+    };
+    const now = moment();
+    const start = moment(now).subtract(30, 'days');
+    const end = moment(now).add(395, 'days');
+    const appointment = getVAOSRequestMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'telehealth',
+      status: 'booked',
+      start: now.format('YYYY-MM-DDTHH:mm:ss'),
+      end: now.format('YYYY-MM-DDTHH:mm:ss'),
+    };
+
+    mockVAOSAppointmentsFetch({
+      start: start.format('YYYY-MM-DD'),
+      end: end.format('YYYY-MM-DD'),
+      requests: [appointment],
+      statuses: ['booked'],
+    });
+
+    mockFacilitiesFetch();
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+      initialState: myInitialState,
+      reducers,
+    });
+
+    await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
+    expect(screen.baseElement).to.contain.text('VA Video Connect at home');
+    expect(global.fetch.firstCall.args[0]).to.equal(
+      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format(
+        'YYYY-MM-DD',
+      )}&end=${end.format('YYYY-MM-DD')}&statuses[]=booked`,
+    );
+  });
+
+  it('should show Phone appointment text', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceRequests: true,
+      },
+    };
+    const now = moment();
+    const start = moment(now).subtract(30, 'days');
+    const end = moment(now).add(395, 'days');
+    const appointment = getVAOSRequestMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'phone',
+      status: 'booked',
+      start: now.format('YYYY-MM-DDTHH:mm:ss'),
+      end: now.format('YYYY-MM-DDTHH:mm:ss'),
+    };
+
+    mockVAOSAppointmentsFetch({
+      start: start.format('YYYY-MM-DD'),
+      end: end.format('YYYY-MM-DD'),
+      requests: [appointment],
+      statuses: ['booked'],
+    });
+
+    mockFacilitiesFetch();
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+      initialState: myInitialState,
+      reducers,
+    });
+
+    await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
+    expect(screen.baseElement).to.contain.text('Phone call');
+    expect(global.fetch.firstCall.args[0]).to.equal(
+      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format(
+        'YYYY-MM-DD',
+      )}&end=${end.format('YYYY-MM-DD')}&statuses[]=booked`,
+    );
+  });
+
+  it('should show cancelled appointment text', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceRequests: true,
+      },
+    };
+    const now = moment();
+    const start = moment(now).subtract(30, 'days');
+    const end = moment(now).add(395, 'days');
+    const appointment = getVAOSRequestMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'cc',
+      status: 'cancelled',
+      start: now.format('YYYY-MM-DDTHH:mm:ss'),
+      end: now.format('YYYY-MM-DDTHH:mm:ss'),
+    };
+
+    mockVAOSAppointmentsFetch({
+      start: start.format('YYYY-MM-DD'),
+      end: end.format('YYYY-MM-DD'),
+      requests: [appointment],
+      statuses: ['booked'],
+    });
+
+    mockFacilitiesFetch();
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+      initialState: myInitialState,
+      reducers,
+    });
+
+    await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
+    expect(screen.baseElement).to.contain.text('Canceled');
+    expect(screen.baseElement).to.contain.text('Community care');
+    expect(global.fetch.firstCall.args[0]).to.equal(
+      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format(
+        'YYYY-MM-DD',
+      )}&end=${end.format('YYYY-MM-DD')}&statuses[]=booked`,
+    );
   });
 });

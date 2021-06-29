@@ -183,6 +183,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           endDate: moment()
             .add(395, 'days')
             .format('YYYY-MM-DD'),
+          useV2: featureVAOSServiceRequests,
         }),
       ];
 
@@ -352,6 +353,10 @@ export function fetchPendingAppointments() {
 
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
+      getState(),
+    );
+
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
       selectedIndex,
@@ -366,6 +371,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         getBookedAppointments({
           startDate,
           endDate,
+          useV2: featureVAOSServiceRequests,
         }),
       ];
 

@@ -22,6 +22,8 @@ import {
 import PastAppointmentsListV2, {
   getPastAppointmentDateRangeOptions,
 } from '../../../appointment-list/components/PastAppointmentsListV2';
+import { getVAOSRequestMock } from '../../mocks/v2';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 
 const initialState = {
   featureToggles: {
@@ -289,6 +291,51 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     ).to.exist;
     expect(within(firstCard).getByText(/MT/i)).to.exist;
     expect(within(firstCard).getByText(/VA Video Connect at home/i)).to.exist;
+  });
+
+  it('should display past appointments using V2 api call', async () => {
+    const now = moment().startOf('day');
+    const start = moment(now).subtract(3, 'months');
+    const end = moment()
+      .minutes(0)
+      .add(30, 'minutes');
+
+    const yesterday = moment().subtract(1, 'day');
+    const appointment = getVAOSRequestMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'phone',
+      minutesDuration: 30,
+      status: 'booked',
+      start: yesterday.format('YYYY-MM-DDTHH:mm:ss'),
+    };
+    mockVAOSAppointmentsFetch({
+      start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
+      end: end.format('YYYY-MM-DDTHH:mm:ssZ'),
+      requests: [appointment],
+      statuses: ['booked'],
+    });
+
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceRequests: true,
+      },
+    };
+    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
+      initialState: myInitialState,
+    });
+
+    await screen.findAllByText(
+      new RegExp(yesterday.format('dddd, MMMM D'), 'i'),
+    );
+
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(global.fetch.firstCall.args[0]).to.equal(
+      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format()}&end=${end.format()}&statuses[]=booked`,
+    );
   });
 
   describe('getPastAppointmentDateRangeOptions', () => {
