@@ -212,7 +212,7 @@ const responses = {
     if (req.query.statuses?.includes('proposed')) {
       return res.json(requestsV2);
     } else if (req.query.statuses?.includes('booked')) {
-      return res.json(require('./v2/confirmed_va.json'));
+      return res.json(require('./v2/confirmed.json'));
     }
 
     return res.json({ data: [] });

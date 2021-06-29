@@ -113,6 +113,7 @@ function hasPartialResults(response) {
  * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
+ * @param {Boolean} useV2 Toggle fetching appointments via VAOS api services version 2
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
 export async function getBookedAppointments({
