@@ -2,12 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const numberTypes = new Set(['number', 'integer']);
+const indexRegex = /:index/g;
 
 export default function TextWidget(props) {
+  const pageIndex = props.formContext?.pagePerItemIndex;
   let inputType = props.options.inputType;
   if (!inputType) {
     inputType = numberTypes.has(props.schema.type) ? 'number' : props.type;
   }
+
+  /**
+   * replaceIndex
+   * ariaDescribedby id may need to be indexed, add `:index` to the id and the
+   * formContext pagePerItemIndex will replace it
+   * @param {String|null} id - aria-describedby id with ":index" placeholder
+   */
+  const replaceIndex = (id = '') =>
+    id && pageIndex !== 'undefined' ? id.replace(indexRegex, pageIndex) : id;
 
   const inputProps = {
     ...(props.schema.minValue && { min: props.schema.minValue }),
@@ -24,7 +35,7 @@ export default function TextWidget(props) {
     onChange: event =>
       props.onChange(event.target.value ? event.target.value : undefined),
     onFocus: props.onFocus,
-    'aria-describedby': props.options.ariaDescribedby || null,
+    'aria-describedby': replaceIndex(props.options?.ariaDescribedby || null),
   };
 
   return <input {...inputProps} />;
