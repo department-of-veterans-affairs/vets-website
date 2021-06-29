@@ -112,7 +112,9 @@ export const AccountSecurityContent = ({
             security on VA.gov.
           </p>
 
-          <h3 className="vads-u-font-size--h4">Go to FAQs about these topics:</h3>
+          <h3 className="vads-u-font-size--h4">
+            Go to FAQs about these topics:
+          </h3>
           <a
             href="/resources/signing-in-to-vagov/"
             className="vads-u-margin-y--1"
