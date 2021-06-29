@@ -61,11 +61,11 @@ export default function TypeOfCarePage() {
 
       const covidLabel = (
         <>
+          <span className="sr-only">New type of care</span>
           COVID-19 vaccine
           <span className="usa-label vads-u-margin-left--1" aria-hidden="true">
             New
           </span>
-          <span className="sr-only">New</span>
         </>
       );
 
