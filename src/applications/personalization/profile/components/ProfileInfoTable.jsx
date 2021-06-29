@@ -31,7 +31,7 @@ const ProfileInfoTable = ({
     'margin--0',
     'padding-x--2',
     'padding-y--1p5',
-    'vads-u-font-size--h3',
+    'font-size--h3',
   ]);
   const titleClassesMedium = prefixUtilityClasses(
     ['padding-x--3', 'padding-y--2'],
