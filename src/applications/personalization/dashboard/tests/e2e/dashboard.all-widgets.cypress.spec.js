@@ -1,10 +1,6 @@
 import enrollmentStatusEnrolled from '@@profile/tests/fixtures/enrollment-system/enrolled.json';
 
-import {
-  makeUserObject,
-  mockLocalStorage,
-  getUserPreferencesOneSelected,
-} from './dashboard-e2e-helpers';
+import { makeUserObject, mockLocalStorage } from './dashboard-e2e-helpers';
 
 describe('MyVA Dashboard', () => {
   describe('when user should see all available widgets', () => {
@@ -35,7 +31,6 @@ describe('MyVA Dashboard', () => {
       cy.server();
       cy.login(mockUser);
       // login() calls cy.server() so we can now mock routes
-      cy.route('GET', '/v0/user/preferences', getUserPreferencesOneSelected);
       cy.route(
         'GET',
         '/v0/health_care_applications/enrollment_status',
@@ -49,14 +44,6 @@ describe('MyVA Dashboard', () => {
       cy.findByText(
         /You may be eligible to use health chat as part of our pilot/i,
       ).should('exist');
-      // The preferences widget shows the homeless alert and the selected
-      // preference
-      cy.findByTestId('preferences-widget')
-        .should(
-          'contain.text',
-          'If you’re homeless or at risk of becoming homeless',
-        )
-        .should('contain.text', 'With VA health care');
       cy.findByRole('heading', { name: 'Your applications' }).should('exist');
       cy.findByRole('heading', {
         name: /^Application for pre-need determination/,
