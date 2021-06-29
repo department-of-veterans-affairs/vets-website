@@ -227,7 +227,7 @@ export const capitalizeEachWord = name => {
 
   if (typeof name !== 'string') {
     Sentry.captureMessage(
-      `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
+      `form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
     );
   }
 
@@ -833,17 +833,8 @@ export const noClaimTypeSelected = formData =>
  * @enum {String}
  */
 export const urls = {
-  v1: DISABILITY_526_V2_ROOT_URL,
   v2: DISABILITY_526_V2_ROOT_URL,
 };
-
-/**
- * Returns whether the formData is v1 or not.
- * This assumes that the `veteran` property of the formData will be present
- *  only in v1 after the form is saved. The prefillTransformer should
- *  remove this property from the v2 formData for this to work properly.
- */
-const isV1App = (formData, isPrefill) => !isPrefill && formData.veteran;
 
 /**
  * Returns the base url of whichever form the user needs to go to.
@@ -851,12 +842,6 @@ const isV1App = (formData, isPrefill) => !isPrefill && formData.veteran;
  * @param {Object} formData - The saved form data
  * @param {Boolean} isPrefill - True if formData comes from pre-fill, false if it's a saved form
  * @return {String} - The base url of the right form to return to
- */
-export const getFormUrl = (formData, isPrefill) =>
-  isV1App(formData, isPrefill) ? urls.v1 : urls.v2;
-
-/**
- * Navigates to the appropriate form (v1 or v2) based on the saved data.
  */
 
 export const claimingRated = formData =>
