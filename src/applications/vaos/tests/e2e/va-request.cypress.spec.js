@@ -31,7 +31,7 @@ function fillOutForm(facilitySelection) {
   // Reason for appointment
   newApptTests.reasonForAppointmentTest(
     'cough',
-    /Please give us more detail about why/,
+    /Please provide any additional details/,
   );
 
   // Visit type
@@ -105,7 +105,7 @@ function fillOutForm(facilitySelection) {
 }
 
 describe('VAOS request flow', () => {
-  beforeEach(() => {});
+  beforeEach(() => { });
 
   it('should submit form successfully for a multi system user', () => {
     initAppointmentListMock();

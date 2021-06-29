@@ -75,7 +75,7 @@ import { getClinicId } from '../../services/healthcare-service';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
   request:
-    'Please give us more detail about why you’re making this appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can’t have an appointment on a certain day or time.',
+    'Please provide any additional details you’d like to share with your provider about this appointment.',
   direct:
     'Please provide any additional details you’d like to share with your provider about this appointment.',
 };
@@ -682,7 +682,7 @@ export default function formReducer(state = initialState, action) {
       let newSchema = action.schema;
       let clinics =
         state.clinics[
-          `${state.data.vaFacility}_${getTypeOfCare(state.data).id}`
+        `${state.data.vaFacility}_${getTypeOfCare(state.data).id}`
         ];
 
       if (state.pastAppointments) {
@@ -714,9 +714,8 @@ export default function formReducer(state = initialState, action) {
           properties: {
             clinicId: {
               type: 'string',
-              title: `Would you like to make an appointment at ${
-                clinic.serviceName
-              }?`,
+              title: `Would you like to make an appointment at ${clinic.serviceName
+                }?`,
               enum: [clinic.id, 'NONE'],
               enumNames: [
                 'Yes, make my appointment here',
@@ -765,8 +764,7 @@ export default function formReducer(state = initialState, action) {
       const typeOfCare = getTypeOfCare(formData);
       let initialSchema = set(
         'properties.hasCommunityCareProvider.title',
-        `Do you have a preferred VA-approved community care provider for this ${
-          typeOfCare.name
+        `Do you have a preferred VA-approved community care provider for this ${typeOfCare.name
         } appointment?`,
         action.schema,
       );
