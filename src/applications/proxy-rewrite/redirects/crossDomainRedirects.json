@@ -1180,5 +1180,56 @@
     "domain": "www.wilmington.va.gov",
     "src": "/services/covid-19-vaccines.asp",
     "dest": "/wilmington-health-care/programs/covid-19-vaccines/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/",
+    "dest": "/wilkes-barre-health-care/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/directions.asp",
+    "dest": "/wilkes-barre-health-care/locations/wilkes-barre-va-medical-center/ "
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Allentown.asp",
+    "dest": "/wilkes-barre-health-care/locations/allentown-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Berwick.asp",
+    "dest": "/wilkes-barre-health-care/locations/columbia-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Bangor.asp",
+    "dest": "/wilkes-barre-health-care/locations/northampton-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Sayre.asp",
+    "dest": "/wilkes-barre-health-care/locations/sayre-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Tobyhanna.asp",
+    "dest": "/wilkes-barre-health-care/locations/tobyhanna-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Honesdale_Wayne_County.asp",
+    "dest": "/wilkes-barre-health-care/locations/wayne-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/locations/Williamsport.asp",
+    "dest": "/wilkes-barre-health-care/locations/williamsport-va-clinic/"
+  },
+  {
+    "domain": "www.wilkes-barre.va.gov",
+    "src": "/services/covid-19-vaccines.asp",
+    "dest": "/wilkes-barre-health-care/programs/covid-19-vaccines/"
   }
 ]
