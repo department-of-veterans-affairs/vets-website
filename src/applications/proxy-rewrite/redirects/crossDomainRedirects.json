@@ -1148,7 +1148,7 @@
   },
   {
     "domain": "www.wilmington.va.gov",
-    "src": "/locations/directions.asp ",
+    "src": "/locations/directions.asp",
     "dest": "/wilmington-health-care/locations/wilmington-va-medical-center/"
   },
   {
@@ -1190,7 +1190,7 @@
   {
     "domain": "www.wilkes-barre.va.gov",
     "src": "/locations/directions.asp",
-    "dest": "/wilkes-barre-health-care/locations/wilkes-barre-va-medical-center/ "
+    "dest": "/wilkes-barre-health-care/locations/wilkes-barre-va-medical-center/"
   },
   {
     "domain": "www.wilkes-barre.va.gov",
