@@ -1139,5 +1139,46 @@
     "domain": "www.altoona.va.gov",
     "src": "/services/covid-19-vaccines.asp",
     "dest": "/altoona-health-care/programs/covid-19-vaccines/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/",
+    "dest": "/wilmington-health-care/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/directions.asp ",
+    "dest": "/wilmington-health-care/locations/wilmington-va-medical-center/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Atlantic_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/atlantic-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Cape_May_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/cape-may-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Cumberland_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/cumberland-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Kent_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/kent-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/locations/Sussex_County_Community_Based_Outpatient_Clinic.asp",
+    "dest": "/wilmington-health-care/locations/sussex-county-va-clinic/"
+  },
+  {
+    "domain": "www.wilmington.va.gov",
+    "src": "/services/covid-19-vaccines.asp",
+    "dest": "/wilmington-health-care/programs/covid-19-vaccines/"
   }
 ]
