@@ -265,15 +265,16 @@ class FileField extends React.Component {
         ? uiSchema['ui:title']
         : schema.title;
 
-    const hasAnyError =
-      enableShortWorkflow &&
-      files.some((file, index) => {
-        const errors =
-          _.get([index, '__errors'], errorSchema) ||
-          [file.errorMessage].filter(error => error);
+    const allowUpload =
+      !enableShortWorkflow ||
+      (enableShortWorkflow &&
+        files.some((file, index) => {
+          const errors =
+            _.get([index, '__errors'], errorSchema) ||
+            [file.errorMessage].filter(error => error);
 
-        return errors.length > 0;
-      });
+          return errors.length > 0;
+        }));
 
     return (
       <div
@@ -456,8 +457,7 @@ class FileField extends React.Component {
           <>
             {(maxItems === null || files.length < maxItems) &&
               // Prevent additional upload if any upload has error state
-              (!enableShortWorkflow ||
-                (enableShortWorkflow && !hasAnyError)) && (
+              allowUpload && (
                 <label
                   id={`${idSchema.$id}_add_label`}
                   htmlFor={idSchema.$id}
