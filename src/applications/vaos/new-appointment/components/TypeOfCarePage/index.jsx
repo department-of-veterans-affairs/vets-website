@@ -62,7 +62,10 @@ export default function TypeOfCarePage() {
       const covidLabel = (
         <>
           COVID-19 vaccine
-          <span className="usa-label vads-u-margin-left--1">New</span>
+          <span className="usa-label vads-u-margin-left--1" aria-hidden="true">
+            New
+          </span>
+          <span className="sr-only">New</span>
         </>
       );
 
