@@ -136,7 +136,6 @@ jobs:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
-          ref: 25551/report-cypress-artifacts
 
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@master
