@@ -265,10 +265,10 @@ class FileField extends React.Component {
         ? uiSchema['ui:title']
         : schema.title;
 
-    const allowUpload =
+    const allowUploadWhenError =
       !enableShortWorkflow ||
       (enableShortWorkflow &&
-        files.some((file, index) => {
+        !files.some((file, index) => {
           const errors =
             _.get([index, '__errors'], errorSchema) ||
             [file.errorMessage].filter(error => error);
@@ -457,7 +457,7 @@ class FileField extends React.Component {
           <>
             {(maxItems === null || files.length < maxItems) &&
               // Prevent additional upload if any upload has error state
-              allowUpload && (
+              allowUploadWhenError && (
                 <label
                   id={`${idSchema.$id}_add_label`}
                   htmlFor={idSchema.$id}
