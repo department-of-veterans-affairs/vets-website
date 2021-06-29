@@ -199,7 +199,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(await screen.findByText(/displaying 1 to 10 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
-    waitFor(() => {
+    await waitFor(() => {
       expect(document.activeElement.id).to.equal(
         'root_communityCareProvider_6',
       );
@@ -209,7 +209,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(await screen.findByText(/displaying 1 to 15 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(17);
-    waitFor(() => {
+    await waitFor(() => {
       expect(document.activeElement.id).to.equal(
         'root_communityCareProvider_11',
       );
@@ -219,7 +219,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     expect(await screen.findByText(/displaying 1 to 16 of 16 providers/i)).to
       .exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(18);
-    waitFor(() => {
+    await waitFor(() => {
       expect(document.activeElement.id).to.equal(
         'root_communityCareProvider_16',
       );
