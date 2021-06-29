@@ -868,11 +868,7 @@ describe('VAOS <FutureAppointmentsList> calendar ics file format', () => {
 
     // wait for facilities fetch
     await waitFor(() => {
-      expect(
-        global.fetch
-          .getCalls()
-          .some(call => call.args[0].includes('/v1/facilities')),
-      ).to.be.ok;
+      expect(screen.findByText('Cheyenne VA Medical Center')).to.be.ok;
     });
 
     const ics = decodeURIComponent(
