@@ -106,7 +106,7 @@ export default function ReviewPage() {
                   help with your {submissionType}.
                 </p>
               )}
-              <p>
+              <>
                 {!facilityDetails && (
                   <NewTabAnchor
                     href={`/find-locations/facility/vha_${getRealFacilityId(
@@ -125,7 +125,7 @@ export default function ReviewPage() {
                     showDirectionsLink
                   />
                 )}
-              </p>
+              </>
             </>
           </InfoAlert>
         </div>

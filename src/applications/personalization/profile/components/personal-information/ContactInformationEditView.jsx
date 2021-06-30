@@ -41,6 +41,7 @@ import { ACTIVE_EDIT_VIEWS, FIELD_NAMES, USA } from '@@vap-svc/constants';
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
 
 import ContactInformationActionButtons from './ContactInformationActionButtons';
+import { getEditButtonId } from './ContactInformationField';
 
 export class ContactInformationEditView extends Component {
   static propTypes = {
@@ -112,16 +113,17 @@ export class ContactInformationEditView extends Component {
     if (this.interval) {
       window.clearInterval(this.interval);
     }
+    const { fieldName } = this.props;
     // Errors returned directly from the API request (as opposed through a transaction lookup) are
     // displayed in this modal, rather than on the page. Once the modal is closed, reset the state
     // for the next time the modal is opened by removing any existing transaction request from the store.
     if (this.props.transactionRequest?.error) {
-      this.props.clearTransactionRequest(this.props.fieldName);
+      this.props.clearTransactionRequest(fieldName);
     }
 
     // AS DONE IN ADDRESSEDITVIEW, CHECK FOR CORRECTNESS
-    if (this.props.fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS) {
-      focusElement(`#${this.props.fieldName}-edit-link`);
+    if (fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS) {
+      focusElement(`#${getEditButtonId(fieldName)}`);
     }
   }
 
