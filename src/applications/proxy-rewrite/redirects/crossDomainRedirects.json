@@ -1107,11 +1107,6 @@
   },
   {
     "domain": "www.altoona.va.gov",
-    "src": "/locations/directions.asp",
-    "dest": "/altoona-health-care/locations/james-e-van-zandt-veterans-administration-medical-center/"
-  },
-  {
-    "domain": "www.altoona.va.gov",
     "src": "/locations/DuBois.asp",
     "dest": "/altoona-health-care/locations/dubois-va-clinic/"
   },
@@ -1148,11 +1143,6 @@
   },
   {
     "domain": "www.wilmington.va.gov",
-    "src": "/locations/directions.asp",
-    "dest": "/wilmington-health-care/locations/wilmington-va-medical-center/"
-  },
-  {
-    "domain": "www.wilmington.va.gov",
     "src": "/locations/Atlantic_County_Community_Based_Outpatient_Clinic.asp",
     "dest": "/wilmington-health-care/locations/atlantic-county-va-clinic/"
   },
@@ -1186,11 +1176,6 @@
     "src": "/",
     "dest": "/wilkes-barre-health-care/",
     "catchAll": true
-  },
-  {
-    "domain": "www.wilkes-barre.va.gov",
-    "src": "/locations/directions.asp",
-    "dest": "/wilkes-barre-health-care/locations/wilkes-barre-va-medical-center/"
   },
   {
     "domain": "www.wilkes-barre.va.gov",
