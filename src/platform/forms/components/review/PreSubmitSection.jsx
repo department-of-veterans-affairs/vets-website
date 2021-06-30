@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 // formation
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
@@ -11,6 +12,16 @@ import { preSubmitSelector } from 'platform/forms/selectors/review';
 
 // platform - form-system actions
 import { setPreSubmit as setPreSubmitAction } from 'platform/forms-system/src/js/actions';
+import {
+  createFormPageList,
+  createPageList,
+} from 'platform/forms-system/src/js/helpers';
+
+import SaveFormLink from '../../save-in-progress/SaveFormLink';
+import { getFormContext } from '../../save-in-progress/selectors';
+import { FINISH_APP_LATER_DEFAULT_MESSAGE } from '../../../forms-system/src/js/constants';
+import { saveAndRedirectToReturnUrl } from '../../save-in-progress/actions';
+import { toggleLoginModal } from '../../../site-wide/user-nav/actions';
 
 /*
 *  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent
@@ -24,11 +35,17 @@ export function PreSubmitSection(props) {
     preSubmit = {},
     setPreSubmit,
     showPreSubmitError,
-    saveLink,
+    formConfig,
   } = props;
 
   const { CustomComponent } = preSubmit;
   const checked = form?.data[preSubmit?.field] || false;
+  const formPages = createFormPageList(formConfig);
+  const pageList = createPageList(formConfig, formPages);
+
+  const finishAppLaterMessage =
+    formConfig?.customText?.finishAppLaterMessage ||
+    FINISH_APP_LATER_DEFAULT_MESSAGE;
 
   return (
     <>
@@ -58,7 +75,18 @@ export function PreSubmitSection(props) {
           )}
         </div>
       )}
-      {saveLink}
+      <SaveFormLink
+        form={form}
+        formConfig={formConfig}
+        pageList={pageList}
+        user={props.user}
+        locationPathname={props.location?.pathname}
+        showLoginModal={props.showLoginModal}
+        saveAndRedirectToReturnUrl={props.saveAndRedirectToReturnUrl}
+        toggleLoginModal={props.toggleLoginModal}
+      >
+        {finishAppLaterMessage}
+      </SaveFormLink>
     </>
   );
 }
@@ -74,27 +102,45 @@ PreSubmitSection.propTypes = {
   }).isRequired,
   showPreSubmitError: PropTypes.bool,
   setPreSubmit: PropTypes.func.isRequired,
-  saveLink: PropTypes.elementType,
+  user: PropTypes.shape({
+    login: PropTypes.shape({
+      currentlyLoggedIn: PropTypes.bool,
+    }),
+  }),
+  showLoginModal: PropTypes.bool,
+  saveAndRedirectToReturnUrl: PropTypes.func,
+  toggleLoginModal: PropTypes.func,
+  // added by withRouter
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
 };
 
 const mapDispatchToProps = {
   setPreSubmit: setPreSubmitAction,
+  saveAndRedirectToReturnUrl,
+  toggleLoginModal,
 };
 
-export default connect(
-  (state, ownProps) => {
-    const { form } = state;
-    const { formConfig, SaveLink } = ownProps || {};
+export default withRouter(
+  connect(
+    (state, ownProps) => {
+      const { form, user } = state;
+      const { formConfig } = ownProps || {};
+      const formContext = getFormContext({ form, user, onReviewPage: true });
 
-    const preSubmit = preSubmitSelector(formConfig);
-    const showPreSubmitError = form?.submission?.hasAttemptedSubmit;
-
-    return {
-      form,
-      preSubmit,
-      showPreSubmitError,
-      SaveLink,
-    };
-  },
-  mapDispatchToProps,
-)(PreSubmitSection);
+      const preSubmit = preSubmitSelector(formConfig);
+      const showPreSubmitError = form?.submission?.hasAttemptedSubmit;
+      return {
+        form,
+        preSubmit,
+        showPreSubmitError,
+        formConfig,
+        formContext,
+        user,
+        showLoginModal: state.navigation.showLoginModal,
+      };
+    },
+    mapDispatchToProps,
+  )(PreSubmitSection),
+);

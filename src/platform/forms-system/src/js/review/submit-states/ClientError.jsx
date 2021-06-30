@@ -9,7 +9,7 @@ import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 export default function ClientError(props) {
-  const { buttonText, formConfig, onBack, onSubmit, testId, saveLink } = props;
+  const { buttonText, formConfig, onBack, onSubmit, testId } = props;
   const Element = Scroll.Element;
   const scroller = Scroll.scroller;
   const scrollToError = () => {
@@ -40,7 +40,7 @@ export default function ClientError(props) {
           />
         </Column>
       </Row>
-      <PreSubmitSection formConfig={formConfig} saveLink={saveLink} />
+      <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons">
         <Column classNames="small-6 medium-5">
           <Back onButtonClick={onBack} />
@@ -65,5 +65,4 @@ ClientError.propTypes = {
   formConfig: PropTypes.object,
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,
-  saveLink: PropTypes.elementType,
 };

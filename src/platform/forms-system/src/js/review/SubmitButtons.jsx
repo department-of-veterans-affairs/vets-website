@@ -15,7 +15,7 @@ import ThrottledError from './submit-states/ThrottledError';
 import ValidationError from './submit-states/ValidationError';
 
 export default function SubmitButtons(props) {
-  const { onBack, onSubmit, submission, formConfig, saveLink } = props;
+  const { onBack, onSubmit, submission, formConfig } = props;
 
   const appType = formConfig?.customText?.appType || APP_TYPE_DEFAULT;
   const buttonText =
@@ -28,26 +28,15 @@ export default function SubmitButtons(props) {
         onBack={onBack}
         onSubmit={onSubmit}
         formConfig={formConfig}
-        saveLink={saveLink}
       />
     );
   } else if (submission.status === 'submitPending') {
     return (
-      <Pending
-        onBack={onBack}
-        onSubmit={onSubmit}
-        formConfig={formConfig}
-        saveLink={saveLink}
-      />
+      <Pending onBack={onBack} onSubmit={onSubmit} formConfig={formConfig} />
     );
   } else if (submission.status === 'applicationSubmitted') {
     return (
-      <Submitted
-        onBack={onBack}
-        onSubmit={onSubmit}
-        formConfig={formConfig}
-        saveLink={saveLink}
-      />
+      <Submitted onBack={onBack} onSubmit={onSubmit} formConfig={formConfig} />
     );
   } else if (submission.status === 'clientError') {
     return (
@@ -56,7 +45,6 @@ export default function SubmitButtons(props) {
         formConfig={formConfig}
         onBack={onBack}
         onSubmit={onSubmit}
-        saveLink={saveLink}
       />
     );
   } else if (submission.status === 'throttledError') {
@@ -67,7 +55,6 @@ export default function SubmitButtons(props) {
         when={submission.extra}
         onBack={onBack}
         onSubmit={onSubmit}
-        saveLink={saveLink}
       />
     );
   } else if (submission.status === 'validationError') {
@@ -78,7 +65,6 @@ export default function SubmitButtons(props) {
         formConfig={formConfig}
         onBack={onBack}
         onSubmit={onSubmit}
-        saveLink={saveLink}
       />
     );
   } else {
@@ -88,7 +74,6 @@ export default function SubmitButtons(props) {
         formConfig={formConfig}
         onBack={onBack}
         onSubmit={onSubmit}
-        saveLink={saveLink}
       />
     );
   }
@@ -104,5 +89,4 @@ SubmitButtons.propTypes = {
       submitButtonText: PropTypes.string,
     }),
   }),
-  saveLink: PropTypes.elementType,
 };

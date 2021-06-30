@@ -122,7 +122,7 @@ class SubmitController extends Component {
   };
 
   render() {
-    const { form, formConfig, saveLink } = this.props;
+    const { form, formConfig } = this.props;
 
     return (
       <SubmitButtons
@@ -130,14 +130,13 @@ class SubmitController extends Component {
         onBack={this.goBack}
         onSubmit={this.handleSubmit}
         submission={form.submission}
-        saveLink={saveLink}
       />
     );
   }
 }
 
 function mapStateToProps(state, ownProps) {
-  const { formConfig, pageList, saveLink } = ownProps;
+  const { formConfig, pageList } = ownProps;
   const { form, user } = state;
 
   const router = ownProps.router;
@@ -156,7 +155,6 @@ function mapStateToProps(state, ownProps) {
     showPreSubmitError,
     trackingPrefix,
     user,
-    saveLink,
   };
 }
 

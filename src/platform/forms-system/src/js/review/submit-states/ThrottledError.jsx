@@ -10,15 +10,7 @@ import ErrorMessage from 'platform/forms/components/common/alerts/ErrorMessage';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 export default function ThrottledError(props) {
-  const {
-    buttonText,
-    when,
-    formConfig,
-    onBack,
-    onSubmit,
-    testId,
-    saveLink,
-  } = props;
+  const { buttonText, when, formConfig, onBack, onSubmit, testId } = props;
 
   return (
     <>
@@ -34,7 +26,7 @@ export default function ThrottledError(props) {
           />
         </Column>
       </Row>
-      <PreSubmitSection formConfig={formConfig} saveLink={saveLink} />
+      <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons">
         <Column classNames="small-6 medium-5">
           <Back onButtonClick={onBack} />
@@ -60,5 +52,4 @@ ThrottledError.propTypes = {
   when: PropTypes.object,
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,
-  saveLink: PropTypes.elementType,
 };
