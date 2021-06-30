@@ -4,12 +4,14 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 /**
  * Component that adds a usa-alert info box and customizes the va-alert web component
  *
  * @param {boolean} backgroundOnly Optional, display alert as background only, defaults to false
  * @param {Element} children React children, text or child elements to display in alert body
+ * @param {string} className Additional classes to add to the alert, required to apply classes to va-alert via class
  * @param {string} headline Optional, alert headline
  * @param {string} level Optional, alert heading display level
  * @param {string} status Alert type
@@ -19,6 +21,7 @@ import PropTypes from 'prop-types';
 export default function InfoAlert({
   backgroundOnly = false,
   children,
+  className = '',
   headline,
   level = 2,
   status,
@@ -27,7 +30,10 @@ export default function InfoAlert({
   if (backgroundOnly) {
     return (
       <div
-        className={`usa-alert usa-alert-${status} background-color-only vads-u-display--block`}
+        className={classnames(
+          `usa-alert usa-alert-${status} background-color-only vads-u-display--block`,
+          className,
+        )}
       >
         <div className="usa-alert-body">
           {headline && (
@@ -39,10 +45,12 @@ export default function InfoAlert({
     );
   }
   return (
-    <va-alert class="vads-u-margin-top--3" status={status}>
-      <H className="vads-u-font-size--h3" slot="headline">
-        {headline}
-      </H>
+    <va-alert class={className} status={status}>
+      {headline && (
+        <H className="vads-u-font-size--h3" slot="headline">
+          {headline}
+        </H>
+      )}
       <div className="vads-u-font-size--base">{children}</div>
     </va-alert>
   );
@@ -51,8 +59,9 @@ export default function InfoAlert({
 InfoAlert.propTypes = {
   backgroundOnly: PropTypes.bool,
   children: PropTypes.node,
+  className: PropTypes.string,
   headline: PropTypes.string,
-  level: PropTypes.string,
+  level: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   status: PropTypes.oneOf(['info', 'error', 'success', 'warning', 'continue'])
     .isRequired,
 };

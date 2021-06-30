@@ -12,6 +12,7 @@ import {
   setInitialEditMode,
   issuesNeedUpdating,
   processContestableIssues,
+  readableList,
 } from '../../utils/helpers';
 import { getDate } from '../../utils/dates';
 
@@ -321,5 +322,21 @@ describe('processContestableIssues', () => {
       '2021-01-31',
       '2020-12-01',
     ]);
+  });
+});
+
+describe('readableList', () => {
+  it('should return an empty string', () => {
+    expect(readableList([])).to.eq('');
+    expect(readableList(['', null, 0])).to.eq('');
+  });
+  it('should return a combined list with commas with "and" for the last item', () => {
+    expect(readableList(['one'])).to.eq('one');
+    expect(readableList(['', 'one', null])).to.eq('one');
+    expect(readableList(['one', 'two'])).to.eq('one and two');
+    expect(readableList([1, 2, 'three'])).to.eq('1, 2 and three');
+    expect(readableList(['v', null, 'w', 'x', '', 'y', 'z'])).to.eq(
+      'v, w, x, y and z',
+    );
   });
 });

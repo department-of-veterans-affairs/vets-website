@@ -154,6 +154,21 @@ export function ComparePage({
     );
   }
 
+  const programHours = programLength => {
+    const maxHours = Math.max(...programLength);
+    const minHours = Math.min(...programLength);
+    if (
+      programLength &&
+      programLength.length > 0 &&
+      maxHours + minHours !== 0
+    ) {
+      return `${
+        minHours === maxHours ? minHours : `${minHours} - ${maxHours}`
+      } hours`;
+    }
+    return 'N/A';
+  };
+
   return (
     <div className="compare-page">
       {promptingFacilityCode && (
@@ -537,6 +552,11 @@ export function ComparePage({
             facilityCodes={loaded}
             showDifferences={showDifferences}
             fieldData={[
+              {
+                label: 'Length of VET TEC programs',
+                mapper: institution =>
+                  programHours(institution.programLengthInHours),
+              },
               {
                 label: 'Credit for military training',
                 mapper: institution =>

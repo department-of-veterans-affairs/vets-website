@@ -3,7 +3,6 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { FETCH_STATUS } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -13,6 +12,7 @@ import { getReviewPage } from '../redux/selectors';
 import flow from '../flow';
 import State from '../../components/State';
 import NewTabAnchor from '../../components/NewTabAnchor';
+import InfoAlert from '../../components/InfoAlert';
 import { confirmAppointment } from '../redux/actions';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
@@ -40,7 +40,7 @@ export default function ReviewPage() {
   useEffect(
     () => {
       if (submitStatus === FETCH_STATUS.failed) {
-        scrollAndFocus('.usa-alert-error');
+        scrollAndFocus('.info-alert');
       }
     },
     [submitStatus],
@@ -120,49 +120,48 @@ export default function ReviewPage() {
         </LoadingButton>
       </div>
       {submitStatus === FETCH_STATUS.failed && (
-        <div role="alert">
-          <AlertBox
+        <div className="info-alert" role="alert">
+          <InfoAlert
             status="error"
             headline="We couldn’t schedule this appointment"
-            content={
-              <>
-                {submitStatusVaos400 ? (
-                  <p>
-                    We’re sorry. Something went wrong when we tried to submit
-                    your appointment. You’ll need to call your local VA medical
-                    center to schedule this appointment.
-                  </p>
-                ) : (
-                  <p>
-                    We’re sorry. Something went wrong when we tried to submit
-                    your appointment and you’ll need to start over. We suggest
-                    you wait a day to try again or you can call your medical
-                    center to help with your appointment.
-                  </p>
-                )}
+          >
+            <>
+              {submitStatusVaos400 ? (
                 <p>
-                  {!facilityDetails && (
-                    <NewTabAnchor
-                      href={`/find-locations/facility/vha_${getRealFacilityId(
-                        data.vaFacility,
-                      )}`}
-                    >
-                      {submitStatusVaos400
-                        ? 'Find facility contact information'
-                        : 'Contact your local VA medical center'}
-                    </NewTabAnchor>
-                  )}
-                  {!!facilityDetails && (
-                    <FacilityAddress
-                      name={facilityDetails.name}
-                      facility={facilityDetails}
-                      showDirectionsLink
-                    />
-                  )}
+                  We’re sorry. Something went wrong when we tried to submit your
+                  appointment. You’ll need to call your local VA medical center
+                  to schedule this appointment.
                 </p>
+              ) : (
+                <p>
+                  We’re sorry. Something went wrong when we tried to submit your
+                  appointment and you’ll need to start over. We suggest you wait
+                  a day to try again or you can call your medical center to help
+                  with your appointment.
+                </p>
+              )}
+              <>
+                {!facilityDetails && (
+                  <NewTabAnchor
+                    href={`/find-locations/facility/vha_${getRealFacilityId(
+                      data.vaFacility,
+                    )}`}
+                  >
+                    {submitStatusVaos400
+                      ? 'Find facility contact information'
+                      : 'Contact your local VA medical center'}
+                  </NewTabAnchor>
+                )}
+                {!!facilityDetails && (
+                  <FacilityAddress
+                    name={facilityDetails.name}
+                    facility={facilityDetails}
+                    showDirectionsLink
+                  />
+                )}
               </>
-            }
-          />
+            </>
+          </InfoAlert>
         </div>
       )}
     </div>

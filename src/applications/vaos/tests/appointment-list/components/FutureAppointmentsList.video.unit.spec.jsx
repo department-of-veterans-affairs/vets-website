@@ -556,7 +556,7 @@ describe('VAOS <FutureAppointmentsList> video appointments', () => {
     expect(queryByText(/join appointment/i)).to.not.exist;
     expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
-    expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(baseElement).to.contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(baseElement).to.contain.text('307-778-7550');
 
     expect(
@@ -669,7 +669,7 @@ describe('VAOS <FutureAppointmentsList> ATLAS video appointments', () => {
 
     // Should display appointment location address
     expect(screen.getByText(/114 Dewey Ave/i)).to.be.ok;
-    expect(screen.baseElement).to.contain.text('Eureka, MT 59917');
+    expect(screen.baseElement).to.contain.text('Eureka, MontanaMT 59917');
 
     // Should display directions to location
     expect(
@@ -864,6 +864,8 @@ describe('VAOS <FutureAppointmentsList> calendar ics file format', () => {
     await screen.findByText(
       (_, node) => node.textContent === 'VA Video Connect at a VA location',
     );
+
+    expect(await screen.findByText('Cheyenne VA Medical Center')).to.be.ok;
 
     const ics = decodeURIComponent(
       screen

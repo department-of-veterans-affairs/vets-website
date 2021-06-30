@@ -6,6 +6,9 @@ export const uiSchema = {
         'Does your spouse get income from any other sources (like a retirement pension or alimony support)? ',
       'ui:widget': 'yesNo',
       'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Please enter your spouse’s other income.',
+      },
     },
   },
 };

@@ -170,9 +170,9 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
 
     // Should validation message if no facility selected
     fireEvent.click(screen.getByText(/Continue/));
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Please select a location for your appointment',
-    );
+    expect(
+      await screen.findByText('Please select a location for your appointment'),
+    ).to.be.ok;
   });
 
   it('should show residential address and sort by distance if we have coordinates', async () => {
@@ -222,7 +222,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
       'Facilities based on your home address',
     );
     expect(screen.baseElement).to.contain.text('290 Ludlow Ave');
-    expect(screen.baseElement).to.contain.text('Cincinatti, OH 45220');
+    expect(screen.baseElement).to.contain.text('Cincinatti, OhioOH 45220');
     expect(screen.baseElement).to.contain.text(' miles');
 
     // It should sort by distance, making Closest facility the first facility

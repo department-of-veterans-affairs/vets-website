@@ -189,7 +189,7 @@ describe('VAOS <PastAppointmentsList>', () => {
     expect(baseElement).to.contain.text('Some clinic');
     expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
-    expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(baseElement).to.contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(baseElement).to.contain.text('307-778-7550');
     expect(baseElement.querySelector('h4')).to.be.ok;
   });
