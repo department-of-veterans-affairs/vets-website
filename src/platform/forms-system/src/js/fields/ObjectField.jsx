@@ -236,9 +236,17 @@ class ObjectField extends React.Component {
     );
 
     // Id's are not always unique on the review and submit page
-    const id = `${idSchema.$id}${
-      typeof pageIndex === 'undefined' ? '' : `_${pageIndex}`
-    }`;
+    const id = `${
+      isRoot && formContext.onReviewPage
+        ? Object.keys(idSchema)
+            .reduce((ids, key) => {
+              ids.push(idSchema[key].$id || '');
+              return ids;
+            }, [])
+            .filter(k => k)
+            .join('_')
+        : idSchema.$id
+    }${typeof pageIndex === 'undefined' ? '' : `_${pageIndex}`}`;
 
     const fieldContent = (
       <div className={containerClassNames}>

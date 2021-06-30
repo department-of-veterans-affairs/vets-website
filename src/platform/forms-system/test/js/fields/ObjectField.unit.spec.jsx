@@ -428,8 +428,8 @@ describe('Schemaform: ObjectField', () => {
     const formDOM = getFormDOM(form);
     const ids = formDOM.querySelectorAll('legend');
     expect(ids).to.have.length(2);
-    expect(ids[0].id).to.equal('root_0__title');
-    expect(ids[1].id).to.equal('root_1__title');
+    expect(ids[0].id).to.equal('root_test_0__title');
+    expect(ids[1].id).to.equal('root_test_1__title');
   });
   it('should render unique IDs for array items on review & submit page', () => {
     // This occurs on form 526 when "ratedDisabilities" &
@@ -493,8 +493,8 @@ describe('Schemaform: ObjectField', () => {
 
     const legends = formDOM.querySelectorAll('legend');
     expect(legends).to.have.length(2);
-    expect(legends[0].id).to.equal('root_0__title');
-    expect(legends[1].id).to.equal('root_1__title');
+    expect(legends[0].id).to.equal('root_test_0__title');
+    expect(legends[1].id).to.equal('root_test_1__title');
   });
   it('should render unique IDs for nested array items on review & submit page', () => {
     // This occurs on form 526 when "ratedDisabilities" &
