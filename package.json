@@ -107,6 +107,7 @@
     "ie 11"
   ],
   "devDependencies": {
+    "@applitools/eyes-cypress": "^3.22.0",
     "@babel/core": "^7.10.2",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
     "@babel/plugin-proposal-export-namespace-from": "^7.10.1",
