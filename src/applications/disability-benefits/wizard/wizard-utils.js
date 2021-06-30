@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -16,8 +15,8 @@ export const formStartButton = ({
     event: 'howToWizard-cta-displayed',
   });
   return (
-    <Link
-      to={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
+    <a
+      href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
       className="usa-button-primary va-button-primary"
       onClick={() => {
         setWizardStatus(WIZARD_STATUS_COMPLETE);
@@ -34,6 +33,6 @@ export const formStartButton = ({
       aria-describedby={ariaId}
     >
       {label}
-    </Link>
+    </a>
   );
 };

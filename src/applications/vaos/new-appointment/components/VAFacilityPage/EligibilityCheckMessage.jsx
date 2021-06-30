@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilityAddress from '../../../components/FacilityAddress';
+import InfoAlert from '../../../components/InfoAlert';
 import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 
 export default function EligibilityCheckMessage({
@@ -25,21 +25,21 @@ export default function EligibilityCheckMessage({
   if (requestReason === ELIGIBILITY_REASONS.notSupported) {
     return (
       <div aria-atomic="true" aria-live="assertive">
-        <AlertBox
+        <InfoAlert
           status="warning"
           headline="This facility does not allow online requests for this type of care"
         >
           This facility does not allow scheduling requests for this type of care
           to be made online. Not all facilities support online scheduling for
           all types of care.
-        </AlertBox>
+        </InfoAlert>
       </div>
     );
   }
   if (requestReason === ELIGIBILITY_REASONS.noRecentVisit) {
     return (
       <div aria-atomic="true" aria-live="assertive">
-        <AlertBox
+        <InfoAlert
           status="warning"
           headline="We couldn’t find a recent appointment at this location"
         >
@@ -52,44 +52,43 @@ export default function EligibilityCheckMessage({
             Please call the facility to schedule your appointment or search for
             another facility.
           </p>
-        </AlertBox>
+        </InfoAlert>
       </div>
     );
   }
   if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {
     return (
       <div aria-atomic="true" aria-live="assertive">
-        <AlertBox
+        <InfoAlert
           status="warning"
           headline="You’ve reached the limit for appointment requests at this location"
-          content={
-            <>
-              <p>
-                Our records show that you have an open appointment request at
-                this location. We can’t schedule any more appointments at this
-                facility until your open requests are scheduled or canceled. To
-                schedule or cancel your open appointments:
-              </p>
-              <ul>
+        >
+          <>
+            <p>
+              Our records show that you have an open appointment request at this
+              location. We can’t schedule any more appointments at this facility
+              until your open requests are scheduled or canceled. To schedule or
+              cancel your open appointments:
+            </p>
+            <ul>
+              <li>
+                Go to <Link to="/">your appointment list</Link> and cancel open
+                requests, or
+              </li>
+              {facilityDetails && (
                 <li>
-                  Go to <Link to="/">your appointment list</Link> and cancel
-                  open requests, or
+                  Call your medical facility:
+                  <br />
+                  <FacilityAddress
+                    name={facilityDetails.name}
+                    facility={facilityDetails}
+                  />
                 </li>
-                {facilityDetails && (
-                  <li>
-                    Call your medical facility:
-                    <br />
-                    <FacilityAddress
-                      name={facilityDetails.name}
-                      facility={facilityDetails}
-                    />
-                  </li>
-                )}
-                {!facilityDetails && <li>Call your medical facility</li>}
-              </ul>
-            </>
-          }
-        />
+              )}
+              {!facilityDetails && <li>Call your medical facility</li>}
+            </ul>
+          </>
+        </InfoAlert>
       </div>
     );
   }

@@ -33,7 +33,6 @@ import {
   hasNewPtsdDisability,
   increaseOnly,
   isDisabilityPtsd,
-  directToCorrectForm,
   DISABILITY_SHARED_CONFIG,
   isBDD,
   isUploadingSTR,
@@ -43,9 +42,7 @@ import {
 } from '../utils';
 
 import captureEvents from '../analytics-functions';
-
 import prefillTransformer from '../prefill-transformer';
-
 import { transform } from '../submit-transformer';
 
 import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
@@ -156,7 +153,6 @@ const formConfig = {
       saved: 'Your disability compensation application has been saved.',
     },
   },
-  onFormLoaded: directToCorrectForm,
   version: migrations.length,
   migrations,
   prefillTransformer,

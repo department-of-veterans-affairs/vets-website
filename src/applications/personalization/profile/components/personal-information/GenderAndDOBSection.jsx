@@ -51,6 +51,7 @@ const GenderAndDOBSection = ({ gender, dob, className }) => (
         { title: 'Gender', value: renderGender(gender) },
       ]}
       className="vads-u-margin-bottom--3"
+      level={2}
     />
   </div>
 );

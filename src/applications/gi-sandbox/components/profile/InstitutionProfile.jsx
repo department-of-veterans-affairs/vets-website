@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AccordionItem from '../AccordionItem';
-import HeadingSummary from './HeadingSummary';
+import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import Programs from './Programs';
 import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
@@ -42,7 +42,6 @@ export class InstitutionProfile extends React.Component {
       constants,
       showModal,
       gibctEybBottomSheet,
-      gibctSchoolRatings,
     } = this.props;
 
     const stars = convertRatingToStars(profile.attributes.ratingAverage);
@@ -53,11 +52,7 @@ export class InstitutionProfile extends React.Component {
 
     return (
       <div className="institution-profile">
-        <HeadingSummary
-          institution={profile.attributes}
-          onLearnMore={showModal.bind(this, 'gibillstudents')}
-          gibctSchoolRatings={gibctSchoolRatings}
-        />
+        <ProfilePageHeader institution={profile.attributes} />
         <div className="usa-accordion vads-u-margin-top--4">
           <ul>
             <AccordionItem button="Estimate your benefits">
