@@ -32,11 +32,7 @@ import {
 } from './transformers';
 import { VHA_FHIR_ID } from '../../utils/constants';
 import { calculateBoundingBox } from '../../utils/address';
-import {
-  getParentFacilitiesV2,
-  getSchedulingConfigurations,
-  getFacilities,
-} from '../vaos';
+import { getSchedulingConfigurations, getFacilities } from '../vaos';
 import {
   transformParentFacilitiesV2,
   transformFacilitiesV2,
@@ -388,7 +384,7 @@ export async function fetchParentLocations({ siteIds, useV2 }) {
     };
 
     if (useV2) {
-      const facilities = await getParentFacilitiesV2(siteIds, true);
+      const facilities = await getFacilities(siteIds, true);
       return transformParentFacilitiesV2(facilities).sort(sortFacilitiesMethod);
     }
 

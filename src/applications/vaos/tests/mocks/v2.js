@@ -52,40 +52,18 @@ export function getVAOSRequestMock() {
  * @param {String} id id for the appointment
  * @returns {VARParentSite} var-resources parent site object
  */
-export function getVAOSParentSiteMock(id) {
+export function getV2FacilityMock({
+  id = 'Fake',
+  name = 'Fake',
+  isParent = false,
+}) {
   return {
     id,
     type: 'facility',
     attributes: {
       id: 'fake',
       vistaSite: id.substring(0, 3),
-      vastParent: id,
-      name: 'fake',
-      physicalAddress: {
-        line: [],
-        city: 'fake',
-        state: 'fake',
-        postalCode: 'fake',
-      },
-    },
-  };
-}
-
-/**
- * Returns a stubbed var-resources parent site object from the VAOS service.
- *
- * @export
- * @param {String} id id for the appointment
- * @returns {VARParentSite} var-resources parent site object
- */
-export function getV2FacilityMock({ id = 'Fake', name = 'Fake' }) {
-  return {
-    id,
-    type: 'facility',
-    attributes: {
-      id: 'fake',
-      vistaSite: id.substring(0, 3),
-      vastParent: id.substring(0, 3),
+      vastParent: isParent ? id : id.substring(0, 3),
       name,
       physicalAddress: {
         line: [],
