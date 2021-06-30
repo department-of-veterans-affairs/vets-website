@@ -9,6 +9,7 @@ import ProfileInfoTable from '../../ProfileInfoTable';
 const PhoneNumbersTable = ({ className }) => (
   <ProfileInfoTable
     title="Phone numbers"
+    level={2}
     namedAnchor="phone-numbers"
     data={[
       {

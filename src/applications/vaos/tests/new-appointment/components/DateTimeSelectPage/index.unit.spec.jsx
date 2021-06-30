@@ -538,6 +538,9 @@ describe('VAOS <DateTimeSelectPage>', () => {
       ...matchResult,
       matches: true,
     });
+    await waitFor(() => {
+      expect(listeners[0]).to.be.ok;
+    });
     listeners[0]();
 
     // At a row size of 4, the cell in the top right is now the 4th item, so

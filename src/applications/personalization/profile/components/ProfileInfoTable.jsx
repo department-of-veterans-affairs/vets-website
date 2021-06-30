@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
+import { numberBetween } from '../../common/proptypeValidators';
 
-const TableTitle = ({ namedAnchor, className, children }) => {
+const TableTitle = ({ namedAnchor, className, children, level }) => {
+  const Header = `h${level}`;
   return (
-    <h3 className={className} id={namedAnchor}>
+    <Header className={className} id={namedAnchor}>
       {children}
-    </h3>
+    </Header>
   );
 };
 
@@ -17,6 +19,7 @@ const ProfileInfoTable = ({
   title,
   className,
   namedAnchor,
+  level = 3, // heading level
 }) => {
   // TODO: move all these class var outside of the component so they aren't
   // recomputed on every render
@@ -28,6 +31,7 @@ const ProfileInfoTable = ({
     'margin--0',
     'padding-x--2',
     'padding-y--1p5',
+    'font-size--h3',
   ]);
   const titleClassesMedium = prefixUtilityClasses(
     ['padding-x--3', 'padding-y--2'],
@@ -95,7 +99,11 @@ const ProfileInfoTable = ({
   return (
     <section className={classes.table}>
       {title && (
-        <TableTitle className={classes.title} namedAnchor={namedAnchor}>
+        <TableTitle
+          className={classes.title}
+          namedAnchor={namedAnchor}
+          level={level}
+        >
           {title}
         </TableTitle>
       )}
@@ -138,6 +146,7 @@ ProfileInfoTable.propTypes = {
   dataTransformer: PropTypes.func,
   className: PropTypes.string,
   namedAnchor: PropTypes.string,
+  level: numberBetween(1, 6),
 };
 
 export default ProfileInfoTable;
