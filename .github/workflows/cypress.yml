@@ -82,17 +82,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/e2e-test-output-*.xml'
 
-      - name: If failure, set global failure
-        if: ${{ failure() }}
-        run: echo "TEST_FAILURE=true" >> $GITHUB_ENV
-
-      - name: If failure, make failure variable available to all jobs
-        uses: nick-invision/persist-action-data@v1
-        if: ${{ failure() }}
-        with:
-          data: ${{ env.TEST_FAILURE }}
-          variable: TEST_FAILURE
-
       - name: Archive Cypress test videos
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}
@@ -130,21 +119,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: 'us-gov-west-1'
 
-      - name: Retrieve Failure State
-        uses: nick-invision/persist-action-data@v1
-        with:
-          data: ${{ env.TEST_FAILURE }}
-          retrieve_variables: TEST_FAILURE
-
       - name: Get Slack app token
-        if: ${{ env.TEST_FAILURE }}
+        if: ${{ needs.build.result == 'failure' }}
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
         with:
           ssm_parameter: /devops/github_actions_slack_socket_token
           env_variable_name: SLACK_APP_TOKEN
 
       - name: Get Slack bot token
-        if: ${{ env.TEST_FAILURE }}
+        if: ${{ needs.build.result == 'failure' }}
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
         with:
           ssm_parameter: /devops/github_actions_slack_bot_user_token
@@ -157,7 +140,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Checkout VSP actions
-        if: ${{ env.TEST_FAILURE }}
+        if: ${{ needs.build.result == 'failure' }}
         uses: actions/checkout@v2
         with:
           repository: department-of-veterans-affairs/vsp-github-actions
@@ -167,7 +150,7 @@ jobs:
           path: ./.github/actions/vsp-github-actions
 
       - name: Notify Slack
-        if: ${{ env.TEST_FAILURE }}
+        if: ${{ needs.build.result == 'failure' }}
         uses: ./.github/actions/vsp-github-actions/slack-socket
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -265,7 +248,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: department-of-veterans-affairs/testing-reports
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          token: ${{ needs.build.result == 'failure' }}
           path: testing-reports
 
       - name: Download report artifact
@@ -275,7 +258,7 @@ jobs:
           path: testing-reports/cypress-reports
 
       - name: Download video artifacts
-        if: ${{ env.TEST_FAILURE }}
+        if: ${{ needs.build.result == 'failure' }}
         uses: actions/download-artifact@v2
         with:
           name: cypress-video-artifacts
