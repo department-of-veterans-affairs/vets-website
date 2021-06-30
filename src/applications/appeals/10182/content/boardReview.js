@@ -8,7 +8,7 @@ export const boardReviewContent = {
       <p className="hide-on-review">
         A Veterans Law Judge will review your appeal based on evidence already
         submitted. You can’t submit more evidence or have a hearing. The Direct
-        review option will take about <strong>1 year</strong> for the Board to
+        review option will take about <strong>1.5 years</strong> for the Board
         complete.
       </p>
     </>
@@ -20,7 +20,7 @@ export const boardReviewContent = {
       <p className="hide-on-review">
         You can submit more evidence for Veterans Law Judge to review, but you
         can’t have a hearing. The evidence submission option will take{' '}
-        <strong>more than 1 year</strong> for the Board to complete.
+        <strong>more than 1.5 years</strong> for the Board to complete.
       </p>
     </>
   ),
@@ -32,7 +32,7 @@ export const boardReviewContent = {
         You can request a hearing with a Veterans Law Judge. You can also submit
         more evidence to be reviewed, either at the hearing or within 90 days
         after the hearing. Adding evidence is optional. The hearing request
-        option will take <strong>more than 1 year</strong> for the Board to
+        option will take <strong>more than 2 years</strong> for the Board to
         complete.
       </p>
     </>

@@ -34,25 +34,25 @@ export const PURPOSE_TEXT = [
   {
     id: 'routine-follow-up',
     short: 'Follow-up/Routine',
-    label: 'Routine or follow-up visit',
+    label: 'This is a routine or follow-up visit.',
     serviceName: 'Routine Follow-up',
   },
   {
     id: 'new-issue',
     short: 'New issue',
-    label: 'I have a new medical issue',
+    label: 'I have a new medical issue.',
     serviceName: 'New Issue',
   },
   {
     id: 'medication-concern',
     short: 'Medication concern',
-    label: 'I have a concern or question about my medication',
+    label: 'I have a concern or question about my medication.',
     serviceName: 'Medication Concern',
   },
   {
     id: 'other',
     short: 'My reason isn’t listed',
-    label: 'My reason isn’t listed here',
+    label: 'My reason isn’t listed here.',
     serviceName: 'Other',
   },
 ];
