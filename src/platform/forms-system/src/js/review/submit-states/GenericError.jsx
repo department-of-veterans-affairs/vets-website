@@ -62,6 +62,4 @@ GenericError.propTypes = {
   appType: PropTypes.string,
   formConfig: PropTypes.object,
   onSubmit: PropTypes.func,
-  pageList: PropTypes.array.isRequired,
-  locationPathname: PropTypes.string,
 };

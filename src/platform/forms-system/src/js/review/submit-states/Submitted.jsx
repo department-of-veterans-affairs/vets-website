@@ -36,6 +36,4 @@ Submitted.propTypes = {
   formConfig: PropTypes.object,
   onBack: PropTypes.func,
   onSubmit: PropTypes.func,
-  pageList: PropTypes.array.isRequired,
-  locationPathname: PropTypes.string,
 };
