@@ -52,6 +52,9 @@ const getFormConfig = (options = {}) => ({
     label: 'I accept the privacy agreement',
     error: 'You must accept the privacy agreement',
   },
+  customText: {
+    finishAppLaterMessage: 'save link',
+  },
   chapters: {
     chapter1: {
       pages: {
@@ -79,19 +82,20 @@ describe('Review PreSubmitSection component', () => {
     const form = createForm();
     const formConfig = getFormConfig();
 
-    const formReducer = createformReducer({
-      formConfig: form,
-    });
-
-    const store = createStore();
-    store.injectReducer('form', formReducer);
+    const store = {
+      getState: () => ({
+        form,
+        user: { login: { currentlyLoggedIn: true } },
+        location: { pathname: '/review-and-submit' },
+        navigation: { showLoginModal: false },
+      }),
+      subscribe: () => {},
+      dispatch: () => {},
+    };
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection
-          formConfig={formConfig}
-          saveLink={<span>save link</span>}
-        />
+        <PreSubmitSection formConfig={formConfig} />
       </Provider>,
     );
 
