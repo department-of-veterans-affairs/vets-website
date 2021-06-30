@@ -72,6 +72,9 @@ const Covid19Result = ({
               Schedule an appointment online
             </a>
           )}
+        <strong className="vads-u-margin-bottom--2 vads-u-display--block">
+          Walk-ins accepted
+        </strong>
         <CovidPhoneLink
           phone={appointmentPhone}
           showCovidVaccineSchedulingLink={

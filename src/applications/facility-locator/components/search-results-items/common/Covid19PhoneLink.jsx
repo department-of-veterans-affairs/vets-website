@@ -17,7 +17,7 @@ const Covid19PhoneLink = ({ phone, showCovidVaccineSchedulingLink }) => {
 
   const labelText = showCovidVaccineSchedulingLink
     ? 'Or call to schedule'
-    : 'Call to schedule';
+    : 'Or make an appointment';
 
   return (
     <div>
