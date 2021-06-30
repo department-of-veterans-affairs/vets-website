@@ -143,6 +143,13 @@ describe('Facility VA search', () => {
     );
     cy.get('#other-tools').should('exist');
 
+    // applitools calls
+    cy.eyesOpen({
+      appName: 'Facility Locator',
+    });
+    cy.eyesCheckWindow('Search Results');
+    cy.eyesClose();
+
     cy.axeCheck();
 
     cy.get('.facility-result a').contains('Los Angeles Ambulatory Care Center');
