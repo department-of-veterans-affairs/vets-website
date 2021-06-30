@@ -169,7 +169,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text(
         'Contact this facility if you need to reschedule or cancel your appointment',
       );
-      expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+      await waitFor(() => {
+        expect(screen.baseElement).to.contain.text(
+          'Cheyenne VA Medical Center',
+        );
+      });
     });
 
     it('should show active link if 30 minutes in the future', async () => {
