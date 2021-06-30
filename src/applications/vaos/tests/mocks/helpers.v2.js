@@ -174,14 +174,14 @@ export function mockV2CommunityCareEligibility({
  * @param {Array<string>} ids The facility ids to pull settings for
  * @param {Array<SchedulingConfiguration>} data The list of facilities with their settings to return from the mock
  */
-export function mockSchedulingConfigurations(ids, data) {
+export function mockSchedulingConfigurations(configs) {
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v2/scheduling/configurations?${ids
-        .map(id => `facility_ids[]=${id}`)
+      `${environment.API_URL}/vaos/v2/scheduling/configurations?${configs
+        .map(config => `facility_ids[]=${config.id}`)
         .join('&')}`,
     ),
-    { data },
+    { data: configs },
   );
 }
 

@@ -1384,26 +1384,28 @@ describe('VAOS <VAFacilityPageV2> using V2 api', () => {
   beforeEach(() => mockFetch());
   it('should display list of facilities with show more button', async () => {
     mockVAOSParentSites(parentSiteIds, [parentSite983, parentSite984]);
-    mockSchedulingConfigurations(
-      ['983', '984'],
-      [
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'primaryCare',
-          requestEnabled: true,
-        }),
-      ],
-    );
+    mockSchedulingConfigurations([
+      getSchedulingConfigurationMock({
+        id: '983',
+        typeOfCareId: 'primaryCare',
+        requestEnabled: true,
+      }),
+      getSchedulingConfigurationMock({
+        id: '984',
+        typeOfCareId: 'primaryCare',
+        requestEnabled: true,
+      }),
+      getSchedulingConfigurationMock({
+        id: '984GC',
+        typeOfCareId: 'primaryCare',
+      }),
+    ]);
     mockV2FacilitiesFetch(
       ['983', '984'],
       [
         getV2FacilityMock({ id: '983', name: 'A facility name' }),
         getV2FacilityMock({ id: '984', name: 'Another facility name' }),
+        getV2FacilityMock({ id: '984GC', name: 'Disabled facility name' }),
       ],
       true,
     );
@@ -1443,6 +1445,7 @@ describe('VAOS <VAFacilityPageV2> using V2 api', () => {
 
     expect(screen.baseElement).to.contain.text('A facility name');
     expect(screen.baseElement).to.contain.text('Another facility name');
+    expect(screen.baseElement).not.to.contain.text('Disabled facility name');
 
     // Should validation message if no facility selected
     fireEvent.click(screen.getByText(/Continue/));
