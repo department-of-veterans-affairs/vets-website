@@ -82,6 +82,28 @@ describe('Review PreSubmitSection component', () => {
     const form = createForm();
     const formConfig = getFormConfig();
 
+    const formReducer = createformReducer({
+      formConfig: form,
+    });
+    const store = createStore();
+    store.injectReducer('form', formReducer);
+
+    const tree = render(
+      <Provider store={store}>
+        <PreSubmitSection formConfig={formConfig} />
+      </Provider>,
+    );
+
+    expect(tree.getByText('I accept the privacy agreement')).to.not.be.null;
+    // disabled for now due to dynamic input id's
+    // expect(tree.container.innerHTML).to.matchSnapshot();
+
+    tree.unmount();
+  });
+  it('should render save link', () => {
+    const form = createForm();
+    const formConfig = getFormConfig();
+
     const store = {
       getState: () => ({
         form,
@@ -99,9 +121,6 @@ describe('Review PreSubmitSection component', () => {
       </Provider>,
     );
 
-    expect(tree.getByText('I accept the privacy agreement')).to.not.be.null;
-    // disabled for now due to dynamic input id's
-    // expect(tree.container.innerHTML).to.matchSnapshot();
     expect(tree.getByText('save link')).to.exist;
 
     tree.unmount();

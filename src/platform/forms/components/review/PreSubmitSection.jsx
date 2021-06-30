@@ -127,7 +127,11 @@ export default withRouter(
     (state, ownProps) => {
       const { form, user } = state;
       const { formConfig } = ownProps || {};
-      const formContext = getFormContext({ form, user, onReviewPage: true });
+      const formContext = getFormContext({
+        form: { ...form, prefillStatus: '' },
+        user,
+        onReviewPage: true,
+      });
 
       const preSubmit = preSubmitSelector(formConfig);
       const showPreSubmitError = form?.submission?.hasAttemptedSubmit;
