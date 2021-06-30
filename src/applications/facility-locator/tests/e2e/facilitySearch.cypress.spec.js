@@ -146,6 +146,10 @@ describe('Facility VA search', () => {
     // applitools calls
     cy.eyesOpen({
       appName: 'Facility Locator',
+      browser: [
+        { width: 1920, height: 1080, name: 'firefox' },
+        { width: 1920, height: 1080, name: 'ie11' },
+      ],
     });
     cy.eyesCheckWindow('Search Results');
     cy.eyesClose();
