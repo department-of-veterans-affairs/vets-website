@@ -17,11 +17,10 @@ import {
   createPageList,
 } from 'platform/forms-system/src/js/helpers';
 
-import SaveFormLink from '../../save-in-progress/SaveFormLink';
-import { getFormContext } from '../../save-in-progress/selectors';
-import { FINISH_APP_LATER_DEFAULT_MESSAGE } from '../../../forms-system/src/js/constants';
-import { saveAndRedirectToReturnUrl } from '../../save-in-progress/actions';
-import { toggleLoginModal } from '../../../site-wide/user-nav/actions';
+import SaveFormLink from 'platform/forms/save-in-progress/SaveFormLink';
+import { FINISH_APP_LATER_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
+import { saveAndRedirectToReturnUrl as saveAndRedirectToReturnUrlAction } from 'platform/forms/save-in-progress/actions';
+import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 
 /*
 *  RenderPreSubmitSection - renders PreSubmitSection by default or presubmit.CustomComponent
@@ -36,6 +35,11 @@ export function PreSubmitSection(props) {
     setPreSubmit,
     showPreSubmitError,
     formConfig,
+    user,
+    location,
+    showLoginModal,
+    saveAndRedirectToReturnUrl,
+    toggleLoginModal,
   } = props;
 
   const { CustomComponent } = preSubmit;
@@ -79,11 +83,11 @@ export function PreSubmitSection(props) {
         form={form}
         formConfig={formConfig}
         pageList={pageList}
-        user={props.user}
-        locationPathname={props.location?.pathname}
-        showLoginModal={props.showLoginModal}
-        saveAndRedirectToReturnUrl={props.saveAndRedirectToReturnUrl}
-        toggleLoginModal={props.toggleLoginModal}
+        user={user}
+        locationPathname={location?.pathname}
+        showLoginModal={showLoginModal}
+        saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
+        toggleLoginModal={toggleLoginModal}
       >
         {finishAppLaterMessage}
       </SaveFormLink>
@@ -118,8 +122,8 @@ PreSubmitSection.propTypes = {
 
 const mapDispatchToProps = {
   setPreSubmit: setPreSubmitAction,
-  saveAndRedirectToReturnUrl,
-  toggleLoginModal,
+  saveAndRedirectToReturnUrlAction,
+  toggleLoginModalAction,
 };
 
 export default withRouter(
@@ -127,14 +131,6 @@ export default withRouter(
     (state, ownProps) => {
       const { form, user } = state;
       const { formConfig } = ownProps || {};
-      const formContext = getFormContext({
-        form: {
-          ...form,
-          prefillStatus: form?.prefillStatus || '',
-        },
-        user,
-        onReviewPage: true,
-      });
 
       const preSubmit = preSubmitSelector(formConfig);
       const showPreSubmitError = form?.submission?.hasAttemptedSubmit;
@@ -143,7 +139,6 @@ export default withRouter(
         preSubmit,
         showPreSubmitError,
         formConfig,
-        formContext,
         user,
         showLoginModal: state.navigation.showLoginModal,
       };
