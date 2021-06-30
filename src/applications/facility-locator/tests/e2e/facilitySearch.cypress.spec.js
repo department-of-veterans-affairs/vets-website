@@ -176,4 +176,22 @@ describe('Facility VA search', () => {
     // If Use My Location is triggered and fails, it will trigger a modal alert:
     cy.get('#va-modal-title').should('not.exist');
   });
+
+  // TODO Enable when emergency care in prod
+  it.skip('finds VA emergency care', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('New York');
+    cy.get('#facility-type-dropdown').select('Emergency care');
+    cy.get('#service-type-dropdown').select('VA emergency care');
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#search-results-subheader').contains(
+      'Results for "Emergency Care", "VA emergency care" near "New York, New York"',
+    );
+    cy.get('.search-result-emergency-care-subheader').should('exist');
+    cy.get('.facility-result h3 a').contains('Manhattan VA Medical Center');
+
+    cy.injectAxe();
+    cy.axeCheck();
+  });
 });
