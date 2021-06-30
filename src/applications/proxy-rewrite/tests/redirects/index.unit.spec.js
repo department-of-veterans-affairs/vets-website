@@ -35,7 +35,7 @@ describe('Redirect replaced pages', () => {
     const fakeWindow = {
       location: {
         host: 'www.altoona.va.gov',
-        pathname: '/locations/directions.asp',
+        pathname: '/locations/DuBois.asp',
       },
     };
 
@@ -43,7 +43,7 @@ describe('Redirect replaced pages', () => {
 
     expect(
       fakeWindow.location.href.endsWith(
-        '.gov/altoona-health-care/locations/james-e-van-zandt-veterans-administration-medical-center/',
+        '.gov/altoona-health-care/locations/dubois-va-clinic/',
       ),
     ).to.be.true;
   });
