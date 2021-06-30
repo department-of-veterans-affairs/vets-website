@@ -6,8 +6,12 @@ import {
   fetchSearchByLocationCoords,
   fetchSearchByLocationResults,
   updateAutocompleteLocation,
+  geolocateUser,
+  clearGeocodeError,
 } from '../actions';
 import KeywordSearch from '../components/search/KeywordSearch';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { useHistory } from 'react-router-dom';
 import { updateUrlParams } from '../utils/helpers';
 
@@ -20,21 +24,14 @@ export function LocationSearchForm({
   filters,
   preview,
   search,
+  dispatchGeolocateUser,
+  dispatchClearGeocodeError,
 }) {
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
   const [autocompleteSelection, setAutocompleteSelection] = useState(null);
   const { version } = preview;
   const history = useHistory();
-
-  const updateUrlLocationParams = paramLocation => {
-    updateUrlParams(
-      history,
-      search.tab,
-      { ...search.query, location: paramLocation, distance },
-      filters,
-    );
-  };
 
   useEffect(
     () => {
@@ -74,7 +71,14 @@ export function LocationSearchForm({
         version,
       );
     }
-    updateUrlLocationParams(paramLocation);
+
+    updateUrlParams(
+      history,
+      search.tab,
+      { ...search.query, location: paramLocation, distance },
+      filters,
+      version,
+    );
   };
 
   const doAutocompleteSuggestionsSearch = value => {
@@ -86,8 +90,62 @@ export function LocationSearchForm({
     dispatchUpdateAutocompleteLocation(value);
   };
 
+  useEffect(
+    () => {
+      if (
+        search.query.streetAddress.searchString !== null &&
+        search.query.streetAddress.searchString !== ''
+      )
+        setLocation(search.query.streetAddress.searchString);
+    },
+    [search.query.streetAddress.searchString],
+  );
+
   return (
     <div>
+      <div className="use-my-location-container">
+        {search.geolocationInProgress ? (
+          <div className="use-my-location-link">
+            <i
+              className="fa fa-spinner fa-spin"
+              aria-hidden="true"
+              role="presentation"
+            />
+            <span aria-live="assertive">Finding your location...</span>
+          </div>
+        ) : (
+          <button
+            onClick={dispatchGeolocateUser}
+            className="use-my-location-link"
+          >
+            <i
+              className="use-my-location-button"
+              aria-hidden="true"
+              role="presentation"
+            />
+            Use my location
+          </button>
+        )}
+      </div>
+      <Modal
+        title={
+          search.geocodeError === 1
+            ? 'We need to use your location'
+            : "We couldn't locate you"
+        }
+        onClose={() => dispatchClearGeocodeError()}
+        status="warning"
+        visible={search.geocodeError > 0}
+        contents={
+          <>
+            <p>
+              {search.geocodeError === 1
+                ? 'Please enable location sharing in your browser to use this feature.'
+                : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
+            </p>
+          </>
+        }
+      />
       <form onSubmit={doSearch} className="vads-u-margin-y--0">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--10">
@@ -109,6 +167,7 @@ export function LocationSearchForm({
               name="distance"
               options={[
                 { optionValue: '5', optionLabel: 'within 5 miles' },
+                { optionValue: '15', optionLabel: 'within 15 miles' },
                 { optionValue: '25', optionLabel: 'within 25 miles' },
                 { optionValue: '50', optionLabel: 'within 50 miles' },
                 { optionValue: '75', optionLabel: 'within 75 miles' },
@@ -143,6 +202,8 @@ const mapDispatchToProps = {
   dispatchFetchLocationAutocompleteSuggestions: fetchLocationAutocompleteSuggestions,
   dispatchFetchSearchByLocationCoords: fetchSearchByLocationCoords,
   dispatchUpdateAutocompleteLocation: updateAutocompleteLocation,
+  dispatchGeolocateUser: geolocateUser,
+  dispatchClearGeocodeError: clearGeocodeError,
 };
 
 export default connect(

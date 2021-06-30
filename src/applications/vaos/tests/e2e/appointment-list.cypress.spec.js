@@ -284,8 +284,10 @@ describe('VAOS appointment list refresh', () => {
       cy.get('[data-cy=appointment-list-item]')
         .first()
         .findByText(/Details/i)
+        .focus()
         .click();
       cy.findByText(/Appointment detail/i).should('exist');
+      cy.axeCheckBestPractice();
     });
   });
 });

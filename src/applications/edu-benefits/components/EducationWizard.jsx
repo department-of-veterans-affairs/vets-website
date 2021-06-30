@@ -390,11 +390,17 @@ export default class EducationWizard extends React.Component {
                           science, technology, engineering, or math (STEM),{' '}
                           <b>or</b>
                         </li>{' '}
-                        <li>
-                          {' '}
+                        <li className="li-styling">
                           You've already earned a STEM bachelor’s degree and are
-                          pursuing a teaching certification.{' '}
+                          working toward a teaching certification, <b>or</b>
+                        </li>{' '}
+                        <li className="li-styling">
+                          {' '}
+                          You've already earned a STEM bachelor's or graduate
+                          degree and are pursuing a covered clinical training
+                          program for health care professionals. <br />
                           <a
+                            aria-label="See eligible degree and clinical training programs, opening in new tab"
                             href="https://benefits.va.gov/gibill/docs/fgib/STEM_Program_List.pdf"
                             rel="noopener noreferrer"
                             target="_blank"
@@ -405,7 +411,7 @@ export default class EducationWizard extends React.Component {
                               })
                             }
                           >
-                            See eligible degree programs
+                            See eligible degree and clinical training programs
                           </a>
                         </li>
                       </ul>

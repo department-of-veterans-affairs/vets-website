@@ -16,9 +16,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 import { selectCommunityCareDetailsInfo } from '../redux/selectors';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import Breadcrumbs from '../../components/Breadcrumbs';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
+import InfoAlert from '../../components/InfoAlert';
 import { getCalendarData } from '../../services/appointment';
 
 export default function CommunityCareAppointmentDetailsPage() {
@@ -96,13 +94,9 @@ export default function CommunityCareAppointmentDetailsPage() {
       </h1>
 
       {isPastAppointment && (
-        <AlertBox
-          status={ALERT_TYPE.WARNING}
-          className="vads-u-display--block"
-          backgroundOnly
-        >
+        <InfoAlert backgroundOnly status="warning">
           This appointment occurred in the past.
-        </AlertBox>
+        </InfoAlert>
       )}
 
       <h2
@@ -168,15 +162,14 @@ export default function CommunityCareAppointmentDetailsPage() {
       </div>
 
       {!isPastAppointment && (
-        <AlertBox
-          status={ALERT_TYPE.INFO}
-          className="vads-u-display--block"
-          headline="Need to make changes?"
+        <InfoAlert
           backgroundOnly
+          headline="Need to make changes?"
+          status="info"
         >
           Contact this provider if you need to reschedule or cancel your
           appointment.
-        </AlertBox>
+        </InfoAlert>
       )}
     </PageLayout>
   );

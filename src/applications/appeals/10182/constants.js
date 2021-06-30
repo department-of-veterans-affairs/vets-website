@@ -35,7 +35,6 @@ export const MAX_NEW_CONDITIONS = 99;
 // Values from Lighthouse maintained schema
 // see https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v1/10182.json
 export const MAX_ISSUE_LENGTH = 180;
-export const MAX_REP_NAME_LENGTH = 120;
 export const MAX_DISAGREEMENT_REASON_LENGTH = 90;
 
 // Using MAX_DISAGREEMENT_REASON_LENGTH (90) and with all checkboxes selected,

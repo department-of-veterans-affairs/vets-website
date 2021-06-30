@@ -2,12 +2,21 @@ import React from 'react';
 
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-import { goToNextPageWithToken } from '../utils/navigation';
+import { goToNextPageWithToken, getTokenFromRouter } from '../utils/navigation';
+
+import { checkInUser } from '../api';
 
 const CheckIn = props => {
   const { router } = props;
-  const onClick = () => {
-    goToNextPageWithToken(router, 'confirmed');
+  const token = getTokenFromRouter(router);
+  const onClick = async () => {
+    const json = await checkInUser({ some: 'data', token });
+    const { data } = json;
+    if (data.status === 'checked-in') {
+      goToNextPageWithToken(router, 'confirmed');
+    } else {
+      goToNextPageWithToken(router, 'failed');
+    }
   };
   const contactNumber = '555-867-5309';
 
@@ -16,13 +25,13 @@ const CheckIn = props => {
       <h1>Your appointment</h1>
       <dl className="appointment-summary">
         <dd
-          className="appointment-details vads-u-font-weight--bold"
+          className="appointment-details vads-u-font-weight--bold vads-u-font-family--serif"
           data-testid="appointment-date"
         >
           Friday, September 25, 2020
         </dd>
         <dd
-          className="appointment-details vads-u-font-weight--bold vads-u-margin-bottom--3"
+          className="appointment-details vads-u-font-weight--bold vads-u-margin-bottom--3 vads-u-font-family--serif"
           data-testid="appointment-time"
         >
           9:30 a.m. ET
@@ -34,7 +43,7 @@ const CheckIn = props => {
       </dl>
       <button
         type="button"
-        className="usa-button"
+        className="usa-button usa-button-big"
         onClick={onClick}
         data-testid="check-in-button"
       >

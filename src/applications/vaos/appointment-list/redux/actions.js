@@ -448,9 +448,9 @@ export function fetchRequestDetails(id) {
         }
       }
       if (featureVAOSServiceRequests && request.practitioners?.length) {
-        request.provider = await getCommunityProvider(
-          request.practitioners[0].id.value,
-        );
+        request.preferredCommunityCareProviders = [
+          await getCommunityProvider(request.practitioners[0].id.value),
+        ];
       }
 
       dispatch({

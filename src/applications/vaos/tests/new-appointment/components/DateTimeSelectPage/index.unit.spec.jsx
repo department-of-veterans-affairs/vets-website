@@ -21,8 +21,13 @@ import { FETCH_STATUS } from '../../../../utils/constants';
 import {
   mockEligibilityFetches,
   mockAppointmentSlotFetch,
+  mockFacilityFetch,
 } from '../../../mocks/helpers';
-import { getClinicMock, getAppointmentSlotMock } from '../../../mocks/v0';
+import {
+  getClinicMock,
+  getAppointmentSlotMock,
+  getVAFacilityMock,
+} from '../../../mocks/v0';
 import { mockFetch } from 'platform/testing/unit/helpers';
 
 const initialState = {
@@ -39,6 +44,7 @@ const initialState = {
 describe('VAOS <DateTimeSelectPage>', () => {
   beforeEach(() => {
     mockFetch();
+    mockFacilityFetch('vha_442', getVAFacilityMock());
     MockDate.set(moment('2020-01-26T14:00:00'));
   });
   afterEach(() => {
@@ -147,7 +153,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
     // NOTE: alert does not have an accessible name to query by
     await waitFor(() => {
-      expect(screen.getByRole('alert')).to.be.ok;
+      expect(screen.getAllByRole('alert')).to.be.ok;
     });
     expect(screen.history.push.called).to.be.false;
 
@@ -532,6 +538,9 @@ describe('VAOS <DateTimeSelectPage>', () => {
       ...matchResult,
       matches: true,
     });
+    await waitFor(() => {
+      expect(listeners[0]).to.be.ok;
+    });
     listeners[0]();
 
     // At a row size of 4, the cell in the top right is now the 4th item, so
@@ -631,9 +640,11 @@ describe('VAOS <DateTimeSelectPage>', () => {
     );
 
     userEvent.click(screen.getByText(/continue/i));
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Please choose your preferred date and time for your appointment',
-    );
+    expect(
+      await screen.findByText(
+        'Please choose your preferred date and time for your appointment',
+      ),
+    ).to.be.ok;
     expect(screen.history.push.called).not.to.be.true;
   });
 

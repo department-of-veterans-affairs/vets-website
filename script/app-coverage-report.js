@@ -80,6 +80,23 @@ const generateCoverage = (rootDir, coverageSummary) => {
     }, initialCoverage);
 };
 
+const logCoverage = coverageResults => {
+  // convert coverageResults JSON object to prettified string
+  const data = JSON.stringify(coverageResults, null, 4);
+
+  // write coverageResults string to file
+  const outputFile = path.join(
+    __dirname,
+    '../coverage/test-coverage-report.json',
+  );
+  fs.writeFile(outputFile, data, err => {
+    if (err) {
+      throw err;
+    }
+    console.log('JSON data is saved.');
+  });
+};
+
 // Root directory of application folders
 const applicationDir = path.join(__dirname, '../src/applications/');
 
@@ -90,6 +107,7 @@ if (fs.existsSync(path.join(__dirname, '../coverage/coverage-summary.json'))) {
   );
   // Generate and print coverage
   const appCoverages = generateCoverage(applicationDir, coverageSummaryJson);
+  logCoverage(appCoverages);
   printCoverage(appCoverages);
 } else {
   console.log('./coverage/coverage-summary.json not found.');

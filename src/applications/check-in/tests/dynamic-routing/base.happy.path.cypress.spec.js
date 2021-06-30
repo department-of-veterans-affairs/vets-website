@@ -1,8 +1,17 @@
 import features from '../mocks/enabled.json';
+import mockCheckIn from '../../api/local-mock-api/mocks/check.in.response';
+import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
 
 describe('Check In Experience -- ', () => {
-  beforeEach(() => {
+  beforeEach(function() {
+    if (Cypress.env('CI')) this.skip();
     cy.intercept('GET', '/v0/feature_toggles*', features);
+    cy.intercept('GET', '/check_in/v0/patient_check_ins/*', req => {
+      req.reply(mockValidate.createMockSuccessResponse({}));
+    });
+    cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
+      req.reply(mockCheckIn.createMockSuccessResponse({}));
+    });
   });
   it('dynamic routing keeps token -- check in -- happy path', () => {
     const token = 'SOME-AWESOME-UUID';
@@ -11,7 +20,7 @@ describe('Check In Experience -- ', () => {
     cy.url().should('contain', token);
     cy.url().should('contain', 'insurance');
 
-    cy.get('.vads-u-margin--3 > :nth-child(3)').click();
+    cy.get('[data-testid="no-button"]').click();
     cy.get('h1').contains('Your appointment');
     cy.url().should('contain', token);
     cy.url().should('contain', 'details');
@@ -28,7 +37,7 @@ describe('Check In Experience -- ', () => {
     cy.url().should('contain', token);
     cy.url().should('contain', 'insurance');
 
-    cy.get('.vads-u-margin--3 > :nth-child(2)').click();
+    cy.get('[data-testid="yes-button"]').click();
     cy.get('h1').contains('staff member');
     cy.url().should('contain', token);
     cy.url().should('contain', 'failed');

@@ -15,9 +15,10 @@ const initialState = {
   },
 };
 
-describe('VAOS integration: upcoming VA appointments', () => {
+describe('VAOS <FutureAppointmentsList> VA appointments', () => {
   beforeEach(() => {
     mockFetch();
+    mockFacilitiesFetch();
   });
   it('should show information without facility details', async () => {
     const startDate = moment.utc();
@@ -141,7 +142,7 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(await findByText(/BEV AUDIO FTC1/)).to.have.tagName('h4');
     expect(baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(baseElement).to.contain.text('2360 East Pershing Boulevard');
-    expect(baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(baseElement).to.contain.text('Cheyenne, WyomingWY 82001-5356');
     expect(baseElement).to.contain.text('307-778-7550');
     expect(baseElement.querySelector('h4')).to.be.ok;
   });
@@ -348,7 +349,9 @@ describe('VAOS integration: upcoming VA appointments', () => {
     expect(screen.baseElement).not.to.contain.text('VA Appointment');
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
     expect(screen.baseElement).to.contain.text('2360 East Pershing Boulevard');
-    expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+    expect(screen.baseElement).to.contain.text(
+      'Cheyenne, WyomingWY 82001-5356',
+    );
     expect(screen.baseElement).to.contain.text('307-778-7580');
     expect(screen.baseElement.querySelector('h4')).to.be.ok;
   });
@@ -458,11 +461,12 @@ describe('VAOS integration: upcoming VA appointments', () => {
   });
 
   it('should verify VA phone calendar ics file format', async () => {
+    const startDate = moment.utc();
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
       phoneOnly: true,
-      startDate: '2021-06-20T16:00:00Z',
+      startDate: startDate.format(),
       clinicFriendlyName: 'C&P BEV AUDIO FTC1',
       facilityId: '983',
       sta6aid: '983GC',
@@ -501,10 +505,11 @@ describe('VAOS integration: upcoming VA appointments', () => {
 
     await findByText(
       new RegExp(
-        moment(appointment.attributes.startDate).format('dddd, MMMM D, YYYY'),
+        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm'),
         'i',
       ),
     );
+    await findByText(/Cheyenne VA Medical Center/i);
 
     const ics = decodeURIComponent(
       getByRole('link', {
