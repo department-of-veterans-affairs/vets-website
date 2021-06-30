@@ -86,7 +86,8 @@ jobs:
         if: ${{ failure() }}
         run: echo "TEST_FAILURE=true" >> $GITHUB_ENV
 
-      - uses: nick-invision/persist-action-data@v1
+      - name: If failure, make failure variable available to all jobs
+        uses: nick-invision/persist-action-data@v1
         if: ${{ failure() }}
         with:
           data: ${{ env.TEST_FAILURE }}
