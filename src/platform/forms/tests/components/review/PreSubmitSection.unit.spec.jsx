@@ -82,6 +82,7 @@ describe('Review PreSubmitSection component', () => {
     const formReducer = createformReducer({
       formConfig: form,
     });
+
     const store = createStore();
     store.injectReducer('form', formReducer);
 
