@@ -128,7 +128,10 @@ export default withRouter(
       const { form, user } = state;
       const { formConfig } = ownProps || {};
       const formContext = getFormContext({
-        form: { ...form, prefillStatus: '' },
+        form: {
+          ...form,
+          prefillStatus: form?.prefillStatus || '',
+        },
         user,
         onReviewPage: true,
       });
