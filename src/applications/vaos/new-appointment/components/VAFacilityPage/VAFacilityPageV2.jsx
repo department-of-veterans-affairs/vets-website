@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-// import Select from '@department-of-veterans-affairs/component-library/Select';
 import { usePrevious } from 'platform/utilities/react-hooks';
 
 import { getFacilityPageV2Info } from '../../redux/selectors';
@@ -67,18 +66,19 @@ export default function VAFacilityPageV2() {
     sortMethod,
     typeOfCare,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
-  const [sortType, setSortType] = useState('By your home address');
-  const sortOptions = {
-    distanceFromResidentialAddress: 'By your home address',
-    distanceFromCurrentLocation: 'By your current location',
-    alphabetical: 'Alphabetically',
-  };
+  const sortOptions = [
+    { value: 'distanceFromResidentialAddress', label: 'By your home address' },
+    { value: 'distanceFromCurrentLocation', label: 'By your current location' },
+    { value: 'alphabetical', label: 'Alphabetically' },
+  ];
+  const [sortType, setSortType] = useState(sortOptions[0].value);
 
   const uiSchema = {
-    // create as function that takes showVariant and typeOfCare params?
     vaFacility: {
       'ui:title': showVariant
-        ? `Select a VA facility where you’re registered that offers ${typeOfCare?.name.toLowerCase()} appointments.`
+        ? `Select a VA facility where you’re registered that offers ${lowerCase(
+            typeOfCare?.name,
+          )} appointments.`
         : 'Please select where you’d like to have your appointment.',
       'ui:widget': FacilitiesRadioWidget,
     },
@@ -88,11 +88,6 @@ export default function VAFacilityPageV2() {
   const loadingFacilities =
     childFacilitiesStatus === FETCH_STATUS.loading ||
     childFacilitiesStatus === FETCH_STATUS.notStarted;
-  // const pageTitle = singleValidVALocation
-  //   ? 'Your appointment location'
-  //   : `Choose a VA location for your ${lowerCase(
-  //       typeOfCare?.name,
-  //     )} appointment`;
   let pageTitle;
   if (singleValidVALocation) {
     pageTitle = 'Your appointment location';
@@ -100,17 +95,11 @@ export default function VAFacilityPageV2() {
     pageTitle = 'Choose a VA Location';
   } else {
     pageTitle = `Choose a VA location for your ${lowerCase(
-      typeOfCare?.name.toLowercase(),
+      typeOfCare?.name,
     )} appointment`;
   }
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
-  const findSortType = () => {
-    // return Object.values(sortOptions).find(sort => sort === type) === sortType;
-    return Object.keys(sortOptions).find(
-      sort => sortOptions[sort] === sortType,
-    );
-  };
 
   useEffect(
     () => {
@@ -140,7 +129,7 @@ export default function VAFacilityPageV2() {
   useEffect(
     () => {
       if (showVariant && !loadingFacilities) {
-        dispatch(updateFacilitySortMethod(findSortType(), uiSchema));
+        dispatch(updateFacilitySortMethod(sortType, uiSchema));
       }
     },
     [sortType],
@@ -170,7 +159,7 @@ export default function VAFacilityPageV2() {
         <NoValidVAFacilities
           address={address}
           facilities={facilities}
-          sortMethod={sortMethod}
+          sortMethod={sortType}
           typeOfCare={typeOfCare}
         />
         <div className="vads-u-margin-top--2">
@@ -217,12 +206,12 @@ export default function VAFacilityPageV2() {
         {pageHeader}
         <SingleFacilityAvailable
           facility={selectedFacility}
-          sortMethod={sortMethod}
+          sortMethod={sortType}
           typeOfCareName={typeOfCare.name}
         />
         <FacilitiesNotShown
           facilities={facilities}
-          sortMethod={sortMethod}
+          sortMethod={sortType}
           typeOfCareId={typeOfCare?.id}
           cernerSiteIds={cernerSiteIds}
         />
@@ -241,13 +230,9 @@ export default function VAFacilityPageV2() {
   }
 
   const sortByDistanceFromResidential =
-    Object.values(sortOptions).find(sort => sort === sortType) ===
-      'By your home address' ||
     sortMethod === FACILITY_SORT_METHODS.distanceFromResidential;
 
   const sortByDistanceFromCurrentLocation =
-    Object.values(sortOptions).find(sort => sort === sortType) ===
-      'By your current location' ||
     sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
 
   const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
@@ -258,22 +243,12 @@ export default function VAFacilityPageV2() {
       {!showVariant && (
         <p>
           Below is a list of VA locations where you’re registered that offer{' '}
-          {typeOfCare?.name.toLowerCase()} appointments.
+          {lowerCase(typeOfCare?.name)} appointments.
           {(sortByDistanceFromResidential ||
             sortByDistanceFromCurrentLocation) &&
             ' Locations closest to you are at the top of the list.'}
         </p>
       )}
-      {/* {showVariant && (
-        <Select
-          label="Sort facilities"
-          name="sort"
-          onKeyDown={function noRefCheck() {}}
-          onValueChange={({ value }) => setSortType(value)}
-          options={Object.values(sortOptions)}
-          value={{ dirty: false, value: sortType }}
-        />
-      )} */}
       {sortByDistanceFromResidential &&
         (!requestingLocation && !showVariant) && (
           <>
@@ -361,7 +336,7 @@ export default function VAFacilityPageV2() {
               setSortType,
               loadingEligibility,
               showVariant,
-              sortMethod: findSortType(),
+              sortMethod: sortType,
               sortOptions,
               sortType,
               cernerSiteIds,
@@ -370,7 +345,7 @@ export default function VAFacilityPageV2() {
           >
             <FacilitiesNotShown
               facilities={facilities}
-              sortMethod={findSortType()}
+              sortMethod={sortType}
               typeOfCareId={typeOfCare?.id}
               cernerSiteIds={cernerSiteIds}
             />

@@ -62,9 +62,12 @@ export default function FacilitiesRadioWidget({
         <Select
           label="Sort facilities"
           name="sort"
-          onValueChange={type => setSortType(type.value)}
-          options={Object.values(sortOptions)}
+          onValueChange={type => {
+            setSortType(type.value);
+          }}
+          options={sortOptions}
           value={{ dirty: false, value: sortType }}
+          includeBlankOption={false}
         />
       )}
       {displayedOptions.map((option, i) => {
