@@ -159,7 +159,7 @@ export default function VAFacilityPageV2() {
         <NoValidVAFacilities
           address={address}
           facilities={facilities}
-          sortMethod={sortType}
+          sortMethod={sortMethod}
           typeOfCare={typeOfCare}
         />
         <div className="vads-u-margin-top--2">
@@ -206,12 +206,12 @@ export default function VAFacilityPageV2() {
         {pageHeader}
         <SingleFacilityAvailable
           facility={selectedFacility}
-          sortMethod={sortType}
+          sortMethod={sortMethod}
           typeOfCareName={typeOfCare.name}
         />
         <FacilitiesNotShown
           facilities={facilities}
-          sortMethod={sortType}
+          sortMethod={sortMethod}
           typeOfCareId={typeOfCare?.id}
           cernerSiteIds={cernerSiteIds}
         />
@@ -335,7 +335,7 @@ export default function VAFacilityPageV2() {
               setSortType,
               loadingEligibility,
               showVariant,
-              sortMethod: sortType,
+              sortMethod,
               sortOptions,
               sortType,
               cernerSiteIds,
@@ -344,7 +344,7 @@ export default function VAFacilityPageV2() {
           >
             <FacilitiesNotShown
               facilities={facilities}
-              sortMethod={sortType}
+              sortMethod={sortMethod}
               typeOfCareId={typeOfCare?.id}
               cernerSiteIds={cernerSiteIds}
             />
