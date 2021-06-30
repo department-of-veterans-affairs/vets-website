@@ -1393,7 +1393,7 @@ describe('VAOS <VAFacilityPageV2> using V2 api', () => {
       getSchedulingConfigurationMock({
         id: '984',
         typeOfCareId: 'primaryCare',
-        requestEnabled: true,
+        directEnabled: true,
       }),
       getSchedulingConfigurationMock({
         id: '984GC',
