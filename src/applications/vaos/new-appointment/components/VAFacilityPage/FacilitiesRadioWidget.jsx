@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getCernerURL } from 'platform/utilities/cerner';
+import Select from '@department-of-veterans-affairs/component-library/Select';
 import State from '../../../components/State';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -19,7 +20,15 @@ export default function FacilitiesRadioWidget({
   onChange,
   formContext,
 }) {
-  const { loadingEligibility, sortMethod, cernerSiteIds } = formContext;
+  const {
+    loadingEligibility,
+    showVariant,
+    setSortType,
+    sortMethod,
+    sortOptions,
+    sortType,
+    cernerSiteIds,
+  } = formContext;
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
 
@@ -49,6 +58,15 @@ export default function FacilitiesRadioWidget({
 
   return (
     <div>
+      {showVariant && (
+        <Select
+          label="Sort facilities"
+          name="sort"
+          onValueChange={type => setSortType(type.value)}
+          options={Object.values(sortOptions)}
+          value={{ dirty: false, value: sortType }}
+        />
+      )}
       {displayedOptions.map((option, i) => {
         const { name, address, legacyVAR } = option?.label;
         const checked = option.value === value;
@@ -98,7 +116,6 @@ export default function FacilitiesRadioWidget({
           </div>
         );
       })}
-
       {!displayAll &&
         hiddenCount > 0 && (
           <button
