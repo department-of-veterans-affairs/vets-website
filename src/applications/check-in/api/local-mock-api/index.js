@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
+const mockCheckIns = require('./mocks/check.in.response');
+const mockValidates = require('./mocks/validate.responses');
 
 const responses = {
   ...commonResponses,
@@ -65,6 +67,13 @@ const responses = {
       type: 'feature_toggles',
       features: [{ name: 'check_in_experience_enabled', value: true }],
     },
+  },
+  'GET /check_in/v0/patient_check_ins/:id': (req, res) => {
+    const { id } = req.params;
+    return res.json(mockValidates.createMockSuccessResponse({ id }));
+  },
+  'POST /check_in/v0/patient_check_ins/': (_req, res) => {
+    return res.json(mockCheckIns.createMockSuccessResponse({}));
   },
 };
 
