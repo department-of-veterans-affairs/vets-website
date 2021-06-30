@@ -2,6 +2,7 @@ const fs = require('fs');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 
 module.exports = on => {
+  require('@applitools/eyes-cypress')(module);
   const ENV = 'localhost';
 
   // Import our own Webpack config.
