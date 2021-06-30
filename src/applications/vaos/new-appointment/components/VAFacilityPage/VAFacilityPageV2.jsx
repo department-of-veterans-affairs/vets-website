@@ -71,7 +71,7 @@ export default function VAFacilityPageV2() {
     { value: 'distanceFromCurrentLocation', label: 'By your current location' },
     { value: 'alphabetical', label: 'Alphabetically' },
   ];
-  const [sortType, setSortType] = useState(sortOptions[0].value);
+  const [sortType, setSortType] = useState(sortMethod);
 
   const uiSchema = {
     vaFacility: {
@@ -132,7 +132,7 @@ export default function VAFacilityPageV2() {
         dispatch(updateFacilitySortMethod(sortType, uiSchema));
       }
     },
-    [sortType],
+    [sortType, loadingFacilities],
   );
 
   const pageHeader = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;

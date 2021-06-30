@@ -1576,7 +1576,7 @@ describe('VAOS <VAFacilityPageV2> multiple facilities variant test', () => {
     }).to.not.throw();
   });
 
-  it('should sort by distance from current location when user selects dropdown option for current location', async () => {
+  it('should sort alphabetically when user selects dropdown option for alphabetical', async () => {
     mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
     mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
     mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
@@ -1626,6 +1626,39 @@ describe('VAOS <VAFacilityPageV2> multiple facilities variant test', () => {
     expect(screen.baseElement).to.contain.text('Alphabetically');
 
     firstRadio = screen.container.querySelector('.form-radio-buttons');
+    expect(firstRadio).to.contain.text('ABC facility');
+  });
+
+  it('should sort alphabetically when user does not have an address', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(parentSiteIds, directFacilities);
+    mockRequestEligibilityCriteria(parentSiteIds, requestFacilities);
+    mockFacilitiesFetch(vhaIds.join(','), facilities);
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+    });
+    mockGetCurrentPosition();
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        vaOnlineSchedulingVariantTesting: true,
+      },
+      user: {
+        ...initialState.user,
+        profile: {
+          ...initialState.user.profile,
+          vapContactInfo: {},
+        },
+      },
+    });
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, { store });
+    await screen.findAllByRole('radio');
+    // default sorted by home address
+    const firstRadio = screen.container.querySelector('.form-radio-buttons');
     expect(firstRadio).to.contain.text('ABC facility');
   });
 });

@@ -14,6 +14,7 @@ import {
   TYPES_OF_EYE_CARE,
   FETCH_STATUS,
   AUDIOLOGY_TYPES_OF_CARE,
+  FACILITY_SORT_METHODS,
 } from '../../utils/constants';
 import { getSiteIdFromFacilityId } from '../../services/location';
 import {
@@ -235,13 +236,19 @@ export function getFacilityPageV2Info(state) {
     showEligibilityModal,
   } = newAppointment;
 
+  const address = selectVAPResidentialAddress(state);
   const facilities = newAppointment.facilities[(typeOfCare?.id)];
   const eligibility = selectEligibility(state);
   const validFacilities = formInfo.schema?.properties.vaFacility.enum;
+  const showVariant = selectFeatureVariantTesting(state);
+  const sortMethod =
+    showVariant && !address
+      ? FACILITY_SORT_METHODS.alphabetical
+      : facilityPageSortMethod;
 
   return {
     ...formInfo,
-    address: selectVAPResidentialAddress(state),
+    address,
     canScheduleAtChosenFacility: eligibility?.direct || eligibility?.request,
     childFacilitiesStatus,
     eligibility,
@@ -257,10 +264,10 @@ export function getFacilityPageV2Info(state) {
     selectedFacility: getChosenFacilityInfo(state),
     singleValidVALocation: validFacilities?.length === 1 && !!data.vaFacility,
     showEligibilityModal,
-    sortMethod: facilityPageSortMethod,
+    sortMethod,
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
-    showVariant: selectFeatureVariantTesting(state),
+    showVariant,
   };
 }
 
