@@ -22,19 +22,15 @@ export const SCHEMA_DEFINITIONS = {
   },
   emailAddress: {
     type: 'string',
-    minLength: 6,
-    maxLength: 80,
     pattern:
       '^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$',
   },
   address: {
     type: 'string',
-    maxLength: 50,
     pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
   },
   city: {
     type: 'string',
-    maxLength: 30,
     pattern: "^([-a-zA-Z0-9'.#]([-a-zA-Z0-9'.# ])?)+$",
   },
   postalCode: {

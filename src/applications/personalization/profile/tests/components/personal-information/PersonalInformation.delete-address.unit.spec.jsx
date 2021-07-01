@@ -24,17 +24,11 @@ let view;
 let server;
 
 function getEditButton(addressName) {
-  let editButton = view.queryByText(new RegExp(`add.*${addressName}`, 'i'), {
-    selector: 'button',
+  // Need to use `queryByRole` since the visible label is simply `Edit`, but
+  // the aria-label is more descriptive
+  return view.queryByRole('button', {
+    name: new RegExp(`edit.*${addressName}`, 'i'),
   });
-  if (!editButton) {
-    // Need to use `queryByRole` since the visible label is simply `Edit`, but
-    // the aria-label is more descriptive
-    editButton = view.queryByRole('button', {
-      name: new RegExp(`edit.*${addressName}`, 'i'),
-    });
-  }
-  return editButton;
 }
 
 function deleteAddress(addressName) {
@@ -83,18 +77,10 @@ async function testQuickSuccess(addressName) {
   // wait for the edit mode to exit
   await waitForElementToBeRemoved(cityInput);
 
-  // the edit address button should not exist
-  expect(
-    view.queryByText(new RegExp(`edit.*${addressName}`, 'i'), {
-      selector: 'button',
-    }),
-  ).not.to.exist;
-  // and the add address button should exist
-  expect(
-    view.getByText(new RegExp(`add.*${addressName}`, 'i'), {
-      selector: 'button',
-    }),
-  ).to.exist;
+  // the edit address button should still exist
+  view.getByRole('button', { name: new RegExp(`edit.*${addressName}`, 'i') });
+  // and the add text should exist
+  view.getByText(new RegExp(`add.*${addressName}`, 'i'));
 }
 
 // When the update happens but not until after the Edit View has exited and the
@@ -120,18 +106,10 @@ async function testSlowSuccess(addressName) {
 
   await waitForElementToBeRemoved(deletingMessage);
 
-  // the edit phone number button should not exist
-  expect(
-    view.queryByText(new RegExp(`edit.*${addressName}`, 'i'), {
-      selector: 'button',
-    }),
-  ).not.to.exist;
-  // and the add phone number button should exist
-  expect(
-    view.getByText(new RegExp(`add.*${addressName}`, 'i'), {
-      selector: 'button',
-    }),
-  ).to.exist;
+  // the edit button should exist
+  view.getByRole('button', { name: new RegExp(`edit.*${addressName}`, 'i') });
+  // and the add address text should exist
+  expect(view.getByText(new RegExp(`add.*${addressName}`, 'i'))).to.exist;
 }
 
 // When the initial transaction creation request fails

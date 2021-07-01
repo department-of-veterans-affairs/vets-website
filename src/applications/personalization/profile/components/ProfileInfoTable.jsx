@@ -1,9 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
+import { numberBetween } from '../../common/proptypeValidators';
 
-const ProfileInfoTable = ({ data, dataTransformer, title, className }) => {
+const TableTitle = ({ namedAnchor, className, children, level }) => {
+  const Header = `h${level}`;
+  return (
+    <Header className={className} id={namedAnchor}>
+      {children}
+    </Header>
+  );
+};
+
+const ProfileInfoTable = ({
+  data,
+  dataTransformer,
+  title,
+  className,
+  namedAnchor,
+  level = 3, // heading level
+}) => {
+  // TODO: move all these class var outside of the component so they aren't
+  // recomputed on every render
   const titleClasses = prefixUtilityClasses([
     'background-color--gray-lightest',
     'border--1px',
@@ -12,6 +31,7 @@ const ProfileInfoTable = ({ data, dataTransformer, title, className }) => {
     'margin--0',
     'padding-x--2',
     'padding-y--1p5',
+    'font-size--h3',
   ]);
   const titleClassesMedium = prefixUtilityClasses(
     ['padding-x--3', 'padding-y--2'],
@@ -78,7 +98,15 @@ const ProfileInfoTable = ({ data, dataTransformer, title, className }) => {
 
   return (
     <section className={classes.table}>
-      {title && <h3 className={classes.title}>{title}</h3>}
+      {title && (
+        <TableTitle
+          className={classes.title}
+          namedAnchor={namedAnchor}
+          level={level}
+        >
+          {title}
+        </TableTitle>
+      )}
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ol className="vads-u-margin--0 vads-u-padding--0" role="list">
         {data
@@ -87,7 +115,12 @@ const ProfileInfoTable = ({ data, dataTransformer, title, className }) => {
           )
           .map((row, index) => (
             // eslint-disable-next-line jsx-a11y/no-redundant-roles
-            <li key={index} className={classes.tableRow} role="listitem">
+            <li
+              key={index}
+              className={classes.tableRow}
+              role="listitem"
+              id={row.id}
+            >
               {row.title && (
                 <dfn className={classes.tableRowTitle}>{row.title}</dfn>
               )}
@@ -112,11 +145,8 @@ ProfileInfoTable.propTypes = {
   data: PropTypes.array.isRequired,
   dataTransformer: PropTypes.func,
   className: PropTypes.string,
-  /**
-   * When `list` is truthy, additional a11y markup will be applied to the
-   * rendered table to treat it like a list
-   */
-  list: PropTypes.bool,
+  namedAnchor: PropTypes.string,
+  level: numberBetween(1, 6),
 };
 
 export default ProfileInfoTable;

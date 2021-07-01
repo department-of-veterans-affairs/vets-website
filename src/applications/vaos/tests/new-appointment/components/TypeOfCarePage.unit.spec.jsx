@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { expect } from 'chai';
@@ -8,17 +9,21 @@ import set from 'platform/utilities/data/set';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { getParentSiteMock } from '../../mocks/v0';
+import { getVAOSParentSiteMock } from '../../mocks/v2';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {
   mockCommunityCareEligibility,
   mockParentSites,
 } from '../../mocks/helpers';
+import {
+  mockVAOSParentSites,
+  mockV2CommunityCareEligibility,
+} from '../../mocks/helpers.v2';
 
 import TypeOfCarePage from '../../../new-appointment/components/TypeOfCarePage';
 import { NewAppointment } from '../../../new-appointment';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
-import { mockV2CommunityCareEligibility } from '../../mocks/helpers.v2';
 
 const initialState = {
   featureToggles: {
@@ -40,10 +45,14 @@ describe('VAOS <TypeOfCarePage>', () => {
   beforeEach(() => mockFetch());
   it('should show type of care page with all care types', async () => {
     const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(
-      <Route component={TypeOfCarePage} />,
-      { store },
-    );
+    mockParentSites(['983'], []);
+    mockCommunityCareEligibility({
+      parentSites: [],
+      supportedSites: [],
+      careType: 'PrimaryCare',
+      eligible: false,
+    });
+    const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
 
@@ -91,10 +100,14 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   it('should save type of care choice on page change', async () => {
     const store = createTestStore(initialState);
-    let screen = renderWithStoreAndRouter(
-      <Route component={TypeOfCarePage} />,
-      { store },
-    );
+    mockParentSites(['983'], []);
+    mockCommunityCareEligibility({
+      parentSites: [],
+      supportedSites: [],
+      careType: 'PrimaryCare',
+      eligible: false,
+    });
+    let screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
     await waitFor(() => {
@@ -134,10 +147,14 @@ describe('VAOS <TypeOfCarePage>', () => {
   });
   it('should not allow users who are not CC eligible to use Podiatry', async () => {
     const store = createTestStore(initialState);
-    const screen = renderWithStoreAndRouter(
-      <Route component={TypeOfCarePage} />,
-      { store },
-    );
+    mockParentSites(['983'], []);
+    mockCommunityCareEligibility({
+      parentSites: [],
+      supportedSites: [],
+      careType: 'PrimaryCare',
+      eligible: false,
+    });
+    const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
     fireEvent.click(await screen.findByLabelText(/podiatry/i));
     fireEvent.click(screen.getByText(/Continue/));
@@ -367,6 +384,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
     fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
+    expect(screen.queryAllByText(/NEW/i).length).to.equal(2);
 
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
@@ -378,28 +396,10 @@ describe('VAOS <TypeOfCarePage>', () => {
 
   describe('using VAOS service', () => {
     it('should open facility type page when CC eligible and has a supported parent site', async () => {
-      mockParentSites(
+      mockVAOSParentSites(
         ['983'],
-        [
-          {
-            id: '983',
-            attributes: {
-              ...getParentSiteMock().attributes,
-              institutionCode: '983',
-              rootStationCode: '983',
-              parentStationCode: '983',
-            },
-          },
-          {
-            id: '983GC',
-            attributes: {
-              ...getParentSiteMock().attributes,
-              institutionCode: '983GC',
-              rootStationCode: '983',
-              parentStationCode: '983GC',
-            },
-          },
-        ],
+        [getVAOSParentSiteMock('983'), getVAOSParentSiteMock('983GC')],
+        true,
       );
       mockV2CommunityCareEligibility({
         parentSites: ['983', '983GC'],
@@ -425,28 +425,10 @@ describe('VAOS <TypeOfCarePage>', () => {
     });
 
     it('should skip facility type page if eligible for CC but no supported sites', async () => {
-      mockParentSites(
+      mockVAOSParentSites(
         ['983'],
-        [
-          {
-            id: '983',
-            attributes: {
-              ...getParentSiteMock().attributes,
-              institutionCode: '983',
-              rootStationCode: '983',
-              parentStationCode: '983',
-            },
-          },
-          {
-            id: '983GC',
-            attributes: {
-              ...getParentSiteMock().attributes,
-              institutionCode: '983GC',
-              rootStationCode: '983',
-              parentStationCode: '983GC',
-            },
-          },
-        ],
+        [getVAOSParentSiteMock('983'), getVAOSParentSiteMock('983GC')],
+        true,
       );
       mockV2CommunityCareEligibility({
         parentSites: ['983', '983GC'],

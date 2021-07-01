@@ -11,7 +11,8 @@ import {
   isEmptyObject,
   setInitialEditMode,
   issuesNeedUpdating,
-  sortContestableIssues,
+  processContestableIssues,
+  readableList,
 } from '../../utils/helpers';
 import { getDate } from '../../utils/dates';
 
@@ -65,9 +66,21 @@ describe('getSelected', () => {
       }),
     ).to.deep.equal([{ type: 'ok', [SELECTED]: true, index: 0 }]);
   });
+  it('should not return selected additional issues when Veteran chooses not to include them', () => {
+    expect(
+      getSelected({
+        'view:hasIssuesToAdd': false,
+        additionalIssues: [
+          { type: 'no', [SELECTED]: false },
+          { type: 'ok', [SELECTED]: true },
+        ],
+      }),
+    ).to.deep.equal([]);
+  });
   it('should return selected additional issues', () => {
     expect(
       getSelected({
+        'view:hasIssuesToAdd': true,
         additionalIssues: [
           { type: 'no', [SELECTED]: false },
           { type: 'ok', [SELECTED]: true },
@@ -82,6 +95,7 @@ describe('getSelected', () => {
           { type: 'no1', [SELECTED]: false },
           { type: 'ok1', [SELECTED]: true },
         ],
+        'view:hasIssuesToAdd': true,
         additionalIssues: [
           { type: 'no2', [SELECTED]: false },
           { type: 'ok2', [SELECTED]: true },
@@ -273,20 +287,26 @@ describe('issuesNeedUpdating', () => {
   });
 });
 
-describe('sortContestableIssues', () => {
+describe('processContestableIssues', () => {
   const getIssues = dates =>
     dates.map(date => ({
-      attributes: { approxDecisionDate: date },
+      attributes: { ratingIssueSubjectText: 'a', approxDecisionDate: date },
     }));
   const getDates = dates =>
     dates.map(date => date.attributes.approxDecisionDate);
 
   it('should return an empty array with undefined issues', () => {
-    expect(getDates(sortContestableIssues())).to.deep.equal([]);
+    expect(getDates(processContestableIssues())).to.deep.equal([]);
+  });
+  it('should filter out issues missing a title', () => {
+    const issues = getIssues(['2020-02-01', '2020-03-01', '2020-01-01']);
+    issues[0].attributes.ratingIssueSubjectText = '';
+    const result = processContestableIssues(issues);
+    expect(getDates(result)).to.deep.equal(['2020-03-01', '2020-01-01']);
   });
   it('should sort issues spanning months with newest date first', () => {
     const dates = ['2020-02-01', '2020-03-01', '2020-01-01'];
-    const result = sortContestableIssues(getIssues(dates));
+    const result = processContestableIssues(getIssues(dates));
     expect(getDates(result)).to.deep.equal([
       '2020-03-01',
       '2020-02-01',
@@ -295,12 +315,28 @@ describe('sortContestableIssues', () => {
   });
   it('should sort issues spanning a year & months with newest date first', () => {
     const dates = ['2021-01-31', '2020-12-01', '2021-02-02', '2021-02-01'];
-    const result = sortContestableIssues(getIssues(dates));
+    const result = processContestableIssues(getIssues(dates));
     expect(getDates(result)).to.deep.equal([
       '2021-02-02',
       '2021-02-01',
       '2021-01-31',
       '2020-12-01',
     ]);
+  });
+});
+
+describe('readableList', () => {
+  it('should return an empty string', () => {
+    expect(readableList([])).to.eq('');
+    expect(readableList(['', null, 0])).to.eq('');
+  });
+  it('should return a combined list with commas with "and" for the last item', () => {
+    expect(readableList(['one'])).to.eq('one');
+    expect(readableList(['', 'one', null])).to.eq('one');
+    expect(readableList(['one', 'two'])).to.eq('one and two');
+    expect(readableList([1, 2, 'three'])).to.eq('1, 2 and three');
+    expect(readableList(['v', null, 'w', 'x', '', 'y', 'z'])).to.eq(
+      'v, w, x, y and z',
+    );
   });
 });

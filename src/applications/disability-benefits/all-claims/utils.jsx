@@ -7,6 +7,8 @@ import { createSelector } from 'reselect';
 import { omit } from 'lodash';
 import merge from 'lodash/merge';
 import fastLevenshtein from 'fast-levenshtein';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import _ from 'platform/utilities/data';
@@ -225,7 +227,7 @@ export const capitalizeEachWord = name => {
 
   if (typeof name !== 'string') {
     Sentry.captureMessage(
-      `form_526_v1 / form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
+      `form_526_v2: capitalizeEachWord requires 'name' argument of type 'string' but got ${typeof name}`,
     );
   }
 
@@ -831,17 +833,8 @@ export const noClaimTypeSelected = formData =>
  * @enum {String}
  */
 export const urls = {
-  v1: DISABILITY_526_V2_ROOT_URL,
   v2: DISABILITY_526_V2_ROOT_URL,
 };
-
-/**
- * Returns whether the formData is v1 or not.
- * This assumes that the `veteran` property of the formData will be present
- *  only in v1 after the form is saved. The prefillTransformer should
- *  remove this property from the v2 formData for this to work properly.
- */
-const isV1App = (formData, isPrefill) => !isPrefill && formData.veteran;
 
 /**
  * Returns the base url of whichever form the user needs to go to.
@@ -850,29 +843,6 @@ const isV1App = (formData, isPrefill) => !isPrefill && formData.veteran;
  * @param {Boolean} isPrefill - True if formData comes from pre-fill, false if it's a saved form
  * @return {String} - The base url of the right form to return to
  */
-export const getFormUrl = (formData, isPrefill) =>
-  isV1App(formData, isPrefill) ? urls.v1 : urls.v2;
-
-/**
- * Navigates to the appropriate form (v1 or v2) based on the saved data.
- */
-export const directToCorrectForm = ({
-  formData,
-  savedForms,
-  returnUrl,
-  formConfig,
-  router,
-}) => {
-  // If we can find the form in the savedForms array, it's not pre-filled
-  const isPrefill = !savedForms.find(form => form.form === formConfig.formId);
-  const baseUrl = getFormUrl(formData, isPrefill);
-  if (!isPrefill && !window.location.pathname.includes(baseUrl)) {
-    // Redirect to the other app
-    window.location.assign(`${baseUrl}/resume`);
-  } else {
-    router.push(returnUrl);
-  }
-};
 
 export const claimingRated = formData =>
   formData?.ratedDisabilities?.some(d => d['view:selected']);
@@ -1028,3 +998,27 @@ export const show526Wizard = state => toggleValues(state).show526Wizard;
 
 export const showSubform8940And4192 = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.subform89404192];
+
+export const wrapWithBreadcrumb = (title, component) => (
+  <>
+    <Breadcrumbs>
+      <a href="/">Home</a>
+      <a href="/disability">Disability Benefits</a>
+      <span className="vads-u-color--black">
+        <strong>{title}</strong>
+      </span>
+    </Breadcrumbs>
+    {component}
+  </>
+);
+
+export const isExpired = date => {
+  if (!date) {
+    return true;
+  }
+  const today = moment().endOf('day');
+  // expiresAt: Ruby saves as time from Epoch date in seconds (not milliseconds)
+  // we plan to update the expiresAt date to "YYYY-MM-DD" format in the future
+  const expires = moment(isNaN(date) ? date : date * 1000);
+  return !(expires.isValid() && expires.endOf('day').isSameOrAfter(today));
+};

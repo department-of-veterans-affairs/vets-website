@@ -1,6 +1,5 @@
 // Dependencies.
 import React, { Component } from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import PropTypes from 'prop-types';
@@ -163,11 +162,10 @@ export class SearchResults extends Component {
     // Show the error alert box if there was an error.
     if (error) {
       return (
-        <AlertBox
-          headline="Something went wrong"
-          content={error}
-          status="error"
-        />
+        <va-alert status="error">
+          <h3 slot="headline">Something went wrong</h3>
+          <div className="usa-alert-text vads-u-font-size--base">{error}</div>
+        </va-alert>
       );
     }
 
@@ -186,13 +184,17 @@ export class SearchResults extends Component {
           >
             No schools found for your search criteria.
           </h2>
-          <AlertBox
-            content={TOOL_TIP_CONTENT}
-            headline={TOOL_TIP_LABEL}
-            onCloseAlert={toggleAlertToolTip}
-            isVisible={isToolTipOpen}
+          <va-alert
+            onClose={toggleAlertToolTip}
+            visible={isToolTipOpen}
+            closeable
             status="info"
-          />
+          >
+            <h3 slot="headline">{TOOL_TIP_LABEL}</h3>
+            <div className="usa-alert-text vads-u-font-size--base">
+              {TOOL_TIP_CONTENT}
+            </div>
+          </va-alert>
         </>
       );
     }
@@ -207,20 +209,27 @@ export class SearchResults extends Component {
           className="va-introtext va-u-outline--none vads-u-font-size--lg vads-u-margin-top--1p5 vads-u-font-weight--normal"
           data-display-results-header
         >
-          Displaying {resultsStartNumber}
-          <span className="vads-u-visibility--screen-reader">through</span>
-          <span aria-hidden="true" role="presentation">
-            &ndash;
+          {/* eslint-disable-next-line jsx-a11y/aria-role */}
+          <span role="text">
+            <span>Displaying {resultsStartNumber}</span>
+            <span className="vads-u-visibility--screen-reader">through</span>
+            <span aria-hidden="true">&ndash;</span>
+            <span>
+              {resultsEndNumber} of {totalResults} results
+            </span>
           </span>
-          {resultsEndNumber} of {totalResults} results
         </h2>
-        <AlertBox
-          content={TOOL_TIP_CONTENT}
-          headline={TOOL_TIP_LABEL}
-          isVisible={isToolTipOpen}
-          onCloseAlert={toggleAlertToolTip}
+        <va-alert
+          onClose={toggleAlertToolTip}
+          visible={isToolTipOpen}
+          closeable
           status="info"
-        />
+        >
+          <h3 slot="headline">{TOOL_TIP_LABEL}</h3>
+          <div className="usa-alert-text vads-u-font-size--base">
+            {TOOL_TIP_CONTENT}
+          </div>
+        </va-alert>
 
         {/* Table of Results */}
         <ul

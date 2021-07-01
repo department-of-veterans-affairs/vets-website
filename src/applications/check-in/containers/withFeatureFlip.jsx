@@ -11,7 +11,7 @@ const withFeatureFlip = WrappedComponent => props => {
   if (isLoadingFeatureFlags) {
     return (
       <>
-        <LoadingIndicator message="loading your check in experience" />
+        <LoadingIndicator message="Loading your check in experience" />
       </>
     );
   } else if (!isCheckInEnabled) {

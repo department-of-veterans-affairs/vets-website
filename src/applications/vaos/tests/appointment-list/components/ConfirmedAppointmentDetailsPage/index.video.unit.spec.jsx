@@ -6,6 +6,7 @@ import { fireEvent } from '@testing-library/react';
 import {
   mockAppointmentInfo,
   mockFacilitiesFetch,
+  mockFacilityFetch,
   mockSingleAppointmentFetch,
 } from '../../../mocks/helpers';
 import { getVAFacilityMock, getVideoAppointmentMock } from '../../../mocks/v0';
@@ -37,6 +38,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         .add(330, 'minutes')
         .format('YYYY-MM-DD[T]HH:mm:ss');
       MockDate.set(sameDayDate);
+      mockFacilitiesFetch();
+      mockFacilityFetch('vha_442', getVAFacilityMock({ id: '442' }));
     });
     afterEach(() => {
       MockDate.reset();
@@ -483,6 +486,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         requests: [],
         isHomepageRefresh: true,
       });
+      mockFacilityFetch(
+        'vha_442',
+        getVAFacilityMock({ id: '442', name: 'Cheyenne VA medical center' }),
+      );
 
       const screen = renderWithStoreAndRouter(
         <AppointmentList featureHomepageRefresh />,
@@ -522,8 +529,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text('Test T+90 Test');
 
       expect(screen.baseElement).to.contain.text(
-        'To reschedule or cancel this appointment, contact the VA facility where you scheduled it',
+        'Contact this facility if you need to reschedule or cancel your appointment',
       );
+      expect(screen.baseElement).to.contain.text('Cheyenne VA medical center');
     });
 
     it('should direct user to VA facility if we are missing facility details', async () => {
@@ -675,7 +683,9 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text(
         '2360 East Pershing Boulevard',
       );
-      expect(screen.baseElement).to.contain.text('Cheyenne, WY 82001-5356');
+      expect(screen.baseElement).to.contain.text(
+        'Cheyenne, WyomingWY 82001-5356',
+      );
       expect(screen.getByRole('link', { name: /Directions/ })).to.be.ok;
 
       expect(screen.baseElement).to.contain.text('Clinic: CHY PC VAR2');
@@ -862,7 +872,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         'You must join this video meeting from the ATLAS (non-VA) location listed below.',
       );
       expect(screen.baseElement).to.contain.text('114 Dewey Ave');
-      expect(screen.baseElement).to.contain.text('Eureka, MT 59917');
+      expect(screen.baseElement).to.contain.text('Eureka, MontanaMT 59917');
       expect(screen.getByRole('link', { name: /Directions/ })).to.be.ok;
 
       expect(screen.findByText(/Appointment Code: 7VBBCA/i)).to.be.ok;
@@ -1392,6 +1402,11 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     });
   });
   describe('video appointments (css transition check)', () => {
+    beforeEach(() => {
+      mockFetch();
+      mockFacilitiesFetch();
+      mockFacilityFetch('vha_442', getVAFacilityMock({ id: '442' }));
+    });
     it('should reveal video visit instructions', async () => {
       const startDate = moment.utc().add(30, 'minutes');
       const appointment = getVideoAppointmentMock();

@@ -20,6 +20,13 @@ import PersonalInformationContent from './PersonalInformationContent';
 
 import { PROFILE_PATHS } from '../../constants';
 
+// drops the leading `edit` from the hash and looks for that element
+const getScrollTarget = _hash => {
+  const hash = _hash.replace('#', '');
+  const hashWithoutLeadingEdit = hash.replace(/^edit-/, '');
+  return document.querySelector(`#${hashWithoutLeadingEdit}`);
+};
+
 const PersonalInformation = ({
   showDirectDepositBlockedError,
   hasUnsavedEdits,
@@ -32,14 +39,33 @@ const PersonalInformation = ({
 
   useEffect(
     () => {
-      // Do not manage the focus if the user just came to this route via the
-      // root profile route. If a user got to the Profile via a link to /profile
-      // or /profile/ we want to focus on the "Profile" sub-nav H1, not the
-      // H2 on this page
+      // Set the focus on the page's focus target _unless_ one of the following
+      // is true:
+      // - there is a hash in the URL and there is a named-anchor that matches
+      //   the hash
+      // - the user just came to this route via the root profile route. If a
+      //   user got to the Profile via a link to /profile or /profile/ we want
+      //   to focus on the "Profile" sub-nav H1, not the H2 on this page
       const pathRegExp = new RegExp(`${PROFILE_PATHS.PROFILE_ROOT}/?$`);
       if (lastLocation?.pathname.match(new RegExp(pathRegExp))) {
         return;
       }
+      if (window.location.hash) {
+        // We will always attempt to focus on the element that matches the
+        // location.hash
+        const focusTarget = document.querySelector(window.location.hash);
+        // But if the hash starts with `edit` will will scroll a different
+        // element into view
+        const scrollTarget = getScrollTarget(window.location.hash);
+        if (scrollTarget) {
+          scrollTarget.scrollIntoView();
+        }
+        if (focusTarget) {
+          focusElement(focusTarget);
+          return;
+        }
+      }
+
       focusElement('[data-focus-target]');
     },
     [lastLocation],

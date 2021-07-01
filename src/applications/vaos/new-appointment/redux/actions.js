@@ -290,16 +290,7 @@ export function checkEligibility({ location, showModal }) {
         showModal,
       });
 
-      try {
-        if (!eligibility.direct && !eligibility.request) {
-          const thunk = fetchFacilityDetails(location.id);
-          await thunk(dispatch, getState);
-        }
-
-        return eligibility;
-      } catch (e) {
-        captureError(e);
-      }
+      return eligibility;
     } catch (e) {
       captureError(e, false, 'facility page');
       dispatch({
@@ -659,7 +650,10 @@ export function checkCommunityCareEligibility() {
     try {
       // Check if user registered systems support community care...
       const siteIds = selectSystemIds(state);
-      const parentFacilities = await fetchParentLocations({ siteIds });
+      const parentFacilities = await fetchParentLocations({
+        siteIds,
+        useV2: featureVAOSServiceRequests,
+      });
       const ccEnabledSystems = await fetchCommunityCareSupportedSites({
         locations: parentFacilities,
         useV2: featureVAOSServiceRequests,

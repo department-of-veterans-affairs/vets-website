@@ -49,8 +49,8 @@ describe('<ContactInformationField/>', () => {
     component = enzyme.shallow(<ContactInformationField {...isEmptyProps} />);
     expect(
       component.find('ContactInformationView'),
-      'the ContactInformationView was NOT rendered',
-    ).to.have.lengthOf(0);
+      'the ContactInformationView was rendered',
+    ).to.have.lengthOf(1);
 
     expect(
       component.html(),
@@ -85,7 +85,7 @@ describe('<ContactInformationField/>', () => {
   it('renders the edit link', () => {
     component = enzyme.shallow(<ContactInformationField {...props} />);
 
-    let editButton = component.find('[id="homePhone-edit-link"]');
+    let editButton = component.find('[id="edit-home-phone-number"]');
 
     const onEditClick = editButton.props().onClick;
     onEditClick();

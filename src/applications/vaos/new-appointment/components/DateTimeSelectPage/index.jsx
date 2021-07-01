@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import InfoAlert from '../../../components/InfoAlert';
 
 import {
   getAppointmentSlots,
@@ -33,7 +33,7 @@ function ErrorMessage({ facilityId, history }) {
       aria-live="assertive"
       className="vads-u-margin-bottom--2"
     >
-      <AlertBox
+      <InfoAlert
         status="error"
         level="2"
         headline="We’ve run into a problem trying to find an appointment time"
@@ -52,7 +52,7 @@ function ErrorMessage({ facilityId, history }) {
           call your local VA medical center
         </NewTabAnchor>
         .
-      </AlertBox>
+      </InfoAlert>
     </div>
   );
 }

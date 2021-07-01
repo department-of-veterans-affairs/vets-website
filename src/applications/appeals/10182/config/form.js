@@ -16,7 +16,6 @@ import GetFormHelp from '../content/GetFormHelp';
 import ReviewDescription from '../components/ReviewDescription';
 
 import {
-  hasRepresentative,
   canUploadEvidence,
   wantsToUploadEvidence,
   showAddIssueQuestion,
@@ -30,8 +29,6 @@ import {
 import veteranInfo from '../pages/veteranInfo';
 import contactInfo from '../pages/contactInfo';
 import homeless from '../pages/homeless';
-import hasRep from '../pages/hasRep';
-import repInfo from '../pages/repInfo';
 import contestableIssues from '../pages/contestableIssues';
 import additionalIssuesIntro from '../pages/additionalIssuesIntro';
 import additionalIssues from '../pages/additionalIssues';
@@ -115,19 +112,6 @@ const formConfig = {
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
-        },
-        hasRep: {
-          title: 'Representative question',
-          path: 'representative',
-          uiSchema: hasRep.uiSchema,
-          schema: hasRep.schema,
-        },
-        repInfo: {
-          title: 'Representative info',
-          path: 'representative-info',
-          depends: hasRepresentative,
-          uiSchema: repInfo.uiSchema,
-          schema: repInfo.schema,
         },
       },
     },

@@ -13,6 +13,12 @@ import parentFacilities from '../../services/mocks/var/facilities.json';
 
 import newAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 import { FACILITY_TYPES } from '../../utils/constants';
+import {
+  mockFacilitiesFetch,
+  mockParentSites,
+  mockSupportedCCSites,
+} from '../mocks/helpers';
+import { getParentSiteMock } from '../mocks/v0';
 
 const userState = {
   user: {
@@ -36,11 +42,14 @@ describe('VAOS newAppointmentFlow', () => {
     describe('next page', () => {
       it('should be vaFacility page if no systems have CC support', async () => {
         mockFetch();
+        mockFacilitiesFetch();
+        mockParentSites(['983'], [getParentSiteMock({ id: '983' })]);
+        mockSupportedCCSites(['983'], []);
 
         const state = {
           user: {
             profile: {
-              facilities: [],
+              facilities: [{ facilityId: '983' }],
             },
           },
           featureToggles: {

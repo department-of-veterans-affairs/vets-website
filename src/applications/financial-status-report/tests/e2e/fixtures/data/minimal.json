@@ -12,61 +12,56 @@
     "isMarried": false,
     "hasAdditionalIncome": false,
     "hasSocialSecurity": false,
-    "vetPreviouslyEmployed": false,
     "vetIsEmployed": false
   },
   "additionalData": {
-    "additionalComments": "Supporting personal statement",
+    "additionalComments": "Supporting personal statement...",
     "bankruptcy": {}
   },
   "expenses": {
-    "rentOrMortgage": 0,
-    "food": 0
+    "rentOrMortgage": "0",
+    "food": "0"
   },
   "assets": {
-    "cashInBank": 0,
-    "cashOnHand": 0,
-    "usSavingsBonds": 0,
-    "stocksAndOtherBonds": 0
-  },
-  "personalData": {
-    "address": {
-      "livesOnMilitaryBaseInfo": {},
-      "country": "USA",
-      "street": "123 Fake St",
-      "city": "Tampa",
-      "state": "FL",
-      "postalCode": "33543"
-    },
-    "telephoneNumber": "4445551212",
-    "emailAddress": "test2@test1.net",
-    "veteranFullName": {
-      "first": "Mark",
-      "last": "Webb",
-      "middle": "",
-      "suffix": "Jr."
-    },
-    "dateOfBirth": "1950-10-04",
-    "employmentHistory": {
-      "veteran": {
-        "currentEmployment": {}
-      },
-      "spouse": {
-        "currentEmployment": {}
-      }
-    },
-    "spouseFullName": {}
+    "cashInBank": "0",
+    "cashOnHand": "0",
+    "usSavingsBonds": "0",
+    "stocksAndOtherBonds": "0"
   },
   "view:components": {
+    "view:maritalStatus": {},
     "view:veteranInfo": {},
     "view:vaBenefitsOnFile": {},
     "view:vehicleInfo": {},
     "view:recVehicleInfo": {},
     "view:assetInfo": {}
   },
+  "personalData": {
+    "address": {
+      "livesOnMilitaryBaseInfo": {},
+      "country": "USA",
+      "street": "MILITARY ADDY 3",
+      "city": "DPO",
+      "state": "AA",
+      "postalCode": "22312"
+    },
+    "telephoneNumber": "4445551212",
+    "emailAddress": "test2@test1.net",
+    "veteranFullName": {
+      "first": "Greg",
+      "last": "Anderson",
+      "middle": "A"
+    },
+    "dateOfBirth": "1933-04-05",
+    "employmentHistory": {
+      "veteran": {},
+      "spouse": {}
+    },
+    "spouseFullName": {}
+  },
   "personalIdentification": {
-    "ssn": "4437",
-    "fileNumber": "4437"
+    "ssn": "1200",
+    "fileNumber": "1200"
   },
   "selectedDebts": [
     {
@@ -100,8 +95,8 @@
       ],
       "id": 0,
       "resolution": {
-        "resolutionType": "Compromise",
-        "offerToPay": "0"
+        "resolutionType": "Waiver",
+        "agreeToWaiver": true
       }
     }
   ],
@@ -115,13 +110,6 @@
     "deductionCode": "",
     "originalAr": 0
   },
-  "income": [
-    {
-      "veteranOrSpouse": "VETERAN",
-      "compensationAndPension": "3261.1",
-      "education": "50"
-    }
-  ],
   "socialSecurity": {
     "spouse": {}
   },
@@ -132,5 +120,10 @@
     "spouseBenefits": {}
   },
   "financialOverview": {},
-  "availableOptions": {}
+  "availableOptions": {},
+  "income": [
+    {
+      "veteranOrSpouse": "VETERAN"
+    }
+  ]
 }

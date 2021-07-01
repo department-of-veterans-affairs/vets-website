@@ -31,7 +31,7 @@ function fillOutForm(facilitySelection) {
   // Reason for appointment
   newApptTests.reasonForAppointmentTest(
     'cough',
-    /Please give us more detail about why/,
+    /Please provide any additional details/,
   );
 
   // Visit type
