@@ -85,6 +85,7 @@ export default function VAFacilityPageV2() {
   };
 
   const loadingEligibility = loadingEligibilityStatus === FETCH_STATUS.loading;
+  const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
   const loadingFacilities =
     childFacilitiesStatus === FETCH_STATUS.loading ||
     childFacilitiesStatus === FETCH_STATUS.notStarted;
@@ -133,6 +134,20 @@ export default function VAFacilityPageV2() {
       }
     },
     [sortType, loadingFacilities],
+  );
+
+  useEffect(
+    () => {
+      if (requestingLocation) {
+        scrollAndFocus('.loading-indicator-container');
+      } else if (requestLocationStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('va-alert');
+        setSortType(sortOptions[0].value);
+      } else if (showVariant) {
+        scrollAndFocus('select');
+      }
+    },
+    [requestingLocation, requestLocationStatus, showVariant],
   );
 
   const pageHeader = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
@@ -234,8 +249,6 @@ export default function VAFacilityPageV2() {
 
   const sortByDistanceFromCurrentLocation =
     sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
-
-  const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
 
   return (
     <div>
