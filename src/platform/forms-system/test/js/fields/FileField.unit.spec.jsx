@@ -971,7 +971,7 @@ describe('Schemaform <FileField>', () => {
       );
 
       // id for main upload button is interpolated {idSchema.$id}_add_label
-      const mainUploadButton = tree.find('#field_add_label');
+      const mainUploadButton = tree.find('#myIdSchemaId_add_label');
       expect(mainUploadButton.exists()).to.be.false;
       tree.unmount();
     });
@@ -992,6 +992,7 @@ describe('Schemaform <FileField>', () => {
         />,
       );
 
+      // This button is specific to the file that has the error
       const errorFileUploadButton = tree.find('button.usa-button-primary');
       expect(errorFileUploadButton.text()).to.equal('Upload a new file');
       tree.unmount();
@@ -1018,6 +1019,7 @@ describe('Schemaform <FileField>', () => {
         />,
       );
 
+      // This button is specific to the file that has the error
       const individualFileTryAgainButton = tree.find(
         'button.usa-button-primary',
       );
@@ -1041,6 +1043,7 @@ describe('Schemaform <FileField>', () => {
         />,
       );
 
+      // This button is specific to the file that has the error
       const cancelButton = tree.find('button.usa-button-secondary');
       expect(cancelButton.text()).to.equal('Cancel');
       tree.unmount();
@@ -1066,6 +1069,7 @@ describe('Schemaform <FileField>', () => {
         />,
       );
 
+      // This button is specific to the file that was uploaded
       const deleteButton = tree.find('button.usa-button-secondary');
       expect(deleteButton.text()).to.equal('Delete file');
       tree.unmount();
@@ -1141,6 +1145,7 @@ describe('Schemaform <FileField>', () => {
         />,
       );
 
+      // This button is specific to the file that has the error
       const deleteFileButton = tree.find('button.usa-button-secondary');
       expect(deleteFileButton.text()).to.equal('Delete file');
       tree.unmount();
@@ -1165,6 +1170,7 @@ describe('Schemaform <FileField>', () => {
         />,
       );
 
+      // This button is specific to the file that was uploaded
       const deleteButton = tree.find('button.usa-button-secondary');
       expect(deleteButton.text()).to.equal('Delete file');
       tree.unmount();
