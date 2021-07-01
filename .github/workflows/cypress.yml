@@ -287,4 +287,4 @@ jobs:
           check_name: 'Cypress Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'test-results/e2e-test-output-*.xml'
-          summary: '<a href="https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }}.html">See Mochawesome Report</a>'
+          summary: '[See Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }}.html)'
