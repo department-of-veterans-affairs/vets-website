@@ -16,15 +16,6 @@ export const MILITARY_STATE_LABELS = [
 ];
 
 export const SCHEMA_DEFINITIONS = {
-  telephoneNumber: {
-    type: 'string',
-    pattern: '^\\d{10}$',
-  },
-  emailAddress: {
-    type: 'string',
-    pattern:
-      '^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$',
-  },
   address: {
     type: 'string',
     pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
