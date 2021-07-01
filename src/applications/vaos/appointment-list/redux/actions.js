@@ -153,6 +153,9 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
       getState(),
     );
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      getState(),
+    );
 
     dispatch({
       type: FETCH_FUTURE_APPOINTMENTS,
@@ -183,6 +186,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           endDate: moment()
             .add(395, 'days')
             .format('YYYY-MM-DD'),
+          useV2: featureVAOSServiceVAAppointments,
         }),
       ];
 
@@ -352,6 +356,10 @@ export function fetchPendingAppointments() {
 
 export function fetchPastAppointments(startDate, endDate, selectedIndex) {
   return async (dispatch, getState) => {
+    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+      getState(),
+    );
+
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
       selectedIndex,
@@ -366,6 +374,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         getBookedAppointments({
           startDate,
           endDate,
+          useV2: featureVAOSServiceVAAppointments,
         }),
       ];
 

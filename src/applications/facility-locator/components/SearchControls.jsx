@@ -2,12 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
 import omit from 'platform/utilities/data/omit';
+import environment from 'platform/utilities/environment';
 import { LocationType } from '../constants';
 import {
   healthServices,
   benefitsServices,
   urgentCareServices,
   facilityTypesOptions,
+  emergencyCareServices,
 } from '../config';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
@@ -229,6 +231,11 @@ const SearchControls = props => {
       delete locationOptions.provider;
     }
 
+    // Temporary on non prod envs
+    if (environment.isProduction()) {
+      delete locationOptions.emergency_care;
+    }
+
     const options = Object.keys(locationOptions).map(facility => (
       <option key={facility} value={facility}>
         {locationOptions[facility]}
@@ -273,6 +280,7 @@ const SearchControls = props => {
       LocationType.URGENT_CARE,
       LocationType.BENEFITS,
       LocationType.CC_PROVIDER,
+      LocationType.EMERGENCY_CARE,
     ].includes(facilityType);
 
     const showError = serviceTypeChanged && !disabled && !serviceType;
@@ -282,7 +290,6 @@ const SearchControls = props => {
     if (!searchCovid19Vaccine) {
       filteredHealthServices = omit(['Covid19Vaccine'], healthServices);
     }
-
     let services;
     // Determine what service types to display for the location type (if any).
     switch (facilityType) {
@@ -291,6 +298,9 @@ const SearchControls = props => {
         break;
       case LocationType.URGENT_CARE:
         services = urgentCareServices;
+        break;
+      case LocationType.EMERGENCY_CARE:
+        services = emergencyCareServices;
         break;
       case LocationType.BENEFITS:
         services = benefitsServices;

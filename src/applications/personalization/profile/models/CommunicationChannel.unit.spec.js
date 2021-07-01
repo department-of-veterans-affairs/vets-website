@@ -127,4 +127,31 @@ describe('CommunicationChannel model', () => {
       },
     );
   });
+
+  describe('clone', () => {
+    it('returns an identical new instance that can be edited independent of the source instance', () => {
+      let baseChannel = new CommunicationChannel({
+        id: 1,
+        parentItemId: 1,
+      });
+      let clone = baseChannel.clone();
+      expect(baseChannel.isIdenticalTo(clone)).to.be.true;
+      clone.setIsAllowed(true);
+      expect(baseChannel.isIdenticalTo(clone)).to.be.false;
+      clone.setIsAllowed(false);
+      expect(baseChannel.isIdenticalTo(clone)).to.be.true;
+      baseChannel = new CommunicationChannel({
+        id: 1,
+        parentItemId: 1,
+        isAllowed: true,
+        permissionId: 123,
+      });
+      clone = baseChannel.clone();
+      expect(baseChannel.isIdenticalTo(clone)).to.be.true;
+      clone.setIsAllowed(false);
+      expect(baseChannel.isIdenticalTo(clone)).to.be.false;
+      clone.setIsAllowed(true);
+      expect(baseChannel.isIdenticalTo(clone)).to.be.true;
+    });
+  });
 });
