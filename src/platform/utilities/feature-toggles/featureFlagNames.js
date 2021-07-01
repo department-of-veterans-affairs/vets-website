@@ -14,6 +14,7 @@ export default Object.freeze({
   checkInExperienceEnabled:'check_in_experience_enabled',
   coeAccess: 'coe_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
+  covidVaccineWalkInAvailabilityFrontend: 'covid_vaccine_walk_in_availability_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
   covidVaccineUpdatesDisableAuth: 'covid_vaccine_registration_frontend_hide_auth',
   covidVaccineUpdatesEnableExpandedEligibility: 'covid_vaccine_registration_frontend_enable_expanded_eligibility',
