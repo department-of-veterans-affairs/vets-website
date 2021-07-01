@@ -85,8 +85,8 @@ export function transformVAOSAppointment(appt) {
     videoData: {
       isVideo,
     },
-    // communityCareProvider:
-    //   appt.start && appt.kind === 'cc' ? { id: appt.practitioners[0] } : null,
+    communityCareProvider:
+      appt.start && appt.kind === 'cc' ? { id: appt.practitioners[0] } : null,
     // preferredCommunityCareProviders:
     //   appt.practitioners?.map(id => ({ id })) || [],
     practitioners: appt.practitioners,
@@ -97,7 +97,8 @@ export function transformVAOSAppointment(appt) {
       isExpressCare: false,
       requestVisitType: getTypeOfVisit(appt.kind),
       apiData: appt,
-      // TODO missing data: isPastAppointment, isCOVIDVaccine, isPhoneAppointment, timeZone
+      // TODO missing data: isPastAppointment, isCOVIDVaccine, timeZone
+      isPhoneAppointment: appt.kind === 'phone',
     },
   };
 }
