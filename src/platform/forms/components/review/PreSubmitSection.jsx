@@ -122,7 +122,7 @@ PreSubmitSection.propTypes = {
 
 const mapDispatchToProps = {
   setPreSubmit: setPreSubmitAction,
-  saveAndRedirectToReturnUrlAction,
+  saveAndRedirectToReturnUrl: saveAndRedirectToReturnUrlAction,
   toggleLoginModalAction,
 };
 
