@@ -19,9 +19,9 @@ const DebtError = () => {
         Based on the information you provided, this isn’t the form you need.
       </h2>
       <p>
-        <strong>
+        <strong className="vads-u-margin-x--0p5">
           If you think your debt or the amount of your debt is due to an error,
-        </strong>{' '}
+        </strong>
         you can dispute it. Submit a written statement to tell us why you
         dispute the debt.
       </p>
@@ -31,6 +31,7 @@ const DebtError = () => {
           <strong>Online: </strong>
           <a
             href="https://iris.custhelp.va.gov/app/ask"
+            className="vads-u-margin-left--0p5"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-alert-link-click',
@@ -59,10 +60,10 @@ const DebtError = () => {
         consider the request.
       </p>
       <p>
-        We encourage you to submit your dispute statement within{' '}
-        <strong>30 days</strong>. If we receive the statement within 30 days, we
-        won’t add late fees and interest, or take other collection action, while
-        we review your dispute.
+        We encourage you to submit your dispute statement within
+        <strong className="vads-u-margin-left--0p5">30 days</strong>. If we
+        receive the statement within 30 days, we won’t add late fees and
+        interest, or take other collection action, while we review your dispute.
       </p>
     </div>
   );

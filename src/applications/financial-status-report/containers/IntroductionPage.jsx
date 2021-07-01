@@ -41,13 +41,14 @@ const IntroductionPage = props => {
         Follow these steps to request help with a VA debt payment
       </h2>
       <p>
-        If you don’t think this is the right form for you,{' '}
+        If you don’t think this is the right form for you,
         <a
           href={rootUrl}
           onClick={() => {
             sessionStorage.removeItem(WIZARD_STATUS);
             recordEvent({ event: 'howToWizard-start-over' });
           }}
+          className="vads-u-margin-left--0p5"
         >
           go back and answer questions again
         </a>
@@ -99,8 +100,11 @@ const IntroductionPage = props => {
               </li>
             </ul>
             <p>
-              If you need help with your request,{' '}
-              <a href="https://www.va.gov/vso/">
+              If you need help with your request,
+              <a
+                href="https://www.va.gov/vso/"
+                className="vads-u-margin-left--0p5"
+              >
                 contact a local Veterans Service Organization (VSO).
               </a>
             </p>
