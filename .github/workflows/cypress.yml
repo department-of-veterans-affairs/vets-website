@@ -74,14 +74,6 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           CI: true
 
-      - name: Publish test results
-        if: ${{ always() }}
-        uses: mikepenz/action-junit-report@v2.4.2
-        with:
-          check_name: 'Cypress Tests Summary'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'test-results/e2e-test-output-*.xml'
-
       - name: Archive Cypress test videos
         uses: actions/upload-artifact@v2
         if: ${{ failure() }}
@@ -112,6 +104,14 @@ jobs:
       run:
         working-directory: testing-tools-team-dashboard-data
     steps:
+      - name: Publish test results
+        if: ${{ always() }}
+        uses: mikepenz/action-junit-report@v2.4.2
+        with:
+          check_name: 'Cypress Tests Summary'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'test-results/e2e-test-output-*.xml'
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
