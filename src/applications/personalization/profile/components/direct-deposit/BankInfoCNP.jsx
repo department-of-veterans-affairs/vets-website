@@ -176,20 +176,28 @@ export const BankInfoCNP = ({
 
   // When direct deposit is not set up, we will show
   const notSetUpContent = (
-    <button
-      className="va-button-link"
-      ref={editBankInfoButton}
-      onClick={() => {
-        recordEvent({
-          event: 'profile-navigation',
-          'profile-action': 'add-link',
-          'profile-section': 'cnp-direct-deposit-information',
-        });
-        toggleEditState();
-      }}
-    >
-      Please add your bank information
-    </button>
+    <div className={classes.bankInfo}>
+      <dl className="vads-u-margin-y--0 vads-u-line-height--6">
+        <dd>Please add your bank information</dd>
+      </dl>
+      <button
+        className={classes.editButton}
+        aria-label={
+          'Add your direct deposit for disability compensation and pension benefits bank information'
+        }
+        ref={editBankInfoButton}
+        onClick={() => {
+          recordEvent({
+            event: 'profile-navigation',
+            'profile-action': 'add-link',
+            'profile-section': 'cnp-direct-deposit-information',
+          });
+          toggleEditState();
+        }}
+      >
+        Edit
+      </button>
+    </div>
   );
 
   // When not eligible for DD for CNP
