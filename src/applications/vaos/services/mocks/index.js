@@ -309,7 +309,7 @@ const responses = {
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
-        { name: 'vaOnlineSchedulingVariantTesting', value: false },
+        { name: 'vaOnlineSchedulingVariantTesting', value: true },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },

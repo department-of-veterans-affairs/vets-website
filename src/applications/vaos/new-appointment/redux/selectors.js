@@ -365,3 +365,22 @@ export function selectTypeOfCarePage(state) {
       newAppointment.showPodiatryAppointmentUnavailableModal,
   };
 }
+
+export function selectFacilitiesRadioWidget(state) {
+  const address = selectVAPResidentialAddress(state);
+  const newAppointment = getNewAppointment(state);
+  const { eligibilityStatus, facilityPageSortMethod } = newAppointment;
+  const showVariant = selectFeatureVariantTesting(state);
+  const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
+  const sortMethod =
+    showVariant && !address
+      ? FACILITY_SORT_METHODS.alphabetical
+      : facilityPageSortMethod;
+
+  return {
+    cernerSiteIds,
+    loadingEligibility: eligibilityStatus === FETCH_STATUS.loading,
+    showVariant,
+    sortMethod,
+  };
+}

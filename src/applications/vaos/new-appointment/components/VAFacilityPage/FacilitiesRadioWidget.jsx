@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import { getCernerURL } from 'platform/utilities/cerner';
 import Select from '@department-of-veterans-affairs/component-library/Select';
+import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -21,14 +23,12 @@ export default function FacilitiesRadioWidget({
   formContext,
 }) {
   const {
-    loadingEligibility,
-    showVariant,
-    setSortType,
-    sortMethod,
-    sortOptions,
-    sortType,
     cernerSiteIds,
-  } = formContext;
+    showVariant,
+    sortMethod,
+    loadingEligibility,
+  } = useSelector(state => selectFacilitiesRadioWidget(state), shallowEqual);
+  const { setSortType, sortOptions, sortType } = formContext;
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
 
