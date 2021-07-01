@@ -32,7 +32,9 @@ function LocationSearchResults({
   const map = useRef(null);
   const mapContainer = useRef(null);
   const markers = useRef([]);
-  const [mapChanged, setMapChanged] = useState(search.location.mapChanged);
+  const [mapChanged, setMapChanged] = useState(false);
+  const [mapBounds, setMapBounds] = useState(null);
+  const [mapSize, setMapSize] = useState(null);
 
   const setupMap = () => {
     if (map.current) return; // initialize map only once
@@ -67,11 +69,11 @@ function LocationSearchResults({
       mapInit.resize();
     });
 
-    mapInit.on('dragstart', () => {
-      setMapChanged(true);
+    mapInit.on('dragend', () => {
+      setMapBounds(map.current.getBounds());
     });
 
-    mapInit.on('zoomstart', e => {
+    mapInit.on('zoomend', e => {
       // Only trigger mapMoved and speakZoom for manual events,
       // e.g. zoom in/out button click, mouse wheel, etc.
       // which will have an originalEvent defined
@@ -79,7 +81,7 @@ function LocationSearchResults({
         return;
       }
 
-      setMapChanged(true);
+      setMapBounds(map.current.getBounds());
     });
 
     mapInit.on('dblclick', e => {
@@ -91,7 +93,7 @@ function LocationSearchResults({
         },
         { originalEvent: e.originalEvent },
       );
-      setMapChanged(true);
+      setMapBounds(map.current.getBounds());
     });
 
     map.current = mapInit;
@@ -107,7 +109,7 @@ function LocationSearchResults({
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    if (mapChanged && !map.current.getBounds().contains(lngLat)) return;
+    if (!map.current.getBounds().contains(lngLat)) return;
 
     const letter = numberToLetter(index + 1);
 
@@ -166,10 +168,9 @@ function LocationSearchResults({
     () => {
       markers.current.forEach(marker => marker.remove());
       if (!map.current || results.length === 0) {
-        setMapChanged(search.location.mapChanged);
         return;
       } // wait for map to initialize
-      const locationBounds = !mapChanged ? new mapboxgl.LngLatBounds() : null;
+      const locationBounds = new mapboxgl.LngLatBounds();
       results.forEach((institution, index) => {
         addMapMarker(institution, index, locationBounds);
       });
@@ -177,11 +178,24 @@ function LocationSearchResults({
         if (streetAddress.searchString === location) {
           currentLocationMapMarker(locationBounds);
         }
+        setMapChanged(false);
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
-      setMapChanged(search.location.mapChanged);
     },
     [results],
+  );
+
+  useEffect(
+    () => {
+      if (mapBounds) {
+        setMapChanged(true);
+        setMapSize(
+          mapBounds.getNorthEast().distanceTo(mapBounds.getCenter()) /
+            MILE_METER_CONVERSION_RATE,
+        );
+      }
+    },
+    [mapBounds],
   );
 
   const resultCards = results.map((institution, index) => {
@@ -199,29 +213,18 @@ function LocationSearchResults({
     );
 
     return (
-      <>
-        <SearchResultCard
-          institution={institution}
-          key={institution.facilityCode}
-          location
-          header={header}
-        />
-      </>
+      <div key={institution.facilityCode}>
+        <SearchResultCard institution={institution} location header={header} />
+      </div>
     );
   });
 
   const searchArea = e => {
     e.preventDefault();
-    const bounds = map.current.getBounds();
-
-    const diagonalDistance =
-      bounds.getNorthEast().distanceTo(bounds.getCenter()) /
-      MILE_METER_CONVERSION_RATE;
-
     dispatchFetchSearchByLocationCoords(
       search.query.location,
       map.current.getCenter().toArray(),
-      diagonalDistance,
+      mapSize,
       filters,
       preview.version,
     );
@@ -282,20 +285,21 @@ function LocationSearchResults({
             className={'desktop-map-container'}
             role="region"
           >
-            {mapChanged && (
-              <div
-                id="search-area-control-container"
-                className={'mapboxgl-ctrl-top-center'}
-              >
-                <button
-                  id="search-area-control"
-                  className={'usa-button'}
-                  onClick={searchArea}
+            {mapChanged &&
+              mapSize <= 150.0 && (
+                <div
+                  id="search-area-control-container"
+                  className={'mapboxgl-ctrl-top-center'}
                 >
-                  Search this area of the map
-                </button>
-              </div>
-            )}
+                  <button
+                    id="search-area-control"
+                    className={'usa-button'}
+                    onClick={searchArea}
+                  >
+                    Search this area of the map
+                  </button>
+                </div>
+              )}
           </map>
         </div>
       </div>
