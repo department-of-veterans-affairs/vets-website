@@ -110,22 +110,6 @@ jobs:
       run:
         working-directory: testing-tools-team-dashboard-data
     steps:
-      - name: Checkout vets-website
-        uses: actions/checkout@v2
-
-      - name: Download test results
-        uses: actions/download-artifact@v2
-        with:
-          name: cypress-test-results
-          path: test-results
-
-      - name: Publish test results
-        uses: mikepenz/action-junit-report@v2.4.2
-        with:
-          check_name: 'Cypress Tests Summary'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'test-results/e2e-test-output-*.xml'
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -288,5 +272,19 @@ jobs:
           repository: department-of-veterans-affairs/testing-reports
           directory: testing-reports
 
-      - name: Access Report
-        run: echo "[See Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }}.html)"
+      - name: Checkout vets-website
+        uses: actions/checkout@v2
+
+      - name: Download test results
+        uses: actions/download-artifact@v2
+        with:
+          name: cypress-test-results
+          path: test-results
+
+      - name: Publish test results
+        uses: mikepenz/action-junit-report@v2.4.2
+        with:
+          check_name: 'Cypress Tests Summary'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          report_paths: 'test-results/e2e-test-output-*.xml'
+          summary: '<a href="https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }}.html">See Mochawesome Report</a>'
