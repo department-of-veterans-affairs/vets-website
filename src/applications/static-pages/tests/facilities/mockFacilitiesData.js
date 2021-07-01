@@ -119,8 +119,8 @@ const mockFeedbackZeroValues = {
         facilityType: 'va_health_facility',
         feedback: {
           health: {
-            primaryCareUrgent: 0.0,
-            primaryCareRoutine: 0.0,
+            primaryCareUrgent: 1,
+            primaryCareRoutine: 0,
           },
           effectiveDate: '2021-03-05',
         },

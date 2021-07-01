@@ -64,7 +64,7 @@ describe('facilities <FacilityPatientSatisfactionScoresWidget>', () => {
     );
     expect(tree).to.be.empty;
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
-    expect(tree.find('FacilityPatientSatisfactionScoresWidget').exists()).to.be
+    expect(tree.find('h2#our-patient-satisfaction-scores').exists()).to.be
       .false;
 
     tree.unmount();
