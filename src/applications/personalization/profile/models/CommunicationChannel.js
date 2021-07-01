@@ -1,5 +1,5 @@
 class CommunicationChannel {
-  constructor({ id, parentItemId, permissionId, isAllowed = null }) {
+  constructor({ id, parentItemId, permissionId, isAllowed }) {
     if (typeof id !== 'number') {
       throw new Error('Invalid Argument: options.id must be a number');
     }
@@ -8,10 +8,12 @@ class CommunicationChannel {
         'Invalid Argument: options.parentItemId must be a number',
       );
     }
+    // id is _not_ a unique id for this channel. It corresponds to the channel's
+    // type. Example: 1 = text, 2 = email
     this.id = id;
     this.parentItemId = parentItemId;
     this.permissionId = permissionId;
-    this.isAllowed = isAllowed;
+    this.isAllowed = !!isAllowed;
   }
 
   setIsAllowed(isAllowed) {
@@ -69,6 +71,15 @@ class CommunicationChannel {
       }
       return acc;
     }, true);
+  }
+
+  clone() {
+    return new CommunicationChannel({
+      id: this.id,
+      parentItemId: this.parentItemId,
+      isAllowed: this.isAllowed,
+      permissionId: this.permissionId,
+    });
   }
 }
 
