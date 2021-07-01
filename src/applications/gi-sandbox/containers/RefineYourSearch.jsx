@@ -92,7 +92,7 @@ export function RefineYourSearch({
 
   const updateResults = () => {
     if (search.tab === TABS.name) {
-      dispatchFetchSearchByNameResults(search.query.name, filters, version);
+      dispatchFetchSearchByNameResults(search.query.name, 1, filters, version);
     } else {
       dispatchFetchSearchByLocationResults(
         search.query.location,
@@ -102,7 +102,14 @@ export function RefineYourSearch({
       );
     }
 
-    updateUrlParams(history, search.tab, search.query, filters, version);
+    updateUrlParams(
+      history,
+      search.tab,
+      search.query,
+      filters,
+      version,
+      search.tab === TABS.name ? 1 : null,
+    );
   };
 
   const renderTypeOfInstitution = () => {

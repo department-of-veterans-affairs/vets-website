@@ -386,6 +386,7 @@ export const BankInfoCNP = ({
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title="Disability compensation and pension benefits"
         data={directDepositData()}
+        level={2}
       />
     </>
   );

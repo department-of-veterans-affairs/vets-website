@@ -12,8 +12,6 @@ import {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
-import { findBenefitsRoute } from '../routes';
-
 class DashboardAppWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -62,9 +60,8 @@ class DashboardAppWrapper extends React.Component {
     return children;
   };
 
-  renderBreadcrumbs = location => {
-    const { pathname } = location;
-    const crumbs = [
+  renderBreadcrumbs = () => {
+    return [
       <a href="/" key="home">
         Home
       </a>,
@@ -72,18 +69,6 @@ class DashboardAppWrapper extends React.Component {
         My VA
       </Link>,
     ];
-
-    if (pathname.match(findBenefitsRoute.path)) {
-      crumbs.push(
-        <Link
-          to={`my-va/${findBenefitsRoute.path}`}
-          key={findBenefitsRoute.path}
-        >
-          {findBenefitsRoute.name}
-        </Link>,
-      );
-    }
-    return crumbs;
   };
 
   render() {
@@ -101,9 +86,7 @@ class DashboardAppWrapper extends React.Component {
           ]}
           render={this.renderDowntimeNotification}
         >
-          <Breadcrumbs>
-            {this.renderBreadcrumbs(this.props.location)}
-          </Breadcrumbs>
+          <Breadcrumbs>{this.renderBreadcrumbs()}</Breadcrumbs>
 
           {this.props.children}
         </DowntimeNotification>

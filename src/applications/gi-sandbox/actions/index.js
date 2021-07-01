@@ -227,8 +227,8 @@ export function updateEstimatedBenefits(estimatedBenefits) {
   return { type: UPDATE_ESTIMATED_BENEFITS, estimatedBenefits };
 }
 
-export function fetchSearchByNameResults(name, filters, version) {
-  const params = { name, ...rubyifyKeys(buildSearchFilters(filters)) };
+export function fetchSearchByNameResults(name, page, filters, version) {
+  const params = { name, page, ...rubyifyKeys(buildSearchFilters(filters)) };
   if (version) {
     params.version = version;
   }
@@ -506,6 +506,7 @@ export const geolocateUser = () => async dispatch => {
 export const clearGeocodeError = () => async dispatch => {
   dispatch({ type: GEOCODE_CLEAR_ERROR });
 };
+
 export function updateQueryParams(queryParams) {
   return dispatch => {
     dispatch({ type: UPDATE_QUERY_PARAMS, payload: queryParams });

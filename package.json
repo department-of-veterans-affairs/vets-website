@@ -33,6 +33,7 @@
     "lint:js:untracked:fix": "LIST=`git ls-files --others --exclude-standard | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
     "lint:sass": "stylelint src/**/*.scss",
     "mock-api": "node src/platform/testing/e2e/mockapi.js",
+    "migrate-component": "node script/component-migration/index.js",
     "new:app": "yo @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix",
     "nightwatch:docker": "nightwatch -c config/nightwatch.docker-compose.js --suiteRetries 3",
     "nightwatch": "nightwatch -c config/nightwatch.js",
@@ -41,7 +42,8 @@
     "install-repos": "./script/install-repos.sh",
     "pact:can-i-deploy": "node ./script/can-i-deploy.js",
     "pact:publish": "node ./script/publish-pacts.js",
-    "postinstall": "npm rebuild node-sass && node ./script/check-node-version.js && cd node_modules/web-components && yarn install --production && yarn build",
+    "postinstall": "husky install && npm rebuild node-sass && node ./script/check-node-version.js && cd node_modules/web-components && yarn install --production && yarn build",
+    "postmigrate-component": "yarn lint:js:changed:fix",
     "proxy-rewrite:verify-targets": "node src/applications/proxy-rewrite/scripts/verify-injection-targets.js",
     "pr-check": "node script/pr-check.js",
     "reset:env": "./script/reset-environment.sh",
@@ -80,6 +82,9 @@
   },
   "bugs": {
     "url": "https://github.com/department-of-veterans-affairs/vets-website/issues"
+  },
+  "lint-staged": {
+    "*.(js|jsx)": "eslint --fix"
   },
   "nyc": {
     "sourceMap": false,
@@ -193,6 +198,7 @@
     "glob": "^7.1.6",
     "html-webpack-plugin": "^4.3.0",
     "http-server": "^0.9.0",
+    "husky": ">=6",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^23.6.0",
     "jest-image-snapshot": "^4.0.2",
@@ -200,6 +206,7 @@
     "jsdom": "^15.2.1",
     "json2csv": "^4.2.1",
     "jsonschema": "^1.1.1",
+    "lint-staged": ">=10",
     "mini-css-extract-plugin": "^0.9.0",
     "mocha": "^8.2.1",
     "mocha-junit-reporter": "^2.0.0",

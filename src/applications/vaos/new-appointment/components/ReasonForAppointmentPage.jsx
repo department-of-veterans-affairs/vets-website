@@ -50,7 +50,7 @@ const uiSchema = {
   default: {
     reasonForAppointment: {
       'ui:widget': 'radio',
-      'ui:title': 'Please let us know why you’re making this appointment.',
+      'ui:title': 'Let us know why you’re making this appointment.',
     },
     reasonAdditionalInfo: {
       'ui:widget': TextareaWidget,
@@ -89,7 +89,7 @@ export default function ReasonForAppointmentPage() {
     : initialSchema.default;
   const pageTitle = isCommunityCare
     ? 'Tell us the reason for this appointment'
-    : 'Choose a reason for your appointment';
+    : 'Choose a reason for this appointment';
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
@@ -131,7 +131,7 @@ export default function ReasonForAppointmentPage() {
                 </li>
                 <li>
                   Call the Veterans Crisis hotline at{' '}
-                  <Telephone contact={CONTACTS.CRISIS_LINE} /> and press 1,{' '}
+                  <Telephone contact={CONTACTS.CRISIS_LINE} /> and select 1,{' '}
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
