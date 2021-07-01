@@ -134,13 +134,6 @@ closestFacility.attributes.long = -84.3164749;
 
 describe('VAOS <VAFacilityPageV2> multiple facilities', () => {
   beforeEach(() => mockFetch());
-  let oldGeolocation;
-  beforeEach(() => {
-    oldGeolocation = global.navigator.geolocation;
-  });
-  afterEach(() => {
-    global.navigator.geolocation = oldGeolocation;
-  });
 
   it('should display list of facilities with show more button', async () => {
     mockParentSites(parentSiteIds, [parentSite983, parentSite984]);

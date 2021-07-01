@@ -74,13 +74,6 @@ closestFacility.attributes.long = -84.3164749;
 
 describe('VAOS vaccine flow: <VAFacilityPage>', () => {
   beforeEach(() => mockFetch());
-  let oldGeolocation;
-  beforeEach(() => {
-    oldGeolocation = global.navigator.geolocation;
-  });
-  afterEach(() => {
-    global.navigator.geolocation = oldGeolocation;
-  });
 
   it('should display 2 dosages COVID alert', async () => {
     mockDirectBookingEligibilityCriteria(

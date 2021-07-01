@@ -101,13 +101,6 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       CC_PROVIDERS_DATA,
     );
   });
-  let oldGeolocation;
-  beforeEach(() => {
-    oldGeolocation = global.navigator.geolocation;
-  });
-  afterEach(() => {
-    global.navigator.geolocation = oldGeolocation;
-  });
   it('should display closest city question when user has multiple supported sites', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
