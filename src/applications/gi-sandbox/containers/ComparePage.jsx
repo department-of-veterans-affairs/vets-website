@@ -337,7 +337,6 @@ export function ComparePage({
             showDifferences={showDifferences}
             fieldData={[
               {
-                // story #24874 mock data
                 label: 'Tuition and fees',
                 mapper: institution =>
                   formatCurrency(
@@ -346,7 +345,6 @@ export function ComparePage({
                   ),
               },
               {
-                // story #24874 mock data
                 label: 'Gi Bill pays to school',
                 mapper: institution =>
                   formatCurrency(
