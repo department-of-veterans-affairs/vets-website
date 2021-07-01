@@ -1,7 +1,6 @@
 const E2eHelpers = require('../../../testing/e2e/helpers');
 const Timeouts = require('../../../testing/e2e/timeouts.js');
 const HcaHelpers = require('../../../../applications/hca/tests/hca-helpers.js');
-const Auth = require('../../../testing/e2e/auth');
 
 module.exports = E2eHelpers.createE2eTest(client => {
   const url = `${E2eHelpers.baseUrl}/health-care/apply/application`;
@@ -10,14 +9,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
 
   // Prevent announcements from interfering with browser focus
   E2eHelpers.disableAnnouncements(client);
-
-  // log in & wait for little person icon to appear next to the username
-  Auth.logIn(token, client, '/my-va', 3)
-    .assert.title('My VA | Veterans Affairs')
-    .waitForElementVisible(
-      '#login-root button[aria-controls="account-menu"]',
-      Timeouts.slow,
-    );
 
   // Ensure introduction page renders.
   client
