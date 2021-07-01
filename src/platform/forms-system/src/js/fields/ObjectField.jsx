@@ -212,7 +212,7 @@ class ObjectField extends React.Component {
                   }
                 : `${originalIds[key]}_${pageIndex}`,
             }),
-            { $id: `${originalIds.$id}_${pageIndex}` },
+            {},
           )
         : originalIds;
 

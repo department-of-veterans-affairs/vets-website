@@ -389,9 +389,6 @@ describe('Schemaform: ObjectField', () => {
         test: {
           type: 'string',
         },
-        test2: {
-          type: 'string',
-        },
       },
     };
     const uiSchema = {
@@ -426,10 +423,14 @@ describe('Schemaform: ObjectField', () => {
       </div>,
     );
     const formDOM = getFormDOM(form);
-    const ids = formDOM.querySelectorAll('legend');
-    expect(ids).to.have.length(2);
-    expect(ids[0].id).to.equal('root_test_0__title');
-    expect(ids[1].id).to.equal('root_test_1__title');
+    const inputs = formDOM.querySelectorAll('input');
+    expect(inputs).to.have.length(2);
+    expect(inputs[0].id).to.equal('root_test_0');
+    expect(inputs[1].id).to.equal('root_test_1');
+    const legends = formDOM.querySelectorAll('legend');
+    expect(legends).to.have.length(2);
+    expect(legends[0].id).to.equal('root_test_0__title');
+    expect(legends[1].id).to.equal('root_test_1__title');
   });
   it('should render unique IDs for array items on review & submit page', () => {
     // This occurs on form 526 when "ratedDisabilities" &
