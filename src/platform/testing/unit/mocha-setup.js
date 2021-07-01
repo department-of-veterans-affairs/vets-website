@@ -171,4 +171,7 @@ export const mochaHooks = {
     setupJSDom();
     resetFetch();
   },
+  afterEach() {
+    localStorage.clear();
+  },
 };

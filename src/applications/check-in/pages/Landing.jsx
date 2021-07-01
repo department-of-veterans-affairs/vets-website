@@ -12,13 +12,13 @@ const Landing = props => {
     () => {
       const token = getTokenFromRouter(router);
       if (token) {
-        validateToken(token).then(json => {
-          const { data } = json;
-          if (data.isValid) {
-            goToNextPageWithToken(router, 'insurance');
-          } else {
-            goToNextPageWithToken(router, 'failed');
-          }
+        validateToken(token).then(() => {
+          // const { data } = json;
+          // if (data.isValid) {
+          goToNextPageWithToken(router, 'insurance');
+          // } else {
+          //   goToNextPageWithToken(router, 'failed');
+          // }
         });
       }
     },
