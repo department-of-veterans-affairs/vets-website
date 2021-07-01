@@ -283,7 +283,7 @@ describe('Schemaform actions:', () => {
       });
     });
   });
-  describe('uploadFile', () => {
+  describe('uploadFile when enableShortWorkflow is true', () => {
     let xhr;
     let requests = [];
     const enableShortWorkflow = true;

@@ -402,8 +402,8 @@ class FileField extends React.Component {
                     )}
                   {!file.uploading &&
                     hasErrors && (
-                      <span className="usa-input-error-message" role="alert">
-                        <span className="sr-only">Error</span> {errors[0]}
+                      <span className="usa-input-error-message">
+                        {errors[0]}
                       </span>
                     )}
                   {showPasswordInput && (

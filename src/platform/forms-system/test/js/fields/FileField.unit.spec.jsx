@@ -922,43 +922,47 @@ describe('Schemaform <FileField>', () => {
   });
 
   describe('enableShortWorkflow is true', () => {
-    it('should not render upload button while file has error', () => {
-      const idSchema = {
-        $id: 'field',
-      };
-      const schema = {
-        additionalItems: {},
-        items: [
-          {
-            properties: {},
-          },
-        ],
-        maxItems: 4,
-      };
-      const uiSchema = fileUploadUI('Files');
-      const formData = [
+    const mockIdSchema = {
+      $id: 'field',
+    };
+    const mockSchema = {
+      additionalItems: {},
+      items: [
         {
-          errorMessage: 'asdfas',
+          properties: {},
         },
-      ];
-      const errorSchema = {
-        0: {
-          __errors: ['ERROR-123'],
-        },
-      };
-      const registry = {
-        fields: {
-          SchemaField: f => f,
-        },
+      ],
+      maxItems: 4,
+    };
+    const mockUiSchema = fileUploadUI('Files');
+    const mockFormDataWithError = [
+      {
+        errorMessage: 'some error message',
+      },
+    ];
+    const mockErrorSchemaWithError = {
+      0: {
+        __errors: ['ERROR-123'],
+      },
+    };
+    const mockRegistry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+
+    it('should not render main upload button while file has error', () => {
+      const idSchema = {
+        $id: 'myIdSchemaId',
       };
       const tree = shallow(
         <FileField
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
           idSchema={idSchema}
-          errorSchema={errorSchema}
-          formData={formData}
+          errorSchema={mockErrorSchemaWithError}
+          formData={mockFormDataWithError}
           formContext={formContext}
           onChange={f => f}
           requiredSchema={requiredSchema}
@@ -966,47 +970,21 @@ describe('Schemaform <FileField>', () => {
         />,
       );
 
-      const uploadButton = tree.find('#field_add_label');
-      expect(uploadButton.exists()).to.be.false;
+      // id for main upload button is interpolated {idSchema.$id}_add_label
+      const mainUploadButton = tree.find('#field_add_label');
+      expect(mainUploadButton.exists()).to.be.false;
       tree.unmount();
     });
 
-    it('should render Upload a new file button', () => {
-      const idSchema = {
-        $id: 'field',
-      };
-      const schema = {
-        additionalItems: {},
-        items: [
-          {
-            properties: {},
-          },
-        ],
-      };
-      const uiSchema = fileUploadUI('Files');
-      const formData = [
-        {
-          errorMessage: 'asdfas',
-        },
-      ];
-      const errorSchema = {
-        0: {
-          __errors: ['Bad error'],
-        },
-      };
-      const registry = {
-        fields: {
-          SchemaField: f => f,
-        },
-      };
+    it('should render Upload a new file button for file with error', () => {
       const tree = shallow(
         <FileField
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          errorSchema={errorSchema}
-          formData={formData}
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
+          errorSchema={mockErrorSchemaWithError}
+          formData={mockFormDataWithError}
           formContext={formContext}
           onChange={f => f}
           requiredSchema={requiredSchema}
@@ -1014,47 +992,25 @@ describe('Schemaform <FileField>', () => {
         />,
       );
 
-      const cancelButton = tree.find('button.usa-button-primary');
-      expect(cancelButton.text()).to.equal('Upload a new file');
+      const errorFileUploadButton = tree.find('button.usa-button-primary');
+      expect(errorFileUploadButton.text()).to.equal('Upload a new file');
       tree.unmount();
     });
 
-    it('should render Try again button', () => {
-      const idSchema = {
-        $id: 'field',
-      };
-      const schema = {
-        additionalItems: {},
-        items: [
-          {
-            properties: {},
-          },
-        ],
-      };
-      const uiSchema = fileUploadUI('Files');
-      const formData = [
-        {
-          errorMessage: 'asdfas',
-        },
-      ];
+    it('should render Try again button for file with error', () => {
       const errorSchema = {
         0: {
           __errors: [FILE_UPLOAD_NETWORK_ERROR_MESSAGE],
         },
       };
-      const registry = {
-        fields: {
-          SchemaField: f => f,
-        },
-      };
       const tree = shallow(
         <FileField
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
           errorSchema={errorSchema}
-          formData={formData}
+          formData={mockFormDataWithError}
           formContext={formContext}
           onChange={f => f}
           requiredSchema={requiredSchema}
@@ -1062,47 +1018,22 @@ describe('Schemaform <FileField>', () => {
         />,
       );
 
-      const cancelButton = tree.find('button.usa-button-primary');
-      expect(cancelButton.text()).to.equal('Try again');
+      const individualFileTryAgainButton = tree.find(
+        'button.usa-button-primary',
+      );
+      expect(individualFileTryAgainButton.text()).to.equal('Try again');
       tree.unmount();
     });
 
     it('should render remove file button as cancel', () => {
-      const idSchema = {
-        $id: 'field',
-      };
-      const schema = {
-        additionalItems: {},
-        items: [
-          {
-            properties: {},
-          },
-        ],
-      };
-      const uiSchema = fileUploadUI('Files');
-      const formData = [
-        {
-          errorMessage: 'asdfas',
-        },
-      ];
-      const errorSchema = {
-        0: {
-          __errors: ['Bad error'],
-        },
-      };
-      const registry = {
-        fields: {
-          SchemaField: f => f,
-        },
-      };
       const tree = shallow(
         <FileField
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          errorSchema={errorSchema}
-          formData={formData}
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
+          errorSchema={mockErrorSchemaWithError}
+          formData={mockFormDataWithError}
           formContext={formContext}
           onChange={f => f}
           requiredSchema={requiredSchema}
@@ -1115,35 +1046,18 @@ describe('Schemaform <FileField>', () => {
       tree.unmount();
     });
 
-    it('should render delete button', () => {
-      const idSchema = {
-        $id: 'field',
-      };
-      const schema = {
-        additionalItems: {},
-        items: [
-          {
-            properties: {},
-          },
-        ],
-      };
-      const uiSchema = fileUploadUI('Files');
+    it('should render delete button for successfully uploaded file', () => {
       const formData = [
         {
           uploading: false,
         },
       ];
-      const registry = {
-        fields: {
-          SchemaField: f => f,
-        },
-      };
       const tree = shallow(
         <FileField
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
           formData={formData}
           formContext={formContext}
           onChange={f => f}
@@ -1152,137 +1066,98 @@ describe('Schemaform <FileField>', () => {
         />,
       );
 
-      const cancelButton = tree.find('button.usa-button-secondary');
-      expect(cancelButton.text()).to.equal('Delete file');
+      const deleteButton = tree.find('button.usa-button-secondary');
+      expect(deleteButton.text()).to.equal('Delete file');
       tree.unmount();
     });
   });
 
   describe('enableShortWorkflow is false', () => {
-    it('should not render upload button while file has error', () => {
-      const idSchema = {
-        $id: 'field',
-      };
-      const schema = {
-        additionalItems: {},
-        items: [
-          {
-            properties: {},
-          },
-        ],
-        maxItems: 4,
-      };
-      const uiSchema = fileUploadUI('Files');
-      const formData = [
+    const mockIdSchema = {
+      $id: 'field',
+    };
+    const mockSchema = {
+      additionalItems: {},
+      items: [
         {
-          errorMessage: 'asdfas',
+          properties: {},
         },
-      ];
-      const errorSchema = {
-        0: {
-          __errors: ['ERROR-123'],
-        },
-      };
-      const registry = {
-        fields: {
-          SchemaField: f => f,
-        },
+      ],
+      maxItems: 4,
+    };
+    const mockUiSchema = fileUploadUI('Files');
+    const mockFormDataWithError = [
+      {
+        errorMessage: 'some error message',
+      },
+    ];
+    const mockErrorSchemaWithError = {
+      0: {
+        __errors: ['ERROR-123'],
+      },
+    };
+    const mockRegistry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+
+    it('should render main upload button while any file has error', () => {
+      const idSchema = {
+        $id: 'myIdSchemaId',
       };
       const tree = shallow(
         <FileField
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
           idSchema={idSchema}
-          errorSchema={errorSchema}
-          formData={formData}
+          errorSchema={mockErrorSchemaWithError}
+          formData={mockFormDataWithError}
           formContext={formContext}
           onChange={f => f}
           requiredSchema={requiredSchema}
         />,
       );
 
-      const uploadButton = tree.find('#field_add_label');
-      expect(uploadButton.exists()).to.be.true;
+      // id for main upload button is interpolated {idSchema.$id}_add_label
+      const mainUploadButton = tree.find('#myIdSchemaId_add_label');
+      expect(mainUploadButton.exists()).to.be.true;
       tree.unmount();
     });
 
     it('should render remove file button as Delete file', () => {
-      const idSchema = {
-        $id: 'field',
-      };
-      const schema = {
-        additionalItems: {},
-        items: [
-          {
-            properties: {},
-          },
-        ],
-      };
-      const uiSchema = fileUploadUI('Files');
-      const formData = [
-        {
-          errorMessage: 'asdfas',
-        },
-      ];
-      const errorSchema = {
-        0: {
-          __errors: ['Bad error'],
-        },
-      };
-      const registry = {
-        fields: {
-          SchemaField: f => f,
-        },
-      };
       const tree = shallow(
         <FileField
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
-          errorSchema={errorSchema}
-          formData={formData}
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
+          errorSchema={mockErrorSchemaWithError}
+          formData={mockFormDataWithError}
           formContext={formContext}
           onChange={f => f}
           requiredSchema={requiredSchema}
         />,
       );
 
-      const cancelButton = tree.find('button.usa-button-secondary');
-      expect(cancelButton.text()).to.equal('Delete file');
+      const deleteFileButton = tree.find('button.usa-button-secondary');
+      expect(deleteFileButton.text()).to.equal('Delete file');
       tree.unmount();
     });
 
-    it('should render delete button', () => {
-      const idSchema = {
-        $id: 'field',
-      };
-      const schema = {
-        additionalItems: {},
-        items: [
-          {
-            properties: {},
-          },
-        ],
-      };
-      const uiSchema = fileUploadUI('Files');
+    it('should render delete button for successfully uploaded file', () => {
       const formData = [
         {
           uploading: false,
         },
       ];
-      const registry = {
-        fields: {
-          SchemaField: f => f,
-        },
-      };
       const tree = shallow(
         <FileField
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
           formData={formData}
           formContext={formContext}
           onChange={f => f}
@@ -1290,55 +1165,37 @@ describe('Schemaform <FileField>', () => {
         />,
       );
 
-      const cancelButton = tree.find('button.usa-button-secondary');
-      expect(cancelButton.text()).to.equal('Delete file');
+      const deleteButton = tree.find('button.usa-button-secondary');
+      expect(deleteButton.text()).to.equal('Delete file');
       tree.unmount();
     });
 
-    it('should not render Try again button', () => {
-      const idSchema = {
-        $id: 'field',
-      };
-      const schema = {
-        additionalItems: {},
-        items: [
-          {
-            properties: {},
-          },
-        ],
-      };
-      const uiSchema = fileUploadUI('Files');
-      const formData = [
-        {
-          errorMessage: 'asdfas',
-        },
-      ];
+    it('should not render individual file Try again button', () => {
       const errorSchema = {
         0: {
           __errors: [FILE_UPLOAD_NETWORK_ERROR_MESSAGE],
         },
       };
-      const registry = {
-        fields: {
-          SchemaField: f => f,
-        },
-      };
       const tree = shallow(
         <FileField
-          registry={registry}
-          schema={schema}
-          uiSchema={uiSchema}
-          idSchema={idSchema}
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
           errorSchema={errorSchema}
-          formData={formData}
+          formData={mockFormDataWithError}
           formContext={formContext}
           onChange={f => f}
           requiredSchema={requiredSchema}
         />,
       );
 
-      const retryButton = tree.find('button.usa-button-primary');
-      expect(retryButton.exists()).to.be.false;
+      // The retry button should be the only primary button. Should not be present
+      // with enableShortWorkflow not enabled
+      const individualFileTryAgainButton = tree.find(
+        'button.usa-button-primary',
+      );
+      expect(individualFileTryAgainButton.exists()).to.be.false;
       tree.unmount();
     });
   });
