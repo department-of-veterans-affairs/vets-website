@@ -101,6 +101,13 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       CC_PROVIDERS_DATA,
     );
   });
+  let oldGeolocation;
+  beforeEach(() => {
+    oldGeolocation = global.navigator.geolocation;
+  });
+  afterEach(() => {
+    global.navigator.geolocation = oldGeolocation;
+  });
   it('should display closest city question when user has multiple supported sites', async () => {
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
@@ -473,6 +480,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       fail: false,
     };
 
+    console.log('busted test');
     mockGetCurrentPosition(currentPosition);
 
     mockCCProviderFetch(
@@ -501,6 +509,9 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Choose Provider based on current location
     userEvent.click(await screen.findByText(/use your current location$/i));
+    await screen.findByText(
+      /You can choose a provider based on your current location/i,
+    );
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
@@ -523,6 +534,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
       await screen.findByRole('button', { name: /choose provider/i }),
     );
 
+    console.log('end busted test');
     expect(screen.baseElement).to.contain.text(
       'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-24007019.4 miles',
     );

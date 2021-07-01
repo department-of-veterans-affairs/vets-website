@@ -32,6 +32,8 @@ function ProviderSelectionField({
   currentLocation,
   sortMethod,
 }) {
+  console.log('formData');
+  console.log(formData);
   const [checkedProvider, setCheckedProvider] = useState(false);
   const [showRemoveProviderModal, setShowRemoveProviderModal] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -62,8 +64,10 @@ function ProviderSelectionField({
   useEffect(
     () => {
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation) {
+        console.log('fetch current location');
         requestProvidersList(currentLocation);
       } else {
+        console.log('fetch by address');
         requestProvidersList(address);
       }
 
@@ -375,6 +379,8 @@ function ProviderSelectionField({
                         <button
                           type="button"
                           onClick={() => {
+                            console.log('provider');
+                            console.log(provider);
                             onChange(provider);
                             setCheckedProvider();
                             setShowProvidersList(false);

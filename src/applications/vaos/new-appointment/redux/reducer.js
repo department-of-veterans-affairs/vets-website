@@ -883,6 +883,7 @@ export default function formReducer(state = initialState, action) {
       const { address, typeOfCareProviders } = action;
       const { ccProviderPageSortMethod: sortMethod, data } = state;
       const cacheKey = `${sortMethod}_${getTypeOfCare(data)?.ccId}`;
+      console.log('requested providers succeed');
 
       const providers =
         state.communityCareProviders[cacheKey] ||
@@ -894,6 +895,11 @@ export default function formReducer(state = initialState, action) {
               facility.position.latitude,
               facility.position.longitude,
             );
+            if (facility.id === '1952935777') {
+              console.log('id sorted');
+              console.log(sortMethod);
+              console.log(address);
+            }
             return {
               ...facility,
               [sortMethod]: distance,
