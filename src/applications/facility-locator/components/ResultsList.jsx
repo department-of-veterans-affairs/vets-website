@@ -31,7 +31,7 @@ import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
 import {
   covidVaccineSchedulingFrontend,
-  covidVaccineWalkInAvailabilityFrontend,
+  facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend,
 } from '../utils/featureFlagSelectors';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
@@ -276,7 +276,7 @@ function mapStateToProps(state) {
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
     showCovidVaccineSchedulingLinks: covidVaccineSchedulingFrontend(state),
-    showCovidVaccineWalkInAvailabilityText: covidVaccineWalkInAvailabilityFrontend(
+    showCovidVaccineWalkInAvailabilityText: facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend(
       state,
     ),
   };
