@@ -104,6 +104,9 @@ jobs:
       run:
         working-directory: testing-tools-team-dashboard-data
     steps:
+      - name: Checkout vets-website
+        uses: actions/checkout@v2
+
       - name: Publish test results
         if: ${{ always() }}
         uses: mikepenz/action-junit-report@v2.4.2
