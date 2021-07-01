@@ -346,12 +346,8 @@ export default function VAFacilityPageV2() {
             }
             formContext={{
               setSortType,
-              loadingEligibility,
-              showVariant,
-              sortMethod,
               sortOptions,
               sortType,
-              cernerSiteIds,
             }}
             data={data}
           >
