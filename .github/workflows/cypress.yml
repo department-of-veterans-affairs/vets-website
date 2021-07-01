@@ -31,20 +31,14 @@ jobs:
       - name: Set vets-website port
         run: echo "CYPRESS_PORT=$(( ( RANDOM % 2000 )  + 3001 ))" >> $GITHUB_ENV
 
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '14.17.2'
-
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/yarn
-            ~/.cache/Cypress
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Install vets-website dependencies
         run: yarn install --frozen-lockfile --prefer-offline
