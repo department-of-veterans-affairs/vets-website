@@ -34,7 +34,6 @@ module.exports = E2eHelpers.createE2eTest(client => {
     )
     .click('.edit-btn')
     .fill('input[name="root_veteranFullName_first"]', 'Jane')
-    .pause()
     .waitForElementVisible('.saved-success-container', Timeouts.normal);
 
   // save and finish a form later
