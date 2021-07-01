@@ -55,11 +55,7 @@ export function calculateBoundingBox(lat, long, radius) {
 export function getPreciseLocation() {
   return new Promise((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
-      position => {
-        console.log('position');
-        console.log(position);
-        resolve(position);
-      },
+      position => resolve(position),
       error =>
         reject(new Error(`Geolocation error ${error.code}: ${error.message}`)),
       {
