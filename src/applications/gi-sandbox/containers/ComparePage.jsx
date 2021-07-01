@@ -22,7 +22,7 @@ import {
 } from '../actions';
 import { estimatedBenefits } from '../selectors/estimator';
 import { getCalculatedBenefits } from '../selectors/calculator';
-import { getCalculatorState } from '../selectors/compare';
+import { getCompareCalculatorState } from '../selectors/compare';
 import {
   convertRatingToStars,
   formatCurrency,
@@ -617,7 +617,7 @@ const mapStateToProps = state => {
       });
       calculated[facilityCode] = getCalculatedBenefits({
         ...state,
-        calculator: getCalculatorState(
+        calculator: getCompareCalculatorState(
           state.calculator,
           state.compare.details.institutions[facilityCode],
           state.constants,

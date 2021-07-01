@@ -1,4 +1,8 @@
-export const getCalculatorState = (calculator, institution, constants) => {
+export const getCompareCalculatorState = (
+  calculator,
+  institution,
+  constants,
+) => {
   const {
     tuitionInState,
     tuitionOutOfState,
