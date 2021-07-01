@@ -42,6 +42,17 @@ export class SearchMenu extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('keyup', () => {
+      if (
+        (event.which || event.keyCode) === SPACE_KEY &&
+        document.activeElement?.id === 'sitewide-search-submit-button'
+      ) {
+        this.handleSearchEvent();
+      }
+    });
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { userInput } = this.state;
     const { searchTypeaheadEnabled, isOpen } = this.props;
