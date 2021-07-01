@@ -81,4 +81,91 @@ const mockFacilityLocatorApiResponse = {
   ],
 };
 
-module.exports = { mockWidgetFacilitiesList, mockFacilityLocatorApiResponse };
+const mockFeedbackZeroValues = {
+  data: [
+    {
+      id: 'vha_561GE',
+      type: 'facility',
+      attributes: {
+        access: {
+          health: [
+            {
+              service: 'MentalHealthCare',
+              new: 4.333333,
+              established: 22.802325,
+            },
+            {
+              service: 'PrimaryCare',
+              new: 5.545454,
+              established: 0.551282,
+            },
+          ],
+          effectiveDate: '2021-06-21',
+        },
+        activeStatus: 'A',
+        address: {
+          mailing: {},
+          physical: {
+            zip: '07302-3551',
+            city: 'Jersey City',
+            state: 'NJ',
+            address1: '115 Christopher Columbus Drive',
+            address2: null,
+            address3: 'Suite 201',
+          },
+        },
+        classification: 'Primary Care CBOC',
+        detailedServices: null,
+        facilityType: 'va_health_facility',
+        feedback: {
+          health: {
+            primaryCareUrgent: 1,
+            primaryCareRoutine: 0,
+          },
+          effectiveDate: '2021-03-05',
+        },
+        hours: {
+          monday: '800AM-430PM',
+          tuesday: '800AM-430PM',
+          wednesday: '800AM-430PM',
+          thursday: '800AM-430PM',
+          friday: '800AM-430PM',
+          saturday: 'Closed',
+          sunday: 'Closed',
+        },
+        id: 'vha_561GE',
+        lat: 40.71982227,
+        long: -74.04397858,
+        mobile: false,
+        name: 'Jersey City VA Clinic',
+        operatingStatus: {
+          code: 'NORMAL',
+        },
+        operationalHoursSpecialInstructions: null,
+        phone: {
+          fax: '201-435-3198',
+          main: '201-435-3055',
+          pharmacy: '800-480-5590',
+          afterHours: '973-676-1000',
+          patientAdvocate: '908-720-8227',
+          mentalHealthClinic: '973-676-1000 x 1421',
+          enrollmentCoordinator: '973-676-1000 x203044',
+        },
+        services: {
+          other: [],
+          health: ['MentalHealthCare', 'PrimaryCare'],
+          lastUpdated: '2021-06-21',
+        },
+        uniqueId: '561GE',
+        visn: '2',
+        website: 'https://www.newjersey.va.gov/locations/JerseyCity.asp',
+      },
+    },
+  ],
+};
+
+module.exports = {
+  mockWidgetFacilitiesList,
+  mockFacilityLocatorApiResponse,
+  mockFeedbackZeroValues,
+};
