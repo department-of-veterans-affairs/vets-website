@@ -75,7 +75,7 @@ jobs:
           CI: true
 
       - name: Archive test results
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: cypress-test-results
           path: test-results
