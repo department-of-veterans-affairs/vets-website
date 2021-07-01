@@ -81,7 +81,7 @@ describe('Schemaform <TextWidget>', () => {
         onChange={onChange}
         formContext={{ pagePerItemIndex: 2 }}
         options={{
-          ariaDescribedby: 'test-id-:index',
+          ariaDescribedby: 'test-id-',
         }}
       />,
     );

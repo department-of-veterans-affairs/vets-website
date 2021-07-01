@@ -17,7 +17,7 @@ export default function TextWidget(props) {
    * @param {String|null} id - aria-describedby id with ":index" placeholder
    */
   const addIndex = (id = '') =>
-    id && pageIndex !== 'undefined' ? `${id}${pageIndex}` : id;
+    id && typeof pageIndex !== 'undefined' ? `${id}${pageIndex}` : id;
 
   const inputProps = {
     ...(props.schema.minValue && { min: props.schema.minValue }),
