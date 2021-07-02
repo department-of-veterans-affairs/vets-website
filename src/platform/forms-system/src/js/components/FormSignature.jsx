@@ -33,6 +33,7 @@ export const FormSignature = ({
   showError,
   validations,
   onSectionComplete,
+  ariaLabelledBy,
 }) =>
   // {
   //   formData,
@@ -120,6 +121,7 @@ export const FormSignature = ({
           errorMessage={(showError || signature.dirty) && signatureError}
         />
         <Checkbox
+          aria-labelledby={ariaLabelledBy}
           label={checkboxLabel}
           required={required}
           onValueChange={setChecked}
