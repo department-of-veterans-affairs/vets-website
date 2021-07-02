@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import { setData } from 'platform/forms-system/src/js/actions';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import MonthYear from '@department-of-veterans-affairs/component-library/MonthYear';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
-import classNames from 'classnames';
 
 const defaultRecord = [
   {
