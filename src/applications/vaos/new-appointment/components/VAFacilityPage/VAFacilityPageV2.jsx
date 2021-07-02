@@ -42,6 +42,12 @@ const initialSchema = {
 
 const pageKey = 'vaFacilityV2';
 
+const sortOptions = [
+  { value: 'distanceFromResidentialAddress', label: 'By your home address' },
+  { value: 'distanceFromCurrentLocation', label: 'By your current location' },
+  { value: 'alphabetical', label: 'Alphabetically' },
+];
+
 export default function VAFacilityPageV2() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -66,11 +72,6 @@ export default function VAFacilityPageV2() {
     sortMethod,
     typeOfCare,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
-  const sortOptions = [
-    { value: 'distanceFromResidentialAddress', label: 'By your home address' },
-    { value: 'distanceFromCurrentLocation', label: 'By your current location' },
-    { value: 'alphabetical', label: 'Alphabetically' },
-  ];
   const [sortType, setSortType] = useState(sortMethod);
 
   const uiSchema = {
@@ -101,6 +102,7 @@ export default function VAFacilityPageV2() {
   }
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
+  const sortFocusEl = showVariant ? 'select' : '.sort-facility-button';
 
   useEffect(
     () => {
@@ -139,15 +141,15 @@ export default function VAFacilityPageV2() {
   useEffect(
     () => {
       if (requestingLocation) {
-        scrollAndFocus('.loading-indicator-container');
+        scrollAndFocus('.loading-indicator');
       } else if (requestLocationStatus === FETCH_STATUS.failed) {
         scrollAndFocus('va-alert');
         setSortType(sortOptions[0].value);
-      } else if (showVariant) {
-        scrollAndFocus('select');
+      } else {
+        scrollAndFocus(sortFocusEl);
       }
     },
-    [requestingLocation, requestLocationStatus, showVariant],
+    [requestingLocation, requestLocationStatus, showVariant, sortFocusEl],
   );
 
   const pageHeader = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
@@ -270,7 +272,7 @@ export default function VAFacilityPageV2() {
               <p>
                 Or,{' '}
                 <button
-                  className="va-button-link"
+                  className="va-button-link sort-facility-button"
                   onClick={() => {
                     dispatch(
                       updateFacilitySortMethod(
@@ -295,7 +297,7 @@ export default function VAFacilityPageV2() {
             <p>
               Or,{' '}
               <button
-                className="va-button-link"
+                className="va-button-link sort-facility-button"
                 onClick={() => {
                   dispatch(
                     updateFacilitySortMethod(

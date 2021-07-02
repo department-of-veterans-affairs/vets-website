@@ -31,6 +31,9 @@ export default function FacilitiesRadioWidget({
   const { setSortType, sortOptions, sortType } = formContext;
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
+  const sortedByText = sortMethod
+    ? sortOptions.find(type => type.value === sortMethod).label
+    : sortOptions[0].label;
 
   // If user has already selected a value, and the index of that value is > 4,
   // show this view already expanded
@@ -58,6 +61,9 @@ export default function FacilitiesRadioWidget({
 
   return (
     <div>
+      <div aria-live="assertive" className="sr-only">
+        Showing VA facilities sorted {sortedByText}
+      </div>
       {showVariant && (
         <Select
           label="Sort facilities"
