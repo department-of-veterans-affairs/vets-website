@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
+import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import {
   mockFetch,
@@ -26,6 +27,14 @@ describe('health care check in -- CheckIn component -- ', () => {
     expect(component.find('[data-testid="clinic-name"]').exists()).to.be.true;
 
     component.unmount();
+  });
+  it('passes axeCheck', () => {
+    const mockRouter = {
+      params: {
+        token: 'token-123',
+      },
+    };
+    axeCheck(<CheckIn router={mockRouter} />);
   });
   it('button click calls router', async () => {
     setFetchJSONResponse(global.fetch.onCall(0), createMockSuccessResponse({}));

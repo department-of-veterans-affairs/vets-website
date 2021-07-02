@@ -15,6 +15,7 @@ const Covid19Result = ({
   location,
   index,
   showCovidVaccineSchedulingLinks,
+  showCovidVaccineWalkInAvailabilityText,
 }) => {
   const {
     name,
@@ -72,10 +73,18 @@ const Covid19Result = ({
               Schedule an appointment online
             </a>
           )}
+        {showCovidVaccineWalkInAvailabilityText && (
+          <strong className="vads-u-margin-bottom--2 vads-u-display--block">
+            Walk-ins accepted
+          </strong>
+        )}
         <CovidPhoneLink
           phone={appointmentPhone}
           showCovidVaccineSchedulingLink={
             showCovidVaccineSchedulingLinks && covidSchedulingAvailable
+          }
+          showCovidVaccineWalkInAvailabilityText={
+            showCovidVaccineWalkInAvailabilityText
           }
         />
         {infoURL && (
@@ -95,6 +104,7 @@ Covid19Result.propTypes = {
   query: PropTypes.object,
   index: PropTypes.number,
   showCovidVaccineSchedulingLinks: PropTypes.bool,
+  showCovidVaccineWalkInAvailabilityText: PropTypes.bool,
 };
 
 export default Covid19Result;
