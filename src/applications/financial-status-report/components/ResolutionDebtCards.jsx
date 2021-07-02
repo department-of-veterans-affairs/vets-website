@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { setData } from 'platform/forms-system/src/js/actions';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
@@ -10,6 +8,9 @@ import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+
+import { setData } from 'platform/forms-system/src/js/actions';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',

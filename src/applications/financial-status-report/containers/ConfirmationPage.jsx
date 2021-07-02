@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
@@ -8,7 +9,6 @@ import GetFormHelp from '../components/GetFormHelp';
 import { focusElement } from 'platform/utilities/ui';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes/';
 import { downloadPDF } from '../actions';
-import { bindActionCreators } from 'redux';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
