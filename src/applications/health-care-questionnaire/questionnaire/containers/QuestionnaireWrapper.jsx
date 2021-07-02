@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-// import {
-//   selectShowQuestionnaire,
-//   selectLoadingFeatureFlags,
-// } from '../../shared/redux-selectors';
+import {
+  selectShowQuestionnaire,
+  selectLoadingFeatureFlags,
+} from '../../shared/redux-selectors';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import App from './App';
@@ -51,15 +51,9 @@ const QuestionnaireWrapper = ({
   }
 };
 
-// Once pilot is over, switch mapStateToProps for this one
-// const mapStateToProps = state => ({
-//   isQuestionnaireEnabled: selectShowQuestionnaire(state),
-//   isLoadingFeatureFlags: selectLoadingFeatureFlags(state),
-// });
-
-const mapStateToProps = () => ({
-  isQuestionnaireEnabled: true,
-  isLoadingFeatureFlags: false,
+const mapStateToProps = state => ({
+  isQuestionnaireEnabled: selectShowQuestionnaire(state),
+  isLoadingFeatureFlags: selectLoadingFeatureFlags(state),
 });
 
 export default connect(mapStateToProps)(QuestionnaireWrapper);
