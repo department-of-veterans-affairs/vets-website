@@ -708,7 +708,7 @@ const schema = {
             pattern: "^([a-zA-Z0-9\\-'.#]([a-zA-Z0-9\\-'.# ])?)+$",
           },
           treatmentDateRange: {
-            $ref: '#/definitions/dateRange',
+            $ref: '#/definitions/dateRangeFromRequired',
           },
           treatmentCenterAddress: {
             $ref: '#/definitions/vaTreatmentCenterAddress',

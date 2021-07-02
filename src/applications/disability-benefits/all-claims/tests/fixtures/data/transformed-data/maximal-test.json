@@ -36,7 +36,7 @@
     "vaTreatmentFacilities": [
       {
         "treatmentCenterName": "Treatment Center the First",
-        "treatmentDateRange": { "from": "2008-01-XX" },
+        "treatmentDateRange": { "from": "2008-01-XX", "to": "2010-01-XX" },
         "treatmentCenterAddress": {
           "country": "USA",
           "city": "Bigcity",
@@ -50,7 +50,7 @@
       },
       {
         "treatmentCenterName": "Treatment Center the Second",
-        "treatmentDateRange": { "from": "2010-01-XX" },
+        "treatmentDateRange": { "from": "2010-01-XX", "to": "2018-02-XX" },
         "treatmentCenterAddress": {
           "country": "Uganda",
           "city": "Ugandan City"

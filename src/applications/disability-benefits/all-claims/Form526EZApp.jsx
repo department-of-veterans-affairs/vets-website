@@ -101,7 +101,7 @@ export const Form526Entry = ({
   if (typeof showWizard === 'undefined') {
     return wrapWithBreadcrumb(
       title,
-      <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+      <h1>
         <LoadingIndicator message="Please wait while we load the application for you." />
       </h1>,
     );

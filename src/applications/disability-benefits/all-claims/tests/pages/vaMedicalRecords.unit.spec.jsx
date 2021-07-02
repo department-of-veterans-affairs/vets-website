@@ -38,8 +38,8 @@ describe('VA Medical Records', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(6);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('input').length).to.equal(7);
+    expect(form.find('select').length).to.equal(4);
     form.unmount();
   });
 
@@ -59,8 +59,8 @@ describe('VA Medical Records', () => {
     );
 
     form.find('form').simulate('submit');
-    // Required fields: Facility name and related disability
-    expect(form.find('.usa-input-error-message').length).to.equal(2);
+    // Required fields: Facility name, related disability, and treatment start date
+    expect(form.find('.usa-input-error-message').length).to.equal(3);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -82,6 +82,7 @@ describe('VA Medical Records', () => {
               },
               treatmentDateRange: {
                 from: '2001-05-XX',
+                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',
@@ -124,6 +125,7 @@ describe('VA Medical Records', () => {
               },
               treatmentDateRange: {
                 from: '2001-05-XX',
+                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',
@@ -166,6 +168,7 @@ describe('VA Medical Records', () => {
               },
               treatmentDateRange: {
                 from: '2010-04-XX',
+                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',
@@ -202,6 +205,7 @@ describe('VA Medical Records', () => {
               },
               treatmentDateRange: {
                 from: '2010-04-XX',
+                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',
@@ -238,6 +242,7 @@ describe('VA Medical Records', () => {
               },
               treatmentDateRange: {
                 from: '2010-04-XX',
+                to: '2015-09-XX',
               },
               treatmentCenterAddress: {
                 country: 'USA',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDate } from '../utils';
+import { formatDate, formatDateRange } from '../utils';
 
 const MONTH_YEAR = 'MMMM YYYY';
 
@@ -7,12 +7,17 @@ const MONTH_YEAR = 'MMMM YYYY';
 const replaceDay = date => date.replace('XX', '01');
 
 export const treatmentView = ({ formData }) => {
-  const { from } = formData.treatmentDateRange;
+  const { from, to } = formData.treatmentDateRange;
 
   const name = formData.treatmentCenterName || '';
   let treatmentPeriod = '';
-  if (from) {
-    treatmentPeriod = formatDate(replaceDay(from), MONTH_YEAR);
+  if (from && to) {
+    treatmentPeriod = formatDateRange(
+      { from: replaceDay(from), to: replaceDay(to) },
+      MONTH_YEAR,
+    );
+  } else if (from || to) {
+    treatmentPeriod = formatDate(replaceDay(from || to), MONTH_YEAR);
   }
 
   return (
