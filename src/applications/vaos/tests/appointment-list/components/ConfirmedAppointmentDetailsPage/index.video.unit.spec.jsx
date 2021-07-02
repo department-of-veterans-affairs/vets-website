@@ -1071,6 +1071,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         },
       };
       mockFacilitiesFetch('vha_442', [facility]);
+      mockFacilityFetch('vha_442', facility);
 
       const screen = renderWithStoreAndRouter(
         <AppointmentList featureHomepageRefresh />,

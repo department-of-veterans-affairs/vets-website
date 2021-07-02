@@ -10,6 +10,8 @@ import {
   START_TEXT,
   SAVED_SEPARATION_DATE,
   DISABILITY_526_V2_ROOT_URL,
+  PAGE_TITLE_SUFFIX,
+  DOCUMENT_TITLE_SUFFIX,
 } from '../../constants';
 
 describe('<IntroductionPage/>', () => {
@@ -40,10 +42,11 @@ describe('<IntroductionPage/>', () => {
   it('should render a form title', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} />);
     const title = wrapper.find('FormTitle');
+    const titleText = `${PAGE_TITLES.ALL} ${PAGE_TITLE_SUFFIX}`;
     expect(title.length).to.equal(1);
-    expect(title.props().title).to.equal(
-      `${PAGE_TITLES.ALL} with VA Form 21-526EZ`,
-    );
+    expect(title.props().title).to.equal(titleText);
+    expect(document.title).to.contain(titleText);
+    expect(document.title).to.contain(DOCUMENT_TITLE_SUFFIX);
     wrapper.unmount();
   });
 

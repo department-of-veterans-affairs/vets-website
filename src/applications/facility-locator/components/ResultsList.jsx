@@ -29,7 +29,10 @@ import UrgentCareResult from './search-results-items/UrgentCareResult';
 import EmergencyCareResult from './search-results-items/EmergencyCareResult';
 import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
-import { covidVaccineSchedulingFrontend } from '../utils/featureFlagSelectors';
+import {
+  covidVaccineSchedulingFrontend,
+  facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend,
+} from '../utils/featureFlagSelectors';
 
 const TIMEOUTS = new Set(['408', '504', '503']);
 
@@ -75,6 +78,9 @@ class ResultsList extends Component {
                 index={index}
                 showCovidVaccineSchedulingLinks={
                   this.props.showCovidVaccineSchedulingLinks
+                }
+                showCovidVaccineWalkInAvailabilityText={
+                  this.props.showCovidVaccineWalkInAvailabilityText
                 }
               />
             ) : (
@@ -270,6 +276,9 @@ function mapStateToProps(state) {
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
     showCovidVaccineSchedulingLinks: covidVaccineSchedulingFrontend(state),
+    showCovidVaccineWalkInAvailabilityText: facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend(
+      state,
+    ),
   };
 }
 

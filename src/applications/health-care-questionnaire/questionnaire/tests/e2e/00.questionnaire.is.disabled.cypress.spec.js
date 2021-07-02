@@ -7,7 +7,7 @@ describe('health care questionnaire -- ', () => {
     cy.login(basicUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
   });
-  it.skip('can not see feature -- feature disabled', () => {
+  it('can not see feature -- feature disabled', () => {
     const featureRoute =
       '/health-care/health-questionnaires/questionnaires/answer-questions?id=195bc02c0518870fc6b1e302cfc326b61';
     cy.visit(featureRoute);

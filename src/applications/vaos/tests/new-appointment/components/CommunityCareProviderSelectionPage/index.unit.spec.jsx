@@ -500,7 +500,14 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(await screen.findByText(/Choose a provider/i));
 
     // Choose Provider based on current location
-    userEvent.click(await screen.findByText(/use your current location$/i));
+    const currentLocButton = await screen.findByText(
+      /use your current location$/i,
+    );
+    await screen.findByText(/Displaying 1 to /i);
+    userEvent.click(currentLocButton);
+    await screen.findByText(
+      /You can choose a provider based on your current location/i,
+    );
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
