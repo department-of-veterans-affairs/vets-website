@@ -2,6 +2,19 @@ import React from 'react';
 import FormSignature from './FormSignature';
 import PropTypes from 'prop-types';
 
+/**
+ * Wraps the FormSignature in a gray box and handles the aria-labelledby
+ * attribute by default.
+ *
+ * Example usage in formConfig:
+ * presubmitInfo: {
+ *   CustomComponent: signatureProps => (
+ *     <Attestation heading="Statement of truth">
+ *       <p>I solemnly swear I am up to no good.</p>
+ *     </Attestation>
+ *   )
+ * }
+ */
 export const Attestation = ({ children, heading, ...props }) => {
   return (
     <div className="box vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7">

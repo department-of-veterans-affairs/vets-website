@@ -23,7 +23,7 @@ import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox
  *         signatureLabel="Secret code name"
  *       />
  *     <section/>
- *   );
+ *   ),
  * }
  */
 export const FormSignature = ({
