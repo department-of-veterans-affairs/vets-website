@@ -32,12 +32,12 @@ function LocationSearchResults({
   const map = useRef(null);
   const mapContainer = useRef(null);
   const markers = useRef([]);
-  const [mapState, setMapState] = useState({ changed: false, size: null });
+  const [mapState, setMapState] = useState({ changed: false, distance: null });
 
   const updateMapState = () => {
     const mapBounds = map.current.getBounds();
     setMapState({
-      size:
+      distance:
         mapBounds.getNorthEast().distanceTo(mapBounds.getCenter()) /
         MILE_METER_CONVERSION_RATE,
       changed: true,
@@ -117,7 +117,7 @@ function LocationSearchResults({
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    if (!map.current.getBounds().contains(lngLat)) return;
+    if (mapState.changed && !map.current.getBounds().contains(lngLat)) return;
 
     const letter = numberToLetter(index + 1);
 
@@ -178,7 +178,9 @@ function LocationSearchResults({
       if (!map.current || results.length === 0) {
         return;
       } // wait for map to initialize
-      const locationBounds = new mapboxgl.LngLatBounds();
+      const locationBounds = !mapState.changed
+        ? new mapboxgl.LngLatBounds()
+        : null;
       results.forEach((institution, index) => {
         addMapMarker(institution, index, locationBounds);
       });
@@ -186,7 +188,7 @@ function LocationSearchResults({
         if (streetAddress.searchString === location) {
           currentLocationMapMarker(locationBounds);
         }
-        setMapState({ changed: false, size: null });
+        setMapState({ changed: false, distance: null });
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
     },
@@ -219,7 +221,7 @@ function LocationSearchResults({
     dispatchFetchSearchByLocationCoords(
       search.query.location,
       map.current.getCenter().toArray(),
-      mapState.size,
+      mapState.distance,
       filters,
       preview.version,
     );
@@ -281,7 +283,7 @@ function LocationSearchResults({
             role="region"
           >
             {mapState.changed &&
-              mapState.size <= 150.0 && (
+              mapState.distance <= 150.0 && (
                 <div
                   id="search-area-control-container"
                   className={'mapboxgl-ctrl-top-center'}
