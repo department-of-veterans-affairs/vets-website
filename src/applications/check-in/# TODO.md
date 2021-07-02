@@ -1,6 +1,5 @@
 # TODO
 
-- [ ] footer
+- [ ] wrap in data checks on page refresh
 - [ ] unit tests
-- [ ] thunks?
 - [ ] e2e tests

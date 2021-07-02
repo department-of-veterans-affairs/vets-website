@@ -2,13 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
-
 import { goToNextPageWithToken, getTokenFromRouter } from '../utils/navigation';
 
 import { checkInUser } from '../api';
 
 import BackToHome from '../components/BackToHome';
+import Footer from '../components/Footer';
 
 const CheckIn = props => {
   const { router, appointment } = props;
@@ -30,7 +29,6 @@ const CheckIn = props => {
       goToNextPageWithToken(router, 'failed');
     }
   };
-  const contactNumber = '555-867-5309';
 
   const appointmentDate = moment(new Date(appointment.appointmentTime)).format(
     'dddd, MMMM D, YYYY',
@@ -74,13 +72,7 @@ const CheckIn = props => {
       >
         Check in now
       </button>
-      <footer className="row">
-        <h2 className="help-heading vads-u-font-size--lg">Need help?</h2>
-        <p>
-          Ask a staff member or call us at <Telephone contact={contactNumber} />
-          .
-        </p>
-      </footer>
+      <Footer />
       <BackToHome />
     </div>
   );
