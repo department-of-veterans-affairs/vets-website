@@ -80,6 +80,9 @@ import dependencyVerificationReducer from './dependency-verification/reducers/in
 
 import createCOEAccess from './coe-access/createCOEAccess';
 
+// Debt Resolution | Manage VA Debt Widgets
+import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
+
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
 
@@ -207,6 +210,8 @@ createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
 
 createSharableLink(store, widgetTypes.SHARABLE_LINK);
+
+createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 
 // homepage widgets
 if (location.pathname === '/') {
