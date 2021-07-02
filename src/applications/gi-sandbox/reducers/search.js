@@ -166,7 +166,6 @@ export default function(state = INITIAL_STATE, action) {
           latitude: action.payload.latitude || newState.query.latitude,
           longitude: action.payload.longitude || newState.query.longitude,
         },
-        location: { ...newState.location },
         inProgress: true,
       };
 
