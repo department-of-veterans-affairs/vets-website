@@ -3,9 +3,10 @@ const initialState = {};
 import { RECEIVED_APPOINTMENT_DETAILS, WAS_CHECKED_IN } from '../actions';
 
 const checkInReducer = (state = initialState, action) => {
-  switch (action.value) {
+  // console.log({ state, action });
+  switch (action.type) {
     case RECEIVED_APPOINTMENT_DETAILS:
-      return { ...state, appointment: action.data };
+      return { ...state, appointment: action.value };
     case WAS_CHECKED_IN:
       return { ...state, data: action.data };
 
