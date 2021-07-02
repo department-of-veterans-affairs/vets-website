@@ -71,7 +71,9 @@ describe('Direct Deposit', () => {
   describe('for CNP', () => {
     it('should allow bank info updates, show WIP warning modals, show "update successful" banners, etc.', () => {
       cy.axeCheck();
-      cy.findByRole('button', { name: /add.*bank info/i }).click({
+      cy.findByLabelText(
+        /Add your direct deposit for disability compensation and pension benefits bank information/i,
+      ).click({
         // using force: true since there are times when the click does not
         // register and the bank info form does not open
         force: true,

@@ -178,6 +178,7 @@ export const BankInfoCNP = ({
   const notSetUpContent = (
     <div className={classes.bankInfo}>
       <dl className="vads-u-margin-y--0 vads-u-line-height--6">
+        <dt className="sr-only" />
         <dd>Please add your bank information</dd>
       </dl>
       <button
