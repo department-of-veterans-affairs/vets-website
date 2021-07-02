@@ -77,7 +77,7 @@ function LocationSearchResults({
       mapInit.resize();
     });
 
-    mapInit.on('dragend', () => {
+    mapInit.on('dragstart', () => {
       updateMapState();
     });
 
