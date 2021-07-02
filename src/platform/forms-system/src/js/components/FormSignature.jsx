@@ -7,7 +7,10 @@ import TextInput from '@department-of-veterans-affairs/component-library/TextInp
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 /**
- * Description of how the component behaves here.
+ * The text input and checkbox which make up the form signature. It's
+ * recommended to use the Attestation component instead of FormSignature
+ * directly, as that one also includes the gray box and handles the
+ * aria-labelledby appropriately.
  *
  * Example usage in formConfig:
  * preSubmitInfo: {
