@@ -32,9 +32,20 @@ function LocationSearchResults({
   const map = useRef(null);
   const mapContainer = useRef(null);
   const markers = useRef([]);
-  const [mapChanged, setMapChanged] = useState(false);
-  const [mapBounds, setMapBounds] = useState(null);
-  const [mapSize, setMapSize] = useState(null);
+  // const [mapChanged, setMapChanged] = useState(false);
+  // const [mapBounds, setMapBounds] = useState(null);
+  // const [mapSize, setMapSize] = useState(null);
+  const [mapState, setMapState] = useState({ changed: false, size: null });
+
+  const updateMapState = () => {
+    const mapBounds = map.current.getBounds();
+    setMapState({
+      size:
+        mapBounds.getNorthEast().distanceTo(mapBounds.getCenter()) /
+        MILE_METER_CONVERSION_RATE,
+      changed: true,
+    });
+  };
 
   const setupMap = () => {
     if (map.current) return; // initialize map only once
@@ -70,7 +81,7 @@ function LocationSearchResults({
     });
 
     mapInit.on('dragend', () => {
-      setMapBounds(map.current.getBounds());
+      updateMapState();
     });
 
     mapInit.on('zoomend', e => {
@@ -81,7 +92,7 @@ function LocationSearchResults({
         return;
       }
 
-      setMapBounds(map.current.getBounds());
+      updateMapState();
     });
 
     mapInit.on('dblclick', e => {
@@ -93,7 +104,7 @@ function LocationSearchResults({
         },
         { originalEvent: e.originalEvent },
       );
-      setMapBounds(map.current.getBounds());
+      updateMapState();
     });
 
     map.current = mapInit;
@@ -178,24 +189,11 @@ function LocationSearchResults({
         if (streetAddress.searchString === location) {
           currentLocationMapMarker(locationBounds);
         }
-        setMapChanged(false);
+        setMapState({ changed: false, size: null });
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
     },
     [results],
-  );
-
-  useEffect(
-    () => {
-      if (mapBounds) {
-        setMapChanged(true);
-        setMapSize(
-          mapBounds.getNorthEast().distanceTo(mapBounds.getCenter()) /
-            MILE_METER_CONVERSION_RATE,
-        );
-      }
-    },
-    [mapBounds],
   );
 
   const resultCards = results.map((institution, index) => {
@@ -224,7 +222,7 @@ function LocationSearchResults({
     dispatchFetchSearchByLocationCoords(
       search.query.location,
       map.current.getCenter().toArray(),
-      mapSize,
+      mapState.size,
       filters,
       preview.version,
     );
@@ -285,8 +283,8 @@ function LocationSearchResults({
             className={'desktop-map-container'}
             role="region"
           >
-            {mapChanged &&
-              mapSize <= 150.0 && (
+            {mapState.changed &&
+              mapState.size <= 150.0 && (
                 <div
                   id="search-area-control-container"
                   className={'mapboxgl-ctrl-top-center'}
