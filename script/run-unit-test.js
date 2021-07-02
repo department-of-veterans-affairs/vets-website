@@ -54,7 +54,7 @@ const configFile = 'config/mocha.json';
 runCommand(
   `LOG_LEVEL=${options[
     'log-level'
-  ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${options.path
+  ].toLowerCase()} CHOMA_SEED=n98ZFlTaGc ${testRunner} --max-old-space-size=4096 --config ${configFile} --recursive ${options.path
     .map(p => `'${p}'`)
     .join(' ')}`,
 );
