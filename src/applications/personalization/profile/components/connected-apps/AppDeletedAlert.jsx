@@ -16,7 +16,7 @@ export const AppDeletedAlert = props => {
       href={privacyUrl}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`${title} privacy policy`}
+      aria-label={`Review the ${title} privacy policy`}
     >
       privacy policy
     </a>
