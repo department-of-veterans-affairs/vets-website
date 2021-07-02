@@ -110,7 +110,7 @@ export class ConnectedApps extends Component {
 
         {showHasNoConnectedApps && (
           <Link
-            className="usa-button vads-u-margin-bottom--3"
+            className="vads-u-margin-bottom--3"
             href="/resources/find-apps-you-can-use"
             onClick={() =>
               recordEvent({
