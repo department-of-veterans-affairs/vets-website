@@ -522,6 +522,8 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     userEvent.click(
       await screen.findByRole('button', { name: /choose provider/i }),
     );
+    /* eslint-disable no-console */
+    console.log('retry');
 
     expect(screen.baseElement).to.contain.text(
       'OH, JANICE7700 LITTLE RIVER TPKE STE 102ANNANDALE, VA 22003-24007019.4 miles',
