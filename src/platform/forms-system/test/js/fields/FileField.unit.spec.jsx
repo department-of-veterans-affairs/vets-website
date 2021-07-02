@@ -335,7 +335,11 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('.va-growable-background').text()).to.contain('Bad error');
+    // Prepend 'Error' for screenreader
+    expect(tree.find('.va-growable-background').text()).to.contain(
+      'Error Bad error',
+    );
+    expect(tree.find('span[role="alert"]').exists()).to.be.true;
     tree.unmount();
   });
 
