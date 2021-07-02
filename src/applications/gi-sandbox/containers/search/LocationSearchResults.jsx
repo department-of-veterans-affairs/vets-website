@@ -32,9 +32,6 @@ function LocationSearchResults({
   const map = useRef(null);
   const mapContainer = useRef(null);
   const markers = useRef([]);
-  // const [mapChanged, setMapChanged] = useState(false);
-  // const [mapBounds, setMapBounds] = useState(null);
-  // const [mapSize, setMapSize] = useState(null);
   const [mapState, setMapState] = useState({ changed: false, size: null });
 
   const updateMapState = () => {
