@@ -22,7 +22,7 @@ const CheckIn = props => {
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
-      <h1>Your appointment</h1>
+      <h1 tabIndex="-1">Your appointment</h1>
       <dl className="appointment-summary">
         <dd
           className="appointment-details vads-u-font-weight--bold vads-u-font-family--serif"

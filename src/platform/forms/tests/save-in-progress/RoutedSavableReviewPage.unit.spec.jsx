@@ -6,10 +6,6 @@ import sinon from 'sinon';
 import { RoutedSavableReviewPage } from '../../save-in-progress/RoutedSavableReviewPage';
 
 describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
-  const location = {
-    pathname: '/testing/0',
-  };
-
   it('should render save links and downtime component', () => {
     const setData = sinon.spy();
     const onSubmit = sinon.spy();
@@ -18,18 +14,6 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     };
     const route = {
       path: 'testPage',
-      pageList: [
-        {
-          path: 'previous-page',
-        },
-        {
-          path: 'testing',
-          pageKey: 'testPage',
-        },
-        {
-          path: 'next-page',
-        },
-      ],
       formConfig: {
         chapters: {
           chapter1: {
@@ -83,14 +67,11 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
         setEditMode={f => f}
         setPrivacyAgreement={f => f}
         formConfig={route.formConfig}
-        pageList={route.pageList}
         path={route.path}
-        location={location}
       />,
     );
 
     expect(tree.find('SaveStatus').exists()).to.be.true;
-    expect(tree.find('SaveFormLink').exists()).to.be.true;
     expect(tree.find('Connect(DowntimeNotification)').exists()).to.be.true;
     expect(tree.find('withRouter(Connect(SubmitController))').exists()).to.be
       .true;
@@ -112,15 +93,6 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
         },
       },
     };
-
-    const pageList = [
-      {
-        path: 'previous-page',
-      },
-      {
-        path: 'next-page',
-      },
-    ];
 
     const form = {
       submission: {
@@ -147,9 +119,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
         form={form}
         user={user}
         formConfig={formConfig}
-        pageList={pageList}
         setPrivacyAgreement={f => f}
-        location={location}
       />,
     );
 
@@ -170,18 +140,6 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
     };
     const route = {
       path: 'testPage',
-      pageList: [
-        {
-          path: 'previous-page',
-        },
-        {
-          path: 'testing',
-          pageKey: 'testPage',
-        },
-        {
-          path: 'next-page',
-        },
-      ],
       formConfig: {
         downtime: {},
         chapters: {
@@ -238,9 +196,7 @@ describe('Schemaform save in progress: RoutedSavableReviewPage', () => {
           setEditMode={f => f}
           setPrivacyAgreement={f => f}
           formConfig={route.formConfig}
-          pageList={route.pageList}
           path={route.path}
-          location={location}
         />,
       );
     });

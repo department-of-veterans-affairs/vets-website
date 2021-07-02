@@ -24,6 +24,7 @@ export default Object.freeze({
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
+  facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend: 'facilityLocatorCovidVaccineWalkInAvailabilityTextFrontend',
   facilityLocatorLighthouseCovidVaccineQuery: 'facilityLocatorLighthouseCovidVaccineQuery',
   facilityLocatorPredictiveLocationSearch: 'facilityLocatorPredictiveLocationSearch',
   facilityLocatorRailsEngine: 'facilityLocatorRailsEngine',

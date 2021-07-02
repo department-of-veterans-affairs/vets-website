@@ -5,7 +5,7 @@ const Confirmation = () => {
   const contactNumber = '555-867-5309';
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
-      <h1>Thank you for checking in</h1>
+      <h1 tabIndex="-1">Thank you for checking in</h1>
 
       <va-alert status="success">
         <h3 slot="headline">We'll let you know when we're ready for you.</h3>
