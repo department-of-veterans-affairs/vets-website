@@ -13,15 +13,16 @@ const GetFormHelp = () => {
         <Telephone
           contact={CONTACTS[711]}
           pattern={PATTERNS['3_DIGIT']}
-          className="vads-u-margin-x--0p5"
+          className="vads-u-margin-left--0p5"
         />
         )
       </p>
       <p>
         If you need help to gather your information or fill out your form,
-        <a href="https://www.va.gov/vso/" className="vads-u-margin-x--0p5">
-          contact a local Veterans Service Organization (VSO).
+        <a href="https://www.va.gov/vso/" className="vads-u-margin-left--0p5">
+          contact a local Veterans Service Organization (VSO)
         </a>
+        .
       </p>
       <p>
         If you have questions about your VA debt, call our Debt Management
