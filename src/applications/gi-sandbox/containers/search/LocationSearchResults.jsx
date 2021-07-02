@@ -7,7 +7,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import SearchResultCard from '../../containers/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
-import { MapboxInit } from '../../constants';
+import { MapboxInit, MAX_SEARCH_AREA_DISTANCE } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import RefineYourSearch from '../../containers/RefineYourSearch';
 import { numberToLetter, createId } from '../../utils/helpers';
@@ -227,6 +227,11 @@ function LocationSearchResults({
     );
   };
 
+  const areaSearchWithinBounds = mapState.distance <= MAX_SEARCH_AREA_DISTANCE;
+  const areaSearchLabel = areaSearchWithinBounds
+    ? 'Search this area of the map'
+    : 'Zoom in to search';
+
   return (
     <>
       <div className={'location-search vads-u-padding-top--1'}>
@@ -282,21 +287,21 @@ function LocationSearchResults({
             className={'desktop-map-container'}
             role="region"
           >
-            {mapState.changed &&
-              mapState.distance <= 150.0 && (
-                <div
-                  id="search-area-control-container"
-                  className={'mapboxgl-ctrl-top-center'}
+            {mapState.changed && (
+              <div
+                id="search-area-control-container"
+                className={'mapboxgl-ctrl-top-center'}
+              >
+                <button
+                  id="search-area-control"
+                  className={'usa-button'}
+                  onClick={searchArea}
+                  disabled={!areaSearchWithinBounds}
                 >
-                  <button
-                    id="search-area-control"
-                    className={'usa-button'}
-                    onClick={searchArea}
-                  >
-                    Search this area of the map
-                  </button>
-                </div>
-              )}
+                  {areaSearchLabel}
+                </button>
+              </div>
+            )}
           </map>
         </div>
       </div>
