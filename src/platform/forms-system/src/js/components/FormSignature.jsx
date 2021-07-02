@@ -34,102 +34,94 @@ export const FormSignature = ({
   validations,
   onSectionComplete,
   ariaLabelledBy,
-}) =>
-  // {
-  //   formData,
-  //   onSectionComplete,
-  //   setFormData,
-  //   showError,
-  //   submission,
-  // },
-  {
-    // Input states
-    const [signature, setSignature] = useState({ value: '', dirty: false });
-    const [checked, setChecked] = useState(false);
+}) => {
+  // Input states
+  const [signature, setSignature] = useState({ value: '', dirty: false });
+  const [checked, setChecked] = useState(false);
 
-    // Validation states
-    const [signatureError, setSignatureError] = useState(null);
-    const [checkboxError, setCheckboxError] = useState(null);
+  // Validation states
+  const [signatureError, setSignatureError] = useState(null);
+  const [checkboxError, setCheckboxError] = useState(null);
 
-    // Section complete state (so callback isn't called too many times)
-    const [sectionComplete, setSectionComplete] = useState(false);
+  // Section complete state (so callback isn't called too many times)
+  const [sectionComplete, setSectionComplete] = useState(false);
 
-    // Signature input validation
-    useEffect(
-      () => {
-        // Required validation always comes first
-        if (required)
-          validations.unshift(
-            signatureValue =>
-              !signatureValue ? 'Please enter your name' : undefined,
-          );
-
-        // First validation error in the array gets displayed
-        setSignatureError(
-          validations.reduce(
-            (errorMessage, validator) =>
-              errorMessage || validator(signature.value, formData),
-            null,
-          ),
+  // Signature input validation
+  useEffect(
+    () => {
+      // Required validation always comes first
+      if (required)
+        validations.unshift(
+          signatureValue =>
+            !signatureValue ? 'Please enter your name' : undefined,
         );
-      },
-      [required, signature, formData, validations],
-    );
 
-    // Checkbox validation
-    useEffect(
-      () => {
-        setCheckboxError(
-          required && !checked
-            ? 'Please check the box to certify the information is correct'
-            : null,
-        );
-      },
-      [required, checked],
-    );
+      // First validation error in the array gets displayed
+      setSignatureError(
+        validations.reduce(
+          (errorMessage, validator) =>
+            errorMessage || validator(signature.value, formData),
+          null,
+        ),
+      );
+    },
+    [required, signature, formData, validations],
+  );
 
-    // Update signature in formData
-    useEffect(
-      () => {
-        setFormData(set(signaturePath, signature.value, formData));
-      },
-      // Don't re-execute when formData changes because this changes formData
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [signature, signaturePath],
-    );
+  // Checkbox validation
+  useEffect(
+    () => {
+      setCheckboxError(
+        required && !checked
+          ? 'Please check the box to certify the information is correct'
+          : null,
+      );
+    },
+    [required, checked],
+  );
 
-    // Call onCompleteSection with true or false when switching between valid
-    // and invalid states respectively
-    useEffect(
-      () => {
-        const isComplete = checked && !signatureError;
-        if (sectionComplete !== isComplete) {
-          setSectionComplete(isComplete);
-          onSectionComplete(isComplete);
-        }
-      },
-      [checked, signatureError, sectionComplete, onSectionComplete],
-    );
+  // Update signature in formData
+  useEffect(
+    () => {
+      setFormData(set(signaturePath, signature.value, formData));
+    },
+    // Don't re-execute when formData changes because this changes formData
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [signature, signaturePath],
+  );
 
-    return (
-      <>
-        <TextInput
-          label={signatureLabel}
-          field={signature}
-          onValueChange={setSignature}
-          required={required}
-          errorMessage={(showError || signature.dirty) && signatureError}
-        />
-        <Checkbox
-          aria-labelledby={ariaLabelledBy}
-          label={checkboxLabel}
-          required={required}
-          onValueChange={setChecked}
-          errorMessage={showError && checkboxError}
-        />
-      </>
-    );
-  };
+  // Call onCompleteSection with true or false when switching between valid
+  // and invalid states respectively
+  useEffect(
+    () => {
+      const isComplete = checked && !signatureError;
+      if (sectionComplete !== isComplete) {
+        setSectionComplete(isComplete);
+        onSectionComplete(isComplete);
+      }
+    },
+    [checked, signatureError, sectionComplete, onSectionComplete],
+  );
+
+  return (
+    <>
+      <TextInput
+        label={signatureLabel}
+        field={signature}
+        onValueChange={setSignature}
+        required={required}
+        errorMessage={(showError || signature.dirty) && signatureError}
+      />
+      <Checkbox
+        aria-labelledby={ariaLabelledBy}
+        label={checkboxLabel}
+        required={required}
+        onValueChange={setChecked}
+        errorMessage={showError && checkboxError}
+      />
+    </>
+  );
+};
 
 FormSignature.propTypes = {
   formData: PropTypes.object.isRequired,
