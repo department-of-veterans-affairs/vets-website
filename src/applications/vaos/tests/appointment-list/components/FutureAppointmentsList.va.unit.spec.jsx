@@ -392,12 +392,7 @@ describe('VAOS <FutureAppointmentsList> VA appointments', () => {
       },
     );
 
-    await findByText(
-      new RegExp(
-        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm'),
-        'i',
-      ),
-    );
+    await findByText(/Fort Collins VA Clinic/i);
 
     const ics = decodeURIComponent(
       getByRole('link', {
@@ -503,12 +498,7 @@ describe('VAOS <FutureAppointmentsList> VA appointments', () => {
       },
     );
 
-    await findByText(
-      new RegExp(
-        startDate.tz('America/Denver').format('dddd, MMMM D, YYYY [at] h:mm'),
-        'i',
-      ),
-    );
+    await findByText(/Cheyenne VA Medical Center/i);
 
     const ics = decodeURIComponent(
       getByRole('link', {

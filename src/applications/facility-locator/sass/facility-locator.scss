@@ -611,3 +611,8 @@ canvas.mapboxgl-canvas:focus {
   outline-offset: 2px !important;
   transition: none !important;
 }
+
+.search-result-emergency-care-subheader {
+  background: $color-aqua-lightest;
+  padding: 20px
+}

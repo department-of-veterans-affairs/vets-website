@@ -136,29 +136,28 @@ export default function ContactFacilitiesPage() {
         ))}
       </ul>
       {!canUseVaccineFlow && (
-        <div className="vads-u-margin-bottom--3">
-          <InfoAlert
-            backgroundOnly
-            headline="Find a vaccine walk-in clinic near you"
-            status="info"
+        <InfoAlert
+          backgroundOnly
+          className="vads-u-margin-bottom--3"
+          headline="Find a vaccine walk-in clinic near you"
+          status="info"
+        >
+          <p>
+            You can go to a VA facility's vaccine clinic during walk-in hours to
+            get the COVID-19 vaccine. You don't need an appointment, but be sure
+            to check the facility's walk-in hours before you go.
+          </p>
+          <a
+            href="/find-locations/?facilityType=health&serviceType=Covid19Vaccine"
+            onClick={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-COVID-19-vaccines-at-VA-link-clicked`,
+              });
+            }}
           >
-            <p>
-              You can go to a VA facility's vaccine clinic during walk-in hours
-              to get the COVID-19 vaccine. You don't need an appointment, but be
-              sure to check the facility's walk-in hours before you go.
-            </p>
-            <a
-              href="/find-locations/?facilityType=health&serviceType=Covid19Vaccine"
-              onClick={() => {
-                recordEvent({
-                  event: `${GA_PREFIX}-COVID-19-vaccines-at-VA-link-clicked`,
-                });
-              }}
-            >
-              Find VA facilities near you that offer COVID-19 vaccines
-            </a>
-          </InfoAlert>
-        </div>
+            Find VA facilities near you that offer COVID-19 vaccines
+          </a>
+        </InfoAlert>
       )}
       <ProgressButton
         onButtonClick={() =>

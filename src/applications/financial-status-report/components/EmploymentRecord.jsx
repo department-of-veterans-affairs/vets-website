@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import { setData } from 'platform/forms-system/src/js/actions';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import MonthYear from '@department-of-veterans-affairs/component-library/MonthYear';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
-import classNames from 'classnames';
 
 const defaultRecord = [
   {
@@ -25,7 +25,6 @@ const EmploymentRecord = ({
   setFormData,
   employmentHistory,
   formContext,
-  errorSchema,
 }) => {
   const index = Number(idSchema.$id.slice(-1));
   const { userType, userArray } = uiSchema['ui:options'];
@@ -34,9 +33,12 @@ const EmploymentRecord = ({
   const { from, to } = employment ? employment[index] : [];
   const { month: fromMonth, year: fromYear } = parseISODate(from);
   const { month: toMonth, year: toYear } = parseISODate(to);
-  const employerError = errorSchema.employerName?.__errors[0];
-  const typeError = errorSchema.type?.__errors[0];
   const submitted = formContext.submitted;
+
+  const typeError = 'Please enter the type of work.';
+  const startError = 'Please enter your employment start date.';
+  const endError = 'Please enter your employment end date.';
+  const employerError = 'Please enter your employer name.';
 
   const updateFormData = updated => {
     setFormData({
@@ -80,7 +82,7 @@ const EmploymentRecord = ({
 
   return (
     <>
-      <div className="input-size-4">
+      <div className="input-size-5">
         <Select
           label="Type of work"
           name="type"
@@ -90,7 +92,7 @@ const EmploymentRecord = ({
             value: employment[index].type || '',
           }}
           required
-          errorMessage={submitted && typeError}
+          errorMessage={submitted && !employment[index].type && typeError}
         />
       </div>
       <div className="vads-u-margin-top--3">
@@ -103,6 +105,7 @@ const EmploymentRecord = ({
           name="from"
           onValueChange={value => handleDateChange('from', value)}
           required
+          requiredMessage={submitted && startError}
         />
       </div>
       <div
@@ -125,6 +128,7 @@ const EmploymentRecord = ({
           name="to"
           onValueChange={value => handleDateChange('to', value)}
           required
+          requiredMessage={submitted && endError}
         />
       </div>
       <Checkbox
@@ -141,7 +145,9 @@ const EmploymentRecord = ({
           name="employerName"
           onValueChange={({ value }) => handleChange('employerName', value)}
           required
-          errorMessage={submitted && employerError}
+          errorMessage={
+            submitted && !employment[index].employerName && employerError
+          }
         />
       </div>
     </>

@@ -16,7 +16,13 @@ import ITFWrapper from './containers/ITFWrapper';
 import { MissingServices, MissingId } from './containers/MissingServices';
 
 import { MVI_ADD_SUCCEEDED } from './actions';
-import { WIZARD_STATUS, PDF_SIZE_FEATURE, SHOW_8940_4192 } from './constants';
+import {
+  WIZARD_STATUS,
+  PDF_SIZE_FEATURE,
+  SHOW_8940_4192,
+  PAGE_TITLE_SUFFIX,
+  DOCUMENT_TITLE_SUFFIX,
+} from './constants';
 import {
   show526Wizard,
   isBDD,
@@ -48,6 +54,8 @@ export const hasRequiredServices = user =>
 export const hasRequiredId = user =>
   idRequired.some(service => user.profile.services.includes(service));
 
+const isIntroPage = () => window.location.pathname.endsWith('/introduction');
+
 export const Form526Entry = ({
   location,
   user,
@@ -67,8 +75,10 @@ export const Form526Entry = ({
       form.form === formConfig.formId && !isExpired(form.metaData?.expiresAt),
   );
 
-  const title = getPageTitle(isBDDForm);
-  document.title = title;
+  const title = `${getPageTitle(isBDDForm)}${
+    isIntroPage() ? ` ${PAGE_TITLE_SUFFIX}` : ''
+  }`;
+  document.title = `${title}${DOCUMENT_TITLE_SUFFIX}`;
 
   // start focus on breadcrumb nav when wizard is visible
   const setPageFocus = focusTarget => {
@@ -77,10 +87,7 @@ export const Form526Entry = ({
   };
 
   useEffect(() => {
-    if (
-      wizardStatus === WIZARD_STATUS_COMPLETE &&
-      window.location.pathname.endsWith('/introduction')
-    ) {
+    if (wizardStatus === WIZARD_STATUS_COMPLETE && isIntroPage()) {
       setPageFocus('h1');
       // save feature flag for 8940/4192
       sessionStorage.setItem(SHOW_8940_4192, showSubforms);
@@ -94,7 +101,7 @@ export const Form526Entry = ({
   if (typeof showWizard === 'undefined') {
     return wrapWithBreadcrumb(
       title,
-      <h1>
+      <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
         <LoadingIndicator message="Please wait while we load the application for you." />
       </h1>,
     );

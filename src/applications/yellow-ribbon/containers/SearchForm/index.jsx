@@ -152,100 +152,102 @@ export class SearchForm extends Component {
         name="yellow-ribbon-form"
         onSubmit={onSubmitHandler}
       >
-        {/* Name Field */}
-        <label
-          htmlFor="yr-search-name"
-          className="vads-u-margin-top--1 vads-u-margin--0"
-        >
-          Enter full school name
-        </label>
-        <div className="vads-u-flex--1">
-          <input
-            aria-label="Name of institution"
-            className="usa-input"
-            id="yr-search-name"
-            name="yr-search-name"
-            onChange={onReactStateChange('name')}
-            type="text"
-            value={name}
-          />
-        </div>
-        <AdditionalInfo
-          triggerText={TOOL_TIP_LABEL}
-          onClick={onClickToolTipHandler}
-          disableAnalytics
-        >
-          <p>{TOOL_TIP_CONTENT}</p>
-        </AdditionalInfo>
-        {/* State Field */}
-        <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
-          State or territory
-        </label>
-        <div className="vads-u-flex--1">
-          <select
-            aria-label="State of institution"
-            id="yr-search-state"
-            name="yr-search-state"
-            onChange={onReactStateChange('state')}
-            value={state}
+        <fieldset>
+          <legend className="vads-u-font-family--serif">Search criteria</legend>
+          {/* Name Field */}
+          <label
+            htmlFor="yr-search-name"
+            className="vads-u-margin-top--1 vads-u-margin--0"
           >
-            <option value="">- Select -</option>
-            {STATES.USA.map(provincialState => (
-              <option
-                key={provincialState?.value}
-                value={provincialState?.value}
-              >
-                {provincialState?.label}
-              </option>
-            ))}
-          </select>
-        </div>
+            Enter full school name
+          </label>
+          <div className="vads-u-flex--1">
+            <input
+              className="usa-input"
+              id="yr-search-name"
+              name="yr-search-name"
+              onChange={onReactStateChange('name')}
+              type="text"
+              value={name}
+            />
+          </div>
+          <AdditionalInfo
+            triggerText={TOOL_TIP_LABEL}
+            onClick={onClickToolTipHandler}
+            disableAnalytics
+          >
+            <p>{TOOL_TIP_CONTENT}</p>
+          </AdditionalInfo>
+          {/* State Field */}
+          <label htmlFor="yr-search-state" className="vads-u-margin-top--3">
+            State or territory
+          </label>
+          <div className="vads-u-flex--1">
+            <select
+              id="yr-search-state"
+              name="yr-search-state"
+              onChange={onReactStateChange('state')}
+              value={state}
+            >
+              <option value="">- Select -</option>
+              {STATES.USA.map(provincialState => (
+                <option
+                  key={provincialState?.value}
+                  value={provincialState?.value}
+                >
+                  {provincialState?.label}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* City Field */}
-        <label
-          htmlFor="yr-search-city"
-          className="vads-u-margin-top--3 vads-u-margin--0"
-        >
-          City
-        </label>
-        <div className="vads-u-flex--1">
-          <input
-            aria-label="City of institution"
-            className="usa-input"
-            id="yr-search-city"
-            name="yr-search-city"
-            onChange={onReactStateChange('city')}
-            type="text"
-            value={city}
-          />
-        </div>
+          {/* City Field */}
+          <label
+            htmlFor="yr-search-city"
+            className="vads-u-margin-top--3 vads-u-margin--0"
+          >
+            City
+          </label>
+          <div className="vads-u-flex--1">
+            <input
+              className="usa-input"
+              id="yr-search-city"
+              name="yr-search-city"
+              onChange={onReactStateChange('city')}
+              type="text"
+              value={city}
+            />
+          </div>
 
-        <div>
-          {/* Unlimited Contribution Amount */}
-          <Checkbox
-            checked={contributionAmount === 'unlimited'}
-            label="Only show schools that provide maximum funding (tuition that's left after your Post-9/11 GI Bill)"
-            onValueChange={onCheckboxChange('contributionAmount')}
-            required={false}
-          />
+          <div>
+            {/* Unlimited Contribution Amount */}
+            <Checkbox
+              checked={contributionAmount === 'unlimited'}
+              name="contributionAmount"
+              label="Only show schools that provide maximum funding (tuition that's left after your Post-9/11 GI Bill)"
+              onValueChange={onCheckboxChange('contributionAmount')}
+              required={false}
+            />
 
-          {/* Unlimited Number of Students */}
-          <Checkbox
-            checked={numberOfStudents === 'unlimited'}
-            label="Only show schools that provide funding to all eligible students"
-            onValueChange={onCheckboxChange('numberOfStudents')}
-            required={false}
-          />
-        </div>
+            {/* Unlimited Number of Students */}
+            <Checkbox
+              name="numberOfStudents"
+              checked={numberOfStudents === 'unlimited'}
+              label="Only show schools that provide funding to all eligible students"
+              onValueChange={onCheckboxChange('numberOfStudents')}
+              required={false}
+            />
+          </div>
 
-        {/* Submit Button */}
-        <button
-          className="usa-button-primary va-button-primary vads-u-width--auto vads-u-padding-y--1p5 vads-u-margin-top--2"
-          disabled={fetching}
-          type="submit"
-        >
-          Search
-        </button>
+          {/* Submit Button */}
+          <button
+            className="usa-button-primary va-button-primary vads-u-width--auto vads-u-padding-y--1p5 vads-u-margin-top--2"
+            disabled={fetching}
+            type="submit"
+          >
+            Search
+          </button>
+        </fieldset>
       </form>
     );
   }

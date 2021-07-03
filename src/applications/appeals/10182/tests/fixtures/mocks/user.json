@@ -55,7 +55,9 @@
       "inProgressForms": [],
       "prefillsAvailable": [],
       "vet360ContactInformation": {
-        "email": null,
+        "email": {
+          "emailAddress": "test@user.com"
+        },
         "residentialAddress": {},
         "mailingAddress": {
           "addressLine1": "1200 Park Ave",

@@ -24,7 +24,9 @@ export function getVAOSRequestMock() {
       cancellationReason: null,
       clinic: null,
       comment: null,
-      contact: {},
+      contact: {
+        telecom: [],
+      },
       description: null,
       end: null,
       id: null,

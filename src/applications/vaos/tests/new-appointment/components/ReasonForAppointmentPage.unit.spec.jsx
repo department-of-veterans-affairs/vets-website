@@ -45,7 +45,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect((await screen.findAllByRole('radio')).length).to.equal(4);
 
     expect(screen.baseElement).to.contain.text(
-      'Please let us know why you’re making this appointment',
+      'Let us know why you’re making this appointment',
     );
 
     expect(
@@ -155,9 +155,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
-    );
+    expect(await screen.findByText('Please provide a response')).to.be.ok;
   });
 
   it('should continue to the correct page based on type choice for VA medical request', async () => {

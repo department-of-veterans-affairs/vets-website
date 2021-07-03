@@ -146,7 +146,9 @@ const PreSubmitSignature = ({
           checked={certifyChecked}
           onValueChange={value => setCertifyChecked(value)}
           label="By checking this box, I certify that the information in this request is true and correct to the best of my knowledge and belief."
-          errorMessage={certifyCheckboxError && 'Must certify by checking box'}
+          errorMessage={
+            certifyCheckboxError && 'You must certify by checking the box.'
+          }
           required
         />
       </article>
@@ -163,7 +165,9 @@ const PreSubmitSignature = ({
         checked={privacyChecked}
         onValueChange={value => setPrivacyChecked(value)}
         label={privacyLabel}
-        errorMessage={privacyCheckboxError && 'Must accept by checking box'}
+        errorMessage={
+          privacyCheckboxError && 'You must accept by checking the box.'
+        }
         required
       />
     </>
