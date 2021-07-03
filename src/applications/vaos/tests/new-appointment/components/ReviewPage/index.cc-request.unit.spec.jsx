@@ -149,7 +149,7 @@ describe('VAOS <ReviewPage> CC request', () => {
     expect(screen.baseElement).to.contain.text('Community medical center');
     expect(screen.baseElement).to.contain.text('Jane Doe');
     expect(screen.baseElement).to.contain.text('123 big sky st');
-    expect(screen.baseElement).to.contain.text('Bozeman, MT 59715');
+    expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT 59715');
 
     expect(additionalHeading).to.contain.text('Additional details');
     expect(screen.baseElement).to.contain.text('I need an appt');
@@ -465,7 +465,9 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     expect(providerHeading).to.contain.text('Preferred provider');
     expect(screen.baseElement).to.contain.text('CAMPBELL, WILLIAM');
     expect(screen.baseElement).to.contain.text('1012 14TH ST NW STE 700');
-    expect(screen.baseElement).to.contain.text('WASHINGTON, DC 20005-3477');
+    expect(screen.baseElement).to.contain.text(
+      'WASHINGTON, District of ColumbiaDC 20005-3477',
+    );
 
     expect(additionalHeading).to.contain.text('Additional details');
     expect(screen.baseElement).to.contain.text('I need an appt');

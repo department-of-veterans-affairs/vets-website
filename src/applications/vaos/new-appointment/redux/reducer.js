@@ -75,7 +75,7 @@ import { getClinicId } from '../../services/healthcare-service';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
   request:
-    'Please give us more detail about why you’re making this appointment. This will help us schedule your appointment with the right provider or facility. Please also let us know if you have any scheduling issues, like you can’t have an appointment on a certain day or time.',
+    'Please provide any additional details you’d like to share with your provider about this appointment.',
   direct:
     'Please provide any additional details you’d like to share with your provider about this appointment.',
 };
@@ -422,7 +422,7 @@ export default function formReducer(state = initialState, action) {
       }
 
       if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
-        facilities = facilities.sort((a, b) => a.name - b.name);
+        facilities = facilities.sort((a, b) => a.name.localeCompare(b.name));
       } else {
         facilities = facilities.sort(
           (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],

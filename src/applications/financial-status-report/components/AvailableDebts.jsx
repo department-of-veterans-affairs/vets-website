@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchDebts } from '../actions';
-import DebtCard from './DebtCard';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import ErrorMessage from '../components/ErrorMessage';
+import { fetchDebts } from '../actions';
+import DebtCard from './DebtCard';
 
 const NoDebts = () => (
   <div className="usa-alert background-color-only">
@@ -15,8 +16,8 @@ const NoDebts = () => (
     </div>
     <p>
       Our records show you don’t have any debt related to VA benefits. If you
-      think this is an error, please contact the Debt Management Center at{' '}
-      <Telephone contact={CONTACTS.DMC} />
+      think this is an error, please contact the Debt Management Center at
+      <Telephone className="vads-u-margin-x--0p5" contact={CONTACTS.DMC} />
     </p>
   </div>
 );
@@ -54,13 +55,18 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
       <h4>What if my debt isn’t listed here?</h4>
       <p className="vads-u-margin-top--2">
         If you received a letter about a VA benefit debt that isn’t listed here,
-        call us at <Telephone contact="8008270648" /> (or{' '}
-        <Telephone contact="16127136415" /> from overseas). We’re here Monday
-        through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        call us at
+        <Telephone contact="8008270648" className="vads-u-margin-x--0p5" /> (or
+        <Telephone contact="16127136415" className="vads-u-margin-x--0p5" />
+        from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
+        ET.
       </p>
       <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
-        If you need help with a VA copay debt,{' '}
-        <a href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/">
+        If you need help with a VA copay debt,
+        <a
+          href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/"
+          className="vads-u-margin-x--0p5"
+        >
           learn how to request financial hardship assistance.
         </a>
       </p>

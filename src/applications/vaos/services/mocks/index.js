@@ -211,6 +211,8 @@ const responses = {
   'GET /vaos/v2/appointments': (req, res) => {
     if (req.query.statuses?.includes('proposed')) {
       return res.json(requestsV2);
+    } else if (req.query.statuses?.includes('booked')) {
+      return res.json(require('./v2/confirmed.json'));
     }
 
     return res.json({ data: [] });
@@ -309,6 +311,7 @@ const responses = {
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
+        { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },

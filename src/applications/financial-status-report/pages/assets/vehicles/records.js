@@ -1,15 +1,14 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
-import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import { validateCurrency } from '../../../utils/validations';
 import Typeahead from '../../../components/Typeahead';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import {
   formatOptions,
   vehicleTypes,
 } from '../../../constants/typeaheadOptions';
-import _ from 'lodash/fp';
 
 const VehicleInfo = (
   <AdditionalInfo triggerText="What if I don’t know the estimated value of my car or other vehicle?">
@@ -48,6 +47,9 @@ export const uiSchema = {
               'input-size-7 vads-u-margin-top--3 vads-u-margin-bottom--3',
             getOptions: () => formatOptions(vehicleTypes),
           },
+          'ui:errorMessages': {
+            required: 'Please enter the type of vehicle.',
+          },
         },
         make: {
           'ui:title': 'Vehicle make',
@@ -67,11 +69,17 @@ export const uiSchema = {
             widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
           },
         },
-        resaleValue: _.merge(currencyUI('Estimated value'), {
+        resaleValue: {
+          'ui:title': 'Estimated value',
           'ui:options': {
+            classNames: 'schemaform-currency-input',
             widgetClassNames: 'input-size-5 vads-u-margin-bottom--3',
           },
-        }),
+          'ui:errorMessages': {
+            required: 'Please enter the estimated value.',
+          },
+          'ui:validations': [validateCurrency],
+        },
       },
     },
   },
@@ -107,7 +115,7 @@ export const schema = {
                 type: 'string',
               },
               resaleValue: {
-                type: 'number',
+                type: 'string',
               },
             },
           },

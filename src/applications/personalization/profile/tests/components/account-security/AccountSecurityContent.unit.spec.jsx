@@ -118,7 +118,7 @@ describe('AccountSecurityContent', () => {
     const firstAlertBoxLink = alertBox.find('a').first();
     const secondAlertBoxLink = alertBox.find('a').at(1);
     const thirdAlertBoxLink = alertBox.find('a').at(2);
-    const alertBoxSubtitle = alertBox.find('h4');
+    const alertBoxSubtitle = alertBox.find('h3');
     expect(alertBox.type()).to.equal(AlertBox);
     expect(alertBox.prop('status')).to.equal('info');
     expect(alertBox.prop('headline')).to.equal(
