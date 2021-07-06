@@ -203,7 +203,8 @@ const DebtDetails = ({ selectedDebt }) => {
           <NeedHelp />
 
           <Link className="vads-u-margin-top--4" to="/">
-            <i className="fa fa-chevron-left" /> Return to your list of debts.
+            <i aria-hidden="true" className="fa fa-chevron-left" /> Return to
+            your list of debts.
           </Link>
         </div>
       </section>
