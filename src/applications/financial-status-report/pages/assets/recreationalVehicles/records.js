@@ -1,10 +1,10 @@
 import React from 'react';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
 import { validateCurrency } from '../../../utils/validations';
 import Typeahead from '../../../components/Typeahead';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import {
   formatOptions,
   recreationalVehicleTypes,
