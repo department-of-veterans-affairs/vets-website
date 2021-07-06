@@ -2,10 +2,25 @@ import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
 
+import { healthServices } from '../../config';
+
 Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
   cy.get('#facility-type-dropdown').select('VA health');
   cy.get('#service-type-dropdown').should('not.have.attr', 'disabled');
+  delete healthServices.Covid19Vaccine;
+  const hServices = Object.keys(healthServices);
+
+  for (let i = 0; i < hServices.length; i++) {
+    cy.get('#service-type-dropdown')
+      .children()
+      .eq(i)
+      .then($option => {
+        const value = $option.attr('value');
+        expect(value).to.equal(hServices[i]);
+      });
+  }
+
   cy.get('#facility-type-dropdown').select('Urgent care');
   cy.get('#service-type-dropdown').should('not.have.attr', 'disabled');
   cy.get('#facility-type-dropdown').select('VA benefits');
