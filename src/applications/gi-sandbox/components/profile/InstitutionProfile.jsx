@@ -15,6 +15,7 @@ import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
 import SchoolRatings from './SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
+import GettingStartedWithBenefits from '../profile/GettingStartedWithBenefits';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -53,6 +54,7 @@ export class InstitutionProfile extends React.Component {
     return (
       <div className="institution-profile">
         <ProfilePageHeader institution={profile.attributes} />
+        <GettingStartedWithBenefits />
         <div className="usa-accordion vads-u-margin-top--4">
           <ul>
             <AccordionItem button="Estimate your benefits">
