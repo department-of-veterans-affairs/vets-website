@@ -63,8 +63,10 @@ jobs:
         run: mkdir -p test-results
 
       - name: Start Cypress tests
-        run: yarn cy:test:gha
-        timeout-minutes: 60
+        uses: cypress-io/github-action@v2
+        with:
+          install: false
+          start: yarn cy:test:gha
         env:
           STEP: ${{ matrix.ci_node_index }}
           CI: true
