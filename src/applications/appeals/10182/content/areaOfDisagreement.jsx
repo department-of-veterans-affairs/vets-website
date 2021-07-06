@@ -62,7 +62,7 @@ export const evaluation = wrapHeader('The evaluation of my condition');
 export const other = wrapHeader('Something else');
 export const otherLabel = 'Tell us what you disagree with:';
 export const otherDescription = ({ index }) => (
-  <span id={`other-hint-text-${index}`} className="vads-u-color--gray">
+  <span id={`other-hint-text${index}`} className="vads-u-color--gray">
     Please explain in a few words
   </span>
 );
