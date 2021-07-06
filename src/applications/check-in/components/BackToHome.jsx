@@ -1,6 +1,6 @@
 import React from 'react';
 
-import withNotOnProduction from '../containers/withNotOnProduction';
+import withOnlyOnLocal from '../containers/withOnlyOnLocal';
 
 function BackToHome() {
   return (
@@ -10,4 +10,4 @@ function BackToHome() {
   );
 }
 
-export default withNotOnProduction(BackToHome);
+export default withOnlyOnLocal(BackToHome);
