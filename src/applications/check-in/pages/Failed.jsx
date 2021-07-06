@@ -6,7 +6,7 @@ const Failed = () => {
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
-      <h1>Please check in with a staff member.</h1>
+      <h1 tabIndex="-1">Please check in with a staff member.</h1>
 
       <footer className="row">
         <h2 className="help-heading vads-u-font-size--lg">

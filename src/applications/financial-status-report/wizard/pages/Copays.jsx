@@ -60,8 +60,13 @@ const Copays = () => {
         <p>
           Or call us at <Telephone contact={'866-400-1238'} />. We're here
           Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. If you have hearing
-          loss, call TTY:{' '}
-          <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />.
+          loss, call TTY:
+          <Telephone
+            contact={CONTACTS[711]}
+            pattern={PATTERNS['3_DIGIT']}
+            className="vads-u-margin-left--0p5"
+          />
+          .
         </p>
       </div>
     </DelayedLiveRegion>

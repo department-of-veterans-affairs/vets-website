@@ -19,6 +19,8 @@ import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
   WIZARD_STATUS,
+  PAGE_TITLE_SUFFIX,
+  DOCUMENT_TITLE_SUFFIX,
 } from '../constants';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
@@ -39,8 +41,9 @@ class IntroductionPage extends React.Component {
     // be required to proceed; not changing this now in case it breaks something
 
     const isBDDForm = this.props.isBDDForm;
-    const pageTitle = getPageTitle(isBDDForm);
+    const pageTitle = `${getPageTitle(isBDDForm)} ${PAGE_TITLE_SUFFIX}`;
     const startText = getStartText(isBDDForm);
+    document.title = `${pageTitle}${DOCUMENT_TITLE_SUFFIX}`;
 
     // Remove this once form526_original_claims feature flag is removed
     if (!allowContinue) {
@@ -58,7 +61,7 @@ class IntroductionPage extends React.Component {
 
     return (
       <div className="schemaform-intro">
-        <FormTitle title={`${pageTitle} with VA Form 21-526EZ`} />
+        <FormTitle title={pageTitle} />
         {isBDDForm ? (
           <>
             <h2 className="vads-u-font-size--h4">
