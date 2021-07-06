@@ -54,7 +54,7 @@ export const DebtLettersTable = ({ debtLinks }) => {
             tabIndex="-1"
             scope="row"
           >
-            Type{' '}
+            Type
             <i
               className="fas fa-sort vads-u-margin-left--0p5"
               aria-hidden="true"
