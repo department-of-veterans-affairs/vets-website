@@ -61,35 +61,33 @@ const DebtDetails = ({ selectedDebt }) => {
   );
 
   const renderHistoryTable = history => {
-    if (hasFilteredHistory) {
-      return (
-        <table className="vads-u-margin-y--4">
-          <thead>
-            <tr>
-              <th className="vads-u-font-weight--bold" scope="col">
-                Date
-              </th>
-              <th className="vads-u-font-weight--bold" scope="col">
-                Letter
-              </th>
+    if (!hasFilteredHistory) return null;
+    return (
+      <table className="vads-u-margin-y--4">
+        <thead>
+          <tr>
+            <th className="vads-u-font-weight--bold" scope="col">
+              Date
+            </th>
+            <th className="vads-u-font-weight--bold" scope="col">
+              Letter
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {history.map((debtEntry, index) => (
+            <tr key={`${debtEntry.date}-${index}`}>
+              <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
+              <td>
+                <div className="vads-u-margin-top--0">
+                  {renderLetterHistory(debtEntry.letterCode)}
+                </div>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {history.map((debtEntry, index) => (
-              <tr key={`${debtEntry.date}-${index}`}>
-                <td>{moment(debtEntry.date).format('MMMM D, YYYY')}</td>
-                <td>
-                  <div className="vads-u-margin-top--0">
-                    {renderLetterHistory(debtEntry.letterCode)}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      );
-    }
-    return null;
+          ))}
+        </tbody>
+      </table>
+    );
   };
 
   return (
