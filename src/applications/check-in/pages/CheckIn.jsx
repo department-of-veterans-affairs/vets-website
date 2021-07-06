@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 
@@ -11,6 +11,7 @@ import Footer from '../components/Footer';
 
 const CheckIn = props => {
   const { router, appointment } = props;
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!appointment) {
     goToNextPageWithToken(router, 'failed');
@@ -19,6 +20,7 @@ const CheckIn = props => {
 
   const token = getTokenFromRouter(router);
   const onClick = async () => {
+    setIsLoading(true);
     const json = await checkInUser({
       token,
     });
@@ -69,8 +71,9 @@ const CheckIn = props => {
         className="usa-button usa-button-big"
         onClick={onClick}
         data-testid="check-in-button"
+        disabled={isLoading}
       >
-        Check in now
+        {isLoading ? <>Loading...</> : <>Check in now</>}
       </button>
       <Footer />
       <BackToHome />
