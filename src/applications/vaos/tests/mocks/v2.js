@@ -54,21 +54,61 @@ export function getVAOSRequestMock() {
  * @param {String} id id for the appointment
  * @returns {VARParentSite} var-resources parent site object
  */
-export function getVAOSParentSiteMock(id) {
+export function getV2FacilityMock({
+  id = 'Fake',
+  name = 'Fake',
+  isParent = false,
+}) {
   return {
     id,
     type: 'facility',
     attributes: {
       id: 'fake',
-      vista_site: id.substring(0, 3),
-      vast_parent: id,
-      name: 'fake',
-      physical_address: {
+      vistaSite: id.substring(0, 3),
+      vastParent: isParent ? id : id.substring(0, 3),
+      name,
+      physicalAddress: {
         line: [],
         city: 'fake',
         state: 'fake',
-        postal_code: 'fake',
+        postalCode: 'fake',
       },
+    },
+  };
+}
+
+export function getSchedulingConfigurationMock({
+  id = 'fake',
+  typeOfCareId = 'fake',
+  requestEnabled = false,
+  directEnabled = false,
+  patientHistoryRequired = 'No',
+  patientHistoryDuration = 365,
+  communityCare = false,
+} = {}) {
+  return {
+    id,
+    type: 'scheduling_configuration',
+    attributes: {
+      facilityId: id,
+      services: [
+        {
+          id: typeOfCareId,
+          name: 'Some type of care',
+          stopCodes: [],
+          direct: {
+            patientHistoryRequired,
+            patientHistoryDuration,
+            enabled: directEnabled,
+          },
+          request: {
+            patientHistoryRequired,
+            patientHistoryDuration,
+            enabled: requestEnabled,
+          },
+        },
+      ],
+      communityCare,
     },
   };
 }

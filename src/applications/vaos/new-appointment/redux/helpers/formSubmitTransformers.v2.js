@@ -47,8 +47,7 @@ export function transformFormToVAOSCCRequest(state) {
     kind: 'cc',
     status: 'proposed',
     locationId: data.communityCareSystemId,
-    // This may need to change when we get the new service type ids
-    serviceType: typeOfCare.id,
+    serviceType: typeOfCare.idV2 || typeOfCare.ccId,
     reason: data.reasonAdditionalInfo,
     contact: {
       telecom: [
@@ -91,7 +90,7 @@ export function transformFormToVAOSVARequest(state) {
     status: 'proposed',
     locationId: data.vaFacility,
     // This may need to change when we get the new service type ids
-    serviceType: typeOfCare.id,
+    serviceType: typeOfCare.idV2,
     reason: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
     )?.serviceName,
