@@ -177,14 +177,11 @@ export const BankInfoCNP = ({
   // When direct deposit is not set up, we will show
   const notSetUpContent = (
     <div className={classes.bankInfo}>
-      <dl className="vads-u-margin-y--0 vads-u-line-height--6">
-        <dt className="sr-only" />
-        <dd>Please add your bank information</dd>
-      </dl>
+      <span>Edit your profile to add your bank information.</span>
       <button
         className={classes.editButton}
         aria-label={
-          'Add your direct deposit for disability compensation and pension benefits bank information'
+          'Edit your direct deposit for disability compensation and pension benefits bank information'
         }
         ref={editBankInfoButton}
         onClick={() => {

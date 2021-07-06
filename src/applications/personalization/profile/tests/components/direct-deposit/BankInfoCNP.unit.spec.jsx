@@ -77,12 +77,9 @@ function fillOutAndSubmitBankInfoForm(view) {
 }
 
 function findSetUpBankInfoButton(view) {
-  return view.queryByLabelText(
-    /Add your direct deposit for disability compensation and pension benefits bank information/i,
-    {
-      selector: 'button',
-    },
-  );
+  return view.queryByRole('button', {
+    label: /Edit your direct deposit for disability compensation and pension benefits bank information/i,
+  });
 }
 
 function findEditBankInfoButton(view) {
@@ -166,7 +163,7 @@ describe('DirectDepositCNP', () => {
       expect(view.queryByLabelText(/account number/i)).not.to.exist;
     });
     it('should handle adding bank info', async () => {
-      userEvent.click(await findSetUpBankInfoButton(view));
+      userEvent.click(findSetUpBankInfoButton(view));
 
       expect(await view.findByLabelText(/account number/i)).to.exist;
 
@@ -202,7 +199,6 @@ describe('DirectDepositCNP', () => {
       expect(view.getByText(paymentAccount.accountNumber)).to.exist;
       expect(view.getByText(paymentAccount.accountType, { exact: false })).to
         .exist;
-      expect(findSetUpBankInfoButton(view)).not.to.exist;
     });
     it('should handle a successful bank info update', async () => {
       userEvent.click(findEditBankInfoButton(view));
