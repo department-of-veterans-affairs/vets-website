@@ -92,6 +92,10 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
 
   #search-area-control-container {
     z-index: 1;
+
+    button:disabled {
+      background-color: $color-gray-medium;
+    }
   }
 }
 .use-my-location-container {

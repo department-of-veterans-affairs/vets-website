@@ -16,6 +16,9 @@ export const SMALL_SCREEN_WIDTH = 481;
 
 export const MINIMUM_RATING_COUNT = 5;
 
+// Max search area distance in miles
+export const MAX_SEARCH_AREA_DISTANCE = 150;
+
 export const KEY_CODES = Object.freeze({
   enterKey: 13,
 });
