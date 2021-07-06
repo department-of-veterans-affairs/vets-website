@@ -40,7 +40,6 @@ const CheckIn = props => {
   const timeZone = moment()
     .tz(usersTimeZone)
     .zoneAbbr();
-
   const appointmentTime = moment(new Date(appointment.appointmentTime)).format(
     `h:mm`,
   );

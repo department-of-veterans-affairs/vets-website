@@ -24,7 +24,14 @@ describe('check-in', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {
-        checkInData: { appointment: { clinicPhone: '555-867-5309' } },
+        checkInData: {
+          appointment: {
+            clinicPhone: '555-867-5309',
+            appointmentTime: '2021-07-06 12:58:39 UTC',
+            facilityName: 'Acme VA',
+            clinicName: 'Green Team Clinic1',
+          },
+        },
       };
       store = mockStore(initState);
     });
@@ -39,8 +46,18 @@ describe('check-in', () => {
           <CheckIn router={mockRouter} />
         </Provider>,
       );
+      expect(checkIn.getByTestId('appointment-date')).to.exist;
+      expect(checkIn.getByTestId('appointment-date')).to.have.text(
+        'Tuesday, July 6, 2021',
+      );
       expect(checkIn.getByTestId('appointment-time')).to.exist;
+      expect(checkIn.getByTestId('appointment-time').innerHTML).to.match(
+        /([\d]|[\d][\d]):[\d][\d]/,
+      );
       expect(checkIn.getByTestId('clinic-name')).to.exist;
+      expect(checkIn.getByTestId('clinic-name')).to.have.text(
+        'Green Team Clinic1',
+      );
     });
     it('passes axeCheck', () => {
       const mockRouter = {
