@@ -1443,7 +1443,7 @@ describe('VAOS <VAFacilityPageV2> using V2 api', () => {
     ).to.exist;
 
     expect(screen.baseElement).to.contain.text(
-      'Below is a list of VA locations where you’re registered that offer Primary care appointments',
+      'Below is a list of VA locations where you’re registered that offer primary care appointments',
     );
 
     expect(screen.baseElement).to.contain.text('A facility name');
