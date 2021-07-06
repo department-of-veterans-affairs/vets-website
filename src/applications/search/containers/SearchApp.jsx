@@ -76,7 +76,7 @@ class SearchApp extends React.Component {
       prevProps.search.loading && !this.props.search.loading;
 
     if (hasNewResults) {
-      const shouldFocusOnResults = this.props.search.searchesPerformed > 1;
+      const shouldFocusOnResults = this.props.search.searchesPerformed >= 1;
 
       if (shouldFocusOnResults) {
         focusElement(`.${SCREENREADER_FOCUS_CLASSNAME}`);
