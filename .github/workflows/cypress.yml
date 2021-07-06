@@ -67,7 +67,7 @@ jobs:
         with:
           install: false
           start: yarn cy:test:gha
-          config: config/cypress.json
+          config-file: config/cypress.json
         env:
           STEP: ${{ matrix.ci_node_index }}
           CI: true
