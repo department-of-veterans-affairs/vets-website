@@ -37,10 +37,18 @@ const NoBenefits = () => {
       </div>
 
       <p>
-        If this information isn’t right, call our VA benefits hotline at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
-        <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />) ,
-        Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        If this information isn’t right, call our VA benefits hotline at
+        <Telephone
+          contact={CONTACTS.VA_BENEFITS}
+          className="vads-u-margin-x--0p5"
+        />
+        (TTY:
+        <Telephone
+          contact={CONTACTS[711]}
+          pattern={PATTERNS['3_DIGIT']}
+          className="vads-u-margin-x--0p5"
+        />
+        ) , Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </section>
   );
@@ -67,9 +75,18 @@ const Benefits = ({ pending, income }) => {
       )}
       <p>
         <strong>Note:</strong> If this information isn’t right, call our VA
-        benefits hotline at <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
-        <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />) ,
-        Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        benefits hotline at
+        <Telephone
+          contact={CONTACTS.VA_BENEFITS}
+          className="vads-u-margin-x--0p5"
+        />
+        (TTY:
+        <Telephone
+          contact={CONTACTS[711]}
+          pattern={PATTERNS['3_DIGIT']}
+          className="vads-u-margin-left--0p5"
+        />
+        ) , Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </>
   ) : (

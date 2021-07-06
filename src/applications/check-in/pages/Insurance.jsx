@@ -11,21 +11,27 @@ const Insurance = props => {
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
-      <h1>Need to update your insurance, contact, or other information?</h1>
-      <button
-        data-testid="yes-button"
-        className="usa-button-secondary usa-button-big"
-        onClick={() => goToNextPageWithToken(router, 'failed')}
-      >
-        Yes
-      </button>
-      <button
-        data-testid="no-button"
-        className="usa-button-secondary usa-button-big"
-        onClick={() => goToNextPageWithToken(router, 'details')}
-      >
-        No
-      </button>
+      <fieldset>
+        <legend>
+          <h1 tabIndex="-1">
+            Need to update your insurance, contact, or other information?
+          </h1>
+        </legend>
+        <button
+          data-testid="yes-button"
+          className="usa-button-secondary usa-button-big"
+          onClick={() => goToNextPageWithToken(router, 'failed')}
+        >
+          Yes
+        </button>
+        <button
+          data-testid="no-button"
+          className="usa-button-secondary usa-button-big"
+          onClick={() => goToNextPageWithToken(router, 'details')}
+        >
+          No
+        </button>
+      </fieldset>
 
       <footer className="row">
         <h2 className="help-heading vads-u-font-size--lg">Need help?</h2>

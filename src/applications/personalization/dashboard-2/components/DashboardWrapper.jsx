@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import { selectShowDashboard2 } from '../selectors';
 
 const DashboardV1 = React.lazy(() => {
-  return import(/* webpackChunkName: "dashboard-1" */ '../../dashboard/components/Dashboard');
+  return import(/* webpackChunkName: "dashboard-1" */ '../../dashboard/containers/DashboardAppWrapper');
 });
 const DashboardV2 = React.lazy(() => {
   return import(/* webpackChunkName: "dashboard-2" */ './Dashboard');
@@ -19,22 +19,17 @@ const DashboardV2 = React.lazy(() => {
 //
 // The 'DASHBOARD_VERSION' local storage value will override the value of the
 // feature flag.
-function DashboardWrapper({ showDashboard2, rootUrl }) {
+function DashboardWrapper({ showDashboard2 }) {
   const loader = (
     <div className="vads-u-margin-y--4 vads-u-padding-y--0p5">
       <LoadingIndicator message="Please wait while we load the application for you." />
     </div>
   );
-  const content = showDashboard2 ? (
-    <DashboardV2 />
-  ) : (
-    <DashboardV1 rootUrl={rootUrl} />
-  );
+  const content = showDashboard2 ? <DashboardV2 /> : <DashboardV1 />;
   return <Suspense fallback={loader}>{content}</Suspense>;
 }
 
 DashboardWrapper.propTypes = {
-  rootUrl: PropTypes.string,
   // From mapStateToProps.
   showDashboard2: PropTypes.bool.isRequired,
 };

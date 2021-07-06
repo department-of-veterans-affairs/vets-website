@@ -3,10 +3,12 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import moment from '../../lib/moment-tz.js';
+import MockDate from 'mockdate';
 
 import AddToCalendar from '../../components/AddToCalendar';
 import userEvent from '@testing-library/user-event';
 import { getICSTokens, ICS_LINE_LIMIT } from '../../utils/calendar.js';
+import { getTimezoneTestDate } from '../mocks/setup.js';
 
 describe('VAOS <AddToCalendar>', () => {
   it('should render link with calendar info', () => {
@@ -212,6 +214,11 @@ describe('VAOS <AddToCalendar>', () => {
   });
 
   it('should generate a 30 minute appointment', () => {
+    // Setting timezone to 11:30pm ET to test date change scenario.
+    // Adding 30 minutes to this time should cause the date to change
+    // to the next day.
+    MockDate.set(getTimezoneTestDate('America/New_York'));
+
     const screen = render(<AddToCalendar duration={30} />);
 
     const ics = decodeURIComponent(
@@ -233,17 +240,20 @@ describe('VAOS <AddToCalendar>', () => {
     //
     // NOTE: Might remove these tests if test run longer than 1 minute which will cause
     // a failure.
-    const timestamp = moment().format('YYYYMMDDThhmm');
-    const end = moment(timestamp)
-      .add(30, 'minutes')
-      .format('YYYYMMDDThhmm');
+    const timestamp = moment();
+    const end = moment(timestamp).add(30, 'minutes');
+
     expect(moment(tokens.get('DTSTAMP')).format('YYYYMMDDThhmm')).to.equal(
-      timestamp,
+      timestamp.format('YYYYMMDDThhmm'),
     );
     expect(moment(tokens.get('DTSTART')).format('YYYYMMDDThhmm')).to.equal(
-      timestamp,
+      timestamp.format('YYYYMMDDThhmm'),
     );
-    expect(moment(tokens.get('DTEND')).format('YYYYMMDDThhmm')).to.equal(end);
+    expect(moment(tokens.get('DTEND')).format('YYYYMMDDThhmm')).to.equal(
+      end.format('YYYYMMDDThhmm'),
+    );
+
+    MockDate.reset();
   });
 
   // All ICS file properties have a 75 character line limit. So the 'description' property,

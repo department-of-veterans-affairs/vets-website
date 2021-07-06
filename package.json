@@ -42,7 +42,7 @@
     "install-repos": "./script/install-repos.sh",
     "pact:can-i-deploy": "node ./script/can-i-deploy.js",
     "pact:publish": "node ./script/publish-pacts.js",
-    "postinstall": "npm rebuild node-sass && node ./script/check-node-version.js && cd node_modules/web-components && yarn install --production && yarn build",
+    "postinstall": "husky install && npm rebuild node-sass && node ./script/check-node-version.js && cd node_modules/web-components && yarn install --production && yarn build",
     "postmigrate-component": "yarn lint:js:changed:fix",
     "proxy-rewrite:verify-targets": "node src/applications/proxy-rewrite/scripts/verify-injection-targets.js",
     "pr-check": "node script/pr-check.js",
@@ -82,6 +82,9 @@
   },
   "bugs": {
     "url": "https://github.com/department-of-veterans-affairs/vets-website/issues"
+  },
+  "lint-staged": {
+    "*.(js|jsx)": "eslint --fix"
   },
   "nyc": {
     "sourceMap": false,
@@ -159,7 +162,7 @@
     "cors": "^2.7.1",
     "css-loader": "^1.0.0",
     "cssnano": "^4.1.10",
-    "cypress": "^7.4.0",
+    "cypress": "^7.6.0",
     "cypress-axe": "^0.12.2",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-plugin-tab": "^1.0.5",
@@ -195,6 +198,7 @@
     "glob": "^7.1.6",
     "html-webpack-plugin": "^4.3.0",
     "http-server": "^0.9.0",
+    "husky": ">=6",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^23.6.0",
     "jest-image-snapshot": "^4.0.2",
@@ -202,6 +206,7 @@
     "jsdom": "^15.2.1",
     "json2csv": "^4.2.1",
     "jsonschema": "^1.1.1",
+    "lint-staged": ">=10",
     "mini-css-extract-plugin": "^0.9.0",
     "mocha": "^8.2.1",
     "mocha-junit-reporter": "^2.0.0",
@@ -351,7 +356,7 @@
     "**/netmask": "^2.0.1",
     "**/is-svg": "^4.2.2",
     "**/y18n": "^4.0.1",
-    "cypress": "^7.5.0",
+    "cypress": "^7.6.0",
     "**/merge": "^2.1.1",
     "**/ssri": "^8.0.1",
     "**/ua-parser-js": "^0.7.24",

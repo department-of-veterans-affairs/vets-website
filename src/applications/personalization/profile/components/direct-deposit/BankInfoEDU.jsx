@@ -349,6 +349,7 @@ export const DirectDepositEDU = ({
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title="Education benefits"
         data={directDepositData()}
+        level={2}
       />
     </>
   );

@@ -78,4 +78,24 @@ describe('Provider search', () => {
     cy.get('.facility-result h3').contains('MinuteClinic');
     cy.get('.va-pagination').should('not.exist');
   });
+
+  // TODO Enable when emergency care in prod
+  it.skip('finds In-network community emergency care', () => {
+    cy.visit('/find-locations');
+
+    cy.get('#street-city-state-zip').type('Austin');
+    cy.get('#facility-type-dropdown').select('Emergency care');
+    cy.get('#service-type-dropdown').select(
+      'In-network community emergency care',
+    );
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#search-results-subheader').contains(
+      'Results for "Emergency Care", "In-network community emergency care" near "Austin, Texas"',
+    );
+    cy.get('.search-result-emergency-care-subheader').should('exist');
+    cy.get('.facility-result h3').contains('DELL SETON MEDICAL CENTER AT UT');
+
+    cy.injectAxe();
+    cy.axeCheck();
+  });
 });

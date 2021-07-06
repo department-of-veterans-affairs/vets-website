@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
@@ -8,7 +9,6 @@ import GetFormHelp from '../components/GetFormHelp';
 import { focusElement } from 'platform/utilities/ui';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes/';
 import { downloadPDF } from '../actions';
-import { bindActionCreators } from 'redux';
 
 const scroller = Scroll.scroller;
 const scrollToTop = () => {
@@ -39,8 +39,13 @@ const RequestDetailsCard = ({ data, response }) => {
         <ul>
           {data.selectedDebts?.map((debt, index) => (
             <li key={index}>
-              {debt.resolution?.resolutionType} for{' '}
-              {deductionCodes[debt.deductionCode]}{' '}
+              <span className="vads-u-margin-left--0p5">
+                {debt.resolution?.resolutionType}
+              </span>
+              for
+              <span className="vads-u-margin-left--0p5">
+                {deductionCodes[debt.deductionCode]}
+              </span>
             </li>
           ))}
         </ul>
@@ -123,9 +128,11 @@ const ConfirmationPage = ({ form, download }) => {
           <li className="process-step list-three">
             <h4>Go to your debt management portal</h4>
             <p>
-              Once you're signed in, you can go to{' '}
-              <a href="/manage-va-debt">Manage my VA debt</a> to check the
-              status of your current debts.
+              Once you're signed in, you can go to
+              <a href="/manage-va-debt" className="vads-u-margin-left--0p5">
+                Manage my VA debt
+              </a>
+              to check the status of your current debts.
             </p>
             <p>
               If you have a question about the status of your request call us at

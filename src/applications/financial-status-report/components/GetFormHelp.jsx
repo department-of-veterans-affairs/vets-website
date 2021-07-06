@@ -9,28 +9,35 @@ const GetFormHelp = () => {
     <div>
       <p>
         If you have trouble using this online form, call our MyVA411 main
-        information line at <Telephone contact={'800-698-2411'} /> (TTY:{' '}
-        <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />)
+        information line at <Telephone contact={'800-698-2411'} /> (TTY:
+        <Telephone
+          contact={CONTACTS[711]}
+          pattern={PATTERNS['3_DIGIT']}
+          className="vads-u-margin-left--0p5"
+        />
+        )
       </p>
       <p>
-        If you need help to gather your information or fill out your form,{' '}
-        <a href="https://www.va.gov/vso/">
-          contact a local Veterans Service Organization (VSO).
+        If you need help to gather your information or fill out your form,
+        <a href="https://www.va.gov/vso/" className="vads-u-margin-left--0p5">
+          contact a local Veterans Service Organization (VSO)
         </a>
+        .
       </p>
       <p>
         If you have questions about your VA debt, call our Debt Management
-        Center at{' '}
-        <span>
-          {<Telephone contact={CONTACTS.DMC || '800-827-0648'} />} (or{' '}
+        Center at
+        <span className="vads-u-margin-x--0p5">
+          {<Telephone contact={CONTACTS.DMC || '800-827-0648'} />} (or
           {
             <Telephone
               contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
               pattern={PATTERNS.OUTSIDE_US}
+              className="vads-u-margin-x--0p5"
             />
-          }{' '}
+          }
           from overseas).
-        </span>{' '}
+        </span>
         We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
     </div>

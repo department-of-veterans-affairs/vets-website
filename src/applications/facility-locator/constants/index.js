@@ -12,6 +12,7 @@ export const LocationType = {
   VET_CENTER: 'vet_center',
   URGENT_CARE: 'urgent_care',
   URGENT_CARE_PHARMACIES: 'pharmacy',
+  EMERGENCY_CARE: 'emergency_care',
 };
 
 /**
@@ -24,6 +25,7 @@ export const FacilityType = {
   VET_CENTER: 'vet_center',
   URGENT_CARE: 'urgent_care',
   URGENT_CARE_PHARMACIES: 'pharmacy',
+  EMERGENCY_CARE: 'emergency_care',
 };
 
 /**
@@ -50,6 +52,7 @@ export const LOCATION_OPTIONS = [
   LocationType.BENEFITS,
   LocationType.CEMETARY,
   LocationType.VET_CENTER,
+  LocationType.EMERGENCY_CARE,
 ];
 
 /**
@@ -81,6 +84,17 @@ export const CLINIC_URGENTCARE_SERVICE = '261QU0200X';
  * Service type "Pharmacy - Community/Retail Pharmacy" code
  */
 export const PHARMACY_RETAIL_SERVICE = '3336C0003X';
+
+/**
+ * Emergency Care Services codes
+ */
+export const EMERGENCY_CARE_SERVICES = [
+  '261QE0002X',
+  '282N00000X',
+  '282NC0060X',
+  '282NR1301X',
+  '282NW0100X',
+];
 
 /**
  * Error Messages

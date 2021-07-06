@@ -56,7 +56,7 @@ const initialSchema = {
 
 const phoneConfig = phoneUI('Your phone number');
 const pageKey = 'contactInfo';
-const pageTitle = 'Your contact information';
+const pageTitle = 'Confirm your contact information';
 
 export default function ContactInfoPage() {
   useEffect(() => {
@@ -76,14 +76,12 @@ export default function ContactInfoPage() {
     'ui:description': (
       <>
         <p>
-          This is the contact information we have on file for you. We’ll use
-          this information to contact you about scheduling your appointment. You
-          can update your contact information here, but the updates will only
-          apply to this tool.
+          This is the information we’ll use to contact you about your
+          appointment. You can update your contact information here, but the
+          updates will only apply to this tool.
         </p>
         <p className="vads-u-margin-y--2">
-          If you want to update your contact information for all your VA
-          accounts, please{' '}
+          To update your contact information for all your VA accounts, please{' '}
           <NewTabAnchor href="/profile">go to your profile page</NewTabAnchor>.
         </p>
       </>
@@ -106,27 +104,19 @@ export default function ContactInfoPage() {
         hideIf: () => flowType === FLOW_TYPES.DIRECT,
       },
       morning: {
-        'ui:title': 'Morning (8 a.m. – noon)',
-        'ui:options': {
-          widgetClassNames: 'vaos-form__checkbox',
-        },
+        'ui:title': 'Morning (8:00 a.m. – noon)',
+        'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
       },
       afternoon: {
-        'ui:title': 'Afternoon (noon – 4 p.m.)',
-        'ui:options': {
-          widgetClassNames: 'vaos-form__checkbox',
-        },
+        'ui:title': 'Afternoon (noon – 4:00 p.m.)',
+        'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
       },
       evening: {
-        'ui:title': 'Evening (4 p.m. – 8 p.m.)',
-        'ui:options': {
-          widgetClassNames: 'vaos-form__checkbox',
-        },
+        'ui:title': 'Evening (4:00 p.m. – 8:00 p.m.)',
+        'ui:options': { widgetClassNames: 'vaos-form__checkbox' },
       },
     },
-    email: {
-      'ui:title': 'Your email address',
-    },
+    email: { 'ui:title': 'Your email address' },
   };
 
   const { data, schema, setData } = useFormState({
