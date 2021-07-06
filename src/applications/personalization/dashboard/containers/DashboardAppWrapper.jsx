@@ -12,6 +12,14 @@ import {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 
+import DashboardApp from './DashboardApp';
+
+import '../../../claims-status/sass/claims-status.scss';
+import '../sass/dashboard.scss';
+import '../sass/dashboard-alert.scss';
+import '../sass/messaging/messaging.scss';
+import '../sass/user-profile.scss';
+
 class DashboardAppWrapper extends React.Component {
   constructor(props) {
     super(props);
@@ -88,7 +96,7 @@ class DashboardAppWrapper extends React.Component {
         >
           <Breadcrumbs>{this.renderBreadcrumbs()}</Breadcrumbs>
 
-          {this.props.children}
+          <DashboardApp />
         </DowntimeNotification>
       </RequiredLoginView>
     );
