@@ -40,7 +40,6 @@ describe('Chapter 31 veteran information', () => {
     );
     fillData(form, 'input#root_veteranInformation_fullName_first', 'John');
     fillData(form, 'input#root_veteranInformation_fullName_last', 'Doe');
-    fillData(form, 'input#root_veteranInformation_ssn', '123121234');
     changeDropdown(form, '#root_veteranInformation_dobMonth', 1);
     changeDropdown(form, '#root_veteranInformation_dobDay', 1);
     fillData(form, 'input#root_veteranInformation_dobYear', 1991);
