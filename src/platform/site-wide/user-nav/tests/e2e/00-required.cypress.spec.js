@@ -183,6 +183,26 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
     cy.url().should('contain', '/search/?query=health');
   });
 
+  it('Pressing enter (focus on search button) initiates search for input - typeahead enabled', () => {
+    mockFeatureToggles();
+    mockFetchSuggestions();
+    prepareSearch('benefits');
+    cy.get('[data-e2e-id="sitewide-search-submit-button"]')
+      .focus()
+      .type('{enter}');
+    cy.url().should('contain', '/search/?query=benefits');
+  });
+
+  it('Pressing space (focus on search button) initiates search for input - typeahead enabled', () => {
+    mockFeatureToggles();
+    mockFetchSuggestions();
+    prepareSearch('health');
+    cy.get('[data-e2e-id="sitewide-search-submit-button"]')
+      .focus()
+      .type(' ');
+    cy.url().should('contain', '/search/?query=health');
+  });
+
   it('Clicking a dropdown option initiates a search using the suggestion', () => {
     mockFeatureToggles();
     mockFetchSuggestions();

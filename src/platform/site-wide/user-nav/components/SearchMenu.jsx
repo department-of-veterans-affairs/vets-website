@@ -34,7 +34,8 @@ export class SearchMenu extends React.Component {
   componentDidMount() {
     document.addEventListener('keyup', () => {
       if (
-        (event.which || event.keyCode) === SPACE_KEY &&
+        ((event.which || event.keyCode) === SPACE_KEY ||
+          (event.which || event.keyCode) === ENTER_KEY) &&
         document.activeElement?.id === 'sitewide-search-submit-button'
       ) {
         this.handleSearchEvent();
@@ -45,7 +46,8 @@ export class SearchMenu extends React.Component {
   componentWillUnmount() {
     document.removeEventListener('keyup', () => {
       if (
-        (event.which || event.keyCode) === SPACE_KEY &&
+        ((event.which || event.keyCode) === SPACE_KEY ||
+          (event.which || event.keyCode) === ENTER_KEY) &&
         document.activeElement?.id === 'sitewide-search-submit-button'
       ) {
         this.handleSearchEvent();
