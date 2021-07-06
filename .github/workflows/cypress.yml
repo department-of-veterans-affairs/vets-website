@@ -15,7 +15,6 @@ jobs:
   build:
     name: E2E Tests
     runs-on: self-hosted
-    container: cypress/browsers:node14.16.0-chrome90-ff88
     strategy:
       fail-fast: false
       max-parallel: 6
@@ -32,19 +31,19 @@ jobs:
       - name: Set vets-website port
         run: echo "CYPRESS_PORT=$(( ( RANDOM % 2000 )  + 3001 ))" >> $GITHUB_ENV
 
-      # - name: Get Node version
-      #   id: get-node-version
-      #   run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
-      # - name: Setup Node
-      #   uses: actions/setup-node@v2
-      #   with:
-      #     node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      # - name: Install Chrome
-      #   uses: browser-actions/setup-chrome@latest
-      #   with:
-      #     chrome-version: stable
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: stable
 
       - name: Install vets-website dependencies
         run: yarn install --frozen-lockfile --prefer-offline
@@ -67,8 +66,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           install: false
-          start: yarn cy:test:gha
-          config-file: config/cypress.json
+          command: yarn cy:test:gha
         env:
           STEP: ${{ matrix.ci_node_index }}
           CI: true
