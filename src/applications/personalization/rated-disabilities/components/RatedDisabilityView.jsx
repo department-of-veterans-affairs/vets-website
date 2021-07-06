@@ -126,10 +126,7 @@ class RatedDisabilityView extends React.Component {
                 To learn how we determined your VA combined disability rating,
                 use our disability rating calculator and ratings table.
               </p>
-              <a
-                href="/disability/about-disability-ratings/"
-                aria-label="About VA disability ratings"
-              >
+              <a href="/disability/about-disability-ratings/">
                 About VA disability ratings
               </a>
               <h3 className="vads-u-margin-top--3 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
