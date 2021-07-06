@@ -3,7 +3,8 @@ const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 
 module.exports = (on, config) => {
   const ENV = 'localhost';
-  config.baseUrl = process.env.baseURL || 'http://localhost:3001';
+  // eslint-disable-next-line no-param-reassign
+  config.baseUrl = process.env.BASEURL || 'http://localhost:3001';
   // Import our own Webpack config.
   require('../../../../../../config/webpack.config.js')(ENV).then(
     webpackConfig => {
