@@ -236,6 +236,11 @@ jobs:
         with:
           node-version: '14'
 
+      - name: Install Modules
+        uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install 
+
       - name: Generate UUID
         id: generate-uuid
         uses: filipstefansson/uuid-action@v1
