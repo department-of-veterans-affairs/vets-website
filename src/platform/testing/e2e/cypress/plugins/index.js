@@ -1,9 +1,9 @@
 const fs = require('fs');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 
-module.exports = on => {
+module.exports = (on, config) => {
   const ENV = 'localhost';
-
+  config.baseUrl = process.env.baseURL || 'http://localhost:3001';
   // Import our own Webpack config.
   require('../../../../../../config/webpack.config.js')(ENV).then(
     webpackConfig => {
@@ -35,4 +35,6 @@ module.exports = on => {
     table: message => console.table(message) || null,
     /* eslint-enable no-console */
   });
+
+  return config;
 };
