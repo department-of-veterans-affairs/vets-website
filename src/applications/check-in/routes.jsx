@@ -14,21 +14,15 @@ import withFeatureFlip from './containers/withFeatureFlip';
 const createRoutesWithStore = () => {
   return (
     <Switch>
-      <Route path="/:token" component={withNotOnProduction(Landing)} />
+      <Route path="/" component={withNotOnProduction(Landing)} />
       <Route
-        path="/:token/insurance"
+        path="/update-information"
         component={withNotOnProduction(Insurance)}
       />
-      <Route path="/:token/details" component={withNotOnProduction(CheckIn)} />
-      <Route
-        path="/:token/confirmed"
-        component={withNotOnProduction(Confirmation)}
-      />
-      <Route path="/:token/failed" component={withNotOnProduction(Failed)} />
-      <Route
-        path="/:token/debug"
-        component={withFeatureFlip(FeatureFlipTest)}
-      />
+      <Route path="/details" component={withNotOnProduction(CheckIn)} />
+      <Route path="/complete" component={withNotOnProduction(Confirmation)} />
+      <Route path="/see-staff" component={withNotOnProduction(Failed)} />
+      <Route path="/debug" component={withFeatureFlip(FeatureFlipTest)} />
     </Switch>
   );
 };
