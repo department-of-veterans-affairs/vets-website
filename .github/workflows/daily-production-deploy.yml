@@ -252,16 +252,13 @@ jobs:
       - name: Sleep for ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes
         uses: whatnick/wait-action@master
         with:
-          time: '${{ needs.set-env.outputs.RELEASE_WAIT }}m'
+          time: ${{ needs.set-env.outputs.RELEASE_WAIT }}m
 
       - name: Get next tag version
         id: bump-tag-version
-        uses: "WyriHaximus/github-action-next-semvers@v1"
+        uses: WyriHaximus/github-action-next-semvers@v1
         with:
           version: ${{ needs.set-env.outputs.LATEST_TAG_VERSION }}
-
-      - name: Echo next version
-        run: echo "${{ steps.bump-tag-version.outputs.v_patch }}"
 
       # TODO: Uncomment when ready for prod
       # - name: Tag release
