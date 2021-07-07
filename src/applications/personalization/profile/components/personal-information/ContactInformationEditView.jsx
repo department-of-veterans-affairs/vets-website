@@ -80,6 +80,13 @@ export class ContactInformationEditView extends Component {
       this.props.formSchema,
       this.props.uiSchema,
     );
+    // focus on the first focusable elements
+    setTimeout(() => {
+      const focusableElement = this.editForm.querySelector(
+        'button, input, select, a, textarea',
+      );
+      focusableElement.focus();
+    }, 1);
   }
 
   componentDidUpdate(prevProps) {
@@ -275,7 +282,11 @@ export class ContactInformationEditView extends Component {
         )}
 
         {!!field && (
-          <div>
+          <div
+            ref={el => {
+              this.editForm = el;
+            }}
+          >
             {fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
               <CopyMailingAddress
                 copyMailingAddress={this.copyMailingAddress}
