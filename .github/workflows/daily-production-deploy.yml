@@ -1,14 +1,14 @@
-name: Full Production Release
+name: Daily Production Deploy
 
 on:
   workflow_dispatch:
     inputs:
       release_wait:
-        description: "Release Wait (minutes)"
+        description: "Minutes to wait before creating release"
         required: false
-        default: 60
+        default: 5
   schedule:
-    - cron: "0 18 * * 1-5"
+    - cron: "0 18 * * 1-5" # -test-tim-accessibility-gha
 
 # TODO: Change to correct channel_id when ready
 env:
@@ -248,6 +248,7 @@ jobs:
       - name: Waiting to release 
         run: |
           echo "Waiting to release: https://github.com/${{github.repository}}/compare/${{needs.set-env.outputs.LATEST_TAG_VERSION}}...${{github.sha}}"
+
       - name: Sleep for ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes
         uses: whatnick/wait-action@master
         with:
