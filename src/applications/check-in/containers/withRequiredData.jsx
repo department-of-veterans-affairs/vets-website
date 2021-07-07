@@ -6,6 +6,7 @@ import { goToNextPage, URLS } from '../utils/navigation';
 const withRequiredData = WrappedComponent => props => {
   const { checkInData, router } = props;
   const { appointment } = checkInData;
+
   if (!appointment) {
     goToNextPage(router, URLS.ERROR);
     return <></>;
