@@ -10,6 +10,8 @@ import { getScrollOptions } from 'platform/utilities/ui';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
 import AdditionalInformation from './AdditionalInformation';
+import JumpLink from './JumpLink';
+import ProfileSection from './ProfileSection';
 import ContactInformation from './ContactInformation';
 import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
@@ -52,7 +54,60 @@ export class InstitutionProfile extends React.Component {
 
     return (
       <div className="institution-profile">
-        <ProfilePageHeader institution={profile.attributes} />
+        <div className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4">
+          <div className="usa-width-three-fourths">
+            <ProfilePageHeader institution={profile.attributes} />
+          </div>
+
+          <div className="usa-width-one-fourth">
+            <h2 className="vads-u-padding-top--2">On this page</h2>
+            <JumpLink
+              label="Calculate your benefits"
+              jumpToId="calculate-your-benefits"
+            />
+            <JumpLink
+              label="Getting started with benefits"
+              jumpToId="getting-started-with-benefits"
+            />
+            <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
+            <JumpLink
+              label="Cautionary information"
+              jumpToId="cautionary-information"
+            />
+            <JumpLink label="School locations" jumpToId="school-locations" />
+            <JumpLink label="Academics" jumpToId="academics" />
+            <JumpLink
+              label="Veteran programs and support"
+              jumpToId="veteran-programs-and-support"
+            />
+            <JumpLink
+              label="Contact information"
+              jumpToId="contact-information"
+            />
+          </div>
+        </div>
+
+        <ProfileSection
+          label="Calculate your benefits"
+          id="calculate-your-benefits"
+        />
+        <ProfileSection
+          label="Getting started with benefits"
+          id="getting-started-with-benefits"
+        />
+        <ProfileSection label="Veteran ratings" id="veteran-ratings" />
+        <ProfileSection
+          label="Cautionary information"
+          id="cautionary-information"
+        />
+        <ProfileSection label="School locations" id="school-locations" />
+        <ProfileSection label="Academics" id="academics" />
+        <ProfileSection
+          label="Veteran programs and support"
+          id="veteran-programs-and-support"
+        />
+        <ProfileSection label="Contact information" id="contact-information" />
+
         <div className="usa-accordion vads-u-margin-top--4">
           <ul>
             <AccordionItem button="Estimate your benefits">
