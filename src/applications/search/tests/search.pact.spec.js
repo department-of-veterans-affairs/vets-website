@@ -78,55 +78,5 @@ contractTest('Search', 'VA.gov API', mockApi => {
         );
       });
     });
-
-    // context('with no results', () => {
-    //   it('responds with success', async () => {
-    //     await mockApi.addInteraction({
-    //       state: 'no matching results exist',
-    //       uponReceiving: 'a search query',
-    //       withRequest: {
-    //         method: 'GET',
-    //         path: '/v0/search',
-    //         query: { query: 'benefits' },
-    //         headers: {
-    //           'X-Key-Inflection': 'camel',
-    //         },
-    //       },
-    //       willRespondWith: {
-    //         status: 200,
-    //         body: {
-    //           data: {
-    //             type: 'search_results_responses',
-    //             attributes: {
-    //               body: {
-    //                 query: string('benefits'),
-    //                 web: {
-    //                   results: [],
-    //                 },
-    //               },
-    //             },
-    //           },
-    //           meta: {
-    //             pagination: like({
-    //               currentPage: 1,
-    //               perPage: 10,
-    //               totalPages: 1,
-    //               totalEntries: 1,
-    //             }),
-    //           },
-    //         },
-    //       },
-    //     });
-    //
-    //     const dispatch = sinon.spy();
-    //     await fetchSearchResults('abcdef')(dispatch);
-    //     const [firstAction] = dispatch.firstCall.args;
-    //     expect(firstAction.type).to.eq(FETCH_SEARCH_RESULTS);
-    //
-    //     const [secondAction] = dispatch.secondCall.args;
-    //     expect(secondAction.type).to.eq(FETCH_SEARCH_RESULTS_SUCCESS);
-    //     expect(secondAction.results.web.results).to.have.lengthOf(0);
-    //   });
-    // });
   });
 });
