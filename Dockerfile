@@ -11,7 +11,7 @@ ENV YARN_VERSION 1.21.1
 ENV NODE_ENV production
 
 RUN apt-get update
-RUN yarn config set "strict-ssl" false -g
+
 # Install specific version of Chrome to match ChromeDriver installation.
 ENV CHROME_VERSION 91.0.4472.101-1
 RUN curl -L "https://github.com/webnicer/chrome-downloads/raw/master/x64.deb/google-chrome-stable_${CHROME_VERSION}_amd64.deb" -o "google-chrome.deb"
