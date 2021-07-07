@@ -11,13 +11,4 @@ const URLS = Object.freeze({
   COMPLETE: 'complete',
 });
 
-const goToNextPageWithToken = () => {};
-const getTokenFromRouter = () => {};
-
-export {
-  getTokenFromLocation,
-  goToNextPage,
-  URLS,
-  goToNextPageWithToken,
-  getTokenFromRouter,
-};
+export { getTokenFromLocation, goToNextPage, URLS };
