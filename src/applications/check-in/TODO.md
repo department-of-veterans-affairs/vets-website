@@ -7,9 +7,9 @@
 - [X] remove token code from router
 - [X] update Unit tests
 - [X] update e2e tests
+- [ ] the refresh problem
 - [ ] new Unit tests
 - [ ] new e2e tests
-- [ ] the refresh problem
 
 ## In general
 

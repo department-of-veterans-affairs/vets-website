@@ -8,6 +8,7 @@ import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
 import Landing from './pages/Landing';
 
 import withNotOnProduction from './containers/withNotOnProduction';
+import withRequiredData from './containers/withRequiredData';
 
 import { URLS } from './utils/navigation';
 
@@ -17,19 +18,21 @@ const createRoutesWithStore = () => {
       <Route path="/" component={withNotOnProduction(Landing)} />
       <Route
         path={`/${URLS.UPDATE_INSURANCE}`}
-        component={withNotOnProduction(UpdateInformationQuestion)}
+        component={withNotOnProduction(
+          withRequiredData(UpdateInformationQuestion),
+        )}
       />
       <Route
         path={`/${URLS.DETAILS}`}
-        component={withNotOnProduction(CheckIn)}
+        component={withNotOnProduction(withRequiredData(CheckIn))}
       />
       <Route
         path={`/${URLS.COMPLETE}`}
-        component={withNotOnProduction(Confirmation)}
+        component={withNotOnProduction(withRequiredData(Confirmation))}
       />
       <Route
         path={`/${URLS.SEE_STAFF}`}
-        component={withNotOnProduction(Failed)}
+        component={withNotOnProduction(withRequiredData(Failed))}
       />
     </Switch>
   );
