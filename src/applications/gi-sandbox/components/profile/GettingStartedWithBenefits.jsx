@@ -3,12 +3,12 @@ import React from 'react';
 const GettingStartedWithBenefits = () => {
   return (
     <div>
-      <div className="vads-u-border--3px vads-u-border-color--gray-lightest vads-u-border-bottom--0">
+      <div className="vads-u-border--4px vads-u-border-color--gray-lightest vads-u-border-bottom--0">
         <h2 className="getting-started-with-benefits">
           Getting started with benefits
         </h2>
       </div>
-      <div className="vads-u-border--3px vads-u-padding-x--4 vads-u-border-color--gray-lightest">
+      <div className="vads-u-border--4px vads-u-padding-x--4 vads-u-border-top--0 vads-u-border-color--gray-lightest">
         <div className="vads-u-margin-y--2p5">
           <h3>How do I prepare before starting my application?</h3>
           <hr className="vads-u-margin-top--neg0p25" />
@@ -30,6 +30,7 @@ const GettingStartedWithBenefits = () => {
               Find out how to apply for Veteran Readiness and Employment
               (Chapter 31)
             </a>{' '}
+            <br />
             <a href="/careers-employment/education-and-career-counseling/">
               Find out how to apply for educational and career counseling
               (Chapter 36)
@@ -73,8 +74,7 @@ const GettingStartedWithBenefits = () => {
               aria-hidden="true"
             />{' '}
             <div className="vads-u-display--inline vads-u-padding-bottom--4 test">
-              {/* RENAMED REMOVE NOW */}
-              <div className="test">
+              <div className="getting-started-with-benefits-link">
                 <b>
                   <a href="/education/how-to-apply/">
                     Apply for education benefits
