@@ -6,8 +6,8 @@ import Confirmation from './pages/Confirmation';
 import Failed from './pages/Failed';
 import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
 import Landing from './pages/Landing';
-
-import withNotOnProduction from './containers/withNotOnProduction';
+import Error from './pages/Error';
+import withFeatureFlip from './containers/withFeatureFlip';
 import withRequiredData from './containers/withRequiredData';
 
 import { URLS } from './utils/navigation';
@@ -15,25 +15,24 @@ import { URLS } from './utils/navigation';
 const createRoutesWithStore = () => {
   return (
     <Switch>
-      <Route path="/" component={withNotOnProduction(Landing)} />
+      <Route path="/" component={withFeatureFlip(Landing)} />
       <Route
         path={`/${URLS.UPDATE_INSURANCE}`}
-        component={withNotOnProduction(
-          withRequiredData(UpdateInformationQuestion),
-        )}
+        component={withFeatureFlip(withRequiredData(UpdateInformationQuestion))}
       />
       <Route
         path={`/${URLS.DETAILS}`}
-        component={withNotOnProduction(withRequiredData(CheckIn))}
+        component={withFeatureFlip(withRequiredData(CheckIn))}
       />
       <Route
         path={`/${URLS.COMPLETE}`}
-        component={withNotOnProduction(withRequiredData(Confirmation))}
+        component={withFeatureFlip(withRequiredData(Confirmation))}
       />
       <Route
         path={`/${URLS.SEE_STAFF}`}
-        component={withNotOnProduction(withRequiredData(Failed))}
+        component={withFeatureFlip(withRequiredData(Failed))}
       />
+      <Route path={`/${URLS.ERROR}`} component={withFeatureFlip(Error)} />
     </Switch>
   );
 };

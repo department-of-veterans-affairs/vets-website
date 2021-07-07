@@ -9,6 +9,7 @@ const URLS = Object.freeze({
   SEE_STAFF: 'see-staff',
   DETAILS: 'details',
   COMPLETE: 'complete',
+  ERROR: 'error',
 });
 
 export { getTokenFromLocation, goToNextPage, URLS };
