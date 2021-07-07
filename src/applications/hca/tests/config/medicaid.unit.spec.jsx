@@ -14,7 +14,7 @@ describe('Hca medicare', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.medicare;
+  } = formConfig.chapters.insuranceInformation.pages.medicaid;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -61,10 +61,10 @@ describe('Hca medicare', () => {
     const formDOM = findDOMNode(form);
 
     ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_isEnrolledMedicarePartANo'),
+      formDOM.querySelector('#root_isMedicaidEligibleYes'),
       {
         target: {
-          value: 'N',
+          value: 'Y',
         },
       },
     );
