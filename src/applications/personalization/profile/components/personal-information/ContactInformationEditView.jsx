@@ -73,6 +73,15 @@ export class ContactInformationEditView extends Component {
     validateAddress: PropTypes.func.isRequired,
   };
 
+  focusOnFirstFormElement() {
+    const focusableElement = this.editForm?.querySelector(
+      'button, input, select, a, textarea',
+    );
+    if (focusableElement) {
+      focusableElement.focus();
+    }
+  }
+
   componentDidMount() {
     const { getInitialFormValues } = this.props;
     this.onChangeFormDataAndSchemas(
@@ -80,16 +89,14 @@ export class ContactInformationEditView extends Component {
       this.props.formSchema,
       this.props.uiSchema,
     );
-    // focus on the first focusable elements
-    setTimeout(() => {
-      const focusableElement = this.editForm.querySelector(
-        'button, input, select, a, textarea',
-      );
-      focusableElement.focus();
-    }, 1);
+    this.focusOnFirstFormElement();
   }
 
   componentDidUpdate(prevProps) {
+    if (!prevProps.field && !!this.props.field) {
+      this.focusOnFirstFormElement();
+    }
+
     // if the transaction just became pending, start calling
     // refreshTransaction() on an interval
     if (
