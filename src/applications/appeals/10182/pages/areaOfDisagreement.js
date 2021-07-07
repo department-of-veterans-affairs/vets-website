@@ -71,7 +71,8 @@ export default {
                 formData.areaOfDisagreement[index],
               ),
             }),
-            ariaDescribedby: 'other-hint-text',
+            // index is appended to this ID in the TextWidget
+            ariaDescribedby: 'other_hint_text',
           },
           'ui:errorMessages': {
             required: missingAreaOfDisagreementOtherErrorMessage,
