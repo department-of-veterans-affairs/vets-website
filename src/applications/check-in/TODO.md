@@ -4,9 +4,12 @@
 
 - [X] update the content build url
 - [X] Update urls to not have tokens
-- [ ] remove token code from router
-- [ ] Unit tests
-- [ ] e2e tests
+- [X] remove token code from router
+- [ ] update Unit tests
+- [ ] update e2e tests
+- [ ] new Unit tests
+- [ ] new e2e tests
+- [ ] the refresh problem
 
 ## In general
 
