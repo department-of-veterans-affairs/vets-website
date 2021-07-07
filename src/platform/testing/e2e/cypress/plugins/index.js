@@ -1,11 +1,9 @@
 const fs = require('fs');
 const webpackPreprocessor = require('@cypress/webpack-preprocessor');
-const { config } = require('winston');
 
 module.exports = on => {
   const ENV = 'localhost';
-  // eslint-disable-next-line no-param-reassign
-  config.baseUrl = `http://localhost:${process.env.CYPRESS_PORT}`;
+
   // Import our own Webpack config.
   require('../../../../../../config/webpack.config.js')(ENV).then(
     webpackConfig => {
