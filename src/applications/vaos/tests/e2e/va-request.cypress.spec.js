@@ -2,10 +2,18 @@ import moment from 'moment';
 import {
   initAppointmentListMock,
   initVARequestMock,
+  vaosSetup,
+  mockUser,
+  mockFeatureToggles,
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
 import facilities from '../../services/mocks/var/facilities.json';
 import facilities983 from '../../services/mocks/var/facilities_983.json';
+import facilityData from '../../services/mocks/var/facility_data.json';
+import {
+  getDirectBookingEligibilityCriteriaMock,
+  getRequestEligibilityCriteriaMock,
+} from '../mocks/v0';
 
 function fillOutForm(facilitySelection) {
   cy.visit('health-care/schedule-view-va-appointments/appointments/');
@@ -172,5 +180,124 @@ describe('VAOS request flow', () => {
     cy.findByText(/Rawlins VA Clinic/);
     cy.findByText(/To schedule an appointment online at this facility/);
     cy.axeCheckBestPractice();
+  });
+
+  it.only('should submit form successfully using v2 api', () => {
+    vaosSetup();
+    mockFeatureToggles({ v2Requests: true, homepageRefresh: true });
+    cy.login(mockUser);
+    cy.route({
+      method: 'GET',
+      url: /.*\/v0\/appointments?.*$/,
+      response: { data: [] },
+    });
+    cy.route({
+      method: 'GET',
+      url: '/vaos/v0/request_eligibility_criteria*',
+      response: {
+        data: [
+          getRequestEligibilityCriteriaMock({
+            id: '983GB',
+            typeOfCareId: '125',
+          }),
+        ],
+      },
+    });
+    cy.route({
+      method: 'GET',
+      url: '/vaos/v0/direct_booking_eligibility_criteria*',
+      response: {
+        data: [
+          getDirectBookingEligibilityCriteriaMock({
+            id: '983GB',
+            typeOfCareId: '125',
+            patientHistoryRequired: null,
+          }),
+        ],
+      },
+    });
+    cy.route({
+      method: 'GET',
+      url: '/v1/facilities/va?ids=*',
+      response: facilityData,
+    });
+    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.injectAxe();
+    cy.get('.va-modal-body button').click();
+
+    // Start flow
+    cy.findByText('Start scheduling').click();
+    // Choose Type of Care
+    newApptTests.chooseTypeOfCareTest('Social work');
+
+    // Choose VA Facility
+    cy.url().should('include', '/va-facility');
+    cy.axeCheckBestPractice();
+    cy.findByLabelText(/Sidney/)
+      .focus()
+      .click();
+    cy.findByText(/Continue/).click();
+
+    // Choose date and slot (AM or PM)
+    newApptTests.selectRequestSlotTest();
+
+    // Reason for appointment
+    newApptTests.reasonForAppointmentTest(
+      'cough',
+      /Please provide any additional details/,
+    );
+
+    // Visit type
+    newApptTests.howToBeSeenTest();
+
+    // Contact info
+    newApptTests.contactInfoTest();
+
+    // Review
+    cy.url().should('include', '/review');
+    cy.axeCheckBestPractice();
+    cy.findByText('Request appointment').click();
+
+    // Check form requestBody is as expected
+    cy.wait('@appointmentRequests').should(xhr => {
+      let date = moment()
+        .add(5, 'days')
+        .add(1, 'months')
+        .startOf('month');
+
+      // Check for weekend and select following Monday if true
+      if (date.weekday() === 0) {
+        date = date.add(1, 'days').format('MM/DD/YYYY');
+      } else if (date.weekday() === 6) {
+        date = date.add(2, 'days').format('MM/DD/YYYY');
+      } else {
+        date = date.format('MM/DD/YYYY');
+      }
+
+      expect(xhr.status).to.eq(200);
+      expect(xhr.url, 'post url').to.contain(
+        '/vaos/v0/appointment_requests?type=va',
+      );
+      const request = xhr.requestBody;
+      expect(request)
+        .to.have.property('optionDate1')
+        .to.equal(date);
+      expect(request)
+        .to.have.property('optionDate2')
+        .to.equal('No Date Selected');
+      expect(request)
+        .to.have.property('optionDate3')
+        .to.equal('No Date Selected');
+
+      expect(request.facility.facilityCode).to.eq('983GB');
+      expect(request.facility.parentSiteCode).to.eq('983');
+      expect(request).to.have.property('typeOfCareId', '125');
+      expect(request).to.have.property('visitType', 'Office Visit');
+      expect(request).to.have.property('optionTime1', 'AM');
+      expect(request).to.have.property('optionTime2', 'No Time Selected');
+      expect(request).to.have.property('optionTime3', 'No Time Selected');
+      expect(request).to.have.property('email', 'veteran@gmail.com');
+      expect(request).to.have.property('phoneNumber', '5035551234');
+    });
   });
 });
