@@ -72,7 +72,7 @@ export default {
               ),
             }),
             // index is appended to this ID in the TextWidget
-            ariaDescribedby: 'other-hint-text',
+            ariaDescribedby: 'other_hint_text',
           },
           'ui:errorMessages': {
             required: missingAreaOfDisagreementOtherErrorMessage,

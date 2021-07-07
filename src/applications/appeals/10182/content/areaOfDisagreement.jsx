@@ -61,8 +61,9 @@ export const effectiveDate = wrapHeader('The effective date of award');
 export const evaluation = wrapHeader('The evaluation of my condition');
 export const other = wrapHeader('Something else');
 export const otherLabel = 'Tell us what you disagree with:';
+// Includes _{index} which is appended by the TextWidget
 export const otherDescription = ({ index }) => (
-  <span id={`other-hint-text${index}`} className="vads-u-color--gray">
+  <span id={`other_hint_text_${index}`} className="vads-u-color--gray">
     Please explain in a few words
   </span>
 );

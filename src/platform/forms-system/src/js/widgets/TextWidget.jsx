@@ -4,20 +4,20 @@ import PropTypes from 'prop-types';
 const numberTypes = new Set(['number', 'integer']);
 
 export default function TextWidget(props) {
-  const pageIndex = props.formContext?.pagePerItemIndex;
   let inputType = props.options.inputType;
   if (!inputType) {
     inputType = numberTypes.has(props.schema.type) ? 'number' : props.type;
   }
 
+  const pageIndex = props.formContext?.pagePerItemIndex;
   /**
    * addIndex
-   * ariaDescribedby id may need to be indexed, add `:index` to the id and the
-   * formContext pagePerItemIndex will replace it
-   * @param {String|null} id - aria-describedby id with ":index" placeholder
+   * ui:options.ariaDescribedby id may be within an array, so the page index
+   * from formContext pagePerItemIndex will be appended
+   * @param {String|null} id - aria-describedby id of associated content
    */
   const addIndex = (id = '') =>
-    id && typeof pageIndex !== 'undefined' ? `${id}${pageIndex}` : id;
+    id && typeof pageIndex !== 'undefined' ? `${id}_${pageIndex}` : id;
 
   const inputProps = {
     ...(props.schema.minValue && { min: props.schema.minValue }),
