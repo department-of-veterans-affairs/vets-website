@@ -1,26 +1,57 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import Insurance from '../Insurance';
 
 describe('health care check in -- Insurance component -- ', () => {
+  let store;
+  beforeEach(() => {
+    const middleware = [];
+    const mockStore = configureStore(middleware);
+    const initState = {
+      checkInData: {
+        appointment: {
+          clinicPhone: '555-867-5309',
+          appointmentTime: '2021-07-06 12:58:39 UTC',
+          facilityName: 'Acme VA',
+          clinicName: 'Green Team Clinic1',
+        },
+      },
+    };
+    store = mockStore(initState);
+  });
   it('has a header', () => {
-    const component = mount(<Insurance />);
+    const component = render(
+      <Provider store={store}>
+        <Insurance />
+      </Provider>,
+    );
 
-    expect(component.find('h1').exists()).to.be.true;
-
-    component.unmount();
+    expect(
+      component.getByText(
+        'Need to update your insurance, contact, or other information?',
+      ),
+    ).to.exist;
   });
   it('uses a fieldset', () => {
-    const component = mount(<Insurance />);
+    const { container } = render(
+      <Provider store={store}>
+        <Insurance />
+      </Provider>,
+    );
 
-    expect(component.find('fieldset').exists()).to.be.true;
-
-    component.unmount();
+    expect(container.querySelector('fieldset')).to.exist;
   });
   it('passes axeCheck', () => {
-    axeCheck(<Insurance />);
+    axeCheck(
+      <Provider store={store}>
+        <Insurance />
+      </Provider>,
+    );
   });
 });
