@@ -7,6 +7,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import {
   DefinitionTester,
   submitForm,
+  getFormDOM,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form';
 
@@ -14,7 +15,7 @@ describe('Hca medicare', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.medicare;
+  } = formConfig.chapters.insuranceInformation.pages.medicarePartAEffectiveDate;
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -25,7 +26,7 @@ describe('Hca medicare', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input').length).to.equal(1);
   });
 
   it('should not submit empty form', () => {
@@ -58,16 +59,11 @@ describe('Hca medicare', () => {
       />,
     );
 
-    const formDOM = findDOMNode(form);
+    const formDOM = getFormDOM(form);
 
-    ReactTestUtils.Simulate.change(
-      formDOM.querySelector('#root_isEnrolledMedicarePartANo'),
-      {
-        target: {
-          value: 'N',
-        },
-      },
-    );
+    formDOM.fillData('#root_medicarePartAEffectiveDateMonth', '1');
+    formDOM.fillData('#root_medicarePartAEffectiveDateDay', '1');
+    formDOM.fillData('#root_medicarePartAEffectiveDateYear', '2000');
 
     submitForm(form);
 
