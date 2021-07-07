@@ -1,15 +1,11 @@
 import React from 'react';
 
-import { URLS } from '../utils/navigation';
+import { URLS, goToNextPage } from '../utils/navigation';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 
 const UpdateInformationQuestion = props => {
-  const goToNextPage = url => {
-    const { router } = props;
-    router.push(url);
-  };
-
+  const { router } = props;
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
       <fieldset>
@@ -21,14 +17,14 @@ const UpdateInformationQuestion = props => {
         <button
           data-testid="yes-button"
           className="usa-button-secondary usa-button-big"
-          onClick={() => goToNextPage(URLS.SEE_STAFF)}
+          onClick={() => goToNextPage(router, URLS.SEE_STAFF)}
         >
           Yes
         </button>
         <button
           data-testid="no-button"
           className="usa-button-secondary usa-button-big"
-          onClick={() => goToNextPage(URLS.UPDATE_INSURANCE)}
+          onClick={() => goToNextPage(router, URLS.DETAILS)}
         >
           No
         </button>

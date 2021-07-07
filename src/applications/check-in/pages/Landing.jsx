@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import { getTokenFromLocation, URLS } from '../utils/navigation';
+import { getTokenFromLocation, URLS, goToNextPage } from '../utils/navigation';
 import { validateToken } from '../api';
 import { receivedAppointmentDetails } from '../actions';
 
@@ -19,9 +19,9 @@ const Landing = props => {
           if (isValid) {
             // dispatch data into redux
             setAppointment(data);
-            router.push(URLS.UPDATE_INSURANCE);
+            goToNextPage(router, URLS.UPDATE_INSURANCE);
           } else {
-            router.push(URLS.SEE_STAFF);
+            goToNextPage(router, URLS.SEE_STAFF);
           }
         });
       }
