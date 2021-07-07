@@ -15,7 +15,6 @@ jobs:
   build:
     name: E2E Tests
     runs-on: self-hosted
-    container: cypress/browsers:node14.16.0-chrome90-ff88
     strategy:
       fail-fast: false
       max-parallel: 6
