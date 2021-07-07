@@ -81,7 +81,7 @@ describe('Schemaform <TextWidget>', () => {
         onChange={onChange}
         formContext={{ pagePerItemIndex: 2 }}
         options={{
-          ariaDescribedby: 'test-id-',
+          ariaDescribedby: 'test_id',
         }}
       />,
     );
@@ -90,7 +90,7 @@ describe('Schemaform <TextWidget>', () => {
         .find('input')
         .getDOMNode()
         .getAttribute('aria-describedby'),
-    ).to.equal('test-id-2');
+    ).to.equal('test_id_2');
     tree.unmount();
   });
   it('should render empty string when undefined', () => {
