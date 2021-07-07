@@ -3,35 +3,48 @@ import React from 'react';
 const GettingStartedWithBenefits = () => {
   return (
     <div>
-      <div className="vads-u-border--4px vads-u-border-color--gray-lightest vads-u-border-bottom--0">
+      <div className="getting-started-with-benefits-border-h2">
         <h2 className="getting-started-with-benefits">
           Getting started with benefits
         </h2>
       </div>
-      <div className="vads-u-border--4px vads-u-padding-x--4 vads-u-border-top--0 vads-u-border-color--gray-lightest">
+      <div className="getting-started-with-benefits-border-h3 vads-u-padding-left--4 vads-u-padding-right--1">
         <div className="vads-u-margin-y--2p5">
           <h3>How do I prepare before starting my application?</h3>
           <hr className="vads-u-margin-top--neg0p25" />
           <ul className="getting-started-with-benefits-li">
-            <li>Find out if you're eligible for VA education benefits</li>
+            <li>
+              <a href="/education/eligibility/" rel="noopener noreferrer">
+                Find out if you're eligible for VA education benefits
+              </a>
+            </li>
             <li>
               Gather the documents and information listed below that you'll need
               to apply for education benefits
             </li>
           </ul>
+          <div className="vads-u-margin-right--9">
+            <p>
+              <b>Note:</b> To apply for Veteran Readiness and Employment
+              (Chapter 31) or educational and career counseling through
+              Personalized Career Planning and Guidance (Chapter 36), you'll
+              need to use a different application.
+            </p>
+          </div>
           <p>
-            <b>Note:</b> To apply for Veteran Readiness and Employment (Chapter
-            31) or educational and career counseling through Personalized Career
-            Planning and Guidance (Chapter 36), you'll need to use a different
-            application.
-          </p>
-          <p>
-            <a href="/careers-employment/vocational-rehabilitation/how-to-apply/">
+            <a
+              href="/careers-employment/vocational-rehabilitation/how-to-apply/"
+              rel="noopener noreferrer"
+            >
               Find out how to apply for Veteran Readiness and Employment
               (Chapter 31)
             </a>{' '}
-            <br />
-            <a href="/careers-employment/education-and-career-counseling/">
+          </p>
+          <p>
+            <a
+              href="/careers-employment/education-and-career-counseling/"
+              rel="noopener noreferrer"
+            >
               Find out how to apply for educational and career counseling
               (Chapter 36)
             </a>
@@ -49,19 +62,19 @@ const GettingStartedWithBenefits = () => {
           </ul>
           <h3>A decision with consequences</h3>
           <hr className="vads-u-margin-top--neg0p25" />
-          <p>
+          <p className="vads-u-margin-right--9">
             Your decision to apply for a certain educational benefit could
             impact your eligibility for other benefits. Here are a few factors
             to keep in mind:
           </p>
           <ul className="getting-started-with-benefits-li">
-            <li>
+            <li className="vads-u-margin-right--9">
               If you're eligible for more than one education benefit, such as
               the Post-9/11 GI Bill and the Montgomery GI Bill, you must choose
               which benefit to receive,{' '}
               <b>a decision that's final and cannot be changed.</b>
             </li>
-            <li>
+            <li className="vads-u-margin-right--9">
               If you're eligible for the Post-9/11 GI Bill and two or more
               additional education benefits, you must give up one of the
               additional education benefits. However, you may remain eligible
@@ -76,7 +89,7 @@ const GettingStartedWithBenefits = () => {
             <div className="vads-u-display--inline vads-u-padding-bottom--4 test">
               <div className="getting-started-with-benefits-link">
                 <b>
-                  <a href="/education/how-to-apply/">
+                  <a href="/education/how-to-apply/" rel="noopener noreferrer">
                     Apply for education benefits
                   </a>
                 </b>
