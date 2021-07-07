@@ -90,7 +90,10 @@ export class InstitutionProfile extends React.Component {
         <ProfileSection
           label="Calculate your benefits"
           id="calculate-your-benefits"
-        />
+        >
+          <EstimateYourBenefits gibctEybBottomSheet={gibctEybBottomSheet} />
+        </ProfileSection>
+
         <ProfileSection
           label="Getting started with benefits"
           id="getting-started-with-benefits"
@@ -110,9 +113,6 @@ export class InstitutionProfile extends React.Component {
 
         <div className="usa-accordion vads-u-margin-top--4">
           <ul>
-            <AccordionItem button="Estimate your benefits">
-              <EstimateYourBenefits gibctEybBottomSheet={gibctEybBottomSheet} />
-            </AccordionItem>
             {!isOJT && (
               <AccordionItem button="Veteran programs">
                 <Programs

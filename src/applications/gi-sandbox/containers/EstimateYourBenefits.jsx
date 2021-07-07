@@ -111,47 +111,69 @@ export class EstimateYourBenefits extends React.Component {
     );
 
     return (
-      <div className="row calculate-your-benefits">
-        <EstimateYourBenefitsForm
-          profile={profile}
-          eligibility={this.props.eligibility}
-          eligibilityChange={this.props.eligibilityChange}
-          inputs={inputs}
-          displayedInputs={displayed}
-          showModal={this.props.showModal}
-          calculatorInputChange={this.props.calculatorInputChange}
-          onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
-          estimatedBenefits={this.props.estimatedBenefits}
-          updateEstimatedBenefits={this.updateEstimatedBenefits}
-        />
-        <div className={spacerClassNames}>&nbsp;</div>
-        <EstimatedBenefits
-          outputs={outputs}
-          profile={profile}
-          calculator={inputs}
-        />
-        {gibctEybBottomSheet && (
-          <div>
-            {this.state.expandEybSheet && (
-              <div
-                onClick={() => this.toggleEybExpansion()}
-                className="va-modal overlay"
-              />
-            )}
-            {
-              <div id="eyb-summary-sheet" className={summarySheetClassNames}>
-                <EstimateYourBenefitsSummarySheet
-                  outputs={outputs}
-                  expandEybSheet={this.state.expandEybSheet}
-                  showEybSheet={this.state.showEybSheet}
-                  toggleEybExpansion={() => this.toggleEybExpansion()}
-                  type={this.props.calculator.type}
-                  yellowRibbon={
-                    this.props.calculator.yellowRibbonRecipient === 'yes'
-                  }
+      <div>
+        <div className="row calculate-your-benefits">
+          <EstimateYourBenefitsForm
+            profile={profile}
+            eligibility={this.props.eligibility}
+            eligibilityChange={this.props.eligibilityChange}
+            inputs={inputs}
+            displayedInputs={displayed}
+            showModal={this.props.showModal}
+            calculatorInputChange={this.props.calculatorInputChange}
+            onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
+            estimatedBenefits={this.props.estimatedBenefits}
+            updateEstimatedBenefits={this.updateEstimatedBenefits}
+          />
+          <div className={spacerClassNames}>&nbsp;</div>
+          <EstimatedBenefits
+            outputs={outputs}
+            profile={profile}
+            calculator={inputs}
+          />
+          {gibctEybBottomSheet && (
+            <div>
+              {this.state.expandEybSheet && (
+                <div
+                  onClick={() => this.toggleEybExpansion()}
+                  className="va-modal overlay"
                 />
-              </div>
-            }
+              )}
+              {
+                <div id="eyb-summary-sheet" className={summarySheetClassNames}>
+                  <EstimateYourBenefitsSummarySheet
+                    outputs={outputs}
+                    expandEybSheet={this.state.expandEybSheet}
+                    showEybSheet={this.state.showEybSheet}
+                    toggleEybExpansion={() => this.toggleEybExpansion()}
+                    type={this.props.calculator.type}
+                    yellowRibbon={
+                      this.props.calculator.yellowRibbonRecipient === 'yes'
+                    }
+                  />
+                </div>
+              }
+            </div>
+          )}
+        </div>
+        <div className="subsection">
+          Additional information regarding your benefits
+        </div>
+        {profile.attributes.vetWebsiteLink && (
+          <div>
+            <strong>Veterans tuition policy: </strong>
+            {'Yes '}
+            <strong>
+              (
+              <a
+                href={profile.attributes.vetWebsiteLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View policy
+              </a>
+              )
+            </strong>
           </div>
         )}
       </div>
