@@ -514,6 +514,12 @@ jobs:
         with:
           node-version: 14 # ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
+        working-directory: testing-tools-team-dashboard-data
+
       - name: Download Mochawesome test results
         uses: actions/download-artifact@v2
         with:
