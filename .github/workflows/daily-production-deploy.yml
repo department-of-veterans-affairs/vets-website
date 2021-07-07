@@ -8,11 +8,11 @@ on:
         required: false
         default: 5
   schedule:
-    - cron: "0 18 * * 1-5" # -test-tim-accessibility-gha
+    - cron: "0 18 * * 1-5"
 
 # TODO: Change to correct channel_id when ready
 env:
-  CHANNEL_ID: C024DUC9S1K
+  CHANNEL_ID: C024DUC9S1K # -test-tim-accessibility-gha
 
 jobs:
   set-env:
