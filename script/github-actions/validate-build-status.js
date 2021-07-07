@@ -1,69 +1,65 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
 const fetch = require('node-fetch');
+const path = require('path');
 
 const args = process.argv.slice(2);
-const repo = args[0];
 const timeout = 2; // minutes
-const ymlName = args[1]; // TODO: Once e2e is changed to continous integration, we can remove
-const releaseSHA = args[2];
-let page = 1;
-let checkWorkflowURL = `https://api.github.com/repos/${repo}/actions/workflows/${ymlName}.yml/runs?branch=master&page=${page}&per_page=50`;
+const [repo, releaseSHA] = args;
+let currentPage = 1;
+
+const getWorkflowRunsUrl = (page = 1) => {
+  const url = new URL(
+    path.join(
+      'https://api.github.com',
+      `repos/${repo}`,
+      `actions/workflows/continuous-integration.yml/runs`,
+    ),
+  );
+  const params = new URLSearchParams();
+  params.append('branch', 'master');
+  params.append('page', page);
+  params.append('per_page', 50);
+  url.search = params;
+
+  return url.toString();
+};
 
 /**
  * fetch request for github action URL provided
  * @param {string} url
  */
 function getLatestWorkflow(url) {
-  const headers = { Accept: 'application/vnd.github.v3+json' };
-  return fetch(url, headers)
+  return fetch(url)
     .then(response => {
       if (!response.ok) {
-        return Promise.reject(
-          Error(`Response not okay with ${url}. Aborting.`),
-        );
+        throw new Error(`Response ${response.status} from ${url}. Aborting.`);
       }
       return response.json();
     })
     .then(({ workflow_runs }) => {
       if (workflow_runs.length === 0) {
-        return Promise.reject(Error(`No workflows returns. Aborting.`));
+        throw new Error('No workflows found. Aborting.');
       }
-
-      let validWorkflow;
 
       // If SHA passed, get workflow information. Otherwise get the most recent
       if (releaseSHA) {
-        validWorkflow = workflow_runs.find(
+        const validWorkflow = workflow_runs.find(
           ({ head_sha }) => head_sha === releaseSHA,
         );
-        if (validWorkflow === undefined) {
-          page += 1;
-          checkWorkflowURL = `https://api.github.com/repos/${repo}/actions/workflows/${ymlName}.yml/runs?branch=master&page=${page}&per_page=50`;
+        if (!validWorkflow) {
+          currentPage += 1;
+          const urlNextPage = getWorkflowRunsUrl(currentPage);
+          console.log(
+            'Workflow not found in current page. Checking next page.',
+          );
           // TODO: check timestamp
-          return getLatestWorkflow(checkWorkflowURL);
+          return getLatestWorkflow(urlNextPage);
+        } else {
+          return validWorkflow;
         }
       } else {
-        validWorkflow = workflow_runs[0];
-      }
-
-      if (validWorkflow.conclusion === 'failure') {
-        return Promise.reject(
-          Error(
-            `Build aborted due to failed runs detected on.\n\n ${
-              validWorkflow.html_url
-            }`,
-          ),
-        );
-      } else if (
-        validWorkflow.status === 'in_progress' ||
-        validWorkflow.status === null ||
-        validWorkflow.status === 'queued'
-      ) {
-        return Promise.reject({});
-      } else {
-        console.log(`All checks succeeded for ${ymlName}`);
-        return Promise.resolve();
+        return workflow_runs[0];
       }
     });
 }
@@ -73,19 +69,54 @@ function sleep(minutes) {
 }
 
 /**
+ * Validates the workflow
+ * @param {Object} workflow
+ * @returns true, false, undefined
+ */
+function validateWorkflowSuccess(workflow) {
+  const { status, conclusion } = workflow;
+
+  if (conclusion === 'failure') return false;
+
+  const isWorkflowInProgress =
+    status === 'in_progress' || status === null || status === 'queued';
+
+  if (isWorkflowInProgress) return undefined;
+  if (conclusion === 'success') {
+    console.log('All checks succeeded');
+    return true;
+  }
+
+  throw new Error(
+    `Unexpected workflow result: ${JSON.stringify({ status, conclusion })}`,
+  );
+}
+
+/**
  * Checks Github Actions url. Loops recursively until error is thrown.
  */
 async function main() {
   try {
-    return await getLatestWorkflow(checkWorkflowURL);
-  } catch (e) {
-    if (e.name !== undefined && e.name === 'Error') {
-      console.log(e);
+    const url = getWorkflowRunsUrl(currentPage);
+    const workflow = await getLatestWorkflow(url);
+    const success = validateWorkflowSuccess(workflow);
+
+    if (success === undefined) {
+      console.log(`Check runs still pending. Sleeping for ${timeout} minutes`);
+      await sleep(timeout);
+      await main();
+    }
+
+    if (!success) {
+      // TODO: Check which jobs failed by fetching jobs_url and filtering on jobs we care about.
+      console.error(
+        `Build aborted due to failed runs detected on:\n\n${workflow.html_url}`,
+      );
       process.exit(1);
     }
-    console.log(`Check runs still pending. Sleeping for ${timeout} minutes`);
-    await sleep(timeout);
-    return main();
+  } catch (e) {
+    console.log(e);
+    process.exit(1);
   }
 }
 
