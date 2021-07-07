@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { goToNextPage, URLS } from '../utils/navigation';
 
-const withFeatureFlip = WrappedComponent => props => {
+const withRequiredData = WrappedComponent => props => {
   const { checkInData, router } = props;
   const { appointment } = checkInData;
   if (!appointment) {
@@ -23,6 +23,6 @@ const mapStateToProps = state => ({
 
 const composedWrapper = compose(
   connect(mapStateToProps),
-  withFeatureFlip,
+  withRequiredData,
 );
 export default composedWrapper;
