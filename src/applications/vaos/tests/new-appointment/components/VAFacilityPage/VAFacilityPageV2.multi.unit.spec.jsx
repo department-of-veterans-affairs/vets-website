@@ -1429,6 +1429,7 @@ describe('VAOS <VAFacilityPageV2> using V2 api', () => {
     const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
       store,
     });
+    await screen.findAllByRole('radio');
 
     await waitFor(() => {
       expect(global.document.title).to.equal(
