@@ -5,6 +5,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { timeFromNow } from './utilities/date';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { displayFileSize } from 'platform/utilities/ui/index';
+import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
@@ -218,6 +219,7 @@ export function uploadFile(
   onError,
   trackingPrefix,
   password,
+  enableShortWorkflow,
 ) {
   // This item should have been set in any previous API calls
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -230,11 +232,15 @@ export function uploadFile(
 
     if (file.size > maxSize) {
       const fileSizeText = displayFileSize(maxSize);
+      const fileTooBigErrorMessage = enableShortWorkflow
+        ? 'We couldn\u2019t upload your file because it\u2019s too big. ' +
+          `Please make sure the file is ${fileSizeText} or less and try again.`
+        : 'We couldn\u2019t upload your file because it\u2019s too big. ' +
+          `Please delete this file. Then upload a file that\u2019s ${fileSizeText} or less.`;
+
       onChange({
         name: file.name,
-        errorMessage:
-          'We couldn\u2019t upload your file because it\u2019s too big. ' +
-          `Please delete this file. Then upload a file that\u2019s ${fileSizeText} or less.`,
+        errorMessage: fileTooBigErrorMessage,
       });
 
       onError();
@@ -243,11 +249,15 @@ export function uploadFile(
 
     if (file.size < uiOptions.minSize) {
       const fileSizeText = displayFileSize(uiOptions.minSize);
+      const fileTooSmallErrorMessage = enableShortWorkflow
+        ? 'We couldn\u2019t upload your file because it\u2019s too small. ' +
+          `Please make sure the file is ${fileSizeText} or more and try again.`
+        : 'We couldn\u2019t upload your file because it\u2019s too small. ' +
+          `Please delete this file. Then upload a file that\u2019s ${fileSizeText} or more.`;
+
       onChange({
         name: file.name,
-        errorMessage:
-          'We couldn\u2019t upload your file because it\u2019s too small. ' +
-          `Please delete this file. Then upload a file that\u2019s ${fileSizeText} or more.`,
+        errorMessage: fileTooSmallErrorMessage,
       });
 
       onError();
@@ -271,11 +281,15 @@ export function uploadFile(
         '',
       );
 
+      const fileTypeErrorMessage = enableShortWorkflow
+        ? 'We couldn\u2019t upload your file because we can\u2019t accept this type ' +
+          `of file. Please make sure the file is a ${allowedTypes} file and try again.`
+        : 'We couldn\u2019t upload your file because we can\u2019t accept this type ' +
+          `of file. Please delete the file. Then try again with a ${allowedTypes} file.`;
+
       onChange({
         name: file.name,
-        errorMessage:
-          'We couldn\u2019t upload your file because we can\u2019t accept this type ' +
-          `of file. Please delete the file. Then try again with a ${allowedTypes} file.`,
+        errorMessage: fileTypeErrorMessage,
       });
 
       onError();
@@ -335,12 +349,19 @@ export function uploadFile(
     });
 
     req.addEventListener('error', () => {
-      const errorMessage =
-        'We\u2019re sorry. We had a connection problem. Please delete the file and try again.';
+      const errorMessage = enableShortWorkflow
+        ? FILE_UPLOAD_NETWORK_ERROR_MESSAGE
+        : 'We\u2019re sorry. We had a connection problem. Please delete the file and try again.';
+
       if (password) {
-        onChange({ name: file.name, errorMessage, password: file.password });
+        onChange({
+          file, // return file object to allow resubmit
+          name: file.name,
+          errorMessage,
+          password: file.password,
+        });
       } else {
-        onChange({ name: file.name, errorMessage });
+        onChange({ file, name: file.name, errorMessage }); // return file object to allow resubmit
       }
       Sentry.withScope(scope => {
         scope.setExtra('statusText', req.statusText);
