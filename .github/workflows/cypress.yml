@@ -40,15 +40,10 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@latest
         with:
-          path: |
-            ~/.cache/yarn
-            ~/.cache/Cypress
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+          chrome-version: stable
 
       - name: Install vets-website dependencies
         run: yarn install --frozen-lockfile --prefer-offline
@@ -240,6 +235,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+
+      - name: Install Modules
+        run: yarn install
 
       - name: Generate UUID
         id: generate-uuid
