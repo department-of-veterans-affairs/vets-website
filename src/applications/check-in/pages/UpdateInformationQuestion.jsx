@@ -1,11 +1,14 @@
 import React from 'react';
 
-import { goToNextPageWithToken } from '../utils/navigation';
+import { URLS } from '../utils/navigation';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 
-const Insurance = props => {
-  const { router } = props;
+const UpdateInformationQuestion = props => {
+  const goToNextPage = url => {
+    const { router } = props;
+    router.push(url);
+  };
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
@@ -18,14 +21,14 @@ const Insurance = props => {
         <button
           data-testid="yes-button"
           className="usa-button-secondary usa-button-big"
-          onClick={() => goToNextPageWithToken(router, 'failed')}
+          onClick={() => goToNextPage(URLS.SEE_STAFF)}
         >
           Yes
         </button>
         <button
           data-testid="no-button"
           className="usa-button-secondary usa-button-big"
-          onClick={() => goToNextPageWithToken(router, 'details')}
+          onClick={() => goToNextPage(URLS.UPDATE_INSURANCE)}
         >
           No
         </button>
@@ -37,4 +40,4 @@ const Insurance = props => {
   );
 };
 
-export default Insurance;
+export default UpdateInformationQuestion;
