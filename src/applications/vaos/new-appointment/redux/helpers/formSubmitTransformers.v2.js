@@ -75,7 +75,7 @@ export function transformFormToVAOSCCRequest(state) {
       lang => lang.id === data.preferredLanguage,
     )?.value,
     preferredLocation,
-    PractitionerIds: practitioners,
+    practitionerIds: practitioners,
   };
 }
 
