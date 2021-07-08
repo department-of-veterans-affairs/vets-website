@@ -45,18 +45,19 @@ export class InstitutionProfile extends React.Component {
       showModal,
       gibctEybBottomSheet,
     } = this.props;
+    const institution = profile.attributes;
 
-    const stars = convertRatingToStars(profile.attributes.ratingAverage);
+    const stars = convertRatingToStars(institution.ratingAverage);
     const displayStars =
       this.props.gibctSchoolRatings &&
       stars &&
-      profile.attributes.ratingCount >= MINIMUM_RATING_COUNT;
+      institution.ratingCount >= MINIMUM_RATING_COUNT;
 
     return (
       <div className="institution-profile">
         <div className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4">
           <div className="usa-width-three-fourths">
-            <ProfilePageHeader institution={profile.attributes} />
+            <ProfilePageHeader institution={institution} />
           </div>
 
           <div className="usa-width-one-fourth">
@@ -69,13 +70,17 @@ export class InstitutionProfile extends React.Component {
               label="Getting started with benefits"
               jumpToId="getting-started-with-benefits"
             />
-            <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
+            {displayStars && (
+              <JumpLink label="Veteran ratings" jumpToId="veteran-ratings" />
+            )}
             <JumpLink
               label="Cautionary information"
               jumpToId="cautionary-information"
             />
-            <JumpLink label="School locations" jumpToId="school-locations" />
-            <JumpLink label="Academics" jumpToId="academics" />
+            {this.shouldShowSchoolLocations(institution.facilityMap) && (
+              <JumpLink label="School locations" jumpToId="school-locations" />
+            )}
+            {!isOJT && <JumpLink label="Academics" jumpToId="academics" />}
             <JumpLink
               label="Veteran programs and support"
               jumpToId="veteran-programs-and-support"
@@ -90,80 +95,66 @@ export class InstitutionProfile extends React.Component {
         <ProfileSection
           label="Calculate your benefits"
           id="calculate-your-benefits"
-        />
+        >
+          <EstimateYourBenefits gibctEybBottomSheet={gibctEybBottomSheet} />
+        </ProfileSection>
         <ProfileSection
           label="Getting started with benefits"
           id="getting-started-with-benefits"
         />
-        <ProfileSection label="Veteran ratings" id="veteran-ratings" />
+        {displayStars && (
+          <ProfileSection label="Veteran ratings" id="veteran-ratings">
+            <div id="profile-school-ratings">
+              <SchoolRatings
+                ratingAverage={institution.ratingAverage}
+                ratingCount={institution.ratingCount}
+                institutionCategoryRatings={
+                  institution.institutionCategoryRatings
+                }
+              />
+            </div>
+          </ProfileSection>
+        )}
         <ProfileSection
           label="Cautionary information"
           id="cautionary-information"
-        />
-        <ProfileSection label="School locations" id="school-locations" />
-        <ProfileSection label="Academics" id="academics" />
+        >
+          <CautionaryInformation
+            institution={institution}
+            onShowModal={showModal}
+          />
+        </ProfileSection>
+        {this.shouldShowSchoolLocations(institution.facilityMap) && (
+          <ProfileSection label="School locations" id="school-locations">
+            <SchoolLocations
+              institution={institution}
+              facilityMap={institution.facilityMap}
+              calculator={this.props.calculator}
+              eligibility={this.props.eligibility}
+              constants={constants}
+              version={this.props.version}
+              onViewLess={this.scrollToLocations}
+            />
+          </ProfileSection>
+        )}
+        {!isOJT && (
+          <ProfileSection label="Academics" id="academics">
+            <Programs institution={institution} onShowModal={showModal} />
+          </ProfileSection>
+        )}
         <ProfileSection
           label="Veteran programs and support"
           id="veteran-programs-and-support"
         />
-        <ProfileSection label="Contact information" id="contact-information" />
+        <ProfileSection label="Contact information" id="contact-information">
+          <ContactInformation institution={institution} />
+        </ProfileSection>
 
         <div className="usa-accordion vads-u-margin-top--4">
           <ul>
-            <AccordionItem button="Estimate your benefits">
-              <EstimateYourBenefits gibctEybBottomSheet={gibctEybBottomSheet} />
-            </AccordionItem>
-            {!isOJT && (
-              <AccordionItem button="Veteran programs">
-                <Programs
-                  institution={profile.attributes}
-                  onShowModal={showModal}
-                />
-              </AccordionItem>
-            )}
-            {this.shouldShowSchoolLocations(profile.attributes.facilityMap) && (
-              <AccordionItem button="School locations">
-                <SchoolLocations
-                  institution={profile.attributes}
-                  facilityMap={profile.attributes.facilityMap}
-                  calculator={this.props.calculator}
-                  eligibility={this.props.eligibility}
-                  constants={constants}
-                  version={this.props.version}
-                  onViewLess={this.scrollToLocations}
-                />
-              </AccordionItem>
-            )}
-            <AccordionItem
-              button="Cautionary information"
-              ref={c => {
-                this._cautionaryInfo = c;
-              }}
-            >
-              <CautionaryInformation
-                institution={profile.attributes}
-                onShowModal={showModal}
-              />
-            </AccordionItem>
-            {displayStars && (
-              <AccordionItem button="School ratings">
-                <div id="profile-school-ratings">
-                  <SchoolRatings
-                    ratingAverage={profile.attributes.ratingAverage}
-                    ratingCount={profile.attributes.ratingCount}
-                    institutionCategoryRatings={
-                      profile.attributes.institutionCategoryRatings
-                    }
-                  />
-                </div>
-              </AccordionItem>
-            )}
-            <AccordionItem button="Contact details">
-              <ContactInformation institution={profile.attributes} />
-            </AccordionItem>
             <AccordionItem button="Additional information">
               <AdditionalInformation
-                institution={profile.attributes}
+                institution={institution}
                 onShowModal={showModal}
                 constants={constants}
               />
