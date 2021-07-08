@@ -2,7 +2,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AccordionItem from '../AccordionItem';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import Programs from './Programs';
 import { scroller } from 'react-scroll';
@@ -97,6 +96,12 @@ export class InstitutionProfile extends React.Component {
           id="calculate-your-benefits"
         >
           <EstimateYourBenefits gibctEybBottomSheet={gibctEybBottomSheet} />
+          <hr />
+          <AdditionalInformation
+            institution={institution}
+            onShowModal={showModal}
+            constants={constants}
+          />
         </ProfileSection>
         <ProfileSection
           label="Getting started with benefits"
@@ -149,18 +154,6 @@ export class InstitutionProfile extends React.Component {
         <ProfileSection label="Contact information" id="contact-information">
           <ContactInformation institution={institution} />
         </ProfileSection>
-
-        <div className="usa-accordion vads-u-margin-top--4">
-          <ul>
-            <AccordionItem button="Additional information">
-              <AdditionalInformation
-                institution={institution}
-                onShowModal={showModal}
-                constants={constants}
-              />
-            </AccordionItem>
-          </ul>
-        </div>
       </div>
     );
   }
