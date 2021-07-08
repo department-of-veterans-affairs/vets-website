@@ -41,6 +41,8 @@ import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
 import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 import ContactInformationView from '@@profile/components/personal-information/ContactInformationView';
 
+import { showNotificationSettings } from '@@profile/selectors';
+
 import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
 
 import getContactInfoFieldAttributes from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
@@ -347,7 +349,9 @@ export const mapStateToProps = (state, ownProps) => {
     activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION;
   const isEnrolledInVAHealthCare = isVAPatient(state);
   const showSMSCheckbox =
-    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE && isEnrolledInVAHealthCare;
+    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE &&
+    isEnrolledInVAHealthCare &&
+    !showNotificationSettings(state);
 
   const { title } = getContactInfoFieldAttributes(fieldName);
   return {
