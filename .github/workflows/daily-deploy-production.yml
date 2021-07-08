@@ -205,6 +205,7 @@ jobs:
 
     steps:
     - name: Configure AWS credentials
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -212,12 +213,14 @@ jobs:
         aws-region: us-gov-west-1
 
     - name: Get Slack app token
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
       with:
         ssm_parameter: /devops/github_actions_slack_socket_token
         env_variable_name: SLACK_APP_TOKEN
 
     - name: Get Slack bot token
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
       with:
         ssm_parameter: /devops/github_actions_slack_bot_user_token
@@ -230,6 +233,7 @@ jobs:
         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
     - name: Checkout VSP actions
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: actions/checkout@v2
       with:
         repository: department-of-veterans-affairs/vsp-github-actions
