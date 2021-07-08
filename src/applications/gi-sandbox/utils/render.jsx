@@ -21,6 +21,7 @@ export const renderLearnMoreLabel = ({
     );
   }
 
+  const id = `${modal}-button`;
   return (
     <span
       className="vads-u-margin--0 vads-u-display--inline-block "
@@ -31,6 +32,7 @@ export const renderLearnMoreLabel = ({
         (
         <button
           aria-label={ariaLabel}
+          id={id}
           type="button"
           className="va-button-link learn-more-button vads-u-margin--0"
           onClick={showModal.bind(component, modal)}

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
-import Programs from './Programs';
 import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
 import SchoolLocations from './SchoolLocations';
@@ -16,6 +15,7 @@ import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
 import SchoolRatings from './SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
+import Academics from './Academics';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -144,7 +144,7 @@ export class InstitutionProfile extends React.Component {
         )}
         {!isOJT && (
           <ProfileSection label="Academics" id="academics">
-            <Programs institution={institution} onShowModal={showModal} />
+            <Academics institution={institution} onShowModal={showModal} />
           </ProfileSection>
         )}
         <ProfileSection
