@@ -105,7 +105,7 @@ export default function Academics({ institution, onShowModal }) {
 
   const careerScope = (
     <div>
-      <h3>Get started with CareerScope</h3>
+      <h3>Get started with CareerScope&reg;</h3>
       <hr />
       <p>
         CareerScope&reg; take career and educational planning to a new level.
@@ -119,7 +119,7 @@ export default function Academics({ institution, onShowModal }) {
           rel="noopener noreferrer"
           className="vads-c-action-link--blue"
         >
-          Get started with CareerScope
+          Get started with CareerScope&reg;
         </a>
       </p>
     </div>
