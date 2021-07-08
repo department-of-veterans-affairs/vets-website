@@ -188,9 +188,9 @@ function LocationSearchResults({
         if (streetAddress.searchString === location) {
           currentLocationMapMarker(locationBounds);
         }
-        setMapState({ changed: false, distance: null });
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
+      setMapState({ changed: false, distance: null });
     },
     [results],
   );
