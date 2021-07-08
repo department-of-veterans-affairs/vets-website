@@ -16,6 +16,7 @@ import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
 import SchoolRatings from './SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
+import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -150,7 +151,12 @@ export class InstitutionProfile extends React.Component {
         <ProfileSection
           label="Veteran programs and support"
           id="veteran-programs-and-support"
-        />
+        >
+          <VeteranProgramsAndSupport
+            institution={institution}
+            constants={constants}
+          />
+        </ProfileSection>
         <ProfileSection label="Contact information" id="contact-information">
           <ContactInformation institution={institution} />
         </ProfileSection>
