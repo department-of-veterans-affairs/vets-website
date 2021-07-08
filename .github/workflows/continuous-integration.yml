@@ -595,6 +595,7 @@ jobs:
       # -------------------------
 
       - name: Download Cypress JUnit test results
+        if: ${{ always() }}
         uses: actions/download-artifact@v2
         with:
           name: cypress-junit-test-results
@@ -602,6 +603,7 @@ jobs:
 
       # TODO: Include Testing Reports link in Cypress Tests Summary
       - name: Publish Cypress test results
+        if: ${{ always() }}
         uses: mikepenz/action-junit-report@v2.4.2
         with:
           check_name: 'Cypress Tests Summary'
