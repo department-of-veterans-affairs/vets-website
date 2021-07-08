@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import ContactInfoPage from '../../../new-appointment/components/ContactInfoPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { cleanup, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import { FLOW_TYPES } from '../../../utils/constants';
 
 describe('VAOS <ContactInfoPage>', () => {
@@ -22,7 +22,9 @@ describe('VAOS <ContactInfoPage>', () => {
     });
 
     let input = await screen.findByLabelText(/^Your phone number/);
-    userEvent.type(input, '5555555555');
+    // Using userEvent.type here doesn't work when the test is run with CHOMA_SEED=lDgiaNUkvl
+    // for some inexplicable reason
+    fireEvent.change(input, { target: { value: '5555555555' } });
 
     let checkbox = screen.getByLabelText(/^Morning \(8:00 a.m. – noon\)/);
     userEvent.click(checkbox);

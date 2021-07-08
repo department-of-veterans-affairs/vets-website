@@ -17,7 +17,7 @@ import {
 } from '../../mocks/setup';
 import UpcomingAppointmentsList from '../../../appointment-list/components/UpcomingAppointmentsList';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import { getVAOSRequestMock } from '../../mocks/v2';
+import { getVAOSAppointmentMock } from '../../mocks/v2';
 
 const initialState = {
   featureToggles: {
@@ -564,7 +564,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
     const now = moment();
     const start = moment(now).subtract(30, 'days');
     const end = moment(now).add(395, 'days');
-    const appointment = getVAOSRequestMock();
+    const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
       ...appointment.attributes,
@@ -578,7 +578,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
       requests: [appointment],
-      statuses: ['booked'],
+      statuses: ['booked', 'cancelled'],
     });
 
     mockFacilitiesFetch();
@@ -589,11 +589,6 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
 
     await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
     expect(screen.baseElement).to.contain.text('VA appointment');
-    expect(global.fetch.firstCall.args[0]).to.equal(
-      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format(
-        'YYYY-MM-DD',
-      )}&end=${end.format('YYYY-MM-DD')}&statuses[]=booked`,
-    );
   });
 
   it('should show CC appointment text', async () => {
@@ -607,7 +602,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
     const now = moment();
     const start = moment(now).subtract(30, 'days');
     const end = moment(now).add(395, 'days');
-    const appointment = getVAOSRequestMock();
+    const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
       ...appointment.attributes,
@@ -621,7 +616,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
       requests: [appointment],
-      statuses: ['booked'],
+      statuses: ['booked', 'cancelled'],
     });
 
     mockFacilitiesFetch();
@@ -632,11 +627,6 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
 
     await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
     expect(screen.baseElement).to.contain.text('Community care');
-    expect(global.fetch.firstCall.args[0]).to.equal(
-      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format(
-        'YYYY-MM-DD',
-      )}&end=${end.format('YYYY-MM-DD')}&statuses[]=booked`,
-    );
   });
 
   it('should show at home video appointment text', async () => {
@@ -650,7 +640,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
     const now = moment();
     const start = moment(now).subtract(30, 'days');
     const end = moment(now).add(395, 'days');
-    const appointment = getVAOSRequestMock();
+    const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
       ...appointment.attributes,
@@ -664,7 +654,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
       requests: [appointment],
-      statuses: ['booked'],
+      statuses: ['booked', 'cancelled'],
     });
 
     mockFacilitiesFetch();
@@ -675,11 +665,6 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
 
     await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
     expect(screen.baseElement).to.contain.text('VA Video Connect at home');
-    expect(global.fetch.firstCall.args[0]).to.equal(
-      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format(
-        'YYYY-MM-DD',
-      )}&end=${end.format('YYYY-MM-DD')}&statuses[]=booked`,
-    );
   });
 
   it('should show Phone appointment text', async () => {
@@ -693,7 +678,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
     const now = moment();
     const start = moment(now).subtract(30, 'days');
     const end = moment(now).add(395, 'days');
-    const appointment = getVAOSRequestMock();
+    const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
       ...appointment.attributes,
@@ -707,7 +692,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
       requests: [appointment],
-      statuses: ['booked'],
+      statuses: ['booked', 'cancelled'],
     });
 
     mockFacilitiesFetch();
@@ -718,11 +703,6 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
 
     await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
     expect(screen.baseElement).to.contain.text('Phone call');
-    expect(global.fetch.firstCall.args[0]).to.equal(
-      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format(
-        'YYYY-MM-DD',
-      )}&end=${end.format('YYYY-MM-DD')}&statuses[]=booked`,
-    );
   });
 
   it('should show cancelled appointment text', async () => {
@@ -736,7 +716,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
     const now = moment();
     const start = moment(now).subtract(30, 'days');
     const end = moment(now).add(395, 'days');
-    const appointment = getVAOSRequestMock();
+    const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
       ...appointment.attributes,
@@ -750,7 +730,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
       requests: [appointment],
-      statuses: ['booked'],
+      statuses: ['booked', 'cancelled'],
     });
 
     mockFacilitiesFetch();
@@ -762,10 +742,5 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
     await screen.findByText(new RegExp(now.format('dddd, MMMM D'), 'i'));
     expect(screen.baseElement).to.contain.text('Canceled');
     expect(screen.baseElement).to.contain.text('Community care');
-    expect(global.fetch.firstCall.args[0]).to.equal(
-      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format(
-        'YYYY-MM-DD',
-      )}&end=${end.format('YYYY-MM-DD')}&statuses[]=booked`,
-    );
   });
 });
