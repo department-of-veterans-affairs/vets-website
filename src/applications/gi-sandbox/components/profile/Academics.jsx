@@ -32,17 +32,19 @@ export default function Academics({ institution, onShowModal }) {
           :
         </strong>
         &nbsp;
-        {upperCaseFirstLetterOnly(institution.accreditationType)} (
-        <a
-          href={`http://nces.ed.gov/collegenavigator/?id=${
-            institution.cross
-          }#accred`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          See accreditors
-        </a>
-        )
+        {institution.accreditationType &&
+          upperCaseFirstLetterOnly(institution.accreditationType)}{' '}
+        {institution.accredited && (
+          <a
+            href={`http://nces.ed.gov/collegenavigator/?id=${
+              institution.cross
+            }#accred`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            See accreditors
+          </a>
+        )}
       </div>
     );
 
