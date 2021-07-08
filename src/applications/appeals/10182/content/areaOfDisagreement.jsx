@@ -50,20 +50,44 @@ export const issusDescription = ({ formContext }) => {
   );
 };
 
-const wrapHeader = text => (
-  <h3 className="vads-u-display--inline-block vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
-    {text}
-  </h3>
-);
+const titles = {
+  serviceConnection: 'The service connection',
+  effectiveDate: 'The effective date of award',
+  evaluation: 'The evaluation of my condition',
+  other: 'Something else',
+};
 
-export const serviceConnection = wrapHeader('The service connection');
-export const effectiveDate = wrapHeader('The effective date of award');
-export const evaluation = wrapHeader('The evaluation of my condition');
-export const other = wrapHeader('Something else');
+const headerClasses = [
+  'vads-u-display--inline-block',
+  'vads-u-font-size--base',
+  'vads-u-font-family--sans',
+  'vads-u-font-weight--normal',
+  'vads-u-margin-y--0',
+].join(' ');
+
+const wrapHeader = text => <h3 className={headerClasses}>{text}</h3>;
+
+export const serviceConnection = wrapHeader(titles.serviceConnection);
+export const effectiveDate = wrapHeader(titles.effectiveDate);
+export const evaluation = wrapHeader(titles.evaluation);
+export const other = wrapHeader(titles.other);
 export const otherLabel = 'Tell us what you disagree with:';
 // Includes _{index} which is appended by the TextWidget
 export const otherDescription = ({ index }) => (
-  <span id={`other_hint_text_${index}`} className="vads-u-color--gray">
+  <div
+    id={`other_hint_text_${index}`}
+    className="vads-u-color--gray hide-on-review"
+  >
     Please explain in a few words
-  </span>
+  </div>
 );
+
+export const AreaOfDisagreementReviewField = ({ children }) =>
+  children?.props.formData ? (
+    <div className="review-row">
+      <dt>
+        <h5 className={headerClasses}>{titles[children.props.name]}</h5>
+      </dt>
+      <dd>{children}</dd>
+    </div>
+  ) : null;
