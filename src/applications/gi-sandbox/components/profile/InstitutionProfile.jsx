@@ -13,7 +13,7 @@ import AdditionalInformation from './AdditionalInformation';
 import JumpLink from './JumpLink';
 import ProfileSection from './ProfileSection';
 import ContactInformation from './ContactInformation';
-import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
+import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
 import SchoolRatings from './SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
@@ -91,7 +91,7 @@ export class InstitutionProfile extends React.Component {
           label="Calculate your benefits"
           id="calculate-your-benefits"
         >
-          <EstimateYourBenefits gibctEybBottomSheet={gibctEybBottomSheet} />
+          <CalculateYourBenefits gibctEybBottomSheet={gibctEybBottomSheet} />
         </ProfileSection>
 
         <ProfileSection
