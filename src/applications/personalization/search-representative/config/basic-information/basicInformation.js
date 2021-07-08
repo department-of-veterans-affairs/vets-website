@@ -18,12 +18,12 @@ export const schema = {
 };
 
 export const uiSchema = {
-  'ui:description': 'Chech all that apply',
+  'ui:description': 'Chech at least one',
   vso: {
     'ui:title': 'Veteran Service Organization (VS0)',
   },
   representativeOfVSO: {
-    'ui:title': 'Representative in a Veteran service organization',
+    'ui:title': 'Representative in a Veteran Service Organization',
   },
   attorney: {
     'ui:title': 'Attorney (Lawyer)',
