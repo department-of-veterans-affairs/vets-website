@@ -33,7 +33,6 @@ function EstimateYourBenefitsForm({
   eligibilityChange,
   hideModal,
   inputs,
-
   onBeneficiaryZIPCodeChanged,
   profile,
   showModal,
@@ -85,31 +84,20 @@ function EstimateYourBenefitsForm({
     };
   };
 
-  const isFullZipcode = zipCode => {
-    if (zipCode.length === 5) {
-      recordEvent({
-        event: 'gibct-form-change',
-        'gibct-form-field': 'gibctExtensionSearchZipCode',
-        'gibct-form-value': zipCode,
-      });
-    }
-  };
-
   const handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
       onBeneficiaryZIPCodeChanged(event.value);
-      isFullZipcode(event.value);
+      if (event.value.length === 5) {
+        recordEvent({
+          event: 'gibct-form-change',
+          'gibct-form-field': 'gibctExtensionSearchZipCode',
+          'gibct-form-value': event.value,
+        });
+      }
       setInvalidZip('');
       setInputUpdated(true);
     } else if (event.dirty && inputs.beneficiaryZIP.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
-    }
-  };
-
-  const handleAccordionFocus = () => {
-    const field = document.getElementById('estimate-your-benefits-accordion');
-    if (field) {
-      field.scrollIntoView();
     }
   };
 
@@ -146,7 +134,10 @@ function EstimateYourBenefitsForm({
       newExpanded[key] = expandedName === key ? isExpanded : flipped;
     });
     setExpanded(newExpanded);
-    handleAccordionFocus();
+    const field = document.getElementById('estimate-your-benefits-accordion');
+    if (field) {
+      field.scrollIntoView();
+    }
   };
 
   const displayExtensionBeneficiaryInternationalCheckbox = () => {
@@ -403,15 +394,15 @@ function EstimateYourBenefitsForm({
     } = inputs;
 
     yellowRibbonDegreeLevelOptions = yellowRibbonDegreeLevelOptions.map(
-      value => ({ value, label: value }),
+      value => ({ optionValue: value, optionLabel: value }),
     );
     yellowRibbonDegreeLevelOptions.push({
-      value: 'customAmount',
-      label: 'Enter an amount',
+      optionValue: 'customAmount',
+      optionLabel: 'Enter an amount',
     });
     yellowRibbonDivisionOptions = yellowRibbonDivisionOptions.map(value => ({
-      value,
-      label: value,
+      optionValue: value,
+      optionLabel: value,
     }));
     const showYellowRibbonOptions = yellowRibbonDegreeLevelOptions.length > 1;
     const showYellowRibbonDetails = yellowRibbonDivisionOptions.length > 0;
@@ -427,8 +418,8 @@ function EstimateYourBenefitsForm({
           })}
           name="yellowRibbonRecipient"
           options={[
-            { value: 'yes', label: 'Yes' },
-            { value: 'no', label: 'No' },
+            { optionValue: 'yes', optionLabel: 'Yes' },
+            { optionValue: 'no', optionLabel: 'No' },
           ]}
           value={inputs.yellowRibbonRecipient}
           onChange={handleInputChange}
@@ -567,20 +558,20 @@ function EstimateYourBenefitsForm({
 
     const options = shouldRenderEnrolled
       ? [
-          { value: 'full', label: 'Full Time' },
-          { value: 'three quarters', label: '¾ Time' },
-          { value: 'more than half', label: 'More than ½ time' },
-          { value: 'half or less', label: '½ Time or less' },
+          { optionValue: 'full', optionLabel: 'Full Time' },
+          { optionValue: 'three quarters', optionLabel: '¾ Time' },
+          { optionValue: 'more than half', optionLabel: 'More than ½ time' },
+          { optionValue: 'half or less', optionLabel: '½ Time or less' },
         ]
       : [
-          { value: 'full', label: 'Full Time' },
-          { value: 'three quarters', label: '¾ Time' },
-          { value: 'half', label: '½ Time' },
+          { optionValue: 'full', optionLabel: 'Full Time' },
+          { optionValue: 'three quarters', optionLabel: '¾ Time' },
+          { optionValue: 'half', optionLabel: '½ Time' },
           {
-            value: 'less than half',
-            label: 'Less than ½ time more than ¼ time',
+            optionValue: 'less than half',
+            optionLabel: 'Less than ½ time more than ¼ time',
           },
-          { value: 'quarter', label: '¼ Time or less' },
+          { optionValue: 'quarter', optionLabel: '¼ Time or less' },
         ];
 
     const { enrolled: enrolledValue, enrolledOld: enrolledOldValue } = inputs;
@@ -618,9 +609,9 @@ function EstimateYourBenefitsForm({
           name="numberNontradTerms"
           alt="How many terms per year?"
           options={[
-            { value: '3', label: 'Three' },
-            { value: '2', label: 'Two' },
-            { value: '1', label: 'One' },
+            { optionValue: '3', optionLabel: 'Three' },
+            { optionValue: '2', optionLabel: 'Two' },
+            { optionValue: '1', optionLabel: 'One' },
           ]}
           visible
           value={inputs.numberNontradTerms}
@@ -633,18 +624,18 @@ function EstimateYourBenefitsForm({
           name="lengthNontradTerms"
           alt="How long is each term?"
           options={[
-            { value: '1', label: '1 month' },
-            { value: '2', label: '2 months' },
-            { value: '3', label: '3 months' },
-            { value: '4', label: '4 months' },
-            { value: '5', label: '5 months' },
-            { value: '6', label: '6 months' },
-            { value: '7', label: '7 months' },
-            { value: '8', label: '8 months' },
-            { value: '9', label: '9 months' },
-            { value: '10', label: '10 months' },
-            { value: '11', label: '11 months' },
-            { value: '12', label: '12 months' },
+            { optionValue: '1', optionLabel: '1 month' },
+            { optionValue: '2', optionLabel: '2 months' },
+            { optionValue: '3', optionLabel: '3 months' },
+            { optionValue: '4', optionLabel: '4 months' },
+            { optionValue: '5', optionLabel: '5 months' },
+            { optionValue: '6', optionLabel: '6 months' },
+            { optionValue: '7', optionLabel: '7 months' },
+            { optionValue: '8', optionLabel: '8 months' },
+            { optionValue: '9', optionLabel: '9 months' },
+            { optionValue: '10', optionLabel: '10 months' },
+            { optionValue: '11', optionLabel: '11 months' },
+            { optionValue: '12', optionLabel: '12 months' },
           ]}
           visible
           value={inputs.lengthNontradTerms}
@@ -668,9 +659,9 @@ function EstimateYourBenefitsForm({
             name="calendar"
             alt="School calendar"
             options={[
-              { value: 'semesters', label: 'Semesters' },
-              { value: 'quarters', label: 'Quarters' },
-              { value: 'nontraditional', label: 'Non-Traditional' },
+              { optionValue: 'semesters', optionLabel: 'Semesters' },
+              { optionValue: 'quarters', optionLabel: 'Quarters' },
+              { optionValue: 'nontraditional', optionLabel: 'Non-Traditional' },
             ]}
             visible
             value={inputs.calendar}
@@ -743,26 +734,28 @@ function EstimateYourBenefitsForm({
     let extensionOptions = [];
     const beneficiaryLocationQuestionOptions = [
       {
-        value: profile.attributes.name,
-        label: profile.attributes.name,
+        optionValue: profile.attributes.name,
+        optionLabel: profile.attributes.name,
       },
     ];
 
     if (extensions && extensions.length) {
-      extensionOptions = [{ value: '', label: 'Please choose a location' }];
+      extensionOptions = [
+        { optionValue: '', optionLabel: 'Please choose a location' },
+      ];
       extensions.forEach(extension => {
         extensionOptions.push(createExtensionOption(extension));
       });
-      extensionOptions.push({ value: 'other', label: 'Other...' });
+      extensionOptions.push({ optionValue: 'other', optionLabel: 'Other...' });
 
       beneficiaryLocationQuestionOptions.push({
-        value: 'extension',
-        label: 'An extension campus',
+        optionValue: 'extension',
+        optionLabel: 'An extension campus',
       });
     } else {
       beneficiaryLocationQuestionOptions.push({
-        value: 'other',
-        label: 'Other location',
+        optionValue: 'other',
+        optionLabel: 'Other location',
       });
     }
 
@@ -917,21 +910,21 @@ function EstimateYourBenefitsForm({
         name="working"
         alt="Will be working"
         options={[
-          { value: '30', label: '30 plus hours per week' },
-          { value: '28', label: '28 hours per week' },
-          { value: '26', label: '26 hours per week' },
-          { value: '24', label: '24 hours per week' },
-          { value: '22', label: '22 hours per week' },
-          { value: '20', label: '20 hours per week' },
-          { value: '18', label: '18 hours per week' },
-          { value: '16', label: '16 hours per week' },
-          { value: '14', label: '14 hours per week' },
-          { value: '12', label: '12 hours per week' },
-          { value: '10', label: '10 hours per week' },
-          { value: '8', label: '8 hours per week' },
-          { value: '6', label: '6 hours per week' },
-          { value: '4', label: '4 hours per week' },
-          { value: '2', label: '2 hours per week' },
+          { optionValue: '30', optionLabel: '30 plus hours per week' },
+          { optionValue: '28', optionLabel: '28 hours per week' },
+          { optionValue: '26', optionLabel: '26 hours per week' },
+          { optionValue: '24', optionLabel: '24 hours per week' },
+          { optionValue: '22', optionLabel: '22 hours per week' },
+          { optionValue: '20', optionLabel: '20 hours per week' },
+          { optionValue: '18', optionLabel: '18 hours per week' },
+          { optionValue: '16', optionLabel: '16 hours per week' },
+          { optionValue: '14', optionLabel: '14 hours per week' },
+          { optionValue: '12', optionLabel: '12 hours per week' },
+          { optionValue: '10', optionLabel: '10 hours per week' },
+          { optionValue: '8', optionLabel: '8 hours per week' },
+          { optionValue: '6', optionLabel: '6 hours per week' },
+          { optionValue: '4', optionLabel: '4 hours per week' },
+          { optionValue: '2', optionLabel: '2 hours per week' },
         ]}
         visible
         value={inputs.working}
@@ -1079,7 +1072,8 @@ function EstimateYourBenefitsForm({
     );
   };
 
-  const renderLearningFormat = isOjt => {
+  const renderLearningFormat = () => {
+    const isOjt = _.get(profile, 'attributes.type', '').toLowerCase() === 'ojt';
     const name = isOjt
       ? 'Learning format and schedule'
       : 'Learning format and location';
@@ -1155,21 +1149,20 @@ function EstimateYourBenefitsForm({
     );
   };
 
-  const isOjt = _.get(profile, 'attributes.type', '').toLowerCase() === 'ojt';
-
   let sectionCount = 2;
   if (!hideSchoolCostsAndCalendar()) sectionCount += 1;
   if (!hideScholarshipsAndOtherVAFunding()) sectionCount += 1;
 
-  const className = classNames(
-    'estimate-your-benefits-form',
-    'medium-5',
-    'columns',
-    'small-screen:vads-u-padding-right--0',
-  );
-
   return (
-    <div aria-live="off" className={className}>
+    <div
+      aria-live="off"
+      className={classNames(
+        'estimate-your-benefits-form',
+        'medium-5',
+        'columns',
+        'small-screen:vads-u-padding-right--0',
+      )}
+    >
       <div>
         <p className="vads-u-margin-bottom--3 vads-u-margin-top--0">
           The {sectionCount} sections below include questions that will refine
@@ -1180,7 +1173,7 @@ function EstimateYourBenefitsForm({
       <ul className="vads-u-padding--0">
         {renderMilitaryDetails()}
         {renderSchoolCostsAndCalendar()}
-        {renderLearningFormat(isOjt)}
+        {renderLearningFormat()}
         {renderScholarshipsAndOtherVAFunding()}
       </ul>
     </div>

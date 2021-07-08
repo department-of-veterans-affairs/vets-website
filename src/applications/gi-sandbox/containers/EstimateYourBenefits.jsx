@@ -14,7 +14,8 @@ import {
 import { getCalculatedBenefits } from '../selectors/calculator';
 import EstimateYourBenefitsForm from '../components/profile/EstimateYourBenefitsForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
-import EstimateYourBenefitsSummarySheet from '../components/EstimateYourBenefitsSummarySheet';
+import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
+import recordEvent from 'platform/monitoring/record-event';
 
 export function EstimateYourBenefits({
   calculated,
@@ -156,10 +157,7 @@ export function EstimateYourBenefits({
       </div>
       {profile.attributes.vetWebsiteLink && (
         <div>
-          <strong>Veterans tuition policy:</strong>
-          {}
-          Yes
-          {}(
+          <strong>Veterans tuition policy:</strong> Yes (
           <a
             href={profile.attributes.vetWebsiteLink}
             target="_blank"
@@ -168,6 +166,31 @@ export function EstimateYourBenefits({
             View policy
           </a>
           )
+        </div>
+      )}
+      {profile.attributes.section103Message && (
+        <div aria-live="off" className="section-103-message">
+          <strong>
+            Protection against late VA payments (
+            <button
+              id="section103-button"
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={() => {
+                recordEvent({
+                  event: 'gibct-modal-displayed',
+                  'gibct-modal-displayed':
+                    'protection-against-late-va-payments',
+                });
+                dispatchShowModal('section103');
+              }}
+            >
+              Learn more
+            </button>
+            ):
+          </strong>
+          &nbsp;
+          {profile.attributes.section103Message}
         </div>
       )}
     </div>
