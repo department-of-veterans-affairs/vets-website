@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Cancel workflow due to DSVA schedule
-        if: ${{ env.DSVA_SCHEDULE_ENABLED == 'false' }}
+        if: ${{ env.DSVA_SCHEDULE_ENABLED != 'true' }}
         uses: andymckay/cancel-action@0.2
 
       - name: Checkout
