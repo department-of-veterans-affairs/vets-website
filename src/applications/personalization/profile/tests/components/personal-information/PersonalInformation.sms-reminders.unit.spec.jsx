@@ -2,6 +2,8 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { expect } from 'chai';
 
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
+
 import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 
 import {
@@ -42,6 +44,32 @@ context('When not enrolled in health care', () => {
     expect(view.queryByLabelText(checkboxLabel)).to.not.exist;
   });
 });
+
+context(
+  'When enrolled in health care, signed up for text message reminders, but the profileNotificationSettings feature flag is turned on',
+  () => {
+    beforeEach(() => {
+      const initialState = createBasicInitialState();
+      initialState.user.profile.vaPatient = true;
+      initialState.user.profile.vapContactInfo.mobilePhone.isTextPermitted = true;
+      initialState.featureToggles = {
+        loading: false,
+        [featureFlagNames.profileNotificationSettings]: true,
+      };
+      view = renderWithProfileReducers(ui, {
+        initialState,
+      });
+    });
+    it('info about appointment reminders should not be shown under the mobile phone number', () => {
+      expect(view.queryByText(remindersTurnedOnMessage)).to.not.exist;
+      expect(view.queryByText(remindersTurnedOffMessage)).to.not.exist;
+    });
+    it('the text messages checkbox should not be shown in edit mode', () => {
+      view.getByRole('button', { name: /edit mobile phone/i }).click();
+      expect(view.queryByLabelText(checkboxLabel)).to.not.exist;
+    });
+  },
+);
 
 context('When enrolled in health care', () => {
   let initialState;
