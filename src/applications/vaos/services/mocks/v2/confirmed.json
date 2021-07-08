@@ -1,12 +1,12 @@
 {
   "data": [
     {
-      "id": "1234",
+      "id": "00aa456va",
       "type": "Appointment",
       "attributes": {
         "cancellationReason": null,
-        "clinic": null,
-        "comment": null,
+        "clinic": "437",
+        "comment": "I have a headache",
         "contact": {
           "telecom": [
             {
@@ -15,11 +15,11 @@
             }
           ]
         },
-        "description": "Upcomming appointment",
-        "end": "2021-12-31T18:19:34",
-        "id": "1234",
+        "description": "Upcoming in person appointment",
+        "end": "2021-12-21T18:19:34",
+        "id": "00aa456va",
         "kind": "clinic",
-        "locationId": null,
+        "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [],
@@ -29,13 +29,13 @@
         "requestedPeriods": [],
         "serviceType": "va_appointments",
         "slot": null,
-        "start": "2021-12-31T18:19:34",
+        "start": "2021-12-21T18:19:34",
         "status": "booked",
         "telehealth": null
       }
     },
     {
-      "id": "202106020000000000000000000000000000Upd.6NcgFTbmSgW0kfFTPqQ",
+      "id": "01aa456cc",
       "type": "cc_appointments",
       "attributes": {
         "cancellationReason": null,
@@ -49,9 +49,9 @@
             }
           ]
         },
-        "description": "Past appointment",
+        "description": "community care appointment",
         "end": null,
-        "id": "202106020000000000000000000000000000Upd.6NcgFTbmSgW0kfFTPqQ",
+        "id": "01aa456cc",
         "kind": "cc",
         "locationId": null,
         "minutesDuration": 30,
@@ -80,7 +80,7 @@
     },
 
     {
-      "id": "c3e3ed32701e23fdf389c06eae00fcb24",
+      "id": "03aa456va",
       "type": "Appointment",
       "attributes": {
         "cancellationReason": null,
@@ -94,46 +94,9 @@
             }
           ]
         },
-        "description": "Upcomming VA location telehealth appointment",
+        "description": "Upcomming Atlas telehealth appointment",
         "end": "2021-11-23T20:00:00Z",
-        "id": "c3e3ed32701e23fdf389c06eae00fcb24",
-        "kind": "telehealth",
-        "locationId": "983",
-        "minutesDuration": 30,
-        "patientIcn": null,
-        "practitioners": [],
-        "preferredTimesForPhoneCall": [],
-        "priority": 0,
-        "reason": null,
-        "requestedPeriods": [],
-        "serviceType": "va_appointments",
-        "slot": null,
-        "start": "2021-11-23T20:00:00Z",
-        "status": "booked",
-        "telehealth": {
-          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
-          "atlas": null
-        }
-      }
-    },
-    {
-      "id": "a784f714fa1606e39dee11e3bdbb7901",
-      "type": "Appointment",
-      "attributes": {
-        "cancellationReason": null,
-        "clinic": "848",
-        "comment": null,
-        "contact": {
-          "telecom": [
-            {
-              "type": "email",
-              "value": null
-            }
-          ]
-        },
-        "description": "Upcomming at home telehealth appointment",
-        "end": "2021-11-14T12:52:00Z",
-        "id": "a784f714fa1606e39dee11e3bdbb7901",
+        "id": "03aa456va",
         "kind": "telehealth",
         "locationId": "983",
         "minutesDuration": 30,
@@ -155,22 +118,35 @@
         "requestedPeriods": [],
         "serviceType": "va_appointments",
         "slot": null,
-        "start": "2021-11-14T12:52:00Z",
+        "start": "2021-11-23T20:00:00Z",
         "status": "booked",
         "telehealth": {
           "url": null,
-          "atlas": null
+          "atlas": {
+            "siteCode": "9931",
+            "confirmationCode": "7VBBCA",
+            "address": {
+                "streetAddress": "114 Dewey Ave",
+                "city": "Eureka",
+                "state": "MT",
+                "zipCode": "59917",
+                "country": "USA",
+                "longitude": -115.1,
+                "latitude": 48.8,
+                "additionalDetails": ""
+            }
+          },
+          "vvsKind": "ADHOC"
         }
       }
     },
-
     {
-      "id": "c3e3e32701e23fdf389c06eae00fcb24",
+      "id": "04aa456va",
       "type": "Appointment",
       "attributes": {
         "cancellationReason": null,
-        "clinic": null,
-        "comment": null,
+        "clinic": "848",
+        "comment": "ringing in the ear",
         "contact": {
           "telecom": [
             {
@@ -179,9 +155,9 @@
             }
           ]
         },
-        "description": "Upcomming ATLAS telehealth appointment",
-        "end": "2021-12-31T18:19:34",
-        "id": "c3e3e32701e23fdf389c06eae00fcb24",
+        "description": "Upcomming at home telehealth appointment",
+        "end": "2021-11-14T12:52:00Z",
+        "id": "04aa456va",
         "kind": "telehealth",
         "locationId": "983",
         "minutesDuration": 30,
@@ -194,6 +170,117 @@
             },
             "firstName": "Meg",
             "lastName": "Smith",
+            "practiceName": null
+          },
+          {
+            "id": {
+              "system": null,
+              "value": null
+            },
+            "firstName": "Salvador",
+            "lastName": "Dali",
+            "practiceName": null
+          }
+
+        ],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": null,
+        "requestedPeriods": [],
+        "serviceType": "va_appointments",
+        "slot": null,
+        "start": "2021-07-09T20:30:00Z",
+        "status": "booked",
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "MOBILE_ANY"
+        }
+      }
+    },
+
+    {
+      "id": "05aa456va",
+      "type": "Appointment",
+      "attributes": {
+        "cancellationReason": null,
+        "clinic": "848",
+        "comment": null,
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming VA location telehealth appointment",
+        "end": "2021-12-31T18:19:34",
+        "id": "05aa456va",
+        "kind": "telehealth",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": null,
+        "requestedPeriods": [],
+        "serviceType": "va_appointments",
+        "slot": null,
+        "start": "2021-12-31T18:19:34",
+        "status": "booked",
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": {
+            "siteCode": "9931",
+            "confirmationCode": "7VBBCA",
+            "address": {
+              "streetAddress": "114 Dewey Ave",
+              "city": "Eureka",
+              "state": "MT",
+              "zipCode": "59917",
+              "country": "string",
+              "latitutde": -115.1,
+              "longitude": 48.8,
+              "additionalDetails": null
+            }
+          },
+          "vvsKind":"CLINIC_BASED"
+        }
+      }
+    },
+
+    {
+      "id": "10aa456va",
+      "type": "Appointment",
+      "attributes": {
+        "cancellationReason": null,
+        "clinic": "848",
+        "comment": null,
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming VA GFE telehealth appointment",
+        "end": "2021-12-31T18:19:34",
+        "id": "10aa456va",
+        "kind": "telehealth",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [
+          {
+            "id": {
+              "system": null,
+              "value": null
+            },
+            "firstName": "Florence",
+            "lastName": "Nightingale",
             "practiceName": null
           }
         ],
@@ -208,7 +295,7 @@
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": {
-            "siteCode": "string",
+            "siteCode": "9931",
             "confirmationCode": "7VBBCA",
             "address": {
               "streetAddress": "114 Dewey Ave",
@@ -220,13 +307,14 @@
               "longitude": 48.8,
               "additionalDetails": null
             }
-          }
+          },
+          "vvsKind":"MOBILE_GFE"
         }
       }
     },
 
     {
-      "id": "22cdc6741c00ac67b6cbf6b972d084c0",
+      "id": "06aa456va",
       "type": "Appointment",
       "attributes": {
         "cancellationReason": null,
@@ -242,7 +330,7 @@
         },
         "description": "Upcomming phone appointment",
         "end": "2021-12-31T18:19:34",
-        "id": "22cdc6741c00ac67b6cbf6b972d084c0",
+        "id": "06aa456va",
         "kind": "phone",
         "locationId": "983",
         "minutesDuration": 30,
@@ -261,7 +349,7 @@
     },
 
     {
-      "id": "1234",
+      "id": "07aa456va",
       "type": "Appointment",
       "attributes": {
         "cancellationReason": null,
@@ -277,9 +365,9 @@
         },
         "description": "Past appointment",
         "end": "2021-06-28T18:19:34.954Z",
-        "id": "1234",
+        "id": "07aa456va",
         "kind": "clinic",
-        "locationId": null,
+        "locationId": "983",
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [],
@@ -294,8 +382,59 @@
         "telehealth": null
       }
     },
+
     {
-      "id": "1234",
+      "id": "09aa456va",
+      "type": "Appointment",
+      "attributes": {
+        "cancellationReason": null,
+        "clinic": "848",
+        "comment": null,
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "past at home telehealth appointment",
+        "end": "2021-06-08T17:30:00Z",
+        "id": "09aa456va",
+        "kind": "telehealth",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [
+          {
+            "id": {
+              "system": null,
+              "value": null
+            },
+            "firstName": "Peter",
+            "lastName": "Jones",
+            "practiceName": null
+          }
+
+        ],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": null,
+        "requestedPeriods": [],
+        "serviceType": "va_appointments",
+        "slot": null,
+        "start": "2021-06-08T17:30:00Z",
+        "status": "booked",
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "MOBILE_ANY"
+        }
+      }
+    },
+
+    {
+      "id": "08aa456va",
       "type": "Appointment",
       "attributes": {
         "cancellationReason": null,
@@ -310,10 +449,10 @@
           ]
         },
         "description": "Cancelled appointment",
-        "end": "2021-06-28T18:19:34.954Z",
-        "id": "1234",
+        "end": "2021-09-28T18:19:34.954Z",
+        "id": "08aa456va",
         "kind": "clinic",
-        "locationId": null,
+        "locationId": "983GC",
         "minutesDuration": 30,
         "patientIcn": null,
         "practitioners": [],
