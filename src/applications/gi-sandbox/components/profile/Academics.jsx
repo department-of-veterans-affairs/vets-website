@@ -47,11 +47,27 @@ export default function Academics({ institution, onShowModal }) {
     </div>
   );
 
+  const militaryTrainingCredit = (
+    <div aria-live="off">
+      <strong>
+        {renderLearnMore({
+          text: 'Credit for military training',
+          modal: 'creditTraining',
+          ariaLabel: ariaLabels.learnMore.militaryTrainingCredit,
+        })}
+        :
+      </strong>
+      &nbsp;
+      {institution.creditForMilTraining ? 'Yes' : 'No'}
+    </div>
+  );
+
   const educationDetails = (
     <div>
       <h3>Education details</h3>
       <hr />
       {typeOfAccreditation}
+      {militaryTrainingCredit}
     </div>
   );
 
