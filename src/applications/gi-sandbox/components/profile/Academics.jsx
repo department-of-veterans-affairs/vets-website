@@ -20,37 +20,32 @@ export default function Academics({ institution, onShowModal }) {
       component: this,
     });
 
-  const typeOfAccreditation = institution.accredited &&
-    institution.accreditationType && (
-      <div aria-live="off">
-        <strong>
-          {renderLearnMore({
-            text: 'Accreditation',
-            modal: 'accreditation',
-            ariaLabel: ariaLabels.learnMore.accreditation,
-          })}
-          :
-        </strong>
-        &nbsp;
-        {institution.accreditationType &&
-          upperCaseFirstLetterOnly(institution.accreditationType)}{' '}
-        {institution.accredited && (
-          <>
-            (
-            <a
-              href={`http://nces.ed.gov/collegenavigator/?id=${
-                institution.cross
-              }#accred`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              See accreditors
-            </a>
-            )
-          </>
-        )}
-      </div>
-    );
+  const typeOfAccreditation = institution.accredited && (
+    <div aria-live="off">
+      <strong>
+        {renderLearnMore({
+          text: 'Accreditation',
+          modal: 'accreditation',
+          ariaLabel: ariaLabels.learnMore.accreditation,
+        })}
+        :
+      </strong>
+      &nbsp;
+      {institution.accreditationType &&
+        upperCaseFirstLetterOnly(institution.accreditationType)}{' '}
+      (
+      <a
+        href={`http://nces.ed.gov/collegenavigator/?id=${
+          institution.cross
+        }#accred`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        See accreditors
+      </a>
+      )
+    </div>
+  );
 
   const educationDetails = (
     <div>
