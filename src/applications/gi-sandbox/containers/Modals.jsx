@@ -487,7 +487,7 @@ export class Modals extends React.Component {
       </Modal>
       <Modal
         onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('typeAccreditedAcademics')}
+        visible={this.shouldDisplayModal('accreditation')}
         elementToFocusOnClose="typeAccreditedAcademics-button"
       >
         <h3>Accreditation and why it matters</h3>

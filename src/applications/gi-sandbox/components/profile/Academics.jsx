@@ -1,6 +1,7 @@
 import React from 'react';
 import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
+import { upperCaseFirstLetterOnly } from '../../utils/helpers';
 
 export default function Academics({ institution, onShowModal }) {
   /**
@@ -24,24 +25,34 @@ export default function Academics({ institution, onShowModal }) {
       <div aria-live="off">
         <strong>
           {renderLearnMore({
-            text: 'Type of accreditation',
-            modal: 'typeAccreditedAcademics',
-            ariaLabel: ariaLabels.learnMore.typeAccredited,
+            text: 'Accreditation',
+            modal: 'accreditation',
+            ariaLabel: ariaLabels.learnMore.accreditation,
           })}
           :
         </strong>
         &nbsp;
-        {institution.accreditationType.toUpperCase()}
+        {upperCaseFirstLetterOnly(institution.accreditationType)} (
+        <a
+          href={`http://nces.ed.gov/collegenavigator/?id=${
+            institution.cross
+          }#accred`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          See accreditors
+        </a>
+        )
       </div>
     );
 
-  const educationOpportunities = (
+  const educationDetails = (
     <div>
-      <h3>Education opportunities</h3>
+      <h3>Education details</h3>
       <hr />
       {typeOfAccreditation}
     </div>
   );
 
-  return <div>{educationOpportunities}</div>;
+  return <div>{educationDetails}</div>;
 }
