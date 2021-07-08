@@ -87,7 +87,7 @@ node('vetsgov-general-purpose') {
 
         unitVoas: {
           dockerContainer.inside(commonStages.DOCKER_ARGS) {
-            sh "cd /application && npm --no-color test:unit -- --app-folder vaos"
+            sh "cd /application && npm --no-color test:unit --app-folder vaos"
             // sh "cd /application && /cc-test-reporter after-build -r fe4a84c212da79d7bb849d877649138a9ff0dbbef98e7a84881c97e1659a2e24"
           }
         },
