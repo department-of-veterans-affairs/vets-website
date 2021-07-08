@@ -13,6 +13,7 @@ on:
 # TODO: Change to correct channel_id when ready
 env:
   CHANNEL_ID: C024DUC9S1K # -test-tim-accessibility-gha
+  DSVA_SCHEDULE_ENABLED: true
 
 jobs:
   set-env:
@@ -23,6 +24,10 @@ jobs:
       RELEASE_WAIT: ${{ env.RELEASE_WAIT }}
 
     steps:
+      - name: Cancel workflow due to DSVA schedule
+        if: ${{ env.DSVA_SCHEDULE_ENABLED == 'false' }}
+        uses: andymckay/cancel-action@0.2
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -234,6 +239,7 @@ jobs:
         path: ./.github/actions/vsp-github-actions
 
     - name: Notify Slack
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: ./.github/actions/vsp-github-actions/slack-socket
       with:
         slack_app_token: ${{ env.SLACK_APP_TOKEN }}
