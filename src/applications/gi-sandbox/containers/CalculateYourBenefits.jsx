@@ -18,7 +18,7 @@ import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYour
 import recordEvent from 'platform/monitoring/record-event';
 import SectionFooterField from '../components/profile/SectionFooterField';
 
-export function EstimateYourBenefits({
+export function CalculateYourBenefits({
   calculated,
   calculator,
   dispatchBeneficiaryZIPCodeChanged,
@@ -227,4 +227,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(EstimateYourBenefits);
+)(CalculateYourBenefits);
