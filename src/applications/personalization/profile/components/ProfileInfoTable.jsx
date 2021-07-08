@@ -4,10 +4,30 @@ import PropTypes from 'prop-types';
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { numberBetween } from '../../common/proptypeValidators';
 
-const TableTitle = ({ namedAnchor, className, children, level }) => {
+const titleClasses = prefixUtilityClasses([
+  'background-color--gray-lightest',
+  'border--1px',
+  'border-color--gray-lighter',
+  'color--gray-darkest',
+  'margin--0',
+  'padding-x--2',
+  'padding-y--1p5',
+  'font-size--h3',
+]);
+const titleClassesMedium = prefixUtilityClasses(
+  ['padding-x--4', 'padding-y--2'],
+  'medium',
+);
+const titleClassesCombined = [
+  ...titleClasses,
+  ...titleClassesMedium,
+  'heading',
+].join(' ');
+
+const TableTitle = ({ namedAnchor, children, level }) => {
   const Header = `h${level}`;
   return (
-    <Header className={className} id={namedAnchor}>
+    <Header className={titleClassesCombined} id={namedAnchor}>
       {children}
     </Header>
   );
@@ -23,21 +43,6 @@ const ProfileInfoTable = ({
 }) => {
   // TODO: move all these class var outside of the component so they aren't
   // recomputed on every render
-  const titleClasses = prefixUtilityClasses([
-    'background-color--gray-lightest',
-    'border--1px',
-    'border-color--gray-lighter',
-    'color--gray-darkest',
-    'margin--0',
-    'padding-x--2',
-    'padding-y--1p5',
-    'font-size--h3',
-  ]);
-  const titleClassesMedium = prefixUtilityClasses(
-    ['padding-x--3', 'padding-y--2'],
-    'medium',
-  );
-
   const tableRowClasses = prefixUtilityClasses([
     'border-color--gray-lighter',
     'color-gray-dark',
@@ -86,7 +91,6 @@ const ProfileInfoTable = ({
   // can be passed directly to a `className` attribute
   const classes = {
     table: ['profile-info-table', className].join(' '),
-    title: [...titleClasses, ...titleClassesMedium].join(' '),
     tableRow: ['table-row', ...tableRowClasses, ...tableRowClassesMedium].join(
       ' ',
     ),
@@ -99,11 +103,7 @@ const ProfileInfoTable = ({
   return (
     <section className={classes.table}>
       {title && (
-        <TableTitle
-          className={classes.title}
-          namedAnchor={namedAnchor}
-          level={level}
-        >
+        <TableTitle namedAnchor={namedAnchor} level={level}>
           {title}
         </TableTitle>
       )}
