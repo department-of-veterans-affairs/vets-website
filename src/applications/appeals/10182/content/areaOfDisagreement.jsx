@@ -57,11 +57,15 @@ const titles = {
   other: 'Something else',
 };
 
-const wrapHeader = text => (
-  <h3 className="vads-u-display--inline-block vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
-    {text}
-  </h3>
-);
+const headerClasses = [
+  'vads-u-display--inline-block',
+  'vads-u-font-size--base',
+  'vads-u-font-family--sans',
+  'vads-u-font-weight--normal',
+  'vads-u-margin-y--0',
+].join(' ');
+
+const wrapHeader = text => <h3 className={headerClasses}>{text}</h3>;
 
 export const serviceConnection = wrapHeader(titles.serviceConnection);
 export const effectiveDate = wrapHeader(titles.effectiveDate);
@@ -82,9 +86,7 @@ export const AreaOfDisagreementReviewField = ({ children }) =>
   children?.props.formData ? (
     <div className="review-row">
       <dt>
-        <h5 className="vads-u-display--inline-block vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
-          {titles[children.props.name]}
-        </h5>
+        <h5 className={headerClasses}>{titles[children.props.name]}</h5>
       </dt>
       <dd>{children}</dd>
     </div>
