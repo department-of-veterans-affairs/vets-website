@@ -2,7 +2,7 @@ import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
 
 const LearnMoreLabel = ({ ariaLabel, labelFor, onClick, text }) => {
-  let displayText = text && <React.Fragment>{text} </React.Fragment>;
+  let displayText = text && <>{text} </>;
   if (labelFor && text) {
     displayText = (
       <label

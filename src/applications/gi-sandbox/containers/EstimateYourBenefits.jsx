@@ -16,6 +16,7 @@ import EstimateYourBenefitsForm from '../components/profile/EstimateYourBenefits
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
 import recordEvent from 'platform/monitoring/record-event';
+import SectionFooterField from '../components/profile/SectionFooterField';
 
 export function EstimateYourBenefits({
   calculated,
@@ -32,6 +33,7 @@ export function EstimateYourBenefits({
 }) {
   const [showEybSheet, setShowEybSheet] = useState(false);
   const [expandEybSheet, setExpandEybSheet] = useState(false);
+  const websiteValue = profile.attributes.vetWebsiteLink ? 'Yes' : 'No';
 
   useEffect(() => {
     dispatchUpdateEstimatedBenefits(calculated.outputs);
@@ -155,44 +157,53 @@ export function EstimateYourBenefits({
       <div className="subsection">
         Additional information regarding your benefits
       </div>
-      {profile.attributes.vetWebsiteLink && (
-        <div>
-          <strong>Veterans tuition policy:</strong> Yes (
-          <a
-            href={profile.attributes.vetWebsiteLink}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View policy
-          </a>
-          )
-        </div>
-      )}
-      {profile.attributes.section103Message && (
-        <div aria-live="off" className="section-103-message">
-          <strong>
-            Protection against late VA payments (
-            <button
-              id="section103-button"
-              type="button"
-              className="va-button-link learn-more-button"
-              onClick={() => {
-                recordEvent({
-                  event: 'gibct-modal-displayed',
-                  'gibct-modal-displayed':
-                    'protection-against-late-va-payments',
-                });
-                dispatchShowModal('section103');
-              }}
+
+      <div className="vads-u-padding-bottom--1">
+        <strong>Veterans tuition policy:</strong> {websiteValue}
+        {websiteValue === 'Yes' && (
+          <span>
+            &nbsp;(
+            <a
+              href={profile.attributes.vetWebsiteLink}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Learn more
-            </button>
-            ):
-          </strong>
-          &nbsp;
-          {profile.attributes.section103Message}
-        </div>
-      )}
+              View policy
+            </a>
+            )
+          </span>
+        )}
+      </div>
+
+      <SectionFooterField
+        label="Protection against late VA payments"
+        value={profile.attributes.section103Message}
+        learnMoreOnClick={() => {
+          recordEvent({
+            event: 'gibct-modal-displayed',
+            'gibct-modal-displayed': 'protection-against-late-va-payments',
+          });
+          dispatchShowModal('section103');
+        }}
+      />
+
+      <SectionFooterField
+        label="Yellow Ribbon Program"
+        value={profile.attributes.yr ? 'Yes' : 'No'}
+        learnMoreOnClick={() => {
+          recordEvent({
+            event: 'gibct-modal-displayed',
+            'gibct-modal-displayed': 'yribbon',
+          });
+          dispatchShowModal('yribbon');
+        }}
+      />
+
+      <SectionFooterField
+        label="Veteran Rapid Retraining Assistance Program (VRRAP)"
+        value={profile.attributes.vrrap ? 'Yes' : 'No'}
+        learnMoreOnClick={() => dispatchShowModal('vrrap')}
+      />
     </div>
   );
 }
