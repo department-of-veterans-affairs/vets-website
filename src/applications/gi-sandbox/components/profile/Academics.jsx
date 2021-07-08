@@ -62,14 +62,74 @@ export default function Academics({ institution, onShowModal }) {
     </div>
   );
 
+  const independentStudy = (
+    <div aria-live="off">
+      <strong>
+        {renderLearnMore({
+          text: 'Independent study',
+          modal: 'independentStudy',
+          ariaLabel: ariaLabels.learnMore.independentStudy,
+        })}
+        :
+      </strong>
+      &nbsp;
+      {institution.independentStudy ? 'Yes' : 'No'}
+    </div>
+  );
+
+  const priorityEnrollment = (
+    <div aria-live="off">
+      <strong>
+        {renderLearnMore({
+          text: 'Priority Enrollment',
+          modal: 'priEnroll',
+          ariaLabel: ariaLabels.learnMore.priorityEnrollment,
+        })}
+        :
+      </strong>
+      &nbsp;
+      {institution.priorityEnrollment ? 'Yes' : 'No'}
+    </div>
+  );
+
   const educationDetails = (
     <div>
       <h3>Education details</h3>
       <hr />
       {typeOfAccreditation}
       {militaryTrainingCredit}
+      {independentStudy}
+      {priorityEnrollment}
     </div>
   );
 
-  return <div>{educationDetails}</div>;
+  const careerScope = (
+    <div>
+      <h3>Get started with CareerScope</h3>
+      <hr />
+      <p>
+        CareerScope&reg; take career and educational planning to a new level.
+        The proven career assessment and reporting system from the Vocational
+        Research Institute is a powerful, yet easy-to-use program.
+      </p>
+      <p>
+        <a
+          href="https://va.careerscope.net/gibill"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="vads-c-action-link--blue"
+        >
+          Get started with CareerScope
+        </a>
+      </p>
+    </div>
+  );
+
+  return (
+    <div>
+      {educationDetails}
+      <br />
+      {careerScope}
+    </div>
+  );
 }

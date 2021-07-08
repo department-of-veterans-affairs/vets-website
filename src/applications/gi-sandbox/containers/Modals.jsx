@@ -588,7 +588,7 @@ export class Modals extends React.Component {
           Higher Learning (IHLs). These schools must be postsecondary vocational
           institutions or area career and technical education schools that
           provide postsecondary level education. <strong>Note:</strong> This
-          change doesn’t apply to Dependents’ Educational Assistance program
+          doesn’t apply to Dependents’ Educational Assistance program
           beneficiaries.
         </p>
       </Modal>
