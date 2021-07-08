@@ -32,7 +32,6 @@ export class VetTecEstimateYourBenefits extends React.Component {
       modal,
       ariaLabel,
       showModal: this.props.showModal,
-      component: this,
     });
 
   renderCalculatorForm = () => {

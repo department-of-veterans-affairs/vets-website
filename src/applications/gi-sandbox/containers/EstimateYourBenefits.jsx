@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 import classNames from 'classnames';
@@ -8,7 +8,6 @@ import {
   calculatorInputChange,
   beneficiaryZIPCodeChanged,
   showModal,
-  hideModal,
   eligibilityChange,
   updateEstimatedBenefits,
 } from '../actions';
@@ -17,168 +16,162 @@ import EstimateYourBenefitsForm from '../components/profile/EstimateYourBenefits
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/EstimateYourBenefitsSummarySheet';
 
-export class EstimateYourBenefits extends React.Component {
-  constructor(props) {
-    super(props);
-    this.updateEstimatedBenefits();
+export function EstimateYourBenefits({
+  calculated,
+  calculator,
+  dispatchBeneficiaryZIPCodeChanged,
+  dispatchCalculatorInputChange,
+  dispatchEligibilityChange,
+  dispatchShowModal,
+  dispatchUpdateEstimatedBenefits,
+  eligibility,
+  estimatedBenefits,
+  gibctEybBottomSheet,
+  profile,
+}) {
+  const [showEybSheet, setShowEybSheet] = useState(false);
+  const [expandEybSheet, setExpandEybSheet] = useState(false);
 
-    this.state = {
-      showEybSheet: false,
-      expandEybSheet: false,
-    };
-  }
+  useEffect(() => {
+    dispatchUpdateEstimatedBenefits(calculated.outputs);
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll, true);
-  }
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll, true);
-  }
+    const handleScroll = () => {
+      const topOffset =
+        document
+          .getElementById('estimate-your-benefits-accordion')
+          ?.getBoundingClientRect().top -
+          12 <
+        0;
 
-  handleScroll = () => {
-    const topOffset =
-      document
-        .getElementById('estimate-your-benefits-accordion')
-        ?.getBoundingClientRect().top -
-        12 <
-      0;
+      const sheetHeight = document.getElementsByClassName('eyb-sheet')[0]
+        ?.offsetHeight;
+      const calculateButtonHeight =
+        document.getElementsByClassName('calculate-button')[0]?.offsetHeight +
+        1;
 
-    const sheetHeight = document.getElementsByClassName('eyb-sheet')[0]
-      ?.offsetHeight;
-    const calculateButtonHeight =
-      document.getElementsByClassName('calculate-button')[0]?.offsetHeight + 1;
+      const bottomOffset =
+        document
+          .getElementsByClassName('calculate-button')[0]
+          ?.getBoundingClientRect().top -
+          window.innerHeight +
+          sheetHeight +
+          calculateButtonHeight >
+        0;
 
-    const bottomOffset =
-      document
-        .getElementsByClassName('calculate-button')[0]
-        ?.getBoundingClientRect().top -
-        window.innerHeight +
-        sheetHeight +
-        calculateButtonHeight >
-      0;
-
-    if (topOffset && bottomOffset) {
-      if (this.state.showEybSheet === false) {
-        this.setState({ showEybSheet: true });
+      if (topOffset && bottomOffset) {
+        if (showEybSheet === false) {
+          setShowEybSheet(true);
+        }
+      } else if (showEybSheet === true) {
+        setShowEybSheet(false);
+        setExpandEybSheet(false);
       }
-    } else if (this.state.showEybSheet === true) {
-      this.setState({ showEybSheet: false, expandEybSheet: false });
-    }
-  };
+    };
+    window.addEventListener('scroll', handleScroll, true);
+    return () => {
+      window.removeEventListener('scroll', handleScroll, true);
+    };
+  }, []);
 
-  updateEstimatedBenefits = () => {
-    this.props.updateEstimatedBenefits(this.props.calculated.outputs);
-  };
-
-  toggleEybExpansion() {
-    if (this.state.expandEybSheet) {
-      this.setState({ expandEybSheet: false });
+  const toggleEybExpansion = () => {
+    if (expandEybSheet) {
       document.body.style.overflow = 'visible';
+      setExpandEybSheet(false);
     } else {
-      this.setState({ expandEybSheet: true });
       document.body.style.overflow = 'hidden';
+      setExpandEybSheet(true);
     }
+  };
+
+  if (isEmpty(estimatedBenefits)) {
+    return <LoadingIndicator message="Loading your estimated benefits..." />;
   }
 
-  render() {
-    if (isEmpty(this.props.estimatedBenefits)) {
-      return <LoadingIndicator message="Loading your estimated benefits..." />;
-    }
+  const outputs = estimatedBenefits;
+  const inputs = calculator;
+  const displayed = calculated.inputs;
 
-    const outputs = this.props.estimatedBenefits;
-    const {
-      profile,
-      gibctEybBottomSheet,
-      calculator: inputs,
-      calculated: { inputs: displayed },
-    } = this.props;
+  const spacerClassNames = classNames(
+    'medium-1',
+    'columns',
+    'small-screen:vads-u-margin-right--neg1',
+    'small-screen:vads-u-margin--0',
+    'vads-u-margin-top--1',
+  );
 
-    const spacerClassNames = classNames(
-      'medium-1',
-      'columns',
-      'small-screen:vads-u-margin-right--neg1',
-      'small-screen:vads-u-margin--0',
-      'vads-u-margin-top--1',
-    );
+  const summarySheetClassNames = classNames(
+    'vads-u-display--block',
+    'small-screen:vads-u-display--none',
+    'eyb-sheet',
+    {
+      open: showEybSheet,
+    },
+  );
 
-    const summarySheetClassNames = classNames(
-      'vads-u-display--block',
-      'small-screen:vads-u-display--none',
-      'eyb-sheet',
-      {
-        open: this.state.showEybSheet,
-      },
-    );
-
-    return (
-      <div>
-        <div className="row calculate-your-benefits">
-          <EstimateYourBenefitsForm
-            profile={profile}
-            eligibility={this.props.eligibility}
-            eligibilityChange={this.props.eligibilityChange}
-            inputs={inputs}
-            displayedInputs={displayed}
-            showModal={this.props.showModal}
-            calculatorInputChange={this.props.calculatorInputChange}
-            onBeneficiaryZIPCodeChanged={this.props.beneficiaryZIPCodeChanged}
-            estimatedBenefits={this.props.estimatedBenefits}
-            updateEstimatedBenefits={this.updateEstimatedBenefits}
-          />
-          <div className={spacerClassNames}>&nbsp;</div>
-          <EstimatedBenefits
-            outputs={outputs}
-            profile={profile}
-            calculator={inputs}
-          />
-          {gibctEybBottomSheet && (
-            <div>
-              {this.state.expandEybSheet && (
-                <div
-                  onClick={() => this.toggleEybExpansion()}
-                  className="va-modal overlay"
-                />
-              )}
-              {
-                <div id="eyb-summary-sheet" className={summarySheetClassNames}>
-                  <EstimateYourBenefitsSummarySheet
-                    outputs={outputs}
-                    expandEybSheet={this.state.expandEybSheet}
-                    showEybSheet={this.state.showEybSheet}
-                    toggleEybExpansion={() => this.toggleEybExpansion()}
-                    type={this.props.calculator.type}
-                    yellowRibbon={
-                      this.props.calculator.yellowRibbonRecipient === 'yes'
-                    }
-                  />
-                </div>
-              }
-            </div>
-          )}
-        </div>
-        <div className="subsection">
-          Additional information regarding your benefits
-        </div>
-        {profile.attributes.vetWebsiteLink && (
+  return (
+    <div>
+      <div className="row calculate-your-benefits">
+        <EstimateYourBenefitsForm
+          profile={profile}
+          eligibility={eligibility}
+          eligibilityChange={dispatchEligibilityChange}
+          inputs={inputs}
+          displayedInputs={displayed}
+          showModal={dispatchShowModal}
+          calculatorInputChange={dispatchCalculatorInputChange}
+          onBeneficiaryZIPCodeChanged={dispatchBeneficiaryZIPCodeChanged}
+          estimatedBenefits={estimatedBenefits}
+          updateEstimatedBenefits={() =>
+            dispatchUpdateEstimatedBenefits(calculated.outputs)
+          }
+        />
+        <div className={spacerClassNames}>&nbsp;</div>
+        <EstimatedBenefits
+          outputs={outputs}
+          profile={profile}
+          calculator={inputs}
+        />
+        {gibctEybBottomSheet && (
           <div>
-            <strong>Veterans tuition policy: </strong>
-            {'Yes '}
-            <strong>
-              (
-              <a
-                href={profile.attributes.vetWebsiteLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View policy
-              </a>
-              )
-            </strong>
+            {expandEybSheet && (
+              <div onClick={toggleEybExpansion} className="va-modal overlay" />
+            )}
+            {
+              <div id="eyb-summary-sheet" className={summarySheetClassNames}>
+                <EstimateYourBenefitsSummarySheet
+                  outputs={outputs}
+                  expandEybSheet={expandEybSheet}
+                  showEybSheet={showEybSheet}
+                  toggleEybExpansion={toggleEybExpansion}
+                  type={calculator.type}
+                  yellowRibbon={calculator.yellowRibbonRecipient === 'yes'}
+                />
+              </div>
+            }
           </div>
         )}
       </div>
-    );
-  }
+      <div className="subsection">
+        Additional information regarding your benefits
+      </div>
+      {profile.attributes.vetWebsiteLink && (
+        <div>
+          <strong>Veterans tuition policy:</strong>
+          {}
+          Yes
+          {}(
+          <a
+            href={profile.attributes.vetWebsiteLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            View policy
+          </a>
+          )
+        </div>
+      )}
+    </div>
+  );
 }
 
 const mapStateToProps = (state, props) => ({
@@ -190,12 +183,11 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = {
-  calculatorInputChange,
-  beneficiaryZIPCodeChanged,
-  showModal,
-  hideModal,
-  eligibilityChange,
-  updateEstimatedBenefits,
+  dispatchCalculatorInputChange: calculatorInputChange,
+  dispatchBeneficiaryZIPCodeChanged: beneficiaryZIPCodeChanged,
+  dispatchShowModal: showModal,
+  dispatchEligibilityChange: eligibilityChange,
+  dispatchUpdateEstimatedBenefits: updateEstimatedBenefits,
 };
 
 export default connect(

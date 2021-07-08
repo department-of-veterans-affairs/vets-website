@@ -6,7 +6,6 @@ export const renderLearnMoreLabel = ({
   modal,
   ariaLabel,
   showModal,
-  component,
   labelFor,
 }) => {
   let displayText = text && <React.Fragment>{text} </React.Fragment>;
@@ -33,7 +32,7 @@ export const renderLearnMoreLabel = ({
           aria-label={ariaLabel}
           type="button"
           className="va-button-link learn-more-button vads-u-margin--0"
-          onClick={showModal.bind(component, modal)}
+          onClick={() => showModal(modal)}
         >
           Learn more
         </button>

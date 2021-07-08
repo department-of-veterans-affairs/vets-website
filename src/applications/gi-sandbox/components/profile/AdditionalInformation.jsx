@@ -65,20 +65,6 @@ export class AdditionalInformation extends React.Component {
         </div>
       );
 
-    const vetTuitionPolicy = institution.vetWebsiteLink && (
-      <div>
-        <strong>Veterans tuition policy:</strong>
-        &nbsp;
-        <a
-          href={institution.vetWebsiteLink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View policy
-        </a>
-      </div>
-    );
-
     return (
       <div aria-live="off" className="institution-summary">
         <h3>Institution summary</h3>
@@ -113,7 +99,6 @@ export class AdditionalInformation extends React.Component {
           )}
         </div>
         {typeOfAccreditation}
-        {vetTuitionPolicy}
         {institution.section103Message &&
           this.renderSection103Info(institution.section103Message)}
         <div aria-live="off">

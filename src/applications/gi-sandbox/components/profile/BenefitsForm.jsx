@@ -49,7 +49,6 @@ export class BenefitsForm extends React.Component {
       modal,
       ariaLabel,
       showModal: this.props.showModal,
-      component: this,
       labelFor: labelFor || modal,
     });
 
