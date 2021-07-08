@@ -117,11 +117,11 @@ describe('Sitewide Search smoke test', () => {
     cy.wait('@getSearchResults');
 
     // Ensure ERROR Alert Box exists
-    cy.get(SELECTORS.SEARCH_RESULTS_EMPTY)
+    cy.get(SELECTORS.ERROR_ALERT_BOX)
       // Check contain error message
       .should(
         'contain',
-        'Sorry, no results found. Try again using different (or fewer) words.',
+        "We’re sorry. Something went wrong on our end, and your search didn't go through. Please try again",
       );
 
     // A11y check the search results.

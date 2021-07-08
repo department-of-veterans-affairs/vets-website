@@ -14,12 +14,8 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import {
-  getFindFormsAppState,
-  applyLighthouseFormsSearchLogic,
-  applySearchUIUXEnhancements,
-} from '../helpers/selectors';
-import { FAF_SORT_OPTIONS, FAF_TEST_OPTION_CLOSEST_MATCH } from '../constants';
+import { getFindFormsAppState } from '../helpers/selectors';
+import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
@@ -53,28 +49,17 @@ export const SearchResults = ({
   sortByPropertyName,
   hasOnlyRetiredForms,
   startIndex,
-  useLighthouseSearchAlgo,
   updatePagination,
   updateSortByPropertyName,
-  useSearchUIUXEnhancements,
 }) => {
   const prevProps = usePreviousProps({
     fetching,
-    useLighthouseSearchAlgo,
   });
 
   useEffect(() => {
     const justRefreshed = prevProps?.fetching && !fetching;
     if (justRefreshed) {
       focusElement('[data-forms-focus]');
-    }
-
-    // NOTE: This is only for testing Lighthouse Search Algorithm
-    if (
-      prevProps?.useLighthouseSearchAlgo === undefined &&
-      useLighthouseSearchAlgo === true
-    ) {
-      updateSortByPropertyName(FAF_TEST_OPTION_CLOSEST_MATCH, results);
     }
   });
 
@@ -95,6 +80,7 @@ export const SearchResults = ({
 
   const setSortByPropertyNameState = formMetaInfo => state => {
     if (state?.value) {
+      // console.log('AA: ', state.value, ' | ', results);
       updateSortByPropertyName(state.value, results);
 
       recordEvent({
@@ -166,11 +152,6 @@ export const SearchResults = ({
     );
   }
 
-  // Derive sort options
-  const DEFAULT_SORT_OPTIONS = useLighthouseSearchAlgo
-    ? [FAF_TEST_OPTION_CLOSEST_MATCH, ...FAF_SORT_OPTIONS]
-    : FAF_SORT_OPTIONS;
-
   // Derive the last index.
   const lastIndex = startIndex + MAX_PAGE_LIST_LENGTH;
 
@@ -195,7 +176,6 @@ export const SearchResults = ({
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
-        useSearchUIUXEnhancements={useSearchUIUXEnhancements}
       />
     ));
 
@@ -208,24 +188,10 @@ export const SearchResults = ({
         >
           {/* eslint-disable-next-line jsx-a11y/aria-role */}
           <span role="text">
-            {useSearchUIUXEnhancements ? (
-              <>
-                Showing <span>{startLabel}</span> &ndash;{' '}
-                <span>{lastLabel}</span> of <span>{results.length}</span>{' '}
-                results for "{' '}
-              </>
-            ) : (
-              <>
-                Showing{' '}
-                <span className="vads-u-font-weight--bold">{startLabel}</span>{' '}
-                &ndash;{' '}
-                <span className="vads-u-font-weight--bold">{lastLabel}</span> of{' '}
-                <span className="vads-u-font-weight--bold">
-                  {results.length}
-                </span>{' '}
-                results for "{' '}
-              </>
-            )}
+            <>
+              Showing <span>{startLabel}</span> &ndash; <span>{lastLabel}</span>{' '}
+              of <span>{results.length}</span> results for "{' '}
+            </>
             <span className="vads-u-font-weight--bold">{query}</span>"
           </span>
         </h2>
@@ -237,7 +203,7 @@ export const SearchResults = ({
           includeBlankOption={false}
           name="findFormsSortBySelect"
           onValueChange={setSortByPropertyNameState(formMetaInfo)}
-          options={DEFAULT_SORT_OPTIONS}
+          options={FAF_SORT_OPTIONS}
           value={{ value: sortByPropertyName }}
         />
       </div>
@@ -269,7 +235,6 @@ SearchResults.propTypes = {
   hasOnlyRetiredForms: PropTypes.bool.isRequired,
   sortByPropertyName: PropTypes.string,
   startIndex: PropTypes.number.isRequired,
-  useLighthouseSearchAlgo: PropTypes.bool,
   // From mapDispatchToProps.
   updateSortByPropertyName: PropTypes.func,
   updatePagination: PropTypes.func.isRequired,
@@ -284,8 +249,6 @@ const mapStateToProps = state => ({
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
   startIndex: getFindFormsAppState(state).startIndex,
-  useLighthouseSearchAlgo: applyLighthouseFormsSearchLogic(state),
-  useSearchUIUXEnhancements: applySearchUIUXEnhancements(state),
 });
 
 const mapDispatchToProps = dispatch => ({
