@@ -279,9 +279,9 @@ export const RepresentativeAdditionalInfo = () => {
     <div className="vads-u-margin-top--1">
       <AdditionalInfo triggerText="What types of documents does VA accept to show legal representation?">
         <p>
-          First, please know that we only accept full documents. We can't accept
-          only a cover or signature page. Our staff will review the documents
-          during the application process.
+          First, please know that we only accept <strong>full documents</strong>
+          . We can't accept only a cover or signature page. Our staff will
+          review the documents during the application process.
         </p>
 
         <p className="vads-u-margin-top--4">We accept these documents:</p>
