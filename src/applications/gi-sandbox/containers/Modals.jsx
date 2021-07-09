@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
-import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
+import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
 import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
 import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
