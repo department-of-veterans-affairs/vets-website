@@ -47,10 +47,6 @@ class SearchApp extends React.Component {
       page: pageFromURL,
       typeaheadUsed,
     };
-
-    if (!userInputFromURL) {
-      window.location.href = '/';
-    }
   }
 
   componentDidMount() {
@@ -201,9 +197,6 @@ class SearchApp extends React.Component {
   renderResults() {
     const { loading, errors, currentPage, totalPages } = this.props.search;
     const hasErrors = !!(errors && errors.length > 0);
-    const nonBlankUserInput =
-      this.state.userInput &&
-      this.state.userInput.replace(/\s/g, '').length > 0;
 
     // Reusable search input
     const searchInput = (
@@ -224,7 +217,7 @@ class SearchApp extends React.Component {
             value={this.state.userInput}
             onChange={this.handleInputChange}
           />
-          <button type="submit" disabled={!nonBlankUserInput}>
+          <button type="submit">
             <IconSearch color="#fff" />
             <span className="button-text">Search</span>
           </button>
@@ -367,7 +360,7 @@ class SearchApp extends React.Component {
 
   renderResultsList() {
     const { results, loading } = this.props.search;
-
+    const query = this.props.router?.location?.query?.query || '';
     if (loading) {
       return <LoadingIndicator message="Loading results..." />;
     }
@@ -384,13 +377,25 @@ class SearchApp extends React.Component {
         </>
       );
     }
-
+    if (query) {
+      return (
+        <p
+          className={`${SCREENREADER_FOCUS_CLASSNAME}`}
+          data-e2e-id="search-results-empty"
+        >
+          We didn't find any results for "<strong>{query}</strong>
+          ." Try using different words or checking the spelling of the words
+          you're using.
+        </p>
+      );
+    }
     return (
       <p
         className={`${SCREENREADER_FOCUS_CLASSNAME}`}
         data-e2e-id="search-results-empty"
       >
-        Sorry, no results found. Try again using different (or fewer) words.
+        We didn't find any results. Enter a keyword in the search box to try
+        again.
       </p>
     );
   }

@@ -96,19 +96,6 @@ export class SearchMenu extends React.Component {
     this.setState({ suggestions: [], savedSuggestions: [] });
   };
 
-  isUserInputValid = () => {
-    const { userInput } = this.state;
-
-    // check to make sure user input isn't empty
-    const isCorrectLength =
-      userInput && userInput.replace(/\s/g, '').length > 0;
-    if (!isCorrectLength) {
-      return false;
-    }
-    // this will likely expand in the future
-    return true;
-  };
-
   getSuggestions = async () => {
     const { userInput } = this.state;
 
@@ -205,13 +192,9 @@ export class SearchMenu extends React.Component {
   // handle event logging and fire off a search query
   handleSearchEvent = suggestion => {
     const { suggestions, userInput, savedSuggestions } = this.state;
-    const { isUserInputValid } = this;
 
     const suggestionsList = [...suggestions, ...savedSuggestions];
-    // if the user tries to search with an empty input, escape early
-    if (!isUserInputValid()) {
-      return;
-    }
+
     // event logging, note suggestion will be undefined during a userInput search
     recordEvent({
       event: 'view_search_results',
@@ -271,7 +254,6 @@ export class SearchMenu extends React.Component {
       handleInputChange,
       handleSearchEvent,
       handleKeyUp,
-      isUserInputValid,
       formatSuggestion,
       handleSearchTab,
     } = this;
@@ -310,7 +292,6 @@ export class SearchMenu extends React.Component {
             <button
               type="submit"
               data-e2e-id="sitewide-search-submit-button"
-              disabled={!isUserInputValid()}
               className="vads-u-margin-left--0p25 vads-u-margin-right--0p5 "
             >
               <IconSearch color="#fff" />
@@ -361,7 +342,6 @@ export class SearchMenu extends React.Component {
               />
               <button
                 type="submit"
-                disabled={!isUserInputValid()}
                 id="sitewide-search-submit-button"
                 data-e2e-id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
