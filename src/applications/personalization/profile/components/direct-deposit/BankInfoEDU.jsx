@@ -47,6 +47,7 @@ export const DirectDepositEDU = ({
 }) => {
   const formPrefix = 'EDU';
   const editBankInfoButton = useRef();
+  const editBankInfoForm = useRef();
   const [formData, setFormData] = useState({});
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const wasEditingBankInfo = usePrevious(directDepositUiState.isEditing);
@@ -69,6 +70,14 @@ export const DirectDepositEDU = ({
   // when we enter and exit edit mode...
   useEffect(
     () => {
+      if (isEditingBankInfo && !wasEditingBankInfo) {
+        const focusableElement = editBankInfoForm.current?.querySelector(
+          'button, input, select, a, textarea',
+        );
+        if (focusableElement) {
+          focusableElement.focus();
+        }
+      }
       if (wasEditingBankInfo && !isEditingBankInfo) {
         // clear the form data when exiting edit mode so it's blank when the
         // edit form is shown again
@@ -245,7 +254,7 @@ export const DirectDepositEDU = ({
           </figure>
         </AdditionalInfo>
       </div>
-      <div data-testid={`${formPrefix}-bank-info-form`}>
+      <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
         <BankInfoForm
           formChange={data => setFormData(data)}
           formData={formData}

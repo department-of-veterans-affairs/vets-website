@@ -157,7 +157,8 @@ const DebtLettersDownload = ({
               className="vads-u-font-family--sans vads-u-font-size--sm"
               to="/"
             >
-              <i className="fa fa-chevron-left" /> Return to your list of debts.
+              <i aria-hidden="true" className="fa fa-chevron-left" /> Return to
+              your list of debts.
             </Link>
           </p>
         </div>

@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import recordEvent from 'platform/monitoring/record-event';
 
 export class AdditionalInformation extends React.Component {
   updateFiscalYear() {
@@ -9,41 +8,9 @@ export class AdditionalInformation extends React.Component {
     return constants.FISCALYEAR;
   }
 
-  renderSection103Info = section103Message => (
-    <div aria-live="off" className="section-103-message">
-      <strong>
-        <button
-          id="section103-button"
-          type="button"
-          className="va-button-link learn-more-button"
-          onClick={() => {
-            recordEvent({
-              event: 'gibct-modal-displayed',
-              'gibct-modal-displayed': 'protection-against-late-va-payments',
-            });
-            this.props.onShowModal('section103');
-          }}
-        >
-          Protection against late VA payments:
-        </button>
-      </strong>
-      &nbsp;
-      {section103Message}
-    </div>
-  );
-
   renderInstitutionSummary() {
     const { institution } = this.props;
     const isOJT = institution.type.toLowerCase() === 'ojt';
-
-    if (isOJT && institution.section103Message) {
-      return (
-        <div className="institution-summary">
-          <h3>Institution summary</h3>
-          {this.renderSection103Info(institution.section103Message)}
-        </div>
-      );
-    }
 
     if (isOJT) return null;
 
@@ -64,20 +31,6 @@ export class AdditionalInformation extends React.Component {
           {institution.accreditationType.toUpperCase()}
         </div>
       );
-
-    const vetTuitionPolicy = institution.vetWebsiteLink && (
-      <div>
-        <strong>Veterans tuition policy:</strong>
-        &nbsp;
-        <a
-          href={institution.vetWebsiteLink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View policy
-        </a>
-      </div>
-    );
 
     return (
       <div aria-live="off" className="institution-summary">
@@ -113,9 +66,6 @@ export class AdditionalInformation extends React.Component {
           )}
         </div>
         {typeOfAccreditation}
-        {vetTuitionPolicy}
-        {institution.section103Message &&
-          this.renderSection103Info(institution.section103Message)}
         <div aria-live="off">
           <strong>
             <button
