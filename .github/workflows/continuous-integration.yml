@@ -587,9 +587,6 @@ jobs:
           repository: department-of-veterans-affairs/testing-reports
           directory: testing-reports
 
-      - name: Link report
-        run: echo "[See Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }}.html)"
-
       # -------------------------
       # | Cypress Tests Summary |
       # -------------------------
@@ -609,6 +606,7 @@ jobs:
           check_name: 'Cypress Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'cypress-junit-test-results/e2e-test-output-*.xml'
+          summary: '[Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }}.html)'
 
 # archive:
 #   name: Archive
