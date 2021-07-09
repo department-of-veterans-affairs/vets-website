@@ -95,17 +95,21 @@ export default function EstimatedBenefits({ profile, outputs, calculator }) {
       return (
         <div key={section} className="per-term-section">
           <div className="link-header">
-            <h4 id={headerId}>{title}</h4>
-            &nbsp;(
-            <a
-              href={learnMoreLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={learnMoreAriaLabel || ''}
-            >
-              Learn more
-            </a>
-            )
+            <span id={headerId}>
+              <strong>{title}</strong>
+            </span>
+            <span className="vads-u-padding-left--2">
+              (
+              <a
+                href={learnMoreLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={learnMoreAriaLabel || ''}
+              >
+                Learn more
+              </a>
+              )
+            </span>
           </div>
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul aria-labelledby={headerId} role="list">
@@ -154,7 +158,7 @@ export default function EstimatedBenefits({ profile, outputs, calculator }) {
             value={outputs.giBillPaysToSchool.value}
             visible={outputs.giBillPaysToSchool.visible}
             screenReaderSpan={year}
-            header
+            bold
           />
           <CalculatorResultRow
             label="Tuition and fees charged"
@@ -169,7 +173,7 @@ export default function EstimatedBenefits({ profile, outputs, calculator }) {
           <CalculatorResultRow
             label="Out of pocket tuition"
             value={outputs.outOfPocketTuition.value}
-            bolds
+            bold
             visible={outputs.outOfPocketTuition.visible}
           />
         </ul>
@@ -184,21 +188,20 @@ export default function EstimatedBenefits({ profile, outputs, calculator }) {
             value={outputs.housingAllowance.value}
             visible={outputs.housingAllowance.visible}
             screenReaderSpan={month}
-            eybH4
+            bold
           />
           <CalculatorResultRow
             label="Book stipend"
             value={outputs.bookStipend.value}
             visible={outputs.bookStipend.visible}
             screenReaderSpan={profile.attributes.type === 'ojt' ? month : year}
-            eybH4
+            bold
           />
           <CalculatorResultRow
             label="Total paid to you"
             value={outputs.totalPaidToYou.value}
-            bold
             visible={outputs.totalPaidToYou.visible}
-            eybH4
+            bold
           />
         </ul>
       </div>

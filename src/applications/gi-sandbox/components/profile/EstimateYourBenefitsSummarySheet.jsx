@@ -54,7 +54,7 @@ export const EstimateYourBenefitsSummarySheet = props => (
             <CalculatorSheetResultRow
               label="Housing allowance"
               value={props.outputs.housingAllowance.value}
-              header
+              bold
               visible={props.outputs.housingAllowance.visible}
             />
           </div>

@@ -154,7 +154,7 @@ export function CalculateYourBenefits({
         )}
       </div>
       <div className="subsection">
-        Additional information regarding your benefits
+        <h3>Additional information regarding your benefits</h3>
       </div>
 
       <div className="vads-u-padding-bottom--1">

@@ -734,8 +734,8 @@ function EstimateYourBenefitsForm({
     let extensionOptions = [];
     const beneficiaryLocationQuestionOptions = [
       {
-        optionValue: profile.attributes.name,
-        optionLabel: profile.attributes.name,
+        value: profile.attributes.name,
+        label: profile.attributes.name,
       },
     ];
 
@@ -749,13 +749,13 @@ function EstimateYourBenefitsForm({
       extensionOptions.push({ optionValue: 'other', optionLabel: 'Other...' });
 
       beneficiaryLocationQuestionOptions.push({
-        optionValue: 'extension',
-        optionLabel: 'An extension campus',
+        value: 'extension',
+        label: 'An extension campus',
       });
     } else {
       beneficiaryLocationQuestionOptions.push({
-        optionValue: 'other',
-        optionLabel: 'Other location',
+        value: 'other',
+        label: 'Other location',
       });
     }
 
