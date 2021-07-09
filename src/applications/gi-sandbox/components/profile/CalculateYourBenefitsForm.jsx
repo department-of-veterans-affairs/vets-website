@@ -19,12 +19,12 @@ import {
   handleInputFocusWithPotentialOverLap,
   isURL,
 } from '../../utils/helpers';
-import { renderLearnMoreLabel } from '../../utils/render';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
 import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
+import LearnMoreLabel from '../LearnMoreLabel';
 
 function CalculateYourBenefitsForm({
   calculatorInputChange,
@@ -255,21 +255,14 @@ function CalculateYourBenefitsForm({
     }
   };
 
-  /**
-   * Renders a learn more label with common props for this component being set
-   * @param text
-   * @param modal
-   * @param ariaLabel
-   * @returns {*}
-   */
-  const learnMoreLabel = ({ text, modal, ariaLabel, labelFor }) =>
-    renderLearnMoreLabel({
-      text,
-      modal,
-      ariaLabel,
-      showModal,
-      labelFor,
-    });
+  const learnMoreLabel = ({ text, modal, ariaLabel, labelFor }) => (
+    <LearnMoreLabel
+      text={text}
+      onClick={() => showModal(modal)}
+      ariaLabel={ariaLabel}
+      labelFor={labelFor}
+    />
+  );
 
   /**
    * Displays question about how a much an institution's in-state tuition is
