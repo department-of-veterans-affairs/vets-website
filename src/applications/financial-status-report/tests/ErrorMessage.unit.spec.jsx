@@ -4,7 +4,7 @@ import React from 'react';
 import ErrorMessage from '../components/ErrorMessage';
 
 describe('ErrorMessage', () => {
-  it('should render AlertBox', () => {
+  it('should render va-alert', () => {
     const fakeStore = {
       getState: () => ({
         fsr: {
@@ -24,8 +24,8 @@ describe('ErrorMessage', () => {
       dispatch: () => {},
     };
     const errorMessage = mount(<ErrorMessage store={fakeStore} />);
-    const alertBox = errorMessage.find('AlertBox');
-    expect(alertBox).not.to.be.undefined;
+    const vaAlert = errorMessage.find('va-alert');
+    expect(vaAlert).not.to.be.undefined;
     errorMessage.unmount();
   });
 });

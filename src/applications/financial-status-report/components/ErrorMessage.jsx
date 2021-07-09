@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 export const SubmissionError = () => (
-  <AlertBox
+  <va-alert
     status="error"
     headline="We’re sorry. Your request wasn’t submitted."
     content={
@@ -25,7 +24,7 @@ export const SubmissionError = () => (
 
 const ServerError = () => (
   <div className="row vads-u-margin-bottom--5">
-    <AlertBox
+    <va-alert
       status="error"
       headline="We're sorry. Something went wrong on our end."
       content={
