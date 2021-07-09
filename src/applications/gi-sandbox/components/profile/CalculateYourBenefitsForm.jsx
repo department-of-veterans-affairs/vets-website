@@ -258,7 +258,7 @@ function CalculateYourBenefitsForm({
   const learnMoreLabel = ({ text, modal, ariaLabel, labelFor }) => (
     <LearnMoreLabel
       text={text}
-      onClick={() => this.props.showModal(modal)}
+      onClick={() => showModal(modal)}
       ariaLabel={ariaLabel}
       labelFor={labelFor}
     />
