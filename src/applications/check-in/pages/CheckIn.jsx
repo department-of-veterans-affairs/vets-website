@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 
-import { goToNextPageWithToken, getTokenFromRouter } from '../utils/navigation';
+import { goToNextPage, URLS } from '../utils/navigation';
 
 import { checkInUser } from '../api';
 
@@ -14,28 +14,27 @@ const CheckIn = props => {
   const [isLoading, setIsLoading] = useState(false);
 
   if (!appointment) {
-    goToNextPageWithToken(router, 'failed');
+    goToNextPage(router, URLS.SEE_STAFF);
     return <></>;
   }
 
-  const token = getTokenFromRouter(router);
   const onClick = async () => {
+    const token = appointment.uuid;
     setIsLoading(true);
     const json = await checkInUser({
       token,
     });
     const { data } = json;
     if (data.checkInStatus === 'completed') {
-      goToNextPageWithToken(router, 'confirmed');
+      goToNextPage(router, URLS.COMPLETE);
     } else {
-      goToNextPageWithToken(router, 'failed');
+      goToNextPage(router, URLS.SEE_STAFF);
     }
   };
 
   const appointmentDate = moment(new Date(appointment.appointmentTime)).format(
     'dddd, MMMM D, YYYY',
   );
-
   const usersTimeZone = moment.tz.guess();
   const timeZone = moment()
     .tz(usersTimeZone)

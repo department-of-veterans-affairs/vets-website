@@ -38,6 +38,7 @@ export default Object.freeze({
   languageSupport: 'language_support',
   manageDependents: 'dependents_management',
   preEntryCovid19Screener: 'preEntryCovid19Screener',
+  profileNotificationSettings: 'profile_notification_settings',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchTypeaheadEnabled: 'search_typeahead_enabled',

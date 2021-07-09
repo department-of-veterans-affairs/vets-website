@@ -5,7 +5,9 @@ import withOnlyOnLocal from '../containers/withOnlyOnLocal';
 function BackToHome() {
   return (
     <div>
-      <a href="/check-in/abc-1234">Check in again</a>
+      <a href="/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287">
+        Check in again
+      </a>
     </div>
   );
 }
