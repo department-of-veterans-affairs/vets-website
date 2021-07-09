@@ -4,6 +4,11 @@ import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
 import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
+import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
+import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
+import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
+import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
+import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -320,16 +325,9 @@ export class Modals extends React.Component {
 
       <Modal
         onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('priEnroll')}
+        visible={this.shouldDisplayModal('priorityEnrollment')}
       >
-        <h3>Priority enrollment</h3>
-        <p>
-          If an Institution of Higher Learning (a college or university) has a
-          system for priority enrollment that allows certain student Veterans to
-          enroll in courses earlier than other students (not necessarily earlier
-          than <strong>all</strong> students), we’ll note that with the school’s
-          information here.
-        </p>
+        <PriorityEnrollmentModalContent />
       </Modal>
 
       <Modal
@@ -488,50 +486,16 @@ export class Modals extends React.Component {
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('accreditation')}
-        elementToFocusOnClose="typeAccreditedAcademics-button"
+        elementToFocusOnClose="accreditation-button"
       >
-        <h3>Accreditation and why it matters</h3>
-        <p>
-          The goal of accreditation is to ensure the education provided by
-          institutions of higher learning meets acceptable levels of quality.
-          Accreditation matters if you plan to start school at one institution
-          and transfer to another to complete your degree. Be sure to ask any
-          potential school about their credit transfer policy.
-        </p>
-        <p>
-          Schools are accredited regionally or nationally by private educational
-          associations. While the Department of Education (ED) doesn't say
-          whether regional or national accreditation is better, a recent ED
-          study revealed that, “Nearly 90 percent of all student credit transfer
-          opportunities occurred between institutions that were regionally,
-          rather than nationally, accredited.”{' '}
-          <a href="http://nces.ed.gov/pubs2014/2014163.pdf" id="anch_386">
-            Read the ED report on credit transferability
-          </a>
-        </p>
-        <p>
-          To learn more about the accreditation process and types of
-          accreditation, visit the "
-          <a
-            href="https://www.benefits.va.gov/gibill/comparison_tool/about_this_tool.asp#accreditation_type"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            About this tool
-          </a>
-          " page.
-        </p>
+        <AccreditationModalContent />
       </Modal>
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('singleContact')}
         elementToFocusOnClose="singleContact-button"
       >
-        <h3>Single point of contact for Veterans</h3>
-        <p>
-          Does the school have a dedicated point of contact for support services
-          for Veterans, military service members, and their families?
-        </p>
+        <SingleContactModalContent />
       </Modal>
 
       <Modal
@@ -539,11 +503,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('creditTraining')}
         elementToFocusOnClose="creditTraining-button"
       >
-        <h3>Credit for military training</h3>
-        <p>
-          Does the school offer postsecondary credit for experiences and
-          military training?
-        </p>
+        <CreditTrainingModalContent />
       </Modal>
       <Modal
         onClose={this.props.hideModal}
@@ -578,19 +538,10 @@ export class Modals extends React.Component {
       </Modal>
       <Modal
         onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('iStudy')}
-        elementToFocusOnClose="iStudy-button"
+        visible={this.shouldDisplayModal('independentStudy')}
+        elementToFocusOnClose="independentStudy-button"
       >
-        <h3>Independent study</h3>
-        <p>
-          Beneficiaries may use educational assistance to access online learning
-          (accredited independent study) at schools that aren’t Institutions of
-          Higher Learning (IHLs). These schools must be postsecondary vocational
-          institutions or area career and technical education schools that
-          provide postsecondary level education. <strong>Note:</strong> This
-          doesn’t apply to Dependents’ Educational Assistance program
-          beneficiaries.
-        </p>
+        <IndependentStudyModalContent />
       </Modal>
 
       <Modal

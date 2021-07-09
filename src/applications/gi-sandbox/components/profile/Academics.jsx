@@ -69,9 +69,8 @@ export default function Academics({ institution, onShowModal }) {
       <strong>
         <LearnMoreLabel
           text={'Priority Enrollment'}
-          onClick={() => onShowModal('priEnroll')}
+          onClick={() => onShowModal('priorityEnrollment')}
           ariaLabel={ariaLabels.learnMore.priorityEnrollment}
-          buttonId={'priEnroll-button'}
         />
         :
       </strong>
