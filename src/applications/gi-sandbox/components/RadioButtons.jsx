@@ -119,7 +119,7 @@ const RadioButtons = ({
   return (
     <div
       id={`${inputId}-field`}
-      className={classNames('vads-u-margin-top--3', {
+      className={classNames({
         'usa-input-error': errorMessage,
       })}
     >

@@ -1,54 +1,5 @@
 import React from 'react';
-import { createId } from '../utils/helpers';
-import classNames from 'classnames';
-
-const CalculatorSheetResultRow = ({
-  id,
-  label,
-  value,
-  header,
-  bold,
-  visible,
-  boldLabel,
-  boldValue,
-  plainTextValue,
-}) => {
-  const boldAll = !boldLabel && !boldValue && bold;
-  const boldClass = boldCheck =>
-    boldCheck ? 'vads-u-font-weight--bold' : null;
-
-  return visible ? (
-    <div
-      id={`summary-sheet-calculator-result-row-${createId(
-        id == null ? label : id,
-      )}`}
-      className={classNames('row', 'calculator-result', boldClass(boldAll))}
-    >
-      <div className="small-8 columns">
-        {header ? (
-          <h5 className="vads-u-margin-y--0">{label}:</h5>
-        ) : (
-          <div
-            className={classNames('vads-u-margin-y--0 ', boldClass(boldLabel))}
-          >
-            {label}:
-          </div>
-        )}
-      </div>
-      <div className="small-4 columns vads-u-text-align--right">
-        {header && !plainTextValue ? (
-          <h5 className="vads-u-margin-y--0">{value}</h5>
-        ) : (
-          <div
-            className={classNames('vads-u-margin-y--0 ', boldClass(boldValue))}
-          >
-            {value}
-          </div>
-        )}
-      </div>
-    </div>
-  ) : null;
-};
+import CalculatorSheetResultRow from './CalculatorSheetResultRow';
 
 export const EstimateYourBenefitsSummarySheet = props => (
   <div className="vads-u-padding-bottom--1p5 vads-u-border-top--1px vads-u-border-color--gray-light">
@@ -103,7 +54,7 @@ export const EstimateYourBenefitsSummarySheet = props => (
             <CalculatorSheetResultRow
               label="Housing allowance"
               value={props.outputs.housingAllowance.value}
-              header
+              bold
               visible={props.outputs.housingAllowance.visible}
             />
           </div>
