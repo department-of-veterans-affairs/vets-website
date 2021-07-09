@@ -106,6 +106,10 @@ const formConfig = {
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+          initialData: {
+            // stop the mobile phone modal from showing SMS checkbox inline
+            'view:showSMSCheckbox': false,
+          },
         },
         homeless: {
           title: 'Homelessness question',

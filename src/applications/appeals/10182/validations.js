@@ -6,6 +6,7 @@ import {
   isValidPartialDate,
 } from 'platform/forms-system/src/js/utilities/validations';
 
+import { $, areaOfDisagreementWorkAround } from './utils/ui';
 import { hasSomeSelected } from './utils/helpers';
 import { optInErrorMessage } from './content/OptIn';
 import { missingIssuesErrorMessageText } from './content/additionalIssues';
@@ -13,7 +14,6 @@ import {
   missingAreaOfDisagreementErrorMessage,
   missingAreaOfDisagreementOtherErrorMessage,
 } from './content/areaOfDisagreement';
-import { areaOfDisagreementWorkAround } from './utils/ui';
 
 export const requireIssue = (
   errors,
@@ -81,6 +81,11 @@ export const contactInfoValidation = (errors, _fieldData, formData) => {
   }
   if (!veteran.address?.addressLine1) {
     errors.addError('Please add an address to your profile');
+  }
+  if ($('.va-modal')) {
+    // prevent contact page modal "update" button from acting like the
+    // page "continue" button
+    errors.addError('Please finish editing your contact information');
   }
 };
 
