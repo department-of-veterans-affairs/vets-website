@@ -33,7 +33,6 @@ export function CalculateYourBenefits({
 }) {
   const [showEybSheet, setShowEybSheet] = useState(false);
   const [expandEybSheet, setExpandEybSheet] = useState(false);
-  const websiteValue = profile.attributes.vetWebsiteLink ? 'Yes' : 'No';
 
   useEffect(() => {
     dispatchUpdateEstimatedBenefits(calculated.outputs);
@@ -159,8 +158,9 @@ export function CalculateYourBenefits({
       </div>
 
       <div className="vads-u-padding-bottom--1">
-        <strong>Veterans tuition policy:</strong> {websiteValue}
-        {websiteValue === 'Yes' && (
+        <strong>Veterans tuition policy:</strong>{' '}
+        {profile.attributes.vetWebsiteLink ? 'Yes' : 'No'}
+        {profile.attributes.vetWebsiteLink && (
           <span>
             &nbsp;(
             <a
