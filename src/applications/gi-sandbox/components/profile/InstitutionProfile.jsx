@@ -6,11 +6,10 @@ import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
 import SchoolLocations from './SchoolLocations';
 import CautionaryInformation from './CautionaryInformation';
-import AdditionalInformation from './AdditionalInformation';
 import JumpLink from './JumpLink';
 import ProfileSection from './ProfileSection';
 import ContactInformation from './ContactInformation';
-import EstimateYourBenefits from '../../containers/EstimateYourBenefits';
+import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
 import SchoolRatings from './SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
@@ -87,13 +86,7 @@ export default function InstitutionProfile({
         label="Calculate your benefits"
         id="calculate-your-benefits"
       >
-        <EstimateYourBenefits gibctEybBottomSheet={gibctEybBottomSheet} />
-        <hr />
-        <AdditionalInformation
-          institution={institution}
-          onShowModal={showModal}
-          constants={constants}
-        />
+        <CalculateYourBenefits gibctEybBottomSheet={gibctEybBottomSheet} />
       </ProfileSection>
       <ProfileSection
         label="Getting started with benefits"

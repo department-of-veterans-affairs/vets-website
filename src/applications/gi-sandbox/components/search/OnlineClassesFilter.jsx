@@ -23,7 +23,6 @@ function OnlineClassesFilter({
         modal: 'onlineOnlyDistanceLearning',
         showModal,
         ariaLabel: ariaLabels.learnMore.onlineOnlyDistanceLearning,
-        component: OnlineClassesFilter,
       })}
       name="onlineClasses"
       options={options}
