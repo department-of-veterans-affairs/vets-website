@@ -3,12 +3,7 @@ import React from 'react';
 const GettingStartedWithBenefits = () => {
   return (
     <div>
-      <div className="getting-started-with-benefits-border-h2">
-        <h2 className="getting-started-with-benefits">
-          Getting started with benefits
-        </h2>
-      </div>
-      <div className="getting-started-with-benefits-border-h3 vads-u-padding-left--4 vads-u-padding-right--1">
+      <div className="vads-u-margin-top--neg1p5 vads-u-padding-left--2p5 ">
         <div className="vads-u-margin-y--2p5">
           <h3>How do I prepare before starting my application?</h3>
           <hr className="vads-u-margin-top--neg0p25" />
@@ -82,19 +77,15 @@ const GettingStartedWithBenefits = () => {
             </li>
           </ul>{' '}
           <div>
-            <div className="vads-u-display--inline vads-u-padding-bottom--4 test">
-              <div className="getting-started-with-benefits-link">
-                <b>
-                  <a
-                    href="/education/how-to-apply/"
-                    rel="noopener noreferrer"
-                    className="vads-c-action-link--blue"
-                  >
-                    Apply for education benefits
-                  </a>
-                </b>
-              </div>
-            </div>
+            <b>
+              <a
+                href="/education/how-to-apply/"
+                rel="noopener noreferrer"
+                className="vads-c-action-link--blue"
+              >
+                Apply for education benefits
+              </a>
+            </b>
           </div>
         </div>
       </div>
