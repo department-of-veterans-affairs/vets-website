@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
-import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
+import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
+import EightKeysModalContent from '../components/content/modals/EightKeysModalContent';
+import MilitaryTuitionAssistanceModalContent from '../components/content/modals/MilitaryTuitionAssistanceModalContent';
+import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -309,27 +312,14 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('ta')}
       >
-        <h3>Military Tuition Assistance (TA)</h3>
-        <p>
-          Are you receiving any military tuition assistance this year? If so,
-          how much? The Post-9/11 GI Bill pays the net-cost of your education
-          after scholarships or financial aid amounts are applied. This includes
-          amounts already paid by military tuition assistance.
-        </p>
+        <MilitaryTuitionAssistanceModalContent />
       </Modal>
 
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('priEnroll')}
       >
-        <h3>Priority enrollment</h3>
-        <p>
-          If an Institution of Higher Learning (a college or university) has a
-          system for priority enrollment that allows certain student Veterans to
-          enroll in courses earlier than other students (not necessarily earlier
-          than <strong>all</strong> students), we’ll note that with the school’s
-          information here.
-        </p>
+        <PriorityEnrollmentModalContent />
       </Modal>
 
       <Modal
@@ -368,32 +358,7 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('eightKeys')}
       >
-        <h3>8 Keys to Veteran Success</h3>
-        <p>
-          The “8 Keys to Veterans’ Success” are steps that postsecondary
-          institutions can take to assist Veterans and service members in
-          transitioning to higher education, completing their college programs,
-          and obtaining career-ready skills.
-        </p>
-        <p>
-          Postsecondary institutions listed here have stated their support for
-          the 8 Keys. However, this isn’t an assurance by the U.S. Department of
-          Education that an institution has actually implemented the 8 Keys. It
-          also doesn’t mean that these institutions are endorsed by the U.S.
-          Department of Education.
-        </p>
-        <p>
-          To learn more about accreditation, visit the U.S. Department of
-          Education’s{' '}
-          <a
-            href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            8 Keys to Veterans’ Success
-          </a>{' '}
-          page.
-        </p>
+        <EightKeysModalContent />
       </Modal>
 
       <Modal

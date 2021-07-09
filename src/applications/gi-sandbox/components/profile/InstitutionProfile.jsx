@@ -155,6 +155,7 @@ export class InstitutionProfile extends React.Component {
           <VeteranProgramsAndSupport
             institution={institution}
             constants={constants}
+            showModal={showModal}
           />
         </ProfileSection>
         <ProfileSection label="Contact information" id="contact-information">
