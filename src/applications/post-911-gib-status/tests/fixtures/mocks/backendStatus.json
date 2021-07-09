@@ -1,0 +1,10 @@
+{
+  "data": {
+    "id": "",
+    "type": "backend_statuses",
+    "attributes": {
+      "name": "gibs",
+      "isAvailable": true
+    }
+  }
+}
