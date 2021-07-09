@@ -154,8 +154,8 @@ export function fetchConstants(version) {
   };
 }
 
-export function eligibilityChange(eligibility) {
-  return { type: ELIGIBILITY_CHANGED, payload: eligibility };
+export function eligibilityChange(field, value) {
+  return { type: ELIGIBILITY_CHANGED, payload: { field, value } };
 }
 
 export function filterChange(filters) {

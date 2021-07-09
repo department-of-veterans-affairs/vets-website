@@ -21,9 +21,11 @@ export default function(state = INITIAL_STATE, action) {
   let newState = { ...state };
 
   if (action.type === ELIGIBILITY_CHANGED) {
+    const { field, value } = action.payload;
+
     newState = {
       ...newState,
-      ...action.payload,
+      [field]: value,
     };
 
     if (newState.militaryStatus !== state.militaryStatus) {

@@ -179,8 +179,15 @@ function EstimateYourBenefitsForm({
   };
 
   const updateEligibility = e => {
+    const field = e.target.name;
+    const value = e.target.value;
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': field,
+      'gibct-form-value': value,
+    });
+    eligibilityChange(field, value);
     setInputUpdated(true);
-    eligibilityChange(e);
   };
 
   const handleExtensionBlur = event => {
