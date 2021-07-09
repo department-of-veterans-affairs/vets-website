@@ -67,6 +67,8 @@ jobs:
         with:
           install: false
           command: yarn cy:test:gha
+          browser: chrome
+          headless: true
           config: baseUrl=http://localhost:$CYPRESS_PORT
         env:
           STEP: ${{ matrix.ci_node_index }}
