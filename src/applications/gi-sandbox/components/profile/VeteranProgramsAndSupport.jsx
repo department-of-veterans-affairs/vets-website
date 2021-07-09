@@ -1,6 +1,7 @@
 import React from 'react';
 import { formatCurrency, formatNumber } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
+import { ariaLabels } from '../../constants';
 
 export default function VeteranProgramsAndSupport({
   constants,
@@ -8,12 +9,24 @@ export default function VeteranProgramsAndSupport({
   showModal,
 }) {
   const programs = {
-    yr: {
-      modal: 'yribbon',
-      text: 'Yellow Ribbon',
+    eightKeys: {
+      modal: 'eightKeys',
+      text: '8 Keys to Veteran Success',
       link: false,
+      ariaLabel: ariaLabels.learnMore.eightKeys,
     },
-
+    dodmou: {
+      modal: 'ta',
+      text: 'Military Tuition Assistance (TA)',
+      link: false,
+      ariaLabel: ariaLabels.learnMore.militaryTuitionAssistanceProgram,
+    },
+    poe: {
+      modal: 'poe',
+      text: 'Principles of Excellence',
+      link: false,
+      ariaLabel: ariaLabels.learnMore.principlesOfExcellence,
+    },
     studentVeteran: {
       modal: 'vetgroups',
       text: 'Student Veteran Group',
@@ -21,20 +34,8 @@ export default function VeteranProgramsAndSupport({
         href: institution.studentVeteranLink,
         text: 'Visit the site',
       },
+      ariaLabel: ariaLabels.learnMore.studentVeteranGroup,
     },
-
-    poe: {
-      modal: 'poe',
-      text: 'Principles of Excellence',
-      link: false,
-    },
-
-    eightKeys: {
-      modal: 'eightKeys',
-      text: '8 Keys to Veteran Success',
-      link: false,
-    },
-
     vetSuccessName: {
       modal: 'vsoc',
       text: 'VetSuccess on Campus',
@@ -44,18 +45,7 @@ export default function VeteranProgramsAndSupport({
           `mailto:${institution.vetSuccessEmail}`,
         text: `Email ${institution.vetSuccessName}`,
       },
-    },
-
-    dodmou: {
-      modal: 'ta',
-      text: 'Military Tuition Assistance (TA)',
-      link: false,
-    },
-
-    priorityEnrollment: {
-      modal: 'priEnroll',
-      text: 'Priority Enrollment',
-      link: false,
+      ariaLabel: ariaLabels.learnMore.vetSuccess,
     },
   };
   const available = Object.keys(programs).filter(

@@ -91,5 +91,10 @@ export const ariaLabels = Object.freeze({
       'Learn more about how military tuition assistance affects your benefits',
     inState: 'Learn more about qualifying for in-state tuition.',
     eightKeys: 'Learn more about 8 Keys to Veteran Success',
+    militaryTuitionAssistanceProgram:
+      'Learn more about Military Tuition Assistance',
+    principlesOfExcellence: 'Learn more about Principles of Excellence',
+    studentVeteranGroup: 'Learn more about Student Veteran Groups',
+    vetSuccess: 'Learn more about VetSuccess on Campus',
   },
 });

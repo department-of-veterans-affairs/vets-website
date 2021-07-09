@@ -7,6 +7,9 @@ import YellowRibbonModalContent from '../components/content/modals/YellowRibbonM
 import EightKeysModalContent from '../components/content/modals/EightKeysModalContent';
 import MilitaryTuitionAssistanceModalContent from '../components/content/modals/MilitaryTuitionAssistanceModalContent';
 import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
+import PrinciplesOfExcellenceModalContent from '../components/content/modals/PrinciplesOfExcellenceModalContent';
+import StudentVeteranGroupModalContent from '../components/content/modals/StudentVeteranGroupModalContent';
+import VeteranSuccessModalContent from '../components/content/modals/VeteranSuccessModalContent';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -215,31 +218,7 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('vetgroups')}
       >
-        <h3>Student Veterans group</h3>
-        <p>Does this school have a student-led Veterans group on campus?</p>
-        <p>
-          If a school has a student Veterans group that’s not represented here,
-          please email{' '}
-          <a
-            title="224A.VBAVACO@va.gov"
-            href="mailto: 224A.VBACO@va.gov?subject=Comparison Tool"
-          >
-            224A.VBAVACO@va.gov
-          </a>
-          . . We make quarterly updates to this tool.
-        </p>
-        <p>
-          Please note this email address is only for tool-related issues. For
-          questions about your GI Bill benefits, please check this{' '}
-          <a
-            href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            "Ask a Question" page
-          </a>
-          .
-        </p>
+        <StudentVeteranGroupModalContent />
       </Modal>
 
       <Modal
@@ -253,59 +232,7 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('poe')}
       >
-        <h3>Principles of Excellence</h3>
-        <p>
-          The{' '}
-          <a
-            title="Principles of Excellence"
-            href="http://www.gpo.gov/fdsys/pkg/FR-2012-05-02/pdf/2012-10715.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Principles of Excellence
-          </a>{' '}
-          are guidelines for educational institutions receiving federal funding.
-          Schools that agree to participate will:
-        </p>
-        <ul className="modal-bullets">
-          <li>
-            End fraudulent and aggressive recruiting techniques and
-            misrepresentation.
-          </li>
-          <li>
-            Provide students with a personalized form covering the total cost of
-            an education program.
-          </li>
-          <li>
-            Provide educational plans for all military and Veteran education
-            beneficiaries.
-          </li>
-          <li>
-            Provide accommodations for service members and Reservists absent due
-            to service requirements.
-          </li>
-          <li>
-            Assign a point of contact for academic and financial advising.
-          </li>
-          <li>
-            Make sure all new programs are accredited before they enroll
-            students.
-          </li>
-          <li>
-            Align institutional refund policies with those under Title IV.
-          </li>
-        </ul>
-        <p>
-          Foreign schools, high schools, on-the-job training and apprenticeship
-          programs, residency and internship programs, and those who don’t
-          charge tuition and fees aren’t asked to comply with the Principles of
-          Excellence.
-        </p>
-        <p>
-          We try to make sure this information is accurate, but prospective
-          students should only use this as a planning tool. The list of
-          Principles of Excellence schools will be updated quarterly.
-        </p>
+        <PrinciplesOfExcellenceModalContent />
       </Modal>
 
       <Modal
@@ -365,32 +292,7 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('vsoc')}
       >
-        <h3>VetSuccess on Campus (VSOC)</h3>
-        <p>
-          This program supports service members, Veterans, and qualified
-          dependents through on-campus counseling and help overcoming
-          barriers—like accommodating disabilities or getting referrals to
-          health services. It's designed to help you succeed at school and get
-          ready to enter the job market in a promising career field.
-        </p>
-        <p>
-          <a
-            href="http://www.benefits.va.gov/vocrehab/vsocfactsheet.asp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Download the VSOC fact sheet
-          </a>
-        </p>
-        <p>
-          <a
-            href="http://www.benefits.va.gov/vocrehab/vsoc.asp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn more about the VSOC program
-          </a>
-        </p>
+        <VeteranSuccessModalContent />
       </Modal>
     </span>
   );
