@@ -177,7 +177,11 @@ export function CalculateYourBenefits({
 
       <SectionFooterField
         label="Protection against late VA payments"
-        value={profile.attributes.section103Message}
+        value={
+          profile.attributes.section103Message
+            ? profile.attributes.section103Message
+            : 'No'
+        }
         learnMoreOnClick={() => {
           recordEvent({
             event: 'gibct-modal-displayed',
