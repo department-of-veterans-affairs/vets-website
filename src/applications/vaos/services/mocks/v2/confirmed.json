@@ -78,7 +78,54 @@
         "telehealth": null
       }
     },
-
+    {
+      "id": "02aa456va",
+      "type": "Appointment",
+      "attributes": {
+        "cancellationReason": null,
+        "clinic": "848",
+        "comment": null,
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming Home telehealth ADHOC appointment",
+        "end": "2021-11-23T20:00:00Z",
+        "id": "02aa456va",
+        "kind": "telehealth",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [
+          {
+            "id": {
+              "system": null,
+              "value": null
+            },
+            "firstName": "Abbey",
+            "lastName": "Normal",
+            "practiceName": null
+          }
+        ],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reason": null,
+        "requestedPeriods": [],
+        "serviceType": "va_appointments",
+        "slot": null,
+        "start": "2021-11-23T20:00:00Z",
+        "status": "booked",
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "ADHOC"
+        }
+      }
+    },
     {
       "id": "03aa456va",
       "type": "Appointment",
@@ -232,20 +279,7 @@
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
-          "atlas": {
-            "siteCode": "9931",
-            "confirmationCode": "7VBBCA",
-            "address": {
-              "streetAddress": "114 Dewey Ave",
-              "city": "Eureka",
-              "state": "MT",
-              "zipCode": "59917",
-              "country": "string",
-              "latitutde": -115.1,
-              "longitude": 48.8,
-              "additionalDetails": null
-            }
-          },
+          "atlas": null,
           "vvsKind":"CLINIC_BASED"
         }
       }
@@ -294,20 +328,7 @@
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
-          "atlas": {
-            "siteCode": "9931",
-            "confirmationCode": "7VBBCA",
-            "address": {
-              "streetAddress": "114 Dewey Ave",
-              "city": "Eureka",
-              "state": "MT",
-              "zipCode": "59917",
-              "country": "string",
-              "latitutde": -115.1,
-              "longitude": 48.8,
-              "additionalDetails": null
-            }
-          },
+          "atlas": null,
           "vvsKind":"MOBILE_GFE"
         }
       }

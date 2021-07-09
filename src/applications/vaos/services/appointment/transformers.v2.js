@@ -7,6 +7,7 @@ import {
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
+  COVID_VACCINE_ID,
 } from '../../utils/constants';
 
 import { getTimezoneBySystemId } from '../../utils/timezone';
@@ -47,22 +48,15 @@ function getTypeOfVisit(id) {
 }
 
 /**
- * Finds the datetime of the appointment depending on the appointment type
+ * Finds the datetime of the appointment depending on vista site location
  * and returns it as a moment object
  *
  * @param {Object} appt VAOS Service appointment object
  * @returns {Object} Returns appointment datetime as moment object
  */
 function getMomentConfirmedDate(appt) {
-  if (appt.kind === 'cc' && appt.timeZone) {
-    const zoneSplit = appt.timeZone.split(' ');
-    const offset = zoneSplit.length > 1 ? zoneSplit[0] : '+0:00';
-    return moment
-      .utc(appt.appointmentTime, 'MM/DD/YYYY HH:mm:ss')
-      .utcOffset(offset);
-  }
-
-  const timezone = getTimezoneBySystemId(appt.locationId)?.timezone;
+  const timezone = getTimezoneBySystemId(appt.locationId?.substr(0, 3))
+    ?.timezone;
 
   return timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
 }
@@ -105,7 +99,7 @@ function getAtlasLocation(appt) {
 export function transformVAOSAppointment(appt) {
   const isCC = appt.kind === 'cc';
   const isVideo = appt.kind === 'telehealth';
-  const isAtlas = appt.telehealth?.vvsKind === 'ADHOC';
+  const isAtlas = !!appt.telehealth?.atlas;
   const isPast = isPastAppointment(appt);
   const providers = appt.practitioners;
 
@@ -145,7 +139,6 @@ export function transformVAOSAppointment(appt) {
     },
     preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
     comment: appt.comment,
-    // TODO missing video data: status
     videoData: {
       isVideo,
       facilityId: appt.locationId,
@@ -175,9 +168,9 @@ export function transformVAOSAppointment(appt) {
       isCommunityCare: isCC,
       isExpressCare: false,
       requestVisitType: getTypeOfVisit(appt.kind),
-      apiData: appt,
-      // TODO missing data: isCOVIDVaccine, timeZone
       isPhoneAppointment: appt.kind === 'phone',
+      isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
+      apiData: appt,
     },
   };
 }
