@@ -183,7 +183,7 @@ const SearchResult = ({ form, formMetaInfo, showPDFInfoBox }) => {
       ) : null}
       {showPDFInfoBox ? (
         <dd>
-          <va-alert status="info" background-only>
+          <va-alert status="info">
             <div className="usa-alert-text vads-u-font-size--base">
               <p className="vads-u-margin-top--0">
                 You'll need to download this form and open it in Adobe Acrobat
