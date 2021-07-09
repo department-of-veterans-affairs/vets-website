@@ -192,8 +192,7 @@ describe('Facility VA search', () => {
     cy.get('#va-modal-title').should('not.exist');
   });
 
-  // TODO Enable when emergency care in prod
-  it.skip('finds VA emergency care', () => {
+  it('finds VA emergency care', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('New York');

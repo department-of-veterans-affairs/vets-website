@@ -1,26 +1,59 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
-import Insurance from '../Insurance';
+import UpdateInformationQuestion from '../UpdateInformationQuestion';
 
-describe('health care check in -- Insurance component -- ', () => {
-  it('has a header', () => {
-    const component = mount(<Insurance />);
+describe('check in', () => {
+  describe('UpdateInformationQuestion', () => {
+    let store;
+    beforeEach(() => {
+      const middleware = [];
+      const mockStore = configureStore(middleware);
+      const initState = {
+        checkInData: {
+          appointment: {
+            clinicPhone: '555-867-5309',
+            appointmentTime: '2021-07-06 12:58:39 UTC',
+            facilityName: 'Acme VA',
+            clinicName: 'Green Team Clinic1',
+          },
+        },
+      };
+      store = mockStore(initState);
+    });
+    it('has a header', () => {
+      const component = render(
+        <Provider store={store}>
+          <UpdateInformationQuestion />
+        </Provider>,
+      );
 
-    expect(component.find('h1').exists()).to.be.true;
+      expect(
+        component.getByText(
+          'Need to update your insurance, contact, or other information?',
+        ),
+      ).to.exist;
+    });
+    it('uses a fieldset', () => {
+      const { container } = render(
+        <Provider store={store}>
+          <UpdateInformationQuestion />
+        </Provider>,
+      );
 
-    component.unmount();
-  });
-  it('uses a fieldset', () => {
-    const component = mount(<Insurance />);
-
-    expect(component.find('fieldset').exists()).to.be.true;
-
-    component.unmount();
-  });
-  it('passes axeCheck', () => {
-    axeCheck(<Insurance />);
+      expect(container.querySelector('fieldset')).to.exist;
+    });
+    it('passes axeCheck', () => {
+      axeCheck(
+        <Provider store={store}>
+          <UpdateInformationQuestion />
+        </Provider>,
+      );
+    });
   });
 });

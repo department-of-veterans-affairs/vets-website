@@ -1,0 +1,6 @@
+{
+  "appName": "My Education Benefits",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "my-education-benefits",
+  "rootUrl": "/my-education-benefits"
+}

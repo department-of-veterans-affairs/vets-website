@@ -236,6 +236,9 @@ jobs:
         with:
           node-version: '14'
 
+      - name: Install Modules
+        run: yarn install
+
       - name: Generate UUID
         id: generate-uuid
         uses: filipstefansson/uuid-action@v1
