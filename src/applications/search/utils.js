@@ -5,3 +5,10 @@ export function formatResponseString(string, stripAll = false) {
 
   return string.replace(/\ue000/g, '<strong>').replace(/\ue001/g, '</strong>');
 }
+
+export function truncateResponseString(string, maxLength) {
+  if (string.length <= maxLength) {
+    return string;
+  }
+  return `${string.slice(0, maxLength)}...`;
+}

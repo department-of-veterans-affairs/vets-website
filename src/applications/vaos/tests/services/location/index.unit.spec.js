@@ -11,7 +11,6 @@ import {
   getLocation,
   getLocations,
   getLocationsByTypeOfCareAndSiteIds,
-  getParentOfLocation,
   getSupportedLocationsByTypeOfCare,
 } from '../../../services/location';
 import facilities983 from '../../../services/mocks/var/facilities_983.json';
@@ -207,27 +206,6 @@ describe('VAOS Location service', () => {
         '/request_eligibility_criteria?parent_sites[]=983&parent_sites[]=984',
       );
       expect(error?.resourceType).to.equal('OperationOutcome');
-    });
-  });
-
-  describe('getParentOfLocation', () => {
-    it('should return parent org', () => {
-      const orgs = [
-        {
-          id: 'testorg',
-        },
-        {
-          id: 'testorg2',
-        },
-      ];
-      const location = {
-        id: 'test',
-        managingOrganization: {
-          reference: 'Organization/testorg2',
-        },
-      };
-      const org = getParentOfLocation(orgs, location);
-      expect(org).to.equal(orgs[1]);
     });
   });
 

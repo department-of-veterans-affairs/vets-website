@@ -82,14 +82,14 @@ const GettingStartedWithBenefits = () => {
             </li>
           </ul>{' '}
           <div>
-            <i
-              className="vads-u-margin-top--1p5 fa fa-chevron-circle-right 30px vads-u-font-size--xl vads-u-color--link-default"
-              aria-hidden="true"
-            />{' '}
             <div className="vads-u-display--inline vads-u-padding-bottom--4 test">
               <div className="getting-started-with-benefits-link">
                 <b>
-                  <a href="/education/how-to-apply/" rel="noopener noreferrer">
+                  <a
+                    href="/education/how-to-apply/"
+                    rel="noopener noreferrer"
+                    className="vads-c-action-link--blue"
+                  >
                     Apply for education benefits
                   </a>
                 </b>

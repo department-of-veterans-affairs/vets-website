@@ -26,6 +26,15 @@ import {
   mockFacilitiesFetch,
   mockGetCurrentPosition,
 } from '../../../mocks/helpers';
+import {
+  mockSchedulingConfigurations,
+  mockV2FacilitiesFetch,
+  mockVAOSParentSites,
+} from '../../../mocks/helpers.v2';
+import {
+  getSchedulingConfigurationMock,
+  getV2FacilityMock,
+} from '../../../mocks/v2';
 
 const initialState = {
   featureToggles: {
@@ -1370,6 +1379,82 @@ describe('VAOS <VAFacilityPageV2> multiple facilities', () => {
       expect(screen.history.push.firstCall.args[0]).to.equal(
         '/new-appointment/how-to-schedule',
       ),
+    );
+  });
+});
+
+describe('VAOS <VAFacilityPageV2> using V2 api', () => {
+  beforeEach(() => mockFetch());
+  it('should display list of facilities with show more button', async () => {
+    mockVAOSParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockSchedulingConfigurations([
+      getSchedulingConfigurationMock({
+        id: '983',
+        typeOfCareId: 'primaryCare',
+        requestEnabled: true,
+      }),
+      getSchedulingConfigurationMock({
+        id: '984',
+        typeOfCareId: 'primaryCare',
+        directEnabled: true,
+      }),
+      getSchedulingConfigurationMock({
+        id: '984GC',
+        typeOfCareId: 'primaryCare',
+      }),
+    ]);
+    mockV2FacilitiesFetch(
+      ['983', '984'],
+      [
+        getV2FacilityMock({ id: '983', name: 'A facility name' }),
+        getV2FacilityMock({ id: '984', name: 'Another facility name' }),
+        getV2FacilityMock({ id: '984GC', name: 'Disabled facility name' }),
+      ],
+      true,
+    );
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '323',
+    });
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+      },
+    });
+    await setTypeOfCare(store, /primary care/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+    await screen.findAllByRole('radio');
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        'Choose a VA location for your primary care appointment | Veterans Affairs',
+      );
+    });
+
+    expect(
+      screen.getByText(
+        /Choose a VA location for your Primary care appointment/i,
+      ),
+    ).to.exist;
+
+    expect(screen.baseElement).to.contain.text(
+      'Below is a list of VA locations where you’re registered that offer primary care appointments',
+    );
+
+    expect(screen.baseElement).to.contain.text('A facility name');
+    expect(screen.baseElement).to.contain.text('Another facility name');
+    expect(screen.baseElement).not.to.contain.text('Disabled facility name');
+
+    // Should validation message if no facility selected
+    fireEvent.click(screen.getByText(/Continue/));
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'Please provide a response',
     );
   });
 });
