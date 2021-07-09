@@ -1,33 +1,17 @@
 import React from 'react';
-import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
 import { upperCaseFirstLetterOnly } from '../../utils/helpers';
+import LearnMoreLabel from '../LearnMoreLabel';
 
 export default function Academics({ institution, onShowModal }) {
-  /**
-   * Renders a learn more label with common props for this component being set
-   * @param text
-   * @param modal
-   * @param ariaLabel
-   * @returns {*}
-   */
-  const renderLearnMore = ({ text, modal, ariaLabel }) =>
-    renderLearnMoreLabel({
-      text,
-      modal,
-      ariaLabel,
-      showModal: onShowModal,
-      component: this,
-    });
-
   const typeOfAccreditation = institution.accredited && (
     <div aria-live="off">
       <strong>
-        {renderLearnMore({
-          text: 'Accreditation',
-          modal: 'accreditation',
-          ariaLabel: ariaLabels.learnMore.accreditation,
-        })}
+        <LearnMoreLabel
+          text={'Accreditation'}
+          onClick={() => onShowModal('accreditation')}
+          ariaLabel={ariaLabels.learnMore.accreditation}
+        />
         :
       </strong>
       &nbsp;
@@ -50,11 +34,11 @@ export default function Academics({ institution, onShowModal }) {
   const militaryTrainingCredit = (
     <div aria-live="off">
       <strong>
-        {renderLearnMore({
-          text: 'Credit for military training',
-          modal: 'creditTraining',
-          ariaLabel: ariaLabels.learnMore.militaryTrainingCredit,
-        })}
+        <LearnMoreLabel
+          text={'Credit for military training'}
+          onClick={() => onShowModal('creditTraining')}
+          ariaLabel={ariaLabels.learnMore.militaryTrainingCredit}
+        />
         :
       </strong>
       &nbsp;
@@ -65,11 +49,11 @@ export default function Academics({ institution, onShowModal }) {
   const independentStudy = (
     <div aria-live="off">
       <strong>
-        {renderLearnMore({
-          text: 'Independent study',
-          modal: 'independentStudy',
-          ariaLabel: ariaLabels.learnMore.independentStudy,
-        })}
+        <LearnMoreLabel
+          text={'Independent study'}
+          onClick={() => onShowModal('independentStudy')}
+          ariaLabel={ariaLabels.learnMore.independentStudy}
+        />
         :
       </strong>
       &nbsp;
@@ -80,11 +64,11 @@ export default function Academics({ institution, onShowModal }) {
   const priorityEnrollment = (
     <div aria-live="off">
       <strong>
-        {renderLearnMore({
-          text: 'Priority Enrollment',
-          modal: 'priEnroll',
-          ariaLabel: ariaLabels.learnMore.priorityEnrollment,
-        })}
+        <LearnMoreLabel
+          text={'Priority Enrollment'}
+          onClick={() => onShowModal('priEnroll')}
+          ariaLabel={ariaLabels.learnMore.priorityEnrollment}
+        />
         :
       </strong>
       &nbsp;
