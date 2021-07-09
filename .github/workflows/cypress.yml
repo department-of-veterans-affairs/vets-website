@@ -47,7 +47,7 @@ jobs:
       #     chrome-version: stable
 
       - name: Install vets-website dependencies
-        run: yarn install --frozen-lockfile --offline
+        run: yarn install --frozen-lockfile --prefer-offline
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
