@@ -37,7 +37,7 @@ export const mockGETEndpoints = (
   body = error500,
 ) => {
   endpoints.forEach(endpoint => {
-    cy.intercept(endpoint, {
+    cy.intercept('GET', endpoint, {
       statusCode,
       body,
     });
