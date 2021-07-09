@@ -96,7 +96,7 @@ function CalculateYourBenefitsForm({
       }
       setInvalidZip('');
       setInputUpdated(true);
-    } else if (event.dirty && inputs.beneficiaryZIP.length < 5) {
+    } else if (inputs.beneficiaryZIP.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
     }
   };
