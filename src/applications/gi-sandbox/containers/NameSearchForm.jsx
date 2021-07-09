@@ -22,18 +22,20 @@ export function NameSearchForm({
   const [name, setName] = useState(search.query.name);
   const history = useHistory();
 
-  const updateUrlNameParams = paramName => {
+  const doSearch = value => {
+    dispatchFetchSearchByNameResults(value, 1, filters, version);
+
     updateUrlParams(
       history,
       search.tab,
-      { ...search.query, name: paramName },
+      {
+        ...search.query,
+        name: value,
+      },
       filters,
+      version,
+      1,
     );
-  };
-
-  const doSearch = value => {
-    dispatchFetchSearchByNameResults(value, filters, version);
-    updateUrlNameParams(value);
   };
 
   useEffect(

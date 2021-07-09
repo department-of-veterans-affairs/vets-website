@@ -169,7 +169,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.baseElement).to.contain.text(
         'Contact this facility if you need to reschedule or cancel your appointment',
       );
-      expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+      expect(await screen.findByText(/Cheyenne VA Medical Center/i)).to.be.ok;
     });
 
     it('should show active link if 30 minutes in the future', async () => {
@@ -1071,6 +1071,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         },
       };
       mockFacilitiesFetch('vha_442', [facility]);
+      mockFacilityFetch('vha_442', facility);
 
       const screen = renderWithStoreAndRouter(
         <AppointmentList featureHomepageRefresh />,

@@ -40,7 +40,6 @@ const INITIAL_STATE = {
       provider: [],
     },
     results: [],
-    mapChanged: false,
   },
   name: {
     count: null,
@@ -66,7 +65,7 @@ const INITIAL_STATE = {
   query: {
     name: '',
     location: '',
-    distance: '50',
+    distance: '25',
     latitude: null,
     longitude: null,
     streetAddress: {
@@ -137,6 +136,7 @@ export default function(state = INITIAL_STATE, action) {
       return {
         ...newState,
         tab: action.tab,
+        error: null,
       };
 
     case SEARCH_BY_LOCATION_SUCCEEDED:
@@ -166,7 +166,6 @@ export default function(state = INITIAL_STATE, action) {
           latitude: action.payload.latitude || newState.query.latitude,
           longitude: action.payload.longitude || newState.query.longitude,
         },
-        location: { ...newState.location, mapChanged: false },
         inProgress: true,
       };
 
@@ -249,6 +248,14 @@ export default function(state = INITIAL_STATE, action) {
           name: action.payload.name || newState.query.name,
           location: action.payload.location || newState.query.location,
           distance: action.payload.distance || newState.query.distance,
+        },
+        name: {
+          ...newState.name,
+          pagination: {
+            ...newState.name.pagination,
+            currentPage:
+              action.payload.page || newState.name.pagination.currentPage,
+          },
         },
         loadFromUrl: true,
       };

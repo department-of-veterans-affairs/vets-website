@@ -79,8 +79,7 @@ describe('Provider search', () => {
     cy.get('.va-pagination').should('not.exist');
   });
 
-  // TODO Enable when emergency care in prod
-  it.skip('finds In-network community emergency care', () => {
+  it('finds In-network community emergency care', () => {
     cy.visit('/find-locations');
 
     cy.get('#street-city-state-zip').type('Austin');

@@ -84,7 +84,7 @@ src/applications/hca @department-of-veterans-affairs/vsa-caregiver-frontend @dep
 
 # Healthcare Experience
 src/applications/health-care-questionnaire @department-of-veterans-affairs/vsa-healthcare-experience
-src/applications/check-in @department-of-veterans-affairs/vsa-healthcare-experience
+src/applications/check-in @department-of-veterans-affairs/vsa-healthcare-experience @department-of-veterans-affairs/va-cto-health-products
 
 # /--- VSA
 
@@ -99,6 +99,9 @@ src/applications/coronavirus-research @department-of-veterans-affairs/va-cto-hea
 src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-health-products
 src/applications/coronavirus-vaccination @department-of-veterans-affairs/va-cto-health-products
 src/applications/coronavirus-vaccination-expansion @department-of-veterans-affairs/va-cto-health-products
+
+# My Education Benefits Team
+src/applications/my-education-benefits @department-of-veterans-affairs/my-education-benefits
 
 # Other
 src/applications/ask-a-question @department-of-veterans-affairs/orchid

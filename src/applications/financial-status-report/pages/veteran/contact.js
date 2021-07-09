@@ -2,8 +2,6 @@ import React from 'react';
 import ReviewCardField from '../../components/ReviewCardField';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import ContactInfoCard from '../../components/ContactInfoCard';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
 
 import {
   SCHEMA_DEFINITIONS,
@@ -20,6 +18,8 @@ import {
   validateMilitaryCity,
   validateMilitaryState,
   validateZIP,
+  validatePhone,
+  validateEmail,
 } from '../../utils/validations';
 
 export const uiSchema = {
@@ -52,9 +52,18 @@ export const uiSchema = {
           </p>
           <p>
             If you want to change your address for other VA benefits and
-            services,{' '}
-            <a href="https://va.gov/profile">go to your VA.gov profile</a>. Or{' '}
-            <a href="https://www.va.gov/resources/change-your-address-on-file-with-va/">
+            services,
+            <a
+              href="https://va.gov/profile"
+              className="vads-u-margin-left--0p5"
+            >
+              go to your VA.gov profile
+            </a>
+            . Or
+            <a
+              href="https://www.va.gov/resources/change-your-address-on-file-with-va/"
+              className="vads-u-margin-left--0p5"
+            >
               find out how to change your address on file with VA
             </a>
             .
@@ -197,21 +206,17 @@ export const uiSchema = {
       },
     },
     telephoneNumber: {
-      ...phoneUI('Phone number'),
+      'ui:title': 'Phone number',
+      'ui:validations': [validatePhone],
       'ui:options': {
         widgetClassNames: 'input-size-7',
-      },
-      'ui:errorMessages': {
-        pattern: 'Please enter a valid phone number.',
       },
     },
     emailAddress: {
-      ...emailUI('Email address'),
+      'ui:title': 'Email address',
+      'ui:validations': [validateEmail],
       'ui:options': {
         widgetClassNames: 'input-size-7',
-      },
-      'ui:errorMessages': {
-        pattern: 'Please enter a valid email address.',
       },
     },
   },
@@ -246,8 +251,12 @@ export const schema = {
             postalCode: SCHEMA_DEFINITIONS.postalCode,
           },
         },
-        telephoneNumber: SCHEMA_DEFINITIONS.telephoneNumber,
-        emailAddress: SCHEMA_DEFINITIONS.emailAddress,
+        telephoneNumber: {
+          type: 'string',
+        },
+        emailAddress: {
+          type: 'string',
+        },
       },
     },
   },

@@ -243,6 +243,36 @@ describe('Schemaform <FieldTemplate>', () => {
 
     expect(tree.text()).to.contain('uiDescription');
   });
+  it('should render description component with index', () => {
+    const schema = {
+      type: 'string',
+    };
+    const uiSchema = {
+      'ui:title': 'Title',
+      'ui:description': () => <span>Blah</span>,
+    };
+    const formContext = {
+      pagePerItemIndex: 2,
+      touched: {},
+    };
+    const errors = ['Some error'];
+    const tree = SkinDeep.shallowRender(
+      <FieldTemplate
+        id="test"
+        schema={schema}
+        uiSchema={uiSchema}
+        rawErrors={errors}
+        formContext={formContext}
+      >
+        <div className="field-child" />
+      </FieldTemplate>,
+    );
+    // `tree.text()` logs `<Unknown />Title<uiDescription />`, but
+    // `tree.subTree('uiDescription')` <- doesn't find anything
+    // so we're using props & children to find what we need
+    expect(tree.props.children.props.children[2].props.index).to.equal(2);
+  });
+
   it('should render fieldset', () => {
     const schema = {
       type: 'string',

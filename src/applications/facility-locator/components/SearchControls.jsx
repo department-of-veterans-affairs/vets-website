@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
 import omit from 'platform/utilities/data/omit';
-import environment from 'platform/utilities/environment';
 import { LocationType } from '../constants';
 import {
   healthServices,
@@ -229,11 +228,6 @@ const SearchControls = props => {
 
     if (suppressCCP) {
       delete locationOptions.provider;
-    }
-
-    // Temporary on non prod envs
-    if (environment.isProduction()) {
-      delete locationOptions.emergency_care;
     }
 
     const options = Object.keys(locationOptions).map(facility => (

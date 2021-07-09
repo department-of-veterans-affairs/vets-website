@@ -6,6 +6,8 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 
+import environment from 'platform/utilities/environment';
+
 import {
   ALLOWED_FILE_TYPES,
   MAX_FILE_SIZE_MB,
@@ -240,7 +242,7 @@ export const RepresentativeIntroContent = () => {
 };
 
 export const RepresentativeAdditionalInfo = () => {
-  return (
+  return environment.isProduction() ? (
     <div className="vads-u-margin-top--1">
       <AdditionalInfo triggerText="What type of document does a legal representative need?">
         <p>
@@ -273,6 +275,49 @@ export const RepresentativeAdditionalInfo = () => {
         </p>
       </AdditionalInfo>
     </div>
+  ) : (
+    <div className="vads-u-margin-top--1">
+      <AdditionalInfo triggerText="What types of documents does VA accept to show legal representation?">
+        <p>
+          First, please know that we only accept <strong>full documents</strong>
+          . We can't accept only a cover or signature page. Our staff will
+          review the documents during the application process.
+        </p>
+
+        <p className="vads-u-margin-top--4">We accept these documents:</p>
+        <ul>
+          <li>
+            Veteran guardianship,
+            <strong className="vads-u-margin-left--0p5">or</strong>
+          </li>
+          <li>Veteran-related court order</li>
+        </ul>
+
+        <p className="vads-u-margin-top--4">
+          We may accept these documents, depending on the requirements where you
+          live:
+        </p>
+        <ul>
+          <li>
+            Power of attorney for the Veteran,
+            <strong className="vads-u-margin-left--0p5">or</strong>
+          </li>
+          <li>Health care power of attorney for the Veteran</li>
+        </ul>
+
+        <p className="vads-u-margin-top--4">
+          Being a Veteran’s close family member or next of kin doesn’t mean
+          you’re their representative. We don't accept these documents as a way
+          to show legal representation:
+        </p>
+        <ul>
+          <li>Marriage or driver's licenses</li>
+          <li>Release of Information forms or fiduciary program documents</li>
+          <li>Medical or VA benefit records</li>
+          <li>Health insurance information</li>
+        </ul>
+      </AdditionalInfo>
+    </div>
   );
 };
 
@@ -284,7 +329,7 @@ export const RepresentativeDocumentUploadDescription = () => {
     prependDot,
   );
 
-  return (
+  return environment.isProduction() ? (
     <section>
       <p>
         You’ll need to scan your document onto the device you’re using to submit
@@ -304,6 +349,34 @@ export const RepresentativeDocumentUploadDescription = () => {
       <p>
         A 1MB file equals about 500 pages of text. A photo is usually about 6MB.
         Large files can take longer to upload with a slow internet connection.
+      </p>
+
+      <RepresentativeAdditionalInfo />
+    </section>
+  ) : (
+    <section>
+      <p>
+        You can upload a scanned copy or photo of your document from the device
+        you’re using to apply online.
+      </p>
+
+      <p>Follow these guidelines when you upload your document:</p>
+      <ul>
+        <li>
+          Upload the full document. We can’t accept only a cover or signature
+          page.
+        </li>
+        <li>Format the file as a {allowedFileTypes}.</li>
+        <li>
+          Be sure the file is {MAX_FILE_SIZE_MB}
+          MB or less in size.
+        </li>
+      </ul>
+
+      <p>
+        <strong>Note: </strong>A 1MB scanned file equals about 500 pages of
+        text. A photo is usually about 6MB. If you have a slow Internet
+        connection, large files may take longer to upload.
       </p>
 
       <RepresentativeAdditionalInfo />

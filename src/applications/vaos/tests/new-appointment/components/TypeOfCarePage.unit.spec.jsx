@@ -9,7 +9,7 @@ import set from 'platform/utilities/data/set';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { getParentSiteMock } from '../../mocks/v0';
-import { getVAOSParentSiteMock } from '../../mocks/v2';
+import { getV2FacilityMock } from '../../mocks/v2';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {
   mockCommunityCareEligibility,
@@ -384,7 +384,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
     fireEvent.click(await screen.findByLabelText(/COVID-19 vaccine/i));
-    expect(screen.queryByText(/NEW/i)).to.exist;
+    expect(screen.queryAllByText(/NEW/i).length).to.equal(2);
 
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
@@ -398,7 +398,10 @@ describe('VAOS <TypeOfCarePage>', () => {
     it('should open facility type page when CC eligible and has a supported parent site', async () => {
       mockVAOSParentSites(
         ['983'],
-        [getVAOSParentSiteMock('983'), getVAOSParentSiteMock('983GC')],
+        [
+          getV2FacilityMock({ id: '983', isParent: true }),
+          getV2FacilityMock({ id: '983GC', isParent: true }),
+        ],
         true,
       );
       mockV2CommunityCareEligibility({
@@ -427,7 +430,10 @@ describe('VAOS <TypeOfCarePage>', () => {
     it('should skip facility type page if eligible for CC but no supported sites', async () => {
       mockVAOSParentSites(
         ['983'],
-        [getVAOSParentSiteMock('983'), getVAOSParentSiteMock('983GC')],
+        [
+          getV2FacilityMock({ id: '983', isParent: true }),
+          getV2FacilityMock({ id: '983GC', isParent: true }),
+        ],
         true,
       );
       mockV2CommunityCareEligibility({
