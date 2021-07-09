@@ -11,6 +11,7 @@ export default function Academics({ institution, onShowModal }) {
           text={'Accreditation'}
           onClick={() => onShowModal('accreditation')}
           ariaLabel={ariaLabels.learnMore.accreditation}
+          buttonId={'accreditation-button'}
         />
         :
       </strong>
@@ -38,6 +39,7 @@ export default function Academics({ institution, onShowModal }) {
           text={'Credit for military training'}
           onClick={() => onShowModal('creditTraining')}
           ariaLabel={ariaLabels.learnMore.militaryTrainingCredit}
+          buttonId={'creditTraining-button'}
         />
         :
       </strong>
@@ -53,6 +55,7 @@ export default function Academics({ institution, onShowModal }) {
           text={'Independent study'}
           onClick={() => onShowModal('independentStudy')}
           ariaLabel={ariaLabels.learnMore.independentStudy}
+          buttonId={'independentStudy-button'}
         />
         :
       </strong>
@@ -68,6 +71,7 @@ export default function Academics({ institution, onShowModal }) {
           text={'Priority Enrollment'}
           onClick={() => onShowModal('priEnroll')}
           ariaLabel={ariaLabels.learnMore.priorityEnrollment}
+          buttonId={'priEnroll-button'}
         />
         :
       </strong>
