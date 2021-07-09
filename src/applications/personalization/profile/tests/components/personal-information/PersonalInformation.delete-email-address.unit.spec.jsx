@@ -13,7 +13,7 @@ import {
   wait,
 } from '../../unit-test-helpers';
 
-let emailAddress;
+let wrappableEmailAddress;
 
 const ui = (
   <MemoryRouter>
@@ -60,7 +60,8 @@ describe('Deleting email address', () => {
   beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
     const initialState = createBasicInitialState();
-    emailAddress = initialState.user.profile.vapContactInfo.email.emailAddress;
+    wrappableEmailAddress = 'me@me.com';
+    // wrappableEmailAddress = /me@.me\..com/i;
 
     view = renderWithProfileReducers(ui, {
       initialState,
@@ -99,7 +100,7 @@ describe('Deleting email address', () => {
     // the edit email button should still exist
     view.getByRole('button', { name: /edit.*email address/i });
     // and the email address should not exist
-    expect(view.queryByText(emailAddress)).not.to.exist;
+    expect(view.queryByText(wrappableEmailAddress)).not.to.exist;
     // and the add email text should exist
     view.getByText(/add.*email address/i);
   });
@@ -124,7 +125,7 @@ describe('Deleting email address', () => {
     // the edit email button should still exist
     view.getByRole('button', { name: /edit.*email address/i });
     // and the email address should not exist
-    expect(view.queryByText(emailAddress)).not.to.exist;
+    expect(view.queryByText(wrappableEmailAddress)).not.to.exist;
     // and the add email text should exist
     view.getByText(/add.*email address/i);
   });
@@ -208,7 +209,7 @@ describe('Deleting email address', () => {
     ).to.exist;
 
     // and the email address should still exist
-    expect(view.getByText(emailAddress)).to.exist;
+    expect(view.getByText(wrappableEmailAddress)).to.exist;
     // and the edit email button should be back
     expect(getEditButton()).to.exist;
   });
