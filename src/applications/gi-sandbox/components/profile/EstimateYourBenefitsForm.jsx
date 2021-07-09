@@ -19,12 +19,12 @@ import {
   handleInputFocusWithPotentialOverLap,
   isURL,
 } from '../../utils/helpers';
-import { renderLearnMoreLabel } from '../../utils/render';
 import OnlineClassesFilter from '../search/OnlineClassesFilter';
 import Checkbox from '../Checkbox';
 import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
+import LearnMoreLabel from '../LearnMoreLabel';
 
 class EstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -319,15 +319,14 @@ class EstimateYourBenefitsForm extends React.Component {
    * @param ariaLabel
    * @returns {*}
    */
-  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) =>
-    renderLearnMoreLabel({
-      text,
-      modal,
-      ariaLabel,
-      showModal: this.props.showModal,
-      component: this,
-      labelFor,
-    });
+  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) => (
+    <LearnMoreLabel
+      text={text}
+      onClick={() => this.props.showModal(modal)}
+      ariaLabel={ariaLabel}
+      labelFor={labelFor}
+    />
+  );
 
   /**
    * Displays question related to in-state
