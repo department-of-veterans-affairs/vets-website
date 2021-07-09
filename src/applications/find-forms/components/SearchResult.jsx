@@ -182,17 +182,19 @@ const SearchResult = ({ form, formMetaInfo, showPDFInfoBox }) => {
         </dd>
       ) : null}
       {showPDFInfoBox ? (
-        <va-alert status="info" background-only>
-          <div className="usa-alert-text vads-u-font-size--base">
-            <p className="vads-u-margin-top--0">
-              You'll need to download this form and open it in Adobe Acrobat
-              Reader
-            </p>
-            <a href="https://www.va.gov/resources/what-if-im-having-trouble-opening-a-pdf/">
-              Get instructions for opening the form in Acrobat Reader
-            </a>
-          </div>
-        </va-alert>
+        <dd>
+          <va-alert status="info" background-only>
+            <div className="usa-alert-text vads-u-font-size--base">
+              <p className="vads-u-margin-top--0">
+                You'll need to download this form and open it in Adobe Acrobat
+                Reader
+              </p>
+              <a href="https://www.va.gov/resources/what-if-im-having-trouble-opening-a-pdf/">
+                Get instructions for opening the form in Acrobat Reader
+              </a>
+            </div>
+          </va-alert>
+        </dd>
       ) : null}
       <dd className="vads-u-margin-bottom--5">
         <a
