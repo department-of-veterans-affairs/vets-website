@@ -425,8 +425,8 @@ function EstimateYourBenefitsForm({
           })}
           name="yellowRibbonRecipient"
           options={[
-            { optionValue: 'yes', optionLabel: 'Yes' },
-            { optionValue: 'no', optionLabel: 'No' },
+            { value: 'yes', label: 'Yes' },
+            { value: 'no', label: 'No' },
           ]}
           value={inputs.yellowRibbonRecipient}
           onChange={handleInputChange}
