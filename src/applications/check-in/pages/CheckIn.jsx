@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 
-import { goToNextPage, URLS } from '../utils/navigation';
+import { focusElement } from 'platform/utilities/ui';
 
+import { goToNextPage, URLS } from '../utils/navigation';
 import { checkInUser } from '../api';
 
 import BackToHome from '../components/BackToHome';
@@ -12,6 +13,9 @@ import Footer from '../components/Footer';
 const CheckIn = props => {
   const { router, appointment } = props;
   const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
 
   if (!appointment) {
     goToNextPage(router, URLS.SEE_STAFF);
@@ -45,7 +49,13 @@ const CheckIn = props => {
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
-      <h1 tabIndex="-1">Your appointment</h1>
+      <h1
+        tabIndex="-1"
+        aria-label={`Your appointment on ${appointmentDate} at ${appointmentTime} ${timeZone}`}
+      >
+        {' '}
+        Your appointment
+      </h1>
       <dl className="appointment-summary">
         <dd
           className="appointment-details vads-u-font-weight--bold vads-u-font-family--serif"
@@ -70,6 +80,7 @@ const CheckIn = props => {
         onClick={onClick}
         data-testid="check-in-button"
         disabled={isLoading}
+        aria-label="Check in now for your appointment"
       >
         {isLoading ? <>Loading...</> : <>Check in now</>}
       </button>
