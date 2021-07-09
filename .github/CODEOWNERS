@@ -100,6 +100,9 @@ src/applications/coronavirus-screener @department-of-veterans-affairs/va-cto-hea
 src/applications/coronavirus-vaccination @department-of-veterans-affairs/va-cto-health-products
 src/applications/coronavirus-vaccination-expansion @department-of-veterans-affairs/va-cto-health-products
 
+# My Education Benefits Team
+src/applications/my-education-benefits @department-of-veterans-affairs/my-education-benefits
+
 # Other
 src/applications/ask-a-question @department-of-veterans-affairs/orchid
 src/applications/messages @department-of-veterans-affairs/orchid
