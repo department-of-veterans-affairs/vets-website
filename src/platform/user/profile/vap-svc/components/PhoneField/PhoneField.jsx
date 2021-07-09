@@ -130,6 +130,7 @@ export default class PhoneField extends React.Component {
         EditModal={PhoneEditModal}
         formSchema={formSchema}
         uiSchema={uiSchema(this.props.fieldName)}
+        deleteDisabled={this.props.deleteDisabled}
       />
     );
   }
