@@ -12,7 +12,7 @@ import {
   updateEstimatedBenefits,
 } from '../actions';
 import { getCalculatedBenefits } from '../selectors/calculator';
-import EstimateYourBenefitsForm from '../components/profile/EstimateYourBenefitsForm';
+import CalculateYourBenefitsForm from '../components/profile/CalculateYourBenefitsForm';
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
 import recordEvent from 'platform/monitoring/record-event';
@@ -113,7 +113,7 @@ export function CalculateYourBenefits({
   return (
     <div>
       <div className="row calculate-your-benefits">
-        <EstimateYourBenefitsForm
+        <CalculateYourBenefitsForm
           profile={profile}
           eligibility={eligibility}
           eligibilityChange={dispatchEligibilityChange}

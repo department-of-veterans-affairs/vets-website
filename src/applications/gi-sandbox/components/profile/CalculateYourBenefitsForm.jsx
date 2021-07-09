@@ -26,7 +26,7 @@ import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 
-function EstimateYourBenefitsForm({
+function CalculateYourBenefitsForm({
   calculatorInputChange,
   displayedInputs,
   eligibility,
@@ -41,10 +41,10 @@ function EstimateYourBenefitsForm({
   const [invalidZip, setInvalidZip] = useState('');
   const [inputUpdated, setInputUpdated] = useState(false);
   const [expanded, setExpanded] = useState({
-    yourBenefitsExpanded: false,
-    aboutYourSchoolExpanded: false,
-    learningFormatAndScheduleExpanded: false,
-    scholarshipsAndOtherFundingExpanded: false,
+    yourBenefits: true,
+    aboutYourSchool: false,
+    learningFormatAndSchedule: false,
+    scholarshipsAndOtherFunding: false,
   });
 
   const displayExtensionBeneficiaryZipcode = !inputs.classesOutsideUS;
@@ -158,7 +158,7 @@ function EstimateYourBenefitsForm({
       displayExtensionBeneficiaryZipcode &&
       (beneficiaryZIPError || beneficiaryZIP.length !== 5)
     ) {
-      toggleExpanded('learningFormatAndScheduleExpanded', true);
+      toggleExpanded('learningFormatAndSchedule', true);
       setTimeout(() => {
         scroller.scrollTo('beneficiary-zip-question', getScrollOptions());
         focusElement('input[name=beneficiaryZIPCode]');
@@ -994,10 +994,8 @@ function EstimateYourBenefitsForm({
       <AccordionItem
         button={name}
         section
-        expanded={expanded.yourBenefitsExpanded}
-        onClick={isExpanded =>
-          toggleExpanded('yourBenefitsExpanded', isExpanded)
-        }
+        expanded={expanded.yourBenefits}
+        onClick={isExpanded => toggleExpanded('yourBenefits', isExpanded)}
       >
         <div>
           <BenefitsForm
@@ -1053,11 +1051,9 @@ function EstimateYourBenefitsForm({
     return (
       <AccordionItem
         button={name}
-        expanded={expanded.aboutYourSchoolExpanded}
+        expanded={expanded.aboutYourSchool}
         section
-        onClick={isExpanded =>
-          toggleExpanded('aboutYourSchoolExpanded', isExpanded)
-        }
+        onClick={isExpanded => toggleExpanded('aboutYourSchool', isExpanded)}
       >
         <div className="calculator-form">
           {renderInState()}
@@ -1088,10 +1084,10 @@ function EstimateYourBenefitsForm({
     return (
       <AccordionItem
         button={name}
-        expanded={expanded.learningFormatAndScheduleExpanded}
+        expanded={expanded.learningFormatAndSchedule}
         section
         onClick={isExpanded =>
-          toggleExpanded('learningFormatAndScheduleExpanded', isExpanded)
+          toggleExpanded('learningFormatAndSchedule', isExpanded)
         }
       >
         <div className="calculator-form">
@@ -1130,10 +1126,10 @@ function EstimateYourBenefitsForm({
     return (
       <AccordionItem
         button={name}
-        expanded={expanded.scholarshipsAndOtherFundingExpanded}
+        expanded={expanded.scholarshipsAndOtherFunding}
         section
         onClick={isExpanded =>
-          toggleExpanded('scholarshipsAndOtherFundingExpanded', isExpanded)
+          toggleExpanded('scholarshipsAndOtherFunding', isExpanded)
         }
       >
         <div className="calculator-form">
@@ -1187,7 +1183,7 @@ function EstimateYourBenefitsForm({
   );
 }
 
-EstimateYourBenefitsForm.propTypes = {
+CalculateYourBenefitsForm.propTypes = {
   profile: PropTypes.object,
   eligibility: PropTypes.object,
   eligibilityChange: PropTypes.func,
@@ -1201,4 +1197,4 @@ EstimateYourBenefitsForm.propTypes = {
   updateBenefitsButtonEnabled: PropTypes.bool,
 };
 
-export default EstimateYourBenefitsForm;
+export default CalculateYourBenefitsForm;
