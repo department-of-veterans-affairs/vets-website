@@ -186,7 +186,7 @@ function EstimateYourBenefitsForm({
       'gibct-form-field': field,
       'gibct-form-value': value,
     });
-    eligibilityChange(field, value);
+    eligibilityChange({ [field]: value });
     setInputUpdated(true);
   };
 
