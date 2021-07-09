@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 
-import { renderLearnMoreLabel } from '../../utils/render';
 import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
+import LearnMoreLabel from '../LearnMoreLabel';
 
 export class BenefitsForm extends React.Component {
   state = { showYourMilitaryDetails: false };
@@ -43,14 +43,14 @@ export class BenefitsForm extends React.Component {
     { optionValue: 'purple heart', optionLabel: 'Purple Heart Service: 100%' },
   ];
 
-  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) =>
-    renderLearnMoreLabel({
-      text,
-      modal,
-      ariaLabel,
-      showModal: this.props.showModal,
-      labelFor: labelFor || modal,
-    });
+  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) => (
+    <LearnMoreLabel
+      text={text}
+      onClick={() => this.props.showModal(modal)}
+      ariaLabel={ariaLabel}
+      labelFor={labelFor || modal}
+    />
+  );
 
   handleMilitaryDetailsClick = () => {
     this.setState({
