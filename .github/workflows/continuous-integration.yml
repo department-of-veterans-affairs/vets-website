@@ -598,7 +598,6 @@ jobs:
           name: cypress-junit-test-results
           path: cypress-junit-test-results
 
-      # TODO: Include Testing Reports link in Cypress Tests Summary
       - name: Publish Cypress test results
         if: ${{ always() }}
         uses: mikepenz/action-junit-report@v2.4.2
@@ -606,7 +605,7 @@ jobs:
           check_name: 'Cypress Tests Summary'
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'cypress-junit-test-results/e2e-test-output-*.xml'
-          summary: '[Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }}.html)'
+          summary: '[Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})'
 
 # archive:
 #   name: Archive
