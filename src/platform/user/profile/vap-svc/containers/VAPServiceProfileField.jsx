@@ -235,6 +235,7 @@ class VAPServiceProfileField extends React.Component {
             transactionRequest={transactionRequest}
             title={title}
             clearErrors={this.clearErrors}
+            stopPropagation={this.props.stopPropagation}
           />
         )}
         <VAPServiceTransaction
@@ -324,6 +325,8 @@ VAPServiceProfileFieldContainer.propTypes = {
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
+  deleteDisabled: PropTypes.bool,
+  stopPropagation: PropTypes.bool,
 };
 
 export default VAPServiceProfileFieldContainer;

@@ -39,6 +39,9 @@ class AddressValidationModal extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
+    if (this.props.stopPropagation) {
+      event.stopPropagation();
+    }
     const {
       validationKey,
       addressValidationType,

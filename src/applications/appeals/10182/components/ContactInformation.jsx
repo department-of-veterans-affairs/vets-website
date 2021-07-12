@@ -6,7 +6,7 @@ import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID'
 import VAPServicePendingTransactionCategory from '@@vap-svc/containers/VAPServicePendingTransactionCategory';
 import PhoneField from '@@vap-svc/components/PhoneField/PhoneField';
 import EmailField from '@@vap-svc/components/EmailField/EmailField';
-import MailingAddress from '@@vap-svc/components/MailingAddress';
+import AddressField from '@@vap-svc/components/AddressField/AddressField';
 import { TRANSACTION_CATEGORY_TYPES, FIELD_NAMES } from '@@vap-svc/constants';
 
 import { selectProfile } from '~/platform/user/selectors';
@@ -108,6 +108,7 @@ export const ContactInfoDescription = ({
                 title="Mobile phone number"
                 fieldName={FIELD_NAMES.MOBILE_PHONE}
                 deleteDisabled
+                stopPropagation
               />
             </VAPServicePendingTransactionCategory>
             <VAPServicePendingTransactionCategory
@@ -117,12 +118,18 @@ export const ContactInfoDescription = ({
                 title="Email address"
                 fieldName={FIELD_NAMES.EMAIL}
                 deleteDisabled
+                stopPropagation
               />
             </VAPServicePendingTransactionCategory>
             <VAPServicePendingTransactionCategory
               categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}
             >
-              <MailingAddress />
+              <AddressField
+                title="Mailing address"
+                fieldName={FIELD_NAMES.MAILING_ADDRESS}
+                deleteDisabled
+                stopPropagation
+              />
             </VAPServicePendingTransactionCategory>
           </InitializeVAPServiceID>
         </div>
