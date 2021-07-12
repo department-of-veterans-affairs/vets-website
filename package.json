@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Department of Veterans Affairs forms library.",
   "main": "dist/index.js",
+  "module": "dist/formulate.cjs.production.min.js",
   "scripts": {
     "build": "tsdx build",
     "watch": "tsdx --watch",
