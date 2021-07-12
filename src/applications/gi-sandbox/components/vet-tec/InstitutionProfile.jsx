@@ -5,7 +5,7 @@ import AccordionItem from '../AccordionItem';
 import VetTecAdditionalInformation from './VetTecAdditionalInformation';
 import VetTecApplicationProcess from './VetTecApplicationProcess';
 import VetTecApprovedProgramsList from './VetTecApprovedProgramsList';
-import ContactInformation from './ContactInformation';
+import ContactInformation from '../profile/ContactInformation';
 import classNames from 'classnames';
 
 import VetTecVeteranPrograms from './VetTecVeteranPrograms';
