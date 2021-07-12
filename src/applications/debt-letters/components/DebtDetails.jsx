@@ -147,13 +147,11 @@ const DebtDetails = ({ selectedDebt }) => {
             </dl>
           </div>
 
-          <va-alert
-            className="vads-u-margin-y--4 debt-details-alert"
-            status="info"
-            backgroundOnly
-          >
-            {additionalInfo.nextStep}
-          </va-alert>
+          <div className="vads-u-margin-bottom--4 15px">
+            <va-alert status="info" background-only>
+              {additionalInfo.nextStep}
+            </va-alert>
+          </div>
 
           {whyMightIHaveThisDebtContent && (
             <AdditionalInfo triggerText="Why might I have this debt?">
