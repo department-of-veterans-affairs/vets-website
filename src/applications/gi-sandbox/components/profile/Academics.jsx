@@ -4,20 +4,13 @@ import { upperCaseFirstLetterOnly } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 
 export default function Academics({ institution, onShowModal }) {
-  const typeOfAccreditation = institution.accredited && (
-    <div aria-live="off">
-      <strong>
-        <LearnMoreLabel
-          text={'Accreditation'}
-          onClick={() => onShowModal('accreditation')}
-          ariaLabel={ariaLabels.learnMore.accreditation}
-          buttonId={'accreditation-button'}
-        />
-        :
-      </strong>
-      &nbsp;
-      {institution.accreditationType &&
-        upperCaseFirstLetterOnly(institution.accreditationType)}{' '}
+  const accreditation =
+    institution.accredited && institution.accreditationType
+      ? upperCaseFirstLetterOnly(institution.accreditationType)
+      : 'None';
+
+  const accreditors = (
+    <>
       (
       <a
         href={`http://nces.ed.gov/collegenavigator/?id=${
@@ -29,6 +22,21 @@ export default function Academics({ institution, onShowModal }) {
         See accreditors
       </a>
       )
+    </>
+  );
+  const typeOfAccreditation = (
+    <div aria-live="off">
+      <strong>
+        <LearnMoreLabel
+          text={'Accreditation'}
+          onClick={() => onShowModal('accreditation')}
+          ariaLabel={ariaLabels.learnMore.accreditation}
+          buttonId={'accreditation-button'}
+        />
+        :
+      </strong>
+      &nbsp;
+      {accreditation} {institution.accredited && accreditors}
     </div>
   );
 
