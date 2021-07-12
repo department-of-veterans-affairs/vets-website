@@ -182,7 +182,7 @@ const SearchResult = ({ form, formMetaInfo, showPDFInfoBox }) => {
         </dd>
       ) : null}
       {showPDFInfoBox ? (
-        <dd>
+        <dd className="vads-u-margin-bottom--2">
           <va-alert status="info">
             <div className="usa-alert-text vads-u-font-size--base">
               <h3 slot="heading" className="vads-u-margin-top--0">
