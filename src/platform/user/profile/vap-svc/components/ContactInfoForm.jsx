@@ -17,6 +17,7 @@ const ContactInfoForm = props => (
     }}
     onSubmit={e => props.onSubmit(e)}
     data={props.formData}
+    stopPropagation
   >
     {props.children}
   </SchemaForm>

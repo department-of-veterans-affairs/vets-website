@@ -180,6 +180,7 @@ class SchemaForm extends React.Component {
       safeRenderCompletion,
       name,
       addNameAttribute,
+      stopPropagation,
     } = this.props;
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
@@ -205,6 +206,7 @@ class SchemaForm extends React.Component {
         fields={useReviewMode ? this.reviewFields : this.fields}
         transformErrors={this.transformErrors}
         name={addNameAttribute ? name : null}
+        stopPropagation={stopPropagation}
       >
         {children}
       </Form>
