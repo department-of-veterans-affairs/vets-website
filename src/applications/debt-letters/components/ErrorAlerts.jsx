@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const ErrorMessage = () => (
@@ -29,7 +29,9 @@ export const ErrorMessage = () => (
 
 export const DowntimeMessage = () => {
   return (
-    <AlertBox headline="Nightly tool maintenance" isVisible status="error">
+    <va-alert>
+      <h3 slot="headline">"Nightly tool maintenance"</h3>
+
       <p>
         We’re working on this tool right now. If you have trouble signing in or
         using this tool, check back after we’re finished.
@@ -43,16 +45,13 @@ export const DowntimeMessage = () => {
       <h4>What can you do</h4>
       <p>
         You can still
-        <a
-          className="vads-u-margin-x--0p5"
-          href="/manage-va-debt/your-debt/debt-letters"
-        >
+        <a href="/manage-va-debt/your-debt/debt-letters">
           Download your debt letters.
         </a>
         If you need help resolving a debt, or you would like to get information
         about a debt that has been resolved, call the Debt Management Center at
         <Telephone className="vads-u-margin-left--0p5" contact="8008270648" />.
       </p>
-    </AlertBox>
+    </va-alert>
   );
 };
