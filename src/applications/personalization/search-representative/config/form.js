@@ -1,5 +1,3 @@
-// import fullSchema from 'vets-json-schema/dist/000-schema.json';
-
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -20,13 +18,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '21-22a',
-  saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your search for a representative application (000) is in progress.',
-    //   expired: 'Your saved search for a representative application (000) has expired. If you want to apply for search for a representative, please start a new application.',
-    //   saved: 'Your search for a representative application has been saved.',
-    // },
-  },
+  saveInProgress: {},
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
