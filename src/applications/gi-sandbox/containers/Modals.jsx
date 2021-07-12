@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
+import AllCampusesModalContent from '../components/content/AllCampusesModalContent';
+import StudentComplaintsModalContent from '../components/content/StudentComplaintsModalContent';
 import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
 
 export class Modals extends React.Component {
@@ -244,6 +246,20 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('yribbon')}
       >
         <YellowRibbonModalContent />
+      </Modal>
+
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('studentComplaints')}
+      >
+        <StudentComplaintsModalContent />
+      </Modal>
+
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('allCampuses')}
+      >
+        <AllCampusesModalContent />
       </Modal>
 
       <Modal

@@ -120,7 +120,7 @@ export class InstitutionProfile extends React.Component {
         >
           <CautionaryInformation
             institution={institution}
-            onShowModal={showModal}
+            showModal={showModal}
           />
         </ProfileSection>
         {this.shouldShowSchoolLocations(institution.facilityMap) && (

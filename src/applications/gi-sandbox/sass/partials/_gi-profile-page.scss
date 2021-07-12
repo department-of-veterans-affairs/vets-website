@@ -313,6 +313,9 @@
 
   .cautionary-information {
     .table {
+      td, th {
+        padding: 20px;
+      }
       table {
         margin: 1em 0;
       }
