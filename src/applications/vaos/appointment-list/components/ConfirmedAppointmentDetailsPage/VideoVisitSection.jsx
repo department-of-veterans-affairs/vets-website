@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { isVideoHome, getCalendarData } from '../../../services/appointment';
-import { VIDEO_TYPES } from '../../../utils/constants';
+import {
+  isVideoHome,
+  getCalendarData,
+  isClinicVideoAppointment,
+} from '../../../services/appointment';
 import VideoLink from './VideoLink';
 import AtlasLocation from './AtlasLocation';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
@@ -13,7 +16,7 @@ import moment from 'applications/vaos/lib/moment-tz';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 export default function VideoVisitLocation({ appointment, facility }) {
-  const { kind, isAtlas, providers } = appointment.videoData;
+  const { isAtlas, providers } = appointment.videoData;
   const isHome = isVideoHome(appointment);
   const [showMoreOpen, setShowMoreOpen] = useState(false);
   const name = facility?.name;
@@ -68,7 +71,7 @@ export default function VideoVisitLocation({ appointment, facility }) {
           </AdditionalInfo>
         </div>
       )}
-      {kind === VIDEO_TYPES.clinic && (
+      {isClinicVideoAppointment(appointment) && (
         <div className="vads-u-margin-top--2">
           <VAFacilityLocation
             facility={facility}
