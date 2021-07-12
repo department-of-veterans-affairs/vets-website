@@ -299,9 +299,8 @@ module.exports = async (env = {}) => {
         {
           test: /\.(sa|sc|c)ss$/,
           use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-            },
+            MiniCssExtractPlugin.loader,
+            'cache-loader',
             {
               loader: 'css-loader',
               options: {

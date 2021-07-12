@@ -1,7 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 import moment from 'moment';
-import { isVideoHome } from '../../../services/appointment';
+import {
+  isClinicVideoAppointment,
+  isVideoHome,
+} from '../../../services/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import { VIDEO_TYPES } from '../../../utils/constants';
 
@@ -14,7 +17,7 @@ export default function VideoLink({ appointment, hasFacility, isPast }) {
         You can join this video meeting using a device provided by VA.
       </span>
     );
-  } else if (appointment.videoData.kind === VIDEO_TYPES.clinic) {
+  } else if (isClinicVideoAppointment(appointment)) {
     return (
       <span>
         You must join this video meeting from the VA location{' '}

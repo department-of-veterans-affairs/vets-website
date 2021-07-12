@@ -1,14 +1,16 @@
 import React from 'react';
 import { AdditionalResourcesLinks } from './AdditionalResourcesLinks';
-import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
+import VetTecLogo from '../VetTecLogo';
 
 const vetTecLogo = vetTec => {
   if (!vetTec) return null;
   return (
     <div className="vads-u-margin-left--4">
       <div className="logo-container">
-        {renderVetTecLogo(classNames('vettec-logo-additional-resources'))}
+        <VetTecLogo
+          classNames={classNames('vettec-logo-additional-resources')}
+        />
       </div>
     </div>
   );

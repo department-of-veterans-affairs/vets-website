@@ -13,6 +13,7 @@ on:
 # TODO: Change to correct channel_id when ready
 env:
   CHANNEL_ID: C024DUC9S1K # -test-tim-accessibility-gha
+  DSVA_SCHEDULE_ENABLED: true
 
 jobs:
   set-env:
@@ -23,6 +24,10 @@ jobs:
       RELEASE_WAIT: ${{ env.RELEASE_WAIT }}
 
     steps:
+      - name: Cancel workflow due to DSVA schedule
+        if: ${{ env.DSVA_SCHEDULE_ENABLED != 'true' }}
+        uses: andymckay/cancel-action@0.2
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -77,7 +82,7 @@ jobs:
   notify-start:
     name: Notify Start
     runs-on: ubuntu-latest
-    needs: [set-env, validate-build-status]
+    needs: validate-build-status
 
     steps:
       - name: Configure AWS credentials
@@ -121,113 +126,11 @@ jobs:
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
           attachments: '[{"mrkdwn_in": ["text"], "color": "good", "text": "Stand by, production deploy for vets-website coming up in ${{ needs.set-env.outputs.RELEASE_WAIT }} minutes. View what coming here: <https://github.com/${{github.repository}}/compare/vets-website/${{needs.set-env.outputs.LATEST_TAG_VERSION}}...${{github.sha}}>"}]'
           channel_id: ${{ env.CHANNEL_ID }}
-  
-  build:
-    name: Build
-    runs-on: self-hosted
-    needs: notify-start
-
-    # TODO: Uncomment when ready for prod
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-      BUILDTYPE: vagovprod
-      CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
-
-    steps:
-      - name: Checkout vets-website
-        uses: actions/checkout@v2
-
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
-
-      - name: Build
-        run: yarn build --verbose --buildtype=${{ env.BUILDTYPE }}
-        timeout-minutes: 30
-
-      - name: Generate build details
-        run: |
-          cat > build/${{ env.BUILDTYPE }}/BUILD.txt << EOF
-          BUILDTYPE=${{ env.BUILDTYPE }}
-          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
-          RUN_ID=${{ github.run_id }}
-          REF=${{ github.sha }}
-          BUILDTIME=$(date +%s)
-          EOF
-
-      - name: Compress and archive build
-        run: tar -C build/${{ env.BUILDTYPE }} -cjf ${{ env.BUILDTYPE }}.tar.bz2 .
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.BUILDTYPE }}.tar.bz2
-          path: ${{ env.BUILDTYPE }}.tar.bz2
-          retention-days: 1
-
-  archive:
-    name: Archive
-    runs-on: ubuntu-latest
-    needs: build
-
-    env:
-      BUILDTYPE: vagovprod
-
-    steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: ${{ env.BUILDTYPE }}.tar.bz2
-
-      - name: Configure AWS credentials (1)
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@latest
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-
-      - name: Upload build
-        run: aws s3 cp ${{ env.BUILDTYPE }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/application-build/$GITHUB_SHA/${{ env.BUILDTYPE }}.tar.bz2 --acl public-read --region us-gov-west-1
 
   create-release:
     name: Create Release
     runs-on: ubuntu-latest
-    needs: [set-env, archive]
+    needs: [set-env, notify-start]
 
     steps:
       - name: Waiting to release 
@@ -291,7 +194,7 @@ jobs:
       - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.sha }}/${{ env.BUCKET }}.tar.bz2
+          SRC: s3://vetsgov-website-builds-s3-upload/application-build/${{ github.sha }}/${{ env.ENVIRONMENT }}.tar.bz2
           DEST: s3://${{ env.BUCKET }}
 
   notify-failure:
@@ -302,6 +205,7 @@ jobs:
 
     steps:
     - name: Configure AWS credentials
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -309,12 +213,14 @@ jobs:
         aws-region: us-gov-west-1
 
     - name: Get Slack app token
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
       with:
         ssm_parameter: /devops/github_actions_slack_socket_token
         env_variable_name: SLACK_APP_TOKEN
 
     - name: Get Slack bot token
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
       with:
         ssm_parameter: /devops/github_actions_slack_bot_user_token
@@ -327,6 +233,7 @@ jobs:
         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
     - name: Checkout VSP actions
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: actions/checkout@v2
       with:
         repository: department-of-veterans-affairs/vsp-github-actions
@@ -336,6 +243,7 @@ jobs:
         path: ./.github/actions/vsp-github-actions
 
     - name: Notify Slack
+      if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
       uses: ./.github/actions/vsp-github-actions/slack-socket
       with:
         slack_app_token: ${{ env.SLACK_APP_TOKEN }}

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { isVAPatient } from '~/platform/user/selectors';
 
+import { showNotificationSettings } from '@@profile/selectors';
+
 const ReceiveAppointmentReminders = ({ hideContent, isReceivingReminders }) => {
   if (hideContent) {
     return null;
@@ -22,7 +24,7 @@ const ReceiveAppointmentReminders = ({ hideContent, isReceivingReminders }) => {
 
 export function mapStateToProps(state) {
   return {
-    hideContent: !isVAPatient(state),
+    hideContent: !isVAPatient(state) || showNotificationSettings(state),
   };
 }
 
