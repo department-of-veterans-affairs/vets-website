@@ -28,24 +28,28 @@ export const ErrorMessage = () => (
 
 export const DowntimeMessage = () => {
   return (
-    <va-alert
-      status="error"
-      class="vads-u-margin-bottom--4 vads-u-font-size--base"
-    >
-      <h3 slot="headline">"Nightly tool maintenance"</h3>
+    <va-alert status="error" class="vads-u-margin-bottom--4">
+      <h3 slot="headline">Nightly tool maintenance</h3>
 
-      <p>
-        We’re working on this tool right now. If you have trouble signing in or
+      <p className="vads-u-font-size--base vads-u-font-family--sans">
+        We’re working on this tool right now. If you have trouble signing in or
         using this tool, check back after we’re finished.
       </p>
-      <p>
+      <p className="vads-u-font-size--base vads-u-font-family--sans">
         Please note that we'll be doing maintenance at this time each night from
         12:30 a.m. to 3 a.m. ET. Thank you for your patience.
       </p>
-      <p>Date: {moment(Date.now()).format('dddd, MMMM D, YYYY')}</p>
-      <p>Start/End time: 12:30 a.m. to 3:00 a.m. ET</p>
+
+      <p className="vads-u-font-size--base vads-u-font-family--sans">
+        Date: {moment(Date.now()).format('dddd, MMMM D, YYYY')}
+      </p>
+      <p className="vads-u-font-size--base vads-u-font-family--sans">
+        Start/End time: 12:30 a.m. to 3:00 a.m. ET
+      </p>
+
       <h4>What can you do</h4>
-      <p>
+
+      <p className="vads-u-font-size--base vads-u-font-family--sans">
         You can still
         <a
           href="/manage-va-debt/your-debt/debt-letters"
