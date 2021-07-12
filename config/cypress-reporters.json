@@ -1,9 +1,6 @@
 {
-  "reporterEnabled": "spec, mocha-junit-reporter, mochawesome",
-  "mochaJunitReporterReporterOptions": {
-    "mochaFile": "test-results/e2e-test-output-[hash].xml"
-  },
-  "mochawesomeReporterOptions": {
+  "reporterEnabled": "mochawesome",
+  "reporterOptions": {
     "reportDir": "cypress/results",
     "overwrite": false,
     "html": false,
