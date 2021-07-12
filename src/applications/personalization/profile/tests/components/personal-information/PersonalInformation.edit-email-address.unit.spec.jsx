@@ -17,8 +17,9 @@ import { beforeEach } from 'mocha';
 
 const errorText =
   'We’re sorry. We couldn’t update your contact email address. Please try again.';
-const newEmailAddress = 'new-address@domain.com';
-const wrappableEmailAddress = /new-address@.domain\..com/;
+const newUserName = 'newemailaddress';
+const newUserNameRegex = new RegExp(newUserName);
+const newEmailAddress = `${newUserName}@domain.com`;
 const ui = (
   <MemoryRouter>
     <PersonalInformation />
@@ -70,7 +71,7 @@ async function testQuickSuccess() {
   // the edit email button should exist
   expect(view.getByRole('button', { name: /edit.*email address/i })).to.exist;
   // and the new email address should exist in the DOM
-  expect(view.getByText(wrappableEmailAddress)).to.exist;
+  expect(view.getByText(newUserNameRegex)).to.exist;
   // and the add email button should be gone
   expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not.to
     .exist;
@@ -103,7 +104,7 @@ async function testSlowSuccess() {
     }),
   ).to.exist;
   // and the new email address should exist in the DOM
-  expect(view.getByText(wrappableEmailAddress)).to.exist;
+  expect(view.getByText(newUserNameRegex)).to.exist;
   // and the add email button should be gone
   expect(view.queryByText(/add.*email address/i, { selector: 'button' })).not.to
     .exist;
@@ -171,7 +172,7 @@ async function testSlowFailure() {
   ).to.exist;
 
   // and the new email address should not exist in the DOM
-  expect(view.queryByText(wrappableEmailAddress)).not.to.exist;
+  expect(view.queryByText(newUserNameRegex)).not.to.exist;
   // and the add/edit email button should be back
   expect(getEditButton()).to.exist;
 }

@@ -21,12 +21,9 @@ const ContactInformationView = props => {
   }
 
   if (fieldName === FIELD_NAMES.EMAIL) {
-    // add zero-width spaces after @ and . symbols so very long email addresses
-    // will wrap at those symbols if needed
-    // const wrappableEmailAddress = data.emailAddress.replace(
-    //   /(@|\.)/g,
-    //   '$1\u200B',
-    // );
+    // Use the .email-address-symbol class to add a zero-width spaces after @
+    // and . symbols so very long email addresses will wrap at those symbols if
+    // needed
     const regex = /(@|\.)/;
     const wrappableEmailAddress = data.emailAddress
       .split(regex)
