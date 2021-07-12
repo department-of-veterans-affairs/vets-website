@@ -5,8 +5,8 @@
   },
   "mochawesomeReporterOptions": {
     "reportDir": "cypress/results",
-    "overwrite": false,
     "html": false,
-    "json": true
+    "json": true,
+    "timestamp": "mmddyyyy_HHMMss"
   }
 }
