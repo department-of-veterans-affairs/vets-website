@@ -6,7 +6,6 @@ const path = require('path');
 const args = process.argv.slice(2);
 const timeout = 2; // minutes
 const [repo, releaseSHA] = args;
-let currentPage = 1;
 
 const getWorkflowRunsUrl = (page = 1) => {
   const url = new URL(
@@ -29,7 +28,7 @@ const getWorkflowRunsUrl = (page = 1) => {
  * fetch request for github action URL provided
  * @param {string} url
  */
-function getLatestWorkflow(url) {
+async function getJobsFailedDetails(url) {
   return fetch(url)
     .then(response => {
       if (!response.ok) {
@@ -37,7 +36,30 @@ function getLatestWorkflow(url) {
       }
       return response.json();
     })
-    .then(({ workflow_runs }) => {
+    .then(({ jobs }) => {
+      jobs.forEach(({ name, html_url, conclusion }) => {
+        if (conclusion === 'success') return;
+        console.error(
+          `::error::Job "${name}" has failed. For more details, please see ${html_url}`,
+        );
+      });
+    });
+}
+
+/**
+ * fetch request for github action URL provided
+ * @param {number} page
+ */
+async function getLatestWorkflow(page) {
+  const url = getWorkflowRunsUrl(page);
+  return fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Response ${response.status} from ${url}. Aborting.`);
+      }
+      return response.json();
+    })
+    .then(async ({ workflow_runs }) => {
       if (workflow_runs.length === 0) {
         throw new Error('No workflows found. Aborting.');
       }
@@ -47,20 +69,11 @@ function getLatestWorkflow(url) {
         const validWorkflow = workflow_runs.find(
           ({ head_sha }) => head_sha === releaseSHA,
         );
-        if (!validWorkflow) {
-          currentPage += 1;
-          const urlNextPage = getWorkflowRunsUrl(currentPage);
-          console.log(
-            'Workflow not found in current page. Checking next page.',
-          );
-          // TODO: check timestamp
-          return getLatestWorkflow(urlNextPage);
-        } else {
-          return validWorkflow;
-        }
-      } else {
-        return workflow_runs[0];
+        if (validWorkflow) return validWorkflow;
+        console.log('Workflow not found in current page. Checking next page.');
+        await getLatestWorkflow(page + 1);
       }
+      return workflow_runs[0];
     });
 }
 
@@ -82,6 +95,7 @@ function validateWorkflowSuccess(workflow) {
     status === 'in_progress' || status === null || status === 'queued';
 
   if (isWorkflowInProgress) return undefined;
+
   if (conclusion === 'success') {
     console.log('All checks succeeded');
     return true;
@@ -97,8 +111,8 @@ function validateWorkflowSuccess(workflow) {
  */
 async function main() {
   try {
-    const url = getWorkflowRunsUrl(currentPage);
-    const workflow = await getLatestWorkflow(url);
+    const page = 1;
+    const workflow = await getLatestWorkflow(page);
     const success = validateWorkflowSuccess(workflow);
 
     if (success === undefined) {
@@ -108,14 +122,11 @@ async function main() {
     }
 
     if (!success) {
-      // TODO: Check which jobs failed by fetching jobs_url and filtering on jobs we care about.
-      console.error(
-        `Build aborted due to failed runs detected on:\n\n${workflow.html_url}`,
-      );
+      await getJobsFailedDetails(workflow.jobs_url);
       process.exit(1);
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
     process.exit(1);
   }
 }

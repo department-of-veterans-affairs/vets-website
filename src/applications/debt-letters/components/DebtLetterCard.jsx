@@ -63,7 +63,10 @@ const DebtLetterCard = props => {
         to="/debt-detail"
       >
         Go to debt details
-        <i className="fa fa-chevron-right vads-u-font-size--sm vads-u-margin-left--0p5" />
+        <i
+          aria-hidden="true"
+          className="fa fa-chevron-right vads-u-font-size--sm vads-u-margin-left--0p5"
+        />
       </Link>
     </article>
   );
