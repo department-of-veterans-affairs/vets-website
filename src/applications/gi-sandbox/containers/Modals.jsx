@@ -8,7 +8,7 @@ import AccreditationModalContent from '../components/content/modals/Accreditatio
 import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
 import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
 import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
-import SinglePointModalContent from '../components/content/modals/SinglePointModalContent';
+import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
 import FacilityCodeModalContent from '../components/content/modals/FacilityCodeModalContent';
 import OpeCodeModalContent from '../components/content/modals/OpeCodeModalContent';
 import IpedsCodeModalContent from '../components/content/modals/IpedsCodeModalContent';
@@ -498,7 +498,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('singleContact')}
         elementToFocusOnClose="singleContact-button"
       >
-        <SinglePointModalContent />
+        <SingleContactModalContent />
       </Modal>
 
       <Modal
