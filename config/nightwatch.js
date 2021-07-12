@@ -16,13 +16,16 @@ module.exports = {
   parallel_process_delay: 10,
   disable_colors: process.env.BUILDTYPE === 'production',
 
-  test_workers: false,
-
   webdriver: {
     start_process: true,
     server_path: process.env.CHROMEDRIVER_FILEPATH || chromedriver.path,
     port: 9515,
   },
+
+  // If set to true, runs the tests in parallel and determines the number of workers automatically.
+  // If set to an object, can specify specify the number of workers as "auto" or a number.
+  // Source: https://nightwatchjs.org/gettingstarted/configuration/#test-runner-settings
+  test_workers: { enabled: true, workers: 4 },
 
   test_settings: {
     default: {
@@ -44,10 +47,6 @@ module.exports = {
         chromeOptions: {
           args: ['--window-size=1024,768'],
         },
-      },
-      test_workers: {
-        enabled: false,
-        workers: parseInt(process.env.CONCURRENCY || 1, 10),
       },
     },
     accessibility: {

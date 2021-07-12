@@ -22,10 +22,6 @@ function axeTestPage() {
 }
 
 describe('functionality of Yellow Ribbons', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   it('search the form and expect dom to have elements on success', () => {
     cy.server();
     cy.route({
