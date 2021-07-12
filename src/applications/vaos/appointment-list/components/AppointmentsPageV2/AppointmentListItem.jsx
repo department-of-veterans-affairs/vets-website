@@ -2,6 +2,7 @@ import React from 'react';
 import moment from '../../../lib/moment-tz';
 import {
   getAppointmentTimezone,
+  isClinicVideoAppointment,
   isVAPhoneAppointment,
 } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, VIDEO_TYPES } from '../../../utils/constants';
@@ -14,7 +15,7 @@ function VideoAppointmentDescription({ appointment }) {
   let desc = 'at home';
   if (isAtlas) {
     desc = 'at an ATLAS location';
-  } else if (videoKind === VIDEO_TYPES.clinic) {
+  } else if (isClinicVideoAppointment(appointment)) {
     desc = 'at a VA location';
   } else if (videoKind === VIDEO_TYPES.gfe) {
     desc = 'using a VA device';

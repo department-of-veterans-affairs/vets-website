@@ -12,6 +12,7 @@ import {
   isVAPhoneAppointment,
   isVideoHome,
   getCalendarData,
+  isClinicVideoAppointment,
 } from '../../../services/appointment';
 import {
   APPOINTMENT_STATUS,
@@ -46,7 +47,7 @@ function formatAppointmentDate(date) {
 function formatHeader(appointment) {
   if (appointment.videoData.kind === VIDEO_TYPES.gfe) {
     return 'VA Video Connect using VA device';
-  } else if (appointment.videoData.kind === VIDEO_TYPES.clinic) {
+  } else if (isClinicVideoAppointment(appointment)) {
     return 'VA Video Connect at VA location';
   } else if (appointment.videoData.isAtlas) {
     return 'VA Video Connect at an ATLAS location';

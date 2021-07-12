@@ -68,7 +68,9 @@ describe('Content on the personal information section in the profile', () => {
 
     // Check email
     cy.get('div[data-field-name="email"]')
-      .contains(/veteran@gmail.com/i)
+      .contains(/veteran@/)
+      .contains(/gmail/)
+      .contains(/com/)
       .should('exist');
   });
 });
