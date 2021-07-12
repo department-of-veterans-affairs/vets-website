@@ -6,8 +6,6 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 
-import environment from 'platform/utilities/environment';
-
 import {
   ALLOWED_FILE_TYPES,
   MAX_FILE_SIZE_MB,
@@ -242,40 +240,7 @@ export const RepresentativeIntroContent = () => {
 };
 
 export const RepresentativeAdditionalInfo = () => {
-  return environment.isProduction() ? (
-    <div className="vads-u-margin-top--1">
-      <AdditionalInfo triggerText="What type of document does a legal representative need?">
-        <p>
-          To show that you’re the Veteran’s legal representative, you’ll need to
-          upload one of these current documents:
-        </p>
-
-        <ul>
-          <li>
-            Power of attorney,
-            <strong className="vads-u-margin-left--0p5">or</strong>
-          </li>
-
-          <li>
-            Legal guardianship order,
-            <strong className="vads-u-margin-left--0p5">or</strong>
-          </li>
-
-          <li>
-            Another legal document that confirms your legal status as the
-            Veteran’s representative. This document can be from a federal,
-            state, local, or tribal court.
-          </li>
-        </ul>
-
-        <p className="vads-u-margin-top--4">
-          <strong>Note:</strong> Being a Veteran’s closest family member or next
-          of kin doesn’t mean you’re their representative. You need a separate
-          legal document to show your status as the representative.
-        </p>
-      </AdditionalInfo>
-    </div>
-  ) : (
+  return (
     <div className="vads-u-margin-top--1">
       <AdditionalInfo triggerText="What types of documents does VA accept to show legal representation?">
         <p>
@@ -329,31 +294,7 @@ export const RepresentativeDocumentUploadDescription = () => {
     prependDot,
   );
 
-  return environment.isProduction() ? (
-    <section>
-      <p>
-        You’ll need to scan your document onto the device you’re using to submit
-        this application, such as your computer, tablet, or mobile phone. You
-        can upload your document from there.
-      </p>
-
-      <p>Guidelines for uploading a file:</p>
-      <ul>
-        <li>You can upload a {allowedFileTypes} file</li>
-        <li>
-          Your file should be no larger than {MAX_FILE_SIZE_MB}
-          MB
-        </li>
-      </ul>
-
-      <p>
-        A 1MB file equals about 500 pages of text. A photo is usually about 6MB.
-        Large files can take longer to upload with a slow internet connection.
-      </p>
-
-      <RepresentativeAdditionalInfo />
-    </section>
-  ) : (
+  return (
     <section>
       <p>
         You can upload a scanned copy or photo of your document from the device
