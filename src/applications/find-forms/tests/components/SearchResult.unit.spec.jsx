@@ -96,9 +96,7 @@ describe('Find VA Forms <SearchResult />', () => {
     const tree = mount(
       <SearchResult formMetaInfo={formMetaInfo} form={form} showPDFInfoBox />,
     );
-    expect(tree.html()).to.include(
-      '<va-alert status="info" background-only="true">',
-    );
+    expect(tree.html()).to.include('<va-alert status="info">');
     expect(tree.html()).to.include(
       '<a href="https://www.va.gov/resources/what-if-im-having-trouble-opening-a-pdf/">',
     );

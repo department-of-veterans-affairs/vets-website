@@ -185,10 +185,10 @@ const SearchResult = ({ form, formMetaInfo, showPDFInfoBox }) => {
         <dd>
           <va-alert status="info">
             <div className="usa-alert-text vads-u-font-size--base">
-              <p className="vads-u-margin-top--0">
+              <h3 slot="heading" className="vads-u-margin-top--0">
                 You'll need to download this form and open it in Adobe Acrobat
                 Reader
-              </p>
+              </h3>
               <a href="https://www.va.gov/resources/what-if-im-having-trouble-opening-a-pdf/">
                 Get instructions for opening the form in Acrobat Reader
               </a>
