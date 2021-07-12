@@ -3,13 +3,13 @@ import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect } from 'react-redux';
+
 import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
   WIZARD_STATUS_RESTARTED,
   restartShouldRedirect,
 } from 'platform/site-wide/wizard';
-
 import formConfig from '../config/form';
 import ErrorMessage from '../components/ErrorMessage';
 import WizardContainer from '../wizard/WizardContainer';

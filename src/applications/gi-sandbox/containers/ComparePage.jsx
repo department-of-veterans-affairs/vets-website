@@ -21,6 +21,8 @@ import {
   removeCompareInstitution,
 } from '../actions';
 import { estimatedBenefits } from '../selectors/estimator';
+import { getCalculatedBenefits } from '../selectors/calculator';
+import { getCompareCalculatorState } from '../selectors/compare';
 import {
   convertRatingToStars,
   formatCurrency,
@@ -40,6 +42,7 @@ export function ComparePage({
   estimated,
   filters,
   preview,
+  calculated,
 }) {
   const [showDifferences, setShowDifferences] = useState(false);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
@@ -153,6 +156,8 @@ export function ComparePage({
   }
 
   const programHours = programLength => {
+    if (!programLength) return 'N/A';
+
     const maxHours = Math.max(...programLength);
     const minHours = Math.min(...programLength);
     if (
@@ -334,20 +339,28 @@ export function ComparePage({
             showDifferences={showDifferences}
             fieldData={[
               {
-                // story #24874 mock data
                 label: 'Tuition and fees',
                 mapper: institution =>
-                  formatCurrency(institution.feesAndTuition),
+                  formatCurrency(
+                    calculated[institution.facilityCode].outputs
+                      .tuitionAndFeesCharged.value,
+                  ),
               },
               {
-                // story #24874 mock data
                 label: 'Gi Bill pays to school',
                 mapper: institution =>
-                  formatCurrency(institution.feesAndTuition),
+                  formatCurrency(
+                    calculated[institution.facilityCode].outputs
+                      .giBillPaysToSchool.value,
+                  ),
               },
               {
                 label: 'Out of pocket tuition',
-                mapper: () => '$0',
+                mapper: institution =>
+                  formatCurrency(
+                    calculated[institution.facilityCode].outputs
+                      .outOfPocketTuition.value,
+                  ),
               },
             ]}
           />
@@ -597,11 +610,23 @@ const mapStateToProps = state => {
     _.difference(state.compare.selected, state.compare.details.loaded)
       .length === 0;
   const estimated = {};
+  const calculated = {};
 
   if (allLoaded) {
     state.compare.selected.forEach(facilityCode => {
       estimated[facilityCode] = estimatedBenefits(state, {
         institution: state.compare.details.institutions[facilityCode],
+      });
+      calculated[facilityCode] = getCalculatedBenefits({
+        ...state,
+        calculator: getCompareCalculatorState(
+          state.calculator,
+          state.compare.details.institutions[facilityCode],
+          state.constants,
+        ),
+        profile: {
+          attributes: state.compare.details.institutions[facilityCode],
+        },
       });
     });
   }
@@ -610,6 +635,7 @@ const mapStateToProps = state => {
     allLoaded,
     compare: state.compare,
     estimated,
+    calculated,
     filters: state.filters,
     preview: state.preview,
   };

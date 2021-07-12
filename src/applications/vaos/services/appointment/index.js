@@ -287,6 +287,21 @@ export function isVAPhoneAppointment(appointment) {
 }
 
 /**
+ * Returns true if the appointment is a video appointment
+ * where the Veteran needs to go to a clinic, rather than stay at home
+ *
+ * @export
+ * @param {Appointment} appointment
+ * @returns {boolean} True if appointment is a clinic or store forward appointment
+ */
+export function isClinicVideoAppointment(appointment) {
+  return (
+    appointment?.videoData.kind === VIDEO_TYPES.clinic ||
+    appointment?.videoData.kind === VIDEO_TYPES.storeForward
+  );
+}
+
+/**
  * Returns the location ID of a VA appointment (in person or video)
  *
  * @export
@@ -297,7 +312,7 @@ export function getVAAppointmentLocationId(appointment) {
   if (
     appointment?.vaos.isVideo &&
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
-    appointment?.videoData.kind !== VIDEO_TYPES.clinic
+    !isClinicVideoAppointment(appointment)
   ) {
     return appointment?.location.vistaId;
   }
@@ -873,7 +888,7 @@ export function getCalendarData({ appointment, facility }) {
         if (providerName)
           data.additionalText.push(`You'll be meeting with ${providerName}`);
       }
-    } else if (videoKind === VIDEO_TYPES.clinic) {
+    } else if (isClinicVideoAppointment(appointment)) {
       data = {
         summary: `VA Video Connect appointment at ${facility?.name ||
           'a VA location'}`,

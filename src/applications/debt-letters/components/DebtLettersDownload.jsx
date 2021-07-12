@@ -25,9 +25,9 @@ const ErrorAlert = () => (
       </p>
       <h4>What you can do</h4>
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
-        You can check back later or call the Debt Management Center at{' '}
-        <Telephone contact="8008270648" /> to find out more information about
-        how to resolve your debt.
+        You can check back later or call the Debt Management Center at
+        <Telephone className="vads-u-margin-x--0p5" contact="8008270648" /> to
+        find out more information about how to resolve your debt.
       </p>
     </div>
   </div>
@@ -65,9 +65,11 @@ const NoDebtLinks = () => (
         at <Telephone contact="8008270648" />.
       </p>
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
-        If you have VA health care copay debt, go to our{' '}
-        <a href="/health-care/pay-copay-bill/">Pay your VA copay bill</a> page
-        to learn about your payment options.
+        If you have VA health care copay debt, go to our
+        <a className="vads-u-margin-x--0p5" href="/health-care/pay-copay-bill/">
+          Pay your VA copay bill
+        </a>
+        page to learn about your payment options.
       </p>
     </div>
   </div>
@@ -155,7 +157,8 @@ const DebtLettersDownload = ({
               className="vads-u-font-family--sans vads-u-font-size--sm"
               to="/"
             >
-              <i className="fa fa-chevron-left" /> Return to your list of debts.
+              <i aria-hidden="true" className="fa fa-chevron-left" /> Return to
+              your list of debts.
             </Link>
           </p>
         </div>

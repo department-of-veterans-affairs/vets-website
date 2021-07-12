@@ -18,6 +18,7 @@ import {
   getVAAppointmentLocationId,
   isVAPhoneAppointment,
   getCalendarData,
+  isClinicVideoAppointment,
 } from '../../../../services/appointment';
 import AdditionalInfoRow from '../AdditionalInfoRow';
 import { VideoVisitInstructions } from './VideoInstructions';
@@ -58,7 +59,7 @@ export default function ConfirmedAppointmentListItem({
   const showVideoInstructions =
     isVideo &&
     appointment.comment &&
-    videoKind !== VIDEO_TYPES.clinic &&
+    !isClinicVideoAppointment(appointment) &&
     videoKind !== VIDEO_TYPES.gfe;
 
   const showProvider = isVideo && !!appointment.videoData.providers?.length;
@@ -82,7 +83,7 @@ export default function ConfirmedAppointmentListItem({
   if (isAtlas) {
     header = 'VA Video Connect';
     subHeader = ' at an ATLAS location';
-  } else if (videoKind === VIDEO_TYPES.clinic) {
+  } else if (isClinicVideoAppointment(appointment)) {
     header = 'VA Video Connect';
     subHeader = ' at a VA location';
   } else if (videoKind === VIDEO_TYPES.gfe) {
