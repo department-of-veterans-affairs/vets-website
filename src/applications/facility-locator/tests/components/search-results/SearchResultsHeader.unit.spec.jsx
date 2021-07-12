@@ -5,10 +5,10 @@ import { SearchResultsHeader } from '../../../components/SearchResultsHeader';
 import { LocationType } from '../../../constants';
 
 describe('SearchResultsHeader', () => {
-  it('should not render header if results are empty', () => {
+  it('should render header if results are empty', () => {
     const wrapper = shallow(<SearchResultsHeader results={[]} />);
 
-    expect(wrapper.find('h2').length).to.equal(0);
+    expect(wrapper.find('h2').text()).to.equal('No results found for ""');
     wrapper.unmount();
   });
 

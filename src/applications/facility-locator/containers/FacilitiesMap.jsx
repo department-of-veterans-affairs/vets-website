@@ -114,6 +114,10 @@ const FacilitiesMap = props => {
   };
 
   const renderMarkers = locations => {
+    if (searchResultTitleRef.current) {
+      setFocus(searchResultTitleRef.current);
+    }
+
     if (locations.length === 0) return;
     const markersLetters = MARKER_LETTERS.values();
 
@@ -147,9 +151,6 @@ const FacilitiesMap = props => {
       locationBounds.extend(
         new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
       );
-    }
-    if (searchResultTitleRef.current) {
-      setFocus(searchResultTitleRef.current);
     }
   };
 
