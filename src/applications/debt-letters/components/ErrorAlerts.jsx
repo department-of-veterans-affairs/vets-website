@@ -28,7 +28,10 @@ export const ErrorMessage = () => (
 
 export const DowntimeMessage = () => {
   return (
-    <va-alert class="vads-u-margin-bottom--4 vads-u-font-size--base">
+    <va-alert
+      status="error"
+      class="vads-u-margin-bottom--4 vads-u-font-size--base"
+    >
       <h3 slot="headline">"Nightly tool maintenance"</h3>
 
       <p>
@@ -48,7 +51,7 @@ export const DowntimeMessage = () => {
           href="/manage-va-debt/your-debt/debt-letters"
           className="vads-u-margin-x--0p5"
         >
-          Download your debt letters.
+          download your debt letters.
         </a>
         If you need help resolving a debt, or you would like to get information
         about a debt that has been resolved, call the Debt Management Center at
