@@ -86,7 +86,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByText('Please choose a type of care')).to.exist;
+    expect(await screen.findByText('What care do you need?')).to.exist;
     expect(screen.history.push.called).to.not.be.true;
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
@@ -166,7 +166,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     await waitFor(
       () => expect(screen.queryByText(/podiatry appointments/i)).not.to.exist,
     );
-    expect(screen.getByText(/please choose a type of care/i)).to.exist;
+    expect(screen.getByText(/what care do you need?/i)).to.exist;
   });
 
   it('should open facility type page when CC eligible and has a support parent site', async () => {
