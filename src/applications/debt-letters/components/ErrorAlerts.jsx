@@ -28,7 +28,7 @@ export const ErrorMessage = () => (
 
 export const DowntimeMessage = () => {
   return (
-    <va-alert>
+    <va-alert class="vads-u-margin-bottom--4 vads-u-font-size--base">
       <h3 slot="headline">"Nightly tool maintenance"</h3>
 
       <p>
@@ -44,7 +44,10 @@ export const DowntimeMessage = () => {
       <h4>What can you do</h4>
       <p>
         You can still
-        <a href="/manage-va-debt/your-debt/debt-letters">
+        <a
+          href="/manage-va-debt/your-debt/debt-letters"
+          className="vads-u-margin-x--0p5"
+        >
           Download your debt letters.
         </a>
         If you need help resolving a debt, or you would like to get information
