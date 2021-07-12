@@ -80,7 +80,7 @@ const testConfig = createTestConfig(
         cy.get('@testData').then(data => {
           cy.fillPage();
           if (data['view:isBddData']) {
-            cy.get('select[name$="_dateRange_toMonth"]').select(
+            cy.get('sselect[name$="_dateRange_toMonth"]').select(
               todayPlus120[1],
             );
             cy.get('select[name$="_dateRange_toDay"]').select(todayPlus120[2]);
