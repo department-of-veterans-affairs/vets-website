@@ -4,7 +4,7 @@
   "description": "Department of Veterans Affairs forms library.",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf ./dist && tsc",
     "watch": "tsc --watch",
     "test": "jest",
     "prepare": "husky install"
