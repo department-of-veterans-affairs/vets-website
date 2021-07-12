@@ -13,6 +13,7 @@ import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
 import SchoolRatings from './SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
+import GettingStartedWithBenefits from '../profile/GettingStartedWithBenefits';
 import Academics from './Academics';
 
 export default function InstitutionProfile({
@@ -91,7 +92,9 @@ export default function InstitutionProfile({
       <ProfileSection
         label="Getting started with benefits"
         id="getting-started-with-benefits"
-      />
+      >
+        <GettingStartedWithBenefits />
+      </ProfileSection>
       {displayStars && (
         <ProfileSection label="Veteran ratings" id="veteran-ratings">
           <div id="profile-school-ratings">

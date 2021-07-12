@@ -42,7 +42,11 @@ export const DebtLettersTable = ({ debtLinks }) => {
             tabIndex="-1"
             scope="row"
           >
-            Date <i className="fas fa-sort vads-u-margin-left--0p5" />
+            Date
+            <i
+              aria-hidden="true"
+              className="fas fa-sort vads-u-margin-left--0p5"
+            />
           </th>
           <th
             className="vads-u-border--0"
@@ -50,7 +54,11 @@ export const DebtLettersTable = ({ debtLinks }) => {
             tabIndex="-1"
             scope="row"
           >
-            Type <i className="fas fa-sort vads-u-margin-left--0p5" />
+            Type
+            <i
+              className="fas fa-sort vads-u-margin-left--0p5"
+              aria-hidden="true"
+            />
           </th>
           <th className="vads-u-border--0" scope="row">
             Action
