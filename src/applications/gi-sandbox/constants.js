@@ -90,6 +90,11 @@ export const ariaLabels = Object.freeze({
     militaryTuitionAssistance:
       'Learn more about how military tuition assistance affects your benefits',
     inState: 'Learn more about qualifying for in-state tuition.',
+    accreditation:
+      'Learn more about the different accreditation types and why it matters',
+    militaryTrainingCredit: 'Learn more about credit for military training',
+    independentStudy: 'Learn more about Independent study',
+    priorityEnrollment: 'Learn more about priority enrollment',
     singlePoint: 'Learn more about single point of contact for Veterans',
     facilityCode: 'Learn more about the VA facility code',
     ipedsCode: 'Learn more about the ED IPEDS code',
