@@ -308,3 +308,6 @@ export function isURL(str) {
   ); // fragment locator
   return !!pattern.test(str);
 }
+
+export const upperCaseFirstLetterOnly = str =>
+  str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
