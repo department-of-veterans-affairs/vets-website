@@ -59,10 +59,6 @@ const mockFetchSuggestions = () => {
 };
 
 describe('Site-wide Search general functionality', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   beforeEach(function() {
     cy.server();
   });
@@ -97,10 +93,6 @@ describe('Site-wide Search general functionality', () => {
 });
 
 describe('Site-wide Search functionality with typeahead disabled', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   beforeEach(function() {
     cy.server();
   });
@@ -120,10 +112,6 @@ describe('Site-wide Search functionality with typeahead disabled', () => {
 });
 
 describe('Site-wide Search functionality with typeahead enabled', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   beforeEach(function() {
     cy.server();
   });
