@@ -4,26 +4,8 @@ import { upperCaseFirstLetterOnly } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 
 export default function Academics({ institution, onShowModal }) {
-  const accreditation =
-    institution.accredited && institution.accreditationType
-      ? upperCaseFirstLetterOnly(institution.accreditationType)
-      : 'None';
+  const accredited = institution.accredited && institution.accreditationType;
 
-  const accreditors = (
-    <>
-      (
-      <a
-        href={`http://nces.ed.gov/collegenavigator/?id=${
-          institution.cross
-        }#accred`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        See accreditors
-      </a>
-      )
-    </>
-  );
   const typeOfAccreditation = (
     <div aria-live="off">
       <strong>
@@ -36,7 +18,22 @@ export default function Academics({ institution, onShowModal }) {
         :
       </strong>
       &nbsp;
-      {accreditation} {institution.accredited && accreditors}
+      {accredited && (
+        <>
+          {upperCaseFirstLetterOnly(institution.accreditationType)} (
+          <a
+            href={`http://nces.ed.gov/collegenavigator/?id=${
+              institution.cross
+            }#accred`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            See accreditors
+          </a>
+          )
+        </>
+      )}
+      {!accredited && 'None'}
     </div>
   );
 
