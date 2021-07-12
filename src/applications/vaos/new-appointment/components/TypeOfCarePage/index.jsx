@@ -88,7 +88,7 @@ export default function TypeOfCarePage() {
     },
     uiSchema: {
       typeOfCareId: {
-        'ui:title': 'Please choose a type of care',
+        'ui:title': 'What care do you need?',
         'ui:widget': 'radio',
       },
     },

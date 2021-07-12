@@ -15,7 +15,7 @@ export const issueName = ({ formData, formContext } = {}) => {
       className="schemaform-block-title schemaform-title-underline"
       aria-describedby={`area-of-disagreement-label-${index}`}
     >
-      {getIssueName(formData)}
+      <h3 className="vads-u-margin-top--0">{getIssueName(formData)}</h3>
     </legend>
   );
 };
@@ -57,20 +57,10 @@ const titles = {
   other: 'Something else',
 };
 
-const headerClasses = [
-  'vads-u-display--inline-block',
-  'vads-u-font-size--base',
-  'vads-u-font-family--sans',
-  'vads-u-font-weight--normal',
-  'vads-u-margin-y--0',
-].join(' ');
-
-const wrapHeader = text => <h3 className={headerClasses}>{text}</h3>;
-
-export const serviceConnection = wrapHeader(titles.serviceConnection);
-export const effectiveDate = wrapHeader(titles.effectiveDate);
-export const evaluation = wrapHeader(titles.evaluation);
-export const other = wrapHeader(titles.other);
+export const serviceConnection = titles.serviceConnection;
+export const effectiveDate = titles.effectiveDate;
+export const evaluation = titles.evaluation;
+export const other = titles.other;
 export const otherLabel = 'Tell us what you disagree with:';
 // Includes _{index} which is appended by the TextWidget
 export const otherDescription = ({ index }) => (
@@ -82,12 +72,11 @@ export const otherDescription = ({ index }) => (
   </div>
 );
 
+// Only show set values (ignore false & undefined)
 export const AreaOfDisagreementReviewField = ({ children }) =>
   children?.props.formData ? (
     <div className="review-row">
-      <dt>
-        <h5 className={headerClasses}>{titles[children.props.name]}</h5>
-      </dt>
+      <dt>{titles[children.props.name]}</dt>
       <dd>{children}</dd>
     </div>
   ) : null;

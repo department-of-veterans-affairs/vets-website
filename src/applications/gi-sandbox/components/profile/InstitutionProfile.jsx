@@ -15,6 +15,7 @@ import CalculateYourBenefits from '../../containers/CalculateYourBenefits';
 import { convertRatingToStars } from '../../utils/helpers';
 import SchoolRatings from './SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
+import GettingStartedWithBenefits from '../profile/GettingStartedWithBenefits';
 
 export class InstitutionProfile extends React.Component {
   static propTypes = {
@@ -100,7 +101,9 @@ export class InstitutionProfile extends React.Component {
         <ProfileSection
           label="Getting started with benefits"
           id="getting-started-with-benefits"
-        />
+        >
+          <GettingStartedWithBenefits />
+        </ProfileSection>
         {displayStars && (
           <ProfileSection label="Veteran ratings" id="veteran-ratings">
             <div id="profile-school-ratings">

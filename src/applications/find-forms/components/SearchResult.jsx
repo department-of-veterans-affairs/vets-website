@@ -1,6 +1,7 @@
 // Node modules.
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 // Relative imports.
 import * as customPropTypes from '../prop-types';
 import {
@@ -104,7 +105,7 @@ const deriveRelatedTo = ({
   return null;
 };
 
-const SearchResult = ({ form, formMetaInfo }) => {
+const SearchResult = ({ form, formMetaInfo, showPDFInfoBox }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
     return null;
@@ -180,6 +181,21 @@ const SearchResult = ({ form, formMetaInfo }) => {
           </a>
         </dd>
       ) : null}
+      {showPDFInfoBox ? (
+        <dd className="vads-u-margin-bottom--2">
+          <va-alert status="info">
+            <div className="usa-alert-text vads-u-font-size--base">
+              <h3 slot="heading" className="vads-u-margin-top--0">
+                You'll need to download this form and open it in Adobe Acrobat
+                Reader
+              </h3>
+              <a href="https://www.va.gov/resources/what-if-im-having-trouble-opening-a-pdf/">
+                Get instructions for opening the form in Acrobat Reader
+              </a>
+            </div>
+          </va-alert>
+        </dd>
+      ) : null}
       <dd className="vads-u-margin-bottom--5">
         <a
           className="find-forms-max-content vads-u-text-decoration--none"
@@ -207,6 +223,7 @@ const SearchResult = ({ form, formMetaInfo }) => {
 SearchResult.propTypes = {
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
+  showPDFInfoBox: PropTypes.bool,
 };
 
 export default SearchResult;
