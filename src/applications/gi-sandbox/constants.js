@@ -90,5 +90,9 @@ export const ariaLabels = Object.freeze({
     militaryTuitionAssistance:
       'Learn more about how military tuition assistance affects your benefits',
     inState: 'Learn more about qualifying for in-state tuition.',
+    singlePoint: 'Learn more about single point of contact for Veterans',
+    facilityCode: 'Learn more about the VA facility code',
+    ipedsCode: 'Learn more about the ED IPEDS code',
+    opeCode: 'Learn more about the ED OPE code',
   },
 });

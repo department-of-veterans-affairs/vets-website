@@ -4,6 +4,10 @@ import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
 import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
+import SinglePointModalContent from '../components/content/modals/SinglePointModalContent';
+import FacilityCodeModalContent from '../components/content/modals/FacilityCodeModalContent';
+import OpeCodeModalContent from '../components/content/modals/OpeCodeModalContent';
+import IpedsCodeModalContent from '../components/content/modals/IpedsCodeModalContent';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -490,11 +494,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('singleContact')}
         elementToFocusOnClose="singleContact-button"
       >
-        <h3>Single point of contact for Veterans</h3>
-        <p>
-          Does the school have a dedicated point of contact for support services
-          for Veterans, military service members, and their families?
-        </p>
+        <SinglePointModalContent />
       </Modal>
 
       <Modal
@@ -641,8 +641,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('facilityCode')}
         elementToFocusOnClose="facilityCode-button"
       >
-        <h3>VA facility code</h3>
-        <p>Unique identifier for VA-approved facilities.</p>
+        <FacilityCodeModalContent />
       </Modal>
 
       <Modal
@@ -650,12 +649,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('ipedsCode')}
         elementToFocusOnClose="ipedsCode-button"
       >
-        <h3>ED IPEDS code</h3>
-        <p>
-          Unique identification number assigned to postsecondary institutions
-          surveyed through the Integrated Postsecondary Education Data System
-          (IPEDS). Also referred to as UNITID or IPEDS ID.
-        </p>
+        <IpedsCodeModalContent />
       </Modal>
 
       <Modal
@@ -663,14 +657,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('opeCode')}
         elementToFocusOnClose="opeCode-button"
       >
-        <h3>ED OPE code</h3>
-        <p>
-          Identification number used by the U.S. Department of {'Education’s'}{' '}
-          Office of Postsecondary Education (OPE) to identify schools that have
-          Program Participation Agreements (PPA) so that its students are
-          eligible to participate in Federal Student Financial Assistance
-          programs under Title IV regulations.
-        </p>
+        <OpeCodeModalContent />
       </Modal>
     </span>
   );
