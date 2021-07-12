@@ -227,6 +227,7 @@ SchemaForm.propTypes = {
   onChange: PropTypes.func,
   hideTitle: PropTypes.bool,
   addNameAttribute: PropTypes.bool,
+  stopPropagation: PropTypes.bool,
 };
 
 SchemaForm.defaultProps = {
@@ -239,6 +240,8 @@ SchemaForm.defaultProps = {
   // re: the implicit role:
   // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form
   addNameAttribute: false,
+  // Prevent submit event from propagating up past the form element
+  stopPropagation: false,
 };
 
 export default SchemaForm;
