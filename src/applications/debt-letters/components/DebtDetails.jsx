@@ -147,7 +147,11 @@ const DebtDetails = ({ selectedDebt }) => {
             </dl>
           </div>
 
-          <va-alert status="info" backgroundOnly>
+          <va-alert
+            className="vads-u-margin-y--4 debt-details-alert"
+            status="info"
+            backgroundOnly
+          >
             {additionalInfo.nextStep}
           </va-alert>
 

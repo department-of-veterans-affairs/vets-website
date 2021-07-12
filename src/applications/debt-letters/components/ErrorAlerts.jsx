@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const ErrorMessage = () => (
