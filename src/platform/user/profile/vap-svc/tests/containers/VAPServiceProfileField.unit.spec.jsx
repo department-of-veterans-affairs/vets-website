@@ -122,7 +122,6 @@ describe('<VAPServiceProfileField/>', () => {
     expect(props.ValidationModal.called).to.be.true;
 
     const args = props.ValidationModal.getCall(0).args[0];
-
     expect(
       args,
       'No props were passed to the ValidationModal constructor',
