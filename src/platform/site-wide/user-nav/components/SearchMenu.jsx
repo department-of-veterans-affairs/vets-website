@@ -15,6 +15,7 @@ import DropDownPanel from '@department-of-veterans-affairs/component-library/Dro
 import { apiRequest } from 'platform/utilities/api';
 
 const ENTER_KEY = 13;
+const SPACE_KEY = 32;
 
 export class SearchMenu extends React.Component {
   constructor(props) {
@@ -29,6 +30,29 @@ export class SearchMenu extends React.Component {
       savedSuggestions: [],
       highlightedIndex: null,
     };
+  }
+  componentDidMount() {
+    document.addEventListener('keyup', () => {
+      if (
+        ((event.which || event.keyCode) === SPACE_KEY ||
+          (event.which || event.keyCode) === ENTER_KEY) &&
+        document.activeElement?.id === 'sitewide-search-submit-button'
+      ) {
+        this.handleSearchEvent();
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keyup', () => {
+      if (
+        ((event.which || event.keyCode) === SPACE_KEY ||
+          (event.which || event.keyCode) === ENTER_KEY) &&
+        document.activeElement?.id === 'sitewide-search-submit-button'
+      ) {
+        this.handleSearchEvent();
+      }
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -262,6 +286,7 @@ export class SearchMenu extends React.Component {
     if (!searchTypeaheadEnabled) {
       return (
         <form
+          className="vads-u-margin-bottom--0"
           acceptCharset="UTF-8"
           onSubmit={event => {
             event.preventDefault();
@@ -337,6 +362,7 @@ export class SearchMenu extends React.Component {
               <button
                 type="submit"
                 disabled={!isUserInputValid()}
+                id="sitewide-search-submit-button"
                 data-e2e-id="sitewide-search-submit-button"
                 className="vads-u-margin-left--0p5 vads-u-margin-y--1 vads-u-margin-right--1 vads-u-flex--1"
                 onMouseDown={event => {

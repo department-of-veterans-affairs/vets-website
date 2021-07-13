@@ -59,10 +59,6 @@ const mockFetchSuggestions = () => {
 };
 
 describe('Site-wide Search general functionality', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   beforeEach(function() {
     cy.server();
   });
@@ -97,10 +93,6 @@ describe('Site-wide Search general functionality', () => {
 });
 
 describe('Site-wide Search functionality with typeahead disabled', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   beforeEach(function() {
     cy.server();
   });
@@ -120,15 +112,11 @@ describe('Site-wide Search functionality with typeahead disabled', () => {
 });
 
 describe('Site-wide Search functionality with typeahead enabled', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   beforeEach(function() {
     cy.server();
   });
 
-  it('shows suggestions when user input is present and typeahead is enabled', () => {
+  it('shows suggestions when user input is present and typeahead is enabled - C5371', () => {
     mockFeatureToggles();
     mockFetchSuggestions();
     prepareSearch('benefits');
@@ -138,7 +126,7 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
       .should('have.length', 5);
   });
 
-  it('Focusing the search button hides user input', () => {
+  it('Focusing the search button hides user input - C5372', () => {
     mockFeatureToggles();
     mockFetchSuggestions();
     prepareSearch('benefits');
@@ -150,7 +138,7 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
     cy.get('#suggestions-list').should('not.exist');
   });
 
-  it('Focusing the input field repopulates suggestions', () => {
+  it('Focusing the input field repopulates suggestions - C5373', () => {
     mockFeatureToggles();
     mockFetchSuggestions();
     prepareSearch('health');
@@ -167,7 +155,7 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
       .should('have.length', 5);
   });
 
-  it('Clicking search button initiates search for input - typeahead enabled', () => {
+  it('Clicking search button initiates search for input - typeahead enabled - C5374', () => {
     mockFeatureToggles();
     mockFetchSuggestions();
     prepareSearch('health');
@@ -175,7 +163,7 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
     cy.url().should('contain', '/search/?query=health');
   });
 
-  it('Pressing enter (focus on input field) initiates search for input - typeahead enabled', () => {
+  it('Pressing enter (focus on input field) initiates search for input - typeahead enabled - C5375', () => {
     mockFeatureToggles();
     mockFetchSuggestions();
     prepareSearch('health');
@@ -183,7 +171,27 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
     cy.url().should('contain', '/search/?query=health');
   });
 
-  it('Clicking a dropdown option initiates a search using the suggestion', () => {
+  it('Pressing enter (focus on search button) initiates search for input - typeahead enabled - C5376', () => {
+    mockFeatureToggles();
+    mockFetchSuggestions();
+    prepareSearch('benefits');
+    cy.get('[data-e2e-id="sitewide-search-submit-button"]')
+      .focus()
+      .type('{enter}');
+    cy.url().should('contain', '/search/?query=benefits');
+  });
+
+  it('Pressing space (focus on search button) initiates search for input - typeahead enabled - C5377', () => {
+    mockFeatureToggles();
+    mockFetchSuggestions();
+    prepareSearch('health');
+    cy.get('[data-e2e-id="sitewide-search-submit-button"]')
+      .focus()
+      .type(' ');
+    cy.url().should('contain', '/search/?query=health');
+  });
+
+  it('Clicking a dropdown option initiates a search using the suggestion - C5378', () => {
     mockFeatureToggles();
     mockFetchSuggestions();
     prepareSearch('health');
@@ -195,7 +203,7 @@ describe('Site-wide Search functionality with typeahead enabled', () => {
     cy.url().should('contain', '/search/?query=health%20response%203');
   });
 
-  it('Can use the arrow keys to navigate suggestions, and press enter to search using them', () => {
+  it('Can use the arrow keys to navigate suggestions, and press enter to search using them - C5379', () => {
     mockFeatureToggles();
     mockFetchSuggestions();
     prepareSearch('benefits');

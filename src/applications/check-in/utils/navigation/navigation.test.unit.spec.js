@@ -1,21 +1,46 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { goToNextPageWithToken } from './index';
+import { goToNextPage, getTokenFromLocation } from './index';
 
-describe('health care check in -- utils -- navigation', () => {
-  describe('goToNextPageWithToken', () => {
-    it('calls push on the route with correct params', () => {
-      const push = sinon.spy();
-      const mockRouter = {
-        push,
-        params: {
-          token: 'some-token',
-        },
-      };
-      const target = 'magic';
-      goToNextPageWithToken(mockRouter, target);
-      expect(push.called).to.be.true;
-      expect(push.calledWith(`/some-token/magic`));
+describe('check in', () => {
+  describe('navigation utils', () => {
+    describe('getTokenFromLocation', () => {
+      it('returns the id of the query object of the location provided', () => {
+        const location = {
+          query: {
+            id: 'magic',
+          },
+        };
+        const result = getTokenFromLocation(location);
+        expect(result).to.equal('magic');
+      });
+      it('returns undefined if location is undefined', () => {
+        const location = undefined;
+        const result = getTokenFromLocation(location);
+        expect(result).to.be.undefined;
+      });
+      it('returns undefined if location.query is undefined', () => {
+        const location = {
+          query: undefined,
+        };
+        const result = getTokenFromLocation(location);
+        expect(result).to.be.undefined;
+      });
+    });
+    describe('goToNextPage', () => {
+      it('calls .push() of the object passed in with the string that was provided', () => {
+        const push = sinon.spy();
+        const mockRouter = {
+          push,
+          params: {
+            token: 'some-token',
+          },
+        };
+        const target = 'magic';
+        goToNextPage(mockRouter, target);
+        expect(push.called).to.be.true;
+        expect(push.calledWith(`magic`));
+      });
     });
   });
 });

@@ -198,12 +198,6 @@ export const formData = formValues => {
   };
 };
 
-export const elementTopOffset = el => {
-  const rect = el.getBoundingClientRect();
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  return rect.top + scrollTop;
-};
-
 export const answerReview = (key, formValues) => {
   const ans = formValues[key];
   const dischargeYearLabel = prevApplicationYearCutoff[formValues['4_reason']];

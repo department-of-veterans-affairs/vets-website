@@ -1,63 +1,105 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import moment from 'moment-timezone';
 
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { focusElement } from 'platform/utilities/ui';
 
-import { goToNextPageWithToken, getTokenFromRouter } from '../utils/navigation';
-
+import { goToNextPage, URLS } from '../utils/navigation';
 import { checkInUser } from '../api';
 
+import BackToHome from '../components/BackToHome';
+import Footer from '../components/Footer';
+
 const CheckIn = props => {
-  const { router } = props;
-  const token = getTokenFromRouter(router);
+  const { router, appointment } = props;
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
+
+  if (!appointment) {
+    goToNextPage(router, URLS.SEE_STAFF);
+    return <></>;
+  }
+
   const onClick = async () => {
-    const json = await checkInUser({ some: 'data', token });
+    const token = appointment.uuid;
+    setIsLoading(true);
+    const json = await checkInUser({
+      token,
+    });
     const { data } = json;
-    if (data.status === 'checked-in') {
-      goToNextPageWithToken(router, 'confirmed');
+    if (data.checkInStatus === 'completed') {
+      goToNextPage(router, URLS.COMPLETE);
     } else {
-      goToNextPageWithToken(router, 'failed');
+      goToNextPage(router, URLS.SEE_STAFF);
     }
   };
-  const contactNumber = '555-867-5309';
+
+  const appointmentDate = moment(new Date(appointment.appointmentTime)).format(
+    'dddd, MMMM D, YYYY',
+  );
+  const usersTimeZone = moment.tz.guess();
+  const timeZone = moment()
+    .tz(usersTimeZone)
+    .zoneAbbr();
+  const appointmentTime = moment(new Date(appointment.appointmentTime)).format(
+    `h:mm`,
+  );
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
-      <h1 tabIndex="-1">Your appointment</h1>
+      <h1
+        tabIndex="-1"
+        aria-label={`Your appointment on ${appointmentDate} at ${appointmentTime} ${timeZone}`}
+      >
+        {' '}
+        Your appointment
+      </h1>
       <dl className="appointment-summary">
         <dd
           className="appointment-details vads-u-font-weight--bold vads-u-font-family--serif"
           data-testid="appointment-date"
         >
-          Friday, September 25, 2020
+          {appointmentDate}
         </dd>
         <dd
           className="appointment-details vads-u-font-weight--bold vads-u-margin-bottom--3 vads-u-font-family--serif"
           data-testid="appointment-time"
         >
-          9:30 a.m. ET
+          {appointmentTime} {timeZone}
         </dd>
         <dt className="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--1">
           Clinic:{' '}
         </dt>
-        <dd data-testid="clinic-name">Green Team Clinic1</dd>
+        <dd data-testid="clinic-name">{appointment.clinicName}</dd>
       </dl>
       <button
         type="button"
         className="usa-button usa-button-big"
         onClick={onClick}
         data-testid="check-in-button"
+        disabled={isLoading}
+        aria-label="Check in now for your appointment"
       >
-        Check in now
+        {isLoading ? <>Loading...</> : <>Check in now</>}
       </button>
-      <footer className="row">
-        <h2 className="help-heading vads-u-font-size--lg">Need help?</h2>
-        <p>
-          Ask a staff member or call us at <Telephone contact={contactNumber} />
-          .
-        </p>
-      </footer>
+      <Footer />
+      <BackToHome />
     </div>
   );
 };
 
-export default CheckIn;
+const mapStateToProps = state => {
+  return {
+    appointment: state.checkInData.appointment,
+  };
+};
+const mapDispatchToProps = () => {
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CheckIn);

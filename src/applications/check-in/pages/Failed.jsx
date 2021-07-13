@@ -1,21 +1,17 @@
-import React from 'react';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import React, { useEffect } from 'react';
+import BackToHome from '../components/BackToHome';
+import Footer from '../components/Footer';
+import { focusElement } from 'platform/utilities/ui';
 
 const Failed = () => {
-  const contactNumber = '555-867-5309';
-
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
       <h1 tabIndex="-1">Please check in with a staff member.</h1>
-
-      <footer className="row">
-        <h2 className="help-heading vads-u-font-size--lg">
-          Not sure who to check in with?
-        </h2>
-        <p>
-          Call us at <Telephone contact={contactNumber} />.
-        </p>
-      </footer>
+      <Footer header={'Not sure who to check in with?'} />
+      <BackToHome />
     </div>
   );
 };
