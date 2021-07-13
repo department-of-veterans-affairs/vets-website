@@ -353,7 +353,7 @@ export class Modals extends React.Component {
               allowance is based on 50% of the national average.
             </p>
             <p>
-              Through Dec. 21, 2020, current and new students can receive
+              Through Dec. 21, 2021, current and new students can receive
               in-person allowance rates if their school’s approved program
               changed from in-person to online learning due to COVID-19.
             </p>

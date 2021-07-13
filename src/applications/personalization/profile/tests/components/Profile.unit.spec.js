@@ -275,6 +275,7 @@ describe('mapStateToProps', () => {
       'shouldFetchEDUDirectDepositInformation',
       'shouldFetchTotalDisabilityRating',
       'shouldShowDirectDeposit',
+      'shouldShowNotificationSettings',
       'isDowntimeWarningDismissed',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);

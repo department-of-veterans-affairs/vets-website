@@ -3,6 +3,7 @@ import PersonalInformation from './components/personal-information/PersonalInfor
 import MilitaryInformation from './components/military-information/MilitaryInformation';
 import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
+import NotificationSettings from './components/notification-settings/NotificationSettings';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 
 const getRoutes = options => {
@@ -29,6 +30,13 @@ const getRoutes = options => {
       requiresMVI: true,
     },
     {
+      component: NotificationSettings,
+      name: PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS,
+      path: PROFILE_PATHS.NOTIFICATION_SETTINGS,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
+    {
       component: AccountSecurity,
       name: PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
       path: PROFILE_PATHS.ACCOUNT_SECURITY,
@@ -45,7 +53,15 @@ const getRoutes = options => {
   ];
 
   if (options.removeDirectDeposit) {
-    routes = routes.filter(route => route.component !== DirectDeposit);
+    routes = routes.filter(
+      route => route.name !== PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
+    );
+  }
+
+  if (options.removeNotificationSettings) {
+    routes = routes.filter(
+      route => route.name !== PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS,
+    );
   }
 
   return routes;

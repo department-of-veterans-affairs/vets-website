@@ -11,10 +11,6 @@ Cypress.Commands.add('tabFocus', el => {
 });
 
 describe('Facilities VAMC SideNav', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   it('should tab access the links on the left nav and verify focus', () => {
     cy.visit('/pittsburgh-health-care');
     cy.injectAxe();

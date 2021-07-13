@@ -216,7 +216,7 @@ export function SearchResultCard({
           <strong>Approved programs:</strong>
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
-          {programCount}
+          {programCount || 0}
         </p>
       </div>
       <div className="vads-u-flex--1">
