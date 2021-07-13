@@ -20,7 +20,7 @@ export const SearchResultsHeader = ({
 }) => {
   const noResultsFound = !results || !results.length;
 
-  if (inProgress) {
+  if (inProgress || !context) {
     return <div style={{ height: '38px' }} />;
   }
 

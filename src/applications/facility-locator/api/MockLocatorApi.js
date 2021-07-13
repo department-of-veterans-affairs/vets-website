@@ -56,7 +56,7 @@ function sliceMockData(locationType, serviceType) {
     if (serviceType === CLINIC_URGENTCARE_SERVICE) {
       locationsData = [providersDataJson.data[12]];
     } else {
-      locationsData = [providersDataJson.data[10]];
+      locationsData = [];
     }
     // Pharmacy
   } else if (locationType === pharmacyType) {
@@ -84,6 +84,8 @@ function sliceMockData(locationType, serviceType) {
   }
 
   locations.data = locationsData;
+  locations.meta = { resultTime: 100 };
+
   return locations;
 }
 

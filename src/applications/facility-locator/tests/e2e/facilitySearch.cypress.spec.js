@@ -2,7 +2,8 @@ import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
 
-import { healthServices } from '../../config';
+import { healthServices, facilityTypesOptions } from '../../config';
+import { LocationType } from '../../constants';
 
 Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
@@ -77,7 +78,6 @@ describe('Facility VA search', () => {
     cy.get('.i-pin-card-map').contains('C');
     cy.get('.i-pin-card-map').contains('D');
 
-    cy.get('.va-pagination').should('exist');
     cy.get('#other-tools').should('exist');
   });
 
@@ -137,10 +137,21 @@ describe('Facility VA search', () => {
       });
   });
 
-  it('does not show search result header if no results are found', () => {
-    cy.visit('/find-locations?fail=true');
+  it('shows search result header even when no results are found', () => {
+    cy.visit('/find-locations');
 
-    cy.get('#search-results-subheader').should('not.exist');
+    cy.get('#street-city-state-zip').type('27606');
+    cy.get('#facility-type-dropdown').select(
+      facilityTypesOptions[LocationType.CC_PROVIDER],
+    );
+    cy.get('#service-type-ahead-input').type('foo');
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(700);
+
+    cy.focused().contains(
+      'No results found for "Community providers (in VA’s network)" near "Raleigh, North Carolina 27606"',
+    );
     cy.get('#other-tools').should('not.exist');
   });
 
