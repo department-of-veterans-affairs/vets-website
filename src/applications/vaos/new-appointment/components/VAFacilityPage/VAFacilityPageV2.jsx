@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -77,7 +77,6 @@ export default function VAFacilityPageV2() {
     sortMethod,
     typeOfCare,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
-  const [sortType, setSortType] = useState(sortMethod);
 
   const uiSchema = {
     vaFacility: {
@@ -133,20 +132,11 @@ export default function VAFacilityPageV2() {
 
   useEffect(
     () => {
-      if (showVariant && !loadingFacilities) {
-        dispatch(updateFacilitySortMethod(sortType, uiSchema));
-      }
-    },
-    [sortType, loadingFacilities],
-  );
-
-  useEffect(
-    () => {
       if (requestingLocation) {
         scrollAndFocus('.loading-indicator');
       } else if (requestLocationStatus === FETCH_STATUS.failed) {
         scrollAndFocus('va-alert');
-        setSortType(sortOptions[0].value);
+        updateFacilitySortMethod(sortOptions[0].value, uiSchema);
       } else {
         scrollAndFocus(sortFocusEl);
       }
@@ -238,12 +228,9 @@ export default function VAFacilityPageV2() {
           onBack={() =>
             dispatch(routeToPreviousAppointmentPage(history, pageKey))
           }
-          onSubmit={() => {
-            recordEvent({
-              event: `${GA_PREFIX}_variant_final_${sortMethod}`,
-            });
-            dispatch(routeToNextAppointmentPage(history, pageKey));
-          }}
+          onSubmit={() =>
+            dispatch(routeToNextAppointmentPage(history, pageKey))
+          }
           pageChangeInProgress={pageChangeInProgress}
           loadingText="Page change in progress"
         />
@@ -348,13 +335,18 @@ export default function VAFacilityPageV2() {
             onChange={newData =>
               dispatch(updateFormData(pageKey, uiSchema, newData))
             }
-            onSubmit={() =>
-              dispatch(routeToNextAppointmentPage(history, pageKey))
-            }
+            onSubmit={() => {
+              if (showVariant) {
+                recordEvent({
+                  event: `${GA_PREFIX}-variant-final-${sortMethod}`,
+                });
+              }
+              dispatch(routeToNextAppointmentPage(history, pageKey));
+            }}
             formContext={{
-              setSortType,
               sortOptions,
-              sortType,
+              updateFacilitySortMethod: value =>
+                dispatch(updateFacilitySortMethod(value, uiSchema)),
             }}
             data={data}
           >

@@ -322,7 +322,7 @@ const responses = {
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
         { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: false },
-        { name: 'vaOnlineSchedulingVariantTesting', value: true },
+        { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },
         { name: 'ssoeEbenefitsLinks', value: false },

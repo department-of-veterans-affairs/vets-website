@@ -29,7 +29,7 @@ export default function FacilitiesRadioWidget({
     sortMethod,
     loadingEligibility,
   } = useSelector(state => selectFacilitiesRadioWidget(state), shallowEqual);
-  const { setSortType, sortOptions, sortType } = formContext;
+  const { sortOptions, updateFacilitySortMethod } = formContext;
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
   const sortedByText = sortMethod
@@ -71,12 +71,12 @@ export default function FacilitiesRadioWidget({
           name="sort"
           onValueChange={type => {
             recordEvent({
-              event: `${GA_PREFIX}_variant_method_${sortMethod}`,
+              event: `${GA_PREFIX}-variant-method-${type.value}`,
             });
-            setSortType(type.value);
+            updateFacilitySortMethod(type.value);
           }}
           options={sortOptions}
-          value={{ dirty: false, value: sortType }}
+          value={{ dirty: false, value: sortMethod }}
           includeBlankOption={false}
         />
       )}
