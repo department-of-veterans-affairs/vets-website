@@ -51,7 +51,11 @@ Cypress.Commands.add('clickIf', (selector, condition, ...params) => {
 
 Cypress.Commands.add('fillAddress', (baseName, address) => {
   if (address.country) {
-    cy.get(`#${baseName}_country`).select(address.country);
+    cy.get(`#${baseName}_country`, { timeout: Timeouts.normal })
+      .should('exist')
+      .then(select => {
+        cy.wrap(select).select(address.country);
+      });
   }
 
   if (address.street) {
