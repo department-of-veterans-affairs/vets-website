@@ -58,6 +58,7 @@
     "test:contract": "BUILDTYPE=localhost npm run test:unit -- --reporter mocha-junit-reporter 'src/**/tests/**/*.pact.spec.js'",
     "test:coverage": "npm run test:unit -- --coverage --log-level debug",
     "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
+    "test:coverage-only": "NODE_ENV=test nyc report --all --include 'src/applications/**/**' --reporter=json-summary",
     "test:sauce": "./script/run-nightwatch.sh --sauce",
     "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
     "test:sauce:mobile": "./script/run-nightwatch.sh --sauce -e ios,android",
