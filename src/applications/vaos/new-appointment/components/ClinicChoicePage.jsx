@@ -37,7 +37,7 @@ function getPageTitle(schema, typeOfCare) {
       vowelCheck(typeOfCareLabel) ? 'an' : 'a'
     } ${typeOfCareLabel} appointment at your last clinic`;
   } else if (schema?.properties.clinicId.enum.length > 2) {
-    pageTitle = `Choose your VA clinic for your ${typeOfCareLabel} appointment`;
+    pageTitle = 'Choose a VA clinic';
   }
   return pageTitle;
 }
@@ -117,18 +117,11 @@ export default function ClinicChoicePage() {
           <h1 className="vads-u-font-size--h2">
             {getPageTitle(schema, typeOfCare)}
           </h1>
-          In the last 24 months you have had{' '}
-          {vowelCheck(typeOfCareLabel) ? 'an' : 'a'} {typeOfCareLabel}{' '}
-          appointment in the following clinics, located at:
-          {facilityDetails && (
-            <div className="vads-u-margin-y--2p5">
-              <FacilityAddress
-                name={facilityDetails.name}
-                facility={facilityDetails}
-                level={2}
-              />
-            </div>
-          )}
+          <p>
+            In the last 24 months you’ve had{' '}
+            {vowelCheck(typeOfCareLabel) ? 'an' : 'a'} {typeOfCareLabel}{' '}
+            appointment at the following {facilityDetails?.name} clinics:
+          </p>
         </>
       )}
       <SchemaForm
