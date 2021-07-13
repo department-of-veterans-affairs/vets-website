@@ -147,7 +147,7 @@ describe('Facility VA search', () => {
     cy.get('#service-type-ahead-input').type('foo');
     cy.get('#facility-search').click({ waitForAnimations: true });
     // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(700);
+    cy.wait(1000);
 
     cy.focused().contains(
       'No results found for "Community providers (in VA’s network)" near "Raleigh, North Carolina 27606"',
