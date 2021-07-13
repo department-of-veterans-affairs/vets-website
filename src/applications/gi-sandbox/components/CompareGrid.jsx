@@ -5,13 +5,12 @@ import _ from 'lodash';
 export function CompareGrid({
   className,
   showDifferences,
-  facilityCodes,
   fieldData,
   institutions,
   sectionLabel,
   subSectionLabel,
 }) {
-  const institutionCount = Object.keys(institutions).length;
+  const institutionCount = institutions.length;
 
   const empties = [];
 
@@ -110,9 +109,7 @@ export function CompareGrid({
           )}
         >
           {fieldData.map((field, index) => {
-            const rowValues = Object.keys(institutions).map(facilityCode => {
-              return field.mapper(institutions[facilityCode]);
-            });
+            const rowValues = institutions.map(field.mapper);
 
             let allEqual = true;
 
@@ -130,7 +127,7 @@ export function CompareGrid({
                   field,
                   index,
                   0,
-                  institutions[facilityCodes[0]],
+                  institutions[0],
                   displayDiff,
                 ),
               );
@@ -142,7 +139,7 @@ export function CompareGrid({
                   field,
                   index,
                   1,
-                  institutions[facilityCodes[1]],
+                  institutions[1],
                   displayDiff,
                 ),
               );
@@ -154,7 +151,7 @@ export function CompareGrid({
                   field,
                   index,
                   2,
-                  institutions[facilityCodes[2]],
+                  institutions[2],
                   displayDiff,
                 ),
               );
