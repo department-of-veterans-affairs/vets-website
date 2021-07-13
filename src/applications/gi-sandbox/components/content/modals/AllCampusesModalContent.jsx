@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function StudentComplaintsModalContent() {
+export default function AllCampusesModalContent() {
   return (
     <div>
       <h3>VA Complaints (all campuses):</h3>

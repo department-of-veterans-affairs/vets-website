@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
-import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
-import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
+import AllCampusesModalContent from '../components/content/modals/AllCampusesModalContent';
 import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
 import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
 import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
-import AllCampusesModalContent from '../components/content/AllCampusesModalContent';
-import StudentComplaintsModalContent from '../components/content/StudentComplaintsModalContent';
+import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
+import StudentComplaintsModalContent from '../components/content/modals/StudentComplaintsModalContent';
+import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
