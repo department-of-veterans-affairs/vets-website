@@ -23,9 +23,9 @@ const Waivers = () => {
           Based on the information you provided, this isn’t the form you need.
         </h2>
         <p>
-          <strong>
+          <strong className="vads-u-margin-x--0p5">
             To ask our Committee of Waivers and Compromises to reconsider your
-            waiver,{' '}
+            waiver,
           </strong>
           you’ll need to tell us why you think we should reconsider.
         </p>

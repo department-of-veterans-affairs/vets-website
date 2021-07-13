@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import { getCernerURL } from 'platform/utilities/cerner';
+import Select from '@department-of-veterans-affairs/component-library/Select';
+import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -19,9 +22,18 @@ export default function FacilitiesRadioWidget({
   onChange,
   formContext,
 }) {
-  const { loadingEligibility, sortMethod, cernerSiteIds } = formContext;
+  const {
+    cernerSiteIds,
+    showVariant,
+    sortMethod,
+    loadingEligibility,
+  } = useSelector(state => selectFacilitiesRadioWidget(state), shallowEqual);
+  const { setSortType, sortOptions, sortType } = formContext;
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
+  const sortedByText = sortMethod
+    ? sortOptions.find(type => type.value === sortMethod).label
+    : sortOptions[0].label;
 
   // If user has already selected a value, and the index of that value is > 4,
   // show this view already expanded
@@ -49,6 +61,21 @@ export default function FacilitiesRadioWidget({
 
   return (
     <div>
+      <div aria-live="assertive" className="sr-only">
+        Showing VA facilities sorted {sortedByText}
+      </div>
+      {showVariant && (
+        <Select
+          label="Sort facilities"
+          name="sort"
+          onValueChange={type => {
+            setSortType(type.value);
+          }}
+          options={sortOptions}
+          value={{ dirty: false, value: sortType }}
+          includeBlankOption={false}
+        />
+      )}
       {displayedOptions.map((option, i) => {
         const { name, address, legacyVAR } = option?.label;
         const checked = option.value === value;
@@ -61,6 +88,8 @@ export default function FacilitiesRadioWidget({
           sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
         ) {
           distance = legacyVAR?.distanceFromCurrentLocation;
+        } else {
+          distance = legacyVAR?.distanceFromResidentialAddress;
         }
         const facilityPosition = i + 1;
 
@@ -96,7 +125,6 @@ export default function FacilitiesRadioWidget({
           </div>
         );
       })}
-
       {!displayAll &&
         hiddenCount > 0 && (
           <button

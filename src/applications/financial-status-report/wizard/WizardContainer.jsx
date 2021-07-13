@@ -42,8 +42,11 @@ const WizardContainer = ({ setWizardStatus }) => {
             </button>
           </p>
           <p>
-            If you need help with a VA copay debt,{' '}
-            <a href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/">
+            If you need help with a VA copay debt,
+            <a
+              href="https://www.va.gov/health-care/pay-copay-bill/financial-hardship/"
+              className="vads-u-margin-left--0p5"
+            >
               learn how to request financial hardship assistance.
             </a>
           </p>

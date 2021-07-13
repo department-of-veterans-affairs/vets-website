@@ -21,7 +21,7 @@ import RatingsStars from '../components/RatingsStars';
 import Checkbox from '../components/Checkbox';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
-import { IconWithInfo } from '../utils/render';
+import IconWithInfo from '../components/IconWithInfo';
 
 const ProfilePageHeader = ({
   compare,
@@ -68,11 +68,6 @@ const ProfilePageHeader = ({
       dispatchRemoveCompareInstitution(facilityCode);
     }
   };
-
-  const shouldShowSchoolLocations = () =>
-    facilityMap &&
-    (facilityMap.main.extensions.length > 0 ||
-      facilityMap.main.branches.length > 0);
 
   const institutionTraits = [
     menonly === 1 && 'Men-only',
@@ -185,119 +180,71 @@ const ProfilePageHeader = ({
     </div>
   );
 
-  const renderJumpLinks = () => (
-    <div className="usa-width-one-fourth">
-      <h2 className="vads-u-padding-top--2">On this page</h2>
-      <a
-        className="arrow-down-link"
-        href="#estimate-your-benefits-accordion-content"
-      >
-        <IconWithInfo icon="arrow-down" present>
-          {'   '}
-          Calculate your Benefits
-        </IconWithInfo>
-      </a>
-      {displayStars && (
-        <a className="arrow-down-link" href="#school-ratings-accordion-button">
-          <IconWithInfo icon="arrow-down" present>
-            {'   '}
-            Ratings
-          </IconWithInfo>
-        </a>
-      )}
-      {shouldShowSchoolLocations() && (
-        <a
-          className="arrow-down-link"
-          href="#school-locations-accordion-button"
-        >
-          <IconWithInfo icon="arrow-down" present>
-            {'   '}
-            School locations
-          </IconWithInfo>
-        </a>
-      )}
-      <a className="arrow-down-link" href="#contact-details-accordion-button">
-        <IconWithInfo icon="arrow-down" present>
-          {'   '}
-          Contact Information
-        </IconWithInfo>
-      </a>
-    </div>
-  );
-  const renderProfilePageCard = () => (
-    <div className="usa-width-three-fourths">
-      <div className="vads-u-background-color--gray-lightest profile-card">
-        {schoolClassification}
-        <div className="vads-u-padding-left--2">
-          <h1 tabIndex={-1} className={titleClasses}>
-            {name}
-          </h1>
-          <p>{formattedAddress}</p>
-          {displayStars && (
-            <div className={starClasses}>
-              <span className="vads-u-font-size--sm">
-                <RatingsStars rating={ratingAverage} />
-              </span>{' '}
-              <span className="vads-u-padding-left--1 vads-u-padding-right--1">
-                |
-              </span>{' '}
-              <span className="vads-u-font-weight--bold vads-u-padding-right--1">
-                {stars.display} of 5
-              </span>{' '}
-              (
-              <a
-                href="#profile-school-ratings"
-                onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
-              >
-                See {ratingCount} ratings by Veterans
-              </a>
-              )
-            </div>
-          )}
-          {studentCount > 0 && (
-            <p>
-              <strong>{formatNumber(studentCount)}</strong> GI Bill students (
-              <button
-                type="button"
-                className="va-button-link learn-more-button"
-                onClick={() => dispatchShowModal('gibillstudents')}
-                aria-label={ariaLabels.learnMore.numberOfStudents}
-              >
-                Learn more
-              </button>
-              )
-            </p>
-          )}
-        </div>
-        {cautionFlags.length > 0 && (
-          <div className="caution-flag-section">
-            <CautionFlagAdditionalInfo
-              cautionFlags={cautionFlags}
-              expanded={expanded}
-              toggleExpansion={toggleExpansion}
-            />
+  return (
+    <div className="vads-u-background-color--gray-lightest profile-card">
+      {schoolClassification}
+      <div className="vads-u-padding-left--2">
+        <h1 tabIndex={-1} className={titleClasses}>
+          {name}
+        </h1>
+        <p>{formattedAddress}</p>
+        {displayStars && (
+          <div className={starClasses}>
+            <span className="vads-u-font-size--sm">
+              <RatingsStars rating={ratingAverage} />
+            </span>{' '}
+            <span className="vads-u-padding-left--1 vads-u-padding-right--1">
+              |
+            </span>{' '}
+            <span className="vads-u-font-weight--bold vads-u-padding-right--1">
+              {stars.display} of 5
+            </span>{' '}
+            (
+            <a
+              href="#profile-school-ratings"
+              onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
+            >
+              See {ratingCount} ratings by Veterans
+            </a>
+            )
           </div>
         )}
+        {studentCount > 0 && (
+          <p>
+            <strong>{formatNumber(studentCount)}</strong> GI Bill students (
+            <button
+              type="button"
+              className="va-button-link learn-more-button"
+              onClick={() => dispatchShowModal('gibillstudents')}
+              aria-label={ariaLabels.learnMore.numberOfStudents}
+            >
+              Learn more
+            </button>
+            )
+          </p>
+        )}
+      </div>
+      {cautionFlags.length > 0 && (
+        <div className="caution-flag-section">
+          <CautionFlagAdditionalInfo
+            cautionFlags={cautionFlags}
+            expanded={expanded}
+            toggleExpansion={toggleExpansion}
+          />
+        </div>
+      )}
 
-        {!expanded && renderIconSection()}
+      {!expanded && renderIconSection()}
 
-        <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0">
-          <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
-            <Checkbox
-              label="Compare"
-              checked={compareChecked}
-              onChange={handleCompareUpdate}
-            />
-          </div>
+      <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0">
+        <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
+          <Checkbox
+            label="Compare"
+            checked={compareChecked}
+            onChange={handleCompareUpdate}
+          />
         </div>
       </div>
-    </div>
-  );
-
-  return (
-    <div className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4">
-      {renderProfilePageCard()}
-      {renderJumpLinks()}
     </div>
   );
 };

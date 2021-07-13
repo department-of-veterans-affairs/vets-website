@@ -4,6 +4,7 @@ export const FETCH_SEARCH_RESULTS_FAILURE = 'FETCH_SEARCH_RESULTS_FAILURE';
 
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
+import * as Sentry from '@sentry/browser';
 
 export function fetchSearchResults(query, page, options) {
   return dispatch => {
@@ -41,11 +42,13 @@ export function fetchSearchResults(query, page, options) {
           meta: response.meta,
         });
       })
-      .catch(error =>
+      .catch(error => {
         dispatch({
           type: FETCH_SEARCH_RESULTS_FAILURE,
-          errors: error.errors,
-        }),
-      );
+          errors: [error],
+        });
+        // add sentry logging to help catch when search is down
+        Sentry.captureException(error);
+      });
   };
 }

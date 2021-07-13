@@ -19,6 +19,7 @@ import { getSiteIdFromFacilityId } from '../../services/location';
 import {
   selectFeatureCommunityCare,
   selectFeatureDirectScheduling,
+  selectFeatureVariantTesting,
   selectUseProviderSelection,
   selectRegisteredCernerFacilityIds,
 } from '../../redux/selectors';
@@ -234,13 +235,16 @@ export function getFacilityPageV2Info(state) {
     showEligibilityModal,
   } = newAppointment;
 
+  const address = selectVAPResidentialAddress(state);
   const facilities = newAppointment.facilities[(typeOfCare?.id)];
   const eligibility = selectEligibility(state);
   const validFacilities = formInfo.schema?.properties.vaFacility.enum;
+  const showVariant = selectFeatureVariantTesting(state);
+  const sortMethod = facilityPageSortMethod;
 
   return {
     ...formInfo,
-    address: selectVAPResidentialAddress(state),
+    address,
     canScheduleAtChosenFacility: eligibility?.direct || eligibility?.request,
     childFacilitiesStatus,
     eligibility,
@@ -256,9 +260,10 @@ export function getFacilityPageV2Info(state) {
     selectedFacility: getChosenFacilityInfo(state),
     singleValidVALocation: validFacilities?.length === 1 && !!data.vaFacility,
     showEligibilityModal,
-    sortMethod: facilityPageSortMethod,
+    sortMethod,
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
+    showVariant,
   };
 }
 
@@ -354,5 +359,20 @@ export function selectTypeOfCarePage(state) {
     showDirectScheduling: selectFeatureDirectScheduling(state),
     showPodiatryApptUnavailableModal:
       newAppointment.showPodiatryAppointmentUnavailableModal,
+  };
+}
+
+export function selectFacilitiesRadioWidget(state) {
+  const newAppointment = getNewAppointment(state);
+  const { eligibilityStatus, facilityPageSortMethod } = newAppointment;
+  const showVariant = selectFeatureVariantTesting(state);
+  const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
+  const sortMethod = facilityPageSortMethod;
+
+  return {
+    cernerSiteIds,
+    loadingEligibility: eligibilityStatus === FETCH_STATUS.loading,
+    showVariant,
+    sortMethod,
   };
 }

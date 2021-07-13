@@ -4,9 +4,10 @@ import head from 'lodash/head';
 import last from 'lodash/last';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { setData } from 'platform/forms-system/src/js/actions';
 import classnames from 'classnames';
+
+import { setData } from 'platform/forms-system/src/js/actions';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
 
 const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {

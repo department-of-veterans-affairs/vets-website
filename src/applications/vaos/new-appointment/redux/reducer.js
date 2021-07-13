@@ -422,7 +422,7 @@ export default function formReducer(state = initialState, action) {
       }
 
       if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
-        facilities = facilities.sort((a, b) => a.name - b.name);
+        facilities = facilities.sort((a, b) => a.name.localeCompare(b.name));
       } else {
         facilities = facilities.sort(
           (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],

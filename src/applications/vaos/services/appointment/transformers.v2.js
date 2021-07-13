@@ -28,7 +28,9 @@ function getTypeOfCareById(id) {
     ...TYPES_OF_CARE,
   ];
 
-  return allTypesOfCare.find(care => care.id === id);
+  return allTypesOfCare.find(
+    care => care.idV2 === id || care.ccId === id || care.id === id,
+  );
 }
 
 /**

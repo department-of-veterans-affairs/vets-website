@@ -140,6 +140,42 @@
         "description": null,
         "comment": "Renew medication"
       }
+    },
+    {
+      "id": "32152",
+      "type": "appointments",
+      "attributes": {
+        "id": "32152",
+        "kind": "clinic",
+        "status": "proposed",
+        "serviceType": "323",
+        "locationId": "983",
+        "clinic": null,
+        "telehealth": null,
+        "practitioners": null,
+        "reason": "Routine Follow-up",
+        "start": null,
+        "end": null,
+        "minutesDuration": null,
+        "slot": null,
+        "requestedPeriods": [
+          {
+            "start": "2021-06-29T12:00:00Z",
+            "end": "2021-06-29T23:59:59.999Z"
+          }
+        ],
+        "contact": {
+          "telecom": [
+            { "type": "email", "value": "jeremy.chapman@ironbow.com" },
+            { "type": "phone", "value": "5592256100" }
+          ]
+        },
+        "preferredTimesForPhoneCall": null,
+        "priority": null,
+        "cancellationReason": null,
+        "description": null,
+        "comment": null
+      }
     }
   ],
   "meta": {

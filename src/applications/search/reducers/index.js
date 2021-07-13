@@ -32,12 +32,14 @@ function SearchReducer(state = initialState, action) {
       } = action.meta.pagination;
       const { results } = action.results.web;
       const recommendedResults = action.results.textBestBets;
+      const spellingCorrection = action.results.web.spellingCorrection;
       const searchesPerformed = state.searchesPerformed + 1;
 
       return {
         ...state,
         query,
         recommendedResults,
+        spellingCorrection,
         results,
         totalEntries,
         currentPage,

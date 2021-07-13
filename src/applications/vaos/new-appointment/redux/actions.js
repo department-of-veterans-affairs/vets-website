@@ -12,6 +12,7 @@ import {
   selectFeatureHomepageRefresh,
   selectFeatureVAOSServiceRequests,
   selectRegisteredCernerFacilityIds,
+  selectFeatureVAOSServiceVAAppointments,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -305,6 +306,9 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     try {
       const initialState = getState();
+      const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+        initialState,
+      );
       const newAppointment = initialState.newAppointment;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
@@ -323,6 +327,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         if (!typeOfCareFacilities) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
             siteIds,
+            useV2: featureVAOSServiceVAAppointments,
           });
         }
 

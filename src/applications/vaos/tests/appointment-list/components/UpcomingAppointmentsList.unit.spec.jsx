@@ -399,6 +399,45 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
     );
   });
 
+  it('should show video appointment at VA location text for store forward appointment', async () => {
+    const startDate = moment.utc();
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      facilityId: '983',
+      clinicId: null,
+      startDate: startDate.format(),
+    };
+    appointment.attributes.vvsAppointments[0] = {
+      ...appointment.attributes.vvsAppointments[0],
+      dateTime: startDate.format(),
+      bookingNotes: 'Some random note',
+      appointmentKind: 'STORE_FORWARD',
+      status: { description: 'F', code: 'FUTURE' },
+    };
+
+    mockAppointmentInfo({ va: [appointment], isHomepageRefresh: true });
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
+      initialState,
+      reducers,
+    });
+
+    await screen.findByText(
+      new RegExp(startDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
+    );
+
+    const timeHeader = screen.getByText(
+      new RegExp(startDate.tz('America/Denver').format('h:mm'), 'i'),
+    );
+    expect(timeHeader).to.contain.text('MT');
+    expect(timeHeader).to.contain.text('Mountain time');
+
+    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+    expect(screen.baseElement).to.contain.text(
+      'VA Video Connect at a VA location',
+    );
+  });
+
   it('should show community care provider text', async () => {
     const startDate = moment().add(1, 'days');
     const appointment = getCCAppointmentMock();

@@ -2,13 +2,9 @@
 import { expect } from 'chai';
 
 // Relative imports
-import {
-  sortTheResults,
-  regexpDashAdder,
-  correctSearchTerm,
-} from '../../helpers';
+import { sortTheResults } from '../../helpers';
 import { deriveLatestIssue } from '../../components/SearchResult';
-import { INITIAL_SORT_STATE, FAF_SORT_OPTIONS } from '../../constants';
+import { FAF_SORT_OPTIONS } from '../../constants';
 
 describe('Find VA Forms helpers', () => {
   const results = [
@@ -54,7 +50,23 @@ describe('Find VA Forms helpers', () => {
     },
   ];
 
-  it('sorts helper sorts the results form title correctly', () => {
+  it('leaves the results unsorted from API on initial load', () => {
+    const sortedResultsNodeTextByTitleInitial = [
+      'AA10192 form 1',
+      'BA10192 form 2',
+      'CA10192 form 3',
+      'DA10192 form 4',
+    ];
+
+    const sortedResultsByAlphabet = results
+      .sort((a, b) => sortTheResults(FAF_SORT_OPTIONS[1], a, b))
+      .map(form => `${form?.attributes?.formName} ${form?.attributes?.title}`);
+
+    // Sort By 'Closest Match'
+    expect(sortedResultsByAlphabet).to.eql(sortedResultsNodeTextByTitleInitial);
+  });
+
+  it('sorts helper sorts the results form title correctly by ALPHABET (A-Z) Ascending', () => {
     const sortedResultsNodeTextByTitleAscending = [
       'AA10192 form 1',
       'BA10192 form 2',
@@ -63,7 +75,7 @@ describe('Find VA Forms helpers', () => {
     ];
 
     const sortedResultsByAlphabet = results
-      .sort((a, b) => sortTheResults(INITIAL_SORT_STATE, a, b))
+      .sort((a, b) => sortTheResults(FAF_SORT_OPTIONS[1], a, b))
       .map(form => `${form?.attributes?.formName} ${form?.attributes?.title}`);
 
     // Sort By 'ALPHABET (A-Z) Ascending'
@@ -81,7 +93,7 @@ describe('Find VA Forms helpers', () => {
     ];
 
     const sortedResultsByNewestRevisionDate = results
-      .sort((a, b) => sortTheResults(FAF_SORT_OPTIONS[2], a, b))
+      .sort((a, b) => sortTheResults(FAF_SORT_OPTIONS[3], a, b))
       .map(form =>
         deriveLatestIssue(
           form?.attributes?.firstIssuedOn,
@@ -104,7 +116,7 @@ describe('Find VA Forms helpers', () => {
     ];
 
     const sortedResultsByOldestRevisionDate = results
-      .sort((a, b) => sortTheResults(FAF_SORT_OPTIONS[3], a, b))
+      .sort((a, b) => sortTheResults(FAF_SORT_OPTIONS[4], a, b))
       .map(form =>
         deriveLatestIssue(
           form?.attributes?.firstIssuedOn,
@@ -116,34 +128,5 @@ describe('Find VA Forms helpers', () => {
     expect(sortedResultsByOldestRevisionDate).to.eql(
       sortedResultsNodesTextByLatestRevisionOldest,
     );
-  });
-
-  it('regexpDashAdder adds the dash where it should', () => {
-    const transformString = regexpDashAdder('20213', 2);
-    expect(transformString).to.eql('20-213');
-  });
-
-  const searchQueryAutoCorrectResults = new Map([
-    ['va 10-10ez', '10-10EZ'],
-    ['form 10-10ez', '10-10EZ'],
-    ['10-013L espanol', '10-013L spanish'],
-    ['2010207', '20-10207'],
-    ['2122a', '21-22A'],
-    ['228597', '22-8597'],
-    ['266807a', '26-6807A'],
-    ['29380', '29-380'],
-    ['401330', '40-1330'],
-    ['21P', '21P-'],
-    ['1010', '10-10'],
-    ['1010EZ', '10-10EZ'],
-    ['1010 EZ', '10-10EZ'],
-    ['10-10 EZ', '10-10EZ'],
-  ]);
-
-  searchQueryAutoCorrectResults.forEach((value, key) => {
-    it('correctSearchTerm adjusts the term to allow for faulty searches', () => {
-      const transformString = correctSearchTerm(key);
-      expect(transformString).to.eql(value);
-    });
   });
 });

@@ -76,6 +76,7 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
+      cy.findByLabelText(/routing number/i).should('be.focused');
       fillInBankInfoForm('CNP');
       exitBankInfoForm();
       dismissUnsavedChangesModal();
@@ -119,6 +120,7 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
+      cy.findByLabelText(/routing number/i).should('be.focused');
       fillInBankInfoForm('EDU');
       exitBankInfoForm();
       dismissUnsavedChangesModal();
