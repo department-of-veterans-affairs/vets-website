@@ -25,6 +25,7 @@ export const SubmissionError = () => (
 const ServerError = () => (
   <div className="row vads-u-margin-bottom--5">
     <va-alert
+      data-testid="server-error"
       status="error"
       headline="We're sorry. Something went wrong on our end."
       content={

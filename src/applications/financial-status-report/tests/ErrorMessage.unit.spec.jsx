@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 import ErrorMessage from '../components/ErrorMessage';
@@ -23,13 +23,10 @@ describe('ErrorMessage', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const screen = render(<ErrorMessage store={fakeStore} />);
-    const errorMessage = screen.findByText(
-      "We're sorry. Something went wrong on our end.",
-    );
 
-    await waitFor(() => {
-      expect(errorMessage).not.to.be.undefined;
-    });
+    const screen = render(<ErrorMessage store={fakeStore} />);
+    const errorMessage = await screen.getByTestId('server-error');
+
+    expect(errorMessage).to.not.be.undefined;
   });
 });
