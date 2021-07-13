@@ -152,7 +152,7 @@ describe('Facility VA search', () => {
     cy.focused().contains(
       'No results found for "Community providers (in VA’s network)" near "Raleigh, North Carolina 27606"',
     );
-    cy.get('#other-tools').should('not.exist');
+    cy.get('#other-tools').should('exist');
   });
 
   it('finds va benefits facility in Los Angeles and views its page', () => {

@@ -607,7 +607,7 @@ const FacilitiesMap = props => {
         </div>
         {renderView()}
       </div>
-      {props.results && props.results.length > 0 && otherToolsLink()}
+      {otherToolsLink()}
     </>
   );
 };
