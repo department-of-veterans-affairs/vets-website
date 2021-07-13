@@ -3,9 +3,14 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
+import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
+import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
+import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
+import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
+import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
+import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
 import AllCampusesModalContent from '../components/content/AllCampusesModalContent';
 import StudentComplaintsModalContent from '../components/content/StudentComplaintsModalContent';
-import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -336,16 +341,9 @@ export class Modals extends React.Component {
 
       <Modal
         onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('priEnroll')}
+        visible={this.shouldDisplayModal('priorityEnrollment')}
       >
-        <h3>Priority enrollment</h3>
-        <p>
-          If an Institution of Higher Learning (a college or university) has a
-          system for priority enrollment that allows certain student Veterans to
-          enroll in courses earlier than other students (not necessarily earlier
-          than <strong>all</strong> students), we’ll note that with the school’s
-          information here.
-        </p>
+        <PriorityEnrollmentModalContent />
       </Modal>
 
       <Modal
@@ -503,14 +501,17 @@ export class Modals extends React.Component {
       </Modal>
       <Modal
         onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('accreditation')}
+        elementToFocusOnClose="accreditation-button"
+      >
+        <AccreditationModalContent />
+      </Modal>
+      <Modal
+        onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('singleContact')}
         elementToFocusOnClose="singleContact-button"
       >
-        <h3>Single point of contact for Veterans</h3>
-        <p>
-          Does the school have a dedicated point of contact for support services
-          for Veterans, military service members, and their families?
-        </p>
+        <SingleContactModalContent />
       </Modal>
 
       <Modal
@@ -518,11 +519,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('creditTraining')}
         elementToFocusOnClose="creditTraining-button"
       >
-        <h3>Credit for military training</h3>
-        <p>
-          Does the school offer postsecondary credit for experiences and
-          military training?
-        </p>
+        <CreditTrainingModalContent />
       </Modal>
       <Modal
         onClose={this.props.hideModal}
@@ -557,19 +554,10 @@ export class Modals extends React.Component {
       </Modal>
       <Modal
         onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('iStudy')}
-        elementToFocusOnClose="iStudy-button"
+        visible={this.shouldDisplayModal('independentStudy')}
+        elementToFocusOnClose="independentStudy-button"
       >
-        <h3>Independent study</h3>
-        <p>
-          Beneficiaries may use educational assistance to access online learning
-          (accredited independent study) at schools that aren’t Institutions of
-          Higher Learning (IHLs). These schools must be postsecondary vocational
-          institutions or area career and technical education schools that
-          provide postsecondary level education. <strong>Note:</strong> This
-          change doesn’t apply to Dependents’ Educational Assistance program
-          beneficiaries.
-        </p>
+        <IndependentStudyModalContent />
       </Modal>
 
       <Modal

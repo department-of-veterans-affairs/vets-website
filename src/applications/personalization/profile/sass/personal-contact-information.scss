@@ -3,3 +3,7 @@
 .profile-military-domestic {
   margin-left: 1.7em;
 }
+
+.email-address-symbol::after {
+  content: "\200B";
+}

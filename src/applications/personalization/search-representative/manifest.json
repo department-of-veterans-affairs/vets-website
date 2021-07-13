@@ -1,0 +1,6 @@
+{
+  "appName": "Search Representative",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "search-representative",
+  "rootUrl": "/view-change-representative/search"
+}

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { getCalculatedBenefits } from '../../selectors/calculator';
-import { locationInfo } from '../../utils/helpers';
+import { locationInfo, upperCaseFirstLetterOnly } from '../../utils/helpers';
 import ResponsiveTable from '../ResponsiveTable';
 import { Link } from 'react-router-dom';
 
@@ -152,7 +152,7 @@ export class SchoolLocations extends React.Component {
         ? nameLabel
         : {
             value: nameLabel,
-            mobileHeader: type.charAt(0).toUpperCase() + type.slice(1),
+            mobileHeader: upperCaseFirstLetterOnly(type),
           };
 
     return {
