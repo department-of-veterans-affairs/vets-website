@@ -33,8 +33,11 @@ const defaults = prefix => ({
 export default function applicantInformationUpdate(schema, options) {
   // Use the defaults as necessary, but override with the options given
   const prefix = options && options.isVeteran ? 'veteran' : 'relative';
-  const mergedOptions = Object.assign({}, defaults(prefix), options);
-  const { fields, required, labels } = mergedOptions;
+  const { fields, required, labels } = Object.assign(
+    {},
+    defaults(prefix),
+    options,
+  );
 
   const possibleProperties = Object.assign({}, schema.properties, {
     'view:noSSN': {

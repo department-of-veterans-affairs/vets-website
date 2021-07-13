@@ -125,7 +125,7 @@ export const ageWarning = (
 export const eighteenOrOver = birthday => {
   return (
     birthday === undefined ||
-    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17 ||
-    birthday.length !== 10
+    birthday.length !== 10 ||
+    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
   );
 };
