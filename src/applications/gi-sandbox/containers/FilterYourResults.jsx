@@ -20,7 +20,7 @@ import {
 import { connect } from 'react-redux';
 import { TABS } from '../constants';
 
-export function RefineYourSearch({
+export function FilterYourResults({
   dispatchShowModal,
   dispatchFilterChange,
   dispatchFetchSearchByNameResults,
@@ -290,7 +290,7 @@ export function RefineYourSearch({
   return (
     <div>
       <SearchAccordion
-        button="Refine your search"
+        button="Filter your results"
         buttonLabel="Update results"
         buttonOnClick={() => updateResults()}
         name="benefitEstimates"
@@ -324,4 +324,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(RefineYourSearch);
+)(FilterYourResults);
