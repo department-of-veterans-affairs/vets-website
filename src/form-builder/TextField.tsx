@@ -5,23 +5,23 @@ import { useField } from 'formik';
 // import { Field } from 'formik';
 import { FieldProps } from './types';
 
+// TODO: Figure out how to actually import the type defintions for these web components
+// The @ts-ignore comments are because the web component types aren't available.
 const Wrapper = (props: FieldProps<string>) => {
   const [field, meta] = useField(props);
 
   // TODO: Use the web component type
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
-    // TODO: Figure out how to actually import the type defintions for these web components
     // @ts-ignore
     ref.current.addEventListener('vaChange', field.onChange);
   }, [field.onChange]);
   useEffect(() => {
-    // TODO: Figure out how to actually import the type defintions for these web components
     // @ts-ignore
     ref.current.addEventListener('vaBlur', field.onBlur);
   }, [field.onBlur]);
 
-  // TODO: Figure out how to actually import the type definitions for these web components
+  // TODO: Try using the <ErrorMessage> component
   return (
     // @ts-ignore
     <va-text-input
