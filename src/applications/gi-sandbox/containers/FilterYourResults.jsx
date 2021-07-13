@@ -288,7 +288,7 @@ export function FilterYourResults({
   };
 
   return (
-    <div>
+    <div className="vads-u-margin-bottom--2">
       <SearchAccordion
         button="Filter your results"
         buttonLabel="Update results"
