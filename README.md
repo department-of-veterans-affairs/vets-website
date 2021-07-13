@@ -19,9 +19,10 @@ When we write documentation, we'll put links to it here.
 
 ## Contributing
 
-To use this library locally in a separate repo, we have to do some `npm link`ing
-of the dependencies. Otherwise, the parent project _using_ the library will see
-multiple versions of these dependencies and stuff will just sorta break.
+To use the `npm link`ed version of this library in a separate repo, we have to
+do some `npm link`ing of the dependencies. Otherwise, the parent project _using_
+the library will see multiple versions of these dependencies and stuff will just
+sorta break.
 
 Replace `../<project>` with the path to the project using Formulate:
 
