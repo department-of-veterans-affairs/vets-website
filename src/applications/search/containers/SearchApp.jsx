@@ -305,6 +305,7 @@ class SearchApp extends React.Component {
       totalPages,
       totalEntries,
       loading,
+      results,
     } = this.props.search;
 
     let resultRangeEnd = currentPage * perPage;
@@ -346,24 +347,28 @@ class SearchApp extends React.Component {
 
     // regular display for how many search results total are available.
     /* eslint-disable prettier/prettier */
-    return (
-      <>
-        <h2
-          aria-live="polite"
-          aria-relevant="additions text"
-          className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal`}
-        >
-          Showing{' '}
-          {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
-          of {totalEntries} results for "
-          <span className="vads-u-font-weight--bold">
-            {this.props.router.location.query.query}
-          </span>
-          "
-        </h2>
-        <hr className="vads-u-margin-y--3" aria-hidden="true" />
-      </>
-    );
+    if (results && results.length > 0) {
+      return (
+        <>
+          <h2
+            aria-live="polite"
+            aria-relevant="additions text"
+            className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal`}
+          >
+            Showing{' '}
+            {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
+            of {totalEntries} results for "
+            <span className="vads-u-font-weight--bold">
+              {this.props.router.location.query.query}
+            </span>
+            "
+          </h2>
+          <hr className="vads-u-margin-y--3" aria-hidden="true" />
+        </>
+      );
+    }
+
+    return null;
     /* eslint-enable prettier/prettier */
   }
 

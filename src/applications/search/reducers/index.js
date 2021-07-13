@@ -66,6 +66,7 @@ function SearchReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
+        spellingCorrection: undefined,
       };
     }
 
