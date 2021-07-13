@@ -4,6 +4,7 @@ import React from 'react';
 import { ScoContact } from './ScoContact';
 import LearnMoreLabel from '../LearnMoreLabel';
 import { ariaLabels } from '../../constants';
+import classNames from 'classnames';
 
 export default function ContactInformation({ institution, showModal }) {
   const versionedSchoolCertifyingOfficials = _.get(
@@ -111,8 +112,10 @@ export default function ContactInformation({ institution, showModal }) {
       </div>
     );
 
+  const showSco = versionedSchoolCertifyingOfficials.length > 0;
+
   const schoolCertifyingOfficials = () =>
-    versionedSchoolCertifyingOfficials.length > 0 && (
+    showSco && (
       <div>
         <div>
           <h3 className="vads-u-margin-top--5 vads-u-margin-bottom--neg2p5">
@@ -124,9 +127,14 @@ export default function ContactInformation({ institution, showModal }) {
       </div>
     );
 
+  const institutionCodesClassNames = classNames(
+    'vads-u-margin-bottom--neg2p5',
+    { 'vads-u-margin-top--5': !showSco },
+  );
+
   const institutionCodes = () => (
     <div>
-      <h3 className="vads-u-margin-bottom--neg2p5">Institution codes</h3>
+      <h3 className={institutionCodesClassNames}>Institution codes</h3>
       <hr />
       <div>
         <strong>
