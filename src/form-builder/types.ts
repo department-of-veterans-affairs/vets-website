@@ -1,9 +1,8 @@
-import { FieldHookConfig } from 'formik';
-
-// The <T> is the value type of the field.
-//
-// This probably should intersect with FieldAttributes, but that one intersects
-// with T which gives me an error.
-export type FormulateFieldProps<T> = FieldHookConfig<T> & {
+// Ideally, this would use Formik's FieldProps definition, but I don't know how
+// to make that work
+export type FieldProps = {
   label: string;
+  id?: string;
+  validate?: <T>(value: T) => undefined | string | Promise<T>;
+  name: string;
 };
