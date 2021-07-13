@@ -11,7 +11,9 @@ export const SubmissionError = () => (
       while.
     </p>
 
-    <h5 className="vads-u-margin-top--0">What you can do</h5>
+    <h4 className="vads-u-margin-top--0 vads-u-font-size--h5">
+      What you can do
+    </h4>
 
     <p className="vads-u-margin-top--0 vads-u-font-size--base vads-u-font-family--sans">
       We've saved your progress. Please try to submit your request again
