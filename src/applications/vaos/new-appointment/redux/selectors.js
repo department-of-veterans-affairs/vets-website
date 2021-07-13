@@ -222,6 +222,10 @@ export function selectProviderSelectionInfo(state) {
   };
 }
 
+export function selectFacilityPageSortMethod(state) {
+  return getNewAppointment(state).facilityPageSortMethod;
+}
+
 export function getFacilityPageV2Info(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const data = getFormData(state);
@@ -230,7 +234,6 @@ export function getFacilityPageV2Info(state) {
 
   const {
     childFacilitiesStatus,
-    facilityPageSortMethod,
     requestLocationStatus,
     showEligibilityModal,
   } = newAppointment;
@@ -240,7 +243,6 @@ export function getFacilityPageV2Info(state) {
   const eligibility = selectEligibility(state);
   const validFacilities = formInfo.schema?.properties.vaFacility.enum;
   const showVariant = selectFeatureVariantTesting(state);
-  const sortMethod = facilityPageSortMethod;
 
   return {
     ...formInfo,
@@ -260,7 +262,7 @@ export function getFacilityPageV2Info(state) {
     selectedFacility: getChosenFacilityInfo(state),
     singleValidVALocation: validFacilities?.length === 1 && !!data.vaFacility,
     showEligibilityModal,
-    sortMethod,
+    sortMethod: selectFacilityPageSortMethod(state),
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
     showVariant,

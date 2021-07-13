@@ -4,9 +4,10 @@ import { getCernerURL } from 'platform/utilities/cerner';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
-import { FACILITY_SORT_METHODS } from '../../../utils/constants';
+import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { isCernerLocation } from '../../../services/location';
+import recordEvent from 'platform/monitoring/record-event';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 
@@ -69,6 +70,9 @@ export default function FacilitiesRadioWidget({
           label="Sort facilities"
           name="sort"
           onValueChange={type => {
+            recordEvent({
+              event: `${GA_PREFIX}_variant_method_${sortMethod}`,
+            });
             setSortType(type.value);
           }}
           options={sortOptions}

@@ -7,7 +7,11 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
 
 import { getFacilityPageV2Info } from '../../redux/selectors';
-import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
+import {
+  FETCH_STATUS,
+  FACILITY_SORT_METHODS,
+  GA_PREFIX,
+} from '../../../utils/constants';
 import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
@@ -28,6 +32,7 @@ import {
   updateFormData,
   hideEligibilityModal,
 } from '../../redux/actions';
+import recordEvent from 'platform/monitoring/record-event';
 
 const initialSchema = {
   type: 'object',
@@ -104,13 +109,10 @@ export default function VAFacilityPageV2() {
     loadingFacilities || (singleValidVALocation && loadingEligibility);
   const sortFocusEl = showVariant ? 'select' : '.sort-facility-button';
 
-  useEffect(
-    () => {
-      document.title = `${pageTitle} | Veterans Affairs`;
-      dispatch(openFacilityPageV2(pageKey, uiSchema, initialSchema));
-    },
-    [openFacilityPageV2],
-  );
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    dispatch(openFacilityPageV2(pageKey, uiSchema, initialSchema));
+  }, []);
 
   useEffect(
     () => {
@@ -236,9 +238,12 @@ export default function VAFacilityPageV2() {
           onBack={() =>
             dispatch(routeToPreviousAppointmentPage(history, pageKey))
           }
-          onSubmit={() =>
-            dispatch(routeToNextAppointmentPage(history, pageKey))
-          }
+          onSubmit={() => {
+            recordEvent({
+              event: `${GA_PREFIX}_variant_final_${sortMethod}`,
+            });
+            dispatch(routeToNextAppointmentPage(history, pageKey));
+          }}
           pageChangeInProgress={pageChangeInProgress}
           loadingText="Page change in progress"
         />
