@@ -52,7 +52,9 @@ export const missingTotalMessage = () => {
 
 export const totalRatingMessage = totalDisabilityRating => (
   <>
-    <h2 className="vads-u-margin-top--0">Your combined disability rating</h2>
+    <h2 id="combined-rating" className="vads-u-margin-top--0">
+      Your combined disability rating
+    </h2>
     <div className="vads-l-col--12 vads-u-background-color--gray-lightest vads-u-margin-top--0 vads-u-margin-bottom--2 vads-u-padding-top--1 vads-u-padding-bottom--2 vads-u-padding-x--2">
       <dl className="vads-u-display--block vads-u-margin--0">
         <dt className="vads-u-display--inline-block vads-u-font-size--h2 vads-u-font-weight--bold vads-u-margin--0 vads-u-border-color--gray-light vads-u-border-bottom--1px">
