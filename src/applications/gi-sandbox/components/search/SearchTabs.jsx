@@ -26,19 +26,19 @@ export default function SearchTabs({ onChange, search }) {
   const getTab = (tabName, label) => {
     const tabClasses = classNames(
       {
-        'vads-u-border-bottom--4px': tabName === tab,
-        'vads-u-border-color--primary': tabName === tab,
-        'vads-u-border-bottom--2px': tabName !== tab,
-        'vads-u-border-color--gray-light': tabName !== tab,
+        'active-search-tab': tabName === tab,
+        'inactive-search-tab': tabName !== tab,
         'vads-u-color--gray-light': tabName !== tab,
+        'vads-u-background-color--gray-lightest': tabName !== tab,
       },
       'vads-u-font-family--sans',
       'vads-u-flex--1',
       'vads-u-text-align--center',
       'vads-u-font-weight--bold',
       'vads-l-grid-container',
-      'vads-u-padding-bottom--1p5',
+      'vads-u-padding-y--1p5',
       'search-tab',
+      `${tabName}-search-tab`,
     );
 
     return (

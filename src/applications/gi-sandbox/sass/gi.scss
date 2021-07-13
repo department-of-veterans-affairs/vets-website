@@ -193,8 +193,27 @@
       padding: 48px 48px 24px 48px;
     }
 
+    .active-search-tab {
+      border-top: 4px solid $color-primary;
+    }
+
+    .inactive-search-tab {
+      border-top: 2px solid $color-gray-light;
+    }
+
     .search-tab {
       font-size: 25px;
+      border-bottom: 2px solid $color-gray-light;
+    }
+
+    .name-search-tab {
+      border-left: 2px solid $color-gray-light;
+      border-right: 1px solid $color-gray-light;
+    }
+
+    .location-search-tab {
+      border-left: 1px solid $color-gray-light;
+      border-right: 2px solid $color-gray-light;
     }
 
     input:placeholder-shown {
