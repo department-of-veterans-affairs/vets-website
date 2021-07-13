@@ -13,11 +13,7 @@ import { selectProfile } from '~/platform/user/selectors';
 
 import { readableList } from '../utils/helpers';
 
-export const ContactInfoDescription = ({
-  formContext,
-  profile,
-  // refreshProfile,
-}) => {
+export const ContactInfoDescription = ({ formContext, profile }) => {
   const [hadError, setHadError] = useState(false);
 
   /* use vapContactInfo because it comes directly from the profile. We're using
