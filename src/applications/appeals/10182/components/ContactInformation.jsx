@@ -95,7 +95,10 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
         </>
       )}
       <div className="blue-bar-block vads-u-margin-top--4">
-        <div className="va-profile-wrapper">
+        <div
+          className="va-profile-wrapper"
+          onSubmit={event => event.stopPropagation()}
+        >
           <InitializeVAPServiceID>
             <VAPServicePendingTransactionCategory
               categoryType={TRANSACTION_CATEGORY_TYPES.PHONE}

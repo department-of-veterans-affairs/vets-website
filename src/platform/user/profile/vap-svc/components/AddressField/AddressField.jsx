@@ -94,7 +94,7 @@ export const convertCleanDataToPayload = (data, fieldName) => {
   );
 };
 
-function AddressField({ title, fieldName, deleteDisabled, stopPropagation }) {
+function AddressField({ title, fieldName, deleteDisabled }) {
   return (
     <VAPServiceProfileField
       title={title}
@@ -107,7 +107,6 @@ function AddressField({ title, fieldName, deleteDisabled, stopPropagation }) {
       ValidationModal={AddressValidationModal}
       formSchema={getFormSchema()}
       uiSchema={getUiSchema()}
-      stopPropagation={stopPropagation}
     />
   );
 }

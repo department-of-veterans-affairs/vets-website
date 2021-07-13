@@ -17,7 +17,6 @@ const ContactInfoForm = props => (
     }}
     onSubmit={e => props.onSubmit(e)}
     data={props.formData}
-    stopPropagation={props.stopPropagation}
   >
     {props.children}
   </SchemaForm>
@@ -29,7 +28,6 @@ ContactInfoForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onUpdateFormData: PropTypes.func.isRequired,
   uiSchema: PropTypes.object.isRequired,
-  stopPropagation: PropTypes.bool,
 };
 
 export default ContactInfoForm;

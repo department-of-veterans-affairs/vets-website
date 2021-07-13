@@ -108,7 +108,6 @@ describe('<VAPServiceProfileField/>', () => {
       title: props.title,
       transactionRequest: props.transactionRequest,
       clearErrors: props.clearErrors,
-      stopPropagation: props.stopPropagation,
     };
     sinon.spy(props, 'ValidationModal');
 
@@ -123,7 +122,6 @@ describe('<VAPServiceProfileField/>', () => {
     expect(props.ValidationModal.called).to.be.true;
 
     const args = props.ValidationModal.getCall(0).args[0];
-
     expect(
       args,
       'No props were passed to the ValidationModal constructor',

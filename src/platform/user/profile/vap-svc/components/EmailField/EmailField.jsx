@@ -55,7 +55,6 @@ export default class EmailField extends React.Component {
         formSchema={formSchema}
         uiSchema={uiSchema}
         deleteDisabled={this.props.deleteDisabled}
-        stopPropagation={this.props.stopPropagation}
       />
     );
   }

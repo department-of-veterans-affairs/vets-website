@@ -108,7 +108,6 @@ class AddressEditModal extends React.Component {
         uiSchema={this.props.field.uiSchema}
         onUpdateFormData={this.onInput}
         onSubmit={onSubmit}
-        stopPropagation={this.props.stopPropagation}
       >
         {formButtons}
       </ContactInfoForm>
