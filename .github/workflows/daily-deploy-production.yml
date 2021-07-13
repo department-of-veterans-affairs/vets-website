@@ -82,7 +82,6 @@ jobs:
   notify-start:
     name: Notify Start
     runs-on: ubuntu-latest
-    needs: validate-build-status
 
     steps:
       - name: Configure AWS credentials
@@ -130,7 +129,7 @@ jobs:
   create-release:
     name: Create Release
     runs-on: ubuntu-latest
-    needs: [set-env, notify-start]
+    needs: [set-env, notify-start, validate-build-status]
 
     steps:
       - name: Waiting to release 
