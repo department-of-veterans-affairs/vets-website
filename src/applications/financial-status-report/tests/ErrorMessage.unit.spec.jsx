@@ -1,10 +1,10 @@
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
 import React from 'react';
 import ErrorMessage from '../components/ErrorMessage';
 
 describe('ErrorMessage', () => {
-  it('should render va-alert', () => {
+  it('should render va-alert', async () => {
     const fakeStore = {
       getState: () => ({
         fsr: {
@@ -23,9 +23,13 @@ describe('ErrorMessage', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const errorMessage = mount(<ErrorMessage store={fakeStore} />);
-    const vaAlert = errorMessage.find('va-alert');
-    expect(vaAlert).not.to.be.undefined;
-    errorMessage.unmount();
+    const screen = render(<ErrorMessage store={fakeStore} />);
+    const errorMessage = screen.findByText(
+      "We're sorry. Something went wrong on our end.",
+    );
+
+    await waitFor(() => {
+      expect(errorMessage).not.to.be.undefined;
+    });
   });
 });
