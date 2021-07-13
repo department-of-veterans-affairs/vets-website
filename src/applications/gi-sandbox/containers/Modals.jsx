@@ -9,6 +9,9 @@ import SingleContactModalContent from '../components/content/modals/SingleContac
 import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
 import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
 import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
+import FacilityCodeModalContent from '../components/content/modals/FacilityCodeModalContent';
+import OpeCodeModalContent from '../components/content/modals/OpeCodeModalContent';
+import IpedsCodeModalContent from '../components/content/modals/IpedsCodeModalContent';
 import EightKeysModalContent from '../components/content/modals/EightKeysModalContent';
 import MilitaryTuitionAssistanceModalContent from '../components/content/modals/MilitaryTuitionAssistanceModalContent';
 import PrinciplesOfExcellenceModalContent from '../components/content/modals/PrinciplesOfExcellenceModalContent';
@@ -502,8 +505,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('facilityCode')}
         elementToFocusOnClose="facilityCode-button"
       >
-        <h3>VA facility code</h3>
-        <p>Unique identifier for VA-approved facilities.</p>
+        <FacilityCodeModalContent />
       </Modal>
 
       <Modal
@@ -511,12 +513,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('ipedsCode')}
         elementToFocusOnClose="ipedsCode-button"
       >
-        <h3>ED IPEDS code</h3>
-        <p>
-          Unique identification number assigned to postsecondary institutions
-          surveyed through the Integrated Postsecondary Education Data System
-          (IPEDS). Also referred to as UNITID or IPEDS ID.
-        </p>
+        <IpedsCodeModalContent />
       </Modal>
 
       <Modal
@@ -524,14 +521,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('opeCode')}
         elementToFocusOnClose="opeCode-button"
       >
-        <h3>ED OPE code</h3>
-        <p>
-          Identification number used by the U.S. Department of {'Education’s'}{' '}
-          Office of Postsecondary Education (OPE) to identify schools that have
-          Program Participation Agreements (PPA) so that its students are
-          eligible to participate in Federal Student Financial Assistance
-          programs under Title IV regulations.
-        </p>
+        <OpeCodeModalContent />
       </Modal>
     </span>
   );

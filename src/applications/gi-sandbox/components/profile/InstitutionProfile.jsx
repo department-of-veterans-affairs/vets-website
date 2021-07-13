@@ -147,7 +147,7 @@ export default function InstitutionProfile({
         />
       </ProfileSection>
       <ProfileSection label="Contact information" id="contact-information">
-        <ContactInformation institution={institution} />
+        <ContactInformation institution={institution} showModal={showModal} />
       </ProfileSection>
     </div>
   );
