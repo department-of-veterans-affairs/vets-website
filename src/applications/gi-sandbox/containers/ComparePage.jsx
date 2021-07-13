@@ -391,7 +391,7 @@ export function ComparePage({
             ]}
           />
 
-          {!gibctSchoolRatings &&
+          {gibctSchoolRatings &&
             hasRatings && (
               <>
                 <CompareGrid
