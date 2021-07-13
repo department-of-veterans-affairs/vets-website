@@ -5,11 +5,11 @@ import { useFormikContext } from 'formik';
  * Display the Formik state
  */
 const DebuggerView = () => {
-  const { values } = useFormikContext();
+  const state = useFormikContext();
   return (
     <>
       <pre>
-        <code>{JSON.stringify(values, null, 2)}</code>
+        <code>{JSON.stringify(state, null, 2)}</code>
       </pre>
     </>
   );
