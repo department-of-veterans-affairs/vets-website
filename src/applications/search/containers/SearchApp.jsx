@@ -47,10 +47,6 @@ class SearchApp extends React.Component {
       page: pageFromURL,
       typeaheadUsed,
     };
-
-    if (!userInputFromURL) {
-      window.location.href = '/';
-    }
   }
 
   componentDidMount() {
@@ -199,11 +195,14 @@ class SearchApp extends React.Component {
   };
 
   renderResults() {
-    const { loading, errors, currentPage, totalPages } = this.props.search;
+    const {
+      loading,
+      errors,
+      currentPage,
+      totalPages,
+      results,
+    } = this.props.search;
     const hasErrors = !!(errors && errors.length > 0);
-    const nonBlankUserInput =
-      this.state.userInput &&
-      this.state.userInput.replace(/\s/g, '').length > 0;
 
     // Reusable search input
     const searchInput = (
@@ -224,7 +223,7 @@ class SearchApp extends React.Component {
             value={this.state.userInput}
             onChange={this.handleInputChange}
           />
-          <button type="submit" disabled={!nonBlankUserInput}>
+          <button type="submit">
             <IconSearch color="#fff" />
             <span className="button-text">Search</span>
           </button>
@@ -261,12 +260,15 @@ class SearchApp extends React.Component {
         />
 
         <div className="va-flex results-footer">
-          <Pagination
-            onPageSelect={this.handlePageChange}
-            page={currentPage}
-            pages={totalPages}
-            maxPageListLength={5}
-          />
+          {results &&
+            results.length > 0 && (
+              <Pagination
+                onPageSelect={this.handlePageChange}
+                page={currentPage}
+                pages={totalPages}
+                maxPageListLength={5}
+              />
+            )}
           <span className="powered-by">Powered by Search.gov</span>
         </div>
       </div>
@@ -303,6 +305,7 @@ class SearchApp extends React.Component {
       totalPages,
       totalEntries,
       loading,
+      results,
     } = this.props.search;
 
     let resultRangeEnd = currentPage * perPage;
@@ -344,30 +347,34 @@ class SearchApp extends React.Component {
 
     // regular display for how many search results total are available.
     /* eslint-disable prettier/prettier */
-    return (
-      <>
-        <h2
-          aria-live="polite"
-          aria-relevant="additions text"
-          className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal`}
-        >
-          Showing{' '}
-          {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
-          of {totalEntries} results for "
-          <span className="vads-u-font-weight--bold">
-            {this.props.router.location.query.query}
-          </span>
-          "
-        </h2>
-        <hr className="vads-u-margin-y--3" aria-hidden="true" />
-      </>
-    );
+    if (results && results.length > 0) {
+      return (
+        <>
+          <h2
+            aria-live="polite"
+            aria-relevant="additions text"
+            className={`${SCREENREADER_FOCUS_CLASSNAME} vads-u-font-size--base vads-u-font-family--sans vads-u-color--gray-dark vads-u-font-weight--normal`}
+          >
+            Showing{' '}
+            {totalEntries === 0 ? '0' : `${resultRangeStart}-${resultRangeEnd}`}{' '}
+            of {totalEntries} results for "
+            <span className="vads-u-font-weight--bold">
+              {this.props.router.location.query.query}
+            </span>
+            "
+          </h2>
+          <hr className="vads-u-margin-y--3" aria-hidden="true" />
+        </>
+      );
+    }
+
+    return null;
     /* eslint-enable prettier/prettier */
   }
 
   renderResultsList() {
     const { results, loading } = this.props.search;
-
+    const query = this.props.router?.location?.query?.query || '';
     if (loading) {
       return <LoadingIndicator message="Loading results..." />;
     }
@@ -384,13 +391,25 @@ class SearchApp extends React.Component {
         </>
       );
     }
-
+    if (query) {
+      return (
+        <p
+          className={`${SCREENREADER_FOCUS_CLASSNAME}`}
+          data-e2e-id="search-results-empty"
+        >
+          We didn't find any results for "<strong>{query}</strong>
+          ." Try using different words or checking the spelling of the words
+          you're using.
+        </p>
+      );
+    }
     return (
       <p
         className={`${SCREENREADER_FOCUS_CLASSNAME}`}
         data-e2e-id="search-results-empty"
       >
-        Sorry, no results found. Try again using different (or fewer) words.
+        We didn't find any results. Enter a keyword in the search box to try
+        again.
       </p>
     );
   }
