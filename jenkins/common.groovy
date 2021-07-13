@@ -117,9 +117,8 @@ def archive(dockerContainer, String ref, String envName) {
       sh "echo \"${buildDetails}\" > /application/build/${envName}/BUILD.txt"
 
       sh "cd /application && yarn test:coverage-only"
-      sh "node script/app-coverage-report.js"
-      sh "cp coverage/test-coverage-report.json build/${envName}/test-coverage-report.json"
-      sh "cd .."
+      sh "node /application/script/app-coverage-report.js"
+      sh "cp /application/coverage/test-coverage-report.json /application/build/${envName}/test-coverage-report.json"
 
       if(envName == 'vagovdev' || envName == 'vagovstaging') {
         sh "tar -C /application/build/${envName} -cf /application/build/apps.${envName}.tar.bz2 ."
