@@ -14,7 +14,10 @@ import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import { getFindFormsAppState } from '../helpers/selectors';
+import {
+  applySearchUIUXEnhancements,
+  getFindFormsAppState,
+} from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
 
@@ -49,6 +52,7 @@ export const SearchResults = ({
   sortByPropertyName,
   hasOnlyRetiredForms,
   startIndex,
+  showPDFInfoBox,
   updatePagination,
   updateSortByPropertyName,
 }) => {
@@ -176,6 +180,7 @@ export const SearchResults = ({
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
+        showPDFInfoBox={showPDFInfoBox}
       />
     ));
 
@@ -235,6 +240,7 @@ SearchResults.propTypes = {
   hasOnlyRetiredForms: PropTypes.bool.isRequired,
   sortByPropertyName: PropTypes.string,
   startIndex: PropTypes.number.isRequired,
+  showPDFInfoBox: PropTypes.bool,
   // From mapDispatchToProps.
   updateSortByPropertyName: PropTypes.func,
   updatePagination: PropTypes.func.isRequired,
@@ -249,6 +255,7 @@ const mapStateToProps = state => ({
   query: getFindFormsAppState(state).query,
   results: getFindFormsAppState(state).results,
   startIndex: getFindFormsAppState(state).startIndex,
+  showPDFInfoBox: applySearchUIUXEnhancements(state),
 });
 
 const mapDispatchToProps = dispatch => ({

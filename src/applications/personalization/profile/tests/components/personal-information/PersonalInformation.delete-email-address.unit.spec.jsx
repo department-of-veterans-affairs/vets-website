@@ -13,8 +13,6 @@ import {
   wait,
 } from '../../unit-test-helpers';
 
-let emailAddress;
-
 const ui = (
   <MemoryRouter>
     <PersonalInformation />
@@ -53,6 +51,7 @@ function deleteEmailAddress() {
 }
 
 describe('Deleting email address', () => {
+  const userNameRegex = /alongusername/;
   before(() => {
     server = setupServer(...mocks.deleteEmailAddressSuccess);
     server.listen();
@@ -60,7 +59,6 @@ describe('Deleting email address', () => {
   beforeEach(() => {
     window.VetsGov = { pollTimeout: 1 };
     const initialState = createBasicInitialState();
-    emailAddress = initialState.user.profile.vapContactInfo.email.emailAddress;
 
     view = renderWithProfileReducers(ui, {
       initialState,
@@ -99,7 +97,7 @@ describe('Deleting email address', () => {
     // the edit email button should still exist
     view.getByRole('button', { name: /edit.*email address/i });
     // and the email address should not exist
-    expect(view.queryByText(emailAddress)).not.to.exist;
+    expect(view.queryByText(userNameRegex)).not.to.exist;
     // and the add email text should exist
     view.getByText(/add.*email address/i);
   });
@@ -124,7 +122,7 @@ describe('Deleting email address', () => {
     // the edit email button should still exist
     view.getByRole('button', { name: /edit.*email address/i });
     // and the email address should not exist
-    expect(view.queryByText(emailAddress)).not.to.exist;
+    expect(view.queryByText(userNameRegex)).not.to.exist;
     // and the add email text should exist
     view.getByText(/add.*email address/i);
   });
@@ -208,7 +206,7 @@ describe('Deleting email address', () => {
     ).to.exist;
 
     // and the email address should still exist
-    expect(view.getByText(emailAddress)).to.exist;
+    expect(view.getByText(userNameRegex)).to.exist;
     // and the edit email button should be back
     expect(getEditButton()).to.exist;
   });
