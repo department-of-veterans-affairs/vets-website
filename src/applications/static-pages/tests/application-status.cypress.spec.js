@@ -27,7 +27,7 @@ describe('Application Status Test', () => {
   it('Achieves the correct result per URL', () => {
     cy.login();
     /* eslint-disable camelcase */
-    cy.intercept('GET', '/vo/user', {
+    cy.intercept('GET', '/v0/user', {
       data: {
         attributes: {
           profile: {
@@ -96,19 +96,22 @@ describe('Application Status Test', () => {
       '/health-care/eligibility',
       '/health-care/apply/application/resume',
     );
-    cy.testStatus('/pension/how-to-apply/', '/pension/application/527EZ/');
-    cy.testStatus('/pension/eligibility', '/pension/application/527EZ/');
+    cy.testStatus(
+      '/pension/how-to-apply/',
+      '/pension/application/527EZ/resume',
+    );
+    cy.testStatus('/pension/eligibility', '/pension/application/527EZ/resume');
     cy.testStatus(
       '/burials-memorials/veterans-burial-allowance/',
-      '/burials-and-memorials/application/530/',
+      '/burials-and-memorials/application/530/resume',
     );
     cy.testStatus(
       '/education/how-to-apply/',
-      '/education/apply-for-education-benefits/application/1995/',
+      '/education/apply-for-education-benefits/application/1995/resume',
     );
     cy.testStatus(
       '/education/eligibility',
-      '/education/apply-for-education-benefits/application/1995/',
+      '/education/apply-for-education-benefits/application/1995/resume',
     );
   });
 });
