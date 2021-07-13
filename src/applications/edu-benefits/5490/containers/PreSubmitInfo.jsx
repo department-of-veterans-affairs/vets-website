@@ -21,7 +21,6 @@ function PreSubmitNotice({
       (!hasServed || (hasServed && allServicePeriodsHaveEndDate))
     ) {
       return (
-        // AC 7c and 7f
         <p>
           <strong>By submitting this form</strong> you certify that all
           statements in this application are true and correct to the best of
@@ -34,7 +33,6 @@ function PreSubmitNotice({
       (!hasServed || (hasServed && allServicePeriodsHaveEndDate))
     ) {
       return (
-        // AC 7a and 7e
         <div>
           <p>
             <strong>By submitting this form</strong> you certify that:
@@ -54,7 +52,6 @@ function PreSubmitNotice({
       hasServed &&
       !allServicePeriodsHaveEndDate
     ) {
-      // AC 7b
       return (
         <div>
           <p>
