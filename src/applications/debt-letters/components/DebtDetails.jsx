@@ -8,7 +8,6 @@ import last from 'lodash/last';
 import first from 'lodash/first';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import HowDoIPay from './HowDoIPay';
@@ -148,13 +147,13 @@ const DebtDetails = ({ selectedDebt }) => {
             </dl>
           </div>
 
-          <AlertBox
-            className="vads-u-margin-y--4 debt-details-alert"
+          <va-alert
             status="info"
-            backgroundOnly
+            class="vads-u-margin-bottom--4 vads-u-font-size--base"
+            background-only
           >
             {additionalInfo.nextStep}
-          </AlertBox>
+          </va-alert>
 
           {whyMightIHaveThisDebtContent && (
             <AdditionalInfo triggerText="Why might I have this debt?">

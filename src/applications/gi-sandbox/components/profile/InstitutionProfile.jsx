@@ -140,7 +140,7 @@ export default function InstitutionProfile({
         id="veteran-programs-and-support"
       />
       <ProfileSection label="Contact information" id="contact-information">
-        <ContactInformation institution={institution} />
+        <ContactInformation institution={institution} showModal={showModal} />
       </ProfileSection>
     </div>
   );
