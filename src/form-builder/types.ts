@@ -1,8 +1,6 @@
-// Ideally, this would use Formik's FieldProps definition, but I don't know how
-// to make that work
-export type FieldProps = {
+import { FieldHookConfig } from 'formik';
+
+export type FieldProps<V> = FieldHookConfig<V> & {
   label: string;
   id?: string;
-  validate?: <T>(value: T) => undefined | string | Promise<T>;
-  name: string;
 };
