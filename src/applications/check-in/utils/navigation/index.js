@@ -1,11 +1,15 @@
-const getTokenFromRouter = router => {
-  const { token } = router.params;
-  return token;
+const getTokenFromLocation = location => location?.query?.id;
+
+const goToNextPage = (router, target) => {
+  router.push(target);
 };
 
-const goToNextPageWithToken = (router, route) => {
-  const token = getTokenFromRouter(router);
-  router.push(`/${token}/${route}`);
-};
+const URLS = Object.freeze({
+  UPDATE_INSURANCE: 'update-information',
+  SEE_STAFF: 'see-staff',
+  DETAILS: 'details',
+  COMPLETE: 'complete',
+  ERROR: 'error',
+});
 
-export { goToNextPageWithToken, getTokenFromRouter };
+export { getTokenFromLocation, goToNextPage, URLS };

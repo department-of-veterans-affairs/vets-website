@@ -31,7 +31,11 @@ const withFeatureFlipError = WrappedComponent => props => {
   } else if (displayErrorMessage) {
     return <>Whomp</>;
   } else {
-    return <WrappedComponent {...props} />;
+    return (
+      <>
+        <WrappedComponent {...props} />
+      </>
+    );
   }
 };
 const mapStateToProps = state => ({
