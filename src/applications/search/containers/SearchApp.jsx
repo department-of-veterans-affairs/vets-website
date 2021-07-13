@@ -195,7 +195,13 @@ class SearchApp extends React.Component {
   };
 
   renderResults() {
-    const { loading, errors, currentPage, totalPages } = this.props.search;
+    const {
+      loading,
+      errors,
+      currentPage,
+      totalPages,
+      results,
+    } = this.props.search;
     const hasErrors = !!(errors && errors.length > 0);
 
     // Reusable search input
@@ -254,12 +260,15 @@ class SearchApp extends React.Component {
         />
 
         <div className="va-flex results-footer">
-          <Pagination
-            onPageSelect={this.handlePageChange}
-            page={currentPage}
-            pages={totalPages}
-            maxPageListLength={5}
-          />
+          {results &&
+            results.length > 0 && (
+              <Pagination
+                onPageSelect={this.handlePageChange}
+                page={currentPage}
+                pages={totalPages}
+                maxPageListLength={5}
+              />
+            )}
           <span className="powered-by">Powered by Search.gov</span>
         </div>
       </div>
