@@ -186,7 +186,8 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     expect(screen.baseElement).not.to.contain.text('VA appointment');
   });
 
-  it('should have correct status when previously cancelled', async () => {
+  // TODO: Remove
+  it.skip('should have correct status when previously cancelled', async () => {
     const pastDate = moment().subtract(3, 'days');
     const appointment = getVAAppointmentMock();
     appointment.attributes = {

@@ -20,6 +20,7 @@ import { renderWithStoreAndRouter } from '../../../mocks/setup';
 import PastAppointmentsList, {
   getPastAppointmentDateRangeOptions,
 } from '../../../../appointment-list/components/PastAppointmentsList';
+import { CANCELLED_APPOINTMENT_SET } from '../../../../services/appointment';
 
 const initialState = {
   featureToggles: {
@@ -225,7 +226,8 @@ describe('VAOS <PastAppointmentsList>', () => {
     expect(baseElement).to.contain.text('Do not eat for 24 hours');
   });
 
-  it('should have correct status when previously cancelled', async () => {
+  // TODO: Remove
+  it.skip('should have correct status when previously cancelled', async () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
@@ -502,5 +504,37 @@ describe('VAOS <PastAppointmentsList>', () => {
     await screen.findByText(/Community care/i);
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+  });
+
+  describe('Past cancelled appointments', () => {
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: pastDate.format(),
+      vdsAppointments: [
+        {
+          currentStatus: null,
+        },
+      ],
+    };
+
+    it('should not display', async () => {
+      const iterator = CANCELLED_APPOINTMENT_SET.values();
+      let status = iterator.next();
+      while (!status.done) {
+        appointment.attributes.vdsAppointments[0].currentStatus = status.value;
+        mockPastAppointmentInfo({ va: [appointment] });
+        const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
+          initialState,
+        });
+
+        // eslint-disable-next-line no-await-in-loop
+        expect(await screen.findByText(/You don’t have any appointments/i)).to
+          .exist;
+
+        screen.unmount();
+        status = iterator.next();
+      }
+    });
   });
 });

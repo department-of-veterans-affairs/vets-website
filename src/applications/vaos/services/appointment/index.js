@@ -352,6 +352,7 @@ export function hasValidCovidPhoneNumber(facility) {
 export function isValidPastAppointment(appt) {
   return (
     CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
+    appt.status !== APPOINTMENT_STATUS.cancelled &&
     // Show confirmed appointments that don't have vista statuses in the exclude
     // list
     (!PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) ||
