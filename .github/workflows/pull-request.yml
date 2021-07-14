@@ -2,7 +2,7 @@ name: Pull Request
 
 on: 
   pull_request:
-      types: [review_requested, ready_for_review, synchronize, edited, reopened, opened]
+    types: [review_requested, ready_for_review, synchronize, edited, reopened, opened]
 
 env:
   BOT_NAME: va-vfs-bot
