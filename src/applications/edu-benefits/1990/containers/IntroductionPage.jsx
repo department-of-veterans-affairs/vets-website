@@ -11,6 +11,7 @@ import {
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
+import HowToApplyPost911GiBill from '../HowToApplyPost911GiBill';
 
 export class IntroductionPage extends React.Component {
   state = {
@@ -41,6 +42,7 @@ export class IntroductionPage extends React.Component {
           <WizardContainer setWizardStatus={this.setWizardStatus} />
         ) : (
           <div className="subway-map">
+            <HowToApplyPost911GiBill />
             <SaveInProgressIntro
               prefillEnabled={this.props.route.formConfig.prefillEnabled}
               messages={this.props.route.formConfig.savedFormMessages}
