@@ -25,5 +25,6 @@ window.addEventListener('DOMContentLoaded', () => {
   feedbackButtonContainer.remove();
   content.append(feedbackButtonContainer);
   updateFeedbackButtonInlineCss();
-  new MutationObserver(detectButtonAdded).observe(feedbackButtonContainer, config);
+  const observer = new MutationObserver(detectButtonAdded)
+  observer.observe(feedbackButtonContainer, config);
 });
