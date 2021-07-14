@@ -247,6 +247,7 @@ export default function PastAppointmentsListNew() {
       })}
       {!pastAppointmentsByMonth?.length && (
         <NoAppointments
+          description="past appointments"
           showScheduleButton={showScheduleButton}
           startNewAppointmentFlow={() => {
             recordEvent({
