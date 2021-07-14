@@ -22,7 +22,7 @@ import {
 import PastAppointmentsListV2, {
   getPastAppointmentDateRangeOptions,
 } from '../../../appointment-list/components/PastAppointmentsListV2';
-import { getVAOSRequestMock } from '../../mocks/v2';
+import { getVAOSAppointmentMock } from '../../mocks/v2';
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
 
 const initialState = {
@@ -297,7 +297,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       .add(30, 'minutes');
 
     const yesterday = moment().subtract(1, 'day');
-    const appointment = getVAOSRequestMock();
+    const appointment = getVAOSAppointmentMock();
     appointment.id = '123';
     appointment.attributes = {
       ...appointment.attributes,
@@ -310,7 +310,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       start: start.format('YYYY-MM-DDTHH:mm:ssZ'),
       end: end.format('YYYY-MM-DDTHH:mm:ssZ'),
       requests: [appointment],
-      statuses: ['booked'],
+      statuses: ['booked', 'cancelled'],
     });
 
     const myInitialState = {
@@ -329,9 +329,6 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     );
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(global.fetch.firstCall.args[0]).to.equal(
-      `https://dev-api.va.gov/vaos/v2/appointments?start=${start.format()}&end=${end.format()}&statuses[]=booked`,
-    );
   });
 
   describe('getPastAppointmentDateRangeOptions', () => {
