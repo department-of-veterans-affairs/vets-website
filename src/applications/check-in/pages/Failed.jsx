@@ -9,7 +9,8 @@ const Failed = () => {
   }, []);
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
-      <h1 tabIndex="-1">Please check in with a staff member.</h1>
+      <h1 tabIndex="-1">Check in with a staff member.</h1>
+      <p>They can help you update your information before your appointment.</p>
       <Footer header={'Not sure who to check in with?'} />
       <BackToHome />
     </div>
