@@ -2,8 +2,8 @@
 import React, { useRef, useEffect } from 'react';
 import { useField } from 'formik';
 
-// import { Field } from 'formik';
 import { FieldProps } from './types';
+import { getMessage } from '../utils/i18n';
 
 // TODO: Figure out how to actually import the type defintions for these web components
 // The @ts-ignore comments are because the web component types aren't available.
@@ -35,7 +35,20 @@ const Wrapper = (props: FieldProps<string>) => {
 
 const TextField = (props: FieldProps<string>): JSX.Element => {
   const id = props.id || props.name;
-  return <Wrapper id={id} {...props} />;
+  const validate = (value: string) => {
+    console.log(`validation run on ${props.name}:`, value);
+    if (props.required && !value) {
+      const errorMessage =
+        typeof props.required === 'string'
+          ? props.required
+          : getMessage('required.default');
+      console.log(`  ${errorMessage}`);
+      return errorMessage;
+    }
+
+    return props.validate ? props.validate(value) : undefined;
+  };
+  return <Wrapper id={id} {...props} validate={validate} />;
 };
 
 export default TextField;
