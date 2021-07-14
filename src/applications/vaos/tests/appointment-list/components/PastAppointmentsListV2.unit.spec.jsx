@@ -186,33 +186,6 @@ describe('VAOS <PastAppointmentsListV2>', () => {
     expect(screen.baseElement).not.to.contain.text('VA appointment');
   });
 
-  it('should have correct status when previously cancelled', async () => {
-    const pastDate = moment().subtract(3, 'days');
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: pastDate.format(),
-      clinicFriendlyName: 'C&P BEV AUDIO FTC1',
-      facilityId: '983',
-      sta6aid: '983GC',
-    };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
-
-    mockPastAppointmentInfo({ va: [appointment] });
-
-    const screen = renderWithStoreAndRouter(<PastAppointmentsListV2 />, {
-      initialState,
-    });
-
-    await screen.findAllByText(
-      new RegExp(pastDate.tz('America/Denver').format('dddd, MMMM D'), 'i'),
-    );
-
-    expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
-    expect(screen.baseElement).to.contain.text('Canceled');
-  });
-
   it('should not display when they have hidden statuses', () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes.startDate = moment().format();
