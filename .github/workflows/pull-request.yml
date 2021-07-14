@@ -71,7 +71,7 @@ jobs:
   icon-check:
     name: Icon Check
     runs-on: ubuntu-latest
-    if: github.event.pull_request.draft == false
+    if: ${{ github.event.pull_request.draft == false }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
