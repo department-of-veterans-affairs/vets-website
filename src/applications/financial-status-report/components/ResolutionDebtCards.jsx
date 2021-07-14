@@ -1,7 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { setData } from 'platform/forms-system/src/js/actions';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
@@ -10,6 +8,9 @@ import Telephone, {
   CONTACTS,
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
+
+import { setData } from 'platform/forms-system/src/js/actions';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 
 const formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
@@ -67,12 +68,17 @@ const ExpandedContent = ({
             required
           />
           <p>
-            Note: If you have questions about this, call us at{' '}
-            <Telephone contact={CONTACTS.DMC || '800-827-0648'} /> (or{' '}
+            Note: If you have questions about this, call us at
+            <Telephone
+              contact={CONTACTS.DMC || '800-827-0648'}
+              className="vads-u-margin-x--0p5"
+            />
+            (or
             <Telephone
               contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
               pattern={PATTERNS.OUTSIDE_US}
-            />{' '}
+              className="vads-u-margin-x--0p5"
+            />
             from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00
             p.m. ET.
           </p>

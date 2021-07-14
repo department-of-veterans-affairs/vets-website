@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { getMonthlyIncome, getMonthlyExpenses } from '../utils/helpers';
 
 const FinancialOverview = ({ formData }) => {

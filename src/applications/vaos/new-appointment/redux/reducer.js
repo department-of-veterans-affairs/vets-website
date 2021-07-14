@@ -112,6 +112,7 @@ const initialState = {
   requestStatus: FETCH_STATUS.notStarted,
   currentLocation: {},
   ccProviderPageSortMethod: FACILITY_SORT_METHODS.distanceFromResidential,
+  facilityPageSortMethod: null,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -422,7 +423,7 @@ export default function formReducer(state = initialState, action) {
       }
 
       if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
-        facilities = facilities.sort((a, b) => a.name - b.name);
+        facilities = facilities.sort((a, b) => a.name.localeCompare(b.name));
       } else {
         facilities = facilities.sort(
           (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
@@ -732,7 +733,7 @@ export default function formReducer(state = initialState, action) {
             clinicId: {
               type: 'string',
               title:
-                'You can choose a clinic where you’ve been seen or request an appointment at a different clinic.',
+                'Choose a clinic below or request a different clinic for this appointment.',
               enum: clinics.map(clinic => clinic.id).concat('NONE'),
               enumNames: clinics
                 .map(clinic => clinic.serviceName)

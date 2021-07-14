@@ -71,11 +71,14 @@ describe('Direct Deposit', () => {
   describe('for CNP', () => {
     it('should allow bank info updates, show WIP warning modals, show "update successful" banners, etc.', () => {
       cy.axeCheck();
-      cy.findByRole('button', { name: /add.*bank info/i }).click({
+      cy.findByRole('button', {
+        name: /edit.*disability.*bank information/i,
+      }).click({
         // using force: true since there are times when the click does not
         // register and the bank info form does not open
         force: true,
       });
+      cy.findByLabelText(/routing number/i).should('be.focused');
       fillInBankInfoForm('CNP');
       exitBankInfoForm();
       dismissUnsavedChangesModal();
@@ -103,7 +106,9 @@ describe('Direct Deposit', () => {
       cy.findByRole('button', {
         name: /edit.*disability.*pension.*bank info/i,
       }).should('exist');
-      cy.findByRole('button', { name: /add.*bank info/i }).should('not.exist');
+      cy.findByRole('button', { name: /edit.*bank information/i }).should(
+        'not.exist',
+      );
       saveSuccessAlertShown('compensation and pension benefits');
       saveSuccessAlertRemoved();
       cy.axeCheck();
@@ -119,6 +124,7 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
+      cy.findByLabelText(/routing number/i).should('be.focused');
       fillInBankInfoForm('EDU');
       exitBankInfoForm();
       dismissUnsavedChangesModal();
@@ -153,7 +159,9 @@ describe('Direct Deposit', () => {
   });
   describe('when editing both at the same time and they both fail to update', () => {
     it('should not have any aXe violations', () => {
-      cy.findByRole('button', { name: /add.*bank info/i }).click({
+      cy.findByRole('button', {
+        name: /edit.*disability.*bank information/i,
+      }).click({
         // using force: true since there are times when the click does not
         // register and the bank info form does not open
         force: true,

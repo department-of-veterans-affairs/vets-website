@@ -40,6 +40,7 @@ import {
   cnpDirectDepositIsSetUp,
   eduDirectDepositInformation,
   eduDirectDepositIsSetUp,
+  showNotificationSettings,
 } from '@@profile/selectors';
 import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
@@ -154,6 +155,7 @@ class Profile extends Component {
   mainContent = () => {
     const routesOptions = {
       removeDirectDeposit: !this.props.shouldShowDirectDeposit,
+      removeNotificationSettings: !this.props.shouldShowNotificationSettings,
     };
 
     // We need to pass in a config to hide forbidden routes
@@ -207,6 +209,7 @@ class Profile extends Component {
               />
 
               {/* fallback handling: redirect to root route */}
+              {/* Should we consider making a 404 page for this instead? */}
               <Route path="*">
                 <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
               </Route>
@@ -356,6 +359,7 @@ const mapStateToProps = state => {
     shouldFetchEDUDirectDepositInformation,
     shouldFetchTotalDisabilityRating,
     shouldShowDirectDeposit: shouldShowDirectDeposit(),
+    shouldShowNotificationSettings: showNotificationSettings(state),
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),

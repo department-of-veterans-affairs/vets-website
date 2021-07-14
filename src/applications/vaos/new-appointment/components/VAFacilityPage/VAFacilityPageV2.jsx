@@ -7,7 +7,11 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
 
 import { getFacilityPageV2Info } from '../../redux/selectors';
-import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
+import {
+  FETCH_STATUS,
+  FACILITY_SORT_METHODS,
+  GA_PREFIX,
+} from '../../../utils/constants';
 import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
@@ -28,6 +32,7 @@ import {
   updateFormData,
   hideEligibilityModal,
 } from '../../redux/actions';
+import recordEvent from 'platform/monitoring/record-event';
 
 const initialSchema = {
   type: 'object',
@@ -40,14 +45,13 @@ const initialSchema = {
   },
 };
 
-const uiSchema = {
-  vaFacility: {
-    'ui:title': 'Please select where you’d like to have your appointment.',
-    'ui:widget': FacilitiesRadioWidget,
-  },
-};
-
 const pageKey = 'vaFacilityV2';
+
+const sortOptions = [
+  { value: 'distanceFromResidentialAddress', label: 'By your home address' },
+  { value: 'distanceFromCurrentLocation', label: 'By your current location' },
+  { value: 'alphabetical', label: 'Alphabetically' },
+];
 
 export default function VAFacilityPageV2() {
   const history = useHistory();
@@ -68,29 +72,46 @@ export default function VAFacilityPageV2() {
     schema,
     selectedFacility,
     showEligibilityModal,
+    showVariant,
     singleValidVALocation,
     sortMethod,
     typeOfCare,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
+
+  const uiSchema = {
+    vaFacility: {
+      'ui:title': showVariant
+        ? `Select a VA facility where you’re registered that offers ${lowerCase(
+            typeOfCare?.name,
+          )} appointments.`
+        : 'Please select where you’d like to have your appointment.',
+      'ui:widget': FacilitiesRadioWidget,
+    },
+  };
+
   const loadingEligibility = loadingEligibilityStatus === FETCH_STATUS.loading;
+  const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
   const loadingFacilities =
     childFacilitiesStatus === FETCH_STATUS.loading ||
     childFacilitiesStatus === FETCH_STATUS.notStarted;
-  const pageTitle = singleValidVALocation
-    ? 'Your appointment location'
-    : `Choose a VA location for your ${lowerCase(
-        typeOfCare?.name,
-      )} appointment`;
+  let pageTitle;
+  if (singleValidVALocation) {
+    pageTitle = 'Your appointment location';
+  } else if (showVariant) {
+    pageTitle = 'Choose a VA Location';
+  } else {
+    pageTitle = `Choose a VA location for your ${lowerCase(
+      typeOfCare?.name,
+    )} appointment`;
+  }
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
+  const sortFocusEl = showVariant ? 'select' : '.sort-facility-button';
 
-  useEffect(
-    () => {
-      document.title = `${pageTitle} | Veterans Affairs`;
-      dispatch(openFacilityPageV2(pageKey, uiSchema, initialSchema));
-    },
-    [openFacilityPageV2],
-  );
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    dispatch(openFacilityPageV2(pageKey, uiSchema, initialSchema));
+  }, []);
 
   useEffect(
     () => {
@@ -107,6 +128,20 @@ export default function VAFacilityPageV2() {
       }
     },
     [showEligibilityModal, previouslyShowingModal],
+  );
+
+  useEffect(
+    () => {
+      if (requestingLocation) {
+        scrollAndFocus('.loading-indicator');
+      } else if (requestLocationStatus === FETCH_STATUS.failed) {
+        scrollAndFocus('va-alert');
+        updateFacilitySortMethod(sortOptions[0].value, uiSchema);
+      } else {
+        scrollAndFocus(sortFocusEl);
+      }
+    },
+    [requestingLocation, requestLocationStatus, showVariant, sortFocusEl],
   );
 
   const pageHeader = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
@@ -209,26 +244,27 @@ export default function VAFacilityPageV2() {
   const sortByDistanceFromCurrentLocation =
     sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation;
 
-  const requestingLocation = requestLocationStatus === FETCH_STATUS.loading;
-
   return (
     <div>
       {pageHeader}
-      <p>
-        Below is a list of VA locations where you’re registered that offer{' '}
-        {typeOfCare?.name} appointments.
-        {(sortByDistanceFromResidential || sortByDistanceFromCurrentLocation) &&
-          ' Locations closest to you are at the top of the list.'}
-      </p>
+      {!showVariant && (
+        <p>
+          Below is a list of VA locations where you’re registered that offer{' '}
+          {lowerCase(typeOfCare?.name)} appointments.
+          {(sortByDistanceFromResidential ||
+            sortByDistanceFromCurrentLocation) &&
+            ' Locations closest to you are at the top of the list.'}
+        </p>
+      )}
       {sortByDistanceFromResidential &&
-        !requestingLocation && (
+        (!requestingLocation && !showVariant) && (
           <>
             <ResidentialAddress address={address} />
             {requestLocationStatus !== FETCH_STATUS.failed && (
               <p>
                 Or,{' '}
                 <button
-                  className="va-button-link"
+                  className="va-button-link sort-facility-button"
                   onClick={() => {
                     dispatch(
                       updateFacilitySortMethod(
@@ -245,7 +281,7 @@ export default function VAFacilityPageV2() {
           </>
         )}
       {sortByDistanceFromCurrentLocation &&
-        !requestingLocation && (
+        (!requestingLocation && !showVariant) && (
           <>
             <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
               Facilities based on your location
@@ -253,7 +289,7 @@ export default function VAFacilityPageV2() {
             <p>
               Or,{' '}
               <button
-                className="va-button-link"
+                className="va-button-link sort-facility-button"
                 onClick={() => {
                   dispatch(
                     updateFacilitySortMethod(
@@ -299,10 +335,19 @@ export default function VAFacilityPageV2() {
             onChange={newData =>
               dispatch(updateFormData(pageKey, uiSchema, newData))
             }
-            onSubmit={() =>
-              dispatch(routeToNextAppointmentPage(history, pageKey))
-            }
-            formContext={{ loadingEligibility, sortMethod, cernerSiteIds }}
+            onSubmit={() => {
+              if (showVariant) {
+                recordEvent({
+                  event: `${GA_PREFIX}-variant-final-${sortMethod}`,
+                });
+              }
+              dispatch(routeToNextAppointmentPage(history, pageKey));
+            }}
+            formContext={{
+              sortOptions,
+              updateFacilitySortMethod: value =>
+                dispatch(updateFacilitySortMethod(value, uiSchema)),
+            }}
             data={data}
           >
             <FacilitiesNotShown

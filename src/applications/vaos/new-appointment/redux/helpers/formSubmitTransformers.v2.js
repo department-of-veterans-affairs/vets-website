@@ -14,12 +14,10 @@ export function transformFormToVAOSCCRequest(state) {
   if (provider?.identifier) {
     practitioners = [
       {
-        id: {
-          system: 'HSRM',
-          value: data.communityCareProvider.identifier.find(
-            item => item.system === 'PPMS',
-          )?.value,
-        },
+        system: 'HSRM',
+        value: data.communityCareProvider.identifier.find(
+          item => item.system === 'PPMS',
+        )?.value,
       },
     ];
   }
@@ -47,8 +45,7 @@ export function transformFormToVAOSCCRequest(state) {
     kind: 'cc',
     status: 'proposed',
     locationId: data.communityCareSystemId,
-    // This may need to change when we get the new service type ids
-    serviceType: typeOfCare.id,
+    serviceType: typeOfCare.idV2 || typeOfCare.ccId,
     reason: data.reasonAdditionalInfo,
     contact: {
       telecom: [
@@ -78,7 +75,7 @@ export function transformFormToVAOSCCRequest(state) {
       lang => lang.id === data.preferredLanguage,
     )?.value,
     preferredLocation,
-    practitioners,
+    practitionerIds: practitioners,
   };
 }
 
@@ -91,7 +88,7 @@ export function transformFormToVAOSVARequest(state) {
     status: 'proposed',
     locationId: data.vaFacility,
     // This may need to change when we get the new service type ids
-    serviceType: typeOfCare.id,
+    serviceType: typeOfCare.idV2,
     reason: PURPOSE_TEXT.find(
       purpose => purpose.id === data.reasonForAppointment,
     )?.serviceName,

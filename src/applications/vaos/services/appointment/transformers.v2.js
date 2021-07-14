@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   TYPES_OF_CARE,
   APPOINTMENT_TYPES,
@@ -7,6 +8,7 @@ import {
   TYPES_OF_SLEEP_CARE,
   AUDIOLOGY_TYPES_OF_CARE,
 } from '../../utils/constants';
+import { getTimezoneBySystemId } from '../../utils/timezone';
 
 function getAppointmentType(appt) {
   if (appt.kind === 'cc' && appt.start) {
@@ -28,7 +30,9 @@ function getTypeOfCareById(id) {
     ...TYPES_OF_CARE,
   ];
 
-  return allTypesOfCare.find(care => care.id === id);
+  return allTypesOfCare.find(
+    care => care.idV2 === id || care.ccId === id || care.id === id,
+  );
 }
 
 /**
@@ -44,6 +48,10 @@ function getTypeOfVisit(id) {
 export function transformVAOSAppointment(appt) {
   const isCC = appt.kind === 'cc';
   const isVideo = appt.kind === 'telehealth';
+  const vistaId = appt.locationId?.substr(0, 3);
+  const timezone = getTimezoneBySystemId(vistaId)?.timezone;
+
+  const start = timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
 
   return {
     resourceType: 'Appointment',
@@ -52,7 +60,7 @@ export function transformVAOSAppointment(appt) {
     // TODO Unclear what these reasons are
     cancelationReason: appt.cancellationReason,
     requestedPeriod: appt.requestedPeriods,
-    start: appt.start,
+    start,
     // TODO: ask about created and other action dates like cancelled
     created: null,
     minutesDuration: appt.minutesDuration,

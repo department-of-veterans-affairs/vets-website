@@ -7,9 +7,9 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import SearchResultCard from '../../containers/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
-import { MapboxInit } from '../../constants';
+import { MapboxInit, MAX_SEARCH_AREA_DISTANCE } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
-import RefineYourSearch from '../../containers/RefineYourSearch';
+import FilterYourResults from '../../containers/FilterYourResults';
 import { numberToLetter, createId } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
@@ -32,7 +32,17 @@ function LocationSearchResults({
   const map = useRef(null);
   const mapContainer = useRef(null);
   const markers = useRef([]);
-  const [mapChanged, setMapChanged] = useState(search.location.mapChanged);
+  const [mapState, setMapState] = useState({ changed: false, distance: null });
+
+  const updateMapState = () => {
+    const mapBounds = map.current.getBounds();
+    setMapState({
+      distance:
+        mapBounds.getNorthEast().distanceTo(mapBounds.getCenter()) /
+        MILE_METER_CONVERSION_RATE,
+      changed: true,
+    });
+  };
 
   const setupMap = () => {
     if (map.current) return; // initialize map only once
@@ -68,10 +78,10 @@ function LocationSearchResults({
     });
 
     mapInit.on('dragstart', () => {
-      setMapChanged(true);
+      updateMapState();
     });
 
-    mapInit.on('zoomstart', e => {
+    mapInit.on('zoomend', e => {
       // Only trigger mapMoved and speakZoom for manual events,
       // e.g. zoom in/out button click, mouse wheel, etc.
       // which will have an originalEvent defined
@@ -79,7 +89,7 @@ function LocationSearchResults({
         return;
       }
 
-      setMapChanged(true);
+      updateMapState();
     });
 
     mapInit.on('dblclick', e => {
@@ -91,7 +101,7 @@ function LocationSearchResults({
         },
         { originalEvent: e.originalEvent },
       );
-      setMapChanged(true);
+      updateMapState();
     });
 
     map.current = mapInit;
@@ -107,7 +117,7 @@ function LocationSearchResults({
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    if (mapChanged && !map.current.getBounds().contains(lngLat)) return;
+    if (mapState.changed && !map.current.getBounds().contains(lngLat)) return;
 
     const letter = numberToLetter(index + 1);
 
@@ -166,10 +176,11 @@ function LocationSearchResults({
     () => {
       markers.current.forEach(marker => marker.remove());
       if (!map.current || results.length === 0) {
-        setMapChanged(search.location.mapChanged);
         return;
       } // wait for map to initialize
-      const locationBounds = !mapChanged ? new mapboxgl.LngLatBounds() : null;
+      const locationBounds = !mapState.changed
+        ? new mapboxgl.LngLatBounds()
+        : null;
       results.forEach((institution, index) => {
         addMapMarker(institution, index, locationBounds);
       });
@@ -179,7 +190,7 @@ function LocationSearchResults({
         }
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
-      setMapChanged(search.location.mapChanged);
+      setMapState({ changed: false, distance: null });
     },
     [results],
   );
@@ -199,33 +210,27 @@ function LocationSearchResults({
     );
 
     return (
-      <>
-        <SearchResultCard
-          institution={institution}
-          key={institution.facilityCode}
-          location
-          header={header}
-        />
-      </>
+      <div key={institution.facilityCode}>
+        <SearchResultCard institution={institution} location header={header} />
+      </div>
     );
   });
 
   const searchArea = e => {
     e.preventDefault();
-    const bounds = map.current.getBounds();
-
-    const diagonalDistance =
-      bounds.getNorthEast().distanceTo(bounds.getCenter()) /
-      MILE_METER_CONVERSION_RATE;
-
     dispatchFetchSearchByLocationCoords(
       search.query.location,
       map.current.getCenter().toArray(),
-      diagonalDistance,
+      mapState.distance,
       filters,
       preview.version,
     );
   };
+
+  const areaSearchWithinBounds = mapState.distance <= MAX_SEARCH_AREA_DISTANCE;
+  const areaSearchLabel = areaSearchWithinBounds
+    ? 'Search this area of the map'
+    : 'Zoom in to search';
 
   return (
     <>
@@ -246,7 +251,7 @@ function LocationSearchResults({
                 count >= 0 && (
                   <>
                     <TuitionAndHousingEstimates />
-                    <RefineYourSearch />
+                    <FilterYourResults />
                     {count > 0 && (
                       <div
                         id="location-search-results-container"
@@ -282,7 +287,7 @@ function LocationSearchResults({
             className={'desktop-map-container'}
             role="region"
           >
-            {mapChanged && (
+            {mapState.changed && (
               <div
                 id="search-area-control-container"
                 className={'mapboxgl-ctrl-top-center'}
@@ -291,8 +296,9 @@ function LocationSearchResults({
                   id="search-area-control"
                   className={'usa-button'}
                   onClick={searchArea}
+                  disabled={!areaSearchWithinBounds}
                 >
-                  Search this area of the map
+                  {areaSearchLabel}
                 </button>
               </div>
             )}

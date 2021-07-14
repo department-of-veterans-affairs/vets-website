@@ -43,9 +43,6 @@ export function transformDSFacilities(facilities) {
       requestSupported: facility.requestSupported,
       directSchedulingSupported: facility.directSchedulingSupported,
     },
-    managingOrganization: {
-      reference: `Organization/${facility.parentStationCode}`,
-    },
   }));
 }
 
@@ -222,9 +219,6 @@ export function transformFacility(facility) {
       latitude: facility.lat,
     },
     hoursOfOperation: transformOperatingHours(facility.hours),
-    managingOrganization: {
-      reference: `Organization/${id.substr(0, 3)}`,
-    },
   };
 
   if (hasCovidPhoneNumber(facility)) {
@@ -306,9 +300,6 @@ export function setSupportedSchedulingMethods({ location, settings } = {}) {
     legacyVAR: {
       ...location.legacyVAR,
       settings: arrayToObject(facilitySettings.services),
-    },
-    managingOrganization: {
-      reference: location.managingOrganization?.reference,
     },
   };
 }

@@ -22,12 +22,13 @@ const Appeals = () => {
           Based on the information you provided, this isn’t the form you need.
         </h2>
         <p className="vads-u-margin-bottom--0">
-          <strong>
+          <strong className="vads-u-margin-x--0p5">
             If you disagree with our decision on your waiver request,
-          </strong>{' '}
-          you can{' '}
+          </strong>
+          you can
           <a
             href="/decision-reviews/board-appeal/"
+            className="vads-u-margin-x--0p5"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-alert-link-click',
@@ -58,9 +59,10 @@ const Appeals = () => {
         <p>
           <strong>Note: </strong>
           You have one year from the date on your decision letter to request a
-          Board Appeal, unless you have a{' '}
+          Board Appeal, unless you have a
           <a
             href="/decision-reviews/contested-claims"
+            className="vads-u-margin-left--0p5"
             onClick={() => {
               recordEvent({
                 event: 'howToWizard-alert-link-click',

@@ -33,7 +33,7 @@ export class ConnectedApp extends Component {
         <img
           className="va-connected-app-account-logo vads-u-margin-right--2p5"
           src={logo}
-          alt={`${title} logo`}
+          alt={``}
         />
         <div className="vads-u-flex--4 vads-u-align-items--flex-start">
           <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">

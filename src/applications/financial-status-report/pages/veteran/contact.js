@@ -52,9 +52,18 @@ export const uiSchema = {
           </p>
           <p>
             If you want to change your address for other VA benefits and
-            services,{' '}
-            <a href="https://va.gov/profile">go to your VA.gov profile</a>. Or{' '}
-            <a href="https://www.va.gov/resources/change-your-address-on-file-with-va/">
+            services,
+            <a
+              href="https://va.gov/profile"
+              className="vads-u-margin-left--0p5"
+            >
+              go to your VA.gov profile
+            </a>
+            . Or
+            <a
+              href="https://www.va.gov/resources/change-your-address-on-file-with-va/"
+              className="vads-u-margin-left--0p5"
+            >
               find out how to change your address on file with VA
             </a>
             .

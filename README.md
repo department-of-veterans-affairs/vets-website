@@ -171,7 +171,7 @@ To **run Nightwatch tests**, you first need three things:
    ```
    brew update
    brew tap adoptopenjdk/openjdk
-   brew cask install adoptopenjdk8
+   brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
    ```
 1. `vets-website` served locally on port 3001
    - You can do this with `yarn watch`
