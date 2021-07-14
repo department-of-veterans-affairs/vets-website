@@ -49,6 +49,7 @@ export const BankInfoCNP = ({
 }) => {
   const formPrefix = 'CNP';
   const editBankInfoButton = useRef();
+  const editBankInfoForm = useRef();
   const [formData, setFormData] = useState({});
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const wasEditingBankInfo = usePrevious(directDepositUiState.isEditing);
@@ -74,6 +75,14 @@ export const BankInfoCNP = ({
   // when we enter and exit edit mode...
   useEffect(
     () => {
+      if (isEditingBankInfo && !wasEditingBankInfo) {
+        const focusableElement = editBankInfoForm.current?.querySelector(
+          'button, input, select, a, textarea',
+        );
+        if (focusableElement) {
+          focusableElement.focus();
+        }
+      }
       if (wasEditingBankInfo && !isEditingBankInfo) {
         // clear the form data when exiting edit mode so it's blank when the
         // edit form is shown again
@@ -176,20 +185,26 @@ export const BankInfoCNP = ({
 
   // When direct deposit is not set up, we will show
   const notSetUpContent = (
-    <button
-      className="va-button-link"
-      ref={editBankInfoButton}
-      onClick={() => {
-        recordEvent({
-          event: 'profile-navigation',
-          'profile-action': 'add-link',
-          'profile-section': 'cnp-direct-deposit-information',
-        });
-        toggleEditState();
-      }}
-    >
-      Please add your bank information
-    </button>
+    <div className={classes.bankInfo}>
+      <span>Edit your profile to add your bank information.</span>
+      <button
+        className={classes.editButton}
+        aria-label={
+          'Edit your direct deposit for disability compensation and pension benefits bank information'
+        }
+        ref={editBankInfoButton}
+        onClick={() => {
+          recordEvent({
+            event: 'profile-navigation',
+            'profile-action': 'add-link',
+            'profile-section': 'cnp-direct-deposit-information',
+          });
+          toggleEditState();
+        }}
+      >
+        Edit
+      </button>
+    </div>
   );
 
   // When not eligible for DD for CNP
@@ -279,7 +294,7 @@ export const BankInfoCNP = ({
           </figure>
         </AdditionalInfo>
       </div>
-      <div data-testid={`${formPrefix}-bank-info-form`}>
+      <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
         <BankInfoForm
           formChange={data => setFormData(data)}
           formData={formData}

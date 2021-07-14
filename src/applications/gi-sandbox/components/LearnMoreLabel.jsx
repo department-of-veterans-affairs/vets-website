@@ -1,7 +1,13 @@
 import React from 'react';
 import { focusElement } from 'platform/utilities/ui';
 
-const LearnMoreLabel = ({ ariaLabel, labelFor, onClick, text }) => {
+export default function LearnMoreLabel({
+  ariaLabel,
+  labelFor,
+  onClick,
+  text,
+  buttonId,
+}) {
   let displayText = text && <React.Fragment>{text} </React.Fragment>;
   if (labelFor && text) {
     displayText = (
@@ -23,6 +29,7 @@ const LearnMoreLabel = ({ ariaLabel, labelFor, onClick, text }) => {
       <span className="vads-u-margin--0 vads-u-display--inline-block ">
         (
         <button
+          id={buttonId}
           aria-label={ariaLabel}
           type="button"
           className="va-button-link learn-more-button vads-u-margin--0"
@@ -34,6 +41,4 @@ const LearnMoreLabel = ({ ariaLabel, labelFor, onClick, text }) => {
       </span>
     </span>
   );
-};
-
-export default LearnMoreLabel;
+}

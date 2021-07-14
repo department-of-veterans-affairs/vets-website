@@ -125,9 +125,14 @@ export async function getBookedAppointments({
     if (useV2) {
       const appointments = await getAppointments(startDate, endDate, [
         'booked',
+        'cancelled',
       ]);
 
-      return transformVAOSAppointments(appointments);
+      const appointmentsWithoutRequests = appointments.filter(
+        appt => !appt.requestedPeriods,
+      );
+
+      return transformVAOSAppointments(appointmentsWithoutRequests);
     }
 
     const appointments = await Promise.all([
@@ -182,9 +187,14 @@ export async function getAppointmentRequests({
     if (useV2) {
       const appointments = await getAppointments(startDate, endDate, [
         'proposed',
+        'cancelled',
       ]);
 
-      return transformVAOSAppointments(appointments);
+      const requestsWithoutAppointments = appointments.filter(
+        appt => !!appt.requestedPeriods,
+      );
+
+      return transformVAOSAppointments(requestsWithoutAppointments);
     }
 
     const appointments = await getPendingAppointments(startDate, endDate);
@@ -287,6 +297,21 @@ export function isVAPhoneAppointment(appointment) {
 }
 
 /**
+ * Returns true if the appointment is a video appointment
+ * where the Veteran needs to go to a clinic, rather than stay at home
+ *
+ * @export
+ * @param {Appointment} appointment
+ * @returns {boolean} True if appointment is a clinic or store forward appointment
+ */
+export function isClinicVideoAppointment(appointment) {
+  return (
+    appointment?.videoData.kind === VIDEO_TYPES.clinic ||
+    appointment?.videoData.kind === VIDEO_TYPES.storeForward
+  );
+}
+
+/**
  * Returns the location ID of a VA appointment (in person or video)
  *
  * @export
@@ -297,7 +322,7 @@ export function getVAAppointmentLocationId(appointment) {
   if (
     appointment?.vaos.isVideo &&
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
-    appointment?.videoData.kind !== VIDEO_TYPES.clinic
+    !isClinicVideoAppointment(appointment)
   ) {
     return appointment?.location.vistaId;
   }
@@ -337,6 +362,7 @@ export function hasValidCovidPhoneNumber(facility) {
 export function isValidPastAppointment(appt) {
   return (
     CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
+    appt.status !== APPOINTMENT_STATUS.cancelled &&
     // Show confirmed appointments that don't have vista statuses in the exclude
     // list
     (!PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) ||
@@ -873,7 +899,7 @@ export function getCalendarData({ appointment, facility }) {
         if (providerName)
           data.additionalText.push(`You'll be meeting with ${providerName}`);
       }
-    } else if (videoKind === VIDEO_TYPES.clinic) {
+    } else if (isClinicVideoAppointment(appointment)) {
       data = {
         summary: `VA Video Connect appointment at ${facility?.name ||
           'a VA location'}`,

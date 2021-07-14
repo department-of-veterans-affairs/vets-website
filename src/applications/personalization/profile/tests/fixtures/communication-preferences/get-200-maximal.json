@@ -6,45 +6,21 @@
       "communicationGroups": [
         {
           "id": 1,
-          "name": "Health Care",
-          "description": "Healthcare Appointment Reminders",
+          "name": "Applications, claims, decision reviews, and appeals",
+          "description": null,
           "communicationItems": [
             {
               "id": 1,
-              "name": "Health Appointment Reminder",
+              "name": "Board of Veterans' Appeals hearing reminder",
               "communicationChannels": [
                 {
                   "id": 1,
                   "name": "Text",
                   "description": "SMS Notification",
                   "communicationPermission": {
-                    "id": 1728,
-                    "allowed": true
+                    "id": 4281,
+                    "allowed": false
                   }
-                }
-              ]
-            },
-            {
-              "id": 2,
-              "name": "RX Prescription Refill Reminder",
-              "communicationChannels": [
-                {
-                  "id": 1,
-                  "name": "Text",
-                  "description": "SMS Notification",
-                  "communicationPermission": { "id": 341, "allowed": true }
-                }
-              ]
-            },
-            {
-              "id": 3,
-              "name": "Scheduled Appointment Confirmation",
-              "communicationChannels": [
-                {
-                  "id": 1,
-                  "name": "Text",
-                  "description": "SMS Notification",
-                  "communicationPermission": { "id": 342, "allowed": true }
                 }
               ]
             }
@@ -52,19 +28,13 @@
         },
         {
           "id": 2,
-          "name": "Education and Training",
-          "description": "Education Submission Status",
+          "name": "General VA Updates and Information",
+          "description": null,
           "communicationItems": [
             {
-              "id": 4,
-              "name": "Form 22-1990 Submission Confirmation",
+              "id": 2,
+              "name": "COVID-19 Updates",
               "communicationChannels": [
-                {
-                  "id": 1,
-                  "name": "Text",
-                  "description": "SMS Notification",
-                  "communicationPermission": { "id": 729, "allowed": true }
-                },
                 {
                   "id": 2,
                   "name": "Email",
@@ -76,136 +46,28 @@
         },
         {
           "id": 3,
-          "name": "Disability",
-          "description": "Disability Status and Reminders",
+          "name": "Your health care",
+          "description": null,
           "communicationItems": [
             {
-              "id": 5,
-              "name": "Form 526-EZ Submission Confirmation",
-              "communicationChannels": [
-                {
-                  "id": 2,
-                  "name": "Email",
-                  "description": "Email Notification",
-                  "communicationPermission": { "id": 770, "allowed": true }
-                }
-              ]
-            },
-            {
-              "id": 6,
-              "name": "Disability Compensation Status Update",
-              "communicationChannels": [
-                {
-                  "id": 2,
-                  "name": "Email",
-                  "description": "Email Notification"
-                }
-              ]
-            },
-            {
-              "id": 7,
-              "name": "Compensation and Pension (C&P) Exam Reminder",
+              "id": 3,
+              "name": "Appointment reminders",
               "communicationChannels": [
                 {
                   "id": 1,
                   "name": "Text",
-                  "description": "SMS Notification",
-                  "communicationPermission": {
-                    "id": 1729,
-                    "allowed": true
-                  }
-                },
-                {
-                  "id": 2,
-                  "name": "Email",
-                  "description": "Email Notification",
-                  "communicationPermission": {
-                    "id": 1730,
-                    "allowed": false
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": 4,
-          "name": "Pension",
-          "description": "Pension Notifications",
-          "communicationItems": [
-            {
-              "id": 8,
-              "name": "Pension Payment Confirmation – Monthly",
-              "communicationChannels": [
-                {
-                  "id": 2,
-                  "name": "Email",
-                  "description": "Email Notification"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": 5,
-          "name": "Education and Training",
-          "description": "Education Notifications",
-          "communicationItems": [
-            {
-              "id": 9,
-              "name": "Education.Accession.Empty.A21.365",
-              "communicationChannels": [
-                {
-                  "id": 2,
-                  "name": "Email",
-                  "description": "Email Notification"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": 6,
-          "name": "Insurance",
-          "description": "Insurance Notifications",
-          "communicationItems": [
-            {
-              "id": 10,
-              "name": "Insurance.Accession.Married.A2.1",
-              "communicationChannels": [
-                {
-                  "id": 2,
-                  "name": "Email",
-                  "description": "Email Notification"
+                  "description": "SMS Notification"
                 }
               ]
             },
             {
-              "id": 11,
-              "name": "Insurance.Accession.Empty.A.1",
+              "id": 4,
+              "name": "Prescription shipment and tracking updates",
               "communicationChannels": [
                 {
-                  "id": 2,
-                  "name": "Email",
-                  "description": "Email Notification"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": 7,
-          "name": "Home Loan",
-          "description": "Home Loan Notifications",
-          "communicationItems": [
-            {
-              "id": 12,
-              "name": "HomeLoan.Accession.Empty.A15.270",
-              "communicationChannels": [
-                {
-                  "id": 2,
-                  "name": "Email",
-                  "description": "Email Notification"
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification"
                 }
               ]
             }

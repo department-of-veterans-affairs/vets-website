@@ -156,6 +156,8 @@ export function ComparePage({
   }
 
   const programHours = programLength => {
+    if (!programLength) return 'N/A';
+
     const maxHours = Math.max(...programLength);
     const minHours = Math.min(...programLength);
     if (

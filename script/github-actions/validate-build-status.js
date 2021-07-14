@@ -1,66 +1,83 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
-const fetch = require('node-fetch');
-const path = require('path');
+const { Octokit } = require('@octokit/rest');
 
+const { GITHUB_TOKEN: auth, GITHUB_REPOSITORY } = process.env;
 const args = process.argv.slice(2);
 const timeout = 2; // minutes
-const [repo, releaseSHA] = args;
-let currentPage = 1;
+const commitSHA = args[0];
+const [owner, repo] = GITHUB_REPOSITORY.split('/');
 
-const getWorkflowRunsUrl = (page = 1) => {
-  const url = new URL(
-    path.join(
-      'https://api.github.com',
-      `repos/${repo}`,
-      `actions/workflows/continuous-integration.yml/runs`,
-    ),
-  );
-  const params = new URLSearchParams();
-  params.append('branch', 'master');
-  params.append('page', page);
-  params.append('per_page', 50);
-  url.search = params;
-
-  return url.toString();
-};
+const octokit = new Octokit({ auth });
 
 /**
- * fetch request for github action URL provided
- * @param {string} url
+ * uses octokit request for github action run_id provided
+ * @param {number} run_id
  */
-function getLatestWorkflow(url) {
-  return fetch(url)
+function getJobsFailed(run_id) {
+  const params = {
+    owner,
+    repo,
+    run_id,
+  };
+  return octokit.rest.actions
+    .listJobsForWorkflowRun(params)
     .then(response => {
-      if (!response.ok) {
-        throw new Error(`Response ${response.status} from ${url}. Aborting.`);
+      if (response.status !== 200) {
+        throw new Error(
+          `Response ${response.status} from ${response.url}. Aborting.`,
+        );
       }
-      return response.json();
+      return response.data;
+    })
+    .then(({ jobs }) => {
+      jobs.forEach(({ name, html_url, conclusion }) => {
+        if (conclusion === 'success') return;
+        const isFailure = conclusion === 'failure';
+        const annotationMessage = isFailure
+          ? `::error::Job "${name}" has failed`
+          : `::warning::Job "${name}" has been cancelled`;
+        console.log(
+          `${annotationMessage}. For more details, please see ${html_url}`,
+        );
+      });
+    });
+}
+
+/**
+ * uses octokit request for github action to get workflow with matching SHA
+ * @param {number} page
+ */
+function getLatestWorkflow(page) {
+  const params = {
+    owner,
+    repo,
+    workflow_id: 'continuous-integration.yml',
+    branch: 'master',
+    per_page: '50',
+    page,
+  };
+  return octokit.rest.actions
+    .listWorkflowRuns(params)
+    .then(response => {
+      if (response.status !== 200) {
+        throw new Error(
+          `Response ${response.status} from ${response.url}. Aborting.`,
+        );
+      }
+      return response.data;
     })
     .then(({ workflow_runs }) => {
       if (workflow_runs.length === 0) {
         throw new Error('No workflows found. Aborting.');
       }
 
-      // If SHA passed, get workflow information. Otherwise get the most recent
-      if (releaseSHA) {
-        const validWorkflow = workflow_runs.find(
-          ({ head_sha }) => head_sha === releaseSHA,
-        );
-        if (!validWorkflow) {
-          currentPage += 1;
-          const urlNextPage = getWorkflowRunsUrl(currentPage);
-          console.log(
-            'Workflow not found in current page. Checking next page.',
-          );
-          // TODO: check timestamp
-          return getLatestWorkflow(urlNextPage);
-        } else {
-          return validWorkflow;
-        }
-      } else {
-        return workflow_runs[0];
-      }
+      const workflow = workflow_runs.find(
+        ({ head_sha }) => head_sha === commitSHA,
+      );
+      if (workflow) return workflow;
+      console.log('Workflow not found in current page. Checking next page.');
+      return getLatestWorkflow(page + 1);
     });
 }
 
@@ -74,7 +91,8 @@ function sleep(minutes) {
  * @returns true, false, undefined
  */
 function validateWorkflowSuccess(workflow) {
-  const { status, conclusion } = workflow;
+  const { status, conclusion, head_commit, html_url } = workflow;
+  console.log(`Validating commit ${head_commit.id}. Workflow: ${html_url}`);
 
   if (conclusion === 'failure') return false;
 
@@ -82,6 +100,7 @@ function validateWorkflowSuccess(workflow) {
     status === 'in_progress' || status === null || status === 'queued';
 
   if (isWorkflowInProgress) return undefined;
+
   if (conclusion === 'success') {
     console.log('All checks succeeded');
     return true;
@@ -97,25 +116,23 @@ function validateWorkflowSuccess(workflow) {
  */
 async function main() {
   try {
-    const url = getWorkflowRunsUrl(currentPage);
-    const workflow = await getLatestWorkflow(url);
+    const page = 1;
+    const workflow = await getLatestWorkflow(page);
     const success = validateWorkflowSuccess(workflow);
 
     if (success === undefined) {
       console.log(`Check runs still pending. Sleeping for ${timeout} minutes`);
       await sleep(timeout);
       await main();
+      return;
     }
 
     if (!success) {
-      // TODO: Check which jobs failed by fetching jobs_url and filtering on jobs we care about.
-      console.error(
-        `Build aborted due to failed runs detected on:\n\n${workflow.html_url}`,
-      );
+      await getJobsFailed(workflow.id);
       process.exit(1);
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
     process.exit(1);
   }
 }

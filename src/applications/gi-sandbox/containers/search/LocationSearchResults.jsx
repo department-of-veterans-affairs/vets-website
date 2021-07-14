@@ -9,7 +9,7 @@ import SearchResultCard from '../../containers/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
-import RefineYourSearch from '../../containers/RefineYourSearch';
+import FilterYourResults from '../../containers/FilterYourResults';
 import { numberToLetter, createId } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
@@ -251,7 +251,7 @@ function LocationSearchResults({
                 count >= 0 && (
                   <>
                     <TuitionAndHousingEstimates />
-                    <RefineYourSearch />
+                    <FilterYourResults />
                     {count > 0 && (
                       <div
                         id="location-search-results-container"

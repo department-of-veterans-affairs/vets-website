@@ -1178,6 +1178,68 @@
           }
         ]
       }
+    },
+    {
+      "id": "202104290000000000000000000000000000UdtM9pv-o6xGxrAAd2ALq-Q",
+      "type": "va_appointments",
+      "attributes": {
+        "char4": null,
+        "clinicId": "4284",
+        "clinicFriendlyName": null,
+        "communityCare": false,
+        "facilityId": "984",
+        "phoneOnly": null,
+        "startDate": "2021-08-29T16:30:00Z",
+        "sta6aid": "984",
+        "vdsAppointments": [],
+        "vvsAppointments": [
+          {
+            "id": "76d33da6-ffa8-eb11-b1ac-001dd802eaf9",
+            "appointmentKind": "STORE_FORWARD",
+            "sourceSystem": "TMP",
+            "dateTime": "2021-08-29T16:30:00Z",
+            "desiredDate": "2021-08-29T16:30:00Z",
+            "duration": 30,
+            "status": {
+              "description": "F",
+              "code": "FUTURE"
+            },
+            "schedulingRequestType": "OTHER_THAN_NEXT_AVAILABLE_PATIENT_REQUESTED",
+            "type": "REGULAR",
+            "version": "1.0",
+            "instructionsOther": false,
+            "patients": [
+              {
+                "name": {
+                  "firstName": "Alfred",
+                  "lastName": "Castillo"
+                },
+                "contactInformation": {
+                  "preferredEmail": "Mario.nunez@ironbow.com",
+                  "timeZone": "10",
+                  "timeZoneName": "America/Denver"
+                },
+                "location": {
+                  "type": "VA",
+                  "facility": {
+                    "name": "DAYTSHR",
+                    "siteCode": "984",
+                    "timeZone": "35",
+                    "timeZoneName": "America/New_York"
+                  },
+                  "clinic": {
+                    "ien": "4284",
+                    "name": "MID-V10 CRH MH PSY MD PT"
+                  }
+                },
+                "patientAppointment": true
+              }
+            ],
+            "providers": [],
+            "groupAppointment": false
+          }
+        ]
+      }
     }
   ],
   "meta": {

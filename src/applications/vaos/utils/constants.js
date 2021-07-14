@@ -139,7 +139,13 @@ export const TYPES_OF_CARE = [
     ccId: 'CCPOD',
     group: 'specialty',
     cceType: 'Podiatry',
-    specialties: ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X'],
+    specialties: [
+      '213E00000X',
+      '213EG0000X',
+      '213EP1101X',
+      '213ES0131X',
+      '213ES0103X',
+    ],
   },
   {
     id: 'SLEEP',
