@@ -225,39 +225,6 @@ describe('VAOS <PastAppointmentsList>', () => {
     expect(baseElement).to.contain.text('Do not eat for 24 hours');
   });
 
-  it('should have correct status when previously cancelled', async () => {
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: pastDate.format(),
-      clinicFriendlyName: 'Some clinic',
-      facilityId: '983',
-      sta6aid: '983GC',
-    };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
-    mockPastAppointmentInfo({ va: [appointment] });
-
-    const { findByText, baseElement } = renderWithStoreAndRouter(
-      <PastAppointmentsList />,
-      {
-        initialState,
-      },
-    );
-
-    await findByText(
-      new RegExp(
-        pastDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-        'i',
-      ),
-    );
-
-    expect(baseElement).to.contain.text('Canceled');
-    expect(baseElement).to.contain('.fa-exclamation-circle');
-    expect(baseElement).not.to.contain.text('Add to calendar');
-    expect(baseElement).not.to.contain.text('Cancel appointment');
-  });
-
   it('should not display when they have hidden statuses', () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes.startDate = pastDate.format();
@@ -502,5 +469,26 @@ describe('VAOS <PastAppointmentsList>', () => {
     await screen.findByText(/Community care/i);
 
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
+  });
+
+  it('should not display cancelled appointments', async () => {
+    const appointment = getVAAppointmentMock();
+    appointment.attributes = {
+      ...appointment.attributes,
+      startDate: pastDate.format(),
+      vdsAppointments: [
+        {
+          currentStatus: 'CANCELLED BY CLINIC',
+        },
+      ],
+    };
+
+    mockPastAppointmentInfo({ va: [appointment] });
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
+      initialState,
+    });
+
+    expect(await screen.findByText(/You don’t have any appointments/i)).to
+      .exist;
   });
 });
