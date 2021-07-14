@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { fetchSearchByNameResults } from '../../actions/index';
 import SearchResultCard from '../SearchResultCard';
-import RefineYourSearch from '../RefineYourSearch';
+import FilterYourResults from '../FilterYourResults';
 import TuitionAndHousingEstimates from '../TuitionAndHousingEstimates';
 import { updateUrlParams } from '../../utils/helpers';
 
@@ -49,7 +49,7 @@ export function NameSearchResults({
             </p>
             <div className="column small-4 vads-u-padding--0">
               <TuitionAndHousingEstimates />
-              <RefineYourSearch />
+              <FilterYourResults />
             </div>
             <div className="column small-8 vads-u-padding--0">
               {inProgress && (
