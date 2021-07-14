@@ -2,6 +2,7 @@ import {
   FETCH_SEARCH_RESULTS,
   FETCH_SEARCH_RESULTS_SUCCESS,
   FETCH_SEARCH_RESULTS_FAILURE,
+  FETCH_SEARCH_RESULTS_EMPTY,
 } from '../actions';
 
 const initialState = {
@@ -58,6 +59,14 @@ function SearchReducer(state = initialState, action) {
         errors: action.errors,
         results: undefined,
         loading: false,
+      };
+    }
+
+    case FETCH_SEARCH_RESULTS_EMPTY: {
+      return {
+        ...state,
+        loading: false,
+        spellingCorrection: undefined,
       };
     }
 
