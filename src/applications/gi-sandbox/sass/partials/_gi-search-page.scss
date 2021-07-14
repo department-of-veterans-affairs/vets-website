@@ -282,6 +282,10 @@
   width: 45%;
   height: fit-content;
   flex-grow: 1;
+
+  .result-card-container {
+    border-radius: 5px;
+  }
 }
 
 .accreditation-tag {

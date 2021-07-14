@@ -194,7 +194,7 @@ export function SearchResultCard({
     <div className={resultCardClasses} id={`${createId(name)}-result-card`}>
       {location && <span id={`${createId(name)}-result-card-placeholder`} />}
       {header}
-      <div className="vads-u-background-color--gray-lightest">
+      <div className="result-card-container vads-u-background-color--gray-lightest">
         <SchoolClassification institution={institution} />
         <div className="vads-u-padding-x--2 vads-u-margin-bottom--1">
           {nameCityStateHeader}
