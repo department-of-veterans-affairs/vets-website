@@ -95,5 +95,9 @@ export const ariaLabels = Object.freeze({
     militaryTrainingCredit: 'Learn more about credit for military training',
     independentStudy: 'Learn more about Independent study',
     priorityEnrollment: 'Learn more about priority enrollment',
+    singlePoint: 'Learn more about single point of contact for Veterans',
+    facilityCode: 'Learn more about the VA facility code',
+    ipedsCode: 'Learn more about the ED IPEDS code',
+    opeCode: 'Learn more about the ED OPE code',
   },
 });
