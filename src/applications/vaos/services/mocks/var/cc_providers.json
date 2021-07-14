@@ -441,7 +441,7 @@
         "uniqueId": "1255962510"
       },
       "relationships": {
-        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }] }
+        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }, { "id": "213ES0103X", "type": "specialty"}] }
       }
     },
     {
