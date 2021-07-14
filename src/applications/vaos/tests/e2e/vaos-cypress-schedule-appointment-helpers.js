@@ -40,7 +40,9 @@ export function chooseVAFacilityV2Test() {
 export function chooseClinicTest() {
   cy.url().should('include', '/clinics');
   cy.axeCheckBestPractice();
-  cy.findByText(/You can choose a clinic where you’ve been seen/i);
+  cy.findByText(
+    /Choose a clinic below or request a different clinic for this appointment/i,
+  );
   cy.get('#root_clinicId_0')
     .focus()
     .click();
