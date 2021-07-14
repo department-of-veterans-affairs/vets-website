@@ -2,28 +2,14 @@ window.addEventListener('DOMContentLoaded', () => {
   const content = document.getElementById('content');
   const feedbackButtonContainer = document.getElementById('kampyleButtonContainer');
 
-  function removeFeedbackButton() {
-    feedbackButtonContainer.remove();
-  }
-
-  function appendFeedbackButton() {
-    content.append(feedbackButtonContainer);
-  }
-
-  function updateFeedbackButtonInlineCss() {
+  const updateFeedbackButtonInlineCss = () => {
     const feedbackButtonDiv = document.getElementById('nebula_div_btn');
     feedbackButtonDiv.style.zIndex = null;
     feedbackButtonDiv.style.position = null;
   }
 
-  removeFeedbackButton();
-  appendFeedbackButton();
-  updateFeedbackButtonInlineCss();
+  const config = { attributes: false, childList: true };
 
-  // Options for the observer (which mutations to observe)
-  const config = { attributes: false, childList: true }; // attributes prolly can be false
-
-  // Callback function to execute the feedback button is removed for the first time
   const detectButtonAdded = function(mutationsList) {
     for (let mutation of mutationsList) {
       if (mutation.addedNodes.length > 0) {
@@ -36,8 +22,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Create an observer instance linked to the callback function
-  const observer = new MutationObserver(detectButtonAdded);
-  // Start observing the target node for configured mutations
-  observer.observe(feedbackButtonContainer, config);
+  feedbackButtonContainer.remove();
+  content.append(feedbackButtonContainer);
+  updateFeedbackButtonInlineCss();
+  new MutationObserver(detectButtonAdded).observe(feedbackButtonContainer, config);
 });
