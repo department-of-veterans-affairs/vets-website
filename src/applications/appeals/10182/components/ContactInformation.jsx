@@ -107,7 +107,6 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
                 title="Mobile phone number"
                 fieldName={FIELD_NAMES.MOBILE_PHONE}
                 deleteDisabled
-                stopPropagation
               />
             </VAPServicePendingTransactionCategory>
             <VAPServicePendingTransactionCategory
@@ -117,7 +116,6 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
                 title="Email address"
                 fieldName={FIELD_NAMES.EMAIL}
                 deleteDisabled
-                stopPropagation
               />
             </VAPServicePendingTransactionCategory>
             <VAPServicePendingTransactionCategory
@@ -127,7 +125,6 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
                 title="Mailing address"
                 fieldName={FIELD_NAMES.MAILING_ADDRESS}
                 deleteDisabled
-                stopPropagation
               />
             </VAPServicePendingTransactionCategory>
           </InitializeVAPServiceID>

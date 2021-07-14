@@ -180,7 +180,6 @@ class SchemaForm extends React.Component {
       safeRenderCompletion,
       name,
       addNameAttribute,
-      stopPropagation,
     } = this.props;
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
@@ -206,7 +205,6 @@ class SchemaForm extends React.Component {
         fields={useReviewMode ? this.reviewFields : this.fields}
         transformErrors={this.transformErrors}
         name={addNameAttribute ? name : null}
-        stopPropagation={stopPropagation}
       >
         {children}
       </Form>
@@ -227,7 +225,6 @@ SchemaForm.propTypes = {
   onChange: PropTypes.func,
   hideTitle: PropTypes.bool,
   addNameAttribute: PropTypes.bool,
-  stopPropagation: PropTypes.bool,
 };
 
 SchemaForm.defaultProps = {
@@ -240,8 +237,6 @@ SchemaForm.defaultProps = {
   // re: the implicit role:
   // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form
   addNameAttribute: false,
-  // Prevent submit event from propagating up past the form element
-  stopPropagation: false,
 };
 
 export default SchemaForm;
