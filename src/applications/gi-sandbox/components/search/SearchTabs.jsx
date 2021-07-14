@@ -24,12 +24,15 @@ export default function SearchTabs({ onChange, search }) {
   };
 
   const getTab = (tabName, label) => {
+    const activeTab = tabName === tab;
     const tabClasses = classNames(
       {
-        'active-search-tab': tabName === tab,
-        'inactive-search-tab': tabName !== tab,
-        'vads-u-color--gray-light': tabName !== tab,
-        'vads-u-background-color--gray-lightest': tabName !== tab,
+        'active-search-tab': activeTab,
+        'vads-u-color--gray-dark': activeTab,
+        'vads-u-background-color--white': activeTab,
+        'inactive-search-tab': !activeTab,
+        'vads-u-color--gray-medium': !activeTab,
+        'vads-u-background-color--gray-light-alt': !activeTab,
       },
       'vads-u-font-family--sans',
       'vads-u-flex--1',
