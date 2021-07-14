@@ -15,8 +15,6 @@ export default function SearchBar({
   const [isGlobalSearch, setGlobalSearch] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
-  const disabled = userInput.length < 3;
-
   const onSubmit = event => {
     // Track All VA.gov search.
     if (isGlobalSearch) {
@@ -43,9 +41,7 @@ export default function SearchBar({
     }
 
     event.preventDefault();
-    if (!disabled) {
-      onSearch();
-    }
+    onSearch();
   };
 
   return (
@@ -77,17 +73,17 @@ export default function SearchBar({
         </button>
         {/* Search form */}
         <form
-          data-testid="resources-support-search"
-          className={`${
-            expanded ? 'va-border-bottom-radius--5px ' : 'vads-u-display--none '
-          }vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--2 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-padding-x--0 medium-screen:vads-u-border-top--0 medium-screen-va-background-color--white medium-screen:vads-u-display--flex`}
-          id="resources-support-search"
-          method="get"
           action={
             isGlobalSearch
               ? `${searchSettings.rootUrl}/`
               : `${resourcesSettings.rootUrl}/`
           }
+          className={`${
+            expanded ? 'va-border-bottom-radius--5px ' : 'vads-u-display--none '
+          }vads-u-flex-direction--column vads-u-background-color--gray-lightest vads-u-margin--0 vads-u-padding--2 vads-u-border-top--1px vads-u-border-color--gray-light medium-screen:vads-u-padding-x--0 medium-screen:vads-u-border-top--0 medium-screen-va-background-color--white medium-screen:vads-u-display--flex`}
+          data-testid="resources-support-search"
+          id="resources-support-search"
+          method="get"
           onSubmit={onSubmit}
         >
           <fieldset className="fieldset-input vads-u-margin--0">
@@ -155,7 +151,6 @@ export default function SearchBar({
             <div className="vads-u-flex--auto vads-u-width--full vads-u-margin-top--2 medium-screen:vads-u-margin-top--0 medium-screen:vads-u-width--auto">
               <button
                 className="usa-button vads-u-margin--0 vads-u-width--full vads-u-height--full medium-screen-va-border-left-radius--0"
-                disabled={disabled}
                 type="submit"
               >
                 <i className="fa fa-search"> </i> Search
