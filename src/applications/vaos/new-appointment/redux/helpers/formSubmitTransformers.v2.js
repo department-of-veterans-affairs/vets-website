@@ -14,12 +14,10 @@ export function transformFormToVAOSCCRequest(state) {
   if (provider?.identifier) {
     practitioners = [
       {
-        id: {
-          system: 'HSRM',
-          value: data.communityCareProvider.identifier.find(
-            item => item.system === 'PPMS',
-          )?.value,
-        },
+        system: 'HSRM',
+        value: data.communityCareProvider.identifier.find(
+          item => item.system === 'PPMS',
+        )?.value,
       },
     ];
   }
@@ -77,7 +75,7 @@ export function transformFormToVAOSCCRequest(state) {
       lang => lang.id === data.preferredLanguage,
     )?.value,
     preferredLocation,
-    practitioners,
+    practitionerIds: practitioners,
   };
 }
 

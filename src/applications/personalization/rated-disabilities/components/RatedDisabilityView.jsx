@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import RatedDisabilityList from './RatedDisabilityList';
 import TotalRatedDisabilities from '../components/TotalRatedDisabilities';
-import RatedDisabilitiesSidebar from '../components/RatedDisabilitiesSidebar';
 import facilityLocator from 'applications/facility-locator/manifest.json';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
+import { OnThisPageLink } from './OnThisPageLink';
 
 class RatedDisabilityView extends React.Component {
   static propTypes = {
@@ -60,16 +63,48 @@ class RatedDisabilityView extends React.Component {
     } = this.props;
 
     let content;
+    let onThisPageHeader = '';
+    let combinedRatingLink = '';
+    let ratedDisabilitiesLink = '';
+    let learnMoreLink = '';
+
+    // If there are rated disabilites then the page gets long enough to fill these links
+    if (ratedDisabilities?.ratedDisabilities?.length > 0) {
+      onThisPageHeader = <h2 className="vads-u-font-size--h3">On this page</h2>;
+      combinedRatingLink = (
+        <OnThisPageLink
+          text="Your combined disability rating"
+          link="#combined-rating"
+        />
+      );
+
+      ratedDisabilitiesLink = (
+        <OnThisPageLink
+          text="Your individual ratings"
+          link="#individual-ratings"
+        />
+      );
+
+      learnMoreLink = (
+        <OnThisPageLink text="Learn about VA disabilities" link="#learn" />
+      );
+    }
 
     // Total Disability Calculation and Pending Disabilities should go here.
     if (user.profile.verified) {
       if (user.profile.status === 'OK') {
         content = (
           <>
-            <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <div className="vads-l-col--12 medium-screen:vads-l-col--12">
               <div className="vads-l-row">
                 <div className="vads-l-col--12">
-                  <h1>Your VA disability ratings</h1>
+                  <h1>View your VA disability ratings</h1>
+                </div>
+                <div className="usa-width-one-third">
+                  {onThisPageHeader}
+                  {combinedRatingLink}
+                  {ratedDisabilitiesLink}
+                  {learnMoreLink}
                 </div>
               </div>
               <TotalRatedDisabilities
@@ -81,9 +116,26 @@ class RatedDisabilityView extends React.Component {
                 fetchRatedDisabilities={fetchRatedDisabilities}
                 ratedDisabilities={ratedDisabilities}
               />
-            </div>
-            <div className="vads-l-col--12 medium-screen:vads-l-col--4">
-              <RatedDisabilitiesSidebar />
+              <h3
+                id="learn"
+                className="vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary vads-u-font-size--h2"
+              >
+                Learn about VA disability ratings
+              </h3>
+              <p>
+                To learn how we determined your VA combined disability rating,
+                use our disability rating calculator and ratings table.
+              </p>
+              <a href="/disability/about-disability-ratings/">
+                About VA disability ratings
+              </a>
+              <h3 className="vads-u-margin-top--3 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
+                Need help?
+              </h3>
+              <p className="vads-u-padding-bottom--3">
+                You can call us at <Telephone contact={CONTACTS.VA_BENEFITS} />.
+                We're here Monday through Friday, 8:00 a.m to 9:00 p.m. ET.
+              </p>
             </div>
           </>
         );

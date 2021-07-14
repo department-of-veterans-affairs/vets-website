@@ -15,10 +15,6 @@ function axeTestPage() {
 }
 
 describe('Sitewide Search smoke test', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   it('successfully searches and renders results from the global search', () => {
     cy.server();
     cy.route({

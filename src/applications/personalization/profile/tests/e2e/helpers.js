@@ -14,12 +14,13 @@ export function subNavOnlyContainsAccountSecurity(mobile) {
 }
 
 export function onlyAccountSecuritySectionIsAccessible() {
-  [
-    PROFILE_PATHS.CONNECTED_APPLICATIONS,
-    PROFILE_PATHS.DIRECT_DEPOSIT,
-    PROFILE_PATHS.MILITARY_INFORMATION,
-    PROFILE_PATHS.PERSONAL_INFORMATION,
-  ].forEach(path => {
+  // get all of the PROFILE_PATHS _except_ for account security
+  const profilePathsExcludingAccountSecurity = Object.entries(
+    PROFILE_PATHS,
+  ).filter(([key]) => {
+    return key !== 'ACCOUNT_SECURITY';
+  });
+  profilePathsExcludingAccountSecurity.forEach(([_, path]) => {
     cy.visit(path);
     cy.url().should(
       'eq',
@@ -57,6 +58,10 @@ export const mockFeatureToggles = () => {
             name: 'dashboard_show_dashboard_2',
             value: true,
           },
+          {
+            name: 'profile_notification_settings',
+            value: true,
+          },
         ],
       },
     },
@@ -88,4 +93,16 @@ export function nameTagRendersWithoutDisabilityRating() {
   cy.findByText('Your disability rating:').should('not.exist');
   cy.findByText(/View disability rating/i).should('not.exist');
   cy.findByText(/service connected/i).should('not.exist');
+}
+
+export function registerCypressHelpers() {
+  // The main loading indicator is shown and is then removed
+  Cypress.Commands.add('loadingIndicatorWorks', () => {
+    // should show a loading indicator
+    cy.findByRole('progressbar', { name: /loading/i }).should('exist');
+    cy.injectAxeThenAxeCheck();
+
+    // and then the loading indicator should be removed
+    cy.findByRole('progressbar', { name: /loading/i }).should('not.exist');
+  });
 }
