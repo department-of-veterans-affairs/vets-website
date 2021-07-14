@@ -33,8 +33,12 @@ function getJobsFailed(run_id) {
     .then(({ jobs }) => {
       jobs.forEach(({ name, html_url, conclusion }) => {
         if (conclusion === 'success') return;
-        console.error(
-          `::error::Job "${name}" has failed. For more details, please see ${html_url}`,
+        const isFailure = conclusion === 'failure';
+        const annotationMessage = isFailure
+          ? `::error::Job "${name}" has failed`
+          : `::warning::Job "${name}" has been cancelled`;
+        console.log(
+          `${annotationMessage}. For more details, please see ${html_url}`,
         );
       });
     });
