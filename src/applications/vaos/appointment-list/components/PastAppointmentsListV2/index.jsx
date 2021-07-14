@@ -246,16 +246,18 @@ export default function PastAppointmentsListNew() {
         );
       })}
       {!pastAppointmentsByMonth?.length && (
-        <NoAppointments
-          description="past appointments"
-          showScheduleButton={showScheduleButton}
-          startNewAppointmentFlow={() => {
-            recordEvent({
-              event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
-            });
-            dispatch(startNewAppointmentFlow());
-          }}
-        />
+        <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
+          <NoAppointments
+            description="past appointments"
+            showScheduleButton={showScheduleButton}
+            startNewAppointmentFlow={() => {
+              recordEvent({
+                event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+              });
+              dispatch(startNewAppointmentFlow());
+            }}
+          />
+        </div>
       )}
     </>
   );

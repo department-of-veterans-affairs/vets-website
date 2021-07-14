@@ -116,7 +116,7 @@ export default function UpcomingAppointmentsList() {
         );
       })}
       {!appointmentsByMonth?.length && (
-        <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+        <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
             description="upcoming appointments"
             showScheduleButton={showScheduleButton}
