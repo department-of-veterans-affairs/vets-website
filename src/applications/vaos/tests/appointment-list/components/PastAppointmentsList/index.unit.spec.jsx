@@ -20,7 +20,6 @@ import { renderWithStoreAndRouter } from '../../../mocks/setup';
 import PastAppointmentsList, {
   getPastAppointmentDateRangeOptions,
 } from '../../../../appointment-list/components/PastAppointmentsList';
-import { CANCELLED_APPOINTMENT_SET } from '../../../../services/appointment';
 
 const initialState = {
   featureToggles: {
@@ -224,40 +223,6 @@ describe('VAOS <PastAppointmentsList>', () => {
     );
     expect(baseElement).to.contain.text('Follow-up/Routine');
     expect(baseElement).to.contain.text('Do not eat for 24 hours');
-  });
-
-  // TODO: Remove
-  it.skip('should have correct status when previously cancelled', async () => {
-    const appointment = getVAAppointmentMock();
-    appointment.attributes = {
-      ...appointment.attributes,
-      startDate: pastDate.format(),
-      clinicFriendlyName: 'Some clinic',
-      facilityId: '983',
-      sta6aid: '983GC',
-    };
-    appointment.attributes.vdsAppointments[0].currentStatus =
-      'CANCELLED BY CLINIC';
-    mockPastAppointmentInfo({ va: [appointment] });
-
-    const { findByText, baseElement } = renderWithStoreAndRouter(
-      <PastAppointmentsList />,
-      {
-        initialState,
-      },
-    );
-
-    await findByText(
-      new RegExp(
-        pastDate.tz('America/Denver').format('dddd, MMMM D, YYYY'),
-        'i',
-      ),
-    );
-
-    expect(baseElement).to.contain.text('Canceled');
-    expect(baseElement).to.contain('.fa-exclamation-circle');
-    expect(baseElement).not.to.contain.text('Add to calendar');
-    expect(baseElement).not.to.contain.text('Cancel appointment');
   });
 
   it('should not display when they have hidden statuses', () => {
@@ -506,35 +471,24 @@ describe('VAOS <PastAppointmentsList>', () => {
     expect(screen.queryByText(/You don’t have any appointments/i)).not.to.exist;
   });
 
-  describe('Past cancelled appointments', () => {
+  it('should not display cancelled appointments', async () => {
     const appointment = getVAAppointmentMock();
     appointment.attributes = {
       ...appointment.attributes,
       startDate: pastDate.format(),
       vdsAppointments: [
         {
-          currentStatus: null,
+          currentStatus: 'CANCELLED BY CLINIC',
         },
       ],
     };
 
-    it('should not display', async () => {
-      const iterator = CANCELLED_APPOINTMENT_SET.values();
-      let status = iterator.next();
-      while (!status.done) {
-        appointment.attributes.vdsAppointments[0].currentStatus = status.value;
-        mockPastAppointmentInfo({ va: [appointment] });
-        const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
-          initialState,
-        });
-
-        // eslint-disable-next-line no-await-in-loop
-        expect(await screen.findByText(/You don’t have any appointments/i)).to
-          .exist;
-
-        screen.unmount();
-        status = iterator.next();
-      }
+    mockPastAppointmentInfo({ va: [appointment] });
+    const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
+      initialState,
     });
+
+    expect(await screen.findByText(/You don’t have any appointments/i)).to
+      .exist;
   });
 });
