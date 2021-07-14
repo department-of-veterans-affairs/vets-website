@@ -8,12 +8,14 @@ import SearchResultCard from '../SearchResultCard';
 import RefineYourSearch from '../RefineYourSearch';
 import TuitionAndHousingEstimates from '../TuitionAndHousingEstimates';
 import { updateUrlParams } from '../../utils/helpers';
+import { getFiltersChanged } from '../../selectors/filters';
 
 export function NameSearchResults({
   dispatchFetchSearchByNameResults,
   filters,
   preview,
   search,
+  filtersChanged,
 }) {
   const { version } = preview;
   const { inProgress, tab } = search;
@@ -68,6 +70,15 @@ export function NameSearchResults({
                   </div>
                 )}
 
+              {!inProgress &&
+                count === 0 &&
+                filtersChanged && (
+                  <p>
+                    We didn't find any institutions based on the filters you've
+                    applied. Please update the filters and search again.
+                  </p>
+                )}
+
               {!inProgress && (
                 <Pagination
                   className="vads-u-border-top--0"
@@ -90,6 +101,7 @@ const mapStateToProps = state => ({
   filters: state.filters,
   preview: state.preview,
   search: state.search,
+  filtersChanged: getFiltersChanged(state.filters),
 });
 
 const mapDispatchToProps = {
