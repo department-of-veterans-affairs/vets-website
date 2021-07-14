@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import FormButtons from '../../components/FormButtons';
 import { getPreferredDate } from '../redux/selectors';
@@ -27,9 +26,11 @@ const initialSchema = {
 
 const uiSchema = {
   preferredDate: {
-    'ui:title': 'What is the earliest date you’d like to be seen?',
+    'ui:title':
+      "Tell us the earliest day you’re available and we'll try to find the date closest to your request.",
     'ui:widget': 'date',
-    'ui:description': 'Please pick a date within the next 13 months.',
+    'ui:description':
+      'Choose a date within the next 13 months for this appointment.',
     'ui:validations': [
       (errors, preferredDate) => {
         const maxDate = moment().add(395, 'days');
@@ -47,7 +48,7 @@ const uiSchema = {
 };
 
 const pageKey = 'preferredDate';
-const pageTitle = 'Tell us when you want to schedule your appointment';
+const pageTitle = 'When do you want to schedule this appointment?';
 
 export default function PreferredDatePage() {
   const dispatch = useDispatch();
@@ -79,13 +80,6 @@ export default function PreferredDatePage() {
           }
           data={data}
         >
-          <div className="vads-u-margin-bottom--2p5 vads-u-margin-top--neg2">
-            <AdditionalInfo triggerText="Why are you asking me this?">
-              Tell us the earliest day you’re available and we'll try find the
-              date closest to your request. Please note that we might not be
-              able to find an appointment for that particular day.
-            </AdditionalInfo>
-          </div>
           <FormButtons
             onBack={() =>
               dispatch(routeToPreviousAppointmentPage(history, pageKey))
