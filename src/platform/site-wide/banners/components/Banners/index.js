@@ -20,7 +20,7 @@ export const Banners = ({
       content={homepageBannerContent}
       localStorage={localStorage}
       recordEvent={recordEvent}
-      showClose={!environment.isProduction()}
+      showClose
       title={homepageBannerTitle}
       type={homepageBannerType}
       visible={homepageBannerVisible === 'true'}
