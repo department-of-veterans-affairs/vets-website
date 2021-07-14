@@ -144,7 +144,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "us-gov-west-1"
+          aws-region: 'us-gov-west-1'
 
       - name: Get Pact Broker password
         uses: marvinpinto/action-inject-ssm-secrets@latest
@@ -324,19 +324,20 @@ jobs:
         with:
           chrome-version: stable
 
-      - name: Cache dependencies
-        id: cache-dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cache/yarn
-            node_modules
-          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+      # Disabling caching due to cypress breaking - to be evaluated at a later date
+      # - name: Cache dependencies
+      #   id: cache-dependencies
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: |
+      #       ~/.cache/yarn
+      #       node_modules
+      #     key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
-        env:
-          YARN_CACHE_FOLDER: ~/.cache/yarn
+        # env:
+        #   YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Set port for server
         run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
@@ -449,7 +450,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "us-gov-west-1"
+          aws-region: 'us-gov-west-1'
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.1.1
