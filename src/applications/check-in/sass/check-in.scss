@@ -47,3 +47,13 @@ dl.appointment-summary{
     grid-column-end: 3;
   }
 }
+
+.va-nav-breadcrumbs-list li{
+  display: initial;
+}
+
+.va-nav-breadcrumbs-list li::before{
+  content: " \2039 ";
+  display: inline-block;
+  padding: 0 0.15em;
+}
