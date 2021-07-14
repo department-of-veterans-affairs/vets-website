@@ -112,6 +112,7 @@
       padding-left: 0;
       padding-right: 0rem;
       background-position: right 1rem center;
+      width: 18.7em;
 
       @include media-maxwidth($medium-screen - 1) {
         background-position: right 1rem center;
