@@ -48,31 +48,27 @@ const CheckIn = props => {
   );
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-y--5">
-      <h1
-        tabIndex="-1"
-        aria-label={`Your appointment on ${appointmentDate} at ${appointmentTime} ${timeZone}`}
-      >
-        {' '}
-        Your appointment
-      </h1>
-      <dl className="appointment-summary">
+    <div className="vads-l-grid-container vads-u-padding-y--5 appointment-check-in">
+      <h1 tabIndex="-1">Your appointment</h1>
+      <dl className="appointment-summary vads-u-font-weight--bold">
         <dd
-          className="appointment-details vads-u-font-weight--bold vads-u-font-family--serif"
+          className="appointment-details  vads-u-font-family--serif"
           data-testid="appointment-date"
         >
           {appointmentDate}
         </dd>
         <dd
-          className="appointment-details vads-u-font-weight--bold vads-u-margin-bottom--3 vads-u-font-family--serif"
+          className="appointment-details  vads-u-margin-bottom--3 vads-u-font-family--serif"
           data-testid="appointment-time"
         >
           {appointmentTime} {timeZone}
         </dd>
-        <dt className="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--1">
+        <dt className="vads-u-font-size--lg  vads-u-margin--0 vads-u-margin-right--1">
           Clinic:{' '}
         </dt>
-        <dd data-testid="clinic-name">{appointment.clinicName}</dd>
+        <dd data-testid="clinic-name" className="vads-u-font-size--lg">
+          {appointment.clinicName}
+        </dd>
       </dl>
       <button
         type="button"
