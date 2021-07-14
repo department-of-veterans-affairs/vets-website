@@ -9,6 +9,7 @@ import { estimatedBenefits } from '../selectors/estimator';
 import { formatCurrency, createId } from '../utils/helpers';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 import RatingsStars from '../components/RatingsStars';
+import SchoolClassification from '../components/SchoolClassification';
 
 export function SearchResultCard({
   compare,
@@ -29,10 +30,6 @@ export function SearchResultCard({
     accreditationType,
     cautionFlags,
     facilityCode,
-    menonly,
-    womenonly,
-    hbcu,
-    relaffil,
     vetTecProvider,
     schoolProvider,
     employerProvider,
@@ -52,47 +49,12 @@ export function SearchResultCard({
   const [expanded, toggleExpansion] = useState(false);
 
   const profileLink = appendQuery(`/profile/${facilityCode}`);
-  const institutionTraits = [
-    menonly === 1 && 'Men-only',
-    womenonly === 1 && 'Women-only',
-    hbcu && 'HBCU',
-    relaffil && 'Religious',
-  ].filter(Boolean);
 
   const resultCardClasses = classNames(
     'result-card vads-u-margin-bottom--2 vads-u-padding-right--1p5',
     {
       'vads-u-margin-left--2p5': !location,
     },
-  );
-
-  const schoolClassificationClasses = classNames('school-classification', {
-    'school-header': schoolProvider,
-    'employer-header': employerProvider,
-    'vettec-header': vetTecProvider,
-  });
-
-  const schoolClassificationPTagClasses = classNames(
-    'vads-u-color--white vads-u-padding-x--2 vads-u-padding-y--1',
-    {
-      'vads-u-margin-y--0p5': location,
-    },
-  );
-
-  const schoolClassification = (
-    <>
-      <div className={schoolClassificationClasses}>
-        <p className={schoolClassificationPTagClasses}>
-          <strong>
-            {schoolProvider && 'School'}
-            {employerProvider && 'Employer'}
-            {vetTecProvider && 'VET TEC'}
-            {institutionTraits.length > 0 && ': '}
-          </strong>
-          {institutionTraits.join(', ')}
-        </p>
-      </div>
-    </>
   );
 
   const nameClasses = classNames({
@@ -158,9 +120,9 @@ export function SearchResultCard({
           <p className="vads-u-margin-y--0">{tuition}</p>
         </div>
         <div className="vads-u-flex--1">
-          <p className="secondary-info-label">Housing Benefit:</p>
+          <p className="secondary-info-label">Housing benefit:</p>
           <p className="vads-u-margin-y--0">
-            {housing} / Month
+            {housing} /mo
             {employerProvider && '*'}
           </p>
         </div>
@@ -235,7 +197,7 @@ export function SearchResultCard({
       {location && <span id={`${createId(name)}-result-card-placeholder`} />}
       {header}
       <div className="vads-u-background-color--gray-lightest">
-        {schoolClassification}
+        <SchoolClassification institution={institution} />
         <div className="vads-u-padding-x--2 vads-u-margin-bottom--1">
           {nameCityStateHeader}
           {schoolProvider && ratingsInformation}
@@ -287,7 +249,7 @@ export function SearchResultCard({
             },
           )}
         >
-          <div className="card-bottom-cell vads-u-flex--1 vads-u-border-right--2px vads-u-border-color--white vads-u-margin--0">
+          <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0">
             <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
               <Checkbox
                 label="Compare"
