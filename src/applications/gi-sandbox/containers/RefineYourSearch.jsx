@@ -288,7 +288,7 @@ export function RefineYourSearch({
   };
 
   return (
-    <div>
+    <div className="vads-u-margin-bottom--2">
       <SearchAccordion
         button="Refine your search"
         buttonLabel="Update results"
