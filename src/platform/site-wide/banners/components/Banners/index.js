@@ -5,7 +5,6 @@ import EmergencyBanner from '@department-of-veterans-affairs/component-library/E
 import MaintenanceBanner from '@department-of-veterans-affairs/component-library/MaintenanceBanner';
 // Relative imports.
 import config from '../../config/maintenanceBanner';
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 
 export const Banners = ({
