@@ -11,12 +11,12 @@ import JumpLink from '../profile/JumpLink';
 import ProfileSection from '../profile/ProfileSection';
 import CautionaryInformation from '../profile/CautionaryInformation';
 
-const InstitutionProfile = ({
+export default function InstitutionProfile({
   institution,
   showModal,
   preSelectedProgram,
   selectedProgram,
-}) => {
+}) {
   const program =
     selectedProgram ||
     preSelectedProgram ||
@@ -111,6 +111,4 @@ const InstitutionProfile = ({
       </ProfileSection>
     </div>
   );
-};
-
-export default InstitutionProfile;
+}
