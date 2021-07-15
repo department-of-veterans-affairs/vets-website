@@ -15,8 +15,10 @@ const Failed = props => {
       <h1 tabIndex="-1" className={' vads-u-padding-top--2'}>
         Check in with a staff member.
       </h1>
-      <p>They can help you update your information before your appointment.</p>
-      <Footer header={'Not sure who to check in with?'} />
+      <p className="vads-u-margin-bottom--0">
+        They can help you update your information before your appointment.
+      </p>
+      <Footer header={'Not sure who to check in with?'} message="Call us at" />
       <BackToHome />
     </div>
   );
