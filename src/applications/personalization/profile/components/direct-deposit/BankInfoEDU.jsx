@@ -111,29 +111,13 @@ export const DirectDepositEDU = ({
     saveBankInformation(payload);
   };
 
-  const bankInfoClasses = prefixUtilityClasses(
-    [
-      'display--flex',
-      'align-items--flex-start',
-      'flex-direction--row',
-      'justify-content--space-between',
-    ],
-    'medium',
-  );
-
   const editButtonClasses = [
     'usa-button-secondary',
     ...prefixUtilityClasses(['margin--0', 'margin-top--1p5', 'width--auto']),
   ];
 
-  const editButtonClassesMedium = prefixUtilityClasses(
-    ['flex--auto', 'margin-top--0', 'margin-left--4'],
-    'medium',
-  );
-
   const classes = {
-    bankInfo: [...bankInfoClasses].join(' '),
-    editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
+    editButton: editButtonClasses.join(' '),
   };
 
   const closeDDForm = () => {
@@ -147,7 +131,7 @@ export const DirectDepositEDU = ({
 
   // When direct deposit is set up we will show the current bank info
   const bankInfoContent = (
-    <div className={classes.bankInfo}>
+    <div>
       <dl className="vads-u-margin-y--0 vads-u-line-height--6">
         <dt className="sr-only">Bank name:</dt>
         <dd>{directDepositAccountInfo?.financialInstitutionName}</dd>

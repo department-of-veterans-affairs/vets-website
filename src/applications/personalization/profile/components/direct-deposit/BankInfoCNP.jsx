@@ -118,29 +118,13 @@ export const BankInfoCNP = ({
     saveBankInformation(payload, isDirectDepositSetUp);
   };
 
-  const bankInfoClasses = prefixUtilityClasses(
-    [
-      'display--flex',
-      'align-items--flex-start',
-      'flex-direction--row',
-      'justify-content--space-between',
-    ],
-    'medium',
-  );
-
   const editButtonClasses = [
     'usa-button-secondary',
     ...prefixUtilityClasses(['margin--0', 'margin-top--1p5', 'width--auto']),
   ];
 
-  const editButtonClassesMedium = prefixUtilityClasses(
-    ['flex--auto', 'margin-top--0', 'margin-left--4'],
-    'medium',
-  );
-
   const classes = {
-    bankInfo: [...bankInfoClasses].join(' '),
-    editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
+    editButton: editButtonClasses.join(' '),
   };
 
   const closeDDForm = () => {
@@ -154,7 +138,7 @@ export const BankInfoCNP = ({
 
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
-    <div className={classes.bankInfo}>
+    <div>
       <dl className="vads-u-margin-y--0 vads-u-line-height--6">
         <dt className="sr-only">Bank name:</dt>
         <dd>{directDepositAccountInfo?.financialInstitutionName}</dd>
@@ -185,8 +169,10 @@ export const BankInfoCNP = ({
 
   // When direct deposit is not set up, we will show
   const notSetUpContent = (
-    <div className={classes.bankInfo}>
-      <span>Edit your profile to add your bank information.</span>
+    <div>
+      <p className="vads-u-margin--0">
+        Edit your profile to add your bank information.
+      </p>
       <button
         className={classes.editButton}
         aria-label={
