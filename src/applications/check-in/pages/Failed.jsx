@@ -10,9 +10,11 @@ const Failed = props => {
     focusElement('h1');
   }, []);
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--3">
+    <div className="vads-l-grid-container vads-u-padding-top--3 vads-u-padding-bottom--3">
       <BackButton router={router} />
-      <h1 tabIndex="-1">Check in with a staff member.</h1>
+      <h1 tabIndex="-1" className="vads-u-margin-top--2">
+        Check in with a staff member.
+      </h1>
       <p className="vads-u-margin-bottom--0">
         They can help you update your information before your appointment.
       </p>
