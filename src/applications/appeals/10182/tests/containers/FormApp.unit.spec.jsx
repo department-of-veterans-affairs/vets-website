@@ -12,7 +12,7 @@ const profile = {
     email: {
       emailAddress: 'test@user.com',
     },
-    homePhone: {
+    mobilePhone: {
       countryCode: '2',
       areaCode: '345',
       phoneNumber: '6789012',
@@ -139,7 +139,6 @@ describe('FormApp', () => {
     const mockProfile = {
       vapContactInfo: {
         email: null,
-        homePhone: null,
         mobilePhone: null,
         mailingAddress: null,
       },
@@ -203,7 +202,7 @@ describe('FormApp', () => {
     const formData = setFormData.args[0][0];
     const result = {
       address: profile.vapContactInfo.mailingAddress,
-      phone: profile.vapContactInfo.homePhone,
+      phone: profile.vapContactInfo.mobilePhone,
       email: profile.vapContactInfo.email.emailAddress,
     };
     expect(formData.veteran).to.deep.equal(result);
@@ -240,7 +239,7 @@ describe('FormApp', () => {
       additionalIssues: [{ issue: 'other issue', [SELECTED]: true }],
       veteran: {
         email: profile.vapContactInfo.email.emailAddress,
-        phone: profile.vapContactInfo.homePhone,
+        phone: profile.vapContactInfo.mobilePhone,
         address: profile.vapContactInfo.mailingAddress,
       },
     };
