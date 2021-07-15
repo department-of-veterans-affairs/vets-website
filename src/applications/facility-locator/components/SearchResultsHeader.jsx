@@ -18,7 +18,9 @@ export const SearchResultsHeader = ({
   inProgress,
   specialtyMap,
 }) => {
-  if (inProgress || !results || !results.length) {
+  const noResultsFound = !results || !results.length;
+
+  if (inProgress || !context) {
     return <div style={{ height: '38px' }} />;
   }
 
@@ -64,6 +66,8 @@ export const SearchResultsHeader = ({
 
   const formattedServiceType = formatServiceType(serviceType);
 
+  const messagePrefix = noResultsFound ? 'No results found' : 'Results';
+
   return (
     <div>
       {(isEmergencyCareType || isCppEmergencyCareTypes) && (
@@ -83,7 +87,7 @@ export const SearchResultsHeader = ({
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
         tabIndex="-1"
       >
-        Results for &quot;
+        {messagePrefix} for &quot;
         <b>{facilityTypes[facilityType]}</b>
         &quot;
         {formattedServiceType && (
