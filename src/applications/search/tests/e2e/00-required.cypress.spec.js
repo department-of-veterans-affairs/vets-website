@@ -60,9 +60,21 @@ for (let i = 0; i < 20; i += 1) {
 
       // Await search results
 
-      cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`).clear();
-      cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`).type('benefits');
-      cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`).click();
+      cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`)
+        .should('exist')
+        .then(inputElem => {
+          cy.wrap(inputElem).clear();
+        });
+      cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`)
+        .should('exist')
+        .then(inputElem => {
+          cy.wrap(inputElem).type('benefits');
+        });
+      cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`)
+        .should('exist')
+        .then(button => {
+          cy.wrap(button).click();
+        });
       cy.wait('@getSearchResultsPage');
 
       // A11y check the search results.
