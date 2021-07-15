@@ -45,6 +45,7 @@ import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
 import SearchAreaControl from '../components/SearchAreaControl';
 import recordEvent from 'platform/monitoring/record-event';
 import Covid19Result from '../components/search-results-items/Covid19Result';
+import * as Sentry from '@sentry/browser';
 
 let lastZoom = 3;
 
@@ -61,6 +62,7 @@ const FacilitiesMap = props => {
    * Search when the component renders with a sharable url
    */
   const searchWithUrl = () => {
+    Sentry.captureException(new Error('This is my fake error message'));
     // Check for scenario when results are in the store
     if (!!props.location.search && props.results && props.results.length > 0) {
       return;
