@@ -18,6 +18,7 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
+            "patientHistoryRequired": "Yes",
             "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "125", "secondary": "323" }],
             "submittedRequestLimit": 2,
@@ -198,6 +199,7 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
+            "patientHistoryRequired": "Yes",
             "patientHistoryDuration": 365,
             "stopCodes": [{ "primary": "125", "secondary": "323" }],
             "submittedRequestLimit": 2,
@@ -349,6 +351,7 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
+            "patientHistoryRequired": "Yes",
             "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "125", "secondary": "323" }],
             "submittedRequestLimit": 1,
@@ -501,6 +504,7 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
+            "patientHistoryRequired": "Yes",
             "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "125", "secondary": "323" }],
             "submittedRequestLimit": 1,
@@ -964,6 +968,7 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
+            "patientHistoryRequired": "Yes",
             "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "125", "secondary": "323" }],
             "submittedRequestLimit": 1,
@@ -1121,6 +1126,7 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
+            "patientHistoryRequired": "Yes",
             "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "125", "secondary": "323" }],
             "submittedRequestLimit": 1,
@@ -1273,6 +1279,7 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
+            "patientHistoryRequired": "Yes",
             "patientHistoryDuration": 730,
             "stopCodes": [{ "primary": "125", "secondary": "323" }],
             "submittedRequestLimit": 2,
