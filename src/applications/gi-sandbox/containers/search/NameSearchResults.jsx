@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -23,7 +23,14 @@ export function NameSearchResults({
   const { currentPage, totalPages } = search.name.pagination;
   const { name } = search.query;
   const history = useHistory();
+  const [useFilters, setUseFilters] = useState(filtersChanged);
 
+  useEffect(
+    () => {
+      setUseFilters(getFiltersChanged(filters));
+    },
+    [search.name.results],
+  );
   const fetchPage = page => {
     dispatchFetchSearchByNameResults(name, page, filters, version);
 
@@ -72,7 +79,7 @@ export function NameSearchResults({
 
               {!inProgress &&
                 count === 0 &&
-                filtersChanged && (
+                useFilters && (
                   <p>
                     We didn't find any institutions based on the filters you've
                     applied. Please update the filters and search again.
