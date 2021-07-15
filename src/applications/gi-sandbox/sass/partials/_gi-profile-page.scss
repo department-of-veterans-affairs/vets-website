@@ -112,6 +112,7 @@
       padding-left: 0;
       padding-right: 0rem;
       background-position: right 1rem center;
+      width: 18.7em;
 
       @include media-maxwidth($medium-screen - 1) {
         background-position: right 1rem center;
@@ -373,22 +374,8 @@
   }
 
   .additional-information {
-    .historical-information.list {
-      margin-bottom: 2rem;
-
-      @media screen and (min-width: $medium-screen) {
-        display: none;
-      }
-    }
-
     .institution-summary {
       margin-bottom: 2rem;
-    }
-
-    @include media-maxwidth($medium-screen) {
-      .historical-information.table {
-        display: none;
-      }
     }
   }
 
@@ -704,4 +691,20 @@
 
 .profile-card {
   border-radius: 10px;
+}
+
+.veteran-programs-and-support {
+  .historical-information.list {
+    margin-bottom: 2rem;
+
+    @media screen and (min-width: $medium-screen) {
+      display: none;
+    }
+  }
+
+  @include media-maxwidth($medium-screen) {
+    .historical-information.table {
+      display: none;
+    }
+  }
 }

@@ -636,7 +636,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
     );
 
     await screen.findByText(
-      /Please select a desired date and time for your appointment/i,
+      /Please select an available date and time from the calendar below./i,
     );
 
     userEvent.click(screen.getByText(/continue/i));

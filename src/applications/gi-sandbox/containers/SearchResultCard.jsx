@@ -73,8 +73,11 @@ export function SearchResultCard({
   });
 
   const schoolClassificationPTagClasses = classNames(
-    'vads-u-color--white vads-u-padding-x--2 vads-u-padding-y--1',
+    'vads-u-color--white',
+    'vads-u-padding-x--2',
+    'vads-u-padding-y--1',
     {
+      'vads-u-margin-top--0': !location,
       'vads-u-margin-y--0p5': location,
     },
   );

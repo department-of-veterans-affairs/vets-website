@@ -99,5 +99,11 @@ export const ariaLabels = Object.freeze({
     facilityCode: 'Learn more about the VA facility code',
     ipedsCode: 'Learn more about the ED IPEDS code',
     opeCode: 'Learn more about the ED OPE code',
+    eightKeys: 'Learn more about 8 Keys to Veteran Success',
+    militaryTuitionAssistanceProgram:
+      'Learn more about Military Tuition Assistance',
+    principlesOfExcellence: 'Learn more about Principles of Excellence',
+    studentVeteranGroup: 'Learn more about Student Veteran Groups',
+    vetSuccess: 'Learn more about VetSuccess on Campus',
   },
 });
