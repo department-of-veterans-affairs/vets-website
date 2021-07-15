@@ -3,20 +3,22 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
-import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
-import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
+import AllCampusesModalContent from '../components/content/modals/AllCampusesModalContent';
 import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
-import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
-import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
-import FacilityCodeModalContent from '../components/content/modals/FacilityCodeModalContent';
-import OpeCodeModalContent from '../components/content/modals/OpeCodeModalContent';
-import IpedsCodeModalContent from '../components/content/modals/IpedsCodeModalContent';
 import EightKeysModalContent from '../components/content/modals/EightKeysModalContent';
+import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
+import FacilityCodeModalContent from '../components/content/modals/FacilityCodeModalContent';
+import IpedsCodeModalContent from '../components/content/modals/IpedsCodeModalContent';
 import MilitaryTuitionAssistanceModalContent from '../components/content/modals/MilitaryTuitionAssistanceModalContent';
+import OpeCodeModalContent from '../components/content/modals/OpeCodeModalContent';
 import PrinciplesOfExcellenceModalContent from '../components/content/modals/PrinciplesOfExcellenceModalContent';
+import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
+import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
+import StudentComplaintsModalContent from '../components/content/modals/StudentComplaintsModalContent';
 import StudentVeteranGroupModalContent from '../components/content/modals/StudentVeteranGroupModalContent';
 import VeteranSuccessModalContent from '../components/content/modals/VeteranSuccessModalContent';
+import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -233,6 +235,20 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('yribbon')}
       >
         <YellowRibbonModalContent />
+      </Modal>
+
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('studentComplaints')}
+      >
+        <StudentComplaintsModalContent />
+      </Modal>
+
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('allCampuses')}
+      >
+        <AllCampusesModalContent />
       </Modal>
 
       <Modal

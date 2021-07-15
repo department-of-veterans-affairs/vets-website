@@ -324,6 +324,7 @@ VAPServiceProfileFieldContainer.propTypes = {
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
+  deleteDisabled: PropTypes.bool,
 };
 
 export default VAPServiceProfileFieldContainer;
