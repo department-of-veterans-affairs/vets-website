@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { ELIGIBILITY_REASONS, FETCH_STATUS } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
-import { lowerCase } from '../../../utils/formatters';
+import { aOrAn, lowerCase } from '../../../utils/formatters';
+import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function EligibilityModal({
   onClose,
@@ -30,10 +31,14 @@ export default function EligibilityModal({
     title = 'We couldn’t find a recent appointment at this location';
     content = (
       <div aria-atomic="true" aria-live="assertive">
-        You need to have visited this facility within the past{' '}
-        {monthRequirement} months for {lowerCase(typeOfCare?.name)} to schedule
-        an appointment for this type of care. Please call this facility to
-        schedule your appointment or search for another facility.
+        To schedule an appointment online at this location, you need to have had{' '}
+        {aOrAn(typeOfCare?.name)} {lowerCase(typeOfCare?.name)} appointment at
+        this facility within the last {monthRequirement} months. Please call
+        this facility to schedule your appointment or{' '}
+        <NewTabAnchor href="/find-locations">
+          search for another VA facility
+        </NewTabAnchor>
+        .
       </div>
     );
   } else if (
@@ -71,10 +76,14 @@ export default function EligibilityModal({
     title = 'We can’t find a recent appointment for you';
     content = (
       <div aria-atomic="true" aria-live="assertive">
-        You need to have visited this facility within the past{' '}
-        {monthRequirement} months for {lowerCase(typeOfCare?.name)} to request
-        an appointment for this type of care. Please call this facility to
-        schedule your appointment or search for another facility.
+        To request an appointment online at this location, you need to have had{' '}
+        {aOrAn(typeOfCare?.name)} {lowerCase(typeOfCare?.name)} appointment at
+        this facility within the last {monthRequirement} months. Please call
+        this facility to schedule your appointment or{' '}
+        <NewTabAnchor href="/find-locations">
+          search for another VA facility
+        </NewTabAnchor>
+        .
       </div>
     );
   } else if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {

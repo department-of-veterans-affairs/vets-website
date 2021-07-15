@@ -183,12 +183,9 @@ describe('VAOS <VAFacilityPageV2> single facility', () => {
     });
 
     await screen.findByText(
-      /The facility we found doesn’t accept online scheduling for this care/i,
+      /doesn’t have any available clinics that support online scheduling/i,
     );
 
-    expect(screen.baseElement).to.contain.text(
-      'You’ll need to call this facility to request your appointment',
-    );
     expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
   });
 

@@ -17,27 +17,64 @@ export default function SingleFacilityEligibilityCheckMessage({
     'We found one facility that accepts online scheduling for this care';
   let message;
   const requestReason = eligibility.requestReasons[0];
-  const monthRequirement = facility.legacyVAR.settings
-    ? (facility.legacyVAR.settings[typeOfCare.id].request
-        .patientHistoryDuration /
-        365) *
-      12
-    : '12-24';
+  const directReason = eligibility.directReasons[0];
 
-  if (requestReason === ELIGIBILITY_REASONS.error) {
-    return <ErrorMessage />;
+  if (
+    requestReason === ELIGIBILITY_REASONS.notSupported &&
+    directReason === ELIGIBILITY_REASONS.noRecentVisit
+  ) {
+    const monthRequirement = facility.legacyVAR.settings
+      ? (facility.legacyVAR.settings[typeOfCare.id].direct
+          .patientHistoryDuration /
+          365) *
+        12
+      : '12-24';
+    message = (
+      <p>
+        To schedule an appointment online at this location, you need to have had{' '}
+        {aOrAn(typeOfCareName)} {lowerCase(typeOfCareName)} appointment at this
+        facility within the last {monthRequirement} months. Please call this
+        facility to schedule your appointment or{' '}
+        <NewTabAnchor href="/find-locations">
+          search for another facility
+        </NewTabAnchor>
+        .
+      </p>
+    );
   }
 
-  if (requestReason === ELIGIBILITY_REASONS.noRecentVisit) {
+  if (
+    requestReason === ELIGIBILITY_REASONS.notSupported &&
+    (directReason === ELIGIBILITY_REASONS.noClinics ||
+      directReason === ELIGIBILITY_REASONS.noMatchingClinics)
+  ) {
+    message = (
+      <p>
+        This facility doesn’t have any available clinics that support online
+        scheduling for the type of care you selected. Please call this facility
+        to schedule your appointment or{' '}
+        <NewTabAnchor href="/find-locations">
+          search for another facility
+        </NewTabAnchor>
+        .
+      </p>
+    );
+  } else if (requestReason === ELIGIBILITY_REASONS.error) {
+    return <ErrorMessage />;
+  } else if (requestReason === ELIGIBILITY_REASONS.noRecentVisit) {
+    const monthRequirement = facility.legacyVAR.settings
+      ? (facility.legacyVAR.settings[typeOfCare.id].request
+          .patientHistoryDuration /
+          365) *
+        12
+      : '12-24';
     message = (
       <>
         <p>
           To request an appointment online at this location, you need to have
           had {aOrAn(typeOfCareName)} {lowerCase(typeOfCareName)} appointment at
-          this facility within the last {monthRequirement} months.
-        </p>
-        <p>
-          You’ll need to call the facility to schedule this appointment. Or{' '}
+          this facility within the last {monthRequirement} months. Please call
+          this facility to schedule your appointment or{' '}
           <NewTabAnchor href="/find-locations">
             search for another VA facility
           </NewTabAnchor>
