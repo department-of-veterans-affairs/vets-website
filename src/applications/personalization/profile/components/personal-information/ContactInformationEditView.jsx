@@ -330,7 +330,7 @@ export class ContactInformationEditView extends Component {
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-width--auto vads-u-margin-top--0"
+                    className="vads-u-margin-top--0"
                   >
                     Update
                   </LoadingButton>
@@ -338,7 +338,7 @@ export class ContactInformationEditView extends Component {
                   {!isLoading && (
                     <button
                       type="button"
-                      className="usa-button-secondary vads-u-margin-top--0 vads-u-width--auto"
+                      className="usa-button-secondary vads-u-margin-top--0"
                       onClick={onCancel}
                     >
                       Cancel

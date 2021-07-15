@@ -102,13 +102,15 @@ function ContactInformationActionButtons(props) {
   const renderDeleteAction = () => {
     if (props.deleteEnabled) {
       return (
-        <button
-          type="button"
-          className="va-button-link vads-u-margin-top--1p5"
-          onClick={handleDeleteInitiated}
-        >
-          Remove {toLower(props.title)}
-        </button>
+        <div>
+          <button
+            type="button"
+            className="vads-u-margin--0 usa-button-secondary"
+            onClick={handleDeleteInitiated}
+          >
+            Remove {toLower(props.title)}
+          </button>
+        </div>
       );
     }
 
