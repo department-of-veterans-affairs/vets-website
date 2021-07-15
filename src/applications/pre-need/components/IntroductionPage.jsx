@@ -170,10 +170,10 @@ class IntroductionPage extends React.Component {
             <OMBInfo
               resBurden={20}
               ombNumber="2900-0784"
-              expDate="11/30/2018"
+              expDate="04/30/2023"
             />
           ) : (
-            <OMBInfo resBurden={20} ombNumber="2900-0784" expDate="11/30/2018">
+            <OMBInfo resBurden={20} ombNumber="2900-0784" expDate="04/30/2023">
               <BurialModalContent resBurden={20} ombNumber="2900-0784" />
             </OMBInfo>
           )}
