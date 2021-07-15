@@ -15,13 +15,46 @@ export default function EligibilityModal({
   let title;
   let content;
   const requestReason = eligibility.requestReasons[0];
-  const monthRequirement =
-    (facilityDetails.legacyVAR.settings[typeOfCare.id].request
-      .patientHistoryDuration /
-      365) *
-    12;
+  const directReason = eligibility.directReasons[0];
+  const requestsEnabled =
+    facilityDetails?.legacyVAR?.settings[typeOfCare.id].request.enabled;
+  const directEnabled =
+    facilityDetails?.legacyVAR?.settings[typeOfCare.id].direct.enabled;
 
-  if (requestReason === ELIGIBILITY_REASONS.error) {
+  if (
+    !requestsEnabled &&
+    directEnabled &&
+    directReason === ELIGIBILITY_REASONS.noRecentVisit
+  ) {
+    const monthRequirement = facilityDetails?.legacyVAR?.settings
+      ? (facilityDetails.legacyVAR.settings[typeOfCare.id].direct
+          .patientHistoryDuration /
+          365) *
+        12
+      : '12-24';
+
+    title = 'We couldn’t find a recent appointment at this location';
+    content = (
+      <div aria-atomic="true" aria-live="assertive">
+        You need to have visited this facility within the past{' '}
+        {monthRequirement} months for {lowerCase(typeOfCare?.name)} to schedule
+        an appointment for this type of care.
+      </div>
+    );
+  } else if (
+    !requestsEnabled &&
+    directEnabled &&
+    (directReason === ELIGIBILITY_REASONS.noClinics ||
+      directReason === ELIGIBILITY_REASONS.noMatchingClinics)
+  ) {
+    title = 'We couldn’t find a clinic for this type of care';
+    content = (
+      <div aria-atomic="true" aria-live="assertive">
+        We're sorry. This facility doesn't have any available clinics that
+        support online scheduling for the type of care you selected.
+      </div>
+    );
+  } else if (requestReason === ELIGIBILITY_REASONS.error) {
     title = 'We’re sorry. We’ve run into a problem';
     content = 'Something went wrong on our end. Please try again later.';
   } else if (requestReason === ELIGIBILITY_REASONS.notSupported) {
@@ -34,6 +67,11 @@ export default function EligibilityModal({
       </div>
     );
   } else if (requestReason === ELIGIBILITY_REASONS.noRecentVisit) {
+    const monthRequirement =
+      (facilityDetails.legacyVAR.settings[typeOfCare.id].request
+        .patientHistoryDuration /
+        365) *
+      12;
     title = 'We can’t find a recent appointment for you';
     content = (
       <>

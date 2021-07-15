@@ -673,7 +673,57 @@ describe('VAOS <VAFacilityPageV2> multiple facilities', () => {
     expect(screen.queryByText(/Facility 128/i)).not.to.exist;
   });
 
-  it('should show not supported message when direct is supported and not eligible, and requests are not supported', async () => {
+  it('should show past visits message when direct is supported and not eligible, and requests are not supported', async () => {
+    mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
+    mockDirectBookingEligibilityCriteria(parentSiteIds, [
+      parentSiteIds,
+      getDirectBookingEligibilityCriteriaMock({
+        id: '983',
+        typeOfCareId: '502',
+        patientHistoryRequired: 'Yes',
+        patientHistoryDuration: 365,
+      }),
+      getDirectBookingEligibilityCriteriaMock({
+        id: '984',
+        typeOfCareId: '502',
+        patientHistoryRequired: 'Yes',
+        patientHistoryDuration: 365,
+      }),
+    ]);
+    mockRequestEligibilityCriteria(parentSiteIds, []);
+    mockFacilitiesFetch(
+      'vha_442,vha_552',
+      facilities.filter(f => f.id === 'vha_442' || f.id === 'vha_552'),
+    );
+    mockEligibilityFetches({
+      siteId: '983',
+      facilityId: '983',
+      typeOfCareId: '502',
+    });
+    const store = createTestStore(initialState);
+    await setTypeOfCare(store, /mental health/i);
+
+    const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+      store,
+    });
+
+    await screen.findByText(/below is a list of VA locations/i);
+
+    fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
+    fireEvent.click(screen.getByText(/Continue/));
+    await screen.findByText(
+      /We couldn’t find a recent appointment at this location/i,
+    );
+    const loadingEvent = global.window.dataLayer.find(
+      ev => ev.event === 'loading-indicator-displayed',
+    );
+
+    // It should record GA event for loading modal
+    expect(loadingEvent).to.exist;
+    expect('loading-indicator-display-time' in loadingEvent).to.be.true;
+  });
+
+  it('should show no clinics message when direct is supported and not eligible, and requests are not supported', async () => {
     mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
     mockDirectBookingEligibilityCriteria(
       parentSiteIds,
@@ -688,6 +738,7 @@ describe('VAOS <VAFacilityPageV2> multiple facilities', () => {
       siteId: '983',
       facilityId: '983QA',
       typeOfCareId: '323',
+      directPastVisits: true,
     });
     const store = createTestStore(initialState);
     await setTypeOfCare(store, /primary care/i);
@@ -700,9 +751,7 @@ describe('VAOS <VAFacilityPageV2> multiple facilities', () => {
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));
-    await screen.findByText(
-      /This facility doesn’t accept online scheduling for this care/i,
-    );
+    await screen.findByText(/We couldn’t find a clinic for this type of care/);
     const loadingEvent = global.window.dataLayer.find(
       ev => ev.event === 'loading-indicator-displayed',
     );
@@ -739,18 +788,14 @@ describe('VAOS <VAFacilityPageV2> multiple facilities', () => {
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));
-    await screen.findByText(
-      /This facility doesn’t accept online scheduling for this care/i,
-    );
+    await screen.findByText(/We couldn’t find a clinic for this type of care/i);
     const closeButton = screen.container.querySelector('.va-modal-close');
     fireEvent.click(closeButton);
     expect(screen.baseElement).not.to.contain.text(
-      /This facility doesn’t accept online scheduling for this care/,
+      /We couldn’t find a clinic for this type of care/i,
     );
     fireEvent.click(await screen.findByText(/Continue/));
-    await screen.findByText(
-      /This facility doesn’t accept online scheduling for this care/i,
-    );
+    await screen.findByText(/We couldn’t find a clinic for this type of care/i);
   });
 
   it('should display an error message when eligibility calls fail', async () => {
