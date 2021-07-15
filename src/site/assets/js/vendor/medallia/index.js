@@ -8,10 +8,8 @@ window.addEventListener('DOMContentLoaded', () => {
     feedbackButtonDiv.style.position = null;
   }
 
-  const config = { attributes: false, childList: true }; // maybe i don't need this
-
   const detectButtonAdded = function(mutationsList) {
-    for (let mutation of mutationsList) {
+    mutationsList.forEach(mutation => {
       if (mutation.addedNodes.length > 0) {
         mutation.addedNodes.forEach(node => {
           if (node.id === 'nebula_div_btn') {
@@ -19,12 +17,14 @@ window.addEventListener('DOMContentLoaded', () => {
           }
         });
       }
-    }
+    });
   };
 
   feedbackButtonContainer.remove();
   main.append(feedbackButtonContainer);
   updateFeedbackButtonInlineCss();
+  
   const observer = new MutationObserver(detectButtonAdded)
-  observer.observe(feedbackButtonContainer, config);
+  const observeConfig = { attributes: false, childList: true };
+  observer.observe(feedbackButtonContainer, observeConfig);
 });
