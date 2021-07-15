@@ -50,11 +50,9 @@ const CheckIn = props => {
   );
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--3 appointment-check-in">
+    <div className="vads-l-grid-container vads-u-padding-bottom--5 appointment-check-in">
       <BackButton router={router} />
-      <h1 tabIndex="-1" className="vads-u-padding-top--2">
-        Your appointment
-      </h1>
+      <h1 tabIndex="-1">Your appointment</h1>
       <dl className="appointment-summary vads-u-font-weight--bold">
         <dd
           className="appointment-details  vads-u-font-family--serif"
