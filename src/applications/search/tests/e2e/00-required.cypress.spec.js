@@ -1,3 +1,4 @@
+import Timeouts from 'platform/testing/e2e/timeouts';
 import stub from '../../constants/stub.json';
 
 const SELECTORS = {
@@ -65,8 +66,11 @@ for (let i = 0; i < 20; i += 1) {
         .then(inputElem => {
           cy.wrap(inputElem).clear();
         });
-      cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`)
+      cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`, {
+        timeout: Timeouts.slow,
+      })
         .should('exist')
+        .and('not.be.disabled')
         .then(inputElem => {
           cy.wrap(inputElem).type('benefits');
         });
