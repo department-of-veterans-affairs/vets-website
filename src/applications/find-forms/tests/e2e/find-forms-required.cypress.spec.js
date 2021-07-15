@@ -26,10 +26,6 @@ function axeTestPage() {
 }
 
 describe('functionality of Find Forms', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   it('search the form and expect dom to have elements', () => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
@@ -42,7 +38,7 @@ describe('functionality of Find Forms', () => {
         ],
       },
     });
-    cy.intercept('GET', '/v0/forms?query=HEALTH', stub).as('getFindAForm');
+    cy.intercept('GET', '/v0/forms?query=health', stub).as('getFindAForm');
 
     // navigate to find-forms and make axe check on browser
     cy.visit('/find-forms/');

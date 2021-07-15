@@ -73,8 +73,11 @@ export function SearchResultCard({
   });
 
   const schoolClassificationPTagClasses = classNames(
-    'vads-u-color--white vads-u-padding-x--2 vads-u-padding-y--1',
+    'vads-u-color--white',
+    'vads-u-padding-x--2',
+    'vads-u-padding-y--1',
     {
+      'vads-u-margin-top--0': !location,
       'vads-u-margin-y--0p5': location,
     },
   );
@@ -216,7 +219,7 @@ export function SearchResultCard({
           <strong>Approved programs:</strong>
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
-          {programCount}
+          {programCount || 0}
         </p>
       </div>
       <div className="vads-u-flex--1">

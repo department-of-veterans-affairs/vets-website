@@ -6,12 +6,12 @@ import VetTecAdditionalInformation from './VetTecAdditionalInformation';
 import VetTecApplicationProcess from './VetTecApplicationProcess';
 import VetTecApprovedProgramsList from './VetTecApprovedProgramsList';
 import ContactInformation from '../profile/ContactInformation';
-import { renderVetTecLogo } from '../../utils/render';
 import classNames from 'classnames';
 
 import VetTecVeteranPrograms from './VetTecVeteranPrograms';
 import VetTecEstimateYourBenefits from '../../containers/VetTecEstimateYourBenefits';
 import ProfilePageHeader from '../../containers/ProfilePageHeader';
+import VetTecLogo from '../VetTecLogo';
 
 const profileLogo =
   'vads-u-display--block medium-screen:vads-u-display--none vettec-logo-container';
@@ -31,7 +31,7 @@ const InstitutionProfile = ({
     <div>
       {
         <div className={profileLogo}>
-          {renderVetTecLogo(classNames('vettec-logo-profile'))}
+          <VetTecLogo classNames={classNames('vettec-logo-profile')} />
         </div>
       }
       <ProfilePageHeader institution={institution} />
@@ -60,7 +60,7 @@ const InstitutionProfile = ({
           <VetTecApplicationProcess institution={institution} />
         </AccordionItem>
         <AccordionItem button="Contact details">
-          <ContactInformation institution={institution} />
+          <ContactInformation institution={institution} showModal={showModal} />
         </AccordionItem>
         <AccordionItem button="Additional information">
           <VetTecAdditionalInformation

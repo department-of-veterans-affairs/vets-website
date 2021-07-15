@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import { goToNextPageWithToken, getTokenFromRouter } from '../utils/navigation';
+import { getTokenFromLocation, URLS, goToNextPage } from '../utils/navigation';
 import { validateToken } from '../api';
 import { receivedAppointmentDetails } from '../actions';
 
 const Landing = props => {
-  const { router, setAppointment } = props;
+  const { router, setAppointment, location } = props;
 
   useEffect(
     () => {
-      const token = getTokenFromRouter(router);
+      const token = getTokenFromLocation(location);
       if (token) {
         validateToken(token).then(json => {
           const { data, isValid } = json;
@@ -20,14 +19,14 @@ const Landing = props => {
           if (isValid) {
             // dispatch data into redux
             setAppointment(data);
-            goToNextPageWithToken(router, 'insurance');
+            goToNextPage(router, URLS.UPDATE_INSURANCE);
           } else {
-            goToNextPageWithToken(router, 'failed');
+            goToNextPage(router, URLS.SEE_STAFF);
           }
         });
       }
     },
-    [router, setAppointment],
+    [router, setAppointment, location],
   );
   return (
     <>

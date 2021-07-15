@@ -14,7 +14,9 @@ describe('Check In Experience -- ', () => {
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
   it('happy path', () => {
-    cy.visit('/check-in/some-token');
+    const featureRoute =
+      '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
+    cy.visit(featureRoute);
     cy.get('h1').contains('insurance');
     cy.get('[data-testid="no-button"]').click();
     cy.get('h1').contains('Your appointment');

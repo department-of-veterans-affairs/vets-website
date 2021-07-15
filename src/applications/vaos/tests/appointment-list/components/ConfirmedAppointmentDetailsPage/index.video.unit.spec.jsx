@@ -694,6 +694,110 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         .be.ok;
     });
 
+    it('should show address info for store forward appointment', async () => {
+      const appointment = getVideoAppointmentMock();
+      const startDate = moment.utc().add(3, 'days');
+      appointment.attributes = {
+        ...appointment.attributes,
+        facilityId: '983',
+        clinicId: '123',
+        // This should be different from facilityId to test that correct facility
+        // is used
+        sta6aid: '983GD',
+        startDate: startDate.format(),
+        clinicFriendlyName: null,
+      };
+      appointment.attributes.vvsAppointments[0] = {
+        ...appointment.attributes.vvsAppointments[0],
+        dateTime: startDate.format(),
+        bookingNotes: 'Some random note',
+        appointmentKind: 'STORE_FORWARD',
+        status: { description: 'F', code: 'FUTURE' },
+        patients: [
+          {
+            location: {
+              clinic: {
+                ien: '455',
+                name: 'Green team clinic',
+              },
+            },
+          },
+        ],
+      };
+      mockAppointmentInfo({
+        va: [appointment],
+        cc: [],
+        requests: [],
+        isHomepageRefresh: true,
+      });
+
+      const facility = {
+        id: 'vha_442GD',
+        attributes: {
+          ...getVAFacilityMock().attributes,
+          uniqueId: '442GD',
+          name: 'Cheyenne VA Medical Center',
+          address: {
+            physical: {
+              zip: '82001-5356',
+              city: 'Cheyenne',
+              state: 'WY',
+              address1: '2360 East Pershing Boulevard',
+            },
+          },
+          phone: {
+            main: '307-778-7550',
+          },
+        },
+      };
+      mockFacilitiesFetch('vha_442GD', [facility]);
+
+      const screen = renderWithStoreAndRouter(
+        <AppointmentList featureHomepageRefresh />,
+        {
+          initialState,
+        },
+      );
+
+      fireEvent.click(await screen.findByText(/Details/));
+
+      await waitFor(() =>
+        expect(screen.history.push.lastCall.args[0]).to.equal(url),
+      );
+
+      await screen.findByText(
+        new RegExp(
+          startDate
+            .tz('America/Denver')
+            .format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      );
+
+      expect(screen.queryByText(/You don’t have any appointments/i)).not.to
+        .exist;
+      expect(screen.baseElement).to.contain.text(
+        'VA Video Connect at VA location',
+      );
+      expect(screen.baseElement).to.contain.text(
+        'You must join this video meeting from the VA location listed below.',
+      );
+      expect(screen.queryByText(/join appointment/i)).to.not.exist;
+      expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
+      expect(screen.baseElement).to.contain.text(
+        '2360 East Pershing Boulevard',
+      );
+      expect(screen.baseElement).to.contain.text(
+        'Cheyenne, WyomingWY 82001-5356',
+      );
+      expect(screen.getByRole('link', { name: /Directions/ })).to.be.ok;
+
+      expect(screen.baseElement).to.contain.text('Clinic: Green team clinic');
+      expect(screen.baseElement).to.contain.text('Main phone: 307-778-7550');
+      expect(screen.getAllByRole('link', { name: /3 0 7. 7 7 8. 7 5 5 0./ })).to
+        .be.ok;
+    });
+
     it('should fire a print request when print button clicked', async () => {
       const startDate = moment.utc().add(20, 'minutes');
       const appointment = getVideoAppointmentMock();

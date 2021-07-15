@@ -24,21 +24,24 @@ export default function SearchTabs({ onChange, search }) {
   };
 
   const getTab = (tabName, label) => {
+    const activeTab = tabName === tab;
     const tabClasses = classNames(
       {
-        'vads-u-border-bottom--4px': tabName === tab,
-        'vads-u-border-color--primary': tabName === tab,
-        'vads-u-border-bottom--2px': tabName !== tab,
-        'vads-u-border-color--gray-light': tabName !== tab,
-        'vads-u-color--gray-light': tabName !== tab,
+        'active-search-tab': activeTab,
+        'vads-u-color--gray-dark': activeTab,
+        'vads-u-background-color--white': activeTab,
+        'inactive-search-tab': !activeTab,
+        'vads-u-color--gray-medium': !activeTab,
+        'vads-u-background-color--gray-light-alt': !activeTab,
       },
       'vads-u-font-family--sans',
       'vads-u-flex--1',
       'vads-u-text-align--center',
       'vads-u-font-weight--bold',
       'vads-l-grid-container',
-      'vads-u-padding-bottom--1p5',
+      'vads-u-padding-y--1p5',
       'search-tab',
+      `${tabName}-search-tab`,
     );
 
     return (

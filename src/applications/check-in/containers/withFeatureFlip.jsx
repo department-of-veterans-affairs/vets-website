@@ -18,7 +18,12 @@ const withFeatureFlip = WrappedComponent => props => {
     window.location.replace('/');
     return <></>;
   } else {
-    return <WrappedComponent {...props} />;
+    return (
+      <>
+        <meta name="robots" content="noindex" />
+        <WrappedComponent {...props} />
+      </>
+    );
   }
 };
 const mapStateToProps = state => ({

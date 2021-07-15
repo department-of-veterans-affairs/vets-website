@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { renderInReduxProvider as render } from '~/platform/testing/unit/react-testing-library-helpers';
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 
 import ReceiveAppointmentReminders, {
   ReceiveAppointmentReminders as UnconnectedReceiveAppointmentReminders,
@@ -52,4 +53,21 @@ describe('ReceiveAppointmentReminders', () => {
       expect(view.container.firstChild).to.be.null;
     });
   });
+
+  context(
+    'when user has VA health care but the profileNotificationSettings feature flag is turned on',
+    () => {
+      it('renders nothing at all', () => {
+        initialState.user.profile.vaPatient = true;
+        initialState.featureToggles = {
+          loading: false,
+          [featureFlagNames.profileNotificationSettings]: true,
+        };
+        view = render(<ReceiveAppointmentReminders />, {
+          initialState,
+        });
+        expect(view.container.firstChild).to.be.null;
+      });
+    },
+  );
 });

@@ -46,7 +46,9 @@ import annualIncome from './chapters/householdInformation/annualIncome';
 import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 
 // chapter 5 Insurance Information
+import medicaid from './chapters/insuranceInformation/medicaid';
 import medicare from './chapters/insuranceInformation/medicare';
+import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import general from './chapters/insuranceInformation/general';
 import vaFacility from './chapters/insuranceInformation/vaFacility';
 
@@ -254,12 +256,27 @@ const formConfig = {
     insuranceInformation: {
       title: 'Insurance Information',
       pages: {
+        medicaid: {
+          path: 'insurance-information/medicaid',
+          title: 'Medicaid coverage',
+          initialData: {},
+          uiSchema: medicaid.uiSchema,
+          schema: medicaid.schema,
+        },
         medicare: {
           path: 'insurance-information/medicare',
-          title: 'Medicaid or Medicare coverage',
+          title: 'Medicare coverage',
           initialData: {},
           uiSchema: medicare.uiSchema,
           schema: medicare.schema,
+        },
+        medicarePartAEffectiveDate: {
+          path: 'insurance-information/medicare-part-a-effective-date',
+          title: 'Medicare Part A effective date',
+          initialData: {},
+          depends: formData => formData.isEnrolledMedicarePartA,
+          uiSchema: medicarePartAEffectiveDate.uiSchema,
+          schema: medicarePartAEffectiveDate.schema,
         },
         general: {
           path: 'insurance-information/general',

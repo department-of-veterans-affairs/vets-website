@@ -73,6 +73,15 @@ export class ContactInformationEditView extends Component {
     validateAddress: PropTypes.func.isRequired,
   };
 
+  focusOnFirstFormElement() {
+    const focusableElement = this.editForm?.querySelector(
+      'button, input, select, a, textarea',
+    );
+    if (focusableElement) {
+      focusableElement.focus();
+    }
+  }
+
   componentDidMount() {
     const { getInitialFormValues } = this.props;
     this.onChangeFormDataAndSchemas(
@@ -80,9 +89,14 @@ export class ContactInformationEditView extends Component {
       this.props.formSchema,
       this.props.uiSchema,
     );
+    this.focusOnFirstFormElement();
   }
 
   componentDidUpdate(prevProps) {
+    if (!prevProps.field && !!this.props.field) {
+      this.focusOnFirstFormElement();
+    }
+
     // if the transaction just became pending, start calling
     // refreshTransaction() on an interval
     if (
@@ -275,7 +289,11 @@ export class ContactInformationEditView extends Component {
         )}
 
         {!!field && (
-          <div>
+          <div
+            ref={el => {
+              this.editForm = el;
+            }}
+          >
             {fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
               <CopyMailingAddress
                 copyMailingAddress={this.copyMailingAddress}

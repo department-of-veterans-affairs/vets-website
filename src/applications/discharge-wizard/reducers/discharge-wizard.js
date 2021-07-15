@@ -1,5 +1,5 @@
 import { DW_UPDATE_FIELD } from '../constants';
-import _ from 'lodash';
+import { set } from 'lodash';
 import moment from 'moment';
 
 const initialState = {
@@ -150,7 +150,7 @@ export default (state = initialState, action) => {
         const num = k.split('_')[0];
         const nextNum = action.key.split('_')[0];
         if (parseInt(num, 10) > parseInt(nextNum, 10)) {
-          return _.set(a, k, initialState[k]);
+          return set(a, k, initialState[k]);
         }
         return a;
       }, {}),
