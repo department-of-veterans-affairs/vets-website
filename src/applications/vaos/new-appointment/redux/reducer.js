@@ -112,6 +112,7 @@ const initialState = {
   requestStatus: FETCH_STATUS.notStarted,
   currentLocation: {},
   ccProviderPageSortMethod: FACILITY_SORT_METHODS.distanceFromResidential,
+  facilityPageSortMethod: null,
 };
 
 function setupFormData(data, schema, uiSchema) {

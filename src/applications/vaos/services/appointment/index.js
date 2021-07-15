@@ -125,9 +125,14 @@ export async function getBookedAppointments({
     if (useV2) {
       const appointments = await getAppointments(startDate, endDate, [
         'booked',
+        'cancelled',
       ]);
 
-      return transformVAOSAppointments(appointments);
+      const appointmentsWithoutRequests = appointments.filter(
+        appt => !appt.requestedPeriods,
+      );
+
+      return transformVAOSAppointments(appointmentsWithoutRequests);
     }
 
     const appointments = await Promise.all([
@@ -182,9 +187,14 @@ export async function getAppointmentRequests({
     if (useV2) {
       const appointments = await getAppointments(startDate, endDate, [
         'proposed',
+        'cancelled',
       ]);
 
-      return transformVAOSAppointments(appointments);
+      const requestsWithoutAppointments = appointments.filter(
+        appt => !!appt.requestedPeriods,
+      );
+
+      return transformVAOSAppointments(requestsWithoutAppointments);
     }
 
     const appointments = await getPendingAppointments(startDate, endDate);
@@ -352,6 +362,7 @@ export function hasValidCovidPhoneNumber(facility) {
 export function isValidPastAppointment(appt) {
   return (
     CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
+    appt.status !== APPOINTMENT_STATUS.cancelled &&
     // Show confirmed appointments that don't have vista statuses in the exclude
     // list
     (!PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) ||
