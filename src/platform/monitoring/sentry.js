@@ -29,4 +29,6 @@ if (trackErrors) {
   Sentry.configureScope(scope => {
     scope.setLevel('error');
   });
+
+  window.myUndefinedFunction();
 }
