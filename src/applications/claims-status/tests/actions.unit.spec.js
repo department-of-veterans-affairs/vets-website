@@ -269,9 +269,20 @@ describe('Actions', () => {
     });
   });
   describe('getClaimsV2', () => {
+    let dispatchSpy;
+    let pollStatusSpy;
+    let oldDataLayer;
+    beforeEach(() => {
+      oldDataLayer = global.window.dataLayer;
+      global.window.dataLayer = [];
+      dispatchSpy = sinon.spy();
+      pollStatusSpy = sinon.spy();
+    });
+    afterEach(() => {
+      global.window.dataLayer = oldDataLayer;
+    });
+
     it('should call dispatch and pollStatus', () => {
-      const dispatchSpy = sinon.spy();
-      const pollStatusSpy = sinon.spy();
       getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
       expect(dispatchSpy.firstCall.args[0]).to.eql({
@@ -282,8 +293,6 @@ describe('Actions', () => {
 
     describe('onError callback', () => {
       it('should dispatch a FETCH_CLAIMS_ERROR action', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
         getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         pollStatusSpy.firstCall.args[0].onError({ errors: [] });
@@ -292,11 +301,24 @@ describe('Actions', () => {
           type: 'FETCH_CLAIMS_ERROR',
         });
       });
+      it('should record the correct event to the data layer', () => {
+        getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
+
+        pollStatusSpy.firstCall.args[0].onError({ errors: [] });
+
+        /* eslint-disable camelcase */
+        expect(global.window.dataLayer[0]).to.eql({
+          event: 'api_call',
+          api_name: 'GET claims',
+          api_status: 'failed',
+          'error-key': 'unknown',
+          api_latency_ms: 0,
+        });
+        /* eslint-enable camelcase */
+      });
     });
     describe('onSuccess callback', () => {
       it('should dispatch a FETCH_CLAIMS_SUCCESS action', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
         getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         pollStatusSpy.firstCall.args[0].onSuccess({ data: [] });
@@ -307,11 +329,23 @@ describe('Actions', () => {
           pages: 0,
         });
       });
+      it('should record the correct event to the data layer', () => {
+        getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
+
+        pollStatusSpy.firstCall.args[0].onSuccess({ data: [] });
+
+        /* eslint-disable camelcase */
+        expect(global.window.dataLayer[0]).to.eql({
+          event: 'api_call',
+          api_name: 'GET claims',
+          api_status: 'successful',
+          api_latency_ms: 0,
+        });
+        /* eslint-enable camelcase */
+      });
     });
     describe('shouldFail predicate', () => {
       it('should return true when response.meta.syncStatus is FAILED', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
         getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({
@@ -321,8 +355,6 @@ describe('Actions', () => {
         expect(shouldFail).to.be.true;
       });
       it('should return false when response.meta.syncStatus is not FAILED', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
         getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         const shouldFail = pollStatusSpy.firstCall.args[0].shouldFail({});
@@ -332,8 +364,6 @@ describe('Actions', () => {
     });
     describe('shouldSucceed predicate', () => {
       it('should return true when response.meta.syncStatus is SUCCESS', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
         getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({
@@ -343,8 +373,6 @@ describe('Actions', () => {
         expect(shouldSucceed).to.be.true;
       });
       it('should return false when response.meta.syncStatus is not SUCCESS', () => {
-        const dispatchSpy = sinon.spy();
-        const pollStatusSpy = sinon.spy();
         getClaimsV2({ poll: pollStatusSpy })(dispatchSpy);
 
         const shouldSucceed = pollStatusSpy.firstCall.args[0].shouldSucceed({});
