@@ -14,7 +14,7 @@ export default function BackButton({ router }) {
       >
         <ul className="row va-nav-breadcrumbs-list columns">
           <li>
-            <a href="#" onClick={handleClick}>
+            <a href="#" onClick={handleClick} data-testid="back-button">
               Back to last screen
             </a>
           </li>
