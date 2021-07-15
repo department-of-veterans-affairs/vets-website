@@ -64,6 +64,12 @@ jobs:
           BUILDTIME=$(date +%s)
           EOF
 
+      - name: Run coverage only
+        run: yarn test:coverage-only
+
+      - name: Generate formatted coverage report
+        run: node script/app-coverage-report.js
+
       - name: Compress and archive build
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
