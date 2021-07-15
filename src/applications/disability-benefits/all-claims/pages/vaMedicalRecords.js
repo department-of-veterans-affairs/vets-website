@@ -1,13 +1,15 @@
+import set from 'platform/utilities/data/set';
 import merge from 'lodash/merge';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { uiSchema as autoSuggestUiSchema } from 'platform/forms-system/src/js/definitions/autosuggest';
-import dateUI from 'platform/forms-system/src/js/definitions/monthYear';
+import dateRangeUI from 'platform/forms-system/src/js/definitions/monthYearRange';
 import { treatmentView } from '../content/vaMedicalRecords';
 import { queryForFacilities, makeSchemaForAllDisabilities } from '../utils';
 import {
   validateMilitaryTreatmentCity,
   validateMilitaryTreatmentState,
   startedAfterServicePeriod,
+  hasMonthYear,
   validateBooleanGroup,
 } from '../validations';
 import { USA } from '../constants';
@@ -63,13 +65,29 @@ export const uiSchema = {
           required: 'Please select at least one condition',
         },
       },
-      treatmentDateRange: {
-        from: merge({}, dateUI('When did you first visit this facility?'), {
-          'ui:validations': dateUI()['ui:validations'].concat([
-            startedAfterServicePeriod,
-          ]),
-        }),
-      },
+      treatmentDateRange: merge(
+        {},
+        dateRangeUI(
+          'When did you first visit this facility?',
+          'When was your most recent visit? (Optional)',
+          'Date of last treatment must be after date of first treatment',
+          true,
+        ),
+        {
+          from: {
+            'ui:validations': dateRangeUI().from['ui:validations'].concat([
+              startedAfterServicePeriod,
+            ]),
+          },
+        },
+        {
+          to: {
+            'ui:validations': dateRangeUI().to['ui:validations'].concat([
+              hasMonthYear,
+            ]),
+          },
+        },
+      ),
       treatmentCenterAddress: {
         'ui:order': ['country', 'state', 'city'],
         country: {
@@ -99,30 +117,10 @@ export const schema = {
       type: 'object',
       properties: {},
     },
-    vaTreatmentFacilities: {
-      ...vaTreatmentFacilities,
-      items: {
-        type: 'object',
-        required: ['treatmentCenterName', 'treatedDisabilityNames'],
-        properties: {
-          treatmentCenterName:
-            vaTreatmentFacilities.items.properties.treatmentCenterName,
-          treatmentDateRange: {
-            type: 'object',
-            properties: {
-              from: {
-                $ref: '#/definitions/date',
-              },
-            },
-          },
-          treatmentCenterAddress:
-            vaTreatmentFacilities.items.properties.treatmentCenterAddress,
-          treatedDisabilityNames: {
-            type: 'object',
-            properties: {},
-          },
-        },
-      },
-    },
+    vaTreatmentFacilities: set(
+      'items.properties.treatedDisabilityNames',
+      { type: 'object', properties: {} },
+      vaTreatmentFacilities,
+    ),
   },
 };

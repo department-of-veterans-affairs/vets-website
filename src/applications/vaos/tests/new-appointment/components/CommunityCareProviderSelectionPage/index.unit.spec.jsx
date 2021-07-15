@@ -581,7 +581,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
     });
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
-      ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X'],
+      ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X', '213ES0103X'],
       calculateBoundingBox(
         initialState.user.profile.vapContactInfo.residentialAddress.latitude,
         initialState.user.profile.vapContactInfo.residentialAddress.longitude,

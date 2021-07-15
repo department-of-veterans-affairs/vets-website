@@ -4,9 +4,10 @@ import { getCernerURL } from 'platform/utilities/cerner';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
-import { FACILITY_SORT_METHODS } from '../../../utils/constants';
+import { FACILITY_SORT_METHODS, GA_PREFIX } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { isCernerLocation } from '../../../services/location';
+import recordEvent from 'platform/monitoring/record-event';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 
@@ -28,7 +29,7 @@ export default function FacilitiesRadioWidget({
     sortMethod,
     loadingEligibility,
   } = useSelector(state => selectFacilitiesRadioWidget(state), shallowEqual);
-  const { setSortType, sortOptions, sortType } = formContext;
+  const { sortOptions, updateFacilitySortMethod } = formContext;
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
   const sortedByText = sortMethod
@@ -69,10 +70,13 @@ export default function FacilitiesRadioWidget({
           label="Sort facilities"
           name="sort"
           onValueChange={type => {
-            setSortType(type.value);
+            recordEvent({
+              event: `${GA_PREFIX}-variant-method-${type.value}`,
+            });
+            updateFacilitySortMethod(type.value);
           }}
           options={sortOptions}
-          value={{ dirty: false, value: sortType }}
+          value={{ dirty: false, value: sortMethod }}
           includeBlankOption={false}
         />
       )}

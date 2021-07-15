@@ -15,6 +15,7 @@ import SchoolRatings from './SchoolRatings';
 import { MINIMUM_RATING_COUNT } from '../../constants';
 import GettingStartedWithBenefits from '../profile/GettingStartedWithBenefits';
 import Academics from './Academics';
+import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 
 export default function InstitutionProfile({
   profile,
@@ -138,9 +139,15 @@ export default function InstitutionProfile({
       <ProfileSection
         label="Veteran programs and support"
         id="veteran-programs-and-support"
-      />
+      >
+        <VeteranProgramsAndSupport
+          institution={institution}
+          constants={constants}
+          showModal={showModal}
+        />
+      </ProfileSection>
       <ProfileSection label="Contact information" id="contact-information">
-        <ContactInformation institution={institution} />
+        <ContactInformation institution={institution} showModal={showModal} />
       </ProfileSection>
     </div>
   );

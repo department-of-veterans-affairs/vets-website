@@ -79,17 +79,6 @@ describe('Site-wide Search general functionality', () => {
       .should('have.length', 5);
     axeTestPage();
   });
-
-  it('should have the search button disabled if no input is present', () => {
-    mockFeatureToggles();
-    mockFetchSuggestions();
-    cy.visit('/');
-    cy.get('button.sitewide-search-drop-down-panel-button').click();
-    cy.get('#query').click();
-    cy.get('[data-e2e-id="sitewide-search-submit-button"]').should(
-      'be.disabled',
-    );
-  });
 });
 
 describe('Site-wide Search functionality with typeahead disabled', () => {

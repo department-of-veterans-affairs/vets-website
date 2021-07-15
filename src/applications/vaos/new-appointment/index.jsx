@@ -35,6 +35,7 @@ import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import ScheduleCernerPage from './components/ScheduleCernerPage';
+import useVariantSortMethodTracking from './hooks/useVariantSortMethodTracking';
 
 export function NewAppointment() {
   const isCernerOnlyPatient = useSelector(state =>
@@ -60,6 +61,8 @@ export function NewAppointment() {
       !location.pathname.endsWith('new-appointment') &&
       !location.pathname.endsWith('confirmation'),
   });
+
+  useVariantSortMethodTracking({ skip: shouldRedirectToStart });
 
   if (shouldRedirectToStart) {
     return <Redirect to="/new-appointment" />;
