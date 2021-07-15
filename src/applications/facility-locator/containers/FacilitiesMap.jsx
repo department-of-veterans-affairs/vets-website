@@ -150,9 +150,6 @@ const FacilitiesMap = props => {
         new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
       );
     }
-    if (searchResultTitleRef.current) {
-      setFocus(searchResultTitleRef.current);
-    }
   };
 
   const handleSearch = async () => {
@@ -356,12 +353,11 @@ const FacilitiesMap = props => {
   const renderView = () => {
     // This block renders the desktop and mobile view. It ensures that the desktop map
     // gets re-loaded when resizing from mobile to desktop.
-    const {
-      currentQuery,
-      selectedResult,
-      results,
-      pagination: { currentPage, totalPages },
-    } = props;
+    const { currentQuery, selectedResult, results, pagination } = props;
+
+    const currentPage = pagination ? pagination.currentPage : 1;
+    const totalPages = pagination ? pagination.totalPages : 1;
+
     const facilityType = currentQuery.facilityType;
     const serviceType = currentQuery.serviceType;
     const queryContext = currentQuery.context;
@@ -581,6 +577,15 @@ const FacilitiesMap = props => {
 
   useEffect(
     () => {
+      if (searchResultTitleRef.current && props.resultTime) {
+        setFocus(searchResultTitleRef.current);
+      }
+    },
+    [props.resultTime],
+  );
+
+  useEffect(
+    () => {
       handleMapOnNoResultsFound();
     },
     [props.currentQuery.searchCoords, props.results],
@@ -604,7 +609,7 @@ const FacilitiesMap = props => {
         </div>
         {renderView()}
       </div>
-      {props.results && props.results.length > 0 && otherToolsLink()}
+      {otherToolsLink()}
     </>
   );
 };
@@ -616,6 +621,7 @@ const mapStateToProps = state => ({
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   searchCovid19Vaccine: facilityLocatorLighthouseCovidVaccineQuery(state),
   results: state.searchResult.results,
+  resultTime: state.searchResult.resultTime,
   pagination: state.searchResult.pagination,
   selectedResult: state.searchResult.selectedResult,
   specialties: state.searchQuery.specialties,

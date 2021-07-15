@@ -88,7 +88,7 @@
           "zipCode": "94608",
           "zipCodeSuffix": null
         },
-        "homePhone": {
+        "mobilePhone": {
           "areaCode": "510",
           "countryCode": "1",
           "createdAt": "2020-06-12T16:56:37.000+00:00",
@@ -109,7 +109,7 @@
           "updatedAt": "2020-07-14T19:07:46.000+00:00",
           "vet360Id": "1273780"
         },
-        "mobilePhone": {},
+        "homePhone": {},
         "workPhone": {},
         "temporaryPhone": null,
         "faxNumber": null,
