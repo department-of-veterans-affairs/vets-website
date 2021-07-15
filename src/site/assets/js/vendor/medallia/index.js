@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-  const content = document.getElementById('content');
+  const main = document.querySelector('main');
   const feedbackButtonContainer = document.getElementById('kampyleButtonContainer');
 
   const updateFeedbackButtonInlineCss = () => {
@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', () => {
     feedbackButtonDiv.style.position = null;
   }
 
-  const config = { attributes: false, childList: true };
+  const config = { attributes: false, childList: true }; // maybe i don't need this
 
   const detectButtonAdded = function(mutationsList) {
     for (let mutation of mutationsList) {
@@ -23,7 +23,7 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   feedbackButtonContainer.remove();
-  content.append(feedbackButtonContainer);
+  main.append(feedbackButtonContainer);
   updateFeedbackButtonInlineCss();
   const observer = new MutationObserver(detectButtonAdded)
   observer.observe(feedbackButtonContainer, config);
