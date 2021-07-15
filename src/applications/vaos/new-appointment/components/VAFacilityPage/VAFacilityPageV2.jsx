@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -7,7 +7,11 @@ import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
 
 import { getFacilityPageV2Info } from '../../redux/selectors';
-import { FETCH_STATUS, FACILITY_SORT_METHODS } from '../../../utils/constants';
+import {
+  FETCH_STATUS,
+  FACILITY_SORT_METHODS,
+  GA_PREFIX,
+} from '../../../utils/constants';
 import EligibilityModal from './EligibilityModal';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
@@ -28,6 +32,7 @@ import {
   updateFormData,
   hideEligibilityModal,
 } from '../../redux/actions';
+import recordEvent from 'platform/monitoring/record-event';
 
 const initialSchema = {
   type: 'object',
@@ -72,7 +77,6 @@ export default function VAFacilityPageV2() {
     sortMethod,
     typeOfCare,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
-  const [sortType, setSortType] = useState(sortMethod);
 
   const uiSchema = {
     vaFacility: {
@@ -104,13 +108,10 @@ export default function VAFacilityPageV2() {
     loadingFacilities || (singleValidVALocation && loadingEligibility);
   const sortFocusEl = showVariant ? 'select' : '.sort-facility-button';
 
-  useEffect(
-    () => {
-      document.title = `${pageTitle} | Veterans Affairs`;
-      dispatch(openFacilityPageV2(pageKey, uiSchema, initialSchema));
-    },
-    [openFacilityPageV2],
-  );
+  useEffect(() => {
+    document.title = `${pageTitle} | Veterans Affairs`;
+    dispatch(openFacilityPageV2(pageKey, uiSchema, initialSchema));
+  }, []);
 
   useEffect(
     () => {
@@ -131,20 +132,11 @@ export default function VAFacilityPageV2() {
 
   useEffect(
     () => {
-      if (showVariant && !loadingFacilities) {
-        dispatch(updateFacilitySortMethod(sortType, uiSchema));
-      }
-    },
-    [sortType, loadingFacilities],
-  );
-
-  useEffect(
-    () => {
       if (requestingLocation) {
         scrollAndFocus('.loading-indicator');
       } else if (requestLocationStatus === FETCH_STATUS.failed) {
         scrollAndFocus('va-alert');
-        setSortType(sortOptions[0].value);
+        updateFacilitySortMethod(sortOptions[0].value, uiSchema);
       } else {
         scrollAndFocus(sortFocusEl);
       }
@@ -343,13 +335,18 @@ export default function VAFacilityPageV2() {
             onChange={newData =>
               dispatch(updateFormData(pageKey, uiSchema, newData))
             }
-            onSubmit={() =>
-              dispatch(routeToNextAppointmentPage(history, pageKey))
-            }
+            onSubmit={() => {
+              if (showVariant) {
+                recordEvent({
+                  event: `${GA_PREFIX}-variant-final-${sortMethod}`,
+                });
+              }
+              dispatch(routeToNextAppointmentPage(history, pageKey));
+            }}
             formContext={{
-              setSortType,
               sortOptions,
-              sortType,
+              updateFacilitySortMethod: value =>
+                dispatch(updateFacilitySortMethod(value, uiSchema)),
             }}
             data={data}
           >
