@@ -16,11 +16,14 @@ const DebtLettersWrapper = ({
   isLoggedIn,
   getDebtLetters,
 }) => {
-  useEffect(() => {
-    if (showDebtLetters !== false) {
-      getDebtLetters();
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(
+    () => {
+      if (showDebtLetters) {
+        getDebtLetters();
+      }
+    },
+    [getDebtLetters, showDebtLetters],
+  );
 
   if (isPending || isPendingVBMS || isProfileUpdating) {
     return <LoadingIndicator />;
