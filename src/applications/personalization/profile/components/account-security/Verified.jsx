@@ -12,7 +12,7 @@ const Verified = ({ children }) => (
       aria-hidden="true"
       role="img"
     />
-    <p className="vads-u-margin--0 vads-u-padding-left--1 medium-screen:vads-u-padding-left--3">
+    <p className="vads-u-margin--0 vads-u-padding-left--1 medium-screen:vads-u-padding-left--2">
       {children}
     </p>
   </span>
