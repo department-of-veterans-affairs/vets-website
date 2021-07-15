@@ -6,7 +6,7 @@ function Covid19Banner() {
       <div className="usa-alert usa-alert-warning">
         <div className="usa-alert-body">
           <h3 className="usa-alert-heading" id="coronavirus">
-            Coronavirus and VA education benefits
+            VA education benefits during Coronavirus
           </h3>
           <div className="usa-alert-text">
             <p>
