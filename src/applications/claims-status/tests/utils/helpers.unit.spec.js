@@ -18,6 +18,7 @@ import {
   makeAuthRequest,
   getClaimType,
   mockData,
+  roundToNearest,
 } from '../../utils/helpers';
 
 import {
@@ -662,6 +663,14 @@ describe('Disability benefits helpers: ', () => {
     it('should return undefined if no appeal matches the id given', () => {
       const appeal = isolateAppeal(state, 'non-existent id');
       expect(appeal).to.be.undefined;
+    });
+  });
+
+  describe('roundToNearest', () => {
+    it('returns a number rounded to the nearest interval', () => {
+      expect(roundToNearest({ interval: 5000, value: 2000 })).to.equal(0);
+      expect(roundToNearest({ interval: 5000, value: 23123 })).to.equal(25000);
+      expect(roundToNearest({ interval: 1000, value: 11450 })).to.equal(11000);
     });
   });
 });
