@@ -30,8 +30,8 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
-            "patientHistoryRequired": "No",
-            "patientHistoryDuration": 0,
+            "patientHistoryRequired": "Yes",
+            "patientHistoryDuration": 365,
             "stopCodes": [
               {
                 "primary": "125",
@@ -262,8 +262,8 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
-            "patientHistoryRequired": "No",
-            "patientHistoryDuration": 0,
+            "patientHistoryRequired": "Yes",
+            "patientHistoryDuration": 365,
             "stopCodes": [
               {
                 "primary": "125",
@@ -493,7 +493,8 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
-            "patientHistoryDuration": 0,
+            "patientHistoryRequired": "Yes",
+            "patientHistoryDuration": 365,
             "stopCodes": [
               {
                 "primary": "125",
@@ -721,8 +722,8 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
-            "patientHistoryRequired": "No",
-            "patientHistoryDuration": 0,
+            "patientHistoryRequired": "Yes",
+            "patientHistoryDuration": 365,
             "stopCodes": [
               {
                 "primary": "125",
@@ -955,7 +956,8 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
-            "patientHistoryDuration": 0,
+            "patientHistoryRequired": "Yes",
+            "patientHistoryDuration": 365,
             "stopCodes": [
               {
                 "primary": "125",
@@ -1198,7 +1200,8 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
-            "patientHistoryDuration": 0,
+            "patientHistoryRequired": "Yes",
+            "patientHistoryDuration": 365,
             "stopCodes": [
               {
                 "primary": "125",
@@ -1453,7 +1456,8 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
-            "patientHistoryDuration": 0,
+            "patientHistoryRequired": "Yes",
+            "patientHistoryDuration": 365,
             "stopCodes": [
               {
                 "primary": "125",
@@ -1692,7 +1696,8 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
-            "patientHistoryDuration": 0,
+            "patientHistoryRequired": "Yes",
+            "patientHistoryDuration": 365,
             "stopCodes": [
               {
                 "primary": "125",
@@ -1931,7 +1936,8 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
-            "patientHistoryDuration": 0,
+            "patientHistoryRequired": "Yes",
+            "patientHistoryDuration": 365,
             "stopCodes": [
               {
                 "primary": "125",
@@ -2171,7 +2177,8 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
-            "patientHistoryDuration": 0,
+            "patientHistoryRequired": "Yes",
+            "patientHistoryDuration": 365,
             "stopCodes": [
               {
                 "primary": "125",
@@ -2410,7 +2417,8 @@
           {
             "id": "125",
             "typeOfCare": "Social Work",
-            "patientHistoryDuration": 0,
+            "patientHistoryRequired": "Yes",
+            "patientHistoryDuration": 365,
             "stopCodes": [
               {
                 "primary": "125",

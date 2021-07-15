@@ -4,7 +4,6 @@ import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { ELIGIBILITY_REASONS, FETCH_STATUS } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';
 import { lowerCase } from '../../../utils/formatters';
-import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export default function EligibilityModal({
   onClose,
@@ -33,7 +32,8 @@ export default function EligibilityModal({
       <div aria-atomic="true" aria-live="assertive">
         You need to have visited this facility within the past{' '}
         {monthRequirement} months for {lowerCase(typeOfCare?.name)} to schedule
-        an appointment for this type of care.
+        an appointment for this type of care. Please call this facility to
+        schedule your appointment or search for another facility.
       </div>
     );
   } else if (
@@ -45,7 +45,9 @@ export default function EligibilityModal({
     content = (
       <div aria-atomic="true" aria-live="assertive">
         We're sorry. This facility doesn't have any available clinics that
-        support online scheduling for the type of care you selected.
+        support online scheduling for the type of care you selected. Please call
+        this facility to schedule your appointment or search for another
+        facility.
       </div>
     );
   } else if (requestReason === ELIGIBILITY_REASONS.error) {
@@ -57,7 +59,7 @@ export default function EligibilityModal({
       <div aria-atomic="true" aria-live="assertive">
         You’ll need to call your VA health facility to schedule this
         appointment. Not all VA facilities offer online scheduling for all types
-        of care
+        of care.
       </div>
     );
   } else if (requestReason === ELIGIBILITY_REASONS.noRecentVisit) {
@@ -68,25 +70,17 @@ export default function EligibilityModal({
       12;
     title = 'We can’t find a recent appointment for you';
     content = (
-      <>
-        <p>
-          You need to have visited this facility within the past{' '}
-          {monthRequirement} months for {lowerCase(typeOfCare?.name)} to request
-          an appointment for this type of care.
-        </p>
-        <p>
-          You’ll need to call the facility to schedule this appointment. Or{' '}
-          <NewTabAnchor href="/find-locations">
-            search for another VA facility
-          </NewTabAnchor>
-          .
-        </p>
-      </>
+      <div aria-atomic="true" aria-live="assertive">
+        You need to have visited this facility within the past{' '}
+        {monthRequirement} months for {lowerCase(typeOfCare?.name)} to request
+        an appointment for this type of care. Please call this facility to
+        schedule your appointment or search for another facility.
+      </div>
     );
   } else if (requestReason === ELIGIBILITY_REASONS.overRequestLimit) {
     title = 'You’ve reached the limit for appointment requests';
     content = (
-      <>
+      <div aria-atomic="true" aria-live="assertive">
         <p>
           Our records show that you have an open appointment request at this
           location. You can’t request another appointment until you schedule or
@@ -103,7 +97,7 @@ export default function EligibilityModal({
             facility={facilityDetails}
           />
         )}
-      </>
+      </div>
     );
   }
 
