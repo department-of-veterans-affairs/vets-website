@@ -18,7 +18,7 @@ import { sentryTransport } from './sentry';
 
 Sentry.init({
   autoSessionTracking: false,
-  dsn: 'http://one@fake/dsn',
+  dsn: 'http://one@fake/dsn/0',
   transport: sentryTransport,
 });
 
