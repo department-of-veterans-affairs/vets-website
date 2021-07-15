@@ -41,9 +41,7 @@ export default function SingleFacilityEligibilityCheckMessage({
         .
       </p>
     );
-  }
-
-  if (
+  } else if (
     requestReason === ELIGIBILITY_REASONS.notSupported &&
     (directReason === ELIGIBILITY_REASONS.noClinics ||
       directReason === ELIGIBILITY_REASONS.noMatchingClinics)
