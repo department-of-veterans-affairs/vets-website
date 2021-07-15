@@ -16,14 +16,9 @@ export default function EligibilityModal({
   let content;
   const requestReason = eligibility.requestReasons[0];
   const directReason = eligibility.directReasons[0];
-  const requestsEnabled =
-    facilityDetails?.legacyVAR?.settings[typeOfCare.id].request.enabled;
-  const directEnabled =
-    facilityDetails?.legacyVAR?.settings[typeOfCare.id].direct.enabled;
 
   if (
-    !requestsEnabled &&
-    directEnabled &&
+    requestReason === ELIGIBILITY_REASONS.notSupported &&
     directReason === ELIGIBILITY_REASONS.noRecentVisit
   ) {
     const monthRequirement = facilityDetails?.legacyVAR?.settings
@@ -42,8 +37,7 @@ export default function EligibilityModal({
       </div>
     );
   } else if (
-    !requestsEnabled &&
-    directEnabled &&
+    requestReason === ELIGIBILITY_REASONS.notSupported &&
     (directReason === ELIGIBILITY_REASONS.noClinics ||
       directReason === ELIGIBILITY_REASONS.noMatchingClinics)
   ) {
