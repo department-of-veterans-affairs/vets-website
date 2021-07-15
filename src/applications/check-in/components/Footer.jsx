@@ -16,7 +16,7 @@ function Footer({
       >
         {header}
       </h2>
-      <p>
+      <p data-testid="message">
         {message} <Telephone contact={contactNumber} />.
       </p>
     </footer>
