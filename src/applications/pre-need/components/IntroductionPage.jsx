@@ -27,16 +27,21 @@ class IntroductionPage extends React.Component {
           Eligibility for Burial in a VA National Cemetery).
         </p>
         <SaveInProgressIntro
+          headingLevel={2}
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the pre-need eligibility application"
         />
+        <h2 className="vads-u-font-size--h4">
+          Follow the steps below to apply for a pre-need eligibility
+          determination
+        </h2>
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
-              <h5>Prepare</h5>
-              <h6>When you apply, be sure to have these on hand:</h6>
+              <h3>Prepare</h3>
+              <strong>When you apply, be sure to have these on hand:</strong>
               <ul>
                 <li>
                   The name of the VA national cemetery where you’d prefer to be
@@ -65,19 +70,19 @@ class IntroductionPage extends React.Component {
                   </ul>
                 </li>
               </ul>
-              <h6>You’ll need to upload:</h6>
+              <h4>You’ll need to upload:</h4>
               <ul>
                 <li>
                   A copy of your or your sponsor’s DD214 or other separation
                   documents
                 </li>
               </ul>
-              <h6>
+              <h4>
                 Additional information and documents needed for certain
                 applicants:
-              </h6>
+              </h4>
               <ul>
-                <li>
+                <li className="vads-u-margin-y--2">
                   <strong>
                     If you’re applying as the legally married spouse or
                     surviving spouse or the unmarried adult child of a service
@@ -85,7 +90,6 @@ class IntroductionPage extends React.Component {
                   </strong>
                   , you’ll need your personal information (including Social
                   Security number and date of birth).
-                  <br />
                 </li>
                 <li>
                   <strong>If you’re applying on behalf of someone else</strong>,
@@ -134,7 +138,7 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-two">
-              <h5>Apply</h5>
+              <h3>Apply</h3>
               <p>Complete this pre-need eligibility determination form.</p>
               <p>
                 After submitting the form, you’ll get a confirmation message.
@@ -142,11 +146,11 @@ class IntroductionPage extends React.Component {
               </p>
             </li>
             <li className="process-step list-three">
-              <h5>VA review</h5>
+              <h3>VA review</h3>
               <p>We’ll let you know by mail if we need more information.</p>
             </li>
             <li className="process-step list-four">
-              <h5>Decision</h5>
+              <h3>Decision</h3>
               <p>
                 After we process your claim, you'll get a notice in the mail
                 about the decision.
