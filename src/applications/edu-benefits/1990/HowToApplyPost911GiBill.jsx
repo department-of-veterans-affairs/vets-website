@@ -3,7 +3,7 @@ import React from 'react';
 export default function HowToApplyPost911GiBill() {
   return (
     <>
-      <div className="usa-alert usa-alert-warning schemaform-sip-alert">
+      <div className="usa-alert usa-alert-warning">
         <div className="usa-alert-body">
           <h3 className="usa-alert-heading">
             This application is only for the Post-9/11 GI Bill
