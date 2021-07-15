@@ -11,7 +11,7 @@ env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
 
 concurrency:
-  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha  }}
+  group: ${{ github.ref != 'refs/heads/master' && github.ref || github.sha }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
@@ -127,9 +127,9 @@ jobs:
         if: ${{ always() }}
         uses: mikepenz/action-junit-report@v2.4.0
         with:
-          check_name: 'Unit Tests Summary'
+          check_name: Unit Tests Summary
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: 'test-results/unit-tests.xml'
+          report_paths: test-results/unit-tests.xml
           summary: ${{ steps.code-coverage.outputs.MARKDOWN }}
 
   contract-tests:
@@ -607,7 +607,7 @@ jobs:
         if: ${{ always() }}
         uses: mikepenz/action-junit-report@v2.4.2
         with:
-          check_name: 'Cypress Tests Summary'
+          check_name: Cypress Tests Summary
           github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: 'cypress-junit-test-results/e2e-test-output-*.xml'
           summary: '[Mochawesome Report](https://reimagined-telegram-c11df05a.pages.github.io/cypress-reports/${{ env.UUID }})'
