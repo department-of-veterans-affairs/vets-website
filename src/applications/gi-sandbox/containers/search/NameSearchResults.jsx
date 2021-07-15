@@ -23,11 +23,11 @@ export function NameSearchResults({
   const { currentPage, totalPages } = search.name.pagination;
   const { name } = search.query;
   const history = useHistory();
-  const [useFilters, setUseFilters] = useState(filtersChanged);
+  const [usedFilters, setUsedFilters] = useState(filtersChanged);
 
   useEffect(
     () => {
-      setUseFilters(getFiltersChanged(filters));
+      setUsedFilters(getFiltersChanged(filters));
     },
     [search.name.results],
   );
@@ -79,7 +79,7 @@ export function NameSearchResults({
 
               {!inProgress &&
                 count === 0 &&
-                useFilters && (
+                usedFilters && (
                   <p>
                     We didn't find any institutions based on the filters you've
                     applied. Please update the filters and search again.
