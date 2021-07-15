@@ -66,6 +66,42 @@ describe('Schemaform review: ObjectField', () => {
     expect(tree.getByRole('textbox')).to.exist;
   });
 
+  it('should render fields when `*` is in the ui:order', () => {
+    const onChange = sinon.spy();
+    const onBlur = sinon.spy();
+
+    const schema = {
+      properties: {
+        test: {
+          type: 'string',
+        },
+        test2: {
+          type: 'string',
+        },
+        test3: {
+          type: 'string',
+        },
+      },
+    };
+
+    const uiSchema = {
+      'ui:order': ['test', '*'],
+    };
+
+    const tree = render(
+      <ObjectField
+        schema={schema}
+        uiSchema={uiSchema}
+        idSchema={{}}
+        requiredSchema={{}}
+        onChange={onChange}
+        onBlur={onBlur}
+      />,
+    );
+
+    expect(tree.getAllByRole('textbox')).to.have.lengthOf(3);
+  });
+
   it('should not render hidden field', () => {
     const onChange = sinon.spy();
     const onBlur = sinon.spy();

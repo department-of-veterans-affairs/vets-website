@@ -35,12 +35,14 @@ class ObjectField extends React.Component {
       properties =>
         orderProperties(
           properties,
-          this.props.uiSchema['ui:order']?.filter(prop =>
-            // `view:*` properties will have been removed from the schema and
-            // values by the time they reach this component. This removes them
-            // from the ui:order so we don't trigger an error in the
-            // react-json-schema library for having "extraneous properties."
-            Object.keys(this.props.schema.properties).includes(prop),
+          this.props.uiSchema['ui:order']?.filter(
+            prop =>
+              // `view:*` properties will have been removed from the schema and
+              // values by the time they reach this component. This removes them
+              // from the ui:order so we don't trigger an error in the
+              // react-json-schema library for having "extraneous properties."
+              prop === '*' ||
+              Object.keys(this.props.schema.properties).includes(prop),
           ),
         ),
       _.groupBy(item => {
