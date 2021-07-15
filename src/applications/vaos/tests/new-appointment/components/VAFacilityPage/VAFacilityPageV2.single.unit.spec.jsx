@@ -237,7 +237,7 @@ describe('VAOS <VAFacilityPageV2> single facility', () => {
     await screen.findByText(/San Diego VA Medical Center/i);
 
     expect(screen.baseElement).to.contain.text(
-      'Before requesting an appointment at this location, you need to schedule or cancel your open appointment requests at this facility',
+      'You can’t request another appointment until you schedule or cancel your open requests',
     );
 
     expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
