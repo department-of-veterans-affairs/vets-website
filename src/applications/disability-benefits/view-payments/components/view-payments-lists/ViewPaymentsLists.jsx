@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
@@ -49,20 +48,16 @@ class ViewPaymentsLists extends Component {
       );
     } else {
       paymentsReturnedTable = (
-        <AlertBox
-          content={
-            <p>
-              We can’t find any returned VA payments. If you think this is an
-              error, or if you have questions about your payment history, please
-              call <Telephone contact={CONTACTS.VA_BENEFITS} />.
-            </p>
-          }
-          headline="We don’t have a record of returned payments"
-          status="info"
-          backgroundOnly="true"
-          className="vads-u-background-color--gray-lightest vads-u-fontsize--h3"
-          level="2"
-        />
+        <va-alert status="info">
+          <h2 slot="headline" className="vads-u-font-size--h3">
+            We don’t have a record of returned payments
+          </h2>
+          <p className="vads-u-font-size--base">
+            We can’t find any returned VA payments. If you think this is an
+            error, or if you have questions about your payment history, please
+            call <Telephone contact={CONTACTS.VA_BENEFITS} />.
+          </p>
+        </va-alert>
       );
     }
     return paymentsReturnedTable;
@@ -86,20 +81,16 @@ class ViewPaymentsLists extends Component {
       );
     } else {
       paymentsReceivedTable = (
-        <AlertBox
-          content={
-            <p>
-              We can’t find any VA payments made to you. If you think this is an
-              error, or if you have questions about your payment history, please
-              call <Telephone contact={CONTACTS.VA_BENEFITS} />.
-            </p>
-          }
-          headline="We don’t have a record of VA payments made to you"
-          status="info"
-          backgroundOnly="true"
-          className="vads-u-background-color--gray-lightest vads-u-fontsize--h3"
-          level="2"
-        />
+        <va-alert status="info">
+          <h2 slot="headline" className="vads-u-font-size--h3">
+            We don’t have a record of VA payments made to you
+          </h2>
+          <p className="vads-u-font-size--base">
+            We can’t find any VA payments made to you. If you think this is an
+            error, or if you have questions about your payment history, please
+            call <Telephone contact={CONTACTS.VA_BENEFITS} />.
+          </p>
+        </va-alert>
       );
     }
     return paymentsReceivedTable;
@@ -121,21 +112,14 @@ class ViewPaymentsLists extends Component {
       const alertContent = isClientError(this.props.error.code)
         ? NoPaymentsContent
         : ServerErrorAlertContent;
-      content = <AlertBox content={alertContent} status={status} isVisible />;
+      content = <va-alert status={status}>{alertContent}</va-alert>;
     } else {
       // Deconstruct payments props object
       // If there are no payments AND no payments returned, render an Alertbox
       // If there are either payments OR payments returned, run payment list builders
       const { returnPayments, payments } = this.props.payments;
       if (returnPayments.length === 0 && payments.length === 0) {
-        content = (
-          <AlertBox
-            content={NoPaymentsContent}
-            status="info"
-            backgroundOnly="true"
-            className="vads-u-background-color--gray-lightest"
-          />
-        );
+        content = <va-alert status="info">{NoPaymentsContent}</va-alert>;
       } else {
         // run payments returned list builder
         paymentsReturnedTable = this.buildReturnedPaymentListContent(
