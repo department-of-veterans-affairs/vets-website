@@ -15,7 +15,6 @@
  * @export
  * @returns {VAOSRequest} VAOS VA request object
  */
-
 export function getVAOSRequestMock() {
   return {
     id: null,
@@ -41,12 +40,48 @@ export function getVAOSRequestMock() {
       serviceType: null,
       slot: null,
       start: null,
-      status: null,
+      status: 'proposed',
       telehealth: null,
     },
   };
 }
 
+/**
+ * Return a stubbed VAOS VA appointment item
+ *
+ * @export
+ * @returns {VAOSRequest} VAOS VA request object
+ */
+export function getVAOSAppointmentMock() {
+  return {
+    id: null,
+    type: 'appointments',
+    attributes: {
+      cancellationReason: null,
+      clinic: null,
+      comment: null,
+      contact: {
+        telecom: [],
+      },
+      description: null,
+      end: null,
+      id: null,
+      kind: null,
+      locationId: null,
+      minutesDuration: null,
+      practitioners: [],
+      preferredTimesForPhoneCall: [],
+      priority: null,
+      reason: null,
+      requestedPeriods: null,
+      serviceType: null,
+      slot: null,
+      start: null,
+      status: 'booked',
+      telehealth: null,
+    },
+  };
+}
 /**
  * Returns a stubbed var-resources parent site object from the VAOS service.
  *

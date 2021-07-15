@@ -94,3 +94,15 @@ export function nameTagRendersWithoutDisabilityRating() {
   cy.findByText(/View disability rating/i).should('not.exist');
   cy.findByText(/service connected/i).should('not.exist');
 }
+
+export function registerCypressHelpers() {
+  // The main loading indicator is shown and is then removed
+  Cypress.Commands.add('loadingIndicatorWorks', () => {
+    // should show a loading indicator
+    cy.findByRole('progressbar', { name: /loading/i }).should('exist');
+    cy.injectAxeThenAxeCheck();
+
+    // and then the loading indicator should be removed
+    cy.findByRole('progressbar', { name: /loading/i }).should('not.exist');
+  });
+}
