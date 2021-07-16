@@ -9,10 +9,12 @@ import { checkInUser } from '../api';
 
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
+import BackButton from '../components/BackButton';
 
 const CheckIn = props => {
-  const { router, appointment } = props;
   const [isLoading, setIsLoading] = useState(false);
+  const { router, appointment } = props;
+
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -48,31 +50,30 @@ const CheckIn = props => {
   );
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-y--5">
-      <h1
-        tabIndex="-1"
-        aria-label={`Your appointment on ${appointmentDate} at ${appointmentTime} ${timeZone}`}
-      >
-        {' '}
+    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
+      <BackButton router={router} />
+      <h1 tabIndex="-1" className="vads-u-margin-top--2">
         Your appointment
       </h1>
-      <dl className="appointment-summary">
+      <dl className="appointment-summary vads-u-font-weight--bold">
         <dd
-          className="appointment-details vads-u-font-weight--bold vads-u-font-family--serif"
+          className="appointment-details  vads-u-font-family--serif"
           data-testid="appointment-date"
         >
           {appointmentDate}
         </dd>
         <dd
-          className="appointment-details vads-u-font-weight--bold vads-u-margin-bottom--3 vads-u-font-family--serif"
+          className="appointment-details  vads-u-margin-bottom--3 vads-u-font-family--serif"
           data-testid="appointment-time"
         >
           {appointmentTime} {timeZone}
         </dd>
-        <dt className="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--1">
+        <dt className="vads-u-font-size--lg  vads-u-margin--0 vads-u-margin-right--1">
           Clinic:{' '}
         </dt>
-        <dd data-testid="clinic-name">{appointment.clinicName}</dd>
+        <dd data-testid="clinic-name" className="vads-u-font-size--lg">
+          {appointment.clinicName}
+        </dd>
       </dl>
       <button
         type="button"

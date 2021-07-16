@@ -11,12 +11,17 @@ const UpdateInformationQuestion = props => {
   }, []);
   const { router } = props;
   return (
-    <div className="vads-l-grid-container vads-u-padding-y--5">
+    <div className="vads-l-grid-container vads-u-padding-y--5 update-information">
+      <h1 tabIndex="-1" className="question">
+        Check in at VA
+      </h1>
       <fieldset>
         <legend>
-          <h1 tabIndex="-1" className="question">
-            Need to update your insurance, contact, or other information?
-          </h1>
+          <h2>Do you need to update any information?</h2>
+          <p>
+            This includes information like your phone number, address, insurance
+            plan, or next-of-kin.
+          </p>
         </legend>
         <button
           data-testid="yes-button"
