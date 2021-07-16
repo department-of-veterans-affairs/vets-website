@@ -18,7 +18,6 @@ import { scrollAndFocus } from '../../utils/scrollAndFocus';
 export default function RequestedAppointmentsList({ hasTypeChanged }) {
   const {
     facilityData,
-    isCernerOnlyPatient,
     pendingAppointments,
     pendingStatus,
     showScheduleButton,
@@ -90,10 +89,10 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
         </ul>
       )}
       {pendingAppointments?.length === 0 && (
-        <div className="vads-u-margin-bottom--2 vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-bottom--3">
+        <div className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-y--3">
           <NoAppointments
+            description="appointment requests"
             showScheduleButton={showScheduleButton}
-            isCernerOnlyPatient={isCernerOnlyPatient}
             startNewAppointmentFlow={() => {
               recordEvent({
                 event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
@@ -108,8 +107,5 @@ export default function RequestedAppointmentsList({ hasTypeChanged }) {
 }
 
 RequestedAppointmentsList.propTypes = {
-  isCernerOnlyPatient: PropTypes.bool,
-  fetchFutureAppointments: PropTypes.func,
-  showScheduleButton: PropTypes.bool,
-  startNewAppointmentFlow: PropTypes.func,
+  hasTypeChanged: PropTypes.bool,
 };
