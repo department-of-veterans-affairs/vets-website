@@ -109,12 +109,10 @@ const createStore = (options = {}) => {
 };
 
 describe('Schemaform review: SubmitController', () => {
-  beforeEach(() => {
+  before(() => {
     testkit.reset();
   });
-  afterEach(() => {
-    testkit.reset();
-  });
+
   it('should route to confirmation page after submit', () => {
     const form = createForm();
     const formConfig = createFormConfig();
@@ -211,7 +209,7 @@ describe('Schemaform review: SubmitController', () => {
     tree.unmount();
   });
 
-  it.skip('should not submit when invalid data is entered', () => {
+  it('should not submit when invalid data is entered', () => {
     // Form with missing required field
     const page = {
       title: 'Missing stuff',
@@ -279,7 +277,7 @@ describe('Schemaform review: SubmitController', () => {
     tree.unmount();
   });
 
-  it.skip('should not submit when invalid data is entered, and not call autoSaveForm when not logged in', () => {
+  it('should not submit when invalid data is entered, and not call autoSaveForm when not logged in', () => {
     // Form with missing required field
     const page = {
       title: 'Missing stuff',
