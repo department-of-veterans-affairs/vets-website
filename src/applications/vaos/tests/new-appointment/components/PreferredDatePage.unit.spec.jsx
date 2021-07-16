@@ -34,7 +34,7 @@ describe('VAOS <PreferredDatePage>', () => {
 
     expect(
       await screen.findByText(
-        /Tell us the earliest day you’re available and we'll try to find the date closest to your request/,
+        /Tell us the earliest day you're available and we'll try to find the date closest to your request/,
       ),
     ).to.exist;
 
