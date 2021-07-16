@@ -53,7 +53,7 @@ export function TuitionAndHousingEstimates({
   };
 
   return (
-    <div>
+    <div className="vads-u-margin-bottom--2">
       <SearchAccordion
         button="Update tuition and housing estimates"
         buttonLabel="Update results"

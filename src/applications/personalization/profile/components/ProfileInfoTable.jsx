@@ -51,10 +51,7 @@ const ProfileInfoTable = ({
     'padding-x--2',
     'padding-y--1p5',
   ]);
-  const tableRowClassesMedium = prefixUtilityClasses(
-    ['flex-direction--row', 'padding--4'],
-    'medium',
-  );
+  const tableRowClassesMedium = prefixUtilityClasses(['padding--4'], 'medium');
 
   const tableRowTitleClasses = prefixUtilityClasses([
     'font-family--sans',
@@ -64,28 +61,11 @@ const ProfileInfoTable = ({
     'margin--0',
     'margin-bottom--1',
   ]);
-  const tableRowTitleClassesMedium = prefixUtilityClasses(
-    ['margin-bottom--0', 'margin-right--2'],
-    'medium',
-  );
 
   const tableRowValueClasses = prefixUtilityClasses([
     'margin--0',
     'width--full',
   ]);
-
-  const tableRowValueClassesMedium = prefixUtilityClasses(
-    ['padding-left--5'],
-    'medium',
-  );
-
-  const dataContainsVerified = data.some(row => row.verified === true);
-
-  // When a table includes a 'Verified' checkmark in any of its rows, we need to add left padding to its values
-  // so that the data lines up correctly
-  const computedTableRowValueClasses = dataContainsVerified
-    ? [...tableRowValueClasses, ...tableRowValueClassesMedium].join(' ')
-    : [...tableRowValueClasses].join(' ');
 
   // an object where each value is a string of space-separated class names that
   // can be passed directly to a `className` attribute
@@ -94,10 +74,8 @@ const ProfileInfoTable = ({
     tableRow: ['table-row', ...tableRowClasses, ...tableRowClassesMedium].join(
       ' ',
     ),
-    tableRowTitle: [
-      ...tableRowTitleClasses,
-      ...tableRowTitleClassesMedium,
-    ].join(' '),
+    tableRowTitle: tableRowTitleClasses.join(' '),
+    tableRowValue: tableRowValueClasses.join(' '),
   };
 
   return (
@@ -129,9 +107,7 @@ const ProfileInfoTable = ({
               {row.verified && row.value}
 
               {!row.verified && (
-                <span className={computedTableRowValueClasses}>
-                  {row.value}
-                </span>
+                <span className={classes.tableRowValue}>{row.value}</span>
               )}
             </li>
           ))}
