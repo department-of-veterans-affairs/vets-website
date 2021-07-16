@@ -237,7 +237,7 @@
     "saucelabs": "^1.4.0",
     "selenium-server": "^3.141.59",
     "semver": "^7.3.2",
-    "sentry-testkit": "^3.3.4",
+    "sentry-testkit": "^2.2.1",
     "sinon": "^3.2.1",
     "skin-deep": "^1.0.0",
     "start-server-and-test": "^1.11.0",
