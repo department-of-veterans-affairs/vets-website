@@ -198,7 +198,7 @@ class ViewPaymentsLists extends Component {
               TTY <Telephone contact={CONTACTS.FEDERAL_RELAY_SERVICE} />
             </p>
             <p className="vads-u-margin-bottom--4">
-              Monday - Friday, 8:00 a.m. to 9:00 p.m. E.T.
+              Monday through Friday, 8:00 a.m. to 9:00 p.m. E.T.
             </p>
           </>
         );

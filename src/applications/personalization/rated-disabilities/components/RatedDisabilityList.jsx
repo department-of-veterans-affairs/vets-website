@@ -45,7 +45,7 @@ class RatedDisabilityList extends React.Component {
               contact={CONTACTS['711']}
               pattern={PATTERNS['3_DIGIT']}
             />
-            ). We’re here Monday-Friday, 8:00 a.m.-8:00 p.m. ET.
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </>
       );
