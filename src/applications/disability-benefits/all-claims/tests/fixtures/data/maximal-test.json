@@ -91,7 +91,8 @@
       {
         "treatmentCenterName": "Treatment Center the First",
         "treatmentDateRange": {
-          "from": "2008-01-XX"
+          "from": "2008-01-XX",
+          "to": "2010-01-XX"
         },
         "treatmentCenterAddress": {
           "country": "USA",
@@ -107,7 +108,8 @@
       {
         "treatmentCenterName": "Treatment Center the Second",
         "treatmentDateRange": {
-          "from": "2010-01-XX"
+          "from": "2010-01-XX",
+          "to": "2018-02-XX"
         },
         "treatmentCenterAddress": {
           "country": "Uganda",

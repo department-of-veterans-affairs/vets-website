@@ -1,7 +1,7 @@
 import { FILTERS_CHANGED, UPDATE_QUERY_PARAMS } from '../actions';
 import { FILTERS_EXCLUDED_FLIP } from '../constants';
 
-const INITIAL_STATE = Object.freeze({
+export const INITIAL_STATE = Object.freeze({
   expanded: false,
   accredited: false,
   excludeCautionFlags: false,

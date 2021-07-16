@@ -22,8 +22,30 @@ export const transform = (formConfig, form) => {
     realEstateRecords,
   } = form.data;
 
-  const totalIncome = getMonthlyIncome(form.data);
-  const totalExpenses = getMonthlyExpenses(form.data);
+  const {
+    first: vetFirst = '',
+    middle: vetMiddle = '',
+    last: vetLast = '',
+  } = personalData.veteranFullName;
+
+  const {
+    first: spouseFirst = '',
+    middle: spouseMiddle = '',
+    last: spouseLast = '',
+  } = personalData.spouseFullName;
+
+  const {
+    street,
+    street2 = '',
+    street3 = '',
+    city,
+    state,
+    postalCode,
+    country,
+  } = personalData.address;
+
+  const monthlyIncome = getMonthlyIncome(form.data);
+  const monthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
   const income = getIncome(form.data);
@@ -32,7 +54,7 @@ export const transform = (formConfig, form) => {
     .filter(item => item.resolution.offerToPay !== undefined)
     .reduce((acc, debt) => acc + Number(debt.resolution?.offerToPay), 0);
 
-  const formObj = {
+  const submissionObj = {
     personalIdentification: {
       fileNumber: '',
       fsrReason: selectedDebts
@@ -41,9 +63,9 @@ export const transform = (formConfig, form) => {
     },
     personalData: {
       veteranFullName: {
-        first: personalData.veteranFullName.first || '',
-        middle: personalData.veteranFullName.middle || '',
-        last: personalData.veteranFullName.last || '',
+        first: vetFirst,
+        middle: vetMiddle,
+        last: vetLast,
       },
       agesOfOtherDependents: personalData.agesOfOtherDependents
         ? personalData.agesOfOtherDependents.map(
@@ -51,19 +73,19 @@ export const transform = (formConfig, form) => {
           )
         : [],
       address: {
-        addresslineOne: personalData.address.street,
-        addresslineTwo: personalData.address.street2 || '',
-        addresslineThree: '',
-        city: personalData.address.city,
-        stateOrProvince: personalData.address.state,
-        zipOrPostalCode: personalData.address.postalCode,
-        countryName: personalData.address.country,
+        addresslineOne: street,
+        addresslineTwo: street2,
+        addresslineThree: street3,
+        city,
+        stateOrProvince: state,
+        zipOrPostalCode: postalCode,
+        countryName: country,
       },
       married: questions.isMarried,
       spouseFullName: {
-        first: personalData.spouseFullName.first || '',
-        middle: '',
-        last: personalData.spouseFullName.last || '',
+        first: spouseFirst,
+        middle: spouseMiddle,
+        last: spouseLast,
       },
       employmentHistory,
       telephoneNumber: personalData.telephoneNumber,
@@ -87,10 +109,10 @@ export const transform = (formConfig, form) => {
         (acc, debt) => acc + Number(debt.amountDueMonthly) || 0,
         0,
       ),
-      totalMonthlyExpenses: totalExpenses,
+      totalMonthlyExpenses: monthlyExpenses,
     },
     discretionaryIncome: {
-      netMonthlyIncomeLessExpenses: totalIncome - totalExpenses,
+      netMonthlyIncomeLessExpenses: monthlyIncome - monthlyExpenses,
       amountCanBePaidTowardDebt: totalAmountCanBePaidTowardDebt,
     },
     assets: {
@@ -146,11 +168,15 @@ export const transform = (formConfig, form) => {
         dateDischarged: dateFormatter(additionalData.bankruptcy.dateDischarged),
       },
     },
+    applicationCertifications: {
+      veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,
+      veteranDateSigned: moment().format('MM/DD/YYYY'),
+    },
   };
 
   const convertIntegerToString = (key, value) => {
     return typeof value === 'number' ? value.toString() : value;
   };
 
-  return JSON.stringify(formObj, convertIntegerToString);
+  return JSON.stringify(submissionObj, convertIntegerToString);
 };
