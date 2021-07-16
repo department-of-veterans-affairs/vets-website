@@ -125,10 +125,13 @@ describe('getLettersList', () => {
           expect(action.type).to.equal(lettersErrors[code]);
           const reports = testkit.reports();
           expect(reports.length).to.equal(1);
-          expect(reports[0].exception.values[0].value).to.equal(
+          expect(reports[0].originalReport.exception.values[0].value).to.equal(
             `vets_letters_error_getLetterList ${code}`,
           );
-          expect(reports[0].fingerprint).to.eql(['{{ default }}', code]);
+          expect(reports[0].originalReport.fingerprint).to.eql([
+            '{{ default }}',
+            code,
+          ]);
         })
         .then(done, done);
     });
