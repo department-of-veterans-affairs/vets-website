@@ -45,7 +45,6 @@ Cypress.Commands.add('verifyOptions', () => {
   );
   cy.get('#service-typeahead').should('not.have', 'disabled');
 });
-
 describe('Facility VA search', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', []);
@@ -136,24 +135,25 @@ describe('Facility VA search', () => {
           });
       });
   });
+  for (let i = 0; i < 20; i += 1) {
+    it('shows search result header even when no results are found', () => {
+      cy.visit('/find-locations');
 
-  it('shows search result header even when no results are found', () => {
-    cy.visit('/find-locations');
+      cy.get('#street-city-state-zip').type('27606');
+      cy.get('#facility-type-dropdown').select(
+        facilityTypesOptions[LocationType.CC_PROVIDER],
+      );
+      cy.get('#service-type-ahead-input').type('foo');
+      cy.get('#facility-search').click({ waitForAnimations: true });
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(1000);
 
-    cy.get('#street-city-state-zip').type('27606');
-    cy.get('#facility-type-dropdown').select(
-      facilityTypesOptions[LocationType.CC_PROVIDER],
-    );
-    cy.get('#service-type-ahead-input').type('foo');
-    cy.get('#facility-search').click({ waitForAnimations: true });
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(1000);
-
-    cy.focused().contains(
-      'No results found for "Community providers (in VA’s network)" near "Raleigh, North Carolina 27606"',
-    );
-    cy.get('#other-tools').should('exist');
-  });
+      cy.focused().contains(
+        'No results found for "Community providers (in VA’s network)" near "Raleigh, North Carolina 27606"',
+      );
+      cy.get('#other-tools').should('exist');
+    });
+  }
 
   it('finds va benefits facility in Los Angeles and views its page', () => {
     cy.intercept('GET', '/geocoding/**/*', mockLaLocation).as('caLocation');
