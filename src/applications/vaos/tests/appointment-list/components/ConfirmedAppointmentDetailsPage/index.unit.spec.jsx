@@ -1042,6 +1042,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       },
     };
     const url = '/va/1234';
+    const futureDate = moment().add(5, 'days');
 
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
@@ -1054,9 +1055,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       reason: 'New Issue',
       comment: 'I have a headache',
       serviceType: 'primaryCare',
-      start: moment()
-        .add(5, 'days')
-        .format('YYYY-MM-DDTHH:mm:ss'),
+      start: futureDate.format(),
       status: 'booked',
     };
 
@@ -1095,9 +1094,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       screen.getByRole('heading', {
         level: 1,
         name: new RegExp(
-          moment()
-            .add(5, 'days')
-            .format('dddd, MMMM D, YYYY'),
+          futureDate.tz('American/Denver').format('dddd, MMMM D, YYYY'),
           'i',
         ),
       }),
@@ -1125,8 +1122,8 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     expect(
       screen.getByRole('link', {
         name: new RegExp(
-          moment()
-            .add(5, 'days')
+          futureDate
+            .tz('American/Denver')
             .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),
