@@ -26,7 +26,7 @@
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": "Routine Follow-up",
-        "requestedPeriods": [],
+        "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-12-21T18:19:34",
@@ -70,7 +70,7 @@
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
-        "requestedPeriods": [],
+        "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
         "start": "2021-12-31T18:19:34",
@@ -114,7 +114,7 @@
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": "New Issue",
-        "requestedPeriods": [],
+        "requestedPeriods": null,
         "serviceType": "outpatientMentalHealth",
         "slot": null,
         "start": "2021-11-23T20:00:00Z",
@@ -162,7 +162,7 @@
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
-        "requestedPeriods": [],
+        "requestedPeriods": null,
         "serviceType": "amputation",
         "slot": null,
         "start": "2021-11-23T20:00:00Z",
@@ -173,14 +173,14 @@
             "siteCode": "9931",
             "confirmationCode": "7VBBCA",
             "address": {
-                "streetAddress": "114 Dewey Ave",
-                "city": "Eureka",
-                "state": "MT",
-                "zipCode": "59917",
-                "country": "USA",
-                "longitude": -115.1,
-                "latitude": 48.8,
-                "additionalDetails": ""
+              "streetAddress": "114 Dewey Ave",
+              "city": "Eureka",
+              "state": "MT",
+              "zipCode": "59917",
+              "country": "USA",
+              "longitude": -115.1,
+              "latitude": 48.8,
+              "additionalDetails": ""
             }
           },
           "vvsKind": "ADHOC"
@@ -228,12 +228,11 @@
             "lastName": "Dali",
             "practiceName": null
           }
-
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
-        "requestedPeriods": [],
+        "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
         "start": "2021-09-09T20:30:00Z",
@@ -272,7 +271,7 @@
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
-        "requestedPeriods": [],
+        "requestedPeriods": null,
         "serviceType": "foodAndNutrition",
         "slot": null,
         "start": "2021-12-31T18:19:34",
@@ -280,7 +279,7 @@
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
-          "vvsKind":"CLINIC_BASED"
+          "vvsKind": "CLINIC_BASED"
         }
       }
     },
@@ -321,7 +320,7 @@
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
-        "requestedPeriods": [],
+        "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-12-31T18:19:34",
@@ -329,7 +328,7 @@
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
-          "vvsKind":"MOBILE_GFE"
+          "vvsKind": "MOBILE_GFE"
         }
       }
     },
@@ -360,7 +359,7 @@
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
-        "requestedPeriods": [],
+        "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-12-31T18:19:34",
@@ -395,7 +394,7 @@
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": "Medication Concern",
-        "requestedPeriods": [],
+        "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-06-27T18:19:34",
@@ -436,12 +435,11 @@
             "lastName": "Jones",
             "practiceName": null
           }
-
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
-        "requestedPeriods": [],
+        "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-06-08T17:30:00Z",
@@ -480,7 +478,7 @@
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reason": null,
-        "requestedPeriods": [],
+        "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-12-31T18:19:34",
