@@ -38,7 +38,7 @@ import {
 import { NewAppointment } from '../../../../new-appointment';
 import { FETCH_STATUS } from '../../../../utils/constants';
 
-describe('VAOS <VAFacilityPageV2>', () => {
+describe('VAOS <VAFacilityPage>', () => {
   describe('when there are multiple facilities to choose from', () => {
     const initialState = {
       featureToggles: {

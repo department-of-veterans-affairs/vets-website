@@ -46,7 +46,7 @@ const parentSite984 = {
   },
 };
 
-describe('VAOS <VAFacilityPageV2> eligibility check', () => {
+describe('VAOS <VAFacilityPage> eligibility check', () => {
   describe('when there is a single supported facility', () => {
     const initialState = {
       featureToggles: {
