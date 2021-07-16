@@ -64,6 +64,9 @@ jobs:
           BUILDTIME=$(date +%s)
           EOF
 
+      - name: Run LS
+        run: ls
+
       - name: Run coverage only
         run: yarn test:coverage-only
 
