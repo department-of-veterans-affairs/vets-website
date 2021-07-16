@@ -15,7 +15,7 @@ export default function LoadingButton({
         aria-hidden="true"
         role="presentation"
       />
-      {loadingText && <span className="sr-only">{loadingText}</span>}
+      {!!loadingText && <span className="sr-only">{loadingText}</span>}
     </>
   ) : (
     children
