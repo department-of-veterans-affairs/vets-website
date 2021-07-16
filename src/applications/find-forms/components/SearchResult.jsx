@@ -105,7 +105,13 @@ const deriveRelatedTo = ({
   return null;
 };
 
-const SearchResult = ({ form, formMetaInfo, showPDFInfoBox }) => {
+const SearchResult = ({
+  currentPosition,
+  form,
+  formMetaInfo,
+  showPDFInfoVersionOne,
+  showPDFInfoVersionTwo,
+}) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
     return null;
@@ -146,11 +152,13 @@ const SearchResult = ({ form, formMetaInfo, showPDFInfoBox }) => {
   return (
     <>
       <FormTitle
+        currentPosition={currentPosition}
         id={id}
         formUrl={formDetailsUrl}
         lang={language}
         title={title}
         recordGAEvent={recordGAEvent}
+        showPDFInfoVersionTwo={showPDFInfoVersionTwo}
       />
       <dd className="vads-u-margin-y--1 vsa-from-last-updated">
         <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
@@ -181,19 +189,19 @@ const SearchResult = ({ form, formMetaInfo, showPDFInfoBox }) => {
           </a>
         </dd>
       ) : null}
-      {showPDFInfoBox ? (
-        <dd className="vads-u-margin-bottom--2">
-          <va-alert status="info">
-            <div className="usa-alert-text vads-u-font-size--base">
-              <h3 slot="heading" className="vads-u-margin-top--0">
-                You'll need to download this form and open it in Adobe Acrobat
-                Reader
-              </h3>
-              <a href="https://www.va.gov/resources/what-if-im-having-trouble-opening-a-pdf/">
-                Get instructions for opening the form in Acrobat Reader
-              </a>
-            </div>
-          </va-alert>
+      {showPDFInfoVersionOne ? (
+        <dd className="find-forms-alert-message vads-u-margin-bottom--2 vads-u-background-color--primary-alt-lightest">
+          <i aria-hidden="true" role="img" />
+          <span className="sr-only">Alert: </span>
+          <div>
+            <p className="vads-u-margin-top--0">
+              We recommend that you download PDF forms and open them in Adobe
+              Acrobat Reader
+            </p>
+            <a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/">
+              Get instructions for opening the form in Acrobat Reader
+            </a>
+          </div>
         </dd>
       ) : null}
       <dd className="vads-u-margin-bottom--5">
@@ -221,9 +229,11 @@ const SearchResult = ({ form, formMetaInfo, showPDFInfoBox }) => {
 };
 
 SearchResult.propTypes = {
+  currentPosition: PropTypes.number,
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
-  showPDFInfoBox: PropTypes.bool,
+  showPDFInfoVersionOne: PropTypes.bool,
+  showPDFInfoVersionTwo: PropTypes.bool,
 };
 
 export default SearchResult;
