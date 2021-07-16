@@ -1,5 +1,5 @@
 {
-  "reporterEnabled": "spec, mocha-junit-reporter, mochawesome",
+  "reporterEnabled": "mocha-junit-reporter, mochawesome",
   "mochaJunitReporterReporterOptions": {
     "mochaFile": "test-results/e2e-test-output-[hash].xml"
   },

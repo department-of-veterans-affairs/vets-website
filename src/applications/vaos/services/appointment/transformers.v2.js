@@ -1,4 +1,4 @@
-import moment from '../../lib/moment-tz';
+import moment from 'moment';
 import {
   TYPES_OF_CARE,
   APPOINTMENT_TYPES,
@@ -9,7 +9,6 @@ import {
   AUDIOLOGY_TYPES_OF_CARE,
   COVID_VACCINE_ID,
 } from '../../utils/constants';
-
 import { getTimezoneBySystemId } from '../../utils/timezone';
 
 function getAppointmentType(appt) {
@@ -117,6 +116,10 @@ export function transformVAOSAppointment(appt) {
   const isAtlas = !!appt.telehealth?.atlas;
   const isPast = isPastAppointment(appt);
   const providers = appt.practitioners;
+  const vistaId = appt.locationId?.substr(0, 3);
+  const timezone = getTimezoneBySystemId(vistaId)?.timezone;
+
+  const start = timezone ? moment(appt.start).tz(timezone) : moment(appt.start);
 
   return {
     resourceType: 'Appointment',
@@ -125,7 +128,7 @@ export function transformVAOSAppointment(appt) {
     // TODO Unclear what these reasons are
     cancelationReason: appt.cancellationReason,
     requestedPeriod: appt.requestedPeriods,
-    start: appt.start,
+    start,
     // TODO: ask about created and other action dates like cancelled
     created: null,
     minutesDuration: appt.minutesDuration,
