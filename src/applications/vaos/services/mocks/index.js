@@ -218,8 +218,11 @@ const responses = {
     return res.json({ data: [] });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
+    const appointments = {
+      data: requestsV2.data.concat(require('./v2/confirmed.json').data),
+    };
     return res.json({
-      data: requestsV2.data.find(appt => appt.id === req.params.id),
+      data: appointments.data.find(appt => appt.id === req.params.id),
     });
   },
   'GET /vaos/v2/scheduling/configurations': (req, res) => {

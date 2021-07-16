@@ -48,6 +48,21 @@ function getTypeOfVisit(id) {
 }
 
 /**
+ * Gets the type of reason that matches our array for purpose of visit constant
+ * and combine it with patient's comment
+ *
+ * @param {Object} appt VAOS Service appointment object
+ * @returns {String} purpose of visit with comment string
+ */
+function getReasonWithComment(appt) {
+  const reason = PURPOSE_TEXT.find(
+    purpose => purpose.serviceName === appt.reason,
+  )?.short;
+  const comment = appt.comment ? `:  ${appt.comment}` : '';
+  return `${reason}${comment}`;
+}
+
+/**
  * Finds the datetime of the appointment depending on vista site location
  * and returns it as a moment object
  *
@@ -138,7 +153,7 @@ export function transformVAOSAppointment(appt) {
       })),
     },
     preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
-    comment: appt.comment,
+    comment: getReasonWithComment(appt),
     videoData: {
       isVideo,
       facilityId: appt.locationId,

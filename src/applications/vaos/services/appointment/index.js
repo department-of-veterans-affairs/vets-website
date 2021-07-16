@@ -270,7 +270,7 @@ export async function fetchBookedAppointment({ id, type, useV2 = false }) {
       if (!appointment) {
         throw new Error(`Couldn't find ${type} appointment`);
       }
-      return transformVAOSAppointments(appointment);
+      return transformVAOSAppointment(appointment);
     }
   } catch (e) {
     if (e.errors) {
