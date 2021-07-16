@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -8,12 +8,14 @@ import SearchResultCard from '../SearchResultCard';
 import FilterYourResults from '../FilterYourResults';
 import TuitionAndHousingEstimates from '../TuitionAndHousingEstimates';
 import { updateUrlParams } from '../../utils/helpers';
+import { getFiltersChanged } from '../../selectors/filters';
 
 export function NameSearchResults({
   dispatchFetchSearchByNameResults,
   filters,
   preview,
   search,
+  filtersChanged,
 }) {
   const { version } = preview;
   const { inProgress, tab } = search;
@@ -21,7 +23,14 @@ export function NameSearchResults({
   const { currentPage, totalPages } = search.name.pagination;
   const { name } = search.query;
   const history = useHistory();
+  const [usedFilters, setUsedFilters] = useState(filtersChanged);
 
+  useEffect(
+    () => {
+      setUsedFilters(getFiltersChanged(filters));
+    },
+    [search.name.results],
+  );
   const fetchPage = page => {
     dispatchFetchSearchByNameResults(name, page, filters, version);
 
@@ -68,6 +77,15 @@ export function NameSearchResults({
                   </div>
                 )}
 
+              {!inProgress &&
+                count === 0 &&
+                usedFilters && (
+                  <p>
+                    We didn't find any institutions based on the filters you've
+                    applied. Please update the filters and search again.
+                  </p>
+                )}
+
               {!inProgress && (
                 <Pagination
                   className="vads-u-border-top--0"
@@ -90,6 +108,7 @@ const mapStateToProps = state => ({
   filters: state.filters,
   preview: state.preview,
   search: state.search,
+  filtersChanged: getFiltersChanged(state.filters),
 });
 
 const mapDispatchToProps = {
