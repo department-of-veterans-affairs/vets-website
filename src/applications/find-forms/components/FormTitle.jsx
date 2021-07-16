@@ -22,7 +22,10 @@ const FormTitle = ({
               We recommend that you download PDF forms and open them in Adobe
               Acrobat Reader
             </h3>
-            <a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/">
+            <a
+              className="vads-u-font-weight--normal"
+              href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/"
+            >
               Get instructions for opening the form in Acrobat Reader
             </a>
           </div>
