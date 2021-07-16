@@ -65,7 +65,7 @@ jobs:
           EOF
 
       - name: Run coverage only
-        run: npx test:coverage-only
+        run: npx NODE_ENV=test nyc report --all --reporter=json-summary
 
       - name: Generate formatted coverage report
         run: node script/app-coverage-report.js
