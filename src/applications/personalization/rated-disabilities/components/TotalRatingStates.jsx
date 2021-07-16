@@ -7,7 +7,7 @@ import Telephone, {
 
 export const errorMessage = () => (
   <va-alert status="error">
-    <h2 slot="headline" className="vads-u-margin-y--0 vads-u-font-size--lg">
+    <h2 slot="headline" className="vads-u-margin-y--0 vads-u-font-size--h3">
       We’re sorry. Something went wrong on our end
     </h2>
     <p className="vads-u-font-size--base">
@@ -25,7 +25,7 @@ export const errorMessage = () => (
 
 export const missingTotalMessage = () => (
   <va-alert status="info">
-    <h2 slot="headline" className="vads-u-margin-y--0 vads-u-font-size--lg">
+    <h2 slot="headline" className="vads-u-margin-y--0 vads-u-font-size--h3">
       We don’t have a combined disability rating on file for you
     </h2>
     <p className="vads-u-font-size--base">

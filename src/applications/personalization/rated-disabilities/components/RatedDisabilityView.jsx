@@ -23,7 +23,7 @@ class RatedDisabilityView extends React.Component {
   renderMVIError() {
     return (
       <va-alert status="warning">
-        <h2 className="vads-u-margin-y--0 vads-u-font-size--lg" slot="headline">
+        <h2 className="vads-u-margin-y--0 vads-u-font-size--h3" slot="headline">
           We’re having trouble matching your information to our veteran records
         </h2>
         <div>

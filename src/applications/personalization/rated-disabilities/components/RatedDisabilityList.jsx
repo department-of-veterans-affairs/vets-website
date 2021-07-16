@@ -30,7 +30,7 @@ class RatedDisabilityList extends React.Component {
         <>
           <h2
             slot="headline"
-            className="vads-u-margin-y--0 vads-u-font-size--lg"
+            className="vads-u-margin-y--0 vads-u-font-size--h3"
           >
             We’re sorry. Something went wrong on our end
           </h2>
@@ -55,7 +55,7 @@ class RatedDisabilityList extends React.Component {
         <>
           <h2
             slot="headline"
-            className="vads-u-margin-y--0 vads-u-font-size--lg"
+            className="vads-u-margin-y--0 vads-u-font-size--h3"
           >
             We don’t have rated disabilities on file for you
           </h2>
