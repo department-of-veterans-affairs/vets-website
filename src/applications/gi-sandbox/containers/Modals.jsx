@@ -3,20 +3,22 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
-import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
-import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
+import AllCampusesModalContent from '../components/content/modals/AllCampusesModalContent';
 import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
-import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
-import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
-import FacilityCodeModalContent from '../components/content/modals/FacilityCodeModalContent';
-import OpeCodeModalContent from '../components/content/modals/OpeCodeModalContent';
-import IpedsCodeModalContent from '../components/content/modals/IpedsCodeModalContent';
 import EightKeysModalContent from '../components/content/modals/EightKeysModalContent';
+import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
+import FacilityCodeModalContent from '../components/content/modals/FacilityCodeModalContent';
+import IpedsCodeModalContent from '../components/content/modals/IpedsCodeModalContent';
 import MilitaryTuitionAssistanceModalContent from '../components/content/modals/MilitaryTuitionAssistanceModalContent';
+import OpeCodeModalContent from '../components/content/modals/OpeCodeModalContent';
 import PrinciplesOfExcellenceModalContent from '../components/content/modals/PrinciplesOfExcellenceModalContent';
+import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
+import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
+import StudentComplaintsModalContent from '../components/content/modals/StudentComplaintsModalContent';
 import StudentVeteranGroupModalContent from '../components/content/modals/StudentVeteranGroupModalContent';
 import VeteranSuccessModalContent from '../components/content/modals/VeteranSuccessModalContent';
+import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -237,6 +239,20 @@ export class Modals extends React.Component {
 
       <Modal
         onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('studentComplaints')}
+      >
+        <StudentComplaintsModalContent />
+      </Modal>
+
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('allCampuses')}
+      >
+        <AllCampusesModalContent />
+      </Modal>
+
+      <Modal
+        onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('poe')}
       >
         <PrinciplesOfExcellenceModalContent />
@@ -380,37 +396,6 @@ export class Modals extends React.Component {
         elementToFocusOnClose="creditTraining-button"
       >
         <CreditTrainingModalContent />
-      </Modal>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('stemIndicator')}
-        elementToFocusOnClose="stemIndicator-button"
-      >
-        <h3>The Rogers STEM Scholarship</h3>
-        <div>
-          <p>
-            The Edith Nourse Rogers STEM Scholarship provides up to 9 months of
-            additional Post-9/11 GI Bill benefits, to a maximum of $30,000.
-          </p>
-          <p>
-            Veterans and Fry Scholars may qualify for this scholarship if
-            they're enrolled in an undergraduate program for Science,
-            Technology, Engineering, or Math (STEM), or if they've earned a STEM
-            degree and are getting a teaching certification.
-          </p>
-          <p>
-            To learn more about this scholarship,{' '}
-            <a
-              href="/education/other-va-education-benefits/stem-scholarship/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {' '}
-              visit the Rogers STEM Scholarship website
-            </a>
-            .
-          </p>
-        </div>
       </Modal>
       <Modal
         onClose={this.props.hideModal}

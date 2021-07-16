@@ -35,6 +35,8 @@ import {
   getSchedulingConfigurationMock,
   getV2FacilityMock,
 } from '../../../mocks/v2';
+import { NewAppointment } from '../../../../new-appointment';
+import { FETCH_STATUS } from '../../../../utils/constants';
 
 const initialState = {
   featureToggles: {
@@ -1659,6 +1661,16 @@ describe('VAOS <VAFacilityPageV2> multiple facilities variant test', () => {
           throw new Error();
       }
     }).to.not.throw();
+
+    userEvent.click(screen.getAllByRole('radio')[0]);
+    fireEvent.click(screen.getByText(/Continue/));
+    await waitFor(() => {
+      expect(
+        global.window.dataLayer.find(
+          ev => ev.event === 'vaos-variant-final-distanceFromCurrentLocation',
+        ),
+      ).to.exist;
+    });
   });
 
   it('should sort alphabetically when user selects dropdown option for alphabetical', async () => {
@@ -1712,6 +1724,11 @@ describe('VAOS <VAFacilityPageV2> multiple facilities variant test', () => {
 
     firstRadio = screen.container.querySelector('.form-radio-buttons');
     expect(firstRadio).to.contain.text('ABC facility');
+    expect(
+      global.window.dataLayer.find(
+        ev => ev.event === 'vaos-variant-method-alphabetical',
+      ),
+    ).to.exist;
   });
 
   it('should sort alphabetically when user does not have an address', async () => {
@@ -1745,5 +1762,46 @@ describe('VAOS <VAFacilityPageV2> multiple facilities variant test', () => {
     // default sorted by home address
     const firstRadio = screen.container.querySelector('.form-radio-buttons');
     expect(firstRadio).to.contain.text('ABC facility');
+  });
+
+  it('should fire variant shown and default sort method events when variant shown', async () => {
+    const store = createTestStore({
+      ...initialState,
+      featureToggles: {
+        vaOnlineSchedulingVariantTesting: true,
+      },
+      newAppointment: {
+        ...initialState.newAppointment,
+        facilityPageSortMethod: 'alphabetical',
+        childFacilitiesStatus: FETCH_STATUS.succeeded,
+        data: {
+          vaFacility: '983',
+        },
+        pages: {
+          vaFacilityV2: {
+            properties: {
+              vaFacility: {
+                enum: [{}, {}],
+              },
+            },
+          },
+        },
+      },
+    });
+
+    renderWithStoreAndRouter(<NewAppointment />, {
+      store,
+    });
+
+    await waitFor(() => {
+      expect(
+        global.window.dataLayer.find(ev => ev.event === 'vaos-variant-shown'),
+      ).to.exist;
+      expect(
+        global.window.dataLayer.find(
+          ev => ev.event === 'vaos-variant-default-alphabetical',
+        ),
+      ).to.exist;
+    });
   });
 });

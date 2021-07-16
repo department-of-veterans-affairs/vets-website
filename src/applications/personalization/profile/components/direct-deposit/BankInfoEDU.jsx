@@ -111,29 +111,13 @@ export const DirectDepositEDU = ({
     saveBankInformation(payload);
   };
 
-  const bankInfoClasses = prefixUtilityClasses(
-    [
-      'display--flex',
-      'align-items--flex-start',
-      'flex-direction--row',
-      'justify-content--space-between',
-    ],
-    'medium',
-  );
-
   const editButtonClasses = [
     'usa-button-secondary',
-    ...prefixUtilityClasses(['margin--0', 'margin-top--1p5', 'width--auto']),
+    ...prefixUtilityClasses(['margin--0', 'margin-top--1p5']),
   ];
 
-  const editButtonClassesMedium = prefixUtilityClasses(
-    ['flex--auto', 'margin-top--0', 'margin-left--4'],
-    'medium',
-  );
-
   const classes = {
-    bankInfo: [...bankInfoClasses].join(' '),
-    editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
+    editButton: editButtonClasses.join(' '),
   };
 
   const closeDDForm = () => {
@@ -147,7 +131,7 @@ export const DirectDepositEDU = ({
 
   // When direct deposit is set up we will show the current bank info
   const bankInfoContent = (
-    <div className={classes.bankInfo}>
+    <div>
       <dl className="vads-u-margin-y--0 vads-u-line-height--6">
         <dt className="sr-only">Bank name:</dt>
         <dd>{directDepositAccountInfo?.financialInstitutionName}</dd>
@@ -265,7 +249,7 @@ export const DirectDepositEDU = ({
             aria-label="update your bank information for education benefits"
             type="submit"
             loadingText="saving bank information"
-            className="usa-button-primary vads-u-margin-top--0 vads-u-width--auto"
+            className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
             isLoading={directDepositUiState.isSaving}
           >
             Update
@@ -274,7 +258,7 @@ export const DirectDepositEDU = ({
             aria-label="cancel updating your bank information for education benefits"
             type="button"
             disabled={directDepositUiState.isSaving}
-            className="usa-button-secondary vads-u-width--auto"
+            className="usa-button-secondary small-screen:vads-u-margin-top--0"
             onClick={closeDDForm}
             data-qa="cancel-button"
           >

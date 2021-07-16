@@ -26,7 +26,6 @@ const SearchResultMessage = ({
   } else if (facilityType && !resultsFound) {
     return (
       <div className="search-result-title" ref={resultRef}>
-        We didn't find any facilities near you. <br />
         <strong>For better results:</strong>
         <ul className="vads-u-margin-y--1p5">
           <li>

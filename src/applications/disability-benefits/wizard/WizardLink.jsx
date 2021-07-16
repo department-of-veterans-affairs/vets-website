@@ -13,7 +13,7 @@ import { show526Wizard } from 'applications/disability-benefits/all-claims/utils
 const WizardLink = ({ showWizard, module }) => {
   const { Wizard, pages } = module.default;
   return showWizard ? (
-    <a href={manifest.rootUrl} className="vads-c-action-link--green">
+    <a href={`${manifest.rootUrl}/start`} className="vads-c-action-link--green">
       Let&apos;s get started
     </a>
   ) : (

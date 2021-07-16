@@ -139,8 +139,9 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       reducers,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
-      .eventually.be.ok;
+    return expect(
+      screen.findByText(/You don’t have any canceled appointments/i),
+    ).to.eventually.be.ok;
   });
 
   it('should not display when over 13 months away', () => {
@@ -157,8 +158,9 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       reducers,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
-      .eventually.be.ok;
+    return expect(
+      screen.findByText(/You don’t have any canceled appointments/i),
+    ).to.eventually.be.ok;
   });
 
   it('should show error message when request fails', async () => {
@@ -490,8 +492,9 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       reducers,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
-      .eventually.be.ok;
+    return expect(
+      screen.findByText(/You don’t have any canceled appointments/i),
+    ).to.eventually.be.ok;
   });
 
   it('should not show canceled appointment if more than 395 days ahead', async () => {
@@ -517,7 +520,8 @@ describe('VAOS <CanceledAppointmentsList>', () => {
       reducers,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
-      .eventually.be.ok;
+    return expect(
+      screen.findByText(/You don’t have any canceled appointments/i),
+    ).to.eventually.be.ok;
   });
 });

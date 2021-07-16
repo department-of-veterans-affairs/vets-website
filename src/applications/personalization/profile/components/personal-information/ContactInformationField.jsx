@@ -65,24 +65,14 @@ const wrapperClasses = prefixUtilityClasses([
   'align-items--flex-start',
 ]);
 
-const wrapperClassesMedium = prefixUtilityClasses(
-  ['flex-direction--row', 'justify-content--space-between'],
-  'medium',
-);
-
 const editButtonClasses = [
   'usa-button-secondary',
-  ...prefixUtilityClasses(['width--auto', 'margin--0', 'margin-top--1p5']),
+  ...prefixUtilityClasses(['margin--0', 'margin-top--1p5']),
 ];
 
-const editButtonClassesMedium = prefixUtilityClasses(
-  ['flex--auto', 'margin-top--0', 'margin-left--4'],
-  'medium',
-);
-
 const classes = {
-  wrapper: [...wrapperClasses, ...wrapperClassesMedium].join(' '),
-  editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
+  wrapper: wrapperClasses.join(' '),
+  editButton: editButtonClasses.join(' '),
 };
 
 class ContactInformationField extends React.Component {

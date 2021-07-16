@@ -115,7 +115,7 @@ export default function InstitutionProfile({
       >
         <CautionaryInformation
           institution={institution}
-          onShowModal={showModal}
+          showModal={showModal}
         />
       </ProfileSection>
       {shouldShowSchoolLocations(institution.facilityMap) && (

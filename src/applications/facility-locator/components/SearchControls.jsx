@@ -78,6 +78,7 @@ const SearchControls = props => {
       zoomLevel,
       isValid,
       searchString,
+      specialties,
     } = currentQuery;
 
     let analyticsServiceType = serviceType;
@@ -94,7 +95,9 @@ const SearchControls = props => {
         return;
       }
 
-      analyticsServiceType = currentQuery.specialties[serviceType];
+      if (specialties && Object.keys(specialties).includes(serviceType)) {
+        analyticsServiceType = specialties[serviceType];
+      }
     }
 
     if (!searchString) {
