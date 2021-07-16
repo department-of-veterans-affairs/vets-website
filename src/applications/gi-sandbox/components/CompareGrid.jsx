@@ -5,17 +5,14 @@ import _ from 'lodash';
 export function CompareGrid({
   className,
   showDifferences,
-  facilityCodes,
   fieldData,
   institutions,
   sectionLabel,
   subSectionLabel,
 }) {
-  const institutionCount = Object.keys(institutions).length;
-
   const empties = [];
 
-  for (let i = 0; i < 3 - institutionCount; i++) {
+  for (let i = 0; i < 3 - institutions.length; i++) {
     empties.push(
       <div key={i} className="medium-screen:vads-l-col--3">
         <div className="empty-col" />
@@ -29,10 +26,10 @@ export function CompareGrid({
         key={`${index}-label`}
         className={classNames(
           'field-label',
-          { 'medium-screen:vads-l-col--3': institutionCount === 3 },
-          { 'medium-screen:vads-l-col--4': institutionCount === 2 },
-          { 'medium-screen:vads-l-col--6': institutionCount === 1 },
-          { 'medium-screen:vads-l-col--12': institutionCount === 0 },
+          { 'medium-screen:vads-l-col--3': institutions.length === 3 },
+          { 'medium-screen:vads-l-col--4': institutions.length === 2 },
+          { 'medium-screen:vads-l-col--6': institutions.length === 1 },
+          { 'medium-screen:vads-l-col--12': institutions.length === 0 },
           { 'has-diff': displayDiff },
         )}
       >
@@ -71,12 +68,12 @@ export function CompareGrid({
         key={institution.facilityCode}
         className={classNames(
           'field-value',
-          { 'medium-screen:vads-l-col--3': institutionCount === 3 },
-          { 'medium-screen:vads-l-col--4': institutionCount === 2 },
-          { 'medium-screen:vads-l-col--6': institutionCount === 1 },
+          { 'medium-screen:vads-l-col--3': institutions.length === 3 },
+          { 'medium-screen:vads-l-col--4': institutions.length === 2 },
+          { 'medium-screen:vads-l-col--6': institutions.length === 1 },
           { 'first-row': rowIndex === 0 },
           { 'first-col': colIndex === 0 },
-          { 'last-col': colIndex === institutionCount - 1 },
+          { 'last-col': colIndex === institutions.length - 1 },
           { 'has-diff': displayDiff },
           valueClassName,
         )}
@@ -103,16 +100,14 @@ export function CompareGrid({
       <div className="vads-l-row">
         <div
           className={classNames(
-            { 'medium-screen:vads-l-col--12': institutionCount === 3 },
-            { 'medium-screen:vads-l-col--9': institutionCount === 2 },
-            { 'medium-screen:vads-l-col--6': institutionCount === 1 },
-            { 'medium-screen:vads-l-col--3': institutionCount === 0 },
+            { 'medium-screen:vads-l-col--12': institutions.length === 3 },
+            { 'medium-screen:vads-l-col--9': institutions.length === 2 },
+            { 'medium-screen:vads-l-col--6': institutions.length === 1 },
+            { 'medium-screen:vads-l-col--3': institutions.length === 0 },
           )}
         >
           {fieldData.map((field, index) => {
-            const rowValues = Object.keys(institutions).map(facilityCode => {
-              return field.mapper(institutions[facilityCode]);
-            });
+            const rowValues = institutions.map(field.mapper);
 
             let allEqual = true;
 
@@ -124,37 +119,37 @@ export function CompareGrid({
 
             const columns = [fieldLabel(field, index, displayDiff)];
 
-            if (institutionCount > 0) {
+            if (institutions.length > 0) {
               columns.push(
                 institutionFieldValue(
                   field,
                   index,
                   0,
-                  institutions[facilityCodes[0]],
+                  institutions[0],
                   displayDiff,
                 ),
               );
             }
 
-            if (institutionCount > 1) {
+            if (institutions.length > 1) {
               columns.push(
                 institutionFieldValue(
                   field,
                   index,
                   1,
-                  institutions[facilityCodes[1]],
+                  institutions[1],
                   displayDiff,
                 ),
               );
             }
 
-            if (institutionCount > 2) {
+            if (institutions.length > 2) {
               columns.push(
                 institutionFieldValue(
                   field,
                   index,
                   2,
-                  institutions[facilityCodes[2]],
+                  institutions[2],
                   displayDiff,
                 ),
               );

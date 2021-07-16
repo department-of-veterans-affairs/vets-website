@@ -2,9 +2,10 @@ import serviceHistory from '@@profile/tests/fixtures/service-history-success.jso
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import error500 from '@@profile/tests/fixtures/500.json';
 
-import { mockUser } from '../fixtures/users/user';
-import { mockFeatureToggles } from './helpers';
-import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../constants';
+import { mockUser } from '../../fixtures/users/user';
+
+import mockFeatureToggles from './feature-toggles.json';
 
 describe('Notification Settings', () => {
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe('Notification Settings', () => {
   });
   context('when the feature flag is turned on', () => {
     it('is available in the side nav and the section loads', () => {
-      mockFeatureToggles();
+      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
       // go to the root of the Profile
       cy.visit(PROFILE_PATHS.PROFILE_ROOT);
       // click on the Notification settings item in the side nav

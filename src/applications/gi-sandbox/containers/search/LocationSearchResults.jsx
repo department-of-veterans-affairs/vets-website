@@ -9,13 +9,14 @@ import SearchResultCard from '../../containers/SearchResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
-import RefineYourSearch from '../../containers/RefineYourSearch';
+import FilterYourResults from '../../containers/FilterYourResults';
 import { numberToLetter, createId } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
   updateEligibilityAndFilters,
 } from '../../actions';
 import { connect } from 'react-redux';
+import { getFiltersChanged } from '../../selectors/filters';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
 
@@ -25,14 +26,17 @@ function LocationSearchResults({
   preview,
   dispatchUpdateEligibilityAndFilters,
   dispatchFetchSearchByLocationCoords,
+  filtersChanged,
 }) {
   const { inProgress } = search;
-  const { count, results } = search.location;
+  const { results } = search.location;
   const { location, streetAddress } = search.query;
   const map = useRef(null);
   const mapContainer = useRef(null);
   const markers = useRef([]);
   const [mapState, setMapState] = useState({ changed: false, distance: null });
+  const [usedFilters, setUsedFilters] = useState(filtersChanged);
+  const [cardResults, setCardResults] = useState(null);
 
   const updateMapState = () => {
     const mapBounds = map.current.getBounds();
@@ -113,11 +117,24 @@ function LocationSearchResults({
     }
   }, []); // <-- empty array means 'run once'
 
+  /**
+   * Used to exclude results from appearing in cards or as a marker when using "Search area" button
+   *
+   * @param institution
+   * @return {boolean}
+   */
+  const markerIsNotVisible = institution => {
+    const { latitude, longitude } = institution;
+    const lngLat = new mapboxgl.LngLat(longitude, latitude);
+
+    return mapState.changed && !map.current.getBounds().contains(lngLat);
+  };
+
   const addMapMarker = (institution, index, locationBounds) => {
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    if (mapState.changed && !map.current.getBounds().contains(lngLat)) return;
+    if (markerIsNotVisible(institution)) return false;
 
     const letter = numberToLetter(index + 1);
 
@@ -145,7 +162,7 @@ function LocationSearchResults({
     });
 
     if (locationBounds) {
-      locationBounds.extend(new mapboxgl.LngLat(longitude, latitude));
+      locationBounds.extend(lngLat);
     }
 
     new mapboxgl.Marker(markerElement)
@@ -154,6 +171,8 @@ function LocationSearchResults({
       .addTo(map.current);
 
     markers.current.push(markerElement);
+
+    return true;
   };
 
   const currentLocationMapMarker = bounds => {
@@ -175,27 +194,45 @@ function LocationSearchResults({
   useEffect(
     () => {
       markers.current.forEach(marker => marker.remove());
+      let visibleResults = [];
+
       if (!map.current || results.length === 0) {
+        if (!mapState.changed) {
+          map.current.setCenter([
+            MapboxInit.centerInit.longitude,
+            MapboxInit.centerInit.latitude,
+          ]);
+          map.current.zoomTo(MapboxInit.zoomInit, { duration: 300 });
+        }
+        setMapState({ changed: false, distance: null });
+        setUsedFilters(getFiltersChanged(filters));
+        setCardResults(visibleResults);
         return;
       } // wait for map to initialize
+
       const locationBounds = !mapState.changed
         ? new mapboxgl.LngLatBounds()
         : null;
-      results.forEach((institution, index) => {
-        addMapMarker(institution, index, locationBounds);
+
+      visibleResults = results.filter((institution, index) => {
+        return addMapMarker(institution, index, locationBounds);
       });
+
       if (locationBounds) {
         if (streetAddress.searchString === location) {
           currentLocationMapMarker(locationBounds);
         }
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
+
+      setUsedFilters(getFiltersChanged(filters));
+      setCardResults(visibleResults);
       setMapState({ changed: false, distance: null });
     },
     [results],
   );
 
-  const resultCards = results.map((institution, index) => {
+  const resultCards = cardResults?.map((institution, index) => {
     const { distance } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
     const letter = numberToLetter(index + 1);
@@ -231,6 +268,7 @@ function LocationSearchResults({
   const areaSearchLabel = areaSearchWithinBounds
     ? 'Search this area of the map'
     : 'Zoom in to search';
+  const count = !cardResults ? null : cardResults.length;
 
   return (
     <>
@@ -241,17 +279,17 @@ function LocationSearchResults({
           )}
           {!inProgress && (
             <>
-              {count === null && (
+              {search.location.count === null && (
                 <div>
                   Please enter a location (street, city, state, or postal code)
                   then click search above to find institutions.
                 </div>
               )}
-              {count !== null &&
-                count >= 0 && (
+              {search.location.count !== null &&
+                (count > 0 || usedFilters) && (
                   <>
                     <TuitionAndHousingEstimates />
-                    <RefineYourSearch />
+                    <FilterYourResults />
                     {count > 0 && (
                       <div
                         id="location-search-results-container"
@@ -271,9 +309,41 @@ function LocationSearchResults({
                     )}
                   </>
                 )}
-              {count === 0 && (
-                <div>We didn't find any institutions near the location.</div>
-              )}
+              {count === 0 &&
+                !usedFilters && (
+                  <div>
+                    <p>We didn't find any institutions based on your search.</p>
+                    <p>
+                      <strong>For better results:</strong>
+                    </p>
+                    <ul>
+                      <li>
+                        <strong>Zoom in or out</strong> to view a different area
+                        of the map, or
+                      </li>
+                      <li>
+                        <strong>Move the map</strong> to a different area
+                      </li>
+                    </ul>
+                    <p>
+                      Then click the <strong>"Search this area of map"</strong>{' '}
+                      button.
+                    </p>
+                    <p>
+                      If we still haven't found any facilities near you,{' '}
+                      <strong>please enter a different search term</strong>{' '}
+                      (street, city, state, or postal code).
+                    </p>
+                  </div>
+                )}
+              {count === 0 &&
+                usedFilters && (
+                  <div>
+                    We didn't find any institutions near this location based on
+                    the filters you've applied. Please update the filters and
+                    search again.
+                  </div>
+                )}
             </>
           )}
         </div>
@@ -313,6 +383,7 @@ const mapStateToProps = state => ({
   search: state.search,
   filters: state.filters,
   preview: state.preview,
+  filtersChanged: getFiltersChanged(state.filters),
 });
 
 const mapDispatchToProps = {
