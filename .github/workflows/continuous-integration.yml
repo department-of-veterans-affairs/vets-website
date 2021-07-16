@@ -55,7 +55,7 @@ jobs:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
+        run: yarn build --verbose --buildtype=${{ matrix.buildtype }} --stat=verbose
         timeout-minutes: 30
 
       - name: Generate build details
