@@ -115,7 +115,7 @@ describe('Schemaform review: SubmitController', () => {
   afterEach(() => {
     testkit.reset();
   });
-  it.skip('should route to confirmation page after submit', () => {
+  it('should route to confirmation page after submit', () => {
     const form = createForm();
     const formConfig = createFormConfig();
     const pageList = createPageList();
@@ -171,7 +171,7 @@ describe('Schemaform review: SubmitController', () => {
     tree.unmount();
   });
 
-  it.skip('should not submit when privacy agreement not accepted', () => {
+  it('should not submit when privacy agreement not accepted', () => {
     const form = createForm();
     const formConfig = createFormConfig();
     const user = createUserLogIn();
