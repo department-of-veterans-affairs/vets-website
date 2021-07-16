@@ -391,7 +391,13 @@ export const serviceRecordsUI = {
     itemName: 'Service Period',
   },
   items: {
-    'ui:order': ['serviceBranch', '*'],
+    'ui:order': [
+      'serviceBranch',
+      'dateRange',
+      'dischargeType',
+      'highestRank',
+      'nationalGuardState',
+    ],
     'ui:options': {
       itemName: 'Service Period',
     },
