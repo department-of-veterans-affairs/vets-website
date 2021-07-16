@@ -10,6 +10,7 @@ import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import JumpLink from '../profile/JumpLink';
 import ProfileSection from '../profile/ProfileSection';
 import CautionaryInformation from '../profile/CautionaryInformation';
+import GettingStartedWithVetTec from './GettingStartedWithVetTec';
 
 export default function InstitutionProfile({
   institution,
@@ -75,7 +76,9 @@ export default function InstitutionProfile({
       <ProfileSection
         label="Getting started with VET TEC"
         id="getting-started-with-benefits"
-      />
+      >
+        <GettingStartedWithVetTec />
+      </ProfileSection>
       <ProfileSection
         label="Cautionary information"
         id="cautionary-information"
