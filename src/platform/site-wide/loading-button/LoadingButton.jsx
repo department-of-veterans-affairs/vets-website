@@ -15,11 +15,7 @@ export default function LoadingButton({
         aria-hidden="true"
         role="presentation"
       />
-      {loadingText && (
-        <span className="sr-only" role="status">
-          {loadingText}
-        </span>
-      )}
+      {loadingText && <span className="sr-only">{loadingText}</span>}
     </>
   ) : (
     children
@@ -31,6 +27,8 @@ export default function LoadingButton({
       {...props}
       disabled={isLoading || disabled}
       onClick={onClick}
+      // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role
+      role="status"
     >
       {contents}
     </button>
