@@ -16,6 +16,9 @@ describe('check-in', () => {
       const screen = render(<Footer store={fakeStore} />);
 
       expect(screen.getByTestId('heading')).to.have.text('Need Help?');
+      expect(screen.getByTestId('message')).to.have.text(
+        'Ask a staff member or call us at 555-867-5309.',
+      );
     });
     it('Renders the footer with custom header props', () => {
       const fakeStore = {
@@ -30,6 +33,21 @@ describe('check-in', () => {
       );
       expect(screen.getByTestId('heading')).to.have.text(
         'this is a cool thing',
+      );
+    });
+    it('Renders the footer with custom message props', () => {
+      const fakeStore = {
+        getState: () => ({
+          checkInData: { appointment: { clinicPhone: '555-867-5309' } },
+        }),
+        subscribe: () => {},
+        dispatch: () => ({}),
+      };
+      const screen = render(
+        <Footer store={fakeStore} message="this is a cool thing" />,
+      );
+      expect(screen.getByTestId('message')).to.have.text(
+        'this is a cool thing 555-867-5309.',
       );
     });
   });
