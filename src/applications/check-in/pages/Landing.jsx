@@ -15,12 +15,17 @@ const Landing = props => {
   useEffect(
     () => {
       const token = getTokenFromLocation(location);
-      recordEvent({
-        event: createAnalyticsSlug('landing-page-launched'),
-        UUID: token,
-      });
+      if (!token) {
+        recordEvent({
+          event: createAnalyticsSlug('landing-page-launched-no-token'),
+        });
+      }
 
       if (token) {
+        recordEvent({
+          event: createAnalyticsSlug('landing-page-launched'),
+          UUID: token,
+        });
         recordEvent({
           event: createAnalyticsSlug('uuid-validate-api-call-launched'),
           UUID: token,
