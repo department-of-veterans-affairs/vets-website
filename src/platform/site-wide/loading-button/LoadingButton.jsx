@@ -27,8 +27,7 @@ export default function LoadingButton({
       {...props}
       disabled={isLoading || disabled}
       onClick={onClick}
-      // eslint-disable-next-line jsx-a11y/no-interactive-element-to-noninteractive-role
-      role="status"
+      aria-live="polite"
     >
       {contents}
     </button>
