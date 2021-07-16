@@ -3,6 +3,7 @@ import _ from 'lodash/fp';
 import * as educationProgram from '../definitions/educationProgram';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import { civilianBenefitsLabel } from '../utils/labels';
+import environment from 'platform/utilities/environment';
 
 // Exported like this so we can share the fields between the formConfig and the tests.
 export const schoolSelectionOptionsFor = {
@@ -19,7 +20,8 @@ export const schoolSelectionOptionsFor = {
       'trainingState',
       'educationalCounseling',
     ],
-    required: ['educationType'],
+    // Prod flag for 26436
+    required: environment.isProduction() && ['educationType'],
   },
   '1990e': {
     fields: ['educationProgram', 'educationObjective'],
