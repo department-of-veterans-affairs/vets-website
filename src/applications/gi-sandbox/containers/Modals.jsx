@@ -399,37 +399,6 @@ export class Modals extends React.Component {
       </Modal>
       <Modal
         onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('stemIndicator')}
-        elementToFocusOnClose="stemIndicator-button"
-      >
-        <h3>The Rogers STEM Scholarship</h3>
-        <div>
-          <p>
-            The Edith Nourse Rogers STEM Scholarship provides up to 9 months of
-            additional Post-9/11 GI Bill benefits, to a maximum of $30,000.
-          </p>
-          <p>
-            Veterans and Fry Scholars may qualify for this scholarship if
-            they're enrolled in an undergraduate program for Science,
-            Technology, Engineering, or Math (STEM), or if they've earned a STEM
-            degree and are getting a teaching certification.
-          </p>
-          <p>
-            To learn more about this scholarship,{' '}
-            <a
-              href="/education/other-va-education-benefits/stem-scholarship/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {' '}
-              visit the Rogers STEM Scholarship website
-            </a>
-            .
-          </p>
-        </div>
-      </Modal>
-      <Modal
-        onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('independentStudy')}
         elementToFocusOnClose="independentStudy-button"
       >
