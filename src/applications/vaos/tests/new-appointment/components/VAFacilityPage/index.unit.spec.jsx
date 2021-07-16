@@ -79,45 +79,25 @@ describe('VAOS <VAFacilityPageV2>', () => {
     const parentSiteIds = ['983', '984'];
 
     const typeOfCareId = '323';
-    const typeOfCare = 'Primary Care';
 
     const requestFacilityAttributes = getRequestEligibilityCriteriaMock()
       .attributes;
 
     const facilityIds = ['983', '983GC', '983GB', '983HK', '983QA', '984'];
 
-    const requestFacilities = facilityIds.map(id => ({
-      id,
-      attributes: {
-        ...requestFacilityAttributes,
+    const requestFacilities = facilityIds.map(id =>
+      getRequestEligibilityCriteriaMock({
         id,
-        requestSettings: [
-          {
-            ...requestFacilityAttributes.requestSettings[0],
-            id: typeOfCareId,
-            typeOfCare,
-          },
-        ],
-      },
-    }));
+        typeOfCareId,
+      }),
+    );
 
-    const directFacilityAttributes = getDirectBookingEligibilityCriteriaMock()
-      .attributes;
-
-    const directFacilities = facilityIds.map(id => ({
-      id,
-      attributes: {
-        ...directFacilityAttributes,
+    const directFacilities = facilityIds.map(id =>
+      getDirectBookingEligibilityCriteriaMock({
         id,
-        coreSettings: [
-          {
-            ...directFacilityAttributes.coreSettings[0],
-            id: typeOfCareId,
-            typeOfCare,
-          },
-        ],
-      },
-    }));
+        typeOfCareId,
+      }),
+    );
 
     const vhaIds = facilityIds.map(
       id => `vha_${id.replace('983', '442').replace('984', '552')}`,
@@ -952,21 +932,9 @@ describe('VAOS <VAFacilityPageV2>', () => {
       mockParentSites(parentSiteIds, [parentSite983, parentSite984]);
       mockDirectBookingEligibilityCriteria(
         parentSiteIds,
-        facilityIdsForTwoTypesOfCare.map(id => {
-          return {
-            id,
-            attributes: {
-              ...directFacilityAttributes,
-              id,
-              coreSettings: [
-                {
-                  ...directFacilityAttributes.coreSettings[0],
-                  id: '323',
-                },
-              ],
-            },
-          };
-        }),
+        facilityIdsForTwoTypesOfCare.map(id =>
+          getDirectBookingEligibilityCriteriaMock({ id, typeOfCareId: '323' }),
+        ),
       );
       mockRequestEligibilityCriteria(
         parentSiteIds,
