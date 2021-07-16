@@ -338,7 +338,7 @@ export class ContactInformationEditView extends Component {
                   {!isLoading && (
                     <button
                       type="button"
-                      className="usa-button-secondary vads-u-margin-top--0"
+                      className="usa-button-secondary small-screen:vads-u-margin-top--0"
                       onClick={onCancel}
                     >
                       Cancel

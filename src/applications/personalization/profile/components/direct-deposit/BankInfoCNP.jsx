@@ -291,7 +291,7 @@ export const BankInfoCNP = ({
             aria-label="update your bank information for compensation and pension benefits"
             type="submit"
             loadingText="saving bank information"
-            className="usa-button-primary vads-u-margin-top--0"
+            className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
             isLoading={directDepositUiState.isSaving}
           >
             Update
@@ -300,7 +300,7 @@ export const BankInfoCNP = ({
             aria-label="cancel updating your bank information for compensation and pension benefits"
             type="button"
             disabled={directDepositUiState.isSaving}
-            className="usa-button-secondary vads-u-margin-top--0"
+            className="usa-button-secondary small-screen:vads-u-margin-top--0"
             onClick={closeDDForm}
             data-qa="cancel-button"
           >

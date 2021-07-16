@@ -105,7 +105,7 @@ function ContactInformationActionButtons(props) {
         <div>
           <button
             type="button"
-            className="vads-u-margin--0 usa-button-secondary"
+            className="vads-u-margin--0 vads-u-margin-top--1 usa-button-secondary"
             onClick={handleDeleteInitiated}
           >
             Remove {toLower(props.title)}
