@@ -98,20 +98,16 @@ const logCoverage = coverageResults => {
   const data = JSON.stringify(coverageResults, null, 4);
 
   // write coverageResults string to file
-  const buildDirectory = path.join(__dirname, '../build');
-
-  if (fs.existsSync(buildDirectory)) {
-    const outputFile = path.join(
-      __dirname,
-      '../build/test-coverage-report.json',
-    );
-    fs.writeFile(outputFile, data, err => {
-      if (err) {
-        throw err;
-      }
-      console.log('JSON data is saved.');
-    });
-  }
+  const outputFile = path.join(
+    __dirname,
+    '../coverage/test-coverage-report.json',
+  );
+  fs.writeFile(outputFile, data, err => {
+    if (err) {
+      throw err;
+    }
+    console.log('JSON data is saved.');
+  });
 };
 
 // Root directory of application folders
