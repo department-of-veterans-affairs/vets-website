@@ -27,7 +27,7 @@ const initialSchema = {
 const uiSchema = {
   preferredDate: {
     'ui:title':
-      "Tell us the earliest day you’re available and we'll try to find the date closest to your request.",
+      "Tell us the earliest day you're available and we'll try to find the date closest to your request.",
     'ui:widget': 'date',
     'ui:description':
       'Choose a date within the next 13 months for this appointment.',
