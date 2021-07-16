@@ -111,7 +111,7 @@ export function ProfilePage({
       {!profile.error && (
         <>
           <div className="row">{content}</div>
-          {!loadingProfile && <CompareDrawer />}
+          {!loadingProfile && <CompareDrawer alwaysDisplay />}
         </>
       )}
     </ScrollElement>
