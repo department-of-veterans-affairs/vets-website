@@ -117,7 +117,8 @@ const mapStateToProps = state => ({
   compare: state.compare,
   displayed:
     state.search.location.results.length > 0 ||
-    state.search.name.results.length > 0,
+    state.search.name.results.length > 0 ||
+    state.compare.search.loaded.length > 0,
 });
 
 const mapDispatchToProps = {
