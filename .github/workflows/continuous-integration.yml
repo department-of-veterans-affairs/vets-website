@@ -64,6 +64,9 @@ jobs:
           BUILDTIME=$(date +%s)
           EOF
 
+      - name: Create .nyc_output
+        run: touch .nyc_output
+
       - name: Run LS
         run: ls
 
