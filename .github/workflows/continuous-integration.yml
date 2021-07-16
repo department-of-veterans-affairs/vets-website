@@ -64,14 +64,8 @@ jobs:
           BUILDTIME=$(date +%s)
           EOF
 
-      - name: Create .nyc_output
-        run: touch .nyc_output
-
-      - name: Run LS
-        run: ls
-
       - name: Run coverage only
-        run: yarn test:coverage-only
+        run: npx test:coverage-only
 
       - name: Generate formatted coverage report
         run: node script/app-coverage-report.js
