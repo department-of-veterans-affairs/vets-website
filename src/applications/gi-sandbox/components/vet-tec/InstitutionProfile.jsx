@@ -22,7 +22,6 @@ export default function InstitutionProfile({
     selectedProgram ||
     preSelectedProgram ||
     _.get(institution, 'programs[0].description', '');
-
   return (
     <div>
       <div className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4">
