@@ -181,8 +181,9 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       reducers,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
-      .eventually.be.ok;
+    return expect(
+      screen.findByText(/You don’t have any upcoming appointments/i),
+    ).to.eventually.be.ok;
   });
 
   it('should not display when over 13 months away', () => {
@@ -198,8 +199,9 @@ describe('VAOS <UpcomingAppointmentsList>', () => {
       reducers,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
-      .eventually.be.ok;
+    return expect(
+      screen.findByText(/You don’t have any upcoming appointments/i),
+    ).to.eventually.be.ok;
   });
 
   it('should show error message when request fails', async () => {
