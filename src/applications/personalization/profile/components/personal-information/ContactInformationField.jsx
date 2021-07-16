@@ -67,7 +67,7 @@ const wrapperClasses = prefixUtilityClasses([
 
 const editButtonClasses = [
   'usa-button-secondary',
-  ...prefixUtilityClasses(['width--auto', 'margin--0', 'margin-top--1p5']),
+  ...prefixUtilityClasses(['margin--0', 'margin-top--1p5']),
 ];
 
 const classes = {

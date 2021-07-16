@@ -76,7 +76,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       initialState,
     });
 
-    await screen.findByText(/You don’t have any appointments/i);
+    await screen.findByText(/You don’t have any past appointments/i);
 
     mockPastAppointmentInfoOption1({ va: [appointment] });
 
@@ -197,7 +197,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       initialState,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
+    return expect(screen.findByText(/You don’t have any past appointments/i)).to
       .eventually.be.ok;
   });
 
@@ -213,7 +213,7 @@ describe('VAOS <PastAppointmentsListV2>', () => {
       initialState,
     });
 
-    return expect(screen.findByText(/You don’t have any appointments/i)).to
+    return expect(screen.findByText(/You don’t have any past appointments/i)).to
       .eventually.be.ok;
   });
 
