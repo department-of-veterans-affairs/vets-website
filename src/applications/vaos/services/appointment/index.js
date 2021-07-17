@@ -248,40 +248,38 @@ export async function fetchRequestById({ id, useV2 }) {
 export async function fetchBookedAppointment({ id, type, useV2 = false }) {
   try {
     let appointment;
-    if (!useV2) {
-      if (type === 'va') {
-        appointment = await getConfirmedAppointment(id, type);
-      } else if (type === 'cc') {
-        // We don't have a fetch by id service for cc, so hopefully
-        // the appointment is 13 months in either direction
-        const { data } = await getConfirmedAppointments(
-          type,
-          moment()
-            .add(-395, 'days')
-            .startOf('day')
-            .toISOString(),
-          moment()
-            .add(395, 'days')
-            .startOf('day')
-            .toISOString(),
-        );
-        appointment = data.find(appt => appt.id === id);
 
-        if (!appointment) {
-          appointment = await getConfirmedAppointment(id, 'va');
-        }
-      }
-      if (!appointment) {
-        throw new Error(`Couldn't find ${type} appointment`);
-      }
-      return transformConfirmedAppointment(appointment);
-    } else {
+    if (useV2) {
       appointment = await getAppointment(id);
-      if (!appointment) {
-        throw new Error(`Couldn't find ${type} appointment`);
-      }
       return transformVAOSAppointment(appointment);
     }
+
+    if (type === 'va') {
+      appointment = await getConfirmedAppointment(id, type);
+    } else if (type === 'cc') {
+      // We don't have a fetch by id service for cc, so hopefully
+      // the appointment is 13 months in either direction
+      const { data } = await getConfirmedAppointments(
+        type,
+        moment()
+          .add(-395, 'days')
+          .startOf('day')
+          .toISOString(),
+        moment()
+          .add(395, 'days')
+          .startOf('day')
+          .toISOString(),
+      );
+      appointment = data.find(appt => appt.id === id);
+
+      if (!appointment) {
+        appointment = await getConfirmedAppointment(id, 'va');
+      }
+    }
+    if (!appointment) {
+      throw new Error(`Couldn't find ${type} appointment`);
+    }
+    return transformConfirmedAppointment(appointment);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);

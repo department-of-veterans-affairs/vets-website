@@ -26,7 +26,7 @@ import sinon from 'sinon';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { getICSTokens } from '../../../../utils/calendar';
 import { mockSingleVAOSAppointmentFetch } from '../../../mocks/helpers.v2';
-import { getVAOSRequestMock } from '../../../mocks/v2';
+import { getVAOSAppointmentMock } from '../../../mocks/v2';
 
 const initialState = {
   featureToggles: {
@@ -1044,7 +1044,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     const url = '/va/1234';
     const futureDate = moment().add(5, 'days');
 
-    const appointment = getVAOSRequestMock();
+    const appointment = getVAOSAppointmentMock();
     appointment.id = '1234';
     appointment.attributes = {
       ...appointment.attributes,
