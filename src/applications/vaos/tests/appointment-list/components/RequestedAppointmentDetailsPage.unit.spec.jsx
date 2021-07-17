@@ -830,7 +830,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText('New issue: A message from the patient')).to.be.ok;
+    expect(screen.getByText('A message from the patient')).to.be.ok;
 
     expect(
       screen.getByRole('heading', {

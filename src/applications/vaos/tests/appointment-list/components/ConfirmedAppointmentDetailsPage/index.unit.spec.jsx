@@ -1118,7 +1118,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText(/New issue: I have a headache/)).to.be.ok;
+    expect(screen.getByText(/I have a headache/)).to.be.ok;
     expect(
       screen.getByRole('link', {
         name: new RegExp(

@@ -374,7 +374,7 @@
       "attributes": {
         "cancellationReason": null,
         "clinic": null,
-        "comment": null,
+        "comment": "I ran out of meds",
         "contact": {
           "telecom": [
             {
@@ -458,7 +458,7 @@
       "attributes": {
         "cancellationReason": "Cancelled by clinic",
         "clinic": null,
-        "comment": null,
+        "comment": "this comment does not display because the reason property does not match constant PURPOSE_TEXT ",
         "contact": {
           "telecom": [
             {
@@ -477,7 +477,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reason": "Not a valid purpose",
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,

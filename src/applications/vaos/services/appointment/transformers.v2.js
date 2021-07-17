@@ -156,7 +156,7 @@ export function transformVAOSAppointment(appt) {
       })),
     },
     preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
-    comment: getReasonWithComment(appt),
+    comment: appt.comment,
     videoData: {
       isVideo,
       facilityId: appt.locationId,
