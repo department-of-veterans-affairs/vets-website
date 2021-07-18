@@ -1053,7 +1053,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
       reason: 'New Issue',
-      comment: 'I have a headache',
+      comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
       start: futureDate.format(),
       status: 'booked',
@@ -1118,7 +1118,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText(/I have a headache/)).to.be.ok;
+    expect(screen.getByText(/New issue: I have a headache/)).to.be.ok;
     expect(
       screen.getByRole('link', {
         name: new RegExp(

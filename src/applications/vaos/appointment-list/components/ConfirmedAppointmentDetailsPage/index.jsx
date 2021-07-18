@@ -62,19 +62,6 @@ function formatHeader(appointment) {
   }
 }
 
-function isCommentValid(appointment) {
-  // checks for comment property from VAR appointment that contains predefined purpose
-  const commentFilter = PURPOSE_TEXT.some(purpose =>
-    appointment?.comment?.startsWith(purpose.short),
-  );
-  // checks for reason property from VAOS Service that contains predefined purpose
-  const reasonFilter = PURPOSE_TEXT.some(purpose =>
-    appointment?.reason?.startsWith(purpose.short),
-  );
-
-  return commentFilter || (reasonFilter && !!appointment.comment);
-}
-
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -166,7 +153,10 @@ export default function ConfirmedAppointmentDetailsPage() {
   const header = formatHeader(appointment);
 
   const showInstructions =
-    isInPersonVAAppointment && isCommentValid(appointment);
+    isInPersonVAAppointment &&
+    PURPOSE_TEXT.some(purpose =>
+      appointment?.comment?.startsWith(purpose.short),
+    );
 
   const calendarData = getCalendarData({
     appointment,

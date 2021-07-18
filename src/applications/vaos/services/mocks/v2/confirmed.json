@@ -6,7 +6,7 @@
       "attributes": {
         "cancellationReason": null,
         "clinic": "437",
-        "comment": "I have a headache",
+        "comment": "Follow-up/Routine: I have a headache",
         "contact": {
           "telecom": [
             {
@@ -84,7 +84,7 @@
       "attributes": {
         "cancellationReason": null,
         "clinic": "848",
-        "comment": null,
+        "comment": "New issue: Video Visit Preparation",
         "contact": {
           "telecom": [
             {
@@ -339,7 +339,7 @@
       "attributes": {
         "cancellationReason": null,
         "clinic": "308",
-        "comment": null,
+        "comment": "New issue: Phone appointment",
         "contact": {
           "telecom": [
             {
@@ -358,7 +358,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reason": "New Issue",
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -374,7 +374,7 @@
       "attributes": {
         "cancellationReason": null,
         "clinic": null,
-        "comment": "I ran out of meds",
+        "comment": "Medication concern: I ran out of meds",
         "contact": {
           "telecom": [
             {
@@ -458,7 +458,7 @@
       "attributes": {
         "cancellationReason": "Cancelled by clinic",
         "clinic": null,
-        "comment": "this comment does not display because the reason property does not match constant PURPOSE_TEXT ",
+        "comment": "Follow-up/Routine: comment test",
         "contact": {
           "telecom": [
             {
@@ -477,7 +477,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Not a valid purpose",
+        "reason": "Routine Follow-up",
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
