@@ -8,7 +8,9 @@ import BackButton from '../BackButton';
 describe('check-in', () => {
   describe('BackButton', () => {
     it('Renders', () => {
-      const mockRouter = { goBack: () => {} };
+      const goBack = sinon.spy();
+
+      const mockRouter = { goBack, location: {} };
       const screen = render(<BackButton router={mockRouter} />);
 
       expect(screen.getByTestId('back-button')).to.exist;
@@ -19,7 +21,7 @@ describe('check-in', () => {
     it('click fires router goBack', () => {
       const goBack = sinon.spy();
 
-      const mockRouter = { goBack };
+      const mockRouter = { goBack, location: {} };
       const screen = render(<BackButton router={mockRouter} />);
 
       expect(screen.getByTestId('back-button')).to.exist;

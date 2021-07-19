@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import format from 'date-fns/format';
 
+import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 
 import { goToNextPage, URLS } from '../utils/navigation';
+import { createAnalyticsSlug } from '../utils/analytics';
 import { checkInUser } from '../api';
 
 import BackToHome from '../components/BackToHome';
@@ -27,13 +29,24 @@ const CheckIn = props => {
   const onClick = async () => {
     const { token } = context;
     setIsLoading(true);
+    recordEvent({
+      event: createAnalyticsSlug('api-checking-in-user-started'),
+    });
     const json = await checkInUser({
       token,
     });
     const { data } = json;
+
     if (data.success) {
+      recordEvent({
+        event: createAnalyticsSlug('api-checking-in-user-successful'),
+      });
       goToNextPage(router, URLS.COMPLETE);
     } else {
+      recordEvent({
+        event: createAnalyticsSlug('api-checking-in-user-failed'),
+        data,
+      });
       goToNextPage(router, URLS.SEE_STAFF);
     }
   };
