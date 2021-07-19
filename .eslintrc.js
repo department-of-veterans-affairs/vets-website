@@ -73,6 +73,7 @@ module.exports = {
         aliases: ['applications', 'platform', 'site', '@@vap-svc', '@@profile'],
       },
     ],
+    'va/correct-apostrophe': 2,
 
     /* || fp plugin || */
     'fp/no-proxy': 2, // IE 11 has no polyfill for Proxy
