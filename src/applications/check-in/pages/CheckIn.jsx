@@ -13,7 +13,7 @@ import BackButton from '../components/BackButton';
 
 const CheckIn = props => {
   const [isLoading, setIsLoading] = useState(false);
-  const { router, appointment } = props;
+  const { router, appointment, context } = props;
 
   useEffect(() => {
     focusElement('h1');
@@ -25,13 +25,13 @@ const CheckIn = props => {
   }
 
   const onClick = async () => {
-    const token = appointment.uuid;
+    const { token } = context;
     setIsLoading(true);
     const json = await checkInUser({
       token,
     });
     const { data } = json;
-    if (data.checkInStatus === 'completed') {
+    if (data.success) {
       goToNextPage(router, URLS.COMPLETE);
     } else {
       goToNextPage(router, URLS.SEE_STAFF);
@@ -86,6 +86,7 @@ const CheckIn = props => {
 const mapStateToProps = state => {
   return {
     appointment: state.checkInData.appointment,
+    context: state.checkInData.context,
   };
 };
 const mapDispatchToProps = () => {
