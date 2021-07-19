@@ -370,6 +370,7 @@ export function getDirectBookingEligibilityCriteriaMock({
   id = 'fake',
   typeOfCareId = 'fake',
   patientHistoryRequired = 'No',
+  patientHistoryDuration = 0,
 } = {}) {
   return {
     id,
@@ -381,7 +382,7 @@ export function getDirectBookingEligibilityCriteriaMock({
           id: typeOfCareId,
           typeOfCare: 'fake',
           patientHistoryRequired,
-          patientHistoryDuration: 0,
+          patientHistoryDuration,
           submittedRequestLimit: 1,
           enterpriseSubmittedRequestLimit: 1,
         },
