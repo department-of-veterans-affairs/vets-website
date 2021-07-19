@@ -232,8 +232,8 @@ describe('VAOS <RequestedAppointmentsList>', () => {
       reducers,
     });
 
-    expect(await screen.findByText(/You don’t have any appointments/i)).to
-      .exist;
+    expect(await screen.findByText(/You don’t have any appointment requests/i))
+      .to.exist;
   });
 });
 

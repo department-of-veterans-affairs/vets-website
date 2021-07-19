@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import Telephone, {
   CONTACTS,
@@ -29,21 +28,24 @@ class RatedDisabilityList extends React.Component {
       status = 'error';
       content = (
         <>
-          <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+          <h2
+            slot="headline"
+            className="vads-u-margin-y--0 vads-u-font-size--h3"
+          >
             We’re sorry. Something went wrong on our end
           </h2>
-          <p>
+          <p className="vads-u-font-size--base">
             Please refresh this page or check back later. You can also sign out
             of VA.gov and try signing back into this page.
           </p>
-          <p>
+          <p className="vads-u-font-size--base">
             If you get this error again, please call the VA.gov help desk at{' '}
             <Telephone contact={CONTACTS.VA_311} /> (TTY:{' '}
             <Telephone
               contact={CONTACTS['711']}
               pattern={PATTERNS['3_DIGIT']}
             />
-            ). We’re here Monday-Friday, 8:00 a.m.-8:00 p.m. ET.
+            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
         </>
       );
@@ -51,17 +53,20 @@ class RatedDisabilityList extends React.Component {
       status = 'info';
       content = (
         <>
-          <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+          <h2
+            slot="headline"
+            className="vads-u-margin-y--0 vads-u-font-size--h3"
+          >
             We don’t have rated disabilities on file for you
           </h2>
-          <p>
+          <p className="vads-u-font-size--base">
             We can’t find any rated disabilities for you. If you have a
             disability that was caused by or got worse because of your service,
             you can file a claim for disability benefits.
           </p>
           <a
             href="/disability/how-to-file-claim/"
-            className="usa-link"
+            className="vads-u-font-size--base usa-link"
             aria-label="Learn how to file a claim for disability compensation"
           >
             Learn how to file a claim for disability compensation
@@ -71,7 +76,7 @@ class RatedDisabilityList extends React.Component {
     }
     return (
       <div className="vads-u-margin-y--5">
-        <AlertBox content={content} status={status} isVisible />
+        <va-alert status={status}>{content}</va-alert>
       </div>
     );
   }
