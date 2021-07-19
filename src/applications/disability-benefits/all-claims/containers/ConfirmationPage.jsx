@@ -32,8 +32,8 @@ export default class ConfirmationPage extends React.Component {
   }
 
   componentDidMount() {
-    focusElement('.usa-alert-body > h2');
     scrollToTop();
+    setTimeout(() => focusElement('va-alert h2'), 100);
   }
 
   render() {

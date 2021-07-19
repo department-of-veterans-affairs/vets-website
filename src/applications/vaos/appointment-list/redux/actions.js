@@ -490,6 +490,9 @@ export function fetchConfirmedAppointmentDetails(id, type) {
   return async (dispatch, getState) => {
     try {
       const state = getState();
+      const featureVAOSServiceAppointments = selectFeatureVAOSServiceVAAppointments(
+        state,
+      );
       let appointment = selectAppointmentById(state, id, [
         type === 'cc'
           ? APPOINTMENT_TYPES.ccAppointment
@@ -505,7 +508,11 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       }
 
       if (!appointment) {
-        appointment = await fetchBookedAppointment(id, type);
+        appointment = await fetchBookedAppointment({
+          id,
+          type,
+          useV2: featureVAOSServiceAppointments,
+        });
       }
 
       facilityId = getVAAppointmentLocationId(appointment);
