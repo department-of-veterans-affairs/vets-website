@@ -46,7 +46,7 @@ const Landing = props => {
               UUID: token,
             });
             // dispatch data into redux
-            setAppointment(data);
+            setAppointment(data, token);
             goToNextPage(router, URLS.UPDATE_INSURANCE);
           }
         });
@@ -63,7 +63,8 @@ const Landing = props => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setAppointment: value => dispatch(receivedAppointmentDetails(value)),
+    setAppointment: (data, token) =>
+      dispatch(receivedAppointmentDetails(data, token)),
   };
 };
 

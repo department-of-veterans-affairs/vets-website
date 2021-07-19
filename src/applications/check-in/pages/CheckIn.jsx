@@ -51,9 +51,8 @@ const CheckIn = props => {
     }
   };
   const appointmentDateTime = new Date(appointment.startTime);
-  const appointmentDate = format(appointmentDateTime, 'eeee, MMMM	dd, yyyy');
+  const appointmentDate = format(appointmentDateTime, 'cccc, LLLL d, yyyy');
   const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
-
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
       <BackButton router={router} />
