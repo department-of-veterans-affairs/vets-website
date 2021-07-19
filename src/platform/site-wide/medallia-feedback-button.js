@@ -7,7 +7,7 @@
  * When the button is clicked on, #nebula_div_btn is removed from the DOM.
  * When the form is closed, it gets added back.
  * This script also adds a listener for when #nebula_div_btn is added
- * back and sets the focus on #kampyleButtonContainer again.
+ * back and sets the focus on it again.
  */
 
 window.addEventListener('DOMContentLoaded', () => {
