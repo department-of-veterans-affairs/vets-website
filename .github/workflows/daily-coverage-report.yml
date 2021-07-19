@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0 22 * * 1-5"
+  push:
+    branches:
+      - '184--upload-unit-test-report-s3'
 
 jobs:
   coverage-report-upload:
@@ -59,8 +62,8 @@ jobs:
         env:
           YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Run coverage only
-        run: yarn test:coverage-only
+      - name: Run unit tests
+        run: yarn test:unit --coverage
 
       - name: Generate coverage report
         run: node script/app-coverage-report.js
