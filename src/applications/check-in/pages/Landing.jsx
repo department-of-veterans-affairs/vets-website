@@ -19,7 +19,7 @@ const Landing = props => {
             // console.log({ data });
             if (isValid) {
               // dispatch data into redux
-              setAppointment(data);
+              setAppointment({ appointment: { ...data }, context: { token } });
               goToNextPage(router, URLS.UPDATE_INSURANCE);
             } else {
               goToNextPage(router, URLS.SEE_STAFF);

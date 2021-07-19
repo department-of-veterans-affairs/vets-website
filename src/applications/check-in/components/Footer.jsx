@@ -25,7 +25,7 @@ function Footer({
 
 const mapStateToProps = state => {
   return {
-    contactNumber: state.checkInData.appointment.clinicPhone,
+    contactNumber: state.checkInData.appointment.clinicPhoneNumber,
   };
 };
 
