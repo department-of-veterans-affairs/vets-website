@@ -361,6 +361,12 @@ export default function formReducer(state = initialState, action) {
         requestLocationStatus: FETCH_STATUS.loading,
       };
     }
+    case FORM_REQUEST_CURRENT_LOCATION_FAILED: {
+      return {
+        ...state,
+        requestLocationStatus: FETCH_STATUS.failed,
+      };
+    }
     case FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED: {
       let requestLocationStatus = state.requestLocationStatus;
 
@@ -395,7 +401,6 @@ export default function formReducer(state = initialState, action) {
       let facilities = state.facilities[typeOfCareId];
       let newSchema = state.pages.vaFacilityV2;
       let requestLocationStatus = state.requestLocationStatus;
-
       if (location && facilities?.length) {
         const { coords } = location;
         const { latitude, longitude } = coords;
@@ -420,6 +425,8 @@ export default function formReducer(state = initialState, action) {
         }
 
         requestLocationStatus = FETCH_STATUS.succeeded;
+      } else {
+        requestLocationStatus = FETCH_STATUS.notStarted;
       }
 
       if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
@@ -462,12 +469,6 @@ export default function formReducer(state = initialState, action) {
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
         requestLocationStatus,
-      };
-    }
-    case FORM_REQUEST_CURRENT_LOCATION_FAILED: {
-      return {
-        ...state,
-        requestLocationStatus: FETCH_STATUS.failed,
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN_FAILED: {
