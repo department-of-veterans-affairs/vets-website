@@ -88,7 +88,7 @@ export default function FacilitiesRadioWidget({
                 });
                 updateFacilitySortMethod(type.value);
               }}
-              options={sortOptions}
+              options={hasUserAddress ? sortOptions : sortOptions.slice(1)}
               value={{ dirty: false, value: sortMethod }}
               includeBlankOption={false}
             />
