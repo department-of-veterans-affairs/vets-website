@@ -102,12 +102,12 @@ describe('Find VA Forms <SearchResult />', () => {
     );
     expect(tree.html()).to.include('<dd class="find-forms-alert-message');
     expect(tree.html()).to.include(
-      '<a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/">',
+      'href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/"',
     );
     tree.unmount();
   });
 
-  it('should have have a Alert Box PDF information (version two )for download trouble', () => {
+  it('should have have a Alert Box PDF information (version two)for download trouble', () => {
     const tree = mount(
       <SearchResult
         formMetaInfo={formMetaInfo}
@@ -118,7 +118,7 @@ describe('Find VA Forms <SearchResult />', () => {
     );
     expect(tree.html()).to.include('<va-alert status="info">');
     expect(tree.html()).to.include(
-      '<a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/">',
+      'href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/"',
     );
     tree.unmount();
   });
