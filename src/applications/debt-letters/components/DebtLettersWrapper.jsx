@@ -16,9 +16,11 @@ const DebtLettersWrapper = ({
   isLoggedIn,
   getDebtLetters,
 }) => {
+  console.log('showDebtLetters: ', showDebtLetters);
   useEffect(
     () => {
       if (showDebtLetters) {
+        console.log('HIT');
         getDebtLetters();
       }
     },

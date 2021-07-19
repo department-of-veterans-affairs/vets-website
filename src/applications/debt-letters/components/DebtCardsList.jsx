@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import DebtLetterCard from './DebtLetterCard';
@@ -117,9 +117,9 @@ DebtCardsList.defaultProps = {
   errors: [],
 };
 
-const mapStateToProps = state => ({
-  debts: state.debtLetters.debts,
-  errors: state.debtLetters.errors,
+const mapStateToProps = ({ debtLetters }) => ({
+  debts: debtLetters.debts,
+  errors: debtLetters.errors,
 });
 
 export default connect(mapStateToProps)(DebtCardsList);

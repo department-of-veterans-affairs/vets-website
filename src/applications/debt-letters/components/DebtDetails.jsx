@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import head from 'lodash/head';
@@ -24,7 +24,23 @@ import {
   renderLetterHistory,
 } from '../const/diary-codes';
 
-const DebtDetails = ({ selectedDebt }) => {
+const DebtDetails = ({ selectedDebt, debts }) => {
+  // const location = useLocation();
+
+  useEffect(() => {
+    if (!selectedDebt) {
+      /* 
+        if debt is not selected
+        fetch all debts
+        filter all debts by debtID
+        currently we do not have a debtID so we need to make one
+        by combining fileNumber and diaryCode
+        then set selected debt
+        setActiveDebt(); 
+       */
+    }
+  }, []);
+
   useEffect(() => {
     scrollToTop();
     setPageFocus('h1');
@@ -211,8 +227,9 @@ const DebtDetails = ({ selectedDebt }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  selectedDebt: state.debtLetters?.selectedDebt,
+const mapStateToProps = ({ debtLetters }) => ({
+  selectedDebt: debtLetters?.selectedDebt,
+  debts: debtLetters.debts,
 });
 
 DebtDetails.defaultProps = {
