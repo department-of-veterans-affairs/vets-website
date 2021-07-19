@@ -183,12 +183,9 @@ describe('VAOS <VAFacilityPageV2> single facility', () => {
     });
 
     await screen.findByText(
-      /The facility we found doesn’t accept online scheduling for this care/i,
+      /doesn’t have any available clinics that support online scheduling/i,
     );
 
-    expect(screen.baseElement).to.contain.text(
-      'You’ll need to call this facility to request your appointment',
-    );
     expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');
   });
 
@@ -240,7 +237,7 @@ describe('VAOS <VAFacilityPageV2> single facility', () => {
     await screen.findByText(/San Diego VA Medical Center/i);
 
     expect(screen.baseElement).to.contain.text(
-      'Before requesting an appointment at this location, you need to schedule or cancel your open appointment requests at this facility',
+      'You can’t request another appointment until you schedule or cancel your open requests',
     );
 
     expect(await screen.findByText(/Continue/)).to.have.attribute('disabled');

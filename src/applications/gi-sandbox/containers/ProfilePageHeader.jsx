@@ -22,9 +22,9 @@ import recordEvent from 'platform/monitoring/record-event';
 import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/RatingsStars';
 import Checkbox from '../components/Checkbox';
-import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 import IconWithInfo from '../components/IconWithInfo';
+import SchoolClassification from '../components/SchoolClassification';
 
 const ProfilePageHeader = ({
   compare,
@@ -42,10 +42,6 @@ const ProfilePageHeader = ({
     physicalState,
     physicalCountry,
     facilityCode,
-    menonly,
-    womenonly,
-    hbcu,
-    relaffil,
     facilityMap,
     ratingCount,
     ratingAverage,
@@ -76,36 +72,7 @@ const ProfilePageHeader = ({
     }
   };
 
-  const institutionTraits = [
-    menonly === 1 && 'Men-only',
-    womenonly === 1 && 'Women-only',
-    hbcu && 'Historically Black College or University',
-    relaffil && religiousAffiliations[relaffil],
-  ].filter(Boolean);
-
   const main = facilityMap.main.institution;
-
-  const schoolClassificationClasses = classNames('school-classification', {
-    'school-header': main.schoolProvider,
-    'employer-header': main.employerProvider,
-    'vettec-header': main.vetTecProvider,
-  });
-
-  const schoolClassification = (
-    <>
-      <div className={schoolClassificationClasses}>
-        <p className="vads-u-color--white vads-u-padding-x--2 vads-u-padding-y--1">
-          <strong>
-            {main.schoolProvider && 'School'}
-            {main.employerProvider && 'Employer'}
-            {main.vetTecProvider && 'VET TEC'}
-            {institutionTraits.length > 0 && ': '}
-          </strong>
-          {institutionTraits.join(', ')}
-        </p>
-      </div>
-    </>
-  );
 
   const stars = convertRatingToStars(ratingAverage);
   const displayStars =
@@ -235,7 +202,13 @@ const ProfilePageHeader = ({
 
   return (
     <div className="vads-u-background-color--gray-lightest profile-card">
-      {schoolClassification}
+      <SchoolClassification
+        institution={main}
+        menonly={institution.menonly}
+        womenonly={institution.womenonly}
+        hbcu={institution.hbcu}
+        relaffil={institution.relaffil}
+      />
       <div className="vads-u-padding-left--2">
         <h1 tabIndex={-1} className={titleClasses}>
           {name}

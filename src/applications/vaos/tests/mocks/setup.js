@@ -443,7 +443,7 @@ export async function setPreferredDate(store, preferredDate) {
     },
   );
 
-  await screen.findByText(/earliest date/);
+  await screen.findByText(/earliest day/);
   fireEvent.change(screen.getByLabelText('Month'), {
     target: { value: preferredDate.month() + 1 },
   });
