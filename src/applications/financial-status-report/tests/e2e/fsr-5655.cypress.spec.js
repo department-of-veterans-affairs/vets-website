@@ -34,16 +34,28 @@ const testConfig = createTestConfig(
       },
       'available-debts': ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/Request help with this debt/i, {
-            selector: 'label',
-          })
+          cy.get(`input[name="request-help-with-debt"]`)
             .first()
-            .click();
+            .check();
           cy.get('.usa-button-primary').click();
         });
       },
+      'resolution-options': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type="radio"][value="Waiver"]').click();
+          cy.get(`input[name="agree-to-waiver"]`).check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(`input[name="veteran-signature"]`).type('Greg A Anderson');
+          cy.get(`input[name="veteran-certify"]`).check();
+          cy.get(`input[name="privacy-policy"]`).check();
+        });
+      },
     },
-    skip: true, // test is passing but form is wip disabling test until changes are complete
   },
   manifest,
   formConfig,
