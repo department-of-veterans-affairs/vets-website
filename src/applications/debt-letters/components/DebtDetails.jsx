@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import head from 'lodash/head';
@@ -25,8 +25,6 @@ import {
 } from '../const/diary-codes';
 
 const DebtDetails = ({ selectedDebt, debts }) => {
-  // const location = useLocation();
-
   useEffect(() => {
     if (!selectedDebt) {
       /* 

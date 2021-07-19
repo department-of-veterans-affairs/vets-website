@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import head from 'lodash/head';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { deductionCodes } from '../const/deduction-codes';
 import { bindActionCreators } from 'redux';
@@ -12,7 +12,6 @@ import { renderAdditionalInfo } from '../const/diary-codes';
 
 const DebtLetterCard = ({ debt, setActiveDebt }) => {
   // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
-  console.log('debt: ', debt);
   const mostRecentHistory = head(debt.debtHistory);
 
   const debtCardHeading =
