@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -18,8 +17,6 @@ import {
 } from '../config/helpers';
 import { isServerError } from '../config/utilities';
 
-const alertClasses =
-  'vads-u-padding-y--2p5 vads-u-padding-right--4 vads-u-padding-left--2';
 class IntroductionPage extends React.Component {
   componentDidMount() {
     if (hasSession()) {
@@ -46,44 +43,30 @@ class IntroductionPage extends React.Component {
       content = (
         <>
           <h1>Application to add or remove dependents</h1>
-          <AlertBox
-            status="info"
-            headline="We’re still working on this feature"
-            level="2"
-            content={
-              <>
-                <p>
-                  We’re rolling out the Form 21-686c (Application to add and/or
-                  remove dependents) in stages. It’s not quite ready yet. Please
-                  check back again soon.{' '}
-                </p>
-                <a
-                  href="/view-change-dependents/"
-                  className="u-vads-display--block u-vads-margin-top--2"
-                >
-                  Return to Dependents Benefits page
-                </a>
-              </>
-            }
-          />
+          <va-alert status="info">
+            <h2 slot="headline" className="vads-u-font-size--h3">
+              We’re still working on this feature
+            </h2>
+            <p className="vads-u-font-size--base">
+              We’re rolling out the Form 21-686c (Application to add and/or
+              remove dependents) in stages. It’s not quite ready yet. Please
+              check back again soon.{' '}
+            </p>
+            <a
+              href="/view-change-dependents/"
+              className="u-vads-display--block u-vads-margin-top--2 vads-u-font-size--base"
+            >
+              Return to Dependents Benefits page
+            </a>
+          </va-alert>
         </>
       );
     } else if (user?.login?.currentlyLoggedIn && hasVaFileNumber?.errors) {
       const errCode = hasVaFileNumber.errors[0].code;
       ctaState = isServerError(errCode) ? (
-        <AlertBox
-          className={alertClasses}
-          content={ServerErrorAlert}
-          status="error"
-          isVisible
-        />
+        <va-alert status="error">{ServerErrorAlert}</va-alert>
       ) : (
-        <AlertBox
-          className={alertClasses}
-          content={VaFileNumberMissingAlert}
-          status="error"
-          isVisible
-        />
+        <va-alert status="error">{VaFileNumberMissingAlert}</va-alert>
       );
       content = (
         <div className="schemaform-intro">
@@ -99,12 +82,7 @@ class IntroductionPage extends React.Component {
       content = (
         <div className="schemaform-intro">
           <IntroductionPageHeader />
-          <AlertBox
-            className={alertClasses}
-            content={VaFileNumberMissingAlert}
-            status="error"
-            isVisible
-          />
+          <va-alert status="error">{VaFileNumberMissingAlert}</va-alert>
         </div>
       );
     } else if (user?.login?.currentlyLoggedIn && isLoading) {
