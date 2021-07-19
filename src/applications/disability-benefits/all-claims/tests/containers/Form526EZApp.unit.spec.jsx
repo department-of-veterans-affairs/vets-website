@@ -124,8 +124,8 @@ describe('Form 526EZ Entry Page', () => {
     });
     expect(tree.find('main')).to.have.lengthOf(0);
     expect(tree.find('h1').text()).to.contain('File for disability');
-    expect(tree.find('AlertBox')).to.have.lengthOf(1);
-    expect(tree.find('AlertBox').text()).to.contain('BIRLS ID');
+    expect(tree.find('va-alert')).to.have.lengthOf(1);
+    expect(tree.find('va-alert').text()).to.contain('BIRLS ID');
     const recordedEvent = getLastEvent();
     expect(recordedEvent.event).to.equal('visible-alert-box');
     expect(recordedEvent['error-key']).to.include('birls_id');
@@ -143,8 +143,8 @@ describe('Form 526EZ Entry Page', () => {
     });
     expect(tree.find('main')).to.have.lengthOf(0);
     expect(tree.find('h1').text()).to.contain('File for disability');
-    expect(tree.find('AlertBox')).to.have.lengthOf(1);
-    expect(tree.find('AlertBox').text()).to.contain('need some information');
+    expect(tree.find('va-alert')).to.have.lengthOf(1);
+    expect(tree.find('va-alert').text()).to.contain('need some information');
     const recordedEvent = getLastEvent();
     expect(recordedEvent.event).to.equal('visible-alert-box');
     expect(recordedEvent['error-key']).to.include('missing_526');
@@ -227,8 +227,8 @@ describe('Form 526EZ Entry Page', () => {
     });
     expect(tree.find('h1').text()).to.contain('File for disability');
     expect(tree.find('main')).to.have.lengthOf(0);
-    expect(tree.find('AlertBox')).to.have.lengthOf(1);
-    expect(tree.find('AlertBox p').text()).to.contain(
+    expect(tree.find('va-alert')).to.have.lengthOf(1);
+    expect(tree.find('va-alert p').text()).to.contain(
       'We need more information',
     );
     const recordedEvent = getLastEvent();
