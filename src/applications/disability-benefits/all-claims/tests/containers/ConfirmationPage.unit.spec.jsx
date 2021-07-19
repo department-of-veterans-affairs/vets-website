@@ -70,7 +70,7 @@ describe('Disability Benefits 526EZ <ConfirmationPage>', () => {
       />,
     );
     expect(tree.find('#note-email').text()).to.contain(
-      "We'll send you an email to confirm",
+      'We’ll send you an email to confirm',
     );
     tree.unmount();
   });
