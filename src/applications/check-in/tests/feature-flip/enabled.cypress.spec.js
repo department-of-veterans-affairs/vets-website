@@ -17,6 +17,6 @@ describe('Check In Experience -- ', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
-    cy.get('h1').contains('insurance');
+    cy.get('legend > h2').contains('information');
   });
 });

@@ -19,9 +19,9 @@ import { ariaLabels } from '../constants';
 import recordEvent from 'platform/monitoring/record-event';
 import RatingsStars from '../components/RatingsStars';
 import Checkbox from '../components/Checkbox';
-import { religiousAffiliations } from '../utils/data/religiousAffiliations';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 import IconWithInfo from '../components/IconWithInfo';
+import SchoolClassification from '../components/SchoolClassification';
 
 const ProfilePageHeader = ({
   compare,
@@ -38,10 +38,6 @@ const ProfilePageHeader = ({
     physicalState,
     physicalCountry,
     facilityCode,
-    menonly,
-    womenonly,
-    hbcu,
-    relaffil,
     facilityMap,
     ratingCount,
     ratingAverage,
@@ -52,6 +48,9 @@ const ProfilePageHeader = ({
     localeType,
     website,
     studentCount,
+    preferredProvider,
+    vetTecProvider,
+    programs,
   } = institution;
   const lowerType = type && type.toLowerCase();
   const formattedAddress = locationInfo(
@@ -69,36 +68,7 @@ const ProfilePageHeader = ({
     }
   };
 
-  const institutionTraits = [
-    menonly === 1 && 'Men-only',
-    womenonly === 1 && 'Women-only',
-    hbcu && 'Historically Black College or University',
-    relaffil && religiousAffiliations[relaffil],
-  ].filter(Boolean);
-
   const main = facilityMap.main.institution;
-
-  const schoolClassificationClasses = classNames('school-classification', {
-    'school-header': main.schoolProvider,
-    'employer-header': main.employerProvider,
-    'vettec-header': main.vetTecProvider,
-  });
-
-  const schoolClassification = (
-    <>
-      <div className={schoolClassificationClasses}>
-        <p className="vads-u-color--white vads-u-padding-x--2 vads-u-padding-y--1">
-          <strong>
-            {main.schoolProvider && 'School'}
-            {main.employerProvider && 'Employer'}
-            {main.vetTecProvider && 'VET TEC'}
-            {institutionTraits.length > 0 && ': '}
-          </strong>
-          {institutionTraits.join(', ')}
-        </p>
-      </div>
-    </>
-  );
 
   const stars = convertRatingToStars(ratingAverage);
   const displayStars = stars && ratingCount > 0;
@@ -180,14 +150,83 @@ const ProfilePageHeader = ({
     </div>
   );
 
+  const renderVetTecIconSection = () => (
+    <div
+      className={classNames(
+        'usa-grid vads-u-border-bottom--4px vads-u-border-color--white vads-u-padding-y--1p5 vads-u-padding-x--2',
+        {
+          'vads-u-border-top--4px': cautionFlags.length === 0,
+        },
+      )}
+    >
+      <div>
+        {programs.length > 0 && (
+          <IconWithInfo icon="phone" present={programs}>
+            {'   '}{' '}
+            <a
+              href={`tel:${programs[0].phoneAreaCode}${
+                programs[0].phoneNumber
+              }`}
+            >
+              {`${programs[0].phoneAreaCode}-${programs[0].phoneNumber}`}
+            </a>
+          </IconWithInfo>
+        )}
+        <IconWithInfo
+          icon="map"
+          present={localeType && lowerType && lowerType !== 'ojt'}
+        >
+          {'   '}
+          {_.capitalize(localeType)} locale
+        </IconWithInfo>
+        {programs.length > 0 && (
+          <IconWithInfo icon="globe" present={programs}>
+            <a
+              href={programs[0].providerWebsite}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {'  '}
+              {programs[0].providerWebsite}
+            </a>
+          </IconWithInfo>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <div className="vads-u-background-color--gray-lightest profile-card">
-      {schoolClassification}
+      <SchoolClassification
+        institution={main}
+        menonly={institution.menonly}
+        womenonly={institution.womenonly}
+        hbcu={institution.hbcu}
+        relaffil={institution.relaffil}
+      />
       <div className="vads-u-padding-left--2">
         <h1 tabIndex={-1} className={titleClasses}>
           {name}
         </h1>
         <p>{formattedAddress}</p>
+        <div className="vads-u-padding-bottom--1p5">
+          {preferredProvider && (
+            <span className="preferred-provider-text">
+              <i className="fa fa-star vads-u-color--gold" />
+              <strong> Preferred Provider</strong> (
+              <button
+                type="button"
+                id="preferredProviders-button"
+                className="va-button-link learn-more-button"
+                onClick={() => dispatchShowModal('preferredProviders')}
+                aria-label={ariaLabels.learnMore.numberOfStudents}
+              >
+                Learn more
+              </button>
+              )
+            </span>
+          )}
+        </div>
         {displayStars && (
           <div className={starClasses}>
             <span className="vads-u-font-size--sm">
@@ -234,7 +273,8 @@ const ProfilePageHeader = ({
         </div>
       )}
 
-      {!expanded && renderIconSection()}
+      {!expanded && !vetTecProvider && renderIconSection()}
+      {!expanded && vetTecProvider && renderVetTecIconSection()}
 
       <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0">
         <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">

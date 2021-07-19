@@ -33,11 +33,8 @@ describe('check in', () => {
         </Provider>,
       );
 
-      expect(
-        component.getByText(
-          'Need to update your insurance, contact, or other information?',
-        ),
-      ).to.exist;
+      expect(component.getByText('Do you need to update any information?')).to
+        .exist;
     });
     it('uses a fieldset', () => {
       const { container } = render(

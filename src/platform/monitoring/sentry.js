@@ -12,6 +12,7 @@ const trackErrors = environment.BASE_URL.indexOf('localhost') < 0;
 if (trackErrors) {
   const url = `${environment.BASE_URL}/js-report/0`.replace('//', '//faker@');
   Sentry.init({
+    autoSessionTracking: false,
     dsn: url,
     environment: environment.vspEnvironment(),
     ignoreErrors: [
