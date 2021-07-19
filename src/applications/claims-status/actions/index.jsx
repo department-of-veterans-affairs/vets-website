@@ -192,17 +192,11 @@ export function getSyncStatus(claimsAsyncResponse) {
   return get('meta.syncStatus', claimsAsyncResponse, null);
 }
 
-// TODO: waiting on confirmation from Brian Martin that:
-// 1. The analytics event keys should be snake_case
-// 2. The `api_latency_ms` key is a good name and it can accept numbers
-// 3. We can record api latency when the API fails or times out
-// https://github.com/department-of-veterans-affairs/va.gov-team/issues/26703
 const recordClaimsAPIEvent = ({ startTime, success, error }) => {
-  /* eslint-disable camelcase */
   const event = {
     event: 'api_call',
-    api_name: 'GET claims',
-    api_status: success ? 'successful' : 'failed',
+    'api-name': 'GET claims',
+    'api-status': success ? 'successful' : 'failed',
   };
   if (error) {
     event['error-key'] = error;
@@ -212,9 +206,8 @@ const recordClaimsAPIEvent = ({ startTime, success, error }) => {
       interval: 5000,
       value: Date.now() - startTime,
     });
-    event.api_latency_ms = apiLatencyMs;
+    event['api-latency-ms'] = apiLatencyMs;
   }
-  /* eslint-enable camelcase */
   recordEvent(event);
 };
 

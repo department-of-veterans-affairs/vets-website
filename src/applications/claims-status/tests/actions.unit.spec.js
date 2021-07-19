@@ -306,15 +306,13 @@ describe('Actions', () => {
 
         pollStatusSpy.firstCall.args[0].onError({ errors: [] });
 
-        /* eslint-disable camelcase */
         expect(global.window.dataLayer[0]).to.eql({
           event: 'api_call',
-          api_name: 'GET claims',
-          api_status: 'failed',
+          'api-name': 'GET claims',
+          'api-status': 'failed',
           'error-key': 'unknown',
-          api_latency_ms: 0,
+          'api-latency-ms': 0,
         });
-        /* eslint-enable camelcase */
       });
     });
     describe('onSuccess callback', () => {
@@ -334,14 +332,12 @@ describe('Actions', () => {
 
         pollStatusSpy.firstCall.args[0].onSuccess({ data: [] });
 
-        /* eslint-disable camelcase */
         expect(global.window.dataLayer[0]).to.eql({
           event: 'api_call',
-          api_name: 'GET claims',
-          api_status: 'successful',
-          api_latency_ms: 0,
+          'api-name': 'GET claims',
+          'api-status': 'successful',
+          'api-latency-ms': 0,
         });
-        /* eslint-enable camelcase */
       });
     });
     describe('shouldFail predicate', () => {
