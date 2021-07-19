@@ -128,6 +128,10 @@ export const mockContactInformation = {
   },
 };
 
+export const makeMockContactInfo = () => {
+  return { ...mockContactInformation };
+};
+
 function asyncReturn(returnValue, delay = 300) {
   return new Promise(resolve => {
     setTimeout(() => {
