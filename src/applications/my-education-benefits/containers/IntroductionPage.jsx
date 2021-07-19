@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -15,7 +15,13 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="My Education Benefits" />
+        <Breadcrumbs>
+          <a href="#">Home</a>
+          <a href="#">My VA</a>
+          <a href="#">My Education</a>
+          <a href="#">Apply for VA Education Benefits</a>
+        </Breadcrumbs>
+        <FormTitle title="Apply for VA Education Benefits" />
         <p>Equal to VA Form 22-1990 (My Education Benefits).</p>
         <HowToApplyPost911GiBill />
         <SaveInProgressIntro
