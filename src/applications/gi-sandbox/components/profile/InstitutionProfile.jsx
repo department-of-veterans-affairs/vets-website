@@ -16,6 +16,7 @@ import { MINIMUM_RATING_COUNT } from '../../constants';
 import GettingStartedWithBenefits from '../profile/GettingStartedWithBenefits';
 import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
+import BackToTop from '../BackToTop';
 
 export default function InstitutionProfile({
   profile,
@@ -149,6 +150,7 @@ export default function InstitutionProfile({
       <ProfileSection label="Contact information" id="contact-information">
         <ContactInformation institution={institution} showModal={showModal} />
       </ProfileSection>
+      <BackToTop />
     </div>
   );
 }

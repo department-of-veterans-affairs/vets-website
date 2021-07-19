@@ -268,3 +268,16 @@
 .capitalize-value {
   text-transform: capitalize;
 }
+
+#back-to-top-container {
+  position: fixed;
+  bottom: 0;
+  display: block;
+  z-index: 2000;
+  width: 100% !important;
+
+  button {
+    position: fixed;
+    float: right;
+  }
+}
