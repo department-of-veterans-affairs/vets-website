@@ -34,7 +34,7 @@ export const VaFileNumberMissingAlert = (
       number.
     </p>
     <p className="vads-u-font-size--base">
-      You'll need to update your personal information. Please call Veterans
+      You’ll need to update your personal information. Please call Veterans
       Benefits Assistance at{' '}
       <a href="tel: 800-827-1000" aria-label="800. 8 2 7. 1000.">
         800-827-1000

@@ -21,8 +21,8 @@ const Confirmation = ({ appointment }) => {
           You’re checked in
         </h1>
         <p>
-          Please wait in the {clinicName} waiting room. We'll come get you when
-          it's time for your appointment to start.
+          Please wait in the {clinicName} waiting room. We’ll come get you when
+          it’s time for your appointment to start.
         </p>
       </va-alert>
       <Footer header={'Not sure where to wait?'} />

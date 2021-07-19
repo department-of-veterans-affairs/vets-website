@@ -32,7 +32,7 @@ describe('functionality of Find Forms', () => {
         type: 'feature_toggles',
         features: [
           {
-            name: 'find_forms_mvp_enhancement',
+            name: 'find_forms_second_flag',
             value: true,
           },
         ],
