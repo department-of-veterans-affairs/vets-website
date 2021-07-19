@@ -1,3 +1,15 @@
+/**
+ * Moves #kampyleButtonContainer (the container for the Feedback button
+ * powered by Medallia) from the end of <body> to the end of <main> so
+ * that users can tab to it more quickly.
+ * Before, they had to tab through all the links in the footer to get
+ * to the button.
+ * When the button is clicked on, #nebula_div_btn is removed from the DOM.
+ * When the form is closed, it gets added back. This script adds a
+ * listener for when it's addedback and sets the focus on
+ * #kampyleButtonContainer again.
+ */
+
 window.addEventListener('DOMContentLoaded', () => {
   const main = document.querySelector('main');
   const feedbackButtonContainer = document.getElementById(
