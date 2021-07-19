@@ -355,12 +355,22 @@ jobs:
         run: mkdir -p test-results
 
       - name: Run Cypress tests
-        run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 60
+        uses: cypress-io/github-action@v2
+        with:
+          command: node script/github-actions/run-cypress-tests.js
+          timeout: 60
         env:
           CYPRESS_BASE_URL: http://localhost:${{ env.SERVER_PORT }}
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
+
+      # - name: Run Cypress tests
+      #   run: node script/github-actions/run-cypress-tests.js
+      #   timeout-minutes: 60
+      #   env:
+      #     CYPRESS_BASE_URL: http://localhost:${{ env.SERVER_PORT }}
+      #     CYPRESS_CI: true
+      #     STEP: ${{ matrix.ci_node_index }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
