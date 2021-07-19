@@ -1,7 +1,7 @@
 const createMockSuccessResponse = _data => {
   return {
     data: {
-      startTime: 'Jul 12, 2021, 11:00:00 AM',
+      startTime: '2021-07-19T13:56:31',
       facility: 'LOMA LINDA VA CLINIC',
       clinicPhoneNumber: '5551234567',
       clinicFriendlyName: 'TEST CLINIC',
