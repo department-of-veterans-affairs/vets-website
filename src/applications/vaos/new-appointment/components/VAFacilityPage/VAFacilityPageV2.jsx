@@ -107,6 +107,7 @@ export default function VAFacilityPageV2() {
   const isLoading =
     loadingFacilities || (singleValidVALocation && loadingEligibility);
   const sortFocusEl = showVariant ? 'select' : '.sort-facility-button';
+  const hasUserAddress = address && !!Object.keys(address).length;
 
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
@@ -344,7 +345,7 @@ export default function VAFacilityPageV2() {
               dispatch(routeToNextAppointmentPage(history, pageKey));
             }}
             formContext={{
-              userAddress: address,
+              hasUserAddress,
               sortOptions,
               updateFacilitySortMethod: value =>
                 dispatch(updateFacilitySortMethod(value, uiSchema)),
