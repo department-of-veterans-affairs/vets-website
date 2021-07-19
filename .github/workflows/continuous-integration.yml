@@ -56,7 +56,7 @@ jobs:
 
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }}
-        timeout-minutes: 30
+        timeout-minutes: 60
 
       - name: Generate build details
         run: |
@@ -355,23 +355,12 @@ jobs:
         run: mkdir -p test-results
 
       - name: Run Cypress tests
-        uses: cypress-io/github-action@v2
-        with:
-          command: node script/github-actions/run-cypress-tests.js
-          wait-on-timeout: 60
-          install: false
+        run: node script/github-actions/run-cypress-tests.js
+        timeout-minutes: 120
         env:
           CYPRESS_BASE_URL: http://localhost:${{ env.SERVER_PORT }}
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
-
-      # - name: Run Cypress tests
-      #   run: node script/github-actions/run-cypress-tests.js
-      #   timeout-minutes: 60
-      #   env:
-      #     CYPRESS_BASE_URL: http://localhost:${{ env.SERVER_PORT }}
-      #     CYPRESS_CI: true
-      #     STEP: ${{ matrix.ci_node_index }}
 
       - name: Archive test videos
         uses: actions/upload-artifact@v2
