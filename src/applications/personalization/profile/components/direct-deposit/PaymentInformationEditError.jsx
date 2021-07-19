@@ -96,15 +96,13 @@ function UpdateAddressError() {
 }
 
 function UpdatePhoneNumberError({ phoneNumberType = 'home' }) {
+  const editLink = `/profile/personal-information#edit-${phoneNumberType}-phone-number`;
   return (
     <p>
       We’re sorry. We couldn’t update your direct deposit bank information
       because your {phoneNumberType} phone number is missing or invalid. Please
-      go back to{' '}
-      <a href="/profile/personal-information#edit-home-phone-number">
-        your profile
-      </a>{' '}
-      and fill in this required information.
+      go back to <a href={editLink}>your profile</a> and fill in this required
+      information.
     </p>
   );
 }
