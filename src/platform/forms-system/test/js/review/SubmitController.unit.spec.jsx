@@ -109,12 +109,10 @@ const createStore = (options = {}) => {
 };
 
 describe('Schemaform review: SubmitController', () => {
-  beforeEach(() => {
+  before(() => {
     testkit.reset();
   });
-  afterEach(() => {
-    testkit.reset();
-  });
+
   it('should route to confirmation page after submit', () => {
     const form = createForm();
     const formConfig = createFormConfig();

@@ -6,7 +6,7 @@ const checkInReducer = (state = initialState, action) => {
   // console.log({ state, action });
   switch (action.type) {
     case RECEIVED_APPOINTMENT_DETAILS:
-      return { ...state, appointment: action.value };
+      return { ...state, ...action.value };
     case WAS_CHECKED_IN:
       return { ...state, data: action.data };
 
