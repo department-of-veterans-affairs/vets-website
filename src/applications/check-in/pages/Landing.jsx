@@ -15,14 +15,13 @@ const Landing = props => {
       if (token) {
         validateToken(token)
           .then(json => {
-            const { data, isValid } = json;
-            // console.log({ data });
-            if (isValid) {
+            const { data } = json;
+            if (data.error) {
+              goToNextPage(router, URLS.SEE_STAFF);
+            } else {
               // dispatch data into redux
               setAppointment({ appointment: { ...data }, context: { token } });
               goToNextPage(router, URLS.UPDATE_INSURANCE);
-            } else {
-              goToNextPage(router, URLS.SEE_STAFF);
             }
           })
           .catch(() => {

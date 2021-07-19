@@ -5,7 +5,6 @@ const validateToken = async token => {
   const url = '/check_in/v0/patient_check_ins/';
   const json = await apiRequest(`${environment.API_URL}${url}${token}`);
   return {
-    isValid: true,
     data: json.data,
   };
 };
