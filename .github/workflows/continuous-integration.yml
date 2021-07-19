@@ -358,7 +358,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           command: node script/github-actions/run-cypress-tests.js
-          timeout: 60
+          wait-on-timeout: 60
         env:
           CYPRESS_BASE_URL: http://localhost:${{ env.SERVER_PORT }}
           CYPRESS_CI: true
