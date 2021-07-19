@@ -87,8 +87,10 @@ function UpdateAddressError() {
     <p>
       We’re sorry. We couldn’t update your direct deposit bank information
       because your mailing address is missing or invalid. Please go back to{' '}
-      <a href="/profile/personal-information">your profile</a> and fill in this
-      required information.
+      <a href="/profile/personal-information#edit-mailing-address">
+        your profile
+      </a>{' '}
+      and fill in this required information.
     </p>
   );
 }
@@ -98,8 +100,11 @@ function UpdatePhoneNumberError({ phoneNumberType = 'home' }) {
     <p>
       We’re sorry. We couldn’t update your direct deposit bank information
       because your {phoneNumberType} phone number is missing or invalid. Please
-      go back to <a href="/profile/personal-information">your profile</a> and
-      fill in this required information.
+      go back to{' '}
+      <a href="/profile/personal-information#edit-home-phone-number">
+        your profile
+      </a>{' '}
+      and fill in this required information.
     </p>
   );
 }
