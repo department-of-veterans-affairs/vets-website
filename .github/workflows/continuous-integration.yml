@@ -359,6 +359,7 @@ jobs:
         with:
           command: node script/github-actions/run-cypress-tests.js
           wait-on-timeout: 60
+          install: false
         env:
           CYPRESS_BASE_URL: http://localhost:${{ env.SERVER_PORT }}
           CYPRESS_CI: true
