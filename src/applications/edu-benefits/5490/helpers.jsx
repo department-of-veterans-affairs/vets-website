@@ -1,7 +1,8 @@
 import _ from 'lodash/fp';
-
+import moment from 'moment';
 import React from 'react';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
+import environment from 'platform/utilities/environment';
 
 export function transform(formConfig, form) {
   // Clone the form in so we don’t modify the original...because of reasons FP
@@ -26,7 +27,24 @@ export function transform(formConfig, form) {
 
 export const relationshipLabels = {
   child: 'Child, stepchild, adopted child',
-  spouse: 'Spouse or surviving spouse',
+  spouse: (
+    <p>
+      Spouse or surviving spouse {/* Prod flag for 26436 */}
+      {!environment.isProduction() && (
+        <>
+          <br />
+          <a
+            aria-label="Learn more about VA requirements for marriage certification"
+            rel="noopener noreferrer"
+            target="_blank"
+            href="http://www.va.gov/opa/marriage/"
+          >
+            Learn more
+          </a>
+        </>
+      )}
+    </p>
+  ),
 };
 
 export const highSchoolStatusLabels = {
@@ -84,3 +102,30 @@ export const benefitsDisclaimerChild = (
     .
   </p>
 );
+
+export const ageWarning = (
+  <div
+    className="vads-u-display--flex vads-u-align-items--flex-start vads-u-background-color--primary-alt-lightest vads-u-margin-top--3 vads-u-padding-right--3"
+    aria-live="polite"
+  >
+    <div className="vads-u-flex--1 vads-u-margin-top--2p5 vads-u-margin-x--2 ">
+      <i className="fas fa-info-circle" />
+    </div>
+    <div className="vads-u-flex--5">
+      <p className="vads-u-font-size--base">
+        Applicants under the age of 18 cannot legally make a benefits election.
+        Based on your date of birth, please have a parent, guardian or custodian
+        review the information on this application and click the “Submit
+        application” button at the end of this form.
+      </p>
+    </div>
+  </div>
+);
+
+export const eighteenOrOver = birthday => {
+  return (
+    birthday === undefined ||
+    birthday.length !== 10 ||
+    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
+  );
+};
