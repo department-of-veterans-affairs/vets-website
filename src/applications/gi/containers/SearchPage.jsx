@@ -74,7 +74,6 @@ export function SearchPage({
           'onlineOnly',
           'principlesOfExcellence',
           'eightKeysToVeteranSuccess',
-          'stemIndicator',
           'priorityEnrollment',
           'independentStudy',
           'preferredProvider',

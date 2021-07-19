@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -13,7 +13,10 @@ const Alert = ({ content }) => (
   <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
     <div className="usa-content">
       <h1>{getPageTitle()}</h1>
-      <AlertBox isVisible content={content} status="error" />
+
+      <va-alert visible status="error">
+        {content}
+      </va-alert>
     </div>
   </div>
 );
@@ -25,7 +28,7 @@ export const MissingServices = ({ title }) => {
       <h2 className="vads-u-display--inline-block vads-u-font-size--h3 vads-u-margin-top--0">
         We need some information for your application
       </h2>
-      <p>
+      <p className="vads-u-font-size--base">
         We need more information from you before you can {titleLowerCase}.
         Please call Veterans Benefits Assistance at{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
@@ -54,7 +57,7 @@ export const MissingId = ({ title }) => {
       <h2 className="vads-u-display--inline-block vads-u-font-size--h3 vads-u-margin-top--0">
         We need more information for your application
       </h2>
-      <p>
+      <p className="vads-u-font-size--base">
         We don’t have all of your ID information for your account. We need this
         information before you can {titleLowerCase}. To update your account,
         please call Veterans Benefits Assistance at{' '}
@@ -62,7 +65,7 @@ export const MissingId = ({ title }) => {
         <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
-      <p>
+      <p className="vads-u-font-size--base">
         Tell the representative that you may be missing your{' '}
         <abbr title="Electronic Data Interchange Personal Identifier">
           EDIPI

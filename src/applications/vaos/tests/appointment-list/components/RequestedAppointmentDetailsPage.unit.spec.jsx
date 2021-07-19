@@ -629,7 +629,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'Routine Follow-up',
+      reason: 'New Issue',
       requestedPeriods: [
         {
           start: moment(testDate)
@@ -715,7 +715,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
         'ddd, MMMM D, YYYY',
       )} in the afternoon`,
     );
-    expect(screen.baseElement).to.contain.text('Follow-up/Routine');
+    expect(screen.baseElement).to.contain.text('New issue');
 
     expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('veteranemailtest@va.gov');
@@ -739,7 +739,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       id: '1234',
       practitioners: [{ id: { value: '123' } }],
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'Routine Follow-up',
+      reason: 'New Issue',
       requestedPeriods: [
         {
           start: moment(testDate)

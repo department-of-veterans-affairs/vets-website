@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { fetchDebtLetters } from '../actions';
@@ -19,7 +18,7 @@ const DebtLettersWrapper = ({
 }) => {
   useEffect(
     () => {
-      if (showDebtLetters !== false) {
+      if (showDebtLetters) {
         getDebtLetters();
       }
     },

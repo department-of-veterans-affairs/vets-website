@@ -24,7 +24,7 @@ import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
 
 const pageKey = 'selectDateTime';
-const pageTitle = 'Tell us the date and time you’d like your appointment';
+const pageTitle = 'Choose a date and time';
 
 function ErrorMessage({ facilityId, history }) {
   return (
@@ -160,7 +160,7 @@ export default function DateTimeSelectPage() {
       {!fetchFailed && (
         <>
           <p>
-            Please select a desired date and time for your appointment.
+            Please select an available date and time from the calendar below.
             {timezone &&
               ` Appointment times are displayed in ${timezoneDescription}.`}
           </p>

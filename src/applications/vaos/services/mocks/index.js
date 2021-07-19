@@ -218,8 +218,11 @@ const responses = {
     return res.json({ data: [] });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
+    const appointments = {
+      data: requestsV2.data.concat(require('./v2/confirmed.json').data),
+    };
     return res.json({
-      data: requestsV2.data.find(appt => appt.id === req.params.id),
+      data: appointments.data.find(appt => appt.id === req.params.id),
     });
   },
   'GET /vaos/v2/scheduling/configurations': (req, res) => {
@@ -321,7 +324,7 @@ const responses = {
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
-        { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: false },
+        { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },

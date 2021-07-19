@@ -245,9 +245,15 @@ export async function fetchRequestById({ id, useV2 }) {
  * @param {'cc'|'va'} type Type of appointment that is being fetched
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment(id, type) {
+export async function fetchBookedAppointment({ id, type, useV2 = false }) {
   try {
     let appointment;
+
+    if (useV2) {
+      appointment = await getAppointment(id);
+      return transformVAOSAppointment(appointment);
+    }
+
     if (type === 'va') {
       appointment = await getConfirmedAppointment(id, type);
     } else if (type === 'cc') {
@@ -270,11 +276,9 @@ export async function fetchBookedAppointment(id, type) {
         appointment = await getConfirmedAppointment(id, 'va');
       }
     }
-
     if (!appointment) {
       throw new Error(`Couldn't find ${type} appointment`);
     }
-
     return transformConfirmedAppointment(appointment);
   } catch (e) {
     if (e.errors) {

@@ -10,13 +10,14 @@ export function CompareDrawer({
   compare,
   dispatchRemoveCompareInstitution,
   displayed,
+  alwaysDisplay = false,
 }) {
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
   const { loaded, institutions } = compare.search;
 
-  if (!displayed) {
+  if (!displayed && !alwaysDisplay) {
     return null;
   }
 
@@ -117,7 +118,8 @@ const mapStateToProps = state => ({
   compare: state.compare,
   displayed:
     state.search.location.results.length > 0 ||
-    state.search.name.results.length > 0,
+    state.search.name.results.length > 0 ||
+    state.compare.search.loaded.length > 0,
 });
 
 const mapDispatchToProps = {

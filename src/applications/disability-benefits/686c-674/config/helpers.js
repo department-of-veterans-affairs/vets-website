@@ -23,14 +23,17 @@ export const VerifiedAlert = (
 
 export const VaFileNumberMissingAlert = (
   <>
-    <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+    <h2
+      slot="headline"
+      className="vads-u-font-size--h3 vads-u-margin-y--0 vads-u-font-size--lg"
+    >
       Your profile is missing some required information
     </h2>
-    <p>
+    <p className="vads-u-font-size--base">
       The personal information we have on file for your is missing your VA file
       number.
     </p>
-    <p>
+    <p className="vads-u-font-size--base">
       You'll need to update your personal information. Please call Veterans
       Benefits Assistance at{' '}
       <a href="tel: 800-827-1000" aria-label="800. 8 2 7. 1000.">
@@ -43,14 +46,17 @@ export const VaFileNumberMissingAlert = (
 
 export const ServerErrorAlert = (
   <>
-    <h2 className="vads-u-margin-y--0 vads-u-font-size--lg">
+    <h2
+      slot="headline"
+      className="vads-u-font-size--h3 vads-u-margin-y--0 vads-u-font-size--lg"
+    >
       We’re sorry. Something went wrong on our end
     </h2>
-    <p>
+    <p className="vads-u-font-size--base">
       Please refresh this page or check back later. You can also sign out of
       VA.gov and try signing back into this page.
     </p>
-    <p>
+    <p className="vads-u-font-size--base">
       If you get this error again, please call the VA.gov help desk at{' '}
       <Telephone contact={CONTACTS.VA_311} /> (TTY:{' '}
       <Telephone contact={CONTACTS['711']} pattern={PATTERNS['3_DIGIT']} />

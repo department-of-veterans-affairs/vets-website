@@ -2,9 +2,12 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 import { getTokenFromLocation, URLS, goToNextPage } from '../utils/navigation';
 import { validateToken } from '../api';
 import { receivedAppointmentDetails } from '../actions';
+import { createAnalyticsSlug } from '../utils/analytics';
 
 const Landing = props => {
   const { router, setAppointment, location } = props;
@@ -12,16 +15,39 @@ const Landing = props => {
   useEffect(
     () => {
       const token = getTokenFromLocation(location);
+      if (!token) {
+        recordEvent({
+          event: createAnalyticsSlug('landing-page-launched-no-token'),
+        });
+      }
+
       if (token) {
+        recordEvent({
+          event: createAnalyticsSlug('landing-page-launched'),
+          UUID: token,
+        });
+        recordEvent({
+          event: createAnalyticsSlug('uuid-validate-api-call-launched'),
+          UUID: token,
+        });
         validateToken(token).then(json => {
-          const { data, isValid } = json;
+          const { data } = json;
           // console.log({ data });
-          if (isValid) {
-            // dispatch data into redux
-            setAppointment(data);
-            goToNextPage(router, URLS.UPDATE_INSURANCE);
-          } else {
+          if (data.error) {
+            recordEvent({
+              event: createAnalyticsSlug('uuid-validate-api-call-failed'),
+              UUID: token,
+              response: data,
+            });
             goToNextPage(router, URLS.SEE_STAFF);
+          } else {
+            recordEvent({
+              event: createAnalyticsSlug('uuid-validate-api-call-successful'),
+              UUID: token,
+            });
+            // dispatch data into redux
+            setAppointment(data, token);
+            goToNextPage(router, URLS.UPDATE_INSURANCE);
           }
         });
       }
@@ -37,7 +63,8 @@ const Landing = props => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setAppointment: value => dispatch(receivedAppointmentDetails(value)),
+    setAppointment: (data, token) =>
+      dispatch(receivedAppointmentDetails(data, token)),
   };
 };
 
