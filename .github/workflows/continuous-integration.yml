@@ -336,8 +336,8 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
-        # env:
-        #   YARN_CACHE_FOLDER: ~/.cache/yarn
+        env:
+          YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Set port for server
         run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
