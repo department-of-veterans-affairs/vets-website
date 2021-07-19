@@ -13,17 +13,21 @@ const Landing = props => {
     () => {
       const token = getTokenFromLocation(location);
       if (token) {
-        validateToken(token).then(json => {
-          const { data, isValid } = json;
-          // console.log({ data });
-          if (isValid) {
-            // dispatch data into redux
-            setAppointment(data);
-            goToNextPage(router, URLS.UPDATE_INSURANCE);
-          } else {
-            goToNextPage(router, URLS.SEE_STAFF);
-          }
-        });
+        validateToken(token)
+          .then(json => {
+            const { data, isValid } = json;
+            // console.log({ data });
+            if (isValid) {
+              // dispatch data into redux
+              setAppointment(data);
+              goToNextPage(router, URLS.UPDATE_INSURANCE);
+            } else {
+              goToNextPage(router, URLS.SEE_STAFF);
+            }
+          })
+          .catch(() => {
+            goToNextPage(router, URLS.ERROR);
+          });
       }
     },
     [router, setAppointment, location],
