@@ -343,6 +343,13 @@ describe('VAOS vaccine flow <SelectDate1Page>', () => {
 
     if (!button) {
       userEvent.click(screen.getByText(/^Next/));
+
+      // 4a. Wait for progressbar to disappear
+      overlay = screen.queryByText(/Finding appointment availability.../i);
+      if (overlay) {
+        await waitForElementToBeRemoved(overlay);
+      }
+
       button = await screen.findByLabelText(
         new RegExp(slot309Date.format('dddd, MMMM Do'), 'i'),
       );
