@@ -51,16 +51,16 @@ export function NameSearchResults({
     <>
       {name !== '' &&
         name !== null && (
-          <div className="usa-grid vads-u-padding--1">
+          <div className="row vads-u-padding--0 vads-u-margin--0">
             <p>
               Showing <strong>{count} search results</strong> for '
               <strong>{name}</strong>'
             </p>
-            <div className="usa-width-one-third">
+            <div className="column small-4 vads-u-padding--0">
               <TuitionAndHousingEstimates />
               <FilterYourResults />
             </div>
-            <div className="usa-width-two-thirds ">
+            <div className="column small-8 vads-u-padding--0">
               {inProgress && (
                 <LoadingIndicator message="Loading search results..." />
               )}

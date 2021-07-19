@@ -7411,7 +7411,7 @@ eslint-plugin-unicorn@^20.0.0:
     semver "^7.3.2"
 
 eslint-plugin-va@./script/eslint-plugin-va:
-  version "1.0.2"
+  version "1.0.3"
 
 eslint-scope@^4.0.3:
   version "4.0.3"

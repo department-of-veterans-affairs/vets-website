@@ -109,9 +109,11 @@ export const benefitsLabels = {
 export const survivorBenefitsLabels = {
   chapter35: (
     <p>
-      Survivors’ and Dependents’ Educational Assistance
-      <br />
-      (DEA, Chapter 35)
+      <span aria-describedby="conditional-warning-text">
+        Survivors’ and Dependents’ Educational Assistance
+        <br />
+        (DEA, Chapter 35)
+      </span>
       <br />
       <a
         aria-label="Learn more about Survivors’ and Dependents’ Educational Assistance benefits"
@@ -124,7 +126,9 @@ export const survivorBenefitsLabels = {
   ),
   chapter33: (
     <p>
-      The Fry Scholarship (Chapter 33)
+      <span aria-describedby="conditional-warning-text">
+        The Fry Scholarship (Chapter 33)
+      </span>
       <br />
       <a
         aria-label="Learn more about Fry Scholarship benefits"
