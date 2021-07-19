@@ -143,7 +143,7 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Upload coverage report
-        if: ${{ github.ref == 'refs/heads/184--upload-unit-test-report-s3' }}
+        if: ${{ github.ref == 'refs/heads/master' }}
         run: aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload/coverage-report/test-coverage-report.json --acl public-read --region us-gov-west-1
 
       - name: Get code coverage
