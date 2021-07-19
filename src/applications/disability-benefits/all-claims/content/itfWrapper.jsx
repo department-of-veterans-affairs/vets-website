@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -18,13 +18,10 @@ export const itfMessage = (headline, content, status) => (
   // Inline style to match .full-page-alert bottom margin because usa-grid > :last-child has a
   //  bottom margin of 0 and overrides it
   <div className="full-page-alert itf-wrapper">
-    <AlertBox
-      isVisible
-      headline={headline}
-      content={content}
-      status={status}
-      level="2"
-    />
+    <va-alert visible status={status}>
+      <h2 slot="headline">{headline}</h2>
+      {content}
+    </va-alert>
   </div>
 );
 
@@ -39,7 +36,7 @@ const expander = (
     triggerText="What is an Intent to File?"
     onClick={recordITFHelpEvent}
   >
-    <p>
+    <p className="vads-u-font-size--base">
       An Intent to File request lets VA know that you’re planning to file a
       claim. An Intent to File reserves a potential effective date for when you
       could start getting benefits while you prepare your disability claim and
@@ -49,7 +46,7 @@ const expander = (
 );
 
 export const claimsIntakeAddress = (
-  <p className="va-address-block">
+  <p className="va-address-block vads-u-font-size--base">
     Department of Veterans Affairs
     <br />
     Claims Intake Center
@@ -63,7 +60,7 @@ export const claimsIntakeAddress = (
 export const itfError = (
   <div>
     <div>
-      <p>
+      <p className="vads-u-font-size--base">
         We’re sorry. Your Intent to File request didn’t go through because
         something went wrong on our end. For help creating an Intent to File a
         Claim for Compensation, please call Veterans Benefits Assistance at{' '}
@@ -83,13 +80,13 @@ export const itfSuccess = (
   prevExpirationDate,
 ) => (
   <div>
-    <p>
+    <p className="vads-u-font-size--base">
       Thank you for submitting your Intent to File request for disability
       compensation. Your Intent to File will expire on{' '}
       {displayDate(expirationDate)}.
     </p>
     {hasPreviousItf && (
-      <p>
+      <p className="vads-u-font-size--base">
         <strong>Please note:</strong> We found a previous Intent to File request
         in our records that expired on {displayDate(prevExpirationDate)}. This
         ITF might have been from an application you started, but didn’t finish
@@ -103,7 +100,7 @@ export const itfSuccess = (
 
 export const itfActive = expirationDate => (
   <div>
-    <p>
+    <p className="vads-u-font-size--base">
       Our records show that you already have an Intent to File for disability
       compensation. Your Intent to File will expire on{' '}
       {displayDate(expirationDate)}. You’ll need to submit your claim by this
