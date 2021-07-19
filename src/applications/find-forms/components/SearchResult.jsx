@@ -190,7 +190,7 @@ const SearchResult = ({
         </dd>
       ) : null}
       {showPDFInfoVersionOne ? (
-        <dd className="find-forms-alert-message vads-u-margin-bottom--2 vads-u-background-color--primary-alt-lightest">
+        <dd className="find-forms-alert-message vads-u-margin-bottom--2 vads-u-background-color--primary-alt-lightest vads-u-display--flex vads-u-padding-y--4 vads-u-padding-right--7 vads-u-padding-left--3 vads-u-width--full">
           <i aria-hidden="true" role="img" />
           <span className="sr-only">Alert: </span>
           <div>

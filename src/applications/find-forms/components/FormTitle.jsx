@@ -59,6 +59,7 @@ FormTitle.propTypes = {
   currentPosition: PropTypes.number,
   id: PropTypes.string.isRequired,
   formUrl: PropTypes.string,
+  lang: PropTypes.string,
   recordGAEvent: PropTypes.func,
   title: PropTypes.string.isRequired,
   showPDFInfoVersionTwo: PropTypes.bool,

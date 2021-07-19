@@ -245,6 +245,7 @@ SearchResults.propTypes = {
   sortByPropertyName: PropTypes.string,
   startIndex: PropTypes.number.isRequired,
   showPDFInfoVersionOne: PropTypes.bool,
+  showPDFInfoVersionTwo: PropTypes.bool,
   // From mapDispatchToProps.
   updateSortByPropertyName: PropTypes.func,
   updatePagination: PropTypes.func.isRequired,
