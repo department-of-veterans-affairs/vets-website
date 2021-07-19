@@ -353,6 +353,7 @@ export default function formReducer(state = initialState, action) {
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
         showEligibilityModal: false,
+        requestLocationStatus: FETCH_STATUS.notStarted,
       };
     }
     case FORM_REQUEST_CURRENT_LOCATION: {
