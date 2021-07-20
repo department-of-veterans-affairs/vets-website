@@ -19,14 +19,9 @@ export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
 
   const handleScroll = () => {
     const profilePageHeader = document.getElementById(profilePageHeaderId);
-    const footer = document.getElementById('footerNav');
-    if (!profilePageHeader || !footer) return;
+    if (!profilePageHeader) return;
 
-    const isHeaderHidden = profilePageHeader.getBoundingClientRect().bottom < 0;
-    const isFooterHidden =
-      footer.getBoundingClientRect().y >= window.innerHeight;
-
-    setFloating(isHeaderHidden && isFooterHidden);
+    setFloating(profilePageHeader.getBoundingClientRect().bottom < 0);
   };
 
   const resize = () => {
