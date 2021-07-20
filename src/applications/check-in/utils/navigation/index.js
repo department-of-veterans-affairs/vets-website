@@ -11,8 +11,9 @@ const goToNextPage = (router, target, params) => {
       const queryParams = keys
         .map(key => `${key}=${params.url[key]}`)
         .join('&');
+
       // append to string
-      const search = `?${queryParams}`;
+      const search = queryParams ? `?${queryParams}` : '';
       // add to query
       query.search = search;
     }
