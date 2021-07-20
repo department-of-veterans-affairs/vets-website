@@ -57,6 +57,7 @@
     "test:best-practice": "./script/run-nightwatch.sh --env bestpractice",
     "test:contract": "BUILDTYPE=localhost npm run test:unit -- --reporter mocha-junit-reporter 'src/**/tests/**/*.pact.spec.js'",
     "test:coverage": "npm run test:unit -- --coverage --log-level debug",
+    "test:coverage-only": "NODE_ENV=test nyc report --all --reporter=json-summary",
     "test:coverage-apps": "npm run test:coverage && node script/app-coverage-report.js",
     "test:sauce": "./script/run-nightwatch.sh --sauce",
     "test:sauce:desktop": "./script/run-nightwatch.sh --sauce -e chrome,firefox,ie,edge",
