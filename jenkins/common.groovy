@@ -118,6 +118,7 @@ def archive(dockerContainer, String ref, String envName) {
 
       sh "cd /application && yarn test:coverage-only"
       sh "node script/app-coverage-report.js"
+      sh "cp coverage/test-coverage-report.json build/${envName}/test-coverage-report.json"
 
       if(envName == 'vagovdev' || envName == 'vagovstaging') {
         sh "tar -C /application/build/${envName} -cf /application/build/apps.${envName}.tar.bz2 ."
