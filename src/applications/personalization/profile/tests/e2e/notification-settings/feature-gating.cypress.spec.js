@@ -1,22 +1,12 @@
-import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
-import fullName from '@@profile/tests/fixtures/full-name-success.json';
-import error500 from '@@profile/tests/fixtures/500.json';
-
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../../constants';
 import { mockUser } from '../../fixtures/users/user';
-
+import { mockNotificationSettingsAPIs } from '../helpers';
 import mockFeatureToggles from './feature-toggles.json';
 
 describe('Notification Settings', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.intercept('/v0/profile/service_history', serviceHistory);
-    cy.intercept('/v0/profile/full_name', fullName);
-    // Explicitly mocking these APIs as failures, causes the tests to run faster
-    cy.intercept('/v0/profile/personal_information', error500);
-    cy.intercept('/v0/profile/ch33_bank_accounts', error500);
-    cy.intercept('/v0/ppiu/payment_information', error500);
-    cy.intercept('/v0/mhv_account', error500);
+    mockNotificationSettingsAPIs();
   });
   context('when the feature flag is turned on', () => {
     it('is available in the side nav and the section loads', () => {
