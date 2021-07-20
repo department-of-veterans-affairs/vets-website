@@ -11,7 +11,7 @@ import { setCurrentToken } from '../utils/session';
 import { createAnalyticsSlug } from '../utils/analytics';
 
 const Landing = props => {
-  const { router, setAppointment, location, saveToken } = props;
+  const { router, setAppointment, location } = props;
 
   useEffect(
     () => {
@@ -41,15 +41,15 @@ const Landing = props => {
               event: createAnalyticsSlug('uuid-validate-api-call-successful'),
               UUID: token,
             });
-            // dispatch data into redux
+            // dispatch data into redux and local storage
             setAppointment(data, token);
-            saveToken(window, token);
+            setCurrentToken(window, token);
             goToNextPage(router, URLS.UPDATE_INSURANCE);
           }
         });
       }
     },
-    [router, setAppointment, saveToken, location],
+    [router, setAppointment, location],
   );
   return (
     <>
@@ -62,9 +62,6 @@ const mapDispatchToProps = dispatch => {
   return {
     setAppointment: (data, token) =>
       dispatch(receivedAppointmentDetails(data, token)),
-    saveToken: (window, token) => {
-      setCurrentToken(window, token);
-    },
   };
 };
 

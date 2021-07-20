@@ -5,13 +5,13 @@ import { goToNextPage, URLS } from '../utils/navigation';
 import { getCurrentToken } from '../utils/session';
 
 const withRequiredData = WrappedComponent => props => {
-  const { checkInData, router, getToken } = props;
+  const { checkInData, router } = props;
   const { appointment } = checkInData;
 
   useEffect(
     () => {
       if (!appointment) {
-        const session = getToken(window);
+        const session = getCurrentToken(window);
         if (session) {
           const { token } = session;
           goToNextPage(router, URLS.LANDING, { url: { id: token } });
@@ -20,7 +20,7 @@ const withRequiredData = WrappedComponent => props => {
         }
       }
     },
-    [appointment, getToken, router],
+    [appointment, router],
   );
   if (!appointment) {
     return <></>;
@@ -36,19 +36,8 @@ const mapStateToProps = state => ({
   checkInData: state.checkInData,
 });
 
-const mapDispatchToProps = () => {
-  return {
-    getToken: window => {
-      return getCurrentToken(window);
-    },
-  };
-};
-
 const composedWrapper = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
+  connect(mapStateToProps),
   withRequiredData,
 );
 export default composedWrapper;
