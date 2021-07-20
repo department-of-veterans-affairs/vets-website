@@ -44,7 +44,7 @@ ADD http://crl.pki.va.gov/PKI/AIA/VA/VA-Internal-S2-RCA1-v1.cer /usr/local/share
 RUN openssl x509 -inform DER -in /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.cer -out /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.crt
 RUN update-ca-certificates
 
-RUN sysctl -w fs.inotify.max_user_watches=524288
+RUN sudo sysctl -w fs.inotify.max_user_watches=524288
 
 RUN mkdir -p /application
 WORKDIR /application
