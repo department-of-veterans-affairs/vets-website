@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Telephone, {
   PATTERNS,
 } from '@department-of-veterans-affairs/component-library/Telephone';

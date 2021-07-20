@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import head from 'lodash/head';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import { deductionCodes } from '../const/deduction-codes';
 import { bindActionCreators } from 'redux';
