@@ -284,7 +284,7 @@ jobs:
 
   cypress-tests:
     name: Cypress E2E Tests
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: build
 
     strategy:
