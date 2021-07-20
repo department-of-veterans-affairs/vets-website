@@ -16,3 +16,5 @@ services:
       - 9515
     command: ./script/run-docker-nightwatch.sh
     ipc: host
+    sysctls:
+      - fs.inotify.max_user_watches=524288
