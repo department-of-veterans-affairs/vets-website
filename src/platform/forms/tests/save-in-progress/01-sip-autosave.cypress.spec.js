@@ -1,6 +1,6 @@
 // import moment from 'moment';
 import Timeouts from 'platform/testing/e2e/timeouts';
-
+import moment from 'moment';
 import mockUser from '../fixtures/mocks/mockUser';
 import mock1010Get from '../fixtures/mocks/mock1010Get';
 import mock1010Put from '../fixtures/mocks/mock1010Put';
@@ -67,5 +67,60 @@ describe('SIP Autosave Test', () => {
     });
 
     cy.fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA');
+    cy.get('.usa-alert-error', { timeout: Timeouts.normal }).should(
+      'be.visible',
+    );
+
+    cy.url().should('contain', 'birth-information');
+    cy.get('.usa-alert-error').should(
+      'contain',
+      'We’re sorry, but we’re having some issues and are working to fix them',
+    );
+
+    // Recover and save after errors
+    /* eslint-disable camelcase */
+
+    cy.intercept('PUT', '/v0/in_progress_forms/1010ez', {
+      data: {
+        attributes: {
+          metadata: {
+            version: 0,
+            returnUrl: '/veteran-information/birth-information',
+            savedAt: 1498588443698,
+            expires_at: moment()
+              .add(1, 'day')
+              .unix(),
+            last_updated: 1498588443,
+          },
+        },
+      },
+    });
+    /* eslint-enable camelcase */
+
+    cy.fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Florence, MA');
+    cy.get('.saved-success-container', { timout: Timeouts.normal }).should(
+      'be.visible',
+    );
+
+    cy.url().should('contain', '/veteran-information/birth-information');
+
+    // fail to save a form because signed out
+    // Can't recover from this because it logs you out and we'd have to log in again
+
+    cy.get('.main .usa-button-primary').click();
+    cy.get('.schemaform-sip-save-link', { timeout: Timeouts.normal });
+    cy.intercept('PUT', '/v0/in_progress_forms/1010ez', {
+      body: {},
+      statusCode: 401,
+    });
+    cy.fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA');
+    cy.get('.usa-alert-error', { timeout: Timeouts.normal });
+
+    cy.url().should('contain', 'birth-information');
+
+    cy.get('.usa-alert-error').should(
+      'contain',
+      'Sorry, you’re no longer signed in',
+    );
   });
 });
