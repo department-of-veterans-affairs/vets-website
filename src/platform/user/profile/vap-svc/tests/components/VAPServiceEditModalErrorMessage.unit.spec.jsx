@@ -18,17 +18,36 @@ describe('<VAPServiceEditModalErrorMessage />', () => {
       ],
     };
     const wrapper = shallow(
-      <VAPServiceEditModalErrorMessage
-        clearErrors={() => {}}
-        error={invalidEmailError}
-        title=""
-      />,
+      <VAPServiceEditModalErrorMessage error={invalidEmailError} title="" />,
     );
     const alert = wrapper.find('AlertBox');
     const alertContentText = alert?.prop('content')?.props?.children?.props
       ?.children;
     expect(alertContentText).to.include(
       'It looks like the email you entered isn’t valid. Please enter your email address again.',
+    );
+    wrapper.unmount();
+  });
+  it('shows the correct error message when there is an invalid phone area code', () => {
+    const invalidPhoneError = {
+      errors: [
+        {
+          title: 'Area Code Pattern',
+          detail: 'Phone area code pattern must match "[0-9]+"',
+          code: 'VET360_PHON126',
+          source: 'Vet360::ContactInformation::Service',
+          status: '400',
+        },
+      ],
+    };
+    const wrapper = shallow(
+      <VAPServiceEditModalErrorMessage error={invalidPhoneError} title="" />,
+    );
+    const alert = wrapper.find('AlertBox');
+    const alertContentText = alert?.prop('content')?.props?.children?.props
+      ?.children;
+    expect(alertContentText).to.include(
+      'currently only support U.S. area codes. Please provide a U.S. based',
     );
     wrapper.unmount();
   });
