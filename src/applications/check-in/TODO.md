@@ -1,9 +1,10 @@
 # TODO.md
 
-- Unit Test
-  - Landing Page
-  - withRequired Data
 - e2e tests
-  - page reload
-  - data in storage
-  - no data in storage
+  - withRequiredData
+    - if there is no appointment data in redux, then local storage is accessed
+    - appointment data in redux is prioritized over local storage
+    - nothing is found in redux or local storage should be an error page
+  - FLOW: page reloaded
+    - data in storage
+    - no data in storage
