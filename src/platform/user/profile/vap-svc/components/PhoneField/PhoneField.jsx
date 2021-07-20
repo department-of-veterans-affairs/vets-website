@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import pickBy from 'lodash/pickBy';
 
-import { API_ROUTES, FIELD_NAMES, PHONE_TYPE, USA } from '@@vap-svc/constants';
+import {
+  API_ROUTES,
+  FIELD_NAMES,
+  FIELD_TITLES,
+  PHONE_TYPE,
+  USA,
+} from '@@vap-svc/constants';
 
 import PhoneNumberWidget from '~/platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
@@ -34,10 +40,11 @@ const formSchema = {
 };
 
 const uiSchema = fieldName => {
+  const title = FIELD_TITLES[fieldName].replace('number', '');
   return {
     inputPhoneNumber: {
       'ui:widget': PhoneNumberWidget,
-      'ui:title': `${fieldName} (U.S. numbers only)`,
+      'ui:title': `${title} (U.S. numbers only)`,
       'ui:errorMessages': {
         pattern: 'Please enter a valid 10-digit U.S. phone number.',
       },
