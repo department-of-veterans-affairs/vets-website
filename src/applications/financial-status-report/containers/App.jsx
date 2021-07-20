@@ -51,6 +51,15 @@ const App = ({
 
   useEffect(
     () => {
+      if (showFSR === false) {
+        setWizardStatus(WIZARD_STATUS_NOT_STARTED);
+      }
+    },
+    [showFSR],
+  );
+
+  useEffect(
+    () => {
       getFormStatus();
     },
     [getFormStatus],
