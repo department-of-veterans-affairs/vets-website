@@ -19,7 +19,9 @@ export const MaintenanceAlert = () => {
         benefit debt, please fill out the PDF version of our
         <a
           className="vads-u-margin-left--0p5"
-          href="https://www.va.gov/debtman/Financial_Status_Report.asp"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://www.va.gov/vaforms/va/pdf/VA5655.pdf"
         >
           Financial Status Report (VA Form 5655)
         </a>
