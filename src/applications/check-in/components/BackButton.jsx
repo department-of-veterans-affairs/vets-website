@@ -1,8 +1,18 @@
 import React from 'react';
 
+import recordEvent from 'platform/monitoring/record-event';
+
+import { createAnalyticsSlug } from '../utils/analytics';
+
 export default function BackButton({ router }) {
   const handleClick = () => {
     const { goBack } = router;
+    const path = router.location.pathname;
+
+    recordEvent({
+      event: createAnalyticsSlug('back-button-clicked'),
+      fromPage: path,
+    });
     goBack();
   };
   return (

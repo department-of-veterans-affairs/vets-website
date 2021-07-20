@@ -8,7 +8,7 @@ describe('check-in', () => {
     it('Renders the footer with default props', () => {
       const fakeStore = {
         getState: () => ({
-          checkInData: { appointment: { clinicPhone: '555-867-5309' } },
+          checkInData: { appointment: { clinicPhoneNumber: '555-867-5309' } },
         }),
         subscribe: () => {},
         dispatch: () => ({}),
@@ -23,7 +23,7 @@ describe('check-in', () => {
     it('Renders the footer with custom header props', () => {
       const fakeStore = {
         getState: () => ({
-          checkInData: { appointment: { clinicPhone: '555-867-5309' } },
+          checkInData: { appointment: { clinicPhoneNumber: '555-867-5309' } },
         }),
         subscribe: () => {},
         dispatch: () => ({}),
@@ -38,7 +38,7 @@ describe('check-in', () => {
     it('Renders the footer with custom message props', () => {
       const fakeStore = {
         getState: () => ({
-          checkInData: { appointment: { clinicPhone: '555-867-5309' } },
+          checkInData: { appointment: { clinicPhoneNumber: '555-867-5309' } },
         }),
         subscribe: () => {},
         dispatch: () => ({}),
