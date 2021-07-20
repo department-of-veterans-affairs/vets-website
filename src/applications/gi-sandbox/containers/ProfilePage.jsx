@@ -80,6 +80,7 @@ export function ProfilePage({
           showModal={dispatchShowModal}
           preSelectedProgram={preSelectedProgram}
           selectedProgram={calculator.selectedProgram}
+          compare={compare}
         />
       );
     } else {
