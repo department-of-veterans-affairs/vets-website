@@ -15,8 +15,11 @@ import {
   locationInfo,
   schoolSize,
 } from '../utils/helpers';
-import { ariaLabels } from '../constants';
+
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import recordEvent from 'platform/monitoring/record-event';
+import { ariaLabels, MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/RatingsStars';
 import Checkbox from '../components/Checkbox';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
@@ -29,6 +32,7 @@ const ProfilePageHeader = ({
   dispatchRemoveCompareInstitution,
   institution,
   dispatchShowModal,
+  gibctSchoolRatings,
 }) => {
   const [expanded, toggleExpansion] = useState(false);
   const {
@@ -71,7 +75,8 @@ const ProfilePageHeader = ({
   const main = facilityMap.main.institution;
 
   const stars = convertRatingToStars(ratingAverage);
-  const displayStars = stars && ratingCount > 0;
+  const displayStars =
+    gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
 
   const titleClasses = classNames({
     'vads-u-margin-bottom--0': displayStars,
@@ -296,6 +301,9 @@ ProfilePageHeader.propTypes = {
 
 const mapStateToProps = state => ({
   compare: state.compare,
+  gibctSchoolRatings: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSchoolRatings
+  ],
 });
 
 const mapDispatchToProps = {
