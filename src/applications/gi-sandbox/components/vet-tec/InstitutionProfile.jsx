@@ -59,12 +59,14 @@ export default function InstitutionProfile({
         label="Calculate your benefits"
         id="calculate-your-benefits"
       >
-        <VetTecEstimateYourBenefits
-          institution={institution}
-          showModal={showModal}
-          selectedProgram={program}
-          preSelectedProgram={preSelectedProgram}
-        />
+        <div className="vads-u-padding-left--2 vads-u-padding-top--1">
+          <VetTecEstimateYourBenefits
+            institution={institution}
+            showModal={showModal}
+            selectedProgram={program}
+            preSelectedProgram={preSelectedProgram}
+          />
+        </div>
       </ProfileSection>
       <ProfileSection label="Approved programs" id="approved-programs">
         <VetTecApprovedProgramsList
