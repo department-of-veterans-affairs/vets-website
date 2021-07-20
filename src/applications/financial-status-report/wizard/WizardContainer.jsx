@@ -9,7 +9,7 @@ import Wizard, {
 } from 'applications/static-pages/wizard';
 import MaintenanceAlert from './components/MaintenanceAlert';
 
-const WizardContainer = ({ setWizardStatus }) => {
+const WizardContainer = ({ setWizardStatus, showFSR }) => {
   return (
     <div className="fsr-wizard row">
       <div className="usa-width-two-thirds medium-8 columns">
@@ -18,7 +18,7 @@ const WizardContainer = ({ setWizardStatus }) => {
           subTitle={'Equal to VA Form 5655 (Financial Status Report)'}
         />
         <div className="wizard-container">
-          <MaintenanceAlert />
+          {!showFSR && <MaintenanceAlert />}
           <h2 className="wizard-heading">Is this the form I need?</h2>
           <p>
             This form is for Veterans or service members who need help with debt

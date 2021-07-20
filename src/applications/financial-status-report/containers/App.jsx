@@ -64,12 +64,10 @@ const App = ({
     return <ErrorMessage />;
   }
 
-  if (showFSR === false) {
-    return window.location.replace('/manage-va-debt');
-  }
-
   if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
-    return <WizardContainer setWizardStatus={setWizardStatus} />;
+    return (
+      <WizardContainer setWizardStatus={setWizardStatus} showFSR={showFSR} />
+    );
   }
 
   return showFSR ? (
