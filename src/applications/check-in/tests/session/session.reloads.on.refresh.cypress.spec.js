@@ -14,7 +14,7 @@ describe('Check In Experience -- ', () => {
     });
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
-  it('happy path', () => {
+  it('on page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);

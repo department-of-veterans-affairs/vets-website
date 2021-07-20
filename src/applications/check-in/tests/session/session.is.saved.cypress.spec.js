@@ -14,7 +14,7 @@ describe('Check In Experience -- ', () => {
     });
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
-  it('happy path', () => {
+  it('data is saved to session storage', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
