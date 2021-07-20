@@ -2,19 +2,19 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import FormButtons from '../../components/FormButtons';
-import EligibilityCheckMessage from './VAFacilityPage/EligibilityCheckMessage';
-import FacilityAddress from '../../components/FacilityAddress';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { FETCH_STATUS } from '../../utils/constants';
+import FormButtons from '../../../components/FormButtons';
+import RequestEligibilityMessage from './RequestEligibilityMessage';
+import FacilityAddress from '../../../components/FacilityAddress';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import { FETCH_STATUS } from '../../../utils/constants';
 import {
   openClinicPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
   updateFormData,
-} from '../redux/actions';
+} from '../../redux/actions';
 
-import { getClinicPageInfo } from '../redux/selectors';
+import { getClinicPageInfo } from '../../redux/selectors';
 import { useHistory } from 'react-router-dom';
 
 function formatTypeOfCare(careLabel) {
@@ -137,7 +137,7 @@ export default function ClinicChoicePage() {
       >
         {usingUnsupportedRequestFlow && (
           <div className="vads-u-margin-top--2">
-            <EligibilityCheckMessage
+            <RequestEligibilityMessage
               eligibility={eligibility}
               typeOfCare={typeOfCare}
               typeOfCareName={typeOfCareLabel}

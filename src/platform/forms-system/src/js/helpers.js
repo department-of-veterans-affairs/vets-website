@@ -372,6 +372,7 @@ export function getNonArraySchema(schema, uiSchema = {}) {
       const schemaPropertyKeys = Object.keys(newSchema.properties);
       const newUiSchema = Object.assign({}, uiSchema);
       newUiSchema['ui:order'] = uiSchema['ui:order']?.filter(item => {
+        // check item === '*' here?
         return schemaPropertyKeys.includes(item);
       });
 

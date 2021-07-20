@@ -154,10 +154,12 @@ class ResultsList extends Component {
       searchString,
       results,
       error,
-      pagination: { currentPage },
+      pagination,
       currentQuery,
       query,
     } = this.props;
+
+    const currentPage = pagination ? pagination.currentPage : 1;
 
     if (inProgress) {
       return (
