@@ -131,7 +131,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/master' }}
         with:
           name: test-coverage-report
-          path: coverage/test-coverage-report.json
+          path: build/test-coverage-report.json
 
       - name: Get code coverage
         id: code-coverage
