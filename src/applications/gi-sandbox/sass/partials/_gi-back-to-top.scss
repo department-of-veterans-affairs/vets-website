@@ -1,6 +1,4 @@
 .back-to-top {
-  bottom: 0;
-  pointer-events: none;
   //position: fixed;
   width: 100%;
 
@@ -13,6 +11,8 @@
     float: right;
     width: auto;
     position: inherit;
+    bottom: 0;
+    pointer-events: none;
 
     button {
       bottom: 0;
