@@ -1,13 +1,13 @@
 .back-to-top {
   //position: fixed;
   width: 100%;
+  z-index: 2000;
 
   .usa-content {
     position: relative;
   }
 
   .back-to-top-container {
-    z-index: 2000;
     float: right;
     width: auto;
     position: inherit;
@@ -79,4 +79,8 @@
       }
     }
   }
+}
+
+.back-to-top-floating {
+  position: fixed;
 }

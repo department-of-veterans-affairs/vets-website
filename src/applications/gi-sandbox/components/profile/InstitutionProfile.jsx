@@ -46,9 +46,15 @@ export default function InstitutionProfile({
     stars &&
     institution.ratingCount >= MINIMUM_RATING_COUNT;
 
+  const institutionProfileId = 'institution-profile';
+  const profilePageHeaderId = 'profile-page-header';
+
   return (
-    <div className="institution-profile">
-      <div className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4">
+    <div id={institutionProfileId} className="institution-profile">
+      <div
+        id={profilePageHeaderId}
+        className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4"
+      >
         <div className="usa-width-three-fourths">
           <ProfilePageHeader institution={institution} />
         </div>
@@ -150,7 +156,10 @@ export default function InstitutionProfile({
       <ProfileSection label="Contact information" id="contact-information">
         <ContactInformation institution={institution} showModal={showModal} />
       </ProfileSection>
-      <BackToTop />
+      <BackToTop
+        parentId={institutionProfileId}
+        profilePageHeaderId={profilePageHeaderId}
+      />
     </div>
   );
 }
