@@ -1,4 +1,4 @@
-import ERROR_400 from '~/applications/personalization/dashboard-2/utils/mocks/ERROR_400.js';
+import ERROR_400 from '~/applications/personalization/dashboard/utils/mocks/ERROR_400';
 import { mockFeatureToggles } from './helpers';
 
 import {

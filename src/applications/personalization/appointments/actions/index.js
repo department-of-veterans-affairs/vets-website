@@ -3,22 +3,22 @@ import { replace, uniq } from 'lodash';
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
 
-import moment from '~/applications/personalization/dashboard-2/lib/moment-tz';
+import moment from '~/applications/personalization/dashboard/lib/moment-tz';
 import {
   getCCTimeZone,
   getVATimeZone,
   getTimezoneBySystemId,
-} from '~/applications/personalization/dashboard-2/utils/timezone';
+} from '~/applications/personalization/dashboard/utils/timezone';
 import {
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
   FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
   FUTURE_APPOINTMENTS_HIDDEN_SET,
   VIDEO_TYPES,
-} from '~/applications/personalization/dashboard-2/constants';
-import MOCK_FACILITIES from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_FACILITIES.json';
-import MOCK_VA_APPOINTMENTS from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
-import MOCK_CC_APPOINTMENTS from '~/applications/personalization/dashboard-2/utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
+} from '~/applications/personalization/dashboard/constants';
+import MOCK_FACILITIES from '~/applications/personalization/dashboard/utils/mocks/appointments/MOCK_FACILITIES.json';
+import MOCK_VA_APPOINTMENTS from '~/applications/personalization/dashboard/utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
+import MOCK_CC_APPOINTMENTS from '~/applications/personalization/dashboard/utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
 
 const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',

@@ -49,8 +49,6 @@
       { "name": "covid_vaccine_scheduling_frontend", "value": false },
       { "name": "covidVolunteerDelivery", "value": true },
       { "name": "covid_volunteer_delivery", "value": true },
-      { "name": "dashboardShowDashboard2", "value": false },
-      { "name": "dashboard_show_dashboard_2", "value": false },
       { "name": "debtLettersShowLetters", "value": true },
       { "name": "debt_letters_show_letters", "value": true },
       { "name": "dependencyVerification", "value": false },
