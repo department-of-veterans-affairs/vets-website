@@ -171,8 +171,11 @@ Wizard.propTypes = {
   pages: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      component: PropTypes.oneOfType([PropTypes.func, PropTypes.node])
-        .isRequired,
+      component: PropTypes.oneOfType([
+        PropTypes.elementType,
+        PropTypes.func,
+        PropTypes.node,
+      ]).isRequired,
       state: PropTypes.any,
     }),
   ),
