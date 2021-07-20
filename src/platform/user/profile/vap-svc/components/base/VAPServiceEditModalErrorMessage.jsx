@@ -16,7 +16,6 @@ function hasError(codes, errors) {
 
 export default function VAPServiceEditModalErrorMessage({
   error: { errors = [] },
-  clearErrors,
   title,
 }) {
   let content = null;
@@ -69,7 +68,6 @@ export default function VAPServiceEditModalErrorMessage({
       className="vads-u-margin-top--0"
       content={<div className="columns">{content}</div>}
       isVisible
-      onCloseAlert={clearErrors}
       scrollOnShow
       status={ALERT_TYPE.ERROR}
     />
