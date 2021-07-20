@@ -7,6 +7,7 @@ import localStorage from 'platform/utilities/storage/localStorage';
 
 // Relative imports
 import AdditionalInstructions from '../components/gpMinorComponents/AdditionalInstructions';
+import AirForcePortalLink from '../components/AirForcePortalLink';
 import CarefulConsiderationStatement from '../components/CarefulConsiderationStatement';
 import OptionalStep from '../components/gpMinorComponents/OptionalStep';
 import ResultsSummary from '../components/gpMinorComponents/ResultsSummary';
@@ -14,8 +15,10 @@ import StepOne from '../components/gpSteps/StepOne';
 import StepTwo from '../components/gpSteps/StepTwo';
 import StepThree from '../components/gpSteps/StepThree';
 import Warnings from '../components/gpMinorComponents/Warnings';
+import { deriveIsAirForceAFRBAPortal } from '../helpers';
 
 export const GuidancePage = ({ formValues }) => {
+  const airForceAFRBAPortal = deriveIsAirForceAFRBAPortal(formValues);
   const [accordionQuestionsState, setAccordionQuestionsState] = useState({
     q1: false,
     q2: false,
@@ -53,14 +56,22 @@ export const GuidancePage = ({ formValues }) => {
       <h1>Your Steps for Upgrading Your Discharge</h1>
       <div className="medium-8">
         <ResultsSummary formValues={formValues} />
-        <CarefulConsiderationStatement formValues={formValues} />
-        <Warnings formValues={formValues} />
-        <OptionalStep formValues={formValues} />
-        <ul className="steps-list vertical-list-group more-bottom-cushion numbered">
-          <StepOne formValues={formValues} />
-          <StepTwo formValues={formValues} />
-          <StepThree formValues={formValues} handlePrint={handlePrint} />
-        </ul>
+        {airForceAFRBAPortal ? (
+          <AirForcePortalLink />
+        ) : (
+          <>
+            <CarefulConsiderationStatement formValues={formValues} />
+            <Warnings formValues={formValues} />
+            <OptionalStep formValues={formValues} />
+            <section>
+              <ul className="steps-list vertical-list-group more-bottom-cushion numbered">
+                <StepOne formValues={formValues} />
+                <StepTwo formValues={formValues} />
+                <StepThree formValues={formValues} handlePrint={handlePrint} />
+              </ul>
+            </section>
+          </>
+        )}
         <AdditionalInstructions
           formValues={formValues}
           handleFAQToggle={handleFAQToggle}
