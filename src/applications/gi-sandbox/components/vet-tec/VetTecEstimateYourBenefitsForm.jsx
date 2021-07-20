@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -13,47 +13,54 @@ import RadioButtons from '../RadioButtons';
 import { focusElement } from 'platform/utilities/ui';
 import LearnMoreLabel from '../LearnMoreLabel';
 
-class VetTecEstimateYourBenefitsForm extends React.Component {
-  constructor(props) {
-    super(props);
-    const selectedProgramName = this.props.selectedProgram;
+function VetTecEstimateYourBenefitsForm({
+  showModal,
+  institution,
+  selectedProgram,
+  calculatorInputChange,
+}) {
+  const [tuitionFees, setTuitionFees] = useState(1234);
+  const [scholarships, setScholarships] = useState(0);
+  const [programName, setProgramName] = useState('');
+  const [inputUpdated, setInputUpdated] = useState(false);
 
-    let selectedProgram = this.props.institution.programs.find(
-      program => program.description === selectedProgramName,
-    );
-    selectedProgram = selectedProgram || this.props.institution.programs[0];
-
-    this.state = {
-      tuitionFees: selectedProgram.tuitionAmount,
-      scholarships: 0,
-      programName: selectedProgramName,
-      inputUpdated: false,
-    };
-    this.setProgramFields(this.props.selectedProgram);
-  }
-
-  getProgramByName = programName =>
-    this.props.institution.programs.find(
+  const getProgramByName = () =>
+    institution.programs.find(
       p => p.description.toLowerCase() === programName.toLowerCase(),
     );
 
-  setProgramFields = programName => {
+  const setProgramFields = () => {
     if (programName) {
-      const program = this.getProgramByName(programName);
+      const program = getProgramByName();
       if (program) {
         const field = 'EstimateYourBenefitsFields';
         const value = {
-          vetTecTuitionFees: this.state.tuitionFees,
-          vetTecProgramName: this.state.programName,
-          vetTecScholarships: this.state.scholarships,
-          vetTecProgramFacilityCode: this.props.institution.facilityCode,
+          vetTecTuitionFees: tuitionFees,
+          vetTecProgramName: programName,
+          vetTecScholarships: scholarships,
+          vetTecProgramFacilityCode: institution.facilityCode,
         };
-        this.props.calculatorInputChange({ field, value });
+        calculatorInputChange({ field, value });
       }
     }
   };
+  useEffect(() => {
+    const selectedProgramName = selectedProgram;
 
-  recordInputChange = event => {
+    let programSelected = institution.programs.find(
+      program => program.description === selectedProgramName,
+    );
+    programSelected = selectedProgram || institution.programs[0];
+
+    setTuitionFees(programSelected.tuitionAmount);
+    setScholarships(0);
+    setProgramName(selectedProgramName);
+    setInputUpdated(false);
+
+    setProgramFields();
+  }, []);
+
+  const recordInputChange = event => {
     const { name: field, value } = event.target;
     recordEvent({
       event: 'gibct-form-change',
@@ -62,20 +69,18 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     });
   };
 
-  handleApprovedProgramsChange = event => {
+  const handleApprovedProgramsChange = event => {
     const vetTecProgramName = event.target.value;
-    const program = this.getProgramByName(vetTecProgramName);
+    const program = getProgramByName();
 
-    this.setState({
-      programName: vetTecProgramName,
-      tuitionFees: program.tuitionAmount,
-    });
+    setProgramName(vetTecProgramName);
+    setTuitionFees(program.tuitionAmount);
   };
 
-  updateBenefitsOnClick = event => {
+  const updateBenefitsOnClick = event => {
     event.preventDefault();
-    this.setState({ inputUpdated: false });
-    this.setProgramFields(this.state.programName);
+    setInputUpdated(false);
+    setProgramFields();
     // the undefined is intentional see https://github.com/department-of-veterans-affairs/va.gov-team/issues/10353
     recordEvent({
       event: 'cta-default-button-click',
@@ -85,27 +90,27 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
     focusElement('#estimate-your-benefits-accordion-button');
   };
 
-  handleEYBSkipLinkOnClick = () => {
+  const handleEYBSkipLinkOnClick = () => {
     focusElement('.estimated-benefits-header');
   };
 
-  renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) => (
+  const renderLearnMoreLabel = ({ text, modal, ariaLabel, labelFor }) => (
     <LearnMoreLabel
       text={text}
-      onClick={() => this.props.showModal(modal)}
+      onClick={() => showModal(modal)}
       ariaLabel={ariaLabel}
       labelFor={labelFor}
     />
   );
 
-  renderScholarships = () => (
+  const renderScholarships = () => (
     <div id="scholarships-field">
       <div
         htmlFor="vetTecScholarships"
         className="vads-u-margin-top--4 vads-u-display--inline-block"
         id="scholarships-label"
       >
-        {this.renderLearnMoreLabel({
+        {renderLearnMoreLabel({
           text: 'Scholarships (excluding Pell Grants)',
           modal: 'scholarships',
           ariaLabel: ariaLabels.learnMore.scholarships,
@@ -119,27 +124,26 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         pattern="(\d*\d+)(?=\,)"
         name="vetTecScholarships"
         id="vetTecScholarships"
-        value={formatDollarAmount(this.state.scholarships)}
+        value={formatDollarAmount(scholarships)}
         onChange={e => {
-          this.setState({
-            inputUpdated: true,
-            scholarships: removeNonNumberCharacters(e.target.value),
-          });
-          this.recordInputChange(e);
+          setInputUpdated(true);
+          setScholarships(removeNonNumberCharacters(e.target.value));
+
+          recordInputChange(e);
         }}
-        onFocus={handleScrollOnInputFocus.bind(this, 'scholarships-field')}
+        onFocus={handleScrollOnInputFocus.bind('scholarships-field')}
       />
     </div>
   );
 
-  renderTuitionFees = () => (
+  const renderTuitionFees = () => (
     <div id="tuition-field">
       <div
         htmlFor="vetTecTuitionFees"
         className="vads-u-margin-top--3 vads-u-display--inline-block"
         id="tuition-fees-label"
       >
-        {this.renderLearnMoreLabel({
+        {renderLearnMoreLabel({
           text: 'Tuition and fees for program',
           modal: 'tuitionAndFees',
           ariaLabel: ariaLabels.learnMore.tuitionAndFees,
@@ -153,21 +157,20 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         pattern="(\d*\d+)(?=\,)"
         type="text"
         inputMode="decimal"
-        value={formatDollarAmount(this.state.tuitionFees)}
+        value={formatDollarAmount(tuitionFees)}
         onChange={e => {
-          this.setState({
-            inputUpdated: true,
-            tuitionFees: removeNonNumberCharacters(e.target.value),
-          });
-          this.recordInputChange(e);
+          setInputUpdated(true);
+          setTuitionFees(removeNonNumberCharacters(e.target.value));
+
+          recordInputChange(e);
         }}
-        onFocus={handleScrollOnInputFocus.bind(this, 'tuition-field')}
+        onFocus={handleScrollOnInputFocus.bind('tuition-field')}
       />
     </div>
   );
 
-  renderApprovedProgramsSelector = () => {
-    const options = this.props.institution.programs.map(program => ({
+  const renderApprovedProgramsSelector = () => {
+    const options = institution.programs.map(program => ({
       value: program.description,
       label: program.description,
     }));
@@ -176,11 +179,11 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         label="Choose the training program you'd like to attend"
         name="approvedPrograms"
         options={options}
-        value={this.state.programName}
+        value={programName}
         onChange={e => {
-          this.setState({ inputUpdated: true });
-          this.handleApprovedProgramsChange(e);
-          this.recordInputChange(e);
+          setInputUpdated(true);
+          handleApprovedProgramsChange(e);
+          recordInputChange(e);
         }}
       />
     ) : (
@@ -189,46 +192,44 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         name="approvedPrograms"
         alt="Choose the training program you'd like to attend"
         options={options}
-        value={this.state.programName}
+        value={programName}
         onChange={e => {
-          this.setState({ inputUpdated: true });
-          this.handleApprovedProgramsChange(e);
-          this.recordInputChange(e);
+          setInputUpdated(true);
+          handleApprovedProgramsChange(e);
+          recordInputChange(e);
         }}
         visible
       />
     );
   };
 
-  render() {
-    return (
-      <div className="calculator-form">
-        <p>Use the fields below to update your benefits.</p>
-        {this.renderApprovedProgramsSelector()}
-        {this.renderTuitionFees()}
-        {this.renderScholarships()}
+  return (
+    <div className="calculator-form">
+      <p>Use the fields below to update your benefits.</p>
+      {renderApprovedProgramsSelector()}
+      {renderTuitionFees()}
+      {renderScholarships()}
+      <button
+        type="button"
+        id="calculate-button"
+        className="vads-u-margin-top--2p5"
+        onClick={updateBenefitsOnClick}
+        disabled={!inputUpdated}
+      >
+        Update benefits
+      </button>
+      <div className="vads-u-padding-bottom--2p5">
         <button
           type="button"
-          id="calculate-button"
-          className="vads-u-margin-top--2p5"
-          onClick={this.updateBenefitsOnClick}
-          disabled={!this.state.inputUpdated}
+          className="va-button-link learn-more-button eyb-skip-link"
+          aria-label="Skip to your estimated benefits"
+          onClick={handleEYBSkipLinkOnClick}
         >
-          Update benefits
+          Skip to your estimated benefits
         </button>
-        <div className="vads-u-padding-bottom--2p5">
-          <button
-            type="button"
-            className="va-button-link learn-more-button eyb-skip-link"
-            aria-label="Skip to your estimated benefits"
-            onClick={this.handleEYBSkipLinkOnClick}
-          >
-            Skip to your estimated benefits
-          </button>
-        </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 VetTecEstimateYourBenefitsForm.propTypes = {
