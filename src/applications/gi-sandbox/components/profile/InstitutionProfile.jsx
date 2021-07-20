@@ -28,6 +28,7 @@ export default function InstitutionProfile({
   version,
   gibctSchoolRatings,
   gibctEybBottomSheet,
+  compare,
 }) {
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
@@ -159,6 +160,7 @@ export default function InstitutionProfile({
       <BackToTop
         parentId={institutionProfileId}
         profilePageHeaderId={profilePageHeaderId}
+        compare={compare}
       />
     </div>
   );

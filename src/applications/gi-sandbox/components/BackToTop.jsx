@@ -13,15 +13,20 @@ const scroll = Scroll.animateScroll;
  * @return {JSX.Element}
  * @constructor
  */
-export default function BackToTop({ parentId, profilePageHeaderId }) {
+export default function BackToTop({ parentId, profilePageHeaderId, compare }) {
   const [floating, setFloating] = useState(true);
   const [backToTopContainerStyle, setBackToTopContainerStyle] = useState({});
 
   const handleScroll = () => {
     const profilePageHeader = document.getElementById(profilePageHeaderId);
-    if (!profilePageHeader) return;
+    const footer = document.getElementById('footerNav');
+    if (!profilePageHeader || !footer) return;
 
-    setFloating(profilePageHeader?.getBoundingClientRect().bottom < 0);
+    const isHeaderHidden = profilePageHeader.getBoundingClientRect().bottom < 0;
+    const isFooterHidden =
+      footer.getBoundingClientRect().y >= window.innerHeight;
+
+    setFloating(isHeaderHidden && isFooterHidden);
   };
 
   const resize = () => {
@@ -55,9 +60,17 @@ export default function BackToTop({ parentId, profilePageHeaderId }) {
     'back-to-top-floating': floating,
   });
 
+  const backToTopContainerClasses = classNames('back-to-top-container', {
+    'back-to-top-container-floating': floating && !compare.open,
+    'back-to-top-container-floating-open': floating && compare.open,
+  });
+
   return (
     <div className={backToTopClasses}>
-      <div className="back-to-top-container" style={backToTopContainerStyle}>
+      <div
+        className={backToTopContainerClasses}
+        style={backToTopContainerStyle}
+      >
         <div className="usa-content">
           <button
             type="button"

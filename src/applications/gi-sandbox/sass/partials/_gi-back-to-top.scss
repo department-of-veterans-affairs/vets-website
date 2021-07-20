@@ -83,4 +83,12 @@
 
 .back-to-top-floating {
   position: fixed;
+
+  .back-to-top-container-floating {
+    bottom: 2.6em;
+  }
+
+  .back-to-top-container-floating-open {
+    bottom: 12.6em;
+  }
 }
