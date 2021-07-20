@@ -8,6 +8,7 @@ import {
   DECEASED_ERROR_CODES,
   INVALID_EMAIL_ADDRESS_ERROR_CODES,
   LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
+  INVALID_PHONE_ERROR_CODES,
 } from '@@vap-svc/util/transactions';
 
 function hasError(codes, errors) {
@@ -50,6 +51,15 @@ export default function VAPServiceEditModalErrorMessage({
         <p>
           It looks like the email you entered isn’t valid. Please enter your
           email address again.
+        </p>
+      );
+      break;
+
+    case hasError(INVALID_PHONE_ERROR_CODES, errors):
+      content = (
+        <p>
+          We can’t make this update because we currently only support U.S. area
+          codes. Please provide a U.S. based phone number.
         </p>
       );
       break;
