@@ -82,91 +82,114 @@ const ProfilePageHeader = ({
     cautionFlags.length > 0 ? 'vads-u-margin-top--2' : 'vads-u-margin-top--1',
   );
 
-  const renderIconSection = () => (
-    <div
-      className={classNames(
-        'usa-grid vads-u-border-bottom--4px vads-u-border-color--white vads-u-padding-y--1p5 vads-u-padding-x--2',
-        {
-          'vads-u-border-top--4px': cautionFlags.length === 0,
-        },
-      )}
-    >
-      <div className="usa-width-one-half">
-        <IconWithInfo
-          icon="calendar"
-          present={lowerType !== 'ojt' && highestDegree}
-        >
-          {'  '}
-          {_.isFinite(highestDegree)
-            ? `${highestDegree} year`
-            : highestDegree}{' '}
-          program
-        </IconWithInfo>
-        <IconWithInfo icon="briefcase" present={lowerType === 'ojt'}>
-          {'   '}
-          On-the-job training
-        </IconWithInfo>
-        <IconWithInfo
-          icon="university"
-          present={lowerType && lowerType !== 'ojt'}
-        >
-          {'   '}
-          {_.capitalize(lowerType)} school
-        </IconWithInfo>
-        <IconWithInfo icon="award" present={accreditationType}>
-          {'   '}
-          {_.capitalize(accreditationType)} Accreditation (
-          <button
-            type="button"
-            id="typeAccredited-button"
-            className="va-button-link learn-more-button"
-            onClick={() => dispatchShowModal('typeAccredited')}
-            aria-label={ariaLabels.learnMore.numberOfStudents}
-          >
-            Learn more
-          </button>
-          )
-        </IconWithInfo>
+  const showLeftIconSection =
+    (lowerType !== 'ojt' && highestDegree) ||
+    lowerType === 'ojt' ||
+    (lowerType && lowerType !== 'ojt') ||
+    accreditationType;
+  const showRightIconSection =
+    (lowerType && lowerType !== 'ojt') ||
+    (localeType && lowerType && lowerType !== 'ojt') ||
+    website;
+
+  const renderIconSection = () =>
+    (showLeftIconSection || showRightIconSection) && (
+      <div
+        className={classNames(
+          'usa-grid vads-u-padding-y--1p5 vads-u-padding-x--2',
+          {
+            'vads-u-border-top--4px': cautionFlags.length === 0,
+            'vads-u-border-color--white': cautionFlags.length === 0,
+          },
+        )}
+      >
+        {showLeftIconSection && (
+          <div className="usa-width-one-half">
+            <IconWithInfo
+              icon="calendar"
+              present={lowerType !== 'ojt' && highestDegree}
+            >
+              {'  '}
+              {_.isFinite(highestDegree)
+                ? `${highestDegree} year`
+                : highestDegree}{' '}
+              program
+            </IconWithInfo>
+            <IconWithInfo icon="briefcase" present={lowerType === 'ojt'}>
+              {'   '}
+              On-the-job training
+            </IconWithInfo>
+            <IconWithInfo
+              icon="university"
+              present={lowerType && lowerType !== 'ojt'}
+            >
+              {'   '}
+              {_.capitalize(lowerType)} school
+            </IconWithInfo>
+            <IconWithInfo icon="award" present={accreditationType}>
+              {'   '}
+              {_.capitalize(accreditationType)} Accreditation (
+              <button
+                type="button"
+                id="typeAccredited-button"
+                className="va-button-link learn-more-button"
+                onClick={() => dispatchShowModal('typeAccredited')}
+                aria-label={ariaLabels.learnMore.numberOfStudents}
+              >
+                Learn more
+              </button>
+              )
+            </IconWithInfo>
+          </div>
+        )}
+        {showRightIconSection && (
+          <div className="usa-width-one-half">
+            <IconWithInfo
+              icon="users"
+              present={lowerType && lowerType !== 'ojt'}
+            >
+              {'   '}
+              {schoolSize(undergradEnrollment)} size
+            </IconWithInfo>
+            <IconWithInfo
+              icon="map"
+              present={localeType && lowerType && lowerType !== 'ojt'}
+            >
+              {'   '}
+              {_.capitalize(localeType)} locale
+            </IconWithInfo>
+            <IconWithInfo icon="globe" present={website}>
+              <a href={website} target="_blank" rel="noopener noreferrer">
+                {'  '}
+                {website}
+              </a>
+            </IconWithInfo>
+          </div>
+        )}
       </div>
-      <div className="usa-width-one-half">
-        <IconWithInfo icon="users" present={lowerType && lowerType !== 'ojt'}>
-          {'   '}
-          {schoolSize(undergradEnrollment)} size
-        </IconWithInfo>
-        <IconWithInfo
-          icon="map"
-          present={localeType && lowerType && lowerType !== 'ojt'}
-        >
-          {'   '}
-          {_.capitalize(localeType)} locale
-        </IconWithInfo>
-        <IconWithInfo icon="globe" present={website}>
-          <a href={website} target="_blank" rel="noopener noreferrer">
-            {'  '}
-            {website}
-          </a>
-        </IconWithInfo>
-      </div>
-    </div>
-  );
+    );
 
   const hasVetTecPhone =
     programs.length > 0 &&
     programs[0]?.phoneAreaCode &&
     programs[0]?.phoneNumber;
 
-  const renderVetTecIconSection = () => (
-    <div
-      className={classNames(
-        'usa-grid vads-u-border-bottom--4px vads-u-border-color--white vads-u-padding-y--1p5 vads-u-padding-x--2',
-        {
-          'vads-u-border-top--4px': cautionFlags.length === 0,
-        },
-      )}
-    >
-      <div>
-        {hasVetTecPhone && (
-          <IconWithInfo icon="phone" present={programs}>
+  const showVetTecIconSection =
+    programs.length > 0 || (localeType && lowerType && lowerType !== 'ojt');
+
+  const renderVetTecIconSection = () =>
+    showVetTecIconSection && (
+      <div
+        className={classNames(
+          'usa-grid vads-u-padding-y--1p5 vads-u-padding-x--2',
+          {
+            'vads-u-border-top--4px': cautionFlags.length === 0,
+            'vads-u-border-color--white': cautionFlags.length === 0,
+          },
+        )}
+      >
+        <div>
+          <IconWithInfo icon="phone" present={hasVetTecPhone}>
             {'   '}{' '}
             <a
               href={`tel:${programs[0].phoneAreaCode}${
@@ -176,16 +199,14 @@ const ProfilePageHeader = ({
               {`${programs[0].phoneAreaCode}-${programs[0].phoneNumber}`}
             </a>
           </IconWithInfo>
-        )}
-        <IconWithInfo
-          icon="map"
-          present={localeType && lowerType && lowerType !== 'ojt'}
-        >
-          {'   '}
-          {_.capitalize(localeType)} locale
-        </IconWithInfo>
-        {programs.length > 0 && (
-          <IconWithInfo icon="globe" present={programs}>
+          <IconWithInfo
+            icon="map"
+            present={localeType && lowerType && lowerType !== 'ojt'}
+          >
+            {'   '}
+            {_.capitalize(localeType)} locale
+          </IconWithInfo>
+          <IconWithInfo icon="globe" present={programs.length > 0}>
             <a
               href={programs[0].providerWebsite}
               target="_blank"
@@ -195,10 +216,9 @@ const ProfilePageHeader = ({
               {programs[0].providerWebsite}
             </a>
           </IconWithInfo>
-        )}
+        </div>
       </div>
-    </div>
-  );
+    );
 
   return (
     <div className="vads-u-background-color--gray-lightest profile-card">
@@ -281,7 +301,7 @@ const ProfilePageHeader = ({
       {!expanded && !vetTecProvider && renderIconSection()}
       {!expanded && vetTecProvider && renderVetTecIconSection()}
 
-      <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0">
+      <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0 vads-u-border-top--4px vads-u-border-color--white ">
         <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
           <Checkbox
             label="Compare"
