@@ -26,7 +26,7 @@ RUN apt-get install -y --no-install-recommends gconf-service libasound2 libatk1.
                                                 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates \
                                                 fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils \
                                                 x11vnc x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable \
-                                                xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init libgbm-dev
+                                                xfonts-cyrillic x11-apps xvfb xauth netcat dumb-init libgbm-dev sudo
 
 RUN curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > /cc-test-reporter
 RUN chmod +x /cc-test-reporter
