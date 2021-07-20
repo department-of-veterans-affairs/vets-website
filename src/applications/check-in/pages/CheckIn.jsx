@@ -12,6 +12,7 @@ import { checkInUser } from '../api';
 import BackToHome from '../components/BackToHome';
 import Footer from '../components/Footer';
 import BackButton from '../components/BackButton';
+import AppointmentLocation from '../components/AppointmentLocation';
 
 const CheckIn = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -76,7 +77,7 @@ const CheckIn = props => {
           Clinic:{' '}
         </dt>
         <dd data-testid="clinic-name" className="vads-u-font-size--lg">
-          {appointment.clinicName}
+          <AppointmentLocation />
         </dd>
       </dl>
       <button
