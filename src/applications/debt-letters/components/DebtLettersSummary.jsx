@@ -17,10 +17,10 @@ const renderAlert = () => (
   >
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">
-        We're sorry. Something went wrong on our end.
+        We’re sorry. Something went wrong on our end.
       </h3>
       <p className="vads-u-font-family--sans">
-        You can't view information about your current debts or download your
+        You can’t view information about your current debts or download your
         debt letters because something went wrong on our end.
       </p>
       <h4>What you can do</h4>
@@ -36,7 +36,7 @@ const renderAlert = () => (
 const renderEmptyAlert = () => (
   <section className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
     <h2 className="vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-size--h4">
-      Our records show that you don't have any current debts
+      Our records show that you don’t have any current debts
     </h2>
 
     <p className="vads-u-font-family--sans vads-u-margin-bottom--0">

@@ -16,14 +16,11 @@ const DebtLettersWrapper = ({
   isLoggedIn,
   getDebtLetters,
 }) => {
-  useEffect(
-    () => {
-      if (showDebtLetters) {
-        getDebtLetters();
-      }
-    },
-    [getDebtLetters, showDebtLetters],
-  );
+  useEffect(() => {
+    if (showDebtLetters) {
+      getDebtLetters();
+    }
+  }, [getDebtLetters, showDebtLetters]);
 
   if (isPending || isPendingVBMS || isProfileUpdating) {
     return <LoadingIndicator />;
@@ -75,7 +72,4 @@ DebtLettersWrapper.defaultProps = {
   isPendingVBMS: false,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DebtLettersWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(DebtLettersWrapper);

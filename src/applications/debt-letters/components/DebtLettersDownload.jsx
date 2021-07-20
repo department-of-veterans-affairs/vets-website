@@ -20,7 +20,7 @@ const ErrorAlert = () => (
         Your debt letters are currently unavailable.
       </h3>
       <p className="vads-u-font-family--sans">
-        You can't download your debt letters because something went wrong on our
+        You can’t download your debt letters because something went wrong on our
         end.
       </p>
       <h4>What you can do</h4>
@@ -43,7 +43,7 @@ const DependentDebt = () => (
         Your debt letters are currently unavailable.
       </h3>
       <p className="vads-u-font-family--sans">
-        You can't download your debt letters because something went wrong on our
+        You can’t download your debt letters because something went wrong on our
         end.
       </p>
       <h4>What you can do</h4>
@@ -58,7 +58,7 @@ const DependentDebt = () => (
 const NoDebtLinks = () => (
   <div className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2">
     <div className="usa-alert-body">
-      <h3 className="usa-alert-heading">You don't have any VA debt letters</h3>
+      <h3 className="usa-alert-heading">You don’t have any VA debt letters</h3>
       <p className="vads-u-font-family--sans">
         Our records show you don’t have any debt letters related to VA benefits.
         If you think this is an error, please contact the Debt Management Center
@@ -128,7 +128,7 @@ const DebtLettersDownload = ({
         <DebtLetters />
         <div className="vads-u-margin-bottom--6 vads-u-margin-top--5">
           <h2 className="vads-u-margin-y--0">
-            What if I don't see the letter I'm looking for?
+            What if I don’t see the letter I'm looking for?
           </h2>
 
           <p className="vads-u-font-family--sans vads-u-margin-bottom--0">

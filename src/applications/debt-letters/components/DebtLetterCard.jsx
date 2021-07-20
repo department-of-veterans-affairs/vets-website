@@ -107,7 +107,4 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({ setActiveDebt: setDebt }, dispatch),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DebtLetterCard);
+export default connect(mapStateToProps, mapDispatchToProps)(DebtLetterCard);
