@@ -44,10 +44,10 @@ describe('<VAPServiceEditModalErrorMessage />', () => {
       <VAPServiceEditModalErrorMessage error={invalidPhoneError} title="" />,
     );
     const alert = wrapper.find('AlertBox');
-    const alertContentText = alert?.prop('content')?.props?.children?.props
-      ?.children;
+    const alertContentText = alert.prop('content').props.children.props
+      .children;
     expect(alertContentText).to.include(
-      'currently only support U.S. area codes. Please provide a U.S. based',
+      'currently only support U.S. area codes. Please provide a U.S.-based',
     );
     wrapper.unmount();
   });
