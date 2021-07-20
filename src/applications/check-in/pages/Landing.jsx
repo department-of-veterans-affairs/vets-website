@@ -7,10 +7,11 @@ import recordEvent from 'platform/monitoring/record-event';
 import { getTokenFromLocation, URLS, goToNextPage } from '../utils/navigation';
 import { validateToken } from '../api';
 import { receivedAppointmentDetails } from '../actions';
+import { setCurrentToken } from '../utils/session';
 import { createAnalyticsSlug } from '../utils/analytics';
 
 const Landing = props => {
-  const { router, setAppointment, location } = props;
+  const { router, setAppointment, location, saveToken } = props;
 
   useEffect(
     () => {
@@ -32,7 +33,6 @@ const Landing = props => {
         });
         validateToken(token).then(json => {
           const { data } = json;
-          // console.log({ data });
           if (data.error) {
             recordEvent({
               event: createAnalyticsSlug('uuid-validate-api-call-failed'),
@@ -47,12 +47,13 @@ const Landing = props => {
             });
             // dispatch data into redux
             setAppointment(data, token);
+            saveToken(window, token);
             goToNextPage(router, URLS.UPDATE_INSURANCE);
           }
         });
       }
     },
-    [router, setAppointment, location],
+    [router, setAppointment, saveToken, location],
   );
   return (
     <>
@@ -65,6 +66,9 @@ const mapDispatchToProps = dispatch => {
   return {
     setAppointment: (data, token) =>
       dispatch(receivedAppointmentDetails(data, token)),
+    saveToken: (window, token) => {
+      setCurrentToken(window, token);
+    },
   };
 };
 
