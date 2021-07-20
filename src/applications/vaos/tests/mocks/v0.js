@@ -94,29 +94,36 @@ export function getVAFacilityMock({
  * @export
  * @returns {MASAppointment} MAS appointment object
  */
-export function getVideoAppointmentMock() {
+export function getVideoAppointmentMock({
+  id = '05760f00c80ae60ce49879cf37a05fc8',
+  facilityId = 'fake',
+  startDate = 'fake',
+  appointmentKind = 'fake',
+  instructionsTitle = null,
+} = {}) {
   return {
-    id: '05760f00c80ae60ce49879cf37a05fc8',
+    id,
     type: 'va_appointments',
     attributes: {
-      startDate: 'fake',
+      startDate,
       clinicId: null,
       clinicFriendlyName: null,
-      facilityId: 'fake',
+      facilityId,
       communityCare: false,
       vdsAppointments: [],
       vvsAppointments: [
         {
           id: '8a74bdfa-0e66-4848-87f5-0d9bb413ae6d',
-          appointmentKind: 'fake',
+          appointmentKind,
           sourceSystem: 'SM',
-          dateTime: 'fake',
+          dateTime: startDate,
           duration: 20,
           status: { description: null, code: 'FAKE' },
           schedulingRequestType: 'NEXT_AVAILABLE_APPT',
           type: 'REGULAR',
           bookingNotes: 'fake',
           instructionsOther: false,
+          instructionsTitle,
           patients: [
             {
               name: { firstName: 'JUDY', lastName: 'MORRISON' },
