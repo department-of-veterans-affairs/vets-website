@@ -65,5 +65,7 @@ describe('SIP Autosave Test', () => {
       statusCode: 500,
       body: {},
     });
+
+    cy.fill('input[name="root_view:placeOfBirth_cityOfBirth"]', 'Amherst, MA');
   });
 });
