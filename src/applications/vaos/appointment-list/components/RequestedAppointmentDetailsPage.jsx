@@ -248,7 +248,7 @@ export default function RequestedAppointmentDetailsPage() {
           You shared these details about your concern
         </h2>
         {!isCCRequest && apptDetails}
-        {isCCRequest && <>{comment || 'none'}</>}
+        {isCCRequest && <>{apptDetails || 'none'}</>}
       </div>
       <div>
         <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
