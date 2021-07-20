@@ -138,6 +138,7 @@ export default class PhoneField extends React.Component {
         formSchema={formSchema}
         uiSchema={uiSchema(this.props.fieldName)}
         deleteDisabled={this.props.deleteDisabled}
+        noAlertClosing={this.props.noAlertClosing}
       />
     );
   }
