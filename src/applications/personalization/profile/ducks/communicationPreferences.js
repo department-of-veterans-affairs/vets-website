@@ -2,6 +2,26 @@ import { apiRequest } from '~/platform/utilities/api';
 
 import { LOADING_STATES } from '../../common/constants';
 
+// HELPERS
+// Callback function to use with Array.filter
+function communicationGroupsSorter(groupA, groupB) {
+  // The lower the sorting priority value, the closer it is to the top of the
+  // list, because lower numbers come first
+  const groupSortingPriorities = {
+    3: -1000, // group 3, "Your health care", should come first
+  };
+  function getCommunicationGroupSortingPriority(groupId) {
+    return groupSortingPriorities[groupId]
+      ? groupSortingPriorities[groupId]
+      : groupId;
+  }
+
+  return (
+    getCommunicationGroupSortingPriority(groupA.id) -
+    getCommunicationGroupSortingPriority(groupB.id)
+  );
+}
+
 // ACTION TYPES
 const FETCH_STARTED = '@@profile/communicationPreferences/fetchStarted';
 const FETCH_FAILED = '@@profile/communicationPreferences/fetchFailed';
@@ -90,10 +110,10 @@ export const saveCommunicationPreferenceGroup = (groupId, apiCalls) => {
 };
 
 // SELECTORS
-const selectGroups = state => {
+export const selectGroups = state => {
   return state.groups;
 };
-const selectGroupById = (state, groupId) => {
+export const selectGroupById = (state, groupId) => {
   return selectGroups(state).entities[groupId];
 };
 export const selectGroupUi = (state, groupId) => {
@@ -103,6 +123,7 @@ export const selectIsGroupEditing = (state, groupId) => {
   return selectGroupUi(state, groupId).ui.isEditing;
 };
 
+// REDUCERS
 function communicationGroupsReducer(accumulator, group) {
   const groupId = `group${group.id}`;
   accumulator.ids.push(groupId);
@@ -151,7 +172,7 @@ function communicationChannelsReducer(accumulator, item) {
   return accumulator;
 }
 
-// REDUCER
+// MAIN REDUCER
 const initialState = {
   loadingStatus: LOADING_STATES.idle,
   loadingErrors: null,
@@ -182,6 +203,8 @@ export default function reducer(state = initialState, action = {}) {
     }
     case FETCH_COMPLETED: {
       const communicationGroups = action.payload;
+      // Array.sort sorts the array in place
+      communicationGroups.sort(communicationGroupsSorter);
       // flat array of all communication items that exist across all groups
       const fetchedItems = communicationGroups.reduce((acc, group) => {
         return [...acc, ...group.communicationItems];
