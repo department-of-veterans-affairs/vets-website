@@ -5,6 +5,14 @@ import classNames from 'classnames';
 
 const scroll = Scroll.animateScroll;
 
+/**
+ * This thing has a hack in it to make sure the when the element is floating at bottom of page it is on the right side
+ * of its parentId element
+ * @param parentId containing elements id, used to float element right when floating at bottom of page
+ * @param profilePageHeaderId once bottom of this element is less than zero triggers floating behavior
+ * @return {JSX.Element}
+ * @constructor
+ */
 export default function BackToTop({ parentId, profilePageHeaderId }) {
   const [floating, setFloating] = useState(true);
   const [backToTopContainerStyle, setBackToTopContainerStyle] = useState({});
