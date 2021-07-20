@@ -92,6 +92,12 @@ export function getVAFacilityMock({
  * Return a MAS appointment object, with a video appointment stub (item in vvsAppointments)
  *
  * @export
+ * @param {Object} params
+ * @param {string} params.id The appointment id
+ * @param {string} params.facilityId The site id of the appointment
+ * @param {string} params.startDate The start date of the appointment, in ISO format
+ * @param {string} params.appointmentKind The VVS appointment kind to use
+ * @param {string} params.instructionsTitle The type of instructions to use
  * @returns {MASAppointment} MAS appointment object
  */
 export function getVideoAppointmentMock({
