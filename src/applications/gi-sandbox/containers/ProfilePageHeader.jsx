@@ -150,6 +150,11 @@ const ProfilePageHeader = ({
     </div>
   );
 
+  const hasVetTecPhone =
+    programs.length > 0 &&
+    programs[0]?.phoneAreaCode &&
+    programs[0]?.phoneNumber;
+
   const renderVetTecIconSection = () => (
     <div
       className={classNames(
@@ -160,7 +165,7 @@ const ProfilePageHeader = ({
       )}
     >
       <div>
-        {programs.length > 0 && (
+        {hasVetTecPhone && (
           <IconWithInfo icon="phone" present={programs}>
             {'   '}{' '}
             <a
