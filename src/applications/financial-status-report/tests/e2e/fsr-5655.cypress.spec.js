@@ -4,6 +4,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
+import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 import { WIZARD_STATUS } from '../../wizard/constants';
@@ -22,36 +23,7 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/debts', debts);
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
-        cy.intercept('GET', '/v0/in_progress_forms/5655', {
-          formData: {
-            personalIdentification: {
-              ssn: '4437',
-              fileNumber: '4437',
-            },
-            personalData: {
-              veteranFullName: {
-                first: 'Mark',
-                last: 'Webb',
-                suffix: 'Jr.',
-              },
-              telephoneNumber: '4445551212',
-              emailAddress: 'test2@test1.net',
-              dateOfBirth: '1950-10-04',
-            },
-            income: [
-              {
-                veteranOrSpouse: 'VETERAN',
-                compensationAndPension: '3261.1',
-                education: '50',
-              },
-            ],
-          },
-          metadata: {
-            version: 0,
-            prefill: true,
-            returnUrl: '/veteran-information',
-          },
-        });
+        cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
       });
       cy.intercept('POST', formConfig.submitUrl, {
         statusCode: 200,
