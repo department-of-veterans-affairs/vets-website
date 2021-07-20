@@ -24,10 +24,6 @@ const Landing = props => {
 
       if (token) {
         recordEvent({
-          event: createAnalyticsSlug('landing-page-launched'),
-          UUID: token,
-        });
-        recordEvent({
           event: createAnalyticsSlug('uuid-validate-api-call-launched'),
           UUID: token,
         });
