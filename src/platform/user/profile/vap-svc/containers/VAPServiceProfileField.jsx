@@ -206,13 +206,13 @@ class VAPServiceProfileField extends React.Component {
       title,
       transaction,
       transactionRequest,
-      noAlertClosing,
+      alertClosingDisabled,
     } = this.props;
 
     const childProps = {
       ...this.props,
       refreshTransaction: this.refreshTransaction,
-      clearErrors: noAlertClosing ? null : this.clearErrors,
+      clearErrors: alertClosingDisabled ? null : this.clearErrors,
       onAdd: this.onAdd,
       onEdit: this.onEdit,
       onChangeFormDataAndSchemas: this.onChangeFormDataAndSchemas,
@@ -235,7 +235,7 @@ class VAPServiceProfileField extends React.Component {
             transaction={transaction}
             transactionRequest={transactionRequest}
             title={title}
-            clearErrors={noAlertClosing ? null : this.clearErrors}
+            clearErrors={childProps.clearErrors}
           />
         )}
         <VAPServiceTransaction

@@ -44,11 +44,7 @@ export default class VAPServiceEditModal extends React.Component {
     // Errors returned directly from the API request (as opposed through a transaction lookup) are
     // displayed in this modal, rather than on the page. Once the modal is closed, reset the state
     // for the next time the modal is opened by removing any existing transaction request from the store.
-    if (
-      this.props.clearErrors &&
-      this.props.transactionRequest &&
-      this.props.transactionRequest.error
-    ) {
+    if (this.props.clearErrors && this.props.transactionRequest?.error) {
       this.props.clearErrors();
     }
   }
