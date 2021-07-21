@@ -78,7 +78,6 @@ export default function DateTimeSelectPage() {
     preferredDate,
     timezone,
     timezoneDescription,
-    typeOfCareId,
   } = useSelector(state => getDateTimeSelect(state, pageKey), shallowEqual);
 
   const dispatch = useDispatch();
@@ -145,7 +144,6 @@ export default function DateTimeSelectPage() {
           }
           preferredDate={preferredDate}
           timezone={timezoneDescription}
-          typeOfCareId={typeOfCareId}
         />
       )}
       {fetchFailed && (
