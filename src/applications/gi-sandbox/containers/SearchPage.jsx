@@ -11,6 +11,7 @@ import NameSearchResults from '../containers/search/NameSearchResults';
 import LocationSearchResults from '../containers/search/LocationSearchResults';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
+import MobileNamedSearchResults from '../components/MobileNamedSearchResult';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -80,6 +81,11 @@ export function SearchPage({
                   <LocationSearchForm />
                 </va-accordion-item>
               </va-accordion>
+              {search.name.count && (
+                <div>
+                  <MobileNamedSearchResults search={search} />
+                </div>
+              )}
             </div>
           )}
         </div>
