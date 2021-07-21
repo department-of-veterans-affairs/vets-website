@@ -5,7 +5,6 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import { Link } from 'react-router-dom';
-import { MENTAL_HEALTH } from '../../../utils/constants';
 import { getRealFacilityId } from '../../../utils/appointment';
 import newAppointmentFlow from '../../newAppointmentFlow';
 import NewTabAnchor from '../../../components/NewTabAnchor';
@@ -18,7 +17,6 @@ export const WaitTimeAlert = ({
   onClickRequest,
   preferredDate,
   timezone,
-  typeOfCareId,
 }) => {
   const today = moment();
   const momentPreferredDate = moment(preferredDate);
@@ -27,20 +25,7 @@ export const WaitTimeAlert = ({
   if (momentPreferredDate.isValid() && momentNextAvailableDate.isValid()) {
     const showUrgentCareMessage = today.isSame(momentPreferredDate, 'day');
 
-    // If Preferred date >5 days away, and next avail appointment is >20 (mental health)
-    // or 28 (other ToCs) days away from the preferred date, show request alert
-    const nextAvailableDateWarningLimit =
-      typeOfCareId === MENTAL_HEALTH ? 20 : 28;
-
-    const daysBetweenNowAndNextAvailable = moment
-      .duration(momentNextAvailableDate.diff(today))
-      .asDays();
-
-    const notMeetingStandardOfCare =
-      momentPreferredDate.isAfter(moment().add(5, 'days'), 'day') &&
-      daysBetweenNowAndNextAvailable > nextAvailableDateWarningLimit;
-
-    if (showUrgentCareMessage || notMeetingStandardOfCare) {
+    if (showUrgentCareMessage) {
       return (
         <InfoAlert
           headline="Your appointment time"
@@ -67,27 +52,21 @@ export const WaitTimeAlert = ({
               </li>
               <li>Call your local VA medical center</li>
             </ul>
-            {showUrgentCareMessage && (
-              <>
-                <p className="vads-u-font-weight--bold">
-                  If you have an urgent medical need or need care right away:
-                </p>
-                <ul>
-                  <li>
-                    Call <Telephone contact="911" />,{' '}
-                    <span className="vads-u-font-weight--bold">or</span>
-                  </li>
-                  <li>
-                    Call the Veterans Crisis hotline at{' '}
-                    <Telephone contact={CONTACTS.CRISIS_LINE} /> and select 1,{' '}
-                    <span className="vads-u-font-weight--bold">or</span>
-                  </li>
-                  <li>
-                    Go to your nearest emergency room or VA medical center
-                  </li>
-                </ul>
-              </>
-            )}
+            <p className="vads-u-font-weight--bold">
+              If you have an urgent medical need or need care right away:
+            </p>
+            <ul>
+              <li>
+                Call <Telephone contact="911" />,{' '}
+                <span className="vads-u-font-weight--bold">or</span>
+              </li>
+              <li>
+                Call the Veterans Crisis hotline at{' '}
+                <Telephone contact={CONTACTS.CRISIS_LINE} /> and select 1,{' '}
+                <span className="vads-u-font-weight--bold">or</span>
+              </li>
+              <li>Go to your nearest emergency room or VA medical center</li>
+            </ul>
             <div className="vads-u-display--flex vads-u-margin-top--2 vads-u-align-items--center">
               {eligibleForRequests && (
                 <>
