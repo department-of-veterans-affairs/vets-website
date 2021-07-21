@@ -11,9 +11,7 @@ function communicationGroupsSorter(groupA, groupB) {
     3: -1000, // group 3, "Your health care", should come first
   };
   function getCommunicationGroupSortingPriority(groupId) {
-    return groupSortingPriorities[groupId]
-      ? groupSortingPriorities[groupId]
-      : groupId;
+    return groupSortingPriorities[groupId] ?? groupId;
   }
 
   return (
