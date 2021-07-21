@@ -27,7 +27,7 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 import get from 'platform/utilities/data/get';
 import {
   countries,
-  states50AndDC,
+  states,
   militaryCities,
 } from 'vets-json-schema/dist/constants.json';
 
@@ -38,6 +38,11 @@ import {
  * 3. MilitaryBaseInfo - expandable text to expound on military base addresses.
  * 4. addressSchema - data model for address schema.
  */
+
+// filtered States that include US territories
+const filteredStates = states.USA.filter(
+  state => !['AA', 'AE', 'AP'].includes(state.value),
+);
 
 const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
   (militaryStates, [stateCode, stateName]) => {
@@ -255,8 +260,8 @@ export const addressUISchema = (
               };
             }
             return {
-              enum: states50AndDC.map(state => state.value),
-              enumNames: states50AndDC.map(state => state.label),
+              enum: filteredStates.map(state => state.value),
+              enumNames: filteredStates.map(state => state.label),
             };
           },
         },

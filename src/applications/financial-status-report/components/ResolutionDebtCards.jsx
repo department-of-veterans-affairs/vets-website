@@ -61,6 +61,7 @@ const ExpandedContent = ({
       return (
         <>
           <Checkbox
+            name="agree-to-waiver"
             label="By checking this box, I’m agreeing that I understand how a debt waiver may affect my VA education benefits. If VA grants me a waiver, this will reduce any remaining education benefit entitlement I may have."
             checked={debt.resolution?.agreeToWaiver || false}
             onValueChange={value => updateDebts('agreeToWaiver', value, debt)}
