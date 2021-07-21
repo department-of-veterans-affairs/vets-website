@@ -3,13 +3,13 @@ import { apiRequest } from '~/platform/utilities/api';
 import { LOADING_STATES } from '../../common/constants';
 
 // ACTION TYPES
-const FETCH_STARTED = 'profile/communicationPreferences/fetchStarted';
-const FETCH_FAILED = 'profile/communicationPreferences/fetchFailed';
-const FETCH_COMPLETED = 'profile/communicationPreferences/fetchCompleted';
-const SAVE_STARTED = 'profile/communicationPreferences/saveStarted';
-const SAVE_FAILED = 'profile/communicationPreferences/saveFailed';
-const SAVE_COMPLETED = 'profile/communicationPreferences/saveCompleted';
-const TOGGLE_EDIT_MODE = 'profile/communicationPreferences/toggleEditMode';
+const FETCH_STARTED = '@@profile/communicationPreferences/fetchStarted';
+const FETCH_FAILED = '@@profile/communicationPreferences/fetchFailed';
+const FETCH_COMPLETED = '@@profile/communicationPreferences/fetchCompleted';
+const SAVE_STARTED = '@@profile/communicationPreferences/saveStarted';
+const SAVE_FAILED = '@@profile/communicationPreferences/saveFailed';
+const SAVE_COMPLETED = '@@profile/communicationPreferences/saveCompleted';
+const TOGGLE_EDIT_MODE = '@@profile/communicationPreferences/toggleEditMode';
 
 export const endpoint = '/profile/communication_preferences';
 
@@ -152,7 +152,23 @@ function communicationChannelsReducer(accumulator, item) {
 }
 
 // REDUCER
-export default function reducer(state = {}, action = {}) {
+const initialState = {
+  loadingStatus: LOADING_STATES.idle,
+  loadingErrors: null,
+  groups: {
+    ids: [],
+    entities: {},
+  },
+  items: {
+    ids: [],
+    entities: {},
+  },
+  channels: {
+    ids: [],
+    entities: {},
+  },
+};
+export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case FETCH_STARTED: {
       return { ...state, loadingStatus: LOADING_STATES.pending };

@@ -382,7 +382,11 @@ export function selectTypeOfCarePage(state) {
 
 export function selectFacilitiesRadioWidget(state) {
   const newAppointment = getNewAppointment(state);
-  const { eligibilityStatus, facilityPageSortMethod } = newAppointment;
+  const {
+    eligibilityStatus,
+    facilityPageSortMethod,
+    requestLocationStatus,
+  } = newAppointment;
   const showVariant = selectFeatureVariantTesting(state);
   const cernerSiteIds = selectRegisteredCernerFacilityIds(state);
   const sortMethod = facilityPageSortMethod;
@@ -390,6 +394,7 @@ export function selectFacilitiesRadioWidget(state) {
   return {
     cernerSiteIds,
     loadingEligibility: eligibilityStatus === FETCH_STATUS.loading,
+    requestLocationStatus,
     showVariant,
     sortMethod,
   };

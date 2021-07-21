@@ -28,6 +28,7 @@ export function ProfilePage({
   gibctEybBottomSheet,
   gibctSchoolRatings,
   match,
+  compare,
 }) {
   const { facilityCode, preSelectedProgram } = match.params;
   const queryParams = useQueryParams();
@@ -79,6 +80,7 @@ export function ProfilePage({
           showModal={dispatchShowModal}
           preSelectedProgram={preSelectedProgram}
           selectedProgram={calculator.selectedProgram}
+          compare={compare}
         />
       );
     } else {
@@ -93,6 +95,7 @@ export function ProfilePage({
           version={version}
           gibctEybBottomSheet={gibctEybBottomSheet}
           gibctSchoolRatings={gibctSchoolRatings}
+          compare={compare}
         />
       );
     }
@@ -124,8 +127,10 @@ const mapStateToProps = state => {
     profile,
     calculator,
     eligibility,
+    compare,
   } = state;
   return {
+    compare,
     constants,
     profile,
     calculator,
