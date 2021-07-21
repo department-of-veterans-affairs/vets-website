@@ -242,7 +242,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       email: 'joe.blow@va.gov',
       optionDate1: '02/21/2020',
       optionTime1: 'AM',
-      purposeOfVisit: 'new-issue',
       typeOfCareId: 'CCAUDHEAR',
     };
 
@@ -314,7 +313,6 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       }),
     ).to.be.ok;
 
-    expect(screen.baseElement).to.contain.text('New issue');
     expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
 
     expect(
