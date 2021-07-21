@@ -104,10 +104,11 @@ describe.only('VAOS Appointment service', () => {
   describe('fetchBookedAppointment', () => {
     beforeEach(() => mockFetch());
     it('should return an in person VA appointment', async () => {
-      const start = moment().add(3, 'days');
       const data = {
         id: '1234',
-        start: start.format(),
+        start: moment()
+          .add(3, 'days')
+          .format(),
         email: 'test@va.gov',
         kind: 'clinic',
         locationId: '552GA',
@@ -141,19 +142,23 @@ describe.only('VAOS Appointment service', () => {
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
 
+      // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
-      expect(differences).to.deep.equal([
-        // The v0 endpoint doesn't send us service type for booked appts
-        { op: 'remove', path: ['type'] },
-        // The v2 endpoint doesn't send us the vista status
-        { op: 'add', path: ['description'], value: null },
-        // The v2 endpoint doesn't send us the clinic name
-        {
-          op: 'add',
-          path: ['location', 'clinicName'],
-          value: 'Friendly clinic name',
-        },
-      ]);
+      expect(differences).to.deep.equal(
+        [
+          // The v0 endpoint doesn't send us service type for booked appts
+          { op: 'remove', path: ['type'] },
+          // The v2 endpoint doesn't send us the vista status
+          { op: 'add', path: ['description'], value: null },
+          // The v2 endpoint doesn't send us the clinic name
+          {
+            op: 'add',
+            path: ['location', 'clinicName'],
+            value: 'Friendly clinic name',
+          },
+        ],
+        'Transformers for v0 and v2 appointment data are out of sync',
+      );
       expect(v2Result.type).to.deep.equal({
         coding: [
           {
