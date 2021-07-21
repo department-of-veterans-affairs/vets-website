@@ -9,6 +9,7 @@ import {
   PURPOSE_TEXT,
   EXPRESS_CARE,
   UNABLE_TO_REACH_VETERAN_DETCODE,
+  TYPE_OF_VISIT,
 } from '../../utils/constants';
 import { getTimezoneBySystemId } from '../../utils/timezone';
 import {
@@ -435,6 +436,16 @@ export function transformConfirmedAppointment(appt) {
 }
 
 /**
+ * Gets the type of visit that matches our array of visit constant
+ *
+ * @param {Object} appt VAOS Service appointment object
+ * @returns {String} type of visit string
+ */
+function getTypeOfVisit(appt) {
+  return TYPE_OF_VISIT.find(type => type.serviceName === appt.visitType)?.name;
+}
+
+/**
  * Transforms MAS appointment to FHIR appointment resource
  *
  * @export
@@ -496,6 +507,7 @@ export function transformPendingAppointment(appt) {
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
       isExpressCare,
+      requestVisitType: getTypeOfVisit(appt),
       apiData: appt,
     },
   };
