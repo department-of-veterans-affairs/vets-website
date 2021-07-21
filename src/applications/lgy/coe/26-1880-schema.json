@@ -773,6 +773,7 @@
       "properties": {
         "loans": {
           "type": "array",
+          "minItems": 1,
           "items": {
             "type": "object",
             "title": "Existing VA loan",
