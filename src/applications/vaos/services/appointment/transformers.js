@@ -293,7 +293,9 @@ function setVideoData(appt) {
 
 function getCommunityCareData(appt) {
   if (!isCommunityCare(appt)) {
-    return {};
+    return {
+      communityCareProvider: null,
+    };
   }
 
   const apptType = getAppointmentType(appt);
@@ -409,7 +411,7 @@ export function transformConfirmedAppointment(appt) {
   return {
     resourceType: 'Appointment',
     // Temporary fix until https://issues.mobilehealth.va.gov/browse/VAOSR-2058 is complete
-    id: appt.id || appt.vvsAppointments[0].id,
+    id: appt.id || appt.vvsAppointments[0].id || null,
     status: getConfirmedStatus(appt, isPast),
     description: getVistaStatus(appt),
     start,
@@ -417,7 +419,8 @@ export function transformConfirmedAppointment(appt) {
     comment:
       appt.instructionsToVeteran ||
       (!appt.communityCare && appt.vdsAppointments?.[0]?.bookingNote) ||
-      appt.vvsAppointments?.[0]?.instructionsTitle,
+      appt.vvsAppointments?.[0]?.instructionsTitle ||
+      null,
     location: setLocation(appt),
     videoData,
     ...getCommunityCareData(appt),
@@ -426,6 +429,7 @@ export function transformConfirmedAppointment(appt) {
       isPastAppointment: isPast,
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
+      isExpressCare: false,
       timeZone: isCC ? appt.timeZone : null,
       isPhoneAppointment: appt.phoneOnly,
       // CDQC is the standard COVID vaccine char4 code
@@ -501,13 +505,13 @@ export function transformPendingAppointment(appt) {
     videoData: {
       isVideo,
     },
+    requestVisitType: getTypeOfVisit(appt),
     ...getCommunityCareData(appt),
     vaos: {
       isVideo,
       appointmentType: getAppointmentType(appt),
       isCommunityCare: isCC,
       isExpressCare,
-      requestVisitType: getTypeOfVisit(appt),
       apiData: appt,
     },
   };
