@@ -20,6 +20,14 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
       cy.login(mockUser);
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'showFinancialStatusReportWizard', value: true },
+            { name: 'showFinancialStatusReport', value: true },
+          ],
+        },
+      });
       cy.intercept('GET', '/v0/debts', debts);
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
