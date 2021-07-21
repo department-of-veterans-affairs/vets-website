@@ -50,3 +50,19 @@ h1:focus {
 dt {
   width: 50%;
 }
+
+.chapter33-alert {
+  i {
+    position: absolute;
+    left: 22px;
+    top: 37px;
+  }
+
+  p {
+    width: 101%;
+  }
+
+  i.fas.fa-angle-down {
+    display: none;
+  }
+}

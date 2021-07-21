@@ -13,25 +13,17 @@ import { OnThisPageLinks } from './OnThisPageLinks';
 
 const Chapter33Alert = () => {
   return (
-    <va-alert background-only status="warning">
+    <va-alert class="chapter33-alert" background-only status="warning">
       <h3 slot="headline">Alert headline</h3>
 
       <i
         aria-hidden="true"
         className="fa fa-exclamation-triangle vads-u-font-size--sm"
-        style={{
-          position: 'absolute',
-          left: '22px',
-          top: '37px',
-        }}
       />
 
       <div className="vads-u-margin-left--3">
         <AdditionalInfo triggerText="If you got an email about Chapter 33 tuition debt with code 75B">
-          <p
-            className="vads-u-font-size--base vads-u-font-family--sans"
-            style={{ width: '101%' }}
-          >
+          <p className="vads-u-font-size--base vads-u-font-family--sans">
             This is a debt assigned to your school. You won’t find it listed
             here. Before you make a payment on this debt, check with your
             school. They may have already paid.
