@@ -274,22 +274,22 @@ export function mockCCProviderFetch(
   if (vaError) {
     setFetchJSONFailure(
       global.fetch.withArgs(
-        `${environment.API_URL}/v1/facilities/ccp?latitude=${
+        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
           address.latitude
         }&longitude=${
           address.longitude
-        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
       ),
       { errors: [] },
     );
   } else {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${environment.API_URL}/v1/facilities/ccp?latitude=${
+        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
           address.latitude
         }&longitude=${
           address.longitude
-        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+        }&radius=${radius}&per_page=15&page=1&${bboxQuery}&${specialtiesQuery}&trim=true`,
       ),
       { data: providers },
     );

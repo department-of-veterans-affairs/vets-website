@@ -245,7 +245,7 @@ describe('VAOS Location service', () => {
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/v1/facilities/ccp?latitude=-72.73&longitude=42.12&radius=60&per_page=15&page=1&bbox[]=-73.598&bbox[]=39.194&bbox[]=-71.862&bbox[]=45.046&specialties[]=133NN1002X&type=provider&trim=true',
+        '/facilities_api/v1/ccp/provider?latitude=-72.73&longitude=42.12&radius=60&per_page=15&page=1&bbox[]=-73.598&bbox[]=39.194&bbox[]=-71.862&bbox[]=45.046&specialties[]=133NN1002X&trim=true',
       );
       expect(data.length).to.equal(ccProviders.data.length);
       const firstProvider = ccProviders.data[0];

@@ -56,6 +56,12 @@
           "classificationCode": "540"
         },
         {
+          "cause": "NEW",
+          "primaryDescription": "This disability is related to my military service.",
+          "condition": "PTSD (post traumatic stress disorder)",
+          "classificationCode": "5420"
+        },
+        {
           "cause": "WORSENED",
           "worsenedDescription": "This disability was worsened by military service.",
           "worsenedEffects": "This pre-existing disability was worsened by military service.",
@@ -111,4 +117,3 @@
       ]
     }
   }
-  

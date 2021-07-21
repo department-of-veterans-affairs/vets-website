@@ -1,9 +1,11 @@
 import React from 'react';
-
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+
+import HowToApplyPost911GiBill from '../HowToApplyPost911GiBill';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -13,8 +15,15 @@ class IntroductionPage extends React.Component {
   render() {
     return (
       <div className="schemaform-intro">
-        <FormTitle title="My Education Benefits" />
+        <Breadcrumbs>
+          <a href="#">Home</a>
+          <a href="#">My VA</a>
+          <a href="#">My Education</a>
+          <a href="#">Apply for VA Education Benefits</a>
+        </Breadcrumbs>
+        <FormTitle title="Apply for VA Education Benefits" />
         <p>Equal to VA Form 22-1990 (My Education Benefits).</p>
+        <HowToApplyPost911GiBill />
         <SaveInProgressIntro
           prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
@@ -27,47 +36,66 @@ class IntroductionPage extends React.Component {
         <div className="process schemaform-process">
           <ol>
             <li className="process-step list-one">
-              <h5>Prepare</h5>
-              <h6>To fill out this application, you’ll need your:</h6>
+              <div>
+                <h5>Prepare</h5>
+              </div>
+              <div>
+                <h6>To fill out this application, you’ll need:</h6>
+              </div>
               <ul>
-                <li>Social Security number (required)</li>
+                <li>Knowledge of your military service history</li>
+                <li>Your current address and contact information</li>
               </ul>
               <p>
                 <strong>What if I need help filling out my application?</strong>{' '}
                 An accredited representative, like a Veterans Service Officer
                 (VSO), can help you fill out your claim.{' '}
-                <a href="/disability-benefits/apply/help/index.html">
-                  Get help filing your claim
+                <a href="/disability/get-help-filing-claim/">
+                  Find an accredited representative
                 </a>
+                .
               </p>
             </li>
             <li className="process-step list-two">
-              <h5>Apply</h5>
-              <p>Complete this my education benefits form.</p>
-              <p>
-                After submitting the form, you’ll get a confirmation message.
-                You can print this for your records.
-              </p>
+              <div>
+                <h5>Apply</h5>
+              </div>
+              <p>Complete this education benefits form.</p>
             </li>
             <li className="process-step list-three">
-              <h5>VA Review</h5>
+              <div>
+                <h5>VA review</h5>
+              </div>
               <p>
-                We process claims within a week. If more than a week has passed
-                since you submitted your application and you haven’t heard back,
-                please don’t apply again. Call us at.
+                After submitting the application, you may get a decision
+                automatically.
+              </p>
+              <p>
+                Sometimes we may need to take a closer look at your application.
+                This process will usually take 30 days. We’ll let you know by
+                your preferred contact method if we need more information.
               </p>
             </li>
             <li className="process-step list-four">
-              <h5>Decision</h5>
+              <div>
+                <h5>Decision</h5>
+              </div>
               <p>
-                Once we’ve processed your claim, you’ll get a notice in the mail
-                with our decision.
+                If we've approved your application, you’ll get a link to
+                download your Certificate of Eligibility (COE), or award letter.
               </p>
+              <p>
+                If your application wasn’t approved, you’ll get a link to
+                download denial letter.
+              </p>
+              <p>We will also send these letters in the mail.</p>
             </li>
           </ol>
         </div>
+
         <SaveInProgressIntro
           buttonOnly
+          prefillEnabled={this.props.route.formConfig.prefillEnabled}
           messages={this.props.route.formConfig.savedFormMessages}
           pageList={this.props.route.pageList}
           startText="Start the Application"
