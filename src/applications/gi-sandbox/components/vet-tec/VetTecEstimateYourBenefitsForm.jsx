@@ -19,16 +19,19 @@ function VetTecEstimateYourBenefitsForm({
   selectedProgram,
   calculatorInputChange,
 }) {
-  const [tuitionFees, setTuitionFees] = useState(0);
+  const selectedProgramName = selectedProgram;
+  let programSelected = institution.programs.find(
+    program => program.description === selectedProgramName,
+  );
+  programSelected = programSelected || institution.programs[0];
+  const [tuitionFees, setTuitionFees] = useState(programSelected.tuitionAmount);
   const [scholarships, setScholarships] = useState(0);
-  const [programName, setProgramName] = useState('');
+  const [programName, setProgramName] = useState(selectedProgramName);
   const [inputUpdated, setInputUpdated] = useState(false);
-
   const getProgramByName = () =>
     institution.programs.find(
       p => p.description.toLowerCase() === programName.toLowerCase(),
     );
-
   const setProgramFields = () => {
     if (programName) {
       const program = getProgramByName();
@@ -45,18 +48,6 @@ function VetTecEstimateYourBenefitsForm({
     }
   };
   useEffect(() => {
-    const selectedProgramName = selectedProgram;
-
-    let programSelected = institution.programs.find(
-      program => program.description === selectedProgramName,
-    );
-    programSelected = selectedProgram || institution.programs[0];
-
-    setTuitionFees(programSelected.tuitionAmount);
-    setScholarships(0);
-    setProgramName(selectedProgramName);
-    setInputUpdated(false);
-
     setProgramFields();
   }, []);
 
