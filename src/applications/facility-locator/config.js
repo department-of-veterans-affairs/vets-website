@@ -200,7 +200,7 @@ export const healthServices = {
   WomensHealth: "Women's health",
   Podiatry: 'Podiatry',
   Nutrition: 'Nutrition',
-  CaregiverSupport: 'Caregiver Support',
+  CaregiverSupport: 'Caregiver support',
 };
 
 export const ccUrgentCareLabels = {
