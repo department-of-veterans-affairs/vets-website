@@ -1,0 +1,19 @@
+import Timeouts from 'platform/testing/e2e/timeouts';
+
+describe('Unauthed User Flow Test', () => {
+  it('Provides the correct experience', () => {
+    const appPaths = [
+      // While the page is in maintenance, it doesn't need authed
+      '/education/gi-bill/post-9-11/ch-33-benefit/status',
+      '/records/download-va-letters/letters',
+      '/track-claims',
+    ];
+
+    appPaths.forEach(path => {
+      cy.visit(path);
+      cy.get('body', { timeout: Timeouts.normal }).should('be.visible');
+      cy.get('.login', { timeout: Timeouts.normal }).should('be.visible');
+      cy.get('h1').should('contain', 'Sign in to VA.gov');
+    });
+  });
+});
