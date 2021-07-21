@@ -18,6 +18,7 @@ export const MaintenanceAlert = () => {
         To request help with VA education, disability compensation, or pension
         benefit debt, please fill out the PDF version of our
         <a
+          aria-label="Financial Status Report (VA Form 5655) - Opens in new window"
           className="vads-u-margin-left--0p5"
           target="_blank"
           rel="noopener noreferrer"
