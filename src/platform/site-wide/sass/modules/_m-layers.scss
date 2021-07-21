@@ -14,6 +14,10 @@
 #modal-crisis-line {
   z-index: $modal-layer;
 }
+#session-timeout-modal {
+  // Needs to show up over everything because the user is about to get signed out
+  z-index: 9999;
+}
 
 //  mega menu goes on top of the "Search Contact Us Signin" nav in mobile
 // these have to be flipped
