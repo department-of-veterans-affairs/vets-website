@@ -107,7 +107,7 @@ export const ContactInfoDescription = ({ formContext, profile }) => {
                 title="Mobile phone number"
                 fieldName={FIELD_NAMES.MOBILE_PHONE}
                 deleteDisabled
-                noAlertClosing
+                alertClosingDisabled
               />
             </VAPServicePendingTransactionCategory>
             <VAPServicePendingTransactionCategory
