@@ -6,30 +6,55 @@ window.addEventListener('DOMContentLoaded', () => {
    * Before, users had to tab through all the links in the footer to get
    * to the button.
    */
+  const body = document.querySelector('body');
   const main = document.querySelector('main');
-  const feedbackButtonContainer = document.getElementById(
-    'kampyleButtonContainer',
-  );
-  feedbackButtonContainer.remove();
-  main.append(feedbackButtonContainer);
+  const observeConfig = { attributes: false, childList: true };
+  let feedbackButtonContainer;
 
   /**
-   * When the button is clicked on, #nebula_div_btn is removed from the DOM.
-   * When the form is closed, it gets added back.
-   * An observer detects when #nebula_div_btn is added back and sets the
-   * focus on it again.
+   * Set an observer to detect when #kampyleButtonContainer is added to
+   * the DOM, then move it.
    */
-  const observer = new MutationObserver(mutationsList => {
-    mutationsList.forEach(mutation => {
-      if (mutation.addedNodes.length > 0) {
-        mutation.addedNodes.forEach(node => {
-          if (node.id === 'nebula_div_btn') {
-            document.getElementById('nebula_div_btn').focus();
+  const bodyObserver = new MutationObserver(bodyMutationsList => {
+    bodyMutationsList.forEach(bodyMutation => {
+      if (bodyMutation.addedNodes.length > 0) {
+        bodyMutation.addedNodes.forEach(bodyNode => {
+          if (bodyNode.id === 'kampyleButtonContainer') {
+            feedbackButtonContainer = document.getElementById(
+              'kampyleButtonContainer',
+            );
+            feedbackButtonContainer.remove();
+            main.append(feedbackButtonContainer);
+
+            /**
+             * When the Feedback button is clicked on, #nebula_div_btn is removed from the DOM.
+             * When the form is closed, it is added back.
+             * Set an observer to detect when #nebula_div_btn is added back then set the
+             * focus on it again.
+             */
+            const buttonContainerObserver = new MutationObserver(
+              buttonContainerMutationsList => {
+                buttonContainerMutationsList.forEach(containerMutation => {
+                  if (containerMutation.addedNodes.length > 0) {
+                    containerMutation.addedNodes.forEach(containerNode => {
+                      if (containerNode.id === 'nebula_div_btn') {
+                        document.getElementById('nebula_div_btn').focus();
+                      }
+                    });
+                  }
+                });
+              },
+            );
+
+            buttonContainerObserver.observe(
+              feedbackButtonContainer,
+              observeConfig,
+            );
           }
         });
       }
     });
   });
-  const observeConfig = { attributes: false, childList: true };
-  observer.observe(feedbackButtonContainer, observeConfig);
+
+  bodyObserver.observe(body, observeConfig);
 });
