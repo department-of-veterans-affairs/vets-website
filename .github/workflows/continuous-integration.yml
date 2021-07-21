@@ -68,6 +68,13 @@ jobs:
           BUILDTIME=$(date +%s)
           EOF
 
+      - name: Download coverage report
+        uses: actions/download-artifact@v2
+        if: ${{ github.ref == 'refs/heads/master' }}
+        with:
+          name: test-coverage-report
+          path: build/${{ matrix.buildtype }}/test-coverage-report.json
+
       - name: Compress and archive build
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
@@ -118,6 +125,13 @@ jobs:
 
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        if: ${{ github.ref == 'refs/heads/master' }}
+        with:
+          name: test-coverage-report
+          path: coverage/test-coverage-report.json
 
       - name: Get code coverage
         id: code-coverage
