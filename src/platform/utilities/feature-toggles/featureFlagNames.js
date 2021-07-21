@@ -18,7 +18,6 @@ export default Object.freeze({
   covidVaccineUpdatesDisableAuth: 'covid_vaccine_registration_frontend_hide_auth',
   covidVaccineUpdatesEnableExpandedEligibility: 'covid_vaccine_registration_frontend_enable_expanded_eligibility',
   covidVaccineUpdatesForm: 'covid_vaccine_registration_frontend',
-  dashboardShowDashboard2: 'dashboard_show_dashboard_2',
   debtLettersShowLetters: 'debtLettersShowLetters',
   dependencyVerification: 'dependency_verification',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
