@@ -30,7 +30,7 @@ const Landing = props => {
         validateToken(token)
           .then(json => {
             const { data } = json;
-            if (data.error) {
+            if (data.error || data.errors) {
               const error = data.error || data.errors;
               recordEvent({
                 event: createAnalyticsSlug('uuid-validate-api-call-failed'),
