@@ -299,10 +299,10 @@ jobs:
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
-    needs: build
+    # needs: build
     container:
       image: cypress/browsers:node14.17.0-chrome91-ff89
-      options: -u node -v /etc/ssl/certs:/certs
+      options: -u 1001:1001 -v /etc/ssl/certs:/certs
       env:
         NODE_EXTRA_CA_CERTS: /certs/VA-Internal-S2-RCA1-v1.cer.pem
 
