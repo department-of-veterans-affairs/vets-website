@@ -86,6 +86,11 @@ class FormPage extends React.Component {
 
   formData = () => {
     const { pageConfig } = this.props.route;
+    // If it's a CustomPage, return the entire form data
+    if (pageConfig.CustomPage) return this.props.form.data;
+
+    // If it's an array page, return only the data for that array item
+    // Otherwise, return the data for the entire form
     return this.props.route.pageConfig.showPagePerItem
       ? _.get(
           [pageConfig.arrayPath, this.props.params.index],
@@ -121,7 +126,7 @@ class FormPage extends React.Component {
     const pageClasses = classNames('form-panel', route.pageConfig.pageClass);
     const data = this.formData();
 
-    if (route.pageConfig.showPagePerItem) {
+    if (route.pageConfig.showPagePerItem && !route.pageConfig.CustomPage) {
       // Instead of passing through the schema/uiSchema to SchemaForm, the
       // current item schema for the array at arrayPath is pulled out of the page state and passed
       schema =

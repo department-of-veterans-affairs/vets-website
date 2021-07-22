@@ -338,6 +338,25 @@ describe('Schemaform <FormPage>', () => {
           obj,
         );
     }
+    function makeBypassArrayForm(CustomPage) {
+      return obj =>
+        Object.assign(
+          {
+            pages: {
+              testPage: {
+                CustomPage,
+                showPagePerItem: true,
+                arrayPath: 'arrayProp',
+              },
+            },
+            data: {
+              arrayProp: [{}],
+              someOtherProp: 'asdf',
+            },
+          },
+          obj,
+        );
+    }
 
     it('should render a custom component instead of SchemaForm', () => {
       const CustomPage = () => <div>Hello, world!</div>;
@@ -353,6 +372,29 @@ describe('Schemaform <FormPage>', () => {
       expect(tree.everySubTree('CustomPage')).not.to.be.empty;
     });
 
-    it('should return the entire form data to the CustomPage', () => {});
+    it('should return the entire form data to the CustomPage when showPagePerIndex is true', () => {
+      const CustomPage = () => <div />;
+      const tree = SkinDeep.shallowRender(
+        <FormPage
+          form={makeBypassArrayForm(CustomPage)()}
+          route={makeBypassRoute(CustomPage)({
+            pageConfig: {
+              pageKey: 'testPage',
+              CustomPage,
+              errorMessages: {},
+              title: '',
+              showPagePerItem: true,
+              arrayPath: 'arrayProp',
+            },
+          })}
+          location={location}
+          params={{ index: 0 }}
+        />,
+      );
+
+      expect(
+        tree.everySubTree('CustomPage')[0].getRenderOutput().props.data,
+      ).to.deep.equal({ arrayProp: [{}], someOtherProp: 'asdf' });
+    });
   });
 });
