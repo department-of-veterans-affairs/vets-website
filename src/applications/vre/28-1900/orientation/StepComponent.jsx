@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { orientationSteps } from './utils';
 
@@ -64,6 +65,9 @@ const StepComponent = props => {
           to="/"
           className="vads-c-action-link--green vads-u-padding-left--0"
           onClick={() => {
+            recordEvent({
+              event: 'howToWizard-complete-orientation',
+            });
             clickHandler(WIZARD_STATUS_COMPLETE);
           }}
         >

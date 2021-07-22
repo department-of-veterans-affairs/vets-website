@@ -41,6 +41,62 @@ describe('check in', () => {
         expect(push.called).to.be.true;
         expect(push.calledWith(`magic`));
       });
+      it('calls push with an object if params object is supplied - no params', () => {
+        const push = sinon.spy();
+        const mockRouter = {
+          push,
+          params: {
+            token: 'some-token',
+          },
+        };
+        const target = 'magic';
+        const params = {};
+        goToNextPage(mockRouter, target, params);
+        expect(push.called).to.be.true;
+        expect(push.calledWith({ pathname: 'magic' }));
+      });
+      it('calls push with an object if params object is supplied - with url params', () => {
+        const push = sinon.spy();
+        const mockRouter = {
+          push,
+          params: {
+            token: 'some-token',
+          },
+        };
+        const target = 'magic';
+        const params = {
+          url: {
+            first: 'first',
+            second: 'second',
+            third: 'third',
+          },
+        };
+        goToNextPage(mockRouter, target, params);
+        expect(push.called).to.be.true;
+        expect(push.lastCall.args[0]).to.deep.equal({
+          pathname: 'magic',
+          search: `?first=first&second=second&third=third`,
+        });
+      });
+      it('calls push with an object if params object is supplied - with url params are empty', () => {
+        const push = sinon.spy();
+        const mockRouter = {
+          push,
+          params: {
+            token: 'some-token',
+          },
+        };
+        const target = 'magic';
+        const params = {
+          url: {},
+        };
+        goToNextPage(mockRouter, target, params);
+        expect(push.called).to.be.true;
+        expect(push.lastCall.args[0]).to.deep.equal({
+          pathname: 'magic',
+          search: ``,
+        });
+      });
     });
   });
 });

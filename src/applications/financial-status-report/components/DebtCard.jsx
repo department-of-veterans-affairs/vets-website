@@ -85,6 +85,7 @@ const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {
 
       <div className="vads-u-margin-top--2">
         <input
+          name="request-help-with-debt"
           id={debtIdentifier}
           type="checkbox"
           className=" vads-u-width--auto"

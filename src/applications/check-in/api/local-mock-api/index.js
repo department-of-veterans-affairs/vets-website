@@ -3,6 +3,7 @@
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
 const mockCheckIns = require('./mocks/check.in.response');
 const mockValidates = require('./mocks/validate.responses');
+const delay = require('mocker-api/lib/delay');
 
 const responses = {
   ...commonResponses,
@@ -77,4 +78,4 @@ const responses = {
   },
 };
 
-module.exports = responses;
+module.exports = delay(responses, 2000);

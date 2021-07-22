@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -149,13 +149,16 @@ export const disabilitiesExplanation = (
 /**
  * Shows the alert box only if the form has been submitted
  */
-export const ContestedIssuesAlert = ({ className }) => {
+export const ContestedIssuesAlert = ({ className = '' }) => {
   setTimeout(() => scrollTo('eligibleScrollElement'), 300);
   return (
-    <AlertBox
-      status="error"
-      className={`eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2 ${className}`}
-      headline="Please choose an eligible issue so we can process your request"
-    />
+    <va-alert status="error">
+      <h3
+        slot="headline"
+        className={`eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2 ${className}`}
+      >
+        Please choose an eligible issue so we can process your request
+      </h3>
+    </va-alert>
   );
 };

@@ -344,7 +344,7 @@ describe('App', () => {
   });
 
   describe('when chatbox is rendered', () => {
-    it('loads the webchat framework via script tag', () => {
+    it.skip('loads the webchat framework via script tag', () => {
       expect(screen.queryByTestId('webchat-framework-script')).to.not.exist;
 
       const wrapper = renderInReduxProvider(<Chatbox timeout={10} />);
@@ -369,7 +369,7 @@ describe('App', () => {
       ).to.have.lengthOf(1);
     });
 
-    it('exposes React and ReactDOM as globals for the framework to re-use so hooks still work', () => {
+    it.skip('exposes React and ReactDOM as globals for the framework to re-use so hooks still work', () => {
       expect(window.React).to.not.exist;
       expect(window.ReactDOM).to.not.exist;
 

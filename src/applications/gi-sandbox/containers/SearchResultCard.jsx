@@ -3,10 +3,17 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { addCompareInstitution, removeCompareInstitution } from '../actions';
+import { MINIMUM_RATING_COUNT } from '../constants';
 import Checkbox from '../components/Checkbox';
 import { estimatedBenefits } from '../selectors/estimator';
-import { formatCurrency, createId } from '../utils/helpers';
+import {
+  formatCurrency,
+  createId,
+  convertRatingToStars,
+} from '../utils/helpers';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 import RatingsStars from '../components/RatingsStars';
 import SchoolClassification from '../components/SchoolClassification';
@@ -19,6 +26,7 @@ export function SearchResultCard({
   institution,
   location = false,
   header = null,
+  gibctSchoolRatings,
 }) {
   const {
     name,
@@ -74,26 +82,28 @@ export function SearchResultCard({
     </>
   );
 
-  const ratingsInformation =
-    ratingCount > 0 ? (
-      <div>
-        <div className="vads-u-margin-bottom--2">
-          <RatingsStars rating={ratingAverage} />
-          {location && <br />}
-          <strong>
-            ({Math.round(10 * ratingAverage) / 10} of 5) by {ratingCount}{' '}
-            Veteran
-            {ratingCount > 1 && 's'}
-          </strong>
-        </div>
+  const stars = convertRatingToStars(ratingAverage);
+  const displayStars =
+    gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
+
+  const ratingsInformation = displayStars ? (
+    <div>
+      <div className="vads-u-margin-bottom--2">
+        <RatingsStars rating={ratingAverage} />
+        {location && <br />}
+        <strong>
+          ({Math.round(10 * ratingAverage) / 10} of 5) by {ratingCount} Veteran
+          {ratingCount > 1 && 's'}
+        </strong>
       </div>
-    ) : (
-      <div>
-        <p>
-          <strong>School rating:</strong> Not yet rated
-        </p>
-      </div>
-    );
+    </div>
+  ) : (
+    <div>
+      <p>
+        <strong>School rating:</strong> Not yet rated
+      </p>
+    </div>
+  );
 
   const estimate = ({ qualifier, value }) => {
     if (qualifier === '% of instate tuition') {
@@ -265,6 +275,9 @@ export function SearchResultCard({
 const mapStateToProps = (state, props) => ({
   compare: state.compare,
   estimated: estimatedBenefits(state, props),
+  gibctSchoolRatings: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSchoolRatings
+  ],
 });
 
 const mapDispatchToProps = {

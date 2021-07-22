@@ -1,4 +1,5 @@
 import start from './Start';
+import maintenance from './Maintenance';
 import reconsider from './Reconsider';
 import request from './Request';
 import submit from './Submit';
@@ -19,6 +20,7 @@ import appeals from './Appeals';
 
 export default [
   start,
+  maintenance,
   reconsider,
   request,
   submit,

@@ -4,15 +4,19 @@ import mockUser from '@@profile/tests/fixtures/users/user-36.json';
 import { mockUser as mockUserVAPError } from '@@profile/tests/fixtures/users/user-vap-error.js';
 import error500 from '@@profile/tests/fixtures/500.json';
 
-import { registerCypressHelpers } from '../helpers';
+import {
+  mockNotificationSettingsAPIs,
+  registerCypressHelpers,
+} from '../helpers';
 
 import mockFeatureToggles from './feature-toggles.json';
 
 registerCypressHelpers();
 
-describe.skip('Notification Settings - Load Errors', () => {
+describe('Notification Settings - Load Errors', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+    mockNotificationSettingsAPIs();
+    cy.intercept('/v0/feature_toggles?*', mockFeatureToggles);
   });
   context('when VA Profile contact info is not available', () => {
     it('should show an error message and not even try to fetch current notification preferences', () => {

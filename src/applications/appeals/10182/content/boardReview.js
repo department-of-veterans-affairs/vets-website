@@ -8,7 +8,7 @@ export const boardReviewContent = {
       <p className="hide-on-review">
         A Veterans Law Judge will review your appeal based on evidence already
         submitted. You can’t submit more evidence or have a hearing. The Direct
-        review option will take about <strong>1.5 years</strong> for the Board
+        review option will take about <strong>1 year</strong> for the Board
         complete.
       </p>
     </>

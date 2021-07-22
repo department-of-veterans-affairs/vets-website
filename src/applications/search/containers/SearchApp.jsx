@@ -6,7 +6,11 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { fetchSearchResults } from '../actions';
-import { formatResponseString, truncateResponseString } from '../utils';
+import {
+  formatResponseString,
+  truncateResponseString,
+  removeDoubleBars,
+} from '../utils';
 import recordEvent from 'platform/monitoring/record-event';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 
@@ -416,7 +420,9 @@ class SearchApp extends React.Component {
 
   /* eslint-disable react/no-danger */
   renderWebResult(result, snippetKey = 'snippet', isBestBet = false, index) {
-    const strippedTitle = formatResponseString(result.title, true);
+    const strippedTitle = removeDoubleBars(
+      formatResponseString(result.title, true),
+    );
     return (
       <li
         key={result.url}
