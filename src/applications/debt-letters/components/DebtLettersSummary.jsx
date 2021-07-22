@@ -13,18 +13,16 @@ import { OnThisPageLinks } from './OnThisPageLinks';
 
 const Chapter33Alert = () => {
   return (
-    <>
-      <ExpandableAlert
-        iconType="triangle"
-        status="limited"
-        label="If you got an email about Chapter 33 tuition debt with code 75B"
-        content={
-          'This is a debt assigned to your school. You won’t find it listed here. ' +
-          'Before you make a payment on this debt, check with your school.' +
-          'They may have already paid. '
-        }
-      />
-    </>
+    <ExpandableAlert
+      iconType="triangle"
+      status="limited"
+      label="If you got an email about Chapter 33 tuition debt with code 75B"
+      content={
+        'This is a debt assigned to your school. You won’t find it listed here. ' +
+        'Before you make a payment on this debt, check with your school.' +
+        'They may have already paid. '
+      }
+    />
   );
 };
 
