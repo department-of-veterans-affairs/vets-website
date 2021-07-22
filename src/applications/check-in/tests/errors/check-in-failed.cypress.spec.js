@@ -13,6 +13,11 @@ describe('Check In Experience -- ', () => {
     });
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
+  afterEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
+  });
   it('happy path', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';

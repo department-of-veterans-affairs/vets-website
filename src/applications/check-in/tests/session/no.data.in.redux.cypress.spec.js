@@ -23,6 +23,11 @@ describe('Check In Experience -- ', () => {
       );
     });
   });
+  afterEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
+  });
   it('on page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
     const featureRoute = '/health-care/appointment-check-in/details';
     cy.visit(featureRoute);

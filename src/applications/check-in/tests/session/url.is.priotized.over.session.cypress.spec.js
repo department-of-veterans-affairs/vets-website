@@ -23,6 +23,11 @@ describe('Check In Experience -- ', () => {
       );
     });
   });
+  afterEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
+  });
   it('url is prioritized over session data', () => {
     cy.window().then(window => {
       const data = window.sessionStorage.getItem(
