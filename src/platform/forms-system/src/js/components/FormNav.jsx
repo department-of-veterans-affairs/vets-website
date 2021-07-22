@@ -92,7 +92,7 @@ export default function FormNav(props) {
           {showHeader && (
             <h2 id="nav-form-header" className="vads-u-font-size--h4">
               {stepText}
-              <span className="vads-u-display--block vads-u-color--gray-medium vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+              <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
                 Your application will be saved on every change
               </span>{' '}
             </h2>
