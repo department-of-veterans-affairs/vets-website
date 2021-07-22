@@ -7,13 +7,13 @@
   color: $color-gray-dark;
   cursor: pointer;
   width: 530px;
-  height: 42px;
   border: none;
   text-align: left;
   outline: none;
   font-size: 16px;
-  padding: 0;
+  padding: 8px;
   margin: 0;
+  line-height: 1.5;
   background-color: transparent;
   border-radius: 0;
 
@@ -55,10 +55,11 @@
   width: 20px !important;
   height: 18px !important;
   pointer-events: none !important;
-  padding: 12px 11px 12px 12px !important;
   font-size: unset !important;
   display: unset !important;
   align-self: flex-start;
+  margin-right: 5px;
+  margin-top: 5px;
 }
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
@@ -68,7 +69,6 @@
     width: 20px !important;
     height: 18px !important;
     pointer-events: none !important;
-    padding: 12px 20px 12px 12px !important;
   }
 }
 
