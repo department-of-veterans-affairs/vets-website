@@ -52,15 +52,15 @@ export function NameSearchResults({
       {name !== '' &&
         name !== null && (
           <div className="row vads-u-padding--0 vads-u-margin--0">
-            <p>
+            <p className="vads-u-padding-x--2p5 small-screen:vads-u-padding--0">
               Showing <strong>{count} search results</strong> for '
               <strong>{name}</strong>'
             </p>
-            <div className="column small-4 vads-u-padding--0">
+            <div className="column small-4 vads-u-padding--0 vads-u-display--none small-screen:vads-u-display--block">
               <TuitionAndHousingEstimates />
               <FilterYourResults />
             </div>
-            <div className="column small-8 vads-u-padding--0">
+            <div className="column search-results-content">
               {inProgress && (
                 <LoadingIndicator message="Loading search results..." />
               )}

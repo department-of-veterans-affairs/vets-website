@@ -286,6 +286,9 @@
   .result-card-container {
     border-radius: 5px;
   }
+  @include media-maxwidth($small-screen) {
+    width: 75%;
+  }
 }
 
 .accreditation-tag {
@@ -307,4 +310,15 @@
   justify-content: center;
   align-items: center;
   position: relative;
+}
+
+.search-results-content {
+  width: 66.66667%;
+  @include media-maxwidth($small-screen) {
+    float: none !important;
+    width: 100%;
+    margin: 0;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
 }
