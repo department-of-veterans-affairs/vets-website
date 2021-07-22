@@ -14,7 +14,7 @@ Cypress.config('waitForAnimations', true);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal'],
+    dataSets: ['maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
@@ -55,6 +55,49 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+
+      'employment-records': ({ afterHook }) => {
+        afterHook(() => {
+          // Veteran Employer One - Current Employment
+          cy.findByLabelText(/Type of work/).select('Full time');
+          cy.get(`select[name="fromMonth"]`).select('1');
+          cy.get(`input[name="fromYear"]`).type('2017');
+          cy.get(`input[name="current-employment"]`).check();
+          cy.get(`input[name="employerName"]`).type('Veteran Employer One');
+          cy.findAllByText(/Save/i, { selector: 'button' })
+            .first()
+            .click();
+          // Add job link
+          cy.findAllByText(/Add job/i, { selector: 'a' })
+            .first()
+            .click();
+
+          // Veteran Employer Two - Previous Employment
+          cy.findByLabelText(/Type of work/).select('Full time');
+          cy.get(`select[name="fromMonth"]`).select('1');
+          cy.get(`input[name="fromYear"]`).type('2015');
+          cy.get(`select[name="toMonth"]`).select('1');
+          cy.get(`input[name="toYear"]`).type('2017');
+          cy.get(`input[name="employerName"]`).type('Veteran Employer Two');
+          cy.findAllByText(/Save/i, { selector: 'button' })
+            .first()
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'income/0': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(`input[name="root_monthlyGrossSalary"]`).type('5000');
+          cy.get(`input[name="root_deductions_0_name"]`).type('Federal tax');
+          cy.get(`input[name="root_deductions_0_amount"]`).type('300');
+          cy.findAllByText(/Save/i, { selector: 'button' })
+            .first()
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       'resolution-options': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="Waiver"]').click();
