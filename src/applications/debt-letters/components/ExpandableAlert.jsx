@@ -22,7 +22,7 @@ const ExpandableAlert = ({
     });
   };
 
-  const iconIndicator = () => {
+  const getCollapsibleIcon = () => {
     if (!content) return '';
 
     return open ? 'fa-angle-down open' : 'fa-angle-down close';
@@ -32,7 +32,7 @@ const ExpandableAlert = ({
     <div {...rest}>
       <button
         aria-expanded={open}
-        aria-controls={`expandable-container-${trackingPrefix}`}
+        aria-controls={`expandable-alert-${trackingPrefix}`}
         type="button"
         className={`collapsible ${status}`}
         onClick={e => handleOnclick(e)}
@@ -49,7 +49,7 @@ const ExpandableAlert = ({
         <i
           aria-hidden="true"
           role="img"
-          className={`fas ${iconIndicator()}  more-icon vads-u-padding-left--0p5`}
+          className={`fas ${getCollapsibleIcon()}  more-icon vads-u-padding-left--0p5`}
         />
       </button>
 
