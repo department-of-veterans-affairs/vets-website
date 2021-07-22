@@ -25,7 +25,7 @@ const GettingStartedWithVetTec = () => {
         <li>Money for housing during your training</li>
       </ul>
       <p>
-        <b>Note:</b> If you're on active duty, you're not eligible to receive a
+        <b>Note:</b> If you’re on active duty, you’re not eligible to receive a
         housing allowance.
       </p>
       <p className="vads-u-margin-right--9">
@@ -46,7 +46,7 @@ const GettingStartedWithVetTec = () => {
         <h3>How do I apply for VET TEC?</h3>
       </div>
       <hr className="vads-u-margin-top--1" />
-      <b>To apply for the VET TEC program, you'll need to:</b>
+      <b>To apply for the VET TEC program, you’ll need to:</b>
       <ol className="getting-started-with-benefits-ol vads-u-margin-right--9">
         <li>
           Fill out an Application for Veteran Employment Through Technology
@@ -64,7 +64,7 @@ const GettingStartedWithVetTec = () => {
         <li className="vads-u-padding-y--1p5">
           After you’ve been approved for VET TEC, you can then apply to the
           VA-approved training program you’d like to attend. To learn more about
-          these approved programs, visit the training provider's website.
+          these approved programs, visit the training provider’s website.
         </li>
       </ol>
       <b>What if I have questions about the VET TEC program?</b>
