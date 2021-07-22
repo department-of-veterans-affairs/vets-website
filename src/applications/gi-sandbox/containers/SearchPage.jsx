@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { changeSearchTab, setPageTitle } from '../actions';
 import { PAGE_TITLE, TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
-import { useQueryParams } from '../utils/helpers';
+import { useQueryParams, isSmallScreen } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
 import CompareDrawer from './CompareDrawer';
 import NameSearchResults from '../containers/search/NameSearchResults';
@@ -20,9 +20,7 @@ export function SearchPage({
   const queryParams = useQueryParams();
   const history = useHistory();
   const { tab, error } = search;
-  const [smallScreen, setSmallScreen] = useState(
-    matchMedia('(max-width: 480px)').matches,
-  );
+  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
 
   useEffect(
     () => {
@@ -33,7 +31,7 @@ export function SearchPage({
 
   useEffect(() => {
     const checkSize = () => {
-      setSmallScreen(matchMedia('(max-width: 480px)').matches);
+      setSmallScreen(isSmallScreen());
     };
     window.addEventListener('resize', checkSize);
 
@@ -78,6 +76,7 @@ export function SearchPage({
                 </va-accordion-item>
                 <va-accordion-item header="Search by location">
                   <LocationSearchForm />
+                  <LocationSearchResults />
                 </va-accordion-item>
               </va-accordion>
             </div>

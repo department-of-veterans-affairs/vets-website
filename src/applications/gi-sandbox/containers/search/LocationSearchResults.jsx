@@ -10,15 +10,18 @@ import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../../containers/FilterYourResults';
-import { numberToLetter, createId } from '../../utils/helpers';
+import { numberToLetter, createId, isSmallScreen } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
   updateEligibilityAndFilters,
 } from '../../actions';
 import { connect } from 'react-redux';
 import { getFiltersChanged } from '../../selectors/filters';
+import classNames from 'classnames';
 
 const MILE_METER_CONVERSION_RATE = 1609.34;
+const LIST_TAB = 'List';
+const MAP_TAB = 'Map';
 
 function LocationSearchResults({
   search,
@@ -37,6 +40,8 @@ function LocationSearchResults({
   const [mapState, setMapState] = useState({ changed: false, distance: null });
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
   const [cardResults, setCardResults] = useState(null);
+  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
+  const [mobileTab, setMobileTab] = useState(LIST_TAB);
 
   const updateMapState = () => {
     const mapBounds = map.current.getBounds();
@@ -111,11 +116,29 @@ function LocationSearchResults({
     map.current = mapInit;
   };
 
+  /**
+   * Initialize the map on load and if the mobileTab changes
+   */
+  useEffect(
+    () => {
+      if (mapContainer.current) {
+        setupMap();
+      }
+    },
+    [mobileTab],
+  );
+
+  /**
+   * Add resize event listener
+   */
   useEffect(() => {
-    if (mapContainer.current) {
-      setupMap();
-    }
-  }, []); // <-- empty array means 'run once'
+    const checkSize = () => {
+      setSmallScreen(isSmallScreen());
+    };
+    window.addEventListener('resize', checkSize);
+
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
 
   /**
    * Used to exclude results from appearing in cards or as a marker when using "Search area" button
@@ -191,24 +214,35 @@ function LocationSearchResults({
     markers.current.push(currentMarkerElement);
   };
 
+  /**
+   * Takes results and puts them on the map
+   * Excludes results who are not visible on the map
+   */
   useEffect(
     () => {
       markers.current.forEach(marker => marker.remove());
       let visibleResults = [];
 
+      if (smallScreen) {
+        visibleResults = results;
+      }
+
+      // reset map if no results found
+      if (map.current && results.length === 0 && !mapState.changed) {
+        map.current.setCenter([
+          MapboxInit.centerInit.longitude,
+          MapboxInit.centerInit.latitude,
+        ]);
+        map.current.zoomTo(MapboxInit.zoomInit, { duration: 300 });
+      }
+
+      // wait for map to initialize or no results are returned
       if (!map.current || results.length === 0) {
-        if (!mapState.changed) {
-          map.current.setCenter([
-            MapboxInit.centerInit.longitude,
-            MapboxInit.centerInit.latitude,
-          ]);
-          map.current.zoomTo(MapboxInit.zoomInit, { duration: 300 });
-        }
         setMapState({ changed: false, distance: null });
         setUsedFilters(getFiltersChanged(filters));
         setCardResults(visibleResults);
         return;
-      } // wait for map to initialize
+      }
 
       const locationBounds = !mapState.changed
         ? new mapboxgl.LngLatBounds()
@@ -229,7 +263,7 @@ function LocationSearchResults({
       setCardResults(visibleResults);
       setMapState({ changed: false, distance: null });
     },
-    [results],
+    [results, smallScreen, mobileTab],
   );
 
   const resultCards = cardResults?.map((institution, index) => {
@@ -268,114 +302,191 @@ function LocationSearchResults({
   const areaSearchLabel = areaSearchWithinBounds
     ? 'Search this area of the map'
     : 'Zoom in to search';
-  const count = !cardResults ? null : cardResults.length;
 
-  return (
+  const noResultsFound = count => (
     <>
-      <div className={'location-search vads-u-padding-top--1'}>
-        <div className={'usa-width-one-third'}>
-          {inProgress && (
-            <LoadingIndicator message="Loading search results..." />
-          )}
-          {!inProgress && (
-            <>
-              {search.location.count === null && (
-                <div>
-                  Please enter a location (street, city, state, or postal code)
-                  then click search above to find institutions.
-                </div>
-              )}
-              {search.location.count !== null &&
-                (count > 0 || usedFilters) && (
-                  <>
-                    <TuitionAndHousingEstimates />
-                    <FilterYourResults />
-                    {count > 0 && (
-                      <div
-                        id="location-search-results-container"
-                        className="location-search-results-container usa-grid vads-u-padding--1p5"
-                      >
-                        <p>
-                          Showing <strong>{count} search results</strong> for '
-                          <strong>{location}</strong>'
-                        </p>
-                        <div
-                          id="location-search-results"
-                          className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
-                        >
-                          {resultCards}
-                        </div>
-                      </div>
-                    )}
-                  </>
-                )}
-              {count === 0 &&
-                !usedFilters && (
-                  <div>
-                    <p>We didn't find any institutions based on your search.</p>
-                    <p>
-                      <strong>For better results:</strong>
-                    </p>
-                    <ul>
-                      <li>
-                        <strong>Zoom in or out</strong> to view a different area
-                        of the map, or
-                      </li>
-                      <li>
-                        <strong>Move the map</strong> to a different area
-                      </li>
-                    </ul>
-                    <p>
-                      Then click the <strong>"Search this area of map"</strong>{' '}
-                      button.
-                    </p>
-                    <p>
-                      If we still haven't found any facilities near you,{' '}
-                      <strong>please enter a different search term</strong>{' '}
-                      (street, city, state, or postal code).
-                    </p>
-                  </div>
-                )}
-              {count === 0 &&
-                usedFilters && (
-                  <div>
-                    We didn't find any institutions near this location based on
-                    the filters you've applied. Please update the filters and
-                    search again.
-                  </div>
-                )}
-            </>
-          )}
-        </div>
+      {count === 0 &&
+        !usedFilters && (
+          <div>
+            <p>We didn’t find any institutions based on your search.</p>
+            <p>
+              <strong>For better results:</strong>
+            </p>
+            <ul>
+              <li>
+                <strong>Zoom in or out</strong> to view a different area of the
+                map, or
+              </li>
+              <li>
+                <strong>Move the map</strong> to a different area
+              </li>
+            </ul>
+            <p>
+              Then click the <strong>"Search this area of map"</strong> button.
+            </p>
+            <p>
+              If we still haven’t found any facilities near you,{' '}
+              <strong>please enter a different search term</strong> (street,
+              city, state, or postal code).
+            </p>
+          </div>
+        )}
+      {count === 0 &&
+        usedFilters && (
+          <div>
+            We didn’t find any institutions near this location based on the
+            filters you’ve applied. Please update the filters and search again.
+          </div>
+        )}
+    </>
+  );
 
-        <div className={'usa-width-two-thirds'}>
-          <map
-            ref={mapContainer}
-            id="mapbox-gl-container"
-            aria-label="Find VA locations on an interactive map"
-            aria-describedby="map-instructions"
-            className={'desktop-map-container'}
-            role="region"
-          >
-            {mapState.changed && (
-              <div
-                id="search-area-control-container"
-                className={'mapboxgl-ctrl-top-center'}
-              >
-                <button
-                  id="search-area-control"
-                  className={'usa-button'}
-                  onClick={searchArea}
-                  disabled={!areaSearchWithinBounds}
-                >
-                  {areaSearchLabel}
-                </button>
-              </div>
-            )}
-          </map>
+  const getTab = tabName => {
+    const activeTab = tabName === mobileTab;
+    const tabClasses = classNames(
+      {
+        'active-search-tab': activeTab,
+        'vads-u-color--gray-dark': activeTab,
+        'vads-u-background-color--white': activeTab,
+        'inactive-search-tab': !activeTab,
+        'vads-u-color--gray-medium': !activeTab,
+        'vads-u-background-color--gray-light-alt': !activeTab,
+      },
+      'vads-u-font-family--sans',
+      'vads-u-flex--1',
+      'vads-u-text-align--center',
+      'vads-u-font-weight--bold',
+      'vads-l-grid-container',
+      'vads-u-padding-y--1p5',
+      'search-tab',
+      `${tabName.toLowerCase()}-search-tab`,
+    );
+
+    return (
+      <div className={tabClasses} onClick={() => setMobileTab(tabName)}>
+        View {tabName}
+      </div>
+    );
+  };
+
+  const searchResultsShowing = count => (
+    <p>
+      Showing <strong>{count} search results</strong> for '
+      <strong>{location}</strong>'
+    </p>
+  );
+
+  const searchResults = count =>
+    count > 0 && (
+      <div
+        id="location-search-results-container"
+        className="location-search-results-container usa-grid vads-u-padding--1p5"
+      >
+        {!smallScreen && searchResultsShowing(count)}
+        <div
+          id="location-search-results"
+          className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
+        >
+          {resultCards}
         </div>
       </div>
-    </>
+    );
+
+  const mapElement = (
+    <map
+      ref={mapContainer}
+      id="mapbox-gl-container"
+      aria-label="Find VA locations on an interactive map"
+      aria-describedby="map-instructions"
+      className={'desktop-map-container'}
+      role="region"
+    >
+      {mapState.changed &&
+        !smallScreen && (
+          <div
+            id="search-area-control-container"
+            className={'mapboxgl-ctrl-top-center'}
+          >
+            <button
+              id="search-area-control"
+              className={'usa-button'}
+              onClick={searchArea}
+              disabled={!areaSearchWithinBounds}
+            >
+              {areaSearchLabel}
+            </button>
+          </div>
+        )}
+    </map>
+  );
+
+  // Results shouldn't be filtered out on mobile because "Search this area of the map" is disabled
+  const smallScreenCount = search.location.count;
+
+  if (smallScreen) {
+    return (
+      <div className={'location-search vads-u-padding-top--1'}>
+        {inProgress && <LoadingIndicator message="Loading search results..." />}
+        {!inProgress && (
+          <>
+            <div>
+              {(smallScreenCount > 0 || usedFilters) && (
+                <>
+                  <TuitionAndHousingEstimates />
+                  <FilterYourResults />
+                </>
+              )}
+              {noResultsFound(smallScreenCount)}
+            </div>
+            {smallScreenCount > 0 && (
+              <>
+                <div>{searchResultsShowing(smallScreenCount)}</div>
+                <div className="vads-u-display--flex tab-form">
+                  {getTab(LIST_TAB)}
+                  {getTab(MAP_TAB)}
+                </div>
+                <hr />
+                {mobileTab === LIST_TAB && searchResults(smallScreenCount)}
+                {mobileTab === MAP_TAB && mapElement}
+              </>
+            )}
+          </>
+        )}
+      </div>
+    );
+  }
+
+  // Only needed on desktop as can do "Search this area of the map" which causes differences in count between what is
+  // returned and what is visible
+  const desktopCount = !cardResults ? null : cardResults.length;
+
+  return (
+    <div className={'location-search vads-u-padding-top--1'}>
+      <div className={'usa-width-one-third'}>
+        {inProgress && <LoadingIndicator message="Loading search results..." />}
+        {!inProgress && (
+          <>
+            {search.location.count === null && (
+              <div>
+                Please enter a location (street, city, state, or postal code)
+                then click search above to find institutions.
+              </div>
+            )}
+            {search.location.count !== null &&
+              (desktopCount > 0 || usedFilters) && (
+                <>
+                  <TuitionAndHousingEstimates />
+                  <FilterYourResults />
+                  {searchResults(desktopCount)}
+                </>
+              )}
+            {noResultsFound(desktopCount)}
+          </>
+        )}
+      </div>
+
+      <div className={'usa-width-two-thirds'}>{mapElement}</div>
+    </div>
   );
 }
 

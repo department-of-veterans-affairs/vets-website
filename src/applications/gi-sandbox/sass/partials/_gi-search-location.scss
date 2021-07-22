@@ -15,6 +15,14 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     .location-search-results {
       height: 565px;
       overflow-y: scroll;
+
+      @include media-maxwidth($small-screen) {
+        overflow-y: inherit;
+      }
+    }
+
+    @include media-maxwidth($small-screen) {
+      border: none;
     }
   }
 
@@ -60,6 +68,10 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
     padding-left: 0;
     display: flex;
     flex-direction: row;
+
+    @include media-maxwidth($small-screen) {
+      min-height: 45vh;
+    }
   }
 
   .mapboxgl-ctrl-top-center {
@@ -97,7 +109,41 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
       background-color: $color-gray-medium;
     }
   }
+
+  .tab-form {
+    .search-box {
+      border-bottom: 2px solid $color-gray-light;
+      border-left: 2px solid $color-gray-light;
+      border-right: 2px solid $color-gray-light;
+      padding: 48px 48px 24px 48px;
+    }
+
+    .active-search-tab {
+      border-top: 4px solid $color-primary;
+    }
+
+    .inactive-search-tab {
+      border-top: 2px solid $color-gray-light;
+    }
+
+    .search-tab {
+      font-size: 25px;
+      border-bottom: 2px solid $color-gray-light;
+    }
+
+    .list-search-tab {
+      border-left: 2px solid $color-gray-light;
+      border-right: 1px solid $color-gray-light;
+    }
+
+    .map-search-tab {
+      border-left: 1px solid $color-gray-light;
+      border-right: 2px solid $color-gray-light;
+    }
+
+  }
 }
+
 .use-my-location-container {
   margin-left: 21em;
 }
