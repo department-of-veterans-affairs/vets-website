@@ -1,7 +1,6 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
-import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import manifest from '../manifest.json';
@@ -9,7 +8,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import PreSubmitSignature from '../components/PreSubmitSignature';
 import * as pages from '../pages';
 import { transform } from '../utils/transform';
-import { SubmissionAlert, MaintenanceAlert } from '../components/Alerts';
+import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
 
 const formConfig = {
@@ -27,11 +26,6 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   defaultDefinitions: {},
-  downtime: {
-    requiredForPrefill: true,
-    dependencies: [externalServices.vaProfile, externalServices.bgs],
-    message: MaintenanceAlert,
-  },
   savedFormMessages: {
     notFound:
       'Please start over to submit an application for financial hardship assistance.',
