@@ -7,7 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { getTokenFromLocation, URLS, goToNextPage } from '../utils/navigation';
 import { validateToken } from '../api';
 import { receivedAppointmentDetails } from '../actions';
-import { setCurrentToken } from '../utils/session';
+import { setCurrentToken, clearCurrentSession } from '../utils/session';
 import { createAnalyticsSlug } from '../utils/analytics';
 
 const Landing = props => {
@@ -36,7 +36,7 @@ const Landing = props => {
                 UUID: token,
                 response: data,
               });
-              goToNextPage(router, URLS.SEE_STAFF);
+              goToNextPage(router, URLS.ERROR);
             } else {
               recordEvent({
                 event: createAnalyticsSlug('uuid-validate-api-call-successful'),
@@ -49,6 +49,7 @@ const Landing = props => {
             }
           })
           .catch(error => {
+            clearCurrentSession();
             recordEvent({
               event: createAnalyticsSlug('uuid-validate-api-call-failed'),
               UUID: token,
