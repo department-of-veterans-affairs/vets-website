@@ -259,6 +259,10 @@ class ReviewCollapsibleChapter extends React.Component {
     );
   };
 
+  // getCustomPageContent = (page, props) => {
+  //   return <div>Hello, world!</div>;
+  // };
+
   getChapterContent = props => {
     const {
       chapterFormConfig,
@@ -282,7 +286,20 @@ class ReviewCollapsibleChapter extends React.Component {
             push
           />
         )}
-        {expandedPages.map(page => this.getSchemaformPageContent(page, props))}
+        {expandedPages.map(page => {
+          const pageConfig = form.pages[page.pageKey];
+          if (pageConfig.CustomPage) {
+            if (pageConfig.CustomPageReview === undefined) {
+              throw new Error(
+                `CustomPage found for ${
+                  page.pageKey
+                }, but missing CustomPageReview.`,
+              );
+            }
+            return this.getCustomPageContent(page, props);
+          }
+          return this.getSchemaformPageContent(page, props);
+        })}
       </div>
     );
   };
