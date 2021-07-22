@@ -21,16 +21,16 @@ const ResultsSummary = ({ formValues }) => {
     formData(formValues).num
   } and send it to the ${board(formValues).name} for the ${branchOfService(
     formValues['1_branchOfService'],
-  )}${forReconsideration ? ' for reconsideration' : ''}`;
+  )}${forReconsideration ? ' for reconsideration' : ''}.`;
 
   if (airForceAFRBAPortal) {
     summary =
-      'Based on your answers, you need to complete an Application for Correction of Military Record (DD 149). You can download this form from the Air Force Review Agency Portal';
+      'Based on your answers, you need to complete an Application for Correction of Military Record (DD 149). You can download this form from the Air Force Review Agency Portal.';
   }
 
   return (
     <section className="va-introtext">
-      <p>{summary}.</p>
+      <p>{summary}</p>
     </section>
   );
 };
