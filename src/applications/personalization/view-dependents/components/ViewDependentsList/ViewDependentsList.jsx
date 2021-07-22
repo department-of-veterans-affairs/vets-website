@@ -31,7 +31,9 @@ function ViewDependentsList(props) {
 
   return (
     <>
-      <h2>{props.header}</h2>
+      <h2 className={props.isAward ? 'vads-u-margin-top--1p5' : null}>
+        {props.header}
+      </h2>
       <p>{props.subHeader}</p>
       <a
         className="vads-u-display--block vads-u-margin-bottom--4"

@@ -51,32 +51,24 @@ function ViewDependentsListItem(props) {
         <dt
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex="-1"
-          className="vads-l-col--12 vads-u-margin--0 vads-u-font-size--lg vads-u-font-weight--bold mng-dependents-name"
+          className="vads-u-font-family--serif vads-l-col--12 vads-u-margin--0 vads-u-font-size--lg vads-u-font-weight--bold mng-dependents-name"
         >
           {firstName} {lastName}
         </dt>
 
         <dd className="vads-l-col--12 vads-u-margin--0">
-          <dfn title="relationship" className="vads-u-font-weight--bold">
-            Relationship:
-          </dfn>{' '}
-          {relationship}
+          <dfn title="relationship">Relationship:</dfn> {relationship}
         </dd>
 
         {ssn ? (
           <dd className="vads-l-col--12 vads-u-margin--0">
-            <dfn title="ssn" className="vads-u-font-weight--bold">
-              SSN:
-            </dfn>{' '}
-            {ssn}
+            <dfn title="ssn">SSN:</dfn> {ssn}
           </dd>
         ) : null}
 
         {dateOfBirth ? (
           <dd className="vads-l-col--12 vads-u-margin--0">
-            <dfn title="birthdate" className="vads-u-font-weight--bold">
-              Date of birth:{' '}
-            </dfn>
+            <dfn title="birthdate">Date of birth: </dfn>
             {moment(dateOfBirth).format('MMMM D, YYYY')}
           </dd>
         ) : null}
