@@ -50,7 +50,7 @@ const Landing = props => {
             }
           })
           .catch(error => {
-            clearCurrentSession();
+            clearCurrentSession(window);
             recordEvent({
               event: createAnalyticsSlug('uuid-validate-api-call-failed'),
               UUID: token,
