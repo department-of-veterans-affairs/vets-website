@@ -56,7 +56,7 @@ const CheckIn = props => {
         event: createAnalyticsSlug('api-checking-in-user-failed'),
         data: error,
       });
-      goToNextPage(router, URLS.SEE_STAFF);
+      goToNextPage(router, URLS.ERROR);
     }
   };
   const appointmentDateTime = new Date(appointment.startTime);
