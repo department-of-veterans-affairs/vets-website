@@ -6,10 +6,10 @@ describe('Check In Experience -- ', () => {
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
     cy.intercept('GET', '/check_in/v0/patient_check_ins//*', req => {
-      req.reply(404, mockValidate.createMockFailedResponse({}));
+      req.reply(mockValidate.createMockSuccessResponse({}));
     });
     cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
-      req.reply(mockCheckIn.createMockFailedResponse({}));
+      req.reply(500, mockCheckIn.createMockFailedResponse({}));
     });
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
@@ -18,7 +18,7 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('validate - 404 error', () => {
+  it('check in - 500 api error', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
