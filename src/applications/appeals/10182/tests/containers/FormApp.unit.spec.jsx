@@ -100,9 +100,7 @@ describe('FormApp', () => {
     expect(title.props().subTitle).to.contain('10182');
 
     const alert = tree.find('va-alert');
-    expect(alert)
-      .text()
-      .to.contain('still working on this feature');
+    expect(alert.text()).to.contain('still working on this feature');
 
     tree.unmount();
   });
