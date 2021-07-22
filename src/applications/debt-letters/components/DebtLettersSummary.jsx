@@ -3,34 +3,28 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import DebtCardsList from './DebtCardsList';
+import ExpandableAlert from './ExpandableAlert';
 import { OnThisPageLinks } from './OnThisPageLinks';
 
 const Chapter33Alert = () => {
   return (
-    <va-alert class="chapter33-alert" background-only status="warning">
-      <h3 slot="headline">Alert headline</h3>
-
-      <i
-        aria-hidden="true"
-        className="fa fa-exclamation-triangle vads-u-font-size--sm"
+    <>
+      <ExpandableAlert
+        iconType="triangle"
+        status={'limited'}
+        label="If you got an email about Chapter 33 tuition debt with code 75B"
+        content={
+          'This is a debt assigned to your school. You won’t find it listed here. ' +
+          'Before you make a payment on this debt, check with your school.' +
+          'They may have already paid. '
+        }
       />
-
-      <div className="vads-u-margin-left--3">
-        <AdditionalInfo triggerText="If you got an email about Chapter 33 tuition debt with code 75B">
-          <p className="vads-u-font-size--base vads-u-font-family--sans">
-            This is a debt assigned to your school. You won’t find it listed
-            here. Before you make a payment on this debt, check with your
-            school. They may have already paid.
-          </p>
-        </AdditionalInfo>
-      </div>
-    </va-alert>
+    </>
   );
 };
 
