@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 export default function ClaimEstimate({
   maxDate,
@@ -12,11 +11,11 @@ export default function ClaimEstimate({
   // Hide until estimates are accurate
   if (showCovidMessage) {
     return (
-      <AlertBox
-        status="warning"
-        headline="Claim completion dates aren’t available right now"
-      >
-        <p>
+      <va-alert status="warning">
+        <h3 slot="headline">
+          Claim completion dates aren’t available right now
+        </h3>
+        <p className="vads-u-font-size--base">
           We can’t provide an estimated date on when your claim will be complete
           due to the affect that COVID-19 has had on scheduling in-person claim
           exams. We’re starting to schedule in-person exams again in many
@@ -26,7 +25,7 @@ export default function ClaimEstimate({
           </a>
           .
         </p>
-      </AlertBox>
+      </va-alert>
     );
   }
 
