@@ -19,7 +19,7 @@ const Error = props => {
         <h1 tabIndex="-1" slot="headline">
           We couldn’t check you in
         </h1>
-        <p>
+        <p data-testid="error-message">
           We’re sorry. Something went wrong on our end. Check in with a staff
           member
           {clinicPhoneNumber ? (
