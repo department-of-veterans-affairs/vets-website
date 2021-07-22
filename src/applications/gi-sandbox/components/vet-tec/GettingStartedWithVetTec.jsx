@@ -8,7 +8,7 @@ const GettingStartedWithVetTec = () => {
       </div>
       <hr className="vads-u-margin-top--1" />
       You can get training in one of these high-demand training areas:
-      <ul className="getting-started-with-benefits-li">
+      <ul className="getting-started-with-benefits-li vads-u-padding-bottom--1p5">
         <li>Computer software</li>
         <li>Computer programming</li>
         <li>Data processing</li>
@@ -38,7 +38,7 @@ const GettingStartedWithVetTec = () => {
         <b>If you participate in an online program,</b> your stipend will be
         half of the BAH national average for an E-5 with dependents.
       </p>
-      <p>
+      <p className="vads-u-padding-bottom--1p5">
         <b>Note:</b> If you don’t attend a training for a full month, we’ll
         prorate your housing payment for the days you train.
       </p>
@@ -61,16 +61,12 @@ const GettingStartedWithVetTec = () => {
             Apply for VET TEC (VA Form 22-0994)
           </a>
         </li>
-        <li>
+        <li className="vads-u-padding-y--1p5">
           After you’ve been approved for VET TEC, you can then apply to the
-          VA-approved training program you’d like to attend.
+          VA-approved training program you’d like to attend. To learn more about
+          these approved programs, visit the training provider's website.
         </li>
       </ol>
-      <p>
-        {' '}
-        To learn more about these approved programs, visit the training
-        provider's website.
-      </p>
       <b>What if I have questions about the VET TEC program?</b>
       <ul className="getting-started-with-benefits-li">
         <li>
