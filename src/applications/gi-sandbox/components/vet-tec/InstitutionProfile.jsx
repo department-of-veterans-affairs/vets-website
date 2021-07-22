@@ -11,30 +11,43 @@ import JumpLink from '../profile/JumpLink';
 import ProfileSection from '../profile/ProfileSection';
 import CautionaryInformation from '../profile/CautionaryInformation';
 import GettingStartedWithVetTec from './GettingStartedWithVetTec';
+import BackToTop from '../BackToTop';
 
 export default function InstitutionProfile({
   institution,
   showModal,
   preSelectedProgram,
   selectedProgram,
+  compare,
 }) {
   const program =
     selectedProgram ||
     preSelectedProgram ||
     _.get(institution, 'programs[0].description', '');
+
+  const institutionProfileId = 'institution-profile';
+  const profilePageHeaderId = 'profile-page-header';
+
+  const hasPrograms = institution.programs.length > 0;
+
   return (
-    <div>
-      <div className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4">
+    <div id={institutionProfileId}>
+      <div
+        id={profilePageHeaderId}
+        className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4"
+      >
         <div className="usa-width-three-fourths">
           <ProfilePageHeader institution={institution} />
         </div>
 
         <div className="usa-width-one-fourth">
           <h2 className="vads-u-padding-top--2">On this page</h2>
-          <JumpLink
-            label="Calculate your benefits"
-            jumpToId="calculate-your-benefits"
-          />
+          {hasPrograms && (
+            <JumpLink
+              label="Calculate your benefits"
+              jumpToId="calculate-your-benefits"
+            />
+          )}
           <JumpLink label="Approved programs" jumpToId="approved-programs" />
           <JumpLink
             label="Getting started with VET TEC"
@@ -55,17 +68,19 @@ export default function InstitutionProfile({
           />
         </div>
       </div>
-      <ProfileSection
-        label="Calculate your benefits"
-        id="calculate-your-benefits"
-      >
-        <VetTecEstimateYourBenefits
-          institution={institution}
-          showModal={showModal}
-          selectedProgram={program}
-          preSelectedProgram={preSelectedProgram}
-        />
-      </ProfileSection>
+      {hasPrograms && (
+        <ProfileSection
+          label="Calculate your benefits"
+          id="calculate-your-benefits"
+        >
+          <VetTecEstimateYourBenefits
+            institution={institution}
+            showModal={showModal}
+            selectedProgram={program}
+            preSelectedProgram={preSelectedProgram}
+          />
+        </ProfileSection>
+      )}
       <ProfileSection label="Approved programs" id="approved-programs">
         <VetTecApprovedProgramsList
           programs={institution.programs}
@@ -111,6 +126,11 @@ export default function InstitutionProfile({
       <ProfileSection label="Contact Information" id="contact-information">
         <ContactInformation institution={institution} showModal={showModal} />
       </ProfileSection>
+      <BackToTop
+        parentId={institutionProfileId}
+        profilePageHeaderId={profilePageHeaderId}
+        compare={compare}
+      />
     </div>
   );
 }

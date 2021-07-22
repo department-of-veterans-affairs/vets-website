@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -23,17 +23,11 @@ const template = (props, title, content, submissionMessage, messageType) => {
     : 'Disability Compensation Claim';
 
   const renderableContent =
-    typeof content === 'string' && content !== '' ? <p>{content}</p> : content;
-
-  const alertBox = (
-    <AlertBox
-      isVisible
-      headline={title}
-      content={renderableContent}
-      status={messageType}
-      level="2"
-    />
-  );
+    typeof content === 'string' && content !== '' ? (
+      <p className="vads-u-font-size--base vads-u-margin-top--0">{content}</p>
+    ) : (
+      content
+    );
 
   const backButtonContent = (
     <div className="row form-progress-buttons schemaform-back-buttons">
@@ -45,10 +39,13 @@ const template = (props, title, content, submissionMessage, messageType) => {
 
   if (messageType === 'error') {
     return (
-      <div>
-        {alertBox}
+      <>
+        <va-alert visible status={messageType}>
+          <h2 slot="headline">{title}</h2>
+          {renderableContent}
+        </va-alert>
         {backButtonContent}
-      </div>
+      </>
     );
   }
 
@@ -63,16 +60,13 @@ const template = (props, title, content, submissionMessage, messageType) => {
         <h2>{pageTitle}</h2>
       </div>
 
-      <AlertBox
-        isVisible
-        headline={title}
-        content={renderableContent}
-        status={messageType}
-        level="2"
-      />
+      <va-alert visible status={messageType}>
+        <h2 slot="headline">{title}</h2>
+        {renderableContent}
+      </va-alert>
 
       <h2 className="vads-u-font-size--h5" id="note-email">
-        We'll send you an email to confirm that we received your claim.{' '}
+        We’ll send you an email to confirm that we received your claim.{' '}
         <span className="screen-only">
           You can also print this page for your records.
         </span>
@@ -169,15 +163,15 @@ export const retryableErrorContent = props =>
     props,
     "It's taking us longer than expected to submit your claim.",
     <div>
-      <p>
-        This delay should be resolved within a few hours. We'll keep trying to
+      <p className="vads-u-font-size--base">
+        This delay should be resolved within a few hours. We’ll keep trying to
         submit your claim. You can check the status of your claim online after
         24 hours.
       </p>
-      <p>
+      <p className="vads-u-font-size--base">
         <a href="/track-claims">Check the status of your claim</a>
       </p>
-      <p>
+      <p className="vads-u-font-size--base">
         <strong>
           If you don’t see your disability claim online after 24 hours,
         </strong>{' '}
@@ -210,7 +204,7 @@ export const submitErrorContent = props => {
     'We’re sorry. Something went wrong when we tried to submit your claim.',
     <div>
       <h4>For help submitting your claim:</h4>
-      <ul>
+      <ul className="vads-u-font-size--base">
         <li>
           Please call Veterans Benefits Assistance at{' '}
           <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,

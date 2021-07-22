@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import BackToHome from '../components/BackToHome';
-import Footer from '../components/Footer';
 import { focusElement } from 'platform/utilities/ui';
 
-const Confirmation = ({ appointment }) => {
-  const { clinicName } = appointment;
+import BackToHome from '../components/BackToHome';
+import Footer from '../components/Footer';
+import AppointmentLocation from '../components/AppointmentLocation';
+
+const Confirmation = () => {
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -21,8 +22,8 @@ const Confirmation = ({ appointment }) => {
           You’re checked in
         </h1>
         <p>
-          You can now go to the {clinicName} waiting room. We'll come get you
-          when it's time for your appointment to start.
+          Please wait in the <AppointmentLocation /> waiting room. We’ll come
+          get you when it’s time for your appointment to start.
         </p>
       </va-alert>
       <Footer header={'Not sure where to wait?'} />

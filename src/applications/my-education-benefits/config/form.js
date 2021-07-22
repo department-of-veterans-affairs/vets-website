@@ -8,7 +8,8 @@ import fullSchema from '../22-1990-schema.json';
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-
+import GetFormHelp from '../components/GetFormHelp';
+import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import bankAccountUI from 'platform/forms-system/src/js/definitions/bankAccount';
@@ -100,6 +101,8 @@ const formConfig = {
     dateRange,
     usaPhone,
   },
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   chapters: {
     applicantInformationChapter: {
       title: 'Applicant Information',

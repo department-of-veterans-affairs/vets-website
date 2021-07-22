@@ -53,7 +53,7 @@ export const authorizedAgentDescription = (
 
 export const veteranRelationshipDescription = (
   <div className="usa-alert usa-alert-info background-color-only">
-    You’re applying as the <strong>service member or Veteran</strong>. We'll ask
+    You’re applying as the <strong>service member or Veteran</strong>. We’ll ask
     you questions about your military status and history to determine if you
     qualify for burial in a VA national cemetery.
   </div>
@@ -391,7 +391,13 @@ export const serviceRecordsUI = {
     itemName: 'Service Period',
   },
   items: {
-    'ui:order': ['serviceBranch', '*'],
+    'ui:order': [
+      'serviceBranch',
+      'dateRange',
+      'dischargeType',
+      'highestRank',
+      'nationalGuardState',
+    ],
     'ui:options': {
       itemName: 'Service Period',
     },

@@ -5,16 +5,17 @@ import NewTabAnchor from '../../components/NewTabAnchor';
 export default function NoAppointments({
   showScheduleButton,
   startNewAppointmentFlow,
+  description = 'appointments',
 }) {
   return (
     <>
       <h3 className="vads-u-margin--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
-        You don’t have any appointments
+        You don’t have any {description}
       </h3>
       {showScheduleButton && (
         <>
           <p>
-            You can schedule an appointment now, or you can call your{' '}
+            You can schedule an appointment online now, or call your{' '}
             <NewTabAnchor href="/find-locations">
               VA medical center
             </NewTabAnchor>{' '}
@@ -32,7 +33,7 @@ export default function NoAppointments({
       {!showScheduleButton && (
         <>
           <p>
-            To schedule an appointment, you can call your{' '}
+            To schedule an appointment, call your{' '}
             <NewTabAnchor href="/find-locations">
               VA Medical center
             </NewTabAnchor>

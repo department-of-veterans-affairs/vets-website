@@ -12,3 +12,7 @@ export function truncateResponseString(string, maxLength) {
   }
   return `${string.slice(0, maxLength)}...`;
 }
+
+export function removeDoubleBars(string) {
+  return string.replace('| Veterans Affairs', '');
+}

@@ -44,6 +44,6 @@ describe('Claims status est current test', () => {
 
     cy.url().should('contain', '/your-claims/11/status');
 
-    cy.get('.usa-alert-text').should('contain', 'COVID-19 has had on');
+    cy.get('va-alert').should('contain', 'COVID-19 has had on');
   });
 });

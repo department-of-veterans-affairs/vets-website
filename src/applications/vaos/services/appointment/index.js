@@ -245,9 +245,15 @@ export async function fetchRequestById({ id, useV2 }) {
  * @param {'cc'|'va'} type Type of appointment that is being fetched
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment(id, type) {
+export async function fetchBookedAppointment({ id, type, useV2 = false }) {
   try {
     let appointment;
+
+    if (useV2) {
+      appointment = await getAppointment(id);
+      return transformVAOSAppointment(appointment);
+    }
+
     if (type === 'va') {
       appointment = await getConfirmedAppointment(id, type);
     } else if (type === 'cc') {
@@ -270,11 +276,9 @@ export async function fetchBookedAppointment(id, type) {
         appointment = await getConfirmedAppointment(id, 'va');
       }
     }
-
     if (!appointment) {
       throw new Error(`Couldn't find ${type} appointment`);
     }
-
     return transformConfirmedAppointment(appointment);
   } catch (e) {
     if (e.errors) {
@@ -324,6 +328,14 @@ export function getVAAppointmentLocationId(appointment) {
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
     !isClinicVideoAppointment(appointment)
   ) {
+    // 612 doesn't exist in the facilities api, but it's a valid VistA site
+    // So, we want to show the facility information for the actual parent location
+    // in that system, which is 612A4. This is really only visible for at home
+    // video appointments, as the facility we direct users to in order to cancel
+    if (appointment.location.vistaId === '612') {
+      return '612A4';
+    }
+
     return appointment?.location.vistaId;
   }
 
