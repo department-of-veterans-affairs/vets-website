@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
-const ExpandableAlert = ({ label, content, status, iconType, ...rest }) => {
+const ExpandableAlert = ({
+  label,
+  content,
+  status,
+  iconType,
+  trackingPrefix,
+  ...rest
+}) => {
   const [open, setOpen] = useState(false);
 
   const handleOnclick = e => {
@@ -11,7 +18,7 @@ const ExpandableAlert = ({ label, content, status, iconType, ...rest }) => {
     setOpen(!open);
     recordEvent({
       event: `int-accordion-${open ? 'expand' : 'collapse'}`,
-      'operating-status-heading': label,
+      [`${trackingPrefix}-expandable-alert`]: label,
     });
   };
 
@@ -24,6 +31,8 @@ const ExpandableAlert = ({ label, content, status, iconType, ...rest }) => {
   return (
     <div {...rest}>
       <button
+        aria-expanded={open}
+        aria-controls={`expandable-container-${trackingPrefix}`}
         type="button"
         className={`collapsible ${status}`}
         onClick={e => handleOnclick(e)}
@@ -47,6 +56,7 @@ const ExpandableAlert = ({ label, content, status, iconType, ...rest }) => {
       </button>
 
       <div
+        id={`expandable-container-${trackingPrefix}`}
         className={`content ${status} ${
           open ? 'vads-u-display--block' : 'vads-u-display--none'
         }`}
@@ -62,7 +72,8 @@ const ExpandableAlert = ({ label, content, status, iconType, ...rest }) => {
 };
 
 ExpandableAlert.propTypes = {
-  label: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  trackingPrefix: PropTypes.string.isRequired,
   content: PropTypes.string,
   iconType: PropTypes.string,
   status: PropTypes.string,
