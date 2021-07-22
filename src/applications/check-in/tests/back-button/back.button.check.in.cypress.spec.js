@@ -5,7 +5,6 @@ import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
-    if (Cypress.env('CI')) this.skip();
     cy.intercept('GET', '/check_in/v0/patient_check_ins//*', req => {
       req.reply(mockValidate.createMockSuccessResponse({}));
     });
@@ -14,7 +13,12 @@ describe('Check In Experience -- ', () => {
     });
     cy.intercept('GET', '/v0/feature_toggles*', features);
   });
-  it('happy path', () => {
+  afterEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
+  });
+  it('back button from check in page', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
