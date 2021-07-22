@@ -28,7 +28,7 @@ const GettingStartedWithVetTec = () => {
         <b>Note:</b> If you're on active duty, you're not eligible to receive a
         housing allowance.
       </p>
-      <p>
+      <p className="vads-u-margin-right--9">
         <b>If you attend your training program in person,</b> your housing
         stipend will be equal to the monthly military Basic Allowance for
         Housing (BAH) for an E-5 with dependents. This is based on the zip code
@@ -47,7 +47,7 @@ const GettingStartedWithVetTec = () => {
       </div>
       <hr className="vads-u-margin-top--1" />
       <b>To apply for the VET TEC program, you'll need to:</b>
-      <ol className="getting-started-with-benefits-ol">
+      <ol className="getting-started-with-benefits-ol vads-u-margin-right--9">
         <li>
           Fill out an Application for Veteran Employment Through Technology
           Education Courses (VA Form 22-0994). If we approve your application,
@@ -68,7 +68,7 @@ const GettingStartedWithVetTec = () => {
         </li>
       </ol>
       <b>What if I have questions about the VET TEC program?</b>
-      <ul className="getting-started-with-benefits-li">
+      <ul className="getting-started-with-benefits-li vads-u-margin-right--9">
         <li>
           Call us at 888-GIBILL-1 (888-442-4551). We’re here Monday through
           Friday, 8:00 a.m. to 7:00 p.m. ET. If you have hearing loss, call{' '}
