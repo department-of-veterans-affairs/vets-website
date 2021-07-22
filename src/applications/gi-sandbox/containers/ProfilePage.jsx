@@ -12,6 +12,7 @@ import VetTecInstitutionProfile from '../components/vet-tec/InstitutionProfile';
 import InstitutionProfile from '../components/profile/InstitutionProfile';
 import ServiceError from '../components/ServiceError';
 import { useQueryParams } from '../utils/helpers';
+import CompareDrawer from './CompareDrawer';
 
 const { Element: ScrollElement, scroller } = Scroll;
 
@@ -27,6 +28,7 @@ export function ProfilePage({
   gibctEybBottomSheet,
   gibctSchoolRatings,
   match,
+  compare,
 }) {
   const { facilityCode, preSelectedProgram } = match.params;
   const queryParams = useQueryParams();
@@ -65,7 +67,8 @@ export function ProfilePage({
 
   let content;
 
-  if (profile.inProgress || _.isEmpty(profile.attributes)) {
+  const loadingProfile = profile.inProgress || _.isEmpty(profile.attributes);
+  if (loadingProfile) {
     content = <LoadingIndicator message="Loading your profile..." />;
   } else {
     const isOJT = profile.attributes.type.toLowerCase() === 'ojt';
@@ -77,6 +80,7 @@ export function ProfilePage({
           showModal={dispatchShowModal}
           preSelectedProgram={preSelectedProgram}
           selectedProgram={calculator.selectedProgram}
+          compare={compare}
         />
       );
     } else {
@@ -91,6 +95,7 @@ export function ProfilePage({
           version={version}
           gibctEybBottomSheet={gibctEybBottomSheet}
           gibctSchoolRatings={gibctSchoolRatings}
+          compare={compare}
         />
       );
     }
@@ -101,7 +106,17 @@ export function ProfilePage({
       name="profilePage"
       className="profile-page vads-u-padding-top--3"
     >
-      <div className="row">{profile.error ? <ServiceError /> : content}</div>
+      {profile.error && (
+        <div className="row">
+          <ServiceError />
+        </div>
+      )}
+      {!profile.error && (
+        <>
+          <div className="row">{content}</div>
+          {!loadingProfile && <CompareDrawer alwaysDisplay />}
+        </>
+      )}
     </ScrollElement>
   );
 }
@@ -112,8 +127,10 @@ const mapStateToProps = state => {
     profile,
     calculator,
     eligibility,
+    compare,
   } = state;
   return {
+    compare,
     constants,
     profile,
     calculator,

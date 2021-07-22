@@ -142,8 +142,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = appointment.vaos.isVideo;
   const isPastAppointment = appointment.vaos.isPastAppointment;
-  const facilityId = getVAAppointmentLocationId(appointment);
-  const facility = facilityData?.[facilityId];
+  const facility = facilityData?.[locationId];
   const isInPersonVAAppointment = !isVideo;
   const isCovid = appointment.vaos.isCOVIDVaccine;
   const canceler = appointment.description?.includes('CANCELLED BY PATIENT')
@@ -214,7 +213,7 @@ export default function ConfirmedAppointmentDetailsPage() {
           <VAFacilityLocation
             facility={facility}
             facilityName={facility?.name}
-            facilityId={facilityId}
+            facilityId={locationId}
             isHomepageRefresh
             clinicFriendlyName={appointment.location?.clinicName}
             showCovidPhone={isCovid}

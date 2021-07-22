@@ -1,5 +1,13 @@
-import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
+import dd4eduNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
+import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
+import fullName from '@@profile/tests/fixtures/full-name-success.json';
+import mockPaymentInfoNotEligible from '@@profile/tests/fixtures/dd4cnp/dd4cnp-is-not-eligible.json';
+import personalInformation from '@@profile/tests/fixtures/personal-information-success.json';
+import serviceHistory from '@@profile/tests/fixtures/service-history-success.json';
+
 import error500 from '@@profile/tests/fixtures/500.json';
+
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 export function subNavOnlyContainsAccountSecurity(mobile) {
   if (mobile) {
@@ -93,6 +101,22 @@ export function nameTagRendersWithoutDisabilityRating() {
   cy.findByText('Your disability rating:').should('not.exist');
   cy.findByText(/View disability rating/i).should('not.exist');
   cy.findByText(/service connected/i).should('not.exist');
+}
+
+// Mock Profile-related APIs so the Notification Settings section will load.
+// This does _not_ mock the APIs used by the Notification Setting section. It
+// only mocks the other APIs that are required by the Profile
+export function mockNotificationSettingsAPIs() {
+  mockGETEndpoints(['/v0/mhv_account']);
+  cy.intercept(
+    '/v0/disability_compensation_form/rating_info',
+    disabilityRating,
+  );
+  cy.intercept('/v0/profile/full_name', fullName);
+  cy.intercept('/v0/profile/personal_information', personalInformation);
+  cy.intercept('/v0/profile/service_history', serviceHistory);
+  cy.intercept('/v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
+  cy.intercept('/v0/ppiu/payment_information', mockPaymentInfoNotEligible);
 }
 
 export function registerCypressHelpers() {

@@ -59,6 +59,7 @@ export const uiSchema = {
           isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
         'ui:options': {
           useDlWrap: true,
+          widgetClassNames: 'usa-input-medium',
         },
       },
       birthDate: merge(currentOrPastDateUI('Dependent’s date of birth'), {

@@ -22,7 +22,7 @@ export function SearchPage({
   const history = useHistory();
   const { tab, error } = search;
   const [smallScreen, setSmallScreen] = useState(
-    matchMedia('(max-width: 600px)').matches,
+    matchMedia('(max-width: 480px)').matches,
   );
 
   useEffect(

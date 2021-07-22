@@ -2,6 +2,8 @@ import React from 'react';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import recordEvent from 'platform/monitoring/record-event';
 import { PAGE_NAMES } from '../constants';
+import { fsrFeatureToggle } from '../../utils/helpers';
+import { connect } from 'react-redux';
 
 const label = 'Which of these best describes the person who has this debt?';
 const options = [
@@ -27,7 +29,7 @@ const options = [
   },
 ];
 
-const Recipients = ({ setPageState, state = {} }) => {
+const Recipients = ({ showFSR, setPageState, state = {} }) => {
   const setState = value => {
     switch (value) {
       case 'spouse':
@@ -35,7 +37,10 @@ const Recipients = ({ setPageState, state = {} }) => {
         setPageState({ selected: value }, PAGE_NAMES.dependents);
         break;
       default:
-        setPageState({ selected: value }, PAGE_NAMES.submit);
+        setPageState(
+          { selected: value },
+          showFSR ? PAGE_NAMES.submit : PAGE_NAMES.maintenance,
+        );
     }
   };
 
@@ -59,7 +64,11 @@ const Recipients = ({ setPageState, state = {} }) => {
   );
 };
 
+const mapStateToProps = state => ({
+  showFSR: fsrFeatureToggle(state),
+});
+
 export default {
   name: PAGE_NAMES.recipients,
-  component: Recipients,
+  component: connect(mapStateToProps)(Recipients),
 };
