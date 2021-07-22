@@ -12,30 +12,6 @@ import Error from '../Error';
 
 describe('check-in', () => {
   describe('Error component', () => {
-    // it('show appointment details progress', () => {
-    //   const mockRouter = {
-    //     params: {
-    //       token: 'token-123',
-    //     },
-    //   };
-    //   const checkIn = render(
-    //     <Provider store={store}>
-    //       <CheckIn router={mockRouter} />
-    //     </Provider>,
-    //   );
-    //   expect(checkIn.getByTestId('appointment-date')).to.exist;
-    //   expect(checkIn.getByTestId('appointment-date')).to.have.text(
-    //     'Monday, July 19, 2021',
-    //   );
-    //   expect(checkIn.getByTestId('appointment-time')).to.exist;
-    //   expect(checkIn.getByTestId('appointment-time').innerHTML).to.match(
-    //     /([\d]|[\d][\d]):[\d][\d]/,
-    //   );
-    //   expect(checkIn.getByTestId('clinic-name')).to.exist;
-    //   expect(checkIn.getByTestId('clinic-name')).to.have.text(
-    //     'Green Team Clinic1',
-    //   );
-    // });
     it('renders with the phone number', () => {
       const middleware = [];
       const mockStore = configureStore(middleware);
