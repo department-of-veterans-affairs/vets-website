@@ -55,6 +55,7 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     margin-top: 3em;
     padding: 0 1.5em;
   }
+
   .vertical-list-group {
     margin-top: 2em;
 
@@ -89,5 +90,9 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
         }
       }
     }
+  }
+
+  .airForce-portal-link {
+    width: max-content;
   }
 }

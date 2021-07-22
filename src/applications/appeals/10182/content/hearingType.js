@@ -9,7 +9,7 @@ export const hearingTypeContent = {
         You can attend your hearing on a computer, mobile phone, or tablet from
         a location you choose. You just need to be somewhere that has a Wi-Fi
         connection. Your accredited representative can be with you or in a
-        separate location. The Veterans Law judge will be located in Washington
+        separate location. The Veterans Law judge will be located in Washington,
         D.C.
       </p>
     </>
@@ -21,7 +21,7 @@ export const hearingTypeContent = {
       <p className="hide-on-review">
         You and your accredited representative can attend your hearing by video
         at a VA regional office near you. The Veterans Law Judge will be located
-        in Washington D.C.
+        in Washington, D.C.
       </p>
       <p className="hide-on-review">
         <strong>Note:</strong> Fewer Veterans will be able to use this option
