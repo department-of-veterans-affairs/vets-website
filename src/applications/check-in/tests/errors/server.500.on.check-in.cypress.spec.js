@@ -25,6 +25,6 @@ describe('Check In Experience -- ', () => {
     cy.get('[data-testid="no-button"]').click();
     cy.get('h1').contains('Your appointment');
     cy.get('.usa-button').click();
-    cy.get('h1').contains("We couldn't check you in");
+    cy.get('h1').contains('We couldn’t check you in');
   });
 });
