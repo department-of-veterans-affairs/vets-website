@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { PAGE_NAMES } from '../constants';
 import DelayedLiveRegion from '../DelayedLiveRegion';
-import MaintenanceAlert from '../components/MaintenanceAlert';
+import { MaintenanceAlert } from '../../components/Alerts';
 
 export const Maintenance = () => {
   useEffect(() => {

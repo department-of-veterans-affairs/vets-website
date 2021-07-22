@@ -7,7 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import Wizard, {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
-import MaintenanceAlert from './components/MaintenanceAlert';
+import { MaintenanceAlert } from '../components/Alerts';
 
 const WizardContainer = ({ setWizardStatus, showFSR }) => {
   return (
