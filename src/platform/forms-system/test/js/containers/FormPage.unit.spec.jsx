@@ -296,53 +296,55 @@ describe('Schemaform <FormPage>', () => {
   });
 
   describe('bypassing schemaform', () => {
-    const CustomPage = () => <div>Hello, world!</div>;
-    function makeBypassRoute(obj) {
-      return Object.assign(
-        {
-          pageConfig: {
-            pageKey: 'testPage',
-            CustomPage,
-            errorMessages: {},
-            title: '',
-          },
-          pageList: [
-            {
-              path: '/first-page',
-              pageKey: 'firstPage',
-            },
-            {
-              path: '/testing',
+    function makeBypassRoute(CustomPage) {
+      return obj =>
+        Object.assign(
+          {
+            pageConfig: {
               pageKey: 'testPage',
+              CustomPage,
+              errorMessages: {},
+              title: '',
             },
-            {
-              path: '/next-page',
-              pageKey: 'nextPage',
-            },
-          ],
-        },
-        obj,
-      );
-    }
-    function makeBypassForm(obj) {
-      return Object.assign(
-        {
-          pages: {
-            firstPage: { schema: {}, uiSchema: {} },
-            testPage: { CustomPage },
-            lastPage: { schema: {}, uiSchema: {} },
+            pageList: [
+              {
+                path: '/first-page',
+                pageKey: 'firstPage',
+              },
+              {
+                path: '/testing',
+                pageKey: 'testPage',
+              },
+              {
+                path: '/next-page',
+                pageKey: 'nextPage',
+              },
+            ],
           },
-          data: {},
-        },
-        obj,
-      );
+          obj,
+        );
+    }
+    function makeBypassForm(CustomPage) {
+      return obj =>
+        Object.assign(
+          {
+            pages: {
+              firstPage: { schema: {}, uiSchema: {} },
+              testPage: { CustomPage },
+              lastPage: { schema: {}, uiSchema: {} },
+            },
+            data: {},
+          },
+          obj,
+        );
     }
 
     it('should render a custom component instead of SchemaForm', () => {
+      const CustomPage = () => <div>Hello, world!</div>;
       const tree = SkinDeep.shallowRender(
         <FormPage
-          form={makeBypassForm()}
-          route={makeBypassRoute()}
+          form={makeBypassForm(CustomPage)()}
+          route={makeBypassRoute(CustomPage)()}
           location={location}
         />,
       );
@@ -350,5 +352,7 @@ describe('Schemaform <FormPage>', () => {
       expect(tree.everySubTree('SchemaForm')).to.be.empty;
       expect(tree.everySubTree('CustomPage')).not.to.be.empty;
     });
+
+    it('should return the entire form data to the CustomPage', () => {});
   });
 });
