@@ -8,7 +8,7 @@ export const showWorkInProgress = ({ title, subTitle }) => (
   <div className="row">
     <div className="usa-width-two-thirds medium-8 columns">
       <FormTitle title={title} subTitle={subTitle} />
-      <va-alert visible status="info">
+      <va-alert status="info">
         {
           <>
             <h3 slot="headline">We’re still working on this feature</h3>
