@@ -1,5 +1,4 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
@@ -9,12 +8,11 @@ export const showWorkInProgress = ({ title, subTitle }) => (
   <div className="row">
     <div className="usa-width-two-thirds medium-8 columns">
       <FormTitle title={title} subTitle={subTitle} />
-      <AlertBox
-        status="info"
-        headline="We’re still working on this feature"
-        content={
+      <va-alert visible status="info">
+        {
           <>
-            <p>
+            <h3 slot="headline">We’re still working on this feature</h3>
+            <p className="vads-u-font-size--base">
               We’re rolling out the Board Appeals (Notice of Disagreement) form
               in stages. It’s not quite ready yet. Please check back again soon.
             </p>
@@ -28,7 +26,7 @@ export const showWorkInProgress = ({ title, subTitle }) => (
             </p>
           </>
         }
-      />
+      </va-alert>
     </div>
   </div>
 );
