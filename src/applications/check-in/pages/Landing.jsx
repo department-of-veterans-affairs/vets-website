@@ -31,10 +31,11 @@ const Landing = props => {
           .then(json => {
             const { data } = json;
             if (data.error) {
+              const error = data.error || data.errors;
               recordEvent({
                 event: createAnalyticsSlug('uuid-validate-api-call-failed'),
                 UUID: token,
-                response: data,
+                error,
               });
               goToNextPage(router, URLS.SEE_STAFF);
             } else {
