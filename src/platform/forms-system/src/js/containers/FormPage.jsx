@@ -140,6 +140,29 @@ class FormPage extends React.Component {
       }
     }
 
+    // Bypass the SchemaForm and render the custom component
+    if (typeof route.pageConfig.CustomPage === 'function') {
+      return (
+        <div className={pageClasses}>
+          <route.pageConfig.CustomPage
+            name={route.pageConfig.pageKey}
+            title={route.pageConfig.title}
+            data={data}
+            schema={schema}
+            uiSchema={uiSchema}
+            pagePerItemIndex={params ? params.index : undefined}
+            formContext={formContext}
+            trackingPrefix={this.props.form.trackingPrefix}
+            uploadFile={this.props.uploadFile}
+            onChange={this.onChange}
+            onSubmit={this.onSubmit}
+            goBack={this.goBack}
+            goForward={callOnContinue}
+          />
+        </div>
+      );
+    }
+
     return (
       <div className={pageClasses}>
         <SchemaForm
