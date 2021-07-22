@@ -10,8 +10,11 @@ window.addEventListener('DOMContentLoaded', () => {
   const feedbackButtonContainer = document.getElementById(
     'kampyleButtonContainer',
   );
-  feedbackButtonContainer.remove();
-  main.append(feedbackButtonContainer);
+
+  if (feedbackButtonContainer) {
+    feedbackButtonContainer.remove();
+    main.append(feedbackButtonContainer);
+  }
 
   /**
    * When the button is clicked on, #nebula_div_btn is removed from the DOM.
