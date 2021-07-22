@@ -67,15 +67,3 @@ export const ErrorAlert = () => (
     </p>
   </va-alert>
 );
-
-// scaffolding in place to handle multiple error codes
-// const ErrorAlert = () => {
-// const [error] = errorCode.errors ?? [];
-//   return <ServerError />;
-// };
-
-// const mapStateToProps = ({ fsr }) => ({
-//   errorCode: fsr.errorCode,
-// });
-
-// export default connect(mapStateToProps)(ErrorAlert);
