@@ -6,7 +6,11 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { fetchSearchResults } from '../actions';
-import { formatResponseString, truncateResponseString } from '../utils';
+import {
+  formatResponseString,
+  truncateResponseString,
+  removeDoubleBars,
+} from '../utils';
 import recordEvent from 'platform/monitoring/record-event';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 
@@ -216,17 +220,19 @@ class SearchApp extends React.Component {
           className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0"
           data-e2e-id="search-form"
         >
-          <input
-            type="text"
-            name="query"
-            aria-label="Enter a keyword"
-            value={this.state.userInput}
-            onChange={this.handleInputChange}
-          />
-          <button type="submit">
-            <IconSearch color="#fff" />
-            <span className="button-text">Search</span>
-          </button>
+          <div role="search" aria-labelledby="h1-search-title">
+            <input
+              type="text"
+              name="query"
+              aria-label="Enter a keyword"
+              value={this.state.userInput}
+              onChange={this.handleInputChange}
+            />
+            <button type="submit">
+              <IconSearch color="#fff" />
+              <span className="button-text">Search</span>
+            </button>
+          </div>
         </form>
       </div>
     );
@@ -416,7 +422,9 @@ class SearchApp extends React.Component {
 
   /* eslint-disable react/no-danger */
   renderWebResult(result, snippetKey = 'snippet', isBestBet = false, index) {
-    const strippedTitle = formatResponseString(result.title, true);
+    const strippedTitle = removeDoubleBars(
+      formatResponseString(result.title, true),
+    );
     return (
       <li
         key={result.url}
@@ -465,7 +473,9 @@ class SearchApp extends React.Component {
         <SearchBreadcrumbs />
         <div className="row">
           <div className="columns">
-            <h1 className="vads-u-font-size--2xl">Search VA.gov</h1>
+            <h1 className="vads-u-font-size--2xl" id="h1-search-title">
+              Search VA.gov
+            </h1>
           </div>
         </div>
         <div className="search-row">

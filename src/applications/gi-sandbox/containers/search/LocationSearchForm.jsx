@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import Dropdown from '../components/Dropdown';
+import Dropdown from '../../components/Dropdown';
 import {
   fetchLocationAutocompleteSuggestions,
   fetchSearchByLocationCoords,
@@ -8,12 +8,12 @@ import {
   updateAutocompleteLocation,
   geolocateUser,
   clearGeocodeError,
-} from '../actions';
-import KeywordSearch from '../components/search/KeywordSearch';
+} from '../../actions';
+import KeywordSearch from '../../components/search/KeywordSearch';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { useHistory } from 'react-router-dom';
-import { updateUrlParams } from '../utils/helpers';
+import { updateUrlParams } from '../../utils/helpers';
 
 export function LocationSearchForm({
   autocomplete,

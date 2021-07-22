@@ -33,11 +33,11 @@ export const issusDescription = ({ formContext }) => {
       className="area-of-disagreement-label vads-u-font-size--base vads-u-font-weight--normal"
       data-submitted={submitted}
     >
-      Tell us why you disagree with our decision. You can choose more than one.
+      Tell us what you disagree with. You can choose more than one.
       <span className="vads-u-font-weight--normal schemaform-required-span">
         (*Required)
       </span>
-      <p>I disagree with:</p>
+      <p>I disagree with this:</p>
       <span
         className="usa-input-error-message"
         role="alert"
@@ -53,7 +53,7 @@ export const issusDescription = ({ formContext }) => {
 const titles = {
   serviceConnection: 'The service connection',
   effectiveDate: 'The effective date of award',
-  evaluation: 'The evaluation of my condition',
+  evaluation: 'Your evaluation of my condition',
   other: 'Something else',
 };
 
