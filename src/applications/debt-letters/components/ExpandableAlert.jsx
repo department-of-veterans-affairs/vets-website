@@ -22,10 +22,10 @@ const ExpandableAlert = ({
     });
   };
 
-  const iconIndicator = info => {
-    if (info && open) return 'fa-angle-down open';
-    if (info && !open) return ' fa-angle-down close';
-    return null;
+  const iconIndicator = () => {
+    if (!content) return '';
+
+    return open ? 'fa-angle-down open' : 'fa-angle-down close';
   };
 
   return (
@@ -49,9 +49,7 @@ const ExpandableAlert = ({
         <i
           aria-hidden="true"
           role="img"
-          className={`fas ${iconIndicator(
-            content,
-          )}  more-icon vads-u-padding-left--0p5`}
+          className={`fas ${iconIndicator()}  more-icon vads-u-padding-left--0p5`}
         />
       </button>
 
