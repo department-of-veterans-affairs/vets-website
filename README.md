@@ -14,8 +14,7 @@ Once you have the site set up locally, these are some common commands you might 
 | :--- | :--- |
 | fetch all dependencies | `yarn install`; run this any time `package.json` changes |
 | build applications | `yarn build` |
-| run the webpack dev server | `yarn start` |
-| enable watch mode for webpack | `yarn watch` |
+| run the webpack dev server | `yarn watch` |
 
 ## Building `vets-website`
 ### Building applications
@@ -32,13 +31,13 @@ yarn build
 To **recompile your application when you make changes**, run:
 
 ```sh
-yarn start
+yarn watch
 ```
 
 You can also **limit the applications Webpack builds** with `--env.entry`:
 
 ```sh
-yarn start --env.entry static-pages,auth
+yarn watch --env.entry static-pages,auth
 ```
 
 The `entryname` for your application can be found in its `manifest.json` file.
@@ -47,7 +46,7 @@ If you're developing a feature that requires the API, but can't or don't want to
 run it locally, you can specify `--env.api`:
 
 ```sh
-yarn start --env.api https://dev-api.va.gov
+yarn watch --env.api https://dev-api.va.gov
 ```
 
 You will need to disable CORS in your browser when using a non-local API. Here are some helpful links that explain how to do this:
@@ -120,7 +119,7 @@ yarn test:unit --help
 **Before running Cypress tests**, first make sure that:
 
 1. `vets-website` is served locally on port 3001
-   - You can do this with `yarn start`
+   - You can do this with `yarn watch`
 1. `vets-api` is **NOT** running
    - Any required APIs will be mocked by the Cypress test that needs them.
 
@@ -175,7 +174,7 @@ To **run Nightwatch tests**, you first need three things:
    brew install --cask adoptopenjdk/openjdk/adoptopenjdk8
    ```
 1. `vets-website` served locally on port 3001
-   - You can do this with `yarn start`
+   - You can do this with `yarn watch`
 1. `vets-api` to **NOT** be running
    - The browser tests will use a simple mock api on port 3000, but only if
      nothing is already attached to that port
@@ -244,12 +243,12 @@ for doing very specific things.
 | build the production site (dev features disabled). | `yarn build:production` |
 | deploy the production site (dev features disabled). | `node src/platform/testing/e2e/test-server.js --buildtype=vagovprod` |
 | reset local environment (clean out node modules, Babel cache, and runs `npm install`) | `yarn reset:env` |
-| run the app pages on the site for local development | `yarn start --env.scaffold` |
+| run the app pages on the site for local development | `yarn watch --env.scaffold` |
 | run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps | `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `--env.buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
-| run the site for local development with automatic rebuilding of code and styles for specific **apps** | `yarn start --env.entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName` |
-| run the site so that devices on your local network can access it | `yarn start --host 0.0.0.0 --public 192.168.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
+| run the site for local development with automatic rebuilding of code and styles for specific **apps** | `yarn watch --env.entry disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName` |
+| run the site so that devices on your local network can access it | `yarn watch --host 0.0.0.0 --public 192.168.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems |
 | run all unit tests and watch | `yarn test:watch` |
-| run only e2e tests | Make sure the site is running locally (`yarn start`) and run the tests with `yarn test:e2e` |
+| run only e2e tests | Make sure the site is running locally (`yarn watch`) and run the tests with `yarn test:e2e` |
 | run e2e tests in headless mode | `yarn test:e2e:headless` |
 | run all linters | `yarn lint` |
 | run only javascript linter | `yarn lint:js` |
