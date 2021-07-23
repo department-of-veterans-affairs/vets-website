@@ -814,4 +814,41 @@ describe('<ReviewCollapsibleChapter>', () => {
       tree.unmount();
     });
   });
+
+  describe('CustomPageReview', () => {
+    it('should throw an error when CustomPageReview is missing but CustomPage is present', () => {
+      const pages = [
+        {
+          title: '',
+          pageKey: 'test',
+        },
+      ];
+      const chapterKey = 'test';
+      const chapter = {};
+      const form = {
+        pages: {
+          test: {
+            title: '',
+            CustomPage: () => <div />,
+            editMode: false,
+          },
+        },
+        data: {},
+      };
+
+      expect(() =>
+        SkinDeep.shallowRender(
+          <ReviewCollapsibleChapter
+            viewedPages={new Set()}
+            expandedPages={pages}
+            chapterKey={chapterKey}
+            chapterFormConfig={chapter}
+            form={form}
+          />,
+        ),
+      ).to.throw('CustomPage found for test, but missing CustomPageReview.');
+    });
+    it('should render CustomPageReview when CustomPage is present', () => {});
+    it('should render a CustomPageReview for each item in an array when showPagePerItem is true', () => {});
+  });
 });

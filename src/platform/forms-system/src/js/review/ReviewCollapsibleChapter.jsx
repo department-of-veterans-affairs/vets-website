@@ -288,23 +288,22 @@ class ReviewCollapsibleChapter extends React.Component {
         )}
         {expandedPages.map(page => {
           const pageConfig = form.pages[page.pageKey];
-          if (pageConfig.CustomPage) {
-            if (pageConfig.CustomPageReview === undefined) {
-              throw new Error(
-                `CustomPage found for ${
-                  page.pageKey
-                }, but missing CustomPageReview.`,
-              );
-            }
-            return this.getCustomPageContent(page, props);
-          }
-          return this.getSchemaformPageContent(page, props);
+          return pageConfig.CustomPage
+            ? this.getCustomPageContent(page, props)
+            : this.getSchemaformPageContent(page, props);
         })}
       </div>
     );
   };
 
   render() {
+    Object.entries(this.props.form.pages).forEach(([pageKey, pageConfig]) => {
+      if (pageConfig.CustomPage && pageConfig.CustomPageReview === undefined) {
+        throw new Error(
+          `CustomPage found for ${pageKey}, but missing CustomPageReview.`,
+        );
+      }
+    });
     let pageContent = null;
 
     const chapterTitle = this.getChapterTitle(this.props.chapterFormConfig);
