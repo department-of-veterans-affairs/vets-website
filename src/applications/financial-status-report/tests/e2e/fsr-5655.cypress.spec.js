@@ -58,12 +58,12 @@ const testConfig = createTestConfig(
 
       'employment-records': ({ afterHook }) => {
         afterHook(() => {
-          // Veteran Employer One - Current Employment
+          // Employer One - Current Employment
           cy.findByLabelText(/Type of work/).select('Full time');
           cy.get(`select[name="fromMonth"]`).select('1');
           cy.get(`input[name="fromYear"]`).type('2017');
           cy.get(`input[name="current-employment"]`).check();
-          cy.get(`input[name="employerName"]`).type('Veteran Employer One');
+          cy.get(`input[name="employerName"]`).type('Employer One');
           cy.findAllByText(/Save/i, { selector: 'button' })
             .first()
             .click();
@@ -72,13 +72,13 @@ const testConfig = createTestConfig(
             .first()
             .click();
 
-          // Veteran Employer Two - Previous Employment
+          // Employer Two - Previous Employment
           cy.findByLabelText(/Type of work/).select('Full time');
           cy.get(`select[name="fromMonth"]`).select('1');
           cy.get(`input[name="fromYear"]`).type('2015');
           cy.get(`select[name="toMonth"]`).select('1');
           cy.get(`input[name="toYear"]`).type('2017');
-          cy.get(`input[name="employerName"]`).type('Veteran Employer Two');
+          cy.get(`input[name="employerName"]`).type('Employer Two');
           cy.findAllByText(/Save/i, { selector: 'button' })
             .first()
             .click();
@@ -86,11 +86,29 @@ const testConfig = createTestConfig(
         });
       },
 
-      'income/0': ({ afterHook }) => {
+      'spouse-employment-records': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="root_monthlyGrossSalary"]`).type('5000');
-          cy.get(`input[name="root_deductions_0_name"]`).type('Federal tax');
-          cy.get(`input[name="root_deductions_0_amount"]`).type('300');
+          // Employer One - Current Employment
+          cy.findByLabelText(/Type of work/).select('Full time');
+          cy.get(`select[name="fromMonth"]`).select('5');
+          cy.get(`input[name="fromYear"]`).type('2015');
+          cy.get(`input[name="current-employment"]`).check();
+          cy.get(`input[name="employerName"]`).type('Employer One');
+          cy.findAllByText(/Save/i, { selector: 'button' })
+            .first()
+            .click();
+          // Add job link
+          cy.findAllByText(/Add job/i, { selector: 'a' })
+            .first()
+            .click();
+
+          // Employer Two - Previous Employment
+          cy.findByLabelText(/Type of work/).select('Full time');
+          cy.get(`select[name="fromMonth"]`).select('2');
+          cy.get(`input[name="fromYear"]`).type('2013');
+          cy.get(`select[name="toMonth"]`).select('3');
+          cy.get(`input[name="toYear"]`).type('2018');
+          cy.get(`input[name="employerName"]`).type('Employer Two');
           cy.findAllByText(/Save/i, { selector: 'button' })
             .first()
             .click();

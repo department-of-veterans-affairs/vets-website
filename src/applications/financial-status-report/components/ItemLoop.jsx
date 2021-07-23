@@ -157,8 +157,8 @@ const AddAnotherButton = ({
   uiOptions,
   handleAdd,
 }) => (
-  <>
-    <div className="add-item-container">
+  <div>
+    <div className="add-item-container" name="table_root_">
       <div className="add-item-link-section">
         <i className="fas fa-plus plus-icon" />
         <a
@@ -174,7 +174,7 @@ const AddAnotherButton = ({
       {addAnotherDisabled &&
         `You’ve entered the maximum number of items allowed.`}
     </p>
-  </>
+  </div>
 );
 
 const ItemLoop = ({
