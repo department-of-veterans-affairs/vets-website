@@ -44,6 +44,9 @@ function LocationSearchResults({
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
   const [mobileMarkerClicked, setMobileMarkerClicked] = useState(null);
 
+  /**
+   * When map is moved update distance from center to NorthEast corner
+   */
   const updateMapState = () => {
     const mapBounds = map.current.getBounds();
     setMapState({
@@ -54,6 +57,9 @@ function LocationSearchResults({
     });
   };
 
+  /**
+   * Initialize map if the element is present or on smallScreen
+   */
   const setupMap = () => {
     if (map.current && !smallScreen) return; // initialize map only once
 
@@ -154,6 +160,10 @@ function LocationSearchResults({
     return mapState.changed && !map.current.getBounds().contains(lngLat);
   };
 
+  /**
+   * Used for smallScreen when a map marker is clicked
+   * Using a useEffect since need to switch tabs first before scrolling to search result card
+   */
   useEffect(
     () => {
       if (mobileMarkerClicked && mobileTab === LIST_TAB) {
@@ -172,6 +182,13 @@ function LocationSearchResults({
     [mobileMarkerClicked],
   );
 
+  /**
+   * Adds a map marker to the map and includes in a LngLatBounds object if provided
+   * Sets the map marker to have a "on click" event that scrolls to the corresponding result card
+   * @param institution
+   * @param index
+   * @param locationBounds
+   */
   const addMapMarker = (institution, index, locationBounds) => {
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
@@ -222,6 +239,10 @@ function LocationSearchResults({
     return true;
   };
 
+  /**
+   * Adds a map marker if user used "Find my location"
+   * @param bounds
+   */
   const currentLocationMapMarker = bounds => {
     const currentMarkerElement = document.createElement('div');
     currentMarkerElement.className = 'current-position';
@@ -240,7 +261,7 @@ function LocationSearchResults({
 
   /**
    * Takes results and puts them on the map
-   * Excludes results who are not visible on the map
+   * Excludes results that are not visible on the map when using "Search this area of the map"
    */
   useEffect(
     () => {
@@ -290,6 +311,9 @@ function LocationSearchResults({
     [results, smallScreen, mobileTab],
   );
 
+  /**
+   * Creates result cards for display
+   */
   const resultCards = cardResults?.map((institution, index) => {
     const { distance } = institution;
     const miles = Number.parseFloat(distance).toFixed(2);
@@ -311,6 +335,10 @@ function LocationSearchResults({
     );
   });
 
+  /**
+   * Called when user uses "Search this area of the map"
+   * @param e
+   */
   const searchArea = e => {
     e.preventDefault();
     dispatchFetchSearchByLocationCoords(
@@ -322,11 +350,12 @@ function LocationSearchResults({
     );
   };
 
-  const areaSearchWithinBounds = mapState.distance <= MAX_SEARCH_AREA_DISTANCE;
-  const areaSearchLabel = areaSearchWithinBounds
-    ? 'Search this area of the map'
-    : 'Zoom in to search';
-
+  /**
+   * Content for when no results are found with or without the use of filters
+   * smallScreen count is different from desktop count
+   * @param count
+   * @return {JSX.Element}
+   */
   const noResultsFound = count => (
     <>
       {count === 0 &&
@@ -365,6 +394,11 @@ function LocationSearchResults({
     </>
   );
 
+  /**
+   * smallScreen tabs for List and Map views
+   * @param tabName
+   * @return {JSX.Element}
+   */
   const getTab = tabName => {
     const activeTab = tabName === mobileTab;
     const tabClasses = classNames(
@@ -391,6 +425,12 @@ function LocationSearchResults({
     );
   };
 
+  /**
+   * Content for how many search results are showing
+   * smallScreen count is different from desktop count
+   * @param count
+   * @return {JSX.Element}
+   */
   const searchResultsShowing = count => (
     <p>
       Showing <strong>{count} search results</strong> for '
@@ -398,6 +438,12 @@ function LocationSearchResults({
     </p>
   );
 
+  /**
+   * Renders the showing message if not on smallScreen as well the result cards
+   * smallScreen count is different from desktop count
+   * @param count
+   * @return {boolean|JSX.Element}
+   */
   const searchResults = count =>
     count > 0 && (
       <div
@@ -414,6 +460,15 @@ function LocationSearchResults({
       </div>
     );
 
+  const areaSearchWithinBounds = mapState.distance <= MAX_SEARCH_AREA_DISTANCE;
+  const areaSearchLabel = areaSearchWithinBounds
+    ? 'Search this area of the map'
+    : 'Zoom in to search';
+
+  /**
+   * Creates the map element container and if not on smallScreen the areaSearch button
+   * @type {JSX.Element}
+   */
   const mapElement = (
     <map
       ref={mapContainer}
@@ -445,6 +500,7 @@ function LocationSearchResults({
   // Results shouldn't be filtered out on mobile because "Search this area of the map" is disabled
   const smallScreenCount = search.location.count;
 
+  // returns content ordered and setup for smallScreens
   if (smallScreen) {
     return (
       <div className={'location-search vads-u-padding--1'}>
@@ -484,6 +540,7 @@ function LocationSearchResults({
   // returned and what is visible
   const desktopCount = !cardResults ? null : cardResults.length;
 
+  // Returns content setup for desktop screens
   return (
     <div className={'location-search vads-u-padding-top--1'}>
       <div className={'usa-width-one-third'}>
