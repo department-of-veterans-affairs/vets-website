@@ -245,11 +245,16 @@ export async function fetchRequestById({ id, useV2 }) {
  * @param {'cc'|'va'} type Type of appointment that is being fetched
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment({ id, type, useV2 = false }) {
+export async function fetchBookedAppointment({
+  id,
+  type,
+  useV2VA = false,
+  useV2CC = false,
+}) {
   try {
     let appointment;
 
-    if (useV2) {
+    if (useV2VA || useV2CC) {
       appointment = await getAppointment(id);
       return transformVAOSAppointment(appointment);
     }

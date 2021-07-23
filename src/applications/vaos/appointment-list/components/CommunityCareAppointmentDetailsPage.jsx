@@ -75,7 +75,7 @@ export default function CommunityCareAppointmentDetailsPage() {
   }
 
   const header = 'Community care';
-  const { providerName, practiceName } =
+  const { name, providerName, practiceName } =
     appointment.communityCareProvider || {};
   const calendarData = getCalendarData({
     facility: appointment.communityCareProvider,
@@ -108,9 +108,9 @@ export default function CommunityCareAppointmentDetailsPage() {
         </span>
       </h2>
 
-      {(!!providerName || !!practiceName) && (
+      {(!!providerName || !!practiceName || !!name) && (
         <>
-          {providerName || practiceName}
+          {providerName || practiceName || name}
           <br />
         </>
       )}

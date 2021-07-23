@@ -40,7 +40,7 @@
       "attributes": {
         "cancellationReason": null,
         "clinic": null,
-        "comment": null,
+        "comment": "test",
         "contact": {
           "telecom": [
             {
@@ -60,7 +60,7 @@
           {
             "id": {
               "system": null,
-              "value": null
+              "value": "1801312053"
             },
             "firstName": "Dr",
             "lastName": "Hyde",
