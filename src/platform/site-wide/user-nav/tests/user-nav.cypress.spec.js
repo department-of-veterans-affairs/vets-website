@@ -2,7 +2,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 const selectors = {
   menu: '#login-root button[aria-controls="account-menu"]',
-  signOut: '#account-menu > ul > li:nth-child(4) > a',
+  signOut: '#account-menu ul li:nth-child(4) a',
 };
 
 describe('User Nav Test', () => {
