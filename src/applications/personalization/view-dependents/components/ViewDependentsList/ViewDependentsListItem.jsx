@@ -62,7 +62,7 @@ function ViewDependentsListItem(props) {
 
         {ssn ? (
           <dd className="vads-l-col--12 vads-u-margin--0">
-            <dfn title="ssn">SSN:</dfn> {ssn}
+            <dfn title="ssn">SSN:</dfn> {ssn.replace(/[0-9](?=.{4,}$)/g, '*')}
           </dd>
         ) : null}
 
