@@ -76,9 +76,9 @@ export function SearchPage({
                 </va-accordion-item>
                 <va-accordion-item header="Search by location">
                   <LocationSearchForm />
-                  <LocationSearchResults />
                 </va-accordion-item>
               </va-accordion>
+              <LocationSearchResults />
             </div>
           )}
         </div>

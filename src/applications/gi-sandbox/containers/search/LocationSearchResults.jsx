@@ -54,7 +54,7 @@ function LocationSearchResults({
   };
 
   const setupMap = () => {
-    if (map.current) return; // initialize map only once
+    if (map.current && !smallScreen) return; // initialize map only once
 
     mapboxgl.accessToken = mapboxToken;
 
