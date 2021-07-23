@@ -17,7 +17,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
       overflow-y: scroll;
 
       @include media-maxwidth($small-screen) {
-        overflow-y: inherit;
+        height: auto;
       }
     }
 
@@ -111,34 +111,22 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   .tab-form {
-    .search-box {
-      border-bottom: 2px solid $color-gray-light;
-      border-left: 2px solid $color-gray-light;
-      border-right: 2px solid $color-gray-light;
-      padding: 48px 48px 24px 48px;
-    }
-
-    .active-search-tab {
+    .active-results-tab {
       border-top: 4px solid $color-primary;
     }
 
-    .inactive-search-tab {
-      border-top: 2px solid $color-gray-light;
+    .inactive-results-tab {
+      border-top: 2px solid $color-black;
     }
 
-    .search-tab {
-      font-size: 25px;
-      border-bottom: 2px solid $color-gray-light;
+    .list-results-tab {
+      border-left: 2px solid $color-black;
+      border-right: 1px solid $color-black;
     }
 
-    .list-search-tab {
-      border-left: 2px solid $color-gray-light;
-      border-right: 1px solid $color-gray-light;
-    }
-
-    .map-search-tab {
-      border-left: 1px solid $color-gray-light;
-      border-right: 2px solid $color-gray-light;
+    .map-results-tab {
+      border-left: 1px solid $color-black;
+      border-right: 2px solid $color-black;
     }
 
   }

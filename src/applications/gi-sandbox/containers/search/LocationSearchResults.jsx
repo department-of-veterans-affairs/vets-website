@@ -42,6 +42,7 @@ function LocationSearchResults({
   const [cardResults, setCardResults] = useState(null);
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
+  const [mobileMarkerClicked, setMobileMarkerClicked] = useState(null);
 
   const updateMapState = () => {
     const mapBounds = map.current.getBounds();
@@ -153,6 +154,24 @@ function LocationSearchResults({
     return mapState.changed && !map.current.getBounds().contains(lngLat);
   };
 
+  useEffect(
+    () => {
+      if (mobileMarkerClicked && mobileTab === LIST_TAB) {
+        scroller.scrollTo(
+          `${createId(mobileMarkerClicked)}-result-card-placeholder`,
+          getScrollOptions(),
+        );
+        dispatchUpdateEligibilityAndFilters(
+          { expanded: false },
+          { expanded: false },
+        );
+
+        setMobileMarkerClicked(null);
+      }
+    },
+    [mobileMarkerClicked],
+  );
+
   const addMapMarker = (institution, index, locationBounds) => {
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
@@ -167,21 +186,26 @@ function LocationSearchResults({
 
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
-      const locationSearchResults = document.getElementById(
-        'location-search-results',
-      );
+      if (smallScreen) {
+        setMobileTab(LIST_TAB);
+        setMobileMarkerClicked(name);
+      } else {
+        const locationSearchResults = document.getElementById(
+          'location-search-results',
+        );
 
-      scroller.scrollTo(
-        `${createId(name)}-result-card-placeholder`,
-        getScrollOptions({
-          containerId: 'location-search-results',
-          offset: -locationSearchResults.getBoundingClientRect().top,
-        }),
-      );
-      dispatchUpdateEligibilityAndFilters(
-        { expanded: false },
-        { expanded: false },
-      );
+        scroller.scrollTo(
+          `${createId(name)}-result-card-placeholder`,
+          getScrollOptions({
+            containerId: 'location-search-results',
+            offset: -locationSearchResults.getBoundingClientRect().top,
+          }),
+        );
+        dispatchUpdateEligibilityAndFilters(
+          { expanded: false },
+          { expanded: false },
+        );
+      }
     });
 
     if (locationBounds) {
@@ -345,21 +369,19 @@ function LocationSearchResults({
     const activeTab = tabName === mobileTab;
     const tabClasses = classNames(
       {
-        'active-search-tab': activeTab,
+        'active-results-tab': activeTab,
         'vads-u-color--gray-dark': activeTab,
         'vads-u-background-color--white': activeTab,
-        'inactive-search-tab': !activeTab,
+        'inactive-results-tab': !activeTab,
         'vads-u-color--gray-medium': !activeTab,
         'vads-u-background-color--gray-light-alt': !activeTab,
       },
       'vads-u-font-family--sans',
       'vads-u-flex--1',
       'vads-u-text-align--center',
-      'vads-u-font-weight--bold',
       'vads-l-grid-container',
-      'vads-u-padding-y--1p5',
-      'search-tab',
-      `${tabName.toLowerCase()}-search-tab`,
+      'vads-u-padding-y--1',
+      `${tabName.toLowerCase()}-results-tab`,
     );
 
     return (
@@ -425,7 +447,7 @@ function LocationSearchResults({
 
   if (smallScreen) {
     return (
-      <div className={'location-search vads-u-padding-top--1'}>
+      <div className={'location-search vads-u-padding--1'}>
         {inProgress && <LoadingIndicator message="Loading search results..." />}
         {!inProgress && (
           <>
@@ -440,12 +462,14 @@ function LocationSearchResults({
             </div>
             {smallScreenCount > 0 && (
               <>
-                <div>{searchResultsShowing(smallScreenCount)}</div>
+                <div className="vads-u-font-size--base vads-u-padding-top--1p5">
+                  {searchResultsShowing(smallScreenCount)}
+                </div>
                 <div className="vads-u-display--flex tab-form">
                   {getTab(LIST_TAB)}
                   {getTab(MAP_TAB)}
                 </div>
-                <hr />
+                <hr className="vads-u-margin-y--1p5" />
                 {mobileTab === LIST_TAB && searchResults(smallScreenCount)}
                 {mobileTab === MAP_TAB && mapElement}
               </>
