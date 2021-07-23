@@ -130,11 +130,6 @@
           "view:descriptionInfo": {}
         },
         {
-          "cause": "NEW",
-          "condition": "PTSD (post traumatic stress disorder)",
-          "view:descriptionInfo": {}
-        },
-        {
           "cause": "SECONDARY",
           "view:secondaryFollowUp": {
             "causedByDisability": "Asthma"
