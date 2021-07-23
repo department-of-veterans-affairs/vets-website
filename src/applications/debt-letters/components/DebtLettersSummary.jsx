@@ -14,6 +14,7 @@ import { OnThisPageLinks } from './OnThisPageLinks';
 const Chapter33Alert = () => {
   return (
     <ExpandableAlert
+      className="vads-u-margin-top--3"
       iconType="triangle"
       status="limited"
       trackingPrefix="-debt-letters-ch33"
