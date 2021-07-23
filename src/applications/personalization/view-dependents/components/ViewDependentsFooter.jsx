@@ -1,4 +1,5 @@
 import React from 'react';
+import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const ViewDependentsFooter = () => (
   <div>
@@ -7,10 +8,8 @@ const ViewDependentsFooter = () => (
     </h2>
     <p>
       You can call us at
-      <a className="nowrap" href="tel:1-800-827-1000">
-        800-827-1000
-      </a>
-      . We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      <Telephone className="nowrap" contact={'800-827-1000'} />. We’re here
+      Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
     </p>
   </div>
 );
