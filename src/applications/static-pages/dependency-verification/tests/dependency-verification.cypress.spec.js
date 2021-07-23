@@ -6,7 +6,7 @@ import { RETRIEVE_DIARIES } from '../utils';
 
 const DEPENDENTS_ENDPOINT = 'v0/dependents_applications/show';
 
-describe('Dependency Verification', () => {
+describe.skip('Dependency Verification', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
