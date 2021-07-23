@@ -99,14 +99,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            .cache/yarn
+            ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
-          YARN_CACHE_FOLDER: .cache/yarn
+          YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -202,14 +202,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            .cache/yarn
+            ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
-          YARN_CACHE_FOLDER: .cache/yarn
+          YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -293,14 +293,14 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            .cache/yarn
+            ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
-          YARN_CACHE_FOLDER: .cache/yarn
+          YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Annotate ESLint results
         run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
@@ -364,14 +364,14 @@ jobs:
       #   uses: actions/cache@v2
       #   with:
       #     path: |
-      #       .cache/yarn
+      #       ~/.cache/yarn
       #       node_modules
       #     key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
-        env:
-          YARN_CACHE_FOLDER: .cache/yarn
+        # env:
+        #   YARN_CACHE_FOLDER: ~/.cache/yarn
 
       # - name: Set port for server
       #   run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
@@ -457,17 +457,19 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            .cache/yarn
+            ~/.cache/yarn
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
-          YARN_CACHE_FOLDER: .cache/yarn
+          YARN_CACHE_FOLDER: ~/.cache/yarn
 
       - name: Run Nightwatch tests
-        run: yarn test:e2e:headless
+        run: |
+          chmod +x script/run-nightwatch.sh
+          yarn test:e2e:headless
         timeout-minutes: 30
         env:
           BUILDTYPE: vagovprod
@@ -556,7 +558,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
         env:
-          YARN_CACHE_FOLDER: .cache/yarn
+          YARN_CACHE_FOLDER: ~/.cache/yarn
         working-directory: testing-tools-team-dashboard-data
 
       - name: Download Mochawesome test results
@@ -615,16 +617,33 @@ jobs:
           name: cypress-video-artifacts
           path: testing-reports/cypress-reports/videos/${{ env.UUID }}
 
-      - name: Add changes
-        run: git add .
-        working-directory: testing-reports
+      # - name: Add changes
+      #   run: git add .
+      #   working-directory: testing-reports
 
-      - name: Commit and push changes
-        uses: actions-js/push@master
+      # - name: Commit and push changes
+      #   uses: actions-js/push@master
+      #   with:
+      #     github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+      #     repository: department-of-veterans-affairs/testing-reports
+      #     directory: testing-reports
+      - name: Upload Test Videos to S3
+        uses: shallwefootball/s3-upload-action@master
         with:
-          github_token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          repository: department-of-veterans-affairs/testing-reports
-          directory: testing-reports
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: testing-tools-testing-reports
+          source_dir: testing-reports/cypress-reports/videos/${{ env.UUID }}
+          destination_dir: cypress-reports/videos/${{ env.UUID }}
+
+      - name: Upload Mochawesome report to S3
+        uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: testing-tools-testing-reports
+          source_dir: testing-reports/cypress-reports
+          destination_dir: cypress-reports
 
       # -------------------------
       # | Cypress Tests Summary |
@@ -784,14 +803,14 @@ jobs:
 #       uses: actions/cache@v2
 #       with:
 #         path: |
-#           .cache/yarn
+#           ~/.cache/yarn
 #           node_modules
 #         key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
 #     - name: Install dependencies
 #       run: yarn install --frozen-lockfile --prefer-offline
 #       env:
-#         YARN_CACHE_FOLDER: .cache/yarn
+#         YARN_CACHE_FOLDER: ~/.cache/yarn
 
 #     - name: Trigger Jenkins pipeline
 #       run: node script/github-actions/trigger-jenkins.js
