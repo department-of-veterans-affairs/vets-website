@@ -316,6 +316,9 @@ jobs:
     name: Cypress E2E Tests
     runs-on: self-hosted
     needs: build
+    container:
+      image: cypress/browsers:node14.17.0-chrome91-ff89
+      options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
       fail-fast: false
@@ -324,7 +327,8 @@ jobs:
         ci_node_index: [0, 1, 2, 3, 4, 5]
 
     env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
+      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
       - name: Checkout vets-website
@@ -349,10 +353,10 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Install Chrome
-        uses: browser-actions/setup-chrome@latest
-        with:
-          chrome-version: stable
+      # - name: Install Chrome
+      #   uses: browser-actions/setup-chrome@latest
+      #   with:
+      #     chrome-version: stable
 
       # Disabling caching due to cypress breaking - to be evaluated at a later date
       # - name: Cache dependencies
@@ -369,17 +373,17 @@ jobs:
         # env:
         #   YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Set port for server
-        run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
+      # - name: Set port for server
+      #   run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
 
       # Cypress env vars like this are used to either override config settings
       # or be made available to tests through Cypress.env().
       # https://docs.cypress.io/guides/guides/environment-variables#Option-3-CYPRESS_
-      - name: Set port for Cypress
-        run: echo "CYPRESS_PORT=$(( SERVER_PORT + 1 ))" >> $GITHUB_ENV
+      # - name: Set port for Cypress
+      #   run: echo "CYPRESS_PORT=$(( SERVER_PORT + 1 ))" >> $GITHUB_ENV
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=$SERVER_PORT &
+        run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=3001 &
 
       - name: Create test results directory
         run: mkdir -p test-results
@@ -388,7 +392,7 @@ jobs:
         run: node script/github-actions/run-cypress-tests.js
         timeout-minutes: 60
         env:
-          CYPRESS_BASE_URL: http://localhost:${{ env.SERVER_PORT }}
+          # CYPRESS_BASE_URL: http://localhost:3001
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
 
