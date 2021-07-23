@@ -10,12 +10,14 @@ export const missingAreaOfDisagreementOtherErrorMessage =
 // formContext.pagePerItemIndex is undefined here? Use index added to data :(
 export const issueName = ({ formData, formContext } = {}) => {
   const index = formContext.pagePerItemIndex || formData.index;
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/27096
+  const Header = formContext.onReviewPage ? 'h4' : 'h3';
   return (
     <legend
       className="schemaform-block-title schemaform-title-underline"
       aria-describedby={`area-of-disagreement-label-${index}`}
     >
-      <h3 className="vads-u-margin-top--0">{getIssueName(formData)}</h3>
+      <Header className="vads-u-margin-top--0">{getIssueName(formData)}</Header>
     </legend>
   );
 };
