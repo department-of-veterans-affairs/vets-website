@@ -327,7 +327,7 @@ describe('selectVAPServiceInitializationStatus', () => {
     );
   });
 
-  it('returns INITIALIZED if Vet360 is found in the services array', () => {
+  it.skip('returns INITIALIZED if Vet360 is found in the services array', () => {
     const result = selectors.selectVAPServiceInitializationStatus(state);
     expect(result.status).to.be.equal(
       VAP_SERVICE_INITIALIZATION_STATUS.INITIALIZED,

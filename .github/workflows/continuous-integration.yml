@@ -68,13 +68,6 @@ jobs:
           BUILDTIME=$(date +%s)
           EOF
 
-      - name: Download coverage report
-        uses: actions/download-artifact@v2
-        if: ${{ github.ref == 'refs/heads/master' }}
-        with:
-          name: test-coverage-report
-          path: build/${{ matrix.buildtype }}/test-coverage-report.json
-
       - name: Compress and archive build
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
@@ -126,12 +119,35 @@ jobs:
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v2
+      - name: Configure AWS credentials (1)
         if: ${{ github.ref == 'refs/heads/master' }}
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          name: test-coverage-report
-          path: coverage/test-coverage-report.json
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get AWS IAM role
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      - name: Upload coverage report to S3
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: aws s3 cp coverage/test-coverage-report.json s3://apps.dev.va.gov/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
 
       - name: Get code coverage
         id: code-coverage
@@ -300,6 +316,9 @@ jobs:
     name: Cypress E2E Tests
     runs-on: self-hosted
     needs: build
+    container:
+      image: cypress/browsers:node14.17.0-chrome91-ff89
+      options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
       fail-fast: false
@@ -308,7 +327,8 @@ jobs:
         ci_node_index: [0, 1, 2, 3, 4, 5]
 
     env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
+      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
       - name: Checkout vets-website
@@ -333,10 +353,10 @@ jobs:
         with:
           node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
-      - name: Install Chrome
-        uses: browser-actions/setup-chrome@latest
-        with:
-          chrome-version: stable
+      # - name: Install Chrome
+      #   uses: browser-actions/setup-chrome@latest
+      #   with:
+      #     chrome-version: stable
 
       # Disabling caching due to cypress breaking - to be evaluated at a later date
       # - name: Cache dependencies
@@ -353,17 +373,17 @@ jobs:
         # env:
         #   YARN_CACHE_FOLDER: ~/.cache/yarn
 
-      - name: Set port for server
-        run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
+      # - name: Set port for server
+      #   run: echo "SERVER_PORT=$(( ( RANDOM % 2000 ) + 3001 ))" >> $GITHUB_ENV
 
       # Cypress env vars like this are used to either override config settings
       # or be made available to tests through Cypress.env().
       # https://docs.cypress.io/guides/guides/environment-variables#Option-3-CYPRESS_
-      - name: Set port for Cypress
-        run: echo "CYPRESS_PORT=$(( SERVER_PORT + 1 ))" >> $GITHUB_ENV
+      # - name: Set port for Cypress
+      #   run: echo "CYPRESS_PORT=$(( SERVER_PORT + 1 ))" >> $GITHUB_ENV
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=$SERVER_PORT &
+        run: node src/platform/testing/e2e/test-server.js --buildtype vagovprod --port=3001 &
 
       - name: Create test results directory
         run: mkdir -p test-results
@@ -372,7 +392,7 @@ jobs:
         run: node script/github-actions/run-cypress-tests.js
         timeout-minutes: 60
         env:
-          CYPRESS_BASE_URL: http://localhost:${{ env.SERVER_PORT }}
+          # CYPRESS_BASE_URL: http://localhost:3001
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
 
