@@ -91,7 +91,9 @@ export const DebtLettersTable = ({ debtLinks }) => {
                   debtLetter.receivedAt,
                 ).format('MMM D, YYYY')}`}
                 href={encodeURI(
-                  `${environment.API_URL}/v0/debt_letters/${debtLetter.documentId}`,
+                  `${environment.API_URL}/v0/debt_letters/${
+                    debtLetter.documentId
+                  }`,
                 )}
               >
                 <i
