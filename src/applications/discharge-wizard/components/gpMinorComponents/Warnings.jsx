@@ -19,7 +19,7 @@ const Warnings = ({ formValues }) => {
       15;
 
     return (
-      <div>
+      <>
         <AlertMessage
           content={venueWarning}
           isVisible={prevAppType === '4' && reason !== '8'}
@@ -30,7 +30,7 @@ const Warnings = ({ formValues }) => {
           isVisible={prevAppType === '4' && reason === '8' && !oldDischarge}
           status="warning"
         />
-      </div>
+      </>
     );
   };
 

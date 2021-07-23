@@ -1,16 +1,30 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import DebtCardsList from './DebtCardsList';
+import ExpandableAlert from './ExpandableAlert';
 import { OnThisPageLinks } from './OnThisPageLinks';
 
-const renderAlert = () => (
+const Chapter33Alert = () => {
+  return (
+    <ExpandableAlert
+      className="vads-u-margin-top--3"
+      iconType="triangle"
+      status="limited"
+      trackingPrefix="-debt-letters-ch33"
+      label="If you got an email about Chapter 33 tuition debt with code 75B"
+      content="This is a debt assigned to your school. You won’t find it listed here. Before you make a payment on this debt, check with your school.They may have already paid."
+    />
+  );
+};
+
+const ErrorAlert = () => (
   <section
     className="usa-alert usa-alert-error vads-u-margin-top--0 vads-u-padding--3"
     role="alert"
@@ -33,7 +47,7 @@ const renderAlert = () => (
   </section>
 );
 
-const renderEmptyAlert = () => (
+const EmptyItemsAlert = () => (
   <section className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
     <h2 className="vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-size--h4">
       Our records show that you don’t have any current debts
@@ -85,13 +99,16 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
               assistance.
             </p>
 
-            {allDebtsFetchFailure && renderAlert()}
+            {allDebtsFetchFailure && <ErrorAlert />}
 
-            {allDebtsEmpty && renderEmptyAlert()}
+            {allDebtsEmpty && <EmptyItemsAlert />}
 
             {!allDebtsFetchFailure && (
               <>
+                <Chapter33Alert />
+
                 <OnThisPageLinks />
+
                 <DebtCardsList />
               </>
             )}

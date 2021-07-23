@@ -46,6 +46,6 @@ describe('Claims status est current test', () => {
 
     // Disabled until COVID-19 message removed
     // cy.get('.claim-completion-desc').should('contain', 'We estimated your claim would be completed by now');
-    cy.get('.usa-alert-text').should('contain', 'COVID-19 has had on');
+    cy.get('va-alert').should('contain', 'COVID-19 has had on');
   });
 });

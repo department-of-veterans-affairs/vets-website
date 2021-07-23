@@ -38,15 +38,17 @@ const DebtLettersList = ({ debtLinks, isVBMSError }) => {
 
       {isVBMSError && renderAlert()}
 
-      {!isVBMSError && debtLinks.length > 0 && (
-        <>
-          <p className="vads-u-margin-y--0 vads-u-font-family--sans">
-            You can view a list of letters sent to your address and download
-            them.
-          </p>
-          <DebtLettersTable debtLinks={debtLinks} />
-        </>
-      )}
+      {!isVBMSError &&
+        debtLinks.length > 0 && (
+          <>
+            <p className="vads-u-margin-y--0 vads-u-font-family--sans">
+              You can view a list of letters sent to your address and download
+              them.
+            </p>
+            <DebtLettersTable debtLinks={debtLinks} />
+          </>
+        )}
+
       <div className="vads-u-margin-bottom--6 vads-u-margin-top--3">
         <h3 className="vads-u-margin-y--0">
           What if I don’t see the letter I'm looking for?
