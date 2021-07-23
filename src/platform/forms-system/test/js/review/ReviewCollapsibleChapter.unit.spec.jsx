@@ -816,7 +816,7 @@ describe('<ReviewCollapsibleChapter>', () => {
   });
 
   describe('CustomPageReview', () => {
-    it('should throw an error when CustomPageReview is missing but CustomPage is present', () => {
+    const getProps = () => {
       const pages = [
         {
           title: '',
@@ -830,12 +830,19 @@ describe('<ReviewCollapsibleChapter>', () => {
           test: {
             title: '',
             CustomPage: () => <div />,
+            CustomPageReview: () => <div />,
             editMode: false,
           },
         },
         data: {},
       };
 
+      return { pages, chapterKey, chapter, form };
+    };
+
+    it('should throw an error when CustomPageReview is missing but CustomPage is present', () => {
+      const { pages, chapterKey, chapter, form } = getProps();
+      delete form.pages.test.CustomPageReview;
       expect(() =>
         SkinDeep.shallowRender(
           <ReviewCollapsibleChapter
