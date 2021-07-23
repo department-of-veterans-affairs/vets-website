@@ -25,6 +25,6 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
     cy.visit(featureRoute);
-    cy.get('h1').contains("We couldn't check you in");
+    cy.get('h1').contains('We couldn’t check you in');
   });
 });
