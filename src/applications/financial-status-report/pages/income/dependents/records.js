@@ -2,8 +2,10 @@ import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
 
 export const uiSchema = {
-  'ui:title': 'Your dependents',
-  'ui:description': 'Enter each dependent’s age separately below.',
+  'view:dependents': {
+    'ui:title': 'Your dependents',
+    'ui:description': 'Enter each dependent’s age separately below.',
+  },
   personalData: {
     agesOfOtherDependents: {
       'ui:field': ItemLoop,
@@ -34,6 +36,10 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
+    'view:dependents': {
+      type: 'object',
+      properties: {},
+    },
     personalData: {
       type: 'object',
       properties: {
