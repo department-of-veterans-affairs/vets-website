@@ -11,6 +11,7 @@ import NameSearchResults from '../containers/search/NameSearchResults';
 import LocationSearchResults from '../containers/search/LocationSearchResults';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
+import AccordionItem from '../components/AccordionItem';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -23,6 +24,10 @@ export function SearchPage({
   const [smallScreen, setSmallScreen] = useState(
     matchMedia('(max-width: 480px)').matches,
   );
+  const [accordions, setAccordions] = useState({
+    [TABS.name]: true,
+    [TABS.location]: false,
+  });
 
   useEffect(
     () => {
@@ -51,8 +56,22 @@ export function SearchPage({
     history.push({ pathname: '/', search: queryParams.toString() });
   };
 
+  const accordionChange = (selectedAccordion, expanded) => {
+    let updated = {
+      ...accordions,
+      [selectedAccordion]: expanded,
+    };
+    if (selectedAccordion === TABS.name && expanded) {
+      updated = { ...updated, [TABS.location]: false };
+    } else if (selectedAccordion === TABS.location && expanded) {
+      updated = { ...updated, [TABS.name]: false };
+    }
+
+    setAccordions(updated);
+  };
+
   return (
-    <span className="landing-page">
+    <span className="search-page">
       <div className="vads-u-min-height--viewport row">
         <div className="column vads-u-padding-bottom--2 vads-u-padding-x--0">
           {!smallScreen && <SearchTabs onChange={tabChange} search={search} />}
@@ -72,14 +91,20 @@ export function SearchPage({
           {!error && !smallScreen && tabbedResults[tab]}
           {smallScreen && (
             <div>
-              <va-accordion>
-                <va-accordion-item header="Search by name">
-                  <NameSearchForm />
-                </va-accordion-item>
-                <va-accordion-item header="Search by location">
-                  <LocationSearchForm />
-                </va-accordion-item>
-              </va-accordion>
+              <AccordionItem
+                button="Search by name"
+                expanded={accordions[TABS.name]}
+                onClick={expanded => accordionChange(TABS.name, expanded)}
+              >
+                <NameSearchForm />
+              </AccordionItem>
+              <AccordionItem
+                button="Search by location"
+                expanded={accordions[TABS.location]}
+                onClick={expanded => accordionChange(TABS.location, expanded)}
+              >
+                <LocationSearchForm />
+              </AccordionItem>
             </div>
           )}
         </div>

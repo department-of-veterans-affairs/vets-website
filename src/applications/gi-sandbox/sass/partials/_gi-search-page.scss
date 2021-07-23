@@ -1,4 +1,62 @@
 .gi-app .search-page {
+
+  .keyword-search {
+    width:100%;
+  }
+
+  input.name-search {
+    width: 100%;
+    max-width: none;
+  }
+
+  button.name-search-button {
+    width: 120px;
+  }
+
+  @include media-maxwidth($small-screen) {
+    .usa-accordion-content {
+      padding-left: 0px;
+      padding-right: 0px;
+      margin-left: .5em;
+      margin-right: .5em;
+    }
+
+    .vads-l-grid-container {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    button {
+      margin-right: 0px;
+    }
+
+    #keyword-search {
+      width: 100%;
+    }
+    button.name-search-button {
+      width: 100%;
+
+      i {
+        display: none;
+      }
+    }
+  }
+
+  .eligibility-form h2 {
+    display: none;
+    visibility: hidden;
+  }
+
+  .video-sidebar h5 {
+    margin-top: 0.5em;
+    padding: 0;
+  }
+
+  .type-of-institution-filter .form-expanding-group-open {
+    padding-left: 2rem;
+    border-left: none;
+  }
+
   .filters-sidebar {
     h2 {
       font-size: 1.15em;
@@ -271,40 +329,40 @@
   .usa-alert-heading {
     font-size: 1em;
   }
-}
 
-.exclude-warnings-closings-checkbox {
-  padding-left: 0.2em;
-}
-
-.result-card {
-  border-radius: 5px;
-  width: 45%;
-  height: fit-content;
-  flex-grow: 1;
-
-  .result-card-container {
-    border-radius: 5px;
+  .exclude-warnings-closings-checkbox {
+    padding-left: 0.2em;
   }
-}
 
-.accreditation-tag {
-  border-radius: 15px;
-  font-size: 14px;
-  height: auto;
-  padding-left: 10px;
-  width: 157px;
-}
+  .result-card {
+    border-radius: 5px;
+    width: 45%;
+    height: fit-content;
+    flex-grow: 1;
 
-.secondary-info-label {
-  font-size: 12px;
-  margin-top: 0;
-  margin-bottom: 0;
-}
+    .result-card-container {
+      border-radius: 5px;
+    }
+  }
 
-.card-bottom-cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+  .accreditation-tag {
+    border-radius: 15px;
+    font-size: 14px;
+    height: auto;
+    padding-left: 10px;
+    width: 157px;
+  }
+
+  .secondary-info-label {
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .card-bottom-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
 }
