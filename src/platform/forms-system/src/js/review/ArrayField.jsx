@@ -106,7 +106,7 @@ class ArrayField extends React.Component {
           },
         );
         focusElement(`[name="${scrollElementName}"] ${focusElementSelector}`);
-      }, 100);
+      }, window.Mocha ? 0 : 100);
     }
   }
 
@@ -121,7 +121,7 @@ class ArrayField extends React.Component {
           offset: 0,
         },
       );
-    }, 100);
+    }, window.Mocha ? 0 : 100);
   }
 
   /*
