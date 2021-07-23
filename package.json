@@ -48,6 +48,7 @@
     "pr-check": "node script/pr-check.js",
     "reset:env": "./script/reset-environment.sh",
     "security-check": "node ./script/security-check.js",
+    "start": "node ./script/start.js",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
     "test:e2e:headless": "./script/run-nightwatch.sh --env headless",
