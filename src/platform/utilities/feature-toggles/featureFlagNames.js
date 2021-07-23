@@ -21,6 +21,7 @@ export default Object.freeze({
   dashboardShowDashboard2: 'dashboard_show_dashboard_2',
   debtLettersShowLetters: 'debtLettersShowLetters',
   dependencyVerification: 'dependency_verification',
+  dischargeWizardFeatures: 'discharge_wizard_features',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   facilitiesPpmsSuppressCommunityCare: 'facilitiesPpmsSuppressCommunityCare',
   facilitiesPpmsSuppressPharmacies: 'facilitiesPpmsSuppressPharmacies',
