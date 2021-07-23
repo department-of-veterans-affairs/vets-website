@@ -80,7 +80,7 @@ export function SearchPage({
                   <LocationSearchForm />
                 </va-accordion-item>
               </va-accordion>
-              {search.name.count && <NameSearchResults />}
+              <NameSearchResults />
             </div>
           )}
         </div>
