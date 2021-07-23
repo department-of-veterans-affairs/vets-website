@@ -105,7 +105,7 @@ describe('Add new disabilities', () => {
       />,
     );
     form.find('form').simulate('submit');
-    const error = form.find('.usa-alert');
+    const error = form.find('va-alert');
     expect(error.length).to.equal(1);
     expect(error.text()).to.contain('add a new disability to claim');
     expect(onSubmit.called).to.be.false;
@@ -132,7 +132,7 @@ describe('Add new disabilities', () => {
       />,
     );
     form.find('form').simulate('submit');
-    const error = form.find('.usa-alert');
+    const error = form.find('va-alert');
     expect(error.length).to.equal(1);
     expect(error.text()).to.contain('add a new disability or choose a rated');
     expect(onSubmit.called).to.be.false;

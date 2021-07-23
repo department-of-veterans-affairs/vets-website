@@ -6,6 +6,9 @@ export const wasCheckedIn = data => {
 
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
-export const receivedAppointmentDetails = data => {
-  return { type: RECEIVED_APPOINTMENT_DETAILS, value: data };
+export const receivedAppointmentDetails = (data, token) => {
+  return {
+    type: RECEIVED_APPOINTMENT_DETAILS,
+    value: { appointment: data, context: { token } },
+  };
 };

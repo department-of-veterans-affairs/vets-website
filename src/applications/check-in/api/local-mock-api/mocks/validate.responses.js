@@ -1,17 +1,17 @@
 const createMockSuccessResponse = _data => {
   return {
-    ':data': {
-      ':uuid': 'abc-1234',
-      ':appointmentTime': '2021-07-06 12:58:39 UTC',
-      ':facilityName': 'Acme VA',
-      ':clinicName': 'Green Team Clinic1',
-      ':clinicPhone': '555-555-5555',
+    data: {
+      startTime: '2021-08-19T13:56:31',
+      facility: 'LOMA LINDA VA CLINIC',
+      clinicPhoneNumber: '5551234567',
+      clinicFriendlyName: 'TEST CLINIC',
+      clinicName: 'LOM ACC CLINIC TEST',
     },
   };
 };
 
 const createMockFailedResponse = data => {
-  return { data: { ...data, isValid: false } };
+  return { data: { ...data, error: true } };
 };
 
 module.exports = { createMockSuccessResponse, createMockFailedResponse };

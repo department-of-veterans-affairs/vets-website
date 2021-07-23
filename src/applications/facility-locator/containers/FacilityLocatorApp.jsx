@@ -43,7 +43,7 @@ class FacilityLocatorApp extends React.Component {
     if (validateIdString(location.pathname, '/facility') && selectedResult) {
       crumbs.push(
         <Link to={`/${selectedResult.id}`} key={selectedResult.id}>
-          Facility Details
+          {selectedResult.attributes.name}
         </Link>,
       );
     } else if (

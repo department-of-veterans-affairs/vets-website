@@ -24,7 +24,7 @@ describe('AllClaims PaymentView', () => {
     expect(text).to.contain('Account number: ●●●●●●ending with1234');
     expect(text).to.contain('Bank routing number: ●●●●●ending with3123');
     expect(text).to.contain('Bank name: Big Bank');
-    expect(tree.find('AlertBox').length).to.equal(1);
+    expect(tree.find('va-alert').length).to.equal(1);
     tree.unmount();
   });
 
@@ -68,7 +68,7 @@ describe('AllClaims PaymentView', () => {
     expect(text).to.contain('Account number: ●●●●●●ending with1234');
     expect(text).to.contain('Bank routing number: ●●●●●ending with3123');
     expect(text).to.contain('Bank name: Big Bank');
-    expect(tree.find('AlertBox').length).to.equal(1);
+    expect(tree.find('va-alert').length).to.equal(1);
     tree.unmount();
   });
 });
