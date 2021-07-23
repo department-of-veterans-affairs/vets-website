@@ -66,7 +66,7 @@ describe('VAOS appointment list refresh', () => {
 
   describe('appointments details', () => {
     beforeEach(() => {
-      cy.findByText(/Show by type/i).should('exist');
+      cy.get('h2').contains(/Your appointments/i);
       cy.get('#type-dropdown').should('exist');
     });
 
@@ -173,7 +173,7 @@ describe('VAOS appointment list refresh', () => {
 
   describe('upcoming appointments', () => {
     it('should render upcoming appointments list', () => {
-      cy.findByText(/Show by type/i).should('exist');
+      cy.get('h2').contains(/Your appointments/i);
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=upcoming-appointment-list]').should('exist');
       cy.get('#type-dropdown').should('exist');
@@ -194,7 +194,7 @@ describe('VAOS appointment list refresh', () => {
 
   describe('requested appointments', () => {
     beforeEach(() => {
-      cy.findByText(/Show by type/i).should('exist');
+      cy.get('h2').contains(/Your appointments/i);
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=upcoming-appointment-list]').should('exist');
       cy.get('#type-dropdown')
