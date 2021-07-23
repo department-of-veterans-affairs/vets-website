@@ -68,13 +68,6 @@ jobs:
           BUILDTIME=$(date +%s)
           EOF
 
-      - name: Download coverage report
-        uses: actions/download-artifact@v2
-        if: ${{ github.ref == 'refs/heads/master' }}
-        with:
-          name: test-coverage-report
-          path: build/${{ matrix.buildtype }}/test-coverage-report.json
-
       - name: Compress and archive build
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
@@ -126,12 +119,35 @@ jobs:
       - name: Generate coverage report by app
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v2
+      - name: Configure AWS credentials (1)
         if: ${{ github.ref == 'refs/heads/master' }}
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          name: test-coverage-report
-          path: coverage/test-coverage-report.json
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get AWS IAM role
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: marvinpinto/action-inject-ssm-secrets@latest
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Configure AWS Credentials (2)
+        if: ${{ github.ref == 'refs/heads/master' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+      - name: Upload coverage report to S3
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: aws s3 cp coverage/test-coverage-report.json s3://apps.dev.va.gov/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
 
       - name: Get code coverage
         id: code-coverage
