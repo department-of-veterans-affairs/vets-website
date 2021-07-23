@@ -5,7 +5,7 @@ import Telephone, {
 } from '@department-of-veterans-affairs/component-library/Telephone';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
-import ErrorMessage from '../components/ErrorMessage';
+import { ErrorAlert } from '../components/Alerts';
 import { fetchDebts } from '../actions';
 import DebtCard from './DebtCard';
 
@@ -30,7 +30,7 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
     [getDebts],
   );
 
-  if (isError) return <ErrorMessage />;
+  if (isError) return <ErrorAlert />;
 
   if (pendingDebts) {
     return (

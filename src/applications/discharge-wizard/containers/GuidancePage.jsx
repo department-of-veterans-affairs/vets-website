@@ -16,8 +16,9 @@ import StepTwo from '../components/gpSteps/StepTwo';
 import StepThree from '../components/gpSteps/StepThree';
 import Warnings from '../components/gpMinorComponents/Warnings';
 import { deriveIsAirForceAFRBAPortal } from '../helpers';
+import { applyAirForcePortalLink } from '../helpers/selectors';
 
-export const GuidancePage = ({ formValues }) => {
+export const GuidancePage = ({ formValues, showNewAirForcePortal }) => {
   const airForceAFRBAPortal = deriveIsAirForceAFRBAPortal(formValues);
   const [accordionQuestionsState, setAccordionQuestionsState] = useState({
     q1: false,
@@ -56,7 +57,7 @@ export const GuidancePage = ({ formValues }) => {
       <h1>Your Steps for Upgrading Your Discharge</h1>
       <div className="medium-8">
         <ResultsSummary formValues={formValues} />
-        {airForceAFRBAPortal ? (
+        {showNewAirForcePortal && airForceAFRBAPortal ? (
           <AirForcePortalLink />
         ) : (
           <>
@@ -84,11 +85,13 @@ export const GuidancePage = ({ formValues }) => {
 
 const mapStateToProps = state => ({
   formValues: state.dischargeWizard.form,
+  showNewAirForcePortal: applyAirForcePortalLink(state),
 });
 const mapDispatchToProps = {};
 
 GuidancePage.propTypes = {
   formValues: PropTypes.object.isRequired,
+  showNewAirForcePortal: PropTypes.bool,
 };
 
 export default connect(
