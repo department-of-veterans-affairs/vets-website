@@ -4,7 +4,6 @@ import ViewDependentsLists from './ViewDependentsLists';
 import ViewDependentsSidebar from '../components/ViewDependentsSidebar/ViewDependentsSidebar';
 import ViewDependentsHeader from '../components/ViewDependentsHeader/ViewDependentsHeader';
 import ViewDependentsSidebarBlock from '../components/ViewDependentsSidebar/ViewDependentsSidebarBlock';
-import ViewDependentsFooter from '../components/ViewDependentsFooter';
 import {
   firstSidebarBlock,
   secondSidebarBlock,
@@ -64,7 +63,6 @@ function ViewDependentsLayout(props) {
           />
         </ViewDependentsSidebar>
       </div>
-      <ViewDependentsFooter />
     </div>
   );
 
