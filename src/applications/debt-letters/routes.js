@@ -10,8 +10,8 @@ const Routes = () => {
   return (
     <DebtLettersWrapper>
       <Route component={DebtDetails} path="/debt-detail/:id" />
-      <Route component={DebtLettersDownload} path="/debt-letters" />
-      <Route component={DebtLettersSummary} path="/" />
+      <Route component={DebtLettersDownload} exact path="/debt-letters" />
+      <Route component={DebtLettersSummary} exact path="/" />
     </DebtLettersWrapper>
   );
 };

@@ -2,12 +2,12 @@ import React from 'react';
 import moment from 'moment';
 import head from 'lodash/head';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 
 import { deductionCodes } from '../const/deduction-codes';
-import { bindActionCreators } from 'redux';
 import { setActiveDebt as setDebt } from '../actions';
-import { connect } from 'react-redux';
 import { renderAdditionalInfo } from '../const/diary-codes';
 
 const DebtLetterCard = ({ debt, setActiveDebt }) => {
@@ -107,4 +107,7 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators({ setActiveDebt: setDebt }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DebtLetterCard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DebtLetterCard);

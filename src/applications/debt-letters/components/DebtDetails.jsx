@@ -27,26 +27,35 @@ import {
 const DebtDetails = ({ selectedDebt, debts }) => {
   const location = useLocation();
 
-  useEffect(() => {
-    if (!selectedDebt) {
-      /* 
-        if debt is not selected
-        fetch all debts
-        filter all debts by debtID
-        currently we do not have a debtID so we need to make one
-        by combining fileNumber and diaryCode
-        then set selected debt
-        setActiveDebt(); 
-       */
-    }
-  }, []);
+  const getCurrentDebt = () => {
+    // get debtId out of the URL
+    const currentDebt = location.pathname.replace(/[^0-9]/g, '');
+
+    // Add debtIds derived from the debt fileNumber and deductionCode to debts
+    const debtsWithId = debts.reduce((acc, debt) => {
+      if (!debt.debtId) {
+        acc.push({
+          ...debt,
+          debtId: `${debt.fileNumber + debt.deductionCode}`,
+        });
+      }
+
+      return acc;
+    }, []);
+
+    // return debt that has the same debtId as the currentDebt
+    return debtsWithId.filter(debt => debt.debtId === currentDebt)[0];
+  };
+
+  const hasSelectedDebt = !Object.keys(selectedDebt).length === 0;
+  const activeDebt = (hasSelectedDebt && selectedDebt) || getCurrentDebt();
 
   useEffect(() => {
     scrollToTop();
     setPageFocus('h1');
   }, []);
 
-  const mostRecentHistory = head(selectedDebt.debtHistory);
+  const mostRecentHistory = head(activeDebt.debtHistory);
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -55,24 +64,24 @@ const DebtDetails = ({ selectedDebt, debts }) => {
 
   const letterCodes = ['100', '101', '102', '109', '117', '123', '130'];
 
-  const filteredHistory = selectedDebt.debtHistory
+  const filteredHistory = activeDebt.debtHistory
     .filter(history => letterCodes.includes(history.letterCode))
     .reverse();
 
-  const hasFilteredHistory = filteredHistory.length > 0;
+  const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
 
-  if (Object.keys(selectedDebt).length === 0) {
+  if (Object.keys(activeDebt).length === 0) {
     return window.location.replace('/manage-va-debt/your-debt');
   }
 
   const additionalInfo = renderAdditionalInfo(
-    selectedDebt.diaryCode,
+    activeDebt.diaryCode,
     mostRecentHistory.date,
-    selectedDebt.benefitType,
+    activeDebt.benefitType,
   );
 
   const whyMightIHaveThisDebtContent = renderWhyMightIHaveThisDebt(
-    selectedDebt.deductionCode,
+    activeDebt.deductionCode,
   );
 
   const renderHistoryTable = history => {
@@ -118,7 +127,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
         className="vads-u-font-family--serif vads-u-margin-bottom--2"
         tabIndex="-1"
       >
-        Your {deductionCodes[selectedDebt.deductionCode]}
+        Your {deductionCodes[activeDebt.deductionCode]}
       </h1>
 
       <section className="vads-l-row">
@@ -126,9 +135,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
           <p className="va-introtext vads-u-margin-top--0">
             Updated on
             <span className="vads-u-margin-left--0p5">
-              {moment(last(selectedDebt.debtHistory).date).format(
-                'MMMM D, YYYY',
-              )}
+              {moment(last(activeDebt.debtHistory).date).format('MMMM D, YYYY')}
             </span>
           </p>
 
@@ -139,7 +146,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                   <strong>Date of first notice: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {moment(first(selectedDebt.debtHistory).date).format(
+                  {moment(first(activeDebt.debtHistory).date).format(
                     'MMMM D, YYYY',
                   )}
                 </dd>
@@ -149,7 +156,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                   <strong>Original debt amount: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {formatter.format(parseFloat(selectedDebt.originalAr))}
+                  {formatter.format(parseFloat(activeDebt.originalAr))}
                 </dd>
               </div>
               <div className="vads-u-margin-y--1 vads-u-display--flex">
@@ -157,7 +164,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                   <strong>Current balance: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {formatter.format(parseFloat(selectedDebt.currentAr))}
+                  {formatter.format(parseFloat(activeDebt.currentAr))}
                 </dd>
               </div>
             </dl>
