@@ -15,6 +15,7 @@
     "openMode": 0
   },
   "env": {
+    "vaTopMobileViewportsIterateUptoIndex": 0,
     "vaTopMobileViewports": [
       {
         "list": "VA Top Mobile Viewports",
@@ -67,6 +68,7 @@
         "height": 926
       }
     ],
+    "vaTopTabletViewportsIterateUptoIndex": 0,
     "vaTopTabletViewports": [
       {
         "list": "VA Top Tablet Viewports",
@@ -119,6 +121,7 @@
         "height": 1080
       }
     ],
+    "vaTopDesktopViewportsIterateUptoIndex": 0,
     "vaTopDesktopViewports": [
       {
         "list": "VA Top Desktop Viewports",
