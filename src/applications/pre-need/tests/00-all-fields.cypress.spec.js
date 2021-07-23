@@ -3,7 +3,8 @@ import testData from './schema/maximal-test.json';
 import cemeteries from './fixtures/mocks/cemeteries.json';
 
 describe('Pre-need test', () => {
-  it('fills the form and navigates accordingly', () => {
+  // Test skipped to match Nightwatch
+  it.skip('fills the form and navigates accordingly', () => {
     cy.intercept('POST', '/v0/preneeds/burial_forms', {
       data: {
         attributes: {
@@ -270,5 +271,93 @@ describe('Pre-need test', () => {
     cy.url().should('not.contain', '/supporting-documents');
 
     // Applicant/Claimant Contact Information page
+    cy.get('select[name="root_application_claimant_address_country"]', {
+      timeout: Timeouts.normal,
+    });
+    cy.get('.progress-bar-segmented div.progress-segment:nth-child(6)').should(
+      'have.class',
+      'progress-segment-complete',
+    );
+    cy.fillAddress(
+      'root_application_claimant_address',
+      testData.data.application.claimant.address,
+    );
+    cy.fill('input[name$="email"]', testData.data.application.claimant.email);
+    cy.fill(
+      'input[name$="phoneNumber"]',
+      testData.data.application.claimant.phoneNumber,
+    );
+    cy.axeCheck();
+    cy.get('.form-panel .usa-button-primary').click();
+    cy.url().should('not.contain', '/applicant-contact-information');
+
+    // Veteran Contact Information page
+    cy.get('select[name="root_application_veteran_address_country"]', {
+      timeout: Timeouts.normal,
+    });
+    cy.get('.progress-bar-segmented div.progress-segment:nth-child(6)').should(
+      'have.class',
+      'progress-segment-complete',
+    );
+    cy.fillAddress(
+      'root_application_veteran_address',
+      testData.data.application.veteran.address,
+    );
+    cy.axeCheck();
+    cy.get('.form-panel .usa-button-primary').click();
+    cy.url().should('not.contain', '/sponsor-mailing-address');
+
+    cy.get(
+      'label[for="root_application_applicant_applicantRelationshipToClaimant_1"]',
+      { timeout: Timeouts.normal },
+    );
+    cy.get('.progress-bar-segmented div.progress-segment:nth-child(6)').should(
+      'have.class',
+      'progress-segment-complete',
+    );
+    cy.selectRadio(
+      'root_application_applicant_applicantRelationshipToClaimant',
+      testData.data.application.applicant.applicantRelationshipToClaimant,
+    );
+    if (
+      testData.data.application.applicant.applicantRelationshipToClaimant ===
+      'Authorized Agent/Rep'
+    ) {
+      cy.fillName(
+        'root_application_applicant_view:applicantInfo_name',
+        testData.data.application.applicant['view:applicantInfo'].name,
+      );
+      cy.fillAddress(
+        'root_application_applicant_view\\:applicantInfo_mailingAddress',
+        testData.data.application.applicant['view:applicantInfo']
+          .mailingAddress,
+      );
+      cy.fill(
+        'input[name$="applicantPhoneNumber"]',
+        testData.data.application.applicant['view:applicantInfo'][
+          'view:contactInfo'
+        ].applicantPhoneNumber,
+      );
+
+      cy.axeCheck();
+      cy.get('.form-panel .usa-button-primary').click();
+      cy.url().should('not.contain', '/preparer');
+
+      cy.get('label[name="privacyAgreementAccepted-label"]', {
+        timeout: Timeouts.slow,
+      });
+      cy.get('input[type="checkbox"]').click();
+
+      cy.axeCheck();
+      cy.get('.form-progress-buttons .usa-button-primary').click();
+      cy.url().should('not.contain', '/review-and-submit');
+
+      cy.get('.js-test-location', { timeout: Timeouts.slow })
+        .invoke('attr', 'data-location')
+        .should('not.contain', '/review-and-submit');
+
+      cy.get('.confirmation-page-title', { timeout: Timeouts.normal });
+      cy.axeCheck();
+    }
   });
 });
