@@ -29,12 +29,16 @@ const Header = ({
     ? uiSchema['ui:description']
     : null;
 
+  const uniqueId = Math.random()
+    .toString(36)
+    .substring(7);
+
   return (
     <div className="schemaform-block-header item-loop-header">
       {title &&
         !hideTitle && (
           <TitleField
-            id={`${idSchema.$id}__title`}
+            id={`${idSchema.$id}_${uniqueId}__title`}
             title={title}
             formContext={formContext}
           />
