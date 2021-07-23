@@ -49,6 +49,7 @@ export const BankInfoCNP = ({
 }) => {
   const formPrefix = 'CNP';
   const editBankInfoButton = useRef();
+  const editBankInfoForm = useRef();
   const [formData, setFormData] = useState({});
   const [showConfirmCancelModal, setShowConfirmCancelModal] = useState(false);
   const wasEditingBankInfo = usePrevious(directDepositUiState.isEditing);
@@ -74,6 +75,14 @@ export const BankInfoCNP = ({
   // when we enter and exit edit mode...
   useEffect(
     () => {
+      if (isEditingBankInfo && !wasEditingBankInfo) {
+        const focusableElement = editBankInfoForm.current?.querySelector(
+          'button, input, select, a, textarea',
+        );
+        if (focusableElement) {
+          focusableElement.focus();
+        }
+      }
       if (wasEditingBankInfo && !isEditingBankInfo) {
         // clear the form data when exiting edit mode so it's blank when the
         // edit form is shown again
@@ -109,29 +118,13 @@ export const BankInfoCNP = ({
     saveBankInformation(payload, isDirectDepositSetUp);
   };
 
-  const bankInfoClasses = prefixUtilityClasses(
-    [
-      'display--flex',
-      'align-items--flex-start',
-      'flex-direction--row',
-      'justify-content--space-between',
-    ],
-    'medium',
-  );
-
   const editButtonClasses = [
     'usa-button-secondary',
-    ...prefixUtilityClasses(['margin--0', 'margin-top--1p5', 'width--auto']),
+    ...prefixUtilityClasses(['margin--0', 'margin-top--1p5']),
   ];
 
-  const editButtonClassesMedium = prefixUtilityClasses(
-    ['flex--auto', 'margin-top--0', 'margin-left--4'],
-    'medium',
-  );
-
   const classes = {
-    bankInfo: [...bankInfoClasses].join(' '),
-    editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
+    editButton: editButtonClasses.join(' '),
   };
 
   const closeDDForm = () => {
@@ -145,7 +138,7 @@ export const BankInfoCNP = ({
 
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
-    <div className={classes.bankInfo}>
+    <div>
       <dl className="vads-u-margin-y--0 vads-u-line-height--6">
         <dt className="sr-only">Bank name:</dt>
         <dd>{directDepositAccountInfo?.financialInstitutionName}</dd>
@@ -176,20 +169,28 @@ export const BankInfoCNP = ({
 
   // When direct deposit is not set up, we will show
   const notSetUpContent = (
-    <button
-      className="va-button-link"
-      ref={editBankInfoButton}
-      onClick={() => {
-        recordEvent({
-          event: 'profile-navigation',
-          'profile-action': 'add-link',
-          'profile-section': 'cnp-direct-deposit-information',
-        });
-        toggleEditState();
-      }}
-    >
-      Please add your bank information
-    </button>
+    <div>
+      <p className="vads-u-margin--0">
+        Edit your profile to add your bank information.
+      </p>
+      <button
+        className={classes.editButton}
+        aria-label={
+          'Edit your direct deposit for disability compensation and pension benefits bank information'
+        }
+        ref={editBankInfoButton}
+        onClick={() => {
+          recordEvent({
+            event: 'profile-navigation',
+            'profile-action': 'add-link',
+            'profile-section': 'cnp-direct-deposit-information',
+          });
+          toggleEditState();
+        }}
+      >
+        Edit
+      </button>
+    </div>
   );
 
   // When not eligible for DD for CNP
@@ -279,7 +280,7 @@ export const BankInfoCNP = ({
           </figure>
         </AdditionalInfo>
       </div>
-      <div data-testid={`${formPrefix}-bank-info-form`}>
+      <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
         <BankInfoForm
           formChange={data => setFormData(data)}
           formData={formData}
@@ -290,7 +291,7 @@ export const BankInfoCNP = ({
             aria-label="update your bank information for compensation and pension benefits"
             type="submit"
             loadingText="saving bank information"
-            className="usa-button-primary vads-u-margin-top--0 vads-u-width--auto"
+            className="usa-button-primary vads-u-margin-top--0 medium-screen:vads-u-width--auto"
             isLoading={directDepositUiState.isSaving}
           >
             Update
@@ -299,7 +300,7 @@ export const BankInfoCNP = ({
             aria-label="cancel updating your bank information for compensation and pension benefits"
             type="button"
             disabled={directDepositUiState.isSaving}
-            className="usa-button-secondary vads-u-width--auto"
+            className="usa-button-secondary small-screen:vads-u-margin-top--0"
             onClick={closeDDForm}
             data-qa="cancel-button"
           >

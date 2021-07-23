@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import recordEvent from 'platform/monitoring/record-event';
 import omit from 'platform/utilities/data/omit';
-import environment from 'platform/utilities/environment';
 import { LocationType } from '../constants';
 import {
   healthServices,
@@ -79,6 +78,7 @@ const SearchControls = props => {
       zoomLevel,
       isValid,
       searchString,
+      specialties,
     } = currentQuery;
 
     let analyticsServiceType = serviceType;
@@ -95,7 +95,9 @@ const SearchControls = props => {
         return;
       }
 
-      analyticsServiceType = currentQuery.specialties[serviceType];
+      if (specialties && Object.keys(specialties).includes(serviceType)) {
+        analyticsServiceType = specialties[serviceType];
+      }
     }
 
     if (!searchString) {
@@ -229,11 +231,6 @@ const SearchControls = props => {
 
     if (suppressCCP) {
       delete locationOptions.provider;
-    }
-
-    // Temporary on non prod envs
-    if (environment.isProduction()) {
-      delete locationOptions.emergency_care;
     }
 
     const options = Object.keys(locationOptions).map(facility => (

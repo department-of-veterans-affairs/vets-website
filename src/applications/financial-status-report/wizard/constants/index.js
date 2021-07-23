@@ -2,6 +2,7 @@ export const WIZARD_STATUS = 'fsrWizardStatus';
 
 export const PAGE_NAMES = {
   start: 'start',
+  maintenance: 'maintenance',
   request: 'request',
   recipients: 'recipients',
   submit: 'submit',

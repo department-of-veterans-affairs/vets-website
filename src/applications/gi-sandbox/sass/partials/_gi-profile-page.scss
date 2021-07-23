@@ -1,6 +1,5 @@
 .gi-app .profile-page {
   h3 {
-    font-size: 1.35em;
     margin-top: 0;
   }
   .info-flag {
@@ -27,6 +26,15 @@
     margin: 0;
   }
 
+  .getting-started-with-benefits {
+    margin-top: -0.1em;
+    padding-top: 0.5em;
+    margin-left: 0.5em;
+  }
+  .getting-started-with-benefits-li {
+    list-style: disc;
+    margin-left: 0.5em;
+  }
   .link-header {
     h3,
     h4,
@@ -35,7 +43,9 @@
       padding: 0;
     }
 
-    padding-bottom: 0.5em;
+    h4 {
+      margin-top: .5em;
+    }
   }
 
   .additional-resources-preferred-provider {
@@ -102,6 +112,7 @@
       padding-left: 0;
       padding-right: 0rem;
       background-position: right 1rem center;
+      width: 18.7em;
 
       @include media-maxwidth($medium-screen - 1) {
         background-position: right 1rem center;
@@ -181,12 +192,6 @@
     }
   }
 
-  .icon-with-info {
-    .text-column {
-      overflow-wrap: break-word;
-    }
-  }
-
   button.usa-accordion-button {
     text-align: left;
   }
@@ -251,11 +256,12 @@
 
   .your-estimated-benefits {
     background: $color-gray-lightest;
-    padding: 1.5rem;
+    padding: 1.5rem 1.5rem 0rem 1.5rem;
     overflow-wrap: break-word;
 
     hr {
-      border: 1px solid $color-primary-darkest;
+      border-bottom: none;
+      border-top: 1px solid $color-primary-darkest;
     }
     .eyb-value-header {
       margin-top: 22.5px;
@@ -317,6 +323,9 @@
 
   .cautionary-information {
     .table {
+      td, th {
+        padding: 20px;
+      }
       table {
         margin: 1em 0;
       }
@@ -368,22 +377,8 @@
   }
 
   .additional-information {
-    .historical-information.list {
-      margin-bottom: 2rem;
-
-      @media screen and (min-width: $medium-screen) {
-        display: none;
-      }
-    }
-
     .institution-summary {
       margin-bottom: 2rem;
-    }
-
-    @include media-maxwidth($medium-screen) {
-      .historical-information.table {
-        display: none;
-      }
     }
   }
 
@@ -652,6 +647,45 @@
       position: relative;
     }
   }
+
+  .profile-section {
+    border: 3px solid $color-gray-lightest;
+    margin-bottom: 50px;
+
+    h2 {
+      margin: 0px;
+      padding-top: 12px;
+      padding-left: 20px;
+      padding-bottom: 18px;
+      border-bottom: 3px solid $color-gray-lightest;
+    }
+
+    .section-body {
+      padding: 20px;
+    }
+
+
+    .subsection {
+      border-bottom: 1px solid $color-black;
+      width: 100%;
+      font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
+      serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      margin-top: 10px;
+    }
+  }
+
+  .jump-link {
+    i {
+      font-size: 12px;
+    }
+    span {
+      display: inline-block;
+      padding-left: 10px;
+    }
+  }
 }
 
 .arrow-down-link {
@@ -660,4 +694,20 @@
 
 .profile-card {
   border-radius: 10px;
+}
+
+.veteran-programs-and-support {
+  .historical-information.list {
+    margin-bottom: 2rem;
+
+    @media screen and (min-width: $medium-screen) {
+      display: none;
+    }
+  }
+
+  @include media-maxwidth($medium-screen) {
+    .historical-information.table {
+      display: none;
+    }
+  }
 }

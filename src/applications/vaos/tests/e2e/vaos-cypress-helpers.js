@@ -22,7 +22,7 @@ import {
   getParentSiteMock,
 } from '../mocks/v0';
 
-const mockUser = {
+export const mockUser = {
   data: {
     id: '',
     type: 'users_scaffolds',
@@ -198,6 +198,7 @@ export function createPastVAAppointments() {
 export function mockFeatureToggles({
   providerSelectionEnabled = false,
   homepageRefresh = false,
+  v2Requests = false,
 } = {}) {
   cy.route({
     method: 'GET',
@@ -245,6 +246,10 @@ export function mockFeatureToggles({
           {
             name: 'vaOnlineSchedulingHomepageRefresh',
             value: homepageRefresh,
+          },
+          {
+            name: 'vaOnlineSchedulingVAOSServiceRequests',
+            value: v2Requests,
           },
         ],
       },
@@ -358,7 +363,7 @@ function mockSubmitVAAppointment() {
   }).as('appointmentPreferences');
 }
 
-function setupSchedulingMocks({ cernerFacility = false } = {}) {
+export function vaosSetup() {
   Cypress.Commands.add('axeCheckBestPractice', (context = 'main') => {
     cy.axeCheck(context, {
       runOnly: {
@@ -368,6 +373,10 @@ function setupSchedulingMocks({ cernerFacility = false } = {}) {
     });
   });
   cy.server();
+}
+
+function setupSchedulingMocks({ cernerFacility = false } = {}) {
+  vaosSetup();
   mockFeatureToggles();
 
   if (cernerFacility) {
@@ -718,7 +727,7 @@ export function initCommunityCareMock() {
   });
   cy.route({
     method: 'GET',
-    url: '/v1/facilities/ccp*',
+    url: '/facilities_api/v1/ccp/provider*',
     response: {
       data: [
         {

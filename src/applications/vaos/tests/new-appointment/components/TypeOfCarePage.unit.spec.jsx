@@ -9,7 +9,7 @@ import set from 'platform/utilities/data/set';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 import { getParentSiteMock } from '../../mocks/v0';
-import { getVAOSParentSiteMock } from '../../mocks/v2';
+import { getV2FacilityMock } from '../../mocks/v2';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import {
   mockCommunityCareEligibility,
@@ -86,7 +86,7 @@ describe('VAOS <TypeOfCarePage>', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByText('Please choose a type of care')).to.exist;
+    expect(await screen.findByText('What care do you need?')).to.exist;
     expect(screen.history.push.called).to.not.be.true;
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
@@ -166,7 +166,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     await waitFor(
       () => expect(screen.queryByText(/podiatry appointments/i)).not.to.exist,
     );
-    expect(screen.getByText(/please choose a type of care/i)).to.exist;
+    expect(screen.getByText(/what care do you need?/i)).to.exist;
   });
 
   it('should open facility type page when CC eligible and has a support parent site', async () => {
@@ -398,7 +398,10 @@ describe('VAOS <TypeOfCarePage>', () => {
     it('should open facility type page when CC eligible and has a supported parent site', async () => {
       mockVAOSParentSites(
         ['983'],
-        [getVAOSParentSiteMock('983'), getVAOSParentSiteMock('983GC')],
+        [
+          getV2FacilityMock({ id: '983', isParent: true }),
+          getV2FacilityMock({ id: '983GC', isParent: true }),
+        ],
         true,
       );
       mockV2CommunityCareEligibility({
@@ -427,7 +430,10 @@ describe('VAOS <TypeOfCarePage>', () => {
     it('should skip facility type page if eligible for CC but no supported sites', async () => {
       mockVAOSParentSites(
         ['983'],
-        [getVAOSParentSiteMock('983'), getVAOSParentSiteMock('983GC')],
+        [
+          getV2FacilityMock({ id: '983', isParent: true }),
+          getV2FacilityMock({ id: '983GC', isParent: true }),
+        ],
         true,
       );
       mockV2CommunityCareEligibility({

@@ -1,3 +1,4 @@
+import Timeouts from 'platform/testing/e2e/timeouts';
 import stub from '../../constants/stub.json';
 
 const SELECTORS = {
@@ -9,40 +10,27 @@ const SELECTORS = {
   ERROR_ALERT_BOX: '[data-e2e-id="alert-box"]',
 };
 
-function axeTestPage() {
-  cy.injectAxe();
-  cy.axeCheck();
-}
-
 describe('Sitewide Search smoke test', () => {
-  before(function() {
-    if (Cypress.env('CIRCLECI')) this.skip();
-  });
-
   it('successfully searches and renders results from the global search', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      response: stub,
-      status: 200,
-      url: '/v0/search?query=benefits',
-    }).as('getSearchResults');
-
+    cy.intercept('GET', '/v0/search?query=benefits', {
+      body: stub,
+      statusCode: 200,
+    }).as('getSearchResultsGlobal');
     // navigate to page
     cy.visit('/search?query=benefits');
-    axeTestPage();
+    cy.injectAxeThenAxeCheck();
 
     // Ensure App is present
-    cy.get(SELECTORS.APP);
+    cy.get(SELECTORS.APP).should('exist');
 
     // Ensure form is present
-    cy.get(SELECTORS.SEARCH_FORM);
+    cy.get(SELECTORS.SEARCH_FORM).should('exist');
 
     // Await search results
-    cy.wait('@getSearchResults');
+    cy.wait('@getSearchResultsGlobal');
 
     // A11y check the search results.
-    axeTestPage();
+    cy.axeCheck();
 
     // Check results to see if variety of nodes exist.
     cy.get(SELECTORS.SEARCH_RESULTS_TITLE)
@@ -55,33 +43,45 @@ describe('Sitewide Search smoke test', () => {
   });
 
   it('successfully searches and renders results from the results page', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      response: stub,
-      status: 200,
-      url: '/v0/search?query=benefits&page=1',
-    }).as('getSearchResults');
+    cy.intercept('GET', '/v0/search?query=benefits&page=1', {
+      body: stub,
+      statusCode: 200,
+    }).as('getSearchResultsPage');
 
     // navigate to page
     cy.visit('/search/?query=X');
-    axeTestPage();
+    cy.injectAxeThenAxeCheck();
 
     // Ensure App is present
-    cy.get(SELECTORS.APP);
+    cy.get(SELECTORS.APP).should('exist');
 
     // Ensure form is present
-    cy.get(SELECTORS.SEARCH_FORM);
+    cy.get(SELECTORS.SEARCH_FORM).should('exist');
 
     // Await search results
 
-    cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`).clear();
-    cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`).type('benefits');
-    cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`).click();
-    cy.wait('@getSearchResults');
+    cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`)
+      .should('exist')
+      .then(inputElem => {
+        cy.wrap(inputElem).clear();
+      });
+    cy.get(`${SELECTORS.SEARCH_FORM} input[name="query"]`, {
+      timeout: Timeouts.slow,
+    })
+      .should('exist')
+      .and('not.be.disabled')
+      .then(inputElem => {
+        cy.wrap(inputElem).type('benefits');
+      });
+    cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`)
+      .should('exist')
+      .then(button => {
+        cy.wrap(button).click();
+      });
+    cy.wait('@getSearchResultsPage');
 
     // A11y check the search results.
-    axeTestPage();
+    cy.axeCheck();
 
     // Check results to see if variety of nodes exist.
     cy.get(SELECTORS.SEARCH_RESULTS_TITLE)
@@ -94,37 +94,33 @@ describe('Sitewide Search smoke test', () => {
   });
 
   it('fails to search and has an error', () => {
-    cy.server();
-    cy.route({
-      method: 'GET',
-      response: [],
-      status: 500,
-      url: '/v0/search?query=benefits',
-    }).as('getSearchResults');
-
+    cy.intercept('GET', '/v0/search?query=benefits', {
+      body: [],
+      statusCode: 500,
+    }).as('getSearchResultsFailed');
     // navigate to page
     cy.visit('/search/?query=benefits');
-    axeTestPage();
+    cy.injectAxeThenAxeCheck();
 
     // Ensure App is present
-    cy.get(SELECTORS.APP);
+    cy.get(SELECTORS.APP).should('exist');
 
     // Ensure form is present
-    cy.get(SELECTORS.SEARCH_FORM);
+    cy.get(SELECTORS.SEARCH_FORM).should('exist');
 
     // Fill out and submit the form.
     // cy.get(`${SELECTORS.SEARCH_FORM} button[type="submit"]`).click();
-    cy.wait('@getSearchResults');
+    cy.wait('@getSearchResultsFailed');
 
     // Ensure ERROR Alert Box exists
-    cy.get(SELECTORS.SEARCH_RESULTS_EMPTY)
+    cy.get(SELECTORS.ERROR_ALERT_BOX)
       // Check contain error message
       .should(
         'contain',
-        'Sorry, no results found. Try again using different (or fewer) words.',
+        "We’re sorry. Something went wrong on our end, and your search didn't go through. Please try again",
       );
 
     // A11y check the search results.
-    axeTestPage();
+    cy.axeCheck();
   });
 });

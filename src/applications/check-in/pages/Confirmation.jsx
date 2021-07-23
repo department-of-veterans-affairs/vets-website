@@ -1,26 +1,47 @@
-import React from 'react';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+
+import { focusElement } from 'platform/utilities/ui';
+
+import BackToHome from '../components/BackToHome';
+import Footer from '../components/Footer';
+import AppointmentLocation from '../components/AppointmentLocation';
 
 const Confirmation = () => {
-  const contactNumber = '555-867-5309';
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5">
-      <h1 tabIndex="-1">Thank you for checking in</h1>
-
       <va-alert status="success">
-        <h3 slot="headline">We'll let you know when we're ready for you.</h3>
-      </va-alert>
-      <footer className="row">
-        <h2 className="help-heading vads-u-font-size--lg">
-          Not sure where to wait?
-        </h2>
+        <h1
+          tabIndex="-1"
+          aria-label="Thank you for checking in. "
+          slot="headline"
+        >
+          You’re checked in
+        </h1>
         <p>
-          Ask a staff member or call us at <Telephone contact={contactNumber} />
-          .
+          Please wait in the <AppointmentLocation /> waiting room. We’ll come
+          get you when it’s time for your appointment to start.
         </p>
-      </footer>
+      </va-alert>
+      <Footer header={'Not sure where to wait?'} />
+      <BackToHome />
     </div>
   );
 };
 
-export default Confirmation;
+const mapStateToProps = state => {
+  return {
+    appointment: state.checkInData.appointment,
+  };
+};
+const mapDispatchToProps = () => {
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Confirmation);

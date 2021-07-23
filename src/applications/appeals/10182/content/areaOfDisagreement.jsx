@@ -10,12 +10,14 @@ export const missingAreaOfDisagreementOtherErrorMessage =
 // formContext.pagePerItemIndex is undefined here? Use index added to data :(
 export const issueName = ({ formData, formContext } = {}) => {
   const index = formContext.pagePerItemIndex || formData.index;
+  // https://github.com/department-of-veterans-affairs/va.gov-team/issues/27096
+  const Header = formContext.onReviewPage ? 'h4' : 'h3';
   return (
     <legend
       className="schemaform-block-title schemaform-title-underline"
       aria-describedby={`area-of-disagreement-label-${index}`}
     >
-      {getIssueName(formData)}
+      <Header className="vads-u-margin-top--0">{getIssueName(formData)}</Header>
     </legend>
   );
 };
@@ -33,11 +35,11 @@ export const issusDescription = ({ formContext }) => {
       className="area-of-disagreement-label vads-u-font-size--base vads-u-font-weight--normal"
       data-submitted={submitted}
     >
-      Tell us why you disagree with our decision. You can choose more than one.
+      Tell us what you disagree with. You can choose more than one.
       <span className="vads-u-font-weight--normal schemaform-required-span">
         (*Required)
       </span>
-      <p>I disagree with:</p>
+      <p>I disagree with this:</p>
       <span
         className="usa-input-error-message"
         role="alert"
@@ -50,19 +52,33 @@ export const issusDescription = ({ formContext }) => {
   );
 };
 
-const wrapHeader = text => (
-  <h3 className="vads-u-display--inline-block vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
-    {text}
-  </h3>
+const titles = {
+  serviceConnection: 'The service connection',
+  effectiveDate: 'The effective date of award',
+  evaluation: 'Your evaluation of my condition',
+  other: 'Something else',
+};
+
+export const serviceConnection = titles.serviceConnection;
+export const effectiveDate = titles.effectiveDate;
+export const evaluation = titles.evaluation;
+export const other = titles.other;
+export const otherLabel = 'Tell us what you disagree with:';
+// Includes _{index} which is appended by the TextWidget
+export const otherDescription = ({ index }) => (
+  <div
+    id={`other_hint_text_${index}`}
+    className="vads-u-color--gray hide-on-review"
+  >
+    Please explain in a few words
+  </div>
 );
 
-export const serviceConnection = wrapHeader('The service connection');
-export const effectiveDate = wrapHeader('The effective date of award');
-export const evaluation = wrapHeader('The evaluation of my condition');
-export const other = wrapHeader('Something else');
-export const otherLabel = 'Tell us what you disagree with:';
-export const otherDescription = () => (
-  <span id="other-hint-text" className="vads-u-color--gray">
-    Please explain in a few words
-  </span>
-);
+// Only show set values (ignore false & undefined)
+export const AreaOfDisagreementReviewField = ({ children }) =>
+  children?.props.formData ? (
+    <div className="review-row">
+      <dt>{titles[children.props.name]}</dt>
+      <dd>{children}</dd>
+    </div>
+  ) : null;

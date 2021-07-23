@@ -105,7 +105,13 @@ const deriveRelatedTo = ({
   return null;
 };
 
-const SearchResult = ({ form, formMetaInfo, useSearchUIUXEnhancements }) => {
+const SearchResult = ({
+  currentPosition,
+  form,
+  formMetaInfo,
+  showPDFInfoVersionOne,
+  showPDFInfoVersionTwo,
+}) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
     return null;
@@ -143,122 +149,91 @@ const SearchResult = ({ form, formMetaInfo, useSearchUIUXEnhancements }) => {
   const recordGAEvent = (eventTitle, eventUrl, eventType) =>
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
-  if (useSearchUIUXEnhancements) {
-    return (
-      <>
-        <FormTitle
-          id={id}
-          formUrl={formDetailsUrl}
-          lang={language}
-          title={title}
-          recordGAEvent={recordGAEvent}
-          useSearchUIUXEnhancements={useSearchUIUXEnhancements}
-        />
-        <dd className="vads-u-margin-y--1 vsa-from-last-updated">
-          <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
-          {lastRevision}
-        </dd>
+  return (
+    <>
+      <FormTitle
+        currentPosition={currentPosition}
+        id={id}
+        formUrl={formDetailsUrl}
+        lang={language}
+        title={title}
+        recordGAEvent={recordGAEvent}
+        showPDFInfoVersionTwo={showPDFInfoVersionTwo}
+      />
+      <dd className="vads-u-margin-y--1 vsa-from-last-updated">
+        <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
+        {lastRevision}
+      </dd>
 
-        {relatedTo}
-        {formToolUrl ? (
-          <dd className="vads-u-margin-bottom--2p5">
-            <a
-              className="find-forms-max-content vads-u-display--flex vads-u-align-items--center vads-u-text-decoration--none"
-              href={formToolUrl}
-              onClick={() =>
-                recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
-              }
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
-                role="presentation"
-              />
-              <span className="vads-u-text-decoration--underline vads-u-font-weight--bold">
-                Go to online tool
-              </span>
-              <span className="vads-u-visibility--screen-reader">
-                for {id} {title}
-              </span>
-            </a>
-          </dd>
-        ) : null}
-        <dd className="vads-u-margin-bottom--5">
+      {relatedTo}
+      {formToolUrl ? (
+        <dd className="vads-u-margin-bottom--2p5">
           <a
-            className="find-forms-max-content vads-u-text-decoration--none"
-            href={url}
-            rel="noreferrer noopener"
+            className="find-forms-max-content vads-u-display--flex vads-u-align-items--center vads-u-text-decoration--none"
+            href={formToolUrl}
             onClick={() =>
-              recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf')
+              recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
             }
-            {...linkProps}
           >
             <i
               aria-hidden="true"
-              className="fas fa-download fa-lg vads-u-margin-right--1"
+              className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
               role="presentation"
             />
-            <span className="vads-u-text-decoration--underline">
-              Download VA form {id} {pdfLabel}
+            <span className="vads-u-text-decoration--underline vads-u-font-weight--bold">
+              Go to online tool
+            </span>
+            <span className="vads-u-visibility--screen-reader">
+              for {id} {title}
             </span>
           </a>
         </dd>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <FormTitle
-          id={id}
-          formUrl={formDetailsUrl}
-          lang={language}
-          title={title}
-          recordGAEvent={recordGAEvent}
-          useSearchUIUXEnhancements={useSearchUIUXEnhancements}
-        />
-        <dd className="vads-u-margin-y--1 vads-u-margin-y--1 vsa-from-last-updated">
-          <dfn className="vads-u-font-weight--bold">Form last updated:</dfn>{' '}
-          {lastRevision}
-        </dd>
-
-        {relatedTo}
-        <dd className="vads-u-margin-bottom--1">
-          <a
-            href={url}
-            rel="noreferrer noopener"
-            onClick={() =>
-              recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf')
-            }
-            {...linkProps}
-          >
-            Download VA form {id} {pdfLabel}
-          </a>
-        </dd>
-        {formToolUrl ? (
-          <dd>
-            <a
-              className="usa-button usa-button-secondary vads-u-margin-bottom--3"
-              href={formToolUrl}
-              onClick={() =>
-                recordGAEvent(`Go to online tool`, formToolUrl, 'cta')
-              }
-            >
-              Go to online tool{' '}
-              <span className="vads-u-visibility--screen-reader">
-                for {id} {title}
-              </span>
+      ) : null}
+      {showPDFInfoVersionOne ? (
+        <dd className="find-forms-alert-message vads-u-margin-bottom--2 vads-u-background-color--primary-alt-lightest vads-u-display--flex vads-u-padding-y--4 vads-u-padding-right--7 vads-u-padding-left--3 vads-u-width--full">
+          <i aria-hidden="true" role="img" />
+          <span className="sr-only">Alert: </span>
+          <div>
+            <p className="vads-u-margin-top--0">
+              We recommend that you download PDF forms and open them in Adobe
+              Acrobat Reader
+            </p>
+            <a href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/">
+              Get instructions for opening the form in Acrobat Reader
             </a>
-          </dd>
-        ) : null}
-      </>
-    );
-  }
+          </div>
+        </dd>
+      ) : null}
+      <dd className="vads-u-margin-bottom--5">
+        <a
+          className="find-forms-max-content vads-u-text-decoration--none"
+          href={url}
+          rel="noreferrer noopener"
+          onClick={() =>
+            recordGAEvent(`Download VA form ${id} ${pdfLabel}`, url, 'pdf')
+          }
+          {...linkProps}
+        >
+          <i
+            aria-hidden="true"
+            className="fas fa-download fa-lg vads-u-margin-right--1"
+            role="presentation"
+          />
+          <span className="vads-u-text-decoration--underline">
+            Download VA form {id} {pdfLabel}
+          </span>
+        </a>
+      </dd>
+    </>
+  );
 };
 
 SearchResult.propTypes = {
+  currentPosition: PropTypes.number,
   form: customPropTypes.Form.isRequired,
   formMetaInfo: customPropTypes.FormMetaInfo,
-  useSearchUIUXEnhancements: PropTypes.bool,
+  showPDFInfoVersionOne: PropTypes.bool,
+  showPDFInfoVersionTwo: PropTypes.bool,
 };
 
 export default SearchResult;

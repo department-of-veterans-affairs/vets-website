@@ -3,7 +3,22 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
-import YellowRibbonModalContent from '../components/content/YellowRibbonModalContent';
+import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
+import AllCampusesModalContent from '../components/content/modals/AllCampusesModalContent';
+import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
+import EightKeysModalContent from '../components/content/modals/EightKeysModalContent';
+import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
+import FacilityCodeModalContent from '../components/content/modals/FacilityCodeModalContent';
+import IpedsCodeModalContent from '../components/content/modals/IpedsCodeModalContent';
+import MilitaryTuitionAssistanceModalContent from '../components/content/modals/MilitaryTuitionAssistanceModalContent';
+import OpeCodeModalContent from '../components/content/modals/OpeCodeModalContent';
+import PrinciplesOfExcellenceModalContent from '../components/content/modals/PrinciplesOfExcellenceModalContent';
+import PriorityEnrollmentModalContent from '../components/content/modals/PriorityEnrollmentModalContent';
+import SingleContactModalContent from '../components/content/modals/SingleContactModalContent';
+import StudentComplaintsModalContent from '../components/content/modals/StudentComplaintsModalContent';
+import StudentVeteranGroupModalContent from '../components/content/modals/StudentVeteranGroupModalContent';
+import VeteranSuccessModalContent from '../components/content/modals/VeteranSuccessModalContent';
+import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
 
 export class Modals extends React.Component {
   calcBeneficiaryLocationQuestionContent = () => (
@@ -212,31 +227,7 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('vetgroups')}
       >
-        <h3>Student Veterans group</h3>
-        <p>Does this school have a student-led Veterans group on campus?</p>
-        <p>
-          If a school has a student Veterans group that’s not represented here,
-          please email{' '}
-          <a
-            title="224A.VBAVACO@va.gov"
-            href="mailto: 224A.VBACO@va.gov?subject=Comparison Tool"
-          >
-            224A.VBAVACO@va.gov
-          </a>
-          . . We make quarterly updates to this tool.
-        </p>
-        <p>
-          Please note this email address is only for tool-related issues. For
-          questions about your GI Bill benefits, please check this{' '}
-          <a
-            href="https://gibill.custhelp.com/app/utils/login_form/redirect/ask"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            "Ask a Question" page
-          </a>
-          .
-        </p>
+        <StudentVeteranGroupModalContent />
       </Modal>
 
       <Modal
@@ -248,88 +239,37 @@ export class Modals extends React.Component {
 
       <Modal
         onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('studentComplaints')}
+      >
+        <StudentComplaintsModalContent />
+      </Modal>
+
+      <Modal
+        onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('allCampuses')}
+      >
+        <AllCampusesModalContent />
+      </Modal>
+
+      <Modal
+        onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('poe')}
       >
-        <h3>Principles of Excellence</h3>
-        <p>
-          The{' '}
-          <a
-            title="Principles of Excellence"
-            href="http://www.gpo.gov/fdsys/pkg/FR-2012-05-02/pdf/2012-10715.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Principles of Excellence
-          </a>{' '}
-          are guidelines for educational institutions receiving federal funding.
-          Schools that agree to participate will:
-        </p>
-        <ul className="modal-bullets">
-          <li>
-            End fraudulent and aggressive recruiting techniques and
-            misrepresentation.
-          </li>
-          <li>
-            Provide students with a personalized form covering the total cost of
-            an education program.
-          </li>
-          <li>
-            Provide educational plans for all military and Veteran education
-            beneficiaries.
-          </li>
-          <li>
-            Provide accommodations for service members and Reservists absent due
-            to service requirements.
-          </li>
-          <li>
-            Assign a point of contact for academic and financial advising.
-          </li>
-          <li>
-            Make sure all new programs are accredited before they enroll
-            students.
-          </li>
-          <li>
-            Align institutional refund policies with those under Title IV.
-          </li>
-        </ul>
-        <p>
-          Foreign schools, high schools, on-the-job training and apprenticeship
-          programs, residency and internship programs, and those who don’t
-          charge tuition and fees aren’t asked to comply with the Principles of
-          Excellence.
-        </p>
-        <p>
-          We try to make sure this information is accurate, but prospective
-          students should only use this as a planning tool. The list of
-          Principles of Excellence schools will be updated quarterly.
-        </p>
+        <PrinciplesOfExcellenceModalContent />
       </Modal>
 
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('ta')}
       >
-        <h3>Military Tuition Assistance (TA)</h3>
-        <p>
-          Are you receiving any military tuition assistance this year? If so,
-          how much? The Post-9/11 GI Bill pays the net-cost of your education
-          after scholarships or financial aid amounts are applied. This includes
-          amounts already paid by military tuition assistance.
-        </p>
+        <MilitaryTuitionAssistanceModalContent />
       </Modal>
 
       <Modal
         onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('priEnroll')}
+        visible={this.shouldDisplayModal('priorityEnrollment')}
       >
-        <h3>Priority enrollment</h3>
-        <p>
-          If an Institution of Higher Learning (a college or university) has a
-          system for priority enrollment that allows certain student Veterans to
-          enroll in courses earlier than other students (not necessarily earlier
-          than <strong>all</strong> students), we’ll note that with the school’s
-          information here.
-        </p>
+        <PriorityEnrollmentModalContent />
       </Modal>
 
       <Modal
@@ -353,7 +293,7 @@ export class Modals extends React.Component {
               allowance is based on 50% of the national average.
             </p>
             <p>
-              Through Dec. 21, 2020, current and new students can receive
+              Through Dec. 21, 2021, current and new students can receive
               in-person allowance rates if their school’s approved program
               changed from in-person to online learning due to COVID-19.
             </p>
@@ -368,64 +308,14 @@ export class Modals extends React.Component {
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('eightKeys')}
       >
-        <h3>8 Keys to Veteran Success</h3>
-        <p>
-          The “8 Keys to Veterans’ Success” are steps that postsecondary
-          institutions can take to assist Veterans and service members in
-          transitioning to higher education, completing their college programs,
-          and obtaining career-ready skills.
-        </p>
-        <p>
-          Postsecondary institutions listed here have stated their support for
-          the 8 Keys. However, this isn’t an assurance by the U.S. Department of
-          Education that an institution has actually implemented the 8 Keys. It
-          also doesn’t mean that these institutions are endorsed by the U.S.
-          Department of Education.
-        </p>
-        <p>
-          To learn more about accreditation, visit the U.S. Department of
-          Education’s{' '}
-          <a
-            href="http://www.ed.gov/veterans-and-military-families/8-keys-success-sites"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            8 Keys to Veterans’ Success
-          </a>{' '}
-          page.
-        </p>
+        <EightKeysModalContent />
       </Modal>
 
       <Modal
         onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('vsoc')}
       >
-        <h3>VetSuccess on Campus (VSOC)</h3>
-        <p>
-          This program supports service members, Veterans, and qualified
-          dependents through on-campus counseling and help overcoming
-          barriers—like accommodating disabilities or getting referrals to
-          health services. It's designed to help you succeed at school and get
-          ready to enter the job market in a promising career field.
-        </p>
-        <p>
-          <a
-            href="http://www.benefits.va.gov/vocrehab/vsocfactsheet.asp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Download the VSOC fact sheet
-          </a>
-        </p>
-        <p>
-          <a
-            href="http://www.benefits.va.gov/vocrehab/vsoc.asp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn more about the VSOC program
-          </a>
-        </p>
+        <VeteranSuccessModalContent />
       </Modal>
     </span>
   );
@@ -487,14 +377,17 @@ export class Modals extends React.Component {
       </Modal>
       <Modal
         onClose={this.props.hideModal}
+        visible={this.shouldDisplayModal('accreditation')}
+        elementToFocusOnClose="accreditation-button"
+      >
+        <AccreditationModalContent />
+      </Modal>
+      <Modal
+        onClose={this.props.hideModal}
         visible={this.shouldDisplayModal('singleContact')}
         elementToFocusOnClose="singleContact-button"
       >
-        <h3>Single point of contact for Veterans</h3>
-        <p>
-          Does the school have a dedicated point of contact for support services
-          for Veterans, military service members, and their families?
-        </p>
+        <SingleContactModalContent />
       </Modal>
 
       <Modal
@@ -502,58 +395,14 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('creditTraining')}
         elementToFocusOnClose="creditTraining-button"
       >
-        <h3>Credit for military training</h3>
-        <p>
-          Does the school offer postsecondary credit for experiences and
-          military training?
-        </p>
+        <CreditTrainingModalContent />
       </Modal>
       <Modal
         onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('stemIndicator')}
-        elementToFocusOnClose="stemIndicator-button"
+        visible={this.shouldDisplayModal('independentStudy')}
+        elementToFocusOnClose="independentStudy-button"
       >
-        <h3>The Rogers STEM Scholarship</h3>
-        <div>
-          <p>
-            The Edith Nourse Rogers STEM Scholarship provides up to 9 months of
-            additional Post-9/11 GI Bill benefits, to a maximum of $30,000.
-          </p>
-          <p>
-            Veterans and Fry Scholars may qualify for this scholarship if
-            they're enrolled in an undergraduate program for Science,
-            Technology, Engineering, or Math (STEM), or if they've earned a STEM
-            degree and are getting a teaching certification.
-          </p>
-          <p>
-            To learn more about this scholarship,{' '}
-            <a
-              href="/education/other-va-education-benefits/stem-scholarship/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {' '}
-              visit the Rogers STEM Scholarship website
-            </a>
-            .
-          </p>
-        </div>
-      </Modal>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('iStudy')}
-        elementToFocusOnClose="iStudy-button"
-      >
-        <h3>Independent study</h3>
-        <p>
-          Beneficiaries may use educational assistance to access online learning
-          (accredited independent study) at schools that aren’t Institutions of
-          Higher Learning (IHLs). These schools must be postsecondary vocational
-          institutions or area career and technical education schools that
-          provide postsecondary level education. <strong>Note:</strong> This
-          change doesn’t apply to Dependents’ Educational Assistance program
-          beneficiaries.
-        </p>
+        <IndependentStudyModalContent />
       </Modal>
 
       <Modal
@@ -641,8 +490,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('facilityCode')}
         elementToFocusOnClose="facilityCode-button"
       >
-        <h3>VA facility code</h3>
-        <p>Unique identifier for VA-approved facilities.</p>
+        <FacilityCodeModalContent />
       </Modal>
 
       <Modal
@@ -650,12 +498,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('ipedsCode')}
         elementToFocusOnClose="ipedsCode-button"
       >
-        <h3>ED IPEDS code</h3>
-        <p>
-          Unique identification number assigned to postsecondary institutions
-          surveyed through the Integrated Postsecondary Education Data System
-          (IPEDS). Also referred to as UNITID or IPEDS ID.
-        </p>
+        <IpedsCodeModalContent />
       </Modal>
 
       <Modal
@@ -663,14 +506,7 @@ export class Modals extends React.Component {
         visible={this.shouldDisplayModal('opeCode')}
         elementToFocusOnClose="opeCode-button"
       >
-        <h3>ED OPE code</h3>
-        <p>
-          Identification number used by the U.S. Department of {'Education’s'}{' '}
-          Office of Postsecondary Education (OPE) to identify schools that have
-          Program Participation Agreements (PPA) so that its students are
-          eligible to participate in Federal Student Financial Assistance
-          programs under Title IV regulations.
-        </p>
+        <OpeCodeModalContent />
       </Modal>
     </span>
   );

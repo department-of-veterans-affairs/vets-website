@@ -1,6 +1,8 @@
 name: Pull Request
 
-on: [pull_request]
+on:
+  pull_request:
+    types: [ready_for_review, synchronize, reopened, opened]
 
 env:
   BOT_NAME: va-vfs-bot
@@ -69,6 +71,7 @@ jobs:
   icon-check:
     name: Icon Check
     runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.draft == false }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2

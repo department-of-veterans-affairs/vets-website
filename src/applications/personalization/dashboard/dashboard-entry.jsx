@@ -12,7 +12,7 @@ import manifest from './manifest.json';
 const url = manifest.rootUrl;
 
 startApp({
-  component: <DashboardWrapper version="1" rootUrl={url} />,
+  component: <DashboardWrapper />,
   url,
   reducer,
   entryName: manifest.entryName,

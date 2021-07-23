@@ -74,11 +74,9 @@ describe('IntroductionPage', () => {
       <IntroductionPage {...defaultProps} user={user} hasEmptyAddress />,
     );
 
-    const AlertBox = tree.find('AlertBox');
-    expect(AlertBox.length).to.equal(1);
-    expect(AlertBox.props().headline).to.contain(
-      'need to have an address on file',
-    );
+    const alert = tree.find('va-alert');
+    expect(alert.length).to.equal(1);
+    expect(alert.text()).to.contain('need to have an address on file');
     tree.unmount();
   });
 
@@ -111,8 +109,8 @@ describe('IntroductionPage', () => {
 
     const tree = shallow(<IntroductionPage {...props} />);
 
-    const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include(errorMessage);
+    const alert = tree.find('va-alert').first();
+    expect(alert.render().text()).to.include(errorMessage);
     const recordedEvent = gaData[gaData.length - 1];
     expect(recordedEvent.event).to.equal('visible-alert-box');
     expect(recordedEvent['alert-box-heading']).to.include(errorMessage);
@@ -133,8 +131,8 @@ describe('IntroductionPage', () => {
 
     const tree = shallow(<IntroductionPage {...props} />);
 
-    const AlertBox = tree.find('AlertBox').first();
-    expect(AlertBox.render().text()).to.include(errorMessage);
+    const alert = tree.find('va-alert').first();
+    expect(alert.render().text()).to.include(errorMessage);
     const recordedEvent = gaData[gaData.length - 1];
     expect(recordedEvent.event).to.equal('visible-alert-box');
     expect(recordedEvent['alert-box-heading']).to.include(errorMessage);

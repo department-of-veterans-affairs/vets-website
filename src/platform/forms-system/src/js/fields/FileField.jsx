@@ -14,6 +14,7 @@ import {
   PasswordSuccess,
   checkForEncryptedPdf,
 } from '../utilities/file';
+import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 
 class FileField extends React.Component {
   constructor(props) {
@@ -91,6 +92,7 @@ class FileField extends React.Component {
         onChange,
         formContext,
         uiSchema,
+        enableShortWorkflow,
       } = this.props;
       const uiOptions = uiSchema['ui:options'];
 
@@ -114,6 +116,7 @@ class FileField extends React.Component {
             name: currentFile.name,
             isEncrypted: true,
           };
+
           onChange(files);
           // wait for user to enter a password before uploading
           return;
@@ -136,6 +139,7 @@ class FileField extends React.Component {
         },
         formContext.trackingPrefix,
         password,
+        enableShortWorkflow,
       );
     }
   };
@@ -171,7 +175,7 @@ class FileField extends React.Component {
     this.removeFile(index);
   };
 
-  removeFile = index => {
+  removeFile = (index, focusAddButton = true) => {
     const newFileList = this.props.formData.filter((__, idx) => index !== idx);
     if (!newFileList.length) {
       this.props.onChange();
@@ -184,7 +188,20 @@ class FileField extends React.Component {
     if (this.fileInputRef.current) {
       this.fileInputRef.current.value = '';
     }
-    this.focusAddAnotherButton();
+
+    // When other actions follow removeFile, we do not want to apply this focus
+    if (focusAddButton) {
+      this.focusAddAnotherButton();
+    }
+  };
+
+  retryLastUpload = (index, file) => {
+    this.onAddFile({ target: { files: [file] } }, index);
+  };
+
+  deleteThenAddFile = index => {
+    this.removeFile(index, false);
+    this.fileInputRef.current.click();
   };
 
   /**
@@ -213,6 +230,7 @@ class FileField extends React.Component {
       onBlur,
       registry,
       requestLockedPdfPassword,
+      enableShortWorkflow,
     } = this.props;
     const uiOptions = uiSchema?.['ui:options'];
     const files = formData || [];
@@ -236,6 +254,19 @@ class FileField extends React.Component {
       typeof uiSchema['ui:title'] === 'string'
         ? uiSchema['ui:title']
         : schema.title;
+
+    // This is always true if enableShortWorkflow is not enabled
+    // If enabled, do not allow upload if any error exist
+    const allowUpload =
+      !enableShortWorkflow ||
+      (enableShortWorkflow &&
+        !files.some((file, index) => {
+          const errors =
+            _.get([index, '__errors'], errorSchema) ||
+            [file.errorMessage].filter(error => error);
+
+          return errors.length > 0;
+        }));
 
     return (
       <div
@@ -283,6 +314,20 @@ class FileField extends React.Component {
                   focusElement(`[name="get_password_${index}"]`);
                 }, 100);
               }
+
+              const allowRetry =
+                errors[0] === FILE_UPLOAD_NETWORK_ERROR_MESSAGE;
+
+              const retryButtonText = allowRetry
+                ? 'Try again'
+                : 'Upload a new file';
+
+              const retryFunction = allowRetry
+                ? () => this.retryLastUpload(index, file.file)
+                : () => this.deleteThenAddFile(index);
+
+              const deleteButtonText =
+                enableShortWorkflow && hasErrors ? 'Cancel' : 'Delete file';
 
               return (
                 <li
@@ -359,8 +404,8 @@ class FileField extends React.Component {
                     )}
                   {!file.uploading &&
                     hasErrors && (
-                      <span className="usa-input-error-message">
-                        {errors[0]}
+                      <span className="usa-input-error-message" role="alert">
+                        <span className="sr-only">Error</span> {errors[0]}
                       </span>
                     )}
                   {showPasswordInput && (
@@ -372,6 +417,16 @@ class FileField extends React.Component {
                   )}
                   {showButtons && (
                     <div className="vads-u-margin-top--2">
+                      {hasErrors &&
+                        enableShortWorkflow && (
+                          <button
+                            type="button"
+                            className="usa-button-primary vads-u-width--auto vads-u-margin-right--2"
+                            onClick={retryFunction}
+                          >
+                            {retryButtonText}
+                          </button>
+                        )}
                       <button
                         type="button"
                         className="usa-button-secondary vads-u-width--auto"
@@ -379,7 +434,7 @@ class FileField extends React.Component {
                           this.removeFile(index);
                         }}
                       >
-                        Delete file
+                        {deleteButtonText}
                       </button>
                     </div>
                   )}
@@ -388,42 +443,45 @@ class FileField extends React.Component {
             })}
           </ul>
         )}
-        {(maxItems === null || files.length < maxItems) &&
-          // Don't render an upload button on review & submit page while in
-          // review mode
-          showButtons && (
-            <>
-              <label
-                id={`${idSchema.$id}_add_label`}
-                htmlFor={idSchema.$id}
-                className="vads-u-display--inline-block"
-              >
-                <span
-                  role="button"
-                  className="usa-button usa-button-secondary vads-u-padding-x--2 vads-u-padding-y--1"
-                  onKeyPress={e => {
-                    e.preventDefault();
-                    if (['Enter', ' ', 'Spacebar'].indexOf(e.key) !== -1) {
-                      this.fileInputRef.current.click();
-                    }
-                  }}
-                  tabIndex="0"
-                  aria-label={`${buttonText} ${titleString}`}
+        {// Don't render an upload button on review & submit page while in
+        // review mode
+        showButtons && (
+          <>
+            {(maxItems === null || files.length < maxItems) &&
+              // Prevent additional upload if any upload has error state
+              allowUpload && (
+                <label
+                  id={`${idSchema.$id}_add_label`}
+                  htmlFor={idSchema.$id}
+                  className="vads-u-display--inline-block"
                 >
-                  {buttonText}
-                </span>
-              </label>
-              <input
-                type="file"
-                ref={this.fileInputRef}
-                accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
-                style={{ display: 'none' }}
-                id={idSchema.$id}
-                name={idSchema.$id}
-                onChange={this.onAddFile}
-              />
-            </>
-          )}
+                  <span
+                    role="button"
+                    className="usa-button usa-button-secondary vads-u-padding-x--2 vads-u-padding-y--1"
+                    onKeyPress={e => {
+                      e.preventDefault();
+                      if (['Enter', ' ', 'Spacebar'].indexOf(e.key) !== -1) {
+                        this.fileInputRef.current.click();
+                      }
+                    }}
+                    tabIndex="0"
+                    aria-label={`${buttonText} ${titleString}`}
+                  >
+                    {buttonText}
+                  </span>
+                </label>
+              )}
+            <input
+              type="file"
+              ref={this.fileInputRef}
+              accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+              style={{ display: 'none' }}
+              id={idSchema.$id}
+              name={idSchema.$id}
+              onChange={this.onAddFile}
+            />
+          </>
+        )}
       </div>
     );
   }
@@ -444,6 +502,7 @@ FileField.propTypes = {
 
 const mapStateToProps = state => ({
   requestLockedPdfPassword: toggleValues(state).request_locked_pdf_password,
+  enableShortWorkflow: toggleValues(state).file_upload_short_workflow_enabled,
 });
 
 export { FileField };

@@ -11,11 +11,13 @@ import reducer, {
   endpoint,
   fetchCommunicationPreferenceGroups,
   saveCommunicationPreferenceGroup,
+  selectGroups,
   selectGroupUi,
 } from '../../ducks/communicationPreferences';
 import error401 from '../fixtures/401.json';
 import error500 from '../fixtures/500.json';
-import getCommunicationGroupsSuccess from '../fixtures/communication-preferences/get-200-minimal.json';
+import getMinimalCommunicationGroupsSuccess from '../fixtures/communication-preferences/get-200-minimal.json';
+import getMaximalCommunicationGroupsSuccess from '../fixtures/communication-preferences/get-200-maximal.json';
 import postCommunicationGroupsSuccess from '../fixtures/communication-preferences/post-200.json';
 import patchCommunicationGroupsSuccess from '../fixtures/communication-preferences/patch-200.json';
 
@@ -33,7 +35,7 @@ describe('fetching communication preferences', () => {
   before(() => {
     server = setupServer(
       rest.get(apiURL, (req, res, ctx) => {
-        return res(ctx.json(getCommunicationGroupsSuccess));
+        return res(ctx.json(getMinimalCommunicationGroupsSuccess));
       }),
     );
     server.listen();
@@ -47,7 +49,7 @@ describe('fetching communication preferences', () => {
   after(() => {
     server.close();
   });
-  context('success', () => {
+  context('successfully loads a minimal set of preferences', () => {
     it('sets the state properly', () => {
       const promise = store.dispatch(fetchCommunicationPreferenceGroups());
 
@@ -60,7 +62,7 @@ describe('fetching communication preferences', () => {
         expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
         expect(state.loadingErrors).to.be.null;
         // expect the state.groups to be correct
-        expect(state.groups).to.deep.equal({
+        expect(selectGroups(state)).to.deep.equal({
           ids: ['group1'],
           entities: {
             group1: {
@@ -121,6 +123,28 @@ describe('fetching communication preferences', () => {
             },
           },
         });
+      });
+    });
+  });
+  context('when the "Your Health Care" group is in the response', () => {
+    it('places it first in the list of groups', () => {
+      server.use(
+        rest.get(apiURL, (req, res, ctx) => {
+          return res(
+            ctx.status(200),
+            ctx.json(getMaximalCommunicationGroupsSuccess),
+          );
+        }),
+      );
+      const promise = store.dispatch(fetchCommunicationPreferenceGroups());
+
+      return promise.then(() => {
+        const state = store.getState();
+        expect(state.loadingStatus).to.equal(LOADING_STATES.loaded);
+        expect(state.loadingErrors).to.be.null;
+        const communicationGroups = selectGroups(state);
+        expect(communicationGroups.ids.length).to.equal(3);
+        expect(communicationGroups.ids[0]).to.equal('group3');
       });
     });
   });

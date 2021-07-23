@@ -1,9 +1,9 @@
-const createMockSuccessResponse = data => {
-  return { data: { ...data, status: 'checked-in' } };
+const createMockSuccessResponse = _data => {
+  return { data: { success: true } };
 };
 
-const createMockFailedResponse = data => {
-  return { data: { ...data, status: 'failed' } };
+const createMockFailedResponse = _data => {
+  return { data: { error: true } };
 };
 
 module.exports = { createMockSuccessResponse, createMockFailedResponse };

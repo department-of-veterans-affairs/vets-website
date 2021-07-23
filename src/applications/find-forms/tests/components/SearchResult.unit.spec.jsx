@@ -92,6 +92,37 @@ describe('Find VA Forms <SearchResult />', () => {
     tree.unmount();
   });
 
+  it('should have have a Alert Box PDF information (version one) for download trouble', () => {
+    const tree = mount(
+      <SearchResult
+        formMetaInfo={formMetaInfo}
+        form={form}
+        showPDFInfoVersionOne
+      />,
+    );
+    expect(tree.html()).to.include('<dd class="find-forms-alert-message');
+    expect(tree.html()).to.include(
+      'href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/"',
+    );
+    tree.unmount();
+  });
+
+  it('should have have a Alert Box PDF information (version two)for download trouble', () => {
+    const tree = mount(
+      <SearchResult
+        formMetaInfo={formMetaInfo}
+        form={form}
+        showPDFInfoVersionTwo
+        currentPosition={1}
+      />,
+    );
+    expect(tree.html()).to.include('<va-alert status="info">');
+    expect(tree.html()).to.include(
+      'href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/"',
+    );
+    tree.unmount();
+  });
+
   it('should have "Go to online tool" link', () => {
     const tree = mount(
       <SearchResult formMetaInfo={formMetaInfo} form={form} />,

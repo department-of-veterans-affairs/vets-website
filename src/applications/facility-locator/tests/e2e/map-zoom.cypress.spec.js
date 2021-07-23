@@ -58,7 +58,7 @@ it('finds community care pharmacies', () => {
     'Community pharmacies (in VA’s network)',
   );
   cy.get('#facility-search')
-    .click()
+    .click({ force: true })
     .then(() => {
       cy.get('#search-results-subheader').contains(
         'Results for "Community pharmacies (in VA’s network)" near "Austin, Texas"',

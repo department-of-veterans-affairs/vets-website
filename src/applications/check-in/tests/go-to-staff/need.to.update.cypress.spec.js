@@ -4,7 +4,6 @@ import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
 
 describe('Check In Experience -- happy path', () => {
   beforeEach(function() {
-    if (Cypress.env('CI')) this.skip();
     cy.intercept('GET', '/v0/feature_toggles*', features);
     cy.intercept('GET', '/check_in/v0/patient_check_ins//*', req => {
       req.reply(mockValidate.createMockSuccessResponse({}));
@@ -13,9 +12,16 @@ describe('Check In Experience -- happy path', () => {
       req.reply(mockCheckIn.createMockSuccessResponse({}));
     });
   });
+  afterEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
+  });
   it('needs to update information', () => {
-    cy.visit('/check-in/some-token');
-    cy.get('h1').contains('insurance');
+    const featureRoute =
+      '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
+    cy.visit(featureRoute);
+    cy.get('legend > h2').contains('information');
     cy.injectAxe();
     cy.axeCheck();
     cy.get('[data-testid="yes-button"]').click();

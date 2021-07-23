@@ -12,6 +12,7 @@ import {
   isVAPhoneAppointment,
   isVideoHome,
   getCalendarData,
+  isClinicVideoAppointment,
 } from '../../../services/appointment';
 import {
   APPOINTMENT_STATUS,
@@ -46,7 +47,7 @@ function formatAppointmentDate(date) {
 function formatHeader(appointment) {
   if (appointment.videoData.kind === VIDEO_TYPES.gfe) {
     return 'VA Video Connect using VA device';
-  } else if (appointment.videoData.kind === VIDEO_TYPES.clinic) {
+  } else if (isClinicVideoAppointment(appointment)) {
     return 'VA Video Connect at VA location';
   } else if (appointment.videoData.isAtlas) {
     return 'VA Video Connect at an ATLAS location';
@@ -141,8 +142,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const isVideo = appointment.vaos.isVideo;
   const isPastAppointment = appointment.vaos.isPastAppointment;
-  const facilityId = getVAAppointmentLocationId(appointment);
-  const facility = facilityData?.[facilityId];
+  const facility = facilityData?.[locationId];
   const isInPersonVAAppointment = !isVideo;
   const isCovid = appointment.vaos.isCOVIDVaccine;
   const canceler = appointment.description?.includes('CANCELLED BY PATIENT')
@@ -213,7 +213,7 @@ export default function ConfirmedAppointmentDetailsPage() {
           <VAFacilityLocation
             facility={facility}
             facilityName={facility?.name}
-            facilityId={facilityId}
+            facilityId={locationId}
             isHomepageRefresh
             clinicFriendlyName={appointment.location?.clinicName}
             showCovidPhone={isCovid}

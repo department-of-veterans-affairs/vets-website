@@ -447,7 +447,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       kind: 'telehealth',
       status: 'proposed',
       locationId: '983',
-      serviceType: '323',
+      serviceType: 'primaryCare',
       comment: 'I need an appt',
       reason: 'Routine Follow-up',
       contact: {

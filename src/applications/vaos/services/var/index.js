@@ -171,7 +171,7 @@ export function getCommunityCareFacilities({
   const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
 
   return apiRequestWithUrl(
-    `/v1/facilities/ccp?latitude=${latitude}&longitude=${longitude}&radius=${radius}&per_page=${perPage}&page=${page}&${bboxQuery}&${specialtiesQuery}&type=provider&trim=true`,
+    `/facilities_api/v1/ccp/provider?latitude=${latitude}&longitude=${longitude}&radius=${radius}&per_page=${perPage}&page=${page}&${bboxQuery}&${specialtiesQuery}&trim=true`,
   ).then(parseApiList);
 }
 

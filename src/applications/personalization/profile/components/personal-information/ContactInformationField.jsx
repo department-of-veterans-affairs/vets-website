@@ -41,6 +41,8 @@ import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
 import ContactInformationEditView from '@@profile/components/personal-information/ContactInformationEditView';
 import ContactInformationView from '@@profile/components/personal-information/ContactInformationView';
 
+import { showNotificationSettings } from '@@profile/selectors';
+
 import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
 
 import getContactInfoFieldAttributes from '~/applications/personalization/profile/util/contact-information/getContactInfoFieldAttributes';
@@ -63,24 +65,14 @@ const wrapperClasses = prefixUtilityClasses([
   'align-items--flex-start',
 ]);
 
-const wrapperClassesMedium = prefixUtilityClasses(
-  ['flex-direction--row', 'justify-content--space-between'],
-  'medium',
-);
-
 const editButtonClasses = [
   'usa-button-secondary',
-  ...prefixUtilityClasses(['width--auto', 'margin--0', 'margin-top--1p5']),
+  ...prefixUtilityClasses(['margin--0', 'margin-top--1p5']),
 ];
 
-const editButtonClassesMedium = prefixUtilityClasses(
-  ['flex--auto', 'margin-top--0', 'margin-left--4'],
-  'medium',
-);
-
 const classes = {
-  wrapper: [...wrapperClasses, ...wrapperClassesMedium].join(' '),
-  editButton: [...editButtonClasses, ...editButtonClassesMedium].join(' '),
+  wrapper: wrapperClasses.join(' '),
+  editButton: editButtonClasses.join(' '),
 };
 
 class ContactInformationField extends React.Component {
@@ -347,7 +339,9 @@ export const mapStateToProps = (state, ownProps) => {
     activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION;
   const isEnrolledInVAHealthCare = isVAPatient(state);
   const showSMSCheckbox =
-    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE && isEnrolledInVAHealthCare;
+    ownProps.fieldName === FIELD_NAMES.MOBILE_PHONE &&
+    isEnrolledInVAHealthCare &&
+    !showNotificationSettings(state);
 
   const { title } = getContactInfoFieldAttributes(fieldName);
   return {

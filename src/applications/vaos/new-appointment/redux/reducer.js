@@ -112,6 +112,7 @@ const initialState = {
   requestStatus: FETCH_STATUS.notStarted,
   currentLocation: {},
   ccProviderPageSortMethod: FACILITY_SORT_METHODS.distanceFromResidential,
+  facilityPageSortMethod: null,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -352,12 +353,19 @@ export default function formReducer(state = initialState, action) {
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
         showEligibilityModal: false,
+        requestLocationStatus: FETCH_STATUS.notStarted,
       };
     }
     case FORM_REQUEST_CURRENT_LOCATION: {
       return {
         ...state,
         requestLocationStatus: FETCH_STATUS.loading,
+      };
+    }
+    case FORM_REQUEST_CURRENT_LOCATION_FAILED: {
+      return {
+        ...state,
+        requestLocationStatus: FETCH_STATUS.failed,
       };
     }
     case FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED: {
@@ -394,7 +402,6 @@ export default function formReducer(state = initialState, action) {
       let facilities = state.facilities[typeOfCareId];
       let newSchema = state.pages.vaFacilityV2;
       let requestLocationStatus = state.requestLocationStatus;
-
       if (location && facilities?.length) {
         const { coords } = location;
         const { latitude, longitude } = coords;
@@ -419,6 +426,8 @@ export default function formReducer(state = initialState, action) {
         }
 
         requestLocationStatus = FETCH_STATUS.succeeded;
+      } else {
+        requestLocationStatus = FETCH_STATUS.notStarted;
       }
 
       if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
@@ -461,12 +470,6 @@ export default function formReducer(state = initialState, action) {
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
         requestLocationStatus,
-      };
-    }
-    case FORM_REQUEST_CURRENT_LOCATION_FAILED: {
-      return {
-        ...state,
-        requestLocationStatus: FETCH_STATUS.failed,
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN_FAILED: {
@@ -732,7 +735,7 @@ export default function formReducer(state = initialState, action) {
             clinicId: {
               type: 'string',
               title:
-                'You can choose a clinic where you’ve been seen or request an appointment at a different clinic.',
+                'Choose a clinic below or request a different clinic for this appointment.',
               enum: clinics.map(clinic => clinic.id).concat('NONE'),
               enumNames: clinics
                 .map(clinic => clinic.serviceName)

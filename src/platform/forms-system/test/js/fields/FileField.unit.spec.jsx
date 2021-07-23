@@ -13,6 +13,7 @@ import {
 
 import { FileField } from '../../../src/js/fields/FileField';
 import fileUploadUI, { fileSchema } from '../../../src/js/definitions/file';
+import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
 
 const formContext = {
   setTouched: sinon.spy(),
@@ -335,7 +336,11 @@ describe('Schemaform <FileField>', () => {
       />,
     );
 
-    expect(tree.find('.va-growable-background').text()).to.contain('Bad error');
+    // Prepend 'Error' for screenreader
+    expect(tree.find('.va-growable-background').text()).to.contain(
+      'Error Bad error',
+    );
+    expect(tree.find('span[role="alert"]').exists()).to.be.true;
     tree.unmount();
   });
 
@@ -918,5 +923,290 @@ describe('Schemaform <FileField>', () => {
     const cancelButton = tree.find('button.usa-button-secondary');
     expect(cancelButton.text()).to.equal('Cancel');
     tree.unmount();
+  });
+
+  describe('enableShortWorkflow is true', () => {
+    const mockIdSchema = {
+      $id: 'field',
+    };
+    const mockSchema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+      maxItems: 4,
+    };
+    const mockUiSchema = fileUploadUI('Files');
+    const mockFormDataWithError = [
+      {
+        errorMessage: 'some error message',
+      },
+    ];
+    const mockErrorSchemaWithError = {
+      0: {
+        __errors: ['ERROR-123'],
+      },
+    };
+    const mockRegistry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+
+    it('should not render main upload button while file has error', () => {
+      const idSchema = {
+        $id: 'myIdSchemaId',
+      };
+      const tree = shallow(
+        <FileField
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={idSchema}
+          errorSchema={mockErrorSchemaWithError}
+          formData={mockFormDataWithError}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+          enableShortWorkflow
+        />,
+      );
+
+      // id for main upload button is interpolated {idSchema.$id}_add_label
+      const mainUploadButton = tree.find('#myIdSchemaId_add_label');
+      expect(mainUploadButton.exists()).to.be.false;
+      tree.unmount();
+    });
+
+    it('should render Upload a new file button for file with error', () => {
+      const tree = shallow(
+        <FileField
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
+          errorSchema={mockErrorSchemaWithError}
+          formData={mockFormDataWithError}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+          enableShortWorkflow
+        />,
+      );
+
+      // This button is specific to the file that has the error
+      const errorFileUploadButton = tree.find('button.usa-button-primary');
+      expect(errorFileUploadButton.text()).to.equal('Upload a new file');
+      tree.unmount();
+    });
+
+    it('should render Try again button for file with error', () => {
+      const errorSchema = {
+        0: {
+          __errors: [FILE_UPLOAD_NETWORK_ERROR_MESSAGE],
+        },
+      };
+      const tree = shallow(
+        <FileField
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
+          errorSchema={errorSchema}
+          formData={mockFormDataWithError}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+          enableShortWorkflow
+        />,
+      );
+
+      // This button is specific to the file that has the error
+      const individualFileTryAgainButton = tree.find(
+        'button.usa-button-primary',
+      );
+      expect(individualFileTryAgainButton.text()).to.equal('Try again');
+      tree.unmount();
+    });
+
+    it('should render remove file button as cancel', () => {
+      const tree = shallow(
+        <FileField
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
+          errorSchema={mockErrorSchemaWithError}
+          formData={mockFormDataWithError}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+          enableShortWorkflow
+        />,
+      );
+
+      // This button is specific to the file that has the error
+      const cancelButton = tree.find('button.usa-button-secondary');
+      expect(cancelButton.text()).to.equal('Cancel');
+      tree.unmount();
+    });
+
+    it('should render delete button for successfully uploaded file', () => {
+      const formData = [
+        {
+          uploading: false,
+        },
+      ];
+      const tree = shallow(
+        <FileField
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+          enableShortWorkflow
+        />,
+      );
+
+      // This button is specific to the file that was uploaded
+      const deleteButton = tree.find('button.usa-button-secondary');
+      expect(deleteButton.text()).to.equal('Delete file');
+      tree.unmount();
+    });
+  });
+
+  describe('enableShortWorkflow is false', () => {
+    const mockIdSchema = {
+      $id: 'field',
+    };
+    const mockSchema = {
+      additionalItems: {},
+      items: [
+        {
+          properties: {},
+        },
+      ],
+      maxItems: 4,
+    };
+    const mockUiSchema = fileUploadUI('Files');
+    const mockFormDataWithError = [
+      {
+        errorMessage: 'some error message',
+      },
+    ];
+    const mockErrorSchemaWithError = {
+      0: {
+        __errors: ['ERROR-123'],
+      },
+    };
+    const mockRegistry = {
+      fields: {
+        SchemaField: f => f,
+      },
+    };
+
+    it('should render main upload button while any file has error', () => {
+      const idSchema = {
+        $id: 'myIdSchemaId',
+      };
+      const tree = shallow(
+        <FileField
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={idSchema}
+          errorSchema={mockErrorSchemaWithError}
+          formData={mockFormDataWithError}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+        />,
+      );
+
+      // id for main upload button is interpolated {idSchema.$id}_add_label
+      const mainUploadButton = tree.find('#myIdSchemaId_add_label');
+      expect(mainUploadButton.exists()).to.be.true;
+      tree.unmount();
+    });
+
+    it('should render remove file button as Delete file', () => {
+      const tree = shallow(
+        <FileField
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
+          errorSchema={mockErrorSchemaWithError}
+          formData={mockFormDataWithError}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+        />,
+      );
+
+      // This button is specific to the file that has the error
+      const deleteFileButton = tree.find('button.usa-button-secondary');
+      expect(deleteFileButton.text()).to.equal('Delete file');
+      tree.unmount();
+    });
+
+    it('should render delete button for successfully uploaded file', () => {
+      const formData = [
+        {
+          uploading: false,
+        },
+      ];
+      const tree = shallow(
+        <FileField
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
+          formData={formData}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+        />,
+      );
+
+      // This button is specific to the file that was uploaded
+      const deleteButton = tree.find('button.usa-button-secondary');
+      expect(deleteButton.text()).to.equal('Delete file');
+      tree.unmount();
+    });
+
+    it('should not render individual file Try again button', () => {
+      const errorSchema = {
+        0: {
+          __errors: [FILE_UPLOAD_NETWORK_ERROR_MESSAGE],
+        },
+      };
+      const tree = shallow(
+        <FileField
+          registry={mockRegistry}
+          schema={mockSchema}
+          uiSchema={mockUiSchema}
+          idSchema={mockIdSchema}
+          errorSchema={errorSchema}
+          formData={mockFormDataWithError}
+          formContext={formContext}
+          onChange={f => f}
+          requiredSchema={requiredSchema}
+        />,
+      );
+
+      // The retry button should be the only primary button. Should not be present
+      // with enableShortWorkflow not enabled
+      const individualFileTryAgainButton = tree.find(
+        'button.usa-button-primary',
+      );
+      expect(individualFileTryAgainButton.exists()).to.be.false;
+      tree.unmount();
+    });
   });
 });

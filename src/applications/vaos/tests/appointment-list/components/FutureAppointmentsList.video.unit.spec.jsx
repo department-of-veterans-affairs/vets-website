@@ -865,7 +865,8 @@ describe('VAOS <FutureAppointmentsList> calendar ics file format', () => {
       (_, node) => node.textContent === 'VA Video Connect at a VA location',
     );
 
-    expect(await screen.findByText('Cheyenne VA Medical Center')).to.be.ok;
+    expect(await screen.findByText(/CHY PC VAR2/)).to.be.ok;
+    expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
 
     const ics = decodeURIComponent(
       screen

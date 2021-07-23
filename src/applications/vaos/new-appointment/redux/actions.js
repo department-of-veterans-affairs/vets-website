@@ -11,7 +11,9 @@ import {
   selectSystemIds,
   selectFeatureHomepageRefresh,
   selectFeatureVAOSServiceRequests,
+  selectFeatureVariantTesting,
   selectRegisteredCernerFacilityIds,
+  selectFeatureVAOSServiceVAAppointments,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -305,6 +307,9 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     try {
       const initialState = getState();
+      const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
+        initialState,
+      );
       const newAppointment = initialState.newAppointment;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
@@ -323,6 +328,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         if (!typeOfCareFacilities) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
             siteIds,
+            useV2: featureVAOSServiceVAAppointments,
           });
         }
 
@@ -435,6 +441,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
     let location = null;
     const facilities = getTypeOfCareFacilities(getState());
     const cernerSiteIds = selectRegisteredCernerFacilityIds(getState());
+    const variantTestEnabled = selectFeatureVariantTesting(getState());
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
@@ -470,6 +477,14 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
           event: `${GA_PREFIX}-request-current-location-blocked`,
         });
         captureError(e, true, 'facility page');
+        if (variantTestEnabled) {
+          dispatch({
+            type: FORM_PAGE_FACILITY_SORT_METHOD_UPDATED,
+            sortMethod,
+            uiSchema,
+            cernerSiteIds,
+          });
+        }
         dispatch({
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });

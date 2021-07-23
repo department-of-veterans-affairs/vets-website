@@ -3,12 +3,20 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import appendQuery from 'append-query';
 import { Link } from 'react-router-dom';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { addCompareInstitution, removeCompareInstitution } from '../actions';
+import { MINIMUM_RATING_COUNT } from '../constants';
 import Checkbox from '../components/Checkbox';
 import { estimatedBenefits } from '../selectors/estimator';
-import { formatCurrency, createId } from '../utils/helpers';
+import {
+  formatCurrency,
+  createId,
+  convertRatingToStars,
+} from '../utils/helpers';
 import { CautionFlagAdditionalInfo } from '../components/CautionFlagAdditionalInfo';
 import RatingsStars from '../components/RatingsStars';
+import SchoolClassification from '../components/SchoolClassification';
 
 export function SearchResultCard({
   compare,
@@ -18,6 +26,7 @@ export function SearchResultCard({
   institution,
   location = false,
   header = null,
+  gibctSchoolRatings,
 }) {
   const {
     name,
@@ -29,10 +38,6 @@ export function SearchResultCard({
     accreditationType,
     cautionFlags,
     facilityCode,
-    menonly,
-    womenonly,
-    hbcu,
-    relaffil,
     vetTecProvider,
     schoolProvider,
     employerProvider,
@@ -52,48 +57,11 @@ export function SearchResultCard({
   const [expanded, toggleExpansion] = useState(false);
 
   const profileLink = appendQuery(`/profile/${facilityCode}`);
-  const institutionTraits = [
-    menonly === 1 && 'Men-only',
-    womenonly === 1 && 'Women-only',
-    hbcu && 'HBCU',
-    relaffil && 'Religious',
-  ].filter(Boolean);
 
-  const resultCardClasses = classNames(
-    'result-card vads-u-margin-bottom--2 vads-u-padding-right--1p5',
-    {
-      'vads-u-margin-left--2p5': !location,
-    },
-  );
-
-  const schoolClassificationClasses = classNames('school-classification', {
-    'school-header': schoolProvider,
-    'employer-header': employerProvider,
-    'vettec-header': vetTecProvider,
+  const resultCardClasses = classNames('result-card vads-u-margin-bottom--2', {
+    'vads-u-padding-right--1p5': location,
+    'vads-u-margin-left--2p5': !location,
   });
-
-  const schoolClassificationPTagClasses = classNames(
-    'vads-u-color--white vads-u-padding-x--2 vads-u-padding-y--1',
-    {
-      'vads-u-margin-y--0p5': location,
-    },
-  );
-
-  const schoolClassification = (
-    <>
-      <div className={schoolClassificationClasses}>
-        <p className={schoolClassificationPTagClasses}>
-          <strong>
-            {schoolProvider && 'School'}
-            {employerProvider && 'Employer'}
-            {vetTecProvider && 'VET TEC'}
-            {institutionTraits.length > 0 && ': '}
-          </strong>
-          {institutionTraits.join(', ')}
-        </p>
-      </div>
-    </>
-  );
 
   const nameClasses = classNames({
     'vads-u-margin-top--2': !location,
@@ -114,26 +82,28 @@ export function SearchResultCard({
     </>
   );
 
-  const ratingsInformation =
-    ratingCount > 0 ? (
-      <div>
-        <div className="vads-u-margin-bottom--2">
-          <RatingsStars rating={ratingAverage} />
-          {location && <br />}
-          <strong>
-            ({Math.round(10 * ratingAverage) / 10} of 5) by {ratingCount}{' '}
-            Veteran
-            {ratingCount > 1 && 's'}
-          </strong>
-        </div>
+  const stars = convertRatingToStars(ratingAverage);
+  const displayStars =
+    gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
+
+  const ratingsInformation = displayStars ? (
+    <div>
+      <div className="vads-u-margin-bottom--2">
+        <RatingsStars rating={ratingAverage} />
+        {location && <br />}
+        <strong>
+          ({Math.round(10 * ratingAverage) / 10} of 5) by {ratingCount} Veteran
+          {ratingCount > 1 && 's'}
+        </strong>
       </div>
-    ) : (
-      <div>
-        <p>
-          <strong>School rating:</strong> Not yet rated
-        </p>
-      </div>
-    );
+    </div>
+  ) : (
+    <div>
+      <p>
+        <strong>School rating:</strong> Not yet rated
+      </p>
+    </div>
+  );
 
   const estimate = ({ qualifier, value }) => {
     if (qualifier === '% of instate tuition') {
@@ -158,9 +128,9 @@ export function SearchResultCard({
           <p className="vads-u-margin-y--0">{tuition}</p>
         </div>
         <div className="vads-u-flex--1">
-          <p className="secondary-info-label">Housing Benefit:</p>
+          <p className="secondary-info-label">Housing benefit:</p>
           <p className="vads-u-margin-y--0">
-            {housing} / Month
+            {housing} /mo
             {employerProvider && '*'}
           </p>
         </div>
@@ -216,7 +186,7 @@ export function SearchResultCard({
           <strong>Approved programs:</strong>
         </p>
         <p className="vads-u-margin-top--1 vads-u-margin-bottom--2p5">
-          {programCount}
+          {programCount || 0}
         </p>
       </div>
       <div className="vads-u-flex--1">
@@ -234,8 +204,8 @@ export function SearchResultCard({
     <div className={resultCardClasses} id={`${createId(name)}-result-card`}>
       {location && <span id={`${createId(name)}-result-card-placeholder`} />}
       {header}
-      <div className="vads-u-background-color--gray-lightest">
-        {schoolClassification}
+      <div className="result-card-container vads-u-background-color--gray-lightest">
+        <SchoolClassification institution={institution} />
         <div className="vads-u-padding-x--2 vads-u-margin-bottom--1">
           {nameCityStateHeader}
           {schoolProvider && ratingsInformation}
@@ -287,7 +257,7 @@ export function SearchResultCard({
             },
           )}
         >
-          <div className="card-bottom-cell vads-u-flex--1 vads-u-border-right--2px vads-u-border-color--white vads-u-margin--0">
+          <div className="card-bottom-cell vads-u-flex--1 vads-u-margin--0">
             <div className="vads-u-padding--0 vads-u-margin-top--neg2 vads-u-margin-bottom--0p5">
               <Checkbox
                 label="Compare"
@@ -305,6 +275,9 @@ export function SearchResultCard({
 const mapStateToProps = (state, props) => ({
   compare: state.compare,
   estimated: estimatedBenefits(state, props),
+  gibctSchoolRatings: toggleValues(state)[
+    FEATURE_FLAG_NAMES.gibctSchoolRatings
+  ],
 });
 
 const mapDispatchToProps = {

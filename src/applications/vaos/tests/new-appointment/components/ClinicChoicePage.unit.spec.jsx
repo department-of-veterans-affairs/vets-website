@@ -90,21 +90,15 @@ describe('VAOS <ClinicChoicePage>', () => {
       store,
     });
 
-    await screen.findByText(
-      /Choose your VA clinic for your primary care appointment/i,
-    );
+    await screen.findByText(/Choose a VA clinic/i);
 
     expect(screen.baseElement).to.contain.text(
-      'In the last 24 months you have had a primary care appointment in the following clinics',
+      'In the last 24 months you’ve had a primary care appointment at the following Cheyenne VA Medical Center clinics:',
     );
     expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
-    expect(screen.baseElement).to.contain.text(
-      'Cheyenne, WyomingWY 82001-5356',
-    );
-    expect(screen.baseElement).to.contain.text('307-778-7550');
 
     expect(screen.baseElement).to.contain.text(
-      'You can choose a clinic where you’ve been seen or request an appointment at a different clinic.',
+      'Choose a clinic below or request a different clinic for this appointment.',
     );
     expect(await screen.findAllByRole('radio')).to.have.length(3);
     expect(screen.getByLabelText('Green team clinic')).to.have.tagName('input');
@@ -165,11 +159,9 @@ describe('VAOS <ClinicChoicePage>', () => {
       store,
     });
 
-    await screen.findByText(
-      /Choose your VA clinic for your amputation care appointment/i,
-    );
+    await screen.findByText(/Choose a VA clinic/i);
     expect(screen.baseElement).to.contain.text(
-      'In the last 24 months you have had an amputation care appointment in the following clinics',
+      'In the last 24 months you’ve had an amputation care appointment at the following Fake name clinics:',
     );
 
     userEvent.click(screen.getByLabelText(/red team/i));
@@ -244,9 +236,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       store,
     });
 
-    await screen.findByText(
-      /Choose your VA clinic for your amputation care appointment/i,
-    );
+    await screen.findByText(/Choose a VA clinic/i);
 
     // choosing the third option sends you to request flow
     userEvent.click(screen.getByText(/need a different clinic/i));
@@ -407,9 +397,7 @@ describe('VAOS <ClinicChoicePage>', () => {
       store,
     });
 
-    await screen.findByText(
-      /Choose your VA clinic for your primary care appointment/i,
-    );
+    await screen.findByText(/Choose a VA clinic/i);
 
     userEvent.click(screen.getByLabelText(/red team/i));
     await waitFor(

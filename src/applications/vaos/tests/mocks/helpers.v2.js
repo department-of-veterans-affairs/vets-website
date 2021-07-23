@@ -39,6 +39,28 @@ export function mockSingleVAOSRequestFetch({ request, error = null }) {
 }
 
 /**
+ * Mocks the fetch made when retrieving a single VAOS appointment
+ * for the details page
+ *
+ * @export
+ * @param {Object} params
+ * @param {VAOSRequest} params.appointment Request to be returned from the mock
+ * @param {boolean} [params.error=null] Whether or not to return an error from the mock
+ * }
+ */
+export function mockSingleVAOSAppointmentFetch({ appointment, error = null }) {
+  const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${
+    appointment.id
+  }`;
+
+  if (error) {
+    setFetchJSONFailure(global.fetch.withArgs(baseUrl), { errors: [] });
+  } else {
+    setFetchJSONResponse(global.fetch.withArgs(baseUrl), { data: appointment });
+  }
+}
+
+/**
  * Mocks the fetch request made when retrieving VAOS appointments from the appointment-list page
  *
  * @export
@@ -164,5 +186,41 @@ export function mockV2CommunityCareEligibility({
         },
       },
     },
+  );
+}
+
+/**
+ * Mocks the api call that gets direct and request scheduling settings from VATS
+ *
+ * @export
+ * @param {Array<string>} ids The facility ids to pull settings for
+ * @param {Array<SchedulingConfiguration>} data The list of facilities with their settings to return from the mock
+ */
+export function mockSchedulingConfigurations(configs) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v2/scheduling/configurations?${configs
+        .map(config => `facility_ids[]=${config.id}`)
+        .join('&')}`,
+    ),
+    { data: configs },
+  );
+}
+
+/**
+ * Mocks the api call to get facilities from the VAOS service.
+ *
+ * @export
+ * @param {Array<string>} ids A list of VistA site ids to mock the request for
+ * @param {Array<VARParentSite>} data The list of parent site data returned from the mock call
+ */
+export function mockV2FacilitiesFetch(ids, data, children = false) {
+  setFetchJSONResponse(
+    global.fetch.withArgs(
+      `${environment.API_URL}/vaos/v2/facilities?children=${children}&${ids
+        .map(id => `ids[]=${id}`)
+        .join('&')}`,
+    ),
+    { data },
   );
 }

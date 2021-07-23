@@ -125,9 +125,14 @@ export async function getBookedAppointments({
     if (useV2) {
       const appointments = await getAppointments(startDate, endDate, [
         'booked',
+        'cancelled',
       ]);
 
-      return transformVAOSAppointments(appointments);
+      const appointmentsWithoutRequests = appointments.filter(
+        appt => !appt.requestedPeriods,
+      );
+
+      return transformVAOSAppointments(appointmentsWithoutRequests);
     }
 
     const appointments = await Promise.all([
@@ -182,9 +187,14 @@ export async function getAppointmentRequests({
     if (useV2) {
       const appointments = await getAppointments(startDate, endDate, [
         'proposed',
+        'cancelled',
       ]);
 
-      return transformVAOSAppointments(appointments);
+      const requestsWithoutAppointments = appointments.filter(
+        appt => !!appt.requestedPeriods,
+      );
+
+      return transformVAOSAppointments(requestsWithoutAppointments);
     }
 
     const appointments = await getPendingAppointments(startDate, endDate);
@@ -235,9 +245,15 @@ export async function fetchRequestById({ id, useV2 }) {
  * @param {'cc'|'va'} type Type of appointment that is being fetched
  * @returns {Appointment} A transformed appointment with the given id
  */
-export async function fetchBookedAppointment(id, type) {
+export async function fetchBookedAppointment({ id, type, useV2 = false }) {
   try {
     let appointment;
+
+    if (useV2) {
+      appointment = await getAppointment(id);
+      return transformVAOSAppointment(appointment);
+    }
+
     if (type === 'va') {
       appointment = await getConfirmedAppointment(id, type);
     } else if (type === 'cc') {
@@ -260,11 +276,9 @@ export async function fetchBookedAppointment(id, type) {
         appointment = await getConfirmedAppointment(id, 'va');
       }
     }
-
     if (!appointment) {
       throw new Error(`Couldn't find ${type} appointment`);
     }
-
     return transformConfirmedAppointment(appointment);
   } catch (e) {
     if (e.errors) {
@@ -287,6 +301,21 @@ export function isVAPhoneAppointment(appointment) {
 }
 
 /**
+ * Returns true if the appointment is a video appointment
+ * where the Veteran needs to go to a clinic, rather than stay at home
+ *
+ * @export
+ * @param {Appointment} appointment
+ * @returns {boolean} True if appointment is a clinic or store forward appointment
+ */
+export function isClinicVideoAppointment(appointment) {
+  return (
+    appointment?.videoData.kind === VIDEO_TYPES.clinic ||
+    appointment?.videoData.kind === VIDEO_TYPES.storeForward
+  );
+}
+
+/**
  * Returns the location ID of a VA appointment (in person or video)
  *
  * @export
@@ -297,8 +326,16 @@ export function getVAAppointmentLocationId(appointment) {
   if (
     appointment?.vaos.isVideo &&
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
-    appointment?.videoData.kind !== VIDEO_TYPES.clinic
+    !isClinicVideoAppointment(appointment)
   ) {
+    // 612 doesn't exist in the facilities api, but it's a valid VistA site
+    // So, we want to show the facility information for the actual parent location
+    // in that system, which is 612A4. This is really only visible for at home
+    // video appointments, as the facility we direct users to in order to cancel
+    if (appointment.location.vistaId === '612') {
+      return '612A4';
+    }
+
     return appointment?.location.vistaId;
   }
 
@@ -337,6 +374,7 @@ export function hasValidCovidPhoneNumber(facility) {
 export function isValidPastAppointment(appt) {
   return (
     CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType) &&
+    appt.status !== APPOINTMENT_STATUS.cancelled &&
     // Show confirmed appointments that don't have vista statuses in the exclude
     // list
     (!PAST_APPOINTMENTS_HIDDEN_SET.has(appt.description) ||
@@ -873,7 +911,7 @@ export function getCalendarData({ appointment, facility }) {
         if (providerName)
           data.additionalText.push(`You'll be meeting with ${providerName}`);
       }
-    } else if (videoKind === VIDEO_TYPES.clinic) {
+    } else if (isClinicVideoAppointment(appointment)) {
       data = {
         summary: `VA Video Connect appointment at ${facility?.name ||
           'a VA location'}`,

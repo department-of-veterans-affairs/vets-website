@@ -59,6 +59,7 @@ export const uiSchema = {
           isChapterFieldRequired(formData, TASK_KEYS.addChild),
         'ui:options': {
           useDlWrap: true,
+          widgetClassNames: 'usa-input-medium',
         },
       },
       birthDate: merge(currentOrPastDateUI("Child's date of birth"), {

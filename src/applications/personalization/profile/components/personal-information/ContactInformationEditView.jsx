@@ -73,6 +73,15 @@ export class ContactInformationEditView extends Component {
     validateAddress: PropTypes.func.isRequired,
   };
 
+  focusOnFirstFormElement() {
+    const focusableElement = this.editForm?.querySelector(
+      'button, input, select, a, textarea',
+    );
+    if (focusableElement) {
+      focusableElement.focus();
+    }
+  }
+
   componentDidMount() {
     const { getInitialFormValues } = this.props;
     this.onChangeFormDataAndSchemas(
@@ -80,9 +89,14 @@ export class ContactInformationEditView extends Component {
       this.props.formSchema,
       this.props.uiSchema,
     );
+    this.focusOnFirstFormElement();
   }
 
   componentDidUpdate(prevProps) {
+    if (!prevProps.field && !!this.props.field) {
+      this.focusOnFirstFormElement();
+    }
+
     // if the transaction just became pending, start calling
     // refreshTransaction() on an interval
     if (
@@ -275,7 +289,11 @@ export class ContactInformationEditView extends Component {
         )}
 
         {!!field && (
-          <div>
+          <div
+            ref={el => {
+              this.editForm = el;
+            }}
+          >
             {fieldName === FIELD_NAMES.RESIDENTIAL_ADDRESS && (
               <CopyMailingAddress
                 copyMailingAddress={this.copyMailingAddress}
@@ -312,7 +330,7 @@ export class ContactInformationEditView extends Component {
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-width--auto vads-u-margin-top--0"
+                    className="vads-u-margin-top--0"
                   >
                     Update
                   </LoadingButton>
@@ -320,7 +338,7 @@ export class ContactInformationEditView extends Component {
                   {!isLoading && (
                     <button
                       type="button"
-                      className="usa-button-secondary vads-u-margin-top--0 vads-u-width--auto"
+                      className="usa-button-secondary small-screen:vads-u-margin-top--0"
                       onClick={onCancel}
                     >
                       Cancel

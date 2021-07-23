@@ -26,8 +26,9 @@ const generateMockSlots = require('./var/slots.js');
 
 // v2
 const requestsV2 = require('./v2/requests.json');
-const parentFacilitiesV2 = require('./v2/facilities.json');
+const facilitiesV2 = require('./v2/facilities.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
+const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 
@@ -63,7 +64,6 @@ const responses = {
     return res.json({ data: [] });
   },
   'GET /vaos/v0/facilities': parentFacilities,
-  'GET /vaos/v2/facilities': parentFacilitiesV2,
   'GET /vaos/v0/systems/:id/direct_scheduling_facilities': (req, res) => {
     if (req.query.parent_code === '984') {
       return res.json(facilities984);
@@ -141,7 +141,7 @@ const responses = {
     });
   },
   'GET /v1/facilities/va': facilityData,
-  'GET /v1/facilities/ccp': ccProviders,
+  'GET /facilities_api/v1/ccp/provider': ccProviders,
   'GET /v1/facilities/ccp/:id': (req, res) => {
     const provider = ccProviders.data.find(p => p.id === req.params.id);
     return res.json({
@@ -185,7 +185,7 @@ const responses = {
   'POST /vaos/v2/appointments': (req, res) => {
     return res.json({
       data: {
-        id: '8a4886886e4c8e22016e6613216d001g',
+        id: '32152',
         attributes: {
           ...req.body,
         },
@@ -218,8 +218,11 @@ const responses = {
     return res.json({ data: [] });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
+    const appointments = {
+      data: requestsV2.data.concat(require('./v2/confirmed.json').data),
+    };
     return res.json({
-      data: requestsV2.data.find(appt => appt.id === req.params.id),
+      data: appointments.data.find(appt => appt.id === req.params.id),
     });
   },
   'GET /vaos/v2/scheduling/configurations': (req, res) => {
@@ -227,8 +230,18 @@ const responses = {
       return res.json(schedulingConfigurationsCC);
     }
 
-    return res.json({
-      data: [],
+    return res.json(schedulingConfigurations);
+  },
+  'GET /vaos/v2/facilities': (req, res) => {
+    const ids = req.query.ids;
+    const children = req.query.children;
+
+    res.json({
+      data: facilitiesV2.data.filter(
+        facility =>
+          ids.includes(facility.id) ||
+          (children && ids.some(id => facility.id.startsWith(id))),
+      ),
     });
   },
   'GET /v0/user': {
@@ -311,6 +324,7 @@ const responses = {
         { name: 'vaOnlineSchedulingUnenrolledVaccine', value: true },
         { name: 'vaGlobalDowntimeNotification', value: false },
         { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
+        { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'ssoe', value: true },
         { name: 'ssoeInbound', value: false },

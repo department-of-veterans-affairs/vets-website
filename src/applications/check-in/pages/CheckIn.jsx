@@ -1,63 +1,121 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import format from 'date-fns/format';
 
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
 
-import { goToNextPageWithToken, getTokenFromRouter } from '../utils/navigation';
-
+import { goToNextPage, URLS } from '../utils/navigation';
+import { createAnalyticsSlug } from '../utils/analytics';
 import { checkInUser } from '../api';
 
+import BackToHome from '../components/BackToHome';
+import Footer from '../components/Footer';
+import BackButton from '../components/BackButton';
+import AppointmentLocation from '../components/AppointmentLocation';
+
 const CheckIn = props => {
-  const { router } = props;
-  const token = getTokenFromRouter(router);
+  const [isLoading, setIsLoading] = useState(false);
+  const { router, appointment, context } = props;
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
+
+  if (!appointment) {
+    goToNextPage(router, URLS.SEE_STAFF);
+    return <></>;
+  }
+
   const onClick = async () => {
-    const json = await checkInUser({ some: 'data', token });
-    const { data } = json;
-    if (data.status === 'checked-in') {
-      goToNextPageWithToken(router, 'confirmed');
-    } else {
-      goToNextPageWithToken(router, 'failed');
+    const { token } = context;
+    setIsLoading(true);
+    recordEvent({
+      event: createAnalyticsSlug('api-checking-in-user-started'),
+    });
+    try {
+      const json = await checkInUser({
+        token,
+      });
+      const { data } = json;
+
+      if (data.success) {
+        recordEvent({
+          event: createAnalyticsSlug('api-checking-in-user-successful'),
+        });
+        goToNextPage(router, URLS.COMPLETE);
+      } else {
+        const error = data.error || data.errors;
+        recordEvent({
+          event: createAnalyticsSlug('api-checking-in-user-failed'),
+          error,
+        });
+        goToNextPage(router, URLS.SEE_STAFF);
+      }
+    } catch (error) {
+      recordEvent({
+        event: createAnalyticsSlug('api-checking-in-user-failed'),
+        data: error,
+      });
+      goToNextPage(router, URLS.ERROR);
     }
   };
-  const contactNumber = '555-867-5309';
-
+  const appointmentDateTime = new Date(appointment.startTime);
+  const appointmentDate = format(appointmentDateTime, 'cccc, LLLL d, yyyy');
+  const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
   return (
-    <div className="vads-l-grid-container vads-u-padding-y--5">
-      <h1 tabIndex="-1">Your appointment</h1>
-      <dl className="appointment-summary">
+    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
+      <BackButton router={router} />
+      <h1 tabIndex="-1" className="vads-u-margin-top--2">
+        Your appointment
+      </h1>
+      <dl className="appointment-summary vads-u-font-weight--bold">
         <dd
-          className="appointment-details vads-u-font-weight--bold vads-u-font-family--serif"
+          className="appointment-details  vads-u-font-family--serif"
           data-testid="appointment-date"
         >
-          Friday, September 25, 2020
+          {appointmentDate}
         </dd>
         <dd
-          className="appointment-details vads-u-font-weight--bold vads-u-margin-bottom--3 vads-u-font-family--serif"
+          className="appointment-details  vads-u-margin-bottom--3 vads-u-font-family--serif"
           data-testid="appointment-time"
         >
-          9:30 a.m. ET
+          {appointmentTime}
         </dd>
-        <dt className="vads-u-font-weight--bold vads-u-margin--0 vads-u-margin-right--1">
+        <dt className="vads-u-font-size--lg  vads-u-margin--0 vads-u-margin-right--1">
           Clinic:{' '}
         </dt>
-        <dd data-testid="clinic-name">Green Team Clinic1</dd>
+        <dd data-testid="clinic-name" className="vads-u-font-size--lg">
+          <AppointmentLocation />
+        </dd>
       </dl>
       <button
         type="button"
         className="usa-button usa-button-big"
         onClick={onClick}
         data-testid="check-in-button"
+        disabled={isLoading}
+        aria-label="Check in now for your appointment"
       >
-        Check in now
+        {isLoading ? <>Loading...</> : <>Check in now</>}
       </button>
-      <footer className="row">
-        <h2 className="help-heading vads-u-font-size--lg">Need help?</h2>
-        <p>
-          Ask a staff member or call us at <Telephone contact={contactNumber} />
-          .
-        </p>
-      </footer>
+      <Footer />
+      <BackToHome />
     </div>
   );
 };
 
-export default CheckIn;
+const mapStateToProps = state => {
+  return {
+    appointment: state.checkInData.appointment,
+    context: state.checkInData.context,
+  };
+};
+const mapDispatchToProps = () => {
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CheckIn);

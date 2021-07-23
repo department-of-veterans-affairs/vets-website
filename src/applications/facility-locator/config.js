@@ -198,6 +198,9 @@ export const healthServices = {
   Orthopedics: 'Orthopedics',
   Urology: 'Urology',
   WomensHealth: "Women's health",
+  Podiatry: 'Podiatry',
+  Nutrition: 'Nutrition',
+  CaregiverSupport: 'Caregiver support',
 };
 
 export const ccUrgentCareLabels = {

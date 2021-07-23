@@ -76,6 +76,7 @@ export const COVID_VACCINE_ID = 'covid';
 export const TYPES_OF_CARE = [
   {
     id: '323',
+    idV2: 'primaryCare',
     name: 'Primary care',
     group: 'primary',
     ccId: 'CCPRMYRTNE',
@@ -84,26 +85,31 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '160',
+    idV2: 'clinicalPharmacyPrimaryCare',
     name: 'Pharmacy',
     group: 'primary',
   },
   {
     id: '502',
+    idV2: 'outpatientMentalHealth',
     name: 'Mental health',
     group: 'mentalHealth',
   },
   {
     id: '125',
+    idV2: 'socialWork',
     name: 'Social work',
     group: 'mentalHealth',
   },
   {
     id: '211',
+    idV2: 'amputation',
     name: 'Amputation care',
     group: 'specialty',
   },
   {
     id: '203',
+    idV2: 'audiology',
     name: 'Audiology and speech',
     label: 'Audiology and speech (including hearing aid support)',
     group: 'specialty',
@@ -112,11 +118,13 @@ export const TYPES_OF_CARE = [
   },
   {
     id: '372',
+    idV2: 'moveProgram',
     name: 'MOVE! weight management program',
     group: 'specialty',
   },
   {
     id: '123',
+    idV2: 'foodAndNutrition',
     name: 'Nutrition and food',
     group: 'specialty',
     ccId: 'CCNUTRN',
@@ -125,12 +133,19 @@ export const TYPES_OF_CARE = [
   },
   {
     id: PODIATRY_ID,
+    idV2: '411',
     name: 'Podiatry',
     label: 'Podiatry (only available online for Community Care appointments)',
     ccId: 'CCPOD',
     group: 'specialty',
     cceType: 'Podiatry',
-    specialties: ['213E00000X', '213EG0000X', '213EP1101X', '213ES0131X'],
+    specialties: [
+      '213E00000X',
+      '213EG0000X',
+      '213EP1101X',
+      '213ES0131X',
+      '213ES0103X',
+    ],
   },
   {
     id: 'SLEEP',
@@ -151,10 +166,12 @@ export const TYPES_OF_CARE = [
 export const TYPES_OF_SLEEP_CARE = [
   {
     id: '349',
+    idV2: 'cpap',
     name: 'Continuous Positive Airway Pressure (CPAP)',
   },
   {
     id: '143',
+    idV2: 'homeSleepTesting',
     name: 'Sleep medicine and home sleep testing',
   },
 ];
@@ -162,6 +179,7 @@ export const TYPES_OF_SLEEP_CARE = [
 export const TYPES_OF_EYE_CARE = [
   {
     id: '408',
+    idV2: 'optometry',
     name: 'Optometry',
     ccId: 'CCOPT',
     cceType: 'Optometry',
@@ -169,6 +187,7 @@ export const TYPES_OF_EYE_CARE = [
   },
   {
     id: '407',
+    idV2: 'ophthalmology',
     name: 'Ophthalmology',
   },
 ];

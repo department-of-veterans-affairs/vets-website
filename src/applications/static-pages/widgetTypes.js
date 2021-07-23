@@ -19,6 +19,7 @@ export default {
   PENSION_APP_STATUS: 'pension-app-status',
   POST_911_GI_BILL_STATUS_WIDGET: 'post-9-11-gi-bill-status',
   RESOURCES_AND_SUPPORT_SEARCH: 'resources-and-support-search',
+  MANAGE_VA_DEBT_CTA: 'manage-va-debt-cta',
   THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',
   VIEW_DEPENDENTS_CTA: 'view-dependents-CTA',
   // Health Care | Manage Benefits widgets.

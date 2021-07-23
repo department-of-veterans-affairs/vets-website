@@ -2,6 +2,7 @@ import {
   FETCH_SEARCH_RESULTS,
   FETCH_SEARCH_RESULTS_SUCCESS,
   FETCH_SEARCH_RESULTS_FAILURE,
+  FETCH_SEARCH_RESULTS_EMPTY,
 } from '../actions';
 
 const initialState = {
@@ -32,12 +33,14 @@ function SearchReducer(state = initialState, action) {
       } = action.meta.pagination;
       const { results } = action.results.web;
       const recommendedResults = action.results.textBestBets;
+      const spellingCorrection = action.results.web.spellingCorrection;
       const searchesPerformed = state.searchesPerformed + 1;
 
       return {
         ...state,
         query,
         recommendedResults,
+        spellingCorrection,
         results,
         totalEntries,
         currentPage,
@@ -56,6 +59,14 @@ function SearchReducer(state = initialState, action) {
         errors: action.errors,
         results: undefined,
         loading: false,
+      };
+    }
+
+    case FETCH_SEARCH_RESULTS_EMPTY: {
+      return {
+        ...state,
+        loading: false,
+        spellingCorrection: undefined,
       };
     }
 

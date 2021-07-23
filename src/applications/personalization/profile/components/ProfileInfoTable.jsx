@@ -4,10 +4,30 @@ import PropTypes from 'prop-types';
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { numberBetween } from '../../common/proptypeValidators';
 
-const TableTitle = ({ namedAnchor, className, children, level }) => {
+const titleClasses = prefixUtilityClasses([
+  'background-color--gray-lightest',
+  'border--1px',
+  'border-color--gray-lighter',
+  'color--gray-darkest',
+  'margin--0',
+  'padding-x--2',
+  'padding-y--1p5',
+  'font-size--h3',
+]);
+const titleClassesMedium = prefixUtilityClasses(
+  ['padding-x--4', 'padding-y--2'],
+  'medium',
+);
+const titleClassesCombined = [
+  ...titleClasses,
+  ...titleClassesMedium,
+  'heading',
+].join(' ');
+
+const TableTitle = ({ namedAnchor, children, level }) => {
   const Header = `h${level}`;
   return (
-    <Header className={className} id={namedAnchor}>
+    <Header className={titleClassesCombined} id={namedAnchor}>
       {children}
     </Header>
   );
@@ -23,21 +43,6 @@ const ProfileInfoTable = ({
 }) => {
   // TODO: move all these class var outside of the component so they aren't
   // recomputed on every render
-  const titleClasses = prefixUtilityClasses([
-    'background-color--gray-lightest',
-    'border--1px',
-    'border-color--gray-lighter',
-    'color--gray-darkest',
-    'margin--0',
-    'padding-x--2',
-    'padding-y--1p5',
-    'font-size--h3',
-  ]);
-  const titleClassesMedium = prefixUtilityClasses(
-    ['padding-x--3', 'padding-y--2'],
-    'medium',
-  );
-
   const tableRowClasses = prefixUtilityClasses([
     'border-color--gray-lighter',
     'color-gray-dark',
@@ -46,10 +51,7 @@ const ProfileInfoTable = ({
     'padding-x--2',
     'padding-y--1p5',
   ]);
-  const tableRowClassesMedium = prefixUtilityClasses(
-    ['flex-direction--row', 'padding--4'],
-    'medium',
-  );
+  const tableRowClassesMedium = prefixUtilityClasses(['padding--4'], 'medium');
 
   const tableRowTitleClasses = prefixUtilityClasses([
     'font-family--sans',
@@ -59,51 +61,27 @@ const ProfileInfoTable = ({
     'margin--0',
     'margin-bottom--1',
   ]);
-  const tableRowTitleClassesMedium = prefixUtilityClasses(
-    ['margin-bottom--0', 'margin-right--2'],
-    'medium',
-  );
 
   const tableRowValueClasses = prefixUtilityClasses([
     'margin--0',
     'width--full',
   ]);
 
-  const tableRowValueClassesMedium = prefixUtilityClasses(
-    ['padding-left--5'],
-    'medium',
-  );
-
-  const dataContainsVerified = data.some(row => row.verified === true);
-
-  // When a table includes a 'Verified' checkmark in any of its rows, we need to add left padding to its values
-  // so that the data lines up correctly
-  const computedTableRowValueClasses = dataContainsVerified
-    ? [...tableRowValueClasses, ...tableRowValueClassesMedium].join(' ')
-    : [...tableRowValueClasses].join(' ');
-
   // an object where each value is a string of space-separated class names that
   // can be passed directly to a `className` attribute
   const classes = {
     table: ['profile-info-table', className].join(' '),
-    title: [...titleClasses, ...titleClassesMedium].join(' '),
     tableRow: ['table-row', ...tableRowClasses, ...tableRowClassesMedium].join(
       ' ',
     ),
-    tableRowTitle: [
-      ...tableRowTitleClasses,
-      ...tableRowTitleClassesMedium,
-    ].join(' '),
+    tableRowTitle: tableRowTitleClasses.join(' '),
+    tableRowValue: tableRowValueClasses.join(' '),
   };
 
   return (
     <section className={classes.table}>
       {title && (
-        <TableTitle
-          className={classes.title}
-          namedAnchor={namedAnchor}
-          level={level}
-        >
+        <TableTitle namedAnchor={namedAnchor} level={level}>
           {title}
         </TableTitle>
       )}
@@ -129,9 +107,7 @@ const ProfileInfoTable = ({
               {row.verified && row.value}
 
               {!row.verified && (
-                <span className={computedTableRowValueClasses}>
-                  {row.value}
-                </span>
+                <span className={classes.tableRowValue}>{row.value}</span>
               )}
             </li>
           ))}
