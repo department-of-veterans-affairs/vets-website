@@ -11,6 +11,7 @@ import NameSearchResults from '../containers/search/NameSearchResults';
 import LocationSearchResults from '../containers/search/LocationSearchResults';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
+import AccordionItem from '../components/AccordionItem';
 
 export function SearchPage({
   dispatchChangeSearchTab,
@@ -20,6 +21,10 @@ export function SearchPage({
   const queryParams = useQueryParams();
   const history = useHistory();
   const { tab, error } = search;
+  const [smallScreenExpanded, setSmallScreenExpanded] = useState({
+    name: false,
+    location: false,
+  });
   const [smallScreen, setSmallScreen] = useState(
     matchMedia('(max-width: 480px)').matches,
   );
@@ -51,6 +56,10 @@ export function SearchPage({
     history.push({ pathname: '/', search: queryParams.toString() });
   };
 
+  const toggleExpanded = (accordion, expanded) => {
+    setSmallScreenExpanded({ ...smallScreenExpanded, [accordion]: expanded });
+  };
+
   return (
     <span className="landing-page">
       <div className="vads-u-min-height--viewport row">
@@ -72,14 +81,26 @@ export function SearchPage({
           {!error && !smallScreen && tabbedResults[tab]}
           {smallScreen && (
             <div>
-              <va-accordion>
-                <va-accordion-item header="Search by name">
+              <ul>
+                <AccordionItem
+                  button="Search by name"
+                  expanded={smallScreenExpanded.name}
+                  onClick={isExpanded => toggleExpanded('name', isExpanded)}
+                >
                   <NameSearchForm />
-                </va-accordion-item>
-                <va-accordion-item header="Search by location">
+                </AccordionItem>
+                <AccordionItem
+                  button="Search by location"
+                  expanded={smallScreenExpanded.location}
+                  onClick={isExpanded => toggleExpanded('location', isExpanded)}
+                >
                   <LocationSearchForm />
-                </va-accordion-item>
-              </va-accordion>
+                </AccordionItem>
+              </ul>
+              <div>
+                {smallScreenExpanded.name && <div>Test</div>}
+                {smallScreenExpanded.location && <div>Test 2</div>}
+              </div>
             </div>
           )}
         </div>
