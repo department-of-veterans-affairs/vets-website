@@ -54,14 +54,14 @@ const DebtDetails = ({ selectedDebt, debts }) => {
   };
 
   const hasSelectedDebt = !Object.keys(selectedDebt).length === 0;
-  const activeDebt = (hasSelectedDebt && selectedDebt) || getCurrentDebt();
+  const currentDebt = (hasSelectedDebt && selectedDebt) || getCurrentDebt();
 
   useEffect(() => {
     scrollToTop();
     setPageFocus('h1');
   }, []);
 
-  const mostRecentHistory = head(activeDebt.debtHistory);
+  const mostRecentHistory = head(currentDebt.debtHistory);
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -70,24 +70,24 @@ const DebtDetails = ({ selectedDebt, debts }) => {
 
   const letterCodes = ['100', '101', '102', '109', '117', '123', '130'];
 
-  const filteredHistory = activeDebt.debtHistory
+  const filteredHistory = currentDebt.debtHistory
     .filter(history => letterCodes.includes(history.letterCode))
     .reverse();
 
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
 
-  if (Object.keys(activeDebt).length === 0) {
+  if (Object.keys(currentDebt).length === 0) {
     return window.location.replace('/manage-va-debt/your-debt');
   }
 
   const additionalInfo = renderAdditionalInfo(
-    activeDebt.diaryCode,
+    currentDebt.diaryCode,
     mostRecentHistory.date,
-    activeDebt.benefitType,
+    currentDebt.benefitType,
   );
 
   const whyMightIHaveThisDebtContent = renderWhyMightIHaveThisDebt(
-    activeDebt.deductionCode,
+    currentDebt.deductionCode,
   );
 
   const renderHistoryTable = history => {
@@ -133,7 +133,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
         className="vads-u-font-family--serif vads-u-margin-bottom--2"
         tabIndex="-1"
       >
-        Your {deductionCodes[activeDebt.deductionCode]}
+        Your {deductionCodes[currentDebt.deductionCode]}
       </h1>
 
       <section className="vads-l-row">
@@ -141,7 +141,9 @@ const DebtDetails = ({ selectedDebt, debts }) => {
           <p className="va-introtext vads-u-margin-top--0">
             Updated on
             <span className="vads-u-margin-left--0p5">
-              {moment(last(activeDebt.debtHistory).date).format('MMMM D, YYYY')}
+              {moment(last(currentDebt.debtHistory).date).format(
+                'MMMM D, YYYY',
+              )}
             </span>
           </p>
 
@@ -152,7 +154,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                   <strong>Date of first notice: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {moment(first(activeDebt.debtHistory).date).format(
+                  {moment(first(currentDebt.debtHistory).date).format(
                     'MMMM D, YYYY',
                   )}
                 </dd>
@@ -162,7 +164,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                   <strong>Original debt amount: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {formatter.format(parseFloat(activeDebt.originalAr))}
+                  {formatter.format(parseFloat(currentDebt.originalAr))}
                 </dd>
               </div>
               <div className="vads-u-margin-y--1 vads-u-display--flex">
@@ -170,7 +172,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                   <strong>Current balance: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {formatter.format(parseFloat(activeDebt.currentAr))}
+                  {formatter.format(parseFloat(currentDebt.currentAr))}
                 </dd>
               </div>
             </dl>
