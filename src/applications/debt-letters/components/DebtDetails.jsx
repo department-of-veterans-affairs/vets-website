@@ -28,7 +28,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
   const location = useLocation();
 
   /* 
-    TODO TECH DEBT:
+    TODO TECH DEBT: https://github.com/department-of-veterans-affairs/va.gov-team/issues/27790
     Once debt.id is available via backend
     and endpoint to fetch single debtById is created
     remove getCurrentDebt and replace with backend single item call
