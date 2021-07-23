@@ -214,8 +214,6 @@
       { "name": "va_online_scheduling_community_care", "value": true },
       { "name": "vaOnlineSchedulingDirect", "value": false },
       { "name": "va_online_scheduling_direct", "value": false },
-      { "name": "vaOnlineSchedulingExpressCareNew", "value": false },
-      { "name": "va_online_scheduling_express_care_new", "value": false },
       { "name": "vaOnlineSchedulingFacilitySelectionV22", "value": false },
       {
         "name": "va_online_scheduling_facility_selection_v2_2",
