@@ -82,6 +82,7 @@ function getAtlasLocation(appt) {
   const atlas = appt.telehealth.atlas;
   return {
     id: atlas.siteCode,
+    resourceType: 'Location',
     address: {
       line: [atlas.address.streetAddress],
       city: atlas.address.city,
@@ -138,6 +139,15 @@ export function transformVAOSAppointment(appt) {
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),
       practitioners: appt.practitioners,
+      // TODO: ask about service types for CC and VA requests
+      type: {
+        coding: [
+          {
+            code: appt.serviceType || null,
+            display: getTypeOfCareById(appt.serviceType)?.name,
+          },
+        ],
+      },
       contact: {
         telecom: appt.contact?.telecom.map(contact => ({
           system: contact.type,
@@ -154,28 +164,22 @@ export function transformVAOSAppointment(appt) {
     // TODO Unclear what these reasons are
     // cancelationReason: appt.cancellationReason,
     start: start.format(),
+    // This contains the vista status for v0 appointments, but
+    // we don't have that for v2
+    description: null,
     minutesDuration: isNaN(parseInt(appt.minutesDuration, 10))
       ? 60
       : appt.minutesDuration,
-    // TODO: ask about service types for CC and VA requests
-    type: {
-      coding: [
-        {
-          code: appt.serviceType,
-          display: getTypeOfCareById(appt.serviceType)?.name,
-        },
-      ],
-    },
     location: {
       // TODO: what happens when vaos service can't find sta6aid for the appointment
-      vistaId: appt.locationId?.substr(0, 3),
+      vistaId: appt.locationId?.substr(0, 3) || null,
       clinicId: appt.clinic,
       stationId: appt.locationId,
+      clinicName: null,
     },
     comment: appt.comment,
     videoData,
-    communityCareProvider:
-      appt.start && appt.kind === 'cc' ? { id: appt.practitioners[0] } : null,
+    communityCareProvider: null,
     ...requestFields,
     vaos: {
       isVideo,
