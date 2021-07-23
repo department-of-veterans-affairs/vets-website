@@ -5,10 +5,8 @@ import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import {
-  upcomingCCAppointment,
-  upcomingVAAppointment,
-} from '~/applications/personalization/dashboard-2/utils/appointments.js';
+import MOCK_VA_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
+import MOCK_CC_APPOINTMENTS from '../../utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
 
 import moment from 'moment';
 import { mockFeatureToggles } from './helpers';
@@ -30,11 +28,11 @@ const VA_APPOINTMENTS_ENDPOINT = `vaos/v0/appointments?start_date=${startOfToday
 const CC_APPOINTMENTS_ENDPOINT = `vaos/v0/appointments?start_date=${startOfToday()}&end_date=${endDate()}&type=cc`;
 
 const mockCCAppointmentsSuccess = () => {
-  cy.intercept(CC_APPOINTMENTS_ENDPOINT, upcomingCCAppointment);
+  cy.intercept(CC_APPOINTMENTS_ENDPOINT, MOCK_CC_APPOINTMENTS);
 };
 
 const mockVAAppointmentsSuccess = () => {
-  cy.intercept(VA_APPOINTMENTS_ENDPOINT, upcomingVAAppointment);
+  cy.intercept(VA_APPOINTMENTS_ENDPOINT, MOCK_VA_APPOINTMENTS);
 };
 
 describe('The My VA Dashboard - Appointments', () => {
@@ -62,7 +60,7 @@ describe('The My VA Dashboard - Appointments', () => {
       cy.findByRole('link', { name: /manage your appointments/ }).should(
         'exist',
       );
-      // cy.findByRole('heading', { name: /next appointment/i }).should('exist');
+      cy.findByRole('heading', { name: /next appointment/i }).should('exist');
 
       // make the a11y check
       cy.injectAxe();
