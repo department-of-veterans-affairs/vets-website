@@ -200,6 +200,7 @@ describe('VAOS appointment list refresh', () => {
       cy.get('#type-dropdown')
         .select('requested')
         .should('have.value', 'requested');
+      cy.get('h2').contains(/Requested/i);
     });
 
     it('should render requested appointments list', () => {
@@ -230,6 +231,7 @@ describe('VAOS appointment list refresh', () => {
       cy.get('#type-dropdown')
         .select('past')
         .should('have.value', 'past');
+      cy.get('h2').contains(/Past appointments/i);
     });
 
     it('should render past appointments list', () => {
@@ -270,6 +272,7 @@ describe('VAOS appointment list refresh', () => {
       cy.get('#type-dropdown')
         .select('canceled')
         .should('have.value', 'canceled');
+      cy.get('h2').contains(/Canceled appointments/i);
     });
     it('should render canceled appointments list', () => {
       cy.get('[data-cy=canceled-appointment-list-header]').should('exist');
