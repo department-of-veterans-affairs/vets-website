@@ -94,5 +94,8 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 
   .airForce-portal-link {
     width: max-content;
+    i:hover {
+      color: $color-green-darker !important;
+    }
   }
 }
