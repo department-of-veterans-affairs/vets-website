@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import ViewDependentsList from '../../components/ViewDependentsList/ViewDependentsList';
 
 describe('<ViewDependentsList />', () => {
@@ -31,7 +31,7 @@ describe('<ViewDependentsList />', () => {
   ];
 
   it('Should Render', () => {
-    const wrapper = shallow(
+    const wrapper = render(
       <ViewDependentsList
         loading={false}
         header="Dependents on award"
@@ -40,12 +40,11 @@ describe('<ViewDependentsList />', () => {
       />,
     );
 
-    expect(wrapper.contains(<h2>Dependents on award</h2>)).to.equal(true);
-    wrapper.unmount();
+    expect(wrapper.getAllByText(/Dependents on award/)).to.exist;
   });
 
   it('Should show a loading indicator while loading', () => {
-    const wrapper = shallow(
+    const wrapper = render(
       <ViewDependentsList
         loading
         header="Dependents on award"
@@ -54,7 +53,6 @@ describe('<ViewDependentsList />', () => {
       />,
     );
 
-    expect(wrapper.find('.loading-indicator-container')).to.exist;
-    wrapper.unmount();
+    expect(wrapper.getByText(/Loading your dependents/)).to.exist;
   });
 });
