@@ -40,19 +40,20 @@
     "address": {
       "livesOnMilitaryBaseInfo": {},
       "country": "USA",
-      "street": "MILITARY ADDY 3",
-      "city": "DPO",
-      "state": "AA",
-      "postalCode": "22312"
+      "street": "123 Fake Street",
+      "city": "Tampa",
+      "state": "FL",
+      "postalCode": "33543"
     },
     "telephoneNumber": "4445551212",
     "emailAddress": "test2@test1.net",
     "veteranFullName": {
-      "first": "Greg",
-      "last": "Anderson",
-      "middle": "A"
+      "first": "Mark",
+      "last": "Webb",
+      "middle": "",
+      "suffix": "Jr."
     },
-    "dateOfBirth": "1933-04-05",
+    "dateOfBirth": "1950-10-04",
     "employmentHistory": {
       "veteran": {},
       "spouse": {}
@@ -60,8 +61,8 @@
     "spouseFullName": {}
   },
   "personalIdentification": {
-    "ssn": "1200",
-    "fileNumber": "1200"
+    "ssn": "4437",
+    "fileNumber": "4437"
   },
   "selectedDebts": [
     {
@@ -123,7 +124,9 @@
   "availableOptions": {},
   "income": [
     {
-      "veteranOrSpouse": "VETERAN"
+      "veteranOrSpouse": "VETERAN",
+      "compensationAndPension": "3261.1",
+      "education": "50"
     }
   ]
 }

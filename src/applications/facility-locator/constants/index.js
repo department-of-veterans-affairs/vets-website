@@ -81,6 +81,11 @@ export const OperatingStatus = {
 export const CLINIC_URGENTCARE_SERVICE = '261QU0200X';
 
 /**
+ * Service type "Dentist - Orofacial Pain" code
+ */
+export const DENTAL_OROFACIAL_PAIN_SERVICE = '1223X2210X';
+
+/**
  * Service type "Pharmacy - Community/Retail Pharmacy" code
  */
 export const PHARMACY_RETAIL_SERVICE = '3336C0003X';

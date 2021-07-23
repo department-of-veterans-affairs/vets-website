@@ -206,12 +206,13 @@ class VAPServiceProfileField extends React.Component {
       title,
       transaction,
       transactionRequest,
+      alertClosingDisabled,
     } = this.props;
 
     const childProps = {
       ...this.props,
       refreshTransaction: this.refreshTransaction,
-      clearErrors: this.clearErrors,
+      clearErrors: alertClosingDisabled ? null : this.clearErrors,
       onAdd: this.onAdd,
       onEdit: this.onEdit,
       onChangeFormDataAndSchemas: this.onChangeFormDataAndSchemas,
@@ -234,7 +235,7 @@ class VAPServiceProfileField extends React.Component {
             transaction={transaction}
             transactionRequest={transactionRequest}
             title={title}
-            clearErrors={this.clearErrors}
+            clearErrors={childProps.clearErrors}
           />
         )}
         <VAPServiceTransaction
@@ -324,6 +325,7 @@ VAPServiceProfileFieldContainer.propTypes = {
   title: PropTypes.string.isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func,
+  deleteDisabled: PropTypes.bool,
 };
 
 export default VAPServiceProfileFieldContainer;

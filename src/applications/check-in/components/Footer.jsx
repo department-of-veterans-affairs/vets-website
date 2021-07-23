@@ -3,14 +3,27 @@ import { connect } from 'react-redux';
 
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
-function Footer({ contactNumber, header = 'Need Help?' }) {
+function Footer({
+  contactNumber,
+  header = 'Need Help?',
+  message = 'Ask a staff member or call us at',
+}) {
   return (
     <footer className="row">
-      <h2 data-testid="heading" className="help-heading vads-u-font-size--lg">
+      <h2
+        data-testid="heading"
+        className="help-heading vads-u-font-size--lg vads-u-padding-bottom--1"
+      >
         {header}
       </h2>
-      <p>
-        Ask a staff member or call us at <Telephone contact={contactNumber} />.
+      <p data-testid="message">
+        {contactNumber ? (
+          <>
+            {message} <Telephone contact={contactNumber} />.
+          </>
+        ) : (
+          'Ask a staff member.'
+        )}
       </p>
     </footer>
   );
@@ -18,7 +31,7 @@ function Footer({ contactNumber, header = 'Need Help?' }) {
 
 const mapStateToProps = state => {
   return {
-    contactNumber: state.checkInData.appointment.clinicPhone,
+    contactNumber: state.checkInData.appointment?.clinicPhoneNumber,
   };
 };
 

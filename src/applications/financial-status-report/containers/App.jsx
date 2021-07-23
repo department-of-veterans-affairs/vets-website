@@ -11,7 +11,7 @@ import {
   restartShouldRedirect,
 } from 'platform/site-wide/wizard';
 import formConfig from '../config/form';
-import ErrorMessage from '../components/ErrorMessage';
+import { ErrorAlert } from '../components/Alerts';
 import WizardContainer from '../wizard/WizardContainer';
 import { fetchFormStatus } from '../actions/index';
 import { WIZARD_STATUS } from '../wizard/constants';
@@ -51,6 +51,15 @@ const App = ({
 
   useEffect(
     () => {
+      if (showFSR === false) {
+        setWizardStatus(WIZARD_STATUS_NOT_STARTED);
+      }
+    },
+    [showFSR],
+  );
+
+  useEffect(
+    () => {
       getFormStatus();
     },
     [getFormStatus],
@@ -61,15 +70,13 @@ const App = ({
   }
 
   if (isLoggedIn && isError) {
-    return <ErrorMessage />;
-  }
-
-  if (showFSR === false) {
-    return window.location.replace('/manage-va-debt');
+    return <ErrorAlert />;
   }
 
   if (showWizard && wizardState !== WIZARD_STATUS_COMPLETE) {
-    return <WizardContainer setWizardStatus={setWizardStatus} />;
+    return (
+      <WizardContainer setWizardStatus={setWizardStatus} showFSR={showFSR} />
+    );
   }
 
   return showFSR ? (

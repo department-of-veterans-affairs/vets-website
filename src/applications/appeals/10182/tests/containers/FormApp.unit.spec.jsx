@@ -12,7 +12,7 @@ const profile = {
     email: {
       emailAddress: 'test@user.com',
     },
-    homePhone: {
+    mobilePhone: {
       countryCode: '2',
       areaCode: '345',
       phoneNumber: '6789012',
@@ -99,9 +99,8 @@ describe('FormApp', () => {
     expect(title.props().title).to.contain('Board Appeal');
     expect(title.props().subTitle).to.contain('10182');
 
-    const alert = tree.find('AlertBox');
-    expect(alert).to.exist;
-    expect(alert.props().headline).to.contain('still working on this feature');
+    const alert = tree.find('va-alert');
+    expect(alert.text()).to.contain('still working on this feature');
 
     tree.unmount();
   });
@@ -139,7 +138,6 @@ describe('FormApp', () => {
     const mockProfile = {
       vapContactInfo: {
         email: null,
-        homePhone: null,
         mobilePhone: null,
         mailingAddress: null,
       },
@@ -203,7 +201,7 @@ describe('FormApp', () => {
     const formData = setFormData.args[0][0];
     const result = {
       address: profile.vapContactInfo.mailingAddress,
-      phone: profile.vapContactInfo.homePhone,
+      phone: profile.vapContactInfo.mobilePhone,
       email: profile.vapContactInfo.email.emailAddress,
     };
     expect(formData.veteran).to.deep.equal(result);
@@ -240,7 +238,7 @@ describe('FormApp', () => {
       additionalIssues: [{ issue: 'other issue', [SELECTED]: true }],
       veteran: {
         email: profile.vapContactInfo.email.emailAddress,
-        phone: profile.vapContactInfo.homePhone,
+        phone: profile.vapContactInfo.mobilePhone,
         address: profile.vapContactInfo.mailingAddress,
       },
     };

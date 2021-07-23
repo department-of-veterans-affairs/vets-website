@@ -14,12 +14,14 @@ import AddToCalendar from 'applications/vaos/components/AddToCalendar';
 import InfoAlert from '../../../components/InfoAlert';
 import moment from 'applications/vaos/lib/moment-tz';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
+import { getFacilityPhone } from '../../../services/location';
 
 export default function VideoVisitLocation({ appointment, facility }) {
   const { isAtlas, providers } = appointment.videoData;
   const isHome = isVideoHome(appointment);
   const [showMoreOpen, setShowMoreOpen] = useState(false);
   const name = facility?.name;
+  const facilityPhone = getFacilityPhone(facility);
 
   const {
     summary,
@@ -53,6 +55,16 @@ export default function VideoVisitLocation({ appointment, facility }) {
           />
         </div>
       )}
+      {isClinicVideoAppointment(appointment) && (
+        <div className="vads-u-margin-top--2">
+          <VAFacilityLocation
+            facility={facility}
+            facilityId={appointment.location.stationId}
+            clinicFriendlyName={appointment.location.clinicName}
+            isHomepageRefresh
+          />
+        </div>
+      )}
       {providers?.length > 0 && (
         <div className="vads-u-margin-top--2">
           <VideoVisitProvider
@@ -69,16 +81,6 @@ export default function VideoVisitLocation({ appointment, facility }) {
           >
             <VideoVisitInstructions instructionsType={appointment.comment} />
           </AdditionalInfo>
-        </div>
-      )}
-      {isClinicVideoAppointment(appointment) && (
-        <div className="vads-u-margin-top--2">
-          <VAFacilityLocation
-            facility={facility}
-            facilityId={appointment.location.stationId}
-            clinicFriendlyName={appointment.location.clinicName}
-            isHomepageRefresh
-          />
         </div>
       )}
       {!appointment.vaos.isPastAppointment && (
@@ -122,10 +124,10 @@ export default function VideoVisitLocation({ appointment, facility }) {
           {!!facility && (
             <span className="vads-u-display--block vads-u-margin-top--2">
               {name}
-              {phone && (
+              {facilityPhone && (
                 <>
                   <br />
-                  <FacilityPhone contact={phone} level={3} />
+                  <FacilityPhone contact={facilityPhone} level={3} />
                 </>
               )}
             </span>

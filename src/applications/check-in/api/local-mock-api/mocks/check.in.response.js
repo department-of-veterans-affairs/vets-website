@@ -1,9 +1,9 @@
 const createMockSuccessResponse = _data => {
-  return { ':data': { ':checkInStatus': 'completed' } };
+  return { data: { success: true } };
 };
 
 const createMockFailedResponse = _data => {
-  return { ':data': { ':checkInStatus': 'failed' } };
+  return { data: { error: true } };
 };
 
 module.exports = { createMockSuccessResponse, createMockFailedResponse };

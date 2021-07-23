@@ -182,7 +182,7 @@ export default function ContactInformation({ institution, showModal }) {
     <div>
       {physicalAddress()}
       {mailingAddress()}
-      {singlePointContact()}
+      {!institution.vetTecProvider && singlePointContact()}
       {schoolCertifyingOfficials()}
       {institutionCodes()}
     </div>

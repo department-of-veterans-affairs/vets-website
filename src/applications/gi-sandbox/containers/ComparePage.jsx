@@ -12,6 +12,8 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   fetchProfile,
   setPageTitle,
@@ -33,6 +35,7 @@ import ServiceError from '../components/ServiceError';
 import CompareGrid from '../components/CompareGrid';
 import RatingsStars from '../components/RatingsStars';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
+import { MINIMUM_RATING_COUNT } from '../constants';
 
 export function ComparePage({
   allLoaded,
@@ -41,6 +44,7 @@ export function ComparePage({
   dispatchRemoveCompareInstitution,
   estimated,
   filters,
+  gibctSchoolRatings,
   preview,
   calculated,
 }) {
@@ -108,12 +112,28 @@ export function ComparePage({
     return <LoadingIndicator message="Loading..." />;
   }
 
+  let hasRatings = false;
+  const loadedInstitutions = [];
+  for (let i = 0; i < loaded.length; i++) {
+    loadedInstitutions.push(institutions[loaded[i]]);
+    if (
+      institutions[loaded[i]].institutionCategoryRatings.length > 0 &&
+      institutions[loaded[i]].ratingCount >= MINIMUM_RATING_COUNT
+    ) {
+      hasRatings = true;
+    }
+  }
+
   const mapRating = (institution, categoryName) => {
     const categoryRatings = institution.institutionCategoryRatings.filter(
       category => category.categoryName === categoryName,
     );
 
-    if (categoryRatings.length > 0 && categoryRatings[0].averageRating) {
+    if (
+      categoryRatings.length > 0 &&
+      categoryRatings[0].averageRating &&
+      institution.ratingCount >= MINIMUM_RATING_COUNT
+    ) {
       const categoryRating = categoryRatings[0];
       const stars = convertRatingToStars(categoryRating.averageRating);
       return (
@@ -219,21 +239,15 @@ export function ComparePage({
                   />
                 </div>
               </div>
-              {loaded.map((facilityCode, index) => {
+              {loadedInstitutions.map((institution, index) => {
                 const location =
-                  institutions[facilityCode].country === 'USA'
-                    ? `${institutions[facilityCode].city}, ${
-                        institutions[facilityCode].state
-                      }`
-                    : `${institutions[facilityCode].city}, ${
-                        institutions[facilityCode].country
-                      }`;
+                  institution.country === 'USA'
+                    ? `${institution.city}, ${institution.state}`
+                    : `${institution.city}, ${institution.country}`;
                 return (
                   <div className="medium-screen:vads-l-col--3" key={index}>
                     <div className="compare-header institution-header">
-                      <div className="institution-name">
-                        {institutions[facilityCode].name}
-                      </div>
+                      <div className="institution-name">{institution.name}</div>
                       {!isSticky && (
                         <div className="institution-location">{location}</div>
                       )}
@@ -243,7 +257,7 @@ export function ComparePage({
                         type="button"
                         className="va-button-link learn-more-button"
                         onClick={() => {
-                          setPromptingFacilityCode(facilityCode);
+                          setPromptingFacilityCode(institution.facilityCode);
                         }}
                       >
                         Remove
@@ -260,8 +274,7 @@ export function ComparePage({
         <div className="row vads-l-grid-container">
           <CompareGrid
             sectionLabel="Summary"
-            institutions={institutions}
-            facilityCodes={loaded}
+            institutions={loadedInstitutions}
             showDifferences={showDifferences}
             fieldData={[
               {
@@ -270,7 +283,7 @@ export function ComparePage({
                 mapper: institution => naIfNull(institution.accreditationType),
               },
               {
-                label: 'Gi Bill students',
+                label: 'GI Bill students',
                 mapper: institution => naIfNull(institution.studentCount),
               },
               {
@@ -334,8 +347,7 @@ export function ComparePage({
           <CompareGrid
             sectionLabel="Your estimated benefits"
             subSectionLabel="Payments made to school"
-            institutions={institutions}
-            facilityCodes={loaded}
+            institutions={loadedInstitutions}
             showDifferences={showDifferences}
             fieldData={[
               {
@@ -347,7 +359,7 @@ export function ComparePage({
                   ),
               },
               {
-                label: 'Gi Bill pays to school',
+                label: 'GI Bill pays to school',
                 mapper: institution =>
                   formatCurrency(
                     calculated[institution.facilityCode].outputs
@@ -367,8 +379,7 @@ export function ComparePage({
 
           <CompareGrid
             subSectionLabel="Payments made to you"
-            institutions={institutions}
-            facilityCodes={loaded}
+            institutions={loadedInstitutions}
             showDifferences={showDifferences}
             fieldData={[
               {
@@ -384,160 +395,180 @@ export function ComparePage({
             ]}
           />
 
-          <CompareGrid
-            sectionLabel="School ratings"
-            institutions={institutions}
-            facilityCodes={loaded}
-            showDifferences={showDifferences}
-            fieldData={[
-              {
-                label: 'Overall rating',
-                className: 'vads-u-text-align--center',
-                mapper: institution => {
-                  const stars = convertRatingToStars(institution.ratingAverage);
+          {gibctSchoolRatings &&
+            hasRatings && (
+              <>
+                <CompareGrid
+                  sectionLabel="School ratings"
+                  institutions={loadedInstitutions}
+                  showDifferences={showDifferences}
+                  fieldData={[
+                    {
+                      label: 'Overall rating',
+                      className: 'vads-u-text-align--center',
+                      mapper: institution => {
+                        const stars = convertRatingToStars(
+                          institution.ratingAverage,
+                        );
+                        const aboveMinimumRatingCount =
+                          institution.ratingCount >= MINIMUM_RATING_COUNT;
 
-                  return (
-                    <div className="vads-u-display--inline-block vads-u-text-align--center main-rating">
-                      <div className="vads-u-font-weight--bold vads-u-font-size--2xl vads-u-font-family--serif">
-                        {stars && stars.display}
-                        {!stars && <span>N/A</span>}
-                      </div>
-                      <div className="vads-u-font-size--sm vads-u-padding-bottom--1">
-                        {stars && <span>out of a possible 5 stars</span>}
-                        {!stars && <span>not yet rated</span>}
-                      </div>
-                      {stars && (
-                        <div className="vads-u-font-size--lg">
-                          <RatingsStars rating={institution.ratingAverage} />
-                        </div>
-                      )}
-                    </div>
-                  );
-                },
-              },
-              {
-                label: '# of veteran ratings',
-                className: 'vads-u-text-align--center',
-                mapper: institution => institution.ratingCount,
-              },
-            ]}
-          />
-
-          <CompareGrid
-            subSectionLabel="Education ratings"
-            institutions={institutions}
-            facilityCodes={loaded}
-            showDifferences={showDifferences}
-            fieldData={[
-              {
-                label: 'Overall experience Rating',
-                mapper: institution =>
-                  mapRating(institution, 'overall_experience'),
-              },
-              {
-                label: 'Quality of classes Rating',
-                mapper: institution =>
-                  mapRating(institution, 'quality_of_classes'),
-              },
-              {
-                label: 'Online instruction Rating',
-                mapper: institution =>
-                  mapRating(institution, 'online_instruction'),
-              },
-              {
-                label: 'Job preparation Rating',
-                mapper: institution =>
-                  mapRating(institution, 'job_preparation'),
-              },
-            ]}
-          />
-
-          <CompareGrid
-            subSectionLabel="Veteran friendliness"
-            institutions={institutions}
-            facilityCodes={loaded}
-            showDifferences={showDifferences}
-            fieldData={[
-              {
-                label: 'Gi Bill support Rating',
-                mapper: institution =>
-                  mapRating(institution, 'gi_bill_support'),
-              },
-              {
-                label: 'Veteran community Rating',
-                mapper: institution =>
-                  mapRating(institution, 'veteran_community'),
-              },
-              {
-                label: 'True to expectations Rating',
-                mapper: institution =>
-                  mapRating(institution, 'marketing_practices'),
-              },
-            ]}
-          />
-
-          <CompareGrid
-            sectionLabel="Cautionary information"
-            institutions={institutions}
-            facilityCodes={loaded}
-            fieldData={[
-              {
-                label: 'Caution flags',
-                className: institution =>
-                  classNames('caution-flag-display', {
-                    none: institution.cautionFlags.length === 0,
-                  }),
-                mapper: institution => {
-                  const hasFlags = institution.cautionFlags.length > 0;
-                  return (
-                    <div className="vads-u-display--flex">
-                      <div className="caution-flag-icon vads-u-flex--1">
-                        {!hasFlags && <i className={`fa fa-check`} />}
-                        {hasFlags && (
-                          <i className={`fa fa-exclamation-triangle`} />
-                        )}
-                      </div>
-                      <div className="vads-u-flex--4">
-                        <div className="caution-header">
-                          {!hasFlags && (
-                            <span>
-                              This school doesn't have any caution flags
-                            </span>
-                          )}
-                          {hasFlags && (
-                            <span>
-                              This school has {institution.cautionFlags.length}{' '}
-                              cautionary warning
-                              {institution.cautionFlags.length > 1 && 's'}
-                            </span>
-                          )}
-                        </div>
-                        {hasFlags && (
-                          <div>
-                            <ul>
-                              {institution.cautionFlags.map(
-                                (cautionFlag, index) => {
-                                  return (
-                                    <li key={index}>{cautionFlag.title}</li>
-                                  );
-                                },
+                        return (
+                          <div className="vads-u-display--inline-block vads-u-text-align--center main-rating">
+                            <div className="vads-u-font-weight--bold vads-u-font-size--2xl vads-u-font-family--serif">
+                              {aboveMinimumRatingCount &&
+                                stars &&
+                                stars.display}
+                              {(!aboveMinimumRatingCount || !stars) && (
+                                <span>N/A</span>
                               )}
-                            </ul>
+                            </div>
+                            <div className="vads-u-font-size--sm vads-u-padding-bottom--1">
+                              {aboveMinimumRatingCount &&
+                                stars && <span>out of a possible 5 stars</span>}
+                              {(!aboveMinimumRatingCount || !stars) && (
+                                <span>not yet rated</span>
+                              )}
+                            </div>
+                            {aboveMinimumRatingCount &&
+                              stars && (
+                                <div className="vads-u-font-size--lg">
+                                  <RatingsStars
+                                    rating={institution.ratingAverage}
+                                  />
+                                </div>
+                              )}
                           </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                },
-              },
-            ]}
-          />
+                        );
+                      },
+                    },
+                    {
+                      label: '# of Veteran ratings',
+                      className: 'vads-u-text-align--center',
+                      mapper: institution =>
+                        institution.ratingCount >= MINIMUM_RATING_COUNT
+                          ? institution.ratingCount
+                          : '0',
+                    },
+                  ]}
+                />
+
+                <CompareGrid
+                  subSectionLabel="Education ratings"
+                  institutions={loadedInstitutions}
+                  showDifferences={showDifferences}
+                  fieldData={[
+                    {
+                      label: 'Overall experience',
+                      mapper: institution =>
+                        mapRating(institution, 'overall_experience'),
+                    },
+                    {
+                      label: 'Quality of classes',
+                      mapper: institution =>
+                        mapRating(institution, 'quality_of_classes'),
+                    },
+                    {
+                      label: 'Online instruction',
+                      mapper: institution =>
+                        mapRating(institution, 'online_instruction'),
+                    },
+                    {
+                      label: 'Job preparation',
+                      mapper: institution =>
+                        mapRating(institution, 'job_preparation'),
+                    },
+                  ]}
+                />
+
+                <CompareGrid
+                  subSectionLabel="Veteran friendliness"
+                  institutions={loadedInstitutions}
+                  showDifferences={showDifferences}
+                  fieldData={[
+                    {
+                      label: 'GI Bill support',
+                      mapper: institution =>
+                        mapRating(institution, 'gi_bill_support'),
+                    },
+                    {
+                      label: 'Veteran community',
+                      mapper: institution =>
+                        mapRating(institution, 'veteran_community'),
+                    },
+                    {
+                      label: 'True to expectations',
+                      mapper: institution =>
+                        mapRating(institution, 'marketing_practices'),
+                    },
+                  ]}
+                />
+
+                <CompareGrid
+                  sectionLabel="Cautionary information"
+                  institutions={loadedInstitutions}
+                  fieldData={[
+                    {
+                      label: 'Caution flags',
+                      className: institution =>
+                        classNames('caution-flag-display', {
+                          none: institution.cautionFlags.length === 0,
+                        }),
+                      mapper: institution => {
+                        const hasFlags = institution.cautionFlags.length > 0;
+                        return (
+                          <div className="vads-u-display--flex">
+                            <div className="caution-flag-icon vads-u-flex--1">
+                              {!hasFlags && <i className={`fa fa-check`} />}
+                              {hasFlags && (
+                                <i className={`fa fa-exclamation-triangle`} />
+                              )}
+                            </div>
+                            <div className="vads-u-flex--4">
+                              <div className="caution-header">
+                                {!hasFlags && (
+                                  <span>
+                                    This school doesn't have any caution flags
+                                  </span>
+                                )}
+                                {hasFlags && (
+                                  <span>
+                                    This school has{' '}
+                                    {institution.cautionFlags.length} cautionary
+                                    warning
+                                    {institution.cautionFlags.length > 1 && 's'}
+                                  </span>
+                                )}
+                              </div>
+                              {hasFlags && (
+                                <div>
+                                  <ul>
+                                    {institution.cautionFlags.map(
+                                      (cautionFlag, index) => {
+                                        return (
+                                          <li key={index}>
+                                            {cautionFlag.title}
+                                          </li>
+                                        );
+                                      },
+                                    )}
+                                  </ul>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      },
+                    },
+                  ]}
+                />
+              </>
+            )}
 
           <CompareGrid
             sectionLabel=""
             className="vads-u-margin-top--4"
-            institutions={institutions}
-            facilityCodes={loaded}
+            institutions={loadedInstitutions}
             showDifferences={showDifferences}
             fieldData={[
               {
@@ -549,8 +580,7 @@ export function ComparePage({
 
           <CompareGrid
             sectionLabel="Academics"
-            institutions={institutions}
-            facilityCodes={loaded}
+            institutions={loadedInstitutions}
             showDifferences={showDifferences}
             fieldData={[
               {
@@ -568,8 +598,7 @@ export function ComparePage({
 
           <CompareGrid
             sectionLabel="Veteran programs"
-            institutions={institutions}
-            facilityCodes={loaded}
+            institutions={loadedInstitutions}
             showDifferences={showDifferences}
             fieldData={[
               {
@@ -637,6 +666,9 @@ const mapStateToProps = state => {
     estimated,
     calculated,
     filters: state.filters,
+    gibctSchoolRatings: toggleValues(state)[
+      FEATURE_FLAG_NAMES.gibctSchoolRatings
+    ],
     preview: state.preview,
   };
 };

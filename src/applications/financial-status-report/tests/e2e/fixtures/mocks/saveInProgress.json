@@ -1,0 +1,30 @@
+{
+  "formData": {
+    "personalIdentification": {
+      "ssn": "4437",
+      "fileNumber": "4437"
+    },
+    "personalData": {
+      "veteranFullName": {
+        "first": "Mark",
+        "last": "Webb",
+        "suffix": "Jr."
+      },
+      "telephoneNumber": "4445551212",
+      "emailAddress": "test2@test1.net",
+      "dateOfBirth": "1950-10-04"
+    },
+    "income": [
+      {
+        "veteranOrSpouse": "VETERAN",
+        "compensationAndPension": "3261.1",
+        "education": "50"
+      }
+    ]
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/veteran-information"
+  }
+}

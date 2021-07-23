@@ -17,7 +17,8 @@ import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
 Sentry.init({
-  dsn: 'http://one@fake/dsn',
+  autoSessionTracking: false,
+  dsn: 'http://one@fake/dsn/0',
   transport: sentryTransport,
 });
 

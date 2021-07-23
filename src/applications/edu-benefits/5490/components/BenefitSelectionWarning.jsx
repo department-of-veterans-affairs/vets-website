@@ -61,7 +61,9 @@ export default function BenefitSelectionWarning(chapter, relationship) {
   }
   return (
     <div className="usa-alert usa-alert-info usa-content edu-warning-single-line">
-      <div className="usa-alert-body">{warningText}</div>
+      <div className="usa-alert-body">
+        <span id="conditional-warning-text">{warningText}</span>
+      </div>
     </div>
   );
 }

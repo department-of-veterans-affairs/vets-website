@@ -9,7 +9,11 @@ import urgentCareData from '../constants/mock-urgent-care-mashup-data.json';
 import emergencyCareData from '../constants/mock-emergency-care-mashup-data.json';
 
 import { urgentCareServices, emergencyCareServices } from '../config';
-import { CLINIC_URGENTCARE_SERVICE, Covid19Vaccine } from '../constants';
+import {
+  CLINIC_URGENTCARE_SERVICE,
+  Covid19Vaccine,
+  DENTAL_OROFACIAL_PAIN_SERVICE,
+} from '../constants';
 
 // Immitate network delay
 const delay = 500;
@@ -55,8 +59,10 @@ function sliceMockData(locationType, serviceType) {
   } else if (locationType === ccProviderType) {
     if (serviceType === CLINIC_URGENTCARE_SERVICE) {
       locationsData = [providersDataJson.data[12]];
-    } else {
+    } else if (serviceType === DENTAL_OROFACIAL_PAIN_SERVICE) {
       locationsData = [providersDataJson.data[10]];
+    } else {
+      locationsData = [];
     }
     // Pharmacy
   } else if (locationType === pharmacyType) {
@@ -84,6 +90,8 @@ function sliceMockData(locationType, serviceType) {
   }
 
   locations.data = locationsData;
+  locations.meta = { resultTime: 100 };
+
   return locations;
 }
 
