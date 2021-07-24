@@ -65,6 +65,7 @@ class FormPage extends React.Component {
     this.props.setData(newData);
   };
 
+  // Navigate to the next page
   onSubmit = ({ formData }) => {
     const { form, params, route, location } = this.props;
 
@@ -160,9 +161,8 @@ class FormPage extends React.Component {
             trackingPrefix={this.props.form.trackingPrefix}
             uploadFile={this.props.uploadFile}
             onChange={this.onChange}
-            onSubmit={this.onSubmit}
             goBack={this.goBack}
-            goForward={callOnContinue}
+            goForward={this.onSubmit}
           />
         </div>
       );
