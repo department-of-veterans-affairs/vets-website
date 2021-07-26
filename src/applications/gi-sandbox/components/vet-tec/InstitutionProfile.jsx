@@ -10,6 +10,7 @@ import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import JumpLink from '../profile/JumpLink';
 import ProfileSection from '../profile/ProfileSection';
 import CautionaryInformation from '../profile/CautionaryInformation';
+import GettingStartedWithVetTec from './GettingStartedWithVetTec';
 import BackToTop from '../BackToTop';
 
 export default function InstitutionProfile({
@@ -23,6 +24,7 @@ export default function InstitutionProfile({
     selectedProgram ||
     preSelectedProgram ||
     _.get(institution, 'programs[0].description', '');
+
   const institutionProfileId = 'institution-profile';
   const profilePageHeaderId = 'profile-page-header';
 
@@ -88,7 +90,9 @@ export default function InstitutionProfile({
       <ProfileSection
         label="Getting started with VET TEC"
         id="getting-started-with-benefits"
-      />
+      >
+        <GettingStartedWithVetTec />
+      </ProfileSection>
       <ProfileSection
         label="Cautionary information"
         id="cautionary-information"
