@@ -49,7 +49,7 @@ const CheckIn = props => {
           event: createAnalyticsSlug('api-checking-in-user-failed'),
           error,
         });
-        goToNextPage(router, URLS.SEE_STAFF);
+        goToNextPage(router, URLS.ERROR);
       }
     } catch (error) {
       recordEvent({
