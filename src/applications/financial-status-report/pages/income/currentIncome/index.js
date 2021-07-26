@@ -13,9 +13,9 @@ export const uiSchema = {
   currentEmployment: {
     items: {
       'ui:title': ({ formData }) => (
-        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+        <legend className="schemaform-block-title">
           Income for your job at {formData.employerName}
-        </h3>
+        </legend>
       ),
       veteranMonthlyGrossSalary: {
         'ui:title': 'Gross monthly income',

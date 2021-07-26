@@ -24,11 +24,16 @@ const RecVehicleInfo = (
 );
 
 export const uiSchema = {
-  'view:recVehicles': {
-    'ui:title': 'Your trailers, campers, and boats',
-    'ui:description':
-      'Enter each of your trailers, campers, and boats separately below.',
-  },
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        Your trailers, campers, and boats
+      </legend>
+      <p className="vads-u-padding-top--2">
+        Enter each of your trailers, campers, and boats separately below.
+      </p>
+    </>
+  ),
   assets: {
     trailersBoatsCampers: {
       'ui:field': ItemLoop,
@@ -78,10 +83,6 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    'view:recVehicles': {
-      type: 'object',
-      properties: {},
-    },
     assets: {
       type: 'object',
       properties: {

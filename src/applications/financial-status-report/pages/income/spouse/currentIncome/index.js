@@ -13,9 +13,9 @@ export const uiSchema = {
   spouseCurrentEmployment: {
     items: {
       'ui:title': ({ formData }) => (
-        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+        <legend className="schemaform-block-title">
           Income for your spouse’s job at {formData.employerName}
-        </h3>
+        </legend>
       ),
       spouseMonthlyGrossSalary: {
         'ui:title': 'Gross monthly income',
