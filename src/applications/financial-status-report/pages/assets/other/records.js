@@ -25,9 +25,11 @@ const AssetInfo = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Your other assets',
-  'ui:description':
-    'Enter each type of asset separately below. For each, include an estimated value.',
+  'view:otherAssets': {
+    'ui:title': 'Your other assets',
+    'ui:description':
+      'Enter each type of asset separately below. For each, include an estimated value.',
+  },
   assets: {
     otherAssets: {
       'ui:field': ItemLoop,
@@ -79,6 +81,10 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
+    'view:otherAssets': {
+      type: 'object',
+      properties: {},
+    },
     assets: {
       type: 'object',
       properties: {

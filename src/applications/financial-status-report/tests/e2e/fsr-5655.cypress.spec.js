@@ -128,7 +128,9 @@ const testConfig = createTestConfig(
           cy.get(`input[name="veteran-signature"]`).type('Mark Webb');
           cy.get(`input[name="veteran-certify"]`).check();
           cy.get(`input[name="privacy-policy"]`).check();
-          cy.get('.usa-button-primary').click();
+          cy.findAllByText(/Submit your request/i, {
+            selector: 'button',
+          }).click();
         });
       },
     },

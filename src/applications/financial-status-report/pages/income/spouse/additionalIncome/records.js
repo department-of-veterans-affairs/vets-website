@@ -9,9 +9,11 @@ import {
 } from '../../../../constants/typeaheadOptions';
 
 export const uiSchema = {
-  'ui:title': 'Your spouse information',
-  'ui:description':
-    'Tell us how much you get each month for each type of income.',
+  'view:spouseInfo': {
+    'ui:title': 'Your spouse information',
+    'ui:description':
+      'Tell us how much you get each month for each type of income.',
+  },
   additionalIncome: {
     spouse: {
       spouseAdditionalIncomeRecords: {
@@ -60,6 +62,10 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
+    'view:spouseInfo': {
+      type: 'object',
+      properties: {},
+    },
     additionalIncome: {
       type: 'object',
       properties: {
