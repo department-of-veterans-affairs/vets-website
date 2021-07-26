@@ -61,7 +61,7 @@ function LocationSearchResults({
    * Initialize map if the element is present or on smallScreen
    */
   const setupMap = () => {
-    if (map.current && !smallScreen) return; // initialize map only once
+    if (map.current) return; // initialize map only once
 
     mapboxgl.accessToken = mapboxToken;
 
@@ -440,26 +440,37 @@ function LocationSearchResults({
   );
 
   /**
-   * Renders the showing message if not on smallScreen as well the result cards
+   * Renders the showing message if not on smallScreen, and the result cards
    * smallScreen count is different from desktop count
    * @param count
+   * @param visible
    * @return {boolean|JSX.Element}
    */
-  const searchResults = count =>
-    count > 0 && (
-      <div
-        id="location-search-results-container"
-        className="location-search-results-container usa-grid vads-u-padding--1p5"
-      >
-        {!smallScreen && searchResultsShowing(count)}
+  const searchResults = (count, visible = true) => {
+    if (count > 0) {
+      const containerClassNames = classNames(
+        'location-search-results-container',
+        'usa-grid',
+        'vads-u-padding--1p5',
+        { 'vads-u-display--none': !visible },
+      );
+      return (
         <div
-          id="location-search-results"
-          className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
+          id="location-search-results-container"
+          className={containerClassNames}
         >
-          {resultCards}
+          {!smallScreen && searchResultsShowing(count)}
+          <div
+            id="location-search-results"
+            className="location-search-results vads-l-row vads-u-flex-wrap--wrap"
+          >
+            {resultCards}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return null;
+  };
 
   const areaSearchWithinBounds = mapState.distance <= MAX_SEARCH_AREA_DISTANCE;
   const areaSearchLabel = areaSearchWithinBounds
@@ -468,35 +479,42 @@ function LocationSearchResults({
 
   /**
    * Creates the map element container and if not on smallScreen the areaSearch button
-   * @type {JSX.Element}
+   * @type {function(JSX.Element=): *}
    */
-  const mapElement = (
-    <map
-      ref={mapContainer}
-      id="mapbox-gl-container"
-      aria-label="Find VA locations on an interactive map"
-      aria-describedby="map-instructions"
-      className={'desktop-map-container'}
-      role="region"
-    >
-      {mapState.changed &&
-        !smallScreen && (
-          <div
-            id="search-area-control-container"
-            className={'mapboxgl-ctrl-top-center'}
-          >
-            <button
-              id="search-area-control"
-              className={'usa-button'}
-              onClick={searchArea}
-              disabled={!areaSearchWithinBounds}
-            >
-              {areaSearchLabel}
-            </button>
-          </div>
-        )}
-    </map>
-  );
+  const mapElement = (visible = true) => {
+    const containerClassNames = classNames({
+      'vads-u-display--none': !visible,
+    });
+    return (
+      <div className={containerClassNames}>
+        <map
+          ref={mapContainer}
+          id="mapbox-gl-container"
+          aria-label="Find VA locations on an interactive map"
+          aria-describedby="map-instructions"
+          className="desktop-map-container"
+          role="region"
+        >
+          {mapState.changed &&
+            !smallScreen && (
+              <div
+                id="search-area-control-container"
+                className={'mapboxgl-ctrl-top-center'}
+              >
+                <button
+                  id="search-area-control"
+                  className={'usa-button'}
+                  onClick={searchArea}
+                  disabled={!areaSearchWithinBounds}
+                >
+                  {areaSearchLabel}
+                </button>
+              </div>
+            )}
+        </map>
+      </div>
+    );
+  };
 
   // Results shouldn't be filtered out on mobile because "Search this area of the map" is disabled
   const smallScreenCount = search.location.count;
@@ -527,8 +545,8 @@ function LocationSearchResults({
                   {getTab(MAP_TAB)}
                 </div>
                 <hr className="vads-u-margin-y--1p5" />
-                {mobileTab === LIST_TAB && searchResults(smallScreenCount)}
-                {mobileTab === MAP_TAB && mapElement}
+                {searchResults(smallScreenCount, mobileTab === LIST_TAB)}
+                {mapElement(mobileTab === MAP_TAB)}
               </>
             )}
           </>
