@@ -630,7 +630,7 @@ jobs:
       - name: Upload Test Videos to S3
         uses: shallwefootball/s3-upload-action@master
         with:
-          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           aws_bucket: testing-tools-testing-reports
           source_dir: testing-reports/cypress-reports/videos/${{ env.UUID }}
@@ -639,7 +639,7 @@ jobs:
       - name: Upload Mochawesome report to S3
         uses: shallwefootball/s3-upload-action@master
         with:
-          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
           aws_bucket: testing-tools-testing-reports
           source_dir: testing-reports/cypress-reports
