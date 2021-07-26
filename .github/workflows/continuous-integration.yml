@@ -628,6 +628,7 @@ jobs:
       #     repository: department-of-veterans-affairs/testing-reports
       #     directory: testing-reports
       - name: Upload Test Videos to S3
+        if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: shallwefootball/s3-upload-action@master
         with:
           aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
