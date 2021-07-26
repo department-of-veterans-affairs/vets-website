@@ -39,7 +39,7 @@ const CheckIn = props => {
       });
       const { data } = json;
 
-      if (data.success) {
+      if (data.status === 200) {
         recordEvent({
           event: createAnalyticsSlug('api-checking-in-user-successful'),
         });
