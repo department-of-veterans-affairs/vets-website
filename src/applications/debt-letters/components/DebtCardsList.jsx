@@ -94,7 +94,7 @@ const DebtCardsList = ({ debts, errors }) => {
         </p>
 
         <Link
-          to="debt-letters"
+          to="/debt-letters"
           className="vads-u-margin-top--1 vads-u-font-family--sans"
         >
           Download letters related to your va debt

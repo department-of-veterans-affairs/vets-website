@@ -225,7 +225,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
             You can download some of your letters for education, compensation
             and pension debt.
           </p>
-          <Link to="debt-letters" className="vads-u-margin-top--1">
+          <Link to="/debt-letters" className="vads-u-margin-top--1">
             Download letters related to your VA debt
           </Link>
 
