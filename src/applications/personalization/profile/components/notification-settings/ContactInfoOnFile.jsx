@@ -14,12 +14,12 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
         notifications:
       </p>
       {emailAddress ? (
-        <p>
+        <p className="vads-u-margin-y--0p5">
           <strong>{emailAddress}</strong>
         </p>
       ) : null}
       {mobilePhoneNumber ? (
-        <p>
+        <p className="vads-u-margin-y--0p5">
           <strong>
             <Telephone
               contact={`${mobilePhoneNumber.areaCode}${
@@ -41,6 +41,7 @@ const ContactInfoOnFile = ({ emailAddress, mobilePhoneNumber }) => {
           Some more information about email and text notifications.
         </p>
       </AdditionalInfo>
+      <hr />
     </>
   );
 };
