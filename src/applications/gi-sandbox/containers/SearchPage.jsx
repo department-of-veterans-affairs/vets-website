@@ -25,8 +25,8 @@ export function SearchPage({
     matchMedia('(max-width: 480px)').matches,
   );
   const [accordions, setAccordions] = useState({
-    [TABS.name]: true,
-    [TABS.location]: false,
+    [TABS.name]: tab === TABS.name,
+    [TABS.location]: tab === TABS.location,
   });
 
   useEffect(
@@ -46,8 +46,8 @@ export function SearchPage({
   }, []);
 
   const tabbedResults = {
-    [TABS.name]: <NameSearchResults />,
-    [TABS.location]: <LocationSearchResults />,
+    [TABS.name]: <NameSearchResults smallScreen />,
+    [TABS.location]: <LocationSearchResults smallScreen />,
   };
 
   const tabChange = selectedTab => {
@@ -68,6 +68,7 @@ export function SearchPage({
     }
 
     setAccordions(updated);
+    tabChange(selectedAccordion);
   };
 
   return (
@@ -89,24 +90,30 @@ export function SearchPage({
             </div>
           )}
           {!error && !smallScreen && tabbedResults[tab]}
-          {smallScreen && (
-            <div>
-              <AccordionItem
-                button="Search by name"
-                expanded={accordions[TABS.name]}
-                onClick={expanded => accordionChange(TABS.name, expanded)}
-              >
-                <NameSearchForm />
-              </AccordionItem>
-              <AccordionItem
-                button="Search by location"
-                expanded={accordions[TABS.location]}
-                onClick={expanded => accordionChange(TABS.location, expanded)}
-              >
-                <LocationSearchForm />
-              </AccordionItem>
-            </div>
-          )}
+          {!error &&
+            smallScreen && (
+              <div>
+                <AccordionItem
+                  button="Search by name"
+                  expanded={accordions[TABS.name]}
+                  onClick={expanded => accordionChange(TABS.name, expanded)}
+                >
+                  <NameSearchForm smallScreen />
+                </AccordionItem>
+                <AccordionItem
+                  button="Search by location"
+                  expanded={accordions[TABS.location]}
+                  onClick={expanded => accordionChange(TABS.location, expanded)}
+                >
+                  <LocationSearchForm smallScreen />
+                </AccordionItem>
+
+                {!error && smallScreen && tabbedResults[tab]}
+
+                {/* <TuitionAndHousingEstimates /> */}
+                {/* <FilterYourResults /> */}
+              </div>
+            )}
         </div>
       </div>
       <CompareDrawer />

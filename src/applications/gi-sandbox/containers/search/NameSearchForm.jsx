@@ -76,7 +76,7 @@ export function NameSearchForm({
       <form onSubmit={handleSubmit} className="vads-u-margin-y--0">
         <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-right--0">
           <div className="vads-l-row">
-            <div className="vads-l-col--10 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--9 medium-screen:vads-l-col--10 ">
+            <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--9 medium-screen:vads-l-col--10 input-row">
               <KeywordSearch
                 version={version}
                 className="name-search"
@@ -89,7 +89,7 @@ export function NameSearchForm({
                 suggestions={[...autocomplete.nameSuggestions]}
               />
             </div>
-            <div className="vads-l-col--2 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 medium-screen:vads-l-col--2 vads-u-text-align--right">
+            <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 medium-screen:vads-l-col--2 vads-u-text-align--right input-row">
               <button type="submit" className="usa-button name-search-button">
                 Search
                 <i aria-hidden="true" className="fa fa-search" />

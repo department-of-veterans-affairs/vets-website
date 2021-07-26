@@ -13,7 +13,7 @@
     width: 120px;
   }
 
-  @include media-maxwidth($small-screen) {
+  @media (max-width: $small-screen) {
     .usa-accordion-content {
       padding-left: 0px;
       padding-right: 0px;
@@ -33,12 +33,18 @@
     #keyword-search {
       width: 100%;
     }
+
     button.name-search-button {
       width: 100%;
 
       i {
         display: none;
       }
+    }
+
+    .input-row {
+      padding-top: 5px;
+      padding-bottom: 5px;
     }
   }
 

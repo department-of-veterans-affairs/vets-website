@@ -220,11 +220,6 @@
       font-style: italic;
     }
 
-    input.location-search {
-      width: 490px;
-      max-width: none;
-    }
-
     select {
       width: 200px;
     }
@@ -267,4 +262,15 @@
 
 .capitalize-value {
   text-transform: capitalize;
+}
+
+.tool-description {
+  text-align: center;
+  padding-bottom: 3em;
+
+  @media (max-width: $small-screen) {
+    text-align: left;
+    padding-left: 20px;
+    padding-bottom: 1em;
+  }
 }
