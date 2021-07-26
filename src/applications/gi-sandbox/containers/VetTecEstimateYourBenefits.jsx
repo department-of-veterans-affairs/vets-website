@@ -170,7 +170,7 @@ export class VetTecEstimateYourBenefits extends React.Component {
           </div>
         </div>
 
-        <div className="row calculator-result">
+        <div className="row calculator-result vads-u-padding-bottom--2p5">
           <div className="small-8 columns">
             <div>Online monthly rate:</div>
           </div>

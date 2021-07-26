@@ -19,8 +19,13 @@
                   "description": "SMS Notification",
                   "communicationPermission": {
                     "id": 4281,
-                    "allowed": false
+                    "allowed": true
                   }
+                },
+                {
+                  "id": 2,
+                  "name": "Email",
+                  "description": "Email Notification"
                 }
               ]
             }
