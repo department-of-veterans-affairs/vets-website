@@ -31,7 +31,7 @@ export function SearchPage({
 
   useEffect(() => {
     const checkSize = () => {
-      setSmallScreen(isSmallScreen());
+      setSmallScreen(matchMedia('(max-width: 480px)').matches);
     };
     window.addEventListener('resize', checkSize);
 
@@ -78,7 +78,7 @@ export function SearchPage({
                   <LocationSearchForm />
                 </va-accordion-item>
               </va-accordion>
-              <LocationSearchResults />
+              <LocationSearchResults smallScreen={smallScreen} />
             </div>
           )}
         </div>

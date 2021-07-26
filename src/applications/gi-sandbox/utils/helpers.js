@@ -311,5 +311,3 @@ export function isURL(str) {
 
 export const upperCaseFirstLetterOnly = str =>
   str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-
-export const isSmallScreen = () => matchMedia('(max-width: 480px)').matches;

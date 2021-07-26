@@ -10,7 +10,7 @@ import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE } from '../../constants';
 import TuitionAndHousingEstimates from '../../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../../containers/FilterYourResults';
-import { numberToLetter, createId, isSmallScreen } from '../../utils/helpers';
+import { numberToLetter, createId } from '../../utils/helpers';
 import {
   fetchSearchByLocationCoords,
   updateEligibilityAndFilters,
@@ -30,6 +30,7 @@ function LocationSearchResults({
   dispatchUpdateEligibilityAndFilters,
   dispatchFetchSearchByLocationCoords,
   filtersChanged,
+  smallScreen,
 }) {
   const { inProgress } = search;
   const { results } = search.location;
@@ -40,7 +41,6 @@ function LocationSearchResults({
   const [mapState, setMapState] = useState({ changed: false, distance: null });
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
   const [cardResults, setCardResults] = useState(null);
-  const [smallScreen, setSmallScreen] = useState(isSmallScreen());
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
   const [mobileMarkerClicked, setMobileMarkerClicked] = useState(null);
 
@@ -134,18 +134,6 @@ function LocationSearchResults({
     },
     [mobileTab],
   );
-
-  /**
-   * Add resize event listener
-   */
-  useEffect(() => {
-    const checkSize = () => {
-      setSmallScreen(isSmallScreen());
-    };
-    window.addEventListener('resize', checkSize);
-
-    return () => window.removeEventListener('resize', checkSize);
-  }, []);
 
   /**
    * Used to exclude results from appearing in cards or as a marker when using "Search area" button
