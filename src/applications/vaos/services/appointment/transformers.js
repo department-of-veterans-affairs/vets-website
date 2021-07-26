@@ -407,6 +407,7 @@ export function transformConfirmedAppointment(appt) {
   const isPast = isPastAppointment(appt);
   const isCC = isCommunityCare(appt);
   const videoData = setVideoData(appt);
+
   return {
     resourceType: 'Appointment',
     // Temporary fix until https://issues.mobilehealth.va.gov/browse/VAOSR-2058 is complete

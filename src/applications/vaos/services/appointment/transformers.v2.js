@@ -129,7 +129,11 @@ export function transformVAOSAppointment(appt) {
   }
 
   let requestFields = {};
-  if (getAppointmentType(appt) === APPOINTMENT_TYPES.request) {
+  const appointmentType = getAppointmentType(appt);
+  if (
+    appointmentType === APPOINTMENT_TYPES.request ||
+    appointmentType === APPOINTMENT_TYPES.ccRequest
+  ) {
     requestFields = {
       requestedPeriod: appt.requestedPeriods,
       // TODO: ask about created and other action dates like cancelled
@@ -166,7 +170,7 @@ export function transformVAOSAppointment(appt) {
     start: start.format(),
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2
-    description: null,
+    description: appt.kind !== 'cc' ? 'UNKNOWN' : null,
     minutesDuration: isNaN(parseInt(appt.minutesDuration, 10))
       ? 60
       : appt.minutesDuration,
@@ -184,7 +188,7 @@ export function transformVAOSAppointment(appt) {
     vaos: {
       isVideo,
       isPastAppointment: isPast,
-      appointmentType: getAppointmentType(appt),
+      appointmentType,
       isCommunityCare: isCC,
       isExpressCare: false,
       isPhoneAppointment: appt.kind === 'phone',
