@@ -58,7 +58,7 @@ function LocationSearchResults({
   };
 
   /**
-   * Initialize map if the element is present or on smallScreen
+   * Initialize map if the element is present
    */
   const setupMap = () => {
     if (map.current) return; // initialize map only once
@@ -141,15 +141,15 @@ function LocationSearchResults({
    * @param institution
    * @return {boolean}
    */
-  const markerIsNotVisible = institution => {
+  const markerIsVisible = institution => {
     const { latitude, longitude } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    return mapState.changed && !map.current.getBounds().contains(lngLat);
+    return !mapState.changed || map.current.getBounds().contains(lngLat);
   };
 
   /**
-   * Called when during the resulting action of map markers either on desktop or smallScreen
+   * Called when during the resulting action of clicking on a map marker either on desktop or smallScreen
    * Scrolls to the search result card within the Search results and collapses eligibility and filters accordions if
    * expanded
    * @param name
@@ -196,8 +196,6 @@ function LocationSearchResults({
     const { latitude, longitude, name } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
 
-    if (markerIsNotVisible(institution)) return false;
-
     const letter = numberToLetter(index + 1);
 
     const markerElement = document.createElement('div');
@@ -224,8 +222,6 @@ function LocationSearchResults({
       .addTo(map.current);
 
     markers.current.push(markerElement);
-
-    return true;
   };
 
   /**
@@ -282,9 +278,12 @@ function LocationSearchResults({
         ? new mapboxgl.LngLatBounds()
         : null;
 
-      visibleResults = results.filter((institution, index) => {
-        return addMapMarker(institution, index, locationBounds);
-      });
+      visibleResults = results.filter(institution =>
+        markerIsVisible(institution),
+      );
+      visibleResults.forEach((institution, index) =>
+        addMapMarker(institution, index, locationBounds),
+      );
 
       if (locationBounds) {
         if (streetAddress.searchString === location) {
@@ -578,7 +577,7 @@ function LocationSearchResults({
         )}
       </div>
 
-      <div className={'usa-width-two-thirds'}>{mapElement}</div>
+      <div className={'usa-width-two-thirds'}>{mapElement()}</div>
     </div>
   );
 }
