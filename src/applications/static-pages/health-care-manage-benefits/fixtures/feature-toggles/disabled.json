@@ -75,6 +75,10 @@
         "value": false
       },
       {
+        "name": "vaOnlineSchedulingExpressCareNew",
+        "value": false
+      },
+      {
         "name": "vaGlobalDowntimeNotification",
         "value": false
       },
