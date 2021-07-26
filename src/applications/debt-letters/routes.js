@@ -9,7 +9,7 @@ import DebtLettersDownload from './components/DebtLettersDownload';
 const Routes = () => {
   return (
     <DebtLettersWrapper>
-      <Route component={DebtDetails} path="/debt-detail/:id" />
+      <Route component={DebtDetails} exact path="/debt-detail/:id" />
       <Route component={DebtLettersDownload} exact path="/debt-letters" />
       <Route component={DebtLettersSummary} exact path="/" />
     </DebtLettersWrapper>
