@@ -9,7 +9,7 @@ import {
   verify,
 } from 'platform/user/authentication/utilities';
 
-function handleClick(version) {
+function handleClick(version = 'v1') {
   // For first-time users attempting to navigate to My VA Health, The user must
   // be LOA3. If they aren't, they will get directed to verify here,
   // with a valid redirect URL already in sessionStorage. In that case,
