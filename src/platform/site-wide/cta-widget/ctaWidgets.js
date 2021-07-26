@@ -194,8 +194,8 @@ export const ctaWidgetsLookup = {
     id: CTA_WIDGET_TYPES.RX,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(
-        'web/myhealthevet/refill-prescriptions',
         authenticatedWithSSOe,
+        'web/myhealthevet/refill-prescriptions',
       ),
       redirect: false,
     }),
