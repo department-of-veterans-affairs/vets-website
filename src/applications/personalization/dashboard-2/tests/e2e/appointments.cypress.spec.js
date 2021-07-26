@@ -54,10 +54,10 @@ describe('The My VA Dashboard - Appointments', () => {
     cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
   });
   context('when it can show the next appointment', () => {
-    it('should show the appointment and call the facilities API', () => {
+    it('when the next upcoming appointment is a community cares appointment', () => {
       // make sure that the Health care section is shown
       cy.findByTestId('dashboard-section-health-care').should('exist');
-      cy.findByRole('link', { name: /manage your appointments/ }).should(
+      cy.findByRole('link', { name: /manage your appointments/i }).should(
         'exist',
       );
       cy.findByRole('heading', { name: /next appointment/i }).should('exist');
