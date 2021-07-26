@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { TABS } from '../constants';
 import classNames from 'classnames';
 import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../containers/FilterYourResults';
 
-export default function MobileFilterControls({ tab }) {
+export default function MobileFilterControls({ className }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [tuitionAndHousingOpen, setTuitionAndHousingOpen] = useState(false);
 
@@ -12,7 +11,6 @@ export default function MobileFilterControls({ tab }) {
     if (!filtersOpen) {
       document.body.classList.add('modal-open');
     }
-
     setFiltersOpen(!filtersOpen);
   };
 
@@ -20,7 +18,6 @@ export default function MobileFilterControls({ tab }) {
     if (!tuitionAndHousingOpen) {
       document.body.classList.add('modal-open');
     }
-
     setTuitionAndHousingOpen(!tuitionAndHousingOpen);
   };
 
@@ -36,9 +33,10 @@ export default function MobileFilterControls({ tab }) {
 
   return (
     <div
-      className={classNames('vads-u-margin-left--1 vads-u-margin-right--1', {
-        'vads-u-margin-top--2': tab !== TABS.location,
-      })}
+      className={classNames(
+        'vads-u-margin-left--1 vads-u-margin-right--1',
+        className,
+      )}
     >
       <button
         className="usa-button-secondary"

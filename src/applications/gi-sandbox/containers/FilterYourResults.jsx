@@ -321,7 +321,7 @@ export function FilterYourResults({
       {smallScreen && (
         <div className="modal-wrapper">
           <div>
-            <h1>Update tuition and housing estimates</h1>
+            <h1>Filter your results</h1>
             {controls}
           </div>
           <div className="modal-button-wrapper">
