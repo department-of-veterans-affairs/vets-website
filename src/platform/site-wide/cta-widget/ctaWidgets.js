@@ -7,9 +7,33 @@ import { rootUrl as hearingAidSuppliesUrl } from 'applications/disability-benefi
 import { rootUrl as viewDependentsUrl } from 'applications/personalization/view-dependents/manifest.json';
 import { rootUrl as viewPaymentHistoryUrl } from 'applications/disability-benefits/view-payments/manifest.json';
 
+export const CTA_WIDGET_TYPES = {
+  ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
+  CHANGE_ADDRESS: 'change-address',
+  CLAIMS_AND_APPEALS: 'claims-and-appeals',
+  DIRECT_DEPOSIT: 'direct-deposit',
+  DISABILITY_BENEFITS: 'disability-benefits',
+  DISABILITY_RATINGS: 'disability-ratings',
+  GI_BILL_BENEFITS: 'gi-bill-benefits',
+  HEALTH_RECORDS: 'health-records',
+  HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
+  LAB_AND_TEST_RESULTS: 'lab-and-test-results',
+  LETTERS: 'letters',
+  MANAGE_VA_DEBT: 'manage-va-debt',
+  MESSAGING: 'messaging',
+  RX: 'rx',
+  SCHEDULE_APPOINTMENTS: 'schedule-appointments',
+  VETERAN_ID_CARD: 'vic',
+  VET_TEC: 'vet-tec',
+  VIEW_APPOINTMENTS: 'view-appointments',
+  VIEW_DEPENDENTS: 'view-dependents',
+  VIEW_PAYMENT_HISTORY: 'view-payment-history',
+  VRRAP: 'vrrap',
+};
+
 export const ctaWidgetsLookup = {
-  ADD_REMOVE_DEPENDENTS: {
-    id: 'add-remove-dependents',
+  [CTA_WIDGET_TYPES.ADD_REMOVE_DEPENDENTS]: {
+    id: CTA_WIDGET_TYPES.ADD_REMOVE_DEPENDENTS,
     deriveToolUrlDetails: () => ({
       url: addRemoveDependentsUrl,
       redirect: false,
@@ -20,8 +44,8 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'add or remove dependents',
   },
-  CHANGE_ADDRESS: {
-    id: 'change-address',
+  [CTA_WIDGET_TYPES.CHANGE_ADDRESS]: {
+    id: CTA_WIDGET_TYPES.CHANGE_ADDRESS,
     deriveToolUrlDetails: () => ({
       url: '/profile/personal-information',
       redirect: false,
@@ -32,8 +56,8 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'change your address',
   },
-  CLAIMS_AND_APPEALS: {
-    id: 'claims-and-appeals',
+  [CTA_WIDGET_TYPES.CLAIMS_AND_APPEALS]: {
+    id: CTA_WIDGET_TYPES.CLAIMS_AND_APPEALS,
     deriveToolUrlDetails: () => ({ url: '/track-claims/', redirect: true }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
@@ -44,8 +68,8 @@ export const ctaWidgetsLookup = {
     ],
     serviceDescription: 'see your claim or appeal status',
   },
-  DIRECT_DEPOSIT: {
-    id: 'direct-deposit',
+  [CTA_WIDGET_TYPES.DIRECT_DEPOSIT]: {
+    id: CTA_WIDGET_TYPES.DIRECT_DEPOSIT,
     deriveToolUrlDetails: () => ({
       url: '/profile/direct-deposit',
       redirect: false,
@@ -56,8 +80,8 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'change your direct deposit information online',
   },
-  DISABILITY_BENEFITS: {
-    id: 'disability-benefits',
+  [CTA_WIDGET_TYPES.DISABILITY_BENEFITS]: {
+    id: CTA_WIDGET_TYPES.DISABILITY_BENEFITS,
     deriveToolUrlDetails: () => ({
       url: '/disability/how-to-file-claim',
       redirect: false,
@@ -68,8 +92,8 @@ export const ctaWidgetsLookup = {
     requiredServices: backendServices.EVSS_CLAIMS,
     serviceDescription: 'file for disability benefits',
   },
-  DISABILITY_RATINGS: {
-    id: 'disability-ratings',
+  [CTA_WIDGET_TYPES.DISABILITY_RATINGS]: {
+    id: CTA_WIDGET_TYPES.DISABILITY_RATINGS,
     deriveToolUrlDetails: () => ({
       url: '/disability/view-disability-rating/rating',
       redirect: false,
@@ -80,8 +104,8 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'view your VA disability rating',
   },
-  GI_BILL_BENEFITS: {
-    id: 'gi-bill-benefits',
+  [CTA_WIDGET_TYPES.GI_BILL_BENEFITS]: {
+    id: CTA_WIDGET_TYPES.GI_BILL_BENEFITS,
     deriveToolUrlDetails: () => ({
       url: '/education/gi-bill/post-9-11/ch-33-benefit/status',
       redirect: false,
@@ -92,8 +116,8 @@ export const ctaWidgetsLookup = {
     requiredServices: backendServices.EVSS_CLAIMS,
     serviceDescription: 'check your GI Bill Benefits',
   },
-  HEALTH_RECORDS: {
-    id: 'health-records',
+  [CTA_WIDGET_TYPES.HEALTH_RECORDS]: {
+    id: CTA_WIDGET_TYPES.HEALTH_RECORDS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'download-my-data'),
       redirect: false,
@@ -105,8 +129,8 @@ export const ctaWidgetsLookup = {
     requiredServices: backendServices.HEALTH_RECORDS,
     serviceDescription: 'view your VA medical records',
   },
-  HEARING_AID_SUPPLIES: {
-    id: 'hearing-aid-supplies',
+  [CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES]: {
+    id: CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES,
     deriveToolUrlDetails: () => ({
       url: hearingAidSuppliesUrl,
       redirect: false,
@@ -117,8 +141,8 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'order hearing aid supplies',
   },
-  LAB_AND_TEST_RESULTS: {
-    id: 'lab-and-test-results',
+  [CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS]: {
+    id: CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'labs-tests'),
       redirect: false,
@@ -130,8 +154,8 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'view your lab and test results',
   },
-  LETTERS: {
-    id: 'letters',
+  [CTA_WIDGET_TYPES.LETTERS]: {
+    id: CTA_WIDGET_TYPES.LETTERS,
     deriveToolUrlDetails: () => ({
       url: '/records/download-va-letters/letters',
       redirect: false,
@@ -142,8 +166,8 @@ export const ctaWidgetsLookup = {
     requiredServices: backendServices.EVSS_CLAIMS,
     serviceDescription: 'get your VA benefit letters',
   },
-  MANAGE_VA_DEBT: {
-    id: 'manage-va-debt',
+  [CTA_WIDGET_TYPES.MANAGE_VA_DEBT]: {
+    id: CTA_WIDGET_TYPES.MANAGE_VA_DEBT,
     deriveToolUrlDetails: () => ({
       url: '/manage-va-debt/your-debt',
       redirect: false,
@@ -154,8 +178,8 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'manage your VA debt',
   },
-  MESSAGING: {
-    id: 'messaging',
+  [CTA_WIDGET_TYPES.MESSAGING]: {
+    id: CTA_WIDGET_TYPES.MESSAGING,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'secure-messaging'),
       redirect: false,
@@ -166,8 +190,8 @@ export const ctaWidgetsLookup = {
     requiredServices: backendServices.MESSAGING,
     serviceDescription: 'send secure messages',
   },
-  RX: {
-    id: 'rx',
+  [CTA_WIDGET_TYPES.RX]: {
+    id: CTA_WIDGET_TYPES.RX,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(
         'web/myhealthevet/refill-prescriptions',
@@ -182,8 +206,8 @@ export const ctaWidgetsLookup = {
     requiredServices: backendServices.RX,
     serviceDescription: 'refill prescriptions',
   },
-  SCHEDULE_APPOINTMENTS: {
-    id: 'schedule-appointments',
+  [CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS]: {
+    id: CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'appointments'),
       redirect: false,
@@ -194,8 +218,8 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'view, schedule, or cancel your appointment online',
   },
-  VETERAN_ID_CARD: {
-    id: 'vic',
+  [CTA_WIDGET_TYPES.VETERAN_ID_CARD]: {
+    id: CTA_WIDGET_TYPES.VETERAN_ID_CARD,
     deriveToolUrlDetails: () => ({
       url: '/records/get-veteran-id-cards/apply',
       redirect: false,
@@ -206,8 +230,8 @@ export const ctaWidgetsLookup = {
     requiredServices: backendServices.ID_CARD,
     serviceDescription: 'apply for a Veteran ID Card',
   },
-  VET_TEC: {
-    id: 'vet-tec',
+  [CTA_WIDGET_TYPES.VET_TEC]: {
+    id: CTA_WIDGET_TYPES.VET_TEC,
     deriveToolUrlDetails: () => ({
       url:
         '/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/apply-for-vettec-form-22-0994',
@@ -219,8 +243,8 @@ export const ctaWidgetsLookup = {
     requiredServices: backendServices.EDUCATION_BENEFITS,
     serviceDescription: 'apply for VET TEC',
   },
-  VIEW_APPOINTMENTS: {
-    id: 'view-appointments',
+  [CTA_WIDGET_TYPES.VIEW_APPOINTMENTS]: {
+    id: CTA_WIDGET_TYPES.VIEW_APPOINTMENTS,
     deriveToolUrlDetails: authenticatedWithSSOe => ({
       url: mhvUrl(authenticatedWithSSOe, 'appointments'),
       redirect: false,
@@ -231,8 +255,8 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'view, schedule, or cancel your appointment online',
   },
-  VIEW_DEPENDENTS: {
-    id: 'view-dependents',
+  [CTA_WIDGET_TYPES.VIEW_DEPENDENTS]: {
+    id: CTA_WIDGET_TYPES.VIEW_DEPENDENTS,
     deriveToolUrlDetails: () => ({ url: viewDependentsUrl, redirect: false }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
@@ -240,8 +264,8 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'view current dependents',
   },
-  VIEW_PAYMENT_HISTORY: {
-    id: 'view-payment-history',
+  [CTA_WIDGET_TYPES.VIEW_PAYMENT_HISTORY]: {
+    id: CTA_WIDGET_TYPES.VIEW_PAYMENT_HISTORY,
     deriveToolUrlDetails: () => ({
       url: viewPaymentHistoryUrl,
       redirect: false,
@@ -252,8 +276,8 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'view your VA payment history',
   },
-  VRRAP: {
-    id: 'vrrap',
+  [CTA_WIDGET_TYPES.VRRAP]: {
+    id: CTA_WIDGET_TYPES.VRRAP,
     deriveToolUrlDetails: () => ({
       url:
         'education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s',
