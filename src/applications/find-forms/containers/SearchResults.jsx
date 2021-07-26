@@ -130,7 +130,7 @@ export const SearchResults = ({
     vads-u-margin-top--1p5 vads-u-font-weight--normal va-u-outline--none"
         data-forms-focus
       >
-        The form you’re looking for has been retired or is no longer valid, and
+        The form you're looking for has been retired or is no longer valid, and
         has been removed from the VA forms database.
       </p>
     );
@@ -144,8 +144,8 @@ export const SearchResults = ({
         data-forms-focus
       >
         No results were found for "<strong>{query}</strong>
-        ." Try using fewer words or broadening your search. If you’re looking
-        for non-VA forms, go to the{' '}
+        ." Try using fewer words or broadening your search. If you&apos;re
+        looking for non-VA forms, go to the{' '}
         <a
           href="https://www.gsa.gov/reference/forms"
           rel="noopener noreferrer"
