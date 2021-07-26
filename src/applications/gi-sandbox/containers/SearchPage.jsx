@@ -52,7 +52,7 @@ export function SearchPage({
   return (
     <span className="landing-page">
       <div className="vads-u-min-height--viewport row">
-        <div className="column vads-u-padding-bottom--2 vads-u-padding-x--0">
+        <div className="column medium-screen:vads-u-padding-bottom--2 small-screen:vads-u-padding-bottom--0 vads-u-padding-x--0">
           {!smallScreen && <SearchTabs onChange={tabChange} search={search} />}
           {error && (
             <div className="vads-u-padding-top--2">

@@ -17,7 +17,7 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
       overflow-y: scroll;
 
       @include media-maxwidth($small-screen) {
-        height: auto;
+        height: 75vh;
       }
     }
 

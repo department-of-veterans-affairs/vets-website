@@ -161,21 +161,36 @@ function LocationSearchResults({
   };
 
   /**
+   * Called when during the resulting action of map markers either on desktop or smallScreen
+   * Scrolls to the search result card within the Search results and collapses eligibility and filters accordions if
+   * expanded
+   * @param name
+   */
+  const mapMarkerClicked = name => {
+    const locationSearchResults = document.getElementById(
+      'location-search-results',
+    );
+    scroller.scrollTo(
+      `${createId(name)}-result-card-placeholder`,
+      getScrollOptions({
+        containerId: 'location-search-results',
+        offset: -locationSearchResults.getBoundingClientRect().top,
+      }),
+    );
+    dispatchUpdateEligibilityAndFilters(
+      { expanded: false },
+      { expanded: false },
+    );
+  };
+
+  /**
    * Used for smallScreen when a map marker is clicked
    * Using a useEffect since need to switch tabs first before scrolling to search result card
    */
   useEffect(
     () => {
       if (mobileMarkerClicked && mobileTab === LIST_TAB) {
-        scroller.scrollTo(
-          `${createId(mobileMarkerClicked)}-result-card-placeholder`,
-          getScrollOptions(),
-        );
-        dispatchUpdateEligibilityAndFilters(
-          { expanded: false },
-          { expanded: false },
-        );
-
+        mapMarkerClicked(mobileMarkerClicked);
         setMobileMarkerClicked(null);
       }
     },
@@ -207,21 +222,7 @@ function LocationSearchResults({
         setMobileTab(LIST_TAB);
         setMobileMarkerClicked(name);
       } else {
-        const locationSearchResults = document.getElementById(
-          'location-search-results',
-        );
-
-        scroller.scrollTo(
-          `${createId(name)}-result-card-placeholder`,
-          getScrollOptions({
-            containerId: 'location-search-results',
-            offset: -locationSearchResults.getBoundingClientRect().top,
-          }),
-        );
-        dispatchUpdateEligibilityAndFilters(
-          { expanded: false },
-          { expanded: false },
-        );
+        mapMarkerClicked(name);
       }
     });
 
