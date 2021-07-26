@@ -5,40 +5,52 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 
 import {
   hasVAPServiceConnectionError,
+  isVAPatient,
   selectVAPEmailAddress,
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
+import { focusElement } from '~/platform/utilities/ui';
 
 import { PROFILE_PATH_NAMES } from '@@profile/constants';
-import { fetchCommunicationPreferenceGroups } from '@@profile/ducks/communicationPreferences';
+import {
+  fetchCommunicationPreferenceGroups,
+  selectGroups,
+} from '@@profile/ducks/communicationPreferences';
+import { selectCommunicationPreferences } from '@@profile/reducers';
 
 import { LOADING_STATES } from '../../../common/constants';
-import Headline from '../ProfileSectionHeadline';
-import ContactInfoOnFile from './ContactInfoOnFile';
+
 import APIErrorAlert from './APIErrorAlert';
+import ContactInfoOnFile from './ContactInfoOnFile';
+import Headline from '../ProfileSectionHeadline';
+import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
+import NotificationGroup from './NotificationGroup';
 
 const NotificationSettings = ({
   allContactInfoOnFile,
-  fetchPrefs,
   emailAddress,
+  fetchCurrentSettings,
+  isPatient,
   mobilePhoneNumber,
   noContactInfoOnFile,
+  notificationGroups,
   shouldFetchNotificationSettings,
   shouldShowAPIError,
   shouldShowLoadingIndicator,
 }) => {
   React.useEffect(() => {
+    focusElement('[data-focus-target]');
     document.title = `Notification Settings | Veterans Affairs`;
   }, []);
 
   React.useEffect(
     () => {
       if (shouldFetchNotificationSettings) {
-        fetchPrefs();
+        fetchCurrentSettings();
       }
     },
-    [fetchPrefs, shouldFetchNotificationSettings],
+    [fetchCurrentSettings, shouldFetchNotificationSettings],
   );
 
   // if either phone number or email address is not set
@@ -82,6 +94,23 @@ const NotificationSettings = ({
           mobilePhoneNumber={mobilePhoneNumber}
         />
       ) : null}
+      {!shouldShowLoadingIndicator
+        ? notificationGroups.ids.map(groupId => {
+            if (groupId === 'group3') {
+              if (!isPatient) {
+                return null;
+              } else {
+                return (
+                  <NotificationGroup groupId={groupId} key={groupId}>
+                    <HealthCareGroupSupportingText />
+                  </NotificationGroup>
+                );
+              }
+            } else {
+              return <NotificationGroup groupId={groupId} key={groupId} />;
+            }
+          })
+        : null}
     </>
   );
 };
@@ -89,7 +118,7 @@ const NotificationSettings = ({
 NotificationSettings.propTypes = {};
 
 const mapStateToProps = state => {
-  const communicationPreferencesState = state.communicationPreferences;
+  const communicationPreferencesState = selectCommunicationPreferences(state);
   const hasVAPServiceError = hasVAPServiceConnectionError(state);
   const hasLoadingError = !!communicationPreferencesState.loadingErrors;
 
@@ -103,17 +132,19 @@ const mapStateToProps = state => {
   return {
     allContactInfoOnFile,
     emailAddress,
+    isPatient: isVAPatient(state),
     mobilePhoneNumber,
     noContactInfoOnFile,
-    shouldShowAPIError,
+    notificationGroups: selectGroups(communicationPreferencesState),
     shouldFetchNotificationSettings,
+    shouldShowAPIError,
     shouldShowLoadingIndicator:
       communicationPreferencesState.loadingStatus === LOADING_STATES.pending,
   };
 };
 
 const mapDispatchToProps = {
-  fetchPrefs: fetchCommunicationPreferenceGroups,
+  fetchCurrentSettings: fetchCommunicationPreferenceGroups,
 };
 
 export default connect(

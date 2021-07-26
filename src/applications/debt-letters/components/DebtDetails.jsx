@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import head from 'lodash/head';
@@ -24,13 +24,44 @@ import {
   renderLetterHistory,
 } from '../const/diary-codes';
 
-const DebtDetails = ({ selectedDebt }) => {
+const DebtDetails = ({ selectedDebt, debts }) => {
+  const location = useLocation();
+
+  /* 
+    TODO TECH DEBT: https://github.com/department-of-veterans-affairs/va.gov-team/issues/27790
+    Once debt.id is available via backend
+    and endpoint to fetch single debtById is created
+    remove getCurrentDebt and replace with backend single item call
+  */
+  const getCurrentDebt = () => {
+    // get debtId out of the URL
+    const currentDebt = location.pathname.replace(/[^0-9]/g, '');
+
+    // Add debtIds derived from the debt fileNumber and deductionCode to debts
+    const debtsWithId = debts.reduce((acc, debt) => {
+      if (!debt.debtId) {
+        acc.push({
+          ...debt,
+          debtId: `${debt.fileNumber + debt.deductionCode}`,
+        });
+      }
+
+      return acc;
+    }, []);
+
+    // return debt that has the same debtId as the currentDebt
+    return debtsWithId.filter(debt => debt.debtId === currentDebt)[0];
+  };
+
+  const hasSelectedDebt = !Object.keys(selectedDebt).length === 0;
+  const currentDebt = (hasSelectedDebt && selectedDebt) || getCurrentDebt();
+
   useEffect(() => {
     scrollToTop();
     setPageFocus('h1');
   }, []);
 
-  const mostRecentHistory = head(selectedDebt.debtHistory);
+  const mostRecentHistory = head(currentDebt.debtHistory);
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -39,24 +70,24 @@ const DebtDetails = ({ selectedDebt }) => {
 
   const letterCodes = ['100', '101', '102', '109', '117', '123', '130'];
 
-  const filteredHistory = selectedDebt.debtHistory
+  const filteredHistory = currentDebt.debtHistory
     .filter(history => letterCodes.includes(history.letterCode))
     .reverse();
 
-  const hasFilteredHistory = filteredHistory.length > 0;
+  const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
 
-  if (Object.keys(selectedDebt).length === 0) {
+  if (Object.keys(currentDebt).length === 0) {
     return window.location.replace('/manage-va-debt/your-debt');
   }
 
   const additionalInfo = renderAdditionalInfo(
-    selectedDebt.diaryCode,
+    currentDebt.diaryCode,
     mostRecentHistory.date,
-    selectedDebt.benefitType,
+    currentDebt.benefitType,
   );
 
   const whyMightIHaveThisDebtContent = renderWhyMightIHaveThisDebt(
-    selectedDebt.deductionCode,
+    currentDebt.deductionCode,
   );
 
   const renderHistoryTable = history => {
@@ -102,7 +133,7 @@ const DebtDetails = ({ selectedDebt }) => {
         className="vads-u-font-family--serif vads-u-margin-bottom--2"
         tabIndex="-1"
       >
-        Your {deductionCodes[selectedDebt.deductionCode]}
+        Your {deductionCodes[currentDebt.deductionCode]}
       </h1>
 
       <section className="vads-l-row">
@@ -110,7 +141,7 @@ const DebtDetails = ({ selectedDebt }) => {
           <p className="va-introtext vads-u-margin-top--0">
             Updated on
             <span className="vads-u-margin-left--0p5">
-              {moment(last(selectedDebt.debtHistory).date).format(
+              {moment(last(currentDebt.debtHistory).date).format(
                 'MMMM D, YYYY',
               )}
             </span>
@@ -123,7 +154,7 @@ const DebtDetails = ({ selectedDebt }) => {
                   <strong>Date of first notice: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {moment(first(selectedDebt.debtHistory).date).format(
+                  {moment(first(currentDebt.debtHistory).date).format(
                     'MMMM D, YYYY',
                   )}
                 </dd>
@@ -133,7 +164,7 @@ const DebtDetails = ({ selectedDebt }) => {
                   <strong>Original debt amount: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {formatter.format(parseFloat(selectedDebt.originalAr))}
+                  {formatter.format(parseFloat(currentDebt.originalAr))}
                 </dd>
               </div>
               <div className="vads-u-margin-y--1 vads-u-display--flex">
@@ -141,7 +172,7 @@ const DebtDetails = ({ selectedDebt }) => {
                   <strong>Current balance: </strong>
                 </dt>
                 <dd className="vads-u-margin-left--1">
-                  {formatter.format(parseFloat(selectedDebt.currentAr))}
+                  {formatter.format(parseFloat(currentDebt.currentAr))}
                 </dd>
               </div>
             </dl>
@@ -194,7 +225,7 @@ const DebtDetails = ({ selectedDebt }) => {
             You can download some of your letters for education, compensation
             and pension debt.
           </p>
-          <Link to="debt-letters" className="vads-u-margin-top--1">
+          <Link to="/debt-letters" className="vads-u-margin-top--1">
             Download letters related to your VA debt
           </Link>
 
@@ -211,8 +242,9 @@ const DebtDetails = ({ selectedDebt }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  selectedDebt: state.debtLetters?.selectedDebt,
+const mapStateToProps = ({ debtLetters }) => ({
+  selectedDebt: debtLetters?.selectedDebt,
+  debts: debtLetters.debts,
 });
 
 DebtDetails.defaultProps = {

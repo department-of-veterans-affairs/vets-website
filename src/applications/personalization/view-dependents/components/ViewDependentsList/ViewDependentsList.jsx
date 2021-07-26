@@ -21,17 +21,19 @@ function ViewDependentsList(props) {
     ));
   } else {
     mainContent = (
-      <h2 className="vads-u-font-size--h3">
+      <p className="vads-u-background-color--gray-lightest vads-u-padding--2p5">
         {props?.isAward
           ? `There are no dependents associated with your VA benefits`
-          : `There are no dependents in this list`}
-      </h2>
+          : `We have no record of dependents who are not on your VA benefits.`}
+      </p>
     );
   }
 
   return (
     <>
-      <h2>{props.header}</h2>
+      <h2 className={props.isAward ? 'vads-u-margin-top--1p5' : null}>
+        {props.header}
+      </h2>
       <p>{props.subHeader}</p>
       <a
         className="vads-u-display--block vads-u-margin-bottom--4"

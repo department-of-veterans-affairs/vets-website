@@ -1,5 +1,4 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 import PreSubmitInfo from '../../containers/PreSubmitInfo';
 import { eighteenOrOver } from '../helpers';
 
@@ -94,7 +93,7 @@ function PreSubmitNotice({
 
   return (
     <>
-      {!environment.isProduction() && activeDutyNote()}
+      {activeDutyNote()}
       <PreSubmitInfo
         formData={formData}
         showError={showError}
