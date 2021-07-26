@@ -1,16 +1,20 @@
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
+import mockDebts from './fixtures/mocks/debts.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 
 describe('Diary Codes - Next Steps', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/debts', mockDebts);
     cy.visit('/manage-va-debt/your-debt/');
     cy.injectAxe();
     cy.axeCheck();
+
+    cy.findByText('Continue to VA.gov', { selector: 'button' }).click();
   });
 
-  it.skip('renders a debt card with next step', () => {
+  it('renders a debt card with next step', () => {
     cy.findByText(/Current debts/i, { selector: 'a' }).click();
     cy.get('[data-testid="diary-codes-next-step"]')
       .first()
@@ -18,7 +22,7 @@ describe('Diary Codes - Next Steps', () => {
       .should('exist');
   });
 
-  it.skip('renders a debt card without next step', () => {
+  it('renders a debt card without next step', () => {
     cy.findByText(/Current debts/i, { selector: 'a' }).click();
     cy.get('[data-testid="diary-codes-next-step"]')
       .last()
@@ -26,7 +30,7 @@ describe('Diary Codes - Next Steps', () => {
       .should('not.exist');
   });
 
-  it.skip('renders debt details with next step', () => {
+  it('renders debt details with next step', () => {
     cy.findByText(/Current debts/i, { selector: 'a' }).click();
     cy.get('.usa-button')
       .first()
@@ -34,7 +38,7 @@ describe('Diary Codes - Next Steps', () => {
     cy.get('.debt-details-nextstep').contains('Next step');
   });
 
-  it.skip('renders debt details with information alert when there is no next step', () => {
+  it('renders debt details with information alert when there is no next step', () => {
     cy.findByText(/Current debts/i, { selector: 'a' }).click();
     cy.get('.usa-button')
       .last()

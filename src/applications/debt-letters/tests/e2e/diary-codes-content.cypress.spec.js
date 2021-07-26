@@ -1,16 +1,20 @@
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
+import mockDebts from './fixtures/mocks/debts.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 
 describe('Diary Codes', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.route('GET', '/v0/feature_toggles*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/debts', mockDebts);
     cy.visit('/manage-va-debt/your-debt/');
     cy.injectAxe();
     cy.axeCheck();
+
+    cy.findByText('Continue to VA.gov', { selector: 'button' }).click();
   });
 
-  it.skip('renders expected content for diary code: 080', () => {
+  it('renders expected content for diary code: 080', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Referred to the Department of the Treasury',
     );
@@ -20,7 +24,7 @@ describe('Diary Codes', () => {
     );
   });
 
-  it.skip('renders expected content for diary code: 100', () => {
+  it('renders expected content for diary code: 100', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Pending payment',
     );
@@ -30,7 +34,7 @@ describe('Diary Codes', () => {
     );
   });
 
-  it.skip('renders expected content for diary code: 101, 450, 610, 617', () => {
+  it('renders expected content for diary code: 101, 450, 610, 617', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Pending automatic benefit offset',
     );
@@ -40,7 +44,7 @@ describe('Diary Codes', () => {
     );
   });
 
-  it.skip('renders expected content for diary code: 117', () => {
+  it('renders expected content for diary code: 117', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Pending payment',
     );
@@ -50,7 +54,7 @@ describe('Diary Codes', () => {
     );
   });
 
-  it.skip('renders expected content for diary code: 123', () => {
+  it('renders expected content for diary code: 123', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Pending payment',
     );
@@ -60,7 +64,7 @@ describe('Diary Codes', () => {
     );
   });
 
-  it.skip('renders expected content for diary code: 500', () => {
+  it('renders expected content for diary code: 500', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Debt is pending referral to the Department of the Treasury',
     );
@@ -70,7 +74,7 @@ describe('Diary Codes', () => {
     );
   });
 
-  it.skip('renders expected content for diary code: 600, 601', () => {
+  it('renders expected content for diary code: 600, 601', () => {
     cy.get('[data-testid="diary-codes-status"]').contains(
       'Status: Pending payment',
     );
