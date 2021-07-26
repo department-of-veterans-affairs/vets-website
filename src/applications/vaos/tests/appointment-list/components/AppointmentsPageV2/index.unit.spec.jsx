@@ -64,23 +64,70 @@ describe('VAOS <AppointmentsPageV2>', () => {
       expect(screen.history.push.lastCall.args[0]).to.equal('/requested'),
     );
 
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Requested',
+      }),
+    );
+
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Open requests | VA online scheduling | Veterans Affairs`,
+      );
+    });
+
     fireEvent.change(dropdown, { target: { value: 'past' } });
 
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal('/past'),
     );
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Past appointments',
+      }),
+    );
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Past appointments | VA online scheduling | Veterans Affairs`,
+      );
+    });
 
     fireEvent.change(dropdown, { target: { value: 'canceled' } });
 
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal('/canceled'),
     );
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Canceled appointments',
+      }),
+    );
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Canceled appointments | VA online scheduling | Veterans Affairs`,
+      );
+    });
 
     fireEvent.change(dropdown, { target: { value: 'upcoming' } });
 
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal('/'),
     );
+
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: 'Your appointments',
+      }),
+    );
+    await waitFor(() => {
+      expect(global.document.title).to.equal(
+        `Your appointments | VA online scheduling | Veterans Affairs`,
+      );
+    });
   });
 
   it('should render warning message', async () => {
