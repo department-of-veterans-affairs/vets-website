@@ -26,7 +26,6 @@ const checkInUser = async ({ token }) => {
   };
 
   const json = await apiRequest(`${environment.API_URL}${url}`, settings);
-  // remove :'s
   return {
     data: json.data,
   };

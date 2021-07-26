@@ -727,7 +727,7 @@ export function initCommunityCareMock() {
   });
   cy.route({
     method: 'GET',
-    url: '/v1/facilities/ccp*',
+    url: '/facilities_api/v1/ccp/provider*',
     response: {
       data: [
         {

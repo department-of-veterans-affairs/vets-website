@@ -5,7 +5,6 @@ import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
 
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
-    if (Cypress.env('CI')) this.skip();
     cy.intercept('GET', '/check_in/v0/patient_check_ins//*', req => {
       req.reply(mockValidate.createMockSuccessResponse({}));
     });
@@ -21,6 +20,11 @@ describe('Check In Experience -- ', () => {
         'health.care.check-in.current.uuid',
         sample,
       );
+    });
+  });
+  afterEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
     });
   });
   it('url is prioritized over session data', () => {

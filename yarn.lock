@@ -20012,9 +20012,9 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.7.0":
-  version "0.6.2"
-  resolved "https://github.com/department-of-veterans-affairs/component-library.git#5fc83b5285684aa4060a3e5950f2ca5e2af9542e"
+"web-components@https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.7.1":
+  version "0.7.1"
+  resolved "https://github.com/department-of-veterans-affairs/component-library.git#3e2870962dc18b4423735872473db237474a476a"
   dependencies:
     "@stencil/core" "^2.0.1"
     "@stencil/postcss" "^2.0.0"

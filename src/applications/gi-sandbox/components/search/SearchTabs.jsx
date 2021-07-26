@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
-import NameSearchForm from '../../containers/NameSearchForm';
-import LocationSearchForm from '../../containers/LocationSearchForm';
+import NameSearchForm from '../../containers/search/NameSearchForm';
+import LocationSearchForm from '../../containers/search/LocationSearchForm';
 import { TABS } from '../../constants';
 import { scroller } from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';

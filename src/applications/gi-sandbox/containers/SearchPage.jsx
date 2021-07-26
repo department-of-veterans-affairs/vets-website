@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { changeSearchTab, setPageTitle } from '../actions';
@@ -9,18 +9,36 @@ import { useHistory } from 'react-router-dom';
 import CompareDrawer from './CompareDrawer';
 import NameSearchResults from '../containers/search/NameSearchResults';
 import LocationSearchResults from '../containers/search/LocationSearchResults';
+import NameSearchForm from './search/NameSearchForm';
+import LocationSearchForm from './search/LocationSearchForm';
 
 export function SearchPage({
   dispatchChangeSearchTab,
   dispatchSetPageTitle,
   search,
 }) {
-  useEffect(() => {
-    dispatchSetPageTitle(`${PAGE_TITLE}: VA.gov`);
-  }, []);
   const queryParams = useQueryParams();
   const history = useHistory();
   const { tab, error } = search;
+  const [smallScreen, setSmallScreen] = useState(
+    matchMedia('(max-width: 480px)').matches,
+  );
+
+  useEffect(
+    () => {
+      dispatchSetPageTitle(`${PAGE_TITLE}: VA.gov`);
+    },
+    [dispatchSetPageTitle],
+  );
+
+  useEffect(() => {
+    const checkSize = () => {
+      setSmallScreen(matchMedia('(max-width: 480px)').matches);
+    };
+    window.addEventListener('resize', checkSize);
+
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
 
   const tabbedResults = {
     [TABS.name]: <NameSearchResults />,
@@ -29,7 +47,6 @@ export function SearchPage({
 
   const tabChange = selectedTab => {
     dispatchChangeSearchTab(selectedTab);
-
     queryParams.set('search', selectedTab);
     history.push({ pathname: '/', search: queryParams.toString() });
   };
@@ -38,8 +55,7 @@ export function SearchPage({
     <span className="landing-page">
       <div className="vads-u-min-height--viewport row">
         <div className="column vads-u-padding-bottom--2 vads-u-padding-x--0">
-          <SearchTabs onChange={tabChange} search={search} />
-          {!error && tabbedResults[tab]}
+          {!smallScreen && <SearchTabs onChange={tabChange} search={search} />}
           {error && (
             <div className="vads-u-padding-top--2">
               <va-alert onClose={function noRefCheck() {}} status="warning">
@@ -51,6 +67,19 @@ export function SearchPage({
                   this page or try searching again.
                 </div>
               </va-alert>
+            </div>
+          )}
+          {!error && !smallScreen && tabbedResults[tab]}
+          {smallScreen && (
+            <div>
+              <va-accordion>
+                <va-accordion-item header="Search by name">
+                  <NameSearchForm />
+                </va-accordion-item>
+                <va-accordion-item header="Search by location">
+                  <LocationSearchForm />
+                </va-accordion-item>
+              </va-accordion>
             </div>
           )}
         </div>

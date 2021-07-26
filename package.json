@@ -42,7 +42,7 @@
     "install-repos": "./script/install-repos.sh",
     "pact:can-i-deploy": "node ./script/can-i-deploy.js",
     "pact:publish": "node ./script/publish-pacts.js",
-    "postinstall": "husky install && npm rebuild node-sass && node ./script/check-node-version.js && cd node_modules/web-components && yarn install --production && yarn build",
+    "postinstall": "husky install && npm rebuild node-sass && node ./script/check-node-version.js",
     "postmigrate-component": "yarn lint:js:changed:fix",
     "proxy-rewrite:verify-targets": "node src/applications/proxy-rewrite/scripts/verify-injection-targets.js",
     "pr-check": "node script/pr-check.js",
@@ -336,7 +336,7 @@
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#d95589c438c1415f4ea8607e2f50ca82ea00b9c4",
-    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.7.0",
+    "web-components": "https://github.com/department-of-veterans-affairs/component-library.git#wc-v0.7.1",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
