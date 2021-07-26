@@ -17,7 +17,7 @@ describe('Discharge Wizard <CarefulConsiderationStatement />', () => {
         }}
       />,
     );
-    expect(tree.html()).to.equal('<div></div>');
+    expect(tree.html()).to.equal(''); // component renders null
     tree.unmount();
   });
 

@@ -652,7 +652,6 @@ export const isBDD = formData => {
 
 export const hasNewPtsdDisability = formData =>
   isClaimingNew(formData) &&
-  !isBDD(formData) &&
   _.get('newDisabilities', formData, []).some(disability =>
     isDisabilityPtsd(disability.condition),
   );

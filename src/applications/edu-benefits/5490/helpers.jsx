@@ -97,7 +97,7 @@ export const benefitsDisclaimerChild = (
     you’re not applying for (but only for the entitlement arising from the same
     event).{' '}
     <strong>
-      You can't retain eligibility for both programs based on the same event
+      You can’t retain eligibility for both programs based on the same event
     </strong>
     .
   </p>

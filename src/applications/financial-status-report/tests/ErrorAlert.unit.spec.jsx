@@ -1,9 +1,9 @@
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
-import ErrorMessage from '../components/ErrorMessage';
+import { ErrorAlert } from '../components/Alerts';
 
-describe('ErrorMessage', () => {
+describe('ErrorAlert', () => {
   it('should render va-alert', async () => {
     const fakeStore = {
       getState: () => ({
@@ -24,7 +24,7 @@ describe('ErrorMessage', () => {
       dispatch: () => {},
     };
 
-    const screen = render(<ErrorMessage store={fakeStore} />);
+    const screen = render(<ErrorAlert store={fakeStore} />);
     const errorMessage = await screen.getByTestId('server-error');
 
     expect(errorMessage).to.not.be.undefined;
