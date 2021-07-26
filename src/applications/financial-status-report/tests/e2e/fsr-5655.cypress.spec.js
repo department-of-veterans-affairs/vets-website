@@ -14,7 +14,7 @@ Cypress.config('waitForAnimations', true);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['maximal'],
+    dataSets: ['minimal', 'maximal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
@@ -55,7 +55,6 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-
       'employment-records': ({ afterHook }) => {
         afterHook(() => {
           // Employer One - Current Employment
@@ -71,7 +70,6 @@ const testConfig = createTestConfig(
           cy.findAllByText(/Add job/i, { selector: 'a' })
             .first()
             .click();
-
           // Employer Two - Previous Employment
           cy.findByLabelText(/Type of work/).select('Full time');
           cy.get(`select[name="fromMonth"]`).select('1');
@@ -101,7 +99,6 @@ const testConfig = createTestConfig(
           cy.findAllByText(/Add job/i, { selector: 'a' })
             .first()
             .click();
-
           // Employer Two - Previous Employment
           cy.findByLabelText(/Type of work/).select('Full time');
           cy.get(`select[name="fromMonth"]`).select('2');
@@ -115,7 +112,15 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-
+      'spouse/income/0': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(`input[name="root_spouseMonthlyGrossSalary"]`).type('3500');
+          cy.get(`input[name="root_deductions_0_name"]`).type('Federal tax');
+          cy.get(`input[name="root_deductions_0_amount"]`).type('250');
+          cy.findAllByText(/Save/i, { selector: 'button' }).click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'resolution-options': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="Waiver"]').click();

@@ -17,7 +17,7 @@ export const uiSchema = {
           Income for your spouse’s job at {formData.employerName}
         </h3>
       ),
-      monthlyGrossSalary: {
+      spouseMonthlyGrossSalary: {
         'ui:title': 'Gross monthly income',
         'ui:description': (
           <p className="formfield-subtitle">
@@ -79,9 +79,9 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['monthlyGrossSalary'],
+        required: ['spouseMonthlyGrossSalary'],
         properties: {
-          monthlyGrossSalary: {
+          spouseMonthlyGrossSalary: {
             type: 'string',
           },
           deductions: {
