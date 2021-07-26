@@ -26,8 +26,10 @@ export function FilterYourResults({
   dispatchFetchSearchByNameResults,
   dispatchFetchSearchByLocationResults,
   filters,
+  modalClose,
   preview,
   search,
+  smallScreen,
 }) {
   const history = useHistory();
   const { version } = preview;
@@ -110,6 +112,11 @@ export function FilterYourResults({
       version,
       search.tab === TABS.name ? 1 : null,
     );
+  };
+
+  const closeAndUpdate = () => {
+    updateResults();
+    modalClose();
   };
 
   const renderTypeOfInstitution = () => {
@@ -287,23 +294,48 @@ export function FilterYourResults({
     );
   };
 
+  const controls = (
+    <div>
+      {renderTypeOfInstitution()}
+      {renderLocation()}
+      {renderSchoolAttributes()}
+      {renderTypeOfSchool()}
+      {renderSchoolMission()}
+    </div>
+  );
+
   return (
     <div className="vads-u-margin-bottom--2">
-      <SearchAccordion
-        button="Filter your results"
-        buttonLabel="Update results"
-        buttonOnClick={() => updateResults()}
-        name="benefitEstimates"
-        expanded={expanded}
-        onClick={onAccordionChange}
-      >
-        <br />
-        {renderTypeOfInstitution()}
-        {renderLocation()}
-        {renderSchoolAttributes()}
-        {renderTypeOfSchool()}
-        {renderSchoolMission()}
-      </SearchAccordion>
+      {!smallScreen && (
+        <SearchAccordion
+          button="Filter your results"
+          buttonLabel="Update results"
+          buttonOnClick={() => updateResults()}
+          name="benefitEstimates"
+          expanded={expanded}
+          onClick={onAccordionChange}
+        >
+          {controls}
+        </SearchAccordion>
+      )}
+      {smallScreen && (
+        <div className="modal-wrapper">
+          <div>
+            <h1>Update tuition and housing estimates</h1>
+            {controls}
+          </div>
+          <div className="modal-button-wrapper">
+            <button
+              type="button"
+              id="update-benefits-button"
+              className="update-results-button"
+              onClick={closeAndUpdate}
+            >
+              Update results
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

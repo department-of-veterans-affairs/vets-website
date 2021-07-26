@@ -26,8 +26,6 @@ export function NameSearchResults({
   const { name } = search.query;
   const history = useHistory();
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const [tuitionAndHousingOpen, setTuitionAndHousingOpen] = useState(false);
 
   useEffect(
     () => {
@@ -56,22 +54,15 @@ export function NameSearchResults({
       {name !== '' &&
         name !== null && (
           <div className="row vads-u-padding--0 vads-u-margin--0">
-            {smallScreen && (
-              <MobileFilterControls
-                filterClick={() => setFiltersOpen(!filtersOpen)}
-                tuitionAndHousingClick={() =>
-                  setTuitionAndHousingOpen(!tuitionAndHousingOpen)
-                }
-              />
-            )}
+            {smallScreen && <MobileFilterControls />}
             <p>
               Showing <strong>{count} search results</strong> for '
               <strong>{name}</strong>'
             </p>
             {!smallScreen && (
               <div className="column small-4 vads-u-padding--0">
-                <TuitionAndHousingEstimates smallScreen />
-                <FilterYourResults smallScreen />
+                <TuitionAndHousingEstimates smallScreen={smallScreen} />
+                <FilterYourResults smallScreen={smallScreen} />
               </div>
             )}
             <div className="column small-8 vads-u-padding--0">

@@ -46,8 +46,8 @@ export function SearchPage({
   }, []);
 
   const tabbedResults = {
-    [TABS.name]: <NameSearchResults smallScreen />,
-    [TABS.location]: <LocationSearchResults smallScreen />,
+    [TABS.name]: <NameSearchResults smallScreen={smallScreen} />,
+    [TABS.location]: <LocationSearchResults smallScreen={smallScreen} />,
   };
 
   const tabChange = selectedTab => {
@@ -109,9 +109,6 @@ export function SearchPage({
                 </AccordionItem>
 
                 {!error && smallScreen && tabbedResults[tab]}
-
-                {/* <TuitionAndHousingEstimates /> */}
-                {/* <FilterYourResults /> */}
               </div>
             )}
         </div>
