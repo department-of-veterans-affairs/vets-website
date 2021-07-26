@@ -352,6 +352,17 @@ function LocationSearchResults({
   };
 
   /**
+   * Renders the Eligibility and Filters accordions/buttons
+   * @type {JSX.Element}
+   */
+  const eligibilityAndFilters = (
+    <>
+      <TuitionAndHousingEstimates />
+      <FilterYourResults />
+    </>
+  );
+
+  /**
    * Content for when no results are found with or without the use of filters
    * smallScreen count is different from desktop count
    * @param count
@@ -527,12 +538,7 @@ function LocationSearchResults({
         {!inProgress && (
           <>
             <div>
-              {(smallScreenCount > 0 || usedFilters) && (
-                <>
-                  <TuitionAndHousingEstimates />
-                  <FilterYourResults />
-                </>
-              )}
+              {(smallScreenCount > 0 || usedFilters) && eligibilityAndFilters}
               {noResultsFound(smallScreenCount)}
             </div>
             {smallScreenCount > 0 && (
@@ -575,8 +581,7 @@ function LocationSearchResults({
             {search.location.count !== null &&
               (desktopCount > 0 || usedFilters) && (
                 <>
-                  <TuitionAndHousingEstimates />
-                  <FilterYourResults />
+                  {eligibilityAndFilters}
                   {searchResults(desktopCount)}
                 </>
               )}
