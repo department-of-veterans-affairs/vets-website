@@ -37,9 +37,8 @@ const CheckIn = props => {
       const json = await checkInUser({
         token,
       });
-      const { data } = json;
-
-      if (data.status === 200) {
+      const { data, status } = json;
+      if (status === 200) {
         recordEvent({
           event: createAnalyticsSlug('api-checking-in-user-successful'),
         });
