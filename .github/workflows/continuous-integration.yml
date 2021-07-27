@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        buildtype: [vagovdev, vagovstaging, vagovprod]
+        buildtype: [vagovdev]
 
     steps:
       - name: Checkout
@@ -327,7 +327,7 @@ jobs:
         ci_node_index: [0, 1, 2, 3, 4, 5]
 
     env:
-      CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
