@@ -209,7 +209,7 @@ const SearchResult = ({
           </div>
         </dd>
       ) : null}
-      {showPDFInfoVersionThree ? (
+      {showPDFInfoVersionThree && (
         <dd className="vads-u-margin-bottom--1 vads-u-margin-top--6">
           <span className="vads-u-margin-top--0 vads-u-margin-right--0p5 vads-u-color--gray-medium">
             You’ll need to download this form and open it in Adobe Acrobat
