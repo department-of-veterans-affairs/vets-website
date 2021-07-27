@@ -365,6 +365,7 @@ jobs:
         with:
           path: |
             .cache/yarn
+            /github/home/.cache/Cypress
             node_modules
           key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
 
