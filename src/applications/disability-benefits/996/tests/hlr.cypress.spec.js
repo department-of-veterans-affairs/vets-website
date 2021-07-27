@@ -2,7 +2,6 @@ import path from 'path';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import environment from 'platform/utilities/environment';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -34,7 +33,7 @@ const testConfig = createTestConfig(
 
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          if (environment.isProduction()) {
+          if (Cypress.env('CI')) {
             cy.get('[type="radio"][value="compensation"]').click();
             cy.get('[type="radio"][value="legacy-no"]').click();
             cy.axeCheck();
