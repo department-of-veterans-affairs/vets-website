@@ -23,11 +23,15 @@ const testConfig = createTestConfig(
     },
 
     pageHooks: {
-      introduction: ({ afterHook }) => {
+      start: () => {
+        // wizard
         cy.get('[type="radio"][value="compensation"]').click();
         cy.get('[type="radio"][value="legacy-no"]').click();
         cy.axeCheck();
-        cy.findByText(/request/i, { selector: 'button' }).click();
+        cy.findByText(/review online/i, { selector: 'a' }).click();
+      },
+
+      introduction: ({ afterHook }) => {
         afterHook(() => {
           // Hit the start button
           cy.findAllByText(/start/i, { selector: 'button' })
