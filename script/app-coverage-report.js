@@ -98,7 +98,11 @@ const logCoverage = coverageResults => {
   const data = JSON.stringify(coverageResults, null, 4);
 
   // write coverageResults string to file
-  const outputFile = path.join(__dirname, '../build/test-coverage-report.json');
+  const buildDirectoryPath = path.join(__dirname, '../build');
+  const coverageDirectoryPath = path.join(__dirname, '../coverage');
+  const outputFile = fs.existsSync(buildDirectoryPath)
+    ? path.join(buildDirectoryPath, '/test-coverage-report.json')
+    : path.join(coverageDirectoryPath, '/test-coverage-report.json');
   fs.writeFile(outputFile, data, err => {
     if (err) {
       throw err;
