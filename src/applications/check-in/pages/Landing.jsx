@@ -9,6 +9,7 @@ import { validateToken } from '../api';
 import { receivedAppointmentDetails } from '../actions';
 import { setCurrentToken, clearCurrentSession } from '../utils/session';
 import { createAnalyticsSlug } from '../utils/analytics';
+import { isUUID } from '../utils/token-format-validator';
 
 const Landing = props => {
   const { router, setAppointment, location } = props;
@@ -19,6 +20,13 @@ const Landing = props => {
       if (!token) {
         recordEvent({
           event: createAnalyticsSlug('landing-page-launched-no-token'),
+        });
+        goToNextPage(router, URLS.ERROR);
+      }
+
+      if (!isUUID(token)) {
+        recordEvent({
+          event: createAnalyticsSlug('malformed-token'),
         });
         goToNextPage(router, URLS.ERROR);
       }
