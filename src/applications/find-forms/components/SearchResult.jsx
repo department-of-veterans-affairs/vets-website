@@ -194,7 +194,7 @@ const SearchResult = ({
           </a>
         </dd>
       ) : null}
-      {showPDFInfoVersionOne ? (
+      {showPDFInfoVersionOne && (
         <dd className="find-forms-alert-message vads-u-margin-bottom--2 vads-u-background-color--primary-alt-lightest vads-u-display--flex vads-u-padding-y--4 vads-u-padding-right--7 vads-u-padding-left--3 vads-u-width--full">
           <i aria-hidden="true" role="img" />
           <span className="sr-only">Alert: </span>
@@ -208,7 +208,7 @@ const SearchResult = ({
             </a>
           </div>
         </dd>
-      ) : null}
+      )}
       {showPDFInfoVersionThree && (
         <dd className="vads-u-margin-bottom--1 vads-u-margin-top--6">
           <span className="vads-u-margin-top--0 vads-u-margin-right--0p5 vads-u-color--gray-medium">
