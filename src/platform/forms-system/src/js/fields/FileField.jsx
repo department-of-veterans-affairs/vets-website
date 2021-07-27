@@ -86,7 +86,15 @@ class FileField extends React.Component {
   onAddFile = async (event, index = null, password) => {
     if (event.target.files && event.target.files.length) {
       const currentFile = event.target.files[0];
-      const files = this.props.formData || [];
+      let files = this.props.formData || [];
+      // Clean up previous success announcements
+      files = files.map(file => {
+        return {
+          ...file,
+          announceSuccess: false,
+        };
+      });
+
       const {
         requestLockedPdfPassword,
         onChange,
