@@ -138,8 +138,8 @@ export function fetchConfirmedFutureAppointments() {
 
     try {
       if (environment.isLocalhost() && !window.Cypress) {
-        vaAppointments = MOCK_VA_APPOINTMENTS;
-        ccAppointments = MOCK_CC_APPOINTMENTS;
+        vaAppointments = MOCK_VA_APPOINTMENTS.data;
+        ccAppointments = MOCK_CC_APPOINTMENTS.data;
       } else {
         vaAppointmentsResponse = await apiRequest(
           `/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
