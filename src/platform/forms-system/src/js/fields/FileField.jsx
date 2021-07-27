@@ -87,7 +87,6 @@ class FileField extends React.Component {
     if (event.target.files && event.target.files.length) {
       const currentFile = event.target.files[0];
       const files = this.props.formData || [];
-
       const {
         requestLockedPdfPassword,
         onChange,
@@ -314,8 +313,10 @@ class FileField extends React.Component {
                 setTimeout(() => {
                   focusElement(`[name="get_password_${index}"]`);
                 }, 100);
-              } else if (hasErrors) {
-                focusElement(`[name="retry_upload_${index}"]`);
+              } else if (hasErrors && enableShortWorkflow) {
+                setTimeout(() => {
+                  focusElement(`[name="retry_upload_${index}"]`);
+                }, 100);
               }
 
               const allowRetry =
