@@ -20,6 +20,7 @@ const Landing = props => {
         recordEvent({
           event: createAnalyticsSlug('landing-page-launched-no-token'),
         });
+        goToNextPage(router, URLS.ERROR);
       }
 
       if (token) {
