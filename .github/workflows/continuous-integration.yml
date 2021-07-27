@@ -358,15 +358,15 @@ jobs:
       #   with:
       #     chrome-version: stable
 
-      # Disabling caching due to cypress breaking - to be evaluated at a later date
-      # - name: Cache dependencies
-      #   id: cache-dependencies
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: |
-      #       .cache/yarn
-      #       node_modules
-      #     key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            .cache/yarn
+            /github/home/.cache/Cypress
+            node_modules
+          key: ${{ steps.get-node-version.outputs.NODE_VERSION }}-${{ hashFiles('yarn.lock') }}-cypress
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
