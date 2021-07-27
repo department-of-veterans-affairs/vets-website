@@ -322,9 +322,9 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 6
+      max-parallel: 8
       matrix:
-        ci_node_index: [0, 1, 2, 3, 4, 5]
+        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
@@ -390,7 +390,7 @@ jobs:
 
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 60
+        timeout-minutes: 30
         env:
           # CYPRESS_BASE_URL: http://localhost:3001
           CYPRESS_CI: true
