@@ -29,12 +29,16 @@ const Header = ({
     ? uiSchema['ui:description']
     : null;
 
+  const uniqueId = Math.random()
+    .toString(36)
+    .substring(7);
+
   return (
     <div className="schemaform-block-header item-loop-header">
       {title &&
         !hideTitle && (
           <TitleField
-            id={`${idSchema.$id}__title`}
+            id={`${idSchema.$id}_${uniqueId}__title`}
             title={title}
             formContext={formContext}
           />
@@ -157,8 +161,8 @@ const AddAnotherButton = ({
   uiOptions,
   handleAdd,
 }) => (
-  <>
-    <div className="add-item-container">
+  <div>
+    <div className="add-item-container" name="table_root_">
       <div className="add-item-link-section">
         <i className="fas fa-plus plus-icon" />
         <a
@@ -174,7 +178,7 @@ const AddAnotherButton = ({
       {addAnotherDisabled &&
         `You’ve entered the maximum number of items allowed.`}
     </p>
-  </>
+  </div>
 );
 
 const ItemLoop = ({
@@ -360,7 +364,11 @@ const ItemLoop = ({
                       {item}
                     </th>
                   ))}
-                  <th className="vads-u-border--0" width="50" />
+                  <th
+                    className="vads-u-border--0"
+                    width="50"
+                    aria-hidden="true"
+                  />
                 </tr>
               </thead>
             )}
