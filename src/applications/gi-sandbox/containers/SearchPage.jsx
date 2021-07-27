@@ -4,18 +4,21 @@ import { connect } from 'react-redux';
 import { changeSearchTab, setPageTitle } from '../actions';
 import { PAGE_TITLE, TABS } from '../constants';
 import SearchTabs from '../components/search/SearchTabs';
-import { useQueryParams } from '../utils/helpers';
+import { updateUrlParams, useQueryParams } from '../utils/helpers';
 import { useHistory } from 'react-router-dom';
 import CompareDrawer from './CompareDrawer';
 import NameSearchResults from '../containers/search/NameSearchResults';
 import LocationSearchResults from '../containers/search/LocationSearchResults';
 import NameSearchForm from './search/NameSearchForm';
 import LocationSearchForm from './search/LocationSearchForm';
+import { getSearchQueryChanged } from '../selectors/search';
 
 export function SearchPage({
   dispatchChangeSearchTab,
   dispatchSetPageTitle,
   search,
+  preview,
+  filters,
 }) {
   const queryParams = useQueryParams();
   const history = useHistory();
@@ -23,6 +26,7 @@ export function SearchPage({
   const [smallScreen, setSmallScreen] = useState(
     matchMedia('(max-width: 480px)').matches,
   );
+  const { version } = preview;
 
   useEffect(
     () => {
@@ -36,6 +40,10 @@ export function SearchPage({
       setSmallScreen(matchMedia('(max-width: 480px)').matches);
     };
     window.addEventListener('resize', checkSize);
+
+    if (getSearchQueryChanged(search.query)) {
+      updateUrlParams(history, search.tab, search.query, filters, version, 1);
+    }
 
     return () => window.removeEventListener('resize', checkSize);
   }, []);
@@ -93,6 +101,8 @@ const mapStateToProps = state => ({
   autocomplete: state.autocomplete,
   eligibility: state.eligibility,
   search: state.search,
+  preview: state.preview,
+  filters: state.filters,
 });
 
 const mapDispatchToProps = {
