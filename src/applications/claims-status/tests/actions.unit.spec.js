@@ -313,6 +313,9 @@ describe('Actions', () => {
           'error-key': 'unknown',
           'api-latency-ms': 0,
         });
+        expect(global.window.dataLayer[1]).to.eql({
+          'error-key': undefined,
+        });
       });
     });
     describe('onSuccess callback', () => {

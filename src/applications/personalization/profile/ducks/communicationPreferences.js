@@ -120,6 +120,18 @@ export const selectGroupUi = (state, groupId) => {
 export const selectIsGroupEditing = (state, groupId) => {
   return selectGroupUi(state, groupId).ui.isEditing;
 };
+const selectItems = state => {
+  return state.items;
+};
+export const selectItemById = (state, itemId) => {
+  return selectItems(state).entities[itemId];
+};
+const selectChannels = state => {
+  return state.channels;
+};
+export const selectChannelById = (state, channelId) => {
+  return selectChannels(state).entities[channelId];
+};
 
 // REDUCERS
 function communicationGroupsReducer(accumulator, group) {
