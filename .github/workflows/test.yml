@@ -1,0 +1,26 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - '**'
+    tags-ignore:
+      - '**'
+
+env:
+  CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
+
+jobs:
+  testing:
+    name: ok
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
+    steps:
+      - name: Set directory ID for dependencies
+        run: echo "NODE_ID=$(( RANDOM % 10000 ))" >> $GITHUB_ENV
+
+      - name: echo
+        run: echo $NODE_ID
