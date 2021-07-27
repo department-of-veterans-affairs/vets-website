@@ -111,6 +111,7 @@ const SearchResult = ({
   formMetaInfo,
   showPDFInfoVersionOne,
   showPDFInfoVersionTwo,
+  showPDFInfoVersionThree,
 }) => {
   // Escape early if we don't have the necessary form attributes.
   if (!form?.attributes) {
@@ -167,7 +168,11 @@ const SearchResult = ({
 
       {relatedTo}
       {formToolUrl ? (
-        <dd className="vads-u-margin-bottom--2p5">
+        <dd
+          className={
+            showPDFInfoVersionThree ? null : 'vads-u-margin-bottom--2p5'
+          }
+        >
           <a
             className="find-forms-max-content vads-u-display--flex vads-u-align-items--center vads-u-text-decoration--none"
             href={formToolUrl}
@@ -189,7 +194,7 @@ const SearchResult = ({
           </a>
         </dd>
       ) : null}
-      {showPDFInfoVersionOne ? (
+      {showPDFInfoVersionOne && (
         <dd className="find-forms-alert-message vads-u-margin-bottom--2 vads-u-background-color--primary-alt-lightest vads-u-display--flex vads-u-padding-y--4 vads-u-padding-right--7 vads-u-padding-left--3 vads-u-width--full">
           <i aria-hidden="true" role="img" />
           <span className="sr-only">Alert: </span>
@@ -203,7 +208,21 @@ const SearchResult = ({
             </a>
           </div>
         </dd>
-      ) : null}
+      )}
+      {showPDFInfoVersionThree && (
+        <dd className="vads-u-margin-bottom--1 vads-u-margin-top--6">
+          <span className="vads-u-margin-top--0 vads-u-margin-right--0p5 vads-u-color--gray-medium">
+            You’ll need to download this form and open it in Adobe Acrobat
+            Reader.
+          </span>
+          <a
+            className="vads-u-display--inline "
+            href="https://www.va.gov/resources/how-to-download-and-open-a-vagov-pdf-form/"
+          >
+            Read More
+          </a>
+        </dd>
+      )}
       <dd className="vads-u-margin-bottom--5">
         <a
           className="find-forms-max-content vads-u-text-decoration--none"
@@ -234,6 +253,7 @@ SearchResult.propTypes = {
   formMetaInfo: customPropTypes.FormMetaInfo,
   showPDFInfoVersionOne: PropTypes.bool,
   showPDFInfoVersionTwo: PropTypes.bool,
+  showPDFInfoVersionThree: PropTypes.bool,
 };
 
 export default SearchResult;
