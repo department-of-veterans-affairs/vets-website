@@ -58,9 +58,6 @@ function LocationSearchResults({
       style: 'mapbox://styles/mapbox/outdoors-v11',
       center: [MapboxInit.centerInit.longitude, MapboxInit.centerInit.latitude],
       zoom: MapboxInit.zoomInit,
-      scrollZoom: { around: 'center' },
-      touchZoomRotate: { around: 'center' },
-      doubleClickZoom: false,
     });
 
     mapInit.addControl(
@@ -96,15 +93,7 @@ function LocationSearchResults({
       updateMapState();
     });
 
-    mapInit.on('dblclick', e => {
-      map.current.easeTo(
-        {
-          duration: 300,
-          zoom: map.current.getZoom() + (e.originalEvent.shiftKey ? -1 : 1),
-          around: map.current.getCenter(),
-        },
-        { originalEvent: e.originalEvent },
-      );
+    mapInit.on('dblclick', _e => {
       updateMapState();
     });
 
