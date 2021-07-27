@@ -33,16 +33,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataSets: [
-      'full-781-781a-8940-test.json',
-      'maximal-test',
-      'maximal-bdd-test',
-      'minimal-test',
-      'minimal-bdd-test',
-      'newOnly-test',
-      'secondary-new-test.json',
-      'upload-781-781a-8940-test.json',
-    ],
+    dataSets: ['secondary-new-test.json', 'upload-781-781a-8940-test.json'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
