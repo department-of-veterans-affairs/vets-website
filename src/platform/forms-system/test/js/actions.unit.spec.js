@@ -536,6 +536,7 @@ describe('Schemaform actions:', () => {
         size: 1234,
         confirmationCode: 'Test code',
         isEncrypted: false,
+        announceSuccess: true,
       });
     });
 
@@ -588,6 +589,7 @@ describe('Schemaform actions:', () => {
         size: 1234,
         confirmationCode: 'Test code',
         isEncrypted: false,
+        announceSuccess: true,
       });
     });
 
