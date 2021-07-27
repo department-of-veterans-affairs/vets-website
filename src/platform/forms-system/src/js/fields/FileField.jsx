@@ -86,14 +86,7 @@ class FileField extends React.Component {
   onAddFile = async (event, index = null, password) => {
     if (event.target.files && event.target.files.length) {
       const currentFile = event.target.files[0];
-      let files = this.props.formData || [];
-      // Clean up previous success announcements
-      files = files.map(file => {
-        return {
-          ...file,
-          announceSuccess: false,
-        };
-      });
+      const files = this.props.formData || [];
 
       const {
         requestLockedPdfPassword,
@@ -276,23 +269,12 @@ class FileField extends React.Component {
           return errors.length > 0;
         }));
 
-    let uploadStatus = '';
-    if (isUploading) {
-      uploadStatus = `Uploading: ${Math.floor(this.state.progress)}%`;
-    } else if (files.some(file => file.announceSuccess)) {
-      uploadStatus = 'File uploaded';
-    }
-
     return (
       <div
         className={
           formContext.reviewMode ? 'schemaform-file-upload-review' : undefined
         }
-        name="file_upload_container"
       >
-        <div aria-live="assertive" className="sr-only">
-          {uploadStatus}
-        </div>
         {files.length > 0 && (
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
@@ -332,11 +314,8 @@ class FileField extends React.Component {
                 setTimeout(() => {
                   focusElement(`[name="get_password_${index}"]`);
                 }, 100);
-              } else if (
-                (file.uploading && this.state.progress === 0) ||
-                hasErrors
-              ) {
-                focusElement(`[name="file_upload_container"]`);
+              } else if (hasErrors) {
+                focusElement(`[name="retry_upload_${index}"]`);
               }
 
               const allowRetry =
@@ -363,10 +342,7 @@ class FileField extends React.Component {
                     <div className="schemaform-file-uploading">
                       <span>{file.name}</span>
                       <br />
-                      <ProgressBar
-                        percent={this.state.progress}
-                        label="Uploading"
-                      />
+                      <ProgressBar percent={this.state.progress} />
                       <button
                         type="button"
                         className="usa-button-secondary vads-u-width--auto"
@@ -447,6 +423,7 @@ class FileField extends React.Component {
                       {hasErrors &&
                         enableShortWorkflow && (
                           <button
+                            name={`retry_upload_${index}`}
                             type="button"
                             className="usa-button-primary vads-u-width--auto vads-u-margin-right--2"
                             onClick={retryFunction}
