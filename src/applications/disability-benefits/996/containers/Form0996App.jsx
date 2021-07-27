@@ -25,7 +25,7 @@ export const Form0996App = ({ location, children, router, savedForms }) => {
   if (!IS_PRODUCTION && shouldShowWizard(formConfig.formId, savedForms)) {
     router.push('/start');
     return (
-      <h1>
+      <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
         <LoadingIndicator message="Please wait while we restart the application for you." />
       </h1>
     );
