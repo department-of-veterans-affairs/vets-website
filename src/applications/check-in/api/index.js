@@ -27,7 +27,7 @@ const checkInUser = async ({ token }) => {
 
   const json = await apiRequest(`${environment.API_URL}${url}`, settings);
   return {
-    data: json.data,
+    ...json,
   };
 };
 export { validateToken, checkInUser };
