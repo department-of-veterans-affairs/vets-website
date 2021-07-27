@@ -7,3 +7,5 @@ export const applyPDFInfoBoxOne = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.findFormsEnhancementFlagOne];
 export const applyPDFInfoBoxTwo = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.findFormsEnhancementFlagTwo];
+export const applyPDFInfoHelpText = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.findFormsEnhancementFlagThree];

@@ -213,6 +213,7 @@ class SearchApp extends React.Component {
       <div
         className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-top--1p5 vads-u-margin-bottom--4"
         role="search"
+        aria-labelledby="h1-search-title"
       >
         <div>Enter a keyword</div>
         <form
@@ -220,19 +221,17 @@ class SearchApp extends React.Component {
           className="va-flex search-box vads-u-margin-top--1 vads-u-margin-bottom--0"
           data-e2e-id="search-form"
         >
-          <div role="search" aria-labelledby="h1-search-title">
-            <input
-              type="text"
-              name="query"
-              aria-label="Enter a keyword"
-              value={this.state.userInput}
-              onChange={this.handleInputChange}
-            />
-            <button type="submit">
-              <IconSearch color="#fff" />
-              <span className="button-text">Search</span>
-            </button>
-          </div>
+          <input
+            type="text"
+            name="query"
+            aria-label="Enter a keyword"
+            value={this.state.userInput}
+            onChange={this.handleInputChange}
+          />
+          <button type="submit">
+            <IconSearch color="#fff" />
+            <span className="button-text">Search</span>
+          </button>
         </form>
       </div>
     );

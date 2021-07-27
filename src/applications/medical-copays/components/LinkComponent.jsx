@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
-const LinkComponent = ({ path }) => {
-  return <Link to={path}>Go to {path} page</Link>;
+const LinkComponent = ({ url }) => {
+  return <Link to={url}>Go to {url} page</Link>;
 };
 
 export default LinkComponent;
