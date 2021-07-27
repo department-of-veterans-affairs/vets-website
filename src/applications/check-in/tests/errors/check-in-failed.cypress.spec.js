@@ -28,6 +28,6 @@ describe('Check In Experience -- ', () => {
     cy.get('.usa-button').click();
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('contain', 'staff member');
+      .and('contain', 'We couldn’t check you in');
   });
 });
