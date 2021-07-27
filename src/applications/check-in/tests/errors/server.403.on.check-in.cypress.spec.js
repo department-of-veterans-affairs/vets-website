@@ -5,10 +5,10 @@ import mockValidate from '../../api/local-mock-api/mocks/validate.responses';
 describe('Check In Experience -- ', () => {
   beforeEach(function() {
     cy.intercept('GET', '/check_in/v0/patient_check_ins//*', req => {
-      req.reply(mockValidate.createMockSuccessResponse({}));
+      req.reply(403, mockValidate.createMockFailedResponse({}));
     });
     cy.intercept('POST', '/check_in/v0/patient_check_ins/', req => {
-      req.reply(403, mockCheckIn.createMockFailedResponse({}));
+      req.reply(200, mockCheckIn.createMockSuccessResponse({}));
     });
     cy.intercept('GET', '/v0/feature_toggles*', features);
     cy.window().then(window => {
@@ -24,10 +24,7 @@ describe('Check In Experience -- ', () => {
     const featureRoute =
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
     cy.visit(featureRoute);
-    cy.get('legend > h2').contains('information');
-    cy.get('[data-testid="no-button"]').click();
-    cy.get('h1').contains('Your appointment');
-    cy.get('.usa-button').click();
+
     cy.url().should('match', /error/);
     cy.get('h1').contains('We couldn’t check you in');
   });
