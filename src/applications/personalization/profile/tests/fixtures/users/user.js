@@ -1,4 +1,4 @@
-import { mockContactInformation } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
+import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
 export const makeMockUser = () => {
   return {
@@ -79,7 +79,7 @@ export const makeMockUser = () => {
           '20-0996',
           'MDOT',
         ],
-        vet360ContactInformation: mockContactInformation,
+        vet360ContactInformation: makeMockContactInfo(),
       },
     },
     meta: { errors: null },

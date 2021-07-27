@@ -7,6 +7,8 @@ export default {
   arcgis: 'arcgis',
   // Benefits Gateway Services
   bgs: 'bgs',
+  // Debt Management Services
+  dmc: 'dmc',
   dslogon: 'dslogon',
   emis: 'emis',
   // Enrollment System (HCA submissions)

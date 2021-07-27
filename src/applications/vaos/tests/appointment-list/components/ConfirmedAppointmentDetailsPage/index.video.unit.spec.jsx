@@ -592,6 +592,42 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(screen.queryByText(/join appointment/i)).to.not.exist;
     });
 
+    it('should direct user to valid facility for changes if using the 612 site', async () => {
+      const startDate = moment.utc().add(3, 'days');
+      const appointment = getVideoAppointmentMock({
+        id: 'some_id',
+        startDate: startDate.format(),
+        facilityId: '612',
+        appointmentKind: 'ADHOC',
+      });
+      mockFacilityFetch(
+        'vha_612A4',
+        getVAFacilityMock({ id: '612A4', name: 'Sacramento VA' }),
+      );
+      mockSingleAppointmentFetch({
+        appointment,
+      });
+
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: '/va/some_id',
+      });
+
+      await screen.findByText(
+        new RegExp(
+          startDate
+            .tz('America/Los_Angeles')
+            .format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      );
+
+      expect(screen.queryByText(/You don’t have any appointments/i)).not.to
+        .exist;
+      expect(screen.baseElement).to.contain.text('VA Video Connect at home');
+      expect(screen.baseElement).to.contain.text('Sacramento VA');
+    });
+
     it('should show address info for clinic based appointment', async () => {
       const appointment = getVideoAppointmentMock();
       const startDate = moment.utc().add(3, 'days');
@@ -1506,7 +1542,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       expect(tokens.get('END')).includes('VCALENDAR');
     });
   });
-  describe('video appointments (css transition check)', () => {
+  describe('VAOS video appointments (css transition check)', () => {
     beforeEach(() => {
       mockFetch();
       mockFacilitiesFetch();

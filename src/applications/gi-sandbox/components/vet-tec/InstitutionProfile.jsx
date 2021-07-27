@@ -10,23 +10,32 @@ import ProfilePageHeader from '../../containers/ProfilePageHeader';
 import JumpLink from '../profile/JumpLink';
 import ProfileSection from '../profile/ProfileSection';
 import CautionaryInformation from '../profile/CautionaryInformation';
+import GettingStartedWithVetTec from './GettingStartedWithVetTec';
+import BackToTop from '../BackToTop';
 
 export default function InstitutionProfile({
   institution,
   showModal,
   preSelectedProgram,
   selectedProgram,
+  compare,
 }) {
   const program =
     selectedProgram ||
     preSelectedProgram ||
     _.get(institution, 'programs[0].description', '');
 
+  const institutionProfileId = 'institution-profile';
+  const profilePageHeaderId = 'profile-page-header';
+
   const hasPrograms = institution.programs.length > 0;
 
   return (
-    <div>
-      <div className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4">
+    <div id={institutionProfileId}>
+      <div
+        id={profilePageHeaderId}
+        className="usa-grid vads-u-padding--0 vads-u-margin-bottom--4"
+      >
         <div className="usa-width-three-fourths">
           <ProfilePageHeader institution={institution} />
         </div>
@@ -81,7 +90,9 @@ export default function InstitutionProfile({
       <ProfileSection
         label="Getting started with VET TEC"
         id="getting-started-with-benefits"
-      />
+      >
+        <GettingStartedWithVetTec />
+      </ProfileSection>
       <ProfileSection
         label="Cautionary information"
         id="cautionary-information"
@@ -115,6 +126,11 @@ export default function InstitutionProfile({
       <ProfileSection label="Contact Information" id="contact-information">
         <ContactInformation institution={institution} showModal={showModal} />
       </ProfileSection>
+      <BackToTop
+        parentId={institutionProfileId}
+        profilePageHeaderId={profilePageHeaderId}
+        compare={compare}
+      />
     </div>
   );
 }

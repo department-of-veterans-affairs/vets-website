@@ -1,7 +1,6 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import manifest from '../manifest.json';
@@ -9,7 +8,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import PreSubmitSignature from '../components/PreSubmitSignature';
 import * as pages from '../pages';
 import { transform } from '../utils/transform';
-import { SubmissionError } from '../components/ErrorMessage';
+import { SubmissionAlert } from '../components/Alerts';
 import { WIZARD_STATUS } from '../wizard/constants';
 
 const formConfig = {
@@ -17,7 +16,7 @@ const formConfig = {
   urlPrefix: '/',
   transformForSubmit: transform,
   submitUrl: `${environment.API_URL}/v0/financial_status_reports`,
-  submissionError: SubmissionError,
+  submissionError: SubmissionAlert,
   trackingPrefix: 'fsr-5655-',
   wizardStorageKey: WIZARD_STATUS,
   introduction: IntroductionPage,
@@ -137,6 +136,7 @@ const formConfig = {
           showPagePerItem: true,
           uiSchema: pages.income.uiSchema,
           schema: pages.income.schema,
+          editModeOnReviewPage: true,
         },
         benefits: {
           path: 'benefits',
@@ -200,6 +200,7 @@ const formConfig = {
           showPagePerItem: true,
           uiSchema: pages.spouseIncome.uiSchema,
           schema: pages.spouseIncome.schema,
+          editModeOnReviewPage: true,
         },
         spouseBenefits: {
           path: 'spouse-benefits',

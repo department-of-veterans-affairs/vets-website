@@ -2,7 +2,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 // This function assumes the accordion element is in a <section> tag
 // which has a data-label attribute set.
-const getSectionLabel = node => {
+export const getSectionLabel = node => {
   let currentNode = node;
   while (
     currentNode &&

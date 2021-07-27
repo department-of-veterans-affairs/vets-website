@@ -15,7 +15,7 @@ export default function NoAppointments({
       {showScheduleButton && (
         <>
           <p>
-            You can schedule an appointment online now, or you can call your{' '}
+            You can schedule an appointment online now, or call your{' '}
             <NewTabAnchor href="/find-locations">
               VA medical center
             </NewTabAnchor>{' '}
@@ -33,7 +33,7 @@ export default function NoAppointments({
       {!showScheduleButton && (
         <>
           <p>
-            To schedule an appointment, you can call your{' '}
+            To schedule an appointment, call your{' '}
             <NewTabAnchor href="/find-locations">
               VA Medical center
             </NewTabAnchor>

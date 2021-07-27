@@ -4,6 +4,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
+import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
 import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
 import { WIZARD_STATUS } from '../../wizard/constants';
@@ -13,19 +14,33 @@ Cypress.config('waitForAnimations', true);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['minimal'],
-    fixtures: {
-      data: path.join(__dirname, 'fixtures', 'data'),
-    },
+    dataSets: ['minimal', 'maximal'],
+    fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
+
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
       cy.login(mockUser);
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            { name: 'showFinancialStatusReportWizard', value: true },
+            { name: 'showFinancialStatusReport', value: true },
+          ],
+        },
+      });
       cy.intercept('GET', '/v0/debts', debts);
       cy.get('@testData').then(testData => {
-        cy.intercept('GET', '/v0/in_progress_forms/5655', testData);
-        cy.intercept('PUT', 'v0/in_progress_forms/5655', testData);
+        cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
+        cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
       });
+      cy.intercept('POST', formConfig.submitUrl, {
+        statusCode: 200,
+        body: {
+          status: 'Document has been successfully uploaded to filenet',
+        },
+      }).as('submitForm');
     },
+
     pageHooks: {
       introduction: () => {
         cy.findAllByText(/start/i, { selector: 'button' })
@@ -34,16 +49,96 @@ const testConfig = createTestConfig(
       },
       'available-debts': ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/Request help with this debt/i, {
-            selector: 'label',
-          })
+          cy.get(`input[name="request-help-with-debt"]`)
+            .first()
+            .check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'employment-records': ({ afterHook }) => {
+        afterHook(() => {
+          // Employer One - Current Employment
+          cy.findByLabelText(/Type of work/).select('Full time');
+          cy.get(`select[name="fromMonth"]`).select('1');
+          cy.get(`input[name="fromYear"]`).type('2017');
+          cy.get(`input[name="current-employment"]`).check();
+          cy.get(`input[name="employerName"]`).type('Employer One');
+          cy.findAllByText(/Save/i, { selector: 'button' })
+            .first()
+            .click();
+          // Add job link
+          cy.findAllByText(/Add job/i, { selector: 'a' })
+            .first()
+            .click();
+          // Employer Two - Previous Employment
+          cy.findByLabelText(/Type of work/).select('Full time');
+          cy.get(`select[name="fromMonth"]`).select('1');
+          cy.get(`input[name="fromYear"]`).type('2015');
+          cy.get(`select[name="toMonth"]`).select('1');
+          cy.get(`input[name="toYear"]`).type('2017');
+          cy.get(`input[name="employerName"]`).type('Employer Two');
+          cy.findAllByText(/Save/i, { selector: 'button' })
             .first()
             .click();
           cy.get('.usa-button-primary').click();
         });
       },
+
+      'spouse-employment-records': ({ afterHook }) => {
+        afterHook(() => {
+          // Employer One - Current Employment
+          cy.findByLabelText(/Type of work/).select('Full time');
+          cy.get(`select[name="fromMonth"]`).select('5');
+          cy.get(`input[name="fromYear"]`).type('2015');
+          cy.get(`input[name="current-employment"]`).check();
+          cy.get(`input[name="employerName"]`).type('Employer One');
+          cy.findAllByText(/Save/i, { selector: 'button' })
+            .first()
+            .click();
+          // Add job link
+          cy.findAllByText(/Add job/i, { selector: 'a' })
+            .first()
+            .click();
+          // Employer Two - Previous Employment
+          cy.findByLabelText(/Type of work/).select('Full time');
+          cy.get(`select[name="fromMonth"]`).select('2');
+          cy.get(`input[name="fromYear"]`).type('2013');
+          cy.get(`select[name="toMonth"]`).select('3');
+          cy.get(`input[name="toYear"]`).type('2018');
+          cy.get(`input[name="employerName"]`).type('Employer Two');
+          cy.findAllByText(/Save/i, { selector: 'button' })
+            .first()
+            .click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'spouse/income/0': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(`input[name="root_spouseMonthlyGrossSalary"]`).type('3500');
+          cy.get(`input[name="root_deductions_0_name"]`).type('Federal tax');
+          cy.get(`input[name="root_deductions_0_amount"]`).type('250');
+          cy.findAllByText(/Save/i, { selector: 'button' }).click();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'resolution-options': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('[type="radio"][value="Waiver"]').click();
+          cy.get(`input[name="agree-to-waiver"]`).check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get(`input[name="veteran-signature"]`).type('Mark Webb');
+          cy.get(`input[name="veteran-certify"]`).check();
+          cy.get(`input[name="privacy-policy"]`).check();
+          cy.findAllByText(/Submit your request/i, {
+            selector: 'button',
+          }).click();
+        });
+      },
     },
-    skip: true, // test is passing but form is wip disabling test until changes are complete
   },
   manifest,
   formConfig,

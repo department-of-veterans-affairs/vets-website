@@ -4,9 +4,9 @@ import {
   fetchNameAutocompleteSuggestions,
   fetchSearchByNameResults,
   updateAutocompleteName,
-} from '../actions';
-import KeywordSearch from '../components/search/KeywordSearch';
-import { updateUrlParams } from '../utils/helpers';
+} from '../../actions';
+import KeywordSearch from '../../components/search/KeywordSearch';
+import { updateUrlParams } from '../../utils/helpers';
 import { useHistory } from 'react-router-dom';
 
 export function NameSearchForm({

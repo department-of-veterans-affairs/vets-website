@@ -50,5 +50,18 @@ describe('check-in', () => {
         'this is a cool thing 555-867-5309.',
       );
     });
+    it('Renders the footer when no phone number is presented', () => {
+      const fakeStore = {
+        getState: () => ({
+          checkInData: { appointment: { clinicPhoneNumber: '' } },
+        }),
+        subscribe: () => {},
+        dispatch: () => ({}),
+      };
+      const screen = render(<Footer store={fakeStore} />);
+
+      expect(screen.getByTestId('heading')).to.have.text('Need Help?');
+      expect(screen.getByTestId('message')).to.have.text('Ask a staff member.');
+    });
   });
 });

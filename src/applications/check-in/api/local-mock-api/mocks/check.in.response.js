@@ -1,5 +1,5 @@
 const createMockSuccessResponse = _data => {
-  return { data: { success: true } };
+  return { data: 'Checkin successful', status: 200 };
 };
 
 const createMockFailedResponse = _data => {

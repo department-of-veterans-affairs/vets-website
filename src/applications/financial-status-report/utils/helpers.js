@@ -30,14 +30,14 @@ export const getMonthlyIncome = ({
 
   if (questions.vetIsEmployed) {
     const monthlyGrossSalary = currentEmployment
-      .map(record => Number(record.monthlyGrossSalary))
+      .map(record => Number(record.veteranMonthlyGrossSalary))
       .reduce((acc, amount) => acc + amount, 0);
     totalArr = [...totalArr, monthlyGrossSalary];
   }
 
   if (questions.spouseIsEmployed) {
     const monthlyGrossSalary = spouseCurrentEmployment
-      .map(record => Number(record.monthlyGrossSalary))
+      .map(record => Number(record.spouseMonthlyGrossSalary))
       .reduce((acc, amount) => acc + amount, 0);
     totalArr = [...totalArr, monthlyGrossSalary];
   }
@@ -253,8 +253,8 @@ export const getIncome = ({
   ];
 
   if (questions.vetIsEmployed) {
-    const monthlyGrossSalary = currentEmployment
-      .map(record => record.monthlyGrossSalary)
+    const veteranMonthlyGrossSalary = currentEmployment
+      .map(record => record.veteranMonthlyGrossSalary)
       .reduce((acc, amount) => acc + Number(amount), 0);
 
     const deductions = currentEmployment
@@ -282,10 +282,10 @@ export const getIncome = ({
               ),
             },
           },
-          monthlyGrossSalary,
+          monthlyGrossSalary: veteranMonthlyGrossSalary,
           totalDeductions,
-          netTakeHomePay: monthlyGrossSalary - totalDeductions,
-          totalMonthlyNetIncome: monthlyGrossSalary - totalDeductions,
+          netTakeHomePay: veteranMonthlyGrossSalary - totalDeductions,
+          totalMonthlyNetIncome: veteranMonthlyGrossSalary - totalDeductions,
         };
       }
       return item;
@@ -293,8 +293,8 @@ export const getIncome = ({
   }
 
   if (questions.spouseIsEmployed) {
-    const monthlyGrossSalary = spouseCurrentEmployment
-      .map(record => record.monthlyGrossSalary)
+    const spouseMonthlyGrossSalary = spouseCurrentEmployment
+      .map(record => record.spouseMonthlyGrossSalary)
       .reduce((acc, amount) => acc + Number(amount), 0);
 
     const deductions = spouseCurrentEmployment
@@ -322,10 +322,10 @@ export const getIncome = ({
               ),
             },
           },
-          monthlyGrossSalary,
+          monthlyGrossSalary: spouseMonthlyGrossSalary,
           totalDeductions,
-          netTakeHomePay: monthlyGrossSalary - totalDeductions,
-          totalMonthlyNetIncome: monthlyGrossSalary - totalDeductions,
+          netTakeHomePay: spouseMonthlyGrossSalary - totalDeductions,
+          totalMonthlyNetIncome: spouseMonthlyGrossSalary - totalDeductions,
         };
       }
       return item;
@@ -333,8 +333,8 @@ export const getIncome = ({
   }
 
   if (questions.hasAdditionalIncome) {
-    const monthlyGrossSalary = currentEmployment
-      .map(record => record.monthlyGrossSalary)
+    const veteranMonthlyGrossSalary = currentEmployment
+      .map(record => record.veteranMonthlyGrossSalary)
       .reduce((acc, amount) => acc + Number(amount), 0);
 
     const deductions = currentEmployment
@@ -351,7 +351,8 @@ export const getIncome = ({
       0,
     );
 
-    const totalNetIncome = monthlyGrossSalary + otherIncome - totalDeductions;
+    const totalNetIncome =
+      veteranMonthlyGrossSalary + otherIncome - totalDeductions;
 
     income = income.map(item => {
       if (item.veteranOrSpouse === 'VETERAN') {
@@ -374,8 +375,8 @@ export const getIncome = ({
   }
 
   if (questions.spouseHasAdditionalIncome) {
-    const monthlyGrossSalary = spouseCurrentEmployment
-      .map(record => record.monthlyGrossSalary)
+    const spouseMonthlyGrossSalary = spouseCurrentEmployment
+      .map(record => record.spouseMonthlyGrossSalary)
       .reduce((acc, amount) => acc + Number(amount), 0);
 
     const deductions = spouseCurrentEmployment
@@ -392,7 +393,8 @@ export const getIncome = ({
       0,
     );
 
-    const totalNetIncome = monthlyGrossSalary + otherIncome - totalDeductions;
+    const totalNetIncome =
+      spouseMonthlyGrossSalary + otherIncome - totalDeductions;
 
     income = income.map(item => {
       if (item.veteranOrSpouse === 'SPOUSE') {

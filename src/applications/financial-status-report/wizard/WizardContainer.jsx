@@ -4,11 +4,17 @@ import GetFormHelp from '../components/GetFormHelp';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import pages from '../wizard/pages';
 import recordEvent from 'platform/monitoring/record-event';
+import { MaintenanceAlert } from '../components/Alerts';
+import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
+import {
+  DowntimeNotification,
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import Wizard, {
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
 
-const WizardContainer = ({ setWizardStatus }) => {
+const WizardContainer = ({ setWizardStatus, showFSR }) => {
   return (
     <div className="fsr-wizard row">
       <div className="usa-width-two-thirds medium-8 columns">
@@ -17,6 +23,17 @@ const WizardContainer = ({ setWizardStatus }) => {
           subTitle={'Equal to VA Form 5655 (Financial Status Report)'}
         />
         <div className="wizard-container">
+          <DowntimeNotification
+            appTitle="VA Form 5655"
+            dependencies={[externalServices.dmc]}
+            render={({ status }) => {
+              return (
+                (!showFSR || status === externalServiceStatus.down) && (
+                  <MaintenanceAlert />
+                )
+              );
+            }}
+          />
           <h2 className="wizard-heading">Is this the form I need?</h2>
           <p>
             This form is for Veterans or service members who need help with debt
@@ -50,7 +67,6 @@ const WizardContainer = ({ setWizardStatus }) => {
               learn how to request financial hardship assistance.
             </a>
           </p>
-
           <section aria-live="polite">
             <Wizard
               pages={pages}

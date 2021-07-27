@@ -1,3 +1,4 @@
+import React from 'react';
 import ItemLoop from '../../../components/ItemLoop';
 import TableDetailsView from '../../../components/TableDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
@@ -9,9 +10,14 @@ import {
 } from '../../../constants/typeaheadOptions';
 
 export const uiSchema = {
-  'ui:title': 'Your other income',
-  'ui:description':
-    'Tell us how much you get each month for each type of income.',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">Your other income</legend>
+      <p className="vads-u-padding-top--2">
+        Tell us how much you get each month for each type of income.
+      </p>
+    </>
+  ),
   additionalIncome: {
     additionalIncomeRecords: {
       'ui:field': ItemLoop,
