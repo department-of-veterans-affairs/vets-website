@@ -120,7 +120,7 @@ jobs:
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
       - name: Configure AWS credentials (1)
-        if: ${{ github.ref == 'refs/heads/coverage-report-jenkins-fix' }}
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -128,14 +128,14 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get AWS IAM role
-        if: ${{ github.ref == 'refs/heads/coverage-report-jenkins-fix' }}
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: marvinpinto/action-inject-ssm-secrets@latest
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
       - name: Configure AWS Credentials (2)
-        if: ${{ github.ref == 'refs/heads/coverage-report-jenkins-fix' }}
+        if: ${{ github.ref == 'refs/heads/master' }}
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -146,8 +146,8 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Upload coverage report to S3
-        if: ${{ github.ref == 'refs/heads/coverage-report-jenkins-fix' }}
-        run: aws s3 cp coverage/test-coverage-report.json s3://apps.dev.va.gov/coverage-report/test-coverage-report.json --acl public-read --region us-gov-west-1
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: aws s3 cp coverage/test-coverage-report.json s3://apps.dev.va.gov/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
 
       - name: Get code coverage
         id: code-coverage
