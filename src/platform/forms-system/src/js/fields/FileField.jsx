@@ -268,12 +268,23 @@ class FileField extends React.Component {
           return errors.length > 0;
         }));
 
+    let uploadStatus = '';
+    if (isUploading) {
+      uploadStatus = `Uploading: ${Math.floor(this.state.progress)}%`;
+    } else if (files.some(file => file.announceSuccess)) {
+      uploadStatus = 'File uploaded';
+    }
+
     return (
       <div
         className={
           formContext.reviewMode ? 'schemaform-file-upload-review' : undefined
         }
+        name="file_upload_container"
       >
+        <div aria-live="assertive" className="sr-only">
+          {uploadStatus}
+        </div>
         {files.length > 0 && (
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
@@ -313,6 +324,11 @@ class FileField extends React.Component {
                 setTimeout(() => {
                   focusElement(`[name="get_password_${index}"]`);
                 }, 100);
+              } else if (
+                (file.uploading && this.state.progress === 0) ||
+                hasErrors
+              ) {
+                focusElement(`[name="file_upload_container"]`);
               }
 
               const allowRetry =
@@ -339,7 +355,10 @@ class FileField extends React.Component {
                     <div className="schemaform-file-uploading">
                       <span>{file.name}</span>
                       <br />
-                      <ProgressBar percent={this.state.progress} />
+                      <ProgressBar
+                        percent={this.state.progress}
+                        label="Uploading"
+                      />
                       <button
                         type="button"
                         className="usa-button-secondary vads-u-width--auto"

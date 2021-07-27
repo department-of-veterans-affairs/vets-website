@@ -316,7 +316,11 @@ export function uploadFile(
         const fileData = uiOptions.parseResponse(JSON.parse(body), file);
 
         recordEvent({ event: `${trackingPrefix}file-uploaded` });
-        onChange({ ...fileData, isEncrypted: !!password });
+        onChange({
+          ...fileData,
+          isEncrypted: !!password,
+          announceSuccess: true,
+        });
       } else {
         let errorMessage = req.statusText;
         try {
