@@ -17,6 +17,7 @@ import {
 import {
   applyPDFInfoBoxOne,
   applyPDFInfoBoxTwo,
+  applyPDFInfoHelpText,
   getFindFormsAppState,
 } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
@@ -55,6 +56,7 @@ export const SearchResults = ({
   startIndex,
   showPDFInfoVersionOne,
   showPDFInfoVersionTwo,
+  showPDFInfoVersionThree,
   updatePagination,
   updateSortByPropertyName,
 }) => {
@@ -185,6 +187,7 @@ export const SearchResults = ({
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
         showPDFInfoVersionOne={showPDFInfoVersionOne}
         showPDFInfoVersionTwo={showPDFInfoVersionTwo}
+        showPDFInfoVersionThree={showPDFInfoVersionThree}
       />
     ));
 
@@ -246,6 +249,7 @@ SearchResults.propTypes = {
   startIndex: PropTypes.number.isRequired,
   showPDFInfoVersionOne: PropTypes.bool,
   showPDFInfoVersionTwo: PropTypes.bool,
+  showPDFInfoVersionThree: PropTypes.bool,
   // From mapDispatchToProps.
   updateSortByPropertyName: PropTypes.func,
   updatePagination: PropTypes.func.isRequired,
@@ -262,6 +266,7 @@ const mapStateToProps = state => ({
   startIndex: getFindFormsAppState(state).startIndex,
   showPDFInfoVersionOne: applyPDFInfoBoxOne(state),
   showPDFInfoVersionTwo: applyPDFInfoBoxTwo(state),
+  showPDFInfoVersionThree: applyPDFInfoHelpText(state),
 });
 
 const mapDispatchToProps = dispatch => ({

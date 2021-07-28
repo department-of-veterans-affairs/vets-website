@@ -31,7 +31,7 @@ describe('VAOS <AppointmentsPage> pending appointments', () => {
       appointment.attributes = {
         ...appointment.attributes,
         status: 'Submitted',
-        appointmentType: 'Primary care',
+        typeOfCareId: '323',
         optionDate1: moment()
           .add(3, 'days')
           .format('MM/DD/YYYY'),
@@ -101,7 +101,7 @@ describe('VAOS <AppointmentsPage> pending appointments', () => {
       appointment.attributes = {
         ...appointment.attributes,
         status: 'Submitted',
-        appointmentType: 'Primary care',
+        typeOfCareId: '323',
         optionDate1: moment()
           .add(3, 'days')
           .format('MM/DD/YYYY'),
@@ -165,7 +165,7 @@ describe('VAOS <AppointmentsPage> pending appointments', () => {
       appointment.attributes = {
         ...appointment.attributes,
         status: 'Cancelled',
-        appointmentType: 'Primary care',
+        typeOfCareId: '323',
         optionDate1: moment()
           .add(3, 'days')
           .format('MM/DD/YYYY'),
@@ -201,7 +201,7 @@ describe('VAOS <AppointmentsPage> pending appointments', () => {
       appointment.attributes = {
         ...appointment.attributes,
         status: 'Cancelled',
-        appointmentType: 'Primary care',
+        typeOfCareId: '323',
         optionDate1: moment()
           .add(-3, 'days')
           .format('MM/DD/YYYY'),
@@ -298,7 +298,7 @@ describe('VAOS <AppointmentsPage> pending appointments', () => {
       appointment.attributes = {
         ...appointment.attributes,
         status: 'Submitted',
-        appointmentType: 'Primary care',
+        typeOfCareId: '323',
         optionDate1: moment()
           .add(3, 'days')
           .format('MM/DD/YYYY'),
@@ -361,7 +361,6 @@ describe('VAOS <AppointmentsPage> pending appointments', () => {
       appointment.attributes = {
         ...appointment.attributes,
         status: 'Submitted',
-        appointmentType: 'Primary care',
         optionDate1: moment()
           .add(3, 'days')
           .format('MM/DD/YYYY'),
@@ -407,7 +406,7 @@ describe('VAOS <AppointmentsPage> pending appointments', () => {
         initialState,
       });
 
-      const dateHeader = await findByText(/primary care appointment/i);
+      const dateHeader = await findByText(/hearing aid support appointment/i);
       expect(queryByText(/You don’t have any appointments/i)).not.to.exist;
 
       expect(baseElement).to.contain.text('Community Care');

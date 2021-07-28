@@ -11,6 +11,9 @@ describe('Check In Experience -- ', () => {
       req.reply(404, mockCheckIn.createMockFailedResponse({}));
     });
     cy.intercept('GET', '/v0/feature_toggles*', features);
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
   });
   afterEach(() => {
     cy.window().then(window => {
@@ -25,6 +28,7 @@ describe('Check In Experience -- ', () => {
     cy.get('[data-testid="no-button"]').click();
     cy.get('h1').contains('Your appointment');
     cy.get('.usa-button').click();
-    cy.get('h1').contains("We couldn't check you in");
+    cy.url().should('match', /error/);
+    cy.get('h1').contains('We couldn’t check you in');
   });
 });

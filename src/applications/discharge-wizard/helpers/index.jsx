@@ -242,3 +242,8 @@ export const answerReview = (key, formValues) => {
       return questionLabels[key][ans];
   }
 };
+
+export const deriveIsAirForceAFRBAPortal = formValues =>
+  formValues['1_branchOfService'] === 'airForce' &&
+  board(formValues).abbr === 'BCMR' &&
+  formData(formValues).num === 149;

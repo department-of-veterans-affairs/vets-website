@@ -232,10 +232,6 @@ export function mockFeatureToggles({
             value: true,
           },
           {
-            name: 'vaOnlineSchedulingExpressCareNew',
-            value: true,
-          },
-          {
             name: `cerner_override_668`,
             value: false,
           },

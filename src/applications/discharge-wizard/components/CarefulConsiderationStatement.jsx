@@ -164,10 +164,10 @@ const priorServiceStatement = formValues => {
 };
 
 const CarefulConsiderationStatement = ({ formValues }) => (
-  <div>
+  <>
     {reasonStatement(formValues)}
     {priorServiceStatement(formValues)}
-  </div>
+  </>
 );
 
 CarefulConsiderationStatement.propTypes = {
