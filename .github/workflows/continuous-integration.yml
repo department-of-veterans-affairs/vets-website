@@ -467,11 +467,8 @@ jobs:
           YARN_CACHE_FOLDER: .cache/yarn
 
       - name: Run Nightwatch tests
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 10
-          max_attempts: 3
-          command: yarn test:e2e:headless
+        run: yarn test:e2e:headless --suiteRetries 3
+        timeout-minutes: 30
         env:
           BUILDTYPE: vagovprod
           NODE_ENV: production
