@@ -51,12 +51,60 @@
       padding-right: 1.5em;
     }
 
+    .small-function-label {
+      padding: 1em 1em 0em 1em;
+    }
+
+    .large-function-label {
+      height: 6em;
+      padding-top: .5em;
+      padding-right: 1.5em;
+    }
+
     .blank {
       border: 2px dashed $color-gray-light;
       height: 6em;
       border-radius: 5px;
       margin-right: 1.5em;
     }
+
+    @media (max-width: $small-screen) {
+      height: auto;
+
+      .compare-item {
+        margin-bottom: 1em;
+      }
+
+      .institution {
+        padding: 0em 1em 0em 1em;
+      }
+
+      .blank {
+        height: 2.5em;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+
+      .large-function-label {
+        display: none;
+      }
+
+      .compare-name {
+        height: 40px;
+        padding-right: 0px;
+      }
+
+      .action-cell {
+        padding-right: 1em;
+      }
+    }
+
+    @media (min-width: $small-screen) {
+      .small-function-label {
+        display: none;
+      }
+    }
+
   }
 
   position: fixed;
@@ -64,4 +112,9 @@
   display: block;
   z-index: 2000;
   width: 100% !important;
+
+  @media (max-width: $small-screen) {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
 }
