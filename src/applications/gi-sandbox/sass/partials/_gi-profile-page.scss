@@ -634,9 +634,11 @@
   }
 
   .eyb-skip-link {
-    position: absolute;
-    top: -100em;
-
+    &:not(:focus) {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
     &:focus {
       top: auto;
       line-height: 50px;
