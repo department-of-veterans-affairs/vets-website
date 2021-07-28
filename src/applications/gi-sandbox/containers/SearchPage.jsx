@@ -90,19 +90,6 @@ export function SearchPage({
             </div>
           )}
           {!error && !smallScreen && tabbedResults[tab]}
-          {/* {smallScreen && (
-            <div>
-              <va-accordion>
-                <va-accordion-item header="Search by name">
-                  <NameSearchForm />
-                </va-accordion-item>
-                <va-accordion-item header="Search by location">
-                  <LocationSearchForm />
-                </va-accordion-item>
-              </va-accordion>
-              <NameSearchResults />
-            </div>
-          )} */}
           {!error &&
             smallScreen && (
               <div>
