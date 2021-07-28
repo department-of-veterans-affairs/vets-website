@@ -3,13 +3,13 @@ import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 import { IntroductionPage } from '../../containers/IntroductionPage';
 import formConfig from '../../config/form';
 
 import { FETCH_CONTESTABLE_ISSUES_INIT } from '../../actions';
-import { WIZARD_STATUS } from '../../constants';
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
+import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
 
 const defaultProps = {
   getContestableIssues: () => {},
@@ -60,11 +60,12 @@ describe('IntroductionPage', () => {
   });
   afterEach(() => {
     global.window = oldWindow;
-    sessionStorage.removeItem(WIZARD_STATUS);
+    removeHlrWizardStatus();
   });
 
   it('should show has empty address message', () => {
     const user = {
+      ...defaultProps.user,
       login: {
         currentlyLoggedIn: true,
       },
@@ -81,7 +82,7 @@ describe('IntroductionPage', () => {
   });
 
   it('should render CallToActionWidget', () => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const tree = shallow(<IntroductionPage {...defaultProps} />);
 
     const callToActionWidget = tree.find('Connect(CallToActionWidget)');
@@ -93,7 +94,7 @@ describe('IntroductionPage', () => {
   });
 
   it('should render alert showing a server error', () => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const errorMessage = 'We can’t load your issues';
     const props = {
       ...defaultProps,
@@ -117,7 +118,7 @@ describe('IntroductionPage', () => {
     tree.unmount();
   });
   it('should render alert showing no contestable issues', () => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const errorMessage = 'don’t have any issues on file for you';
     const props = {
       ...defaultProps,
@@ -139,7 +140,7 @@ describe('IntroductionPage', () => {
     tree.unmount();
   });
   it('should render start button', () => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const props = {
       ...defaultProps,
       contestableIssues: {
@@ -158,7 +159,7 @@ describe('IntroductionPage', () => {
     tree.unmount();
   });
   it('should include start button with form event', () => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const props = {
       ...defaultProps,
       contestableIssues: {
@@ -178,7 +179,7 @@ describe('IntroductionPage', () => {
   });
 
   it('should show contestable issue loading indicator', () => {
-    sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const props = {
       ...defaultProps,
       contestableIssues: {
@@ -199,9 +200,10 @@ describe('IntroductionPage', () => {
 
   // Wizard
   it('should render wizard', () => {
-    sessionStorage.removeItem(WIZARD_STATUS);
+    removeHlrWizardStatus();
     const props = {
       ...defaultProps,
+      isProduction: true,
       contestableIssues: {
         issues: [{}],
         status: 'done',
@@ -210,7 +212,6 @@ describe('IntroductionPage', () => {
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
-    expect(tree.find('FormTitle')).to.have.lengthOf(1);
     expect(tree.find('WizardContainer')).to.have.lengthOf(1);
     expect(tree.find('Connect(CallToActionWidget)')).to.have.lengthOf(0);
     tree.unmount();

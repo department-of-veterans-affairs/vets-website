@@ -209,6 +209,11 @@ const recordClaimsAPIEvent = ({ startTime, success, error }) => {
     event['api-latency-ms'] = apiLatencyMs;
   }
   recordEvent(event);
+  if (event['error-key']) {
+    recordEvent({
+      'error-key': undefined,
+    });
+  }
 };
 
 export function getClaimsV2(options = {}) {

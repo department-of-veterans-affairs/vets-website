@@ -5,6 +5,7 @@ import * as actions from '../actions';
 import Modal from '../components/Modal';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
 import AllCampusesModalContent from '../components/content/modals/AllCampusesModalContent';
+import CalcBeneficiaryLocationQuestionModalContent from '../components/content/modals/CalcBeneficiaryLocationQuestionModalContent';
 import CreditTrainingModalContent from '../components/content/modals/CreditTrainingModalContent';
 import EightKeysModalContent from '../components/content/modals/EightKeysModalContent';
 import IndependentStudyModalContent from '../components/content/modals/IndependentStudyModalContent';
@@ -20,64 +21,19 @@ import StudentVeteranGroupModalContent from '../components/content/modals/Studen
 import VeteranSuccessModalContent from '../components/content/modals/VeteranSuccessModalContent';
 import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
 
-export class Modals extends React.Component {
-  calcBeneficiaryLocationQuestionContent = () => (
-    <div>
-      <h3>Location where you'll take classes</h3>
-      <p>
-        VA pays monthly housing allowance (MHA) based on the campus location
-        where you physically attend the majority of your classes.
-      </p>
+export function Modals({ hideModal, modals, profile }) {
+  const shouldDisplayModal = modal => modals.displaying === modal;
 
-      <p>
-        <strong>A campus could include:</strong>
-      </p>
-      <ul>
-        <li>
-          A main campus: the location where the primary teaching facilities of
-          an educational institution are located
-        </li>
-        <li>
-          A branch campus: the location of an educational institution that is
-          geographically apart from and operationally independent of the main
-          campus of the educational institution
-        </li>
-        <li>
-          An extension campus: the location that is geographically apart from
-          the main or branch campus but is operationally dependent on that
-          campus for the performance of administrative tasks
-        </li>
-      </ul>
-      <p>
-        Learn more about the{' '}
-        <a
-          href="https://www.va.gov/education/about-gi-bill-benefits/post-9-11/#what-is-the-location-based-hou"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Location-Based Housing Allowance.
-        </a>
-      </p>
-    </div>
-  );
-  shouldDisplayModal = modal => this.props.modals.displaying === modal;
-
-  renderProfilePageModals = () => (
+  const renderProfilePageModals = () => (
     <span>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('retention')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('retention')}>
         <h3>Retention rate</h3>
         <p>
           The share of first-time, full-time undergraduates who returned to the
           institution after their freshman year.
         </p>
       </Modal>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('gradrates')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('gradrates')}>
         <h3>Graduation rate</h3>
         <p>
           The graduation rate after six years for schools that mostly award
@@ -90,20 +46,14 @@ export class Modals extends React.Component {
           is using benefits.
         </p>
       </Modal>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('salaries')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('salaries')}>
         <h3>Average salaries</h3>
         <p>
           The median earnings of former students who received federal financial
           aid, 10 years after they started school.
         </p>
       </Modal>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('repayment')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('repayment')}>
         <h3>Repayment rate</h3>
         <p>
           The share of students who have repaid at least $1 of the principal
@@ -111,8 +61,8 @@ export class Modals extends React.Component {
         </p>
       </Modal>
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('preferredProviders')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('preferredProviders')}
       >
         <h3>Preferred training providers</h3>
         <p>
@@ -121,10 +71,7 @@ export class Modals extends React.Component {
           doesn’t find meaningful employment within 180 days.
         </p>
       </Modal>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('tuitionAndFees')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('tuitionAndFees')}>
         <h3>Tuition and fees</h3>
         <p>
           VA pays all tuition and fees for the VET TEC program directly to the
@@ -141,20 +88,14 @@ export class Modals extends React.Component {
           tuition and fees.
         </p>
       </Modal>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('scholarships')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('scholarships')}>
         <h3>Scholarships</h3>
         <p>
           Are you receiving any scholarships or grants that go directly to pay
           your tuition or fees for this program? If so, add that number here.
         </p>
       </Modal>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('payToProvider')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('payToProvider')}>
         <h3>VA pays to provider</h3>
         <p>
           To help ensure that Veterans find jobs, VA pays VET TEC training
@@ -179,8 +120,8 @@ export class Modals extends React.Component {
         </div>
       </Modal>
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('housingAllowance')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('housingAllowance')}
       >
         <h3>Housing allowance</h3>
         <p>
@@ -201,12 +142,9 @@ export class Modals extends React.Component {
     </span>
   );
 
-  renderProfileSchoolHeaderModals = () => (
+  const renderProfileSchoolHeaderModals = () => (
     <span>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('gibillstudents')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('gibillstudents')}>
         <h3>GI Bill students</h3>
         <p>
           The number of Veterans, service members and family members using their
@@ -221,60 +159,45 @@ export class Modals extends React.Component {
     </span>
   );
 
-  renderProfileVeteranSummaryModals = () => (
+  const renderProfileVeteranSummaryModals = () => (
     <span>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('vetgroups')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('vetgroups')}>
         <StudentVeteranGroupModalContent />
       </Modal>
 
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('yribbon')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('yribbon')}>
         <YellowRibbonModalContent />
       </Modal>
 
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('studentComplaints')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('studentComplaints')}
       >
         <StudentComplaintsModalContent />
       </Modal>
 
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('allCampuses')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('allCampuses')}>
         <AllCampusesModalContent />
       </Modal>
 
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('poe')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('poe')}>
         <PrinciplesOfExcellenceModalContent />
       </Modal>
 
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('ta')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('ta')}>
         <MilitaryTuitionAssistanceModalContent />
       </Modal>
 
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('priorityEnrollment')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('priorityEnrollment')}
       >
         <PriorityEnrollmentModalContent />
       </Modal>
 
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('onlineOnlyDistanceLearning')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('onlineOnlyDistanceLearning')}
       >
         <div>
           <h3>
@@ -304,27 +227,21 @@ export class Modals extends React.Component {
         </div>
       </Modal>
 
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('eightKeys')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('eightKeys')}>
         <EightKeysModalContent />
       </Modal>
 
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('vsoc')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('vsoc')}>
         <VeteranSuccessModalContent />
       </Modal>
     </span>
   );
 
-  renderProfileSummaryModals = () => (
+  const renderProfileSummaryModals = () => (
     <span>
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('accredited')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('accredited')}
         elementToFocusOnClose="accredited-button"
       >
         <h3>Accreditation and why it matters</h3>
@@ -342,8 +259,8 @@ export class Modals extends React.Component {
       </Modal>
 
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('typeAccredited')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('typeAccredited')}
         elementToFocusOnClose="typeAccredited-button"
       >
         <h3>Accreditation types (regional vs. national vs. hybrid)</h3>
@@ -376,38 +293,38 @@ export class Modals extends React.Component {
         </p>
       </Modal>
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('accreditation')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('accreditation')}
         elementToFocusOnClose="accreditation-button"
       >
         <AccreditationModalContent />
       </Modal>
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('singleContact')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('singleContact')}
         elementToFocusOnClose="singleContact-button"
       >
         <SingleContactModalContent />
       </Modal>
 
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('creditTraining')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('creditTraining')}
         elementToFocusOnClose="creditTraining-button"
       >
         <CreditTrainingModalContent />
       </Modal>
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('independentStudy')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('independentStudy')}
         elementToFocusOnClose="independentStudy-button"
       >
         <IndependentStudyModalContent />
       </Modal>
 
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('section103')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('section103')}
         elementToFocusOnClose="section103-button"
       >
         <div className="align-left">
@@ -433,10 +350,10 @@ export class Modals extends React.Component {
         </ul>
         <p>
           <strong>
-            In addition, schools can't charge late fees or otherwise penalize GI
+            In addition, schools can’t charge late fees or otherwise penalize GI
             Bill students if VA is late making a tuition and/or fees payment.
           </strong>{' '}
-          This restriction on penalties doesn't apply if the student owes
+          This restriction on penalties doesn’t apply if the student owes
           additional fees to the school beyond the tuition and fees that VA
           pays. Students are protected from these penalties for up to 90 days
           from the beginning of the term.
@@ -460,8 +377,8 @@ export class Modals extends React.Component {
         </p>
       </Modal>
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('vrrap')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('vrrap')}
         elementToFocusOnClose="vrrap-button"
       >
         <h3 className="vads-u-margin-right--1p5">
@@ -483,27 +400,27 @@ export class Modals extends React.Component {
     </span>
   );
 
-  renderProfileHistoryModals = () => (
+  const renderProfileHistoryModals = () => (
     <span>
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('facilityCode')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('facilityCode')}
         elementToFocusOnClose="facilityCode-button"
       >
         <FacilityCodeModalContent />
       </Modal>
 
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('ipedsCode')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('ipedsCode')}
         elementToFocusOnClose="ipedsCode-button"
       >
         <IpedsCodeModalContent />
       </Modal>
 
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('opeCode')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('opeCode')}
         elementToFocusOnClose="opeCode-button"
       >
         <OpeCodeModalContent />
@@ -511,12 +428,9 @@ export class Modals extends React.Component {
     </span>
   );
 
-  renderProfileCautionFlagModals = () => (
+  const renderProfileCautionFlagModals = () => (
     <span>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('cautionInfo')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('cautionInfo')}>
         <h3>Learn more about these warnings</h3>
         <p>
           These are indicators VA has determined potential students should pay
@@ -625,7 +539,7 @@ export class Modals extends React.Component {
     </span>
   );
 
-  renderProfileCalculatorModals = () => {
+  const renderProfileCalculatorModals = () => {
     const whenUsedGiBill = (
       <div>
         <h3 className="align-left">
@@ -650,21 +564,18 @@ export class Modals extends React.Component {
       </div>
     );
 
-    const inStateTuitionInformation = this.props.profile.attributes.inStateTuitionInformation?.startsWith(
+    const inStateTuitionInformation = profile.attributes.inStateTuitionInformation?.startsWith(
       'http',
     )
-      ? this.props.profile.attributes.inStateTuitionInformation
-      : `http://${this.props.profile.attributes.inStateTuitionInformation}`;
+      ? profile.attributes.inStateTuitionInformation
+      : `http://${profile.attributes.inStateTuitionInformation}`;
 
     return (
       <span>
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcTuition')}
-        >
+        <Modal onClose={hideModal} visible={shouldDisplayModal('calcTuition')}>
           <h3>Tuition and fees per year</h3>
           <p>
-            Enter the total tuition/fees you'll be charged for the academic
+            Enter the total tuition/fees you’ll be charged for the academic
             year.
           </p>
           <p>
@@ -706,8 +617,8 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcInStateTuition')}
+          onClose={hideModal}
+          visible={shouldDisplayModal('calcInStateTuition')}
         >
           <h3>In-state tuition and fees per year</h3>
           <p>
@@ -734,23 +645,20 @@ export class Modals extends React.Component {
           </p>
         </Modal>
 
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcYr')}
-        >
+        <Modal onClose={hideModal} visible={shouldDisplayModal('calcYr')}>
           <YellowRibbonModalContent />
         </Modal>
 
         <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('whenUsedGiBill')}
+          onClose={hideModal}
+          visible={shouldDisplayModal('whenUsedGiBill')}
         >
           {whenUsedGiBill}
         </Modal>
 
         <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcScholarships')}
+          onClose={hideModal}
+          visible={shouldDisplayModal('calcScholarships')}
         >
           <h3>Scholarships (excluding Pell Grants)</h3>
           <p>
@@ -760,8 +668,8 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcTuitionAssist')}
+          onClose={hideModal}
+          visible={shouldDisplayModal('calcTuitionAssist')}
         >
           <h3>Military Tuition Assistance (TA)</h3>
           <p>
@@ -775,10 +683,7 @@ export class Modals extends React.Component {
           </p>
         </Modal>
 
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcEnrolled')}
-        >
+        <Modal onClose={hideModal} visible={shouldDisplayModal('calcEnrolled')}>
           <h3>Enrollment status</h3>
           <div>
             {' '}
@@ -804,8 +709,8 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcSchoolCalendar')}
+          onClose={hideModal}
+          visible={shouldDisplayModal('calcSchoolCalendar')}
         >
           <h3>School calendar</h3>
           <p>
@@ -814,10 +719,7 @@ export class Modals extends React.Component {
           </p>
         </Modal>
 
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcKicker')}
-        >
+        <Modal onClose={hideModal} visible={shouldDisplayModal('calcKicker')}>
           <h3>Eligible for kicker bonus?</h3>
           <div>
             {' '}
@@ -844,16 +746,13 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcBeneficiaryLocationQuestion')}
+          onClose={hideModal}
+          visible={shouldDisplayModal('calcBeneficiaryLocationQuestion')}
         >
-          {this.calcBeneficiaryLocationQuestionContent()}
+          <CalcBeneficiaryLocationQuestionModalContent />
         </Modal>
 
-        <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('calcWorking')}
-        >
+        <Modal onClose={hideModal} visible={shouldDisplayModal('calcWorking')}>
           <h3>Will be working</h3>
           <p>
             How many hours per week will you be working on your OJT /
@@ -864,31 +763,31 @@ export class Modals extends React.Component {
         </Modal>
 
         <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('inStateWithoutLink')}
+          onClose={hideModal}
+          visible={shouldDisplayModal('inStateWithoutLink')}
         >
           <h3>Qualifying for in-state tuition</h3>
           <p>
-            If you're using GI Bill education benefits, you probably qualify for
+            If you’re using GI Bill education benefits, you probably qualify for
             in-state tuition.
           </p>
           <p>
             Contact the School Certifying Official (SCO) to learn more about
-            this school's in-state tuition requirements.
+            this school’s in-state tuition requirements.
           </p>
         </Modal>
 
         <Modal
-          onClose={this.props.hideModal}
-          visible={this.shouldDisplayModal('inStateWithLink')}
+          onClose={hideModal}
+          visible={shouldDisplayModal('inStateWithLink')}
         >
           <h3>Qualifying for in-state tuition</h3>
           <p>
-            If you're using GI Bill education benefits, you probably qualify for
+            If you’re using GI Bill education benefits, you probably qualify for
             in-state tuition.
           </p>
           <p>
-            Visit this school's website to{' '}
+            Visit this school’s website to{' '}
             <a href={inStateTuitionInformation}>
               see any in-state tuition requirements.
             </a>
@@ -898,12 +797,9 @@ export class Modals extends React.Component {
     );
   };
 
-  renderLandingPageModals = () => (
+  const renderLandingPageModals = () => (
     <span>
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('giBillChapter')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('giBillChapter')}>
         <div className="align-left">
           <h3>Which GI Bill benefit do you want to use?</h3>
         </div>
@@ -929,10 +825,7 @@ export class Modals extends React.Component {
         </div>
       </Modal>
 
-      <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('vetTec')}
-      >
+      <Modal onClose={hideModal} visible={shouldDisplayModal('vetTec')}>
         <div>
           <div>
             <strong>
@@ -963,8 +856,8 @@ export class Modals extends React.Component {
       </Modal>
 
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('cumulativeService')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('cumulativeService')}
       >
         <h3>Cumulative Post-9/11 service</h3>
         <div>
@@ -973,7 +866,7 @@ export class Modals extends React.Component {
             housing allowance. To qualify for this program, you must have served
             after September 10, 2001 for at least 90 days or, if you were
             discharged with a service-connected disability, for at least 30
-            days. The service period for these benefits doesn't include your
+            days. The service period for these benefits doesn’t include your
             entry and initial skill training. You also need to have received an
             honorable discharge.
           </p>
@@ -981,8 +874,8 @@ export class Modals extends React.Component {
       </Modal>
 
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('enlistmentService')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('enlistmentService')}
       >
         <h3>Completed an enlistment of (MGIB):</h3>
         <p>
@@ -1007,8 +900,8 @@ export class Modals extends React.Component {
       </Modal>
 
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('consecutiveService')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('consecutiveService')}
       >
         <h3>Length of longest active duty tour (REAP)</h3>
         <p>
@@ -1033,23 +926,23 @@ export class Modals extends React.Component {
     </span>
   );
 
-  renderVetTecSearchResultsModals = () => (
+  const renderVetTecSearchResultsModals = () => (
     <span>
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('preferredProvider')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('preferredProvider')}
       >
         <h3>Preferred training providers</h3>
         <p>
           A provider is "preferred" if the training facility agrees to refund
           tuition and fees to VA if the student completes the program and
-          doesn't find meaningful employment within 180 days.
+          doesn’t find meaningful employment within 180 days.
         </p>
       </Modal>
 
       <Modal
-        onClose={this.props.hideModal}
-        visible={this.shouldDisplayModal('cautionaryWarnings')}
+        onClose={hideModal}
+        visible={shouldDisplayModal('cautionaryWarnings')}
       >
         <h3>Cautionary warnings and school closings</h3>
         <p>
@@ -1079,29 +972,28 @@ export class Modals extends React.Component {
       </Modal>
     </span>
   );
-  render() {
-    return (
-      <span>
-        {this.renderLandingPageModals()}
-        {this.renderProfilePageModals()}
-        {this.renderProfileSchoolHeaderModals()}
-        {this.renderProfileVeteranSummaryModals()}
-        {this.renderProfileSummaryModals()}
-        {this.renderProfileHistoryModals()}
-        {this.renderProfileCautionFlagModals()}
-        {this.renderProfileCalculatorModals()}
-        {this.renderVetTecSearchResultsModals()}
-      </span>
-    );
-  }
+
+  return (
+    <span>
+      {renderLandingPageModals()}
+      {renderProfilePageModals()}
+      {renderProfileSchoolHeaderModals()}
+      {renderProfileVeteranSummaryModals()}
+      {renderProfileSummaryModals()}
+      {renderProfileHistoryModals()}
+      {renderProfileCautionFlagModals()}
+      {renderProfileCalculatorModals()}
+      {renderVetTecSearchResultsModals()}
+    </span>
+  );
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => ({
+  modals: state.modals,
+  profile: state.profile,
+});
 
 const mapDispatchToProps = dispatch => ({
-  showModal: name => {
-    dispatch(actions.showModal(name));
-  },
   hideModal: () => {
     dispatch(actions.showModal(null));
   },
