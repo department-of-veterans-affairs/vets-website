@@ -4,7 +4,7 @@ on: [push]
 
 env:
   CHROMEDRIVER_FILEPATH: /usr/local/share/chrome_driver/chromedriver
-  APP_NAME: aa-fe-tools
+  APP_NAME: aaa-fe-tools
 
 jobs:
   build:
